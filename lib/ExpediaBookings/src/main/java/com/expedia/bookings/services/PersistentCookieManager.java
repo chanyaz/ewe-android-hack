@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
 import com.google.gson.reflect.TypeToken;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -44,8 +46,8 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 		InstanceCreator cookieTypeAdapter = new InstanceCreator<Cookie>() {
 			@Override
 			public Cookie createInstance(Type type) {
-				return Cookie
-					.parse(HttpUrl.parse("http://www.expedia.com"), "fakeCookie=v.1,1; Domain=.expedia.com; Path=/");
+				HttpUrl url = new HttpUrl.Builder().scheme("http").host("www.expedia.com").build();
+				return Cookie.parse(url, "fakeCookie=v.1,1; Domain=.expedia.com; Path=/");
 			}
 		};
 		gson = new GsonBuilder()
@@ -57,7 +59,7 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 	}
 
 	@Override
-	public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+	public void saveFromResponse(@NotNull HttpUrl url, @NotNull List<Cookie> cookies) {
 		HashMap<String, Cookie> cookieMap = cookieStore.get(url.host());
 		if (cookieMap == null) {
 			cookieMap = new HashMap<>();
@@ -73,7 +75,7 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 	}
 
 	@Override
-	public List<Cookie> loadForRequest(HttpUrl url) {
+	public List<Cookie> loadForRequest(@NotNull HttpUrl url) {
 		List<Cookie> cookies = new ArrayList<>();
 		HashMap<String, Cookie> cookieMap = cookieStore.get(url.host());
 		if (cookieMap != null) {
@@ -180,16 +182,7 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 				return;
 			}
 
-			for (UriCookiePair pair : pairs) {
-				HashMap<String, Cookie> cookies = cookieStore.get(pair.uri.getHost());
-				if (cookies == null) {
-					cookies = new HashMap<>();
-				}
-				Cookie cookie = Cookie.parse(HttpUrl.get(pair.uri), pair.cookie.toString());
-				cookies.put(cookie.name(), cookie);
-
-				cookieStore.put(pair.uri.getHost(), cookies);
-			}
+			putLoadedCookiesIntoStore(pairs);
 		}
 		catch (Exception e) {
 			file.delete();
@@ -207,6 +200,31 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 			catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	protected void putLoadedCookiesIntoStore(List<UriCookiePair> pairs) {
+		for (UriCookiePair pair : pairs) {
+			HashMap<String, Cookie> cookies = cookieStore.get(pair.uri.getHost());
+			if (cookies == null) {
+				cookies = new HashMap<>();
+			}
+
+			HttpUrl url = HttpUrl.get(pair.uri);
+
+			if (url == null) {
+				continue;
+			}
+
+			Cookie cookie = Cookie.parse(url, pair.cookie.toString());
+
+			if (cookie == null) {
+				continue;
+			}
+
+			cookies.put(cookie.name(), cookie);
+
+			cookieStore.put(pair.uri.getHost(), cookies);
 		}
 	}
 

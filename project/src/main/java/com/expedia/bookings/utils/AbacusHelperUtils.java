@@ -132,8 +132,8 @@ public class AbacusHelperUtils {
 	private static String mc1CookieAndAbacusGuidNewUuid(Context context) {
 		String abacusGuid = UUID.randomUUID().toString().replaceAll("-", "");
 		String mc1Cookie = "GUID=" + abacusGuid;
-		String endpointUrl = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
-		HttpUrl url = HttpUrl.parse(endpointUrl);
+		HttpUrl url = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointAsHttpUrl();
+
 		String host = url.host();
 		CookiesReference cookiesReference = new CookiesReference(context);
 		cookiesReference.mCookieManager.setMC1Cookie(mc1Cookie, host);

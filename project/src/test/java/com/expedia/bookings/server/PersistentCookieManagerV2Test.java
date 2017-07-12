@@ -37,11 +37,11 @@ public class PersistentCookieManagerV2Test {
 	private static final List<Cookie> LINFO_COOKIE = new ArrayList<>();
 	private static final List<Cookie> SOME_OTHER_SITE_COOKIES = new ArrayList<>();
 	private static final List<Cookie> VOYAGES_COOKIES = new ArrayList<>();
-	private static final HttpUrl expedia = HttpUrl.parse("https://www.expedia.com");
-	private static final HttpUrl voyages = HttpUrl.parse(" https://agence.voyages-sncf.com");
-	private static final HttpUrl reviews = HttpUrl.parse("https://reviewsvc.expedia.com");
-	private static final HttpUrl omniture = HttpUrl.parse("https://omniture.com");
-	private static final HttpUrl someOtherSite = HttpUrl.parse("https://someothersite.com");
+	private static final HttpUrl expedia = new HttpUrl.Builder().scheme("https").host("www.expedia.com").build();
+	private static final HttpUrl voyages = new HttpUrl.Builder().scheme("https").host("agence.voyages-sncf.com").build();
+	private static final HttpUrl reviews = new HttpUrl.Builder().scheme("https").host("reviewsvc.expedia.com").build();
+	private static final HttpUrl omniture = new HttpUrl.Builder().scheme("https").host("omniture.com").build();
+	private static final HttpUrl someOtherSite = new HttpUrl.Builder().scheme("https").host("someothersite.com").build();
 
 	static {
 		ArrayList<String> list = new ArrayList<>();
@@ -153,6 +153,19 @@ public class PersistentCookieManagerV2Test {
 		manager.put(expedia.uri(), headers);
 		expectCookies(expedia, 13);
 		expectCookie(expedia, "test", "v.1,1");
+	}
+
+	@Test
+	public void testRemovingNamedCookiesWithInvalidDomainDoesNothing() throws Throwable {
+		HashMap<String, List<String>> headers = new HashMap<>();
+		headers.put("Set-Cookie", EXPEDIA_COOKIE_STRINGS);
+		manager.put(expedia.uri(), headers);
+		expectCookies(expedia, 12);
+
+		String[] cookieNames = {""};
+		manager.removeNamedCookies("e", cookieNames);
+
+		expectCookies(expedia, 12);
 	}
 
 	@Test

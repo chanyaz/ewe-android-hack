@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils
 
+import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import okhttp3.HttpUrl
@@ -10,22 +11,23 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.test.fail
 
 @RunWith(RobolectricRunner::class)
 class HMACUtilTests {
 
-    val context = RuntimeEnvironment.application
+    val context: Context = RuntimeEnvironment.application
 
     @Test
     fun testAuthorizationString() {
         val salt = "abcdefghijklmnop"
         val xDate = "Thu, 29 Jun 2017 09:34:47 UTC"
-        val url = HttpUrl.parse("https://www.expedia.com")
+        val url = HttpUrl.Builder().scheme("https").host("www.expedia.com").build()
         val method = "GET"
         val userName = context.getString(R.string.exp_u)
         val expectedAuthString = "hmac username=\"$userName\",algorithm=\"hmac-sha1\",headers=\"request-line x-date salt\",signature=\"gtQ/p2XxSVfK3tUDuF88vDyXbWo=\""
-
         val authString = HMACUtil.getAuthorization(context, url, method, xDate, salt)
+
         assertEquals(expectedAuthString, authString)
     }
 

@@ -1,5 +1,7 @@
 package com.expedia.bookings.server;
 
+import android.support.annotation.NonNull;
+
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
@@ -49,8 +51,8 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 		InstanceCreator cookieTypeAdapter = new InstanceCreator<Cookie>() {
 			@Override
 			public Cookie createInstance(Type type) {
-				return Cookie
-					.parse(HttpUrl.parse("http://www.expedia.com"), "fakeCookie=v.1,1; Domain=.expedia.com; Path=/");
+				HttpUrl url = new HttpUrl.Builder().scheme("http").host("http://www.expedia.com").build();
+				return Cookie.parse(url, "fakeCookie=v.1,1; Domain=.expedia.com; Path=/");
 			}
 		};
 		gson = new GsonBuilder()
@@ -93,7 +95,7 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 	}
 
 	@Override
-	public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+	public void saveFromResponse(@NonNull HttpUrl url, @NonNull List<Cookie> cookies) {
 		HashMap<String, List<String>> generatedResponseHeaders = new HashMap<>();
 		ArrayList<String> cookiesList = new ArrayList<>();
 		for (Cookie cookie : cookies) {
@@ -111,7 +113,7 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 	}
 
 	@Override
-	public List<Cookie> loadForRequest(HttpUrl url) {
+	public List<Cookie> loadForRequest(@NonNull HttpUrl url) {
 		ArrayList<Cookie> cookieArrayList = new ArrayList<>();
 		try {
 			Map<String, List<String>> cookieList = get(url.uri(), new HashMap<String, List<String>>());
@@ -133,7 +135,7 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 	}
 
 
-	public String getCookieValue(HttpUrl url, String cookieKey) {
+	public String getCookieValue(@NonNull HttpUrl url, @NonNull String cookieKey) {
 		List<Cookie> cookieList = this.loadForRequest(url);
 		for (Cookie cookie : cookieList) {
 			if (cookie.name().equalsIgnoreCase(cookieKey)) {
@@ -159,6 +161,11 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 	private void clearCookies(String domain, String name) {
 		String cookieString = webkitCookieManager.getCookie(domain);
 		HttpUrl url = HttpUrl.parse(domain);
+
+		if (url == null) {
+			return;
+		}
+
 		if (Strings.isNotEmpty(cookieString)) {
 			String[] cookies = cookieString.split(";");
 			for (int i = 0; i < cookies.length; i++) {

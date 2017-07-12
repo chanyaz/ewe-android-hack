@@ -1,13 +1,7 @@
 package com.expedia.bookings.unit;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.utils.Strings;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,8 +9,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.expedia.bookings.services.PersistentCookieManager;
-import com.expedia.bookings.utils.Strings;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.net.HttpCookie;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
@@ -34,9 +36,9 @@ public class PersistentCookieManagerTest {
 	private static final List<Cookie> EXPIRED_COOKIES = new ArrayList<>();
 	private static final List<Cookie> LINFO_COOKIE = new ArrayList<>();
 	private static final List<Cookie> SOME_OTHER_SITE_COOKIES = new ArrayList<>();
-	private static final HttpUrl expedia = HttpUrl.parse("https://www.expedia.com");
-	private static final HttpUrl reviews = HttpUrl.parse("https://reviewsvc.expedia.com");
-	private static final HttpUrl someOtherSite = HttpUrl.parse("https://someothersite.com");
+	private static final HttpUrl expedia = new HttpUrl.Builder().scheme("https").host("www.expedia.com").build();
+	private static final HttpUrl reviews = new HttpUrl.Builder().scheme("https").host("reviewsvc.expedia.com").build();
+	private static final HttpUrl someOtherSite = new HttpUrl.Builder().scheme("https").host("someothersite.com").build();
 
 	static {
 		ArrayList<String> list = new ArrayList<>();
@@ -255,7 +257,7 @@ public class PersistentCookieManagerTest {
 
 	@Test
 	public void setVoyagesMC1CookieEmptyCookieStore() {
-		HttpUrl voyages = HttpUrl.parse("https://agence.voyages-sncf.com");
+		HttpUrl voyages = new HttpUrl.Builder().scheme("https").host("agence.voyages-sncf.com").build();
 		String host = voyages.host();
 		manager.setMC1Cookie("GUID=1111", host);
 		HashMap<String, Cookie> voyagesCookies = manager.getCookieStore().get(host);
@@ -327,5 +329,33 @@ public class PersistentCookieManagerTest {
 			"v.5,EX016141700E$B3$98$D7$34$37$A0J$C2$E9$2Ae$A0$B98$AA$B9$99$93f$E9l$D1$2D$EB$E3$BD$D6L$DB$9A$B33$89w$81$92$FB0$9F$C7D$B1G$CF$83$B5$CE3$B2gu$A7v$B6$9B$89$87$E5$3F$89$DD$89$F5$E8$BBtd$94");
 		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
 		expectCookie(expedia, "minfo", "v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P");
+	}
+
+	@Test
+	public void testPutLoadedCookiesIntoStoreSkipsNullUrl() {
+		TestPersistentCookieManager testManager = new TestPersistentCookieManager();
+		testManager.runPairsContainingInvalidUrl();
+
+		HashMap<String, HashMap<String, Cookie>> hashMap = testManager.getCookieStore();
+
+		Assert.assertTrue("hashMap has incorrect size. Should be 2.", hashMap.size() == 2);
+		Assert.assertTrue("hashMap keySet does not contain www.expedia.com.", hashMap.keySet().contains("www.expedia.com"));
+		Assert.assertTrue("hashMap keySet does not contain www.orbitz.com.", hashMap.keySet().contains("www.orbitz.com"));
+	}
+
+	private class TestPersistentCookieManager extends PersistentCookieManager {
+
+		TestPersistentCookieManager() {
+			super(storage);
+		}
+
+		void runPairsContainingInvalidUrl() {
+			List<PersistentCookieManager.UriCookiePair> pairs = new ArrayList<>();
+			pairs.add(new PersistentCookieManager.UriCookiePair(URI.create("http://www.expedia.com"), new HttpCookie("fakeCookie", "")));
+			pairs.add(new PersistentCookieManager.UriCookiePair(URI.create(""), new HttpCookie("fakeCookie", "")));
+			pairs.add(new PersistentCookieManager.UriCookiePair(URI.create("http://www.orbitz.com"), new HttpCookie("fakeCookie", "")));
+
+			putLoadedCookiesIntoStore(pairs);
+		}
 	}
 }

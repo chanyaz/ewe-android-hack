@@ -1,12 +1,7 @@
 package com.expedia.bookings.server;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.EnumMap;
-
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -15,6 +10,14 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
 import com.mobiata.android.util.SettingUtils;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.EnumMap;
+
+import okhttp3.HttpUrl;
 
 public class EndpointProvider {
 
@@ -88,6 +91,16 @@ public class EndpointProvider {
 
 	public String getE3EndpointUrlWithPath(String path) {
 		return getE3EndpointUrl(getEndPoint()) + path;
+	}
+
+	public @NonNull HttpUrl getE3EndpointAsHttpUrl() {
+		HttpUrl url = HttpUrl.parse(getE3EndpointUrl());
+
+		if (url == null) {
+			throw new RuntimeException("url is unexpectedly null in getE3EndpointAsHttpUrl.");
+		}
+
+		return url;
 	}
 
 	public String getE3EndpointUrl(EndPoint endPoint) {

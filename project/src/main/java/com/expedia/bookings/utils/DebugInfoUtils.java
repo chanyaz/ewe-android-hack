@@ -134,8 +134,8 @@ public class DebugInfoUtils {
 	public static String getMC1CookieStr(Context context) {
 		PersistentCookiesCookieJar mCookieManager = new ExpediaServices(context).mCookieManager;
 		if (mCookieManager instanceof PersistentCookieManagerV2) {
-			String endpointUrl = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
-			HttpUrl url = HttpUrl.parse(endpointUrl);
+			HttpUrl url = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointAsHttpUrl();
+
 			return ((PersistentCookieManagerV2) mCookieManager).getCookieValue(url, "MC1");
 		}
 		else {
