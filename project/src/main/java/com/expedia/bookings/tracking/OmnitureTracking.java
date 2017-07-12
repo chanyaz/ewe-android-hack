@@ -1076,8 +1076,8 @@ public class OmnitureTracking {
 		s.setProp(71, hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator);
 		s.setProp(72, hotelCheckoutResponse.orderId);
 		s.setProp(2, "hotels");
+		s.setProp(8, getHotelConfirmationTripNumberString(hotelCheckoutResponse));
 		s.setPurchaseID("onum" + hotelCheckoutResponse.orderId);
-
 		s.setEvar(2, "D=c2");
 
 		int numNights = JodaUtils.daysBetween(checkInDate, checkOutDate);
@@ -3260,6 +3260,18 @@ public class OmnitureTracking {
 			}
 		}
 		return null;
+	}
+
+	private static String getHotelConfirmationTripNumberString(HotelCheckoutResponse checkoutResponse) {
+		String travelRecordLocator = checkoutResponse.checkoutResponse.bookingResponse.travelRecordLocator;
+		String itinNumber = checkoutResponse.checkoutResponse.bookingResponse.itineraryNumber;
+		if (Strings.isEmpty(travelRecordLocator)) {
+			travelRecordLocator = "NA";
+		}
+		if (Strings.isEmpty(itinNumber)) {
+			itinNumber = "NA";
+		}
+		return travelRecordLocator + "|" + itinNumber;
 	}
 
 	@VisibleForTesting
