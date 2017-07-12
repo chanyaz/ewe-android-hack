@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import com.expedia.bookings.BuildConfig;
@@ -33,6 +35,8 @@ import com.expedia.bookings.webview.BaseWebViewClient;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import java.util.HashMap;
+import java.util.Map;
+import okhttp3.Request;
 import okhttp3.Cookie;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -329,6 +333,11 @@ public class WebViewFragment extends DialogFragment {
 		mWebView.setWebViewClient(new BaseWebViewClient(getActivity(), mLoadCookies, mTrackingName) {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+				Map<String, String> headers = new HashMap<>();
+				headers.put("Devicetype", "android.webview");
+				view.loadUrl(url, headers);
+
 				if (isLoginUrl(url)) {
 					trackLoginLinkClick();
 					handleLogin();

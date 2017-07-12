@@ -145,6 +145,10 @@ public class AppModule {
 					request.addHeader("x-dev-loc", devLocation);
 				}
 
+				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsPassDeviceTypeToHideHeaderAndFooter)) {
+					request.addHeader("Devicetype", "android.webview");
+				}
+
 				request.url(url.build());
 				Response response = chain.proceed(request.build());
 
