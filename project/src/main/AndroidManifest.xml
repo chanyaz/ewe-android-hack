@@ -356,16 +356,6 @@
             android:authorities="@string/authority_autocomplete_suggestions"
             android:exported="false" />
 
-        <!-- Locale change receiver -->
-
-        <receiver
-            android:name="com.expedia.bookings.activity.LocaleChangeReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.LOCALE_CHANGED" />
-            </intent-filter>
-        </receiver>
-
         <!-- Tracking -->
 
         <!-- Google Play Campaign Tracking -->

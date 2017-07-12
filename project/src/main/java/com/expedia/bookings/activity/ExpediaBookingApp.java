@@ -49,6 +49,7 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -501,6 +502,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
+		//Update Locale
+		AdTracker.updatePOS();
+		// Clear out saved flight route data
+		Db.deleteCachedFlightRoutes(getBaseContext());
 		if (!ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
 			// Default behaviour, we want to ignore this completely
 			super.onConfigurationChanged(newConfig);
