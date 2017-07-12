@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.packages.SuggestionViewModel
 
-class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+open class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
     val marginTop = viewmodel.context.resources.getDimensionPixelSize(R.dimen.package_suggestion_margin_top)
     val marginBottom = viewmodel.context.resources.getDimensionPixelSize(R.dimen.package_suggestion_margin_bottom)
 

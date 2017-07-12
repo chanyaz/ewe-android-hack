@@ -2450,6 +2450,12 @@
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Visible Map Area</string>
 
+    <!-- Showing search suggestion label for current location -->
+    <string name="flight_search_suggestion_label_airport_near">Airports near you</string>
+
+    <!-- Showing search suggestion label for recent search history -->
+    <string name="flight_search_suggestion_label_recent_search">Recent searches</string>
+
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/night</string>

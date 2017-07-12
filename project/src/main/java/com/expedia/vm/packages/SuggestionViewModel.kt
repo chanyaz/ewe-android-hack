@@ -17,9 +17,11 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
     val isChildObservable = BehaviorSubject.create<Boolean>()
     val iconObservable = BehaviorSubject.create<Int>()
     val suggestionSelected = PublishSubject.create<SearchSuggestion>()
-
+    val suggestionLabelTitleObservable = PublishSubject.create<String>()
     // Inputs
     val suggestionObserver = BehaviorSubject.create<SuggestionV4>()
+
+    val suggestionLabelObserver = PublishSubject.create<String>()
 
     init {
         suggestionObserver.subscribe { suggestion ->
@@ -51,6 +53,10 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
                         R.drawable.search_type_icon
                     }
             )
+        }
+
+        suggestionLabelObserver.subscribe { suggestionLabel ->
+            suggestionLabelTitleObservable.onNext(suggestionLabel)
         }
     }
 }

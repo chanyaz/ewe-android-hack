@@ -131,4 +131,16 @@
             android:title="Title Change in Bundle Deals" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Material Flight Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_flight_enable_search_suggestion_label"
+            android:layout="@layout/preference"
+            android:summary="Show search suggestion label"
+            android:title="Enable search with suggestion label" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -1154,6 +1154,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_add_youth_number_TEMPLATE,
 		R.string.cost_summary_breakdown_discount_TEMPLATE,
 		R.string.preference_flight_traveler_form_revamp,
+		R.layout.flight_suggestion_label,
+		R.string.flight_search_suggestion_label_airport_near,
+		R.string.flight_search_suggestion_label_recent_search,
 		//Please add your string above this line to avoid conflicts
 		R.string.error_package_date_mismatch_error
 	};

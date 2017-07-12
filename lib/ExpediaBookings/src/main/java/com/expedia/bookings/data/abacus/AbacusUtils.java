@@ -70,6 +70,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightSubpubChange = 14936;
 	public static final int EBAndroidAppFlightSwitchFields = 14918;
 	public static final int EBAndroidAppFlightTravelerFormRevamp = 14647;
+	public static final int EBAndroidAppFlightSearchSuggestionLabel = 14646;
 
 	// Hotel Tests
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
@@ -212,7 +213,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightSwitchFields);
 		testIDs.add(EBAndroidAppFlightTravelerFormRevamp);
 		testIDs.add(EBAndroidRailHybridAppForDEEnabled);
-
+		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel);
 		return testIDs;
 	}
 

@@ -36,6 +36,7 @@ import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
+import com.expedia.bookings.widget.suggestions.SuggestionAndLabelAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
 import com.expedia.vm.BaseSearchViewModel
@@ -85,6 +86,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         else
             travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
     }
+    val isShowSuggestionLabelTestEnabled: Boolean = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel,
+            R.string.preference_flight_enable_search_suggestion_label)
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -224,8 +228,16 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
-        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
+
+        if (isShowSuggestionLabelTestEnabled) {
+            originSuggestionAdapter = SuggestionAndLabelAdapter(originSuggestionViewModel as AirportSuggestionViewModel)
+            destinationSuggestionAdapter = SuggestionAndLabelAdapter(destinationSuggestionViewModel as AirportSuggestionViewModel)
+        }
+        else {
+            originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
+            destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
+        }
+
     }
 
     lateinit private var originSuggestionAdapter: SuggestionAdapter
