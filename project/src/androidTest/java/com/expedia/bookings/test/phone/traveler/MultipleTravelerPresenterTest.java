@@ -20,7 +20,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.traveler.TravelersViewModel;
 import kotlin.Unit;

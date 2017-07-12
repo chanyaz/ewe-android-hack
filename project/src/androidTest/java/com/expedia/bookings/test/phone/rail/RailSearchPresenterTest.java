@@ -9,7 +9,8 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RailTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.rail.RailScreen;
 import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.Espresso.onView;

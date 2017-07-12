@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.stepdefs.phone;
 
 
-import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
 import cucumber.api.java.en.And;
 import static android.support.test.espresso.action.ViewActions.click;
 

@@ -5,7 +5,8 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.HotelTestCase
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import org.junit.Test
 
 class HotelNonMerchantTest: HotelTestCase() {

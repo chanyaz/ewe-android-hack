@@ -6,7 +6,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 public class HotelDetailVipTest extends HotelTestCase {
 	@Test

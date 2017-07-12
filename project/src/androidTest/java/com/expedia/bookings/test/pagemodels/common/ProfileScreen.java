@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.pagemodels.common;
+package com.expedia.bookings.test.pagemodels.common;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

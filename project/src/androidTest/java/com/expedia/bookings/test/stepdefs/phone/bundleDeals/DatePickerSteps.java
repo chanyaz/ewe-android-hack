@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.joda.time.LocalDate;
 
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;

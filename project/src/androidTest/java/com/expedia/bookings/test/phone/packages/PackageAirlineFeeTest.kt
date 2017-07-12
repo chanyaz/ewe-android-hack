@@ -8,9 +8,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.PackageTestCase
 import com.expedia.bookings.test.espresso.ViewActions
-import com.expedia.bookings.test.phone.hotels.HotelScreen
-import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
+import com.expedia.bookings.test.pagemodels.common.CardInfoScreen
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import org.junit.Test
 import java.util.concurrent.TimeUnit
 

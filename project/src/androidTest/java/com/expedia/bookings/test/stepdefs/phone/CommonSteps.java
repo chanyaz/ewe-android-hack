@@ -8,7 +8,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;

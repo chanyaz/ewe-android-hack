@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.newflights
+package com.expedia.bookings.test.pagemodels.flights
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction

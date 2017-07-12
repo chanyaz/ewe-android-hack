@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.espresso.LxTestCase;
+import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
 

@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.hotels;
+package com.expedia.bookings.test.pagemodels.hotels;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.v7.widget.AppCompatImageButton;

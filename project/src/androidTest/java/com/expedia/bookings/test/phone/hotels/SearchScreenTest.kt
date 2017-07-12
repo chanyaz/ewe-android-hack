@@ -9,13 +9,12 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.espresso.ViewActions
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils

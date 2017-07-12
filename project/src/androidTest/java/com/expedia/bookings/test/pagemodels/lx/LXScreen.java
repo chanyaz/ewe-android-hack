@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.lx;
+package com.expedia.bookings.test.pagemodels.lx;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.IdlingResources;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

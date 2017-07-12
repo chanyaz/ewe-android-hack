@@ -5,7 +5,7 @@ import org.junit.Test;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

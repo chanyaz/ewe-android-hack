@@ -13,8 +13,9 @@ import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import org.junit.Test
 
 class HotelCheckoutTest: HotelTestCase() {

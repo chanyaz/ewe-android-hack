@@ -10,6 +10,7 @@ import com.expedia.bookings.dagger.LXTestComponent;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.LxTestCase;
+import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;

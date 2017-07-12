@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.pagemodels.flights;
+package com.expedia.bookings.test.pagemodels.flights;
 
 import java.util.concurrent.atomic.AtomicReference;
 

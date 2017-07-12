@@ -11,10 +11,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.phone.lx.LXScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.TripsScreen;
+import com.expedia.bookings.test.pagemodels.lx.LXScreen;
+import com.expedia.bookings.test.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.TripsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

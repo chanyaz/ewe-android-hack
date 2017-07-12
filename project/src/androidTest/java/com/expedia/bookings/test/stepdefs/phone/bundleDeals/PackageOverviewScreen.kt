@@ -13,7 +13,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 
 import android.view.View
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
-import com.expedia.bookings.test.phone.packages.PackageScreen
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.stepdefs.phone.TestUtil
 import com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInMMMdd
 import cucumber.api.java.en.When

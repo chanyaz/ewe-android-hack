@@ -7,6 +7,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
+import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 
 object FlightTestHelpers {
     @JvmStatic fun assertFlightOutbound() {

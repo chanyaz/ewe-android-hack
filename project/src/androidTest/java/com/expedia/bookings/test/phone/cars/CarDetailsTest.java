@@ -8,7 +8,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.cars.CarScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;

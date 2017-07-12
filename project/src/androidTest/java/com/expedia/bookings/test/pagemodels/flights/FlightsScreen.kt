@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.newflights
+package com.expedia.bookings.test.pagemodels.flights
 
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
@@ -11,7 +11,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.CalendarPickerActions
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import org.hamcrest.Matchers.allOf
 import org.joda.time.LocalDate
 

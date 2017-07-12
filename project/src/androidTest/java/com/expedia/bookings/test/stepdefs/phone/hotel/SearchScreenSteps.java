@@ -2,7 +2,7 @@ package com.expedia.bookings.test.stepdefs.phone.hotel;
 
 import java.util.Map;
 
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import org.joda.time.LocalDate;
 

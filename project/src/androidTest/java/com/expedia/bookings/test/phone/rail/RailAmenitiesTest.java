@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RailTestCase;
+import com.expedia.bookings.test.pagemodels.rail.RailScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;

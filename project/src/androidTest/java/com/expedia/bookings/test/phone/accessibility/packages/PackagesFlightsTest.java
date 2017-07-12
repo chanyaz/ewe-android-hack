@@ -10,9 +10,9 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
-import com.expedia.bookings.test.phone.packages.PackageScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

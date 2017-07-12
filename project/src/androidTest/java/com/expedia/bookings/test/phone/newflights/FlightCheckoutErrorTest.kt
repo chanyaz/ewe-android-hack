@@ -15,9 +15,9 @@ import com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayou
 import com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed
 import com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable
 
-import com.expedia.bookings.test.phone.packages.PackageScreen
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
-import com.expedia.bookings.test.phone.pagemodels.common.PaymentOptionsScreen
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.PaymentOptionsScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.junit.Test
 import java.util.concurrent.TimeUnit

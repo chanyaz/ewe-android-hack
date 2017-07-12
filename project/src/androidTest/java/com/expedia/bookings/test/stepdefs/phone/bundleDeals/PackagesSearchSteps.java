@@ -2,7 +2,7 @@ package com.expedia.bookings.test.stepdefs.phone.bundleDeals;
 
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;

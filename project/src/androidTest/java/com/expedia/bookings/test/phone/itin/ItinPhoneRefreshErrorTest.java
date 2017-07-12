@@ -5,9 +5,9 @@ import org.junit.Test;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.TripsScreen;
+import com.expedia.bookings.test.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.TripsScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;

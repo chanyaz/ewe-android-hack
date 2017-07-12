@@ -5,7 +5,8 @@ import org.junit.Test;
 
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;

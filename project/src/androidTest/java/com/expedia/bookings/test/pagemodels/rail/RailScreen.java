@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.rail;
+package com.expedia.bookings.test.pagemodels.rail;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -12,10 +12,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.CalendarPickerActions;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.Espresso.onView;

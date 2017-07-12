@@ -8,10 +8,8 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.test.ActivityInstrumentationTestCase2
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.activity.DeepLinkRouterActivity
-import com.expedia.bookings.data.abacus.AbacusUtils.EBAndroidAppLXNavigateToSRP
-import com.expedia.bookings.test.espresso.AbacusTestUtils
-import com.expedia.bookings.test.espresso.Common
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.lx.LXScreen
 import com.expedia.bookings.utils.DateUtils
 import org.joda.time.LocalDate
 import org.junit.Test

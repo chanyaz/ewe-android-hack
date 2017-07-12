@@ -4,12 +4,12 @@ import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
-import static com.expedia.bookings.test.phone.hotels.HotelScreen.pickRoom;
+import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.pickRoom;
 
 public class HotelPriceChangeTest extends HotelTestCase {
 

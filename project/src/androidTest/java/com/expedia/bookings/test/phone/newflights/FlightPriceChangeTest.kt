@@ -8,8 +8,9 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
-import com.expedia.bookings.test.phone.packages.PackageScreen
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test

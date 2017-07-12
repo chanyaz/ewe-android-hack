@@ -7,7 +7,9 @@ import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import com.expedia.bookings.test.espresso.NewFlightTestCase
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.expedia.bookings.utils.DateUtils
 import org.joda.time.LocalDate
 import org.junit.Test

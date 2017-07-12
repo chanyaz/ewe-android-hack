@@ -16,9 +16,9 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
-import com.expedia.bookings.test.phone.packages.PackageScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
 import com.expedia.bookings.test.stepdefs.phone.utils.StepDefUtils;

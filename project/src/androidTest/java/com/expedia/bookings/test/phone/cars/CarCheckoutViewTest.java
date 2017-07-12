@@ -6,8 +6,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.CarTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.cars.CarScreen;
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertTextWithChildrenIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;

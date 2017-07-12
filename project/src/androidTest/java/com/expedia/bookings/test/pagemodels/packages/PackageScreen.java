@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.packages;
+package com.expedia.bookings.test.pagemodels.packages;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
@@ -19,11 +19,11 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.Espresso.onData;

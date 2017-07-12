@@ -7,7 +7,8 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.cars.CarScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.action.ViewActions.click;

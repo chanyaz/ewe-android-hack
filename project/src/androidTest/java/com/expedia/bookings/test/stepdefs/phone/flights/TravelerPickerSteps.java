@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import static android.support.test.espresso.Espresso.onView;

@@ -14,7 +14,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel;
 
 import kotlin.Unit;

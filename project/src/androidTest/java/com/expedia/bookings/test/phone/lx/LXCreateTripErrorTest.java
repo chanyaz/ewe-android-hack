@@ -6,6 +6,8 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.LxTestCase;
+import com.expedia.bookings.test.pagemodels.lx.LXInfositeScreen;
+import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

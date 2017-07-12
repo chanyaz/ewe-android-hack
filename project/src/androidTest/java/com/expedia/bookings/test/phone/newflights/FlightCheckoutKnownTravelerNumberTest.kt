@@ -9,8 +9,9 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
-import com.expedia.bookings.test.phone.packages.PackageScreen
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import org.hamcrest.CoreMatchers
 import org.joda.time.LocalDate
 import org.junit.Test

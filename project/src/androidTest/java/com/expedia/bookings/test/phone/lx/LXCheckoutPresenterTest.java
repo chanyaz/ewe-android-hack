@@ -4,8 +4,10 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.LxTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.lx.LXInfositeScreen;
+import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.utils.LXDataUtils;
 import java.util.concurrent.TimeUnit;
 

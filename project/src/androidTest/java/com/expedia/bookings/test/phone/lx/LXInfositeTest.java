@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.LxTestCase;
+import com.expedia.bookings.test.pagemodels.lx.LXInfositeScreen;
+import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.test.phone.lx.models.TicketDataModel;
 import com.expedia.bookings.test.phone.lx.models.TicketSummaryDataModel;
 import com.expedia.bookings.test.phone.lx.utils.ExpectedDataSupplierForTicketWidget;

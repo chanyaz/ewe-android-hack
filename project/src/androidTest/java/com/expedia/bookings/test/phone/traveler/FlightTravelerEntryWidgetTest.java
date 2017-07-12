@@ -16,7 +16,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTravelerEntryWidget;

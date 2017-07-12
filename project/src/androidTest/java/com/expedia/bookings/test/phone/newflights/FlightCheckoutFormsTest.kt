@@ -12,10 +12,11 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.NewFlightTestCase
-import com.expedia.bookings.test.phone.packages.PackageScreen
-import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen
+import com.expedia.bookings.test.pagemodels.common.CardInfoScreen
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.joda.time.LocalDate
 import org.junit.Test

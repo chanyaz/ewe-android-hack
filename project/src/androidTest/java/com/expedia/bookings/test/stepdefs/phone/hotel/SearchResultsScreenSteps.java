@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.stepdefs.phone.hotel;
 
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 import cucumber.api.java.en.Then;
 

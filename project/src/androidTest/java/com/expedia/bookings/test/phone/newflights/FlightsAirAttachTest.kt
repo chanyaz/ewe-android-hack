@@ -6,9 +6,10 @@ import android.support.test.espresso.matcher.ViewMatchers
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.NewFlightTestCase
-import com.expedia.bookings.test.phone.packages.PackageScreen
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.expedia.bookings.utils.DateUtils
 import org.hamcrest.Matchers
 import org.joda.time.DateTime

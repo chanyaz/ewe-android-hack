@@ -22,11 +22,11 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
-import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
-import com.expedia.bookings.test.phone.newflights.FlightsScreen;
-import com.expedia.bookings.test.phone.packages.PackageScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

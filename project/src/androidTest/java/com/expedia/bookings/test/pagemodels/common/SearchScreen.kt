@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.pagemodels.common
+package com.expedia.bookings.test.pagemodels.common
 
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
@@ -21,7 +21,7 @@ import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import com.expedia.bookings.test.espresso.CalendarPickerActions
 import com.expedia.bookings.test.espresso.TestValues
 import com.expedia.bookings.test.espresso.ViewActions
-import com.expedia.bookings.test.phone.hotels.HotelScreen
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf

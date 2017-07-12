@@ -26,8 +26,8 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
+import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.ProfileScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

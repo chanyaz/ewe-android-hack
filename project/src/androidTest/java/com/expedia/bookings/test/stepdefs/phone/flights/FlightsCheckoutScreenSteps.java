@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.phone.newflights.FlightsScreen;
-import com.expedia.bookings.test.phone.packages.PackageScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;

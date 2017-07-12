@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.DeepLinkRouterActivity
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import org.junit.Test
 
 class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>(DeepLinkRouterActivity::class.java) {

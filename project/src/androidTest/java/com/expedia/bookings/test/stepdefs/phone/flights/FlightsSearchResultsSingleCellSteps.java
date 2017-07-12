@@ -6,8 +6,8 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
-import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
-import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;

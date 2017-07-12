@@ -8,7 +8,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 
 import cucumber.api.java.en.And;

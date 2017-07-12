@@ -16,7 +16,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.expedia.bookings.widget.TextView
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matchers

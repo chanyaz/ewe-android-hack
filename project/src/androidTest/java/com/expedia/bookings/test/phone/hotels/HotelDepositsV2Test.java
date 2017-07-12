@@ -7,7 +7,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -18,9 +19,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.phone.hotels.HotelScreen.addRoom;
-import static com.expedia.bookings.test.phone.hotels.HotelScreen.clickPayLater;
-import static com.expedia.bookings.test.phone.hotels.HotelScreen.waitForDetailsLoaded;
+import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.addRoom;
+import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.clickPayLater;
+import static com.expedia.bookings.test.pagemodels.hotels.HotelScreen.waitForDetailsLoaded;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 

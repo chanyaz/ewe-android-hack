@@ -9,6 +9,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.pagemodels.cars.CarScreen;
 import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.action.ViewActions.click;

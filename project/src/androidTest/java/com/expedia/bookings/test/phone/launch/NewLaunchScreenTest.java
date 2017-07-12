@@ -8,8 +8,8 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.phone.hotels.HotelScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
+import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.mobiata.android.Log;
 

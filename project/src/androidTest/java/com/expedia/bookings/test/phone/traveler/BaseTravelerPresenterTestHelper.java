@@ -27,7 +27,7 @@ import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.validation.TravelerValidator;

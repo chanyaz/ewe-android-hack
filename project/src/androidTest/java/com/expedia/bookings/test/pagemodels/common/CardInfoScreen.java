@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.phone.pagemodels.common;
+package com.expedia.bookings.test.pagemodels.common;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.assertion.ViewAssertions;
