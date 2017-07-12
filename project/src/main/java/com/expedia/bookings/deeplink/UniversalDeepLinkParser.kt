@@ -71,6 +71,10 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
             }
         }
 
+        if (routingDestination.endsWith('/')) {
+            routingDestination = routingDestination.trimEnd('/')
+        }
+
         return routingDestination
     }
 
