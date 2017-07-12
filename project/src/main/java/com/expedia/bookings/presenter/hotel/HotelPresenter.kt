@@ -925,6 +925,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                         showDetails(hotelId, fetchOffers)
                     }
                     val cancelFun = fun() {
+                        loadingOverlay.visibility = View.GONE
                         show(searchPresenter)
                     }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
