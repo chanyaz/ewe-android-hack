@@ -3,12 +3,15 @@ package com.expedia.vm.packages
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.mobiata.android.Log
@@ -21,7 +24,7 @@ class PackageFlightContainerViewModel(private val context: Context, private val 
     private var subscription: Subscription? = null
 
     val performFlightSearch = PublishSubject.create<PackageSearchType>()
-    val flightSearchResponseObservable = PublishSubject.create<PackageSearchResponse>()
+    val flightSearchResponseObservable = PublishSubject.create<BundleSearchResponse>()
 
     init {
         performFlightSearch.subscribe { type ->
@@ -29,8 +32,12 @@ class PackageFlightContainerViewModel(private val context: Context, private val 
         }
     }
 
+    private fun isMidAPIEnabled(): Boolean {
+        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+    }
+
     private fun makeFlightSearchCall(type: PackageSearchType): Subscription? {
-        return packageServices.packageSearch(Db.getPackageParams()).subscribe(object : Observer<PackageSearchResponse> {
+        return packageServices.packageSearch(Db.getPackageParams(), isMidAPIEnabled()).subscribe(object : Observer<BundleSearchResponse> {
             override fun onCompleted() {
             }
 
@@ -47,7 +54,7 @@ class PackageFlightContainerViewModel(private val context: Context, private val 
                 }
             }
 
-            override fun onNext(response: PackageSearchResponse) {
+            override fun onNext(response: BundleSearchResponse) {
                 if (response.hasErrors()) {
                     onResponseError(response.firstError)
                 } else if (response.getHotels().isEmpty()) {

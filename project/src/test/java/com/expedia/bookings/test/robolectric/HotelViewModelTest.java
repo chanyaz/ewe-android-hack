@@ -18,17 +18,17 @@ import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
-import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.payment.PriceEarnInfo;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.PackageServices;
@@ -148,7 +148,7 @@ public class HotelViewModelTest {
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void strikeThroughPriceShowForPackages() {
-		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -156,12 +156,12 @@ public class HotelViewModelTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		serviceRule.getServices().packageSearch(params).subscribe(observer);
+		serviceRule.getServices().packageSearch(params, false).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertValueCount(1);
-		PackageSearchResponse response = observer.getOnNextEvents().get(0);
-		Hotel firstHotel = response.packageResult.hotelsPackage.hotels.get(0);
+		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		Hotel firstHotel = response.getHotels().get(0);
 
 		HotelViewModel vm = new HotelViewModel(getContext());
 		vm.bindHotelData(firstHotel);
@@ -171,7 +171,7 @@ public class HotelViewModelTest {
 
 	@Test
 	public void strikeThroughPriceDontShowForPackages() {
-		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -179,12 +179,12 @@ public class HotelViewModelTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		serviceRule.getServices().packageSearch(params).subscribe(observer);
+		serviceRule.getServices().packageSearch(params, false).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertValueCount(1);
-		PackageSearchResponse response = observer.getOnNextEvents().get(0);
-		Hotel firstHotel = response.packageResult.hotelsPackage.hotels.get(1);
+		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		Hotel firstHotel = response.getHotels().get(1);
 
 		HotelViewModel vm = new HotelViewModel(getContext());
 		vm.bindHotelData(hotel);

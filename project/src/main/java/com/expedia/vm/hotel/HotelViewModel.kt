@@ -19,7 +19,6 @@ import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
@@ -119,7 +118,7 @@ open class HotelViewModel(private val context: Context) {
     }
 
     fun getHotelLargeThumbnailUrl(): String {
-        if (hotel.isPackage) {
+        if (hotel.isPackage && (hotel.thumbnailUrl?.startsWith("http") ?: true)) {
             return hotel.thumbnailUrl ?: ""
         }
 

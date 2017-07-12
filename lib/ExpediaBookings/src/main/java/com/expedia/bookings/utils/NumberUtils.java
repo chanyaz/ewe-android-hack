@@ -35,4 +35,9 @@ public class NumberUtils {
 		Collections.shuffle(numberList);
 		return numberList;
 	}
+
+	public static float round(float number, int precision) {
+		float shiftNumberByPlaces = (float) Math.pow(10, precision);
+		return Math.round(number * shiftNumberByPlaces) / shiftNumberByPlaces;
+	}
 }

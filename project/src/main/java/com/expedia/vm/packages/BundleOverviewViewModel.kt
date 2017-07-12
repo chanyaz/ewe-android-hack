@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -59,7 +60,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             if (isRemoveBundleOverviewFeatureEnabled() && packageServices != null) {
                 autoAdvanceObservable.onNext(PackageSearchType.HOTEL)
             } else {
-                searchPackageSubscriber = packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
+                searchPackageSubscriber = packageServices?.packageSearch(params, isMidAPIEnabled())?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
             }
         }
 
@@ -77,7 +78,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 flightResultsObservable.onNext(type)
                 autoAdvanceObservable.onNext(type)
             } else {
-                searchPackageSubscriber = packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(type))
+                searchPackageSubscriber = packageServices?.packageSearch(params, isMidAPIEnabled())?.subscribe(makeResultsObserver(type))
             }
         }
 
@@ -116,16 +117,20 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
     }
 
+    private fun isMidAPIEnabled(): Boolean {
+        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+    }
+
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
-    fun makeResultsObserver(type: PackageSearchType): Observer<PackageSearchResponse> {
-        return object : Observer<PackageSearchResponse> {
-            override fun onNext(response: PackageSearchResponse) {
+    fun makeResultsObserver(type: PackageSearchType): Observer<BundleSearchResponse> {
+        return object : Observer<BundleSearchResponse> {
+            override fun onNext(response: BundleSearchResponse) {
                 if (response.hasErrors()) {
                     errorObservable.onNext(response.firstError)
-                } else if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
+                } else if (response.getHotels().isEmpty()) {
                     errorObservable.onNext(PackageApiError.Code.search_response_null)
                 } else {
                     Db.setPackageResponse(response)

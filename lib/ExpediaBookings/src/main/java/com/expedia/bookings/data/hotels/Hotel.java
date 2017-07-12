@@ -2,8 +2,11 @@ package com.expedia.bookings.data.hotels;
 
 import java.util.List;
 
+import com.expedia.bookings.data.multiitem.HotelOffer;
+import com.expedia.bookings.data.multiitem.MultiItemOffer;
 import com.expedia.bookings.data.packages.PackageHotel;
 import com.expedia.bookings.data.packages.PackageOfferModel;
+import com.expedia.bookings.utils.NumberUtils;
 
 public class Hotel {
 	public int sortIndex;
@@ -80,4 +83,35 @@ public class Hotel {
 		return hotel;
 	}
 
+
+	public static Hotel convertMultiItemHotel(HotelOffer multiItemHotel, MultiItemOffer offer) {
+		Hotel hotel = new Hotel();
+		hotel.hotelId = multiItemHotel.getId();
+		hotel.localizedName = multiItemHotel.getName();
+		hotel.address = multiItemHotel.getAddress().getFirstAddressLine();
+		hotel.city = multiItemHotel.getAddress().getCity();
+		hotel.stateProvinceCode = multiItemHotel.getAddress().getProvinceCode();
+		hotel.countryCode = multiItemHotel.getAddress().getThreeLetterCountryCode();
+		hotel.postalCode = multiItemHotel.getAddress().getPostalCode();
+		hotel.hotelStarRating = (float) multiItemHotel.getStarRating();
+		hotel.hotelGuestRating = NumberUtils.round(multiItemHotel.getAverageReview(), 1);
+		hotel.locationDescription = multiItemHotel.getShortDescription();
+		hotel.latitude = multiItemHotel.getAddress().getLatitude();
+		hotel.longitude = multiItemHotel.getAddress().getLongitude();
+		hotel.largeThumbnailUrl = multiItemHotel.getThumbnailUrl();
+		hotel.thumbnailUrl = multiItemHotel.getThumbnailUrl();
+		hotel.isVipAccess = multiItemHotel.getVip();
+		hotel.packageOfferModel = new PackageOfferModel(offer);
+		hotel.lowRateInfo = getLowRateInfo(offer);
+		hotel.isPackage = true;
+		return hotel;
+	}
+
+	private static HotelRate getLowRateInfo(MultiItemOffer offer) {
+		HotelRate lowRateInfo = new HotelRate();
+		lowRateInfo.strikethroughPriceToShowUsers = offer.getPrice().strikeThroughPrice().getAmount().floatValue();
+		lowRateInfo.priceToShowUsers = offer.getPrice().priceToShowUsers().getAmount().floatValue();
+		lowRateInfo.currencyCode = offer.getPrice().priceToShowUsers().getCurrency();
+		return lowRateInfo;
+	}
 }

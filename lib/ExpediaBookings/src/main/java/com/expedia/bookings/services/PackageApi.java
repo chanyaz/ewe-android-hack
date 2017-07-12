@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse;
 import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
@@ -23,6 +24,15 @@ public interface PackageApi {
 	@POST("/getpackages/v1?forceNoRedir=1&packageType=fh")
 	Observable<PackageSearchResponse> packageSearch(
 		@FieldMap Map<String, Object> queryParams);
+
+	@GET("/api/multiitem/v1/hotels")
+	Observable<MultiItemApiSearchResponse> midAPIPackageHotelSearch(
+			@Query("packageType") String packageType,
+			@Query("origin") String origin,
+			@Query("destination") String destination,
+			@Query("fromDate") String fromDate,
+			@Query("toDate") String toDate,
+			@Query("adults") int adults);
 
 	@GET("/api/packages/hotelOffers")
 	Observable<PackageOffersResponse> packageHotelOffers(

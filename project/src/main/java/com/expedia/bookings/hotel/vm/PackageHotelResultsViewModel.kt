@@ -9,9 +9,9 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.Constants
@@ -55,9 +55,13 @@ class PackageHotelResultsViewModel(context: Context, private val packageServices
         }
     }
 
+    private fun isMidAPIEnabled(): Boolean {
+        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+    }
+
     private fun searchPackageHotels(params: PackageSearchParams) {
-        searchSubscription = packageServices?.packageSearch(params)?.subscribe(object : Observer<PackageSearchResponse> {
-            override fun onNext(response: PackageSearchResponse) {
+        searchSubscription = packageServices?.packageSearch(params, isMidAPIEnabled())?.subscribe(object : Observer<BundleSearchResponse> {
+            override fun onNext(response: BundleSearchResponse) {
                 if (response.hasErrors()) {
                     onResponseError(response.firstError)
                 } else if (response.getHotels().isEmpty()) {
