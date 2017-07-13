@@ -5,14 +5,10 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import okhttp3.HttpUrl
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import java.util.Date
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -26,7 +22,7 @@ class HMACUtilTests {
         val xDate = "Thu, 29 Jun 2017 09:34:47 UTC"
         val url = HttpUrl.parse("https://www.expedia.com")
         val method = "GET"
-        val userName = context.getString(R.string.rails_u)
+        val userName = context.getString(R.string.exp_u)
         val expectedAuthString = "hmac username=\"$userName\",algorithm=\"hmac-sha1\",headers=\"request-line x-date salt\",signature=\"gtQ/p2XxSVfK3tUDuF88vDyXbWo=\""
 
         val authString = HMACUtil.getAuthorization(context, url, method, xDate, salt)

@@ -55,6 +55,9 @@ public interface AppComponent {
 	@Named("GaiaInterceptor")
 	Interceptor gaiaRequestInterceptor();
 
+	@Named("HmacInterceptor")
+	Interceptor provideHmacInterceptor();
+
 	AbacusServices abacus();
 
 	ClientLogServices clientLog();

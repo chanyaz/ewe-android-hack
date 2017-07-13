@@ -1,5 +1,6 @@
 package com.expedia.bookings.dagger;
 
+import com.expedia.bookings.utils.HMACUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +43,8 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -240,6 +243,24 @@ public class AppModule {
 			public Response intercept(Interceptor.Chain chain) throws IOException {
 				Request.Builder request = chain.request().newBuilder();
 				request.addHeader("key", ServicesUtil.getGaiaApiKey(context));
+				Response response = chain.proceed(request.build());
+				return response;
+			}
+		};
+	}
+
+	@Provides
+	@Named("HmacInterceptor")
+	Interceptor provideHmacInterceptor(final Context context, final EndpointProvider endpointProvider) {
+		return new Interceptor() {
+			@Override
+			public Response intercept(Interceptor.Chain chain) throws IOException {
+				Request.Builder request = chain.request().newBuilder();
+				String xDate = HMACUtil.getXDate(DateTime.now(DateTimeZone.UTC));
+				String salt = HMACUtil.generateSalt(16);
+				request.addHeader("Authorization", HMACUtil.getAuthorization(context, chain.request().url(), chain.request().method(), xDate, salt));
+				request.addHeader("x-date", xDate);
+				request.addHeader("salt", salt);
 				Response response = chain.proceed(request.build());
 				return response;
 			}

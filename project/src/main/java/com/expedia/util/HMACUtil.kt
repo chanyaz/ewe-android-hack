@@ -2,11 +2,9 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import android.util.Base64
-import android.util.Log
 import com.expedia.bookings.R
 import okhttp3.HttpUrl
 import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import java.util.Locale
 import java.util.Random
@@ -37,7 +35,7 @@ class HMACUtil {
             val requestLine = "$method $pathAndQuery HTTP/1.1"
             val stringToSign = "$requestLine\nx-date: $date\nsalt: $salt"
             val hmac = createHmac(getKey(context), stringToSign)
-            val userName = context.resources.getString(R.string.rails_u)
+            val userName = context.resources.getString(R.string.exp_u)
             val authString = "hmac username=\"$userName\",algorithm=\"hmac-sha1\",headers=\"request-line x-date salt\",signature=\"$hmac\""
             return authString
         }
@@ -51,7 +49,7 @@ class HMACUtil {
         }
 
         private fun getKey(context: Context): String {
-            val stored = context.resources.getString(R.string.rails_k)
+            val stored = context.resources.getString(R.string.exp_k)
             val key = StringBuilder()
             for (a in stored.reversed()) {
                 val value = a.toInt() xor 28
