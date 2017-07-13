@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.hotel.HotelViewModel
@@ -27,7 +29,8 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
     }
 
     fun update(viewModel: HotelViewModel) {
-        strikeThroughPriceTextView.visibility = if (viewModel.shouldShowStrikeThroughPrice()) View.VISIBLE else View.GONE
+        strikeThroughPriceTextView.visibility = if (viewModel.shouldShowStrikeThroughPrice())
+            View.VISIBLE else View.GONE
         strikeThroughPriceTextView.text = viewModel.hotelStrikeThroughPriceFormatted
 
         pricePerNightTextView.text = viewModel.pricePerNight

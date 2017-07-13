@@ -10,7 +10,9 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
@@ -86,7 +88,9 @@ class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context,
         vm.hotelStarRating.subscribeRating(toolBarRating)
         vm.hotelStarRatingVisibility.subscribeVisibility(toolBarRating)
         vm.strikethroughPrice.subscribeText(selectRoomStrikethroughPrice)
-        vm.strikethroughPriceVisibility.subscribeVisibility(selectRoomStrikethroughPrice)
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
+            vm.strikethroughPriceVisibility.subscribeVisibility(selectRoomStrikethroughPrice)
+        }
         vm.fromPrice.subscribeText(selectRoomPrice)
         vm.fromPriceVisibility.subscribeVisibility(selectRoomPrice)
         vm.selectARoomInvisibility.subscribeInverseVisibility(selectRoomContainer)

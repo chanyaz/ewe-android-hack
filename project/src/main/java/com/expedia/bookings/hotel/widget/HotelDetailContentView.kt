@@ -66,6 +66,7 @@ import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.HotelRoomHeaderViewModel
 import com.expedia.vm.HotelRoomRateViewModel
+import com.expedia.vm.ShopWithPointsViewModel
 import rx.Observable
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -238,7 +239,11 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.sectionBodyObservable.subscribe { htmlBodyText -> setHotelDescriptionText(htmlBodyText) }
 
         vm.strikeThroughPriceObservable.subscribeText(strikeThroughPrice)
-        vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
+
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice) || shopWithPointsViewModel?.swpEffectiveAvailability?.value ?: false) {
+            vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
+        }
+
         vm.priceToShowCustomerObservable.subscribeText(price)
         vm.roomPriceToShowCustomer.subscribeText(price)
         vm.searchInfoObservable.subscribeText(searchInfo)
@@ -528,7 +533,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         val detailViewModel = HotelRoomDetailViewModel(context, hotelRoomResponse, hotelId, rowIndex, roomCount, hasETP)
         val detail = HotelRoomDetailView(context, detailViewModel)
-
+//        detail.
         detail.hotelRoomRowClickedSubject.subscribe {
             viewModel.roomSelectedSubject.onNext(detail.viewModel.hotelRoomResponse)
             viewModel.selectedRoomIndex = detail.viewModel.rowIndex
@@ -547,6 +552,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         detail.depositTermsClickedSubject.subscribe {
             viewModel.depositInfoContainerClickObservable.onNext(Pair(viewModel.hotelOffersResponse.hotelCountry, detail.viewModel.hotelRoomResponse))
         }
+
+        detail.shopWithPoints = shopWithPointsViewModel?.swpEffectiveAvailability?.value ?: false
 
         return detail
     }
@@ -772,4 +779,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         roomRateRegularLoyaltyAppliedView.visibility = View.GONE
         HotelTracking.trackPayLaterContainerClick()
     }
+
+    var shopWithPointsViewModel: ShopWithPointsViewModel? = null
 }

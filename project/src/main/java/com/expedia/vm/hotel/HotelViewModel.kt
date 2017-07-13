@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
@@ -19,7 +20,6 @@ import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
@@ -28,6 +28,7 @@ import rx.subjects.BehaviorSubject
 open class HotelViewModel(private val context: Context) {
 
     var isHotelSoldOut = false
+    var isShopWithPoints = false
 
     protected val resources = context.resources
     protected lateinit var hotel: Hotel
@@ -69,7 +70,7 @@ open class HotelViewModel(private val context: Context) {
         }
     }
 
-    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+    val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     @CallSuper
     open fun bindHotelData(hotel: Hotel) {
@@ -113,8 +114,12 @@ open class HotelViewModel(private val context: Context) {
         if (hotel.isPackage) {
             val showPackageTripSavings = hotel.packageOfferModel?.price?.showTripSavings ?: false
             return showPackageTripSavings
-        } else {
+        } else if (isShopWithPoints) {
+            return true
+        } else if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
             return priceToShowUsers < strikeThroughPriceToShowUsers
+        } else {
+            return false
         }
     }
 

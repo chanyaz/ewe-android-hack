@@ -25,8 +25,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
@@ -179,7 +181,9 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         vm.dailyPricePerNightObservable.subscribeTextAndVisibility(dailyPricePerNight)
         vm.roomInfoVisibilityObservable.subscribeVisibility(roomInfoContainer)
         vm.roomInfoVisibilityObservable.subscribeVisibility(roomInfoDivider)
-        vm.strikeThroughPriceObservable.subscribeTextAndVisibility(strikeThroughPrice)
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
+            vm.strikeThroughPriceObservable.subscribeTextAndVisibility(strikeThroughPrice)
+        }
         vm.depositTerms.subscribe {
             val depositTerms = it
             showTerms = depositTerms?.isNotEmpty() ?: false

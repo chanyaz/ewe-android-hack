@@ -9,6 +9,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DepositTermsInfoWidget
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.HotelMapView
@@ -17,6 +18,8 @@ import com.expedia.bookings.widget.SpecialNoticeWidget
 import com.expedia.bookings.widget.VIPAccessInfoWidget
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.GoogleMap
+import com.expedia.vm.ShopWithPointsViewModel
+import javax.inject.Inject
 
 class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
@@ -28,6 +31,10 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     val hotelMapView: HotelMapView by bindView(R.id.hotel_map_view)
     var searchTop = 0
 
+    lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
+        @Inject set
+
+
     val hotelDepositInfoObserver = endlessObserver<Pair<String, HotelOffersResponse.HotelRoomResponse>> { pair ->
         hotelDepositInfo.setText(pair)
         show(hotelDepositInfo)
@@ -38,6 +45,8 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     override fun onFinishInflate() {
+        Ui.getApplication(getContext()).hotelComponent().inject(this)
+        hotelDetailView.contentView.shopWithPointsViewModel = shopWithPointsViewModel
         addTransition(detailToDescription)
         addTransition(detailToPayLaterInfo)
         addTransition(detailToDepositInfo)

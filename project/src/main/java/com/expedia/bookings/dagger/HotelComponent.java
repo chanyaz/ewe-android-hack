@@ -3,6 +3,7 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
+import com.expedia.bookings.presenter.hotel.HotelDetailPresenter;
 import com.expedia.bookings.presenter.hotel.HotelPresenter;
 import com.expedia.bookings.presenter.hotel.HotelResultsPresenter;
 import com.expedia.bookings.presenter.hotel.HotelSearchPresenter;
@@ -36,6 +37,7 @@ public interface HotelComponent {
 	void inject(ShopWithPointsWidget shopWithPointsWidget);
 	void inject(HotelSearchViewModel hotelSearchViewModel);
 	void inject(HotelResultsPresenter hotelResultsPresenter);
+	void inject(HotelDetailPresenter hotelDetailPresenter);
 
 	SuggestionV4Services suggestionsService();
 	ReviewsServices reviewsServices();

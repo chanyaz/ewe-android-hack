@@ -9,8 +9,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.extension.shouldShowCircleForRatings
@@ -59,6 +61,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
         val viewModel = HotelViewModel(holder.itemView.context)
+        viewModel.isShopWithPoints = shopWithPoints
         viewModel.bindHotelData(hotels[position])
         holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)
@@ -116,6 +119,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         fun bind(viewModel: HotelViewModel) {
             hotelId = viewModel.hotelId
             hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
+            viewModel.isShopWithPoints = shopWithPoints
 
             val url = viewModel.getHotelLargeThumbnailUrl()
             if (url.isNotBlank()) {
@@ -147,7 +151,10 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
 
         private fun updatePricing(viewModel: HotelViewModel) {
             hotelStrikeThroughPrice.text = viewModel.hotelStrikeThroughPriceFormatted
-            hotelStrikeThroughPrice.updateVisibility(viewModel.shouldShowStrikeThroughPrice())
+            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice) || shopWithPoints) {
+                hotelStrikeThroughPrice.updateVisibility(viewModel.shouldShowStrikeThroughPrice())
+            }
+            viewModel.isShopWithPoints = shopWithPoints
             hotelPricePerNight.text = viewModel.hotelPriceFormatted
             hotelPricePerNight.setTextColor(viewModel.pricePerNightColor)
             hotelPricePerNight.setInverseVisibility(viewModel.isHotelSoldOut)

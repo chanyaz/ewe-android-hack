@@ -16,6 +16,8 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomDetailViewModel
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.HotelValueAdd
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.setTextAndVisibility
@@ -40,6 +42,9 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
     private val roomLeftContainer: LinearLayout by bindView(R.id.room_left_container)
     private val urgencyIcon: ImageView by bindView(R.id.urgency_icon)
     private val roomLeftTextView: TextView by bindView(R.id.room_left_text_view)
+
+    var shopWithPoints: Boolean = false
+    var isAirAttached: Boolean = false
 
     val depositTermsClickedSubject = PublishSubject.create<Unit>()
     val hotelRoomRowClickedSubject = PublishSubject.create<Unit>()
@@ -88,7 +93,11 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         payLaterPriceTextView.setTextAndVisibility(viewModel.payLaterPriceString)
         depositTermsTextView.updateVisibility(viewModel.showDepositTerm)
         depositTermsTextView.subscribeOnClick(depositTermsClickedSubject)
-        strikeThroughTextView.setTextAndVisibility(viewModel.strikeThroughString)
+
+        if (shopWithPoints || !isAirAttached && !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
+            strikeThroughTextView.setTextAndVisibility(viewModel.strikeThroughString)
+        }
+
         pricePerNightTextView.setTextAndVisibility(viewModel.pricePerNightString)
         perNightTextView.updateVisibility(viewModel.showPerNight)
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
