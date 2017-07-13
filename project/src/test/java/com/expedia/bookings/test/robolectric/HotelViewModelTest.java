@@ -438,7 +438,7 @@ public class HotelViewModelTest {
 	public void packageThumbnailIsSet() {
 		givenHotelWithThumbnail(true);
 		setupSystemUnderTest();
-		assertEquals("some_awesome_hotel_pix", vm.getHotelLargeThumbnailUrl());
+		assertEquals("http://some_awesome_hotel_pix.png", vm.getHotelLargeThumbnailUrl());
 	}
 
 	@Test
@@ -519,7 +519,7 @@ public class HotelViewModelTest {
 
 	private void givenHotelWithThumbnail(boolean isPackage) {
 		hotel.isPackage = isPackage;
-		hotel.thumbnailUrl = "some_awesome_hotel_pix";
+		hotel.thumbnailUrl = "http://some_awesome_hotel_pix.png";
 		hotel.largeThumbnailUrl = "some_awesome_hotel_pix";
 	}
 

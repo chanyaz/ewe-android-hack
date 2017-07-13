@@ -20,4 +20,14 @@ public class NumberUtilsTests {
 		d = NumberUtils.parseDoubleSafe("garbage");
 		Assert.assertNull(d);
 	}
+
+	@Test
+	public void testRound() {
+		float number = 4.52614f;
+		Assert.assertEquals(5f, NumberUtils.round(number, 0), 1e-10);
+		Assert.assertEquals(4.5f, NumberUtils.round(number, 1), 1e-10);
+		Assert.assertEquals(4.53f, NumberUtils.round(number, 2), 1e-10);
+		Assert.assertEquals(4.526f, NumberUtils.round(number, 3), 1e-10);
+		Assert.assertEquals(4.5261f, NumberUtils.round(number, 4), 1e-10);
+	}
 }

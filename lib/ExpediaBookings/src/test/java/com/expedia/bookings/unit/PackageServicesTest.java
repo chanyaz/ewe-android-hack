@@ -67,7 +67,7 @@ public class PackageServicesTest {
 	}
 
 	@Test
-	public void testMockSearchWorks() throws Throwable {
+	public void testMockPSSSearchWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
@@ -92,6 +92,30 @@ public class PackageServicesTest {
 		System.out.println(response.getFlightLegs().get(0).flightSegments.get(0).airlineLogoURL);
 		Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "b6"), response.getFlightLegs().get(0).flightSegments.get(0).airlineLogoURL);
 		Assert.assertEquals(null, response.getFlightLegs().get(0).flightSegments.get(1).airlineLogoURL);
+	}
+
+	@Test
+	public void testMockMIDSearchWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+
+		service.packageSearch(params, true).subscribe(observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(50, response.getHotels().size());
 	}
 
 	@Test
@@ -132,7 +156,7 @@ public class PackageServicesTest {
 		suggestion.regionNames.shortName = "";
 		suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
 		suggestion.hierarchyInfo.airport = new SuggestionV4.Airport();
-		suggestion.hierarchyInfo.airport.airportCode = "";
+		suggestion.hierarchyInfo.airport.airportCode = "happy";
 		suggestion.hierarchyInfo.airport.multicity = "happy";
 		return suggestion;
 	}
