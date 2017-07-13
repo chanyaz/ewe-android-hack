@@ -46,6 +46,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelFilterViewModel
+import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.vm.hotel.UrgencyViewModel
 import rx.Observer
 import rx.Subscription

@@ -27,7 +27,8 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
     }
 
     fun update(viewModel: HotelViewModel) {
-        strikeThroughPriceTextView.visibility = if (viewModel.shouldShowStrikeThroughPrice()) View.VISIBLE else View.GONE
+        strikeThroughPriceTextView.visibility = if (viewModel.shouldShowStrikeThroughPrice())
+            View.VISIBLE else View.GONE
         strikeThroughPriceTextView.text = viewModel.hotelStrikeThroughPriceFormatted
 
         pricePerNightTextView.text = viewModel.pricePerNight

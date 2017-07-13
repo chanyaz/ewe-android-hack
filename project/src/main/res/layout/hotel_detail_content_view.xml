@@ -167,12 +167,13 @@
                 android:text="@string/per_night" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/strike_through_price"
+                android:id="@+id/strike_through_price2"
                 style="@style/Core.Text.Large.Gray3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/per_night"
                 android:focusable="false"
+                android:textColor="@color/yellow"
                 android:gravity="center_vertical"
                 android:visibility="gone" />
         </LinearLayout>

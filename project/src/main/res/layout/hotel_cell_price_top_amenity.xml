@@ -15,7 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha=".7"
-            android:textColor="@color/result_cells_gray_text"
+            android:text="@string/accept"
+            android:textColor="@color/blue"
             android:textSize="12sp" />
 
         <com.expedia.bookings.widget.TextView

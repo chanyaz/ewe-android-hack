@@ -37,6 +37,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.paramsSubject.subscribe { params ->
             (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
 
+
             setMapToInitialState(params.suggestion)
             showLoading()
             show(ResultsList())

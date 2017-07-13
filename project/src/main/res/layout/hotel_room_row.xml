@@ -89,7 +89,7 @@
                         android:layout_above="@+id/price_container"
                         android:layout_gravity="right"
                         android:alpha=".7"
-                        android:textColor="@color/hotel_cell_gray_text"
+                        android:textColor="@color/red"
                         android:textSize="12sp"
                         android:visibility="gone" />
 

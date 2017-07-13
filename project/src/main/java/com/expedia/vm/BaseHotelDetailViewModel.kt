@@ -24,14 +24,11 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.HotelDetailView
-import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
@@ -136,6 +133,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
     val discountPercentageObservable = BehaviorSubject.create<Pair<String, String>>()
     val showDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
+    val showStrikeThoughObservable = BehaviorSubject.create<Boolean>(false)
     val showAirAttachSWPImageObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessLoyaltyObservable = BehaviorSubject.create<Boolean>(false)
@@ -203,8 +201,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         HotelTracking.trackHotelEtpInfo()
     }
 
-    val strikeThroughPriceVisibility = Observable.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut)
-    { strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut -> strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut }
+    val strikeThroughPriceVisibility = Observable.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut, showStrikeThoughObservable)
+    { strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut, strikeThroughPrice -> strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut && strikeThroughPrice}
 
     val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut -> onlyShowTotalPrice || hotelSoldOut }
 
@@ -514,6 +512,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
                         .put("percent", Math.abs(discountPercentage ?: 0)).format().toString()))
 
         showDiscountPercentageObservable.onNext(!offerResponse.isPackage && !isRateShopWithPoints && chargeableRateInfo?.isDiscountPercentNotZero ?: false)
+        showStrikeThoughObservable.onNext(isRateShopWithPoints)
         val isVipAccess = offerResponse.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
         hasVipAccessObservable.onNext(isVipAccess)
         hasVipAccessLoyaltyObservable.onNext(isVipAccess && offerResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)

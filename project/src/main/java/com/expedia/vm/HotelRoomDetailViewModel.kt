@@ -72,8 +72,8 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val roomSoldOut = BehaviorSubject.create<Boolean>(false)
 
-    private val chargeableRateInfo = hotelRoomResponse.rateInfo.chargeableRateInfo
-    private val hotelLoyaltyInfo: LoyaltyInformation? = chargeableRateInfo.loyaltyInfo
+    val chargeableRateInfo = hotelRoomResponse.rateInfo.chargeableRateInfo
+    val hotelLoyaltyInfo: LoyaltyInformation? = chargeableRateInfo.loyaltyInfo
     private val currencyCode = chargeableRateInfo.currencyCode
     private val isPayLater = hotelRoomResponse.isPayLater
     private val priceToShowUser = chargeableRateInfo.getDisplayMoney(false, true).formattedMoney

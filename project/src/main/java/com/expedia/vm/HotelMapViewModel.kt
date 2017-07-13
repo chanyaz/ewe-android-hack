@@ -37,6 +37,8 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     val resetCameraPosition = PublishSubject.create<Unit>()
     val selectARoomInvisibility = BehaviorSubject.create<Boolean>(false)
     var selectRoomContDescription = PublishSubject.create<String>()
+    var isShopWithPoints : Boolean = false
+    var isAirAttached : Boolean = false
 
     //Setup the data I need to behave as a View Model for my View
     val offersObserver = endlessObserver<HotelOffersResponse> { response ->
@@ -46,6 +48,8 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
         price.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, false, !response.isPackage))
         strikethroughPrice.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, true, !response.isPackage))
         hotelLatLng.onNext(doubleArrayOf(response.latitude, response.longitude))
+        isShopWithPoints = response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
+        isAirAttached = response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo?.airAttached ?: false
 
         val firstHotelRoomResponse = response.hotelRoomResponse?.firstOrNull()
         if (firstHotelRoomResponse != null) {

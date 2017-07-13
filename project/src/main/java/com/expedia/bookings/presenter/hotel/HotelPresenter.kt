@@ -360,6 +360,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         hotelDetailViewModel = HotelDetailViewModel(context)
 
+
+
         hotelDetailViewModel.roomSelectedSubject.subscribe { offer ->
             checkoutPresenter.hotelCheckoutWidget.markRoomSelected()
             if (shouldUseWebCheckout()) {
