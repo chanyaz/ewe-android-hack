@@ -92,6 +92,15 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Greedy Search - 14670" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14863"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Hotel Hide Strikethrough Price - 14863" />
     </PreferenceCategory>
 
     <PreferenceCategory

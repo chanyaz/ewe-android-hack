@@ -1,10 +1,12 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import org.junit.Rule
@@ -45,6 +47,7 @@ class HotelMapViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreSame() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
         val strikeThroughPriceVisibilitySubscriber = TestSubscriber<Boolean>()
         val selectRoomContDescriptionSubscriber = TestSubscriber<String>()
@@ -68,7 +71,7 @@ class HotelMapViewModelTest {
         val testSubscriber = TestSubscriber.create<Boolean>()
         subjectUnderTest.strikethroughPriceVisibility.subscribe(testSubscriber)
         subjectUnderTest.fromPriceVisibility.subscribe(testSubscriber)
-        testSubscriber.assertValues(false, true)
+        testSubscriber.assertValues(true)
     }
 
     @Test
@@ -94,7 +97,7 @@ class HotelMapViewModelTest {
         val testSubscriber = TestSubscriber.create<Boolean>()
         subjectUnderTest.strikethroughPriceVisibility.subscribe(testSubscriber)
         subjectUnderTest.fromPriceVisibility.subscribe(testSubscriber)
-        testSubscriber.assertValues(true, true)
+        testSubscriber.assertValues(true)
     }
 
     @Test
@@ -117,10 +120,11 @@ class HotelMapViewModelTest {
         val testSubscriber = TestSubscriber.create<Boolean>()
         subjectUnderTest.strikethroughPriceVisibility.subscribe(testSubscriber)
         subjectUnderTest.fromPriceVisibility.subscribe(testSubscriber)
-        testSubscriber.assertValues(true, true)
+        testSubscriber.assertValues(true)
     }
 
     @Test fun testViewModelOutputsForViewWhenRoomOffersAreNotAvailable() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
         givenHotelOffersResponseWhenRoomOffersAreNotAvailable()
 
         val hotelSoldOut = PublishSubject.create<Boolean>()
@@ -140,7 +144,7 @@ class HotelMapViewModelTest {
         val testSubscriber = TestSubscriber.create<Boolean>()
         subjectUnderTest.strikethroughPriceVisibility.subscribe(testSubscriber)
         subjectUnderTest.fromPriceVisibility.subscribe(testSubscriber)
-        testSubscriber.assertValues(false, false)
+        testSubscriber.assertValues(false)
     }
 
     private fun givenHotelOffersResponseWhenHotelStarRatingIsZero() {

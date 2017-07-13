@@ -24,14 +24,11 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.HotelDetailView
-import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
@@ -91,6 +88,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val amenitiesListObservable = BehaviorSubject.create<List<Amenity>>()
     val noAmenityObservable = BehaviorSubject.create<Unit>()
 
+    var isBucketForHideStrikeThroughPrice = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
     val hasETPObservable = BehaviorSubject.create<Boolean>(false)
     val hasFreeCancellationObservable = BehaviorSubject.create<Boolean>()
     val hasBestPriceGuaranteeObservable = BehaviorSubject.create<Boolean>()
@@ -136,6 +134,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
     val discountPercentageObservable = BehaviorSubject.create<Pair<String, String>>()
     val showDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
+    val shopWithPointsObservable = PublishSubject.create<Boolean>()
+    val showAirAttachedObservable = PublishSubject.create<Boolean>()
     val showAirAttachSWPImageObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessLoyaltyObservable = BehaviorSubject.create<Boolean>(false)
@@ -203,8 +203,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         HotelTracking.trackHotelEtpInfo()
     }
 
-    val strikeThroughPriceVisibility = Observable.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut)
-    { strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut -> strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut }
+    val strikeThroughPriceVisibility = Observable.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut,
+        shopWithPointsObservable, showAirAttachedObservable)
+    { strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable -> (strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut) && (shopWithPointsObservable || (!showAirAttachedObservable && !isBucketForHideStrikeThroughPrice))}
 
     val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut -> onlyShowTotalPrice || hotelSoldOut }
 
@@ -492,6 +493,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
             showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())
+            showAirAttachedObservable.onNext(rate.isShowAirAttached())
         }
 
         userRatingObservable.onNext(offerResponse.hotelGuestRating.toString())
@@ -514,6 +516,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
                         .put("percent", Math.abs(discountPercentage ?: 0)).format().toString()))
 
         showDiscountPercentageObservable.onNext(!offerResponse.isPackage && !isRateShopWithPoints && chargeableRateInfo?.isDiscountPercentNotZero ?: false)
+        shopWithPointsObservable.onNext(isRateShopWithPoints)
         val isVipAccess = offerResponse.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
         hasVipAccessObservable.onNext(isVipAccess)
         hasVipAccessLoyaltyObservable.onNext(isVipAccess && offerResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)

@@ -1,13 +1,10 @@
 package com.expedia.bookings.widget.packages
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.widget.BaseHotelListAdapter
-import com.expedia.vm.hotel.HotelViewModel
-import com.expedia.vm.packages.PackageHotelViewModel
 import rx.subjects.PublishSubject
 
 class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>) :

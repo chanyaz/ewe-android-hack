@@ -7,11 +7,14 @@ import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.widget.priceFormatter
+import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -31,12 +34,18 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     private val price = BehaviorSubject.create<CharSequence>()
     val fromPrice = BehaviorSubject.create<CharSequence>("")
     val fromPriceVisibility = fromPrice.map { it != null && !it.equals("") }
-    val strikethroughPriceVisibility = Observable.combineLatest(fromPriceVisibility, strikethroughPrice)
-                                        {fromPriceVisible, strikethroughPrice -> fromPriceVisible && strikethroughPrice.isNotEmpty()}
+    var isShopWithPoints = PublishSubject.create<Boolean>()
+    var isAirAttached = PublishSubject.create<Boolean>()
+    var isBucketForHideStrikeThough = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
+    val strikethroughPriceVisibility = Observable.combineLatest(fromPriceVisibility, strikethroughPrice, isShopWithPoints, isAirAttached)
+                                        {fromPriceVisible, strikethroughPrice, isShopWithPoints, isAirAttached ->
+                                            ((fromPriceVisible && strikethroughPrice.isNotEmpty()) && (isShopWithPoints ||
+                                                (!isAirAttached && !isBucketForHideStrikeThough)))}
     val hotelLatLng = BehaviorSubject.create<DoubleArray>()
     val resetCameraPosition = PublishSubject.create<Unit>()
     val selectARoomInvisibility = BehaviorSubject.create<Boolean>(false)
     var selectRoomContDescription = PublishSubject.create<String>()
+
 
     //Setup the data I need to behave as a View Model for my View
     val offersObserver = endlessObserver<HotelOffersResponse> { response ->
@@ -46,6 +55,8 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
         price.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, false, !response.isPackage))
         strikethroughPrice.onNext(priceFormatter(context.resources, response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo, true, !response.isPackage))
         hotelLatLng.onNext(doubleArrayOf(response.latitude, response.longitude))
+        isShopWithPoints.onNext(LoyaltyUtil.isShopWithPoints(response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo))
+        isAirAttached.onNext(response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo?.airAttached ?: false)
 
         val firstHotelRoomResponse = response.hotelRoomResponse?.firstOrNull()
         if (firstHotelRoomResponse != null) {

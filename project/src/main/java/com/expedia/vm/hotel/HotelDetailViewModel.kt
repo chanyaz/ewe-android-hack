@@ -4,10 +4,8 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils

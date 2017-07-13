@@ -14,7 +14,6 @@ import android.view.ViewTreeObserver
 import android.view.accessibility.AccessibilityNodeInfo
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout

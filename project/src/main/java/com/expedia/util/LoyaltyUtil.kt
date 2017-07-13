@@ -2,6 +2,8 @@ package com.expedia.util
 
 import android.content.Context
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
@@ -28,5 +30,7 @@ class LoyaltyUtil {
             }
             return hotelEarnInfo?.getEarnMessage(context) ?: ""
         }
+
+        fun isShopWithPoints(hotelRate: HotelRate?) = hotelRate?.loyaltyInfo?.isBurnApplied ?: false
     }
 }

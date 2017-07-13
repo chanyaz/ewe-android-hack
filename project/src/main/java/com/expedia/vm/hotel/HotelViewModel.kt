@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
@@ -111,9 +112,15 @@ open class HotelViewModel(private val context: Context) {
 
         if (hotel.isPackage) {
             val showPackageTripSavings = hotel.packageOfferModel?.price?.showTripSavings ?: false
+
             return showPackageTripSavings
-        } else {
+        } else if (LoyaltyUtil.isShopWithPoints(hotel.lowRateInfo)) {
+            return true
+        } else if (!hotel.lowRateInfo.airAttached &&
+            !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
             return priceToShowUsers < strikeThroughPriceToShowUsers
+        } else {
+            return false
         }
     }
 
