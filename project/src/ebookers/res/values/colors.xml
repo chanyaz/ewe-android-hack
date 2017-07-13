@@ -96,6 +96,9 @@
     <color name="itin_warning_color">#B80000</color>
     <color name="itin_find_button_color">#003366</color>
     <color name="itin_find_toolbar_color">#0099cc</color>
+    <color name="itin_summary_button_text_color">@color/app_primary</color>
+    <color name="itin_card_action_item_text_color">@color/app_primary</color>
+    <color name="itin_flight_line_color">#31b4e0</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#0099CC</color>

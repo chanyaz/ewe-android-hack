@@ -21,7 +21,7 @@
     <color name="action_bar_text_color">#00B1FF</color>
     <color name="bg_btn_color_orbitz">#7bae00</color>
     <color name="bg_btn_pressed_color_orbitz">#295600</color>
-    <color name="itin_flight_line_color_orbitz">#7da426</color>
+    <color name="itin_flight_line_color">#0065A2</color>
     <color name="login_text_flight">#FFFFFF</color>
     <color name="coupon_success_message_color_orbitz">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
@@ -165,5 +165,7 @@
     <color name="itin_find_button_color">@color/app_primary</color>
     <color name="itin_find_toolbar_color">@color/action_bar_bg_color</color>
     <color name="itin_unable_to_find_error_color">#B80000</color>
+    <color name="itin_summary_button_text_color">@color/app_primary</color>
+    <color name="itin_card_action_item_text_color">@color/app_primary</color>
 
 </resources>

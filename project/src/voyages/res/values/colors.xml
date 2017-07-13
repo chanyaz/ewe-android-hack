@@ -111,4 +111,8 @@
     <color name="itin_find_button_color">#0088ce</color>
     <color name="itin_find_toolbar_color">#495863</color>
     <color name="itin_unable_to_find_error_color">#B80000</color>
+    <color name="itin_summary_button_text_color">@color/app_primary</color>
+    <color name="itin_card_action_item_text_color">@color/app_primary</color>
+    <color name="itin_flight_line_color">#92d11d</color>
+
 </resources>

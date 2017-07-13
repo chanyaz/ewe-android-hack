@@ -48,7 +48,7 @@
     </style>
 
     <style name="ItineraryCardActionItemTextView.Blue">
-        <item name="android:textColor">@color/exp_launch_blue</item>
+        <item name="android:textColor">@color/itin_card_action_item_text_color</item>
     </style>
 
 </resources>

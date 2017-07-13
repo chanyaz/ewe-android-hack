@@ -11,7 +11,7 @@
     <color name="actionbar_menu_text_color">@color/aag_secondary_color</color>
     <color name="action_bar_bg_color">#E21E25</color>
     <color name="flight_trip_color_aag">#F8A424</color>
-    <color name="itin_flight_line_color">@color/flight_trip_color_aag</color>
+    <color name="itin_flight_line_color">#e93b2c</color>
     <color name="flight_trip">@color/flight_trip_color_aag</color>
     <color name="flight_trip_price_aag">#E21E25</color>
     <color name="action_bar_selected_tab_underline_color">#E21E25</color>
@@ -121,4 +121,6 @@
     <color name="itin_find_button_color">#f18700</color>
     <color name="itin_find_toolbar_color">#495863</color>
     <color name="itin_unable_to_find_error_color">#B80000</color>
+    <color name="itin_summary_button_text_color">@color/app_primary</color>
+    <color name="itin_card_action_item_text_color">@color/app_primary</color>
 </resources>

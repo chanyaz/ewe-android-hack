@@ -70,7 +70,7 @@
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
+        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
@@ -97,7 +97,7 @@
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
+        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
