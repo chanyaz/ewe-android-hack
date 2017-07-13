@@ -102,8 +102,9 @@
                         android:linksClickable="true"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
-                        android:textColor="@color/defaultTextColor"
-                        android:textSize="10sp" />
+                        android:textColor="@color/gray7"
+                        android:textSize="10sp"
+                        android:textColorLink="@color/blue2" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/disclaimer_text"
