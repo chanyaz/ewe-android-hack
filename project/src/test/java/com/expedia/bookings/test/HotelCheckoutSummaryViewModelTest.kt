@@ -56,6 +56,11 @@ class HotelCheckoutSummaryViewModelTest {
         val testTextSubscriber = TestSubscriber<String>()
         sut.freeCancellationText.subscribe(testTextSubscriber)
 
+
+        val testNewDataSubscriber = TestSubscriber<Unit>()
+        sut.newDataObservable.subscribe(testNewDataSubscriber)
+
+
         paymentModel.createTripSubject.onNext(createTripResponse)
         val hotelRoomResponse = hotelProductResponse.hotelRoomResponse
         val rate = hotelRoomResponse.rateInfo.chargeableRateInfo
@@ -87,7 +92,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertFalse(sut.showFeesPaidAtHotel.value)
         assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
         assertTrue(sut.isBestPriceGuarantee.value)
-        assertEquals(sut, sut.newDataObservable.value)
+        assertEquals(testNewDataSubscriber.onNextEvents.size , 1)
         assertEquals("Free Cancellation", testTextSubscriber.onNextEvents[0])
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)
         assertEquals(hotelRoomResponse.valueAdds, sut.valueAddsListObservable.value)

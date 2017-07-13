@@ -3,7 +3,6 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -17,6 +16,7 @@ import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
@@ -25,7 +25,7 @@ import java.text.NumberFormat
 
 class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
     // output
-    val newDataObservable = BehaviorSubject.create<HotelCheckoutSummaryViewModel>()
+    val newDataObservable = BehaviorSubject.create<Unit>()
     val hotelName = BehaviorSubject.create<String>()
     val checkInDate = BehaviorSubject.create<String>()
     val checkInOutDatesFormatted = BehaviorSubject.create<String>()
@@ -65,52 +65,21 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val isShoppingWithPoints = BehaviorSubject.create<Boolean>()
     val costSummaryContentDescription = BehaviorSubject.create<String>()
     val amountDueTodayLabelObservable = BehaviorSubject.create<String>()
+    val createTripConsumed = BehaviorSubject.create<Unit>()
+    val newPriceSetObservable = BehaviorSubject.create<Unit>()
 
     init {
-        paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.map {
-            object {
-                val country = it.tripResponse.newHotelProductResponse.hotelCountry
-                val originalRoomResponse = it.tripResponse.originalHotelProductResponse.hotelRoomResponse
-                val newHotelProductResponse = it.tripResponse.newHotelProductResponse
-                val isExpediaRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
-                val payingWithPoints = it.paymentSplits.payingWithPoints
-                val payingWithCard = it.paymentSplits.payingWithCards
-                val paymentSplitsType = it.paymentSplits.paymentSplitsType()
-                val tripTotalPayableIncludingFee = it.tripTotalPayableIncludingFee
-            }
-        }.subscribe {
-            // detect price change between old and new offers
-            val hasPriceChange = it.originalRoomResponse != null
-            isPriceChange.onNext(hasPriceChange)
 
-            if (hasPriceChange) {
-                // potential price change
-                val currencyCode = it.originalRoomResponse.rateInfo.chargeableRateInfo.currencyCode
-                val originalPrice = it.originalRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
-                val newPrice = it.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
-                val priceChange = (originalPrice - newPrice)
+        //TO-DO remove these observables when rewriting HotelBreakDownViewModel to be more reactive
+        Observable.combineLatest(newPriceSetObservable, createTripConsumed, { _, _ ->
+            newDataObservable.onNext(Unit)
+        }).subscribe()
 
-                if (newPrice > originalPrice) {
-                    priceChangeIconResourceId.onNext(R.drawable.warning_triangle_icon)
-                    priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
-                } else if (newPrice < originalPrice) {
-                    priceChangeMessage.onNext(context.getString(R.string.price_dropped_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
-                    priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
-                } else {
-                    // API could return price change error with no difference in price (see: hotel_price_change_checkout.json)
-                    priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
-                    priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
-                }
+        paymentModel.createTripSubject.subscribe { it ->
 
-                HotelTracking.trackPriceChange(priceChange.toString())
-            }
             val room = it.newHotelProductResponse.hotelRoomResponse
             val rate = room.rateInfo.chargeableRateInfo
 
-            isPayLater.onNext(room.isPayLater)
-            isResortCase.onNext(rate.totalMandatoryFees != 0f && Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
-            isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
-            isDepositV2.onNext(room.depositRequired)
             priceAdjustments.onNext(rate.getPriceAdjustments())
             hotelName.onNext(it.newHotelProductResponse.getHotelName())
             checkInDate.onNext(it.newHotelProductResponse.checkInDate)
@@ -139,9 +108,59 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             taxStatusType.onNext(rate.taxStatusType)
             extraGuestFees.onNext(rate.extraGuestFees)
 
-            showFeesPaidAtHotel.onNext(isResortCase.value)
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee() && room.isMerchant)
+
+            roomHeaderImage.onNext(it.newHotelProductResponse.largeThumbnailUrl)
+            createTripConsumed.onNext(Unit)
+        }
+
+        paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.map {
+            object {
+                val originalRoomResponse = it.tripResponse.originalHotelProductResponse.hotelRoomResponse
+                val newHotelProductResponse = it.tripResponse.newHotelProductResponse
+                val room = newHotelProductResponse.hotelRoomResponse
+                val rate = newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
+                val isExpediaRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
+                val payingWithPoints = it.paymentSplits.payingWithPoints
+                val payingWithCard = it.paymentSplits.payingWithCards
+                val paymentSplitsType = it.paymentSplits.paymentSplitsType()
+                val tripTotalPayableIncludingFee = it.tripTotalPayableIncludingFee
+            }
+        }.subscribe {
+
+            val hasPriceChange = it.originalRoomResponse != null
+            isPriceChange.onNext(hasPriceChange)
+
+            if (hasPriceChange) {
+                // potential price change
+                val currencyCode = it.originalRoomResponse.rateInfo.chargeableRateInfo.currencyCode
+                val originalPrice = it.originalRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
+                val newPrice = it.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
+                val priceChange = (originalPrice - newPrice)
+
+                if (newPrice > originalPrice) {
+                    priceChangeIconResourceId.onNext(R.drawable.warning_triangle_icon)
+                    priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
+                } else if (newPrice < originalPrice) {
+                    priceChangeMessage.onNext(context.getString(R.string.price_dropped_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
+                    priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
+                } else {
+                    // API could return price change error with no difference in price (see: hotel_price_change_checkout.json)
+                    priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
+                    priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
+                }
+
+                HotelTracking.trackPriceChange(priceChange.toString())
+            }
+
+            //TODO remove dependency on .value(BehaviorSubjects here)
+            isPayLater.onNext(it.room.isPayLater)
+            isResortCase.onNext(it.rate.totalMandatoryFees != 0f && Strings.equals(it.rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
+            isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
+            isDepositV2.onNext(it.room.depositRequired)
+            showFeesPaidAtHotel.onNext(isResortCase.value)
+
             if (it.isExpediaRewardsRedeemable && !it.paymentSplitsType.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)) {
                 dueNowAmount.onNext(it.payingWithCard.amount.formattedMoneyFromAmountAndCurrencyCode)
                 burnPointsShownOnHotelCostBreakdown.onNext(Phrase.from(context, R.string.hotel_cost_breakdown_burn_points_TEMPLATE)
@@ -150,14 +169,10 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                 tripTotalPrice.onNext(it.tripTotalPayableIncludingFee.formattedMoneyFromAmountAndCurrencyCode)
                 isShoppingWithPoints.onNext(true)
             } else {
-                tripTotalPrice.onNext(rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+                tripTotalPrice.onNext(it.rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
                 dueNowAmount.onNext(it.newHotelProductResponse.dueNowAmount.formattedMoney)
                 isShoppingWithPoints.onNext(false)
             }
-
-            newDataObservable.onNext(this)
-            roomHeaderImage.onNext(it.newHotelProductResponse.largeThumbnailUrl)
-
             var amountDueTodayText: String
             var accessibilityCostSummaryContentDescription = StringBuilder()
             accessibilityCostSummaryContentDescription.append(context.getString(R.string.total_with_tax)).append(" ").append(tripTotalPrice.value).append(" ")
@@ -177,8 +192,9 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
 
             amountDueTodayLabelObservable.onNext(amountDueTodayText)
             costSummaryContentDescription.onNext(accessibilityCostSummaryContentDescription.toString())
-
+            newPriceSetObservable.onNext(Unit)
         }
+
         guestCountObserver.subscribe {
             numGuests.onNext(StrUtils.formatGuestString(context, it))
         }
