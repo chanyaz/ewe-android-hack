@@ -60,7 +60,6 @@
     <dimen name="login_button_width">328dp</dimen>
     <dimen name="login_button_text_size">16sp</dimen>
     <dimen name="login_header_text_size">25sp</dimen>
-    <dimen name="login_divider_height">3dp</dimen>
 
     <!-- Account / Login button -->
     <dimen name="account_button_text_padding">16dp</dimen>
