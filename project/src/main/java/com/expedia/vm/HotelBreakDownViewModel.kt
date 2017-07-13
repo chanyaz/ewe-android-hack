@@ -15,16 +15,17 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
     val dtf = DateTimeFormat.forPattern("M/dd/yyyy")
 
     init {
+        //TO-DO rewrite to stop relying on values of behaviorSubjects in this view model throughout
         hotelCheckoutSummaryViewModel.newDataObservable.subscribe {
             var breakdowns = arrayListOf<Breakdown>()
-            val nightlyRate = Money(BigDecimal(it.nightlyRateTotal.value), it.currencyCode.value)
-            breakdowns.add(Breakdown(it.numNights.value, nightlyRate.formattedMoney, BreakdownItem.OTHER))
+            val nightlyRate = Money(BigDecimal(hotelCheckoutSummaryViewModel.nightlyRateTotal.value), hotelCheckoutSummaryViewModel.currencyCode.value)
+            breakdowns.add(Breakdown(hotelCheckoutSummaryViewModel.numNights.value, nightlyRate.formattedMoney, BreakdownItem.OTHER))
 
             var count = 0;
-            val checkIn = DateUtils.yyyyMMddToLocalDate(it.checkInDate.value)
-            for (rate in it.nightlyRatesPerRoom.value) {
+            val checkIn = DateUtils.yyyyMMddToLocalDate(hotelCheckoutSummaryViewModel.checkInDate.value)
+            for (rate in hotelCheckoutSummaryViewModel.nightlyRatesPerRoom.value) {
                 val date = dtf.print(checkIn.plusDays(count))
-                val amount = Money(BigDecimal(rate.rate), it.currencyCode.value)
+                val amount = Money(BigDecimal(rate.rate), hotelCheckoutSummaryViewModel.currencyCode.value)
                 val amountStr = if ((amount.isZero))
                     context.getString(R.string.free)
                 else
@@ -35,8 +36,8 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
             }
 
             // Taxes & Fees
-            val surchargeTotal = it.surchargeTotalForEntireStay.value
-            val taxStatusType = it.taxStatusType.value
+            val surchargeTotal = hotelCheckoutSummaryViewModel.surchargeTotalForEntireStay.value
+            val taxStatusType = hotelCheckoutSummaryViewModel.taxStatusType.value
             if (taxStatusType != null && taxStatusType.equals("UNKNOWN")) {
                 breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), context.getString(R.string.unknown), BreakdownItem.OTHER))
             } else if (!surchargeTotal.isZero) {
@@ -46,45 +47,45 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
             }
 
             // property service fee
-            val propertyServiceCharge = it.propertyServiceSurcharge.value
+            val propertyServiceCharge = hotelCheckoutSummaryViewModel.propertyServiceSurcharge.value
             if (propertyServiceCharge != null) {
                 breakdowns.add(Breakdown(context.resources.getString(R.string.property_fee), propertyServiceCharge.formattedMoney, BreakdownItem.OTHER))
             }
 
             // Extra guest fees
-            val extraGuestFees = it.extraGuestFees.value
+            val extraGuestFees = hotelCheckoutSummaryViewModel.extraGuestFees.value
             if (extraGuestFees != null && !extraGuestFees.isZero) {
                 breakdowns.add(Breakdown(context.getString(R.string.extra_guest_charge), extraGuestFees.formattedMoney, BreakdownItem.OTHER))
             }
 
             // Discount
-            val couponRate = it.priceAdjustments.value
+            val couponRate = hotelCheckoutSummaryViewModel.priceAdjustments.value
             if (couponRate != null && !couponRate.isZero) {
                 breakdowns.add(Breakdown(context.getString(R.string.discount), couponRate.formattedMoney, BreakdownItem.DISCOUNT))
             }
 
             //When user is paying with Expedia+ points
-            if (it.isShoppingWithPoints.value) {
-                breakdowns.add(Breakdown(it.burnPointsShownOnHotelCostBreakdown.value,
-                        it.burnAmountShownOnHotelCostBreakdown.value, BreakdownItem.DISCOUNT))
+            if (hotelCheckoutSummaryViewModel.isShoppingWithPoints.value) {
+                breakdowns.add(Breakdown(hotelCheckoutSummaryViewModel.burnPointsShownOnHotelCostBreakdown.value,
+                        hotelCheckoutSummaryViewModel.burnAmountShownOnHotelCostBreakdown.value, BreakdownItem.DISCOUNT))
             }
 
-            if (it.showFeesPaidAtHotel.value) {
-                breakdowns.add(Breakdown(context.getString(R.string.fees_paid_at_hotel), it.feesPaidAtHotel.value, BreakdownItem.OTHER))
+            if (hotelCheckoutSummaryViewModel.showFeesPaidAtHotel.value) {
+                breakdowns.add(Breakdown(context.getString(R.string.fees_paid_at_hotel), hotelCheckoutSummaryViewModel.feesPaidAtHotel.value, BreakdownItem.OTHER))
             }
 
             // Total
-            breakdowns.add(Breakdown(context.getString(R.string.total_price_label), it.tripTotalPrice.value, BreakdownItem.TRIPTOTAL))
+            breakdowns.add(Breakdown(context.getString(R.string.total_price_label), hotelCheckoutSummaryViewModel.tripTotalPrice.value, BreakdownItem.TRIPTOTAL))
 
             // Show amount to be paid today in resort or ETP cases
-            if (it.isResortCase.value || it.isPayLater.value) {
+            if (hotelCheckoutSummaryViewModel.isResortCase.value || hotelCheckoutSummaryViewModel.isPayLater.value) {
                 var dueTodayText: String
-                if (it.isDepositV2.value) {
+                if (hotelCheckoutSummaryViewModel.isDepositV2.value) {
                     dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
                 } else {
                     dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
                 }
-                breakdowns.add(Breakdown(dueTodayText, it.dueNowAmount.value, BreakdownItem.OTHER))
+                breakdowns.add(Breakdown(dueTodayText, hotelCheckoutSummaryViewModel.dueNowAmount.value, BreakdownItem.OTHER))
             }
             addRows.onNext(breakdowns)
         }
