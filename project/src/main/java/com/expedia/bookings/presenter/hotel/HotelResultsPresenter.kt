@@ -62,6 +62,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     private var narrowFilterPromptSubscription: Subscription? = null
+    private var swpEnabled = false
 
     val searchMenu: MenuItem by lazy {
         val searchMenu = toolbar.menu.findItem(R.id.menu_open_search)
@@ -317,7 +318,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun trackSearchMap() {
-        HotelTracking.trackHotelSearchMap()
+        HotelTracking.trackHotelSearchMap(swpEnabled)
     }
 
     override fun trackMapToList() {
@@ -378,6 +379,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         if (params.filterOptions != null) {
             filterView.viewModel.newSearchOptionsObservable.onNext(params.filterOptions)
         }
+
+        swpEnabled = params.shopWithPoints
     }
 
     private class UrgencyAnimation(urgencyContainer: LinearLayout, toolbarShadow: View) {

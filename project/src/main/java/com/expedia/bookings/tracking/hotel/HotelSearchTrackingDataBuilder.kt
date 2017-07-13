@@ -46,6 +46,8 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
         } else {
             trackingData.duration = 0
         }
+
+        trackingData.swpEnabled = searchParams.shopWithPoints
     }
 
     private fun populateSearchResponseFields(searchResponse: com.expedia.bookings.data.hotels.HotelSearchResponse) {

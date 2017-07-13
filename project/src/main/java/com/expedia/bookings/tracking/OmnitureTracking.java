@@ -289,7 +289,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelAutoSuggestSameAsWeb);
 		// Send the tracking data
 		s.track();
-
 	}
 
 	public static void trackHotelSuggestionBehavior(SuggestionTrackingData trackingData) {
@@ -469,7 +468,12 @@ public class OmnitureTracking {
 			s.setEvar(28, sponsoredListingPresent);
 			s.setProp(16, sponsoredListingPresent);
 		}
-		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), "event12,event51");
+
+		String events = "event12,event51";
+		if (searchTrackingData.getSwpEnabled()) {
+			events += ",event118";
+		}
+		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), events);
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHideSearch);
@@ -610,7 +614,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Search Results Sort", null, null);
 	}
 
-	public static void trackHotelV2SearchMap() {
+	public static void trackHotelV2SearchMap(boolean swpEnabled) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP + "\" pageLoad...");
 
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -622,9 +626,12 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 
+		if (swpEnabled) {
+			s.setEvents("event118");
+		}
+
 		// Send the tracking data
 		s.track();
-
 	}
 
 	public static void trackHotelV2MapToList() {
@@ -677,7 +684,7 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelV2Infosite(HotelOffersResponse hotelOffersResponse, boolean isETPEligible,
 		boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut,
-		PageUsableData pageLoadTimeData) {
+		PageUsableData pageLoadTimeData, boolean swpEnabled) {
 
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
 
@@ -694,20 +701,21 @@ public class OmnitureTracking {
 		String drrString = internalGenerateHotelV2DRRString(hotelOffersResponse);
 		s.setEvar(9, drrString);
 
+		String events = "event3";
 		if (isHotelSoldOut) {
-			s.setEvents("event3,event14");
-		}
-		else if (isRoomSoldOut && isETPEligible) {
-			s.setEvents("event3,event5,event18");
-		}
-		else if (isRoomSoldOut) {
-			s.setEvents("event3,event18");
-		}
-		else if (isETPEligible) {
-			s.setEvents("event3,event5");
+			events += ",event14";
 		}
 		else {
-			s.setEvents("event3");
+			if (isETPEligible) {
+				events += ",event5";
+			}
+			if (isRoomSoldOut) {
+				events += ",event18";
+			}
+		}
+
+		if (swpEnabled) {
+			events += ",event118";
 		}
 
 		s.setEvar(2, "D=c2");
@@ -731,11 +739,11 @@ public class OmnitureTracking {
 				products += ";;;;eVar66=Flight:Hotel Infosite X-Sell";
 				s.setProducts(products);
 
-				String event = s.getEvents();
-				event += ",event57";
-				s.setEvents(event);
+				events += ",event57";
 			}
 		}
+
+		s.setEvents(events);
 
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 

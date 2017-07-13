@@ -30,6 +30,8 @@ class HotelSearchTrackingData : AbstractSearchTrackingData(){
     var lowestHotelTotalPrice: String? = null
     var hotels: List<Hotel> = emptyList()
 
+    var swpEnabled = false
+
     fun hasResponse() : Boolean {
         return resultsReturned
     }

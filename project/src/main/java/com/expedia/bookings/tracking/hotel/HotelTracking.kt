@@ -145,8 +145,9 @@ open class HotelTracking {
         fun trackPageLoadHotelInfosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams,
                                        isETPEligible: Boolean, isCurrentLocationSearch: Boolean,
                                        isHotelSoldOut: Boolean, isRoomSoldOut: Boolean,
-                                       pageLoadTime: PageUsableData) {
-            OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut, pageLoadTime)
+                                       pageLoadTime: PageUsableData,
+                                       swpEnabled: Boolean) {
+            OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut, pageLoadTime, swpEnabled)
             TuneUtils.trackHotelV2InfoSite(hotelOffersResponse)
             FacebookEvents().trackHotelV2InfoSite(searchParams, hotelOffersResponse)
         }
@@ -208,7 +209,7 @@ open class HotelTracking {
         }
 
         fun trackHotelSearch(trackingParams: HotelSearchTrackingData) {
-            OmnitureTracking.trackHotelsV2Search(trackingParams);
+            OmnitureTracking.trackHotelsV2Search(trackingParams)
             FacebookEvents().trackHotelV2Search(trackingParams)
             TuneUtils.trackHotelV2SearchResults(trackingParams)
         }
@@ -225,8 +226,8 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2Filter()
         }
 
-        fun trackHotelSearchMap() {
-            OmnitureTracking.trackHotelV2SearchMap()
+        fun trackHotelSearchMap(swpEnabled: Boolean) {
+            OmnitureTracking.trackHotelV2SearchMap(swpEnabled)
         }
 
         fun trackHotelMapToList() {

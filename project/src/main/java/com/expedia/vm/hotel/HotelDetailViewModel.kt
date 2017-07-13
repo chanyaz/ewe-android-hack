@@ -17,6 +17,8 @@ import com.squareup.phrase.Phrase
 import java.math.BigDecimal
 
 open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(context) {
+    private var swpEnabled = false
+
     init {
         paramsSubject.subscribe { params ->
             searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
@@ -26,6 +28,7 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
                     .toString())
 
             isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
+            swpEnabled = params.shopWithPoints
         }
     }
 
@@ -54,7 +57,8 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
     }
 
     override fun trackHotelDetailLoad(isRoomSoldOut: Boolean) {
-        HotelTracking.trackPageLoadHotelInfosite(hotelOffersResponse, paramsSubject.value, hasEtpOffer(hotelOffersResponse), isCurrentLocationSearch, hotelSoldOut.value, isRoomSoldOut, loadTimeData)
+        HotelTracking.trackPageLoadHotelInfosite(hotelOffersResponse, paramsSubject.value, hasEtpOffer(hotelOffersResponse),
+                isCurrentLocationSearch, hotelSoldOut.value, isRoomSoldOut, loadTimeData, swpEnabled)
     }
 
     override fun getLOB(): LineOfBusiness {
