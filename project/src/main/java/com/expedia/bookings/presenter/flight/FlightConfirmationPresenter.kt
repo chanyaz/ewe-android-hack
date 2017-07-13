@@ -19,6 +19,7 @@ import com.expedia.bookings.widget.HotelCrossSellView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.ConfirmationToolbar
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
@@ -46,7 +47,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     var toolbar: ConfirmationToolbar ?= null
 
     var viewModel: FlightConfirmationViewModel by notNullAndObservable { vm ->
-        vm.itinNumberMessageObservable.subscribeText(itinNumber)
+        vm.itinNumContentDescriptionObservable.subscribeContentDescription(itinNumber)
         vm.destinationObservable.subscribeText(destination)
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
         vm.inboundCardVisibility.subscribeVisibility(inboundFlightCard)

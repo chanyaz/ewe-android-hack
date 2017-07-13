@@ -866,6 +866,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_card_flight_checkin_title,
 		R.string.itin_card_flight_checkin_details,
 		R.layout.checkmark_row,
+		R.string.confirmation_number_TEMPLATE,
 		R.string.itin_card_rail_summary_TEMPLATE,
 		R.string.stay_summary_TEMPLATE,
 		R.string.payment_and_ticket_delivery_fees_may_also_apply,

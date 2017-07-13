@@ -22,6 +22,7 @@ class FlightConfirmationViewModel(val context: Context) {
     val itinNumberMessageObservable = BehaviorSubject.create<String>()
     val rewardPointsObservable = BehaviorSubject.create<String>()
     val destinationObservable = BehaviorSubject.create<String>()
+    val itinNumContentDescriptionObservable = BehaviorSubject.create<String>()
     val inboundCardVisibility = BehaviorSubject.create<Boolean>()
     val crossSellWidgetVisibility = BehaviorSubject.create<Boolean>()
     val tripTotalPriceSubject = PublishSubject.create<String>()
@@ -43,6 +44,10 @@ class FlightConfirmationViewModel(val context: Context) {
                     .put("email", email)
                     .format().toString()
             itinNumberMessageObservable.onNext(itinNumberMessage)
+            val itinContentDescription = Phrase.from(context, R.string.confirmation_number_TEMPLATE)
+                    .put("number", itinNumber)
+                    .format().toString()
+            itinNumContentDescriptionObservable.onNext(itinContentDescription)
             if (!userStateManager.isUserAuthenticated()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }

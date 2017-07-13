@@ -200,6 +200,14 @@ class FlightConfirmationPresenterTest {
         assertEquals("3 Travelers", presenter.flightSummary?.numberOfTravelers?.text)
     }
 
+    @Test
+    fun testItinNumberContentDescription() {
+        setupPresenter(isNewConfirmationEnabled = true)
+        givenCheckoutResponse()
+        var itinNumber = presenter.itinNumber
+        assertEquals("Confirmation Number: 12345", itinNumber.contentDescription)
+    }
+
     private fun setupPresenter(isNewConfirmationEnabled: Boolean) {
         SettingUtils.save(activity.applicationContext, R.string.preference_enable_additional_content_flight_confirmation, isNewConfirmationEnabled)
         presenter = LayoutInflater.from(activity).inflate(R.layout.flight_confirmation_stub, null) as FlightConfirmationPresenter
