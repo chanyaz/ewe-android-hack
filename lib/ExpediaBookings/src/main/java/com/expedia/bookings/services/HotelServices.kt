@@ -199,8 +199,6 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
             }
         }
 
-        response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
-
         response.hotelList.map { it.isSoldOut = !it.isHotelAvailable }
 
         response.setHasLoyaltyInformation()
@@ -219,15 +217,6 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
     }
 
     companion object {
-        fun putSponsoredItemsInCorrectPlaces(hotelList: List<Hotel>): List<Hotel> {
-            val (sponsored, nonSponsored) = hotelList.partition { it.isSponsoredListing }
-            val firstChunk = sponsored.take(1)
-            val secondChunk = nonSponsored.take(49)
-            val thirdChunk = sponsored.drop(1)
-            val rest = nonSponsored.drop(49)
-            return firstChunk + secondChunk + thirdChunk + rest
-        }
-
         private fun updatePayLaterRateInfo(hotelCreateTripResponse: HotelCreateTripResponse) {
             val payLater = hotelCreateTripResponse.newHotelProductResponse?.hotelRoomResponse
             if (payLater != null && payLater.isPayLater && payLater.depositPolicy != null && !payLater.depositPolicy.isEmpty()) {

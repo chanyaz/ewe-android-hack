@@ -36,7 +36,7 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
                 DisplaySort.PACKAGE_DISCOUNT -> Collections.sort(hotels, package_discount_comparator)
                 DisplaySort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
             }
-            setFilteredHotelListAndRetainLoyaltyInformation(HotelServices.putSponsoredItemsInCorrectPlaces(hotels))
+            setFilteredHotelListAndRetainLoyaltyInformation(hotels)
 
             val sortByString: String = Strings.capitalizeFirstLetter(sort.toString())
             trackHotelSortBy(sortByString)

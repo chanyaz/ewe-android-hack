@@ -414,33 +414,6 @@ public class HotelServicesTest {
 		assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
 	}
 
-	@Test
-	public void testSponsoredOrderingWhenHotelCountIsMoreThan50AndHasSponsoredItems() throws Throwable {
-		testSponsoredOrdering(createDummyList(100, true), true);
-	}
-
-	@Test
-	public void testSponsoredOrderingWhenHotelCountIsLessThan50AndHasSponsoredItems() throws Throwable {
-		testSponsoredOrdering(createDummyList(20, true), true);
-	}
-
-	@Test
-	public void testSponsoredOrderingWhenNoSponsoredItems() throws Throwable {
-		testSponsoredOrdering(createDummyList(100, false), false);
-	}
-
-	private void testSponsoredOrdering(List<Hotel> hotelList, boolean haveSponsoredItems) throws Throwable {
-		List<Hotel> updatedHotelList = HotelServices.Companion.putSponsoredItemsInCorrectPlaces(hotelList);
-		for (int index = 0; index < updatedHotelList.size(); index++) {
-			if (haveSponsoredItems && (index == 0 || index == 50 || index == 51)) {
-				assertTrue(isHotelSponsored(updatedHotelList.get(index)));
-			}
-			else {
-				assertTrue(!isHotelSponsored(updatedHotelList.get(index)));
-			}
-		}
-	}
-
 	private List<Hotel> createDummyList(int hotelCount, boolean keepSponsoredItems) {
 		List<Hotel> hotelList = new ArrayList<>();
 		for (int index = 0; index < hotelCount; index++) {
