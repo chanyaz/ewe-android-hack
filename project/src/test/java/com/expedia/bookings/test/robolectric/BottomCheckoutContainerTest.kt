@@ -3,8 +3,6 @@ package com.expedia.bookings.test.robolectric
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BottomCheckoutContainer
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
