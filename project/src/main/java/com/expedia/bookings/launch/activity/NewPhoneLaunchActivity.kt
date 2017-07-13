@@ -51,6 +51,7 @@ import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.updateVisibility
+import com.expedia.util.SatelliteViewModel
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -96,7 +97,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     val viewPager: DisableableViewPager by lazy {
         findViewById(R.id.viewpager) as DisableableViewPager
     }
-    val toolbar: NewPhoneLaunchToolbar by  lazy {
+    val toolbar: NewPhoneLaunchToolbar by lazy {
         findViewById(R.id.launch_toolbar) as NewPhoneLaunchToolbar
     }
 
@@ -115,6 +116,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).appComponent().inject(this)
+        Ui.getApplication(this).launchComponent()
         Ui.getApplication(this).defaultLaunchComponents()
         setContentView(R.layout.activity_phone_new_launch)
         viewPager.offscreenPageLimit = 2
@@ -153,6 +155,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
+
+        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_satellite_config)) {
+            SatelliteViewModel().fetchFeatureConfig()
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -201,21 +207,18 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             if (resultCode == RESULT_OK && data != null) {
                 showFlightItinCheckinDialog(data)
             }
-        }
-        else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
+        } else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
             if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
                 val tripId = data.getStringExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
             }
-        }
-        else if (requestCode == Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE) {
+        } else if (requestCode == Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE) {
             if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
                 val tripId = data.getStringExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID)
                 itinListFragment?.showDeepRefreshLoadingView(true)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
             }
-        }
-        else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
+        } else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val tripId = data.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)

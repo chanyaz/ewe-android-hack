@@ -16,9 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
