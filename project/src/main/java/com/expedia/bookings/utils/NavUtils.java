@@ -229,6 +229,7 @@ public class NavUtils {
 	public static void goToActivities(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(context, intent, animOptions);
 	}
 
@@ -236,6 +237,7 @@ public class NavUtils {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
 		intent.putExtra(LXBaseActivity.EXTRA_IS_GROUND_TRANSPORT, true);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(context, intent, animOptions);
 	}
 
@@ -245,6 +247,7 @@ public class NavUtils {
 		if (data != null) {
 			intent.putExtras(data);
 		}
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(context, intent, animOptions);
 	}
 
@@ -254,6 +257,7 @@ public class NavUtils {
 		if (data != null) {
 			intent.putExtras(data);
 		}
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivityForResult(context, intent, animOptions, requestCode);
 	}
 
@@ -275,6 +279,7 @@ public class NavUtils {
 		}
 		else {
 			Intent intent = new Intent(context, RailActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(context, intent, animOptions);
 		}
 	}

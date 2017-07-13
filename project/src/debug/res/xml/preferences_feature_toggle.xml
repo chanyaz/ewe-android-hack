@@ -10,6 +10,12 @@
             android:layout="@layout/preference"
             android:summary="Enable new launch screen navigation."
             android:title="Enable New Launch Screen Navigation" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_satellite_config"
+            android:layout="@layout/preference"
+            android:summary="Enable satellite remote feature config."
+            android:title="Enable satellite" />
     </PreferenceCategory>
 
     <PreferenceCategory

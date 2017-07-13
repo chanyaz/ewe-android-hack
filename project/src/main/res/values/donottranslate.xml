@@ -129,6 +129,7 @@
     <string name="preference_fare_family_flight_summary">preference_fare_family_flight_summary</string>
     <string name="preference_enable_expandable_hotel_itin_room_details">preference_enable_expandable_hotel_itin_room_details</string>
     <string name="preference_enable_flights_frequent_flyer_number">preference_enable_flights_frequent_flyer_number</string>
+    <string name="preference_satellite_config">preference_satellite_config</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
