@@ -34,7 +34,7 @@ public class PackageOfferModel {
 			brandedDealData.dealVariation = packageDeal.getDeal().getSticker();
 			brandedDealData.savingsAmount = "" + packageDeal.getSavingsAmount();
 			brandedDealData.savingPercentageOverPackagePrice = "" + packageDeal.getSavingsPercentage();
-			brandedDealData.freeNights = "" + packageDeal.getDeal().getMagnitude();
+			brandedDealData.freeNights = packageDeal.getDeal().getMagnitude();
 		}
 	}
 

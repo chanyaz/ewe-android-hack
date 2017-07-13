@@ -18,6 +18,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val carApiRequestDispatcher = CarApiRequestDispatcher(fileOpener)
     private val lxApiRequestDispatcher = LxApiRequestDispatcher(fileOpener)
     private val packagesApiRequestDispatcher = PackagesApiRequestDispatcher(fileOpener)
+    private val multiItemApiRequestDispatcher = MultiItemApiRequestDispatcher(fileOpener)
     private val railApiRequestDispatcher = RailApiRequestDispatcher(fileOpener)
     private val cardFeeServiceRequestDispatcher = CardFeeServiceRequestDispatcher(fileOpener)
     private val sosApiRequestDispatcher = SOSApiRequestDispatcher(fileOpener)
@@ -42,6 +43,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         // Packages API
         if (request.path.startsWith("/getpackages/v1") || request.path.startsWith("/api/packages")) {
             return packagesApiRequestDispatcher.dispatch(request)
+        }
+
+        // MID API
+        if (request.path.startsWith("/api/multiitem/v1")) {
+            return multiItemApiRequestDispatcher.dispatch(request)
         }
         
         // Hotels API
