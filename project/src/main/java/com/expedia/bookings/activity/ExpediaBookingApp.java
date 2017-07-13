@@ -485,9 +485,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	}
 
 	public void defaultLaunchComponents() {
-		setLaunchComponent(DaggerLaunchComponent.builder()
-			.appComponent(mAppComponent)
-			.build());
+		setLaunchComponent(DaggerLaunchComponent.builder().appComponent(appComponent()).build());
 	}
 
 	public void setLaunchComponent(LaunchComponent launchComponent) {

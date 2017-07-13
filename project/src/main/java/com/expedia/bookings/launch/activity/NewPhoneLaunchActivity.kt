@@ -51,6 +51,7 @@ import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.updateVisibility
+import com.expedia.util.SatelliteViewModel
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -115,6 +116,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).appComponent().inject(this)
+        Ui.getApplication(this).launchComponent()
         Ui.getApplication(this).defaultLaunchComponents()
         setContentView(R.layout.activity_phone_new_launch)
         viewPager.offscreenPageLimit = 2
@@ -153,6 +155,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
+
+        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_satellite_config))
+            SatelliteViewModel().fetchFeatureConfig()
     }
 
     override fun onNewIntent(intent: Intent) {
