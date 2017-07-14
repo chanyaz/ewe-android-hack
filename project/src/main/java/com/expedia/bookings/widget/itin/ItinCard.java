@@ -14,6 +14,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -1096,11 +1097,16 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 		SettingUtils.save(getContext(), "TripType", mItinContentGenerator.getType().toString());
 
-		Intent receiver = new Intent(getContext(), ItinShareTargetBroadcastReceiver.class);
-		PendingIntent pendingIntent = getBroadcast(getContext(), 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
-		Intent chooserIntent = Intent.createChooser(shareIntent, "", pendingIntent.getIntentSender());
-		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent);
-		getContext().startActivity(chooserIntent);
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+			getContext().startActivity(shareIntent);
+		}
+		else {
+			Intent receiver = new Intent(getContext(), ItinShareTargetBroadcastReceiver.class);
+			PendingIntent pendingIntent = getBroadcast(getContext(), 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
+			Intent chooserIntent = Intent.createChooser(shareIntent, "", pendingIntent.getIntentSender());
+			chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent);
+			getContext().startActivity(chooserIntent);
+		}
 	}
 
 	private void addToCalendar() {
