@@ -10,7 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true">
-
+        <ViewStub
+            android:id="@+id/traveler_flight_stub"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_search_card_height"
+            android:layout="@layout/traveler_flight_search_widget"
+            app:input_text="@string/package_search_traveler_default_text" />
         <ViewStub
             android:id="@+id/traveler_stub"
             android:layout_width="match_parent"

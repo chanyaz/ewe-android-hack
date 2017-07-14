@@ -83,10 +83,10 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID());
 			query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);
-			query.addExperiment(AbacusUtils.EBAndroidAppItinCrystalSkin);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
+
 			if (Constants.ASIA_PACIFIC_REGION.equals(pos.getBusinessRegion())) {
 				query.addExperiment(AbacusUtils.EBAndroidAppSignUpStringAPAC);
 			}
@@ -95,6 +95,8 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			}
 			query.addExperiment(AbacusUtils.EBAndroidAppAPIMAuth);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightSubpubChange);
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
+
 		}
 
 		Ui.getApplication(this).appComponent().abacus()

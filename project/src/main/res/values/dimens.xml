@@ -60,7 +60,6 @@
     <dimen name="login_button_width">328dp</dimen>
     <dimen name="login_button_text_size">16sp</dimen>
     <dimen name="login_header_text_size">25sp</dimen>
-    <dimen name="login_divider_height">3dp</dimen>
 
     <!-- Account / Login button -->
     <dimen name="account_button_text_padding">16dp</dimen>
@@ -172,7 +171,6 @@
     <dimen name="widget_hotel_info_padding">18dp</dimen>
     <dimen name="hotel_detail_gradient_height">120dp</dimen>
     <dimen name="hotel_room_list_container_margin">9dp</dimen>
-    <dimen name="hotel_gallery_peek_amount">40dp</dimen>
     <dimen name="hotel_room_top_padding">10dp</dimen>
     <dimen name="hotel_room_padding">14dp</dimen>
     <dimen name="hotel_room_card_padding">11dp</dimen>

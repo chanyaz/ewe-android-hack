@@ -18,7 +18,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,15 +25,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.FailedUrlCache;
 import com.expedia.bookings.bitmaps.IMedia;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
@@ -56,7 +52,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
-import com.squareup.phrase.Phrase;
 
 import rx.Observer;
 
@@ -212,16 +207,6 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 			vh = new TitleViewHolder();
 			vh.mHotelNameTextView = Ui.findView(convertView, R.id.hotel_name_text_view);
-			boolean shouldShowCircleForRatings = PointOfSale.getPointOfSale().shouldShowCircleForRatings();
-			vh.mHotelRatingBar = Ui.findView(convertView,
-				shouldShowCircleForRatings ? R.id.hotel_rating_bar_circles : R.id.hotel_rating_bar);
-
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
-				vh.mHotelRatingBar.setVisibility(View.GONE);
-			}
-			else {
-				vh.mHotelRatingBar.setVisibility(View.VISIBLE);
-			}
 			convertView.setTag(vh);
 		}
 		else {
@@ -230,21 +215,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		final ItinCardDataHotel itinCardData = getItinCardData();
 		vh.mHotelNameTextView.setText(itinCardData.getPropertyName());
-		float propertyRating = itinCardData.getPropertyRating();
-		String hotelRatingContentDescription = Phrase.from(getContext().getResources()
-			.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, (int) propertyRating))
-			.put("rating", (int) propertyRating)
-			.format()
-			.toString();
-		vh.mHotelRatingBar.setContentDescription(hotelRatingContentDescription);
-		vh.mHotelRatingBar.setRating(propertyRating);
-
 		return convertView;
 	}
 
 	private static class TitleViewHolder {
 		private TextView mHotelNameTextView;
-		private RatingBar mHotelRatingBar;
 	}
 
 	@Override

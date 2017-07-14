@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.LinearInterpolator
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelDetailsToolbar
@@ -36,9 +34,6 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
-            setTheme(R.style.Theme_Hotels_Default_Crystal)
-        }
         setContentView(R.layout.itin_gallery)
         Ui.showTransparentStatusBar(this)
         setUpGallery()
@@ -92,12 +87,10 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
         val hotelRating = intent.getFloatExtra("Rating", 0f)
         val vm = HotelDetailToolbarViewModel(this@GalleryActivity, hotelName, hotelRating, false)
         toolbar.setHotelDetailViewModel(vm)
+        toolbar.refreshForCystalTheme()
         toolbar.toolBarBackground.alpha = 0f
         toolbar.toolbar.setNavigationOnClickListener { view ->
             onBackPressed()
-        }
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
-            toolbar.refreshForCystalTheme()
         }
     }
 

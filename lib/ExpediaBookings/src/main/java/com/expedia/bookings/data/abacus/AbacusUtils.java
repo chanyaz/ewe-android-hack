@@ -36,7 +36,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppShowMemberPricingCardOnLaunchScreen = 13697;
 	public static final int EBAndroidAppHotelUpgrade = 13196;
 	public static final int EBAndroidCheckoutPaymentTravelerInfo = 13280;
-	public static final int EBAndroidAppItinCrystalSkin = 13812;
 	public static final int EBAndroidAppItinHotelRedesign = 14741;
 	public static final int EBAndroidAppUserOnboarding = 13548;
 	public static final int EBAndroidLXVoucherRedemption = 14380;
@@ -66,15 +65,16 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightRetainSearchParams = 14297;
 	public static final int EBAndroidAppFlightDayPlusDateSearchForm = 14742;
 	public static final int EBAndroidAppFlightSubpubChange = 14936;
+	public static final int EBAndroidAppFlightSwitchFields = 14918;
+	public static final int EBAndroidAppFlightTravelerFormRevamp = 14647;
 
 	// Hotel Tests
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
 	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
-	public static final int EBAndroidAppHotelDetailsGalleryPeek = 13415;
 	public static final int EBAndroidAppHotelPinnedSearch = 13563;
 	public static final int EBAndroidAppHotelGroupRoomRate = 14591;
 	public static final int EBAndroidAppHotelHideSearch = 14271;
-	public static final int EBAndroidAppHotelSortCallToAction = 14332;
+	public static final int EBAndroidAppHotelSortCallToAction = 14923;
 	public static final int EBAndroidAppHotelAutoSuggestSameAsWeb = 14483;
 	public static final int EBAndroidAppHotelThrottleGalleryAnimation = 14785;
 	public static final int EBAndroidAppHotelSuperSearch = 14911;
@@ -161,11 +161,9 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelUpgrade);
 		testIDs.add(EBAndroidCheckoutPaymentTravelerInfo);
-		testIDs.add(EBAndroidAppHotelDetailsGalleryPeek);
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview);
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
-		testIDs.add(EBAndroidAppItinCrystalSkin);
 		testIDs.add(EBAndroidAppItinHotelRedesign);
 		testIDs.add(EBAndroidAppFlightStaticSortFilter);
 		testIDs.add(EBAndroidAppCarsWebViewUK);
@@ -204,6 +202,8 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppPackagesMidApi);
 		testIDs.add(EBAndroidAppFlightFlexEnabled);
 		testIDs.add(EBAndroidAppFlightSubpubChange);
+		testIDs.add(EBAndroidAppFlightSwitchFields);
+		testIDs.add(EBAndroidAppFlightTravelerFormRevamp);
 
 		return testIDs;
 	}

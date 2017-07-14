@@ -115,20 +115,14 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/NewLaunchTheme"
+            android:theme="@style/NewLaunchTheme.Light"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="UnusedAttribute" />
 
         <!-- Itineraries -->
 
         <activity
-            android:name="com.expedia.bookings.activity.TerminalMapActivityV1"
-            android:label="@string/Terminal_Map"
-            android:resizeableActivity="false"
-            android:theme="@style/TerminalMapTheme"
-            tools:ignore="UnusedAttribute" />
-        <activity
-            android:name="com.expedia.bookings.activity.TerminalMapActivityV2"
+            android:name="com.expedia.bookings.activity.TerminalMapActivity"
             android:label="@string/Terminal_Map"
             android:resizeableActivity="false"
             android:theme="@style/Material.WebView.Theme"
@@ -149,7 +143,7 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Hotels.Default"
+            android:theme="@style/Theme.Hotels.Default.Crystal"
             tools:ignore="UnusedAttribute" />
 
         <activity

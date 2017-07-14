@@ -27,7 +27,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
@@ -161,20 +160,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			@Override
 			public void onChanged() {
 				super.onChanged();
-
-				/**
-				 In the case when the user is Bucketed for Crystal Trips but not for New SignIn Widget then
-				 we have to make sure that the Background color is set appropriately. i.e. dark (older itin bg color) when list is empty.
-				 But make sure to update it to show the Crystal Trips background color if there happens to be a show (list is populated)
-				 */
-				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
-					if (mItinListView.getItinCardDataAdapter().getCount() == 0) {
-						mRoot.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.exp_itin_bg));
-					}
-					else {
-						mRoot.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.exp_itin_bg_crystal_theme));
-					}
-				}
+				mRoot.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.exp_itin_bg_crystal_theme));
 			}
 		});
 
@@ -193,11 +179,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		View guestItinView = inflater.inflate(R.layout.add_guest_itin, null);
 		mItinListView.addFooterView(guestItinView);
 		View guestItinTextView = Ui.findView(view, R.id.add_guest_itin_text_view);
-
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
-			View itinListDivider = Ui.findView(guestItinView, R.id.itin_list_divider);
-			itinListDivider.setVisibility(View.GONE);
-		}
 
 		guestItinTextView.setOnClickListener(new OnClickListener() {
 			@Override

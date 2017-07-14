@@ -51,25 +51,25 @@ class RailTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravel
         vm.seniorTextObservable.subscribeText(seniorCountSelector.travelerText)
 
         vm.adultPlusObservable.subscribe {
-            adultCountSelector.enablePuls(it)
+            adultCountSelector.enablePlus(it)
         }
         vm.adultMinusObservable.subscribe {
             adultCountSelector.enableMinus(it)
         }
         vm.childPlusObservable.subscribe {
-            childCountSelector.enablePuls(it)
+            childCountSelector.enablePlus(it)
         }
         vm.childMinusObservable.subscribe {
             childCountSelector.enableMinus(it)
         }
         vm.youthPlusObservable.subscribe {
-            youthCountSelector.enablePuls(it)
+            youthCountSelector.enablePlus(it)
         }
         vm.youthMinusObservable.subscribe {
             youthCountSelector.enableMinus(it)
         }
         vm.seniorPlusObservable.subscribe {
-            seniorCountSelector.enablePuls(it)
+            seniorCountSelector.enablePlus(it)
         }
         vm.seniorMinusObservable.subscribe {
             seniorCountSelector.enableMinus(it)

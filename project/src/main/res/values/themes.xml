@@ -316,7 +316,7 @@
         <item name="itin_card_summary_text_line2_size">12sp</item>
         <item name="itin_card_summary_date_text_color">@android:color/white</item>
         <item name="itin_card_summary_divider_color">@color/gray1</item>
-        <item name="itin_card_summary_action_button_text_color">@color/exp_launch_blue</item>
+        <item name="itin_card_summary_action_button_text_color">@color/itin_summary_button_text_color</item>
         <item name="itin_card_summary_action_button_text_size">16sp</item>
         <item name="itin_card_summary_left_action_button_car_drawable">@drawable/ic_directions_crystal</item>
         <item name="itin_card_summary_left_action_button_flight_drawable">@drawable/ic_directions_crystal</item>

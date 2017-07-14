@@ -348,6 +348,7 @@
         <attr name="traveler_minus" format="string" />
         <attr name="traveler_age_label" format="string" />
         <attr name="traveler_plus" format="string" />
+        <attr name="traveler_age_label_desc" format="string" />
     </declare-styleable>
 
     <declare-styleable name="RailTicketDeliveryOptionWidget">

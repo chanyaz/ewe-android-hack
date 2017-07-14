@@ -26,15 +26,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="13415"
-            android:layout="@layout/preference"
-            android:title="Hotel Details Gallery Peak - 13415" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
             android:key="13563"
             android:layout="@layout/preference"
             android:title="Hotel Pinned Search - 13563" />
@@ -61,10 +52,10 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14332"
+            android:key="14923"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Hotel Sort call to action - 14332" />
+            android:title="Hotel Sort call to action - 14923" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -301,6 +292,24 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flight subpub change - 14936 " />
+      
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14918"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Switch to and from flight fields - 14918" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14647"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Revamp Traveler form for Flight search - 14647" />
 
     </PreferenceCategory>
 
@@ -558,15 +567,6 @@
             android:key="13196"
             android:layout="@layout/preference"
             android:title="Hotel Upgrade web view - 13196"/>
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="13812"
-            android:layout="@layout/preference"
-            android:title="Trips Crystal Skin - 13812" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"

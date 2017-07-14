@@ -114,7 +114,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
         vm.mapResultsObservable.subscribe {
             val latLng = googleMap?.projection?.visibleRegion?.latLngBounds?.center
-            mapViewModel.mapBoundsSubject.onNext(latLng)
+            if (latLng != null) {
+                mapViewModel.mapBoundsSubject.onNext(latLng)
+            }
             fab.isEnabled = true
         }
 
@@ -164,10 +166,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun initSortCallToAction() {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSortCallToAction)) {
-            viewModel.hotelResultsObservable.subscribe {
-                narrowResultsPromptView.visibility = View.GONE
-                narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
+
+        viewModel.hotelResultsObservable.subscribe {
+            narrowResultsPromptView.visibility = View.GONE
+            narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
+                if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSortCallToAction)) {
                     val animationRunner = AnimationRunner(narrowResultsPromptView, context)
                     narrowResultsPromptView.visibility = View.VISIBLE
                     animationRunner.animIn(R.anim.filter_prompt_in)
@@ -175,13 +178,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                             .afterAction({ narrowResultsPromptView.visibility = View.GONE })
                             .duration(500L).outDelay(3000L)
                             .run()
-                    HotelTracking.trackHotelNarrowPrompt()
-                    narrowFilterPromptSubscription?.unsubscribe()
                 }
+                HotelTracking.trackHotelNarrowPrompt()
+                narrowFilterPromptSubscription?.unsubscribe()
             }
         }
     }
-    
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)
@@ -264,6 +267,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun doAreaSearch() {
         val center = googleMap?.cameraPosition?.target
+        if (center == null) {
+            return
+        }
         val location = SuggestionV4()
         location.isSearchThisArea = true
         val region = SuggestionV4.RegionNames()
@@ -304,7 +310,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun showSearchThisArea() {
-        if (currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea.visibility == View.GONE) {
+        if (googleMap != null && currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea.visibility == View.GONE) {
             searchThisArea.visibility = View.VISIBLE
             ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
         }

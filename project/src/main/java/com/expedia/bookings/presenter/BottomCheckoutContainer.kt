@@ -31,7 +31,7 @@ import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 
-class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), SlideToWidgetLL.ISlideToListener {
+class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs), SlideToWidgetLL.ISlideToListener {
     /** Slide to purchase **/
     override fun onSlideStart() {
     }
@@ -160,8 +160,10 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLay
             accessiblePurchaseButton.visibility = View.VISIBLE
             accessiblePurchaseButton.hideTouchTarget()
             slideToPurchase.visibility = View.GONE
+            checkoutButtonContainer.visibility = View.GONE
         } else {
             accessiblePurchaseButton.visibility = View.GONE
+
             if (showSlider) {
                 slideToPurchase.visibility = View.VISIBLE
                 checkoutButtonContainer.visibility = View.GONE

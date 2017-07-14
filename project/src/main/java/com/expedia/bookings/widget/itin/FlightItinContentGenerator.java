@@ -24,8 +24,6 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -33,15 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TerminalMapActivityV1;
-import com.expedia.bookings.activity.TerminalMapActivityV2;
+import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
@@ -244,9 +240,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				flightDuration.setContentDescription(durationContDesc);
 
 				flightDuration.setVisibility(View.VISIBLE);
-				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
-					flightDurationDivider.setVisibility(View.VISIBLE);
-				}
+				flightDurationDivider.setVisibility(View.VISIBLE);
 			}
 			else {
 				flightDuration.setVisibility(View.GONE);
@@ -356,13 +350,10 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		private TextView mTopLine;
 		private TextView mBottomLine;
 		private ImageView mBulb;
-		private ImageView mGlowBulb;
 	}
 
 	@Override
 	public View getSummaryView(View convertView, ViewGroup container) {
-
-		boolean isCrystalTheme = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin);
 
 		final ItinCardDataFlight itinCardData = getItinCardData();
 
@@ -379,7 +370,6 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			vh.mTopLine = Ui.findView(convertView, R.id.flight_status_top_line);
 			vh.mBottomLine = Ui.findView(convertView, R.id.flight_status_bottom_line);
 			vh.mBulb = Ui.findView(convertView, R.id.flight_status_bulb);
-			vh.mGlowBulb = Ui.findView(convertView, R.id.flight_status_bulb_glow);
 
 			// One-time setup
 			FontCache.setTypeface(vh.mTopLine, FontCache.Font.ROBOTO_REGULAR);
@@ -396,29 +386,19 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		DateTime now = DateTime.now();
 
 		if (flight.isRedAlert()) {
-			boolean shouldPulseBulb = false;
 			if (Flight.STATUS_CANCELLED.equals(flight.mStatusCode)) {
 				vh.mTopLine.setText(res.getString(R.string.flight_to_city_cancelled_TEMPLATE,
 						FormatUtils.getCityName(flight.getArrivalWaypoint(), getContext())));
-				if (departure.plusHours(12).isAfter(now)) {
-					shouldPulseBulb = true;
-				}
 			}
 			else if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
 				vh.mTopLine.setText(R.string.flight_diverted);
 			}
 			else if (Flight.STATUS_REDIRECTED.equals(flight.mStatusCode)) {
 				vh.mTopLine.setText(R.string.flight_redirected);
-				shouldPulseBulb = true;
 			}
 			vh.mBottomLine.setText(FormatUtils.formatFlightNumber(flight, getContext()));
 			vh.mBulb.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_flight_canceled_drawable));
 
-			if (shouldPulseBulb && !isCrystalTheme) {
-				vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_cancelled_glow);
-				vh.mGlowBulb.setVisibility(View.VISIBLE);
-				vh.mGlowBulb.startAnimation(getGlowAnimation());
-			}
 		}
 		else {
 			DateTime arrival = new DateTime(flight.getArrivalWaypoint().getMostRelevantDateTime());
@@ -462,24 +442,15 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				if (delay > 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_arrives_late_TEMPLATE, timeSpanString));
 					vh.mBulb.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_flight_delayed_drawable));
-					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_delayed_glow);
 				}
 				else if (delay < 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_arrives_early_TEMPLATE, timeSpanString));
 					vh.mBulb.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_flight_on_time_drawable));
-					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 				else {
 					vh.mTopLine.setText(res.getString(R.string.flight_arrives_on_time_TEMPLATE, timeSpanString));
 					vh.mBulb.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_flight_on_time_drawable));
-					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
-
-				if (!isCrystalTheme) {
-					vh.mGlowBulb.setVisibility(View.VISIBLE);
-					vh.mGlowBulb.startAnimation(getGlowAnimation());
-				}
-
 				summaryWaypoint = flight.getArrivalWaypoint();
 				bottomLineTextId = R.string.at_airport_terminal_gate_TEMPLATE;
 				bottomLineFallbackId = R.string.at_airport_TEMPLATE;
@@ -502,24 +473,15 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				if (delay > 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, timeSpanString));
 					vh.mBulb.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_flight_delayed_drawable));
-					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_delayed_glow);
 				}
 				else if (delay < 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_departs_early_TEMPLATE, timeSpanString));
 					vh.mBulb.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_flight_on_time_drawable));
-					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 				else {
 					vh.mTopLine.setText(res.getString(R.string.flight_departs_on_time_TEMPLATE, timeSpanString));
 					vh.mBulb.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_flight_on_time_drawable));
-					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
-
-				if (!isCrystalTheme) {
-					vh.mGlowBulb.setVisibility(View.VISIBLE);
-					vh.mGlowBulb.startAnimation(getGlowAnimation());
-				}
-
 				summaryWaypoint = flight.getOriginWaypoint();
 				bottomLineTextId = R.string.from_airport_terminal_gate_TEMPLATE;
 				bottomLineFallbackId = R.string.from_airport_TEMPLATE;
@@ -967,14 +929,6 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return JodaUtils.format(cal.toLocalDateTime().toDateTime(), format);
 	}
 
-	private Animation getGlowAnimation() {
-		Animation anim = new AlphaAnimation(0, 1);
-		anim.setDuration(800);
-		anim.setRepeatMode(Animation.REVERSE);
-		anim.setRepeatCount(Animation.INFINITE);
-		return anim;
-	}
-
 	private int getDelayForWaypoint(Waypoint wp) {
 		Delay delay = wp.getDelay();
 		if (delay.mDelayType == Delay.DELAY_GATE_ACTUAL || delay.mDelayType == Delay.DELAY_GATE_ESTIMATED) {
@@ -1029,13 +983,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 						OmnitureTracking.trackItinFlightDirections();
 					}
 					else if (finalOptions[which].equals(terminalMaps)) {
-						Intent intent;
-						if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
-							intent = TerminalMapActivityV2.createIntent(getActivity(), mAirport.mAirportCode);
-						}
-						else {
-							intent = TerminalMapActivityV1.createIntent(getActivity(), mAirport.mAirportCode);
-						}
+						Intent intent = TerminalMapActivity.createIntent(getActivity(), mAirport.mAirportCode);
 						getActivity().startActivity(intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
 						OmnitureTracking.trackItinFlightTerminalMaps();

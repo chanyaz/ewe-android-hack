@@ -740,7 +740,6 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRoomRateExpanded);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelDetailsGalleryPeek);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelGroupRoomRate);
 
 		// Send the tracking data
@@ -1077,8 +1076,8 @@ public class OmnitureTracking {
 		s.setProp(71, hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator);
 		s.setProp(72, hotelCheckoutResponse.orderId);
 		s.setProp(2, "hotels");
+		s.setProp(8, getHotelConfirmationTripNumberString(hotelCheckoutResponse));
 		s.setPurchaseID("onum" + hotelCheckoutResponse.orderId);
-
 		s.setEvar(2, "D=c2");
 
 		int numNights = JodaUtils.daysBetween(checkInDate, checkOutDate);
@@ -2211,9 +2210,6 @@ public class OmnitureTracking {
 		else {
 			s.setEvents("event63");
 		}
-		if (!getUsersTrips().isEmpty()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppItinCrystalSkin);
-		}
 		if (pageLoadTimeData != null) {
 			addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 		}
@@ -3264,6 +3260,18 @@ public class OmnitureTracking {
 			}
 		}
 		return null;
+	}
+
+	private static String getHotelConfirmationTripNumberString(HotelCheckoutResponse checkoutResponse) {
+		String travelRecordLocator = checkoutResponse.checkoutResponse.bookingResponse.travelRecordLocator;
+		String itinNumber = checkoutResponse.checkoutResponse.bookingResponse.itineraryNumber;
+		if (Strings.isEmpty(travelRecordLocator)) {
+			travelRecordLocator = "NA";
+		}
+		if (Strings.isEmpty(itinNumber)) {
+			itinNumber = "NA";
+		}
+		return travelRecordLocator + "|" + itinNumber;
 	}
 
 	@VisibleForTesting
@@ -4408,6 +4416,7 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_CHECKOUT_ERROR = "App.Flight.CKO.Error";
 	private static final String FLIGHTS_V2_ITIN_SHARE_CLICK = "App.Flight.CKO.Share.Start";
 	private static final String FLIGHTS_V2_SHARE = "App.Flight.CKO.Share";
+	private static final String FLIGHTS_V2_SWITCH_TO_FROM = "App.Flight.DS.SwitchFields.Clicked";
 
 	private static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -4742,6 +4751,14 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(link.toString(), FLIGHTS_V2_TRAVELER_LINK_NAME);
 	}
 
+	public static void trackFlightLocationSwapViewClicked() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_SWITCH_TO_FROM + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_SWITCH_TO_FROM);
+		s.setProp(16, FLIGHTS_V2_SWITCH_TO_FROM);
+		s.trackLink(null, "o", "Switched to-from fields", null, null);
+	}
+
 	public static void trackPageLoadFlightSearchV2() {
 		ADMS_Measurement s = getFreshTrackingObject();
 
@@ -4754,6 +4771,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRetainSearchParams);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_switch_to_from_flight_locations)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
+		}
 		s.track();
 	}
 
@@ -4988,14 +5008,26 @@ public class OmnitureTracking {
 		if (searchTrackingData.getInfantSeatingInLap()) {
 			for (int age : searchTrackingData.getChildren()) {
 				if (age < 2) {
-					childrenInLap++;
+					++childrenInLap;
 				}
 			}
 		}
-
-		int childrenInSeat = searchTrackingData.getChildren().size() - childrenInLap;
-
+		int youthCount = 0;
 		str += searchTrackingData.getAdults();
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
+			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
+			R.string.preference_flight_traveler_form_revamp)) {
+			for (int age : searchTrackingData.getChildren()) {
+				if (age > 12 && age < 18) {
+					++youthCount;
+				}
+			}
+			str += "|YTH";
+			str += youthCount;
+		}
+
+		int childrenInSeat = searchTrackingData.getChildren().size() - childrenInLap - youthCount;
+
 		str += "|C";
 		str += childrenInSeat;
 		str += "|L";

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.FlightTravelerWidgetV2
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/traveler_card"
+    style="@style/MaterialCardTextView"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/default_search_card_height"
+    app:input_icon="@drawable/search_form_icon_person"
+    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+    app:input_text="@string/hotel_search_guest_default_text" />

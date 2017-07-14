@@ -13,6 +13,13 @@
         android:weightSum="2">
 
         <ViewStub
+            android:id="@+id/traveler_flight_stub"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_search_card_height"
+            android:layout_weight="1"
+            android:layout="@layout/traveler_flight_search_widget"
+            app:input_text="@string/package_search_traveler_default_text" />
+        <ViewStub
             android:id="@+id/traveler_stub"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"

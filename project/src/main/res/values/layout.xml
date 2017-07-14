@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <item name="include_guest_itin_fields" type="layout">@layout/include_guest_itin_fields_vertical</item>
     <item name="section_credit_card_input" type="layout">@layout/phone_section_credit_card_input</item>
 </resources>

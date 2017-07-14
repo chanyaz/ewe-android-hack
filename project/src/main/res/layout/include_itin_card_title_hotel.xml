@@ -15,24 +15,4 @@
         android:textSize="16dp"
         app:textStyle="normal" />
 
-    <RatingBar
-        android:id="@+id/hotel_rating_bar"
-        style="@style/RatingBar.Star.White"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:stepSize="0.5"
-        android:visibility="gone" />
-
-    <RatingBar
-        android:id="@+id/hotel_rating_bar_circles"
-        style="@style/RatingBar.Circle.White"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:stepSize=".5"
-        android:visibility="gone" />
-
 </LinearLayout>

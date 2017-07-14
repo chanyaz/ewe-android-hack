@@ -27,8 +27,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoTarget;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
@@ -84,10 +82,6 @@ public class RecyclerGallery extends RecyclerView {
 	private IImageViewBitmapLoadedListener imageViewBitmapLoadedListener;
 
 	private boolean enableProgressBarOnImageViews = false;
-
-	public void setProgressBarOnImageViewsEnabled(boolean enableProgressBarOnImageViews) {
-		this.enableProgressBarOnImageViews = enableProgressBarOnImageViews;
-	}
 
 	private ColorFilter mColorFilter = null;
 
@@ -166,9 +160,7 @@ public class RecyclerGallery extends RecyclerView {
 			mLayoutManager = new A11yLinearLayoutManager(getContext()) {
 				@Override
 				protected int getExtraLayoutSpace(State state) {
-					if (state.hasTargetScrollPosition()
-						|| Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelDetailsGalleryPeek)) {
-
+					if (state.hasTargetScrollPosition()) {
 						return AndroidUtils.getScreenSize(getContext()).x;
 					}
 					else {
@@ -378,14 +370,6 @@ public class RecyclerGallery extends RecyclerView {
 		ViewHolder vh = findViewHolderForAdapterPosition(getSelectedItem());
 		if (vh != null) {
 			return (RecyclerAdapter.GalleryViewHolder) vh;
-		}
-		return null;
-	}
-
-	public View getSelectedItemView() {
-		ViewHolder vh = findViewHolderForAdapterPosition(getSelectedItem());
-		if (vh != null) {
-			return vh.itemView;
 		}
 		return null;
 	}

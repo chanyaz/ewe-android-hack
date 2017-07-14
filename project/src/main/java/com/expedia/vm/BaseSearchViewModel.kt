@@ -60,18 +60,12 @@ abstract class BaseSearchViewModel(val context: Context) {
     protected abstract fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean) : String
 
 
-    open val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
-        getParamsBuilder().origin(suggestion)
-        val origin = SuggestionStrUtils.formatAirportName(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
-        formattedOriginObservable.onNext(origin)
-        requiredSearchParamsObserver.onNext(Unit)
+    open val originLocationObserver = endlessObserver<SuggestionV4> {suggestion ->
+        setOriginText(suggestion)
     }
 
-    open val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
-        getParamsBuilder().destination(suggestion)
-        val destination = SuggestionStrUtils.formatAirportName(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
-        formattedDestinationObservable.onNext(destination)
-        requiredSearchParamsObserver.onNext(Unit)
+    open val destinationLocationObserver = endlessObserver<SuggestionV4> {suggestion ->
+        setDestinationText(suggestion)
     }
 
     fun datesUpdated(startDate: LocalDate?, endDate: LocalDate?) {
@@ -103,6 +97,20 @@ abstract class BaseSearchViewModel(val context: Context) {
             getParamsBuilder().adults(update.numberOfAdults)
             getParamsBuilder().children(update.childrenAges)
         }
+    }
+
+    protected fun setOriginText(suggestion: SuggestionV4) {
+        getParamsBuilder().origin(suggestion)
+        val origin = SuggestionStrUtils.formatAirportName(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
+        formattedOriginObservable.onNext(origin)
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    protected fun setDestinationText(suggestion: SuggestionV4) {
+        getParamsBuilder().destination(suggestion)
+        val destination = SuggestionStrUtils.formatAirportName(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
+        formattedDestinationObservable.onNext(destination)
+        requiredSearchParamsObserver.onNext(Unit)
     }
 
     @CallSuper

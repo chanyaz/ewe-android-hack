@@ -22,9 +22,11 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
@@ -38,12 +40,15 @@ import com.expedia.bookings.widget.CalendarWidgetV2;
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget;
 import com.expedia.bookings.widget.FlightCabinClassPickerView;
 import com.expedia.bookings.widget.FlightCabinClassWidget;
+import com.expedia.bookings.widget.FlightTravelerPickerView;
+import com.expedia.bookings.widget.FlightTravelerWidgetV2;
 import com.expedia.bookings.widget.TravelerPickerView;
 import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
@@ -242,6 +247,105 @@ public class FlightSearchPresenterTest {
 		assertEquals(2, travelerPicker.getChild1().getSelectedItemPosition());
 	}
 
+	@Test
+	public void testRevampFlightTravelerDialogForInfantErrorInLap() {
+		setUpFlightTravelerRevamp();
+		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.findViewById(R.id.traveler_card);
+		travelerCard.performClick();
+		View view = travelerCard.getTravelerDialogView();
+		FlightTravelerPickerView travelerPicker = (FlightTravelerPickerView) view
+			.findViewById(R.id.flight_traveler_view);
+
+		travelerPicker.getAdultCountSelector().getTravelerPlus().performClick();
+		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
+		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
+
+		travelerPicker.getViewModel().setShowSeatingPreference(true);
+		travelerPicker.getInfantInLap().setChecked(true);
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
+
+		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
+		travelerPicker.getInfantInLap().setChecked(true);
+		assertEquals(View.VISIBLE, travelerPicker.getInfantError().getVisibility());
+
+		travelerPicker.getInfantCountSelector().getTravelerMinus().performClick();
+		travelerPicker.getChildCountSelector().getTravelerPlus().performClick();
+		travelerPicker.getInfantInLap().setChecked(true);
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
+
+		travelerPicker.getChildCountSelector().getTravelerMinus().performClick();
+		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
+		travelerPicker.getInfantInSeat().setChecked(true);
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
+
+	}
+
+	public void testRevampFlightTravelerDialogForInfantErrorInSeat() {
+
+		setUpFlightTravelerRevamp();
+		TestSubscriber tooManyInfantsInLapTestSubscriber = new TestSubscriber<>();
+		TestSubscriber tooManyInfantsInSeatTestSubscriber = new TestSubscriber<>();
+		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.findViewById(R.id.traveler_card);
+		travelerCard.performClick();
+		View view = travelerCard.getTravelerDialogView();
+		FlightTravelerPickerView travelerPicker = (FlightTravelerPickerView) view
+			.findViewById(R.id.flight_traveler_view);
+		travelerPicker.getViewmodel().getTooManyInfantsInLap().subscribe(tooManyInfantsInLapTestSubscriber);
+		travelerPicker.getViewmodel().getTooManyInfantsInSeat().subscribe(tooManyInfantsInSeatTestSubscriber);
+
+		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
+		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
+
+		travelerPicker.getViewmodel().setShowSeatingPreference(true);
+		travelerPicker.getInfantInSeat().setChecked(true);
+		int noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
+
+		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
+
+		travelerPicker.getInfantInSeat().setChecked(true);
+		assertEquals(View.VISIBLE, travelerPicker.getInfantError().getVisibility());
+		noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), true);
+
+		travelerPicker.getYouthCountSelector().getTravelerPlus().performClick();
+		travelerPicker.getInfantInSeat().setChecked(true);
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
+		noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+
+	}
+
+	@Test
+	public void testRevampFlightTravelDialogForChildAgeAfterDismiss() {
+		setUpFlightTravelerRevamp();
+
+		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.getTravelerWidgetV2();
+		travelerCard.performClick();
+		View view = travelerCard.getTravelerDialogView();
+		FlightTravelerPickerView travelerPicker = (FlightTravelerPickerView) view
+			.findViewById(R.id.flight_traveler_view);
+		travelerPicker.getChildCountSelector().getTravelerPlus().performClick();
+		travelerPicker.getChildCountSelector().getTravelerPlus().performClick();
+
+		assertEquals("[10, 10]" , travelerPicker.getViewmodel().getTravelerParamsObservable().getValue().getChildrenAges().toString());
+
+		travelerCard.getTravelerDialog().getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+		travelerCard.performClick();
+
+		assertEquals("[10, 10]" , travelerPicker.getViewmodel().getTravelerParamsObservable().getValue().getChildrenAges().toString());
+		travelerPicker.getChildCountSelector().getTravelerPlus().performClick();
+		travelerCard.getTravelerDialog().dismiss();
+
+		travelerCard.performClick();
+		assertEquals("[10, 10]" , travelerPicker.getViewmodel().getTravelerParamsObservable().getValue().getChildrenAges().toString());
+	}
+
+
 	private void testFlightCabinClassWidgetVisibility() {
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
@@ -253,7 +357,7 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testFlightCabinClassValue() {
-		String cabinClassCoachName =  activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId());
+		String cabinClassCoachName = activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId());
 		String cabinClassBusinessName = activity.getResources().getString(FlightServiceClassType.CabinCode.BUSINESS.getResId());
 
 		Ui.getApplication(activity).defaultFlightComponents();
@@ -385,6 +489,64 @@ public class FlightSearchPresenterTest {
 	}
 
 	@Test
+	public void testSwapToFromButtonWhenDisabled() {
+		SettingUtils.save(activity, R.string.preference_switch_to_from_flight_locations, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSwitchFields);
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
+		ImageView swapBtn = (ImageView) widget.findViewById(R.id.swapFlightsLocationsButton);
+
+		assertEquals(swapBtn.getVisibility(), View.VISIBLE);
+		assertFalse(swapBtn.isEnabled());
+		initializeWidget();
+
+		SuggestionV4 origin = getSuggestion("SFO", "San Francisco");
+		SuggestionV4 destination = getSuggestion("DEL", "Delhi");
+		widget.getSearchViewModel().getOriginLocationObserver().onNext(origin);
+		assertFalse(swapBtn.isEnabled());
+
+		widget.getSearchViewModel().getDestinationLocationObserver().onNext(destination);
+		assertTrue(swapBtn.isEnabled());
+	}
+
+	@Test
+	public void testSwapToFromButton() {
+		SettingUtils.save(activity, R.string.preference_switch_to_from_flight_locations, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSwitchFields);
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
+		ImageView swapBtn = (ImageView) widget.findViewById(R.id.swapFlightsLocationsButton);
+		SearchInputTextView originFlight = widget.getOriginCardView();
+		SearchInputTextView destinationFlight = widget.getDestinationCardView();
+		initializeWidget();
+
+		SuggestionV4 origin = getSuggestion("SFO", "San Francisco");
+		SuggestionV4 destination = getSuggestion("DEL", "Delhi");
+
+		widget.getSearchViewModel().getOriginLocationObserver().onNext(origin);
+		widget.getSearchViewModel().getDestinationLocationObserver().onNext(destination);
+
+		swapBtn.performClick();
+		assertEquals(originFlight.getText(), destination.regionNames.displayName);
+		assertEquals(destinationFlight.getText(), origin.regionNames.displayName);
+
+		swapBtn.performClick();
+		assertEquals(destinationFlight.getText(), destination.regionNames.displayName);
+		assertEquals(originFlight.getText(), origin.regionNames.displayName);
+	}
+
+	private SuggestionV4 getSuggestion(String airportCode, String displayName) {
+		SuggestionV4 suggestion = new SuggestionV4();
+		SuggestionV4.Airport suggestionAirport = new SuggestionV4.Airport();
+		suggestionAirport.airportCode = airportCode;
+		suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
+		suggestion.hierarchyInfo.airport = suggestionAirport;
+		suggestion.regionNames = new SuggestionV4.RegionNames();
+		suggestion.regionNames.displayName = displayName;
+		return suggestion;
+	}
+
+	@Test
 	public void testSearchValidationStepByStep() {
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
@@ -492,5 +654,12 @@ public class FlightSearchPresenterTest {
 	private void selectRoundTripTabAtIndex(int index) {
 		TabLayout.Tab tab = widget.getTabs().getTabAt(index);
 		tab.select();
+	}
+
+	private void setUpFlightTravelerRevamp() {
+		SettingUtils.save(activity, R.string.preference_flight_traveler_form_revamp, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
 	}
 }

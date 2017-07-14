@@ -27,7 +27,7 @@
     <color name="actionbar_button_background_pressed">#004888</color>
     <color name="actionbar_button_text_color">@color/white</color>
     <color name="bg_btn_pressed_color_lm">@color/white</color>
-    <color name="itin_flight_line_color_lm">#7da426</color>
+    <color name="itin_flight_line_color">#d14197</color>
     <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color">#E40088</color>
     <color name="collection_overlay_color">#56a1d5</color>
@@ -163,4 +163,7 @@
     <color name="itin_find_button_color">#006e8c</color>
     <color name="itin_find_toolbar_color">@color/app_primary</color>
     <color name="itin_unable_to_find_error_color">#B80000</color>
+    <color name="itin_summary_button_text_color">@color/app_primary</color>
+    <color name="itin_card_action_item_text_color">@color/app_primary</color>
+
 </resources>

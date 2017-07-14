@@ -459,7 +459,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE,
 		R.color.flight_overview_color_filter,
 		R.plurals.flight_filter_stops,
-		R.dimen.hotel_gallery_peek_amount,
 		R.transition.gallery_collapse_transition,
 		R.transition.gallery_expand_transition,
 		R.layout.hotel_detail_view_expanded_gallery,
@@ -1128,6 +1127,15 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.itin_refresh_warning_button_background_color,
 		R.color.itin_warning_color,
 		R.string.user_review_name_and_location_signature,
-		R.raw.lock_icon
+		R.raw.lock_icon,
+		R.string.unable_to_find_guest_itinerary,
+		R.string.unable_to_find_registered_user_itinerary_template,
+		R.string.save_traveler,
+		R.string.error_hotel_no_longer_available,
+		R.string.save,
+		R.layout.widget_flight_traveler_picker,
+		R.layout.widget_flight_traveler_search,
+		R.plurals.number_of_infant,
+		R.string.preference_flight_traveler_form_revamp
 	};
 }

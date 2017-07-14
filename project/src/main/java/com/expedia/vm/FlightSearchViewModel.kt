@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -41,6 +42,9 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     var hasPreviousSearchParams = false
+    val flightsSourceObservable = PublishSubject.create<SuggestionV4>()
+    val flightsDestinationObservable = PublishSubject.create<SuggestionV4>()
+    val swapToFromFieldsObservable = PublishSubject.create<Unit>()
     val showDaywithDate = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
 
@@ -56,6 +60,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val EBAndroidAppFlightSubpubChange = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSubpubChange, R.string.preference_flight_subpub_change)
 
     var searchSubscription: Subscription? = null
+    var toAndFromFlightFieldsSwitched = false
     val advanceSearchObserver = endlessObserver<AdvanceSearchFilter> {
         when (it) {
             AdvanceSearchFilter.NonStop -> {
@@ -67,6 +72,16 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 FlightsV2Tracking.trackAdvanceSearchFilterClick("Refundable", it.isChecked)
             }
         }
+    }
+
+    override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+        setOriginText(suggestion)
+        flightsSourceObservable.onNext(suggestion)
+    }
+
+    override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+        setDestinationText(suggestion)
+        flightsDestinationObservable.onNext(suggestion)
     }
 
     init {
@@ -138,6 +153,18 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         previousSearchParamsObservable.subscribe { params ->
             hasPreviousSearchParams = true
             setupViewModelFromPastSearch(params)
+        }
+
+        swapToFromFieldsObservable.withLatestFrom(flightsSourceObservable, flightsDestinationObservable, {
+            _, source, destination ->
+            object {
+                val source = source
+                val destination = destination
+            }
+        }).subscribe {
+            originLocationObserver.onNext(it.destination)
+            destinationLocationObserver.onNext(it.source)
+            FlightsV2Tracking.trackFlightLocationSwapViewClick()
         }
     }
 
