@@ -277,7 +277,7 @@ class PaymentViewModelTest {
         //User logs out or chooses a hotel which does not has PWP
         viewModel.isRedeemable.onNext(false)
 
-        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.pwp_icon),
+        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.blue_pwp_icon),
                 ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful))
         cardTitleTestSubscriber.assertValues("Payment Method", "Paying with Points", "Payment Method")
         cardSubtitleTestSubscriber.assertValues("Credit card, pay with points", "Tap to edit", "Enter credit card")

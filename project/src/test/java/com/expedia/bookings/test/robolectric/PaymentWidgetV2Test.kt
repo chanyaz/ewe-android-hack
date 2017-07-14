@@ -102,7 +102,7 @@ class PaymentWidgetV2Test {
         sut.validateAndBind()
         //For Paying With Points Only
         paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
-        testPaymentTileInfo("Paying with Points", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.pwp_icon), View.GONE)
+        testPaymentTileInfo("Paying with Points", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.blue_pwp_icon), View.GONE)
 
         //When user chooses to pay through card and reward points
         val latch = CountDownLatch(1)
