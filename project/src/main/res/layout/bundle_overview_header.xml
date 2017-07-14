@@ -46,6 +46,8 @@
                         android:layout_height="22dp"
                         android:id="@+id/secure_lock_icon"
                         android:visibility="gone"
+                        android:focusable="true"
+                        android:contentDescription="@string/secure_lock_accessibility"
                         android:layout_marginRight="10dp" />
 
                     <com.expedia.bookings.widget.TextView

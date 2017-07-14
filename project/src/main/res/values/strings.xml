@@ -273,6 +273,8 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Please review and resubmit.</string>
+    <!--Accessibility content description for lock icon on checkout. -->
+    <string name="secure_lock_accessibility">Lock icon, secure checkout</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
