@@ -24,7 +24,7 @@ class WebCheckoutViewViewModel(val context: Context) : WebViewViewModel(), UserA
     var offerObservable = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
     var hotelSearchParamsObservable = BehaviorSubject.create<HotelSearchParams>()
     val fireCreateTripObservable = PublishSubject.create<Unit>()
-    val showProgressBarObservable = PublishSubject.create<Unit>()
+    val showLoadingObservable = PublishSubject.create<Unit>()
     var createTripViewModel by notNullAndObservable<HotelCreateTripViewModel> {
         it.tripResponseObservable.subscribe { createTripResponse ->
             webViewURLObservable.onNext("${PointOfSale.getPointOfSale().hotelsWebCheckoutURL}?tripid=${createTripResponse.tripId}")
@@ -37,7 +37,7 @@ class WebCheckoutViewViewModel(val context: Context) : WebViewViewModel(), UserA
     }
 
     fun doCreateTrip() {
-        showProgressBarObservable.onNext(Unit)
+        showLoadingObservable.onNext(Unit)
         val numberOfAdults = hotelSearchParamsObservable.value.adults
         val childAges = hotelSearchParamsObservable.value.children
         val qualifyAirAttach = false

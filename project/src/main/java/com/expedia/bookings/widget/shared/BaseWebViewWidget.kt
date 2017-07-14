@@ -90,7 +90,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
     }
 
-    protected fun toggleLoading(loading: Boolean) {
+    open fun toggleLoading(loading: Boolean) {
         if (ExpediaBookingApp.isAutomation()) {
             return
         }
