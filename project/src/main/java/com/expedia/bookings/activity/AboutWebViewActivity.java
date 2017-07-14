@@ -12,15 +12,22 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.mobiata.android.SocialUtils;
 
 public class AboutWebViewActivity extends WebViewActivity {
+	private static final String ARG_SHOW_EMAIL_BUTTON = "ARG_SHOW_EMAIL_BUTTON";
 
 	private MenuItem mEmailMenuItem;
 
 	private boolean mLoading = false;
+	private boolean mShowEmailButton = false;
 
 	public static class IntentBuilder extends WebViewActivity.IntentBuilder {
 		public IntentBuilder(Context context) {
 			super(context);
 			getIntent().setClass(context, AboutWebViewActivity.class);
+		}
+
+		public IntentBuilder setShowEmailButton(boolean showEmailButton) {
+			getIntent().putExtra(ARG_SHOW_EMAIL_BUTTON, showEmailButton);
+			return this;
 		}
 	}
 
@@ -34,6 +41,10 @@ public class AboutWebViewActivity extends WebViewActivity {
 		}
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
+
+		if (intent.hasExtra(ARG_SHOW_EMAIL_BUTTON)) {
+			mShowEmailButton = extras.getBoolean(ARG_SHOW_EMAIL_BUTTON);
+		}
 	}
 
 	@Override
@@ -42,7 +53,7 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 		mEmailMenuItem = menu.findItem(R.id.menu_email);
 		if (mEmailMenuItem != null) {
-			mEmailMenuItem.setVisible(!mLoading);
+			mEmailMenuItem.setVisible(mShowEmailButton && !mLoading);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -64,7 +75,7 @@ public class AboutWebViewActivity extends WebViewActivity {
 		mLoading = loading;
 
 		if (mEmailMenuItem != null) {
-			mEmailMenuItem.setVisible(!mLoading);
+			mEmailMenuItem.setVisible(mShowEmailButton && !mLoading);
 			supportInvalidateOptionsMenu();
 		}
 	}

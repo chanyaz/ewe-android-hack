@@ -66,7 +66,8 @@ public class AboutUtils {
 
 	public void openAppSupport() {
 		OmnitureTracking.trackClickSupportApp();
-		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(mActivity), false);
+		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(mActivity), false,
+			true);
 	}
 
 	public void openRewardsCard() {
@@ -118,12 +119,17 @@ public class AboutUtils {
 	}
 
 	public static void openWebsite(Context context, String url, boolean useExternalBrowser) {
+		openWebsite(context, url, useExternalBrowser, false);
+	}
+
+	public static void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton) {
 		if (useExternalBrowser) {
 			SocialUtils.openSite(context, url);
 		}
 		else {
 			AboutWebViewActivity.IntentBuilder builder = new AboutWebViewActivity.IntentBuilder(context);
 			builder.setUrl(url);
+			builder.setShowEmailButton(showEmailButton);
 			context.startActivity(builder.getIntent());
 		}
 	}
