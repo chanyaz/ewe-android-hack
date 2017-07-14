@@ -3547,13 +3547,13 @@
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">(18 years old +)</string>
     <!-- Youth age label on flight search -->
-    <string name="flight_youth_age_label">(13-17 years old)</string>
+    <string name="flight_youth_age_label">(12-17 years old)</string>
     <!-- Youth age label desc on flight search -->
-    <string name="flight_youth_age_label_desc">(13 to 17 years old)</string>
+    <string name="flight_youth_age_label_desc">(12 to 17 years old)</string>
     <!-- Children age label on flight search -->
-    <string name="flight_children_age_label">(2-12 years old)</string>
+    <string name="flight_children_age_label">(2-11 years old)</string>
     <!-- Children age label desc on flight search -->
-    <string name="flight_children_age_label_desc">(2 to 12 years old)</string>
+    <string name="flight_children_age_label_desc">(2 to 11 years old)</string>
 
     <!-- Infant age label on flight search -->
     <string name="flight_infant_age_label">(less than 2 years old)</string>

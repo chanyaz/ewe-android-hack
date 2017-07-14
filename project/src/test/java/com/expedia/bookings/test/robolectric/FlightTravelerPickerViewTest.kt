@@ -36,7 +36,6 @@ class FlightTravelerPickerViewTest {
             assertEquals(expectedAdultText(i), getAdultText())
             incrementAdult(1)
         }
-
         assertFalse(isAdultIncrementButtonEnabled())
         assertFalse(isYouthIncrementButtonEnabled())
         assertFalse(isChildIncrementButtonEnabled())
@@ -44,6 +43,7 @@ class FlightTravelerPickerViewTest {
         assertEquals(expectedYouthText(0), getYouthText())
         assertEquals(expectedChildText(0), getChildText())
         assertEquals(expectedInfantText(0), getInfantText())
+
     }
 
     @Test
@@ -55,9 +55,8 @@ class FlightTravelerPickerViewTest {
         }
         assertFalse(isYouthIncrementButtonEnabled())
         assertTrue(isAdultIncrementButtonEnabled())
-        assertTrue(isChildIncrementButtonEnabled())
-        assertTrue(isInfantIncrementButtonEnabled())
-
+        assertFalse(isChildIncrementButtonEnabled())
+        assertFalse(isInfantIncrementButtonEnabled())
 
     }
 
@@ -70,8 +69,8 @@ class FlightTravelerPickerViewTest {
         }
         assertFalse(isChildIncrementButtonEnabled())
         assertTrue(isAdultIncrementButtonEnabled())
-        assertTrue(isYouthIncrementButtonEnabled())
-        assertTrue(isInfantIncrementButtonEnabled())
+        assertFalse(isYouthIncrementButtonEnabled())
+        assertFalse(isInfantIncrementButtonEnabled())
 
     }
 
@@ -84,8 +83,8 @@ class FlightTravelerPickerViewTest {
         }
         assertFalse(isInfantIncrementButtonEnabled())
         assertTrue(isAdultIncrementButtonEnabled())
-        assertTrue(isYouthIncrementButtonEnabled())
-        assertTrue(isChildIncrementButtonEnabled())
+        assertFalse(isYouthIncrementButtonEnabled())
+        assertFalse(isChildIncrementButtonEnabled())
         vm.showSeatingPreference=true
         setInfantPreferenceInLap()
         assertTrue(isInfantInLapPreferenceSelected())
@@ -103,6 +102,7 @@ class FlightTravelerPickerViewTest {
         vm.showSeatingPreference = false
         setInfantPreferenceInLap()
         assertEquals(View.GONE, travelerPicker.infantError.visibility)
+
     }
 
     @Test
@@ -175,6 +175,7 @@ class FlightTravelerPickerViewTest {
         assertTrue(isChildIncrementButtonEnabled())
         assertTrue(isYouthIncrementButtonEnabled())
         assertTrue(isInfantIncrementButtonEnabled())
+
     }
 
     @Test
@@ -206,8 +207,8 @@ class FlightTravelerPickerViewTest {
 
         assertFalse(isChildIncrementButtonEnabled())
         assertTrue(isAdultIncrementButtonEnabled())
-        assertTrue(isYouthIncrementButtonEnabled())
-        assertTrue(isInfantIncrementButtonEnabled())
+        assertFalse(isYouthIncrementButtonEnabled())
+        assertFalse(isInfantIncrementButtonEnabled())
         assertFalse(isAdultDecrementButtonEnabled())
         assertFalse(isYouthDecrementButtonEnabled())
         assertFalse(isInfantDecrementButtonEnabled())
@@ -220,8 +221,8 @@ class FlightTravelerPickerViewTest {
 
         assertFalse(isYouthIncrementButtonEnabled())
         assertTrue(isAdultIncrementButtonEnabled())
-        assertTrue(isChildIncrementButtonEnabled())
-        assertTrue(isInfantIncrementButtonEnabled())
+        assertFalse(isChildIncrementButtonEnabled())
+        assertFalse(isInfantIncrementButtonEnabled())
         assertFalse(isAdultDecrementButtonEnabled())
         assertFalse(isChildDecrementButtonEnabled())
         assertFalse(isInfantDecrementButtonEnabled())
@@ -234,8 +235,8 @@ class FlightTravelerPickerViewTest {
 
         assertFalse(isInfantIncrementButtonEnabled())
         assertTrue(isAdultIncrementButtonEnabled())
-        assertTrue(isChildIncrementButtonEnabled())
-        assertTrue(isYouthIncrementButtonEnabled())
+        assertFalse(isChildIncrementButtonEnabled())
+        assertFalse(isYouthIncrementButtonEnabled())
         assertFalse(isAdultDecrementButtonEnabled())
         assertFalse(isChildDecrementButtonEnabled())
         assertFalse(isYouthDecrementButtonEnabled())
@@ -243,6 +244,7 @@ class FlightTravelerPickerViewTest {
 
         decrementInfant(4)
         assertFalse(isInfantDecrementButtonEnabled())
+
     }
 
     fun incrementAdult(count: Int) {
