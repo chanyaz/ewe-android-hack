@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itin_hotel_details_booking_details_title_text"
+        android:textColor="@color/gray10"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp"/>
+
+    <com.expedia.bookings.widget.itin.HotelItinLinkOffCardView
+        android:id="@+id/itin_hotel_manage_booking_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:clickable="true" />
+
+    <com.expedia.bookings.widget.itin.HotelItinLinkOffCardView
+        android:id="@+id/itin_hotel_price_summary_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:clickable="true" />
+
+    <com.expedia.bookings.widget.itin.HotelItinLinkOffCardView
+        android:id="@+id/itin_hotel_additional_info_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:clickable="true" />
+</merge>

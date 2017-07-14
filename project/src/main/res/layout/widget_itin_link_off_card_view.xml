@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView style="@style/MaterialCardView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardUseCompatPadding="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <ImageView
+            android:id="@+id/link_off_card_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:tint="@color/gray10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/link_off_card_heading"
+            style="@style/ItinLinkOffTextHeading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/link_off_card_subheading"
+            app:layout_constraintLeft_toRightOf="@+id/link_off_card_icon"
+            app:layout_constraintRight_toLeftOf="@+id/link_off_card_chevron"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Manage Booking" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/link_off_card_subheading"
+            style="@style/ItinLinkOffTextSubHeading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/link_off_card_icon"
+            app:layout_constraintTop_toBottomOf="@+id/link_off_card_heading"
+            app:layout_constraintRight_toLeftOf="@+id/link_off_card_chevron"
+            tools:text="Change, cancel, etc." />
+
+        <ImageView
+            android:id="@+id/link_off_card_chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/gray10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_itin_next_chevron" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

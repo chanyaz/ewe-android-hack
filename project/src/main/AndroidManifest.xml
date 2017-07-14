@@ -151,7 +151,8 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"
-            tools:ignore="UnusedAttribute" />
+            tools:ignore="UnusedAttribute"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.expedia.bookings.itin.activity.NewAddGuestItinActivity"

@@ -1,12 +1,14 @@
 package com.expedia.bookings.itin.activity
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.itin.HotelItinBookingDetails
 import com.expedia.bookings.widget.itin.HotelItinImage
 import com.expedia.bookings.widget.itin.HotelItinLocationDetails
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
@@ -26,6 +28,9 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
     val toolbar: HotelItinToolbar by lazy {
         findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
     }
+    val hotelBookingDetailsView: HotelItinBookingDetails by lazy {
+        findViewById(R.id.widget_hotel_itin_booking_details) as HotelItinBookingDetails
+    }
 
     companion object IntentExtras {
         private const val ITIN_ID_EXTRA = "ITIN_ID"
@@ -40,6 +45,7 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_card_details)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     override fun onResume() {
@@ -54,6 +60,7 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             super.finish()
         }
+        hotelBookingDetailsView.setUpWidget(itinCardDataHotel)
     }
 
 }

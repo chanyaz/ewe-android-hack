@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.Log;
+import com.squareup.phrase.Phrase;
 
 public class WebViewActivity extends AppCompatActivity implements WebViewFragment.WebViewFragmentListener {
 
@@ -63,7 +65,18 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 			return this;
 		}
 
-		private String getUrlWithVisitorId(String url) {
+		public IntentBuilder setUrlWithAnchor(String url, String anchor) {
+			if (url != null && anchor != null) {
+				mIntent.putExtra(ARG_URL, Phrase.from(mContext, R.string.itin_hotel_details_price_summary_url_TEMPLATE)
+					.put("url", getUrlWithVisitorId(url))
+					.put("anchor", anchor)
+					.format().toString());
+			}
+			return this;
+		}
+
+		@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+		public String getUrlWithVisitorId(String url) {
 			String visitorID = ADMS_Measurement.sharedInstance().getVisitorID();
 			return url + (url.contains("?") ? "&" : "?") + APP_VISITOR_ID_PARAM + visitorID;
 		}

@@ -1420,8 +1420,10 @@
     <string name="itin_card_details_reload_cruise">Reload Cruise Info</string>
     <string name="itin_card_details_remove_itin">Remove from Itinerary</string>
 
-    <!--Hotel itin card details-->
+    <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Room Details</string>
+    <!--Hotel itin card booking details heading-->
+    <string name="itin_hotel_details_booking_details_title_text">Booking Details</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
     <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
@@ -1432,6 +1434,14 @@
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Call hotel at {phonenumber}</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Hotel address. {address}. Click to copy to clipboard. Button</string>
+    <!--Hotel itin card manage booking heading-->
+    <string name="itin_hotel_details_manage_booking_heading">Manage Booking</string>
+    <!--Hotel itin card manage booking subheading-->
+    <string name="itin_hotel_details_manage_booking_subheading">Change, cancel and support</string>
+    <!--Hotel itin card price summary heading-->
+    <string name="itin_hotel_details_price_summary_heading">Price Summary</string>
+    <!--Hotel itin card additional info heading-->
+    <string name="itin_hotel_details_additional_info_heading">Additional Information</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

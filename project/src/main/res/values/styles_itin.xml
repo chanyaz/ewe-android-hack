@@ -8,4 +8,16 @@
         <item name="itin_card_summary_action_button_text_size">14sp</item>
         <item name="android:statusBarColor">@color/rail_status_bar_color</item>
     </style>
+
+    <style name="ItinLinkOffTextHeading">
+        <item name="android:textColor">@color/gray10</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ItinLinkOffTextSubHeading">
+        <item name="android:textColor">@color/gray6</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>

@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin
 
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -15,17 +16,21 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelItinDetailsActivityTest {
     lateinit private var activity: HotelItinDetailsActivity
     lateinit private var itinCardDataHotel: ItinCardDataHotel
+    lateinit private var intentBuilder: WebViewActivity.IntentBuilder
 
     @Before
     fun before() {
         activity = Robolectric.buildActivity(HotelItinDetailsActivity::class.java).create().get()
         itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        intentBuilder = WebViewActivity.IntentBuilder(RuntimeEnvironment.application)
     }
 
     @Test
@@ -65,5 +70,27 @@ class HotelItinDetailsActivityTest {
         val endDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel?.endDate.toString().substringBefore("T")))
         assertEquals(hotelItinToolbar.hotelNameTextView.text, itinCardDataHotel.propertyName)
         assertEquals(hotelItinToolbar.hotelTripDatesTextView.text, startDate + " - " + endDate)
+    }
+
+    @Test
+    fun testItinBookingDetailsWidget() {
+        val bookingDetailsView: HotelItinBookingDetails = activity.hotelBookingDetailsView
+        bookingDetailsView.setUpWidget(itinCardDataHotel)
+
+        //price summary - toolbar title and url check
+        bookingDetailsView.priceSummaryCard.performClick()
+        var shadowActivity = Shadows.shadowOf(activity)
+        var intent = shadowActivity.nextStartedActivity
+        assertEquals(WebViewActivity::class.java.name, intent.component.className)
+        assertEquals("Price Summary", intent.extras.getString("ARG_TITLE"))
+        assertEquals(intentBuilder.getUrlWithVisitorId(itinCardDataHotel.detailsUrl) + "#price-header", intent.extras.getString("ARG_URL"))
+
+        //additional info - toolbar title and url check
+        bookingDetailsView.additionalInfoCard.performClick()
+        shadowActivity = Shadows.shadowOf(activity)
+        intent = shadowActivity.nextStartedActivity
+        assertEquals(WebViewActivity::class.java.name, intent.component.className)
+        assertEquals("Additional Information", intent.extras.getString("ARG_TITLE"))
+        assertEquals(intentBuilder.getUrlWithVisitorId(itinCardDataHotel.detailsUrl), intent.extras.getString("ARG_URL"))
     }
 }

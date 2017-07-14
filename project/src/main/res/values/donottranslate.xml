@@ -58,6 +58,10 @@
     <!-- An alternative way to modify text, if you don't want to set the typeface of the TextView -->
     <string name="strike_template">&lt;strike&gt;%s&lt;/strike&gt;</string>
 
+    <!-- New itin screen-->
+    <!--Hotel itin card price summary url template. {url}#{anchor} (eg., https://www.expedia.com/trips/7275482181123#price-header)-->
+    <string name="itin_hotel_details_price_summary_url_TEMPLATE">{url}#{anchor}</string>
+
     <!-- Preference keys -->
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_launch_screen_overflow">preference_launch_screen_overflow</string>
