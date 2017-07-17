@@ -28,6 +28,9 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     val rawTextSearchSubject = PublishSubject.create<HotelSearchParams>()
     val genericSearchSubject = PublishSubject.create<HotelSearchParams>()
 
+    val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), true)
+    val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
+    // Outputs
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
         it.swpEffectiveAvailability.subscribe {
             getParamsBuilder().shopWithPoints(it)
@@ -62,8 +65,18 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     }
 
     val searchObserver = endlessObserver<Unit> {
+
         if (getParamsBuilder().areRequiredParamsFilled()) {
             validateAndSearch()
+            if (!getParamsBuilder().hasValidDateDuration()) {
+                errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            } else if (!getParamsBuilder().isWithinDateRange()) {
+                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
+            } else {
+                val hotelSearchParams = getParamsBuilder().build()
+                searchParamsObservable.onNext(hotelSearchParams)
+
+            }
         } else {
             handleIncompleteParams()
         }

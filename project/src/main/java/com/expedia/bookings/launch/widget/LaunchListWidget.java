@@ -1,5 +1,7 @@
 package com.expedia.bookings.launch.widget;
 
+import com.expedia.bookings.data.SatelliteSearchResponse;
+import com.expedia.util.SatelliteUtil;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +34,10 @@ public class LaunchListWidget extends RecyclerView {
 
 	public LaunchListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.LaunchListWidget);
-		showLobHeader = typedArray.getBoolean(R.styleable.LaunchListWidget_show_lob_in_header, false);
+		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.LaunchListWidget);showLobHeader = typedArray.getBoolean(R.styleable.LaunchListWidget_show_lob_in_header, false);
 		typedArray.recycle();
+		SatelliteUtil apiCall= new SatelliteUtil();
+		apiCall.callSatellite();
 	}
 
 	@Override

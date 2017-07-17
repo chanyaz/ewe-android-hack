@@ -161,6 +161,7 @@ public class EndpointProvider {
 		return endpoint;
 	}
 
+<<<<<<< HEAD
     	public String getRailWebViewEndpointUrlForDE() {
         	String railWebViewUrlForDE;
         	EndPoint endPoint = getEndPoint();
@@ -180,6 +181,21 @@ public class EndpointProvider {
         	}
         	return railWebViewUrlForDE;
     	}
+
+	public String getSatelliteEndpointUrl() {
+		String endpoint;
+		switch (getEndPoint()) {
+		case MOCK_MODE:
+			endpoint = getCustomServerAddress();
+			break;
+		case PRODUCTION:
+			endpoint = "https://apim.expedia.com/";
+			break;
+		default:
+			endpoint = "https://apim.int.expedia.com/";
+		}
+		return endpoint;
+	}
 
 	/**
 	 * Returns the base suggestion server url, based on dev settings

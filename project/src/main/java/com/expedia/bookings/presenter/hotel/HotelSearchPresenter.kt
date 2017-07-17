@@ -24,7 +24,6 @@ import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -43,6 +42,7 @@ import com.expedia.vm.hotel.AdvancedSearchOptionsViewModel
 import com.expedia.vm.launch.LobToolbarViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
+
 
 class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
     lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
@@ -99,6 +99,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         advancedOptionsDetails.viewModel.searchOptionsSubject.subscribe(searchViewModel.advancedOptionsObserver)
 
         searchButton.setOnClickListener {
+
             searchTrackingBuilder.markSearchClicked()
             val lastSuggestionV4 = suggestionViewModel.getLastSelectedSuggestion()
             if (lastSuggestionV4 != null) {
