@@ -73,7 +73,6 @@ public class FlightSearchPresenterTest {
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);
-
 	}
 
 	@Test
@@ -249,7 +248,7 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testRevampFlightTravelerDialogForInfantErrorInLap() {
-		setUpFlightTravelerRevamp();
+		setUpFlightTravelerRevamp(true);
 		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.findViewById(R.id.traveler_card);
 		travelerCard.performClick();
 		View view = travelerCard.getTravelerDialogView();
@@ -277,12 +276,12 @@ public class FlightSearchPresenterTest {
 		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
 		travelerPicker.getInfantInSeat().setChecked(true);
 		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
-
+		setUpFlightTravelerRevamp(false);
 	}
 
 	public void testRevampFlightTravelerDialogForInfantErrorInSeat() {
 
-		setUpFlightTravelerRevamp();
+		setUpFlightTravelerRevamp(true);
 		TestSubscriber tooManyInfantsInLapTestSubscriber = new TestSubscriber<>();
 		TestSubscriber tooManyInfantsInSeatTestSubscriber = new TestSubscriber<>();
 		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.findViewById(R.id.traveler_card);
@@ -317,12 +316,12 @@ public class FlightSearchPresenterTest {
 		noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
 		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
 		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
-
+		setUpFlightTravelerRevamp(false);
 	}
 
 	@Test
 	public void testRevampFlightTravelDialogForChildAgeAfterDismiss() {
-		setUpFlightTravelerRevamp();
+		setUpFlightTravelerRevamp(true);
 
 		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.getTravelerWidgetV2();
 		travelerCard.performClick();
@@ -343,6 +342,7 @@ public class FlightSearchPresenterTest {
 
 		travelerCard.performClick();
 		assertEquals("[10, 10]" , travelerPicker.getViewmodel().getTravelerParamsObservable().getValue().getChildrenAges().toString());
+		setUpFlightTravelerRevamp(false);
 	}
 
 
@@ -656,10 +656,15 @@ public class FlightSearchPresenterTest {
 		tab.select();
 	}
 
-	private void setUpFlightTravelerRevamp() {
-		SettingUtils.save(activity, R.string.preference_flight_traveler_form_revamp, true);
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
+	private void setUpFlightTravelerRevamp(boolean isUserBucketed) {
+		if (isUserBucketed) {
+			AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
+		}
+		else {
+			AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
+		}
 		Ui.getApplication(activity).defaultFlightComponents();
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
 	}
 }

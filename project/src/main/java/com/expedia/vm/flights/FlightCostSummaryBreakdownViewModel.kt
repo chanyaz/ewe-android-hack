@@ -2,8 +2,10 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightTripDetails.PassengerCategory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -25,6 +27,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
             var title: String
             var travelerInfo: String = ""
             var numAdultsAdded = 0
+            var numYouthAdded = 0
             var numChildrenAdded = 0
             var numInfantsInSeat = 0
             var numInfantsInLap = 0
@@ -37,8 +40,16 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                         travelerInfo = Phrase.from(context, R.string.flight_add_adult_number_TEMPLATE).put("number", ++numAdultsAdded).format().toString()
                     }
 
-                    PassengerCategory.CHILD,
                     PassengerCategory.ADULT_CHILD -> {
+                        if(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)){
+                            travelerInfo = Phrase.from(context, R.string.flight_add_youth_number_TEMPLATE).put("number", ++numYouthAdded).format().toString()
+                        }
+                        else {
+                            travelerInfo = Phrase.from(context, R.string.flight_add_child_number_TEMPLATE).put("number", ++numChildrenAdded).format().toString()
+                        }
+                    }
+
+                    PassengerCategory.CHILD -> {
                         travelerInfo = Phrase.from(context, R.string.flight_add_child_number_TEMPLATE).put("number", ++numChildrenAdded).format().toString()
                     }
 

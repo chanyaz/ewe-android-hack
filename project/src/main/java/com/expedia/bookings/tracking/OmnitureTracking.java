@@ -5043,11 +5043,9 @@ public class OmnitureTracking {
 		}
 		int youthCount = 0;
 		str += searchTrackingData.getAdults();
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
-			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
-			R.string.preference_flight_traveler_form_revamp)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
 			for (int age : searchTrackingData.getChildren()) {
-				if (age > 12 && age < 18) {
+				if (age > 11 && age < 18) {
 					++youthCount;
 				}
 			}

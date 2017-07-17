@@ -1,15 +1,19 @@
 package com.expedia.vm.test.robolectric
 
 import android.app.Activity
+import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.insurance.InsuranceProduct
+import com.expedia.bookings.presenter.flight.FlightSearchPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
@@ -176,6 +180,46 @@ class FlightCostSummaryBreakdownViewModelTest {
         assertEvents(expectedBreakdown, breakdownRows)
     }
 
+    @Test
+    fun testBreakdownNoAirlineFeeNoInsuranceAndYouthTraveler() {
+        setupSystemUnderTest()
+        givenGoodTripResponse()
+        givenTripResponseHasYouthTraveler()
+
+        val breakdownRowsTestObservable = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        sut.addRows.subscribe(breakdownRowsTestObservable)
+        sut.flightCostSummaryObservable.onNext(newTripResponse)
+        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
+
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Adult 1 details").cost("$55.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Flight").cost("$50.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Taxes & Fees").cost("$5.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Youth 1 details").cost("$55.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Flight").cost("$50.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Taxes & Fees").cost("$5.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Expedia Booking Fee").cost("$0.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total Due Today").cost("$55.00").build())
+
+        val expectedBreakdown = listOf(
+                breakdowns[0],
+                breakdowns[1],
+                breakdowns[2],
+                breakdowns[3],
+                breakdowns[4],
+                breakdowns[5],
+                breakdowns[6],
+                breakdowns[7],
+                breakdowns[8],
+                breakdowns[9],
+                breakdowns[10]
+        )
+
+        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
+    }
+
     private fun setupInsuranceFees()  {
        val insurance = Money("10.00", "USD")
 
@@ -230,6 +274,28 @@ class FlightCostSummaryBreakdownViewModelTest {
             val actual = list[i]
             assertEquals(expected, actual)
         }
+    }
+
+    private fun givenTripResponseHasYouthTraveler() {
+        val priceString = "55.00"
+        val currencyCode = "USD"
+        val totalPrice = Money(priceString, currencyCode)
+        val youthCategory = FlightTripDetails.PassengerCategory.ADULT_CHILD
+        val taxesPrice = Money("5.00", "USD")
+        val basePrice = Money("50.00", "USD")
+
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+
+        val list = newTripResponse.details.PricePerPassengerCategory()
+        (newTripResponse.details.offer.pricePerPassengerCategory as ArrayList<FlightTripDetails.PricePerPassengerCategory>).add(1, list )
+        newTripResponse.details.offer.pricePerPassengerCategory[1].passengerCategory = youthCategory
+
+        newTripResponse.details.offer.pricePerPassengerCategory[1].taxesPrice = taxesPrice
+        newTripResponse.details.offer.pricePerPassengerCategory[1].taxesPrice.formattedPrice = taxesPrice.formattedMoneyFromAmountAndCurrencyCode
+        newTripResponse.details.offer.pricePerPassengerCategory[1].totalPrice = totalPrice
+        newTripResponse.details.offer.pricePerPassengerCategory[1].totalPrice.formattedPrice = totalPrice.formattedMoneyFromAmountAndCurrencyCode
+        newTripResponse.details.offer.pricePerPassengerCategory[1].basePrice = basePrice
+        newTripResponse.details.offer.pricePerPassengerCategory[1].basePrice.formattedPrice = basePrice.formattedMoneyFromAmountAndCurrencyCode
     }
 
     private fun givenTripResponseHasFees() {

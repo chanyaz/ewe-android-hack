@@ -76,7 +76,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val isSwitchToAndFromFieldsFeatureEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
             AbacusUtils.EBAndroidAppFlightSwitchFields, R.string.preference_switch_to_from_flight_locations)
 
-    val isFlightTravelerFormRevampEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp)
+    val isFlightTravelerFormRevampEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
 
     val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
     override val travelerWidgetV2 by lazy {

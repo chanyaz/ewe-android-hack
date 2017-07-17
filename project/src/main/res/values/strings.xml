@@ -3545,7 +3545,7 @@
     <string name="children_age_label_cont_desc">(0 to 17 years old)</string>
 
     <!-- Adult age label on flight search -->
-    <string name="flight_adult_age_label">(18 years old +)</string>
+    <string name="flight_adult_age_label">(18+ years old)</string>
     <!-- Youth age label on flight search -->
     <string name="flight_youth_age_label">(12-17 years old)</string>
     <!-- Youth age label desc on flight search -->
@@ -4120,6 +4120,8 @@
     <string name="flight_add_adult_number_TEMPLATE">Adult {number} details</string>
     <!-- Add child traveler number template for example: Child 4 details -->
     <string name="flight_add_child_number_TEMPLATE">Child {number} details</string>
+    <!-- Add youth traveler number template for example: Youth 2 details -->
+    <string name="flight_add_youth_number_TEMPLATE">Youth {number} details</string>
     <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
     <string name="flight_add_infant_in_lap_number_TEMPLATE">Infant in lap {number} details</string>
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->

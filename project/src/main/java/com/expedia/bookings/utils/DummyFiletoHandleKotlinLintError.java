@@ -1136,6 +1136,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_flight_traveler_picker,
 		R.layout.widget_flight_traveler_search,
 		R.plurals.number_of_infant,
-		R.string.preference_flight_traveler_form_revamp
+		R.string.flight_add_youth_number_TEMPLATE
 	};
 }
