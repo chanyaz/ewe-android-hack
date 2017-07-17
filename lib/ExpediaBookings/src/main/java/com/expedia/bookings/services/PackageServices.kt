@@ -2,14 +2,10 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.PackageFlightDeserializer
 import com.expedia.bookings.data.PackageHotelDeserializer
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.multiitem.BundleOffer
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
-import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
-import com.expedia.bookings.data.multiitem.ProductType
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -49,22 +45,33 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
         adapter.create(PackageApi::class.java)
     }
 
-    fun packageSearch(params: PackageSearchParams, isMidApi: Boolean): Observable<BundleSearchResponse> {
-        return if (isMidApi) multiItemSearch(params) else oldPackageSearch(params)
+    //Bundle Exposed API
+    fun packageSearch(params: PackageSearchParams, type: ProductSearchType): Observable<BundleSearchResponse> {
+        return when(type) {
+            ProductSearchType.OldPackageSearch -> oldPackageSearch(params)
+            ProductSearchType.MultiItemHotels -> multiItemHotelsSearch(params)
+            ProductSearchType.MultiItemHotelRooms -> TODO()
+            ProductSearchType.MultiItemOutboundFlights -> TODO()
+            ProductSearchType.MultiItemInboundFlights -> TODO()
+        }
     }
 
-    private fun multiItemSearch(params: PackageSearchParams): Observable<BundleSearchResponse> {
-        return packageApi.midAPIPackageHotelSearch("fh",
-                params.origin?.hierarchyInfo?.airport?.airportCode,
-                params.destination?.hierarchyInfo?.airport?.airportCode,
-                params.startDate.toString(),
-                params.endDate.toString(),
-                params.adults)
+    //Multi Item API
+    private fun multiItemHotelsSearch(params: PackageSearchParams): Observable<BundleSearchResponse> {
+        return packageApi.multiItemSearch(
+                productType = "hotels",
+                packageType = "fh",
+                origin = params.origin?.hierarchyInfo?.airport?.airportCode,
+                destination = params.destination?.hierarchyInfo?.airport?.airportCode,
+                fromDate = params.startDate.toString(),
+                toDate = params.endDate.toString(),
+                adults = params.adults)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { it.setup() }
     }
 
+    //PSS API
     private fun oldPackageSearch(params: PackageSearchParams): Observable<BundleSearchResponse> {
         val nf = NumberFormat.getCurrencyInstance()
         return packageApi.packageSearch(params.toQueryMap()).observeOn(observeOn)

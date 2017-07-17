@@ -8,9 +8,9 @@ import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
@@ -60,7 +60,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             if (isRemoveBundleOverviewFeatureEnabled() && packageServices != null) {
                 autoAdvanceObservable.onNext(PackageSearchType.HOTEL)
             } else {
-                searchPackageSubscriber = packageServices?.packageSearch(params, isMidAPIEnabled())?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
+                searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled()) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
             }
         }
 
@@ -78,7 +78,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 flightResultsObservable.onNext(type)
                 autoAdvanceObservable.onNext(type)
             } else {
-                searchPackageSubscriber = packageServices?.packageSearch(params, isMidAPIEnabled())?.subscribe(makeResultsObserver(type))
+                searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch()))?.subscribe(makeResultsObserver(type))
             }
         }
 
@@ -114,6 +114,18 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 searchPackageSubscriber?.unsubscribe()
                 cancelSearchSubject.onNext(Unit)
             }
+        }
+    }
+
+    private fun getProductSearchType(isOutboundSearch: Boolean): ProductSearchType {
+        if (isMidAPIEnabled()) {
+            if (isOutboundSearch) {
+                return ProductSearchType.MultiItemOutboundFlights
+            } else {
+                return ProductSearchType.MultiItemInboundFlights
+            }
+        } else {
+            return ProductSearchType.OldPackageSearch
         }
     }
 
