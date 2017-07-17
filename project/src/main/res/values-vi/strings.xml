@@ -781,9 +781,9 @@
     <string name="total_from">Tổng cộng từ</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Giá khứ hồi 1 người</string>
+    <string name="prices_roundtrip_label">Giá vé khứ hồi, mỗi người.</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_oneway_label">Giá 1 chiều 1 người</string>
+    <string name="prices_oneway_label">Giá vé một chiều, mỗi người.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Giá hai chiều, mỗi người, từ</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -812,22 +812,10 @@
     <string name="distance">Khoảng cách</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Từ %s</string>
-    <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Trong lòng</string>
-    <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Chỗ riêng</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Không đủ số người lớn (12 tuổi trở lên) để trẻ sơ sinh ngồi trong lòng. Trẻ sẽ cần chỗ ngồi riêng.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">Chúng tôi chỉ có thể đặt chỗ trước cho tối đa 2 trẻ sơ sinh với mỗi khách trên 12 tuổi</string>
-    <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">Chọn chỗ cho trẻ sơ sinh dưới 2 tuổi</string>
-    <!-- Description for infant seating preference message -->
-    <string name="infants_seating_preference_description">Trẻ sơ sinh dưới 2 tuổi (tại thời điểm thực hiện chuyến đi) sẽ ngồi trong lòng hay có chỗ ngồi riêng?</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Cần vé riêng cho trẻ sơ sinh với chỗ ngồi riêng. Cùng tìm thêm vé cho trẻ sơ sinh.</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Không cần vé riêng cho trẻ sơ sinh ngồi trong lòng. Cùng tìm lại với số lượng vé ít hơn.</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two_TEMPLATE">Trẻ sơ sinh dưới 2 tuổi: %s</string>
     <!-- Header for a flight filter based upon number of stops -->
@@ -853,8 +841,6 @@
     <string name="room_rate_pay_later_due_now">{amount} - thanh toán ngay</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s nhận xét</string>
-    <!-- Information for the review about who submitted it and when -->
-    <string name="submitted_by_on_date_TEMPLATE">%1$s vào %2$s</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Tổng gồm thuế</string>
@@ -1015,12 +1001,9 @@
     <string name="shop">Đặt</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Tìm lịch trình</string>
-    <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">Không tìm được lịch trình. Vui lòng kiểm tra màn hình Tài khoản và xác nhận đã chọn cùng Quốc gia của địa chỉ trang web đang đặt sản phẩm.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">Đây không phải lịch trình tài khoản khách. Vui lòng đăng nhập tài khoản {brand} liên kết với lịch trình này.</string>
-    <!-- Enter Itinerary Details -->
-    <string name="enter_itinerary_details">Nhập chi tiết lịch trình</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">Số lịch trình {brand}</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1037,8 +1020,6 @@
     <string name="enter_a_guest_itinerary_number">Nhập lịch trình của khách</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Đang tải lịch trình của quý vị…</string>
-    <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">Lỗi phát sinh khi tải lịch trình</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Đăng nhập để xem chuyến đi</string>
     <!-- Button text to refresh your trips -->
@@ -1441,6 +1422,14 @@
     <string name="itin_hotel_details_room_details_title_text">Chi tiết phòng</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+    <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
+    <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
+    <!--Hotel itin map view content description-->
+    <string name="itin_hotel_details_map_view_content_description">Bản đồ Google địa điểm khách sạn</string>
+    <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
+    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Gọi khách sạn số {phonenumber}</string>
+    <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Địa chỉ khách sạn. {address}. Bấm để chép vào bộ nhớ đệm. Nút</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Nhận phòng trong 3 ngày</string>
@@ -2033,11 +2022,8 @@
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Chỉnh sửa khách {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} tuổi</string>
-    <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Lưu khách</string>
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Lưu thông tin {name} vào tài khoản {brand} của quý vị để thanh toán nhanh hơn trong những lần sau?</string>
     <!-- no thanks -->
     <string name="no_thanks">Không, cảm ơn</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
@@ -2048,16 +2034,6 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Nút mở rộng (tùy chọn)</string>
     <string name="collapse_advanced_button_cont_desc">Nút đóng (tùy chọn)</string>
-
-    <!-- Overwrite traveler dialog -->
-    <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">Không thể lưu khách</string>
-    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Quý vị đã lưu khách tên \"%1$s\".</string>
-    <!-- Don't save -->
-    <string name="dont_save">Không lưu</string>
-    <!-- Overwrite -->
-    <string name="overwrite">Ghi chồng</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">Cập nhật thông tin khách trong tài khoản {brand} để đặt nhanh hơn trong tương lai?</string>
     <!-- Update traveler dialog title-->
@@ -2110,9 +2086,6 @@
     <string name="seat_preference">Chỗ ngồi ưa thích</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Hỗ trợ đặc biệt</string>
-
-    <!-- Entered invalid birthdate dialog -->
-    <string name="invalid_birthdate_message">Tuổi quý vị nhập không trùng khớp tuổi của khách quý vị đang tìm chỗ. Vui lòng cập nhật thông tin và thử lại.</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -2262,38 +2235,10 @@
     <string name="retry">Thử lại</string>
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">Chỉnh sửa bộ lọc</string>
-    <!-- Button label for calling -->
-    <string name="call_support">Hỗ trợ</string>
-    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Dường như hãng hàng không vừa nâng giá vé của quý vị thêm %1$s.  Quý vị có đồng ý thanh toán tổng giá mới %2$s không?</string>
-    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">Chúng tôi vừa biết giá vé máy bay quý vị tìm đã giảm %1$s. Quý vị có vui lòng để chúng tôi tính tổng giá mới %2$s không?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s. Quý vị có đồng ý thanh toán tổng giá mới %2$s không?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s và nâng giá vé của quý vị thêm %2$s. Quý vị có đồng ý thanh toán tổng giá mới %3$s không?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s, tuy nhiên, chúng tôi phát hiện chuyến bay quý vị yêu cầu vừa giảm giá %2$s. Quý vị có đồng ý thanh toán tổng giá mới %3$s không?</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Tên chủ thẻ quý vị nhập không trùng khớp tên trên thẻ tín dụng. Vui lòng thử lại.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại hoặc gọi bộ phận Hỗ trợ Khách hàng {brand} và cho biết số lịch trình: {itinerary}</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_TEMPLATE">Rất tiếc, hiện {brand} không còn chuyến bay quý vị chọn.</string>
-    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_TEMPLATE">Rất tiếc, hiện {brand} không còn một trong những chuyến bay quý vị chọn.</string>
-    <!-- Button label imploring users to pick a new flight due to unavailability -->
-    <string name="pick_new_flight">Chọn một chuyến bay mới</string>
-    <!-- Button label imploring users to pick flights due to unavailability -->
-    <string name="pick_new_flights">Chọn các chuyến bay mới</string>
-
-    <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">Rất tiếc, đã quá thời hạn giữ phòng quý vị đang chọn</string>
-    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
-    <string name="pick_new_hotel">Chọn khách sạn mới</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Rất tiếc, chúng tôi hiện không thể xử lý yêu cầu của quý vị. Vui lòng thử lại.</string>
     <!-- Error Screen toolbar title for payment failed screen -->
@@ -2516,8 +2461,6 @@
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Đang tải khách sạn…</string>
-    <!-- Error string for widget when internet connection is unavailable -->
-    <string name="widget_error_no_internet">Không có kết nối internet</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">Điều khoản đặt cọc</string>
 
@@ -2626,26 +2569,14 @@
 
 
     <!-- User Reviews list strings -->
-    <!-- Loading text prompt -->
-    <string name="user_review_loading_text">Đang tải nhận xét người dùng…</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Nhận xét bằng ngôn ngữ khác</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Gần đây</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">Tích cực</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">Tiêu cực</string>
-    <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">Đang tải thêm nhận xét khác…</string>
     <!-- Read more of the review -->
     <string name="more">Xem thêm</string>
-    <!--
-         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-        1$ represents the number of guests that recommend this hotel
-        2$ represents the total number of guests
-    -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt;/&lt;b&gt;%2$d&lt;/b&gt; khách giới thiệu khách sạn này.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">Không có nhận xét</string>
 
@@ -2671,9 +2602,6 @@
     <string name="user_review_no_favorable_reviews">Không có nhận xét tích cực nào cho khách sạn này.</string>
     <!-- User review no recent reviews -->
     <string name="user_review_no_recent_reviews">Không có nhận xét gần đây nào cho khách sạn này.</string>
-
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Phần nhận xét tạm thời không hoạt động</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">Đặt ngay, thanh toán sau</string>
@@ -3020,6 +2948,14 @@
         <item quantity="two">%d thiếu niên</item>
         <item quantity="many">%d thiếu niên</item>
         <item quantity="other">%d thiếu niên</item>
+    </plurals>
+    <!-- A number of infant. Capitalized -->
+    <plurals name="number_of_infant">
+        <item quantity="zero">%d trẻ sơ sinh</item>
+        <item quantity="one">%d trẻ sơ sinh</item>
+        <item quantity="two">%d trẻ sơ sinh</item>
+        <item quantity="many">%d trẻ sơ sinh</item>
+        <item quantity="other">%d trẻ sơ sinh</item>
     </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
@@ -3583,12 +3519,19 @@
 
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(26-59 tuổi)</string>
+    <!-- Adult age label desc on rail search -->
+    <string name="rail_adult_age_label_desc">(26 đến 59 tuổi)</string>
 
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label">(0-15 tuổi)</string>
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label_desc">(0 đến 15 tuổi)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label">(16-25 tuổi)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label_desc">(16 đến 25 tuổi)</string>
 
     <!-- Senior age label on rail search -->
     <string name="rail_senior_age_label">(60+ tuổi)</string>
@@ -3598,6 +3541,30 @@
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(0 đến 17 tuổi)</string>
+
+    <!-- Adult age label on flight search -->
+    <string name="flight_adult_age_label">(18+ tuổi)</string>
+    <!-- Youth age label on flight search -->
+    <string name="flight_youth_age_label">(13-17 tuổi)</string>
+    <!-- Youth age label desc on flight search -->
+    <string name="flight_youth_age_label_desc">(13 đến 17 tuổi)</string>
+    <!-- Children age label on flight search -->
+    <string name="flight_children_age_label">(2-12 tuổi)</string>
+    <!-- Children age label desc on flight search -->
+    <string name="flight_children_age_label_desc">(2 đến 12 tuổi)</string>
+
+    <!-- Infant age label on flight search -->
+    <string name="flight_infant_age_label">(dưới 2 tuổi)</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_add_infant_traveler_cont_desc">Thêm một trẻ sơ sinh</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_remove_infant_traveler_cont_desc">Xóa một trẻ sơ sinh</string>
+    <!-- Used in flight search for specifying infant's sitting -->
+    <string name="flight_infant_type_label">Trẻ sơ sinh dưới 2 tuổi:</string>
+    <!-- Used in flight search for specifying infant's sitting inLap -->
+    <string name="flight_infant_InLap">Trong lòng</string>
+    <!-- Used in flight search for specifying infant's sitting in Seat-->
+    <string name="flight_infant_InSeat">Ngồi riêng</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Khu vực xung quanh</string>
@@ -3820,17 +3787,11 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Điều hành bởi {operatingairlinename}</string>
     <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
-    <string name="flight_nonstop_refundable_search_header">• \u0020Bay thẳng\u0020 • \u0020Hoàn tiền\u0020 •</string>
+    <string name="flight_nonstop_refundable_search_header">Hiển thị chuyến bay &lt;b&gt;thẳng&lt;/b&gt; và &lt;b&gt;có thể hoàn tiền&lt;/b&gt;.\u0020</string>
     <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
-    <string name="flight_nonstop_search_header">• \u0020Bay thẳng\u0020 •</string>
+    <string name="flight_nonstop_search_header">Hiển thị chuyến bay &lt;b&gt;thẳng&lt;/b&gt;.\u0020</string>
     <!-- Header text on flight srp when only refundable filter is selected in advance search -->
-    <string name="flight_refundable_search_header">• \u0020Hoàn tiền\u0020 •</string>
-    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
-    <string name="advancedSearch_header_refundable_contDesc">Chỉ hiển thị chuyến bay hoàn tiền</string>
-    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
-    <string name="advancedSearch_header_nonStop_contDesc">Chỉ hiển thị chuyến bay thẳng</string>
-    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
-    <string name="advancedSearch_header_nonStop_refundable_contDesc">Chỉ hiển thị chuyến bay thẳng hoàn tiền</string>
+    <string name="flight_refundable_search_header">Hiển thị chuyến bay &lt;b&gt;có thể hoàn tiền&lt;/b&gt;.\u0020</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">Đang tìm chuyến bay. Vui lòng chờ.</string>

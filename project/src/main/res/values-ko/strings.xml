@@ -812,22 +812,10 @@
     <string name="distance">거리순</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">%s~</string>
-    <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">무릎에</string>
-    <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">좌석에</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">영유아를 무릎에 앉힐 수 있는 어른(만 12세 이상)이 없습니다. 영유아에 개별 좌석이 필요합니다.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">만 12세 이상의 여행객 1명당 최대 2명의 영유아 좌석을 예약하실 수 있습니다.</string>
-    <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">만 2세 미만 영유아 좌석 선호 사항</string>
-    <!-- Description for infant seating preference message -->
-    <string name="infants_seating_preference_description">항공편 이용 시 만 2세 미만 영유아와 동석하시나요? 아니면 개별 좌석으로 가시나요?</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">개별 좌석을 이용하는 영유아의 경우 따로 항공권이 필요합니다. 영유아 티켓을 다시 검색해 보세요.</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">어른과 동석하여 무릎에 앉힌 영유아의 경우 따로 항공권이 필요 없습니다. 티켓 수를 줄여 새로 검색하겠습니다.</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two_TEMPLATE">만 2세 미만 영유아: %s</string>
     <!-- Header for a flight filter based upon number of stops -->
@@ -853,8 +841,6 @@
     <string name="room_rate_pay_later_due_now">지금 결제할 금액: {amount}</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s개 이용 후기</string>
-    <!-- Information for the review about who submitted it and when -->
-    <string name="submitted_by_on_date_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">세금 포함 총계</string>
@@ -1015,12 +1001,9 @@
     <string name="shop">예약</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
-    <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">일정을 찾을 수 없습니다. 국가 설정이 예약을 위한 웹사이트 주소와 일치하는지 계정 화면에서 확인해 주세요.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">이는 등록된 고객의 일정이 아닙니다. 이 일정과 연결된 {brand} 계정으로 로그인해 주세요.</string>
-    <!-- Enter Itinerary Details -->
-    <string name="enter_itinerary_details">일정 정보 입력</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 일정 번호</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1037,8 +1020,6 @@
     <string name="enter_a_guest_itinerary_number">비회원 일정 입력</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중…</string>
-    <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">일정을 가져오는 도중 오류 발생</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">고객님 여행을 보시려면 로그인해 주세요.</string>
     <!-- Button text to refresh your trips -->
@@ -1441,6 +1422,14 @@
     <string name="itin_hotel_details_room_details_title_text">객실 세부 정보</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+    <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
+    <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
+    <!--Hotel itin map view content description-->
+    <string name="itin_hotel_details_map_view_content_description">호텔 위치 구글 지도</string>
+    <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
+    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">호텔 전화번호는 {phonenumber}번입니다.</string>
+    <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">호텔 주소는 {address}입니다. 클립보드에 복사하려면 클릭하는 버튼</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3일 후 체크인</string>
@@ -2033,11 +2022,8 @@
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">여행객 {travelernumber} 수정 ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">만 {age}세</string>
-    <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">여행객 저장</string>
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">나중에 간편하게 결제하시도록 {name} 님의 정보를 고객님의 {brand} 계정에 저장할까요?</string>
     <!-- no thanks -->
     <string name="no_thanks">나중에 하기</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
@@ -2048,16 +2034,6 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">선택 사항인 고급 옵션을 확대하는 버튼</string>
     <string name="collapse_advanced_button_cont_desc">선택 사항인 고급 옵션을 축소하는 버튼</string>
-
-    <!-- Overwrite traveler dialog -->
-    <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">여행객을 저장할 수 없습니다.</string>
-    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">\"%1$s\" 이름으로 저장된 여행객이 이미 있습니다.</string>
-    <!-- Don't save -->
-    <string name="dont_save">저장 안 함</string>
-    <!-- Overwrite -->
-    <string name="overwrite">덮어쓰기</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">나중에 간편하게 결제하시도록 고객님의 {brand} 계정에서 여행객 정보를 업데이트할까요?</string>
     <!-- Update traveler dialog title-->
@@ -2110,9 +2086,6 @@
     <string name="seat_preference">좌석 선호 사항</string>
     <!-- Special Assistance -->
     <string name="special_assistance">특별 요청</string>
-
-    <!-- Entered invalid birthdate dialog -->
-    <string name="invalid_birthdate_message">입력하신 나이가 검색하신 여행객의 나이와 일치하지 않습니다. 정보를 업데이트한 후 다시 진행해 주세요.</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -2262,38 +2235,10 @@
     <string name="retry">다시 시도</string>
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">필터 수정</string>
-    <!-- Button label for calling -->
-    <string name="call_support">고객 지원</string>
-    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">해당 항공사가 방금 고객님의 항공권 가격을 %1$s만큼 올린 것 같습니다.  결제할 새 총액은 %2$s인데 괜찮으세요?</string>
-    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">고객님이 요청하신 항공편의 가격이 %1$s만큼 내려간 것이 방금 확인되었습니다. 청구될 새 총액은 %2$s인데 괜찮으세요?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">해당 항공사가 %1$s의 결제 처리 요금을 부과하는 것 같습니다. 결제할 새 총액은 %2$s인데 괜찮으세요?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">해당 항공사가 %1$s의 결제 처리 요금을 부과하고 고객님의 항공권 가격을 %2$s만큼 올린 것 같습니다. 결제할 새 총액은 %3$s인데 괜찮으세요?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">해당 항공사가 %1$s의 결제 처리 요금을 부과하지만 고객님이 요청하신 항공편의 가격이 %2$s만큼 할인된 것이 방금 확인되었습니다. 결제할 새 총액은 %3$s인데 괜찮으세요?</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">입력하신 카드 소유자 이름이 신용카드상의 이름과 일치하지 않습니다. 다시 시도해 주세요.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 보시거나 {brand} 고객 지원에 전화하여 이 일정 번호를 말씀해 주세요: {itinerary}</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_TEMPLATE">정말 죄송합니다. 고객님의 항공편은 더 이상 {brand}에서 제공되지 않습니다.</string>
-    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_TEMPLATE">정말 죄송합니다. 고객님의 항공편 중 한 편은 더 이상 {brand}에서 제공되지 않습니다.</string>
-    <!-- Button label imploring users to pick a new flight due to unavailability -->
-    <string name="pick_new_flight">새 항공편 선택</string>
-    <!-- Button label imploring users to pick flights due to unavailability -->
-    <string name="pick_new_flights">새 항공편 선택</string>
-
-    <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">죄송스럽게도 이 객실에 대한 고객님의 확보가 만료되었습니다.</string>
-    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
-    <string name="pick_new_hotel">새 호텔 선택</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">죄송합니다. 지금 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Error Screen toolbar title for payment failed screen -->
@@ -2516,8 +2461,6 @@
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">호텔 로드 중…</string>
-    <!-- Error string for widget when internet connection is unavailable -->
-    <string name="widget_error_no_internet">인터넷 연결 없음</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">보증금 약관</string>
 
@@ -2626,26 +2569,14 @@
 
 
     <!-- User Reviews list strings -->
-    <!-- Loading text prompt -->
-    <string name="user_review_loading_text">이용 후기 로드 중…</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">다른 언어로 작성된 이용 후기</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">최근</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">긍정적</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">비판적</string>
-    <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">더 많은 이용 후기 로드 중…</string>
     <!-- Read more of the review -->
     <string name="more">더 보기</string>
-    <!--
-         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-        1$ represents the number of guests that recommend this hotel
-        2$ represents the total number of guests
-    -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt;명의 고객(총 &lt;b&gt;%2$d&lt;/b&gt;명 중)이 이 호텔을 추천하셨습니다.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">이용 후기 없음</string>
 
@@ -2671,9 +2602,6 @@
     <string name="user_review_no_favorable_reviews">이 호텔에 대한 긍정적 이용 후기가 없습니다.</string>
     <!-- User review no recent reviews -->
     <string name="user_review_no_recent_reviews">이 호텔에 대한 최근 이용 후기가 없습니다.</string>
-
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">이용 후기를 일시적으로 이용하실 수 없습니다.</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">지금 예약하고 나중에 결제</string>
@@ -3021,6 +2949,14 @@
         <item quantity="many">청소년 %d명</item>
         <item quantity="other">청소년 %d명</item>
     </plurals>
+    <!-- A number of infant. Capitalized -->
+    <plurals name="number_of_infant">
+        <item quantity="zero">유아 %d명</item>
+        <item quantity="one">유아 %d명</item>
+        <item quantity="two">유아 %d명</item>
+        <item quantity="many">유아 %d명</item>
+        <item quantity="other">유아 %d명</item>
+    </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
         <item quantity="zero">고령자 %d명</item>
@@ -3083,9 +3019,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -3583,12 +3519,19 @@
 
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(만 26~59세)</string>
+    <!-- Adult age label desc on rail search -->
+    <string name="rail_adult_age_label_desc">(만 26~59세)</string>
 
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label">(만 0~15세)</string>
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label_desc">(만 0~15세)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label">(만 16~25세)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label_desc">(만 16~25세)</string>
 
     <!-- Senior age label on rail search -->
     <string name="rail_senior_age_label">(만 60세 이상)</string>
@@ -3598,6 +3541,30 @@
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(만 0~17세)</string>
+
+    <!-- Adult age label on flight search -->
+    <string name="flight_adult_age_label">(만 18세 이상)</string>
+    <!-- Youth age label on flight search -->
+    <string name="flight_youth_age_label">(만 13~17세)</string>
+    <!-- Youth age label desc on flight search -->
+    <string name="flight_youth_age_label_desc">(만 13~17세)</string>
+    <!-- Children age label on flight search -->
+    <string name="flight_children_age_label">(만 2~12세)</string>
+    <!-- Children age label desc on flight search -->
+    <string name="flight_children_age_label_desc">(만 2~12세)</string>
+
+    <!-- Infant age label on flight search -->
+    <string name="flight_infant_age_label">(만 2세 미만)</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_add_infant_traveler_cont_desc">유아 1명 추가</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_remove_infant_traveler_cont_desc">유아 1명 삭제</string>
+    <!-- Used in flight search for specifying infant's sitting -->
+    <string name="flight_infant_type_label">만 2세 미만 유아:</string>
+    <!-- Used in flight search for specifying infant's sitting inLap -->
+    <string name="flight_infant_InLap">무릎에</string>
+    <!-- Used in flight search for specifying infant's sitting in Seat-->
+    <string name="flight_infant_InSeat">좌석에</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">주변</string>
@@ -3820,17 +3787,11 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">{operatingairlinename}에서 운항</string>
     <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
-    <string name="flight_nonstop_refundable_search_header">• \u0020직항\u0020 • \u0020환불 가능\u0020 •</string>
+    <string name="flight_nonstop_refundable_search_header">&lt;b&gt;환불 가능한&lt;/b&gt; &lt;b&gt;직항&lt;/b&gt; 항공편,\u0020</string>
     <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
-    <string name="flight_nonstop_search_header">• \u0020직항\u0020 •</string>
+    <string name="flight_nonstop_search_header">&lt;b&gt;직항&lt;/b&gt; 항공편,\u0020</string>
     <!-- Header text on flight srp when only refundable filter is selected in advance search -->
-    <string name="flight_refundable_search_header">• \u0020환불 가능\u0020 •</string>
-    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
-    <string name="advancedSearch_header_refundable_contDesc">환불 가능 항공편만 표시 중</string>
-    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
-    <string name="advancedSearch_header_nonStop_contDesc">직항 항공편만 표시 중</string>
-    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
-    <string name="advancedSearch_header_nonStop_refundable_contDesc">환불 가능한 직항 항공편만 표시 중</string>
+    <string name="flight_refundable_search_header">&lt;b&gt;환불 가능한&lt;/b&gt; 항공편,\u0020</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">항공편을 검색하는 중입니다. 잠시 기다려 주세요.</string>

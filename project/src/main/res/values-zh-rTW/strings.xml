@@ -781,9 +781,9 @@
     <string name="total_from">來回最低價格：</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">每人來回價格</string>
+    <string name="prices_roundtrip_label">每人來回價。</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_oneway_label">每人單程價格</string>
+    <string name="prices_oneway_label">每人單程價。</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">每人來回價格，最低</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -812,22 +812,10 @@
     <string name="distance">距離</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">最低價 %s</string>
-    <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">不佔位</string>
-    <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">佔位</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">成人 (12 歲以上) 人數不夠讓嬰兒不佔位。嬰兒必須要有自己的座位。</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">我們只能為每位 12 歲以上的旅客預訂最多 2 個佔位的嬰兒座位。</string>
-    <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">2 歲以下嬰兒座位喜好</string>
-    <!-- Description for infant seating preference message -->
-    <string name="infants_seating_preference_description">2 歲以下嬰兒 (搭機時) 將佔位還是不佔位？</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">佔位的嬰兒必須購買機票。現在我們來重新搜尋包括嬰兒的機票。</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">不佔位的嬰兒不需要購買機票。現在我們會重新搜尋比較少張的機票。</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two_TEMPLATE">2 歲以下嬰兒：%s</string>
     <!-- Header for a flight filter based upon number of stops -->
@@ -853,8 +841,6 @@
     <string name="room_rate_pay_later_due_now">{amount}現在應付</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s 則評語</string>
-    <!-- Information for the review about who submitted it and when -->
-    <string name="submitted_by_on_date_TEMPLATE">%1$s 於 %2$s</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">含稅總價</string>
@@ -1015,12 +1001,9 @@
     <string name="shop">搜尋</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">尋找行程</string>
-    <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">找不到行程。請到「帳戶」畫面確認「國家」設定與您預訂時的網址相同。</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">此行程並非以訪客身分預訂。請登入預訂此行程時所使用的 {brand} 帳戶。</string>
-    <!-- Enter Itinerary Details -->
-    <string name="enter_itinerary_details">輸入行程資訊</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 行程編號</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1037,8 +1020,6 @@
     <string name="enter_a_guest_itinerary_number">輸入旅客行程編號</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">正在取得行程…</string>
-    <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">擷取行程時發生錯誤</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">登入以查看行程</string>
     <!-- Button text to refresh your trips -->
@@ -1438,9 +1419,17 @@
     <string name="itin_card_details_remove_itin">自行程中移除</string>
 
     <!--Hotel itin card details-->
-    <string name="itin_hotel_details_room_details_title_text">客房詳細資料</string>
+    <string name="itin_hotel_details_room_details_title_text">客房資訊</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+    <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
+    <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
+    <!--Hotel itin map view content description-->
+    <string name="itin_hotel_details_map_view_content_description">Google 地圖上的飯店位置</string>
+    <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
+    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">撥打飯店電話 {phonenumber}</string>
+    <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">飯店地址。{address}。按一下即可複製到剪貼簿。按鈕</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3 天後入住</string>
@@ -2033,11 +2022,8 @@
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">修改旅客 {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歲</string>
-    <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">儲存旅客</string>
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">是否要將 {name} 的資訊儲存在您的 {brand} 帳戶中，以便在日後加快預訂速度？</string>
     <!-- no thanks -->
     <string name="no_thanks">不用了，謝謝</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
@@ -2048,16 +2034,6 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">展開進階 (選項) 按鈕</string>
     <string name="collapse_advanced_button_cont_desc">收合進階 (選項) 按鈕</string>
-
-    <!-- Overwrite traveler dialog -->
-    <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">無法儲存旅客</string>
-    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">您已經儲存姓名為 \"%1$s\" 的旅客。</string>
-    <!-- Don't save -->
-    <string name="dont_save">不儲存</string>
-    <!-- Overwrite -->
-    <string name="overwrite">覆蓋</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">想要更新您 {brand} 帳戶中的旅客資訊，以加快預訂速度嗎？</string>
     <!-- Update traveler dialog title-->
@@ -2110,9 +2086,6 @@
     <string name="seat_preference">座位喜好</string>
     <!-- Special Assistance -->
     <string name="special_assistance">特殊協助</string>
-
-    <!-- Entered invalid birthdate dialog -->
-    <string name="invalid_birthdate_message">您輸入的年齡與您搜尋時使用的旅客年齡不符。請更改您的資訊，然後重新付款。</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -2262,38 +2235,10 @@
     <string name="retry">重試</string>
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">編輯篩選條件</string>
-    <!-- Button label for calling -->
-    <string name="call_support">支援</string>
-    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">航空公司剛剛將票價上漲了 %1$s。您願意支付新的總價 %2$s 嗎？</string>
-    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">我們剛剛發現您要求的班機降價了 %1$s。您願意支付新的總價 %2$s 嗎？</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">航空公司將收取付款處理費 %1$s。您願意支付新的總價 %2$s 嗎？</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">航空公司將收取付款處理費 %1$s，同時機票價格已經上漲 %2$s。您願意支付新的總價 %3$s 嗎？</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">航空公司將收取付款處理費 %1$s，但是機票價格已經下跌 %2$s。您願意支付新的總價 %3$s 嗎？</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">輸入的持卡人姓名與信用卡上所列不符。請再試一次。</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">很抱歉，我們目前無法處理您的訂單。請再試一次。</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">很抱歉，我們目前無法處理您的訂單。請再試一次，或聯絡 {brand} 客服中心並告知您的行程編號：{itinerary}</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_TEMPLATE">很抱歉，您的班機在 {brand} 已售完。</string>
-    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_TEMPLATE">很抱歉，您的其中一個班機在 {brand} 已售完。</string>
-    <!-- Button label imploring users to pick a new flight due to unavailability -->
-    <string name="pick_new_flight">選擇新班機</string>
-    <!-- Button label imploring users to pick flights due to unavailability -->
-    <string name="pick_new_flights">選擇新班機</string>
-
-    <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">很抱歉，這間客房的保留期限已過。</string>
-    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
-    <string name="pick_new_hotel">選擇新的飯店</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">很抱歉，我們目前無法處理您的預訂。請再試一次。</string>
     <!-- Error Screen toolbar title for payment failed screen -->
@@ -2516,8 +2461,6 @@
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">正在載入飯店…</string>
-    <!-- Error string for widget when internet connection is unavailable -->
-    <string name="widget_error_no_internet">沒有網際網路連線</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">訂金條款</string>
 
@@ -2626,26 +2569,14 @@
 
 
     <!-- User Reviews list strings -->
-    <!-- Loading text prompt -->
-    <string name="user_review_loading_text">正在載入使用者評語…</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">其他語言的評語</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">最近</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">正面</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">負面</string>
-    <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">正在載入更多評語…</string>
     <!-- Read more of the review -->
     <string name="more">更多</string>
-    <!--
-         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-        1$ represents the number of guests that recommend this hotel
-        2$ represents the total number of guests
-    -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; 位旅客推薦此飯店 (共 &lt;b&gt;%2$d&lt;/b&gt; 位)。</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">沒有評論</string>
 
@@ -2671,9 +2602,6 @@
     <string name="user_review_no_favorable_reviews">這間飯店沒有正面的評論。</string>
     <!-- User review no recent reviews -->
     <string name="user_review_no_recent_reviews">這間飯店沒有最近的評論。</string>
-
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">暫時無法提供評語</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">現在訂，入住飯店才付款</string>
@@ -3021,6 +2949,14 @@
         <item quantity="many">%d 位青少年</item>
         <item quantity="other">%d 位青少年</item>
     </plurals>
+    <!-- A number of infant. Capitalized -->
+    <plurals name="number_of_infant">
+        <item quantity="zero">%d 位嬰兒</item>
+        <item quantity="one">%d 位嬰兒</item>
+        <item quantity="two">%d 位嬰兒</item>
+        <item quantity="many">%d 位嬰兒</item>
+        <item quantity="other">%d 位嬰兒</item>
+    </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
         <item quantity="zero">%d 位銀髮族</item>
@@ -3085,7 +3021,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3583,12 +3519,19 @@
 
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(26-59 歲)</string>
+    <!-- Adult age label desc on rail search -->
+    <string name="rail_adult_age_label_desc">(26 至 59 歲)</string>
 
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label">(0-15 歲)</string>
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label_desc">(0 至 15 歲)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label">(16-25 歲)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label_desc">(16 至 25 歲)</string>
 
     <!-- Senior age label on rail search -->
     <string name="rail_senior_age_label">(60 歲以上)</string>
@@ -3598,6 +3541,30 @@
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(0 至 17 歲)</string>
+
+    <!-- Adult age label on flight search -->
+    <string name="flight_adult_age_label">(18 歲以上)</string>
+    <!-- Youth age label on flight search -->
+    <string name="flight_youth_age_label">(13-17 歲)</string>
+    <!-- Youth age label desc on flight search -->
+    <string name="flight_youth_age_label_desc">(13 至 17 歲)</string>
+    <!-- Children age label on flight search -->
+    <string name="flight_children_age_label">(2-12 歲)</string>
+    <!-- Children age label desc on flight search -->
+    <string name="flight_children_age_label_desc">(2 至 12 歲)</string>
+
+    <!-- Infant age label on flight search -->
+    <string name="flight_infant_age_label">(2 歲以下)</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_add_infant_traveler_cont_desc">增加 1 位嬰兒</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_remove_infant_traveler_cont_desc">減少 1 位嬰兒</string>
+    <!-- Used in flight search for specifying infant's sitting -->
+    <string name="flight_infant_type_label">2 歲以下嬰兒：</string>
+    <!-- Used in flight search for specifying infant's sitting inLap -->
+    <string name="flight_infant_InLap">不佔位</string>
+    <!-- Used in flight search for specifying infant's sitting in Seat-->
+    <string name="flight_infant_InSeat">佔位</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">鄰近地區</string>
@@ -3820,17 +3787,11 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">營運公司：{operatingairlinename}</string>
     <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
-    <string name="flight_nonstop_refundable_search_header">• \u0020直飛\u0020 • \u0020可退款\u0020 •</string>
+    <string name="flight_nonstop_refundable_search_header">正在顯示&lt;b&gt;直飛&lt;/b&gt;及&lt;b&gt;可退款&lt;/b&gt;班機。\u0020</string>
     <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
-    <string name="flight_nonstop_search_header">• \u0020直飛\u0020 •</string>
+    <string name="flight_nonstop_search_header">正在顯示&lt;b&gt;直飛&lt;/b&gt;班機。\u0020</string>
     <!-- Header text on flight srp when only refundable filter is selected in advance search -->
-    <string name="flight_refundable_search_header">• \u0020可退款\u0020 •</string>
-    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
-    <string name="advancedSearch_header_refundable_contDesc">目前僅顯示可退款航班</string>
-    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
-    <string name="advancedSearch_header_nonStop_contDesc">目前僅顯示直飛航班</string>
-    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
-    <string name="advancedSearch_header_nonStop_refundable_contDesc">目前僅顯示可退款的直飛航班</string>
+    <string name="flight_refundable_search_header">正在顯示&lt;b&gt;可退款&lt;/b&gt;班機。\u0020</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">正在搜尋班機。請稍候。</string>

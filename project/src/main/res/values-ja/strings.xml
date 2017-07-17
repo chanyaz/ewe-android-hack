@@ -781,9 +781,9 @@
     <string name="total_from">往復 最低価格 :</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">1 名あたりの往復料金</string>
+    <string name="prices_roundtrip_label">1 名あたりの往復料金。</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_oneway_label">1 名あたりの片道料金</string>
+    <string name="prices_oneway_label">1 名あたりの片道料金。</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">往復 (1 名あたり) の最低価格</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -812,22 +812,10 @@
     <string name="distance">距離</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">%s ～</string>
-    <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">膝抱き</string>
-    <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">座席</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">乳幼児を膝抱きできる大人 (12 歳以上) が規定人数に達していません。それぞれの座席が必要です。</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">12 歳以上の旅行者 1 名に対して予約可能な乳幼児の座席は、最大 2 席までです</string>
-    <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">2 才未満のお子様の座席のご希望</string>
-    <!-- Description for infant seating preference message -->
-    <string name="infants_seating_preference_description">2 歳未満 (搭乗時) のお子様は膝抱き、または座席が必要ですか ?</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">座席が必要な乳幼児はチケットが必要です。乳幼児を含めてもう一度検索してください。</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">膝抱きの乳幼児のチケットは不要です。人数を減らしてもう一度検索してください。</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two_TEMPLATE">2 歳未満の乳幼児 : %s</string>
     <!-- Header for a flight filter based upon number of stops -->
@@ -853,8 +841,6 @@
     <string name="room_rate_pay_later_due_now">今すぐお支払いの金額 : {amount}</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s 件のレビュー</string>
-    <!-- Information for the review about who submitted it and when -->
-    <string name="submitted_by_on_date_TEMPLATE">%2$s, %1$s</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">税込合計</string>
@@ -1015,12 +1001,9 @@
     <string name="shop">検索</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">旅程を検索する</string>
-    <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">旅程が見つかりません。アカウント画面で、該当のご予約に関する国の設定がウェブサイトのアドレスと一致していることをご確認ください。</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">これはゲスト旅程ではありません。この旅程に関連する {brand} アカウントにサインインしてください。</string>
-    <!-- Enter Itinerary Details -->
-    <string name="enter_itinerary_details">旅程情報を入力してください</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand}旅程番号</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1037,8 +1020,6 @@
     <string name="enter_a_guest_itinerary_number">旅程番号を入力してください</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">お客様の旅程を取得しています…</string>
-    <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">旅程を取得できませんでした</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">サインインして予約を確認してください</string>
     <!-- Button text to refresh your trips -->
@@ -1440,7 +1421,15 @@
     <!--Hotel itin card details-->
     <string name="itin_hotel_details_room_details_title_text">客室詳細</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
-    <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+    <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}、{bedtype}</string>
+    <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
+    <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
+    <!--Hotel itin map view content description-->
+    <string name="itin_hotel_details_map_view_content_description">ホテルの所在地 Google マップ</string>
+    <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
+    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">ホテルの電話番号 ：{phonenumber}</string>
+    <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">ホテルの住所 ： {address}クリックしてクリップボードにコピー。ボタン</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">チェックイン — 3 日後</string>
@@ -1527,7 +1516,7 @@
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">%1$sは %3$s に%2$sへ行きます ! \n%4$s</string>
     <!-- 1: departure city 2: arrival city 3: departure date(mm/dd/yyyy) 4: arrival date 5: outboundSharableURL 6: InboundSharableURL -->
-    <string name="share_msg_template_roundtrip_flight">%1$s ～ %2$s間の往復フライト (%3$s ～ %4$s) を利用します !\n往路便 (行き) : %5$s\n復路便 (帰り) : %6$s</string>
+    <string name="share_msg_template_roundtrip_flight">%1$s ～ %2$s間の往復フライト (%3$s ～ %4$s) を利用します ! \n往路便 (行き) : %5$s\n復路便 (帰り) : %6$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">レンタカー (%1$s～ %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -1745,7 +1734,7 @@
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}、{guests}</string>
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
-    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}、{guests}</string>
 
     <string name="hotel_free_cancellation_TEMPLATE">無料キャンセル期限 : {date}</string>
     <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
@@ -2033,11 +2022,8 @@
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歳</string>
-    <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">旅行者を保存する</string>
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">{name} 様の情報をお客様の {brand} アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
     <!-- no thanks -->
     <string name="no_thanks">いいえ</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
@@ -2048,16 +2034,6 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">このボタンをタップすると、詳細オプションが表示されます。</string>
     <string name="collapse_advanced_button_cont_desc">このボタンをタップすると、詳細オプションが非表示になります。</string>
-
-    <!-- Overwrite traveler dialog -->
-    <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">旅行者を保存できません</string>
-    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">\「%1$s\」という名前の旅行者がすでに保存されています。</string>
-    <!-- Don't save -->
-    <string name="dont_save">保存しない</string>
-    <!-- Overwrite -->
-    <string name="overwrite">上書きする</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">{brand} アカウントで旅行者の情報を更新しますか ? 更新すると、次回からご予約が簡単に行えます。</string>
     <!-- Update traveler dialog title-->
@@ -2110,9 +2086,6 @@
     <string name="seat_preference">座席のご希望</string>
     <!-- Special Assistance -->
     <string name="special_assistance">スペシャル サポート</string>
-
-    <!-- Entered invalid birthdate dialog -->
-    <string name="invalid_birthdate_message">入力した年齢が、検索された旅行者の年齢と異なります。お客様の情報を修正して、もう一度お試しください。</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -2262,38 +2235,10 @@
     <string name="retry">再試行</string>
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">検索条件を編集する</string>
-    <!-- Button label for calling -->
-    <string name="call_support">サポート</string>
-    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">航空会社がお客様の航空券の料金を %1$s 値上げしました。新しい料金は %2$s です。この金額でよろしいですか ?</string>
-    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">お客様がご希望のフライトを %1$s 安く提供できます。新しい金額は %2$s です。フライトを変更しますか ?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">クレジットカード手数料として %1$s が航空会社から請求されました。新しい料金は %2$s です。この金額でよろしいですか ?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">クレジットカード手数料として %1$s が航空会社から請求され、航空券の料金が %2$s 値上げされました。新しい料金は %3$s です。この金額でよろしいですか ?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">クレジットカード手数料として %1$s が航空会社から請求されましたが、%2$s 安く提供できるフライトがあります。新しい料金は %3$s です。この金額でよろしいですか ?</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">入力したクレジットカード名義人がクレジットカードに記載された名前と異なります。もう一度お試しください。</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">申し訳ありません。現在お客様のご予約を完了できません。もう一度お試しください。</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">申し訳ありません。現在お客様のご予約を完了できません。後でもう一度お試しいただくか、{brand} カスタマーサポートまでお電話ください。お問い合わせの際には旅程番号 ({itinerary}) をお伝えください。</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_TEMPLATE">申し訳ありません。{brand}ではご希望のフライトはご利用いただけません。</string>
-    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_TEMPLATE">申し訳ありません。{brand}ではご希望のフライトの一部をご利用いただけません。</string>
-    <!-- Button label imploring users to pick a new flight due to unavailability -->
-    <string name="pick_new_flight">新しいフライトを選択する</string>
-    <!-- Button label imploring users to pick flights due to unavailability -->
-    <string name="pick_new_flights">新しいフライトを選択する</string>
-
-    <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">申し訳ありません。保留中の客室が無効になりました</string>
-    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
-    <string name="pick_new_hotel">新しいホテルを選択する</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">申し訳ありません。現在お客様のご予約を完了できません。もう一度お試しください。</string>
     <!-- Error Screen toolbar title for payment failed screen -->
@@ -2516,8 +2461,6 @@
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">ホテルを読み込んでいます…</string>
-    <!-- Error string for widget when internet connection is unavailable -->
-    <string name="widget_error_no_internet">インターネットに接続されていません</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">デポジット規約</string>
 
@@ -2626,26 +2569,14 @@
 
 
     <!-- User Reviews list strings -->
-    <!-- Loading text prompt -->
-    <string name="user_review_loading_text">ユーザー レビューを読み込んでいます…</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">他言語のレビュー</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">最近</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">ポジティブ</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">ネガティブ</string>
-    <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">さらにレビューを読み込んでいます…</string>
     <!-- Read more of the review -->
     <string name="more">もっと読む</string>
-    <!--
-         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-        1$ represents the number of guests that recommend this hotel
-        2$ represents the total number of guests
-    -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%2$d&lt;/b&gt; 人中 &lt;b&gt;%1$d&lt;/b&gt; 人の宿泊者がこのホテルをお勧めしています。</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">レビューなし</string>
 
@@ -2671,9 +2602,6 @@
     <string name="user_review_no_favorable_reviews">このホテルのポジティブなレビューはまだありません</string>
     <!-- User review no recent reviews -->
     <string name="user_review_no_recent_reviews">このホテルの最近のレビューはありません</string>
-
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">レビューは現在ご覧いただけません</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">今すぐ予約、後からお支払い</string>
@@ -3020,6 +2948,14 @@
         <item quantity="two">中人 %d 名</item>
         <item quantity="many">中人 %d 名</item>
         <item quantity="other">中人 %d 名</item>
+    </plurals>
+    <!-- A number of infant. Capitalized -->
+    <plurals name="number_of_infant">
+        <item quantity="zero">乳幼児 %d 名</item>
+        <item quantity="one">乳幼児 %d 名</item>
+        <item quantity="two">乳幼児 %d 名</item>
+        <item quantity="many">乳幼児 %d 名</item>
+        <item quantity="other">乳幼児 %d 名</item>
     </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
@@ -3560,7 +3496,7 @@
     <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
     <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">{location}行きのフライトボタン</string>
     <!-- Content description for action: $500. Cost summary information button -->
-    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}。料金の概要情報ボタン。</string>
+    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}.料金の概要情報ボタン。</string>
 
     <!-- Dialog positive button message -->
     <string name="yes">はい</string>
@@ -3583,12 +3519,19 @@
 
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(26 ～ 59 歳)</string>
+    <!-- Adult age label desc on rail search -->
+    <string name="rail_adult_age_label_desc">(26 - 59 歳)</string>
 
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label">(0 ～ 15 歳)</string>
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label_desc">(0 - 15 歳)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label">(16 ～ 25 歳)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label_desc">(16 - 25 歳)</string>
 
     <!-- Senior age label on rail search -->
     <string name="rail_senior_age_label">(60 歳以上)</string>
@@ -3598,6 +3541,30 @@
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(0 - 17 歳)</string>
+
+    <!-- Adult age label on flight search -->
+    <string name="flight_adult_age_label">(18 歳以上)</string>
+    <!-- Youth age label on flight search -->
+    <string name="flight_youth_age_label">(13 ～ 17 歳)</string>
+    <!-- Youth age label desc on flight search -->
+    <string name="flight_youth_age_label_desc">(13 ～ 17 歳)</string>
+    <!-- Children age label on flight search -->
+    <string name="flight_children_age_label">(2 ～ 12 歳)</string>
+    <!-- Children age label desc on flight search -->
+    <string name="flight_children_age_label_desc">(2 ～ 12 歳)</string>
+
+    <!-- Infant age label on flight search -->
+    <string name="flight_infant_age_label">(2 歳未満)</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_add_infant_traveler_cont_desc">乳幼児 1 名の旅行者を追加します</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_remove_infant_traveler_cont_desc">乳幼児 1 名の旅行者を削除します</string>
+    <!-- Used in flight search for specifying infant's sitting -->
+    <string name="flight_infant_type_label">2 歳未満の乳幼児 :</string>
+    <!-- Used in flight search for specifying infant's sitting inLap -->
+    <string name="flight_infant_InLap">膝抱き</string>
+    <!-- Used in flight search for specifying infant's sitting in Seat-->
+    <string name="flight_infant_InSeat">座席利用</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">周辺</string>
@@ -3820,17 +3787,11 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">運航会社 : {operatingairlinename}</string>
     <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
-    <string name="flight_nonstop_refundable_search_header">• \u0020Nonstop\u0020 • \u0020Refundable\u0020 •</string>
+    <string name="flight_nonstop_refundable_search_header">&lt;b&gt;直行便&lt;/b&gt;と&lt;b&gt;返金可&lt;/b&gt;フライトを表示中。\u0020</string>
     <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
-    <string name="flight_nonstop_search_header">• \u0020Nonstop\u0020 •</string>
+    <string name="flight_nonstop_search_header">&lt;b&gt;直行便&lt;/b&gt;フライトを表示中。\u0020</string>
     <!-- Header text on flight srp when only refundable filter is selected in advance search -->
-    <string name="flight_refundable_search_header">• \u0020Refundable\u0020 •</string>
-    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
-    <string name="advancedSearch_header_refundable_contDesc">返金可能なフライトのみ表示中</string>
-    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
-    <string name="advancedSearch_header_nonStop_contDesc">直行便のみ表示中</string>
-    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
-    <string name="advancedSearch_header_nonStop_refundable_contDesc">返金可能な直行便のみ表示中</string>
+    <string name="flight_refundable_search_header">&lt;b&gt;返金可&lt;/b&gt;フライトを表示中。\u0020</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">フライトを検索中です。お待ちください。</string>
@@ -3872,7 +3833,7 @@
     <!-- Description for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_description">航空券とホテルを同時に予約するとお得 !</string>
     <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
-    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}.{description}.{button}</string>
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}。{description}。{button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
@@ -3882,7 +3843,7 @@
 
     <!-- Slide to book -->
     <string name="slide_to_book_text">スライドして購入</string>
-    <string name="hotel_city_country_TEMPLATE">{city}、{country}</string>
+    <string name="hotel_city_country_TEMPLATE">{country}、{city}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints}{brand_reward_name} ポイント</string>
     <!-- Confirmation Text in new Flights Confirmation Summary widget indicating rewards earned for the booked flight E.g. 183 points earned-->
@@ -4126,7 +4087,7 @@
 
     <!-- Accessibility string describing button opens cost breakdown dialog.
         Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
-    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}。料金明細のダイアログ。ボタン。</string>
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}.料金明細のダイアログ。ボタン。</string>
 
    <string name="pwp_points_conversion_unauthenticated_access">申し訳ありません。サーバーに問題が発生しました。もう一度お試しください。</string>
    <string name="pwp_trip_service_error">申し訳ありません。サーバーに問題が発生しました。もう一度お試しください。</string>
@@ -4234,7 +4195,7 @@
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
     <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">5 段階中 {hotel} の評価の {starrating}。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
-    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}。\u0020</string>
+    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}.\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">前の料金 {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
@@ -4319,14 +4280,14 @@
     <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
     <string name="flight_overview_price_widget_TEMPLATE">旅行の合計料金は {totalprice} です。税およびサービス料込み。{savings}</string>
     <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">旅行の合計料金は {totalprice} です。税およびサービス料込み。{savings}。料金明細のダイアログ。ボタン。</string>
+    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">旅行の合計料金は {totalprice} です。税およびサービス料込み。{savings}.料金明細のダイアログ。ボタン。</string>
     <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
     <string name="flight_overview_price_widget_button_open_TEMPLATE">旅行料金は 1 名 {price_per_person} です。税およびサービス料込み。フライトを表示するボタン。</string>
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}。料金明細のダイアログ。ボタン。</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}.料金明細のダイアログ。ボタン。</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">ツアー (航空券 + ホテル) 料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ツアー (航空券 + ホテル) を表示するボタン。</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
@@ -4367,7 +4328,7 @@
     <!--LX search accessibility -->
     <string name="location_edit_box_cont_desc">ロケーション。ボタン</string>
     <!-- Content description for location entered, e.g- Location. Gurgaon,India. Button-->
-    <string name="location_edit_box_cont_desc_TEMPLATE">ロケーション。{location}。ボタン</string>
+    <string name="location_edit_box_cont_desc_TEMPLATE">ロケーション。{location}.ボタン</string>
 
     <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
     <string name="lx_read_more_cont_desc">全文を表示するボタン</string>
@@ -4383,7 +4344,7 @@
     <string name="lx_ticket_removed_announce_accessibility_TEMPLATE">{traveler} 1 名を削除済み</string>
 
     <!-- Content description for action: $44. Cost summary information button. -->
-    <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}。料金の概要情報ボタン。</string>
+    <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}.料金の概要情報ボタン。</string>
     <!-- Content description for action: Free cancellation. Legal information button. -->
     <string name="lx_free_cancellation_cont_desc">キャンセル手数料無料。法的事項ボタン。</string>
 

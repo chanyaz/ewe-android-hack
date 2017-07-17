@@ -781,9 +781,9 @@
     <string name="total_from">Yhteensä alkaen</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Menopaluuhinta per henkilö</string>
+    <string name="prices_roundtrip_label">Menopaluuhinta per henkilö.</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_oneway_label">Yhdensuuntaisen matkan hinta per henkilö</string>
+    <string name="prices_oneway_label">Yhdensuuntaisen matkan hinta per henkilö.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Menopaluuhinta per henkilö, alkaen</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -812,22 +812,10 @@
     <string name="distance">Etäisyys</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Alkaen %s</string>
-    <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Sylissä</string>
-    <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Istuinpaikoilla</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Matkalla ei ole riittävää määrää aikuisia (yli 12-vuotiaita), joiden sylissä vauvat voivat istua. He tarvitsevat omat istuinpaikat.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">Voimme varata paikat korkeintaan kahdelle vauvalle jokaista yli 12-vuotiasta matkustajaa kohti</string>
-    <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">Istuinpaikkatoive alle 2-vuotiaille</string>
-    <!-- Description for infant seating preference message -->
-    <string name="infants_seating_preference_description">Matkustavatko (lentohetkellä) alle 2-vuotiaat lapset sylissä vai omilla paikoilla?</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Lapset, jotka matkustavat omilla paikoilla, tarvitsevat omat liput. Etsitään vauvojen lippuja uudelleen.</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Lapset, jotka matkustavat sylissä, eivät tarvitse omia lippuja. Haku tehdään uudelleen vähemmällä lippumäärällä.</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two_TEMPLATE">Alle 2-vuotiaat: %s</string>
     <!-- Header for a flight filter based upon number of stops -->
@@ -853,8 +841,6 @@
     <string name="room_rate_pay_later_due_now">{amount} maksettava nyt</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s arvostelua</string>
-    <!-- Information for the review about who submitted it and when -->
-    <string name="submitted_by_on_date_TEMPLATE">%2$s, %1$s</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Lopullinen hinta veroineen</string>
@@ -1015,12 +1001,9 @@
     <string name="shop">Tee varauksia</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Hae matkasuunnitelma</string>
-    <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">Matkasuunnitelmaa ei löytynyt. Vahvista tilisivulla, että maa-asetus vastaa käyttämäsi verkkosivuston maata.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">Tämä ei ole vierasvaraajana tehty matkasuunnitelma. Kirjaudu sisään {brand}n tilille, jonka kautta tämä matkasuunnitelma on tehty.</string>
-    <!-- Enter Itinerary Details -->
-    <string name="enter_itinerary_details">Anna matkasuunnitelman tiedot</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand}n matkasuunnitelman numero</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1037,8 +1020,6 @@
     <string name="enter_a_guest_itinerary_number">Anna vierailijan matkasuunnitelma</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Matkasuunnitelmia haetaan…</string>
-    <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">Virhe matkasuunnitelmien haussa</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Kirjaudu sisään tarkastellaksesi matkojasi</string>
     <!-- Button text to refresh your trips -->
@@ -1441,6 +1422,14 @@
     <string name="itin_hotel_details_room_details_title_text">Huoneen tiedot</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+    <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
+    <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
+    <!--Hotel itin map view content description-->
+    <string name="itin_hotel_details_map_view_content_description">Hotellin sijainti Google Mapsissa</string>
+    <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
+    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Hotellin puhelinnumero: {phonenumber}</string>
+    <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Hotellin osoite: {address}. Klikkaa ja kopioi leikepöydälle. Painike</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Sisäänkirjautuminen 3 päivän päästä</string>
@@ -2033,11 +2022,8 @@
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Muokkaa matkustajaa {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age}-vuotias</string>
-    <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Tallenna matkustaja</string>
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Haluatko tallentaa henkilön {name} tiedot {brand}n tilillesi varausten nopeuttamiseksi?</string>
     <!-- no thanks -->
     <string name="no_thanks">Ei kiitos</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
@@ -2048,16 +2034,6 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Laajenna lisävalinnat (valinnainen) -painike</string>
     <string name="collapse_advanced_button_cont_desc">Pienennä lisävalinnat (valinnainen) -painike</string>
-
-    <!-- Overwrite traveler dialog -->
-    <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">Matkustajaa ei voida tallentaa</string>
-    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Olet jo tallentanut matkustajan, jonka nimi on %1$s</string>
-    <!-- Don't save -->
-    <string name="dont_save">Älä tallenna</string>
-    <!-- Overwrite -->
-    <string name="overwrite">Korvaa</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">Haluatko päivittää matkustajatiedot {brand}-tilillesi varausten nopeuttamiseksi?</string>
     <!-- Update traveler dialog title-->
@@ -2110,9 +2086,6 @@
     <string name="seat_preference">Istuinpaikkatoive</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Erikoisavustus</string>
-
-    <!-- Entered invalid birthdate dialog -->
-    <string name="invalid_birthdate_message">Antamasi ikä ei vastaa etsimäsi matkustajan ikää. Päivitä tiedot ja yritä tehdä varaus sitten uudelleen.</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -2262,38 +2235,10 @@
     <string name="retry">Yritä uudelleen</string>
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">Muokkaa suodattimia</string>
-    <!-- Button label for calling -->
-    <string name="call_support">Tuki</string>
-    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Lentoyhtiö nosti lippusi hintaa juuri %1$s.  Haluatko maksaa uuden hinnan %2$s?</string>
-    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">Löysimme hakemasi lennot tarjouksesta %1$s halvemmalla. Haluatko maksaa uuden hinnan %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">Lentoyhtiö veloittaa %1$s käsittelymaksun. Haluatko maksaa uuden hinnan %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">Lentoyhtiö veloittaa %1$s käsittelymaksun, ja hinta on myös noussut %2$s. Haluatko maksaa uuden hinnan %3$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">Lentoyhtiö veloittaa %1$s käsittelymaksun, mutta me löysimme etsimäsi lennot tarjouksesta %2$s halvemmalla. Haluatko maksaa uuden hinnan %3$s?</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Antamasi kortin haltijan nimi ei ole sama kuin luottokortissa. Ole hyvä ja yritä uudelleen.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">Valitettavasti emme pysty käsittelemään tilaustasi juuri nyt. Ole hyvä ja yritä uudelleen.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Valitettavasti emme pysty käsittelemään tilaustasi juuri nyt. Yritä uudelleen tai soita {brand}n asiakaspalveluun ja anna matkasuunnitelmasi numero: {itinerary}</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_TEMPLATE">Valitettavasti lento ei ole enää saatavilla {brand}n kautta.</string>
-    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_TEMPLATE">Valitettavasti yksi lennoistasi ei ole enää saatavilla {brand}n kautta.</string>
-    <!-- Button label imploring users to pick a new flight due to unavailability -->
-    <string name="pick_new_flight">Valitse uusi lento</string>
-    <!-- Button label imploring users to pick flights due to unavailability -->
-    <string name="pick_new_flights">Valitse uudet lennot</string>
-
-    <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">Pahoittelemme, mutta tämän hotellihuoneen varauksesi on päättynyt</string>
-    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
-    <string name="pick_new_hotel">Valitse uusi hotelli</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Valitettavasti emme pysty käsittelemään tilaustasi juuri nyt. Ole hyvä ja yritä uudelleen.</string>
     <!-- Error Screen toolbar title for payment failed screen -->
@@ -2516,8 +2461,6 @@
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Hotelleja ladataan…</string>
-    <!-- Error string for widget when internet connection is unavailable -->
-    <string name="widget_error_no_internet">Ei internet-yhteyttä</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">Takuumaksuehdot</string>
 
@@ -2626,26 +2569,14 @@
 
 
     <!-- User Reviews list strings -->
-    <!-- Loading text prompt -->
-    <string name="user_review_loading_text">Asiakasarvosteluja ladataan…</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Arvostelut muilla kielillä</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Viimeisimmät</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">Positiiviset</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">Kriittiset</string>
-    <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">Lisää arvosteluja ladataan…</string>
     <!-- Read more of the review -->
     <string name="more">lisää</string>
-    <!--
-         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-        1$ represents the number of guests that recommend this hotel
-        2$ represents the total number of guests
-    -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; / &lt;b&gt;%2$d&lt;/b&gt; asiakkaasta suosittelee tätä hotellia.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">Ei arvosteluja</string>
 
@@ -2671,9 +2602,6 @@
     <string name="user_review_no_favorable_reviews">Tästä hotellista ei ole yhtään positiivista arvostelua.</string>
     <!-- User review no recent reviews -->
     <string name="user_review_no_recent_reviews">Tästä hotellista ei ole yhtään viimeaikaista arvostelua.</string>
-
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Arvostelut ovat tilapäisesti pois käytöstä</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">Varaa nyt, maksa myöhemmin</string>
@@ -3020,6 +2948,14 @@
         <item quantity="two">%d nuorta</item>
         <item quantity="many">%d nuorta</item>
         <item quantity="other">%d nuorta</item>
+    </plurals>
+    <!-- A number of infant. Capitalized -->
+    <plurals name="number_of_infant">
+        <item quantity="zero">%d vauvaa</item>
+        <item quantity="one">%d vauva</item>
+        <item quantity="two">%d vauvaa</item>
+        <item quantity="many">%d vauvaa</item>
+        <item quantity="other">%d vauvaa</item>
     </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
@@ -3583,12 +3519,19 @@
 
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(26–59-vuotias)</string>
+    <!-- Adult age label desc on rail search -->
+    <string name="rail_adult_age_label_desc">(26–59-vuotias)</string>
 
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label">(0–15-vuotias)</string>
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label_desc">(0–15-vuotias)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label">(16–25-vuotias)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label_desc">(16–25-vuotias)</string>
 
     <!-- Senior age label on rail search -->
     <string name="rail_senior_age_label">(60–vuotias tai vanhempi)</string>
@@ -3598,6 +3541,30 @@
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(0–17-vuotias)</string>
+
+    <!-- Adult age label on flight search -->
+    <string name="flight_adult_age_label">(18–vuotias tai vanhempi)</string>
+    <!-- Youth age label on flight search -->
+    <string name="flight_youth_age_label">(13–17-vuotias)</string>
+    <!-- Youth age label desc on flight search -->
+    <string name="flight_youth_age_label_desc">(13–17-vuotias)</string>
+    <!-- Children age label on flight search -->
+    <string name="flight_children_age_label">(2–12-vuotias)</string>
+    <!-- Children age label desc on flight search -->
+    <string name="flight_children_age_label_desc">(2–12-vuotias)</string>
+
+    <!-- Infant age label on flight search -->
+    <string name="flight_infant_age_label">(alle 2-vuotias)</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_add_infant_traveler_cont_desc">Lisää yksi vauva matkustajiin</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_remove_infant_traveler_cont_desc">Poista yksi vauva matkustajista</string>
+    <!-- Used in flight search for specifying infant's sitting -->
+    <string name="flight_infant_type_label">Alle 2-vuotiaat:</string>
+    <!-- Used in flight search for specifying infant's sitting inLap -->
+    <string name="flight_infant_InLap">Sylissä</string>
+    <!-- Used in flight search for specifying infant's sitting in Seat-->
+    <string name="flight_infant_InSeat">Istuinpaikalla</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Alueet</string>
@@ -3820,17 +3787,11 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Lennon liikennöi {operatingairlinename}</string>
     <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
-    <string name="flight_nonstop_refundable_search_header">• \u0020Suora\u0020 • \u0020Hyvitettävä\u0020 •</string>
+    <string name="flight_nonstop_refundable_search_header">Näytetään &lt;b&gt;suorat&lt;/b&gt; ja &lt;b&gt;hyvitettävät&lt;/b&gt; lennot.\u0020</string>
     <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
-    <string name="flight_nonstop_search_header">• \u0020Suora\u0020 •</string>
+    <string name="flight_nonstop_search_header">Näytetään &lt;b&gt;suorat&lt;/b&gt; lennot.\u0020</string>
     <!-- Header text on flight srp when only refundable filter is selected in advance search -->
-    <string name="flight_refundable_search_header">• \u0020Hyvitettävä\u0020 •</string>
-    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
-    <string name="advancedSearch_header_refundable_contDesc">Näytetään vain hyvitettävät lennot</string>
-    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
-    <string name="advancedSearch_header_nonStop_contDesc">Näytetään vain suorat lennot</string>
-    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
-    <string name="advancedSearch_header_nonStop_refundable_contDesc">Näytetään vain suorat ja hyvitettävät lennot</string>
+    <string name="flight_refundable_search_header">Näytetään &lt;b&gt;hyvitettävät&lt;/b&gt; lennot.\u0020</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">Lentoja haetaan. Odota.</string>

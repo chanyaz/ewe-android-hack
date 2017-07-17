@@ -781,9 +781,9 @@
     <string name="total_from">Total desde</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Precios de ida y vuelta por persona</string>
+    <string name="prices_roundtrip_label">Precios de ida y vuelta, por persona.</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_oneway_label">Precios de ida por persona</string>
+    <string name="prices_oneway_label">Precios de ida, por persona.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Precios de ida y vuelta por persona desde</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -812,22 +812,10 @@
     <string name="distance">Distancia</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">De %s</string>
-    <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Regazo</string>
-    <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Asientos</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">No hay adultos suficientes (+ de 12 años) para tener a los niños en el regazo. Deben tener su propio asiento.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">Solo podemos reservar asientos para un máximo de dos niños por cada pasajero de 12 años o más</string>
-    <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">Preferencias de asiento para niños de menos de 2 años</string>
-    <!-- Description for infant seating preference message -->
-    <string name="infants_seating_preference_description">¿Los niños de menos de 2 años (al momento del vuelo) se sientan en el regazo o tienen su propio asiento?</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Los niños que ocupen un asiento deben tener su propia entrada. Busquemos nuevamente para encontrar pasajes para los niños.</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Los niños en el regazo no deben tener su propia entrada. Comenzaremos una nueva búsqueda con menos pasajes.</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two_TEMPLATE">Niños de menos de 2 años: %s</string>
     <!-- Header for a flight filter based upon number of stops -->
@@ -853,8 +841,6 @@
     <string name="room_rate_pay_later_due_now">{amount} a pagar ahora</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s reseñas</string>
-    <!-- Information for the review about who submitted it and when -->
-    <string name="submitted_by_on_date_TEMPLATE">%1$s en %2$s</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Total con impuestos</string>
@@ -1015,12 +1001,9 @@
     <string name="shop">Comprar</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Buscar un itinerario</string>
-    <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">No se pudo encontrar el itinerario. Consulta la sección con información sobre tu cuenta para confirmar que la configuración del país sea la misma que la del sitio web donde realizaste la reservación.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">Este no es un itinerario de invitado. Inicia sesión en la cuenta de {brand} asociada a este itinerario.</string>
-    <!-- Enter Itinerary Details -->
-    <string name="enter_itinerary_details">Ingresa los detalles del itinerario</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">Núm. de itinerario de {brand}</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1037,8 +1020,6 @@
     <string name="enter_a_guest_itinerary_number">Ingresar un itinerario como invitado</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Estamos buscando tus itinerarios…</string>
-    <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">Hubo un error al buscar tus itinerarios</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Inicia sesión para tus viajes</string>
     <!-- Button text to refresh your trips -->
@@ -1438,9 +1419,17 @@
     <string name="itin_card_details_remove_itin">Eliminar del itinerario</string>
 
     <!--Hotel itin card details-->
-    <string name="itin_hotel_details_room_details_title_text">Detalles de la habitación</string>
+    <string name="itin_hotel_details_room_details_title_text">Información de la habitación</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+    <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
+    <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
+    <!--Hotel itin map view content description-->
+    <string name="itin_hotel_details_map_view_content_description">Mapa de Google con la ubicación del hotel</string>
+    <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
+    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Llamar al hotel al {phonenumber}.</string>
+    <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Dirección del hotel. {address}. Clic para copiar al portapapeles. Botón</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in en 3 días</string>
@@ -2033,11 +2022,8 @@
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Editar pasajero {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} año</string>
-    <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Guarda los datos del pasajero</string>
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">¿Deseas guardar los datos de {name} en tu cuenta de {brand} para agilizar tus futuras compras?</string>
     <!-- no thanks -->
     <string name="no_thanks">No, gracias</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
@@ -2048,16 +2034,6 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Botón para ampliar las opciones avanzadas</string>
     <string name="collapse_advanced_button_cont_desc">Botón para reducir las opciones avanzadas</string>
-
-    <!-- Overwrite traveler dialog -->
-    <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">No se puede guardar al pasajero</string>
-    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Ya has guardado un pasajero con el nombre \"%1$s\".</string>
-    <!-- Don't save -->
-    <string name="dont_save">No guardar</string>
-    <!-- Overwrite -->
-    <string name="overwrite">Sobrescribir</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">¿Deseas actualizar los datos del pasajero de tu cuenta de {brand} para agilizar tus futuras compras?</string>
     <!-- Update traveler dialog title-->
@@ -2110,9 +2086,6 @@
     <string name="seat_preference">Preferencia de asientos</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Asistencia especial</string>
-
-    <!-- Entered invalid birthdate dialog -->
-    <string name="invalid_birthdate_message">La edad que ingresaste no coincide con la edad del pasajero para el cual efectuaste la búsqueda. Actualiza tu información e intenta hacer la compra otra vez.</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -2262,38 +2235,10 @@
     <string name="retry">Intentarlo de nuevo</string>
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">Editar filtros</string>
-    <!-- Button label for calling -->
-    <string name="call_support">Ayuda</string>
-    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Parece que la línea aérea acaba de aumentar el precio de tu entrada por un total de %1$s.  ¿Estás de acuerdo en pagar el nuevo total de %2$s?</string>
-    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">Acabamos de encontrar los vuelos que solicitaste en oferta por %1$s menos. ¿Estás de acuerdo en que te cobremos el nuevo total de %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">Parece ser que la línea aérea está cobrando un cargo de %1$s por procesamiento de pago. ¿Estás de acuerdo en pagar un total nuevo de %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">Parece ser que la línea aérea está cobrando un cargo por procesamiento de pago de %1$s y ha subido el precio de tu entrada de %2$s. ¿Estás de acuerdo en pagar un total nuevo de %3$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">Parece ser que la línea aérea está cobrando un cargo por procesamiento de pago de %1$s sin embargo acabamos de encontrar los vuelos que solicitaste en oferta por %2$s menos. ¿Estás de acuerdo en pagar un total nuevo de %3$s?</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">El nombre del titular de la tarjeta que ingresaste no coincide con el nombre que figura en la tarjeta de crédito. Inténtalo de nuevo por favor.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">Lo sentimos, aparentemente no podemos procesar tu compra por el momento. Inténtalo de nuevo por favor.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Lo sentimos, aparentemente no podemos procesar tu compra por el momento. Inténtalo de nuevo o llama al Servicio de atención a clientes de {brand} e indica el siguiente número de itinerario: {itinerary}</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_TEMPLATE">Lo sentimos, tu vuelo ya no está disponible en {brand}.</string>
-    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_TEMPLATE">Lo sentimos, uno de tus vuelos ya no está disponible en {brand}.</string>
-    <!-- Button label imploring users to pick a new flight due to unavailability -->
-    <string name="pick_new_flight">Elige un nuevo vuelo</string>
-    <!-- Button label imploring users to pick flights due to unavailability -->
-    <string name="pick_new_flights">Elige nuevos vuelos</string>
-
-    <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">Lo sentimos, tu reservación de esta habitación caducó</string>
-    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
-    <string name="pick_new_hotel">Elige un nuevo hotel</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Lo sentimos, aparentemente no podemos procesar tu compra por el momento. Inténtalo de nuevo.</string>
     <!-- Error Screen toolbar title for payment failed screen -->
@@ -2516,8 +2461,6 @@
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Cargando hoteles…</string>
-    <!-- Error string for widget when internet connection is unavailable -->
-    <string name="widget_error_no_internet">No tienes conexión a Internet</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">Términos del depósito</string>
 
@@ -2626,26 +2569,14 @@
 
 
     <!-- User Reviews list strings -->
-    <!-- Loading text prompt -->
-    <string name="user_review_loading_text">Cargando reseñas de usuarios…</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Reseñas en otros idiomas</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recientes</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">Favorables</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">En contra</string>
-    <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">Cargando más reseñas…</string>
     <!-- Read more of the review -->
     <string name="more">más información</string>
-    <!--
-         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-        1$ represents the number of guests that recommend this hotel
-        2$ represents the total number of guests
-    -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; de &lt;b&gt;%2$d&lt;/b&gt; huéspedes recomiendan este hotel.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">No hay reseñas</string>
 
@@ -2671,9 +2602,6 @@
     <string name="user_review_no_favorable_reviews">No hay reseñas favorables sobre este hotel.</string>
     <!-- User review no recent reviews -->
     <string name="user_review_no_recent_reviews">No hay reseñas recientes sobre este hotel.</string>
-
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Las reseñas no están disponibles temporalmente</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">Reserva ahora, paga después</string>
@@ -3020,6 +2948,14 @@
         <item quantity="two">%d jóvenes</item>
         <item quantity="many">%d jóvenes</item>
         <item quantity="other">%d jóvenes</item>
+    </plurals>
+    <!-- A number of infant. Capitalized -->
+    <plurals name="number_of_infant">
+        <item quantity="zero">%d bebés</item>
+        <item quantity="one">%d bebé</item>
+        <item quantity="two">%d bebés</item>
+        <item quantity="many">%d bebés</item>
+        <item quantity="other">%d bebés</item>
     </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
@@ -3583,12 +3519,19 @@
 
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(De 26 a 59 años)</string>
+    <!-- Adult age label desc on rail search -->
+    <string name="rail_adult_age_label_desc">(De 26 a 59 años)</string>
 
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label">(De 0 a 15 años)</string>
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label_desc">(De 0 a 15 años)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label">(De 16 a 25 años)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label_desc">(De 16 a 25 años)</string>
 
     <!-- Senior age label on rail search -->
     <string name="rail_senior_age_label">(De más de 60 años)</string>
@@ -3598,6 +3541,30 @@
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(De 0 a 17 años)</string>
+
+    <!-- Adult age label on flight search -->
+    <string name="flight_adult_age_label">(De más de 18 años)</string>
+    <!-- Youth age label on flight search -->
+    <string name="flight_youth_age_label">(De 13 a 17 años)</string>
+    <!-- Youth age label desc on flight search -->
+    <string name="flight_youth_age_label_desc">(De 13 a 17 años)</string>
+    <!-- Children age label on flight search -->
+    <string name="flight_children_age_label">(De 2 a 12 años)</string>
+    <!-- Children age label desc on flight search -->
+    <string name="flight_children_age_label_desc">(De 2 a 12 años)</string>
+
+    <!-- Infant age label on flight search -->
+    <string name="flight_infant_age_label">(menos de 2 años)</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_add_infant_traveler_cont_desc">Agregar un bebé</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_remove_infant_traveler_cont_desc">Eliminar un bebé</string>
+    <!-- Used in flight search for specifying infant's sitting -->
+    <string name="flight_infant_type_label">Niños de menos de 2 años:</string>
+    <!-- Used in flight search for specifying infant's sitting inLap -->
+    <string name="flight_infant_InLap">En el regazo</string>
+    <!-- Used in flight search for specifying infant's sitting in Seat-->
+    <string name="flight_infant_InSeat">En un asiento</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Áreas</string>
@@ -3820,17 +3787,11 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Operado por {operatingairlinename}</string>
     <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
-    <string name="flight_nonstop_refundable_search_header">• \u0020Sin escalas\u0020 • \u0020Reembolsables\u0020 •</string>
+    <string name="flight_nonstop_refundable_search_header">Mostrando vuelos &lt;b&gt;sin escalas&lt;/b&gt; y &lt;b&gt;reembolsables&lt;/b&gt;.\u0020</string>
     <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
-    <string name="flight_nonstop_search_header">• \u0020Sin escalas\u0020 •</string>
+    <string name="flight_nonstop_search_header">Mostrando vuelos &lt;b&gt;sin escalas&lt;/b&gt;.\u0020</string>
     <!-- Header text on flight srp when only refundable filter is selected in advance search -->
-    <string name="flight_refundable_search_header">• \u0020Reembolsables\u0020 •</string>
-    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
-    <string name="advancedSearch_header_refundable_contDesc">Solo se muestran vuelos reembolsables</string>
-    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
-    <string name="advancedSearch_header_nonStop_contDesc">Solo se muestran vuelos sin escalas</string>
-    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
-    <string name="advancedSearch_header_nonStop_refundable_contDesc">Solo se muestran vuelos reembolsables sin escalas</string>
+    <string name="flight_refundable_search_header">Mostrando vuelos &lt;b&gt;reembolsables&lt;/b&gt;.\u0020</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">Buscando vuelos. Espera.</string>

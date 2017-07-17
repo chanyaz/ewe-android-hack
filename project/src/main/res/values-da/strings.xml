@@ -781,9 +781,9 @@
     <string name="total_from">I alt fra</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Priser pr. person tur-retur</string>
+    <string name="prices_roundtrip_label">Priser tur-retur, pr. person.</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_oneway_label">Priser pr. person for enkeltbillet</string>
+    <string name="prices_oneway_label">Priser for enkeltbillet, pr. person.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Priser pr. person tur-retur fra</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -812,22 +812,10 @@
     <string name="distance">Afstand</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Fra %s</string>
-    <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Skød</string>
-    <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Sæder</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Der er ikke nok voksne (i alderen 12+) til, at spædbørnene kan sidde på skødet. De skal sidde på deres eget sæde.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">Vi kan maks. reservere sæder til 2 spædbørn pr. rejsende i alderen 12 år eller derover.</string>
-    <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">Sædepræferencer for spædbørn under 2 år</string>
-    <!-- Description for infant seating preference message -->
-    <string name="infants_seating_preference_description">Skal børn under 2 år (på rejsetidspunktet) sidde på skødet eller på deres eget sæde?</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Spædbørn på eget sæde skal have sin egen billet. Søg efter billetter til spædbørn.</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Spædbørn, der sidder på skødet, behøver ikke at have sin egen billet. Vi vil påbegynde en ny søgning med færre billetter.</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two_TEMPLATE">Spædbørn under 2 år: %s</string>
     <!-- Header for a flight filter based upon number of stops -->
@@ -853,8 +841,6 @@
     <string name="room_rate_pay_later_due_now">{amount} til betaling nu</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s anmeldelser</string>
-    <!-- Information for the review about who submitted it and when -->
-    <string name="submitted_by_on_date_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Samlet pris inkl. skat</string>
@@ -1015,12 +1001,9 @@
     <string name="shop">Søg</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find rejseplan</string>
-    <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">Rejseplanen blev ikke fundet. Bekræft på kontoskærmen, at indstillingen for land stemmer overens med webadressen for din reservation.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">Denne rejseplan er ikke blevet reserveret som gæst. Log venligst på den {brand}-konto, der er tilknyttet denne rejseplan.</string>
-    <!-- Enter Itinerary Details -->
-    <string name="enter_itinerary_details">Indtast oplysninger om rejseplan</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">Rejseplansnummer fra {brand}</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1037,8 +1020,6 @@
     <string name="enter_a_guest_itinerary_number">Angiv en gæsterejseplan</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Henter dine rejseplaner…</string>
-    <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">Fejl ved hentning af rejseplaner</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Log på for at se dine rejser</string>
     <!-- Button text to refresh your trips -->
@@ -1438,9 +1419,17 @@
     <string name="itin_card_details_remove_itin">Fjern fra rejseplan</string>
 
     <!--Hotel itin card details-->
-    <string name="itin_hotel_details_room_details_title_text">Værelsesdetaljer</string>
+    <string name="itin_hotel_details_room_details_title_text">Værelsesoplysninger</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+    <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
+    <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
+    <!--Hotel itin map view content description-->
+    <string name="itin_hotel_details_map_view_content_description">Hotellets beliggenhed på Google Maps</string>
+    <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
+    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Ring til hotellet på {phonenumber}</string>
+    <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Hotellets adresse. {address}. Klik for at kopiere til udklipsholder. Knap</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Indtjekning — 3 dage</string>
@@ -2033,11 +2022,8 @@
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Rediger rejsende {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} år</string>
-    <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Gem rejsende</string>
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Vil du gemme {name}s oplysninger på din {brand}-konto, så det bliver nemmere at reservere fremover?</string>
     <!-- no thanks -->
     <string name="no_thanks">Nej tak</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
@@ -2048,16 +2034,6 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Knap til at udvide Avanceret (valgfrit)</string>
     <string name="collapse_advanced_button_cont_desc">Knap til at skjule Avanceret (valgfrit)</string>
-
-    <!-- Overwrite traveler dialog -->
-    <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">Kan ikke gemme rejsende</string>
-    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Du har allerede gemt en rejsende ved navn \‛%1$s\&apos;.</string>
-    <!-- Don't save -->
-    <string name="dont_save">Gem ikke</string>
-    <!-- Overwrite -->
-    <string name="overwrite">Overskriv</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">Vil du opdater oplysninger om rejsende på din {brand}-konto, så det bliver nemmere at reservere fremover?</string>
     <!-- Update traveler dialog title-->
@@ -2110,9 +2086,6 @@
     <string name="seat_preference">Foretrukken siddeplads</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Særlig assistance</string>
-
-    <!-- Entered invalid birthdate dialog -->
-    <string name="invalid_birthdate_message">Den alder, du har indtastet, matcher ikke alderen på den rejsende, du har søgt på. Opdater venligst dine oplysninger, og prøv at tjekke ud igen.</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -2262,38 +2235,10 @@
     <string name="retry">Prøv igen</string>
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">Rediger filtre</string>
-    <!-- Button label for calling -->
-    <string name="call_support">Support</string>
-    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Det lader til, at flyselskabet lige har hævet prisen på din billet med %1$s. Vil du gerne betale det nye samlede beløb på %2$s?</string>
-    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">Vi har lige fundet dine ønskede flybilletter på udsalg, hvor du kan spare %1$s. Vi du gerne betale det nye samlede beløb på %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s. Vil du gerne betale det nye samlede beløb på %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s og har lige hævet prisen på din flybillet med %2$s. Vil du gerne betale det nye samlede beløb på %3$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s, men vi har lige fundet dine ønskede flybilletter på udsalg, hvor du kan spare %2$s. Vil du gerne betale det nye samlede beløb på %3$s?</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Det indtastede navn på kortholderen stemmer ikke overens med navnet på kreditkortet. Forsøg venligst igen.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Forsøg venligst igen.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Prøv venligst igen, eller ring til {brand}s kundeservice. Husk at angive dette rejseplansnummer: {itinerary}</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_TEMPLATE">Vi beklager meget, men din flyrejse er ikke længere tilgængelig fra {brand}.</string>
-    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_TEMPLATE">Vi beklager meget, men en af dine flyrejser er ikke længere tilgængelig fra {brand}.</string>
-    <!-- Button label imploring users to pick a new flight due to unavailability -->
-    <string name="pick_new_flight">Vælg et nyt fly</string>
-    <!-- Button label imploring users to pick flights due to unavailability -->
-    <string name="pick_new_flights">Vælg nye fly</string>
-
-    <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">Vi beklager meget, men tiden er udløbet, og værelset er ikke længere til rådighed</string>
-    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
-    <string name="pick_new_hotel">Vælg et nyt hotel</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din reservation i øjeblikket. Prøv venligst igen.</string>
     <!-- Error Screen toolbar title for payment failed screen -->
@@ -2516,8 +2461,6 @@
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Henter hoteller…</string>
-    <!-- Error string for widget when internet connection is unavailable -->
-    <string name="widget_error_no_internet">Ingen internetforbindelse</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">Vilkår for depositum</string>
 
@@ -2626,26 +2569,14 @@
 
 
     <!-- User Reviews list strings -->
-    <!-- Loading text prompt -->
-    <string name="user_review_loading_text">Indlæser gæsteanmeldelser…</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Anmeldelser på andre sprog</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Nye</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">Positive</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">Kritiske</string>
-    <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">Henter flere anmeldelser…</string>
     <!-- Read more of the review -->
     <string name="more">mere</string>
-    <!--
-         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-        1$ represents the number of guests that recommend this hotel
-        2$ represents the total number of guests
-    -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; ud af &lt;b&gt;%2$d&lt;/b&gt; gæster anbefaler dette hotel.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">Ingen anmeldelser</string>
 
@@ -2671,9 +2602,6 @@
     <string name="user_review_no_favorable_reviews">Der er ingen positive anmeldelser for dette hotel.</string>
     <!-- User review no recent reviews -->
     <string name="user_review_no_recent_reviews">Der er ingen nye anmeldelser for dette hotel.</string>
-
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Anmeldelserne er midlertidigt utilgængelige</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">Reserver nu, betal senere</string>
@@ -3020,6 +2948,14 @@
         <item quantity="two">%d unge</item>
         <item quantity="many">%d unge</item>
         <item quantity="other">%d unge</item>
+    </plurals>
+    <!-- A number of infant. Capitalized -->
+    <plurals name="number_of_infant">
+        <item quantity="zero">%d spædbørn</item>
+        <item quantity="one">%d spædbarn</item>
+        <item quantity="two">%d spædbørn</item>
+        <item quantity="many">%d spædbørn</item>
+        <item quantity="other">%d spædbørn</item>
     </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
@@ -3583,12 +3519,19 @@
 
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(26-59 år gammel)</string>
+    <!-- Adult age label desc on rail search -->
+    <string name="rail_adult_age_label_desc">(26 til 59 år)</string>
 
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label">(0-15 år gammel)</string>
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label_desc">(0 til 15 år)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label">(16-25 år gammel)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label_desc">(16 til 25 år)</string>
 
     <!-- Senior age label on rail search -->
     <string name="rail_senior_age_label">(60 år gammel eller mere)</string>
@@ -3598,6 +3541,30 @@
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(0 til 17 år gammel)</string>
+
+    <!-- Adult age label on flight search -->
+    <string name="flight_adult_age_label">(18 år eller mere)</string>
+    <!-- Youth age label on flight search -->
+    <string name="flight_youth_age_label">(13-17 år)</string>
+    <!-- Youth age label desc on flight search -->
+    <string name="flight_youth_age_label_desc">(13 til 17 år)</string>
+    <!-- Children age label on flight search -->
+    <string name="flight_children_age_label">(2-12 år)</string>
+    <!-- Children age label desc on flight search -->
+    <string name="flight_children_age_label_desc">(2 til 12 år)</string>
+
+    <!-- Infant age label on flight search -->
+    <string name="flight_infant_age_label">(mindre end 2 år)</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_add_infant_traveler_cont_desc">Tilføj et spædbarn</string>
+    <!--Flight Traveler widget infant minus button content description-->
+    <string name="flight_remove_infant_traveler_cont_desc">Fjern et spædbarn</string>
+    <!-- Used in flight search for specifying infant's sitting -->
+    <string name="flight_infant_type_label">Spædbørn under 2 år:</string>
+    <!-- Used in flight search for specifying infant's sitting inLap -->
+    <string name="flight_infant_InLap">På skødet</string>
+    <!-- Used in flight search for specifying infant's sitting in Seat-->
+    <string name="flight_infant_InSeat">På eget sæde</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Kvarterer</string>
@@ -3820,17 +3787,11 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Flyves af {operatingairlinename}</string>
     <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
-    <string name="flight_nonstop_refundable_search_header">• \u0020Direkte\u0020 • \u0020Refunderbar\u0020 •</string>
+    <string name="flight_nonstop_refundable_search_header">Viser &lt;b&gt;direkte&lt;/b&gt; og &lt;b&gt;refunderbare&lt;/b&gt; flyrejser.\u0020</string>
     <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
-    <string name="flight_nonstop_search_header">• \u0020Direkte\u0020 •</string>
+    <string name="flight_nonstop_search_header">Viser &lt;b&gt;direkte&lt;/b&gt; flyrejser.\u0020</string>
     <!-- Header text on flight srp when only refundable filter is selected in advance search -->
-    <string name="flight_refundable_search_header">• \u0020Refunderbar\u0020 •</string>
-    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
-    <string name="advancedSearch_header_refundable_contDesc">Viser kun refunderbare flyrejser</string>
-    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
-    <string name="advancedSearch_header_nonStop_contDesc">Viser kun direkte fly</string>
-    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
-    <string name="advancedSearch_header_nonStop_refundable_contDesc">Viser kun direkte, refunderbare flyrejser</string>
+    <string name="flight_refundable_search_header">Viser &lt;b&gt;refunderbare&lt;/b&gt; flyrejser.\u0020</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">Søger efter flyrejser. Vent venligst.</string>
