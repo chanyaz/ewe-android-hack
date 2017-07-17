@@ -123,7 +123,6 @@
     <string name="preference_enable_secure_icon">preference_enable_secure_icon</string>
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_flight_subpub_change">preference_flight_subpub_change</string>
-    <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
     <string name="preference_flight_traveler_form_revamp">preference_flight_traveler_form_revamp</string>
 
     <!-- Default values for preference keys -->

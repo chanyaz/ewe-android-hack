@@ -14,18 +14,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Flights Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_switch_to_from_flight_locations"
-            android:layout="@layout/preference"
-            android:summary="Switch between to and from flight locations"
-            android:title="Switch between to and from flight locations" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Account Features">
 
         <CheckBoxPreference
