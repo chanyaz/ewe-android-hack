@@ -74,11 +74,6 @@ public class AboutUtils {
 		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getRewardsCardUrl(mActivity), true);
 	}
 
-	public void openCareers() {
-		openWebsite(mActivity, "http://www.lifeatexpedia.com", false);
-		OmnitureTracking.trackClickWereHiring();
-	}
-
 	public void openTermsAndConditions() {
 		OmnitureTracking.trackClickTermsAndConditions();
 		PointOfSale posInfo = PointOfSale.getPointOfSale();

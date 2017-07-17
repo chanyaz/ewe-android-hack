@@ -75,23 +75,22 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val ROW_BOOKING_SUPPORT = 1
     private val ROW_EXPEDIA_WEBSITE = 2
     private val ROW_APP_SUPPORT = 3
-    private val ROW_WERE_HIRING = 4
-    private val ROW_PRIVACY_POLICY = 5
-    private val ROW_TERMS_AND_CONDITIONS = 6
-    private val ROW_ATOL_INFO = 7
-    private val ROW_OPEN_SOURCE_LICENSES = 8
+    private val ROW_PRIVACY_POLICY = 4
+    private val ROW_TERMS_AND_CONDITIONS = 5
+    private val ROW_ATOL_INFO = 6
+    private val ROW_OPEN_SOURCE_LICENSES = 7
 
-    val ROW_VSC_VOYAGES = 9
+    val ROW_VSC_VOYAGES = 8
     private val PKG_VSC_VOYAGES = "com.vsct.vsc.mobile.horaireetresa.android"
 
-    private val ROW_CLEAR_PRIVATE_DATA = 10
-    private val ROW_RATE_APP = 11
-    private val ROW_COUNTRY = 12
+    private val ROW_CLEAR_PRIVATE_DATA = 9
+    private val ROW_RATE_APP = 10
+    private val ROW_COUNTRY = 11
 
-    private val ROW_SETTINGS = 13
-    private val ROW_TEST_SCREEN = 14
-    private val INSTALL_SHORTCUTS = 15
-    private val ROW_REWARDS_VISA_CARD = 16
+    private val ROW_SETTINGS = 12
+    private val ROW_TEST_SCREEN = 13
+    private val INSTALL_SHORTCUTS = 14
+    private val ROW_REWARDS_VISA_CARD = 15
 
     private val aboutUtils: AboutUtils by lazy {
         AboutUtils(activity)
@@ -244,10 +243,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
                 if (ProductFlavorFeatureConfiguration.getInstance().isRateOurAppEnabled()) {
                     builder.addRow(ROW_RATE_APP, R.string.rate_our_app, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.rate_our_app)).format().toString())
-                }
-
-                if (ProductFlavorFeatureConfiguration.getInstance().isWeReHiringEnabled()) {
-                    builder.addRow(ROW_WERE_HIRING, R.string.WereHiring, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.WereHiring)).format().toString())
                 }
 
                 communicateFragment = builder.build()
@@ -596,10 +591,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             }
             ROW_RATE_APP -> {
                 aboutUtils.rateApp()
-                return true
-            }
-            ROW_WERE_HIRING -> {
-                aboutUtils.openCareers()
                 return true
             }
 

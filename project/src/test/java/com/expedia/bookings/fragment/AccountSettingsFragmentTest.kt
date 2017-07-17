@@ -178,9 +178,6 @@ class AccountSettingsFragmentTest {
         clickViewWithTextInSection("Rate our app!", R.id.section_communicate)
         assertIntentFiredToViewUri("market://details?id=" + activity.packageName)
 
-        clickViewWithTextInSection("We're Hiring!", R.id.section_communicate)
-        assertIntentFiredToOpenWebviewWithUri("http://www.lifeatexpedia.com")
-
         clickViewWithTextInSection("Terms and Conditions", R.id.section_legal)
         assertIntentFiredToOpenWebviewWithUri(PointOfSale.getPointOfSale().termsAndConditionsUrl)
 
@@ -383,7 +380,7 @@ class AccountSettingsFragmentTest {
     }
 
     private fun assertTermsLinkVisibility(visibility: Int) {
-        val ROW_TERMS_AND_CONDITIONS = 6
+        val ROW_TERMS_AND_CONDITIONS = 5
         val termsFragment = Ui.findSupportFragment<AboutSectionFragment>(fragment, "TAG_LEGAL")
         val termsAndConditionsView = termsFragment.view?.findViewWithTag(ROW_TERMS_AND_CONDITIONS)
         assertEquals(visibility, termsAndConditionsView?.visibility)

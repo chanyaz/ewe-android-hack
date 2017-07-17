@@ -2518,7 +2518,6 @@ public class OmnitureTracking {
 	private static final String ACCOUNT_SUPPORT_BOOKING = "App.Account.Support.Booking";
 	private static final String ACCOUNT_SUPPORT_APP = "App.Account.Support.App";
 	private static final String ACCOUNT_COMMUNICATE_RATE = "App.Account.Communicate.Rate";
-	private static final String ACCOUNT_COMMUNICATE_HIRING = "App.Account.Communicate.WereHiring";
 	private static final String ACCOUNT_LEGAL_CLEAR_DATA = "App.Account.Legal.ClearData";
 	private static final String ACCOUNT_LEGAL_TERMS = "App.Account.Legal.Terms";
 	private static final String ACCOUNT_LEGAL_PRIVACY = "App.Account.Legal.Privacy";
@@ -2791,11 +2790,6 @@ public class OmnitureTracking {
 
 	public static void trackClickRateApp() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COMMUNICATE_RATE);
-		s.trackLink(null, "o", "Accounts", null, null);
-	}
-
-	public static void trackClickWereHiring() {
-		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COMMUNICATE_HIRING);
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 

@@ -166,8 +166,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean shouldShowItinShare();
 
-	boolean isWeReHiringEnabled();
-
 	boolean isRateOurAppEnabled();
 
 	boolean isRewardsCardEnabled();

@@ -354,11 +354,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isWeReHiringEnabled() {
-		return false;
-	}
-
-	@Override
 	public boolean isRateOurAppEnabled() {
 		return true;
 	}

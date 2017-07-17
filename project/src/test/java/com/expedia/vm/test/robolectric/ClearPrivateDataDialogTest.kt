@@ -49,7 +49,7 @@ class ClearPrivateDataDialogTest {
     fun testClearPrivateDataWhenUserLoggedIn() {
         givenFragmentSetup()
         givenSignedInAsUser(givenUser())
-        fragment.onAboutRowClicked(10)
+        fragment.onAboutRowClicked(9)
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
 
         assertNotNull(alertDialog)
@@ -61,7 +61,7 @@ class ClearPrivateDataDialogTest {
     @Test
     fun testClearPrivateDataGuestUser() {
         givenFragmentSetup()
-        fragment.onAboutRowClicked(10)
+        fragment.onAboutRowClicked(9)
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
 
         assertNotNull(alertDialog)
