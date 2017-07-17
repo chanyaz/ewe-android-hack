@@ -129,6 +129,7 @@
     <!-- New launch screen colors -->
     <color name="launch_discount">#02634a</color>
     <color name="launch_primary">#ffffff</color>
+    <color name="launch_screen_active_itin_bg">@color/app_primary</color>
 
     <!-- New Itin colors -->
     <color name="itin_sign_in_toolbar_color">#002f57</color>

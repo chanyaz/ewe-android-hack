@@ -91,6 +91,7 @@
     <color name="new_launch_flights_lob_color">#0088CE</color>
     <color name="new_launch_cars_lob_color">#663399</color>
     <color name="new_launch_lx_lob_color">#A1006B</color>
+    <color name="launch_screen_active_itin_bg">#70bb00</color>
 
     <!-- Flights V2 colors -->
     <color name="packages_primary_color">@color/flights_lob_btn</color>

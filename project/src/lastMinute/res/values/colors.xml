@@ -143,6 +143,7 @@
     <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
     <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
     <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
+    <color name="launch_screen_active_itin_bg">@color/app_primary</color>
 
     <!-- Flights V2 colors -->
     <color name="packages_primary_color">@color/last_minute_primary_color</color>
