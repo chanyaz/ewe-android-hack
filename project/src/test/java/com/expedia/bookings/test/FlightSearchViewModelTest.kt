@@ -26,6 +26,7 @@ import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -86,11 +87,13 @@ class FlightSearchViewModelTest {
         givenMockServer()
         givenDefaultTravelerComponent()
         createSystemUnderTest()
+        val currentLocale = Locale.getDefault()
 
-        val startDate = LocalDate.now().plusDays(3)
-        val endDate = LocalDate.now().plusDays(8)
-        val expectedStartDate = DateUtils.localDateToEEEMMMd(startDate)
-        val expectedEndDate = DateUtils.localDateToEEEMMMd(endDate)
+        Locale.setDefault(Locale.US)
+        val startDate = LocalDate(2017, 7, 17)
+        val endDate = LocalDate(2017, 7, 25)
+        var expectedStartDate = "Mon, Jul 17"
+        var expectedEndDate = "Tue, Jul 25"
 
         sut.datesUpdated(startDate, endDate)
         assertEquals(null, sut.cachedEndDateObservable.value)
@@ -100,8 +103,8 @@ class FlightSearchViewModelTest {
         assertEquals(endDate, sut.cachedEndDateObservable.value)
         assertEquals("$expectedStartDate (One Way)", sut.dateTextObservable.value)
 
-        val newStartDate = LocalDate.now().plusDays(20)
-        val expectedNewStartDate = DateUtils.localDateToEEEMMMd(newStartDate)
+        val newStartDate = startDate.plusDays(20)
+        val expectedNewStartDate = "Sun, Aug 6"
 
         sut.datesUpdated(newStartDate, null)
         sut.isRoundTripSearchObservable.onNext(true)
@@ -114,6 +117,25 @@ class FlightSearchViewModelTest {
         sut.isRoundTripSearchObservable.onNext(false)
         assertEquals("Select departure date", sut.dateTextObservable.value)
 
+
+        // For KR and JP, show date first.
+        Locale.setDefault(Locale.KOREAN)
+        sut.datesUpdated(startDate, endDate)
+        assertEquals(null, sut.cachedEndDateObservable.value)
+        // This is not actual expected date due to known robolectric issue
+        // https://github.com/robolectric/robolectric/pull/2513. Will update when this gets fixed.
+        expectedStartDate = "월, 7월 17"
+        expectedEndDate = "화, 7월 25"
+        assertEquals("$expectedStartDate  -  $expectedEndDate", sut.dateTextObservable.value)
+
+        Locale.setDefault(Locale.JAPAN)
+        sut.datesUpdated(startDate, endDate)
+        expectedStartDate = "月, 7 17"
+        expectedEndDate = "火, 7 25"
+        assertEquals(null, sut.cachedEndDateObservable.value)
+        assertEquals("$expectedStartDate  -  $expectedEndDate", sut.dateTextObservable.value)
+        // Reset it back
+        Locale.setDefault(currentLocale)
     }
 
     @Test

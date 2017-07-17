@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.text.format.DateFormat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
@@ -26,6 +27,7 @@ import rx.Observable
 import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.Locale
 import javax.inject.Inject
 
 class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
@@ -49,6 +51,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
 
     private val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
+
+    private val dateFormatEEEMMMdBasedOnLocale = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEE, MMM d")
 
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
         getParamsBuilder().infantSeatingInLap(isInfantInLap)
@@ -364,24 +368,29 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     fun getStartDashEndDateWithDayString(start: LocalDate, end: LocalDate) : String {
+        val startDate = start.toString(dateFormatEEEMMMdBasedOnLocale)
+        val endDate = end.toString(dateFormatEEEMMMdBasedOnLocale)
         return Phrase.from(context, R.string.calendar_instructions_date_range_flight_extra_spacing_TEMPLATE)
-                .put("startdate", DateUtils.localDateToEEEMMMd(start))
-                .put("enddate", DateUtils.localDateToEEEMMMd(end))
+                .put("startdate", startDate)
+                .put("enddate", endDate)
                 .format().toString()
     }
 
-    fun getFormattedDate(date: LocalDate?): String {
+    fun getFormattedDate(date: LocalDate?): String? {
         if (showDaywithDate) {
-            return DateUtils.localDateToEEEMMMd(date)
+            return date?.toString(dateFormatEEEMMMdBasedOnLocale)
         }
         return DateUtils.localDateToMMMd(date)
     }
 
     protected fun getStartToEndDateWithDayString(start: LocalDate, end: LocalDate) : String {
+        val format = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEE, MMM d")
+        val startDate = start.toString(format)
+        val endDate = end.toString(format)
         // need to explicitly use "to" for screen readers
         return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
-                .put("startdate", DateUtils.localDateToEEEMMMd(start))
-                .put("enddate", DateUtils.localDateToEEEMMMd(end))
+                .put("startdate", startDate)
+                .put("enddate", endDate)
                 .format().toString()
     }
 
