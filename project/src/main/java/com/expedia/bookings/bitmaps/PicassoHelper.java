@@ -297,8 +297,14 @@ public class PicassoHelper implements Target, Callback {
 
 	public static String generateSizedSmartCroppedUrl(String originalUrl, int width, int height) {
 		if (ExpediaBookingApp.ENABLE_THUMBOR) {
-			Thumbor thumbor = Thumbor.create("https://thumbnails.prod-p.expedia.com",
+			Thumbor thumbor = Thumbor.create("https://thumbnails.expedia.com",
 				"GiIbJiFjY+WhTgimrplhCycQddAAFS8s1aesWAHNFWAtsb1ZUIPo4QPz");
+			if (originalUrl.startsWith(("https://"))) {
+				originalUrl = originalUrl.substring("https://".length());
+			}
+			else if (originalUrl.startsWith("http://")) {
+				originalUrl = originalUrl.substring("http://".length());
+			}
 			ThumborUrlBuilder thumborBuilder = thumbor.buildImage(originalUrl);
 			thumborBuilder.resize(width, height);
 			thumborBuilder.smart();
