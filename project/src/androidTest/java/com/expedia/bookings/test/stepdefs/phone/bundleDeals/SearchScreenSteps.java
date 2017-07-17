@@ -350,7 +350,7 @@ public class SearchScreenSteps {
 
 	@Then("^Validate that Package Overview screen is displayed")
 	public void isDisplayedPackageOverviewScreen() throws Throwable {
-		onView(allOf(withId(R.id.step_one_text), isDescendantOfA(withId(R.id.bundle_widget)))).perform(waitForViewToDisplay()).check(matches(withText("Step 1: Select Hotel")));
+		onView(allOf(withId(R.id.step_one_text), isDescendantOfA(withId(R.id.bundle_widget)))).perform(waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 
 	@Then("^Validate search form retains details of search for packages")

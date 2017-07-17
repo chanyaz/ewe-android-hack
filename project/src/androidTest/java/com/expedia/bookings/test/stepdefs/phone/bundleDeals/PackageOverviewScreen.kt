@@ -7,21 +7,34 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.CustomMatchers
 import cucumber.api.java.en.And
 import cucumber.api.java.en.Then
-
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.hasSibling
+import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.isEnabled
+import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
+import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withParent
+import android.support.test.espresso.matcher.ViewMatchers.withText
 
 import android.view.View
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.stepdefs.phone.TestUtil
+import com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEMMMdyyyy
 import com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInMMMdd
 import cucumber.api.java.en.When
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.not
+import org.hamcrest.core.AllOf
 import org.hamcrest.core.AllOf.allOf
+import org.joda.time.LocalDate
+import java.util.Map
 
-class PackageOverviewScreen{
+class PackageOverviewScreen {
 
     @And("^I click on View your bundle$")
     @Throws(Throwable::class)
@@ -46,6 +59,19 @@ class PackageOverviewScreen{
                 .check(matches(withText("Trip to " + expParameters["destination"])))
         onView(allOf<View>(withId(R.id.bundle_subtitle), isDescendantOfA(withId(R.id.bundle_price_widget))))
                 .check(matches(withText(startDate + " - " + endDate + ", " + expParameters["totalTravelers"])))
+    }
+
+    @Then("^on Package Overview Screen validate the toolbar when hotel, outbound and inbound flight is selected$")
+    @Throws(Throwable::class)
+    fun validateToolbarOnPOSInboundFlight(expParameters: Map<String, String>) {
+        val startDate = getDateInEEMMMdyyyy(expParameters["start_date"])
+        val endDate = getDateInEEMMMdyyyy(expParameters["end_date"])
+        onView(allOf<View>(withId(R.id.destination), isDescendantOfA(withId(R.id.checkout_overview_floating_toolbar))))
+                .check(matches(withText(expParameters["destination"])))
+        onView(allOf<View>(withId(R.id.check_in_out_dates), isDescendantOfA(withId(R.id.checkout_overview_floating_toolbar))))
+                .check(matches(withText(startDate + " - " + endDate)))
+        onView(allOf<View>(withId(R.id.travelers), isDescendantOfA(withId(R.id.checkout_overview_floating_toolbar))))
+                .check(matches(withText(expParameters["totalTravelers"])))
     }
 
     @Then("^validate hotel selection step label$")
@@ -76,7 +102,7 @@ class PackageOverviewScreen{
     }
 
     @And("^verify hotel widget detail view is displayed$")
-    fun validateHotelWidgetDetailIsDisplayed()  {
+    fun validateHotelWidgetDetailIsDisplayed() {
         onView(allOf<View>(withId(R.id.main_container), isDescendantOfA(withId(R.id.package_bundle_hotel_widget))))
                 .perform(waitForViewToDisplay())
                 .check(matches(isDisplayed()))
@@ -114,6 +140,13 @@ class PackageOverviewScreen{
                 .perform(click())
     }
 
+    @Then("^I click on package flight inbound details icon")
+    fun clickPackageFlightInboundDetailsIcon() {
+        onView(allOf<View>(withId(R.id.package_flight_details_icon),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                .perform(click())
+    }
+
     @Then("^validate package outbound flight icon is checked")
     fun validatePackageOutboundFlightIcon() {
         onView(allOf<View>(withId(R.id.package_flight_icon), isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
@@ -126,10 +159,23 @@ class PackageOverviewScreen{
             onView(allOf<View>(withId(R.id.flight_details_container),
                     isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
                     .check(matches(not(isDisplayed())))
-        }
-        else {
+        } else {
             onView(allOf<View>(withId(R.id.flight_details_container),
                     isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+                    .perform(waitForViewToDisplay())
+                    .check(matches(isDisplayed()))
+        }
+    }
+
+    @Then("^verify package inbound flight widget view is displayed : (true|false)")
+    fun validateInboundFlightWidgetDetailIsDisplayed(check: Boolean) {
+        if (!check) {
+            onView(allOf<View>(withId(R.id.flight_details_container),
+                    isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                    .check(matches(not(isDisplayed())))
+        } else {
+            onView(allOf<View>(withId(R.id.flight_details_container),
+                    isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
                     .perform(waitForViewToDisplay())
                     .check(matches(isDisplayed()))
         }
@@ -142,6 +188,13 @@ class PackageOverviewScreen{
                 .check(matches(CustomMatchers.withImageDrawable(R.drawable.flights_details_icon_flight)))
     }
 
+    @Then("^verify package inbound flight icon is displayed")
+    fun validateInboundFlightIcon1() {
+        onView(allOf<View>(withId(R.id.imageView),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                .check(matches(CustomMatchers.withImageDrawable(R.drawable.flights_details_icon_flight)))
+    }
+
     @Then("^validate package outbound flight data on package outbound flight widget")
     fun validateOutboundFlightWidgetDataIsDisplayed(expParameters: Map<String, String>) {
         onView(allOf<View>(withId(R.id.flight_card_view_text),
@@ -150,6 +203,16 @@ class PackageOverviewScreen{
         onView(allOf<View>(withId(R.id.travel_info_view_text),
                 isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
                 .check(matches(withText(expParameters["info_text"])))
+    }
+
+    @Then("^validate package inbound flight data on package inbound flight widget")
+    fun validateInboundFlightWidgetDataIsDisplayed(expParameters: Map<String, String>) {
+        onView(allOf<View>(withId(R.id.flight_card_view_text),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                .check(matches(withText(expParameters["flight_from"])))
+        onView(allOf<View>(withId(R.id.travel_info_view_text),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                .check(matches(withText(expParameters["info_text_inbound"])))
     }
 
     @Then("^validate package outbound flight details")
@@ -171,10 +234,36 @@ class PackageOverviewScreen{
                 .check(matches(withText(parameters["flight_duration"])))
     }
 
+    @Then("^validate package inbound flight details")
+    fun validateInboundFlightData(parameters: Map<String, String>) {
+        onView(allOf<View>(withId(R.id.departure_arrival_time),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                .check(matches(withText(parameters["departure_arrival_time"])))
+        onView(allOf<View>(withId(R.id.departure_arrival_airport),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                .check(matches(withText(parameters["departure_arrival_airport"])))
+        onView(allOf<View>(withId(R.id.airline_airplane_type),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                .check(matches(withText(containsString(parameters["airline"]))))
+        onView(allOf<View>(withId(R.id.airline_airplane_type),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                .check(matches(withText(containsString(parameters["airplane_type"]))))
+        onView(allOf<View>(withId(R.id.flight_duration),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                .check((matches(withText(parameters["flight_duration"]))))
+    }
+
     @Then("^validate package outbound flight total duration")
     fun validateOutboundFlightTotalDuration(parameters: Map<String, String>) {
         onView(allOf<View>(withId(R.id.flight_total_duration),
                 isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+                .check(matches(withText(parameters["flight_duration"])))
+    }
+
+    @Then("^validate package inbound flight total duration")
+    fun validateInboundFlightTotalDuration(parameters: Map<String, String>) {
+        onView(allOf<View>(withId(R.id.flight_total_duration),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
                 .check(matches(withText(parameters["flight_duration"])))
     }
 
@@ -208,6 +297,11 @@ class PackageOverviewScreen{
     @Then("^validate package inbound flight icon is unchecked")
     fun validateInboundFlightIcon() {
         onView(allOf<View>(withId(R.id.package_flight_icon), isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(matches(CustomMatchers.withImageDrawable(R.drawable.packages_flight2_icon)))
+    }
+
+    @Then("^validate package inbound flight icon is checked")
+    fun validateInboundFlightIconChecked() {
+        onView(allOf<View>(withId(R.id.package_flight_icon), isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(matches(CustomMatchers.withImageDrawable(R.drawable.packages_flight2_checkmark_icon)))
     }
 
     @Then("^validate package inbound flight next icon is displayed")
@@ -260,10 +354,10 @@ class PackageOverviewScreen{
     }
 
     private fun validateDrawableDisplayedOnBundleOverview(resId: Int, value: String?) {
-        if(value!!.contains("Hotel")) {
+        if (value!!.contains("Hotel")) {
             onView(allOf<View>(withId(resId), isDescendantOfA(withId(R.id.package_bundle_hotel_widget))))
                     .check(matches(isDisplayed()))
-        } else if(value!!.contains("Flight Outbound")) {
+        } else if (value!!.contains("Flight Outbound")) {
             onView(allOf<View>(withId(resId), isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
                     .check(matches(isDisplayed()))
         } else if (value!!.contains("Flight Inbound")) {
@@ -318,4 +412,124 @@ class PackageOverviewScreen{
         PackageScreen.hotelBundleContainer().check(matches(isDisplayed()))
     }
 
+    @And("^Validate that collapsed outbound flight details are present$")
+    @Throws(Throwable::class)
+    fun flightCollapsedOutboundView() {
+        onView(allOf(withParent(withId(R.id.bundle_widget)),
+                withId(R.id.package_bundle_outbound_flight_widget))).check(matches(isDisplayed()))
+    }
+
+    @And("^Validate that collapsed inbound flight details are present$")
+    @Throws(Throwable::class)
+    fun flightCollapsedInboundView() {
+        onView(allOf(withParent(withId(R.id.bundle_widget)),
+                withId(R.id.package_bundle_inbound_flight_widget))).check(matches(isDisplayed()))
+    }
+
+    @And("^I expand the hotel card view$")
+    @Throws(Throwable::class)
+    fun expandHotelCardView() {
+        onView(
+                allOf(withParent(withId(R.id.bundle_widget)), withId(R.id.package_bundle_hotel_widget)))
+                .perform(click())
+
+    }
+
+    @And("^I collapse the hotel card view")
+    @Throws(Throwable::class)
+    fun collapseHotelCardView() {
+        onView(allOf(withParent(withId(R.id.bundle_widget)), withId(R.id.package_bundle_hotel_widget)))
+                .perform(click())
+
+    }
+
+    @And("^I expand the flight outbound card view$")
+    @Throws(Throwable::class)
+    fun expandFlightOutboundCardView() {
+        onView(allOf(withParent(withId(R.id.package_bundle_outbound_flight_widget)), withId(R.id.package_flight_details_icon)))
+                .perform(click())
+    }
+
+    @And("^I collapse the flight outbound card view$")
+    @Throws(Throwable::class)
+    fun collapseFlightOutboundCardView() {
+        onView(allOf(withParent(withId(R.id.bundle_widget)), withId(R.id.package_bundle_outbound_flight_widget)))
+                .perform(click())
+    }
+
+    @And("^I expand the flight inbound card view$")
+    @Throws(Throwable::class)
+    fun expandFlightInboundCardView() {
+        onView(allOf(withParent(withId(R.id.bundle_widget)), withId(R.id.package_bundle_inbound_flight_widget)))
+                .perform(click())
+    }
+
+    @And("^Validate hotel widget of overview screen with following details$")
+    @Throws(Throwable::class)
+    fun validateInformationOnOverviewScreenForHotels(parameters: Map<String, String>) {
+        validateHotelOverviewWidget(R.id.hotels_card_view_text, parameters["hotel name"])
+        validateHotelOverviewWidget(R.id.hotels_dates_guest_info_text, parameters["travel date and traveler"])
+        validateHotelOverviewWidget(R.id.hotel_room_info, parameters["hotel room info"])
+        validateHotelOverviewWidget(R.id.hotel_room_type, parameters["hotel room type"])
+        validateHotelOverviewWidget(R.id.hotel_address, parameters["hotel address"])
+        validateHotelOverviewWidget(R.id.hotel_city, parameters["hotel city"])
+        validateHotelOverviewWidget(R.id.hotel_free_cancellation, parameters["hotel free cancellation"])
+        validateHotelOverviewWidget(R.id.hotel_promo_text, parameters["hotel promo text"])
+    }
+
+    @Throws(Throwable::class)
+    private fun validateHotelOverviewWidget(resId: Int, value: String?) {
+        onView(AllOf.allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
+                withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE), withId(resId)))
+                .check(matches(withText(CoreMatchers.containsString(value))))
+    }
+
+    @Then("^validate total savings is \"([^\"]*)\"$")
+    @Throws(Throwable::class)
+    fun validateTotalSavings(savings: String) {
+        onView(withId(R.id.bundle_total_savings)).check(matches(withText(savings)))
+    }
+
+    @Then("^validate following detailed information is present on bundle overview cost summary screen$")
+    @Throws(Throwable::class)
+    fun validateCostSummaryPopup(params: Map<String, String>) {
+        validateCostSummaryPriceDetails("Hotel + Flights", params.get("Hotel + Flights"))
+        validateCostSummaryPriceDetails("room", params.get("room"))
+        validateCostSummaryPriceDetails("Taxes", params.get("Taxes"))
+        validateCostSummaryPriceDetails("Bundle Discount", params.get("Bundle Discount"))
+        validateCostSummaryPriceDetails("Bundle total", params.get("Bundle total"))
+    }
+
+    @Throws(Throwable::class)
+    private fun validateSummaryPopup(guestDetails: String, taxDetails: String) {
+
+        onView(AllOf.allOf(withId(R.id.price_type_text_view), withText(containsString(guestDetails)))).check(matches(withText(containsString(taxDetails))))
+
+    }
+
+    @Throws(Throwable::class)
+    private fun validateCostSummaryPriceDetails(priceType: String, priceAmt: String?) {
+        onView(AllOf.allOf(isDescendantOfA(withId(R.id.breakdown_container)), withId(R.id.price_type_text_view),
+                withText(containsString(priceType)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+                .check(matches(AllOf.allOf(withId(R.id.price_type_text_view),
+                        withText(containsString(priceType)), hasSibling(withText(priceAmt)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+                )))
+    }
+
+    @And("^Validate that close icon is present on top left$")
+    @Throws(Throwable::class)
+    fun validateCloseIcon() {
+        onView(allOf(withParent(withId(R.id.checkout_toolbar)), withContentDescription("Close")))
+                .check(matches(isDisplayed()))
+    }
+
+
+    @And("^Validate that edit icon is present on top right$")
+    @Throws(Throwable::class)
+    fun validateEditIcon() {
+        onView(allOf(withParent(withParent(withId(R.id.checkout_toolbar))),
+                withContentDescription("More options")))
+                .check(matches(isDisplayed()))
+
+    }
 }

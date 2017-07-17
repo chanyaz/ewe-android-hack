@@ -163,7 +163,7 @@ public class FlightsOverviewScreenSteps {
 	}
 	private void validateFlightOverviewWidget(int resId, String value, boolean outBound) throws Throwable {
 		onView(allOf(outBound ? isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))
-						: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
+				: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 				withId(resId)))
 				.check(matches(withText(containsString(value))));
@@ -179,5 +179,6 @@ public class FlightsOverviewScreenSteps {
 				.check(matches(allOf(withId(R.id.price_type_text_view),
 						withText(priceType), hasSibling(withText(priceAmt)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
 				)));
+
 	}
 }

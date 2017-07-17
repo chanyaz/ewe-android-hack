@@ -197,6 +197,12 @@ public class TestUtil {
 		return dateFormatter.format(startDate.toDate());
 	}
 
+	public static String getDateInEEMMMdyyyy(String days) {
+		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
+		Format dateFormatter = new SimpleDateFormat("EEE MMM d, yyyy", Locale.US);
+		return dateFormatter.format(startDate.toDate());
+	}
+
 	public static String getDateRangeInMMMdd(String range) {
 		String dateString = getDateInMMMdd(range.split(" - ")[0]) + " - " + getDateInMMMdd(range.split(" - ")[1]);
 		return dateString;
