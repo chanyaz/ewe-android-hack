@@ -3737,13 +3737,6 @@
     <string name="error_package_origin_resolution_message_TEMPLATE">{origin}という出発地が見つかりません</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
     <string name="error_package_destination_resolution_message_TEMPLATE">{destination}という目的地が見つかりません</string>
-    <!-- Package Filters Strings -->
-    <plurals name="flight_filter_stops">
-        <item quantity="zero">直行便</item>
-        <item quantity="one">乗継 1 回</item>
-        <item quantity="two">乗継 2 回以上</item>
-        <item quantity="other">乗継 2 回以上</item>
-    </plurals>
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">処理を続けますか ?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->

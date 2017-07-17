@@ -91,7 +91,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             stopsContainer.clearChecks()
             airlinesContainer.clearChecks()
         }
-        
+
         vm.clearObservable.subscribe{
             sortByButtonGroup.setSelection(0,false)
         }
@@ -273,10 +273,12 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     private fun getStopFilterLabel(numOfStops: Int): String {
-        if (numOfStops == 0) {
-            return resources.getString(R.string.flight_nonstop_description)
-        } else {
-            return resources.getQuantityString(R.plurals.flight_filter_stops, numOfStops)
+        when (numOfStops) {
+            0 -> return resources.getString(R.string.flight_nonstop_description)
+            1 -> return resources.getString(R.string.flight_one_stop_description)
+            else -> {
+                return resources.getString(R.string.flight_two_plus_stops_description)
+            }
         }
     }
 

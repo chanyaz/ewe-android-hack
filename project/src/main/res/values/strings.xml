@@ -3762,13 +3762,6 @@
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
     <string name="error_package_destination_resolution_message_TEMPLATE">Could not resolve a destination for {destination}</string>
     <string name="error_package_date_mismatch_error">Sorry, this flight arrives way before the hotel check-in time. Please pick a different hotel or flights.</string>
-    <!-- Package Filters Strings -->
-    <plurals name="flight_filter_stops">
-        <item quantity="zero">Nonstop</item>
-        <item quantity="one">1 Stop</item>
-        <item quantity="two">2+ Stops</item>
-        <item quantity="other">2+ Stops</item>
-    </plurals>
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">Are you sure?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->
@@ -3778,6 +3771,10 @@
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">Nonstop</string>
+    <!-- Flight One stop description -->
+    <string name="flight_one_stop_description">1 Stop</string>
+    <!-- Flight Two stop description -->
+    <string name="flight_two_plus_stops_description">2+ Stops</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
