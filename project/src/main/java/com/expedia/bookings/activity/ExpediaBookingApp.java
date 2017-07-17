@@ -9,6 +9,7 @@ import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.text.format.DateUtils;
@@ -63,6 +64,7 @@ import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.TuneUtils;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -557,6 +559,13 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
 		String abacusGuid = Db.getAbacusGuid();
 		boolean isAccessibilityOn = AccessibilityUtil.isTalkBackEnabled(this);
+		int gpsVersion;
+		try {
+			gpsVersion = getPackageManager().getPackageInfo(GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE, 0).versionCode;
+		}
+		catch (PackageManager.NameNotFoundException e) {
+			gpsVersion = 0;
+		}
 
 		ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 		int memClass = am.getMemoryClass();
@@ -572,6 +581,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		Crashlytics.setInt("memory class", memClass);
 		Crashlytics.setString("abacus guid", abacusGuid);
 		Crashlytics.setBool("a11y active", isAccessibilityOn);
+		Crashlytics.setInt("google play services version", gpsVersion);
 
 		if (!gcmId.isEmpty()) {
 			Crashlytics.setString("gcm token", gcmId);
