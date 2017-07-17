@@ -11,10 +11,12 @@ def scanAndProcessLintTestRunOutputXmlData(lintTestRunOutputXmlData):
     linterrorIssueSeverity = lintTestRunOutputXmlData.xpath('//issue/@severity')
     linterrorIssueMessages = lintTestRunOutputXmlData.xpath('//issue/@message')
     linterrorIssueExplanations = lintTestRunOutputXmlData.xpath('//issue/@explanation')
+    errorCount = 0
     for linterrorCount in range(0,len(linterrorIssueMessages)):
-        if linterrorIssueSeverity == "Error":
+        if linterrorIssueSeverity[linterrorCount] == "Error":
             lintIssueLocation = lintTestRunOutputXmlData.xpath('//issue['+str(linterrorCount+1)+']/location/@file')
-            lintErrorMessage = lintErrorMessage + "**ERROR" + str(linterrorCount+1) + "**\n\n" + "Lint Error: " +  linterrorIssueMessages[linterrorCount] + "\nExplanation: " + linterrorIssueExplanations[linterrorCount]+ "\nLocation: "+ ','.join(lintIssueLocation) + "\n\n"
+            lintErrorMessage = lintErrorMessage + "**ERROR" + str(errorCount+1) + "**\n\n" + "Lint Error: " +  linterrorIssueMessages[linterrorCount] + "\nExplanation: " + linterrorIssueExplanations[linterrorCount]+ "\nLocation: "+ ','.join(lintIssueLocation) + "\n\n"
+            errorCount += 1
     return lintErrorMessage
 
 def extractCheckstyleErrorMessage(errorMessageList, errorLineList, errorFileNameList):
