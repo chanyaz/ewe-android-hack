@@ -31,7 +31,7 @@ import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.FlightSearchParamsHistoryUtil
+import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -423,7 +423,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(inboundToError)
 
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
-            FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, loadSuccess, loadFailed)
+            SearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, loadSuccess, loadFailed)
         } else {
             searchViewModel.isReadyForInteractionTracking.onNext(Unit)
         }

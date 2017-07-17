@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.packages
 
 import android.animation.ArgbEvaluator
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -33,6 +34,7 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -60,6 +62,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     val confirmationViewStub: ViewStub by bindView(R.id.widget_package_confirmation_view_stub)
     val errorViewStub: ViewStub by bindView(R.id.widget_package_error_view_stub)
     val pageUsableData = PageUsableData()
+
     val bundleLoadingView: View by lazy {
         val bundleLoadingView = bundlePresenter.findViewById(R.id.bundle_loading_view)
         val statusBarHeight = Ui.getStatusBarHeight(context)
@@ -215,6 +218,16 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             show(searchPresenter)
             addTransition(searchToBundle)
         }
+
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_retain_search_params)) {
+            SearchParamsHistoryUtil.loadPreviousPackageSearchParams(context, loadSuccess)
+        }
+    }
+
+    private val loadSuccess: (PackageSearchParams) -> Unit = { params ->
+        (context as Activity).runOnUiThread {
+            searchPresenter.searchViewModel.previousSearchParamsObservable.onNext(params)
+        }
     }
 
     private fun performHotelSearch() {
@@ -268,7 +281,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
-            searchPresenter.originCardView.performClick()
             trackSearchPageLoad()
         }
     }

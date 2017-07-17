@@ -3,11 +3,12 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -32,14 +33,31 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
 
     val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
+    val previousSearchParamsObservable = PublishSubject.create<PackageSearchParams>()
 
-    val performSearchObserver = endlessObserver<PackageSearchParams> {
-        travelerValidator.updateForNewSearch(it)
-        searchParamsObservable.onNext(it)
+    val performSearchObserver = endlessObserver<PackageSearchParams> { params ->
+        travelerValidator.updateForNewSearch(params)
+        searchParamsObservable.onNext(params)
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_retain_search_params)) {
+            SearchParamsHistoryUtil.savePackageParams(context, params)
+        }
     }
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
+        previousSearchParamsObservable.subscribe { params ->
+            setupViewModelFromPastSearch(params)
+        }
+    }
+
+    private fun setupViewModelFromPastSearch(pastSearchParams: PackageSearchParams) {
+        val currentDate = LocalDate.now()
+        val invalidDates = pastSearchParams.startDate.isBefore(currentDate) || pastSearchParams.endDate?.isBefore(currentDate) ?: false
+        if (!invalidDates) {
+            datesUpdated(pastSearchParams.startDate, pastSearchParams.endDate)
+        }
+        originLocationObserver.onNext(pastSearchParams.origin)
+        destinationLocationObserver.onNext(pastSearchParams.destination)
     }
 
     val searchObserver = endlessObserver<Unit> {

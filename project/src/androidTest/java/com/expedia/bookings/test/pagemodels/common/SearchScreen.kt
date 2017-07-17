@@ -259,6 +259,8 @@ object SearchScreen {
 
     @Throws(Throwable::class)
     @JvmStatic fun selectPackageOriginAndDestination() {
+        origin().perform(click())
+        Common.delay(1)
         searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
         selectLocation(TestValues.PACKAGE_ORIGIN_LOCATION_SFO)
         //Delay from the auto advance anim

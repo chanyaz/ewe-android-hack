@@ -8,7 +8,7 @@ import org.joda.time.LocalDate
 import java.util.HashMap
 import kotlin.properties.Delegates
 
-open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, startDate: LocalDate, endDate: LocalDate, adults: Int, children: List<Int>, infantSeatingInLap: Boolean) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
+open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?, startDate: LocalDate, endDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
 
     var pageType: String? = null
     var searchProduct: String? = null

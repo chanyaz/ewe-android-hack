@@ -23,6 +23,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 
 	@Test
 	public void testPackageSearchScreen() throws Throwable {
+		SearchScreen.origin().perform(click());
 		Common.delay(1);
 		checkToolbarNavContentDescription(true);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());

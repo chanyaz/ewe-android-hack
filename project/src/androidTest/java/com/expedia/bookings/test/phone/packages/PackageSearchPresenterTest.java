@@ -23,6 +23,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	@Test
 	public void testOriginSameAsDestination() throws Throwable {
+		SearchScreen.origin().perform(click());
 		Common.delay(1);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		// search button disabled upon entry. Enter location.
@@ -44,6 +45,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 
 	@Test
 	public void testNoSearchUntilDateAndLocationSelected() throws Throwable {
+		SearchScreen.origin().perform(click());
 		Common.delay(1);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
 		// search button disabled upon entry. Enter location.

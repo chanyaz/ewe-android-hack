@@ -1,6 +1,5 @@
 package com.expedia.bookings.test
 
-import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -10,10 +9,9 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FlightSearchParamsHistoryUtil
+import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
-import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,7 +25,6 @@ import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -433,7 +430,7 @@ class FlightSearchViewModelTest {
         givenValidStartAndEndDates()
         sut.isRoundTripSearchObservable.onNext(true)
         sut.performSearchObserver.onNext(Unit)
-        FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
+        SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
             assertNull(loadedParams)
         })
 
@@ -449,10 +446,10 @@ class FlightSearchViewModelTest {
         givenParamsHaveOrigin()
         givenValidStartAndEndDates()
         sut.isRoundTripSearchObservable.onNext(true)
-        FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
+        sut.performSearchObserver.onNext(Unit)
+        SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
             assertNotNull(loadedParams)
         })
-        sut.performSearchObserver.onNext(Unit)
     }
 
     @Test

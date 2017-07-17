@@ -13,7 +13,7 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.ControlPageUsableData
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FlightSearchParamsHistoryUtil
+import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
@@ -114,7 +114,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             flightParamsBuilder.setFeatureOverride()
         }
 
-        if (!((FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) ||
+        if (!((Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) ||
                 (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)))) {
             Observable.combineLatest(formattedOriginObservable, formattedDestinationObservable, dateSetObservable, {flyFrom, flyTo, date ->
                 object {
@@ -181,7 +181,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             searchParamsObservable.onNext(flightSearchParams)
             FlightsV2Tracking.trackSearchClick()
             if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
-                FlightSearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
+                SearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
             searchSubscription?.unsubscribe()
         } else {

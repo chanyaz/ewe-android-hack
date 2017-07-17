@@ -27,6 +27,7 @@ public class PackageSearchErrorTest extends PackageTestCase {
 
 	@Test
 	public void testSearchError() throws Throwable {
+		SearchScreen.origin().perform(click());
 		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_GGW));
 		Common.closeSoftKeyboard(SearchScreen.origin());
 		SearchScreen.selectLocation(TestValues.ORIGIN_LOCATION_GGW);

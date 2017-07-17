@@ -1127,7 +1127,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_traveler_cabin_class_horizontal,
 		R.layout.widget_traveler_cabin_class_vertical,
 		R.layout.hotel_bottom_button_widget,
-		R.string.preference_flight_retain_search_params,
 		R.string.change_dates,
 		R.string.expand_advanced_button_cont_desc,
 		R.string.calendar_instructions_date_range_flight_extra_spacing_TEMPLATE,

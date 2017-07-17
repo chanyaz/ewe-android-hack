@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
@@ -65,6 +66,14 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
             val noOfTravelers = travelers.getTravelerCount()
             travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
                     put("travelers", noOfTravelers).format().toString()
+        }
+
+        vm.previousSearchParamsObservable.subscribe { params ->
+            travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
+            val infantCount = params.children.count { age -> age < 2 }
+            if (infantCount > 0) {
+                travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(!params.infantSeatingInLap)
+            }
         }
 
         vm.searchButtonObservable.subscribe { enable ->

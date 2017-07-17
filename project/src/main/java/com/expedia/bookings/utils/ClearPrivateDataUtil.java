@@ -53,7 +53,7 @@ public class ClearPrivateDataUtil {
 		// Clear new hotels suggestions history
 		SuggestionV4Utils.deleteCachedSuggestions(context);
 
-		// Clear flight search params history
-		FlightSearchParamsHistoryUtil.deleteCachedFlightSearchParams(context);
+		// Clear search params history
+		SearchParamsHistoryUtil.deleteCachedSearchParams(context);
 	}
 }

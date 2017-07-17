@@ -120,13 +120,13 @@
     <string name="preference_itin_card_detail">preference_itin_card_detail</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
-    <string name="preference_flight_retain_search_params">preference_flight_retain_search_params</string>
     <string name="preference_single_page_sign_up">preference_single_page_sign_up</string>
     <string name="preference_new_launchscreen_nav">preference_new_launchscreen_nav</string>
     <string name="preference_populate_cardholder_name">preference_populate_cardholder_name</string>
     <string name="preference_enable_secure_icon">preference_enable_secure_icon</string>
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_flight_subpub_change">preference_flight_subpub_change</string>
+    <string name="preference_packages_retain_search_params">preference_packages_retain_search_params</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
