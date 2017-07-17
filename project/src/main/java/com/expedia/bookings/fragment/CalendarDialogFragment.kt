@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.CardView
@@ -23,8 +24,13 @@ import com.mobiata.android.time.widget.MonthView
 import rx.Observable
 import org.joda.time.LocalDate
 
-open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) : DialogFragment() {
+open class CalendarDialogFragment() : DialogFragment() {
 
+    var baseSearchViewModel: BaseSearchViewModel? = null
+
+    constructor(vm: BaseSearchViewModel) : this() {
+        baseSearchViewModel = vm
+    }
     var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null;
     var userTappedDone = false
 
@@ -45,54 +51,57 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
 
     val calendar: CalendarPicker by lazy {
         val calendarPickerView = calendarDialogView.findViewById(R.id.calendar) as CalendarPicker
-        val maxDate = LocalDate.now().plusDays(baseSearchViewModel.getMaxDateRange())
-        calendarPickerView.setSelectableDateRange(baseSearchViewModel.getFirstAvailableDate(), maxDate)
-        calendarPickerView.setMaxSelectableDateRange(baseSearchViewModel.getMaxSearchDurationDays())
+        val vm = baseSearchViewModel
+        if (vm != null) {
+            val maxDate = LocalDate.now().plusDays(vm.getMaxDateRange())
+            calendarPickerView.setSelectableDateRange(vm.getFirstAvailableDate(), maxDate)
+            calendarPickerView.setMaxSelectableDateRange(vm.getMaxSearchDurationDays())
 
-        val monthView = calendarPickerView.findViewById(R.id.month) as MonthView
-        val dayOfWeek = calendarPickerView.findViewById(R.id.days_of_week) as DaysOfWeekView
-        dayOfWeek.setDayOfWeekRenderer(CalendarShortDateRenderer())
+            val monthView = calendarPickerView.findViewById(R.id.month) as MonthView
+            val dayOfWeek = calendarPickerView.findViewById(R.id.days_of_week) as DaysOfWeekView
+            dayOfWeek.setDayOfWeekRenderer(CalendarShortDateRenderer())
 
-        BaseSearchPresenter.styleCalendar(context, calendarPickerView, monthView, dayOfWeek)
+            BaseSearchPresenter.styleCalendar(context, calendarPickerView, monthView, dayOfWeek)
 
-        calendarPickerView.setDateChangedListener { start, end ->
-            if (calendar.visibility == CardView.VISIBLE) {
-                if (start != null && JodaUtils.isEqual(start, end) && !baseSearchViewModel.sameStartAndEndDateAllowed()) {
-                    if (!JodaUtils.isEqual(end, maxDate)) {
-                        calendarPickerView.setSelectedDates(start, end.plusDays(1))
+            calendarPickerView.setDateChangedListener { start, end ->
+                if (calendar.visibility == CardView.VISIBLE) {
+                    if (start != null && JodaUtils.isEqual(start, end) && !vm.sameStartAndEndDateAllowed()) {
+                        if (!JodaUtils.isEqual(end, maxDate)) {
+                            calendarPickerView.setSelectedDates(start, end.plusDays(1))
+                        } else {
+                            // Do not select an end date beyond the allowed range
+                            calendarPickerView.setSelectedDates(start, null)
+                        }
+
                     } else {
-                        // Do not select an end date beyond the allowed range
-                        calendarPickerView.setSelectedDates(start, null)
+                        vm.datesUpdated(start, end)
                     }
+                    updateDoneVisibilityForDate(start)
 
                 } else {
-                    baseSearchViewModel.datesUpdated(start, end)
+                    vm.datesUpdated(start, end)
                 }
-                updateDoneVisibilityForDate(start)
-
-            } else {
-                baseSearchViewModel.datesUpdated(start, end)
             }
-        }
-        calendarPickerView.setYearMonthDisplayedChangedListener {
-            calendarPickerView.hideToolTip()
-        }
-
-        Observable.zip(baseSearchViewModel.calendarTooltipTextObservable, baseSearchViewModel.calendarTooltipContDescObservable, {
-            tooltipText, tooltipContDescription ->
-            val (top, bottom) = tooltipText
-            object {
-                val top = top
-                val bottom = bottom
-                val tooltipContDescription = tooltipContDescription
+            calendarPickerView.setYearMonthDisplayedChangedListener {
+                calendarPickerView.hideToolTip()
             }
-        }).subscribe(endlessObserver { calendarPickerView.setToolTipText(it.top, it.bottom, it.tooltipContDescription, true) })
 
-        baseSearchViewModel.dateInstructionObservable.subscribe({
-            calendar.setInstructionText(it)
-        })
+            Observable.zip(vm.calendarTooltipTextObservable, vm.calendarTooltipContDescObservable, {
+                tooltipText, tooltipContDescription ->
+                val (top, bottom) = tooltipText
+                object {
+                    val top = top
+                    val bottom = bottom
+                    val tooltipContDescription = tooltipContDescription
+                }
+            }).subscribe(endlessObserver { calendarPickerView.setToolTipText(it.top, it.bottom, it.tooltipContDescription, true) })
 
-        calendarPickerView.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
+            vm.dateInstructionObservable.subscribe({
+                calendar.setInstructionText(it)
+            })
+
+            calendarPickerView.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
+        }
         calendarPickerView
     }
 
@@ -106,13 +115,14 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
         super.onDismiss(dialog)
         if (!userTappedDone) {
             calendar.visibility = CardView.GONE // ensures tooltip does not reopen
-            baseSearchViewModel.datesUpdated(oldCalendarSelection?.first, oldCalendarSelection?.second)
+            baseSearchViewModel?.datesUpdated(oldCalendarSelection?.first, oldCalendarSelection?.second)
             calendar.setSelectedDates(oldCalendarSelection?.first, oldCalendarSelection?.second)
             oldCalendarSelection = null
         }
+
         userTappedDone = false
         calendar.hideToolTip()
-        baseSearchViewModel.a11yFocusSelectDatesObservable.onNext(Unit)
+        baseSearchViewModel?.a11yFocusSelectDatesObservable?.onNext(Unit)
     }
 
     override fun onDestroyView() {
@@ -124,6 +134,15 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
+        if (savedInstanceState != null) {
+            val a = builder.create()
+            val handler = Handler()
+            handler.postDelayed({
+                a.dismiss()
+            }, 200)
+
+            return a
+        }
         calendar
         removeParentView()
         builder.setView(calendarDialogView)
@@ -132,11 +151,11 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
             calendar.visibility = CardView.INVISIBLE
             calendar.hideToolTip()
             if (calendar.startDate != null && calendar.endDate == null) {
-                val endDate = if (!baseSearchViewModel.isStartDateOnlyAllowed()) calendar.startDate.plusDays(1) else null
+                val endDate = if (!(baseSearchViewModel?.isStartDateOnlyAllowed() ?: false)) calendar.startDate.plusDays(1) else null
                 calendar.setSelectedDates(calendar.startDate, endDate)
             }
             userTappedDone = true
-            baseSearchViewModel.dateSetObservable.onNext(Unit)
+            baseSearchViewModel?.dateSetObservable?.onNext(Unit)
             dialog.dismiss()
         })
 
@@ -146,12 +165,12 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
             calendar.visibility = CardView.VISIBLE
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = calendar.startDate != null
             oldCalendarSelection = Pair(calendar.startDate, calendar.endDate)
-            calendar.setInstructionText(baseSearchViewModel.getDateInstructionText(calendar.startDate, calendar.endDate))
+            calendar.setInstructionText(baseSearchViewModel?.getDateInstructionText(calendar.startDate, calendar.endDate))
 
             dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }
 
-        calendar.setSelectedDates(baseSearchViewModel.startDate(), baseSearchViewModel.endDate())
+        calendar.setSelectedDates(baseSearchViewModel?.startDate(), baseSearchViewModel?.endDate())
 
         if (savedInstanceState != null) {
             dismiss()
@@ -165,6 +184,6 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
     }
 
     private fun setMaxSelectableDateRange() {
-        calendar.setMaxSelectableDateRange(baseSearchViewModel.getMaxSearchDurationDays())
+        calendar.setMaxSelectableDateRange(baseSearchViewModel?.getMaxSearchDurationDays() ?: 0)
     }
 }
