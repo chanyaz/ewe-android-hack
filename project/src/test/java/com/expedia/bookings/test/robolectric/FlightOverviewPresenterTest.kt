@@ -309,7 +309,7 @@ class FlightOverviewPresenterTest {
         val checkIn = LocalDate().plusDays(2)
         val checkOut = if (isRoundTrip) LocalDate().plusDays(3) else null
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null,null)
     }
 
     private fun getFlightCreateTripResponse(): FlightCreateTripResponse {

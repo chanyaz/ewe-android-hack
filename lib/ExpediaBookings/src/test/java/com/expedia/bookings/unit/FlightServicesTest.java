@@ -101,6 +101,7 @@ public class FlightServicesTest {
 		Assert.assertEquals(7, response.getLegs().size());
 		Assert.assertEquals(5, response.getOffers().size());
 		Assert.assertEquals("coach", response.getOffers().get(0).offersSeatClassAndBookingCode.get(0).get(0).seatClass);
+		Assert.assertEquals("-6.24", response.getOffers().get(0).discountAmount.amount.toString());
 		Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "AA"), response.getLegs().get(0).segments.get(0).airlineLogoURL);
 	}
 

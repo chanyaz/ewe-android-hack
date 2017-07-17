@@ -22,6 +22,7 @@ public class PackageOfferModel {
 		public Money pricePerPerson;
 		public Money hotelPrice;
 		public Money flightPrice;
+		public Money discountAmount;
 		public Money sumFlightAndHotel;
 		public Money tripSavings;
 		public Money hotelAvgPricePerNight;

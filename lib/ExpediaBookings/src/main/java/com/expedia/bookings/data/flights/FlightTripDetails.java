@@ -28,6 +28,7 @@ public class FlightTripDetails {
 		public Money baseFarePrice;
 		public Money totalPrice;
 		public Money averageTotalPricePerTicket;
+		public Money discountAmount;
 		public Money taxesPrice;
 		public Money feesPrice;
 		public String currency;

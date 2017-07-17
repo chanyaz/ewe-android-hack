@@ -71,6 +71,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val isByotEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
     val showMoreInfoOnOverview = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    val EBAndroidAppFlightSubpubChange = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSubpubChange, R.string.preference_flight_subpub_change)
+
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
@@ -331,6 +333,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
             val createTripParams = FlightCreateTripParams(productKey)
             createTripParams.flexEnabled = isFlexEnabled(context)
+
+            if(EBAndroidAppFlightSubpubChange){
+                createTripParams.setFeatureOverride()
+            }
             flightCreateTripViewModel.tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
             flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)

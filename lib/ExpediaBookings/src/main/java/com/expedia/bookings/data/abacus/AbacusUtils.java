@@ -64,6 +64,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightAdvanceSearch = 14602;
 	public static final int EBAndroidAppFlightRetainSearchParams = 14297;
 	public static final int EBAndroidAppFlightDayPlusDateSearchForm = 14742;
+	public static final int EBAndroidAppFlightSubpubChange = 14936;
 	public static final int EBAndroidAppFlightSwitchFields = 14918;
 	public static final int EBAndroidAppFlightTravelerFormRevamp = 14647;
 
@@ -200,8 +201,10 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSecureCheckoutIcon);
 		testIDs.add(EBAndroidAppPackagesMidApi);
 		testIDs.add(EBAndroidAppFlightFlexEnabled);
+		testIDs.add(EBAndroidAppFlightSubpubChange);
 		testIDs.add(EBAndroidAppFlightSwitchFields);
 		testIDs.add(EBAndroidAppFlightTravelerFormRevamp);
+
 		return testIDs;
 	}
 
