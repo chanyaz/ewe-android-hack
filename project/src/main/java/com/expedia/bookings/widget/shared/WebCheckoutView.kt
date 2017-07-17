@@ -44,6 +44,10 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     fun back() {
+        if (webView.canGoBack()) {
+            webView.goBack()
+            return
+        }
         (viewModel as WebCheckoutViewViewModel).userAccountRefresher.forceAccountRefreshForWebView()
     }
 

@@ -1,14 +1,14 @@
 package com.expedia.bookings.widget.shared
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Message
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.adobe.adms.measurement.ADMS_Measurement
@@ -18,6 +18,10 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebViewViewModel
+import android.webkit.WebView.HitTestResult
+
+
+
 
 open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -31,7 +35,11 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
 
     var webClient = object : WebViewClient() {
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+//            if (request.url.encodedPath.contains("newtab:")) {
+//                view.context.startActivity(Intent(Intent.ACTION_VIEW, request.url))
+//                return true
+//            }
             return false
         }
 
@@ -65,8 +73,13 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
         setToolbarPadding()
 
-        webView.setWebViewClient(webClient)
         webView.settings.javaScriptEnabled = true
+        webView.getSettings().setSupportZoom(true)
+        webView.settings.setSupportMultipleWindows(true)
+        webView.settings.javaScriptCanOpenWindowsAutomatically = true
+
+        webView.setWebChromeClient(MyChromeClient())
+        webView.setWebViewClient(webClient)
     }
 
     open var viewModel: WebViewViewModel by notNullAndObservable { vm ->
@@ -98,6 +111,22 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             progressView.visibility = View.VISIBLE
         } else {
             progressView.visibility = View.GONE
+        }
+    }
+
+    class MyChromeClient: WebChromeClient() {
+        override fun onCreateWindow(view: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message): Boolean {
+            val result = view.hitTestResult
+            val data = result.extra
+            val context = view.context
+            if(data!=null) {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(data))
+                context.startActivity(browserIntent)
+                return false
+            }
+            else{
+                return true
+            }
         }
     }
 }
