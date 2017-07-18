@@ -82,7 +82,7 @@ class HotelItinDetailsActivityTest {
         var shadowActivity = Shadows.shadowOf(activity)
         var intent = shadowActivity.nextStartedActivity
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
-        assertEquals("Price Summary", intent.extras.getString("ARG_TITLE"))
+        assertEquals("Price summary", intent.extras.getString("ARG_TITLE"))
         assertEquals(intentBuilder.getUrlWithVisitorId(itinCardDataHotel.detailsUrl) + "#price-header", intent.extras.getString("ARG_URL"))
 
         //additional info - toolbar title and url check
@@ -90,7 +90,7 @@ class HotelItinDetailsActivityTest {
         shadowActivity = Shadows.shadowOf(activity)
         intent = shadowActivity.nextStartedActivity
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
-        assertEquals("Additional Information", intent.extras.getString("ARG_TITLE"))
+        assertEquals("Additional information", intent.extras.getString("ARG_TITLE"))
         assertEquals(intentBuilder.getUrlWithVisitorId(itinCardDataHotel.detailsUrl), intent.extras.getString("ARG_URL"))
     }
 }

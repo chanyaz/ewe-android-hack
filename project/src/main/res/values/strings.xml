@@ -1423,7 +1423,7 @@
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Room Details</string>
     <!--Hotel itin card booking details heading-->
-    <string name="itin_hotel_details_booking_details_title_text">Booking Details</string>
+    <string name="itin_hotel_details_booking_details_title_text">Booking details</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
     <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
@@ -1439,9 +1439,9 @@
     <!--Hotel itin card manage booking subheading-->
     <string name="itin_hotel_details_manage_booking_subheading">Change, cancel and support</string>
     <!--Hotel itin card price summary heading-->
-    <string name="itin_hotel_details_price_summary_heading">Price Summary</string>
+    <string name="itin_hotel_details_price_summary_heading">Price summary</string>
     <!--Hotel itin card additional info heading-->
-    <string name="itin_hotel_details_additional_info_heading">Additional Information</string>
+    <string name="itin_hotel_details_additional_info_heading">Additional information</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>
