@@ -51,6 +51,9 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     createTripUnknownErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
                 }
+                ApiError.Code.PACKAGE_DATE_MISMATCH_ERROR -> {
+                    createTripUnknownErrorObservable.onNext(Unit)
+                }
                 else -> {
                     defaultErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
@@ -178,6 +181,11 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_guest_details))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
+                }
+                ApiError.Code.PACKAGE_DATE_MISMATCH_ERROR -> {
+                    imageObservable.onNext(defaultErrorDrawable())
+                    errorMessageObservable.onNext(context.getString(R.string.error_package_date_mismatch_error))
+                    buttonOneTextObservable.onNext(context.getString(R.string.retry))
                 }
                 else -> {
                     couldNotConnectToServerError()

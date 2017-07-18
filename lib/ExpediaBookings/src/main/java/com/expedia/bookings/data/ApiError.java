@@ -62,6 +62,9 @@ public class ApiError extends RuntimeException {
 		//Calculate Points Errors
 		POINTS_CONVERSION_UNAUTHENTICATED_ACCESS,
 
+		//Package Create Trip
+		PACKAGE_DATE_MISMATCH_ERROR,
+
 		//Package Checkout Errors
 		PACKAGE_SEARCH_ERROR,
 		PACKAGE_CHECKOUT_CARD_DETAILS,

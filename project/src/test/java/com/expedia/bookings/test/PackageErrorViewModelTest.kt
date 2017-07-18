@@ -199,6 +199,38 @@ class PackageErrorViewModelTest {
         errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.retry))
     }
 
+    @Test fun observableEmissionsOnCreateTripDateMismatchError() {
+        val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
+
+        val createTripUnknownErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        subjectUnderTest.createTripUnknownErrorObservable.subscribe(createTripUnknownErrorObservableTestSubscriber)
+
+        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+
+        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+
+        val apiError = ApiError(ApiError.Code.PACKAGE_DATE_MISMATCH_ERROR)
+        apiError.errorInfo = ApiError.ErrorInfo()
+        apiError.errorInfo.source = "UK"
+
+        val checkoutError = PackagesTracking().createCheckoutError(apiError)
+
+        assertEquals("CKO:UK:PACKAGE_DATE_MISMATCH_ERROR", checkoutError)
+
+        subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
+
+        createTripUnknownErrorObservableTestSubscriber.assertValues(Unit)
+        errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
+        errorMessageObservableTestSubscriber.assertValues("Sorry, this flight arrives way before the hotel check-in time. Please pick a different hotel or flights.")
+        errorButtonObservableTestSubscriber.assertValues("Retry")
+    }
+
     @Test fun observableEmissionsOnHotelOffersError() {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 

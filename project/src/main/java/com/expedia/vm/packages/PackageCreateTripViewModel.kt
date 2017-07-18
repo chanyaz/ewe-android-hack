@@ -42,8 +42,12 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
             override fun onNext(response: PackageCreateTripResponse) {
                 showCreateTripDialogObservable.onNext(false)
                 if (response.hasErrors() && !response.hasPriceChange()) {
-                    if (response.firstError.errorCode == ApiError.Code.UNKNOWN_ERROR) {
-                        createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                    when (response.firstError.errorCode) {
+                        ApiError.Code.UNKNOWN_ERROR -> createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                        ApiError.Code.PACKAGE_DATE_MISMATCH_ERROR -> createTripErrorObservable.onNext(ApiError(ApiError.Code.PACKAGE_DATE_MISMATCH_ERROR))
+                        else -> {
+                            //This should be handled
+                        }
                     }
                 } else {
                     Db.getTripBucket().clearPackages()

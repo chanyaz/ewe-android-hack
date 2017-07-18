@@ -3753,6 +3753,7 @@
     <string name="error_package_origin_resolution_message_TEMPLATE">Could not resolve an origin for {origin}</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
     <string name="error_package_destination_resolution_message_TEMPLATE">Could not resolve a destination for {destination}</string>
+    <string name="error_package_date_mismatch_error">Sorry, this flight arrives way before the hotel check-in time. Please pick a different hotel or flights.</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">Nonstop</item>
