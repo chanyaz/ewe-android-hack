@@ -48,7 +48,8 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
     }
 
     val priceText: CharSequence by lazy {
-        if (leadingHotel.hotelPricingInfo?.totalPriceValue != null) {
+        val totalPriceValue  = leadingHotel.hotelPricingInfo?.totalPriceValue
+        if (totalPriceValue != null && totalPriceValue > 0.0) {
             getFormattedPriceText(context.resources, leadingHotel.hotelPricingInfo?.totalPriceValue, false)
         }
         else {
