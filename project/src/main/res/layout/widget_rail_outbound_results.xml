@@ -16,7 +16,8 @@
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:navigationContentDescription="@string/toolbar_nav_icon_cont_desc"
             app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
-            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:contentInsetStartWithNavigation="0dp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/child_warning"

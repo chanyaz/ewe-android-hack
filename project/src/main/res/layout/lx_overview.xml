@@ -55,7 +55,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/primary_color"
             android:minHeight="?attr/actionBarSize"
-            app:titleTextAppearance="?attr/toolbar_title_style" />
+            app:titleTextAppearance="?attr/toolbar_title_style"
+            app:contentInsetStartWithNavigation="0dp" />
 
         <View
             android:id="@+id/toolbar_dropshadow"

@@ -34,7 +34,8 @@
                 app:layout_collapseMode="pin"
                 app:contentInsetEnd = "16dp"
                 app:contentInsetRight= "16dp"
-                app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:contentInsetStartWithNavigation="0dp" >
 
                 <LinearLayout
                     android:layout_width="wrap_content"

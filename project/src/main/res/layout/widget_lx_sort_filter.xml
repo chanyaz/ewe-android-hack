@@ -15,7 +15,8 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:nextFocusForward="@+id/lx_filter_sort_by_text"
-            android:minHeight="?attr/actionBarSize" />
+            android:minHeight="?attr/actionBarSize"
+            app:contentInsetStartWithNavigation="0dp" />
 
         <View
             android:id="@+id/toolbar_dropshadow"

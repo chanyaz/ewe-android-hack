@@ -6,7 +6,8 @@
     android:foreground="?android:attr/windowContentOverlay"
     android:background="?attr/primary_color"
     app:contentInsetLeft="0dp"
-    app:contentInsetStart="0dp">
+    app:contentInsetStart="0dp"
+    app:contentInsetStartWithNavigation="0dp">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

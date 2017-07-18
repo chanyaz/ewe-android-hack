@@ -34,7 +34,8 @@
         android:layout_gravity="top"
         android:minHeight="?attr/actionBarSize"
         app:subtitleTextAppearance="@style/LXToolbarSubtitleTextAppearance"
-        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance">
+        app:titleTextAppearance="@style/LXToolbarTitleTextAppearance"
+        app:contentInsetStartWithNavigation="0dp">
 
         <FrameLayout
             android:layout_width="wrap_content"

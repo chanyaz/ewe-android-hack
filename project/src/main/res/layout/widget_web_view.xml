@@ -10,7 +10,8 @@
         android:background="?attr/primary_color"
         android:minHeight="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:contentInsetStartWithNavigation="0dp" />
 
     <FrameLayout
         android:layout_width="match_parent"

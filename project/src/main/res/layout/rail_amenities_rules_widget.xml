@@ -18,7 +18,8 @@
             app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
             app:title="@string/amenities"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-            app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc" />
+            app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
+            app:contentInsetStartWithNavigation="0dp" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/amenities_rules_tabs"

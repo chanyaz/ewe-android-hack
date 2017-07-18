@@ -15,7 +15,8 @@
             android:layout_gravity="top"
             android:background="?attr/primary_color"
             android:minHeight="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_close_white_24dp">
+            app:navigationIcon="@drawable/ic_close_white_24dp"
+            app:contentInsetStartWithNavigation="0dp">
 
             <FrameLayout
                 android:id="@+id/toolbar_two"

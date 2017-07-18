@@ -55,7 +55,8 @@
         android:minHeight="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_close_white_24dp"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"/>
+        app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
+        app:contentInsetStartWithNavigation="0dp" />
 
 
 </merge>

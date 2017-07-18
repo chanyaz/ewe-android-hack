@@ -17,7 +17,8 @@
             app:contentInsetEnd="16dp"
             app:contentInsetRight="16dp"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:contentInsetStartWithNavigation="0dp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/card_processing_fee"

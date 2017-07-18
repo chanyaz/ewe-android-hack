@@ -15,7 +15,8 @@
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:navigationContentDescription="@string/toolbar_nav_icon_cont_desc"
             app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
-            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:contentInsetStartWithNavigation="0dp" />
 
         <com.expedia.bookings.rail.widget.RailOutboundHeaderView
             android:id="@+id/outbound_header_view"

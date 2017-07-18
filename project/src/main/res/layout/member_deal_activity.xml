@@ -15,7 +15,8 @@
         app:navigationContentDescription="@string/member_deal_toolbar_close_cont_desc"
         app:title="@string/member_deals_toolbar_title"
         app:titleTextColor="@color/white"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance">
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:contentInsetStartWithNavigation="0dp">
 
         <android.widget.Button
             android:id="@+id/mod_shop_button"

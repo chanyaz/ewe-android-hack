@@ -16,7 +16,8 @@
         app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
         app:navigationIcon="@drawable/ic_close_white_24dp"
         app:title="Advanced Options"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:contentInsetStartWithNavigation="0dp" />
 
     <FrameLayout
         android:layout_width="match_parent"

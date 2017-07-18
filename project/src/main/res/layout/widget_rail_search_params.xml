@@ -19,7 +19,8 @@
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_close_white_24dp"
             app:title="@string/trains"
-            app:titleTextAppearance="@style/ToolbarTitleTextAppearance">
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:contentInsetStartWithNavigation="0dp">
 
             <FrameLayout
                 android:id="@+id/toolbar_two"

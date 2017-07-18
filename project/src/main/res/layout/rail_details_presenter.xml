@@ -16,7 +16,8 @@
             app:navigationIcon="@drawable/ic_close_white_24dp"
             app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
             app:title="@string/rail_journey_details_and_fare_options"
-            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:contentInsetStartWithNavigation="0dp" />
 
         <ScrollView
             android:layout_width="match_parent"

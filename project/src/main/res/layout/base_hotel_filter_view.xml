@@ -184,7 +184,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
-                app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+                app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+                app:contentInsetStartWithNavigation="0dp" />
 
             <View
                 android:id="@+id/toolbar_dropshadow"

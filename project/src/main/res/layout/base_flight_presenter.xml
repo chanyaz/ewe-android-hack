@@ -43,7 +43,8 @@
             android:layout_gravity="top"
             android:minHeight="?attr/actionBarSize"
             app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
-            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:contentInsetStartWithNavigation="0dp" />
 
         <View
             android:id="@+id/toolbar_dropshadow"
