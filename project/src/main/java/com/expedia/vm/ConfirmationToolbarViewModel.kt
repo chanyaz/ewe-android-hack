@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import rx.subjects.PublishSubject
@@ -26,7 +27,7 @@ class ConfirmationToolbarViewModel(val context: Context) {
         val arrivalCity = checkoutResponse.getFirstFlightLastSegment().arrivalAirportAddress.city
         val outboundSharableDetailsURL = flightItinDetailsResponse.getOutboundSharableDetailsURL()
         val departureDate = flightItinDetailsResponse.getOutboundDepartureDate()
-        if (checkoutResponse.isRoundTrip()) {
+        if (Db.getFlightSearchParams().isRoundTrip()) {
             val arrivalDate = flightItinDetailsResponse.getInboundArrivalDate()
             val inboundSharableDetailsURL = flightItinDetailsResponse.getInboundSharableDetailsURL()
             if (Locale.US == Locale.getDefault()) {

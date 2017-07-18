@@ -95,10 +95,6 @@ class FlightCheckoutResponse() : FlightTripResponse() {
         return segments[segments.size - 1]
     }
 
-    fun isRoundTrip(): Boolean {
-        return getFirstFlightTripDetails().legs.size == 2
-    }
-
     override fun getOffer(): FlightTripDetails.FlightOffer {
         val flightsDetailResponse = flightAggregatedResponse?.flightsDetailResponse
         return if (flightsDetailResponse != null) flightsDetailResponse[0].offer else details.offer

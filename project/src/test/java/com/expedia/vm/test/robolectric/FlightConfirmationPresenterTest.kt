@@ -6,12 +6,15 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.presenter.flight.FlightConfirmationPresenter
@@ -28,6 +31,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -159,6 +163,7 @@ class FlightConfirmationPresenterTest {
         givenCheckoutResponse(isRoundTrip = false)
 
         val flightItinDetailsResponse = generateFlightItinDetailsResponse(false)
+        setRoundTripFlight(false)
 
         var shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
         var expectedShareMessage = "I'm flying to Oakland on 5/20/17!" + "\n" + "www.expedia_test_outbound.com"
@@ -179,6 +184,7 @@ class FlightConfirmationPresenterTest {
         givenCheckoutResponse()
 
         val flightItinDetailsResponse = generateFlightItinDetailsResponse(true)
+        setRoundTripFlight(true)
 
         var shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
         var expectedShareMessage = "I'm flying roundtrip from Seattle to Oakland on 5/20/17 - 5/24/17!" + "\n" +
@@ -346,4 +352,11 @@ class FlightConfirmationPresenterTest {
         return travelerList
     }
 
+    private fun setRoundTripFlight(isRoundTrip: Boolean) {
+        val flightSearch = if (isRoundTrip) FlightSearchParams(SuggestionV4(), SuggestionV4(), LocalDate(), LocalDate(), 5,
+                ArrayList<Int>(), false, "", 5, "", true, true, "")
+        else FlightSearchParams(SuggestionV4(), SuggestionV4(), LocalDate(), null, 5,
+                ArrayList<Int>(), false, "", 5, "", true, true, "")
+        Db.setFlightSearchParams(flightSearch)
+    }
 }
