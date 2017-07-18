@@ -11,4 +11,6 @@ class FlightCheckoutSummaryViewModel {
     val showAirlineFeeWarningObservable = BehaviorSubject.create(false)
     val airlineFeeWarningTextObservable = BehaviorSubject.create<String>()
     val showBasicEconomyMessageObservable = BehaviorSubject.create(false)
+    var outboundSelectedAndTotalLegRank: Pair<Int, Int>? =  null
+    var inboundSelectedAndTotalLegRank: Pair<Int, Int>? =  null
 }

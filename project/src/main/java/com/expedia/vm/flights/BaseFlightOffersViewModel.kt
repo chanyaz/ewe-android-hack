@@ -46,6 +46,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val nonStopSearchFilterAppliedSubject = BehaviorSubject.create<Boolean>()
     val refundableFilterAppliedSearchSubject = BehaviorSubject.create<Boolean>()
     var isOutboundSearch = true
+    var totalOutboundResults = 0
+    var totalInboundResults = 0
 
     protected var isRoundTripSearch = true
     protected lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
@@ -106,6 +108,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 offerSelectedChargesObFeesSubject.onNext(paymentFeeText)
             }
         }
+        outboundResultsObservable.subscribe { totalOutboundResults = it.size }
+        inboundResultsObservable.subscribe { totalInboundResults = it.size }
     }
 
     protected fun selectFlightOffer(outboundLegId: String, inboundLegId: String) {

@@ -4891,10 +4891,12 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackResultInBoundFlights(FlightSearchTrackingData trackingData) {
+	public static void trackResultInBoundFlights(FlightSearchTrackingData trackingData, kotlin.Pair outboundSelectedAndTotalLegRank) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_ROUNDTRIP_IN);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
+		s.setEvar(35, getRankEvent(outboundSelectedAndTotalLegRank, null));
+
 		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
 		}
@@ -4922,7 +4924,7 @@ public class OmnitureTracking {
 
 	public static void trackShowFlightOverView(
 		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
-		PageUsableData overviewPageUsableData) {
+		PageUsableData overviewPageUsableData, kotlin.Pair outboundSelectedAndTotalLegRank, kotlin.Pair inboundSelectedAndTotalLegRank) {
 		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_RATE_DETAILS + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_RATE_DETAILS);
@@ -4931,7 +4933,6 @@ public class OmnitureTracking {
 		// Search Type: value always 'Flight'
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
-
 		// Search Origin: 3 letter airport code of origin
 		String origin = flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode;
 		s.setEvar(3, "D=c3");
@@ -4941,6 +4942,8 @@ public class OmnitureTracking {
 		String dest = flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode;
 		s.setEvar(4, "D=c4");
 		s.setProp(4, dest);
+
+		s.setEvar(35, getRankEvent(outboundSelectedAndTotalLegRank, inboundSelectedAndTotalLegRank));
 
 		// day computation date
 		LocalDate departureDate = flightSearchParams.getDepartureDate();
@@ -4963,6 +4966,17 @@ public class OmnitureTracking {
 		}
 
 		s.track();
+	}
+
+	private static String getRankEvent(kotlin.Pair outboundSelectedAndTotalLegRank,
+		kotlin.Pair inboundSelectedAndTotalLegRank) {
+		StringBuilder rank = new StringBuilder(outboundSelectedAndTotalLegRank.getFirst().toString()).append(".")
+			.append(outboundSelectedAndTotalLegRank.getSecond());
+		if (inboundSelectedAndTotalLegRank != null) {
+			rank.append("|").append(inboundSelectedAndTotalLegRank.getFirst()).append(".")
+				.append(inboundSelectedAndTotalLegRank.getSecond());
+		}
+		return rank.toString();
 	}
 
 	public static void trackOverviewFlightExpandClick(boolean isExpanding) {

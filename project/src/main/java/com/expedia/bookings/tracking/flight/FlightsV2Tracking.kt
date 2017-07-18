@@ -46,8 +46,8 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip)
     }
 
-    fun trackResultInBoundFlights(trackingData: FlightSearchTrackingData) {
-        OmnitureTracking.trackResultInBoundFlights(trackingData)
+    fun trackResultInBoundFlights(trackingData: FlightSearchTrackingData, outboundSelectedAndTotalLegRank : Pair<Int, Int>) {
+        OmnitureTracking.trackResultInBoundFlights(trackingData, outboundSelectedAndTotalLegRank)
         TuneUtils.trackFlightV2InBoundResults(trackingData)
     }
 
@@ -92,8 +92,8 @@ object FlightsV2Tracking {
     }
 
     fun trackShowFlightOverView(flightSearchParams: FlightSearchParams, flightCreateTripResponse: FlightCreateTripResponse,
-                                overviewPageUsableData: PageUsableData) {
-        OmnitureTracking.trackShowFlightOverView(flightSearchParams, overviewPageUsableData)
+                                overviewPageUsableData: PageUsableData, outboundSelectedAndTotalLegRank: Pair<Int, Int>?, inboundSelectedAndTotalLegRank: Pair<Int, Int>?) {
+        OmnitureTracking.trackShowFlightOverView(flightSearchParams, overviewPageUsableData, outboundSelectedAndTotalLegRank, inboundSelectedAndTotalLegRank)
         TuneUtils.trackFlightV2RateDetailOverview(flightSearchParams)
         FacebookEvents().trackFlightV2Detail(flightSearchParams, flightCreateTripResponse)
     }

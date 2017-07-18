@@ -52,6 +52,7 @@ class FlightPriceChangeTest {
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
         overview = activity.findViewById(R.id.flight_overview_presenter) as FlightOverviewPresenter
+        overview.viewModel.outboundSelectedAndTotalLegRank = Pair(0, 0)
         checkout = overview.getCheckoutPresenter()
         addFlightSearchParams()
     }

@@ -62,6 +62,7 @@ class FlightOverviewPresenterTest {
         val validator = Ui.getApplication(context).travelerComponent().travelerValidator()
         validator.updateForNewSearch(setupFlightSearchParams())
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        widget.viewModel.outboundSelectedAndTotalLegRank = Pair(0, 0)
     }
 
     @Test

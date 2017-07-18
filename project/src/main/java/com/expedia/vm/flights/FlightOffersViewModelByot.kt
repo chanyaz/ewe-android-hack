@@ -47,6 +47,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
                     outboundLeg.packageOfferModel = makeOffer(offer, true)
                 }
                 outBoundFlights.add(outboundLeg)
+                outboundLeg.legRank = outBoundFlights.size
             }
         }
         outboundResultsObservable.onNext(outBoundFlights.toList())
@@ -65,6 +66,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
             if (inboundLeg != null) {
                 inboundLeg.packageOfferModel = makeOffer(offer, false)
                 inboundFlights.add(inboundLeg)
+                inboundLeg.legRank = inboundFlights.size
             }
         }
         inboundResultsObservable.onNext(inboundFlights.toList())

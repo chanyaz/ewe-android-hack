@@ -43,6 +43,9 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
                     outboundLeg.packageOfferModel = makeOffer(offer, true)
                 }
                 outBoundFlights.add(outboundLeg)
+                if (outboundLeg.legRank == 0) {
+                    outboundLeg.legRank = outBoundFlights.size
+                }
             }
             var flights = flightMap[outboundId]
             if (flights == null) {
@@ -58,7 +61,8 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
 
     private fun findInboundFlights(outboundFlightId: String): List<FlightLeg> {
         val flights = flightMap[outboundFlightId]?.toList() ?: emptyList()
-        flights.forEach { inbound ->
+        flights.forEachIndexed { index, inbound ->
+            inbound.legRank = index + 1
             val offer = getFlightOffer(outboundFlightId, inbound.legId)
             if (offer != null) {
                 val offerModel = makeOffer(offer, false)

@@ -58,6 +58,7 @@ public class FlightLeg {
 	public boolean mayChargeObFees;
 	public boolean isBasicEconomy;
 	public List<BasicEconomyTooltipInfo> basicEconomyTooltipInfo = new ArrayList<>();
+	public int legRank;
 
 	public boolean isFreeCancellable() {
 		return freeCancellationBy != null;

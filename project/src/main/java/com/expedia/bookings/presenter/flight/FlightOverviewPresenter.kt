@@ -182,7 +182,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
         createTripResponse as FlightCreateTripResponse
         val flightSearchParams = Db.getFlightSearchParams()
-        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, createTripResponse, overviewPageUsableData)
+        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, createTripResponse, overviewPageUsableData,
+                viewModel.outboundSelectedAndTotalLegRank, viewModel.inboundSelectedAndTotalLegRank)
     }
 
     override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {

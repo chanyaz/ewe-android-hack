@@ -52,7 +52,7 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
 
     override fun trackFlightResultsLoad() {
         val trackingData = searchTrackingBuilder.build()
-        FlightsV2Tracking.trackResultInBoundFlights(trackingData)
+        FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank, flightOfferViewModel.totalOutboundResults))
     }
 
 }

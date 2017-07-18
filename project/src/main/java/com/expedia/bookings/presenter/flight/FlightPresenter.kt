@@ -190,7 +190,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 searchTrackingBuilder.markResultsUsable()
                 if (searchTrackingBuilder.isWorkComplete()) {
                     val trackingData = searchTrackingBuilder.build()
-                    FlightsV2Tracking.trackResultInBoundFlights(trackingData)
+                    FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank,
+                            flightOfferViewModel.totalOutboundResults))
                 }
             }
         }
@@ -253,7 +254,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribe(checkoutViewModel.selectedFlightChargesFees)
         flightOfferViewModel.obFeeDetailsUrlObservable.subscribe(checkoutViewModel.obFeeDetailsUrlSubject)
-        flightOfferViewModel.confirmedOutboundFlightSelection.subscribe { presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable) }
+        flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
+            presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable)
+            presenter.viewModel.outboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalOutboundResults)
+        }
+        flightOfferViewModel.confirmedInboundFlightSelection.subscribe {
+            presenter.viewModel.inboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalInboundResults)
+        }
         flightOfferViewModel.flightOfferSelected.subscribe { presenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
 
         if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
