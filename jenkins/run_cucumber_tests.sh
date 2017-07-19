@@ -46,6 +46,7 @@ function removeDummyFilesOnDevice() {
     device=$1
     echo "Removing Dummy Files....."
     adb -s $device shell rm -r /data/local/tmp/cucumber-htmlreport
+    adb -s $device shell rm -r /sdcard/cucumber-images
     removeDummyFiles=$?
 }
 
@@ -98,8 +99,8 @@ function runCucumberTests() {
     device=$1
     tagsPassed=$2
     echo "Running Cucumber Tests"
-    if [ -n "$tags" ]; then
-        tagsPassed="-e tags \"${tags}\""
+    if [ -n "$tagsPassed" ]; then
+        tagsPassed="-e tags \"${tagsPassed}\""
     fi
     echo adb -s $device shell am instrument -w -r -e debug false ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
     adb -s $device shell am instrument -w -r -e debug false ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
@@ -108,12 +109,16 @@ function runCucumberTests() {
 
 function publishHTMLReport() {
     device=$1
-    mkdir project/build/outputs/$device
-    cd project/build/outputs/$device
+    localtag=$2
+    echo "creating report " ${localtag}
+    #mkdir project/build/outputs/$device
+    mkdir project/build/outputs/${localtag}
+    cd project/build/outputs/${localtag}
     adb -s $device pull /data/local/tmp/cucumber-htmlreport
     adb -s $device shell "rm -R /sdcard/cucumber-images"
     adb -s $device shell "run-as ${packageName}.debug cp -R /data/data/${packageName}.debug/files/cucumber-images /sdcard"
     adb -s $device pull /sdcard/cucumber-images
+    cd ../../../..
 }
 
 function printTestStatus() {
@@ -148,12 +153,19 @@ function runTestsOnDevice() {
     tags=$2
     #uninstall existing build
     uninstallBuild $device
-    #remove dummy files if already present
-    removeDummyFilesOnDevice $device
-    createDummyFilesOnDevice $device
     installBuild $device
-    runCucumberTests $device $tags
-    publishHTMLReport $device
+    tags=$(echo ${tags} | sed 's/,/ /g')
+    read -a tagsArrLocal <<<$tags
+    for (( i=0; i<${#tagsArrLocal[@]}; i++ )) ; do
+        tagSingle=${tagsArrLocal[i]}
+        removeDummyFilesOnDevice $device
+        createDummyFilesOnDevice $device
+        echo "tag trigerred " ${tagSingle}
+        runCucumberTests $device $tagSingle
+        publishHTMLReport $device $tagSingle
+        sleep 4
+    done
+
 }
 
 function distributingTagsOverDevices() {
@@ -216,4 +228,5 @@ echo "Done"
 
 #Get list of devices on which automation was run, runOnDevicesStr is comma separated list of device identifier
 runOnDevicesStr=$(echo ${runOnDevicesStr} | sed 's/ /,/g')
-python jenkins/generate_cucumber_report.py ${runOnDevicesStr}
+tags=$(echo ${tags} | sed 's/ /,/g')
+python jenkins/generate_cucumber_report.py $tags

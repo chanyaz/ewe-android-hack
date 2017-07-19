@@ -177,6 +177,7 @@ Feature: Flights Checkout
     And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    And Close price change Alert dialog if it is visible
     When I click on checkout button
     And I open traveller details
     Then Passport field is present on the traveler info form
@@ -216,6 +217,7 @@ Feature: Flights Checkout
     And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    And Close price change Alert dialog if it is visible
     When I click on checkout button
     And I open traveller details
     Then Passport field is present on the traveler info form
@@ -251,6 +253,7 @@ Feature: Flights Checkout
     And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    And Close price change Alert dialog if it is visible
     When I click on checkout button
     And I wait for checkout screen to load
     And I open traveller details
@@ -296,6 +299,7 @@ Feature: Flights Checkout
     And I can trigger flights search
     And I wait for results to load
     And I select outbound flight at position 1 and reach inbound FSR
+    And Close price change Alert dialog if it is visible
     When I click on checkout button
     And I wait for checkout screen to load
     And I open traveller details

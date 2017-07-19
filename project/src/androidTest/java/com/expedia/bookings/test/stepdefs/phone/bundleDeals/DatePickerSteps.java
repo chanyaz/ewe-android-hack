@@ -15,6 +15,7 @@ import cucumber.api.java.en.Then;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getFormattedDate;
 import static org.hamcrest.Matchers.allOf;
 
 public class DatePickerSteps {
@@ -26,28 +27,29 @@ public class DatePickerSteps {
 	@And("^I choose date from calendar widget$")
 	public void validateDateForPackages(Map<String, String> parameters) throws Throwable {
 		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
-		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
-		String stDateStr = dateFormatter.format(stDate.toDate()).toString();
-		LocalDate incrdate = stDate.plusDays(1);
-		String incrdateStr = dateFormatter.format(incrdate.toDate()).toString();
-		String finalstr = stDateStr + " - " + incrdateStr;
+
+		Format dateFormatterEEEMMMd = new SimpleDateFormat("EEE, MMM d", Locale.US);
+		Format dateFormatMMMd = new SimpleDateFormat("MMM d", Locale.US);
+		String stDateStr = dateFormatterEEEMMMd.format(stDate.toDate()).toString();
 		if (parameters.get("end_date") != null) {
 			LocalDate endDate = LocalDate.now()
 				.plusDays(Integer.parseInt(parameters.get("end_date")));
-			String endDateStr = dateFormatter.format(endDate.toDate()).toString();
+			String endDateStr = dateFormatterEEEMMMd.format(endDate.toDate()).toString();
 			//choose departure and run date
 			SearchScreen.chooseDates(stDate, endDate);
 			//validate calender tooltip and subtitle
-			SearchScreen.validateDatesToolTip(stDateStr + " - " + endDateStr, "Drag to modify");
+			SearchScreen.validateDatesToolTip(getFormattedDate(stDate, dateFormatMMMd) + " - " + getFormattedDate(endDate, dateFormatMMMd), "Drag to modify");
 			validateCalenderSubtitle(
-				stDateStr + " - " + endDateStr + " " + parameters.get("number_of_nights"));
+				stDateStr + "  -  " + endDateStr + " " + parameters.get("number_of_nights"));
 		}
 		else {
 			//choose departure date
 			SearchScreen.chooseDates(stDate, null);
 			//validate calender tooltip and subtilte
-			SearchScreen.validateDatesToolTip(stDateStr, "Next: Select return date");
+			SearchScreen.validateDatesToolTip(getFormattedDate(stDate, dateFormatMMMd), "Next: Select return date");
 			validateCalenderSubtitle(stDateStr + " – Select return date");
 		}
 	}
+
+
 }

@@ -23,7 +23,7 @@ import android.view.View
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.stepdefs.phone.TestUtil
-import com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEMMMdyyyy
+import com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEMMMddyyyy
 import com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInMMMdd
 import cucumber.api.java.en.When
 import org.hamcrest.CoreMatchers
@@ -64,8 +64,8 @@ class PackageOverviewScreen {
     @Then("^on Package Overview Screen validate the toolbar when hotel, outbound and inbound flight is selected$")
     @Throws(Throwable::class)
     fun validateToolbarOnPOSInboundFlight(expParameters: Map<String, String>) {
-        val startDate = getDateInEEMMMdyyyy(expParameters["start_date"])
-        val endDate = getDateInEEMMMdyyyy(expParameters["end_date"])
+        val startDate = getDateInEEMMMddyyyy(expParameters["start_date"])
+        val endDate = getDateInEEMMMddyyyy(expParameters["end_date"])
         onView(allOf<View>(withId(R.id.destination), isDescendantOfA(withId(R.id.checkout_overview_floating_toolbar))))
                 .check(matches(withText(expParameters["destination"])))
         onView(allOf<View>(withId(R.id.check_in_out_dates), isDescendantOfA(withId(R.id.checkout_overview_floating_toolbar))))

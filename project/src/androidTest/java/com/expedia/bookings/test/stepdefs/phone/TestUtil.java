@@ -15,6 +15,7 @@ import org.joda.time.LocalDate;
 
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewAssertion;
+import android.support.test.espresso.ViewInteraction;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -23,6 +24,8 @@ import com.expedia.bookings.widget.flights.FlightListAdapter;
 
 import junit.framework.Assert;
 
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestUtil {
@@ -197,14 +200,35 @@ public class TestUtil {
 		return dateFormatter.format(startDate.toDate());
 	}
 
-	public static String getDateInEEMMMdyyyy(String days) {
+	public static String getDateInEEEMMMdd(String days) {
 		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
-		Format dateFormatter = new SimpleDateFormat("EEE MMM d, yyyy", Locale.US);
+		Format dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
+		return dateFormatter.format(startDate.toDate());
+	}
+
+	public static String getDateInEEMMMddyyyy(String days) {
+		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
+		Format dateFormatter = new SimpleDateFormat("EEE MMM dd, yyyy", Locale.US);
 		return dateFormatter.format(startDate.toDate());
 	}
 
 	public static String getDateRangeInMMMdd(String range) {
 		String dateString = getDateInMMMdd(range.split(" - ")[0]) + " - " + getDateInMMMdd(range.split(" - ")[1]);
 		return dateString;
+	}
+
+	public static String getFormattedDate(LocalDate date, Format dateFormatter) {
+		return dateFormatter.format(date.toDate()).toString();
+	}
+
+	//To-do - This should be handled in a better way
+	public static boolean doesViewExists(ViewInteraction viewInteraction) {
+		try {
+			viewInteraction.check(matches(isDisplayed()));
+			return true;
+		}
+		catch (NoMatchingViewException e) {
+			return false;
+		}
 	}
 }

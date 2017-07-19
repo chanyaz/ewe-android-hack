@@ -454,7 +454,6 @@ public class CustomMatchers {
 				if (!(view instanceof TextInputLayout)) {
 					return false;
 				}
-
 				CharSequence error = ((TextInputLayout) view).getError();
 
 				if (error == null) {
@@ -471,6 +470,5 @@ public class CustomMatchers {
 			}
 		};
 	}
-
 
 }

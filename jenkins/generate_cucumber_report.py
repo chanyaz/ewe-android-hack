@@ -295,7 +295,7 @@ def main():
                     allTestCases.append(generateTestcasesHTML(feature_testcases_json, failedTestcaseImageDirectoryPath))
                     allTestCasesHTML=''.join(allTestCases)
                     allFeatureResults.append("""\n<div class="cucumber-feature">
-                            <div class="feature-title feature-title-background"><span>Feature:{featureName} run on Device: {deviceIdentifier}</span></div>
+                            <div class="feature-title feature-title-background"><span>Feature:{featureName} run with Tag: {deviceIdentifier}</span></div>
                                 <div class="testcases">
                                     <div class="rTable">
                                         <div class="rTableHeading">
@@ -319,13 +319,13 @@ def main():
             except Exception, e:
                 allFeatureResults.append("""\n
                     <div class="cucumber-feature">
-                        <div class="feature-title failed"><span>Something went wrong on device : {deviceIdentifier}</span></div>
+                        <div class="feature-title failed"><span>Something went wrong for tag : {deviceIdentifier}</span></div>
                     </div>
                     """.format(deviceIdentifier=deviceIdentifier ))
         else:
             allFeatureResults.append("""\n
                     <div class="cucumber-feature">
-                        <div class="feature-title failed"><span>Something went wrong!! Could not find cucumber.json file on device : {deviceIdentifier}</span></div>
+                        <div class="feature-title failed"><span>Something went wrong!! Could not find cucumber.json file for tag : {deviceIdentifier}</span></div>
                     </div>
                     """.format(deviceIdentifier=deviceIdentifier ))
     generateCompleteReportHTML(allFeatureResults)

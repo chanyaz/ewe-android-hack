@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.RootMatchers;
 
 import com.expedia.bookings.R;
@@ -378,6 +379,16 @@ public class SearchScreenSteps {
 	public void clickOkButtonAlertDialog() throws Throwable {
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
+
+	@And("^Close price change Alert dialog if it is visible$")
+	public void closeAlertDialog() throws Throwable {
+		Common.delay(1);
+		ViewInteraction searchAlertDialogDonebutton = SearchScreen.searchAlertDialogDone();
+		if (TestUtil.doesViewExists(searchAlertDialogDonebutton)) {
+			searchAlertDialogDonebutton.perform(click());
+		}
+	}
+
 
 	@When("^I click on class widget$")
 	public void clickPreferredClassWidget() throws Throwable {
