@@ -7,14 +7,14 @@ import com.squareup.phrase.Phrase
 
 object RewardsUtil {
 
-    fun buildRewardText(context: Context, rewardPoints: String, configuration: IProductFlavorFeatureConfiguration, featureToggled: Boolean = false): String {
+    fun buildRewardText(context: Context, rewardPoints: String, configuration: IProductFlavorFeatureConfiguration, isFlights: Boolean = false): String {
         var rewardsPointsText = ""
         if (Strings.isNotEmpty(rewardPoints) && rewardPoints.toFloat() > 0) {
             var rewardPointValue = rewardPoints
             if (configuration.isRewardProgramPointsType) {
                 rewardPointValue = StrUtils.roundOff(rewardPoints.toFloat(), 0)
             }
-            rewardsPointsText = if (featureToggled)  {
+            rewardsPointsText = if (isFlights)  {
                 Phrase.from(context, R.string.confirmation_flight_reward_points_earned_TEMPLATE)
                         .put("rewardpoints", rewardPointValue)
                         .format().toString()

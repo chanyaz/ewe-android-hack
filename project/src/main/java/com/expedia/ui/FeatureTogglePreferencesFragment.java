@@ -28,7 +28,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_activity_map);
 		initializeFeatureCheck(R.string.preference_itin_card_detail);
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
-		initializeFeatureCheck(R.string.preference_enable_additional_content_flight_confirmation);
 		initializeFeatureCheck(R.string.preference_enable_secure_icon);
 
 		//hotel features

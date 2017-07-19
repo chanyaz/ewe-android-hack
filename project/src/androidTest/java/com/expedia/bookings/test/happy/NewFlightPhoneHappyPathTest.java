@@ -354,17 +354,13 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 			isDescendantOfA(withId(R.id.confirmation_container)))).check(
 			matches(withText("Detroit")));
 
-		onView(allOf(withId(R.id.expedia_points),
-			isDescendantOfA(withId(R.id.confirmation_container)))).check(
-			matches(not(isDisplayed())));
-
 		onView(allOf(withId(R.id.confirmation_title),
 			isDescendantOfA(withId(R.id.outbound_flight_card)))).check(
-			matches(withText("Flight to (DTW) Detroit")));
+			matches(withText("SFO to DTW")));
 
 		onView(allOf(withId(R.id.confirmation_title),
 			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
-			matches(withText("Flight to (SFO) San Francisco")));
+			matches(withText("DTW to SFO")));
 
 		onView(allOf(withId(R.id.hotel_cross_sell_widget),
 			isDescendantOfA(withId(R.id.confirmation_container)))).check(
@@ -387,17 +383,13 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 			isDescendantOfA(withId(R.id.confirmation_container)))).check(
 			matches(withText("Detroit")));
 
-		onView(allOf(withId(R.id.expedia_points),
-			isDescendantOfA(withId(R.id.confirmation_container)))).check(
-			matches(isDisplayed()));
-
 		onView(allOf(withId(R.id.confirmation_title),
 			isDescendantOfA(withId(R.id.outbound_flight_card)))).check(
-			matches(withText("Flight to (DTW) Detroit")));
+			matches(withText("SFO to DTW")));
 
 		onView(allOf(withId(R.id.confirmation_title),
 			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
-			matches(withText("Flight to (SFO) San Francisco")));
+			matches(withText("DTW to SFO")));
 
 		onView(allOf(withId(R.id.hotel_cross_sell_widget),
 			isDescendantOfA(withId(R.id.confirmation_container)))).check(

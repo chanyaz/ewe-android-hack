@@ -34,17 +34,16 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     val itinNumber: TextView by bindView(R.id.itin_number)
     val tripBookedMessage: TextView by bindView(R.id.trip_booked_message)
     val destination: TextView by bindView(R.id.destination)
-    val expediaPoints: TextView by bindView(R.id.expedia_points)
     val viewItinButton: Button by bindView(R.id.view_itin_button)
-    val isNewConfirmationScreenEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_additional_content_flight_confirmation)
 
     val outboundFlightCard: ConfirmationRowCardView by bindView(R.id.outbound_flight_card)
     val inboundFlightCard: ConfirmationRowCardView by bindView(R.id.inbound_flight_card)
     val hotelCrossSell: HotelCrossSellView by bindView(R.id.hotel_cross_sell_widget)
 
-    //    TODO flight summary & toolbar cannot be null on new confirmation screen, but must be null on old confirmation screen
-    var flightSummary: ConfirmationSummaryCardView ?= null
-    var toolbar: ConfirmationToolbar ?= null
+    val flightSummary: ConfirmationSummaryCardView by bindView(R.id.trip_summary_card)
+    val toolbar: ConfirmationToolbar by bindView(R.id.confirmation_toolbar)
+    val tripProtectionLabel: TextView by bindView(R.id.trip_protection)
+    val tripProtectionDivider: View by bindView(R.id.trip_protection_divider)
 
     var viewModel: FlightConfirmationViewModel by notNullAndObservable { vm ->
         vm.itinNumContentDescriptionObservable.subscribeContentDescription(itinNumber)
@@ -52,35 +51,24 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
         vm.inboundCardVisibility.subscribeVisibility(inboundFlightCard)
         vm.crossSellWidgetVisibility.subscribeVisibility(hotelCrossSell)
-        vm.isNewConfirmationScreenEnabled.onNext(isNewConfirmationScreenEnabled)
-        if (isNewConfirmationScreenEnabled) {
-            vm.formattedTravelersStringSubject.subscribeText(flightSummary?.numberOfTravelers)
-            vm.tripTotalPriceSubject.subscribeText(flightSummary?.tripPrice)
-            val tripProtectionLabel = findViewById(R.id.trip_protection) as TextView
-            val tripProtectionDivider = findViewById(R.id.trip_protection_divider)
-            vm.showTripProtectionMessage.subscribe { isVisible ->
-                tripProtectionDivider.updateVisibility(isVisible)
-                tripProtectionLabel.updateVisibility(isVisible)
-            }
-        }
-        vm.rewardPointsObservable.subscribeTextAndVisibility(flightSummary?.pointsEarned ?: expediaPoints)
+        vm.formattedTravelersStringSubject.subscribeText(flightSummary.numberOfTravelers)
+        vm.tripTotalPriceSubject.subscribeText(flightSummary.tripPrice)
+
+        vm.showTripProtectionMessage.subscribeVisibility(tripProtectionDivider)
+        vm.showTripProtectionMessage.subscribeVisibility(tripProtectionLabel)
+        vm.rewardPointsObservable.subscribeTextAndVisibility(flightSummary.pointsEarned)
     }
 
     init {
-        View.inflate(context, if (isNewConfirmationScreenEnabled) R.layout.new_flight_confirmation_presenter
-                                else R.layout.flight_confirmation_presenter, this)
+        View.inflate(context, R.layout.flight_confirmation_presenter, this)
         viewItinButton.setOnClickListener {
             (context as AppCompatActivity).finish()
             NavUtils.goToItin(context)
         }
-        if (isNewConfirmationScreenEnabled) {
-            flightSummary = findViewById(R.id.trip_summary_card) as ConfirmationSummaryCardView
-            tripBookedMessage.setText(R.string.trip_is_booked)
-            toolbar = findViewById(R.id.checkout_toolbar) as ConfirmationToolbar
-            toolbar?.viewModel = ConfirmationToolbarViewModel(context)
-        }
-        confirmationContainer.setPadding(0, if (isNewConfirmationScreenEnabled)
-            Ui.getStatusBarHeight(context) else Ui.toolbarSizeWithStatusBar(context), 0, 0)
+        toolbar.viewModel = ConfirmationToolbarViewModel(context)
+
+        confirmationContainer.setPadding(0, Ui.getStatusBarHeight(context), 0, 0)
+        tripBookedMessage.setText(R.string.trip_is_booked)
     }
 
     override fun back(): Boolean {
@@ -93,9 +81,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         setCardViewModels(response)
         viewModel.confirmationObservable.onNext(Pair(response, email))
         hotelCrossSell.viewModel.confirmationObservable.onNext(response)
-        if (isNewConfirmationScreenEnabled) {
-            toolbar?.viewModel?.bindCheckoutResponseData(response)
-        }
+        toolbar.viewModel.bindCheckoutResponseData(response)
     }
 
     fun setCardViewModels(response: FlightCheckoutResponse) {
@@ -104,11 +90,11 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city ?: ""
         val numberOfGuests = response.passengerDetails.size
 
-        outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests, isNewConfirmationScreenEnabled)
+        outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests)
         viewModel.destinationObservable.onNext(destinationCity)
         viewModel.numberOfTravelersSubject.onNext(numberOfGuests)
         if (inbound != outbound && viewModel.inboundCardVisibility.value ?: false) {
-            inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, numberOfGuests, isNewConfirmationScreenEnabled)
+            inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, numberOfGuests)
         }
     }
 }

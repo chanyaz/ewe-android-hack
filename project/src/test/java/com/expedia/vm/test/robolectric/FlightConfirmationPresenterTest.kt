@@ -73,15 +73,14 @@ class FlightConfirmationPresenterTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultFlightComponents()
-        SettingUtils.save(activity.applicationContext, R.string.preference_enable_additional_content_flight_confirmation, false)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser(), activity)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testNewFlightConfirmationVisibility() {
-        setupPresenter(isNewConfirmationEnabled = true)
+    fun testFlightConfirmationVisibility() {
+        setupPresenter()
         givenCheckoutResponse()
         val tripTotalText = presenter.flightSummary?.findViewById(R.id.trip_total_text) as TextView
 
@@ -100,8 +99,6 @@ class FlightConfirmationPresenterTest {
         val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(activity, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         assertEquals(navIcon, presenter.toolbar?.navigationIcon)
 
-        assertEquals(GONE, presenter.expediaPoints.visibility)
-        assertEquals("Your trip is booked!", presenter.tripBookedMessage.text as String)
         assertEquals(VISIBLE, presenter.flightSummary?.visibility)
         assertEquals("$rewardPoints points earned", presenter.flightSummary?.pointsEarned?.text)
         assertEquals("1 traveler", presenter.flightSummary?.numberOfTravelers?.text)
@@ -110,45 +107,26 @@ class FlightConfirmationPresenterTest {
     }
 
     @Test
-    fun testOldFlightConfirmationVisibility() {
-        setupPresenter(isNewConfirmationEnabled = false)
+    fun testConfirmationToolbarShowsNoMenuWhenControl() {
+        setupPresenter()
         givenCheckoutResponse()
 
-        assertEquals(VISIBLE, presenter.inboundFlightCard.visibility)
-        assertEquals(VISIBLE, presenter.outboundFlightCard.visibility)
-        assertEquals(GONE, inboundSupplementaryText.visibility)
-        assertEquals(GONE, outboundSupplementaryText.visibility)
-
-        assertNull(presenter.toolbar)
-
-        assertEquals(VISIBLE, presenter.hotelCrossSell.visibility)
-        assertEquals(activity.getDrawable(R.drawable.itin_button).colorFilter, presenter.hotelCrossSell.background.colorFilter)
-        assertEquals("You're going to", presenter.tripBookedMessage.text as String)
-        assertNull(presenter.flightSummary)
-    }
-
-    @Test
-    fun testNewConfirmationToolbarShowsNoMenuWhenControl() {
-        setupPresenter(isNewConfirmationEnabled = true)
-        givenCheckoutResponse()
-
-        assertFalse(presenter.toolbar?.menuItem?.isVisible ?: false)
         assertNull(presenter.toolbar?.menuItem)
     }
 
     @Test
-    fun testNewConfirmationToolbarShowsIconWhenBucketedVariantOne() {
+    fun testConfirmationToolbarShowsIconWhenBucketedVariantOne() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
-        setupPresenter(isNewConfirmationEnabled = true)
+        setupPresenter()
         givenCheckoutResponse()
 
         assertTrue(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
     }
 
     @Test
-    fun testNewConfirmationToolbarShowsTextWhenBucketedVariantTwo() {
+    fun testConfirmationToolbarShowsTextWhenBucketedVariantTwo() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 2)
-        setupPresenter(isNewConfirmationEnabled = true)
+        setupPresenter()
         givenCheckoutResponse()
 
         assertEquals("Share", presenter.toolbar?.menuItem?.title)
@@ -157,9 +135,9 @@ class FlightConfirmationPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testNewConfirmationToolbarShareOneWay() {
+    fun testConfirmationToolbarShareOneWay() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
-        setupPresenter(isNewConfirmationEnabled = true)
+        setupPresenter()
         givenCheckoutResponse(isRoundTrip = false)
 
         val flightItinDetailsResponse = generateFlightItinDetailsResponse(false)
@@ -178,9 +156,9 @@ class FlightConfirmationPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testNewConfirmationToolbarShareRoundTrip() {
+    fun testConfirmationToolbarShareRoundTrip() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
-        setupPresenter(isNewConfirmationEnabled = true)
+        setupPresenter()
         givenCheckoutResponse()
 
         val flightItinDetailsResponse = generateFlightItinDetailsResponse(true)
@@ -200,7 +178,7 @@ class FlightConfirmationPresenterTest {
 
     @Test
     fun testNumberOfTravelersText() {
-        setupPresenter(isNewConfirmationEnabled = true)
+        setupPresenter()
         givenCheckoutResponse(numberOfTravelers = 3)
 
         assertEquals("3 travelers", presenter.flightSummary?.numberOfTravelers?.text)
@@ -208,14 +186,13 @@ class FlightConfirmationPresenterTest {
 
     @Test
     fun testItinNumberContentDescription() {
-        setupPresenter(isNewConfirmationEnabled = true)
+        setupPresenter()
         givenCheckoutResponse()
         var itinNumber = presenter.itinNumber
         assertEquals("Confirmation Number: 12345", itinNumber.contentDescription)
     }
 
-    private fun setupPresenter(isNewConfirmationEnabled: Boolean) {
-        SettingUtils.save(activity.applicationContext, R.string.preference_enable_additional_content_flight_confirmation, isNewConfirmationEnabled)
+    private fun setupPresenter() {
         presenter = LayoutInflater.from(activity).inflate(R.layout.flight_confirmation_stub, null) as FlightConfirmationPresenter
         presenter.viewModel = FlightConfirmationViewModel(activity)
         inboundSupplementaryText = presenter.inboundFlightCard.findViewById(R.id.confirmation_title_supplement) as TextView

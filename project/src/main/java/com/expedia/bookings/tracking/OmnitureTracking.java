@@ -4689,11 +4689,7 @@ public class OmnitureTracking {
 		s.setProp(8, getFlightConfirmationTripNumberString(checkoutResponse));
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
-
-		if (FeatureToggleUtil
-			.isFeatureEnabled(sContext, R.string.preference_enable_additional_content_flight_confirmation)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
 
 		s.track();
 	}

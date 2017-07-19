@@ -16,6 +16,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <com.expedia.bookings.widget.ConfirmationToolbar
+                android:id="@+id/confirmation_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:minHeight="?attr/actionBarSize"
+                app:titleTextAppearance="?attr/toolbar_title_style" />
+
             <include layout="@layout/confirmation_going_somewhere" />
 
             <android.support.v7.widget.CardView
@@ -53,6 +61,34 @@
                         android:paddingTop="12dp"
                         app:row_icon="@drawable/packages_flight2_icon"
                         app:row_icon_tint_color="@color/flight_docked_text" />
+
+                    <include layout="@layout/grey_divider_bar" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/trip_protection"
+                        style="@style/BundleOverviewWidgets.SecondaryText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="18dp"
+                        android:paddingTop="12dp"
+                        android:text="@string/trip_protection_message"
+                        android:visibility="gone" />
+
+                    <include
+                        android:id="@+id/trip_protection_divider"
+                        layout="@layout/grey_divider_bar"
+                        android:visibility="gone" />
+
+                    <com.expedia.bookings.widget.ConfirmationSummaryCardView
+                        android:id="@+id/trip_summary_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="18dp"
+                        android:paddingTop="12dp" />
 
                 </LinearLayout>
 

@@ -71,12 +71,6 @@
             android:title="Enable Universal Checkout on LX" />
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_additional_content_flight_confirmation"
-            android:layout="@layout/preference"
-            android:summary="Enable Additional Content on Fight Confirmation Screen"
-            android:title="Enable Additional Content on Fight Confirmation Screen" />
-
-        <CheckBoxPreference
             android:key="@string/preference_populate_cardholder_name"
             android:layout="@layout/preference"
             android:summary="Enable populate cardholder name"

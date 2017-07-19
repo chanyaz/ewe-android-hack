@@ -22,24 +22,21 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Lin
     val title: TextView by bindView(R.id.confirmation_title)
     val subTitle: TextView by bindView(R.id.confirmation_subtitle)
     val icon: ImageView by bindView(R.id.icon)
-    val isNewConfirmationScreenEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_additional_content_flight_confirmation)
+    val titleSupplement: TextView by bindView(R.id.confirmation_title_supplement)
 
     var viewModel: FlightConfirmationCardViewModel by notNullAndObservable { vm ->
         vm.titleSubject.subscribeText(title)
         vm.subtitleSubject.subscribeText(subTitle)
-        if (isNewConfirmationScreenEnabled) {
-            title.typeface = Typeface.DEFAULT_BOLD
-            val titleSupplement = findViewById(R.id.confirmation_title_supplement) as TextView
-            vm.secondaryTitleSubject.subscribeTextAndVisibility(titleSupplement)
-            vm.urlSubject.subscribe { url ->
-                if (!url.isNullOrBlank()) {
-                    val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)
-                            .getResourceId(R.styleable.ConfirmationRow_row_icon, R.drawable.packages_flight1_icon)
-                    PicassoHelper.Builder(icon)
-                            .setError(fallbackDrawable)
-                            .build()
-                            .load(url)
-                }
+        title.typeface = Typeface.DEFAULT_BOLD
+        vm.secondaryTitleSubject.subscribeTextAndVisibility(titleSupplement)
+        vm.urlSubject.subscribe { url ->
+            if (!url.isNullOrBlank()) {
+                val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)
+                        .getResourceId(R.styleable.ConfirmationRow_row_icon, R.drawable.packages_flight1_icon)
+                PicassoHelper.Builder(icon)
+                        .setError(fallbackDrawable)
+                        .build()
+                        .load(url)
             }
         }
     }

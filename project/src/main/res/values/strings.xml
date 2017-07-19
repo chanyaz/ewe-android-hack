@@ -3845,8 +3845,6 @@
     <string name="flight_confirmation_crystal_title_on_date_TEMPLATE">on {date}</string>
     <!-- Flight Confirmation Cards Crystal - flight to template E.g. MSP to SFO · 1 stop-->
     <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime} - {arrivaltime} · {stops}</string>
-    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
-    <string name="flight_to_card_TEMPLATE">Flight to ({airportcode}) {airportcity}</string>
     <!-- Select return flight -->
     <string name="select_return_flight">Select return flight</string>
     <!-- Flight overview - flight to template -->

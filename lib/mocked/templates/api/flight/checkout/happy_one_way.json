@@ -268,7 +268,8 @@
   "totalChargesPrice": {
     "amount": "696.00",
     "formattedPrice": "$696.00",
-    "formattedWholePrice": "$696"
+    "formattedWholePrice": "$696",
+    "currencyCode": "USD"
   },
   "passengerDetails": [
     {

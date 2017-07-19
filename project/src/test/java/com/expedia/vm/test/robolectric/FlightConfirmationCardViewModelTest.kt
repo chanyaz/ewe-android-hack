@@ -29,24 +29,10 @@ class FlightConfirmationCardViewModelTest {
     val numberOfTravelers = 3
 
     @Test
-    fun flightConfirmationCardViewModelTest() {
-        SettingUtils.save(getContext(), R.string.preference_enable_additional_content_flight_confirmation, false)
-        val flight = makeFlightLeg(outboundDepartureDateTimeISO)
-        val viewModel = FlightConfirmationCardViewModel(getContext(), flight, numberOfTravelers)
-        setupTestSubscriptions(viewModel)
-
-        titleSubscriber.assertValue("Flight to (OAX) Oakland")
-        subtitleSubscriber.assertValue("$formattedDate at $flightTime, $numberOfTravelers travelers")
-        urlSubscriber.assertNoValues()
-        secondaryHeaderText.assertNoValues()
-    }
-
-    @Test
-    fun newFlightConfirmationCardViewModelTest() {
-        SettingUtils.save(getContext(), R.string.preference_enable_additional_content_flight_confirmation, true)
+    fun testFlightConfirmationCardViewModelTest() {
         val arrivalTime = FlightV2Utils.formatTimeShort(getContext(), arrivalDateTimeIso)
         val flight = makeFlightLeg(outboundDepartureDateTimeISO, arrivalDateTimeIso)
-        val viewModel = FlightConfirmationCardViewModel(getContext(), flight, numberOfTravelers, true)
+        val viewModel = FlightConfirmationCardViewModel(getContext(), flight, numberOfTravelers)
         setupTestSubscriptions(viewModel)
 
         titleSubscriber.assertValue("SEA to OAX")

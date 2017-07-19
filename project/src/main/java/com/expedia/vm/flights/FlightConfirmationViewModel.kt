@@ -29,7 +29,6 @@ class FlightConfirmationViewModel(val context: Context) {
     val numberOfTravelersSubject = PublishSubject.create<Int>()
     val formattedTravelersStringSubject = PublishSubject.create<String>()
     val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
-    val isNewConfirmationScreenEnabled = BehaviorSubject.create<Boolean>(false)
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
@@ -51,13 +50,12 @@ class FlightConfirmationViewModel(val context: Context) {
             if (!userStateManager.isUserAuthenticated()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
-            if (isNewConfirmationScreenEnabled.value) {
-                tripTotalPriceSubject.onNext(response.totalChargesPrice?.formattedMoneyFromAmountAndCurrencyCode)
-                val hasInsurance = response.flightAggregatedResponse?.flightsDetailResponse?.first()?.
-                        offer?.selectedInsuranceProduct != null
+            tripTotalPriceSubject.onNext(response.totalChargesPrice?.formattedMoneyFromAmountAndCurrencyCode)
+            val hasInsurance = response.flightAggregatedResponse?.flightsDetailResponse?.first()?.
+                    offer?.selectedInsuranceProduct != null
 
-                showTripProtectionMessage.onNext(hasInsurance)
-            }
+            showTripProtectionMessage.onNext(hasInsurance)
+
             crossSellWidgetVisibility.onNext(isQualified)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
         }
@@ -69,7 +67,7 @@ class FlightConfirmationViewModel(val context: Context) {
         setRewardsPoints.subscribe { points ->
             if (points != null)
                 if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
-                    val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance(), isNewConfirmationScreenEnabled.value)
+                    val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance(), isFlights = true)
                     if (Strings.isNotEmpty(rewardPointText)) {
                         rewardPointsObservable.onNext(rewardPointText)
                     }
