@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -39,6 +40,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.test.assertEquals
@@ -63,6 +65,7 @@ class FlightOverviewPresenterTest {
         validator.updateForNewSearch(setupFlightSearchParams())
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         widget.viewModel.outboundSelectedAndTotalLegRank = Pair(0, 0)
+        widget.viewModel
     }
 
     @Test
@@ -73,7 +76,7 @@ class FlightOverviewPresenterTest {
         assertEquals(View.GONE, widget.cvv.visibility)
         assertEquals(View.GONE, widget.paymentFeeInfoWebView.visibility)
 
-        val freeCancelltionText = widget.flightSummary.freeCancellationLabelTextView
+        val freeCancellationText = widget.flightSummary.freeCancellationLabelTextView
         val splitTicketBaggageFeeLinkContainer = widget.flightSummary.splitTicketInfoContainer
         val airlineFeeWarningText = widget.flightSummary.airlineFeeWarningTextView
         val basicEconomyMessaging = widget.flightSummary.basicEconomyMessageTextView
@@ -84,7 +87,7 @@ class FlightOverviewPresenterTest {
         widget.viewModel.showAirlineFeeWarningObservable.onNext(true)
         widget.viewModel.showBasicEconomyMessageObservable.onNext(true)
         assertEquals("There may be an additional fee based on your payment method.", airlineFeeWarningText.text)
-        assertEquals(View.VISIBLE, freeCancelltionText.visibility)
+        assertEquals(View.VISIBLE, freeCancellationText.visibility)
         assertEquals(View.VISIBLE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.VISIBLE, airlineFeeWarningText.visibility)
         assertEquals(View.VISIBLE, basicEconomyMessaging.visibility)
@@ -95,7 +98,7 @@ class FlightOverviewPresenterTest {
         widget.viewModel.showAirlineFeeWarningObservable.onNext(false)
         widget.viewModel.showBasicEconomyMessageObservable.onNext(false)
         assertEquals("There may be an additional fee based on your payment method.", airlineFeeWarningText.text)
-        assertEquals(View.GONE, freeCancelltionText.visibility)
+        assertEquals(View.GONE, freeCancellationText.visibility)
         assertEquals(View.GONE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.GONE, airlineFeeWarningText.visibility)
         assertEquals(View.GONE, basicEconomyMessaging.visibility)
@@ -228,7 +231,7 @@ class FlightOverviewPresenterTest {
 
         val travelers = checkoutOverviewHeaderToolbar.travelers
         val guests = flightSearchParams.guests
-        val guestText = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, guests, guests);
+        val guestText = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, guests, guests)
         assertEquals(travelers.text.toString(), guestText)
 
     }
@@ -268,6 +271,72 @@ class FlightOverviewPresenterTest {
         assertEquals(View.GONE, outboundFlightWidget.flightDetailsContainer.visibility)
         assertEquals(View.VISIBLE, outboundFlightWidget.rowContainer.visibility)
     }
+
+    @Test
+    fun testBaggagePaymentInfoButtonsAndTextDisplayed() {
+        val flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
+
+        val inboundFlightBaggagePackageDivider = flightSummaryWidget.inboundFlightWidget.findViewById(R.id.baggage_payment_divider) as View
+        val inboundFlightShowBaggageFeesInfo = flightSummaryWidget.inboundFlightWidget.findViewById(R.id.show_baggage_fees_button) as Button
+        val inboundFlightShowPaymentFeesInfo = flightSummaryWidget.inboundFlightWidget.findViewById(R.id.show_payment_fees_button) as Button
+
+        val outboundFlightBaggagePackageDivider = flightSummaryWidget.outboundFlightWidget.findViewById(R.id.baggage_payment_divider) as View
+        val outboundFlightShowBaggageFeesInfo = flightSummaryWidget.outboundFlightWidget.findViewById(R.id.show_baggage_fees_button) as Button
+        val outboundFlightShowPaymentFeesInfo = flightSummaryWidget.outboundFlightWidget.findViewById(R.id.show_payment_fees_button) as Button
+
+        assertEquals(View.VISIBLE, inboundFlightBaggagePackageDivider.visibility)
+        assertEquals(View.VISIBLE, inboundFlightShowBaggageFeesInfo.visibility)
+        assertEquals(View.VISIBLE, inboundFlightShowPaymentFeesInfo.visibility)
+        assertEquals(View.VISIBLE, outboundFlightBaggagePackageDivider.visibility)
+        assertEquals(View.VISIBLE, outboundFlightShowBaggageFeesInfo.visibility)
+        assertEquals(View.VISIBLE, outboundFlightShowPaymentFeesInfo.visibility)
+
+        assertEquals(inboundFlightShowBaggageFeesInfo.text, context.getString(R.string.package_flight_overview_baggage_fees))
+        assertEquals(outboundFlightShowBaggageFeesInfo.text, context.getString(R.string.package_flight_overview_baggage_fees))
+
+        assertEquals(inboundFlightShowPaymentFeesInfo.text, context.getString(R.string.payment_and_baggage_fees_may_apply))
+        assertEquals(outboundFlightShowPaymentFeesInfo.text, context.getString(R.string.payment_and_baggage_fees_may_apply))
+    }
+
+    @Test
+    fun testBaggageInfoButtons() {
+        val flightSummaryWidget = widget.flightSummary
+        val outboundFlightWidget = flightSummaryWidget.outboundFlightWidget
+        val inboundFlightWidget = flightSummaryWidget.inboundFlightWidget
+        val inboundFlightShowBaggageFeesInfo = inboundFlightWidget.findViewById(R.id.show_baggage_fees_button) as Button
+//        val outboundFlightShowBaggageFeesInfo = outboundFlightWidget.findViewById(R.id.show_baggage_fees_button) as Button
+        val inboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+//        val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        val inboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO"
+//        val outboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
+
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        outboundFlightWidget.viewModel.searchParams.onNext(setupFlightSearchParams())
+        outboundFlightWidget.viewModel.travelInfoTextObservable.onNext("")
+        inboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        inboundFlightWidget.viewModel.searchParams.onNext(setupFlightSearchParams())
+        inboundFlightWidget.viewModel.travelInfoTextObservable.onNext("")
+        createExpectedFlightLeg()
+
+        flightLeg.baggageFeesUrl = inboundFlightBaggageFeesURL
+        outboundFlightWidget.viewModel.flight.onNext(flightLeg)
+        widget.baggageInfoButtonObservable.subscribe(inboundFlightBaggageInfoTestSubscriber)
+        inboundFlightShowBaggageFeesInfo.performClick()
+        inboundFlightBaggageInfoTestSubscriber.assertValue(inboundFlightBaggageFeesURL)
+//        flightLeg.baggageFeesUrl = outboundFlightBaggageFeesURL
+//        outboundFlightWidget.viewModel.flight.onNext(flightLeg)
+//        widget.baggageInfoButtonObservable.subscribe(outboundFlightBaggageInfoTestSubscriber)
+//        outboundFlightShowBaggageFeesInfo.performClick()
+//        assertEquals(outboundFlightBaggageFeesURL, outboundFlightWidget.viewModel.flight.value.baggageFeesUrl)
+    }
+//
+//    @Test
+//    fun testPaymentInfoButtons() {
+//        val flightSummaryWidget = widget.flightSummary
+//        val inboundFlightShowPaymentFeesInfo = flightSummaryWidget.inboundFlightWidget.findViewById(R.id.show_payment_fees_button) as Button
+//        val outboundFlightShowPaymentFeesInfo = flightSummaryWidget.outboundFlightWidget.findViewById(R.id.show_payment_fees_button) as Button
+//
+//    }
 
     private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {
         val departureSuggestion = SuggestionV4()

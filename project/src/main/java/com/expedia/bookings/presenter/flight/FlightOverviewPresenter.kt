@@ -6,6 +6,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
@@ -14,25 +15,30 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.VisibilityTransition
+import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
 import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.BaggageFeeInfoWidget
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.InsuranceViewModel
+import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
+import rx.Observable
 import javax.inject.Inject
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
@@ -49,11 +55,29 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
     val overviewPageUsableData = PageUsableData()
 
+    val inboundFlightBaggagePackageDivider = flightSummary.inboundFlightWidget.findViewById(R.id.baggage_payment_divider)
+    val inboundFlightShowBaggageFeesInfo = flightSummary.inboundFlightWidget.findViewById(R.id.show_baggage_fees_button)
+    val inboundFlightShowPaymentFeesInfo = flightSummary.inboundFlightWidget.findViewById(R.id.show_payment_fees_button)
+
+    val outboundFlightBaggagePackageDivider = flightSummary.outboundFlightWidget.findViewById(R.id.baggage_payment_divider)
+    val outboundFlightShowBaggageFeesInfo = flightSummary.outboundFlightWidget.findViewById(R.id.show_baggage_fees_button)
+    val outboundFlightShowPaymentFeesInfo = flightSummary.outboundFlightWidget.findViewById(R.id.show_payment_fees_button)
+    val baggageInfoButtonObservable = Observable.merge(flightSummary.outboundFlightWidget.viewModel.baggageInfoClickedSubject, flightSummary.inboundFlightWidget.viewModel.baggageInfoClickedSubject)
+    val paymentInfoButtonObservable = Observable.merge(flightSummary.outboundFlightWidget.viewModel.paymentFeeInfoClickedSubject, flightSummary.inboundFlightWidget.viewModel.paymentFeeInfoClickedSubject)
+
     private val basicEconomyInfoWebView: BasicEconomyInfoWebView by lazy {
         val viewStub = findViewById(R.id.basic_economy_info_web_view) as ViewStub
         val basicEconomyInfoView = viewStub.inflate() as BasicEconomyInfoWebView
         basicEconomyInfoView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         basicEconomyInfoView
+    }
+
+    private val baggageFeeInfoWebView: BaggageFeeInfoWidget by lazy {
+        val viewStub = findViewById(R.id.baggage_fee_summary_stub) as ViewStub
+        val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWidget
+        baggageFeeView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        baggageFeeView.viewModel = WebViewViewModel()
+        baggageFeeView
     }
 
     init {
@@ -66,6 +90,15 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         scrollSpaceView = flightSummary.scrollSpaceView
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.visibility = View.INVISIBLE
         bundleOverviewHeader.isExpandable = !showCollapsedToolbar
+
+        inboundFlightBaggagePackageDivider.visibility = View.VISIBLE
+        inboundFlightShowBaggageFeesInfo.visibility = View.VISIBLE
+        inboundFlightShowPaymentFeesInfo.visibility = View.VISIBLE
+
+        outboundFlightBaggagePackageDivider.visibility = View.VISIBLE
+        outboundFlightShowBaggageFeesInfo.visibility = View.VISIBLE
+        outboundFlightShowPaymentFeesInfo.visibility = View.VISIBLE
+
         val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior as AppBarLayout.Behavior
         behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
@@ -77,6 +110,14 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             show(basicEconomyInfoWebView)
         }
         flightSummary.viewmodel = FlightOverviewSummaryViewModel(context)
+        baggageInfoButtonObservable.subscribe { url ->
+            baggageFeeInfoWebView.viewModel.webViewURLObservable.onNext(url)
+            show(baggageFeeInfoWebView)
+        }
+
+        paymentInfoButtonObservable.subscribe {
+            show(paymentFeeInfoWebView)
+        }
     }
 
     val insuranceWidget: InsuranceWidget by lazy {
@@ -113,6 +154,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             }
         }
         addTransition(overviewToBasicEconomyInfoWebView)
+        addTransition(baggageFeeTransition)
         if (isBucketedForShowMoreDetailsOnOverview) {
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.subTitleText.filter { Strings.isNotEmpty(it) }.subscribe {
                 bundleOverviewHeader.checkoutOverviewHeaderToolbar.checkInOutDates.text = it
@@ -133,6 +175,18 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             basicEconomyInfoWebView.visibility = if (forward) View.VISIBLE else View.GONE
+        }
+    }
+
+    private val baggageFeeTransition = object : Transition(BaseTwoScreenOverviewPresenter.BundleDefault::class.java, BaggageFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            //toolbar.visibility = if (forward) View.GONE else View.VISIBLE
+            //AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
+            //viewBundleSetVisibility(false)
+            //overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+            //paymentFeeInfoWebView.visibility = View.GONE
+            baggageFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
         }
     }
 

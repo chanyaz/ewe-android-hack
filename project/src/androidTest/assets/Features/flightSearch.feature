@@ -450,7 +450,7 @@ Feature: Flights Search
       | totalTravelers      | 5 Travelers                              |
       | flightClass         | Economy                                  |
 
-  @Flights @FlightSearch
+  @Flights @FlightSearch @WIP
   Scenario: Validate flight params are retained on relaunching LOB for oneway
     Given I launch the App
     And I bucket the following tests
@@ -480,7 +480,7 @@ Feature: Flights Search
       | totalTravelers      | 4 Travelers                              |
       | flightClass         | Premium Economy                          |
 
-  @Flights @FlightSearch
+  @Flights @FlightSearch @WIP
   Scenario: Verify if the previous state is retained on changing parameters.
     Given I launch the App
     And I bucket the following tests
@@ -534,7 +534,7 @@ Feature: Flights Search
       | totalTravelers      | 5 Travelers                              |
       | flightClass         | Premium Economy                          |
 
-  @Flights @FlightSearch
+  @Flights @FlightSearch @WIP
   Scenario: Validate previous flight params are retained on updating search params for oneway
     Given I launch the App
     And I bucket the following tests
@@ -654,7 +654,7 @@ Feature: Flights Search
     And on FSR Validate the total number of travelers
       | totalTravelers                       | 5 Travelers                   |
 
-  @Flight @FlightSearch
+  @Flight @FlightSearch @WIP
   Scenario: Validate the flight search API call for retained flight params for oneway
     Given I launch the App
     And I bucket the following tests

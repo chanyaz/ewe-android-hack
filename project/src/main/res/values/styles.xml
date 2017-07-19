@@ -900,6 +900,10 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
+    <style name="Widget.InfoIconButton.Overview" parent="Widget.InfoIconButton">
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+
     <!--Core represents any styles that are shared across LOBs throughout the app-->
     <style name="Core"/>
 

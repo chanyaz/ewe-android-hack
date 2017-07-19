@@ -44,6 +44,8 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val totalDurationObserver = BehaviorSubject.create<CharSequence>()
     val totalDurationContDescObserver = BehaviorSubject.create<String>()
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
+    val baggageInfoClickedSubject = PublishSubject.create<String>()
+    val paymentFeeInfoClickedSubject = PublishSubject.create<Unit>()
     val showRowContainerWithMoreInfo = BehaviorSubject.create<Boolean>(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
             && (lob == LineOfBusiness.FLIGHTS_V2))
     val isUserBucketedForRateDetailExpansionTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion) && (lob == LineOfBusiness.FLIGHTS_V2)

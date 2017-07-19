@@ -60,6 +60,10 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
 
+    val showBaggageFeesButton: View by bindView(R.id.show_baggage_fees_button)
+    val showPaymentFeesInfo: View by bindView(R.id.show_payment_fees_button)
+    val e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().e3EndpointUrl
+
     var viewModel: BundleFlightViewModel by notNullAndObservable { vm ->
         vm.showRowContainerWithMoreInfo.subscribe {
             when (it) {
@@ -150,6 +154,21 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 expandFlightDetails(false)
             }
             this.selectedCardObservable.onNext(Unit)
+            showPaymentFeesInfo.visibility = if (selectedFlight.mayChargeObFees) View.VISIBLE else View.GONE
+        }
+
+        showBaggageFeesButton.setOnClickListener {
+            val selectedFlight = vm.flight.value
+            if(selectedFlight.baggageFeesUrl.contains("http")){
+                vm.baggageInfoClickedSubject.onNext(selectedFlight.baggageFeesUrl)
+            }
+            else {
+                vm.baggageInfoClickedSubject.onNext(e3EndpointUrl + selectedFlight.baggageFeesUrl)
+            }
+        }
+
+        showPaymentFeesInfo.setOnClickListener {
+            vm.paymentFeeInfoClickedSubject.onNext(Unit)
         }
     }
 

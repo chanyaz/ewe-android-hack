@@ -115,6 +115,30 @@
                     android:paddingRight="0dp"
                     android:paddingTop="12dp" />
 
+                <View
+                    android:id="@+id/baggage_payment_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="43dp"
+                    android:background="@color/divider_gray"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/show_baggage_fees_button"
+                    style="@style/Widget.InfoIconButton"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="30dp"
+                    android:text="@string/package_flight_overview_baggage_fees"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/show_payment_fees_button"
+                    style="@style/Widget.InfoIconButton"
+                    android:visibility="gone"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="30dp"
+                    android:text="@string/payment_and_baggage_fees_may_apply" />
+
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_total_duration"
                     style="@style/PackagesFlightTotalDuration"

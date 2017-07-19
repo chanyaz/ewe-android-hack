@@ -47,4 +47,11 @@
         android:inflatedId="@+id/basic_economy_info"
         android:layout="@layout/basic_economy_info_stub" />
 
+    <ViewStub
+        android:id="@+id/baggage_fee_summary_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/flight_baggage_fee_summary_info"
+        android:layout="@layout/flight_baggage_fee_stub" />
+
 </merge>
