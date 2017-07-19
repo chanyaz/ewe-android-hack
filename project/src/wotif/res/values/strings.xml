@@ -12,4 +12,9 @@
     <string name="member_pricing">Mates Rates</string>
     <!--New User Onboarding 3rd page Brand-Specific String-->
     <string name="reward_page_subtitle_TEMPLATE">Sign up for a free Wotif account</string>
+    <!-- Wotif mates get the best rates -->
+    <string name="shop_as_a_member_TEMPLATE">Wotif mates get the best rates</string>
+    <!-- Sign up and save an extra 10% or more with Mates Rates -->
+    <string name="earn_rewards_and_unlock_deals">Sign up and save an extra 10% or more with Mates Rates</string>
+
 </resources>

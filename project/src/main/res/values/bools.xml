@@ -6,5 +6,5 @@
     <!-- Had to copy this from ActionBarSherlock -->
     <bool name="abs__split_action_bar_is_narrow">true</bool>
     <bool name="acct__isGoogleAccountChangeEnabled">false</bool>
-
+    <bool name="signInCardUseCompatPadding">true</bool>
 </resources>

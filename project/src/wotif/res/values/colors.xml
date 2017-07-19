@@ -7,6 +7,8 @@
     <color name="action_bar_selected_tab_underline_color">#599027</color>
     <color name="preferences_text">#495863</color>
     <color name="launch_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
+    <color name="placeholder_card_background_color">@color/lob_btn_color</color>
+    <color name="placeholder_card_button_text_color">@color/lob_btn_color</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>

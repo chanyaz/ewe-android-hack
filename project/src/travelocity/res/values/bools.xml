@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="acct__isGoogleAccountChangeEnabled">true</bool>
     <bool name="signInCardUseCompatPadding">false</bool>
 </resources>

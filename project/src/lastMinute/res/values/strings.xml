@@ -11,4 +11,8 @@
     <string name="member_pricing">Sneaky Saver</string>
     <!--New User Onboarding 3rd page Brand-Specific String-->
     <string name="reward_page_subtitle_TEMPLATE">Sign up for a free LM AU &amp; NZ account</string>
+    <!-- Access Sneaky Savings -->
+    <string name="shop_as_a_member_TEMPLATE">Access Sneaky Savings</string>
+    <!-- Hot Tip : Members get an extra 10% or more off with Sneaky Savers -->
+    <string name="earn_rewards_and_unlock_deals">Hot Tip : Members get an extra 10% or more off with Sneaky Savers</string>
 </resources>

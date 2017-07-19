@@ -7,7 +7,7 @@
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/cardview_border_radius"
     app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="@bool/signInCardUseCompatPadding">
 
     <LinearLayout
         android:id="@+id/top_half"

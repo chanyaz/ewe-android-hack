@@ -4,9 +4,6 @@
     <item android:drawable="@color/placeholder_card_background_color"/>
 
     <item>
-        <bitmap android:src="@drawable/bg_sign_in_card_pattern"
-            android:tileMode="repeat"
-            android:alpha="@dimen/launch_sign_in_placeholder_alpha"/>
+        <nine-patch android:src="@drawable/bg_sign_in_card_pattern" />
     </item>
-
 </layer-list>

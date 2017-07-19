@@ -23,6 +23,8 @@
     <color name="splash_screen_bg">@color/white</color>
     <color name="launch_tab_indicator">#7abb00</color>
     <color name="traveler_drop_down_checked_color">#112943</color>
+    <color name="placeholder_card_background_color">@color/app_primary</color>
+    <color name="placeholder_card_button_text_color">#495863</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#DE0058</color>

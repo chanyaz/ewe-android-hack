@@ -26,6 +26,7 @@
     <dimen name="launch_toolbar_elevation">10dp</dimen>
     <dimen name="launch_mod_card_width">336dp</dimen>
     <dimen name="launch_mod_card_height">147dp</dimen>
+    <item name="launch_sign_in_placeholder_alpha" type="dimen" format="float">0.3</item>
 
     <!-- Itinerary dimens -->
     <dimen name="itin_card_collapsed_height">138.5dp</dimen>

@@ -130,6 +130,10 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Package price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view package.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Showing package details. Button to close.</string>
+
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Secret Bargains</string>
+    <!-- Shop as a CheapCash member! -->
+    <string name="shop_as_a_member_TEMPLATE">Shop as a CheapCash member!</string>
+
 </resources>
