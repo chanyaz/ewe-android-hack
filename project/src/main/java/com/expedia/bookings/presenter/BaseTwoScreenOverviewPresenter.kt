@@ -19,6 +19,7 @@ import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.BaggageFeeInfoWebView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
@@ -70,6 +71,14 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         airlineFeeWebview
     }
 
+    val baggageFeeInfoWebView: BaggageFeeInfoWebView by lazy {
+        val viewStub = findViewById(R.id.baggage_fee_summary_stub) as ViewStub
+        val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWebView
+        baggageFeeView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        baggageFeeView.viewModel = WebViewViewModel()
+        baggageFeeView
+    }
+
     val bottomContainer by lazy {
         bottomCheckoutContainer.bottomContainer
     }
@@ -111,6 +120,24 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
     }
 
+    private val overviewToPaymentFeeWebView = object : Transition(BaseTwoScreenOverviewPresenter.BundleDefault::class.java, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
+            paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
+        }
+    }
+
+    private val overviewToBaggageFeeWebView = object : Transition(BaseTwoScreenOverviewPresenter.BundleDefault::class.java, BaggageFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
+            baggageFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
+        }
+    }
+
     fun showCheckout() {
         resetCheckoutState()
         show(checkoutPresenter, FLAG_CLEAR_TOP)
@@ -124,6 +151,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         addTransition(checkoutTransition)
         addTransition(checkoutToCvv)
         addTransition(overviewToAirlineFeeWebView)
+        addTransition(overviewToPaymentFeeWebView)
+        addTransition(overviewToBaggageFeeWebView)
         show(BundleDefault())
         cvv.setCVVEntryListener(this)
         checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)

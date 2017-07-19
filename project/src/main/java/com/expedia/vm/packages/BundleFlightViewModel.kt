@@ -9,8 +9,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
@@ -47,6 +47,12 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
     val showRowContainerWithMoreInfo = BehaviorSubject.create<Boolean>(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
             && (lob == LineOfBusiness.FLIGHTS_V2))
+
+    val showPaymentInfoLinkObservable = PublishSubject.create<Boolean>()
+    val baggageInfoUrlSubject = PublishSubject.create<String>()
+    val baggageInfoClickSubject = PublishSubject.create<Unit>()
+    val paymentFeeInfoClickSubject = PublishSubject.create<Unit>()
+    val showInfoFeatureFlagBasedObservable = PublishSubject.create<Boolean>()
 
     init {
         Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
@@ -89,7 +95,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
         }
 
         Observable.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, suggestion, date, guests ->
-            val fmt = ISODateTimeFormat.dateTime();
+            val fmt = ISODateTimeFormat.dateTime()
             val localDate = LocalDate.parse(flight.departureDateTimeISO, fmt)
             flightSelectIconObservable.onNext(false)
             flightDetailsIconObservable.onNext(true)
@@ -97,6 +103,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             flightTravelInfoColorObservable.onNext(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
             travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(localDate),
                     FlightV2Utils.formatTimeShort(context, flight.departureDateTimeISO), StrUtils.formatTravelerString(context, guests)))
+
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(flight)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_checkmark_icon, 0))
@@ -104,11 +111,28 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(flight)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_checkmark_icon, 0))
             }
+
             val totalDurationContentDescription = if (showRowContainerWithMoreInfo.value) {
                 FlightV2Utils.getFlightLegDurationWithButtonInfoContentDescription(context, flight)
             } else {
                 FlightV2Utils.getFlightLegDurationContentDescription(context, flight)
             }
+
+            if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_baggage_info_payment_info_overview)) {
+                showPaymentInfoLinkObservable.onNext(flight.airlineMessageModel?.hasAirlineWithCCfee ?: false || flight.mayChargeObFees)
+            }
+
+            showInfoFeatureFlagBasedObservable.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_baggage_info_payment_info_overview))
+
+            val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
+            baggageInfoClickSubject.subscribe {
+                if (flight.baggageFeesUrl.contains("http")) {
+                    baggageInfoUrlSubject.onNext(flight.baggageFeesUrl)
+                } else {
+                    baggageInfoUrlSubject.onNext(e3EndpointUrl + flight.baggageFeesUrl)
+                }
+            }
+
             totalDurationContDescObserver.onNext(totalDurationContentDescription)
             totalDurationObserver.onNext(FlightV2Utils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))
             selectedFlightLegObservable.onNext(flight)

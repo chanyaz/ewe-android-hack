@@ -19,71 +19,71 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:focusable="true"
             android:orientation="horizontal"
             android:paddingBottom="12dp"
             android:paddingLeft="18dp"
             android:paddingRight="12dp"
-            android:focusable="true"
             android:paddingTop="12dp"
             android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/package_flight_icon"
+            <ImageView
+                android:id="@+id/package_flight_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="12dp"
+                android:tint="@color/package_bundle_icon_color" />
+
+            <LinearLayout
+                android:id="@+id/flight_info_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_card_view_text"
+                    style="@style/BundleOverviewWidgets.PrimaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="12dp"
-                    android:tint="@color/package_bundle_icon_color" />
+                    android:maxLines="1" />
 
-                <LinearLayout
-                    android:id="@+id/flight_info_container"
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/travel_info_view_text"
+                    style="@style/BundleOverviewWidgets.SecondaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="1dp"
-                    android:layout_weight="1"
-                    android:animateLayoutChanges="true"
-                    android:orientation="vertical">
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/flight_card_view_text"
-                        style="@style/BundleOverviewWidgets.PrimaryText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1" />
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/travel_info_view_text"
-                        style="@style/BundleOverviewWidgets.SecondaryText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1" />
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/package_flight_details_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/flight_info_container"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="9dp"
-                    android:src="@drawable/read_more"
-                    android:tint="@color/package_bundle_icon_color"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/flight_forward_arrow_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/flight_info_container"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="9dp"
-                    android:src="@drawable/bundle_forward_arrow"
-                    android:tint="?attr/primary_color"
-                    android:visibility="gone" />
+                    android:maxLines="1" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/package_flight_details_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/flight_info_container"
+                android:layout_gravity="center"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="9dp"
+                android:src="@drawable/read_more"
+                android:tint="@color/package_bundle_icon_color"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/flight_forward_arrow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/flight_info_container"
+                android:layout_gravity="center"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="9dp"
+                android:src="@drawable/bundle_forward_arrow"
+                android:tint="?attr/primary_color"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/detailed_row_container"
@@ -101,27 +101,50 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/divider_gray" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_gray" />
 
-                <com.expedia.bookings.widget.FlightSegmentBreakdownView
-                    android:id="@+id/segment_breakdown"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="14dp"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="0dp"
-                    android:paddingTop="12dp" />
+            <com.expedia.bookings.widget.FlightSegmentBreakdownView
+                android:id="@+id/segment_breakdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="14dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:paddingTop="12dp" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/flight_total_duration"
-                    style="@style/PackagesFlightTotalDuration"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom" />
-            </LinearLayout>
+            <View
+                android:id="@+id/baggage_payment_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="43dp"
+                android:background="@color/divider_gray" />
+
+            <Button
+                android:id="@+id/show_baggage_fees_button"
+                style="@style/Widget.InfoIconButton"
+                android:layout_gravity="left"
+                android:layout_marginLeft="30dp"
+                android:text="@string/package_flight_overview_baggage_fees" />
+
+            <Button
+                android:id="@+id/show_payment_fees_button"
+                style="@style/Widget.InfoIconButton"
+                android:layout_gravity="left"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="-5dp"
+                android:text="@string/payment_and_baggage_fees_may_apply"
+                android:visibility="gone" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_total_duration"
+                style="@style/PackagesFlightTotalDuration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
         </LinearLayout>
-        <!--</FrameLayout>-->
+    </LinearLayout>
+
 </merge>

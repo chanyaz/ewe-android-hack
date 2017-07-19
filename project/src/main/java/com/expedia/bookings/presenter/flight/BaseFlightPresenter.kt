@@ -27,7 +27,7 @@ import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
-import com.expedia.bookings.widget.BaggageFeeInfoWidget
+import com.expedia.bookings.widget.BaggageFeeInfoWebView
 import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.endlessObserver
@@ -56,9 +56,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         menuSearch
     }
 
-    val baggageFeeInfoWebView: BaggageFeeInfoWidget by lazy {
+    val baggageFeeInfoWebView: BaggageFeeInfoWebView by lazy {
         val viewStub = findViewById(R.id.baggage_fee_stub) as ViewStub
-        val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWidget
+        val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWebView
         baggageFeeView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         baggageFeeView.viewModel = WebViewViewModel()
         baggageFeeView
@@ -191,7 +191,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
     open val overviewTransition = object : OverviewTransition(this) {}
 
-    private val baggageFeeTransition = object : Transition(FlightOverviewPresenter::class.java, BaggageFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val baggageFeeTransition = object : Transition(FlightOverviewPresenter::class.java, BaggageFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbar.visibility = if (forward) View.GONE else View.VISIBLE

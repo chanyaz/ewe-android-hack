@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.widget.shared.BaseWebViewWidget
 
-class BaggageFeeInfoWidget(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
+class BaggageFeeInfoWebView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
     override fun onFinishInflate() {
         super.onFinishInflate()

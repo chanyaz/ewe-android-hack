@@ -25,6 +25,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextColor
@@ -61,6 +62,10 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
 
+    val baggagePaymentDivider: View by bindView(R.id.baggage_payment_divider)
+    val baggageFeesButton: View by bindView(R.id.show_baggage_fees_button)
+    val paymentFeesButton: View by bindView(R.id.show_payment_fees_button)
+
     var viewModel: BundleFlightViewModel by notNullAndObservable { vm ->
         vm.showRowContainerWithMoreInfo.subscribe {
             when (it) {
@@ -84,14 +89,17 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             }
             showCollapseIcon = it
         }
+
+        vm.showPaymentInfoLinkObservable.subscribeVisibility(paymentFeesButton)
         vm.flightTextObservable.subscribeText(flightCardText)
         vm.flightTextColorObservable.subscribeTextColor(flightCardText)
         vm.flightTravelInfoColorObservable.subscribeTextColor(travelInfoText)
         vm.travelInfoTextObservable.subscribeTextAndVisibility(travelInfoText)
         vm.flightDetailsIconObservable.subscribe {
             flightDetailsIcon.clearAnimation()
-            flightDetailsIcon.visibility = if(it) View.VISIBLE else View.GONE
+            flightDetailsIcon.visibility = if (it) View.VISIBLE else View.GONE
         }
+
         vm.showLoadingStateObservable.subscribeVisibility(flightLoadingBar)
         vm.showLoadingStateObservable.subscribeInverseVisibility(travelInfoText)
         vm.flightInfoContainerObservable.subscribeEnabled(flightInfoContainer)
@@ -101,6 +109,12 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             flightIcon.setImageResource(pair.first)
             flightIcon.setColorFilter(pair.second)
         }
+
+        baggageFeesButton.subscribeOnClick(vm.baggageInfoClickSubject)
+        paymentFeesButton.subscribeOnClick(vm.paymentFeeInfoClickSubject)
+        vm.showInfoFeatureFlagBasedObservable.subscribeVisibility(baggagePaymentDivider)
+        vm.showInfoFeatureFlagBasedObservable.subscribeVisibility(baggageFeesButton)
+        vm.showInfoFeatureFlagBasedObservable.subscribeVisibility(paymentFeesButton)
 
         vm.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)
@@ -119,6 +133,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 }
             }
         }
+
         vm.flightSelectIconObservable.subscribe { showing ->
             if (showing) {
                 forwardArrow.visibility = View.VISIBLE
@@ -129,7 +144,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
         vm.selectedFlightLegObservable.subscribe { selectedFlight ->
             showCollapseIcon = vm.showRowContainerWithMoreInfo.value
-            var segmentBreakdowns = arrayListOf<FlightSegmentBreakdown>()
+            val segmentBreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
                 segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, showFlightCabinClass, showCollapseIcon))
                 showCollapseIcon = false
@@ -143,6 +158,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                     collapseFlightDetails(true)
                 }
             }
+
             if (vm.showRowContainerWithMoreInfo.value) {
                 (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight), 0)
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
@@ -171,7 +187,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             flightDetailsContainer.setAccessibilityHoverFocus(100)
         }
         flightDetailsContainer.visibility = Presenter.VISIBLE
-        if(flightDetailsIcon.visibility == View.VISIBLE) {
+        if (flightDetailsIcon.visibility == View.VISIBLE) {
             AnimUtils.rotate(flightDetailsIcon)
         }
         if (trackClick) {
@@ -187,7 +203,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             AnimUtils.reverseRotate(flightCollapseIcon)
             rowContainer.setAccessibilityHoverFocus(100)
         }
-        if(flightDetailsIcon.visibility == View.VISIBLE) {
+        if (flightDetailsIcon.visibility == View.VISIBLE) {
             AnimUtils.reverseRotate(flightDetailsIcon)
         }
         if (trackClick) {
@@ -285,5 +301,4 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             FlightsV2Tracking.trackOverviewFlightExpandClick(isExpanding)
         }
     }
-
 }

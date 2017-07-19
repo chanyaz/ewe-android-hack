@@ -29,6 +29,7 @@
             android:key="preference_flight_traveler_form_revamp"
             android:summary="Flight Traveler Form Revamp"
             android:title="Flight Traveler Form Revamp" />
+
         <CheckBoxPreference
             android:key="@string/preference_fare_family_flight_summary"
             android:summary="Fare Family on Flight Summary"
@@ -38,6 +39,11 @@
             android:key="@string/preference_flight_rate_detail_from_cache"
             android:summary="Flight rate details from cache"
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_show_baggage_info_payment_info_overview"
+            android:summary="Show Baggage Info and Payment Info on Overview Screen"
+            android:title="Baggage and Payment Info" />
 
     </PreferenceCategory>
 

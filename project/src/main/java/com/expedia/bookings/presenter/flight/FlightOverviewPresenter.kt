@@ -36,6 +36,7 @@ import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
+import rx.Observable
 import javax.inject.Inject
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
@@ -70,15 +71,26 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         bundleOverviewHeader.isExpandable = !showCollapsedToolbar
         val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior as AppBarLayout.Behavior
-        behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
+        behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
             override fun canDrag(appBarLayout: AppBarLayout): Boolean {
                 return bundleOverviewHeader.isExpandable && currentState == BundleDefault::class.java.name
             }
-        });
+        })
+
         flightSummary.basicEconomyInfoClickedSubject.subscribe {
             show(basicEconomyInfoWebView)
         }
+
         flightSummary.viewmodel = FlightOverviewSummaryViewModel(context)
+
+        Observable.merge(flightSummary.outboundFlightWidget.viewModel.baggageInfoUrlSubject, flightSummary.inboundFlightWidget.viewModel.baggageInfoUrlSubject).subscribe { url ->
+            baggageFeeInfoWebView.viewModel.webViewURLObservable.onNext(url)
+            show(baggageFeeInfoWebView)
+        }
+
+        Observable.merge(flightSummary.outboundFlightWidget.viewModel.paymentFeeInfoClickSubject, flightSummary.inboundFlightWidget.viewModel.paymentFeeInfoClickSubject).subscribe {
+            show(paymentFeeInfoWebView)
+        }
     }
 
     val fareFamilyCardView: FareFamilyCardView by lazy {
