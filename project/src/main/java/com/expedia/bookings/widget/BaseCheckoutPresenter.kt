@@ -24,6 +24,8 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightCheckoutParams
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
@@ -250,6 +252,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.createTripResponseObservable.safeSubscribe { response ->
+            response as FlightCreateTripResponse
             val oldPrice = response!!.getOldPrice()
             if (oldPrice != null) {
                 trackCreateTripPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
@@ -258,6 +261,19 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                     return@safeSubscribe
                 }
             }
+
+            val allFrequentFlyerPlans = response.frequentFlyerPlans.allFrequentFlyerPlans[0]
+
+            var frequentFlyerPlanID = allFrequentFlyerPlans.frequentFlyerPlanID
+            var frequentFlyerPlanCode = allFrequentFlyerPlans.frequentFlyerPlanCode
+            var airlineCode = allFrequentFlyerPlans.airlineCode
+            var frequentFlyerPlanName = allFrequentFlyerPlans.frequentFlyerPlanName
+
+            (getCheckoutViewModel().builder as FlightCheckoutParams.Builder).flightAirlineCodeValue(airlineCode)
+            (getCheckoutViewModel().builder as FlightCheckoutParams.Builder).frequentFlyerPlanAirlineCodeValue(frequentFlyerPlanID)
+            (getCheckoutViewModel().builder as FlightCheckoutParams.Builder).frequentFlyerPlanCodeValue(frequentFlyerPlanID)
+            (getCheckoutViewModel().builder as FlightCheckoutParams.Builder).membershipNumberValue("123456789")
+
             onCreateTripResponse(response)
         }
         setupCreateTripViewModel(vm)

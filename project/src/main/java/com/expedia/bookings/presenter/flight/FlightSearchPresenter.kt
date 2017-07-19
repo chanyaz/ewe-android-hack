@@ -19,6 +19,7 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
@@ -178,7 +179,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
 
         vm.previousSearchParamsObservable.subscribe { params ->
-            val cabinClass = params.flightCabinClass
+        val cabinClass = params.flightCabinClass
             if (cabinClass != null) {
                 flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.CabinCode.valueOf(cabinClass))
             }
