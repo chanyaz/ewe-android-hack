@@ -22,7 +22,6 @@ class AddGuestItinWidgetTest {
     lateinit var sut: AddGuestItinWidget
     lateinit var viewModel: TestAddGuestItinViewModel
     lateinit var activity: NewAddGuestItinActivity
-    lateinit var signInPresenter: ItinSignInPresenter
 
     @Before
     fun setup() {
@@ -30,21 +29,8 @@ class AddGuestItinWidgetTest {
         viewModel = TestAddGuestItinViewModel(activity)
         val mockItineraryManager = viewModel.mockItineraryManager
         Mockito.doNothing().`when`(mockItineraryManager).addGuestTrip("malcolmnguyen@gmail.com", "123456789")
-        sut = activity.mSignInPresenter.addGuestItinWidget
+        sut = activity.addGuestItinWidget
         sut.viewModel = viewModel
-    }
-
-    @Test
-    fun tabToolbarHidden() {
-        val testSubscriber = TestSubscriber.create<Boolean>()
-        sut.viewModel.toolBarVisibilityObservable.subscribe(testSubscriber)
-        activity.mSignInPresenter.showSignInWidget()
-        activity.mSignInPresenter.showAddGuestItinScreen(false)
-        activity.mSignInPresenter.showSignInWidget()
-        activity.mSignInPresenter.showSignInWidget()
-
-        testSubscriber.awaitValueCount(3, 5L, TimeUnit.SECONDS)
-        testSubscriber.assertValues(true, false, true)
     }
 
     @Test

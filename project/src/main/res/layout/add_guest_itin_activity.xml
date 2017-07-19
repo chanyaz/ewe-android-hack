@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.Presenter
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/guest_itin_presenter"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.expedia.bookings.presenter.trips.ItinSignInPresenter
-        android:id="@+id/itin_sign_in_presenter"
+    <com.expedia.bookings.presenter.trips.AddGuestItinWidget
+        android:id="@+id/add_guest_itin_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</FrameLayout>
+    <com.expedia.bookings.presenter.trips.ItinFetchProgressWidget
+        android:id="@+id/guest_itin_progress_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+
+</com.expedia.bookings.presenter.Presenter>

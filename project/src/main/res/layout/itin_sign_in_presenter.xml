@@ -6,12 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.presenter.trips.AddGuestItinWidget
-        android:id="@+id/add_guest_itin_widget"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
     <com.expedia.bookings.presenter.trips.ItinFetchProgressWidget
         android:id="@+id/itin_fetch_progress_widget"
         android:layout_width="match_parent"

@@ -246,14 +246,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			ViewStub viewStub = Ui.findView(rootView, R.id.sign_in_presenter_stub);
 			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
 			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
-			mSignInPresenter.getAddGuestItinWidget().getViewModel().getToolBarVisibilityObservable().subscribe(
-				new Action1<Boolean>() {
-					@Override
-					public void call(Boolean show) {
-						toolBarVisibilitySubject.onNext(show);
-						Ui.hideKeyboard(getActivity());
-					}
-				});
 			mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
 				new Action1<Unit>() {
 					@Override
@@ -375,8 +367,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
+
 		if (isLoading && mSignInPresenter != null) {
-			mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
+			mSignInPresenter.showItinFetchProgress();
 		}
 	}
 
