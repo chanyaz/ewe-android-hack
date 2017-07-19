@@ -4,6 +4,7 @@ Feature: Search Suggestions for packages
   Scenario: Ensure trigger of typeahead calls on typing search query
     Given I launch the App
     And I launch "Bundle Deals" LOB
+    And I click on source search button
     When I type "de" in the packages source search box
     Then packages suggest typeAhead is not fired
     When I add "l" in the packages source search box
@@ -15,6 +16,7 @@ Feature: Search Suggestions for packages
   Scenario: Ensure Typeahead works as expected for source and destination locations
     Given I launch the App
     And I launch "Bundle Deals" LOB
+    And I click on source search button
     When I type "del" in the packages source search box
     And I select "DEL - Indira Gandhi Intl." from suggestions
     And I type "delh" in the packages destination search box
@@ -25,6 +27,7 @@ Feature: Search Suggestions for packages
   Scenario: Typeahead happy path by hitting real service
     Given I launch the App
     And I launch "Bundle Deals" LOB
+    And I click on source search button
     When I type "TOR" in the packages source search box
     Then packages suggest typeAhead is fired
 
@@ -32,6 +35,7 @@ Feature: Search Suggestions for packages
   Scenario: Recent searches shown in the suggestion list
     Given I launch the App
     And I launch "Bundle Deals" LOB
+    And I click on source search button
     When I type "del" in the packages source search box
     And I select "DEL - Indira Gandhi Intl." from suggestions
     And I type "de" in the packages destination search box
@@ -44,6 +48,7 @@ Feature: Search Suggestions for packages
     And I want to intercept these calls for packages
       | TypeAheadSFO |
     And I launch "Bundle Deals" LOB
+    And I click on source search button
     And I type "sfo" and select the location "SFO - San Francisco Intl."
     Then Validate the "TypeAhead" API request query params for following parameters for packages
       | locale                      | en_US                          |
@@ -60,6 +65,7 @@ Feature: Search Suggestions for packages
     And I want to intercept these calls for packages
       | TypeAheadSFO |
     And I launch "Bundle Deals" LOB
+    And I click on source search button
     When I type "sf" in the packages source search box
     Then Validate that no typeahead call is trigerred for packages
 
@@ -69,6 +75,7 @@ Feature: Search Suggestions for packages
     And I want to intercept these calls for packages
       | TypeAheadLAS |
     And I launch "Bundle Deals" LOB
+    And I click on source search button
     When I type "SFO" in the packages source search box
     And I select "SFO - San Francisco Intl." from suggestions
     And I type "LAS" and select the location "Las Vegas Strip, Las Vegas, NV"
@@ -87,6 +94,7 @@ Feature: Search Suggestions for packages
     And I want to intercept these calls for packages
       | TypeAheadLAS |
     And I launch "Bundle Deals" LOB
+    And I click on source search button
     When I type "sfo" in the packages source search box
     And I select "San Francisco, CA" from suggestions
     And I type "la" in the packages destination search box

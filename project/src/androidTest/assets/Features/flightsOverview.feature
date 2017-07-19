@@ -114,7 +114,7 @@ Feature: Flights Overview
     And I select outbound flight at position 2 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
-    And I click on Ok button of Alert dialog
+    And Close price change Alert dialog if it is visible
     Then collapse the outbound widget
     And collapse the inbound widget
     Then validate total price of the trip is "$64"
@@ -147,6 +147,7 @@ Feature: Flights Overview
     And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    And Close price change Alert dialog if it is visible
     And I click on trip total link
     Then validate price info for multi travellers
     And validate price for "Expedia Booking Fee" is displayed
