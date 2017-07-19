@@ -4128,6 +4128,8 @@
     <string name="cost_summary_breakdown_hotel_flight_summary">Hotel + Flights</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
     <string name="cost_summary_breakdown_taxes_fees">Taxes &amp; Fees</string>
+    <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
+    <string name="cost_summary_breakdown_discount_TEMPLATE">{brand} Discount</string>
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Taxes &amp; Fees Included ({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->

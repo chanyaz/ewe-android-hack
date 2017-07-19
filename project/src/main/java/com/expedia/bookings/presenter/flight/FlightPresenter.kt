@@ -152,7 +152,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchTrackingBuilder.markResultsUsable()
             if (searchTrackingBuilder.isWorkComplete()) {
                 val trackingData = searchTrackingBuilder.build()
-                FlightsV2Tracking.trackResultOutBoundFlights(trackingData)
+                FlightsV2Tracking.trackResultOutBoundFlights(trackingData,flightOfferViewModel.isSubPub)
             }
         }
         if (isByotEnabled) {

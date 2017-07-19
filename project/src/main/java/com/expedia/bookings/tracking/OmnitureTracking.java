@@ -4841,7 +4841,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackResultOutBoundFlights(
-		FlightSearchTrackingData searchTrackingData) {
+		FlightSearchTrackingData searchTrackingData , boolean isSubpub) {
 		String pageName =
 			searchTrackingData.getReturnDate() != null ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHTS_V2_SEARCH_ONEWAY;
 
@@ -4868,9 +4868,12 @@ public class OmnitureTracking {
 		LocalDate returnDate = searchTrackingData.getReturnDate();
 
 		setDateValues(s, departureDate, returnDate);
-
 		s.setEvar(47, getFlightV2Evar47String(searchTrackingData));
-		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), "event12,event54");
+		StringBuilder events = new StringBuilder("event12,event54");
+		if (isSubpub) {
+			events.append(",event203");
+		}
+		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(),events.toString());
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSimplifyFlightShopping);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightStaticSortFilter);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
@@ -4878,6 +4881,9 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR);
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightHideFSRInfographic);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_subpub_change)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSubpubChange);
+		}
 		s.track();
 	}
 

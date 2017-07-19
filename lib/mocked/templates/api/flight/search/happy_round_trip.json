@@ -571,6 +571,7 @@
     }
   ],
   "obFeesDetails": "http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033",
+  "hasSubPub" : true,
   "offers": [
     {
       "averageTotalPricePerTicket": {
@@ -589,10 +590,11 @@
         "formattedWholePrice": "$620"
       },
       "discountAmount": {
-        "amount": "-6.24",
-        "formattedPrice": "$6.24",
-        "currencyCode": "USD",
-        "formattedWholePrice": "-$6"},
+        "amount": "-3.00",
+        "formattedPrice": "($3.00)",
+        "formattedWholePrice": "($3)",
+        "currencyCode": "USD"
+      },
       "currency": "USD",
       "fareType": "PUBLISHED",
       "fees": "7.00",

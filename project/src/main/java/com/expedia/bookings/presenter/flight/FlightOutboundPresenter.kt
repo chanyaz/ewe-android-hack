@@ -46,6 +46,6 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
 
     override fun trackFlightResultsLoad() {
         val trackingData = searchTrackingBuilder.build()
-        FlightsV2Tracking.trackResultOutBoundFlights(trackingData)
+        FlightsV2Tracking.trackResultOutBoundFlights(trackingData, flightOfferViewModel.isSubPub)
     }
 }

@@ -3,6 +3,7 @@ package com.expedia.vm.flights
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
@@ -48,6 +49,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     var isOutboundSearch = true
     var totalOutboundResults = 0
     var totalInboundResults = 0
+    var isSubPub = false
 
     protected var isRoundTripSearch = true
     protected lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
@@ -191,6 +193,9 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                     errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
                 } else {
                     obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
+                    if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSubpubChange, R.string.preference_flight_subpub_change)) {
+                        setSubPubAvailability(response.hasSubPub)
+                    }
                     makeFlightOffer(response)
                 }
             }
@@ -216,4 +221,5 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     abstract protected fun selectOutboundFlight(legId: String)
     abstract protected fun createFlightMap(response: FlightSearchResponse)
     abstract protected fun makeFlightOffer(response: FlightSearchResponse)
+    abstract protected fun setSubPubAvailability(boolean: Boolean)
 }

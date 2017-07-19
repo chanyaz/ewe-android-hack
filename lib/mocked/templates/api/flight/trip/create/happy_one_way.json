@@ -67,6 +67,13 @@
                 "formattedPrice": "$620.46",
                 "formattedWholePrice": "$620"
             },
+            "discountAmount": {
+                "amount": "-1.70",
+                "roundedAmount": "-2",
+                "formattedPrice": "($1.70)",
+                "formattedWholePrice": "($2)",
+                "currencyCode": "USD"
+            },
             "currency": "USD",
             "fareType": "PUBLISHED",
             "fees": "7.00",

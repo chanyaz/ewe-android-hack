@@ -75,4 +75,8 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
     override fun makeFlightOffer(response: FlightSearchResponse) {
         createFlightMap(response)
     }
+
+    override fun setSubPubAvailability(hasSubPub: Boolean) {
+         isSubPub = hasSubPub
+    }
 }

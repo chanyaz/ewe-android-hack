@@ -80,4 +80,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
             findInboundFlights(response)
         }
     }
+    override fun setSubPubAvailability(hasSubPub: Boolean) {
+        isSubPub = hasSubPub
+    }
 }
