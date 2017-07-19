@@ -4774,6 +4774,7 @@ public class OmnitureTracking {
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_switch_to_from_flight_locations)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		s.track();
 	}
 
