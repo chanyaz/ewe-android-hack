@@ -262,17 +262,19 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 }
             }
 
-            val allFrequentFlyerPlans = response.frequentFlyerPlans.allFrequentFlyerPlans[0]
+            //Done so that we can use Virgin from Sussanna's account
+            val enrolledFrequentFlyerPlan = response.frequentFlyerPlans.enrolledFrequentFlyerPlans[2]
 
-            var frequentFlyerPlanID = allFrequentFlyerPlans.frequentFlyerPlanID
-            var frequentFlyerPlanCode = allFrequentFlyerPlans.frequentFlyerPlanCode
-            var airlineCode = allFrequentFlyerPlans.airlineCode
-            var frequentFlyerPlanName = allFrequentFlyerPlans.frequentFlyerPlanName
+            var frequentFlyerPlanID = enrolledFrequentFlyerPlan.frequentFlyerPlanID
+            var frequentFlyerPlanCode = enrolledFrequentFlyerPlan.frequentFlyerPlanCode
+            var airlineCode = enrolledFrequentFlyerPlan.airlineCode
+            var frequentFlyerPlanName = enrolledFrequentFlyerPlan.frequentFlyerPlanName
+            val membershipNumber = enrolledFrequentFlyerPlan.membershipNumber
 
             (getCheckoutViewModel().builder as FlightCheckoutParams.Builder).flightAirlineCodeValue(airlineCode)
             (getCheckoutViewModel().builder as FlightCheckoutParams.Builder).frequentFlyerPlanAirlineCodeValue(frequentFlyerPlanID)
             (getCheckoutViewModel().builder as FlightCheckoutParams.Builder).frequentFlyerPlanCodeValue(frequentFlyerPlanID)
-            (getCheckoutViewModel().builder as FlightCheckoutParams.Builder).membershipNumberValue("123456789")
+            (getCheckoutViewModel().builder as FlightCheckoutParams.Builder).membershipNumberValue(membershipNumber)
 
             onCreateTripResponse(response)
         }

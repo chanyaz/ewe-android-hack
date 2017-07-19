@@ -57,6 +57,8 @@ public class FlightCreateTripResponse extends FlightTripResponse {
 
 	public class FrequentFlyerPlans {
 		public List<AllFrequentFlyerPlans> allFrequentFlyerPlans;
+		public List<EnrolledFrequentFlyerPlans> enrolledFrequentFlyerPlans;
+
 	}
 
 	public class AllFrequentFlyerPlans {
@@ -65,4 +67,13 @@ public class FlightCreateTripResponse extends FlightTripResponse {
 		public String airlineCode;
 		public String frequentFlyerPlanName;
 	}
+
+	public class EnrolledFrequentFlyerPlans {
+		public String frequentFlyerPlanID;
+		public String frequentFlyerPlanCode;
+		public String airlineCode;
+		public String membershipNumber;
+		public String frequentFlyerPlanName;
+	}
+
 }

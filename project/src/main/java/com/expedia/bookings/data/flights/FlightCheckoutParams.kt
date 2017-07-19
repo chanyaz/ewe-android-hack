@@ -99,7 +99,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             }
         }
 
-        val freqFlyerPrefix = "frequentFlyerDetails[0]."
+        val freqFlyerPrefix = "mainFlightPassenger.frequentFlyerDetails[0]."
         val flightAirlineCode = freqFlyerPrefix + "flightAirlineCode"
         val frequentFlyerPlanAirlineCode = freqFlyerPrefix + "frequentFlyerPlanAirlineCode"
         val frequentFlyerPlanCode = freqFlyerPrefix + "frequentFlyerPlanCode"
