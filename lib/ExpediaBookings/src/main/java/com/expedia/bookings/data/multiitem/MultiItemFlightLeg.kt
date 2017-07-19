@@ -1,7 +1,7 @@
 package com.expedia.bookings.data.multiitem
 
-data class FlightLeg(
+data class MultiItemFlightLeg(
     val legId: String,
-    val segments: List<FlightSegment>,
+    val segments: List<MultiItemFlightSegment>,
     val stops: Int
 )

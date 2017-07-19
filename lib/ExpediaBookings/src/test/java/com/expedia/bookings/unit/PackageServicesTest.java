@@ -18,6 +18,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
+import com.expedia.bookings.services.ProductSearchType;
 import com.expedia.bookings.utils.Constants;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -59,7 +60,7 @@ public class PackageServicesTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		service.packageSearch(params, false).subscribe(observer);
+		service.packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoValues();
@@ -80,7 +81,7 @@ public class PackageServicesTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		service.packageSearch(params, false).subscribe(observer);
+		service.packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
@@ -108,7 +109,7 @@ public class PackageServicesTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		service.packageSearch(params, true).subscribe(observer);
+		service.packageSearch(params, ProductSearchType.MultiItemHotels).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();

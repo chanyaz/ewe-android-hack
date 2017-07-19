@@ -32,6 +32,7 @@ import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.PackageServices;
+import com.expedia.bookings.services.ProductSearchType;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
 import com.expedia.bookings.test.RunForBrands;
@@ -156,7 +157,7 @@ public class HotelViewModelTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		serviceRule.getServices().packageSearch(params, false).subscribe(observer);
+		serviceRule.getServices().packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertValueCount(1);
@@ -179,7 +180,7 @@ public class HotelViewModelTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		serviceRule.getServices().packageSearch(params, false).subscribe(observer);
+		serviceRule.getServices().packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertValueCount(1);

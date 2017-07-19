@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.multiitem
 
-data class FlightSegment(
+data class MultiItemFlightSegment(
     val departureAirportCode: String,
     val arrivalAirportCode: String,
     val departureCity: String,

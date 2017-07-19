@@ -5,7 +5,7 @@ import com.expedia.bookings.data.Money
 data class FlightOffer(
         val piid: String,
         val productTokens: List<String>,
-        val legs: List<FlightLeg>,
+        val legIds: List<String>,
         val referenceBasePrice: Money,
         val referenceTaxesAndFees: Money,
         val referenceTotalPrice: Money,
