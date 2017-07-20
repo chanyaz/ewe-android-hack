@@ -21,7 +21,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
-import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.logging.HttpLoggingInterceptor
@@ -116,7 +115,6 @@ class AbstractMaterialFlightResultsPresenterTest {
 
     @Test
     fun testLegalPaymentMessageOnOutboundFlight() {
-        SettingUtils.save(context, R.string.preference_payment_legal_message, true)
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
         createSystemUnderTest(isOutboundPresenter = true)
         sut.resultsPresenter.lineOfBusinessSubject.onNext(sut.getLineOfBusiness())
@@ -127,7 +125,6 @@ class AbstractMaterialFlightResultsPresenterTest {
 
     @Test
     fun testLegalPaymentMessageOnInboundFlight() {
-        SettingUtils.save(context, R.string.preference_payment_legal_message, true)
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
         createSystemUnderTest(isOutboundPresenter = false)
         sut.resultsPresenter.lineOfBusinessSubject.onNext(sut.getLineOfBusiness())

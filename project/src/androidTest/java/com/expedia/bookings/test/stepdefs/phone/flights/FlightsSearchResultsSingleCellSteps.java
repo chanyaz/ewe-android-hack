@@ -26,7 +26,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 
-
 public class FlightsSearchResultsSingleCellSteps {
 
 	@And("^Validate that flight time field at cell (\\d+) is displayed: (true|false) and isOutBound : (true|false)$")
@@ -135,7 +134,7 @@ public class FlightsSearchResultsSingleCellSteps {
 
 	@And("^Validate legal compliance messaging on SRP and isOutbound : (true|false)$")
 	public void validatelegalSRPOutbound(boolean outBound) throws Throwable {
-		legalComplianceAU(R.id.airline_charges_fees_header, "Airlines charge an additional fee based on payment method.", outBound);
+		legalComplianceAU(R.id.airline_charges_fees_header, "There may be an additional fee based on your payment method.", outBound);
 	}
 
 	@And("^Validate the Per person roundtrip text and isOutbound : (true|false)$")
@@ -145,7 +144,7 @@ public class FlightsSearchResultsSingleCellSteps {
 
 	@And("^Validate legal compliance message on flight detail screen and isOutbound : (true|false)$")
 	public void validatelegalcomplaianceoutboundoverview(boolean outBound) throws Throwable {
-		legalComplianceAU(R.id.show_payment_fees, "Airline fee applies based on payment method", outBound);
+		legalComplianceAU(R.id.show_payment_fees, "Payment Fees May Apply", outBound);
 	}
 
 	@Then("^Select outbound flight from Overview$")

@@ -77,23 +77,24 @@ class FlightOverviewPresenterTest {
         val splitTicketBaggageFeeLinkContainer = widget.flightSummary.splitTicketInfoContainer
         val airlineFeeWarningText = widget.flightSummary.airlineFeeWarningTextView
         val basicEconomyMessaging = widget.flightSummary.basicEconomyMessageTextView
-        widget.viewModel.airlineFeeWarningTextObservable.onNext("An airline fee, based on card type, may be added upon payment.")
+
+        widget.viewModel.airlineFeeWarningTextObservable.onNext("There may be an additional fee based on your payment method.")
         widget.viewModel.showFreeCancellationObservable.onNext(true)
         widget.viewModel.showSplitTicketMessagingObservable.onNext(true)
         widget.viewModel.showAirlineFeeWarningObservable.onNext(true)
         widget.viewModel.showBasicEconomyMessageObservable.onNext(true)
-        assertEquals("An airline fee, based on card type, may be added upon payment.", airlineFeeWarningText.text)
+        assertEquals("There may be an additional fee based on your payment method.", airlineFeeWarningText.text)
         assertEquals(View.VISIBLE, freeCancelltionText.visibility)
         assertEquals(View.VISIBLE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.VISIBLE, airlineFeeWarningText.visibility)
         assertEquals(View.VISIBLE, basicEconomyMessaging.visibility)
-        widget.viewModel.airlineFeeWarningTextObservable.onNext("An airline fee, based on card type, is added upon payment.")
-        assertEquals("An airline fee, based on card type, is added upon payment.", airlineFeeWarningText.text)
 
+        widget.viewModel.airlineFeeWarningTextObservable.onNext("There may be an additional fee based on your payment method.")
         widget.viewModel.showFreeCancellationObservable.onNext(false)
         widget.viewModel.showSplitTicketMessagingObservable.onNext(false)
         widget.viewModel.showAirlineFeeWarningObservable.onNext(false)
         widget.viewModel.showBasicEconomyMessageObservable.onNext(false)
+        assertEquals("There may be an additional fee based on your payment method.", airlineFeeWarningText.text)
         assertEquals(View.GONE, freeCancelltionText.visibility)
         assertEquals(View.GONE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.GONE, airlineFeeWarningText.visibility)

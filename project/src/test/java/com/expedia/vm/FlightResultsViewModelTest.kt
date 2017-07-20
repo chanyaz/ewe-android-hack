@@ -20,7 +20,7 @@ class FlightResultsViewModelTest {
 
     @Before
     fun setUp() {
-        sut = FlightResultsViewModel(context)
+        sut = FlightResultsViewModel()
     }
 
     @Test
@@ -32,12 +32,12 @@ class FlightResultsViewModelTest {
 
         sut.isOutboundResults.onNext(true)
 
-        testSubscriber.assertValue(false)
+        testSubscriber.assertValue(true)
     }
 
     @Test
     fun airlineDoesNotChargeFeesForNonOutboundApplicablePos() {
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airlines_charge_additional_fees.json")
+        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json")
 
         val testSubscriber = TestSubscriber<Boolean>()
         sut.airlineChargesFeesSubject.subscribe(testSubscriber)

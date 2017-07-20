@@ -10,10 +10,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
@@ -63,15 +60,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun setPaymentLegalMessage(showLegalPaymentMessage: Boolean, lineOfBusiness: LineOfBusiness) {
         if (showLegalPaymentMessage && lineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
-            if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
-                airlineChargesFeesTextView.text = context.getString(R.string.airline_additional_fee_notice)
-            } else {
-                if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-                    airlineChargesFeesTextView.text = context.getString(R.string.airline_may_charge_notice)
-                } else {
-                    airlineChargesFeesTextView.text = context.getString(R.string.airline_charge_notice)
-                }
-            }
+            airlineChargesFeesTextView.text = context.getString(R.string.airline_additional_fee_notice)
             airlineChargesFeesTextView.visibility = View.VISIBLE
         } else {
             airlineChargesFeesTextView.visibility = View.GONE

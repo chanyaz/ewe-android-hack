@@ -263,26 +263,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         flightOfferViewModel.flightOfferSelected.subscribe { presenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
 
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
-            if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
-                presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
-                presenter.viewModel.airlineFeeWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
-            } else {
-                presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
-            }
+        if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+            presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
+            presenter.viewModel.airlineFeeWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
         } else {
-            if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
-                presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
-                val resId = if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-                    R.string.airline_maybe_fee_notice
-                } else {
-                    R.string.airline_fee_notice
-                }
-                val message = context.getString(resId)
-                presenter.viewModel.airlineFeeWarningTextObservable.onNext(message)
-            } else {
-                presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
-            }
+            presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
         }
 
         checkoutViewModel.checkoutRequestStartTimeObservable.subscribe { startTime ->

@@ -1771,8 +1771,6 @@
     <string name="before_TEMPLATE">before {date}</string>
 
     <!-- Flight details fragment -->
-    <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">Baggage Fee Information</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s layover&lt;/b&gt; in %2$s</string>
     <!-- Price per person. For example: "$20.31 per person" -->
@@ -1805,18 +1803,12 @@
     <string name="earn_amount_TEMPLATE">Earn {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">Earn {price} in {currency}</string>
-    <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply</string>
-    <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">Checked baggage not included</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">Payment fees may apply</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Additional Fees</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Baggage Fees</string>
-    <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">Payment Processing Fees</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">New Debit/Credit Card</string>
@@ -1877,8 +1869,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">You are using {points} ({amount}) Expedia+ points</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">You are using {points} ({amount}) Expedia+ points\nYour card will be charged {dueamount}</string>
-    <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_template">Your card will be charged {dueamount} (plus airline fee)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">Amount due today: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -2244,8 +2234,6 @@
     <string name="privacy_policy">Privacy Policy</string>
     <!-- Fare information header -->
     <string name="fare_information">FARE INFORMATION</string>
-    <!-- Airline Fee -->
-    <string name="Airline_fee">Airline Fee</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Filters cleared</string>
     <!-- split ticket rules and restrictions -->
@@ -3669,18 +3657,6 @@
     <string name="airline_additional_fee_notice">There may be an additional fee based on your payment method.</string>
     <!-- Airline Payment Fee Apply Message -->
     <string name="airline_fee_apply">Payment Fees May Apply</string>
-
-    <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">An airline fee, based on card type, is added upon payment.</string>
-    <string name="airline_charge_notice">Airlines charge an additional fee based on payment method.</string>
-    <string name="airline_fee_notice_payment">Airline fee applies based on payment method</string>
-
-    <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">An airline fee, based on card type, may be added upon payment.</string>
-    <string name="airline_may_charge_notice">Airlines may charge an additional fee based on payment method.</string>
-    <string name="airline_may_fee_notice_payment">Airline fee may apply based on payment method</string>
-
-    <!-- Packages -->
 
     <!-- Accessibility - Content Description for toolbar close button -->
     <string name="package_toolbar_close_cont_desc">Close search screen</string>

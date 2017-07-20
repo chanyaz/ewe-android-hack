@@ -91,7 +91,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val resultsPresenter: FlightResultsListViewPresenter by lazy {
         val viewStub = findViewById(R.id.results_stub) as ViewStub
         val presenter = viewStub.inflate() as FlightResultsListViewPresenter
-        presenter.resultsViewModel = FlightResultsViewModel(context)
+        presenter.resultsViewModel = FlightResultsViewModel()
         toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
         if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSimplifyFlightShopping) || getLineOfBusiness().equals(LineOfBusiness.PACKAGES)) {
             presenter.flightSelectedSubject.subscribe(selectedFlightResults)

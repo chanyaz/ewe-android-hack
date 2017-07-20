@@ -22,7 +22,6 @@ import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
-import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
@@ -92,7 +91,6 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
 
     @Test
     fun testAirlineMayChargeFeesAlwaysShownAustraliaPOS() {
-        SettingUtils.save(activity.applicationContext, R.string.preference_payment_legal_message, true)
         Common.setPOS(PointOfSaleId.AUSTRALIA)
 
         SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
@@ -104,22 +102,6 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
         FlightTestHelpers.assertFlightOutbound()
 
         FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound), R.string.airline_additional_fee_notice)
-    }
-
-    @Test
-    fun testAirlineMayChargeFeesAlwaysShownFrenchPOS() {
-        SettingUtils.save(activity.applicationContext, R.string.preference_payment_legal_message, false)
-        Common.setPOS(PointOfSaleId.FRANCE)
-
-        SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
-
-        val startDate = LocalDate.now().plusDays(3)
-        val endDate = LocalDate.now().plusDays(8)
-        SearchScreen.selectDates(startDate, endDate)
-        SearchScreen.searchButton().perform(click())
-        FlightTestHelpers.assertFlightOutbound()
-
-        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound), R.string.airline_may_charge_notice)
     }
 
     private fun assertCostSummaryDialogShowsFees() {

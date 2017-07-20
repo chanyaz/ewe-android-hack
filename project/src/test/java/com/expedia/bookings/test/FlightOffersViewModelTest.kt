@@ -165,7 +165,7 @@ class FlightOffersViewModelTest {
 
         sut.showChargesObFeesSubject.onNext(true)
 
-        testSubscriber.assertValue("Airline fee applies based on payment method")
+        testSubscriber.assertValue("Payment Fees May Apply")
     }
 
     @Test

@@ -61,7 +61,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         searchParamsObservable.subscribe { params ->
             isRoundTripSearchSubject.onNext(params.isRoundTrip())
             flightCabinClassSubject.onNext(params.flightCabinClass)
-            refundableFilterAppliedSearchSubject.onNext(params.showRefundableFlight?: false)
+            refundableFilterAppliedSearchSubject.onNext(params.showRefundableFlight ?: false)
             nonStopSearchFilterAppliedSubject.onNext(params.nonStopFlight)
             searchingForFlightDateTime.onNext(Unit)
             flightOutboundSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
@@ -88,23 +88,10 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
         showChargesObFeesSubject.subscribe { hasObFee ->
             if (hasObFee || doAirlinesChargeAdditionalFees()) {
-                val stringID: Int
-                if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
-                    stringID = if (doAirlinesChargeAdditionalFees()) {
-                        R.string.airline_fee_apply
-                    } else {
-                        R.string.payment_and_baggage_fees_may_apply
-                    }
+                val stringID = if (doAirlinesChargeAdditionalFees()) {
+                    R.string.airline_fee_apply
                 } else {
-                    stringID = if (doAirlinesChargeAdditionalFees()) {
-                        if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-                            R.string.airline_may_fee_notice_payment
-                        } else {
-                            R.string.airline_fee_notice_payment
-                        }
-                    } else {
-                        R.string.payment_and_baggage_fees_may_apply
-                    }
+                    R.string.payment_and_baggage_fees_may_apply
                 }
                 val paymentFeeText = context.getString(stringID)
                 offerSelectedChargesObFeesSubject.onNext(paymentFeeText)
@@ -149,11 +136,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     }
 
     protected fun doAirlinesChargeAdditionalFees(): Boolean {
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
-            return PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()
-        } else {
-            return PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
-        }
+        return PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()
     }
 
     protected fun getFlightOffer(outboundLegId: String, inboundLegId: String): FlightTripDetails.FlightOffer? {

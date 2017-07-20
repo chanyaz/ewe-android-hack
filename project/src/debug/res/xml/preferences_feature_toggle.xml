@@ -110,17 +110,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Payment Legal Message">
-
-        <CheckBoxPreference
-            android:key="@string/preference_payment_legal_message"
-            android:layout="@layout/preference"
-            android:summary="Payment Legal Message"
-            android:title="Payment Legal Message" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Packages Features">
 
         <CheckBoxPreference

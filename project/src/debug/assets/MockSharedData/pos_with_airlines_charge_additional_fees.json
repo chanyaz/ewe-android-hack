@@ -2,6 +2,7 @@
   "US":{
     "adjustPricingMessagingForAirlinePaymentMethodFee": true,
     "airlinePaymentMethodFeeMessageType": "WILL_CHARGE",
+    "showAirlinePaymentMethodFeeLegalMessage": true,
     "supportPhoneNumber": {
       "*": "1-866-649-6924",
       "iPhone": "1-877-312-2037",

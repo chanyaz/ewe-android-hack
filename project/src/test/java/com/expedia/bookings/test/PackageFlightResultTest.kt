@@ -98,7 +98,7 @@ class PackageFlightResultTest {
         searchResponse.packageResult.flightsPackage.flights = makeFlightList()
         Db.setPackageResponse(searchResponse)
 
-        val resultsVM = FlightResultsViewModel(context)
+        val resultsVM = FlightResultsViewModel()
         val testSubscriber = TestSubscriber<List<FlightLeg>>()
         resultsVM.flightResultsObservable.subscribe(testSubscriber)
         resultsVM.flightResultsObservable.onNext(searchResponse.packageResult.flightsPackage.flights)

@@ -63,7 +63,7 @@ Feature: Search Suggestions for packages
     When I type "sf" in the packages source search box
     Then Validate that no typeahead call is trigerred for packages
 
-  @WIP @Prod
+  @Prod
   Scenario: Flying to field - Typeahead call is made when 3 letters are entered for
     Given I launch the App
     And I want to intercept these calls for packages
