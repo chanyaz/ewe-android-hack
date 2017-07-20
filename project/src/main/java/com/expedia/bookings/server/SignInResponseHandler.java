@@ -130,12 +130,12 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 						String type = sccJson.optString("creditCardType", null);
 						if (Strings.isNotEmpty(type)) {
 							scc.setType(CurrencyUtils.parsePaymentType(type));
+							scc.setDescription(sccJson.optString("description", null));
+							scc.setId(sccJson.optString("paymentsInstrumentsId", null));
+							scc.setNameOnCard(sccJson.optString("nameOnCard", null));
+							scc.setExpired(sccJson.optBoolean("expired"));
+							user.addStoredCreditCard(scc);
 						}
-						scc.setDescription(sccJson.optString("description", null));
-						scc.setId(sccJson.optString("paymentsInstrumentsId", null));
-						scc.setNameOnCard(sccJson.optString("nameOnCard", null));
-						scc.setExpired(sccJson.optBoolean("expired"));
-						user.addStoredCreditCard(scc);
 					}
 				}
 
@@ -149,10 +149,10 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 						String type = spcJson.optString("creditCardType", null);
 						if (Strings.isNotEmpty(type)) {
 							storedPointsCard.setPaymentType(CurrencyUtils.parsePaymentType(type));
+							storedPointsCard.setDescription(spcJson.optString("description", null));
+							storedPointsCard.setPaymentsInstrumentId(spcJson.optString("paymentsInstrumentsId", null));
+							user.addStoredPointsCard(storedPointsCard);
 						}
-						storedPointsCard.setDescription(spcJson.optString("description", null));
-						storedPointsCard.setPaymentsInstrumentId(spcJson.optString("paymentsInstrumentsId", null));
-						user.addStoredPointsCard(storedPointsCard);
 					}
 				}
 
