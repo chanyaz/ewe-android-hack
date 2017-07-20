@@ -8,6 +8,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
@@ -183,6 +184,25 @@ abstract class BaseSearchViewModel(val context: Context) {
         return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(start))
                 .put("enddate", DateUtils.localDateToMMMd(end))
+                .format().toString()
+    }
+
+    protected fun getStartDashEndDateWithDayString(start: LocalDate, end: LocalDate) : String {
+        val startDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start)
+        val endDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(end)
+        return Phrase.from(context, R.string.calendar_instructions_date_range_flight_extra_spacing_TEMPLATE)
+                .put("startdate", startDate)
+                .put("enddate", endDate)
+                .format().toString()
+    }
+
+    protected fun getStartToEndDateWithDayString(start: LocalDate, end: LocalDate) : String {
+        val startDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start)
+        val endDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(end)
+        // need to explicitly use "to" for screen readers
+        return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
+                .put("startdate", startDate)
+                .put("enddate", endDate)
                 .format().toString()
     }
 }

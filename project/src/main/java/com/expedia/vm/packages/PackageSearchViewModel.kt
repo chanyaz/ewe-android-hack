@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.SpannableBuilder
@@ -135,7 +135,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
         val selectReturnDate = Phrase.from(context, R.string.select_return_date_TEMPLATE)
-                .put("startdate", DateUtils.localDateToMMMd(start))
+                .put("startdate", DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start))
                 .format().toString()
         if (forContentDescription) {
             return getDateAccessibilityText(selectReturnDate, "")
@@ -149,9 +149,9 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
         val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
         val dateRangeText = if (forContentDescription) {
-            getStartToEndDateString(start, end)
+            getStartToEndDateWithDayString(start, end)
         } else {
-            getStartDashEndDateString(start, end)
+            getStartDashEndDateWithDayString(start, end)
         }
 
         dateNightBuilder.append(dateRangeText)

@@ -10,6 +10,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
@@ -230,4 +231,18 @@ public class DateFormatUtils {
 		SimpleDateFormat ft = new SimpleDateFormat("EEE MMM dd", Locale.getDefault());
 		return ft.format(date.toDate());
 	}
+
+	public static String formatLocalDateToEEEMMMdBasedOnLocale(LocalDate date) {
+		String pattern = "EEE, MMM d";
+		String bestDateTimePattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), pattern);
+		String formattedDate;
+		try {
+			formattedDate = date.toString(bestDateTimePattern);
+		}
+		catch (Exception e) {
+			formattedDate = date.toString(pattern);
+		}
+		return formattedDate;
+	}
+
 }
