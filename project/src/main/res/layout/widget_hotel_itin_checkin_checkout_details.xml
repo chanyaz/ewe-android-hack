@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="@string/itin_hotel_details_checkin_text"
             android:textColor="@color/gray6"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="normal"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,7 @@
             android:paddingTop="4dp"
             android:textColor="@color/gray10"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/hotel_itin_arrow"
             app:layout_constraintTop_toBottomOf="@+id/hotel_itin_checkin_text" />
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/gray6"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="normal"
             app:layout_constraintTop_toBottomOf="@+id/hotel_itin_checkin_date_text" />
 
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="@string/itin_hotel_details_checkout_text"
             android:textColor="@color/gray6"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="normal"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -67,7 +67,7 @@
             android:paddingTop="4dp"
             android:textColor="@color/gray10"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             app:layout_constraintTop_toBottomOf="@+id/hotel_itin_checkout_text"
             app:layout_constraintLeft_toRightOf="@+id/hotel_itin_arrow"
             app:layout_constraintRight_toRightOf="parent" />
@@ -77,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/gray6"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="normal"
             app:layout_constraintTop_toBottomOf="@+id/hotel_itin_checkout_date_text"
             app:layout_constraintRight_toRightOf="parent" />

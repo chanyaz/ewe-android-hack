@@ -1421,9 +1421,9 @@
     <string name="itin_card_details_remove_itin">Remove from Itinerary</string>
 
     <!--Hotel itin card room details heading-->
-    <string name="itin_hotel_details_room_details_title_text">Room details</string>
+    <string name="itin_hotel_details_room_details_title_text">Your room</string>
     <!--Hotel itin card booking details heading-->
-    <string name="itin_hotel_details_booking_details_title_text">Booking details</string>
+    <string name="itin_hotel_details_booking_details_title_text">Booking information</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
     <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
