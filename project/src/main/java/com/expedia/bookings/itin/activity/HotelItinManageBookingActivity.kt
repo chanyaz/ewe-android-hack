@@ -12,6 +12,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.HotelItinManageBookingHelp
+import com.expedia.bookings.widget.itin.HotelItinCustomerSupportDetails
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
 import com.expedia.bookings.widget.itin.HotelItinToolbar
 
@@ -32,6 +33,9 @@ class HotelItinManageBookingActivity : AppCompatActivity() {
     }
     val hotelManageBookingHelpView: HotelItinManageBookingHelp by lazy {
         findViewById(R.id.widget_hotel_itin_manage_booking_help) as HotelItinManageBookingHelp
+    }
+    val hotelCustomerSupportDetailsView: HotelItinCustomerSupportDetails by lazy {
+        findViewById(R.id.widget_hotel_itin_customer_support) as HotelItinCustomerSupportDetails
     }
 
     companion object {
@@ -63,6 +67,7 @@ class HotelItinManageBookingActivity : AppCompatActivity() {
             this.startActivity(buildWebViewIntent(R.string.itin_hotel_manage_booking_webview_title, itinCardDataHotel.detailsUrl, "overview-header").intent)
         }
         hotelManageBookingHelpView.setUpWidget(itinCardDataHotel)
+        hotelCustomerSupportDetailsView.setUpWidget(itinCardDataHotel)
     }
 
     private fun buildWebViewIntent(title: Int, url: String, anchor: String?): WebViewActivity.IntentBuilder {
@@ -74,5 +79,4 @@ class HotelItinManageBookingActivity : AppCompatActivity() {
         builder.setAttemptForceMobileSite(true)
         return builder
     }
-
 }

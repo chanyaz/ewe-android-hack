@@ -30,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:textColor="@color/gray10"
                 android:textSize="14sp"
                 tools:text="For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver:" />
 
@@ -48,6 +49,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:textSize="12sp"
+                android:textColor="@color/gray10"
                 app:textStyle="bold"
                 tools:text="Confirmation # 88888888" />
 

@@ -1,0 +1,9 @@
+<vector android:height="18dp" android:viewportHeight="18.0"
+    android:viewportWidth="18.0" android:width="18dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="@color/itin_call_to_action_text"
+        android:pathData="M14,9.001C13.447,9.001 13,9.424 13,9.948L13,15.159L2,15.159L2,4.738L7.5,4.738C8.053,4.738 8.5,4.314 8.5,3.79C8.5,3.266 8.053,2.843 7.5,2.843L1,2.843C0.447,2.843 0,3.266 0,3.79L0,16.106C0,16.63 0.447,17.053 1,17.053L14,17.053C14.553,17.053 15,16.63 15,16.106L15,9.948C15,9.424 14.553,9.001 14,9.001"
+        android:strokeColor="#00000000" android:strokeWidth="1"/>
+    <path android:fillColor="@color/itin_call_to_action_text"
+        android:pathData="M17.923,0.586C17.821,0.354 17.627,0.169 17.382,0.074C17.26,0.026 17.13,0.001 17,0.001L11,0.001C10.447,0.001 10,0.424 10,0.948C10,1.471 10.447,1.896 11,1.896L14.586,1.896L3.793,12.121C3.402,12.49 3.402,13.09 3.793,13.46C3.988,13.645 4.244,13.738 4.5,13.738C4.756,13.738 5.012,13.645 5.207,13.46L16,3.235L16,6.632C16,7.155 16.447,7.58 17,7.58C17.553,7.58 18,7.155 18,6.632L18,0.948C18,0.825 17.974,0.702 17.923,0.586"
+        android:strokeColor="#00000000" android:strokeWidth="1"/>
+</vector>

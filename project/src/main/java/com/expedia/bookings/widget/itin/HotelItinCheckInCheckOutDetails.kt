@@ -9,7 +9,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.squareup.phrase.Phrase
 import java.util.Locale
 
 class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
