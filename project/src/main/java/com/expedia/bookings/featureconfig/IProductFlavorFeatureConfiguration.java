@@ -190,4 +190,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean shouldShowVIPLoyaltyMessage();
 
 	int getPOSSpecificBrandLogo();
+
+	String getPosURLToShow(String posUrl);
 }

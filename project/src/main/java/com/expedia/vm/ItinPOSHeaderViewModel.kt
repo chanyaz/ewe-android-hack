@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import rx.android.schedulers.AndroidSchedulers
@@ -19,7 +20,7 @@ class ItinPOSHeaderViewModel(pointOfSaleStateModel: PointOfSaleStateModel) {
                 .subscribe { selectedPos ->
                     posImageViewSubject.onNext(selectedPos.countryFlagResId)
                     posTextViewSubject.onNext(selectedPos.threeLetterCountryCode)
-                    posUrlSubject.onNext(selectedPos.url.capitalize())
+                    posUrlSubject.onNext(ProductFlavorFeatureConfiguration.getInstance().getPosURLToShow(selectedPos.url.capitalize()))
                 }
 
         pointOfSaleStateModel.pointOfSaleChangedSubject.onNext(PointOfSale.getPointOfSale())

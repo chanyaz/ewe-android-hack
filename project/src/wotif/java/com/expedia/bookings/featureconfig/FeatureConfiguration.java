@@ -403,4 +403,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return R.drawable.app_copyright_logo;
 	}
 
+	@Override
+	public String getPosURLToShow(String posUrl) {
+		return posUrl;
+	}
 }

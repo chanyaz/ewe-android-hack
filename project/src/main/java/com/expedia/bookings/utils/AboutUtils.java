@@ -208,7 +208,7 @@ public class AboutUtils {
 			for (int a = 0; a < len; a++) {
 				PointOfSale info = poses.get(a);
 				entries[a] = getActivity().getString(info.getCountryNameResId());
-				entrySubText[a] = info.getUrl();
+				entrySubText[a] = ProductFlavorFeatureConfiguration.getInstance().getPosURLToShow(info.getUrl());
 				entryValues[a] = info.getPointOfSaleId().getId();
 				entriesFlags[a] = info.getCountryFlagResId();
 			}
