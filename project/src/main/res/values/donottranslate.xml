@@ -127,7 +127,6 @@
     <string name="preference_enable_secure_icon">preference_enable_secure_icon</string>
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_flight_subpub_change">preference_flight_subpub_change</string>
-    <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

@@ -23,7 +23,7 @@ class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseT
     val defaultDateSubject = BehaviorSubject.create<LocalDate>(LocalDate(1970, 1, 1))
     val birthErrorTextSubject = BehaviorSubject.create<String>()
 
-    override val invalidCharacterMode = InvalidCharacterHelper.Mode.ASCII
+    override val invalidCharacterMode = InvalidCharacterHelper.Mode.ANY
 
     init {
         updateTravelerBirthDate(traveler)

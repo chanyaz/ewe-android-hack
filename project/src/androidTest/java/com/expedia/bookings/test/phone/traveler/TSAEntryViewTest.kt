@@ -2,6 +2,9 @@ package com.expedia.bookings.test.phone.traveler
 
 import android.support.design.widget.TextInputLayout
 import android.support.test.InstrumentationRegistry
+import android.support.test.espresso.Espresso
+import android.support.test.espresso.action.ViewActions
+import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.LayoutInflater
@@ -150,6 +153,7 @@ class TSAEntryViewTest {
             tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
         }
 
+
         assertNull(tsaEntryView.viewModel.genderViewModel.genderSubject.value)
         assertFalse(tsaEntryView.viewModel.genderViewModel.isValid())
         assertFalse(tsaEntryView.isValidGender())
@@ -172,6 +176,18 @@ class TSAEntryViewTest {
         assertEquals(Traveler.Gender.GENDER, tsaEntryView.viewModel.genderViewModel.genderSubject.value)
         assertFalse(tsaEntryView.viewModel.genderViewModel.isValid())
         assertFalse(tsaEntryView.isValidGender())
+    }
+
+    @Test
+    fun testDateOfBirth() {
+        tsaEntryView = activityTestRule.root as TSAEntryView
+        val testTraveler = Traveler()
+        testTraveler.gender = null
+        uiThreadTestRule.runOnUiThread {
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+        }
+        Espresso.onView(ViewMatchers.withId(R.id.edit_birth_date_text_btn)).perform(ViewActions.replaceText("ㅎ"))
+        Espresso.onView(ViewMatchers.withId(R.id.edit_birth_date_text_btn)).perform(ViewActions.replaceText("ㅎabkja"))
     }
 
     @Test

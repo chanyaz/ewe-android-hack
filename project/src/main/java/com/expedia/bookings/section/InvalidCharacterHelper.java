@@ -1,16 +1,14 @@
 package com.expedia.bookings.section;
 
-import java.util.concurrent.Semaphore;
-import java.util.regex.Pattern;
-
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.widget.EditText;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.dialog.TextViewDialog.OnDismissListener;
 import com.mobiata.android.Log;
+import java.util.concurrent.Semaphore;
+import java.util.regex.Pattern;
 
 public class InvalidCharacterHelper {
 
@@ -19,6 +17,8 @@ public class InvalidCharacterHelper {
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_NAMES = Pattern.compile("^[a-zA-ZÀ-ÿ',. -]*$");
 	//Matches ascii characters that are only letters, numbers.
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ALPHANUMERIC = Pattern.compile("^[a-zA-Z0-9]*$");
+	//Matches all characters
+	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ANY = Pattern.compile(".*");
 
 	private static final String INVALID_CHARACTER_POPUP_TAG = "INVALID_CHARACTER_POPUP_TAG";
 
@@ -35,7 +35,8 @@ public class InvalidCharacterHelper {
 		NAME,
 		EMAIL,
 		ADDRESS,
-		ALPHANUMERIC
+		ALPHANUMERIC,
+		ANY
 	}
 
 	//Don't instantiate this class
@@ -54,6 +55,9 @@ public class InvalidCharacterHelper {
 		}
 		case ALPHANUMERIC: {
 			return SUPPORTED_CHARACTER_PATTERN_ALPHANUMERIC;
+		}
+		case ANY: {
+			return SUPPORTED_CHARACTER_PATTERN_ANY;
 		}
 		default: {
 			return SUPPORTED_CHARACTER_PATTERN_ASCII;
