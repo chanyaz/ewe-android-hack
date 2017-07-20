@@ -10,7 +10,7 @@ import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.DateFormatUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -92,15 +92,15 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		// Select start date
 		SearchScreen.calendarCard().perform(click());
 		SearchScreen.selectDates(startDate, null);
-		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
-		String autoEndDate = DateUtils.localDateToMMMd(autoDate);
-		SearchScreen.selectDateButton().check(matches(withText(expectedStartDate + " - " + autoEndDate + " (1 night)")));
+		String expectedStartDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(startDate);
+		String autoEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(autoDate);
+		SearchScreen.selectDateButton().check(matches(withText(expectedStartDate + "  -  " + autoEndDate + " (1 night)")));
 
 		// Select end date
 		SearchScreen.calendarCard().perform(click());
 		SearchScreen.selectDates(startDate, endDate);
-		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
-		String expected = expectedStartDate + " - " + expectedEndDate + " (5 nights)" ;
+		String expectedEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(endDate);
+		String expected = expectedStartDate + "  -  " + expectedEndDate + " (5 nights)" ;
 		SearchScreen.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -117,10 +117,10 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, null);
 		SearchScreen.calendarCard().perform(click());
 		SearchScreen.selectDates(startDate, invalidEndDate);
-		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
-		String expectedEndDate = DateUtils.localDateToMMMd(validEndDate);
+		String expectedStartDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(startDate);
+		String expectedEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(validEndDate);
 
-		String expected = expectedStartDate + " - " + expectedEndDate + " (26 nights)";
+		String expected = expectedStartDate + "  -  " + expectedEndDate + " (26 nights)";
 		SearchScreen.selectDateButton().check(matches(withText(expected)));
 		SearchScreen.searchButton().perform(click());
 
@@ -140,11 +140,11 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, null);
 		SearchScreen.calendarCard().perform(click());
 		SearchScreen.selectDates(startDate, invalidEndDate);
-		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
-		String expectedEndDate = DateUtils.localDateToMMMd(validEndDate);
+		String expectedStartDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(startDate);
+		String expectedEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(validEndDate);
 
 		//We tried to click 360 days ahead but that's beyond the max, so defaults to 26
-		String expected = expectedStartDate + " - " + expectedEndDate + " (26 nights)";
+		String expected = expectedStartDate + "  -  " + expectedEndDate + " (26 nights)";
 		SearchScreen.selectDateButton().check(matches(withText(expected)));
 		SearchScreen.searchButton().perform(click());
 	}
@@ -160,9 +160,9 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, null);
 		SearchScreen.calendarCard().perform(click());
 		SearchScreen.selectDates(startDate, endDate);
-		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
-		String expectedEndDate = DateUtils.localDateToMMMd(endDate.plusDays(1));
-		String expected = expectedStartDate + " - " + expectedEndDate + " (1 night)";
+		String expectedStartDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(startDate);
+		String expectedEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(endDate.plusDays(1));
+		String expected = expectedStartDate + "  -  " + expectedEndDate + " (1 night)";
 		SearchScreen.selectDateButton().check(matches(withText(expected)));
 		SearchScreen.searchButton().perform(click());
 	}
