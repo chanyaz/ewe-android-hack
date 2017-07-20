@@ -44,10 +44,11 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                     }
 
                     PassengerCategory.ADULT_CHILD -> {
-                        if(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)){
+                        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+                                AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
+                                R.string.preference_flight_traveler_form_revamp)) {
                             travelerInfo = Phrase.from(context, R.string.flight_add_youth_number_TEMPLATE).put("number", ++numYouthAdded).format().toString()
-                        }
-                        else {
+                        } else {
                             travelerInfo = Phrase.from(context, R.string.flight_add_child_number_TEMPLATE).put("number", ++numChildrenAdded).format().toString()
                         }
                     }

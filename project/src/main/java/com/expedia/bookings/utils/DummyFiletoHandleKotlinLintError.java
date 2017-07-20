@@ -1153,6 +1153,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.plurals.number_of_infant,
 		R.string.flight_add_youth_number_TEMPLATE,
 		R.string.cost_summary_breakdown_discount_TEMPLATE,
+		R.string.preference_flight_traveler_form_revamp,
 		//Please add your string above this line to avoid conflicts
 		R.string.error_package_date_mismatch_error
 	};

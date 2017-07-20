@@ -48,6 +48,7 @@ import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
@@ -654,6 +655,7 @@ public class FlightSearchPresenterTest {
 	}
 
 	private void setUpFlightTravelerRevamp(boolean isUserBucketed) {
+		SettingUtils.save(activity, R.string.preference_flight_traveler_form_revamp, true);
 		if (isUserBucketed) {
 			AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		}

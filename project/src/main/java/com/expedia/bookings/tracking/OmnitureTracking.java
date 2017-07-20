@@ -4845,6 +4845,12 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_switch_to_from_flight_locations)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
+		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_traveler_form_revamp)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
+		}
 		s.track();
 	}
 
@@ -5105,7 +5111,10 @@ public class OmnitureTracking {
 		}
 		int youthCount = 0;
 		str += searchTrackingData.getAdults();
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
+
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
+						AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
+						R.string.preference_flight_traveler_form_revamp)) {
 			for (int age : searchTrackingData.getChildren()) {
 				if (age > 11 && age < 18) {
 					++youthCount;

@@ -21,6 +21,9 @@ class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerW
             if (Strings.isEmpty(tooManyInfants)) true else false
         }.subscribe { enable ->
             travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = enable
+            if (!enable) {
+                travelerView.infantError.announceForAccessibility(travelerView.infantError.text)
+            }
         }
         travelerView
     }
