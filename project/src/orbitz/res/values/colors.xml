@@ -42,7 +42,6 @@
     <color name="loyalty_earn_color">#8E0099</color>
 
     <!--Splash-->
-    <color name="splash_screen_bg">@color/white</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#00253C</color>
