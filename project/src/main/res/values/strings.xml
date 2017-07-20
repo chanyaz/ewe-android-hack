@@ -881,6 +881,8 @@
     <string name="nav_transport">Transport</string>
     <!-- Packages -->
     <string name="nav_packages">Bundle Deals</string>
+    <string name="nav_hotel_plus_flight_deals">Hotel + Flight Deals</string>
+    <string name="nav_hotel_plus_flight">Hotel + Flight</string>
     <!-- Rail -->
     <string name="nav_rail">Trains</string>
     <string name="add_rail_card">Add railcard</string>

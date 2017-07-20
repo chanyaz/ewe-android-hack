@@ -723,6 +723,16 @@
             android:key="14856"
             android:layout="@layout/preference"
             android:title="Packages MID API" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_package_title_change"
+            android:entryValues="@array/abacus_package_title_change_choice_values"
+            android:key="14953"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Title Change for Bundle Deals - 14953" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

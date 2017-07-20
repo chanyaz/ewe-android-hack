@@ -98,6 +98,7 @@ public class AbacusUtils {
 	// Packages Tests
 	public static final int EBAndroidAppPackagesRemoveBundleOverview = 13655;
 	public static final int EBAndroidAppPackagesMidApi = 14856;
+	public static final int EBAndroidAppPackagesTitleChange = 14953;
 
 	// Account
 	public static final int EBAndroidAppAccountSinglePageSignUp = 13923;
@@ -167,6 +168,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidCheckoutPaymentTravelerInfo);
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview);
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR);
+		testIDs.add(EBAndroidAppPackagesTitleChange);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
 		testIDs.add(EBAndroidAppItinHotelRedesign);
 		testIDs.add(EBAndroidAppFlightStaticSortFilter);

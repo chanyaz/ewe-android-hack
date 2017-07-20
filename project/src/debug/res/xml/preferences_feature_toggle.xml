@@ -116,6 +116,12 @@
             android:layout="@layout/preference"
             android:summary="Packages Retain Search Params"
             android:title="Packages Retain Search Params" />
+
+        <CheckBoxPreference
+            android:key="preference_packages_title_change"
+            android:layout="@layout/preference"
+            android:summary="Show Hotel + Flight"
+            android:title="Title Change in Bundle Deals" />
     </PreferenceCategory>
 
 </PreferenceScreen>

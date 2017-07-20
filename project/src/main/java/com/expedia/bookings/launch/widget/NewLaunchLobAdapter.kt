@@ -15,6 +15,7 @@ import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.TextView
 import java.util.ArrayList
 
@@ -64,10 +65,26 @@ class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewMod
             itemView.setOnClickListener(this)
         }
 
+        private fun getPackageTitleChange(): Int {
+            val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)
+            if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
+                return R.string.nav_hotel_plus_flight
+            } else if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
+                return R.string.nav_hotel_plus_flight_deals
+            }
+            return R.string.nav_packages
+        }
+
         fun bind(info: LobInfo, spansMultipleColumns: Boolean, context: Context, lobEnabled: Boolean) {
             lobInfo = info
             isLobEnabled = lobEnabled
-            lobText.setText(info.labelRes)
+            val showChangedTitle = info == LobInfo.PACKAGES && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesTitleChange, R.string.preference_packages_title_change)
+            if (showChangedTitle) {
+                lobText.setText(getPackageTitleChange());
+            } else {
+                lobText.setText(info.labelRes)
+            }
+
             AccessibilityUtil.appendRoleContDesc(lobText, context.getString(info.labelRes), R.string.accessibility_cont_desc_role_button)
             val lobDrawable = ContextCompat.getDrawable(context, lobInfo.iconRes).mutate()
             if (isLobEnabled) {

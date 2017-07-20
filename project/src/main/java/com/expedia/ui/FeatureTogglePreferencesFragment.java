@@ -38,6 +38,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		//Packages Features
 		initializeFeatureCheck(R.string.preference_packages_mid_api);
 		initializeFeatureCheck(R.string.preference_packages_retain_search_params);
+		initializeFeatureCheck(R.string.preference_packages_title_change);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

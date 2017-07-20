@@ -127,6 +127,7 @@
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_flight_subpub_change">preference_flight_subpub_change</string>
     <string name="preference_packages_retain_search_params">preference_packages_retain_search_params</string>
+    <string name="preference_packages_title_change">preference_packages_title_change</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

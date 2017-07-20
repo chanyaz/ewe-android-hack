@@ -86,7 +86,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
-
+			query.addExperiment(AbacusUtils.EBAndroidAppPackagesTitleChange);
 			if (Constants.ASIA_PACIFIC_REGION.equals(pos.getBusinessRegion())) {
 				query.addExperiment(AbacusUtils.EBAndroidAppSignUpStringAPAC);
 			}

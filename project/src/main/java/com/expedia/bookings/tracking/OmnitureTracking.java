@@ -112,6 +112,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
+
 import kotlin.NotImplementedError;
 
 /**
@@ -1374,7 +1375,7 @@ public class OmnitureTracking {
 	private static final String HOTELS_SEARCH_REFINE = "App.Hotels.Search.Filter";
 
 	private static final String HOTELS_SPONSORED_LISTING_CLICK = "App.Hotels.Search.Sponsored.Click";
-	private static  final String HOTELS_FILTER_PROMPT_TRIGGER = "App.Hotels.Search.FilterPrompt.Trigger";
+	private static final String HOTELS_FILTER_PROMPT_TRIGGER = "App.Hotels.Search.FilterPrompt.Trigger";
 
 	private static final String HOTELS_REVIEWS_ERROR = "App.Hotels.Reviews.Error";
 
@@ -2689,6 +2690,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		if (userStateManager.isUserAuthenticated()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
+		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_packages_title_change)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
 		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppUserOnboarding);
@@ -4087,7 +4091,7 @@ public class OmnitureTracking {
 		createTrackPackagePageLoadEventBase(pageName).track();
 	}
 
-	private static void trackPackagePageLoadEventStandard(String pageName, int...testKeys) {
+	private static void trackPackagePageLoadEventStandard(String pageName, int... testKeys) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
 		for (int testKey : testKeys) {
@@ -4097,11 +4101,14 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesDestinationSearchInit() {
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)) {
-			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview, AbacusUtils.EBAndroidAppPackagesMidApi);
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppPackagesMidApi,
+			R.string.preference_packages_mid_api)) {
+			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH,
+				AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview, AbacusUtils.EBAndroidAppPackagesMidApi);
 		}
 		else {
-			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview);
+			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH,
+				AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview);
 		}
 	}
 
@@ -4709,7 +4716,8 @@ public class OmnitureTracking {
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_additional_content_flight_confirmation)) {
+		if (FeatureToggleUtil
+			.isFeatureEnabled(sContext, R.string.preference_enable_additional_content_flight_confirmation)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
 		}
 
