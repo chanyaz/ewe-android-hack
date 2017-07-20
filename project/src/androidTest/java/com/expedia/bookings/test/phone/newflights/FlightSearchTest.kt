@@ -64,7 +64,7 @@ class FlightSearchTest: NewFlightTestCase() {
         SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate - $expectedEndDate")))
 
         SearchScreen.searchButton().perform(click())
-        SearchScreen.errorDialog("Departure and arrival airports must be different.").check(matches(isDisplayed()));
+        SearchScreen.errorDialog("Please make sure your departure and arrival cities are in different places.").check(matches(isDisplayed()));
     }
 
     @Test

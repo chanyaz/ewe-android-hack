@@ -40,7 +40,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		//Search button will be enabled
 		SearchScreen.searchButton().perform(click());
 		PackageScreen.errorDialog(
-			"Departure and arrival airports must be different.").check(matches(isDisplayed()));
+			"Please make sure your departure and arrival cities are in different places.").check(matches(isDisplayed()));
 	}
 
 	@Test

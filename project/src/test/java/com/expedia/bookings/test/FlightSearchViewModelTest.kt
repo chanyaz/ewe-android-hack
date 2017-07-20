@@ -202,7 +202,7 @@ class FlightSearchViewModelTest {
         sut.performSearchObserver.onNext(Unit)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("Departure and arrival airports must be different.")
+        testSubscriber.assertValue("Please make sure your departure and arrival cities are in different places.")
     }
 
     @Test
