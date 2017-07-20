@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.newflights
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
@@ -16,6 +17,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.PaymentOptionsScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import org.joda.time.LocalDate
@@ -66,27 +68,26 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.travelerInfo().perform(ViewActions.click())
         onView(withId(R.id.last_name_layout_input)).check(matches(hasTextInputLayoutErrorText("")))
     }
+    
+    @Test
+    fun testPaymentInfoCCVClear() {
+        flightSearchAndGoToCheckout()
+        CheckoutViewModel.signInOnCheckout()
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.login_widget), 10, TimeUnit.SECONDS)
 
-// Disabled on April 28, 2017 for repeated flakiness - ScottW
-//    @Test
-//    fun testPaymentInfoCCVClear() {
-//        flightSearchAndGoToCheckout()
-//        CheckoutViewModel.signInOnCheckout()
-//        EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.login_widget), 10, TimeUnit.SECONDS)
-//
-//        PackageScreen.clickPaymentInfo()
-//        PaymentOptionsScreen.openCardPaymentSection()
-//        fillPaymentInfo()
-//
-//        onView(withId(android.R.id.button1)).perform(click())
-//        CheckoutViewModel.clickPaymentInfo()
-//        CheckoutViewModel.selectStoredCard("Saved Expired Credit Card")
-//
-//        PaymentOptionsScreen.assertCardSelectionMatches("Saved Expired Credit Card", 1)
-//        Common.pressBack()
-//        CheckoutViewModel.performSlideToPurchase()
-//        EspressoUtils.assertViewIsDisplayed(R.id.cvv)
-//    }
+        PackageScreen.clickPaymentInfo()
+        PaymentOptionsScreen.openCardPaymentSection()
+        fillPaymentInfo()
+
+        onView(withId(android.R.id.button1)).perform(click())
+        CheckoutViewModel.clickPaymentInfo()
+        CheckoutViewModel.selectStoredCard("Saved Visa 1111")
+
+        PaymentOptionsScreen.assertCardSelectionMatches("Saved Visa 1111", 2)
+        Common.pressBack()
+        CheckoutViewModel.performSlideToPurchase()
+        EspressoUtils.assertViewIsDisplayed(R.id.cvv)
+    }
 
     @Test
     fun testTravelerAndPaymentInfoClearsOnNewFlightSearch() {
