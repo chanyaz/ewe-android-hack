@@ -168,7 +168,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			}
 		}
 		else if ("PREF_FIRST_LAUNCH".equals(key)) {
-			User.signOut(getContext());
+			User.signOut(getActivity());
 		}
 
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
