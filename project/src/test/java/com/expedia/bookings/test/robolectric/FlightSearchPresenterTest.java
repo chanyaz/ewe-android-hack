@@ -48,7 +48,6 @@ import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
@@ -490,7 +489,6 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testSwapToFromButtonWhenDisabled() {
-		SettingUtils.save(activity, R.string.preference_switch_to_from_flight_locations, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSwitchFields);
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
@@ -511,7 +509,6 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testSwapToFromButton() {
-		SettingUtils.save(activity, R.string.preference_switch_to_from_flight_locations, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSwitchFields);
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);

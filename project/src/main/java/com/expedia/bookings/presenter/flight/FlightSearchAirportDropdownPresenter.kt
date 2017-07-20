@@ -6,6 +6,9 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.ListPopupWindow
 import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -73,6 +76,13 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
         val chevronDrawable = ContextCompat.getDrawable(context, R.drawable.search_dropdown)
         originCardView.setEndDrawable(chevronDrawable)
         destinationCardView.setEndDrawable(chevronDrawable)
+        swapFlightsLocationsButton.visibility = View.GONE
+        val dividerParams = flightsSearchDivider.layoutParams as ViewGroup.MarginLayoutParams
+        val paddingRight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt()
+        val paddingLeft = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48f, resources.displayMetrics).toInt()
+
+        dividerParams.setMargins(paddingLeft, 0, paddingRight, 0)
+        flightsSearchDivider.layoutParams = dividerParams
 
         if (Db.getFlightRoutes() != null) {
             onRoutesLoaded()

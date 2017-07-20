@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.ImageView
 import com.expedia.bookings.R
@@ -73,8 +74,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val isFlightAdvanceSearchTestEnabled = !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
             Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
     val swapFlightsLocationsButton: ImageView by bindView(R.id.swapFlightsLocationsButton)
-    val isSwitchToAndFromFieldsFeatureEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppFlightSwitchFields, R.string.preference_switch_to_from_flight_locations)
+    val flightsSearchDivider: View by bindView(R.id.flight_search_divider)
+    val isSwitchToAndFromFieldsFeatureEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSwitchFields)
 
     val isFlightTravelerFormRevampEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
 
@@ -254,6 +255,13 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             swapFlightsLocationsButton.isEnabled = false
             swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2))
             swapFlightsLocationsButton.visibility = View.VISIBLE
+
+            val dividerParams = flightsSearchDivider.layoutParams as ViewGroup.MarginLayoutParams
+            val paddingRight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 55f, resources.displayMetrics).toInt()
+            val paddingLeft = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56f, resources.displayMetrics).toInt()
+
+            dividerParams.setMargins(paddingLeft, 0, paddingRight, 0)
+            flightsSearchDivider.layoutParams = dividerParams
         }
     }
 
