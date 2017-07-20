@@ -38,15 +38,16 @@ class HotelItinManageBookingActivityTest {
         val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
         val startDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.startDate.toString().substringBefore("T")))
         val endDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.endDate.toString().substringBefore("T")))
-        assertEquals(hotelItinToolbar.toolbarTitleTextView.text, activity.getString(R.string.itin_hotel_manage_booking_header))
-        assertEquals(hotelItinToolbar.toolbarSubtitleTextView.text, startDate + " - " + endDate)
+        assertEquals(activity.getString(R.string.itin_hotel_manage_booking_header), hotelItinToolbar.toolbarTitleTextView.text)
+        assertEquals(startDate + " - " + endDate, hotelItinToolbar.toolbarSubtitleTextView.text)
+        assertEquals(startDate + " to " + endDate, hotelItinToolbar.toolbarSubtitleTextView.contentDescription)
     }
 
     @Test
     fun testRoomDetailsView() {
         val roomDetailsView: HotelItinRoomDetails = activity.roomDetailsView
         roomDetailsView.setUpWidget(itinCardDataHotel)
-        assertEquals(roomDetailsView.roomDetailsText.text, itinCardDataHotel.property.itinRoomType + ", " + itinCardDataHotel.property.itinBedType)
+        assertEquals(itinCardDataHotel.property.itinRoomType + ", " + itinCardDataHotel.property.itinBedType, roomDetailsView.roomDetailsText.text)
     }
 
     @Test

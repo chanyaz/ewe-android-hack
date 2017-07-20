@@ -40,14 +40,14 @@ class HotelItinDetailsActivityTest {
     fun testRoomDetailsWidget() {
         val roomDetailsView: HotelItinRoomDetails = activity.roomDetailsView
         roomDetailsView.setUpWidget(itinCardDataHotel)
-        assertEquals(roomDetailsView.roomDetailsText.text, itinCardDataHotel.property.itinRoomType + ", " + itinCardDataHotel.property.itinBedType)
+        assertEquals(itinCardDataHotel.property.itinRoomType + ", " + itinCardDataHotel.property.itinBedType, roomDetailsView.roomDetailsText.text)
     }
 
     @Test
     fun testHotelItinImage() {
         val hotelImageView: HotelItinImage = activity.hotelImageView
         hotelImageView.setUpWidget(itinCardDataHotel)
-        assertEquals(hotelImageView.hotelNameTextView.text, itinCardDataHotel.propertyName)
+        assertEquals(itinCardDataHotel.propertyName, hotelImageView.hotelNameTextView.text)
     }
 
     fun testMapWidget() {
@@ -61,7 +61,7 @@ class HotelItinDetailsActivityTest {
         val address: String = Phrase.from(activity, R.string.itin_hotel_details_address_clipboard_TEMPLATE)
                 .put("addresslineone", locationDetailsView.addressLine1.text.toString())
                 .put("addresslinetwo", locationDetailsView.addressLine2.text.toString()).format().toString()
-        assertEquals(ClipboardUtils.getText(activity), address)
+        assertEquals(address, ClipboardUtils.getText(activity))
     }
 
     @Test
@@ -71,8 +71,9 @@ class HotelItinDetailsActivityTest {
         val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
         val startDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.startDate.toString().substringBefore("T")))
         val endDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.endDate.toString().substringBefore("T")))
-        assertEquals(hotelItinToolbar.toolbarTitleTextView.text, itinCardDataHotel.propertyName)
-        assertEquals(hotelItinToolbar.toolbarSubtitleTextView.text, startDate + " - " + endDate)
+        assertEquals(itinCardDataHotel.propertyName, hotelItinToolbar.toolbarTitleTextView.text)
+        assertEquals(startDate + " - " + endDate, hotelItinToolbar.toolbarSubtitleTextView.text)
+        assertEquals(startDate + " to " + endDate, hotelItinToolbar.toolbarSubtitleTextView.contentDescription)
     }
 
     @Test

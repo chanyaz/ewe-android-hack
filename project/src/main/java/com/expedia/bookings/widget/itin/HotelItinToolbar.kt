@@ -62,6 +62,11 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
                 .put("enddate", tripEndDate)
                 .format().toString()
         toolbarSubtitleTextView.text = tripDateString
+        val tripDateContDesc = Phrase.from(this, R.string.calendar_instructions_date_range_cont_desc_TEMPLATE)
+                .put("startdate", tripStartDate)
+                .put("enddate", tripEndDate)
+                .format().toString()
+        toolbarSubtitleTextView.contentDescription = tripDateContDesc
     }
 
 
