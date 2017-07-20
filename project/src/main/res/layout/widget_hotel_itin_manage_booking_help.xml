@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:text="@string/itin_hotel_manage_booking_hotel_help_heading"
+        android:textColor="@color/gray10"
+        android:textSize="18sp"
+        app:textStyle="medium" />
+
+    <android.support.v7.widget.CardView
+        style="@style/MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_hotel_manage_booking_hotel_help_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textSize="14sp"
+                tools:text="For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver:" />
+
+            <View
+                android:id="@+id/itin_hotel_manage_booking_hotel_separator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="?attr/itin_card_summary_divider_color" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_hotel_manage_booking_hotel_help_confirmation_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:textSize="12sp"
+                app:textStyle="bold"
+                tools:text="Confirmation # 88888888" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_hotel_manage_booking_hotel_help_call_hotel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:drawableLeft="@drawable/itin_call_hotel"
+                android:drawablePadding="8dp"
+                android:textColor="@color/itin_call_to_action_text"
+                android:textSize="14sp"
+                tools:text="(124)-135-3463" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</merge>

@@ -11,6 +11,7 @@ import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.itin.HotelItinManageBookingHelp
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
 import com.expedia.bookings.widget.itin.HotelItinToolbar
 
@@ -28,6 +29,9 @@ class HotelItinManageBookingActivity : AppCompatActivity() {
     val itinCardDataHotel: ItinCardDataHotel by lazy {
         ItineraryManager.getInstance()
                 .getItinCardDataFromItinId(intent.getStringExtra(ID_EXTRA)) as ItinCardDataHotel
+    }
+    val hotelManageBookingHelpView: HotelItinManageBookingHelp by lazy {
+        findViewById(R.id.widget_hotel_itin_manage_booking_help) as HotelItinManageBookingHelp
     }
 
     companion object {
@@ -58,6 +62,7 @@ class HotelItinManageBookingActivity : AppCompatActivity() {
         manageBookingButton.setOnClickListener {
             this.startActivity(buildWebViewIntent(R.string.itin_hotel_manage_booking_webview_title, itinCardDataHotel.detailsUrl, "overview-header").intent)
         }
+        hotelManageBookingHelpView.setUpWidget(itinCardDataHotel)
     }
 
     private fun buildWebViewIntent(title: Int, url: String, anchor: String?): WebViewActivity.IntentBuilder {

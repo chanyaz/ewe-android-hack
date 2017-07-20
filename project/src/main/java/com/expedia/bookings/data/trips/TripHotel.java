@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -63,7 +63,7 @@ public class TripHotel extends TripComponent {
 
 	public void addConfirmationNumber(String confirmationNumber) {
 		if (mConfirmationNumbers == null) {
-			mConfirmationNumbers = new HashSet<String>();
+			mConfirmationNumbers = new LinkedHashSet<String>();
 		}
 
 		mConfirmationNumbers.add(confirmationNumber);
@@ -116,7 +116,7 @@ public class TripHotel extends TripComponent {
 
 		List<String> confNumbers = JSONUtils.getStringList(obj, "confNumbers");
 		if (confNumbers != null && confNumbers.size() > 0) {
-			mConfirmationNumbers = new HashSet<String>();
+			mConfirmationNumbers = new LinkedHashSet<String>();
 			mConfirmationNumbers.addAll(confNumbers);
 		}
 

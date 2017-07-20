@@ -45,6 +45,7 @@
     <color name="itin_toolbar_text">#F3F3F3</color>
     <color name="itin_white_text">#F3F3F3</color>
     <color name="itin_gray_text">#90F3F3F3</color>
+    <color name="itin_call_to_action_text">#0063BB</color>
     <color name="itin_offwhite_text">#A9ABAE</color>
     <color name="itin_section_text">#F4F4F4</color>
     <color name="itin_bg_enter_itin_number_tv">#2E3437</color>

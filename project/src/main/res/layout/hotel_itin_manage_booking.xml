@@ -67,6 +67,14 @@
                 app:cardElevation="1dp"
                 app:useCompatPadding="true" />
 
+            <com.expedia.bookings.widget.itin.HotelItinManageBookingHelp
+                android:id="@+id/widget_hotel_itin_manage_booking_help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp" />
+
         </LinearLayout>
 
     </com.expedia.bookings.widget.ScrollView>

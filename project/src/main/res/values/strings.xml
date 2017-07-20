@@ -1452,6 +1452,12 @@
     <string name="itin_hotel_manage_booking_webview_title">Change Or Cancel Room</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Manage booking</string>
+    <!--Hotel itin manage booking hotel help heading-->
+    <string name="itin_hotel_manage_booking_hotel_help_heading">We\'re here to help</string>
+    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname}: (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver:)-->
+    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">For special requests or questions about your reservation, contact {hotelname}:</string>
+    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
+    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Confirmation # {number}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

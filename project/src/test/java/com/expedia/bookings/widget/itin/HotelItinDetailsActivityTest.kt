@@ -5,6 +5,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
+import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
@@ -102,8 +103,8 @@ class HotelItinDetailsActivityTest {
         hotelCheckinCheckout.setUpWidget(itinCardDataHotel)
 
         val formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEE, MMM d")
-        val checkInDate = itinCardDataHotel?.startDate.toString(formatPattern)
-        val checkOutDate = itinCardDataHotel?.endDate.toString(formatPattern)
+        val checkInDate = itinCardDataHotel.startDate.toString(formatPattern)
+        val checkOutDate = itinCardDataHotel.endDate.toString(formatPattern)
 
         assertEquals(checkInDate, hotelCheckinCheckout.checkInDateView.text)
         assertEquals(checkOutDate, hotelCheckinCheckout.checkOutDateView.text)

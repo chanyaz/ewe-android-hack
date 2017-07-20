@@ -234,6 +234,18 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return false;
 	}
 
+	public String getLastConfirmationNumber() {
+		if (hasConfirmationNumber()) {
+			Set<String> setOfConfirmationNumbers = ((TripHotel) getTripComponent()).getConfirmationNumbers();
+			String[] confirmationNumbers = setOfConfirmationNumbers
+				.toArray(new String[setOfConfirmationNumbers.size()]);
+			if (confirmationNumbers.length > 0) {
+				return confirmationNumbers[confirmationNumbers.length - 1];
+			}
+		}
+		return null;
+	}
+
 	@Override
 	public int getConfirmationNumberLabelResId() {
 		return R.string.hotel_confirmation_code_label;
