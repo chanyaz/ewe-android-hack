@@ -1,7 +1,5 @@
 package com.expedia.bookings.launch.activity
 
-import android.animation.Animator
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -33,6 +31,7 @@ import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
+import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.model.PointOfSaleStateModel
@@ -46,10 +45,12 @@ import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
+import com.expedia.util.updateVisibility
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -60,7 +61,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
         , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
 
-    private val TOOLBAR_ANIM_DURATION = 200
+    private val TOOLBAR_ANIM_DURATION = 200L
 
     val NUMBER_OF_TABS = 3
     val PAGER_POS_LAUNCH = 0
@@ -95,12 +96,20 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     val viewPager: DisableableViewPager by lazy {
         findViewById(R.id.viewpager) as DisableableViewPager
     }
-    val toolBar: NewPhoneLaunchToolbar by  lazy {
+    val toolbar: NewPhoneLaunchToolbar by  lazy {
         findViewById(R.id.launch_toolbar) as NewPhoneLaunchToolbar
     }
 
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
+    }
+
+    private val bottomNavShadow: View by lazy {
+        findViewById(R.id.bottom_tab_layout_shadow)
+    }
+
+    private val bottomNavTabLayout: TabLayout by lazy {
+        findViewById(R.id.bottom_tab_layout) as TabLayout
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,10 +120,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = pagerAdapter
 
-        toolBar.tabLayout.setupWithViewPager(viewPager)
-        toolBar.tabLayout.setOnTabSelectedListener(pageChangeListener)
-
-        setSupportActionBar(toolBar)
+        setSupportActionBar(toolbar)
         supportActionBar?.elevation = 0f
 
         if (intent.hasExtra(ARG_ITIN_NUM)) {
@@ -392,6 +398,15 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_new_launchscreen_nav)) {
+            setupBottomNav()
+        } else {
+            setupTopNav()
+        }
+    }
+
     inner class PagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
@@ -426,75 +441,12 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         override fun restoreState(state: Parcelable?, loader: ClassLoader?) {}
     }
 
-    private val hideToolbarAnimator = ValueAnimator.AnimatorUpdateListener { animation ->
-        val yTranslation = animation.animatedValue as Float
-        toolBar.translationY = -yTranslation * toolBar.height
-    }
-
-    private val hideToolbarListener = object : Animator.AnimatorListener {
-
-        override fun onAnimationStart(animation: Animator) {
-            toolBar.translationY = 0f
-        }
-
-        override fun onAnimationEnd(animation: Animator) {
-            toolBar.visibility = View.GONE
-        }
-
-        override fun onAnimationCancel(animation: Animator) {
-            // ignore
-        }
-
-        override fun onAnimationRepeat(animation: Animator) {
-            // ignore
-        }
-    }
-
-    private val showToolbarAnimator = ValueAnimator.AnimatorUpdateListener { animation ->
-        val yTranslation = animation.animatedValue as Float
-        toolBar.translationY = (1 - yTranslation) * -toolBar.height
-    }
-
-    private val showToolbarListener = object : Animator.AnimatorListener {
-        override fun onAnimationStart(animation: Animator) {
-            toolBar.translationY = (-supportActionBar!!.height).toFloat()
-            toolBar.visibility = View.VISIBLE
-        }
-
-        override fun onAnimationEnd(animation: Animator) {
-            // ignore
-        }
-
-        override fun onAnimationCancel(animation: Animator) {
-            // ignore
-        }
-
-        override fun onAnimationRepeat(animation: Animator) {
-            // ignore
-        }
-    }
-
     override fun onListModeChanged(isInDetailMode: Boolean, animated: Boolean) {
         viewPager.setPageSwipingEnabled(!isInDetailMode)
         if (isInDetailMode) {
-            if (supportActionBar!!.isShowing) {
-                val anim = ValueAnimator.ofFloat(0f, 1f)
-                anim.duration = TOOLBAR_ANIM_DURATION.toLong()
-                anim.addUpdateListener(hideToolbarAnimator)
-                anim.addListener(hideToolbarListener)
-                anim.start()
-            }
+            slideNavigationOut()
         } else {
-            // The collapse animation takes 400ms, and the actionbar.show
-            // animation happens in 200ms, so make it use the last 200ms
-            // of the animation (and check to make sure there wasn't another
-            // mode change in between)
-            val anim = ValueAnimator.ofFloat(0f, 1f)
-            anim.duration = TOOLBAR_ANIM_DURATION.toLong()
-            anim.addUpdateListener(showToolbarAnimator)
-            anim.addListener(showToolbarListener)
-            toolBar.visibility = View.VISIBLE
-            anim.start()
+            slideNavigationIn()
         }
     }
 
@@ -515,7 +467,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     fun showHideToolBar(show: Boolean) {
-        toolBar.visibility = if (show) View.VISIBLE else View.GONE
+        toolbar.updateVisibility(show)
     }
 
 
@@ -584,6 +536,64 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onDialogCancel() {
         //Do nothing here
+    }
+
+    private fun setupBottomNav() {
+        bottomNavTabLayout.setupWithViewPager(viewPager)
+        bottomNavTabLayout.setOnTabSelectedListener(pageChangeListener)
+        bottomNavTabLayout.visibility = View.VISIBLE
+        bottomNavShadow.visibility = View.VISIBLE
+
+        toolbar.visibility = View.GONE
+    }
+
+    private fun setupTopNav() {
+        toolbar.visibility = View.VISIBLE
+        toolbar.tabLayout.setupWithViewPager(viewPager)
+        toolbar.tabLayout.setOnTabSelectedListener(pageChangeListener)
+
+        bottomNavShadow.visibility = View.GONE
+        bottomNavTabLayout.visibility = View.GONE
+    }
+
+    private fun slideNavigationOut() {
+        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_new_launchscreen_nav)) {
+            bottomNavShadow.visibility = View.GONE
+            val bottomBarSlideOut = TranslateYAnimator(bottomNavTabLayout,
+                    startY = 0f, endY = bottomNavTabLayout.height.toFloat(),
+                    duration = TOOLBAR_ANIM_DURATION,
+                    endAction = { bottomNavTabLayout.visibility = View.GONE })
+            bottomBarSlideOut.start()
+        } else {
+            val toolbarSlideOut = TranslateYAnimator(toolbar,
+                    startY = 0f, endY = -toolbar.height.toFloat(),
+                    duration = TOOLBAR_ANIM_DURATION,
+                    startAction = { toolbar.translationY = 0f },
+                    endAction = { toolbar.visibility = View.GONE })
+            toolbarSlideOut.start()
+        }
+    }
+
+    private fun slideNavigationIn() {
+        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_new_launchscreen_nav)) {
+            val bottomBarSlideIn = TranslateYAnimator(bottomNavTabLayout,
+                    startY = bottomNavTabLayout.height.toFloat(), endY = 0f,
+                    duration = TOOLBAR_ANIM_DURATION,
+                    startAction = { bottomNavTabLayout.visibility = View.VISIBLE },
+                    endAction = { bottomNavShadow.visibility = View.VISIBLE })
+            bottomBarSlideIn.start()
+        } else {
+            val toolbarSlideIn = TranslateYAnimator(toolbar,
+                    startY = -toolbar.height.toFloat(), endY = 0f,
+                    duration = TOOLBAR_ANIM_DURATION,
+                    startAction = { toolbarSlideInStartAction() })
+            toolbarSlideIn.start()
+        }
+    }
+
+    private fun toolbarSlideInStartAction(): Unit {
+        toolbar.translationY = (-supportActionBar!!.height).toFloat()
+        toolbar.visibility = View.VISIBLE
     }
 
     companion object {

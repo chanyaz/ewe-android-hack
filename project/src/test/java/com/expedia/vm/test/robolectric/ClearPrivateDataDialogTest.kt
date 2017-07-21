@@ -7,7 +7,6 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.AccountSettingsFragmentTest
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -23,7 +22,6 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -34,12 +32,12 @@ import kotlin.test.assertTrue
 class ClearPrivateDataDialogTest {
 
     lateinit var fragment: AccountSettingsFragment
-    lateinit private var activity: NewPhoneLaunchActivity
+    lateinit private var activity: AccountSettingsFragmentTest.FragmentUtilActivity
     lateinit private var pointOfSaleStateModel: PointOfSaleStateModel
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(NewPhoneLaunchActivity::class.java).create().get()
+        activity = Robolectric.setupActivity(AccountSettingsFragmentTest.FragmentUtilActivity::class.java)
         activity.setTheme(R.style.NewLaunchTheme)
         pointOfSaleStateModel = PointOfSaleStateModel()
         setPointOfSale(PointOfSaleId.UNITED_STATES)
@@ -84,7 +82,7 @@ class ClearPrivateDataDialogTest {
 
     private fun givenFragmentSetup() {
         fragment = AccountSettingsFragment()
-        SupportFragmentTestUtil.startVisibleFragment(fragment, AccountSettingsFragmentTest.FragmentUtilActivity::class.java, 1)
+        activity.supportFragmentManager.beginTransaction().add(1, fragment, null).commit()
     }
 
     private fun setPointOfSale(posId: PointOfSaleId) {

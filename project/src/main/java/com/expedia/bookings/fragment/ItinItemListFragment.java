@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
@@ -38,6 +42,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
@@ -65,6 +70,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private ItinItemListFragmentListener mListener;
 
+	private Toolbar tripToolbar;
 	private View mRoot;
 	private ImageView mShadowImageView;
 	private ItinListView mItinListView;
@@ -151,6 +157,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
 
+		tripToolbar = Ui.findView(view, R.id.trip_launch_toolbar);
 		mRoot = Ui.findView(view, R.id.outer_container);
 		mShadowImageView = Ui.findView(view, R.id.shadow_image_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
@@ -233,6 +240,17 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
 
 		return view;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+			tripToolbar.setVisibility(View.VISIBLE);
+		}
+		else {
+			tripToolbar.setVisibility(View.GONE);
+		}
 	}
 
 	public void showAddGuestItinScreen() {
@@ -531,27 +549,71 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	// Animations
 
 	private AnimatorSet getCollapseAnimatorSet() {
-		final int actionBarHeight = getSupportActionBarHeight();
+		final int actionBarHeight = getToolbarHeight();
 
 		ObjectAnimator pagerSlideDown = ObjectAnimator.ofFloat(mItinListView, "translationY", -actionBarHeight, 0);
 		ObjectAnimator shadowSlideDown = ObjectAnimator.ofFloat(mShadowImageView, "translationY", -actionBarHeight, 0);
-
 		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.playTogether(pagerSlideDown, shadowSlideDown);
 		animatorSet.setDuration(400);
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+			ObjectAnimator toolbarSlideIn = ObjectAnimator.ofFloat(tripToolbar, "translationY", -actionBarHeight, 0);
+			toolbarSlideIn.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationStart(Animator animation) {
+					tripToolbar.setVisibility(View.VISIBLE);
+				}
+			});
+			pagerSlideDown.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationStart(Animator animation) {
+					RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mItinListView.getLayoutParams();
+					layoutParams.addRule(RelativeLayout.BELOW, R.id.trip_launch_toolbar);
+					mItinListView.setLayoutParams(layoutParams);
+				}
+			});
+			animatorSet.playTogether(pagerSlideDown, shadowSlideDown, toolbarSlideIn);
+		}
+		else {
+			animatorSet.playTogether(pagerSlideDown, shadowSlideDown);
+		}
 
 		return animatorSet;
 	}
 
 	private AnimatorSet getExpandAnimatorSet() {
-		final int actionBarHeight = getSupportActionBarHeight();
+		final int actionBarHeight = getToolbarHeight();
 
-		ObjectAnimator pagerSlideUp = ObjectAnimator.ofFloat(mItinListView, "translationY", actionBarHeight, 0);
-		ObjectAnimator shadowSlideUp = ObjectAnimator.ofFloat(mShadowImageView, "translationY", actionBarHeight, 0);
-
+		ObjectAnimator pagerSlideUp;
+		ObjectAnimator shadowSlideUp;
 		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.playTogether(pagerSlideUp, shadowSlideUp);
 		animatorSet.setDuration(400);
+
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+			pagerSlideUp = ObjectAnimator.ofFloat(mItinListView, "translationY", 0, -actionBarHeight);
+			shadowSlideUp  = ObjectAnimator.ofFloat(mShadowImageView, "translationY", 0, -actionBarHeight);
+			ObjectAnimator toolbarSlideOut = ObjectAnimator.ofFloat(tripToolbar, "translationY", 0, -actionBarHeight);
+			toolbarSlideOut.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					tripToolbar.setVisibility(View.GONE);
+				}
+			});
+			pagerSlideUp.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mItinListView.getLayoutParams();
+					layoutParams.addRule(RelativeLayout.BELOW, 0);
+					mItinListView.setLayoutParams(layoutParams);
+					mItinListView.setTranslationY(0);
+				}
+			});
+			animatorSet.playTogether(pagerSlideUp, shadowSlideUp, toolbarSlideOut);
+		}
+		else {
+			pagerSlideUp = ObjectAnimator.ofFloat(mItinListView, "translationY", actionBarHeight, 0);
+			shadowSlideUp  = ObjectAnimator.ofFloat(mShadowImageView, "translationY", actionBarHeight, 0);
+			animatorSet.playTogether(pagerSlideUp, shadowSlideUp);
+		}
 
 		return animatorSet;
 	}
@@ -565,10 +627,15 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 	}
 
-	private int getSupportActionBarHeight() {
-		ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-		int ret = ab == null ? 0 : ab.getHeight();
-		return ret;
+	private int getToolbarHeight() {
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+			return tripToolbar.getHeight();
+		}
+		else {
+			ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+			int ret = ab == null ? 0 : ab.getHeight();
+			return ret;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

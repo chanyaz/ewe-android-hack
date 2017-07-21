@@ -46,7 +46,6 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil
 import java.util.Calendar
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -57,11 +56,12 @@ import kotlin.test.assertFalse
 class AccountSettingsFragmentTest {
 
     lateinit var fragment: AccountSettingsFragment
-    lateinit var activity: FragmentActivity
+    lateinit var activity: FragmentUtilActivity
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(FragmentUtilActivity::class.java).create().get()
+        activity = Robolectric.setupActivity(FragmentUtilActivity::class.java)
+        activity.setTheme(R.style.NewLaunchTheme)
     }
 
     @Test
@@ -250,8 +250,8 @@ class AccountSettingsFragmentTest {
 
     private fun givenFragmentSetup() {
         fragment = AccountSettingsFragment()
-        SupportFragmentTestUtil.startVisibleFragment(fragment, FragmentUtilActivity::class.java, 1)
-        (fragment.activity as FragmentUtilActivity).setFragment(fragment)
+        activity.supportFragmentManager.beginTransaction().add(1, fragment, null).commit()
+        activity.setFragment(fragment)
     }
 
     private fun givenSignedInAsUser(user: User) {

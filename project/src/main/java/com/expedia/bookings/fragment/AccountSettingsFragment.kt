@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +51,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.updateVisibility
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -107,6 +109,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         activity.findViewById(com.mobiata.android.R.id.logo) as ImageView
     }
 
+    val accountToolbar: Toolbar by bindView(R.id.account_launch_toolbar)
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarHeight: Float by lazy {
         Ui.getToolbarSize(context).toFloat()
@@ -354,6 +357,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         scrollContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         legalFragment?.setRowVisibility(ROW_TERMS_AND_CONDITIONS,
                 (if (PointOfSale.getPointOfSale().termsAndConditionsUrl.isNullOrEmpty()) View.GONE else View.VISIBLE))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        accountToolbar.updateVisibility(FeatureToggleUtil.isFeatureEnabled(getContext(),
+                R.string.preference_new_launchscreen_nav))
     }
 
     override fun onUserAccountRefreshed() {

@@ -3,6 +3,7 @@ package com.expedia.bookings.test.pagemodels.common
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.support.test.espresso.matcher.ViewMatchers.withText
@@ -47,15 +48,15 @@ object NewLaunchScreen {
 
     @JvmStatic fun tripsButton(): ViewInteraction {
         waitForLOBHeaderToBeDisplayed()
-        return onView(withText(R.string.trips))
+        return onView(allOf(withText(R.string.trips), isDescendantOfA(withId(R.id.tab_layout))))
     }
 
     @JvmStatic fun shopButton(): ViewInteraction {
-        return onView(withText(R.string.shop))
+        return onView(allOf(withText(R.string.shop), isDescendantOfA(withId(R.id.tab_layout))))
     }
 
     @JvmStatic fun accountButton(): ViewInteraction {
-        return onView(withText(R.string.account_settings_menu_label))
+        return onView(allOf(withText(R.string.account_settings_menu_label), isDescendantOfA(withId(R.id.tab_layout))))
     }
 
 }
