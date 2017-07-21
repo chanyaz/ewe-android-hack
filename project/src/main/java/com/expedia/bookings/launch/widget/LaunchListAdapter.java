@@ -1,9 +1,5 @@
 package com.expedia.bookings.launch.widget;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import butterknife.ButterKnife;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -51,8 +47,9 @@ import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
-
-import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
@@ -64,7 +61,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
 			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
 			|| itemViewKey == LaunchDataItem.ITIN_VIEW
-			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
+			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS
+			|| itemViewKey == LaunchDataItem.WEATHER_VIEW;
 	}
 
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
@@ -141,6 +139,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				.inflate(R.layout.section_launch_list_card, parent, false);
 			return new HotelViewHolder(view);
 		}
+
+		if (viewType == LaunchDataItem.WEATHER_VIEW) {
+			View view = LayoutInflater.from(context).inflate(R.layout.launch_screen_weather_card, parent, false);
+			return new WeatherCard(view, context);
+		}
+
 
 		if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
@@ -308,6 +312,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (showItinCard()) {
 			items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
 		}
+
+		if (showWeatherCard()) {
+			items.add(new LaunchDataItem(LaunchDataItem.WEATHER_VIEW));
+		}
 		if (showAirAttachMessage()) {
 			items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
 		}
@@ -316,6 +324,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 		items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
 		return items;
+	}
+
+	private boolean showWeatherCard() {
+		return true;
 	}
 
 	public void setListData(List<LaunchDataItem> objects, String headerTitle) {
