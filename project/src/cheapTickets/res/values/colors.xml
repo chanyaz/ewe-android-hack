@@ -46,7 +46,6 @@
     <color name="hotel_member_pricing_text_color">#FFFFFF</color>
 
     <!--Splash-->
-    <color name="splash_screen_bg">@color/white</color>
 
     <!--Air attach banner color-->
     <color name="bg_air_attach_banner_default">#116FAA</color>
