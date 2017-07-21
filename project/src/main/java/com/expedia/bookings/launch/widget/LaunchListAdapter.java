@@ -44,6 +44,7 @@ import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.PermissionsHelperKt;
 import com.expedia.vm.launch.ActiveItinViewModel;
+import com.expedia.vm.launch.ActiveWeatherViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
@@ -234,6 +235,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 		else if (holder instanceof ItinLaunchCard) {
 			((ItinLaunchCard) holder).bind(context, makeActiveItinViewModel());
+		}
+
+		else if (holder instanceof WeatherCard) {
+			((WeatherCard) holder).bind(context, makeActiveWeatherViewModel());
 		}
 
 		else if (holder instanceof LaunchLoadingViewHolder) {
@@ -437,6 +442,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return new ActiveItinViewModel(
 			context.getString(R.string.launch_upcoming_trips_signed_in),
 			context.getString(R.string.launch_upcoming_trips_subtext_signed_in));
+	}
+
+	private ActiveWeatherViewModel makeActiveWeatherViewModel() {
+		return new ActiveWeatherViewModel(
+			context.getString(R.string.weather_widget_header));
 	}
 
 	private boolean showSignInCard() {

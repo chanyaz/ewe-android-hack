@@ -955,6 +955,8 @@
     <string name="launch_upcoming_trips_signed_in">You Have An Upcoming Trip!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Access your itineraries on the go and stay up to date on changes</string>
+    <!-- Header for weather widget -->
+    <string name="weather_widget_header">Check the Portland weather</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Book on the go</string>
