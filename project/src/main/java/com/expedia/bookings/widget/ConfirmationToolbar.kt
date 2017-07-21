@@ -1,13 +1,13 @@
 package com.expedia.bookings.widget
 
 import android.app.PendingIntent
-import android.app.PendingIntent.getBroadcast
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
@@ -79,13 +79,17 @@ class ConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(cont
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
         shareIntent.type = "text/plain"
 
-        SettingUtils.save(getContext(), "TripType", "Flight")
+        SettingUtils.save(context, "TripType", "Flight")
 
-        val receiver = Intent(getContext(), FlightConfirmationShareBroadcastReceiver::class.java)
-        val pendingIntent = getBroadcast(getContext(), 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT)
-        val chooserIntent = Intent.createChooser(shareIntent, "", pendingIntent.intentSender)
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent)
-        getContext().startActivity(chooserIntent)
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(shareIntent)
+        } else {
+            val receiver = Intent(context, FlightConfirmationShareBroadcastReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT)
+            val chooserIntent = Intent.createChooser(shareIntent, "", pendingIntent.intentSender)
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent)
+            context.startActivity(chooserIntent)
+        }
     }
 
     private fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {

@@ -10,7 +10,7 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.utils.Constants
 
 fun requestLocationPermission(activity: Activity) {
-    var requestCode = if (activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+    val requestCode = if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION)) {
         Constants.PERMISSION_REQUEST_LOCATION_WITH_RATIONALE
     } else {
         Constants.PERMISSION_REQUEST_LOCATION
