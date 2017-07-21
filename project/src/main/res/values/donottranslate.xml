@@ -121,6 +121,7 @@
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
     <string name="preference_single_page_sign_up">preference_single_page_sign_up</string>
+    <string name="preference_enable_weather_card">preference_enable_weather_card</string>
     <string name="preference_new_launchscreen_nav">preference_new_launchscreen_nav</string>
     <string name="preference_populate_cardholder_name">preference_populate_cardholder_name</string>
     <string name="preference_enable_secure_icon">preference_enable_secure_icon</string>
