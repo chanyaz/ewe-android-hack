@@ -1,31 +1,42 @@
 package com.expedia.bookings.launch.widget
 
 import android.content.Context
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.hotel.widget.WeatherAdapter
+import com.expedia.bookings.hotel.widget.WeatherItem
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.launch.ActiveItinViewModel
 
-class WeatherCard(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
+
+class WeatherCard(itemView: View, val context: Context) : RecyclerView.ViewHolder(itemView) {
     val firstLine: TextView by bindView(R.id.first_line)
-    val secondLine: TextView by bindView(R.id.second_line)
+    val weatherRecyclerView: RecyclerView by bindView(R.id.weather_recycler_view)
 
     init {
         itemView.setOnClickListener {
             NavUtils.goToItin(context)
-            OmnitureTracking.trackLaunchActiveItin()
-
         }
+        bind()
     }
 
-    fun bind(context: Context, vm: ActiveItinViewModel) {
-        firstLine.text = vm.firstLine
-        secondLine.text = vm.secondLine
-        AccessibilityUtil.appendRoleContDesc(secondLine, secondLine.text.toString(), R.string.accessibility_cont_desc_role_button)
+    fun bind() {
+        val linearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        weatherRecyclerView.setLayoutManager(linearLayoutManager)
+
+        weatherRecyclerView.adapter = WeatherAdapter()
+        (weatherRecyclerView.adapter as WeatherAdapter).setWeatherItems(getDummyWeatherItems())
+    }
+
+    private fun getDummyWeatherItems(): List<WeatherItem> {
+        val weatherItems = ArrayList<WeatherItem>()
+        for (i in 0..10) {
+            weatherItems.add(WeatherItem())
+        }
+        return weatherItems
     }
 }
