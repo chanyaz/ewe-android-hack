@@ -1,5 +1,6 @@
 package com.expedia.bookings.dagger;
 
+import com.expedia.bookings.services.WeatherServices;
 import com.expedia.bookings.utils.HMACUtil;
 import java.io.File;
 import java.io.IOException;
@@ -273,5 +274,12 @@ public class AppModule {
 		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getSmartOfferServiceEndpoint();
 		return new SmartOfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	WeatherServices provideWeatherServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getAccuWeatherEndpoint();
+		return new WeatherServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }

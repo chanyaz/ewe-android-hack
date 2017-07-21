@@ -284,4 +284,7 @@ public class EndpointProvider {
 		return isSiteIdRequired;
 	}
 
+	public String getAccuWeatherEndpoint() {
+		return "https://dataservice.accuweather.com";
+	}
 }

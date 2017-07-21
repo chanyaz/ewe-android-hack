@@ -34,10 +34,12 @@ import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
+import com.expedia.bookings.launch.vm.WeatherViewModel
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ClientLogServices
+import com.expedia.bookings.services.WeatherServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -80,6 +82,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     lateinit var userStateManager: UserStateManager
         @Inject set
 
+    lateinit var weatherServices: WeatherServices
+        @Inject set
+
     var jumpToItinId: String? = null
     private var pagerPosition = PAGER_POS_LAUNCH
 
@@ -101,6 +106,11 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
+    }
+
+    val viewModel: WeatherViewModel by lazy {
+        val viewModel = WeatherViewModel(applicationContext, weatherServices)
+        viewModel
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,6 +157,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
+
+        //TODO Plugin the Weather Widget stuff here
+        viewModel.locationSearchObservable.onNext("San Jose")
     }
 
     override fun onNewIntent(intent: Intent) {
