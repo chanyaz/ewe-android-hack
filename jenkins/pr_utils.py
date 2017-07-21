@@ -3,7 +3,7 @@ import sys
 import traceback
 import subprocess
 from mingle_utils import murmurInProject, fetchCardTransitionId, transitionCard, fetchCardProperty, updateCardProperty
-from hipchat_send_message import sendPrivateHipchatMessage
+from slack_send_message import send_private_slack_message
 
 mingleCardRegex = r'^[0-9]{4}$'
 
@@ -124,13 +124,13 @@ def authorsAndCommittersMailIds(pr):
 	authorsAndCommittersMailIds = list(set([prCommit.commit.author['email'] for prCommit in pr.commits()] + [prCommit.commit.committer['email'] for prCommit in pr.commits()]))
 	return [mailId for mailId in authorsAndCommittersMailIds if mailId != "mobiataauto@gmail.com"]
 
-def pingPRAuthors(pr, hipchatAccessToken, messageToBePinged):
+def pingPRAuthors(pr, slack_access_token, message):
 	prAuthorsAndCommittersMailIds = authorsAndCommittersMailIds(pr)
 	for mailId in prAuthorsAndCommittersMailIds:
 		if not mailId.endswith("@expedia.com"):
 			print "PR Author Email is not an Expedia Mail Id - {pr_url}, {mail_id}".format(pr_url=prUrl(pr), mail_id=mailId)
 			continue
 		try:
-			sendPrivateHipchatMessage(hipchatAccessToken, mailId, messageToBePinged)
+			send_private_slack_message(slack_access_token, mailId, message)
 		except:
 			print "Exception encountered while trying to ping {mail_id} for {pr_url}. Stack Trace: \n{stack_trace}".format(pr_url=prUrl(pr), mail_id=mailId, stack_trace=traceback.format_exc())

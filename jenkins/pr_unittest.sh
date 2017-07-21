@@ -34,7 +34,7 @@ function setUpForPythonScripts() {
     pip install --upgrade "pip"
     pip install enum
     pip install "github3.py==1.0.0.a4"
-    pip install "hypchat==0.21"
+    pip install slackclient
     pip install "lxml==3.5.0"
 
     # exit if finds 'needs-human' label
@@ -93,7 +93,7 @@ function runKotlinUnusedResourceCheck() {
 
 function runFeedbackAndCoverageReports() {
   if [[ $isJenkins && "$isUnitTestsFeedbackBotEnabled" == "true" ]]; then
-    python ./jenkins/pr_unit_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_ACCESS_TOKEN
+    python ./jenkins/pr_unit_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $SLACK_ACCESS_TOKEN
   fi
 
   if [[ "$flavor" == "Expedia" ]]; then

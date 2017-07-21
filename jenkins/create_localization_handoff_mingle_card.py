@@ -3,7 +3,7 @@ import sys
 import datetime
 import pytz
 import traceback
-from hipchat_send_message import sendHipchatMessageToRoom
+from slack_send_message import send_public_slack_message
 
 MINGLE_ACCESS_ID='mingler'
 MINGLE_ACCESS_SECRET="+94zjsneYF6iwS1lqdLdKmvAyx0ilt8o1RuV71fKU+E="
@@ -14,18 +14,18 @@ handoffDate = datetime.datetime.now(tz=UTC).strftime('%A %d, %b %Y, %H:%M %p %Z'
 brandName = sys.argv[1]
 branchName = sys.argv[2]
 fileLocation = sys.argv[3]
-hipchatAccessToken = sys.argv[4]
+slack_access_token = sys.argv[4]
 assignTo = sys.argv[5]
 tpmComments = sys.argv[6]
 
 if brandName == 'expedia':
     mingleProject = 'eb_ad_app'
-    hipchatRoomName = 'Team: Android'
+    slack_channel = '#bexg-app-android'
     cardProperties = {'Team':'PF_US', 'Releases - Release':'(Current Release)', 'Theme':'Localizations', 'Schedule - Iteration':'(Current Iteration)',
     'Status':'Analysis', 'Assigned':assignTo}
 else:
     mingleProject = 'india_mobile_team'
-    hipchatRoomName = 'India Mobile Team'
+    slack_channel = '#ewe-mobile-india'
     cardProperties = {'Sprint Tree - Sprint':'(Current Sprint)', 'Theme':'Localizations', 'Status':'In analysis', 'Assigned':assignTo, 'OS':'Android', 'LOB':'MB'}
 
 cardName = 'LOC DROP - {handoff_date}'.format(handoff_date=handoffDate)
@@ -46,11 +46,11 @@ with open("build.properties", "w") as buildPropertiesFile:
 uploadStatus = uploadAttachment(mingleProject, MINGLE_ACCESS_ID, MINGLE_ACCESS_SECRET, cardNumber, fileLocation )
 if uploadStatus == -1: sys.exit(-1)
 
-hipchatMessage = "Loc Drop sent for {brand_name} from branch {branch_name}."\
+chat_message = "Loc Drop sent for {brand_name} from branch {branch_name}."\
     "Mingle card : https://eiwork.mingle.thoughtworks.com/projects/{mingleProject}/cards/{card_number}"\
     .format(brand_name=brandName, branch_name=branchName, card_number=cardNumber, mingleProject=mingleProject)
 
 try:
-    sendHipchatMessageToRoom(hipchatAccessToken, hipchatRoomName, hipchatMessage)
+    send_public_slack_message(slack_access_token, slack_channel, chat_message)
 except:
-    print "Exception encountered while trying to ping {hipchatRoomName}. Stack Trace: \n{stack_trace}".format(hipchatRoomName=hipchatRoomName, stack_trace=traceback.format_exc())
+    print "Exception encountered while trying to ping {channel}. Stack Trace: \n{stack_trace}".format(channel=slack_channel, stack_trace=traceback.format_exc())

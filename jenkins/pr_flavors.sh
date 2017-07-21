@@ -38,5 +38,5 @@ build() {
 build || build
 buildStatus=$?
 
-python ./jenkins/pr_flavors_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_ACCESS_TOKEN $buildStatus
+python ./jenkins/pr_flavors_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $SLACK_ACCESS_TOKEN $buildStatus
 

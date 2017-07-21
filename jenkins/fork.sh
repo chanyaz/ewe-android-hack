@@ -11,7 +11,7 @@ source ./virtualenv/bin/activate
 pip install --upgrade "pip"
 pip install enum
 pip install "github3.py==1.0.0.a4"
-pip install "hypchat==0.21"
+pip install slackclient
 pip install objectpath
 
 # Prepare device and install test butler apk
@@ -34,7 +34,7 @@ internal_artifact() {
 	popd
 }
 
-if [ hasPullId == true ]; then
+if [ "$hasPullId" = "true" ]; then
 	# exit if finds 'needs-human' label
 	python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_ACCESS_TOKEN $ghprbPullId
 	prLabeledAsNeedsHumanStatus=$?
@@ -75,7 +75,7 @@ if [ "$failed_test_classes" == "" ]; then
 else
     internal_artifact "failure"
 fi
-if [ hasPullId == true ]; then
-	python ./jenkins/pr_ui_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_ACCESS_TOKEN
+if [ "$hasPullId" = "true" ]; then
+	python ./jenkins/pr_ui_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $SLACK_ACCESS_TOKEN
 fi
 exit $?

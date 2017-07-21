@@ -47,7 +47,7 @@ def main():
         github = login(token=githubAccessToken)
         repo = github.repository(githubOrganization, githubRepository)
         pr = repo.pull_request(prPullId)
-        messageToBePinged = "UI Tests failed for PR <a href='{pr_url}'>{pr_title}</a>.<br>Failure details injected as comment in the PR.".format(pr_title=pr.title, pr_url=prUrl(pr))
+        messageToBePinged = "UI Tests failed for PR <{pr_url}|{pr_title}>.\nFailure details injected as comment in the PR.".format(pr_title=pr.title, pr_url=prUrl(pr))
         pingPRAuthors(pr, hipchatAccessToken, messageToBePinged)
 
     return status
