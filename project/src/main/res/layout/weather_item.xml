@@ -7,39 +7,29 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
-    <ImageView
-        android:id="@+id/icon_imageview"
-        android:layout_width="55dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="1dp"
-        android:tint="?attr/primary_color"/>
-
-    <ImageView
-        android:id="@+id/hierarchy_imageview"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="11dp"
-        android:layout_marginLeft="40dp"
-        android:visibility="gone"
-        android:paddingLeft="9dp"
-        android:src="@drawable/neighborhood_arrow"
-        android:tint="?attr/primary_color"/>
-
-    <LinearLayout android:id="@+id/suggestion_text_container"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/title_textview"
+        android:orientation="vertical"
+        android:layout_margin="10sp">
+
+        <ImageView
+            android:id="@+id/weather_imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="4dp"
-            android:textColor="@color/search_autocomplete_text" />
+            android:layout_gravity="center"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/weather_day_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/weather_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 </LinearLayout>
