@@ -9,12 +9,14 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.vm.WeatherItemViewModel
 
 class WeatherViewHolder(val root: ViewGroup, private val vm: WeatherItemViewModel) : RecyclerView.ViewHolder(root) {
-    val title: TextView by root.bindView(R.id.title_textview)
-    val icon: ImageView by root.bindView(R.id.icon_imageview)
+    val title: TextView by root.bindView(R.id.weather_day_name)
+    val temperature: TextView by root.bindView(R.id.weather_temperature)
+    val icon: ImageView by root.bindView(R.id.weather_imageview)
 
     fun bind(weatherItem: WeatherItem) {
         vm.bind(weatherItem)
         title.text = vm.getTitle()
         icon.setImageResource(vm.getIcon())
+        temperature.text = vm.getTemperature()
     }
 }
