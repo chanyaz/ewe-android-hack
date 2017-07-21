@@ -327,7 +327,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean showWeatherCard() {
-		return true;
+		//TODO Enhance this to when there's an upcoming itin
+		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_weather_card);
 	}
 
 	public void setListData(List<LaunchDataItem> objects, String headerTitle) {

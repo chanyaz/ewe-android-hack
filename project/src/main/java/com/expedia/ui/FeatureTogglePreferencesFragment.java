@@ -22,6 +22,9 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences_feature_toggle);
 
+		//Launch Screen Features
+		initializeFeatureCheck(R.string.preference_enable_weather_card);
+
 		// Login Features
 		initializeFeatureCheck(R.string.preference_enable_smart_lock);
 		initializeFeatureCheck(R.string.preference_single_page_sign_up);
