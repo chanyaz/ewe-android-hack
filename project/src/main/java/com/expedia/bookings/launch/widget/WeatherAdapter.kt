@@ -47,5 +47,5 @@ class WeatherAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterab
 
 class WeatherItem {
     val temperature = "100"
-    val day = "Today or Tomorrow"
+    val day = "Sunday"
 }

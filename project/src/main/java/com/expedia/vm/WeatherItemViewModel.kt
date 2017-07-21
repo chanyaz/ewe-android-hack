@@ -5,11 +5,11 @@ import com.expedia.bookings.hotel.widget.WeatherItem
 
 class WeatherItemViewModel() {
     private lateinit var weatherItem: WeatherItem
-    private var iconDrawableRes: Int = R.drawable.search_type_icon
+    private var iconDrawableRes: Int = R.drawable.blue_pwp_icon
 
     fun bind(weatherItem: WeatherItem) {
         this.weatherItem = weatherItem
-        iconDrawableRes = R.drawable.search_type_icon
+        iconDrawableRes = R.drawable.blue_pwp_icon
     }
 
     fun getIcon(): Int {
@@ -18,6 +18,10 @@ class WeatherItemViewModel() {
 
     fun getTitle(): String {
         return weatherItem.day
+    }
+
+    fun getTemperature(): String {
+        return weatherItem.temperature
     }
 
 }
