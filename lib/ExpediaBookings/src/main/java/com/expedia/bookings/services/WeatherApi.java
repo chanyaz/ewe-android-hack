@@ -2,8 +2,7 @@ package com.expedia.bookings.services;
 
 import java.util.List;
 
-import com.expedia.bookings.data.weather.CurrentConditionResponse;
-import com.expedia.bookings.data.weather.DailyForecastResponse;
+import com.expedia.bookings.data.weather.WeatherForecastResponse;
 import com.expedia.bookings.data.weather.WeatherLocationResponse;
 
 import retrofit2.http.GET;
@@ -17,11 +16,9 @@ public interface WeatherApi {
 		@Query("apikey") String apiKey,
 		@Query("q") String query);
 
-	@GET("/forecasts/v1/daily/10day/")
-	Observable<DailyForecastResponse> getFiveDayForcast(
-		@Query("locationkey") String locationKey);
-
-	@GET("/currentconditions/v1/")
-	Observable<CurrentConditionResponse> getCurrentCondition(
+	// NOTE: Can only use 5 day max with limited trial key
+	@GET("/forecasts/v1/daily/5day/")
+	Observable<List<WeatherForecastResponse>> getFiveDayForecast(
+		@Query("apikey") String apiKey,
 		@Query("locationkey") String locationKey);
 }

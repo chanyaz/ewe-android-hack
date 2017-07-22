@@ -1,7 +1,6 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.weather.WeatherLocationParams
-import com.expedia.bookings.data.weather.WeatherLocationResponse
+import com.expedia.bookings.data.weather.*
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -36,7 +35,10 @@ open class WeatherServices(endpoint: String, okHttpClient: OkHttpClient, interce
                 .subscribe(observer)
     }
 
-    fun getFiveDayForecast() {
-
+    fun getFiveDayForecast(params: WeatherForecastParams, observer: Observer<List<WeatherForecastResponse>>): Subscription {
+        return weatherApi.getFiveDayForecast(params.apiKey, params.locationCode)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
     }
 }
