@@ -2,7 +2,6 @@ package com.expedia.bookings.services;
 
 import java.util.List;
 
-import com.expedia.bookings.data.weather.CurrentConditionResponse;
 import com.expedia.bookings.data.weather.DailyForecastResponse;
 import com.expedia.bookings.data.weather.WeatherLocationResponse;
 
@@ -19,9 +18,6 @@ public interface WeatherApi {
 
 	@GET("/forecasts/v1/daily/10day/")
 	Observable<DailyForecastResponse> getFiveDayForcast(
-		@Query("locationkey") String locationKey);
-
-	@GET("/currentconditions/v1/")
-	Observable<CurrentConditionResponse> getCurrentCondition(
+		@Query("apikey") String apiKey,
 		@Query("locationkey") String locationKey);
 }

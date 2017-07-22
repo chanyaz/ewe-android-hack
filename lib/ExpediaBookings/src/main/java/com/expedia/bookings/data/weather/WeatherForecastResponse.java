@@ -1,4 +1,5 @@
 package com.expedia.bookings.data.weather;
 
-public class DailyForecastResponse {
+public class WeatherForecastResponse {
+
 }
