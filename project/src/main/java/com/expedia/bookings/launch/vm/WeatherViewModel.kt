@@ -13,6 +13,7 @@ import rx.subjects.PublishSubject
 class WeatherViewModel(val context: Context, val weatherServices: WeatherServices) {
     val locationSearchObservable = PublishSubject.create<String>()
     val searchWeatherForcasts = PublishSubject.create<String>()
+    val displayWeather = PublishSubject.create<WeatherForecastResponse>()
 
     init {
         locationSearchObservable.subscribe { query ->
@@ -26,11 +27,11 @@ class WeatherViewModel(val context: Context, val weatherServices: WeatherService
     }
 
     private fun buildLocationSearchParams(query: String): WeatherLocationParams {
-        return WeatherLocationParams("17HcQJlXnrARXwOf4C9hl1yuVB06ampG", query)
+        return WeatherLocationParams("b6XxvhlPAPERg2N6SOuZUt6WBry01LuF", query)
     }
 
     private fun buildForecastSearchParams(locationCode: String): WeatherForecastParams {
-        return WeatherForecastParams("17HcQJlXnrARXwOf4C9hl1yuVB06ampG", locationCode)
+        return WeatherForecastParams("b6XxvhlPAPERg2N6SOuZUt6WBry01LuF", locationCode)
     }
 
     fun getLocationResponseObservable(): Observer<List<WeatherLocationResponse>> {
@@ -44,24 +45,25 @@ class WeatherViewModel(val context: Context, val weatherServices: WeatherService
 
             }
             override fun onError(e: Throwable?) {
-                Log.e("FAILEDDDDDD"+e?.message)
+                Log.e("Location Failll"+e?.message)
                 return
             }
         }
     }
 
-    fun getForecastResponseObservable(): Observer<List<WeatherForecastResponse>> {
-        return object : Observer<List<WeatherForecastResponse>> {
+    fun getForecastResponseObservable(): Observer<WeatherForecastResponse> {
+        return object : Observer<WeatherForecastResponse> {
             override fun onCompleted() {
                 return
             }
 
-            override fun onNext(response: List<WeatherForecastResponse>?) {
+            override fun onNext(response: WeatherForecastResponse?) {
                 Log.d("Forecast Received!")
+                displayWeather.onNext(response)
             }
 
             override fun onError(e: Throwable?) {
-                Log.e("FAILEDDDDDD"+e?.message)
+                Log.e("Forecast Failll"+e?.message)
                 return
             }
         }

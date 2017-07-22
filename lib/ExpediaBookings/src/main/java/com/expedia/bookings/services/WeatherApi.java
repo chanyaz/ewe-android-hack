@@ -18,7 +18,7 @@ public interface WeatherApi {
 
 	// NOTE: Can only use 5 day max with limited trial key
 	@GET("/forecasts/v1/daily/5day/")
-	Observable<List<WeatherForecastResponse>> getFiveDayForecast(
+	Observable<WeatherForecastResponse> getFiveDayForecast(
 		@Query("apikey") String apiKey,
 		@Query("locationkey") String locationKey);
 }

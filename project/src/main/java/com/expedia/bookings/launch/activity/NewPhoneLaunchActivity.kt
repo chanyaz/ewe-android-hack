@@ -52,6 +52,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
+import com.mobiata.android.Log
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -110,6 +111,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     val viewModel: WeatherViewModel by lazy {
         val viewModel = WeatherViewModel(applicationContext, weatherServices)
+        viewModel.displayWeather.subscribe { response ->
+            Log.d("RESPONSE SUCCESSFULLLLLLLLLLLL")
+        }
         viewModel
     }
 
