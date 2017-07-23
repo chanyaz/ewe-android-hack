@@ -4961,6 +4961,9 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCheckoutButtonText);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_fare_family_flight_summary)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFareFamilyFlightSummary);
+		}
 
 		s.setProducts(getFlightProductString(false));
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailExpansion);

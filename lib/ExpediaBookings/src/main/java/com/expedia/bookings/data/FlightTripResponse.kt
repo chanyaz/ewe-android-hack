@@ -8,6 +8,8 @@ abstract class FlightTripResponse : TripResponse() {
     open lateinit var details: FlightTripDetails
     var totalPriceIncludingFees: Money? = null
     var selectedCardFees: Money? = null
+    var fareFamilies: FareFamilies? = null
+    var createTripStatus: String? = null
 
     fun getSelectedInsuranceProduct() : InsuranceProduct? = getOffer().selectedInsuranceProduct
 
@@ -22,4 +24,16 @@ abstract class FlightTripResponse : TripResponse() {
         return details.oldOffer.totalPriceWithInsurance ?: details.oldOffer.totalPrice
     }
 
+    class FareFamilies {
+        lateinit var productKey: String
+        lateinit var fareFamilyDetails: Array<FareFamilyDetails>
+    }
+
+    class FareFamilyDetails {
+        lateinit var fareFamilyName: String
+        lateinit var fareFamilyCode: String
+        lateinit var totalPrice: Money
+        lateinit var deltaTotalPrice: Money
+        lateinit var fareFamilyComponents: HashMap<String, String>
+    }
 }

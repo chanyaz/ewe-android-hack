@@ -27,6 +27,11 @@
             android:layout="@layout/preference"
             android:summary="Flight Traveler Form Revamp"
             android:title="Flight Traveler Form Revamp" />
+        <CheckBoxPreference
+            android:key="@string/preference_fare_family_flight_summary"
+            android:layout="@layout/preference"
+            android:summary="Fare Family on Flight Summary"
+            android:title="Fare Family on Flight Summary" />
 
     </PreferenceCategory>
 
