@@ -44,14 +44,13 @@ class FareFamilyViewModelTest {
     fun testFareFamilyCardViewStringsForFreshCreateTrip(){
         val deltaPriceSubscriber = TestSubscriber<String>()
         val selectedClassSubscriber = TestSubscriber<CharSequence>()
-
         sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
         sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable())
         assertEquals("$42.00",deltaPriceSubscriber.onNextEvents[0])
         assertEquals("Selected: Economy",selectedClassSubscriber.onNextEvents[0].toString())
-
     }
+
     @Test
     fun fareFamilyWidgetVisiblility() {
         val widgetVisibilitySubscriber = TestSubscriber<Boolean>()
