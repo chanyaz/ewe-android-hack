@@ -22,10 +22,12 @@ import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.FareFamilyCardView
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.FareFamilyViewModel
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
@@ -77,6 +79,12 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             show(basicEconomyInfoWebView)
         }
         flightSummary.viewmodel = FlightOverviewSummaryViewModel(context)
+    }
+
+    val fareFamilyCardView: FareFamilyCardView by lazy {
+        val widget = findViewById(R.id.fare_family_widget) as FareFamilyCardView
+        widget.viewModel = FareFamilyViewModel(context)
+        widget
     }
 
     val insuranceWidget: InsuranceWidget by lazy {
@@ -174,6 +182,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
         insuranceWidget.viewModel.tripObservable.onNext(tripResponse)
+        fareFamilyCardView.viewModel.tripObservable.onNext(tripResponse)
         viewModel.showBasicEconomyMessageObservable.onNext(shouldShowBasicEconomyMessage(tripResponse))
         basicEconomyInfoWebView.loadData(tripResponse.details.basicEconomyFareRules)
         overviewPageUsableData.markAllViewsLoaded(System.currentTimeMillis())

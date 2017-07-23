@@ -198,6 +198,28 @@ class FlightV2UtilsTest {
         assertEquals("Showing refundable flights. " + priceString, FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, false, true, priceString).toString())
     }
 
+    @Test
+    fun testGetSelectedClassesString(){
+        val flightTripDetails = FlightTripDetails()
+        flightTripDetails.offer = FlightTripDetails.FlightOffer()
+        flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1))
+        flightTripDetails.legs = listOf(testFlightLeg)
+        assertEquals("Selected: Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails).toString())
+
+        flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1), buildTestSeatClassAndBookingCodeList(2))
+        assertEquals("Selected: Economy, Premium Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails).toString())
+
+        flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(3))
+        assertEquals("Selected: Mixed classes", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails).toString())
+
+        flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(4))
+        assertEquals("Selected: Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails).toString())
+
+        flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(3))
+        testFlightLeg.isBasicEconomy = true
+        flightTripDetails.legs = listOf(testFlightLeg)
+        assertEquals("Selected: Basic Economy, Mixed classes", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails).toString())
+    }
 
     fun buildTestSeatClassAndBookingCodeList(numberOfObjects: Int): List<FlightTripDetails.SeatClassAndBookingCode> {
         val seatClassAndBookingCodeList = arrayListOf<FlightTripDetails.SeatClassAndBookingCode>()

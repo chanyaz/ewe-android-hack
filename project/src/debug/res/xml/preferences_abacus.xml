@@ -180,6 +180,15 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
+            android:key="15074"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Fare Family in Flight Summary - 15074​" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="12637"
             android:layout="@layout/preference"
             android:summary="%s"

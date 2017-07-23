@@ -310,80 +310,8 @@
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
       "segments": [
         {
-          "airlineCode": "Delta",
-          "airlineName": "Delta",
-          "arrivalAirportCode": "${arrivalAirport}",
-          "arrivalAirportLocation": "${arrivalAirport}",
-          "arrivalTimeEpochSeconds": "${departingFlightLandingTimeEpochSeconds}",
-          "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-          "arrivalTimeRaw": "2016-03-22T23:00:00.000-07:00",
-          "arrivalTime": "March 22, 2016 23:00:00 PM",
-          "departureAirportCode": "${departureAirport}",
-          "departureAirportLocation": "${departureAirport}",
-          "departureTime": "March 22, 2016 5:40:00 PM",
-          "departureTimeEpochSeconds": "${departingFlightTakeoffTimeEpochSeconds}",
-          "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-          "departureTimeRaw": "2016-03-22T21:00:00.000-07:00",
-          "duration": "PT2H35M",
-          "distance": 2572,
-          "distanceUnits": "miles",
-          "equipmentCode": "752",
-          "equipmentDescription": "Boeing 757-200",
-          "flightNumber": "2340",
-          "meal": "Food For Purchase",
-          "onTimePercentage": "100",
-          "providerCode": "Amadeus",
-          "stops": 0,
-          "arrivalAirportAddress": {
-            "city": "Detroit",
-            "country": "USA",
-            "state": "MI"
-          },
-          "departureAirportAddress": {
-            "city": "San Francisco",
-            "country": "USA",
-            "state": "California"
-          }
-        },
-        {
-          "airlineCode": "United",
-          "airlineName": "United",
-          "arrivalAirportCode": "${arrivalAirport}",
-          "arrivalAirportLocation": "${arrivalAirport}",
-          "arrivalTimeEpochSeconds": "${departingFlightLandingTimeEpochSeconds}",
-          "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-          "arrivalTimeRaw": "2016-03-22T23:00:00.000-07:00",
-          "arrivalTime": "March 22, 2016 23:00:00 PM",
-          "departureAirportCode": "${departureAirport}",
-          "departureAirportLocation": "${departureAirport}",
-          "departureTime": "March 22, 2016 5:40:00 PM",
-          "departureTimeEpochSeconds": "${departingFlightTakeoffTimeEpochSeconds}",
-          "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-          "departureTimeRaw": "2016-03-22T21:00:00.000-07:00",
-          "duration": "PT2H35M",
-          "distance": 2572,
-          "distanceUnits": "miles",
-          "equipmentCode": "752",
-          "equipmentDescription": "Boeing 757-200",
-          "flightNumber": "2340",
-          "meal": "Food For Purchase",
-          "onTimePercentage": "100",
-          "providerCode": "Amadeus",
-          "stops": 0,
-          "arrivalAirportAddress": {
-            "city": "Detroit",
-            "country": "USA",
-            "state": "MI"
-          },
-          "departureAirportAddress": {
-            "city": "San Francisco",
-            "country": "USA",
-            "state": "California"
-          }
-        },
-        {
-          "airlineCode": "Jet Airways",
-          "airlineName": "Jet Airways",
+          "airlineCode": "happy_round_trip_with_fare_family_available",
+          "airlineName": "happy_round_trip_with_fare_family_available",
           "arrivalAirportCode": "${arrivalAirport}",
           "arrivalAirportLocation": "${arrivalAirport}",
           "arrivalTimeEpochSeconds": "${departingFlightLandingTimeEpochSeconds}",
@@ -417,7 +345,8 @@
             "state": "California"
           }
         }
-      ]
+      ],
+      "isBasicEconomy": false
     },
     {
       "legId": "leg6",
@@ -910,7 +839,7 @@
           }
         }
       ],
-      "productKey": "Multi_Carrier_With_Round_Trip_AB_test",
+      "productKey": "happy_fare_family_round_trip",
       "seatsRemaining": 1,
       "segmentAttributes": [
         [
