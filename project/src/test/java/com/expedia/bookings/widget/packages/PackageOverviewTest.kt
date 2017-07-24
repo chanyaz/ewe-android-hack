@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
@@ -88,6 +89,29 @@ class PackageOverviewTest {
         assertEquals(getExpectedFlightRowContDescription("Button to expand"), bundleWidget.outboundFlightWidget.rowContainer.contentDescription)
     }
 
+    @Test
+    fun testFromPackageSearchParamsUsesMultiCityForPOIDestinationType() {
+        val packageSearchParams = givenPackageSearchParamsWithPiid()
+        setDestinationTypeAndMultiCity(packageSearchParams)
+        val createTripParams = PackageCreateTripParams.fromPackageSearchParams(packageSearchParams)
+
+        assertEquals("Seattle", createTripParams.destinationId)
+
+        checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.checkoutButton.visibility)
+    }
+
+    @Test
+    fun testFromPackageSearchParamsUsesGaiaIdDefault() {
+        val packageSearchParams = givenPackageSearchParamsWithPiid()
+        val createTripParams = PackageCreateTripParams.fromPackageSearchParams(packageSearchParams)
+
+        assertEquals("12345", createTripParams.destinationId)
+
+        checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.checkoutButton.visibility)
+    }
+
     private fun getExpectedHotelRowContDescription(expandState: String): String {
         val params = Db.getPackageParams()
         return Phrase.from(activity, R.string.select_hotel_selected_cont_desc_TEMPLATE)
@@ -153,7 +177,22 @@ class PackageOverviewTest {
         val destination = SuggestionV4()
         destination.hierarchyInfo = hierarchyInfo
         destination.regionNames = regionNames
+        destination.type = "city"
+        destination.gaiaId = "12345"
         origin.regionNames = regionNames
         return PackageSearchParams.Builder(12, 329).infantSeatingInLap(infantsInLap).startDate(LocalDate.now().plusDays(1)).endDate(LocalDate.now().plusDays(2)).origin(origin).destination(destination).adults(adults).children(children).build() as PackageSearchParams
+    }
+
+    private fun setDestinationTypeAndMultiCity(packageSearchParams: PackageSearchParams) {
+            packageSearchParams.destination?.type = "POI"
+            packageSearchParams.destination?.hierarchyInfo = SuggestionV4.HierarchyInfo()
+            packageSearchParams.destination?.hierarchyInfo?.airport = SuggestionV4.Airport()
+            packageSearchParams.destination?.hierarchyInfo?.airport?.multicity = "Seattle"
+    }
+
+    private fun givenPackageSearchParamsWithPiid() : PackageSearchParams {
+        val searchParams = Db.getPackageParams()
+        searchParams.packagePIID = "123"
+        return searchParams
     }
 }

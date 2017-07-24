@@ -2,6 +2,7 @@ package com.expedia.bookings.data.packages;
 
 import java.util.List;
 
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.utils.Strings;
 
 public class PackageCreateTripParams {
@@ -23,7 +24,7 @@ public class PackageCreateTripParams {
 	}
 
 	public static PackageCreateTripParams fromPackageSearchParams(PackageSearchParams searchParams) {
-		return new PackageCreateTripParams(searchParams.getPackagePIID(), searchParams.getDestination().gaiaId,
+		return new PackageCreateTripParams(searchParams.getPackagePIID(), getGaiaIdOrMultiCityString(searchParams.getDestination()),
 			searchParams.getAdults(), searchParams.getInfantSeatingInLap(), searchParams.getChildren());
 	}
 
@@ -52,5 +53,16 @@ public class PackageCreateTripParams {
 	}
 	public List<Integer> getChildAges() {
 		return childAges;
+	}
+
+	public static String getGaiaIdOrMultiCityString(SuggestionV4 destination) {
+		String destinationId;
+		if (destination.type.equals("POI") && destination.hierarchyInfo != null && destination.hierarchyInfo.airport != null) {
+			destinationId = destination.hierarchyInfo.airport.multicity;
+		}
+		else {
+			destinationId = destination.gaiaId;
+		}
+		return destinationId;
 	}
 }
