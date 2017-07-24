@@ -32,6 +32,7 @@ import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.webview.BaseWebViewClient;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import java.util.HashMap;
 import okhttp3.Cookie;
@@ -321,9 +322,10 @@ public class WebViewFragment extends DialogFragment {
 		}
 
 		if (mAttemptForceMobileSite) {
+			boolean isTabletDevice = AndroidUtils.isTablet(getContext());
 			StringBuilder sb = new StringBuilder("Android ");
 			sb.append(mWebView.getSettings().getUserAgentString());
-			sb.append(" app.webview");
+			sb.append(" app.webview." + ((isTabletDevice) ? "tablet" : "phone"));
 			mWebView.getSettings().setUserAgentString(sb.toString());
 		}
 		mWebView.getSettings().setDisplayZoomControls(false);
