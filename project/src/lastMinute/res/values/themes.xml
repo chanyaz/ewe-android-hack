@@ -59,6 +59,12 @@
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
+
+        <!-- Brand Logo -->
+        <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
+        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_large</item>
+        <item name="skin_acctLogoTextDrawableMarginLeft">-36dp</item>
+        <item name="skin_acctLogoTextDrawableMarginTop">5dp</item>
     </style>
 
     <style name="FlightActionBarlm" parent="FlightActionBar">

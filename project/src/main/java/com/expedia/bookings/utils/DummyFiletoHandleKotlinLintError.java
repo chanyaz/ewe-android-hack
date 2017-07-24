@@ -1157,6 +1157,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.flight_suggestion_label,
 		R.string.flight_search_suggestion_label_airport_near,
 		R.string.flight_search_suggestion_label_recent_search,
+		R.dimen.launch_list_padding_to_pro_wizard,
 		//Please add your string above this line to avoid conflicts
 		R.string.error_package_date_mismatch_error
 	};

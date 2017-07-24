@@ -2,8 +2,10 @@ package com.expedia.bookings.launch.widget
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Rect
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.text.format.DateUtils
 import android.util.AttributeSet
@@ -14,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
@@ -34,6 +37,7 @@ import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
+import com.expedia.util.updateVisibility
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 import org.joda.time.DateTime
@@ -97,6 +101,10 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         newLaunchLobWidget
     }
 
+    val proWizardSearchBar: RelativeLayout by bindView(R.id.pro_wizard_search_bar)
+    val proWizardSearchBarCard: CardView by bindView(R.id.pro_wizard_search_bar_card)
+    val proWizardSearchBarShadow: View by bindView(R.id.pro_wizard_search_bar_shadow)
+
     var hasInternetConnection = BehaviorSubject.create<Boolean>()
     var currentLocationSubject = BehaviorSubject.create<Location>()
     var locationNotAvailable = BehaviorSubject.create<Unit>()
@@ -146,8 +154,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             NavUtils.goToHotels(context, searchParams, animOptions, 0)
         }
 
-        (launchListWidget.adapter as LaunchListAdapter).searchBarClickSubject.subscribe {
-            //TODO Handle animations - Mingle #3729
+        proWizardSearchBarCard.setOnClickListener {
             NavUtils.goToHotels(context, null, null, 0)
         }
 
@@ -191,6 +198,15 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                 locationNotAvailable.onNext(Unit)
             }
             launchListWidget.onPOSChange()
+        }
+
+        val proWizardBucketed = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)
+        proWizardSearchBar.updateVisibility(proWizardBucketed)
+        proWizardSearchBarShadow.updateVisibility(proWizardBucketed)
+
+        if (proWizardBucketed) {
+            val padding = context.resources.getDimensionPixelOffset(R.dimen.launch_list_padding_to_pro_wizard)
+            launchListWidget.addItemDecoration(PaddingItemDecoration(padding))
         }
     }
 
@@ -437,5 +453,15 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     fun refreshState() {
         launchListWidget.notifyDataSetChanged()
+    }
+
+    private inner class PaddingItemDecoration(private val size: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            super.getItemOffsets(outRect, view, parent, state)
+
+            if (parent.getChildAdapterPosition(view) == 0) {
+                outRect.top += size
+            }
+        }
     }
 }

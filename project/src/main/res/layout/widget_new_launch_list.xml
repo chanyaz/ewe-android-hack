@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.launch.widget.LaunchListWidget xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:show_lob_in_header="true"
-    android:layout_height="wrap_content" />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:show_lob_in_header="true" />

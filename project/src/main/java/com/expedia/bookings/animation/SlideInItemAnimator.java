@@ -68,7 +68,7 @@ public class SlideInItemAnimator extends DefaultItemAnimator {
 		for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
 			RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
 			final int itemViewType = holder.getItemViewType();
-			if (itemViewType == LaunchDataItem.LOB_VIEW || itemViewType == LaunchDataItem.SEARCH_BAR_VIEW) {
+			if (itemViewType == LaunchDataItem.LOB_VIEW) {
 				continue;
 			}
 			recyclerView.getLayoutManager().measureChild(holder.itemView, 0, 0);

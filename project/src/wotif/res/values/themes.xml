@@ -35,6 +35,11 @@
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
 
+        <!-- Brand Logo -->
+        <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
+        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text_wotif</item>
+        <item name="skin_acctLogoTextDrawableMarginLeft">-36dp</item>
+        <item name="skin_acctLogoTextDrawableMarginTop">20dp</item>
     </style>
 
     <style name="NewLaunchTheme" parent="AppTheme.Base">

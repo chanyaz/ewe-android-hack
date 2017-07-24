@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/new_launch_toolbar_background_color"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:theme="@style/Theme.AccountLib">
+
+    <LinearLayout
+        android:id="@+id/brand_logo_text_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/brand_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:src="?skin_acctLogoSmallDrawable" />
+
+        <ImageView
+            android:id="@+id/brand_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="?skin_acctLogoTextDrawableMarginLeft"
+            android:layout_marginTop="?skin_acctLogoTextDrawableMarginTop"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:contentDescription="@string/app_name"
+            android:src="?skin_acctLogoTextDrawable" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/pro_wizard_search_bar_card"
+        style="@style/MaterialCardView"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/brand_logo_text_container"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:cardUseCompatPadding="true">
+
+        <com.expedia.bookings.widget.shared.SearchInputTextView
+            style="@style/MaterialCardTextView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_search_card_height"
+            android:contentDescription="@string/search_hotels_flight_more"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:input_icon="@drawable/search_form_icon_search"
+            app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+            app:input_text="@string/search_hotels_flight_more" />
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

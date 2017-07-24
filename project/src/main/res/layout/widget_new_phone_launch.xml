@@ -1,18 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--NOTE: there is duplicate layout for testing without SVG custom view from air attach banner-->
+<?xml version="1.0" encoding="utf-8"?><!--NOTE: there is duplicate layout for testing without SVG custom view from air attach banner-->
 <com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
     android:id="@+id/new_phone_launch_widget"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/launch_list_bg">
+    android:background="@color/launch_list_bg"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
-    <include
-        android:id="@+id/launch_list_widget"
-        layout="@layout/widget_new_launch_list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/pro_wizard_search_bar"
+            layout="@layout/pro_wizard_search_bar_view" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/launch_list_widget"
+                layout="@layout/widget_new_launch_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:id="@+id/pro_wizard_search_bar_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_dropshadow_height"
+                android:background="@drawable/tb_shadow" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 
     <View
         android:id="@+id/darkness"
@@ -36,10 +60,10 @@
         android:layout_gravity="bottom|right|end"
         android:layout_marginBottom="@dimen/new_launch_screen_fab_bottom_margin"
         android:layout_marginRight="@dimen/new_launch_screen_fab_bottom_margin"
+        android:contentDescription="@string/search"
         android:src="@drawable/fab_search"
         android:visibility="invisible"
-        app:backgroundTint="@color/new_launch_fab_color"
-        android:contentDescription="@string/search"/>
+        app:backgroundTint="@color/new_launch_fab_color" />
 
     <include
         android:id="@+id/launch_error"

@@ -69,7 +69,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
 	public PublishSubject<Bundle> seeAllClickSubject = PublishSubject.create();
-	public PublishSubject<Unit> searchBarClickSubject = PublishSubject.create();
 
 	private BehaviorSubject<Unit> posSubject = BehaviorSubject.create();
 	private BehaviorSubject<Boolean> hasInternetConnectionChangeSubject = BehaviorSubject.create();
@@ -105,12 +104,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		parentView = parent;
-
-		if (viewType == LaunchDataItem.SEARCH_BAR_VIEW) {
-			View view = LayoutInflater.from(context)
-				.inflate(R.layout.search_bar_view, parent, false);
-			return new LaunchSearchBarViewHolder(view);
-		}
 
 		if (viewType == LaunchDataItem.LOB_VIEW) {
 			NewLaunchLobWidget view = (NewLaunchLobWidget) LayoutInflater.from(context)
@@ -204,14 +197,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				.setViewModel(
 					new NewLaunchLobViewModel(context, hasInternetConnectionChangeSubject, posSubject));
 		}
-		else if (holder instanceof LaunchSearchBarViewHolder) {
-			((LaunchSearchBarViewHolder) holder).getSearchBarView().setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					searchBarClickSubject.onNext(Unit.INSTANCE);
-				}
-			});
-		}
 		else if (holder instanceof SignInPlaceholderCard) {
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
 		}
@@ -269,10 +254,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemViewType(int position) {
-		if (showOnlyLOBView) {
-			if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
-				return LaunchDataItem.SEARCH_BAR_VIEW;
-			}
+		if (showOnlyLOBView && !showProWizard()) {
 			return LaunchDataItem.LOB_VIEW;
 		}
 		LaunchDataItem item = listData.get(position);
@@ -281,7 +263,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemCount() {
-		if (showOnlyLOBView) {
+		if (showOnlyLOBView && !showProWizard()) {
 			return 1;
 		}
 
@@ -295,26 +277,24 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private ArrayList<LaunchDataItem> makeStaticCards() {
 		ArrayList<LaunchDataItem> items = new ArrayList<>();
-		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
-			items.add(new LaunchDataItem(LaunchDataItem.SEARCH_BAR_VIEW));
-		}
-		else {
+		if (!showProWizard()) {
 			items.add(new LaunchDataItem(LaunchDataItem.LOB_VIEW));
 		}
-
-		if (showSignInCard()) {
-			items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
+		if (!showOnlyLOBView) {
+			if (showSignInCard()) {
+				items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
+			}
+			if (showItinCard()) {
+				items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
+			}
+			if (showAirAttachMessage()) {
+				items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
+			}
+			if (showMemberDeal()) {
+				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
+			}
+			items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
 		}
-		if (showItinCard()) {
-			items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
-		}
-		if (showAirAttachMessage()) {
-			items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
-		}
-		if (showMemberDeal()) {
-			items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
-		}
-		items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
 		return items;
 	}
 
@@ -358,7 +338,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public void onHasInternetConnectionChange(boolean enabled) {
 		showOnlyLOBView = !enabled;
 		hasInternetConnectionChangeSubject.onNext(enabled);
-		notifyDataSetChanged();
+		updateState();
 	}
 
 	@VisibleForTesting
@@ -370,7 +350,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		int itemViewType = holder.getItemViewType();
 		return itemViewType == LaunchDataItem.HEADER_VIEW
 			|| itemViewType == LaunchDataItem.LOB_VIEW
-			|| itemViewType == LaunchDataItem.SEARCH_BAR_VIEW
 			|| isStaticCard(itemViewType);
 	}
 
@@ -469,6 +448,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private boolean showMemberDeal() {
 		return userStateManager.isUserAuthenticated() &&
 			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
+	}
+
+	private boolean showProWizard() {
+		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav);
 	}
 
 	public int getOffset() {
