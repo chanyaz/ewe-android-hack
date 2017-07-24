@@ -416,7 +416,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         checkoutDialog.isIndeterminate = true
     }
 
-    private fun shouldUseWebCheckout() = PointOfSale.getPointOfSale().shouldShowWebCheckout() && !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppWebViewCheckout)
+    private fun shouldUseWebCheckout() = PointOfSale.getPointOfSale().shouldShowWebCheckout() && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidPopulateCardholderName)
 
     fun setDefaultTransition(screen: Screen) {
         val defaultTransition = when (screen) {
