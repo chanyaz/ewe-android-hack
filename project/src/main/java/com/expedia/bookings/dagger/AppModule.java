@@ -92,7 +92,7 @@ public class AppModule {
 		PersistentCookiesCookieJar cookieManager;
 		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
 		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		if (PointOfSale.getPointOfSale().shouldUseAutoWebViewSyncCookieStore()) {
+		if (PointOfSale.getPointOfSale().shouldUseWebViewSyncCookieStore()) {
 			cookieManager = new PersistentCookieManagerV2(storage, oldStorage);
 		}
 		else {
