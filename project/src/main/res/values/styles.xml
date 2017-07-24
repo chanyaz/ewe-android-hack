@@ -52,6 +52,7 @@
         <item name="skin_errorWidgetEditButtonStyle">@style/Core.Button.Footer</item>
 
         <item name="android:datePickerDialogTheme">@style/style_date_picker_dialog</item>
+        <item name="android:alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
     <style name="style_date_picker_dialog" parent="@android:style/Theme">
@@ -641,6 +642,10 @@
         <item name="android:maxLines">1</item>
         <item name="android:scrollHorizontally">true</item>
         <item name="android:textAppearance">@style/TextAppearance.Holo.Light.DialogWindowTitle</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:buttonBarButtonStyle">@style/customButtonStyle</item>
     </style>
 
     <!-- TEXT APPEARANCE -->
