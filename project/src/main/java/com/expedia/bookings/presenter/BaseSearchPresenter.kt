@@ -34,12 +34,15 @@ import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.launch.widget.LobToolbarWidget
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.CalendarShortDateRenderer
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -51,8 +54,10 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.launch.LobToolbarViewModel
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
@@ -66,7 +71,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     private val SUGGESTION_TRANSITION_DURATION = 300
     private val STARTING_TRANSLATIONY = -2000f
 
-    val travelerCardViewStub: ViewStub by bindView(R.id.traveler_stub)
+    protected val travelerCardViewStub: ViewStub by bindView(R.id.traveler_stub)
     val swpWidgetStub: ViewStub by bindView(R.id.swp_stub)
     val ANIMATION_DURATION = 200L
     val toolbar: Toolbar by bindView(R.id.search_toolbar)
@@ -74,7 +79,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     val searchContainer: ViewGroup by bindView(R.id.search_container)
 
     val calendarWidgetV2: CalendarWidgetV2 by bindView(R.id.calendar_card)
-    
+
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
     open val destinationCardView: SearchInputTextView by bindView(R.id.destination_card)
@@ -87,7 +92,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     open var searchLocationEditText: SearchView? = null
     val toolBarTitle: TextView by bindView(R.id.title)
-    lateinit var shopWithPointsWidget : ShopWithPointsWidget
+    lateinit var shopWithPointsWidget: ShopWithPointsWidget
 
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val mRootWindow by lazy { (context as Activity).window }
@@ -100,6 +105,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     }
     open val tabs: TabLayout by bindView(R.id.tabs)
     open val viewpager: ViewPager by bindView(R.id.viewpager)
+
+    protected val lobToolbar: LobToolbarWidget by bindView(R.id.lob_toolbar)
 
     var firstLaunch = true
     var transitioningFromOriginToDestination = true
@@ -153,11 +160,13 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         if (AccessibilityUtil.isTalkBackEnabled(context)) {
             searchButton.isEnabled = false
         }
+        lobToolbar.viewModel = LobToolbarViewModel(context, getLineOfBusiness())
+        lobToolbar.updateVisibility(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav))
     }
 
     protected fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
         return {
-           performLocationClick(isCustomerSelectingOrigin)
+            performLocationClick(isCustomerSelectingOrigin)
         }
     }
 
@@ -171,8 +180,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     fun setNavIconContentDescription(isBack: Boolean) {
         if (isBack) {
             toolbar.setNavigationContentDescription(R.string.package_toolbar_back_to_search_cont_desc)
-        }
-        else {
+        } else {
             toolbar.setNavigationContentDescription(R.string.package_toolbar_close_cont_desc)
         }
     }
@@ -263,7 +271,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             val searchEditText = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText?
             searchEditText?.setTextColor(ContextCompat.getColor(context, R.color.search_suggestion_v2))
             searchEditText?.setHintTextColor(ContextCompat.getColor(context, R.color.search_suggestion_hint_v2))
-            searchEditText?.setAccessibilityDelegate(object: AccessibilityDelegate() {
+            searchEditText?.setAccessibilityDelegate(object : AccessibilityDelegate() {
                 override fun onInitializeAccessibilityNodeInfo(host: View?, info: AccessibilityNodeInfo?) {
                     super.onInitializeAccessibilityNodeInfo(host, info)
                     info?.text = "${searchEditText.hint}, ${searchEditText.text}"
@@ -349,8 +357,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             if (!firstLaunch && !transitioningFromOriginToDestination) {
                 recyclerY = TransitionElement(-(suggestionRecyclerView.height.toFloat()), getToolbarsHeight().toFloat())
                 suggestionRecyclerView.translationY = recyclerY.start
-            }
-            else {
+            } else {
                 suggestionRecyclerView.translationY = recyclerY.end
             }
 
@@ -371,11 +378,10 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
                 navIcon.setColorFilter(toolbarTextColor.end, PorterDuff.Mode.SRC_IN)
                 if (firstLaunch) {
-                     setNavIconContentDescription(true)
-                 }
-                 else {
-                     setNavIconContentDescription(false)
-                 }
+                    setNavIconContentDescription(true)
+                } else {
+                    setNavIconContentDescription(false)
+                }
             }
             toolbar.navigationIcon = navIcon
 
@@ -412,11 +418,10 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                     } else if (!forward && progress > recyclerStartTime) {
                         suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
                     }
-                }
-                else {
+                } else {
                     // scale suggestion container between origin and destination suggestion views
-                    suggestionRecyclerView.scaleX = (if (forward) (1 - (1-xScale) * -(f-1)) else (xScale + (1-xScale) * -(f-1)))
-                    suggestionRecyclerView.scaleY = (if (forward) (1 - (1-yScale) * -(f-1)) else (yScale + (1-yScale) * -(f-1)))
+                    suggestionRecyclerView.scaleX = (if (forward) (1 - (1 - xScale) * -(f - 1)) else (xScale + (1 - xScale) * -(f - 1)))
+                    suggestionRecyclerView.scaleY = (if (forward) (1 - (1 - yScale) * -(f - 1)) else (yScale + (1 - yScale) * -(f - 1)))
                 }
 
                 if (showFlightOneWayRoundTripOptions) {
@@ -526,7 +531,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    open fun getToolbarsHeight() : Int {
+    open fun getToolbarsHeight(): Int {
         return Ui.toolbarSizeWithStatusBar(context);
     }
 
@@ -541,11 +546,13 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     open fun shouldSaveSuggestionHierarchyChildInfo(): Boolean {
         return false
     }
+
     abstract fun inflate()
     abstract fun getSuggestionHistoryFileName(): String
     abstract fun getSuggestionViewModel(): SuggestionAdapterViewModel
-    abstract fun getSearchViewModel() : BaseSearchViewModel
+    abstract fun getSearchViewModel(): BaseSearchViewModel
     abstract fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>
     abstract fun getOriginSearchBoxPlaceholderText(): String
     abstract fun getDestinationSearchBoxPlaceholderText(): String
+    abstract fun getLineOfBusiness(): LineOfBusiness
 }

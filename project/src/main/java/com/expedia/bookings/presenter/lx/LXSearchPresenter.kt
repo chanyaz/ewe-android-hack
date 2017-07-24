@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
@@ -53,7 +54,7 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)
-        vm.dateAccessibilityObservable.subscribe{
+        vm.dateAccessibilityObservable.subscribe {
             text ->
             calendarWidgetV2.contentDescription = text
         }
@@ -98,15 +99,15 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
     }
 
     override fun getSearchViewModel(): BaseSearchViewModel {
-       return searchViewModel
+        return searchViewModel
     }
 
     override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
-       return suggestionViewModel
+        return suggestionViewModel
     }
 
     override fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> {
-       return lxSuggestionAdapter
+        return lxSuggestionAdapter
     }
 
     override fun getOriginSearchBoxPlaceholderText(): String {
@@ -115,5 +116,9 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
         return context.resources.getString(R.string.enter_destination_hint)
+    }
+
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.LX
     }
 }

@@ -52,6 +52,12 @@
             </FrameLayout>
         </android.support.v7.widget.Toolbar>
 
+        <com.expedia.bookings.launch.widget.LobToolbarWidget
+            android:id="@+id/lob_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
         <View
             android:id="@+id/toolbar_dropshadow"
             android:layout_width="match_parent"

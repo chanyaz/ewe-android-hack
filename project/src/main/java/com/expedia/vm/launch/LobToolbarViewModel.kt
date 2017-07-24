@@ -12,6 +12,8 @@ class LobToolbarViewModel(context: Context, val defaultLob: LineOfBusiness) {
 
     val lobSelectedSubject = PublishSubject.create<LineOfBusiness>()
 
+    val supportedLobs: ArrayList<LobInfo> = getLobs()
+    val selectedLobPosition = getDefaultLobPosition()
     private val nav = NavigationHelper(context)
 
     init {
@@ -19,7 +21,7 @@ class LobToolbarViewModel(context: Context, val defaultLob: LineOfBusiness) {
     }
 
     //TODO re-using LobInfo for now, but once we change the toolbar per Art's new design, we'll probably need something different here
-    fun getSupportedLobs(): ArrayList<LobInfo> {
+    private fun getLobs(): ArrayList<LobInfo> {
         val lobs = ArrayList<LobInfo>()
         val pos = PointOfSale.getPointOfSale()
 
@@ -50,6 +52,14 @@ class LobToolbarViewModel(context: Context, val defaultLob: LineOfBusiness) {
         }
 
         return lobs
+    }
+
+    private fun getDefaultLobPosition(): Int {
+        for ((index, lobInfo) in supportedLobs.withIndex()) {
+            if (lobInfo.lineOfBusiness == defaultLob)
+                return index
+        }
+        return 0
     }
 
     private fun launchLineOfBusiness(lob: LineOfBusiness) {

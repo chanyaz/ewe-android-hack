@@ -35,7 +35,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
 
     private var originSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
     private var destinationSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
-    val widgetTravelerAndCabinClassStub : ViewStub by bindView(R.id.widget_traveler_and_cabin_clas_stub)
+    val widgetTravelerAndCabinClassStub: ViewStub by bindView(R.id.widget_traveler_and_cabin_clas_stub)
 
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -58,7 +58,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
                 calendarWidgetV2.showCalendarDialog()
             }
         }
-        vm.dateAccessibilityObservable.subscribe{
+        vm.dateAccessibilityObservable.subscribe {
             text ->
             calendarWidgetV2.contentDescription = text
         }
@@ -106,7 +106,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
-        travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.PACKAGES
+        travelerWidgetV2.traveler.getViewModel().lob = getLineOfBusiness()
     }
 
     init {
@@ -142,4 +142,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         return context.resources.getString(R.string.fly_to_hint)
     }
 
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.PACKAGES
+    }
 }

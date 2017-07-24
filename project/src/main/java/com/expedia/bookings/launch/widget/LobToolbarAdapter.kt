@@ -10,7 +10,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.updateVisibility
 import rx.subjects.PublishSubject
 
 class LobToolbarAdapter(val defaultLob: LineOfBusiness) : RecyclerView.Adapter<LobToolbarAdapter.LobTabViewHolder>() {
@@ -49,9 +48,12 @@ class LobToolbarAdapter(val defaultLob: LineOfBusiness) : RecyclerView.Adapter<L
             lob = lobInfo.lineOfBusiness
             lobName.text = itemView.resources.getString(lobInfo.labelRes)
             val selected = defaultLob == lobInfo.lineOfBusiness
-            selectedIndicator.updateVisibility(selected)
+
             if (selected) {
                 lobName.setTextColor(ContextCompat.getColor(itemView.context, R.color.material_tab_text_selected))
+                selectedIndicator.visibility = View.VISIBLE
+            } else {
+                selectedIndicator.visibility = View.INVISIBLE
             }
         }
 

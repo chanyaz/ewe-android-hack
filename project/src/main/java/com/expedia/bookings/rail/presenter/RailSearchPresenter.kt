@@ -8,15 +8,16 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.rail.widget.RailSearchPagerAdapter
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
+import com.expedia.bookings.rail.widget.PositionObservableTabLayout
+import com.expedia.bookings.rail.widget.RailSearchPagerAdapter
+import com.expedia.bookings.rail.widget.RailSearchWidget
+import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
-import com.expedia.bookings.rail.widget.PositionObservableTabLayout
-import com.expedia.bookings.rail.widget.RailSearchWidget
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
@@ -36,7 +37,7 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         // Rail is smart and lets the system handle the status bar. Do nothing.
     }
 
-    override fun getToolbarsHeight() : Int {
+    override fun getToolbarsHeight(): Int {
         return Ui.getToolbarSize(context)
     }
 
@@ -130,13 +131,13 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         tabs.setupWithViewPager(viewpager)
 
         tabs.singleToReturnScrollObservable.subscribe() {
-         val view = viewpager.getChildAt(0);
-           if (view != null) {
-               view.translationX = Math.min(viewpager.scrollX.toFloat(), (view.measuredWidth * 1).toFloat())
-           }
+            val view = viewpager.getChildAt(0);
+            if (view != null) {
+                view.translationX = Math.min(viewpager.scrollX.toFloat(), (view.measuredWidth * 1).toFloat())
+            }
         }
 
-        tabs.setOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        tabs.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // do nothing
             }
@@ -164,5 +165,9 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
         return context.resources.getString(R.string.rail_location_hint)
+    }
+
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.RAILS
     }
 }

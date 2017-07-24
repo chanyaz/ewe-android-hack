@@ -24,13 +24,13 @@ import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
@@ -259,7 +259,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             flightCabinClassWidget.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt()
         }
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
-        travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2
+        travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2 //Not sure why we still have Flights V2 all over the place??
         showFlightOneWayRoundTripOptions = true
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
@@ -337,5 +337,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
         return context.resources.getString(R.string.fly_to_hint)
+    }
+
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.FLIGHTS
     }
 }

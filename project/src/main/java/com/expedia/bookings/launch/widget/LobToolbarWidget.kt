@@ -15,15 +15,20 @@ class LobToolbarWidget(context: Context, attrs: AttributeSet) : FrameLayout(cont
     private val recyclerView: RecyclerView by bindView(R.id.lob_recycler_view)
 
     var viewModel: LobToolbarViewModel by notNullAndObservable {
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        val adapter = LobToolbarAdapter(viewModel.defaultLob)
-        recyclerView.adapter = adapter
-        adapter.setLob(viewModel.getSupportedLobs())
-
-        adapter.toolbarItemClickedSubject.subscribe(viewModel.lobSelectedSubject)
+        setupRecyclerView(context)
     }
 
     init {
         View.inflate(context, R.layout.widget_lob_toolbar, this)
+    }
+
+    private fun setupRecyclerView(context: Context) {
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val adapter = LobToolbarAdapter(viewModel.defaultLob)
+        recyclerView.adapter = adapter
+        adapter.setLob(viewModel.supportedLobs)
+        recyclerView.scrollToPosition(viewModel.selectedLobPosition)
+
+        adapter.toolbarItemClickedSubject.subscribe(viewModel.lobSelectedSubject)
     }
 }

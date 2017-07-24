@@ -9,6 +9,7 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
@@ -89,13 +90,13 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         destinationSuggestionViewModel.setCustomerSelectingOrigin(false)
         originSuggestionAdapter = CarSuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = CarSuggestionAdapter(destinationSuggestionViewModel)
-        }
+    }
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_car_search, this)
     }
 
-    override fun onFinishInflate(){
+    override fun onFinishInflate() {
         super.onFinishInflate()
 
         destinationCardView.setOnClickListener({ showAlertMessage(R.string.drop_off_same_as_pick_up, R.string.ok) })
@@ -112,8 +113,9 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
                 .debounce(waitForOtherSuggestionListeners + delayBeforeShowingDestinationSuggestions, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { destinationCardView.text.equals(getDestinationSearchBoxPlaceholderText()) }
-                .subscribe ()
+                .subscribe()
     }
+
     override fun getSuggestionHistoryFileName(): String {
         return SuggestionV4Utils.RECENT_CAR_SUGGESTIONS_FILE
     }
@@ -144,6 +146,10 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
 
     override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
         calendarWidget.dismissDialog()
+    }
+
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.CARS
     }
 
     fun showAlertMessage(messageResourceId: Int, confirmButtonResourceId: Int) {

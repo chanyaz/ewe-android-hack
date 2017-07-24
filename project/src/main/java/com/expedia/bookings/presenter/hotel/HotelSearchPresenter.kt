@@ -15,7 +15,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
 import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
-import com.expedia.bookings.launch.widget.LobToolbarWidget
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.text.HtmlCompat
@@ -24,7 +23,6 @@ import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -40,7 +38,6 @@ import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.hotel.AdvancedSearchOptionsViewModel
-import com.expedia.vm.launch.LobToolbarViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
 
@@ -50,7 +47,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     val params = HotelSearchParams()
 
-    private val lobToolbar: LobToolbarWidget by bindView(R.id.lob_toolbar)
     private val mainContainer: LinearLayout by bindView(R.id.main_container)
     private val advancedOptionsView: SearchInputTextView by bindView(R.id.advanced_options_view)
     private val advancedOptionsDetails: AdvancedSearchOptionsView by bindView(R.id.search_options_details_view)
@@ -178,9 +174,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
         val showAdvancedOptions = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)
         advancedOptionsView.updateVisibility(showAdvancedOptions)
-
-        lobToolbar.viewModel = LobToolbarViewModel(context, LineOfBusiness.HOTELS)
-        lobToolbar.updateVisibility(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav))
     }
 
     override fun back(): Boolean {
@@ -217,6 +210,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
         return context.resources.getString(R.string.enter_destination_hint)
+    }
+
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.HOTELS
     }
 
     fun resetSearchOptions() {
