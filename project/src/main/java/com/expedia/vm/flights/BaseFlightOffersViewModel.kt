@@ -3,6 +3,7 @@ package com.expedia.vm.flights
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -176,7 +177,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                     errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
                 } else {
                     obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
-                    if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSubpubChange, R.string.preference_flight_subpub_change)) {
+                    if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)) {
                         setSubPubAvailability(response.hasSubPub)
                     }
                     makeFlightOffer(response)

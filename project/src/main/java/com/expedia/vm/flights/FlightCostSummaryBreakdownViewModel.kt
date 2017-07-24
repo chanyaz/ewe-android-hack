@@ -15,7 +15,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
-import java.math.BigDecimal
 import java.util.Collections
 
 class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreakdownViewModel(context) {
@@ -103,7 +102,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                 breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
             }
 
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSubpubChange, R.string.preference_flight_subpub_change)) {
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)) {
                 if (flightOffer.discountAmount != null && !flightOffer.discountAmount.isZero) {
                     title = Phrase.from(context, R.string.cost_summary_breakdown_discount_TEMPLATE).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
                     breakdowns.add(CostSummaryBreakdownRow.Builder()

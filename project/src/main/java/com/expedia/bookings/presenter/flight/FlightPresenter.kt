@@ -72,7 +72,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val isByotEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
     val showMoreInfoOnOverview = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-    val EBAndroidAppFlightSubpubChange = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSubpubChange, R.string.preference_flight_subpub_change)
+    val EBAndroidAppFlightSubpubChange = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
 
 
     val errorPresenter: FlightErrorPresenter by lazy {

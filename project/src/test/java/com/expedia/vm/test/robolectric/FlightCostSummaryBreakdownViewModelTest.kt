@@ -341,7 +341,6 @@ class FlightCostSummaryBreakdownViewModelTest {
     }
 
     private fun setUpFlightSubPubChange() {
-        SettingUtils.save(activity, R.string.preference_flight_subpub_change, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSubpubChange)
         Ui.getApplication(activity).defaultFlightComponents()
     }

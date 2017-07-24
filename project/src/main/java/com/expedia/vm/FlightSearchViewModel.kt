@@ -15,8 +15,8 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
 import com.expedia.util.endlessObserver
@@ -59,7 +59,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val flightCabinClassObserver = endlessObserver<FlightServiceClassType.CabinCode> { cabinCode ->
         getParamsBuilder().flightCabinClass(cabinCode.name)
     }
-    val EBAndroidAppFlightSubpubChange = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSubpubChange, R.string.preference_flight_subpub_change)
+    val EBAndroidAppFlightSubpubChange = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
 
     var searchSubscription: Subscription? = null
     var toAndFromFlightFieldsSwitched = false
@@ -112,7 +112,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
 
         if(EBAndroidAppFlightSubpubChange){
-            flightParamsBuilder.setFeatureOverride()
+            flightParamsBuilder.setFeatureOverride(Constants.FEATURE_SUBPUB)
         }
 
         if (!((Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) ||

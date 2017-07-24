@@ -4869,9 +4869,7 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR);
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightHideFSRInfographic);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_subpub_change)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSubpubChange);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSubpubChange);
 		s.track();
 	}
 

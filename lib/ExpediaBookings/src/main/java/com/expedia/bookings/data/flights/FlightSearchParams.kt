@@ -2,7 +2,6 @@ package com.expedia.bookings.data.flights
 
 import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Strings
 import org.joda.time.Days
 import org.joda.time.LocalDate
@@ -85,8 +84,8 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
             return this
         }
 
-        fun setFeatureOverride(): Builder {
-            this.featureOverride = Constants.FEATURE_SUBPUB
+        fun setFeatureOverride(isFeatureOverride: String?): Builder {
+            this.featureOverride = isFeatureOverride
             return this
         }
 
@@ -97,7 +96,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
     }
 
     fun buildParamsForInboundSearch(maxStay: Int, maxRange: Int, selectedOutboundLegId: String?): FlightSearchParams {
-        return Builder(maxStay, maxRange).roundTrip(true).legNo(1).selectedLegID(selectedOutboundLegId).flightCabinClass(flightCabinClass)
+        return Builder(maxStay, maxRange).roundTrip(true).legNo(1).selectedLegID(selectedOutboundLegId).flightCabinClass(flightCabinClass).setFeatureOverride(featureOverride)
                 .showRefundableFlight(showRefundableFlight).nonStopFlight(nonStopFlight)
                 .infantSeatingInLap(infantSeatingInLap).origin(departureAirport)
                 .destination(arrivalAirport).startDate(departureDate).endDate(returnDate)
