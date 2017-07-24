@@ -318,6 +318,14 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         params.put("railEndEpochSeconds", "" + railEnd.millis / 1000)
         params.put("railEndTzOffset", "" + pacificTimeZone.getOffset(railEnd.millis) / 1000)
 
+        // Inject Pending flight DateTimes
+        val pendingFlightStart = startOfTodayPacific.plusDays(50).withHourOfDay(20)
+        val pendingFlightEnd = startOfTodayPacific.plusDays(50).withHourOfDay(22)
+        params.put("pendingFlightStartEpochSeconds", "" + pendingFlightStart.millis / 1000)
+        params.put("pendingFlightStartTzOffset", "" + pacificTimeZone.getOffset(pendingFlightStart.millis) / 1000)
+        params.put("pendingFlightEndEpochSeconds", "" + pendingFlightEnd.millis / 1000)
+        params.put("pendingFlightEndTzOffset", "" + pacificTimeZone.getOffset(pendingFlightEnd.millis) / 1000)
+
         return makeResponse("/api/trips/happy.json", params)
     }
 

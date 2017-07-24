@@ -1189,8 +1189,8 @@
       "startTime": {
         "raw": "4000-09-05T20:00:00-07:00",
         "localized": "Sep 5, 4000 8:00:00 PM",
-        "epochSeconds": 1504666800,
-        "timeZoneOffsetSeconds": -25200,
+        "epochSeconds": "${pendingFlightStartEpochSeconds}",
+        "timeZoneOffsetSeconds": "${pendingFlightStartTzOffset}",
         "localizedShortDate": "9/5/4000",
         "localizedMediumDate": "Sep 5",
         "localizedFullDate": "Tue, Sep 5",
@@ -1200,8 +1200,8 @@
       "endTime": {
         "raw": "4000-09-05T21:33:00-07:00",
         "localized": "Sep 5, 4000 9:33:00 PM",
-        "epochSeconds": 1504672380,
-        "timeZoneOffsetSeconds": -25200,
+        "epochSeconds": "${pendingFlightEndEpochSeconds}",
+        "timeZoneOffsetSeconds": "${pendingFlightEndTzOffset}",
         "localizedShortDate": "9/5/4000",
         "localizedMediumDate": "Sep 5",
         "localizedFullDate": "Tue, Sep 5",
@@ -1371,8 +1371,8 @@
                   "departureTime": {
                     "raw": "4000-09-05T20:00:00-07:00",
                     "localized": "Sep 5, 4000 8:00:00 PM",
-                    "epochSeconds": 1504666800,
-                    "timeZoneOffsetSeconds": -25200,
+                    "epochSeconds": "${pendingFlightStartEpochSeconds}",
+                    "timeZoneOffsetSeconds": "${pendingFlightStartTzOffset}",
                     "localizedShortDate": "9/5/4000",
                     "localizedMediumDate": "Sep 5",
                     "localizedFullDate": "Tue, Sep 5",
@@ -1393,8 +1393,8 @@
                   "arrivalTime": {
                     "raw": "4000-09-05T21:33:00-07:00",
                     "localized": "Sep 5, 4000 9:33:00 PM",
-                    "epochSeconds": 1504672380,
-                    "timeZoneOffsetSeconds": -25200,
+                    "epochSeconds": "${pendingFlightEndEpochSeconds}",
+                    "timeZoneOffsetSeconds": "${pendingFlightEndTzOffset}",
                     "localizedShortDate": "9/5/4000",
                     "localizedMediumDate": "Sep 5",
                     "localizedFullDate": "Tue, Sep 5",
