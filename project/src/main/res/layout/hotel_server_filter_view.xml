@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/base_hotel_filter_view"/>
+    <include layout="@layout/base_hotel_filter_view" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/hotel_server_filter_clear_pill"
@@ -13,26 +14,26 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="16dp"
+        android:accessibilityTraversalAfter="@+id/filter_container"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:visibility="gone"
-        android:accessibilityTraversalBefore="@+id/option_label"
         app:cardCornerRadius="18dp"
         app:cardPreventCornerOverlap="false"
-        tools:visibility="visible"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="UnusedAttribute"
+        tools:visibility="visible">
 
         <com.expedia.bookings.widget.TextView
             style="@style/Core.Text.Default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="10dp"
+            android:contentDescription="@string/search_filter_clear_button_cont_desc"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:paddingTop="10dp"
             android:text="@string/clear_filters"
-            android:textColor="?attr/primary_color"
-            android:contentDescription="@string/search_filter_clear_button_cont_desc"/>
+            android:textColor="?attr/primary_color" />
     </android.support.v7.widget.CardView>
 </merge>
