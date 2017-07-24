@@ -483,7 +483,7 @@
             android:key="14761"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Global Web view Checkout - 13741" />
+            android:title="Global Web view Checkout - 14761" />
 
     </PreferenceCategory>
 
