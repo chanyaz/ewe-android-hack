@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.multiitem
 
-import com.expedia.bookings.data.Money
 
 data class HotelOffer(
         val id: String,
@@ -23,16 +22,16 @@ data class HotelOffer(
         val roomAmenities: List<Amenity>,
         val bedTypes: List<Amenity>,
         val roomsLeft: Int,
-        val referenceBasePrice: Money,
-        val referenceTaxesAndFees: Money,
-        val referenceTotalPrice: Money,
+        val referenceBasePrice: Price,
+        val referenceTaxesAndFees: Price,
+        val referenceTotalPrice: Price,
         val checkInDate: String,
         val checkOutDate: String,
         val nights: Int,
-        val avgReferencePricePerNight: Money,
+        val avgReferencePricePerNight: Price,
         val rateRuleId: Long,
         val promotion: Promotion?,
-        //        val inventoryType: HotelInventoryType,
+        val inventoryType: String,
         val mandatoryFees: MandatoryFees,
         val memberDeal: Boolean,
         val sourceTypeRestricted: Boolean,

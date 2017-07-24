@@ -7,8 +7,11 @@ import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.multiitem.Amenity;
+import com.expedia.bookings.data.multiitem.HotelOffer;
+import com.expedia.bookings.data.multiitem.MandatoryFees;
+import com.expedia.bookings.data.multiitem.MultiItemOffer;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
-import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
@@ -153,6 +156,17 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public String description;
 	}
 
+	public static List<BedTypes> convertMultiItemBedType(List<Amenity> amenities) {
+		List<BedTypes> allBedTypes = new ArrayList<>();
+		for (Amenity amenity : amenities) {
+			BedTypes bedTypes = new BedTypes();
+			bedTypes.id = String.valueOf(amenity.getId());
+			bedTypes.description = amenity.getName();
+			allBedTypes.add(bedTypes);
+		}
+		return allBedTypes;
+	}
+
 	public static class RateInfo {
 		public HotelRate chargeableRateInfo;
 		public String description;
@@ -168,10 +182,16 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public String description;
 	}
 
-	public static HotelOffersResponse convertToHotelOffersResponse(HotelOffersResponse hotelOffer, PackageOffersResponse packageOffer, PackageSearchParams searchParams) {
-		hotelOffer.checkInDate = searchParams.getStartDate().toString();
-		hotelOffer.checkOutDate = searchParams.getEndDate().toString();
-		hotelOffer.hotelRoomResponse = new ArrayList<>();
+	public static HotelOffersResponse convertToHotelOffersResponse(HotelOffersResponse hotelOffer, List<HotelRoomResponse> hotelRoomResponse, String checkInDate, String checkOutDate) {
+		hotelOffer.checkInDate = checkInDate;
+		hotelOffer.checkOutDate = checkOutDate;
+		hotelOffer.hotelRoomResponse = hotelRoomResponse;
+		hotelOffer.isPackage = true;
+		return hotelOffer;
+	}
+
+	public static List<HotelRoomResponse> convertPSSHotelRoomResponse(PackageOffersResponse packageOffer) {
+		List<HotelRoomResponse> hotelRoomResponse = new ArrayList<>();
 		for (PackageOffersResponse.PackageHotelOffer packageHotelOffer : packageOffer.packageHotelOffers) {
 			packageHotelOffer.hotelOffer.productKey = packageHotelOffer.packageProductId;
 			if (packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo == null) {
@@ -195,10 +215,71 @@ public class HotelOffersResponse extends BaseApiResponse {
 			if (packageHotelOffer.loyaltyInfo != null) {
 				packageHotelOffer.hotelOffer.packageLoyaltyInformation = packageHotelOffer.loyaltyInfo;
 			}
-
-			hotelOffer.hotelRoomResponse.add(packageHotelOffer.hotelOffer);
+			hotelRoomResponse.add(packageHotelOffer.hotelOffer);
 		}
-		hotelOffer.isPackage = true;
-		return hotelOffer;
+		return hotelRoomResponse;
+	}
+
+	public static HotelRoomResponse convertMidHotelRoomResponse(HotelOffer roomOffer, MultiItemOffer room) {
+		HotelRoomResponse hotelRoomResponse = new HotelOffersResponse.HotelRoomResponse();
+		hotelRoomResponse.rateInfo = new RateInfo();
+		hotelRoomResponse.rateInfo.chargeableRateInfo = new HotelRate();
+
+		hotelRoomResponse.productKey = null; //won't be available
+		hotelRoomResponse.packageHotelDeltaPrice = room.getPrice().priceToShowUsers(); //ToDo MS: Edit when value available
+		hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = room.getPrice().getTotalPrice().getAmount().floatValue();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().getTotalPrice().getCurrency();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = room.getPrice().getReferenceTotalPrice().getAmount().floatValue();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
+		hotelRoomResponse.rateInfo.chargeableRateInfo.averageRate = 10f; //ToDo MS:hard-coded as it is not available in MID as of now
+		hotelRoomResponse.rateInfo.chargeableRateInfo.taxStatusType = "None"; //ToDo MS: hard-coded as it is not available in MID as of now
+		hotelRoomResponse.rateInfo.chargeableRateInfo.surchargeTotal = 10f; //ToDo MS: hard-coded as it is not available in MID as of now
+		hotelRoomResponse.rateInfo.chargeableRateInfo.surchargeTotalForEntireStay =  10f; //ToDo MS: hard-coded as it is not available in MID as of now
+		hotelRoomResponse.rateInfo.chargeableRateInfo.discountPercent = room.getPrice().getSavings().getAmount().floatValue();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.total = room.getPrice().getTotalPrice().getAmount().floatValue(); //ToDo MS: Being used at hotel checkout, should not be a problem
+		hotelRoomResponse.rateInfo.chargeableRateInfo.surchargesWithoutPropertyFeeForEntireStay = 10f; //ToDo MS: hard-coded as it is not available in MID as of now(CKO)
+		//ToDo MS: hotelRoomResponse.rateInfo.chargeableRateInfo.nightlyRatesPerRoom = missing
+		//ToDo MS: hotelRoomResponse.rateInfo.chargeableRateInfo.priceAdjustments = missing (though we only get empty array in response)
+		hotelRoomResponse.rateInfo.chargeableRateInfo.checkoutPriceType = "totalPriceWithMandatoryFees"; //ToDo MS: hard-coded as it is not available in MID as of now
+		hotelRoomResponse.rateInfo.chargeableRateInfo.airAttached = false;
+
+		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().getTotalPrice().getCurrency();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = true;
+		if (roomOffer.getMandatoryFees().getDisplayType() == MandatoryFees.DisplayType.DAILY) {
+			hotelRoomResponse.rateInfo.chargeableRateInfo.dailyMandatoryFee = roomOffer.getMandatoryFees()
+				.getDailyResortFeePOSCurrency().getAmount().floatValue();
+		}
+		else if (roomOffer.getMandatoryFees().getDisplayType() == MandatoryFees.DisplayType.TOTAL) {
+			hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
+				.getTotalMandatoryFeesSupplyCurrency().getAmount().floatValue();
+			hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees = roomOffer.getMandatoryFees()
+				.getTotalMandatoryFeesSupplyCurrency().getAmount()
+				.floatValue(); //ToDo MS: hard-coded as it is not available in MID as of now
+		}
+		hotelRoomResponse.rateInfo.chargeableRateInfo.resortFeeInclusion = true; //ToDo MS: hard-coded as it is not available in MID as of now
+		hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = room.getPrice().priceToShowUsers();  //ToDo MS: to be updated, MID agreed to provide it
+		hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = room.getPrice().packageSavings();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = room.getPrice().priceToShowUsers(); //ToDo MS: to be checked
+
+		hotelRoomResponse.isPayLater = false;
+		hotelRoomResponse.hasFreeCancellation = room.getCancellationPolicy().isFreeCancellationAvailable();
+		hotelRoomResponse.packageLoyaltyInformation = room.getLoyaltyInfo();
+		hotelRoomResponse.bedTypes = convertMultiItemBedType(roomOffer.getBedTypes());
+		hotelRoomResponse.currentAllotment = String.valueOf(roomOffer.getRoomsLeft());
+		hotelRoomResponse.isSameDayDRR = roomOffer.getSameDayDRR();
+		hotelRoomResponse.isDiscountRestrictedToCurrentSourceType = roomOffer.getSourceTypeRestricted();
+		hotelRoomResponse.isMemberDeal = roomOffer.getMemberDeal();
+		if (roomOffer.getPromotion() != null) {
+			hotelRoomResponse.promoDescription = roomOffer.getPromotion().getDescription();
+		}
+		hotelRoomResponse.ratePlanCode = roomOffer.getRatePlanCode();
+		hotelRoomResponse.roomTypeCode = roomOffer.getRoomTypeCode();
+		hotelRoomResponse.roomLongDescription = roomOffer.getRoomLongDescription();
+		hotelRoomResponse.roomThumbnailUrl = roomOffer.getThumbnailUrl();
+		hotelRoomResponse.roomTypeDescription = roomOffer.getRoomRatePlanDescription();
+		hotelRoomResponse.supplierType = roomOffer.getInventoryType();
+		hotelRoomResponse.packageLoyaltyInformation = room.getLoyaltyInfo();
+
+		return hotelRoomResponse;
 	}
 }

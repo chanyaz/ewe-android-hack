@@ -1,9 +1,11 @@
 package com.expedia.bookings.unit.hotels
 
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelOffersResponse.convertMidHotelRoomResponse
 import com.expedia.bookings.data.multiitem.HotelOffer
 import com.expedia.bookings.data.multiitem.MultiItemOffer
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.utils.Constants
 import com.google.gson.Gson
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -52,6 +54,51 @@ class HotelTest {
         assertEquals(hotel.lowRateInfo.strikethroughPriceToShowUsers, 4333.87f)
         assertEquals(hotel.lowRateInfo.priceToShowUsers, 3434.48f)
         assertEquals(hotel.lowRateInfo.currencyCode, "USD")
+    }
+
+    @Test
+    fun testConvertMidHotelOfferResonse() {
+        val hotelOffer = dummyMidHotelRoomOffer()
+        val multiItemOffer = dummyMultiItemRoomOffer()
+
+        val room = convertMidHotelRoomResponse(hotelOffer, multiItemOffer)
+
+        assertEquals(room.productKey, null)
+        assertEquals(room.packageHotelDeltaPrice, multiItemOffer.price.totalPrice.toMoney())
+        assertEquals(room.rateInfo.chargeableRateInfo.priceToShowUsers, multiItemOffer.price.totalPrice.amount.toFloat())
+        assertEquals(room.rateInfo.chargeableRateInfo.currencyCode, multiItemOffer.price.totalPrice.currency)
+        assertEquals(room.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers, multiItemOffer.price.referenceTotalPrice.amount.toFloat())
+        assertEquals(room.rateInfo.chargeableRateInfo.userPriceType, Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE)
+        assertEquals(room.rateInfo.chargeableRateInfo.averageRate, 10f)
+        assertEquals(room.rateInfo.chargeableRateInfo.taxStatusType, "None")
+        assertEquals(room.rateInfo.chargeableRateInfo.surchargeTotal, 10f)
+        assertEquals(room.rateInfo.chargeableRateInfo.surchargeTotalForEntireStay, 10f)
+        assertEquals(room.rateInfo.chargeableRateInfo.discountPercent, multiItemOffer.price.savings.amount.toFloat())
+        assertEquals(room.rateInfo.chargeableRateInfo.total, multiItemOffer.price.totalPrice.amount.toFloat())
+        assertEquals(room.rateInfo.chargeableRateInfo.surchargesWithoutPropertyFeeForEntireStay, 10f)
+        assertEquals(room.rateInfo.chargeableRateInfo.checkoutPriceType, "totalPriceWithMandatoryFees")
+        assertEquals(room.rateInfo.chargeableRateInfo.airAttached, false)
+        assertEquals(room.rateInfo.chargeableRateInfo.currencyCode, multiItemOffer.price.totalPrice.currency)
+        assertEquals(room.rateInfo.chargeableRateInfo.showResortFeeMessage, true)
+        assertEquals(room.rateInfo.chargeableRateInfo.resortFeeInclusion, true)
+        assertEquals(room.rateInfo.chargeableRateInfo.packagePricePerPerson, multiItemOffer.price.priceToShowUsers())
+        assertEquals(room.rateInfo.chargeableRateInfo.packageSavings, multiItemOffer.price.packageSavings())
+        assertEquals(room.rateInfo.chargeableRateInfo.packageTotalPrice, multiItemOffer.price.priceToShowUsers())
+
+        assertEquals(room.isPayLater, false)
+        assertEquals(room.hasFreeCancellation, multiItemOffer.cancellationPolicy.isFreeCancellationAvailable)
+        assertEquals(room.packageLoyaltyInformation, multiItemOffer.loyaltyInfo)
+        assertEquals(room.currentAllotment, hotelOffer.roomsLeft.toString())
+        assertEquals(room.isSameDayDRR, hotelOffer.sameDayDRR)
+        assertEquals(room.isDiscountRestrictedToCurrentSourceType, hotelOffer.sourceTypeRestricted)
+        assertEquals(room.isMemberDeal, hotelOffer.memberDeal)
+        assertEquals(room.roomTypeCode, hotelOffer.roomTypeCode)
+        assertEquals(room.roomLongDescription, hotelOffer.roomLongDescription)
+        assertEquals(room.roomThumbnailUrl, hotelOffer.thumbnailUrl)
+        assertEquals(room.roomTypeDescription, hotelOffer.roomRatePlanDescription)
+        assertEquals(room.supplierType, hotelOffer.inventoryType);
+        assertEquals(room.packageLoyaltyInformation, multiItemOffer.loyaltyInfo)
+
     }
 
     private fun dummyMultiItemOffer(): MultiItemOffer{
@@ -238,5 +285,121 @@ class HotelTest {
         }
         """
         return Gson().fromJson(hotelOfferJson, HotelOffer::class.java)
+    }
+
+    private fun dummyMidHotelRoomOffer() : HotelOffer {
+        val hotelRoomOfferJson = """
+        {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Queen Bed, Non Smoking (Upgraded)",
+      "roomLongDescription": " 1 Queen Bed  300 sq feet (28 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Laptop-compatible safe, iron/ironing board, and desk; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "208290304",
+      "roomTypeCode": "201660950",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6201,
+          "name": "1 queen bed\r"
+        }
+      ],
+      "roomsLeft": 2,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    }"""
+        return Gson().fromJson(hotelRoomOfferJson, HotelOffer::class.java)
+    }
+
+    private fun dummyMultiItemRoomOffer(): MultiItemOffer {
+        val hotelRoomMultiItemOfferJson = """
+        {
+            "price": {
+            "basePrice": {
+            "amount": 255.00,
+            "currency": "USD"
+        },
+            "taxesAndFees": {
+            "amount": 57.06,
+            "currency": "USD"
+        },
+            "totalPrice": {
+            "amount": 312.06,
+            "currency": "USD"
+        },
+            "referenceBasePrice": {
+            "amount": 255.00,
+            "currency": "USD"
+        },
+            "referenceTaxesAndFees": {
+            "amount": 57.06,
+            "currency": "USD"
+        },
+            "referenceTotalPrice": {
+            "amount": 312.06,
+            "currency": "USD"
+        },
+            "savings": {
+            "amount": 0.00,
+            "currency": "USD"
+        }
+        },
+            "searchedOffer": {
+            "productType": "Hotel",
+            "productKey": "hotel-0"
+        },
+            "packagedOffers": [
+            {
+                "productType": "Air",
+                "productKey": "flight-0"
+            }
+            ],
+            "loyaltyInfo": {
+            "earn": {
+            "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+        }
+        }
+        },
+       "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=208290304&roomTypeCode=201660950&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=201660950208290304&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+     }"""
+        return Gson().fromJson(hotelRoomMultiItemOfferJson, MultiItemOffer::class.java)
     }
 }

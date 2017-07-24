@@ -1,7 +1,9 @@
 package com.expedia.bookings.data.multiitem
 
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageOfferModel
 import java.util.ArrayList
@@ -13,10 +15,11 @@ data class MultiItemApiSearchResponse(
         val flights: Map<String, FlightOffer>,
         val flightLegs: Map<String, MultiItemFlightLeg>,
         val errors: List<MultiItemError>?
-) : BundleSearchResponse {
+) : BundleSearchResponse, BundleHotelRoomResponse {
 
     private lateinit var sortedHotels: List<Hotel>
     private lateinit var sortedFlights: List<FlightLeg>
+    private lateinit var hotelRooms : List<HotelOffersResponse.HotelRoomResponse>
     private var currentSelectedOffer: PackageOfferModel? = null
 
     fun setup(): BundleSearchResponse {
@@ -56,7 +59,6 @@ data class MultiItemApiSearchResponse(
                     }
                 }
             }
-
         }
         return this
     }
@@ -105,4 +107,23 @@ data class MultiItemApiSearchResponse(
         get() {
             throw RuntimeException("No errors to get!")
         }
+
+    // MARK :- Hotel Room Response
+    override fun getBundleRoomResponse(): List<HotelOffersResponse.HotelRoomResponse> {
+        hotelRooms = ArrayList()
+        offers.map { offer ->
+            hotelRooms += HotelOffersResponse.convertMidHotelRoomResponse(hotels[(offer.searchedOffer).productKey], offer)
+        }
+        return hotelRooms
+    }
+
+    //ToDo MS: Error handling to be done seperately
+    override fun hasRoomResponseErrors(): Boolean {
+        return false
+    }
+
+    //ToDo MS: Error handling to be done seperately
+    override val roomResponseFirstError: ApiError
+        get() = throw RuntimeException("No errors to get!")
+
 }

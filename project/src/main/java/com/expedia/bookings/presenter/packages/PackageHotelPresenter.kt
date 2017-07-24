@@ -22,8 +22,10 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
+import com.expedia.bookings.data.multiitem.BundleHotelRoomResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.dialog.DialogFactory
@@ -37,15 +39,7 @@ import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.PackageResponseUtils
-import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.SlidingBundleWidget
@@ -246,7 +240,12 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         selectedPackageHotel = hotel
         val params = Db.getPackageParams()
         params.hotelId = hotel.hotelId
-        getDetails(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode, params.adults, params.children.firstOrNull())
+        val packageHotelOffers = if (isMidAPIEnabled(context)) {
+            getMIDRoomSearch(params)
+        } else {
+            getPSSRoomSearch(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode, params.adults, params.children.firstOrNull())
+        }
+        getDetails(hotel.hotelId, packageHotelOffers)
         PackagesTracking().trackHotelMapCarouselPropertyClick()
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_HOTEL)
     }
@@ -265,7 +264,23 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?) {
+    private fun getPSSRoomSearch(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?): Observable<BundleHotelRoomResponse> {
+        return packageServices
+                .hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
+                .map { packageHotelOffers ->
+                    packageHotelOffers.setCheckInDate(checkIn)
+                    packageHotelOffers.setCheckOutDate(checkOut)
+                    packageHotelOffers
+                }
+    }
+
+    private fun getMIDRoomSearch(params: PackageSearchParams): Observable<BundleHotelRoomResponse> {
+        return packageServices
+                .multiItemRoomSearch(params)
+                .map { it }
+    }
+
+    private fun getDetails(hotelId: String, packageHotelOffers: Observable<BundleHotelRoomResponse>) {
         loadingOverlay.visibility = View.VISIBLE
         AccessibilityUtil.delayedFocusToView(loadingOverlay, 0)
         loadingOverlay.setAccessibilityHoverFocus()
@@ -274,21 +289,20 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(null)
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener(null)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
-        val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
         val info = packageServices.hotelInfo(hotelId)
 
         Observable.zip(packageHotelOffers.doOnError {}, info.doOnError {},
                 { packageHotelOffers, info ->
-                    if (packageHotelOffers.hasErrors()) {
+                    if (packageHotelOffers.hasRoomResponseErrors()) {
                         val activity = (context as AppCompatActivity)
                         val resultIntent = Intent()
-                        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, packageHotelOffers.firstError.errorCode.name)
+                        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, packageHotelOffers.roomResponseFirstError.errorCode.name)
                         activity.setResult(Activity.RESULT_OK, resultIntent)
                         activity.finish()
                         return@zip
                     }
+                    val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers.getBundleRoomResponse(), packageHotelOffers.getHotelCheckInDate(), packageHotelOffers.getHotelCheckOutDate())
 
-                    val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers, Db.getPackageParams())
                     PackageResponseUtils.saveHotelOfferResponse(context, hotelOffers, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
                     loadingOverlay.animate(false)
                     detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
@@ -296,7 +310,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                     show(detailPresenter)
                     detailPresenter.showDefault()
                 }
-        ).subscribe (makeErrorSubscriber(true))
+        ).subscribe(makeErrorSubscriber(true))
     }
 
     private fun makeErrorSubscriber(showErrorDialog: Boolean): Subscriber<Any> {

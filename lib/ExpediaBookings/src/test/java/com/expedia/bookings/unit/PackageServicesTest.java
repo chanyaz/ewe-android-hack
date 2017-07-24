@@ -18,6 +18,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
+import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripParams;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
@@ -228,6 +229,33 @@ public class PackageServicesTest {
 		}
 		Assert.assertEquals(1, uniqueOutboundFlightLegs.size());
 		Assert.assertEquals(50, uniqueInboundFlightLegs.size());
+	}
+
+	@Test
+	public void testMockMIDRoomSearchWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<MultiItemApiSearchResponse> observer = new TestSubscriber<>();
+
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+		params.setHotelId("happy_room");
+
+		service.multiItemRoomSearch(params).subscribe(observer);
+
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		observer.assertNoErrors();
+		observer.assertCompleted();
+
+		MultiItemApiSearchResponse response = observer.getOnNextEvents().get(0);
+
+		Assert.assertEquals("255.00", response.getOffers().get(0).getPrice().getBasePrice().getAmount().toString());
 	}
 
 	@Test

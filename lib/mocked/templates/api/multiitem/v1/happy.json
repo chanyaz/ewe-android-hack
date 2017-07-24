@@ -3916,9 +3916,9 @@
       "sameDayDRR": false
     },
     "hotel-1": {
-      "id": "1443",
-      "name": "The Venetian Las Vegas",
-      "englishName": "The Venetian Las Vegas",
+      "id": "happy_room",
+      "name": "happy_room",
+      "englishName": "happy_room",
       "shortDescription": "This all-suite resort and casino on the Las Vegas Strip is a short drive from Fashion Show Mall, the convention center,  Downtown, and McCarran Airport.",
       "regionId": 800045,
       "address": {

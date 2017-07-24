@@ -1,0 +1,1156 @@
+{
+  "offers": [
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-0"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=208290304&roomTypeCode=201660950&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=201660950208290304&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-1"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=204752176&roomTypeCode=200973571&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752176,200973571&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=200973571204752176&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752176,200973571&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-2"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=208290295&roomTypeCode=201660948&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290295,201660948&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=201660948208290295&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290295,201660948&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-3"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=204752794&roomTypeCode=200973580&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752794,200973580&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=200973580204752794&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752794,200973580&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-4"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=204752180&roomTypeCode=200973578&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752180,200973578&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=200973578204752180&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752180,200973578&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-5"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=204752177&roomTypeCode=200973572&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752177,200973572&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=200973572204752177&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752177,200973572&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-6"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=204752179&roomTypeCode=200973576&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752179,200973576&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=200973576204752179&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752179,200973576&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-7"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=204752178&roomTypeCode=200973575&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752178,200973575&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=200973575204752178&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752178,200973575&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-8"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=204752185&roomTypeCode=200973574&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752185,200973574&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=200973574204752185&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752185,200973574&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 255.00,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 57.06,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 312.06,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 0.00,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-9"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 624,
+            "bonus": 624,
+            "total": 1248
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=204752184&roomTypeCode=200973573&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752184,200973573&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=200973573204752184&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,204752184,200973573&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    }
+  ],
+  "hotels": {
+    "hotel-0": {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Queen Bed, Non Smoking (Upgraded)",
+      "roomLongDescription": " 1 Queen Bed  300 sq feet (28 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Laptop-compatible safe, iron/ironing board, and desk; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "208290304",
+      "roomTypeCode": "201660950",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6201,
+          "name": "1 queen bed\r"
+        }
+      ],
+      "roomsLeft": 2,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-1": {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
+      "roomRatePlanDescription": "Business Room, 1 King Bed, Non Smoking",
+      "roomLongDescription": " 1 King Bed  325 sq feet (30 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Sofa bed, laptop-compatible safe, and iron/ironing board; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "204752176",
+      "roomTypeCode": "200973571",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6194,
+          "name": "1 king bed\r"
+        }
+      ],
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-2": {
+      "roomRatePlanDescription": "Business Room, 2 Double Beds, Non Smoking",
+      "roomLongDescription": " 2 Double Beds  300 sq feet (28 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Laptop-compatible safe, iron/ironing board, and desk; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "208290295",
+      "roomTypeCode": "201660948",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6226,
+          "name": "2 double beds\r"
+        }
+      ],
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-3": {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Queen Bed, Accessible, Non Smoking",
+      "roomLongDescription": " 1 Queen Bed  325 sq feet (30 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Laptop-compatible safe, iron/ironing board, and desk; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking, wheelchair accessible Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "204752794",
+      "roomTypeCode": "200973580",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6201,
+          "name": "1 queen bed\r"
+        }
+      ],
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-4": {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Queen Bed, Non Smoking",
+      "roomLongDescription": " 1 Queen Bed  325 sq feet (30 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Laptop-compatible safe, iron/ironing board, and desk; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "204752180",
+      "roomTypeCode": "200973578",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6201,
+          "name": "1 queen bed\r"
+        }
+      ],
+      "roomsLeft": 9,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-5": {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
+      "roomRatePlanDescription": "Business Room, 1 Queen Bed, Non Smoking",
+      "roomLongDescription": " 1 Queen Bed  325 sq feet (30 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Laptop-compatible safe, iron/ironing board, and desk; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "204752177",
+      "roomTypeCode": "200973572",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6201,
+          "name": "1 queen bed\r"
+        }
+      ],
+      "roomsLeft": 8,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-6": {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Queen Bed, Non Smoking",
+      "roomLongDescription": " 1 Queen Bed  325 sq feet (30 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Laptop-compatible safe, iron/ironing board, and desk; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "204752179",
+      "roomTypeCode": "200973576",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6201,
+          "name": "1 queen bed\r"
+        }
+      ],
+      "roomsLeft": 4,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-7": {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
+      "roomRatePlanDescription": "Room, 1 King Bed, Non Smoking",
+      "roomLongDescription": " 1 King Bed  325 sq feet (30 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Sofa bed, laptop-compatible safe, and iron/ironing board; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "204752178",
+      "roomTypeCode": "200973575",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6194,
+          "name": "1 king bed\r"
+        }
+      ],
+      "roomsLeft": 2,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-8": {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/b76df967_t.jpg",
+      "roomRatePlanDescription": "Room, 2 Double Beds, Non Smoking, Refrigerator",
+      "roomLongDescription": " 2 Double Beds  325 sq feet (30 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Laptop-compatible safe, iron/ironing board, and desk; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "204752185",
+      "roomTypeCode": "200973574",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6226,
+          "name": "2 double beds\r"
+        }
+      ],
+      "roomsLeft": 6,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-9": {
+      "thumbnailUrl": "/hotels/1000000/30000/26500/26432/96341537_t.jpg",
+      "roomRatePlanDescription": "Room, 2 Double Beds, Non Smoking",
+      "roomLongDescription": " 2 Double Beds  325 sq feet (30 sq meters)   Internet  - Free WiFi    Entertainment  - 37-inch flat-screen TV with satellite channels and pay movies  Food & Drink  - Refrigerator, microwave, and coffee/tea maker  Sleep  - Blackout drapes/curtains   Bathroom  - Private bathroom, bathtub or shower, free toiletries, and a hair dryer  Practical  - Laptop-compatible safe, iron/ironing board, and desk; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking Connecting/adjoining rooms can be requested, subject to availability  &nbsp;",
+      "ratePlanCode": "204752184",
+      "roomTypeCode": "200973573",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6226,
+          "name": "2 double beds\r"
+        }
+      ],
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 87.57,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 16.09,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-09-07",
+      "checkOutDate": "2017-09-08",
+      "nights": 1,
+      "avgReferencePricePerNight": {
+        "amount": 103.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 229100808,
+      "promotion": {
+        "description": "Member’s exclusive price",
+        "amount": {
+          "amount": 22.36,
+          "currency": "USD"
+        }
+      },
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    }
+  },
+  "flights": {
+    "flight-0": {
+      "piid": "v5-a696232f4ee05b20474d5d87f967586c-0-0-2",
+      "productTokens": [
+        "AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC"
+      ],
+      "legIds": [
+        "bcc08f6a22525a39f4f322f81a5aefb0",
+        "606afb106abffc8ada41ac0d1853b722"
+      ],
+      "referenceBasePrice": {
+        "amount": 167.43,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 40.97,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 208.40,
+        "currency": "USD"
+      },
+      "splitTicket": false,
+      "seatsLeft": 10,
+      "bookingSeatCount": 1
+    }
+  },
+  "flightLegs": {
+    "bcc08f6a22525a39f4f322f81a5aefb0": {
+      "segments": [
+        {
+          "departureAirportCode": "LAS",
+          "arrivalAirportCode": "BWI",
+          "departureCity": "Las Vegas",
+          "arrivalCity": "Baltimore",
+          "departureDateTime": "2017-09-06T23:51:00.000-07:00",
+          "arrivalDateTime": "2017-09-07T07:25:00.000-04:00",
+          "flightNumber": "696",
+          "airlineCode": "NK",
+          "bookingCode": " U",
+          "airlineName": "Spirit Airlines",
+          "flightDuration": "PT4H34M",
+          "distance": {
+            "unit": "mi",
+            "distance": 2095.0
+          },
+          "cabinClass": "coach",
+          "airplaneType": {
+            "code": "32A",
+            "description": "AIRBUS INDUSTRIE A320 SHARKLETS"
+          },
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/NK.gif"
+        }
+      ],
+      "stops": 0
+    },
+    "606afb106abffc8ada41ac0d1853b722": {
+      "segments": [
+        {
+          "departureAirportCode": "BWI",
+          "arrivalAirportCode": "LAS",
+          "departureCity": "Baltimore",
+          "arrivalCity": "Las Vegas",
+          "departureDateTime": "2017-09-08T19:35:00.000-04:00",
+          "arrivalDateTime": "2017-09-08T21:50:00.000-07:00",
+          "flightNumber": "695",
+          "airlineCode": "NK",
+          "bookingCode": " R",
+          "airlineName": "Spirit Airlines",
+          "flightDuration": "PT5H15M",
+          "distance": {
+            "unit": "mi",
+            "distance": 2095.0
+          },
+          "cabinClass": "coach",
+          "airplaneType": {
+            "code": "32A",
+            "description": "AIRBUS INDUSTRIE A320 SHARKLETS"
+          },
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/NK.gif"
+        }
+      ],
+      "stops": 0
+    }
+  },
+  "cars": {},
+  "messageInfo": {
+    "transactionGUID": "cd211cd9-cb36-45c8-8401-0078297c0e8b",
+    "userGUID": "15827699-9362-46c6-a5bd-dae70eac3860",
+    "tuid": 721187210
+  }
+}

@@ -6,6 +6,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
+import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -30,6 +31,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
 
     private val PACKAGE_TYPE = "fh"
     private val PRODUCT_TYPE_HOTELS = "hotels"
+    private val PRODUCT_TYPE_ROOMS = "rooms"
     private val PRODUCT_TYPE_FLIGHTS = "flights"
 
     val packageApi: PackageApi by lazy {
@@ -54,7 +56,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
         return when(type) {
             ProductSearchType.OldPackageSearch -> oldPackageSearch(params)
             ProductSearchType.MultiItemHotels -> multiItemHotelsSearch(params)
-            ProductSearchType.MultiItemHotelRooms -> TODO()
+            ProductSearchType.MultiItemHotelRooms -> throw RuntimeException("Use `multiItemRoomSearch`for MID rooms search")
             ProductSearchType.MultiItemOutboundFlights -> multiItemOutboundFlightsSearch(params)
             ProductSearchType.MultiItemInboundFlights -> multiItemInboundFlightsSearch(params)
         }
@@ -75,6 +77,22 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { it.setup() }
+    }
+
+    fun multiItemRoomSearch(params: PackageSearchParams): Observable<MultiItemApiSearchResponse> {
+        return packageApi.multiItemSearch(
+                productType = PRODUCT_TYPE_ROOMS,
+                packageType = PACKAGE_TYPE,
+                origin = params.origin?.hierarchyInfo?.airport?.airportCode,
+                originId = params.originId,
+                destination = params.destination?.hierarchyInfo?.airport?.airportCode,
+                destinationId = params.destinationId,
+                fromDate = params.startDate.toString(),
+                toDate = params.endDate.toString(),
+                adults = params.adults,
+                hotelId = params.hotelId)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
     }
 
     private fun multiItemOutboundFlightsSearch(params: PackageSearchParams): Observable<BundleSearchResponse> {

@@ -19,7 +19,7 @@ data class MultiItemOfferPrice(
         return referenceTotalPrice.toMoney()
     }
 
-    fun packageSavings(): Money {
+    fun packageSavings() : Money {
         return savings.toMoney()
     }
 }

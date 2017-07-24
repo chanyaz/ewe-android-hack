@@ -115,7 +115,7 @@ class PackageHotelDetailViewModelTest {
         packageHotelOffer.pricePerPerson.currencyCode = "USD"
         packageOffer.packageHotelOffers = arrayListOf(packageHotelOffer)
 
-        val offer = HotelOffersResponse.convertToHotelOffersResponse(offer1, packageOffer, packageSearchParams)
+        val offer = HotelOffersResponse.convertToHotelOffersResponse(offer1, HotelOffersResponse.convertPSSHotelRoomResponse(packageOffer), packageSearchParams.startDate.toString(), packageSearchParams.endDate.toString())
 
         vm.hotelOffersSubject.onNext(offer)
         vm.addViewsAfterTransition()
