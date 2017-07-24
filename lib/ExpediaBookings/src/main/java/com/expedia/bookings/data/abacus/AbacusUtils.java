@@ -47,6 +47,7 @@ public class AbacusUtils {
 	public static final int EBAndroidPopulateCardholderName = 14525;
 	public static final int EBAndroidAppSecureCheckoutIcon = 14202;
 	public static final int EBAndroidAppFlightFlexEnabled = 14880;
+	public static final int EBAndroidAppGlobalWebViewCheckout = 14761;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Rail tests
@@ -212,6 +213,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightSwitchFields);
 		testIDs.add(EBAndroidAppFlightTravelerFormRevamp);
 		testIDs.add(EBAndroidRailHybridAppForDEEnabled);
+		testIDs.add(EBAndroidAppGlobalWebViewCheckout);
 
 		return testIDs;
 	}
