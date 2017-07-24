@@ -5,8 +5,8 @@
     style="@style/MaterialCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="11dp"
-    android:layout_marginTop="20dp"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="11dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout

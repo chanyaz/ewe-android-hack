@@ -28,8 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp">
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/itin_hotel_room_details_header"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/itin_hotel_manage_booking_header"
                 android:textColor="@color/gray9"
                 android:textSize="18sp"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/itin_hotel_manage_booking_cancel_change_header"
                 style="@style/MaterialFooterRoundButtonText"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
                 android:textSize="14sp"

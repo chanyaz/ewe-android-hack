@@ -28,27 +28,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
 
             <!--Hotel thumbnail-->
             <com.expedia.bookings.widget.itin.HotelItinImage
                 android:id="@+id/hotel_itin_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
+                android:layout_height="wrap_content" />
 
             <!--Check in/out info-->
             <com.expedia.bookings.widget.itin.HotelItinCheckInCheckOutDetails
                 android:id="@+id/widget_hotel_itin_checkin_checkout_details"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"/>
 
             <!--Map and directions-->
             <com.expedia.bookings.widget.itin.HotelItinLocationDetails
                 android:id="@+id/widget_hotel_itin_location_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
+                android:layout_marginTop="5dp" />
 
             <!--Room details-->
             <com.expedia.bookings.widget.TextView
@@ -67,14 +69,13 @@
                 android:id="@+id/widget_hotel_itin_room_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
+                android:layout_marginTop="5dp" />
 
             <!--Booking details-->
             <com.expedia.bookings.widget.itin.HotelItinBookingDetails
                 android:id="@+id/widget_hotel_itin_booking_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="11dp"
                 android:layout_marginRight="11dp"
                 android:layout_marginTop="20dp" />
