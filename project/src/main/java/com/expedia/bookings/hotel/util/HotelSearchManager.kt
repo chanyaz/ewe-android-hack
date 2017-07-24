@@ -29,11 +29,15 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
 
     open fun doSearch(params: HotelSearchParams) {
         hotelServices?.let { services ->
-            searchResponse = null
-            subscriptions.clear()
+            reset()
             fetchingResults = true
             subscriptions.add(services.search(params, apiCompleteSubject).subscribe(searchResponseObserver))
         }
+    }
+
+    fun reset() {
+        searchResponse = null
+        subscriptions.clear()
     }
 
     fun unsubscribe() {

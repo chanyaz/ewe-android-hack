@@ -156,8 +156,10 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
 
     private fun handleSearch(params: HotelSearchParams) {
         if (params.suggestion.hotelId != null) {
+            hotelSearchManager.reset()
             hotelIdSearchSubject.onNext(params)
         } else if (params.suggestion.isRawTextSearch) {
+            hotelSearchManager.reset()
             rawTextSearchSubject.onNext(params)
         } else {
             if (!params.equalForPrefetch(prefetchParams)) {
