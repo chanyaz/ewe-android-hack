@@ -264,7 +264,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun showLoading() {
         super.showLoading()
-        filterBtnWithCountWidget?.visibility = View.GONE
+        filterBtnWithCountWidget.visibility = View.GONE
         urgencyDropDownContainer.visibility = View.GONE
         narrowResultsPromptView.visibility = View.GONE
         narrowResultsPromptView.clearAnimation()
@@ -360,6 +360,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     fun showCachedResults() {
         filterView.viewModel.clearObservable.onNext(Unit)
         val cachedResponse = filterView.viewModel.originalResponse ?: adapter.resultsSubject.value
+        filterBtnWithCountWidget.visibility = VISIBLE
         if (previousWasList) {
             viewModel.hotelResultsObservable.onNext(cachedResponse)
         } else {
