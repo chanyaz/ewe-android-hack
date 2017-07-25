@@ -3,96 +3,105 @@
     style="@style/MaterialCardView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="11dp"
     android:layout_marginRight="11dp"
     app:cardUseCompatPadding="true">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:orientation="horizontal">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_itin_checkin_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/itin_hotel_details_checkin_text"
-            android:textColor="@color/gray6"
-            android:textSize="12sp"
-            android:textStyle="normal"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_itin_checkin_date_text"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:textColor="@color/gray10"
-            android:textSize="20sp"
-            android:textStyle="normal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/hotel_itin_arrow"
-            app:layout_constraintTop_toBottomOf="@+id/hotel_itin_checkin_text" />
+            android:layout_weight="1"
+            android:focusable="true"
+            android:orientation="vertical">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_itin_checkin_time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray6"
-            android:textSize="12sp"
-            android:textStyle="normal"
-            app:layout_constraintTop_toBottomOf="@+id/hotel_itin_checkin_date_text" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_itin_checkin_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/itin_hotel_details_checkin_text"
+                android:textColor="@color/gray6"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                tools:text="Check-in" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_itin_checkout_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/itin_hotel_details_checkout_text"
-            android:textColor="@color/gray6"
-            android:textSize="12sp"
-            android:textStyle="normal"
-            app:layout_constraintRight_toRightOf="parent" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_itin_checkin_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:textColor="@color/gray10"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="Fri, Aug 17" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_itin_checkout_date_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:gravity="right"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:textColor="@color/gray10"
-            android:textSize="20sp"
-            android:textStyle="normal"
-            app:layout_constraintTop_toBottomOf="@+id/hotel_itin_checkout_text"
-            app:layout_constraintLeft_toRightOf="@+id/hotel_itin_arrow"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_itin_checkout_time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray6"
-            android:textSize="12sp"
-            android:textStyle="normal"
-            app:layout_constraintTop_toBottomOf="@+id/hotel_itin_checkout_date_text"
-            app:layout_constraintRight_toRightOf="parent" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_itin_checkin_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray6"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                tools:text="3:00pm" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/hotel_itin_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="center"
+            android:contentDescription="@string/itin_hotel_details_checkout_to_arrow_cont_desc"
+            android:focusable="true"
             android:tint="@color/blue5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/itin_arrow_icon" />
 
-    </android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_itin_checkout_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/itin_hotel_details_checkout_text"
+                android:textColor="@color/gray6"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                tools:text="Check-out" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_itin_checkout_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:textColor="@color/gray10"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="Mon, Aug 20" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_itin_checkout_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray6"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                tools:text="12:00pm" />
+        </LinearLayout>
+    </LinearLayout>
 </android.support.v7.widget.CardView>
