@@ -259,7 +259,9 @@ class CarWebViewTest {
         val intent = shadowApplication!!.nextStartedActivity
         val intentUrl = intent.getStringExtra("ARG_URL")
         assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
-        assertEquals(getCarUrlWithVisitorId("https://www." + PointOfSale.getPointOfSale().getUrl() + "/carshomepage?mcicid=App.Cars.WebView"), intentUrl)
+
+        assertTrue(intentUrl.startsWith("https://www." + PointOfSale.getPointOfSale().getUrl() + "/carshomepage?mcicid=App.Cars.WebView"))
+        assertTrue(intentUrl.contains("&adobe_mc="))
     }
 
     @Test

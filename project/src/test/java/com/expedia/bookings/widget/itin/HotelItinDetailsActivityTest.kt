@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin
 
 import android.text.format.DateFormat
 import android.view.View
+import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
@@ -87,7 +88,7 @@ class HotelItinDetailsActivityTest {
         var intent = shadowActivity.nextStartedActivity
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
         assertEquals("Price summary", intent.extras.getString("ARG_TITLE"))
-        assertEquals(intentBuilder.getUrlWithVisitorId(itinCardDataHotel.detailsUrl) + "#price-header", intent.extras.getString("ARG_URL"))
+        assertEquals(ADMS_Measurement.getUrlWithVisitorData(itinCardDataHotel.detailsUrl) + "#price-header", intent.extras.getString("ARG_URL"))
 
         //additional info - toolbar title and url check
         bookingDetailsView.additionalInfoCard.performClick()
@@ -95,7 +96,7 @@ class HotelItinDetailsActivityTest {
         intent = shadowActivity.nextStartedActivity
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
         assertEquals("Additional information", intent.extras.getString("ARG_TITLE"))
-        assertEquals(intentBuilder.getUrlWithVisitorId(itinCardDataHotel.detailsUrl), intent.extras.getString("ARG_URL"))
+        assertEquals(ADMS_Measurement.getUrlWithVisitorData(itinCardDataHotel.detailsUrl), intent.extras.getString("ARG_URL"))
     }
 
     @Test
