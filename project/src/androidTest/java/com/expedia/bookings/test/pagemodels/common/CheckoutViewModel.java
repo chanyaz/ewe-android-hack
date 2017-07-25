@@ -185,9 +185,12 @@ public class CheckoutViewModel {
 		ViewInteraction signInButton = onView(withId(R.id.sign_in_button));
 		signInButton.perform(waitForViewToDisplay());
 		Common.closeSoftKeyboard(CheckoutViewModel.password());
-		Common.delay(1);
 		signInButton.perform(click());
-		Common.delay(2);		//This resolves the main reason for flakiness as the login screen takes a few seconds to load the CKO page again.
+		waitForCheckoutToolbar();
+	}
+
+	private static void waitForCheckoutToolbar() {
+		onView(withId(R.id.checkout_toolbar)).perform(waitForViewToDisplay());
 	}
 
 	public static void clickLogin() {

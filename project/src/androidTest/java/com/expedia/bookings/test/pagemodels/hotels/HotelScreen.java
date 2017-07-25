@@ -27,6 +27,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isSelected;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -243,10 +244,12 @@ public class HotelScreen {
 
 	public static void clickPayLater() {
 		onView(withId(R.id.right_tab_text_view)).perform(click());
+		onView(allOf(withId(R.id.right_tab_text_view), isSelected())).perform(waitForViewToDisplay());
 	}
 
 	public static void clickPayNow() {
 		onView(withId(R.id.left_tab_text_view)).perform(click());
+		onView(allOf(withId(R.id.left_tab_text_view), isSelected())).perform(waitForViewToDisplay());
 	}
 
 	public static void clickRatingContainer() {
@@ -349,7 +352,6 @@ public class HotelScreen {
 		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
 		CheckoutViewModel.enterLoginDetails();
 		CheckoutViewModel.pressDoLogin();
-		Common.delay(1);
 	}
 
 	public static void checkout(boolean walletSupported) throws Throwable {

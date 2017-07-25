@@ -33,7 +33,7 @@ public class HotelDetailETPWithFreeCancellationTest extends HotelTestCase {
 	private void assertPayLaterPayNowRooms() throws Throwable {
 		//pay now view should show all the rooms and
 		//pay later view should only show the rooms with pay later offer
-
+		HotelScreen.payNowAndLaterOptions().perform(scrollTo());
 		int numberOfPayNowRooms = EspressoUtils.getListChildCount(HotelScreen.roomsContainer());
 
 		HotelScreen.clickPayLater();
@@ -74,5 +74,8 @@ public class HotelDetailETPWithFreeCancellationTest extends HotelTestCase {
 
 		//is displayed after scrolling down
 		HotelScreen.resortFeesText().check(matches(isDisplayed()));
+
+		//we need to come back to the top after we're done asserting.
+		HotelScreen.etpAndFreeCancellationMessagingContainer().perform(scrollTo());
 	}
 }

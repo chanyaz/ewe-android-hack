@@ -21,6 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.clickWhenEnabled;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.not;
 
 public class LXCheckoutPresenterTest extends LxTestCase {
@@ -42,6 +43,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 	public void testVisibilitiesAndOfferDetailsOnCheckout() throws Throwable {
 		goToCheckout();
 
+		LXScreen.checkoutActivityTitle().perform(waitForViewToDisplay());
 		LXScreen.checkoutWidget().check(matches(isDisplayed()));
 		LXScreen.checkoutActivityTitle().check(matches(withText("happy")));
 		LXScreen.checkoutOfferTitle().check(matches(withText("2-Day New York Pass")));

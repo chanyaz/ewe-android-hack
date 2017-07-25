@@ -11,6 +11,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
+import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable
 import com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable
 import com.expedia.bookings.test.espresso.EspressoUser
@@ -50,6 +51,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(withId(R.id.last_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
 
         Common.pressBack()
+        onView(withId(R.id.additional_traveler_container)).perform(waitForViewToDisplay())
         Common.pressBack()
 
         CheckoutViewModel.signInOnCheckout()
@@ -68,15 +70,17 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
                 isDescendantOfA(withId(R.id.additional_traveler_container)))).check(
                 doesNotExist())
 
-        Common.delay(1)
-        EspressoUser.clickOnText("11/01/1985")
+        onView(withText("Traveler details")).perform(waitForViewToDisplay())
+        onView(allOf(isDescendantOfA(withId(R.id.main_traveler_container)), withText("11/01/1985"))).perform(click())
+        onView(withText("Edit Traveler 1 (Adult)")).perform(waitForViewToDisplay())
         Espresso.closeSoftKeyboard()
         EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.first_name_input, R.drawable.invalid)
         EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.last_name_input, R.drawable.invalid)
         Common.pressBack()
 
         onView(withText("Save")).perform(click())
-        EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
+        onView(withText("Traveler details")).perform(waitForViewToDisplay())
+        onView(withId(R.id.additional_traveler_container)).perform(click())
         Espresso.closeSoftKeyboard()
         PackageScreen.clickTravelerDone()
         Common.delay(1)
