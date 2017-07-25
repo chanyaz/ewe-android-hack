@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/almost_there"
-                android:textColor="@color/blue"
+                android:textColor="@color/blue6"
                 android:textSize="23dp"
                 android:paddingTop="10dp" />
 
