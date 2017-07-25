@@ -27,7 +27,6 @@ class PackageSearchViewModelTest {
 
     @Test
     fun testRetainPackageSearchParams() {
-        SettingUtils.save(context, R.string.preference_packages_retain_search_params, true)
         givenDefaultTravelerComponent()
         createSystemUnderTest()
         sut.performSearchObserver.onNext(getDummyPackageSearchParams())

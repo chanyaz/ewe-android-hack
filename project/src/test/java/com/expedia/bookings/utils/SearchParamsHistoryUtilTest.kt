@@ -44,7 +44,6 @@ class SearchParamsHistoryUtilTest {
 
     @Test
     fun testPackageParamsSaveAndLoad() {
-        SettingUtils.save(context, R.string.preference_packages_retain_search_params, true)
         val searchParamsToSave = getDummyPackageSearchParams()
         SearchParamsHistoryUtil.savePackageParams(RuntimeEnvironment.application, searchParamsToSave , { _ ->
             SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedSearchParams ->

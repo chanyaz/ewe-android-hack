@@ -219,9 +219,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             addTransition(searchToBundle)
         }
 
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_retain_search_params)) {
-            SearchParamsHistoryUtil.loadPreviousPackageSearchParams(context, loadSuccess)
-        }
+        SearchParamsHistoryUtil.loadPreviousPackageSearchParams(context, loadSuccess)
     }
 
     private val loadSuccess: (PackageSearchParams) -> Unit = { params ->

@@ -119,12 +119,6 @@
             android:title="Packages MID API" />
 
         <CheckBoxPreference
-            android:key="@string/preference_packages_retain_search_params"
-            android:layout="@layout/preference"
-            android:summary="Packages Retain Search Params"
-            android:title="Packages Retain Search Params" />
-
-        <CheckBoxPreference
             android:key="preference_packages_title_change"
             android:layout="@layout/preference"
             android:summary="Show Hotel + Flight"

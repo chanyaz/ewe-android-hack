@@ -38,9 +38,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val performSearchObserver = endlessObserver<PackageSearchParams> { params ->
         travelerValidator.updateForNewSearch(params)
         searchParamsObservable.onNext(params)
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_retain_search_params)) {
-            SearchParamsHistoryUtil.savePackageParams(context, params)
-        }
+        SearchParamsHistoryUtil.savePackageParams(context, params)
     }
 
     init {
