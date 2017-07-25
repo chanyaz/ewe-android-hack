@@ -273,6 +273,8 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">请检查并重新提交。</string>
+    <!--Accessibility content description for lock icon on checkout. -->
+    <string name="secure_lock_accessibility">锁图标，安全付款</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -879,6 +881,8 @@
     <string name="nav_transport">交通服务</string>
     <!-- Packages -->
     <string name="nav_packages">组合优惠</string>
+    <string name="nav_hotel_plus_flight_deals">机 + 酒优惠</string>
+    <string name="nav_hotel_plus_flight">酒店 + 机票</string>
     <!-- Rail -->
     <string name="nav_rail">火车</string>
     <string name="add_rail_card">添加铁路卡</string>
@@ -1418,8 +1422,10 @@
     <string name="itin_card_details_reload_cruise">重新加载游轮信息</string>
     <string name="itin_card_details_remove_itin">从行程单中删除</string>
 
-    <!--Hotel itin card details-->
-    <string name="itin_hotel_details_room_details_title_text">客房详细信息</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_hotel_details_room_details_title_text">您的房间</string>
+    <!--Hotel itin card booking details heading-->
+    <string name="itin_hotel_details_booking_details_title_text">预订信息</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
     <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
@@ -1430,6 +1436,22 @@
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">给酒店打电话 {phonenumber}</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">酒店地址。{address}。点按可复制到剪切板。按钮</string>
+    <!--Hotel itin card manage booking subheading-->
+    <string name="itin_hotel_details_manage_booking_subheading">变更、取消、联系客服</string>
+    <!--Hotel itin card price summary heading-->
+    <string name="itin_hotel_details_price_summary_heading">价格摘要</string>
+    <!--Hotel itin card additional info heading-->
+    <string name="itin_hotel_details_additional_info_heading">其他信息</string>
+    <!--Hotel itin checkin text-->
+    <string name="itin_hotel_details_checkin_text">入住</string>
+    <!--Hotel itin checkout text-->
+    <string name="itin_hotel_details_checkout_text">退房</string>
+    <!--Hotel itin manage booking button to change or cancel room-->
+    <string name="itin_hotel_manage_booking_cancel_change_header">变更或取消客房</string>
+    <!--Hotel itin manage booking webview title-->
+    <string name="itin_hotel_manage_booking_webview_title">变更或取消客房</string>
+    <!--Hotel itin manage booking room details header-->
+    <string name="itin_hotel_manage_booking_header">管理订单</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">入住 - 3 天</string>
@@ -2726,10 +2748,14 @@
     <string name="booking_loading">正在预订…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">我们无法发送确认邮件。</string>
+    <!--Message displayed under loading icon while loading checkout web view-->
+    <string name="almost_there">快要完成啦！</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
-    <string name="confirmation_number">确认号码</string>
+    <string name="confirmation_number">确认编号</string>
+    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
+    <string name="confirmation_number_TEMPLATE">确认编号：{number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">行程编号</string>
     <!-- Itinerary number label content description -->
@@ -3545,13 +3571,13 @@
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">（18 岁以上）</string>
     <!-- Youth age label on flight search -->
-    <string name="flight_youth_age_label">（13-17 岁）</string>
+    <string name="flight_youth_age_label">（12-17 岁）</string>
     <!-- Youth age label desc on flight search -->
-    <string name="flight_youth_age_label_desc">（13 至 17 岁）</string>
+    <string name="flight_youth_age_label_desc">（12 至 17 岁）</string>
     <!-- Children age label on flight search -->
-    <string name="flight_children_age_label">（2-12 岁）</string>
+    <string name="flight_children_age_label">（2-11 岁）</string>
     <!-- Children age label desc on flight search -->
-    <string name="flight_children_age_label_desc">（2 至 12 岁）</string>
+    <string name="flight_children_age_label_desc">（2 至 11 岁）</string>
 
     <!-- Infant age label on flight search -->
     <string name="flight_infant_age_label">（2 岁以下）</string>
@@ -3737,6 +3763,7 @@
     <string name="error_package_origin_resolution_message_TEMPLATE">找不到名为{origin}的出发地</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
     <string name="error_package_destination_resolution_message_TEMPLATE">找不到名为{destination}的目的地</string>
+    <string name="error_package_date_mismatch_error">很抱歉，此航班的到达时间距离酒店入住时间太久了。请选择其他酒店或航班。</string>
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">确定吗？</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->
@@ -3746,6 +3773,10 @@
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">不经停</string>
+    <!-- Flight One stop description -->
+    <string name="flight_one_stop_description">1 次经停</string>
+    <!-- Flight Two stop description -->
+    <string name="flight_two_plus_stops_description">2 次以上经停</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s(%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4099,6 +4130,8 @@
     <string name="cost_summary_breakdown_hotel_flight_summary">酒店 + 机票</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
     <string name="cost_summary_breakdown_taxes_fees">税费</string>
+    <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
+    <string name="cost_summary_breakdown_discount_TEMPLATE">{brand} 折扣</string>
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">含税费 ({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->
@@ -4111,6 +4144,8 @@
     <string name="flight_add_adult_number_TEMPLATE">第 {number} 位成人的信息</string>
     <!-- Add child traveler number template for example: Child 4 details -->
     <string name="flight_add_child_number_TEMPLATE">第 {number} 名儿童的信息</string>
+    <!-- Add youth traveler number template for example: Youth 2 details -->
+    <string name="flight_add_youth_number_TEMPLATE">第 {number} 名青少年的信息</string>
     <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
     <string name="flight_add_infant_in_lap_number_TEMPLATE">第 {number} 名怀抱婴儿的信息</string>
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->

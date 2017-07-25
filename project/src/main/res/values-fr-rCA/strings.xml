@@ -273,6 +273,8 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Veuillez vérifier et l\&apos;envoyer de nouveau.</string>
+    <!--Accessibility content description for lock icon on checkout. -->
+    <string name="secure_lock_accessibility">Icône de cadenas, paiement sécurisé</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -879,6 +881,8 @@
     <string name="nav_transport">Transport</string>
     <!-- Packages -->
     <string name="nav_packages">Offres groupées</string>
+    <string name="nav_hotel_plus_flight_deals">Offres Hôtel + Vol</string>
+    <string name="nav_hotel_plus_flight">Hôtel + Vol</string>
     <!-- Rail -->
     <string name="nav_rail">Trains</string>
     <string name="add_rail_card">Ajouter une carte de chemin de fer</string>
@@ -1418,8 +1422,10 @@
     <string name="itin_card_details_reload_cruise">Recharger info. croisières</string>
     <string name="itin_card_details_remove_itin">Supprimer de l\&apos;itinéraire</string>
 
-    <!--Hotel itin card details-->
-    <string name="itin_hotel_details_room_details_title_text">Détails de la chambre</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_hotel_details_room_details_title_text">Votre chambre</string>
+    <!--Hotel itin card booking details heading-->
+    <string name="itin_hotel_details_booking_details_title_text">Informations de réservation</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
     <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
@@ -1430,6 +1436,22 @@
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Appeler l\&apos;hôtel au {phonenumber}</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Adresse de l\&apos;hôtel. {address}. Cliquer pour copier dans le presse-papiers. Bouton</string>
+    <!--Hotel itin card manage booking subheading-->
+    <string name="itin_hotel_details_manage_booking_subheading">Modification, annulation ou soutien</string>
+    <!--Hotel itin card price summary heading-->
+    <string name="itin_hotel_details_price_summary_heading">Sommaire du prix</string>
+    <!--Hotel itin card additional info heading-->
+    <string name="itin_hotel_details_additional_info_heading">Informations supplémentaires</string>
+    <!--Hotel itin checkin text-->
+    <string name="itin_hotel_details_checkin_text">Arrivée</string>
+    <!--Hotel itin checkout text-->
+    <string name="itin_hotel_details_checkout_text">Départ</string>
+    <!--Hotel itin manage booking button to change or cancel room-->
+    <string name="itin_hotel_manage_booking_cancel_change_header">Modifier ou annuler la chambre</string>
+    <!--Hotel itin manage booking webview title-->
+    <string name="itin_hotel_manage_booking_webview_title">Modifier ou annuler la chambre</string>
+    <!--Hotel itin manage booking room details header-->
+    <string name="itin_hotel_manage_booking_header">Gérer la réservation</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Arrivée — 3 jours</string>
@@ -1673,7 +1695,7 @@
     <string name="sort_description_duration">Durée</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
-        <item quantity="zero">%s jours</item>
+        <item quantity="zero">%s jour</item>
         <item quantity="one">%s jour</item>
         <item quantity="two">%s jours</item>
         <item quantity="few">%s jours</item>
@@ -1700,7 +1722,7 @@
     <string name="search_destination">Rechercher une destination</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d adultes</item>
+        <item quantity="zero">%1$d adulte</item>
         <item quantity="one">%1$d adulte</item>
         <item quantity="two">%1$d adultes</item>
         <item quantity="few">%1$d adultes</item>
@@ -2726,10 +2748,14 @@
     <string name="booking_loading">Réservation…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Nous n\&apos;avons pas pu envoyer de courriel de confirmation.</string>
+    <!--Message displayed under loading icon while loading checkout web view-->
+    <string name="almost_there">Vous y êtes presque!</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
     <string name="confirmation_number">Nº de confirmation</string>
+    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
+    <string name="confirmation_number_TEMPLATE">Numéro de confirmation : {number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Nº d\&apos;itinéraire</string>
     <!-- Itinerary number label content description -->
@@ -3545,13 +3571,13 @@
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">(18 ans et plus)</string>
     <!-- Youth age label on flight search -->
-    <string name="flight_youth_age_label">(13 à 17 ans)</string>
+    <string name="flight_youth_age_label">(12 à 17 ans)</string>
     <!-- Youth age label desc on flight search -->
-    <string name="flight_youth_age_label_desc">(13 à 17 ans)</string>
+    <string name="flight_youth_age_label_desc">(12 à 17 ans)</string>
     <!-- Children age label on flight search -->
-    <string name="flight_children_age_label">(2 à 12 ans)</string>
+    <string name="flight_children_age_label">(2 à 11 ans)</string>
     <!-- Children age label desc on flight search -->
-    <string name="flight_children_age_label_desc">(2 à 12 ans)</string>
+    <string name="flight_children_age_label_desc">(2 à 11 ans)</string>
 
     <!-- Infant age label on flight search -->
     <string name="flight_infant_age_label">(moins de 2 ans)</string>
@@ -3737,6 +3763,7 @@
     <string name="error_package_origin_resolution_message_TEMPLATE">Aucun lieu d\&apos;origine ne correspond à {origin}</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
     <string name="error_package_destination_resolution_message_TEMPLATE">Aucun lieu de destination ne correspond à {destination}</string>
+    <string name="error_package_date_mismatch_error">Désolés, ce vol arrive bien avant l\&apos;heure de l\&apos;enregistrement à l\&apos;hôtel. Veuillez choisir un hôtel ou des vols différents.</string>
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">Êtes-vous certain?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->
@@ -3746,6 +3773,10 @@
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">Sans escale</string>
+    <!-- Flight One stop description -->
+    <string name="flight_one_stop_description">1 escale</string>
+    <!-- Flight Two stop description -->
+    <string name="flight_two_plus_stops_description">2 escales ou plus</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4099,6 +4130,8 @@
     <string name="cost_summary_breakdown_hotel_flight_summary">Hôtel + Vols</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
     <string name="cost_summary_breakdown_taxes_fees">Taxes et frais</string>
+    <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
+    <string name="cost_summary_breakdown_discount_TEMPLATE">Réduction {brand}</string>
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Taxes et frais compris ({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->
@@ -4111,6 +4144,8 @@
     <string name="flight_add_adult_number_TEMPLATE">Détails sur l\&apos;adulte {number}</string>
     <!-- Add child traveler number template for example: Child 4 details -->
     <string name="flight_add_child_number_TEMPLATE">Détails sur l\&apos;enfant {number}</string>
+    <!-- Add youth traveler number template for example: Youth 2 details -->
+    <string name="flight_add_youth_number_TEMPLATE">Détails sur l\&apos;adolescent {number}</string>
     <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
     <string name="flight_add_infant_in_lap_number_TEMPLATE">Détails sur le jeune enfant {number} sur les genoux</string>
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
