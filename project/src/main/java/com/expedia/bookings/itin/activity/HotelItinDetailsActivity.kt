@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -24,6 +25,9 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
     }
     val roomDetailsView: HotelItinRoomDetails by lazy {
         findViewById(R.id.widget_hotel_itin_room_details) as HotelItinRoomDetails
+    }
+    val roomDetailsHeader: View by lazy {
+        findViewById(R.id.itin_hotel_room_details_header)
     }
     val hotelImageView: HotelItinImage by lazy {
         findViewById(R.id.hotel_itin_image) as HotelItinImage
@@ -60,18 +64,25 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        setUpWidgets(itinCardDataHotel)
+    }
+
+    fun setUpWidgets(itinCardDataHotel: ItinCardDataHotel) {
         locationDetailsView.setupWidget(itinCardDataHotel)
-        roomDetailsView.setUpWidget(itinCardDataHotel)
         hotelImageView.setUpWidget(itinCardDataHotel)
         checkinCheckoutView.setUpWidget(itinCardDataHotel)
+        roomDetailsView.setUpWidget(itinCardDataHotel)
+        hotelBookingDetailsView.setUpWidget(itinCardDataHotel)
         toolbar.setUpWidget(itinCardDataHotel, itinCardDataHotel.propertyName)
         toolbar.setNavigationOnClickListener {
             super.finish()
         }
-        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
+        if (itinCardDataHotel.isSharedItin) {
+            roomDetailsHeader.visibility = View.GONE
+        }
+        else if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
             toolbar.showShare()
         }
-        hotelBookingDetailsView.setUpWidget(itinCardDataHotel)
     }
 
 }

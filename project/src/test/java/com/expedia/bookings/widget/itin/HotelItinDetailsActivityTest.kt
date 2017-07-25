@@ -6,7 +6,6 @@ import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
-import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
@@ -42,6 +41,7 @@ class HotelItinDetailsActivityTest {
         val roomDetailsView: HotelItinRoomDetails = activity.roomDetailsView
         roomDetailsView.setUpWidget(itinCardDataHotel)
         assertEquals(itinCardDataHotel.property.itinRoomType + ", " + itinCardDataHotel.property.itinBedType, roomDetailsView.roomDetailsText.text)
+        assertEquals(View.VISIBLE, roomDetailsView.visibility)
     }
 
     @Test
@@ -112,5 +112,29 @@ class HotelItinDetailsActivityTest {
         assertEquals(checkOutDate, hotelCheckinCheckout.checkOutDateView.text)
         assertEquals(itinCardDataHotel.checkInTime?.toLowerCase(), hotelCheckinCheckout.checkInTimeView.text)
         assertEquals(itinCardDataHotel.checkOutTime?.toLowerCase(), hotelCheckinCheckout.checkOutTimeView.text)
+    }
+
+    @Test
+    fun sharedItinView() {
+        val sharedItin = ItinCardDataHotelBuilder().isSharedItin(true).build()
+        activity.setUpWidgets(sharedItin)
+
+        val roomDetailsView: HotelItinRoomDetails = activity.roomDetailsView
+        assertEquals(View.GONE, roomDetailsView.visibility)
+
+        val hotelImageView: HotelItinImage = activity.hotelImageView
+        assertEquals(View.VISIBLE, hotelImageView.visibility)
+
+        val hotelCheckinCheckout: HotelItinCheckInCheckOutDetails = activity.checkinCheckoutView
+        assertEquals(View.VISIBLE, hotelCheckinCheckout.visibility)
+
+        val bookingDetailsView: HotelItinBookingDetails = activity.hotelBookingDetailsView
+        assertEquals(View.GONE, bookingDetailsView.visibility)
+
+        val roomDetailsHeader: View = activity.roomDetailsHeader
+        assertEquals(View.GONE, roomDetailsHeader.visibility)
+
+        val shareIcon: View = activity.findViewById(R.id.itin_share_button)
+        assertEquals(View.GONE, shareIcon.visibility)
     }
 }

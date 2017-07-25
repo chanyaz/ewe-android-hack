@@ -40,7 +40,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:contentDescription="@string/share_menu_btn_cont_desc"
-            android:gravity="center" />
+            android:gravity="center"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
