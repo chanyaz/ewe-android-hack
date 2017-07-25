@@ -148,7 +148,7 @@ class HotelResultsViewModelTest {
 
     @Test
     fun subtitleSubjectSet() {
-        val expectedSubtitle = DateUtils.localDateToMMMd(checkInDate) + " - " + DateUtils.localDateToMMMd(checkOutDate) + ", 1 Guest"
+        val expectedSubtitle = DateUtils.localDateToMMMd(checkInDate) + " - " + DateUtils.localDateToMMMd(checkOutDate) + ", 1 guest"
         val testSubscriber = TestSubscriber<CharSequence>()
         sut.subtitleSubject.subscribe(testSubscriber)
 

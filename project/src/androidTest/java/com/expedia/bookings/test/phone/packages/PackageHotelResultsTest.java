@@ -56,13 +56,13 @@ public class PackageHotelResultsTest extends PackageTestCase {
 		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
 		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		PackageScreen.hotelResultsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(
-			isDisplayed(), withText(startDate + " - " + endDate + ", 3 Guests")))));
+			isDisplayed(), withText(startDate + " - " + endDate + ", 3 guests")))));
 	}
 
 	@Test
 	public void testUIElements() throws Throwable {
 		PackageScreen.searchPackage();
 		onView(withId(R.id.list_view))
-			.check(matches(CustomMatchers.atPosition(2, hasDescendant(withText("Includes flights + hotel")))));
+			.check(matches(CustomMatchers.atPosition(2, hasDescendant(withText("includes hotel and flights")))));
 	}
 }

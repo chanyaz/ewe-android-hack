@@ -85,7 +85,7 @@ class HotelRoomRateViewModelTest {
         givenOfferHasFreeCancellation()
         setupNonSoldOutRoomUnderTest()
 
-        assertEquals("Free Cancellation", sut.expandedMessageObservable.value.first)
+        assertEquals("Free cancellation", sut.expandedMessageObservable.value.first)
         assertEquals(R.drawable.room_checkmark, sut.expandedMessageObservable.value.second)
     }
 

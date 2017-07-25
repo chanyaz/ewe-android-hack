@@ -724,8 +724,6 @@
     <string name="lx_popularity_sort_button">熱門程度</string>
     <!-- Select ticket button -->
     <string name="lx_select_ticket">選擇門票</string>
-    <!-- Free cancellation text in offer  -->
-    <string name="lx_free_cancellation">免費取消</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_voucherless_offer">電子兌換券</string>
     <!-- Message for voucherless offers  -->

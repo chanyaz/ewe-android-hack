@@ -416,7 +416,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
 			withText("San Francisco, CA"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)),
-			withText("1 Traveler"))).check(matches(isDisplayed()));
+			withText("1 traveler"))).check(matches(isDisplayed()));
 
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(

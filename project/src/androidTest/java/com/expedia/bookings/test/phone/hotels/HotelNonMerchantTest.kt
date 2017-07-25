@@ -22,7 +22,7 @@ class HotelNonMerchantTest: HotelTestCase() {
         Common.delay(1)
         // Check bed type and free cancellation
         HotelScreen.expandedBedType().check(matches(withText("1 bed")))
-        HotelScreen.expandedFreeCancellation().check(matches(withText("Free Cancellation")))
+        HotelScreen.expandedFreeCancellation().check(matches(withText("Free cancellation")))
         // Check other bed type and non refundable room
         HotelScreen.viewRoom("One Bed in 6-Bed Mixed Sex Dormitory").perform(click())
         Common.delay(1)

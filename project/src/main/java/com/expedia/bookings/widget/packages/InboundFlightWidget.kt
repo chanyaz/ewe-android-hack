@@ -29,7 +29,7 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
         toggleFlightWidget(1f, false)
 
         viewModel.showLoadingStateObservable.onNext(!isRemoveBundleOverviewFeatureEnabled())
-        viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatCityName(viewModel.searchParams.value.origin)))
+        viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to))
     }
 
     override fun handleResultsLoaded() {

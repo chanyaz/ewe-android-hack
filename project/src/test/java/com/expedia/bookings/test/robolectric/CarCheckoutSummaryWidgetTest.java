@@ -100,7 +100,7 @@ public class CarCheckoutSummaryWidgetTest {
 		assertEquals("San Francisco (SFO)", airportText.getText());
 		assertEquals("Shuttle to counter and car", locationDescription.getText());
 		assertEquals(View.VISIBLE, freeCancellation.getVisibility());
-		assertEquals("Free Cancellation", freeCancellation.getText());
+		assertEquals("Free cancellation", freeCancellation.getText());
 		assertEquals(View.GONE, unlimitedMileage.getVisibility());
 		assertEquals("$50", tripTotal.getText());
 		assertEquals("$50. Cost summary information button.", tripTotal.getContentDescription());

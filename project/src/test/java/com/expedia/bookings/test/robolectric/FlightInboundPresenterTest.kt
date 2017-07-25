@@ -166,13 +166,13 @@ class FlightInboundPresenterTest {
 
         val travelDate = DateFormatUtils.formatLocalDateToShortDayAndDate(currentTime)
         assertEquals(View.VISIBLE,flightInboundPresenter.toolbar.visibility)
-        assertEquals(travelDate+", 1 Traveler",flightInboundPresenter.toolbar.subtitle)
+        assertEquals(travelDate+", 1 traveler",flightInboundPresenter.toolbar.subtitle)
         assertEquals("Select return flight", flightInboundPresenter.toolbar.title.toString())
 
         flightInboundPresenter.toolbarViewModel.travelers.onNext(2)
         assertEquals(View.VISIBLE,flightInboundPresenter.toolbar.visibility)
         assertEquals("Select return flight", flightInboundPresenter.toolbar.title.toString())
-        assertEquals(travelDate+", 2 Travelers",flightInboundPresenter.toolbar.subtitle)
+        assertEquals(travelDate+", 2 travelers",flightInboundPresenter.toolbar.subtitle)
     }
 
     @Test

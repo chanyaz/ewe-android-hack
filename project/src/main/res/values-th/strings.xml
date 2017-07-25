@@ -724,8 +724,6 @@
     <string name="lx_popularity_sort_button">ความนิยม</string>
     <!-- Select ticket button -->
     <string name="lx_select_ticket">เลือกตั๋ว</string>
-    <!-- Free cancellation text in offer  -->
-    <string name="lx_free_cancellation">ยกเลิกฟรี</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_voucherless_offer">คูปองอิเล็กทรอนิกส์</string>
     <!-- Message for voucherless offers  -->

@@ -724,8 +724,6 @@
     <string name="lx_popularity_sort_button">Popolarità</string>
     <!-- Select ticket button -->
     <string name="lx_select_ticket">Seleziona i biglietti</string>
-    <!-- Free cancellation text in offer  -->
-    <string name="lx_free_cancellation">Cancellazione gratuita</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_voucherless_offer">Voucher elettronico</string>
     <!-- Message for voucherless offers  -->

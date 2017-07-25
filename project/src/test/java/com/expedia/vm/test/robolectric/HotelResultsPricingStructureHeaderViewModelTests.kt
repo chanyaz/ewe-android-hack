@@ -33,7 +33,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
     fun loading() {
         givenLoading()
 
-        assertEquals("Searching hundreds of hotels for you!", sut.resultsDescriptionHeaderObservable.value)
+        assertEquals("Searching hotels…", sut.resultsDescriptionHeaderObservable.value)
         assertEquals(false, sut.loyaltyAvailableObservable.value)
     }
 

@@ -209,7 +209,7 @@ class FlightConfirmationViewModelTest {
         vm.formattedTravelersStringSubject.subscribe(travelersString)
 
         vm.numberOfTravelersSubject.onNext(numberOfTravelers)
-        travelersString.assertValue("5 Travelers")
+        travelersString.assertValue("5 travelers")
     }
 
     @Test

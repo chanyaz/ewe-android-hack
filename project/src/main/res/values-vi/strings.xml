@@ -724,8 +724,6 @@
     <string name="lx_popularity_sort_button">Phổ biến</string>
     <!-- Select ticket button -->
     <string name="lx_select_ticket">Chọn vé</string>
-    <!-- Free cancellation text in offer  -->
-    <string name="lx_free_cancellation">Hủy miễn phí</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_voucherless_offer">Voucher điện tử</string>
     <!-- Message for voucherless offers  -->

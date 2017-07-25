@@ -85,7 +85,7 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 	private void assertConfirmationScreen() {
 		onView(allOf(withId(R.id.destination), withText("Glasgow (All Stations)"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.confirmation_title), isDescendantOfA(withId(R.id.outbound_leg_card)), withText("London (All Stations) to Glasgow (All Stations)"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.confirmation_subtitle), isDescendantOfA(withId(R.id.outbound_leg_card)), withText("7:43 am, 4 Travelers"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.confirmation_subtitle), isDescendantOfA(withId(R.id.outbound_leg_card)), withText("7:43 am, 4 travelers"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.itin_number), withText("#7938604594 sent to noah@mobiata.com"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.view_itin_button), withText("View Itinerary"))).check(matches(isDisplayed()));
 	}

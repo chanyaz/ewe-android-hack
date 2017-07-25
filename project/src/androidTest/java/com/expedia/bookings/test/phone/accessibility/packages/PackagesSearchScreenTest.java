@@ -46,7 +46,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 
 		Common.pressBack();
 		checkToolbarNavContentDescription(false);
-		SearchScreen.calendarCard().check(matches(withContentDescription("Select Dates Button. Opens dialog. ")));
+		SearchScreen.calendarCard().check(matches(withContentDescription("Select dates Button. Opens dialog. ")));
 		SearchScreen.calendarCard().perform(click());
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);

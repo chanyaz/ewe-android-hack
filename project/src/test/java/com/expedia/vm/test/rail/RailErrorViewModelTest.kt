@@ -38,7 +38,7 @@ class RailErrorViewModelTest {
         subjectUnderTest.paramsSubject.onNext(searchRequest)
         val expectedDateText = DateFormatUtils.formatRailDateRange(context, searchRequest.startDate, searchRequest.endDate)
         assertEquals("Origin - Destination", subjectUnderTest.titleObservable.value)
-        assertEquals("$expectedDateText - 1 Traveler", subjectUnderTest.subTitleObservable.value)
+        assertEquals("$expectedDateText - 1 traveler", subjectUnderTest.subTitleObservable.value)
     }
 
     @Test

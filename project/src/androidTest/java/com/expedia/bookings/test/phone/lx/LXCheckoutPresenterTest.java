@@ -49,7 +49,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		LXScreen.checkoutOfferLocation().check(matches(withText("New York, United States")));
 		LXScreen.checkoutGrandTotalText().check(matches(withText("Total with Tax")));
 		LXScreen.checkoutPriceText().check(matches(withText("$500")));
-		LXScreen.checkoutFreeCancellationText().check(matches(withText("Free Cancellation")));
+		LXScreen.checkoutFreeCancellationText().check(matches(withText("Free cancellation")));
 
 		LXScreen.checkoutSignInCard().check(matches(isDisplayed()));
 		LXScreen.checkoutContactInfoCard().check(matches(isDisplayed()));
@@ -75,7 +75,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		LXScreen.checkoutGrandTotalText().perform(scrollTo());
-		LXScreen.checkoutFreeCancellationText().check(matches(withText("Free Cancellation")));
+		LXScreen.checkoutFreeCancellationText().check(matches(withText("Free cancellation")));
 		LXScreen.checkoutFreeCancellationText().perform(click());
 		LXScreen.rulesWidget().check(matches(isDisplayed()));
 		LXScreen.rulesWidgetCancellationPolicyHeader().check(matches(isDisplayed()));

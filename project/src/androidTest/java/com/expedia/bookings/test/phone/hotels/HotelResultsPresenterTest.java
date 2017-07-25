@@ -50,7 +50,7 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 
 		//test Top amenities
 		assertViewWithTextIsDisplayedAtPosition(2, R.id.top_amenity, "Sponsored");
-		assertViewWithTextIsDisplayedAtPosition(3, R.id.top_amenity, "Free Cancellation");
+		assertViewWithTextIsDisplayedAtPosition(3, R.id.top_amenity, "Free cancellation");
 
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(4));
 		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity, "Book Now, Pay Later");

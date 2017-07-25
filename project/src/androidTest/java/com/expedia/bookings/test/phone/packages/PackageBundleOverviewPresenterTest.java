@@ -127,10 +127,10 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to Detroit")))));
 
-		PackageScreen.outboundFlightCardInfo().check(matches(withText(formattedStartString + ", 1 Traveler")));
+		PackageScreen.outboundFlightCardInfo().check(matches(withText(formattedStartString + ", 1 traveler")));
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Flight to San Francisco")))));
-		PackageScreen.inboundFlightCardInfo().check(matches(withText(formattedEndString + ", 1 Traveler")));
+		PackageScreen.inboundFlightCardInfo().check(matches(withText(formattedEndString + ", 1 traveler")));
 
 		//Test clicking on toolbar returns to results
 		PackageScreen.bundlePriceWidget().perform(click());

@@ -724,8 +724,6 @@
     <string name="lx_popularity_sort_button">Popularity</string>
     <!-- Select ticket button -->
     <string name="lx_select_ticket">Select Tickets</string>
-    <!-- Free cancellation text in offer  -->
-    <string name="lx_free_cancellation">Free Cancellation</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_voucherless_offer">Electronic voucher</string>
     <!-- Message for voucherless offers  -->
@@ -1848,12 +1846,12 @@
     <string name="includes_flights_hotel">Includes flights + hotel</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d Travellers</item>
-        <item quantity="one">%1$d Traveller</item>
-        <item quantity="two">%1$d Travellers</item>
-        <item quantity="few">%1$d Travellers</item>
-        <item quantity="many">%1$d Travellers</item>
-        <item quantity="other">%1$d Travellers</item>
+        <item quantity="zero">%1$d travellers</item>
+        <item quantity="one">%1$d traveller</item>
+        <item quantity="two">%1$d travellers</item>
+        <item quantity="few">%1$d travellers</item>
+        <item quantity="many">%1$d travellers</item>
+        <item quantity="other">%1$d travellers</item>
     </plurals>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Price changed from %1$s</string>

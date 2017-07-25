@@ -69,7 +69,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		onView(allOf(withText("Expedia will not charge you."),
 			isDescendantOfA(hasSibling(withText("Reserve with deposit")))))
 			.check(matches(isDisplayed()));
-		onView(allOf(withText("Free Cancellation"),
+		onView(allOf(withText("Free cancellation"),
 			isDescendantOfA(hasSibling(withText("Reserve with deposit")))))
 			.check(matches(isDisplayed()));
 		Common.pressBack();

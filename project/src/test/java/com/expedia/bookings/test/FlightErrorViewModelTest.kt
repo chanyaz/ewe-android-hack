@@ -110,7 +110,7 @@ class FlightErrorViewModelTest {
         val expectedDate = DateFormatUtils.formatLocalDateToShortDayAndDate(flightSearchParams.departureDate)
         subjectUnderTest.paramsSubject.onNext(flightSearchParams)
         assertEquals("Select flight to Los Angles (LA)", subjectUnderTest.titleObservable.value)
-        assertEquals(expectedDate + ", 1 Traveler", subjectUnderTest.subTitleObservable.value)
+        assertEquals(expectedDate + ", 1 traveler", subjectUnderTest.subTitleObservable.value)
     }
 
     private fun doFlightSearch(): FlightSearchParams {

@@ -79,7 +79,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals("San Francisco, CA", sut.city.value)
         assertEquals(hotelRoomResponse.roomTypeDescription, sut.roomDescriptions.value)
         assertEquals("1 Night", sut.numNights.value)
-        assertEquals("1 Guest", sut.numGuests.value)
+        assertEquals("1 guest", sut.numGuests.value)
         assertEquals(hotelRoomResponse.hasFreeCancellation, sut.hasFreeCancellation.value)
         assertEquals(rate.currencyCode, sut.currencyCode.value)
         assertEquals(rate.nightlyRatesPerRoom, sut.nightlyRatesPerRoom.value)
@@ -93,7 +93,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
         assertTrue(sut.isBestPriceGuarantee.value)
         assertEquals(testNewDataSubscriber.onNextEvents.size , 1)
-        assertEquals("Free Cancellation", testTextSubscriber.onNextEvents[0])
+        assertEquals("Free cancellation", testTextSubscriber.onNextEvents[0])
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)
         assertEquals(hotelRoomResponse.valueAdds, sut.valueAddsListObservable.value)
     }

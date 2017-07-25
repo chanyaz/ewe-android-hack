@@ -72,7 +72,7 @@ class PackageHotelDetailViewModelTest {
         val dates = DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())) + " - " +
                 DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))
         assertEquals(dates, testViewModel.searchDatesObservable.value)
-        assertEquals("$dates, ${searchParams.guests} Guests", testViewModel.searchInfoObservable.value)
+        assertEquals("$dates, ${searchParams.guests} guests", testViewModel.searchInfoObservable.value)
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

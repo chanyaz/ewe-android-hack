@@ -48,7 +48,7 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 		Common.pressBack();
 		// Assert that the search screen is displayed with the correct search params
 		SearchScreen.selectDestinationTextView().check(ViewAssertions.matches(ViewMatchers.withText("San Francisco")));
-		SearchScreen.selectGuestsButton().check(ViewAssertions.matches(ViewMatchers.withText("2 Guests")));
+		SearchScreen.selectGuestsButton().check(ViewAssertions.matches(ViewMatchers.withText("2 guests")));
 		LocalDate checkIn = LocalDate.now().plusDays(1);
 		LocalDate checkOut = LocalDate.now().plusDays(2);
 		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);

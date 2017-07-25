@@ -109,7 +109,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		}
 
 		if (offer.freeCancellation) {
-			offerDetails.get(index).setText(getContext().getString(R.string.lx_free_cancellation));
+			offerDetails.get(index).setText(getContext().getString(R.string.free_cancellation));
 			offerDetails.get(index).setVisibility(View.VISIBLE);
 			Drawable freeCancellationDrawable = getResources().getDrawable(R.drawable.checkmark).mutate();
 			freeCancellationDrawable.setColorFilter(getResources().getColor(

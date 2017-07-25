@@ -29,8 +29,7 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
         toggleFlightWidget(1f, false)
 
         viewModel.showLoadingStateObservable.onNext(!isRemoveBundleOverviewFeatureEnabled())
-        viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to,
-                StrUtils.formatCityName(viewModel.searchParams.value.destination)))
+        viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to))
     }
 
     override fun handleResultsLoaded() {

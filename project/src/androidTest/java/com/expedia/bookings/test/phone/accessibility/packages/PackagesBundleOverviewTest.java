@@ -99,11 +99,11 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		if (searchCompleted) {
 			PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription(
 				"Search completed. Select a hotel in Detroit from " + startDate + " to " + endDate
-					+ ", for 1 Guest. Button")));
+					+ ", for 1 guest. Button")));
 		}
 		else {
 			PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
-				"Searching for hotels in Detroit from " + startDate + " to " + endDate + ", for 1 Guest. Please wait")));
+				"Searching for hotels in Detroit from " + startDate + " to " + endDate + ", for 1 guest. Please wait")));
 		}
 	}
 
@@ -116,11 +116,11 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		String previous = isInboundFlight ? "Outbound Flight" : "Hotel";
 		if (isDisabled) {
 			view.check(matches(withContentDescription(
-				"Flight to " + flightTo + " on " + date + " for 1 Traveler. Please select " + previous + " first. Button.")));
+				"Flight to " + flightTo + " on " + date + " for 1 traveler. Please select " + previous + " first. Button.")));
 		}
 		else {
 			view.check(matches(withContentDescription(
-				"You have selected flight to " + flightTo + " on " + date + ", 1 Traveler. Button to expand flight details.")));
+				"You have selected flight to " + flightTo + " on " + date + ", 1 traveler. Button to expand flight details.")));
 		}
 	}
 
@@ -128,13 +128,13 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
 		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
-			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to expand hotel details.")));
+			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 guest. Button to expand hotel details.")));
 		PackageScreen.hotelDetailsIcon().perform(click());
 		PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
-			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to collapse hotel details.")));
+			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 guest. Button to collapse hotel details.")));
 		PackageScreen.hotelDetailsIcon().perform(click());
 		PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
-			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 Guest. Button to expand hotel details.")));
+			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 guest. Button to expand hotel details.")));
 	}
 
 	private void checkBundleTotalWidgetContentDescription(String totalPrice, String totalSaved,
@@ -161,7 +161,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		String endDate =  DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 
 		if (isOpened) {
-			str = "Trip to Detroit, MI. " + startDate + " to " + endDate + ", 1 Traveler";
+			str = "Trip to Detroit, MI. " + startDate + " to " + endDate + ", 1 traveler";
 		}
 		else {
 			str = "Bundle price is " + pricePerPerson + " per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.";

@@ -36,7 +36,7 @@ class FlightConfirmationCardViewModelTest {
         setupTestSubscriptions(viewModel)
 
         titleSubscriber.assertValue("Flight to (OAX) Oakland")
-        subtitleSubscriber.assertValue("$formattedDate at $flightTime, $numberOfTravelers Travelers")
+        subtitleSubscriber.assertValue("$formattedDate at $flightTime, $numberOfTravelers travelers")
         urlSubscriber.assertNoValues()
         secondaryHeaderText.assertNoValues()
     }

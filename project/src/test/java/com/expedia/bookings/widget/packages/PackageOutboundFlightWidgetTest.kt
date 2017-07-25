@@ -98,7 +98,7 @@ class PackageOutboundFlightWidgetTest {
         val expectedText = Phrase.from(activity, R.string.select_flight_searching_cont_desc_TEMPLATE).
                 put("flight", testFlightText).
                 put("date", DateUtils.localDateToMMMd(LocalDate.now().plusDays(1))).
-                put("travelers", "1 Traveler").
+                put("travelers", "1 traveler").
                 format().toString()
 
         assertEquals(expectedText, testWidget.getRowInfoContainer().contentDescription)
@@ -111,7 +111,7 @@ class PackageOutboundFlightWidgetTest {
         val expectedText = Phrase.from(activity, R.string.select_flight_cont_desc_TEMPLATE)
                 .put("flight", testFlightText)
                 .put("date", DateUtils.localDateToMMMd(LocalDate.now().plusDays(1)))
-                .put("travelers", "1 Traveler")
+                .put("travelers", "1 traveler")
                 .format()
                 .toString()
 

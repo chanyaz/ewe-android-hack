@@ -78,7 +78,7 @@ class PackageSearchViewModelTest {
         assertEquals("$expectedNewStartDate – Select return date", sut.dateTextObservable.value)
 
         sut.datesUpdated(null, null)
-        assertEquals("Select Dates", sut.dateTextObservable.value)
+        assertEquals("Select dates", sut.dateTextObservable.value)
 
         // Reset it back
         Locale.setDefault(currentLocale)

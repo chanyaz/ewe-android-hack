@@ -179,7 +179,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	private void assertConfirmation() {
 		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.confirmation_title), isDescendantOfA(withId(R.id.destination_card_row)), withText("Package Happy Path"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.confirmation_subtitle), isDescendantOfA(withId(R.id.destination_card_row)), withText("Feb 2 - Feb 4, 1 Guest"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.confirmation_subtitle), isDescendantOfA(withId(R.id.destination_card_row)), withText("Feb 2 - Feb 4, 1 guest"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.confirmation_title), isDescendantOfA(withId(R.id.outbound_flight_card)), withText("Flight to (DTW) Detroit"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.confirmation_subtitle), isDescendantOfA(withId(R.id.outbound_flight_card)))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.confirmation_title), isDescendantOfA(withId(R.id.inbound_flight_card)), withText("Flight to (SFO) San Francisco"))).check(matches(isDisplayed()));
@@ -214,7 +214,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		float detailsHotelRating = EspressoUtils.getStarRatingValue(HotelScreen.hotelDetailsStarRating());
 		assertEquals(4.0f, detailsHotelRating);
 		onView(allOf(withId(R.id.user_rating), withText("4.4"))).check(matches(isDisplayed()));
-		onView(withId(R.id.hotel_search_info)).check(matches(withText("Feb 3 - Feb 4, 1 Guest")));
+		onView(withId(R.id.hotel_search_info)).check(matches(withText("Feb 3 - Feb 4, 1 guest")));
 	}
 
 	private void assertCheckout() {
@@ -229,7 +229,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 			withText(
-				"Includes flights + hotel"))).check(matches(isDisplayed()));
+				"includes hotel and flights"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
 	}
 

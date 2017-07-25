@@ -72,7 +72,7 @@ class FlightSearchViewModelTest {
         assertEquals("$expectedNewStartDate – Select return date", sut.dateTextObservable.value)
 
         sut.datesUpdated(null, null)
-        assertEquals("Select Dates", sut.dateTextObservable.value)
+        assertEquals("Select dates", sut.dateTextObservable.value)
 
         sut.isRoundTripSearchObservable.onNext(false)
         assertEquals("Select departure date", sut.dateTextObservable.value)
@@ -109,7 +109,7 @@ class FlightSearchViewModelTest {
         assertEquals("$expectedNewStartDate – Select return date", sut.dateTextObservable.value)
 
         sut.datesUpdated(null, null)
-        assertEquals("Select Dates", sut.dateTextObservable.value)
+        assertEquals("Select dates", sut.dateTextObservable.value)
 
         sut.isRoundTripSearchObservable.onNext(false)
         assertEquals("Select departure date", sut.dateTextObservable.value)

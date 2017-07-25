@@ -104,7 +104,7 @@ class FlightConfirmationPresenterTest {
         assertEquals("Your trip is booked!", presenter.tripBookedMessage.text as String)
         assertEquals(VISIBLE, presenter.flightSummary?.visibility)
         assertEquals("$rewardPoints points earned", presenter.flightSummary?.pointsEarned?.text)
-        assertEquals("1 Traveler", presenter.flightSummary?.numberOfTravelers?.text)
+        assertEquals("1 traveler", presenter.flightSummary?.numberOfTravelers?.text)
         assertEquals("$100.95", presenter.flightSummary?.tripPrice?.text)
         assertEquals(VISIBLE, tripTotalText.visibility)
     }
@@ -203,7 +203,7 @@ class FlightConfirmationPresenterTest {
         setupPresenter(isNewConfirmationEnabled = true)
         givenCheckoutResponse(numberOfTravelers = 3)
 
-        assertEquals("3 Travelers", presenter.flightSummary?.numberOfTravelers?.text)
+        assertEquals("3 travelers", presenter.flightSummary?.numberOfTravelers?.text)
     }
 
     @Test
