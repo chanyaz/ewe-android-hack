@@ -344,15 +344,6 @@
             android:title="Show Air Attach Message on Launch screen - 13345"/>
 
         <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="13191"
-            android:layout="@layout/preference"
-            android:title="Show Sign In card on Launch screen - 13191"/>
-
-        <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"

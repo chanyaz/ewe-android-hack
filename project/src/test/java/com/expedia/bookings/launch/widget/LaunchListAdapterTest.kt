@@ -88,7 +88,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemViewPosition_showingHotels_signInCard_memberDeals_popularHotels() {
-        givenSignInCardEnabled()
         givenMemberDealsCardEnabled()
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
@@ -132,7 +131,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_showingLobView_showingHotels_signedInItin() {
-        givenSignInCardEnabled()
         givenCustomerSignedIn()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenWeHaveCurrentLocationAndHotels()
@@ -151,8 +149,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun getItemViewType_showingPopularHotels_signInCard() {
-        givenSignInCardEnabled()
+    fun getItemViewType_showingPopularHotels() {
         createSystemUnderTest()
         givenWeHaveStaffPicks()
 
@@ -170,23 +167,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun getItemViewType_showingPopularHotels() {
-        createSystemUnderTest()
-        givenWeHaveStaffPicks()
-
-        val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
-
-        val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
-
-        val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, thirdPosition)
-    }
-
-    @Test
     fun onBindViewHolder_showingSignedInItinCard() {
-        givenSignInCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
 
@@ -213,15 +194,17 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
+        assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
     }
 
     @Test
     fun getItemViewType_showingHotels_signedInItin() {
-        givenSignInCardEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -242,7 +225,6 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_ShowingHotels_CustomerSignedIn_ActiveItin_AirAttach() {
         givenAirAttachCardEnabled()
-        givenSignInCardEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -265,7 +247,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_showingHotels_showSignInAfterSignOut() {
-        givenSignInCardEnabled()
 
         createSystemUnderTest()
         givenCustomerSignedIn()
@@ -285,7 +266,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_showingLobView_showingCollectionView() {
-        givenSignInCardEnabled()
         createSystemUnderTest()
         givenWeHaveStaffPicks()
 
@@ -304,7 +284,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_showingLobView_showingCollectionView_signedIn() {
-        givenSignInCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveStaffPicks()
@@ -321,7 +300,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_showingLobView_showingLoadingState() {
-        givenSignInCardEnabled()
         createSystemUnderTest()
         givenWeHaveALoadingState()
 
@@ -433,7 +411,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun onBindViewHolder_FullWidthViews() {
-        givenSignInCardEnabled()
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels(numberOfHotels = 6)
 
@@ -452,7 +429,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemCount_hotelStateOrder_signedIn() {
-        givenSignInCardEnabled()
         createSystemUnderTest()
         val numberOfHotels = 5
         givenCustomerSignedIn()
@@ -466,7 +442,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemCount_collectionStateOrder_signedIn() {
-        givenSignInCardEnabled()
         createSystemUnderTest()
         val numberOfStaffPicks = 5
         givenCustomerSignedIn()
@@ -479,7 +454,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemCount_NoInternetConnection() {
-        givenSignInCardEnabled()
         createSystemUnderTest()
         userHasNoInternetConnection(false)
 
@@ -507,7 +481,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun testSignInPlaceholderCardButtonTexts() {
-        givenSignInCardEnabled()
         createSystemUnderTest()
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val recyclerView = RecyclerView(context)
@@ -638,10 +611,6 @@ class LaunchListAdapterTest {
 
     private fun givenMemberDealsCardEnabled() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen, 1)
-    }
-
-    private fun givenSignInCardEnabled() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen, 1)
     }
 
     private fun givenAirAttachCardEnabled() {

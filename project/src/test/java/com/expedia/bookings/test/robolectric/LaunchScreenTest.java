@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -21,7 +20,6 @@ import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.launch.widget.LaunchHeaderViewHolder;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
 
@@ -72,9 +70,8 @@ public class LaunchScreenTest {
 	}
 
 	@Test
-	public void testListDisplaysCollectionWithTestOn() {
+	public void testListDisplaysCollection() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -96,33 +93,8 @@ public class LaunchScreenTest {
 	}
 
 	@Test
-	public void testListDisplaysCollectionWithTestOff() {
+	public void testListDisplaysHotels() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
-		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
-		launchListWidget.setHeaderPaddingTop(10);
-		launchListWidget.showListLoadingAnimation();
-
-		Collection collection = new Collection();
-		collection.title = "Title";
-		collection.locations = new ArrayList<>();
-		collection.locations.add(collectionLocation);
-		collection.locations.add(collectionLocation);
-		collection.locations.add(collectionLocation);
-		Events.CollectionDownloadComplete event = new Events.CollectionDownloadComplete(collection);
-		launchListWidget.onCollectionDownloadComplete(event);
-		launchListWidget.measure(0, 0);
-		launchListWidget.layout(0, 0, 100, 10000);
-
-		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
-		assertEquals(CollectionViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
-	}
-
-	@Test
-	public void testListDisplaysHotelsWithTestOn() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -143,29 +115,8 @@ public class LaunchScreenTest {
 	}
 
 	@Test
-	public void testListDisplaysHotelsWithTestOff() {
+	public void testZeroRating() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
-		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
-		launchListWidget.setHeaderPaddingTop(10);
-		launchListWidget.showListLoadingAnimation();
-
-		List<Hotel> hotels = new ArrayList<>();
-		hotels.add(hotel);
-		Events.LaunchHotelSearchResponse event = new Events.LaunchHotelSearchResponse(hotels);
-		launchListWidget.onNearbyHotelsSearchResults(event);
-		launchListWidget.measure(0, 0);
-		launchListWidget.layout(0, 0, 100, 10000);
-
-		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
-		assertEquals(HotelViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
-	}
-
-	@Test
-	public void testZeroRatingWithTestOn() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -190,55 +141,6 @@ public class LaunchScreenTest {
 		HotelViewHolder h4 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(6);
 		HotelViewHolder h5 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(7);
 		HotelViewHolder h6 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(8);
-
-		assertEquals("5.0", h1.getRating().getText());
-		assertEquals(View.VISIBLE, h1.getRatingText().getVisibility());
-
-		assertEquals(View.INVISIBLE, h2.getRatingInfo().getVisibility());
-		assertEquals(View.GONE, h2.getRatingText().getVisibility());
-
-		assertEquals(View.INVISIBLE, h3.getRatingInfo().getVisibility());
-		assertEquals(View.GONE, h3.getRatingText().getVisibility());
-
-		assertEquals(View.INVISIBLE, h4.getRatingInfo().getVisibility());
-		assertEquals(View.GONE, h4.getRatingText().getVisibility());
-
-		assertEquals(View.INVISIBLE, h5.getRatingInfo().getVisibility());
-		assertEquals(View.GONE, h5.getRatingText().getVisibility());
-
-		assertEquals("Not Rated", h6.getNoRatingText().getText());
-		assertEquals(View.VISIBLE, h6.getNoRatingText().getVisibility());
-		assertEquals(View.GONE, h6.getRatingInfo().getVisibility());
-	}
-
-	@Test
-	public void testZeroRatingWithTestOff() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
-		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
-		launchListWidget.setHeaderPaddingTop(10);
-		launchListWidget.showListLoadingAnimation();
-
-		List<Hotel> hotels = new ArrayList<>();
-		hotels.add(hotel);
-		hotels.add(hotelNoRating);
-		hotels.add(hotelNoRating);
-		hotels.add(hotelNoRating);
-		hotels.add(hotelNoRating);
-		hotels.add(hotelNoRating);
-		Events.LaunchHotelSearchResponse event = new Events.LaunchHotelSearchResponse(hotels);
-		launchListWidget.onNearbyHotelsSearchResults(event);
-		launchListWidget.measure(0, 0);
-		launchListWidget.layout(0, 0, 100, 10000);
-
-
-		HotelViewHolder h1 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(2);
-		HotelViewHolder h2 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(3);
-		HotelViewHolder h3 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(4);
-		HotelViewHolder h4 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(5);
-		HotelViewHolder h5 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(6);
-		HotelViewHolder h6 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(7);
 
 		assertEquals("5.0", h1.getRating().getText());
 		assertEquals(View.VISIBLE, h1.getRatingText().getVisibility());
