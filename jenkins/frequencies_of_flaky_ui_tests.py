@@ -11,7 +11,7 @@ def getLastProcessedRun():
 	if os.path.exists("last_processed_run"):
 		with open("last_processed_run") as lastProcessedRunFile:
 			return int(lastProcessedRunFile.read())
-	return 8150
+	return 9370
 
 def saveLastProcessedRun(run):
 	lastSavedProcessedRun = getLastProcessedRun()
@@ -83,11 +83,14 @@ def getFlakyAndFailPercentagesAndDistributions(testName, serverToFailureCountMap
 	return totalFlakyPercentage, totalFailPercentage, flakyDistributionPerSlave, failureDistributionPerSlave
 
 def getJenkinsJobArtifactURLHTMLFormatted(latestFailureJobForTestCase, serverNameToServerIPMap):
+	for key, value in latestFailureJobForTestCase.items():
+		latestFailureJobForTestCase[key] = value.split(".")[0]
+
 	jenkinsJobArtifactURLHTML = ""
 	for serverName in serverNameToServerIPMap:
 		if serverName in latestFailureJobForTestCase:
 			serverIP = serverNameToServerIPMap[serverName]
-			jenkinsJobArtifactURLHTML = "{jenkinsJobArtifactURLHTML}<a href='http://{serverIP}:8000/uitests-{latestFailureJobForTestCase}-failure.tar.gz'>{serverName}({latestFailureJobForTestCase})</a> ".format(jenkinsJobArtifactURLHTML=jenkinsJobArtifactURLHTML, serverIP=serverIP, serverName=serverName, latestFailureJobForTestCase=latestFailureJobForTestCase[serverName])
+			jenkinsJobArtifactURLHTML = "{jenkinsJobArtifactURLHTML}<a href='http://{serverIP}:8000/uitests-{latestFailureJobForTestCase}.tar.gz'>{serverName}({latestFailureJobForTestCase})</a> ".format(jenkinsJobArtifactURLHTML=jenkinsJobArtifactURLHTML, serverIP=serverIP, serverName=serverName, latestFailureJobForTestCase=latestFailureJobForTestCase[serverName])
 	return jenkinsJobArtifactURLHTML
 
 def reportFailureFrequencyDistributionPerSlaveHTML(testToServerToFailureCountMap, serverTotalRuns, failedTestToServerNameToJenkinsJobMap, serverNameToServerIPMap, testToServerToPossibleLegitFailureMap):
