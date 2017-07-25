@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelSearchManagerTest {
@@ -73,6 +74,40 @@ class HotelSearchManagerTest {
         testErrorSub.assertNoTerminalEvent()
         testErrorSub.assertNoErrors()
         testErrorSub.assertValueCount(1)
+
+        testSuccessSub.assertNoValues()
+    }
+
+    @Test
+    fun testPrefetch_error() {
+        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        testManager.successSubject.subscribe(testSuccessSub)
+
+        val testErrorSub = TestSubscriber<ApiError>()
+        testManager.errorSubject.subscribe(testErrorSub)
+
+        testManager.doSearch(makeParams("mock_error"), prefetchSearch = true)
+
+        testErrorSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        testErrorSub.assertNoTerminalEvent()
+        assertEquals(0, testErrorSub.onNextEvents.size, "Swallow errors for prefetch searches")
+
+        testSuccessSub.assertNoValues()
+    }
+
+    @Test
+    fun testPrefetch_noResults() {
+        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        testManager.successSubject.subscribe(testSuccessSub)
+
+        val testErrorSub = TestSubscriber<Unit>()
+        testManager.noResultsSubject.subscribe(testErrorSub)
+
+        testManager.doSearch(makeParams("noresults"), prefetchSearch = true)
+
+        testErrorSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        testErrorSub.assertNoTerminalEvent()
+        assertEquals(0, testErrorSub.onNextEvents.size, "Swallow errors for prefetch searches")
 
         testSuccessSub.assertNoValues()
     }

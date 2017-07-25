@@ -198,7 +198,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
 
     private fun prefetchSearch(params: HotelSearchParams) {
         prefetchParams = params
-        hotelSearchManager.doSearch(params)
+        hotelSearchManager.doSearch(params, prefetchSearch = true)
     }
 
     private fun updateAdvancedSearchOptions(searchOptions: UserFilterChoices) {

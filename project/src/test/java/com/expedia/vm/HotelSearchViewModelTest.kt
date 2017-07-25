@@ -211,7 +211,7 @@ class HotelSearchViewModelTest {
     private class MockSearchManager(hotelServices: HotelServices) : HotelSearchManager(hotelServices) {
         val searchCalledSubject = PublishSubject.create<Unit>()
 
-        override fun doSearch(params: HotelSearchParams) {
+        override fun doSearch(params: HotelSearchParams, prefetchSearch: Boolean) {
             searchCalledSubject.onNext(Unit)
             //do nothing
         }

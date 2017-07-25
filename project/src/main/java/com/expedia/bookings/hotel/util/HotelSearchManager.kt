@@ -23,12 +23,15 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
     private var searchResponse: HotelSearchResponse? = null
     private var subscriptions: CompositeSubscription = CompositeSubscription()
 
+    private var prefetchSearch = false
+
     fun fetchResponse() : HotelSearchResponse? {
         return searchResponse
     }
 
-    open fun doSearch(params: HotelSearchParams) {
+    open fun doSearch(params: HotelSearchParams, prefetchSearch: Boolean = false) {
         hotelServices?.let { services ->
+            this.prefetchSearch = prefetchSearch
             reset()
             fetchingResults = true
             subscriptions.add(services.search(params, apiCompleteSubject).subscribe(searchResponseObserver))
@@ -48,9 +51,13 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
         override fun onNext(hotelSearchResponse: HotelSearchResponse) {
             fetchingResults = false
             if (hotelSearchResponse.hasErrors()) {
-                errorSubject.onNext(hotelSearchResponse.firstError)
+                if (!prefetchSearch) {
+                    errorSubject.onNext(hotelSearchResponse.firstError)
+                }
             } else if (hotelSearchResponse.hotelList.isEmpty()) {
-                noResultsSubject.onNext(Unit)
+                if (!prefetchSearch) {
+                    noResultsSubject.onNext(Unit)
+                }
             } else {
                 searchResponse = hotelSearchResponse
                 successSubject.onNext(hotelSearchResponse)
@@ -63,7 +70,7 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
 
         override fun onError(e: Throwable?) {
             fetchingResults = false
-            if (RetrofitUtils.isNetworkError(e)) {
+            if (RetrofitUtils.isNetworkError(e) && !prefetchSearch) {
                 noInternetSubject.onNext(Unit)
             }
         }
