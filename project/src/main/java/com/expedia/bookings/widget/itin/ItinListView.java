@@ -798,6 +798,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 		else if (data.getTripComponentType() == TripComponent.Type.HOTEL && isItinCardDetailFeatureOn) {
 			getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()));
+			OmnitureTracking.trackItinHotel(getContext());
 		}
 		else if (data.hasDetailData()) {
 			showDetails(position, true);
