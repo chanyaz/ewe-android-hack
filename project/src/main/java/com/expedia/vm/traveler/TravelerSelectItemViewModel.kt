@@ -5,8 +5,11 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
@@ -15,14 +18,21 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-open class TravelerSelectItemViewModel(val context: Context, val index: Int, val age: Int) {
+open class TravelerSelectItemViewModel(val context: Context, val index: Int, val age: Int, val category: PassengerCategory) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
     val resources = context.resources
-    val emptyText = Phrase.from(resources.getString(R.string.checkout_edit_traveler_TEMPLATE))
-            .put("travelernumber", index + 1)
-            .put("passengerage", getPassengerString(age))
-            .format().toString()
+    val emptyText = if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
+        Phrase.from(resources.getString(R.string.checkout_traveler_title_TEMPLATE))
+                .put("travelernumber", index + 1)
+                .put("passengerycategory", getPassengerAgeRangeString(context, category))
+                .format().toString()
+    } else {
+        Phrase.from(resources.getString(R.string.checkout_edit_traveler_TEMPLATE))
+                .put("travelernumber", index + 1)
+                .put("passengerage", getPassengerString(age))
+                .format().toString()
+    }
 
     val iconStatusObservable = BehaviorSubject.create<ContactDetailsCompletenessStatus>()
     val titleObservable = BehaviorSubject.create<String>()
@@ -107,6 +117,10 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
                 .put("age", age)
                 .format().toString()
         return ageText
+    }
+
+    private fun getPassengerAgeRangeString(context: Context, category: PassengerCategory) : String {
+        return TravelerUtils.getTravelerAgeRangeString(context, category)
     }
 
 }

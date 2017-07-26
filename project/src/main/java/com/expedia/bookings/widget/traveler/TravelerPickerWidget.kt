@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.traveler.TravelerPickerWidgetViewModel
@@ -30,7 +31,8 @@ class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         mainTravelerContainer.removeAllViews()
         addTravelersContainer.removeAllViews()
         travelerList.forEachIndexed { i, traveler ->
-            val travelerSelectItemViewModel = TravelerSelectItemViewModel(context, i, traveler.searchedAge)
+            val travelerCategory = traveler.passengerCategory ?: PassengerCategory.ADULT
+            val travelerSelectItemViewModel = TravelerSelectItemViewModel(context, i, traveler.searchedAge, travelerCategory)
             viewModel.passportRequired.subscribe(travelerSelectItemViewModel.passportRequired)
             val subscription = viewModel.refreshStatusObservable.subscribe(travelerSelectItemViewModel.refreshStatusObservable)
             travelerSelectItemRefreshSubscription.add(subscription)

@@ -8,12 +8,15 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.vm.traveler.TravelerSelectItemViewModel
 import com.squareup.phrase.Phrase
@@ -52,6 +55,7 @@ class TravelerSelectItemViewModelTest {
     fun setUp() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         resources = activity.resources
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
         expectedEmptyTitle = Phrase.from(resources.getString(R.string.checkout_edit_traveler_TEMPLATE))
                 .put("travelernumber", testIndex + 1)
                 .put("passengerage", "Adult")
@@ -112,6 +116,46 @@ class TravelerSelectItemViewModelTest {
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
+    }
+
+    @Test
+    fun testBucketedYouthTitle() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+        updateTravelerAndViewModel(Traveler(), PassengerCategory.ADULT_CHILD, 14)
+        expectedEmptyTitle = getExpectedEmptyTitle(PassengerCategory.ADULT_CHILD)
+
+        assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
+    }
+
+    @Test
+    fun testBucketedAdultTitle() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+        updateTravelerAndViewModel(Traveler(), PassengerCategory.ADULT, 40)
+        expectedEmptyTitle = getExpectedEmptyTitle(PassengerCategory.ADULT)
+
+        assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
+    }
+
+    @Test
+    fun testBucketedInfantTitle() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+        updateTravelerAndViewModel(Traveler(), PassengerCategory.INFANT_IN_SEAT, 1)
+        expectedEmptyTitle = getExpectedEmptyTitle(PassengerCategory.INFANT_IN_SEAT)
+
+        assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
+    }
+
+    @Test
+    fun testBucketedChildTitle() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+        updateTravelerAndViewModel(Traveler(), PassengerCategory.CHILD, 5)
+        expectedEmptyTitle = getExpectedEmptyTitle(PassengerCategory.CHILD)
+
+        assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
     }
 
     @Test
@@ -300,7 +344,26 @@ class TravelerSelectItemViewModelTest {
         return packageParams
     }
 
-    class TestTravelerSelectItemViewModel(context: Context, index: Int, age: Int) : TravelerSelectItemViewModel(context, index, age) {
+    private fun updateTravelerAndViewModel(traveler: Traveler, category: PassengerCategory, age: Int) {
+        traveler.passengerCategory = category
+        traveler.birthDate = LocalDate.now().plusYears(age)
+        traveler.age = age
+
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, age, category)
+        selectVM.passportRequired.onNext(false)
+        selectVM.testTraveler = traveler
+        selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
+    }
+
+    private fun getExpectedEmptyTitle(category: PassengerCategory) : String {
+        val passengerCategoryString = TravelerUtils.getTravelerAgeRangeString(activity, category)
+        return Phrase.from(resources.getString(R.string.checkout_traveler_title_TEMPLATE))
+                .put("travelernumber", testIndex + 1)
+                .put("passengerycategory", passengerCategoryString)
+                .format().toString()
+    }
+
+    class TestTravelerSelectItemViewModel(context: Context, index: Int, age: Int, category: PassengerCategory = PassengerCategory.ADULT) : TravelerSelectItemViewModel(context, index, age, category) {
         var testTraveler:Traveler? = null
 
         override fun getTraveler(): Traveler {

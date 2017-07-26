@@ -3,7 +3,10 @@ package com.expedia.bookings.enums;
 import org.joda.time.LocalDate;
 
 import android.util.Pair;
+
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 
 public enum PassengerCategory {
@@ -27,11 +30,15 @@ public enum PassengerCategory {
 			returnedRange = new Pair<>(GuestsPickerUtils.MIN_ADULT_CHILD_PC_AGE, GuestsPickerUtils.MIN_ADULT_PC_AGE);
 			break;
 		case CHILD:
-			returnedRange = new Pair<>(GuestsPickerUtils.MIN_CHILD_PC_AGE, GuestsPickerUtils.MIN_ADULT_CHILD_PC_AGE);
+			int maxChildAge = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+				? GuestsPickerUtils.MAX_CHILD_PC_AGE : GuestsPickerUtils.MIN_ADULT_CHILD_PC_AGE;
+			returnedRange = new Pair<>(GuestsPickerUtils.MIN_CHILD_PC_AGE, maxChildAge);
 			break;
 		case INFANT_IN_LAP:
 		case INFANT_IN_SEAT:
-			returnedRange = new Pair<>(0, GuestsPickerUtils.MIN_CHILD_PC_AGE);
+			int maxInfantAge = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+				? GuestsPickerUtils.MAX_INFANT_AGE : GuestsPickerUtils.MIN_CHILD_PC_AGE;
+			returnedRange = new Pair<>(GuestsPickerUtils.MIN_CHILD_AGE, maxInfantAge);
 			break;
 		}
 		return returnedRange;
