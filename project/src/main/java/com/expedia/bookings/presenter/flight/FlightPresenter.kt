@@ -14,6 +14,7 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
@@ -390,6 +391,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchViewModel = FlightSearchViewModel(context)
         searchViewModel.deeplinkDefaultTransitionObservable.subscribe { screen ->
             setDefaultTransition(screen)
+        }
+        searchViewModel.searchTravelerParamsObservable.subscribe{ searchParams ->
+            searchPresenter.travelerWidgetV2.traveler.getViewModel().travelerParamsObservable
+                    .onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
         }
     }
 

@@ -81,31 +81,48 @@
                     app:traveler_minus="@string/flight_remove_infant_traveler_cont_desc"
                     app:traveler_plus="@string/flight_add_infant_traveler_cont_desc" />
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/infant_preference_seating"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp">
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/infant_type_text_label_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/flight_infant_type_label"
+                        android:text="@string/flight_infant_type_label"
+                        android:textColor="@color/traveler_picker_main_text"
+                        android:textSize="14sp"
+                        app:textStyle="medium" />
 
                     <RadioGroup
                         android:id="@+id/flight_traveler_radio_group"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="13dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/inLap"
-                            android:layout_width="72dp"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:background="@drawable/infant_preference_button"
                             android:button="@null"
                             android:clickable="true"
                             android:contentDescription="Press the button to select Infant preference In Lap"
                             android:focusable="true"
                             android:gravity="center"
+                            android:maxLines="1"
+                            android:minWidth="72dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
                             android:text="@string/flight_infant_InLap"
                             android:textAllCaps="false"
                             android:textColor="?attr/hotel_pay_now_later_text"
@@ -114,15 +131,20 @@
 
                         <RadioButton
                             android:id="@+id/inSeat"
-                            android:layout_width="72dp"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="8dp"
+                            android:layout_weight="1"
                             android:background="@drawable/infant_preference_button"
                             android:button="@null"
                             android:clickable="true"
                             android:contentDescription="Press the button to select Infant preference In Seat"
                             android:focusable="true"
                             android:gravity="center"
+                            android:maxLines="1"
+                            android:minWidth="72dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
                             android:text="@string/flight_infant_InSeat"
                             android:textAllCaps="false"
                             android:textColor="?attr/hotel_pay_now_later_text"
@@ -130,22 +152,9 @@
                             app:textStyle="normal" />
                     </RadioGroup>
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/infant_type_text_label_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/flight_traveler_radio_group"
-                        android:contentDescription="@string/flight_infant_type_label"
-                        android:text="@string/flight_infant_type_label"
-                        android:textColor="@color/traveler_picker_main_text"
-                        android:textSize="14sp"
-                        app:textStyle="medium" />
-
-                </RelativeLayout>
+                </LinearLayout>
 
             </LinearLayout>
-
 
         </LinearLayout>
     </ScrollView>

@@ -43,7 +43,7 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
         travelerView
     }
 
-    val travelerDialog: AlertDialog by lazy {
+    open val travelerDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         traveler
         builder.setView(travelerDialogView)

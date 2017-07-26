@@ -33,7 +33,7 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
     val infantInLap: RadioButton by bindView(R.id.inLap)
     val infantInSeat: RadioButton by bindView(R.id.inSeat)
 
-    val infantPreferenceSeatingView: RelativeLayout by bindView(R.id.infant_preference_seating)
+    val infantPreferenceSeatingView: LinearLayout by bindView(R.id.infant_preference_seating)
     val infantError: TextView by bindView(R.id.error_message_infants)
 
     var viewmodel: FlightTravelerPickerViewModel by notNullAndObservable { vm ->

@@ -48,8 +48,9 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val swapToFromFieldsObservable = PublishSubject.create<Unit>()
     val showDaywithDate = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
+    val searchTravelerParamsObservable = PublishSubject.create<com.expedia.bookings.data.FlightSearchParams>()
 
-    private val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
+    val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
         getParamsBuilder().infantSeatingInLap(isInfantInLap)
@@ -104,6 +105,9 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 }
             } else {
                 dateTextObservable.onNext(context.resources.getString(if (isRoundTripSearch) R.string.select_dates else R.string.select_departure_date))
+            }
+            searchTravelerParamsObservable.subscribe{ searchParam ->
+                performDeepLinkFlightSearch(searchParam)
             }
         }
 
@@ -222,7 +226,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
         }
     }
-
     fun performDeepLinkFlightSearch(searchParams: com.expedia.bookings.data.FlightSearchParams) {
         //Setup the viewmodel according to the provided params
         val oneWay = searchParams.departureDate != null && searchParams.returnDate == null
