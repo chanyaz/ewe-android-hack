@@ -640,10 +640,13 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackHotelV2MapToList() {
+	public static void trackHotelV2MapToList(boolean swpEnabled) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP_TO_LIST + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_MAP_TO_LIST);
+		if (swpEnabled) {
+			s.setEvents("event118");
+		}
 		s.trackLink(null, "o", "Search Results Map View", null, null);
 	}
 

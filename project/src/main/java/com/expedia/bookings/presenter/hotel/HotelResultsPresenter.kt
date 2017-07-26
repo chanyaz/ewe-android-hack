@@ -326,7 +326,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun trackMapToList() {
-        HotelTracking.trackHotelMapToList()
+        HotelTracking.trackHotelMapToList(swpEnabled)
     }
 
     override fun trackCarouselScroll() {

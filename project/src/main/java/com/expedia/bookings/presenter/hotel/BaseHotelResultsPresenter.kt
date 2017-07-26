@@ -341,6 +341,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         } else if (ResultsList().javaClass.name == currentState) {
             clearMarkers(false)
+        } else if (ResultsMap().javaClass.name == currentState) {
+            trackMapToList()
         }
 
         return super.back()
@@ -533,7 +535,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 if (recyclerView.visibility == View.VISIBLE) {
                     fab.contentDescription = context.getString(R.string.show_list)
                     showWithTracking(ResultsMap())
-                    trackSearchMap()
                 } else {
                     fab.contentDescription = context.getString(R.string.show_map)
                     show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
