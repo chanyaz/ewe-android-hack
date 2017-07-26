@@ -72,6 +72,29 @@ class HotelResultsViewModelTest {
     }
 
     @Test
+    fun testLocationSearch_clearPrefetch() {
+        val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        sut.hotelResultsObservable.subscribe(resultsSubscriber)
+
+        sut.paramsSubject.onNext(happyParams)
+
+        mockSearchProvider.searchResponseObserver.onNext(happyResponse)
+        sut.locationParamsSubject.onNext(makeSuggestion("", ""))
+
+        resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        resultsSubscriber.assertValueCount(1)
+
+        sut.locationParamsSubject.onNext(makeSuggestion("", ""))
+        resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        resultsSubscriber.assertValueCount(1)
+
+        mockSearchProvider.successSubject.onNext(happyResponse)
+
+        resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        resultsSubscriber.assertValueCount(2)
+    }
+
+    @Test
     fun filteredSearch() {
         val filteredResultsSubscriber = TestSubscriber<HotelSearchResponse>()
         sut.filterResultsObservable.subscribe(filteredResultsSubscriber)
