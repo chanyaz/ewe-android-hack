@@ -110,7 +110,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         var hint = this.hint?.toString()
         val error = (this.parent as? TextInputLayout)?.error ?: errorContDesc
         if (Strings.isEmpty(hint)) {
-            hint = (this.parent as? TextInputLayout)?.hint.toString()
+            hint = (this.parentForAccessibility as? TextInputLayout)?.hint.toString()
         }
         val conDescription = if (Strings.isNotEmpty(this.contentDescription)) {
             this.contentDescription.toString()
