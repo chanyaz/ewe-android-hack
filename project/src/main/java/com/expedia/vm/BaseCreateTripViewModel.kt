@@ -19,5 +19,4 @@ open class BaseCreateTripViewModel() {
     fun reset() {
         createTripResponseObservable.onNext(null)
     }
-
 }

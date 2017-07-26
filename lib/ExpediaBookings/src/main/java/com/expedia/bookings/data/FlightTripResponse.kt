@@ -10,6 +10,7 @@ abstract class FlightTripResponse : TripResponse() {
     var selectedCardFees: Money? = null
     var fareFamilies: FareFamilies? = null
     var createTripStatus: String? = null
+    var isFareFamilySelected = false
 
     fun getSelectedInsuranceProduct() : InsuranceProduct? = getOffer().selectedInsuranceProduct
 

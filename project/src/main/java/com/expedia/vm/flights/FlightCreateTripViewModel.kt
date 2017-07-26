@@ -8,6 +8,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observer
@@ -22,6 +23,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
 
     val tripParams = BehaviorSubject.create<FlightCreateTripParams>()
     val showNoInternetRetryDialog = PublishSubject.create<Unit>()
+    //val isFareFamilySelected = PublishSubject.create<Boolean>()
 
     init {
         Ui.getApplication(context).flightComponent().inject(this)
@@ -42,6 +44,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
                 }
                 else {
                     Db.getTripBucket().clearFlight()
+                    response.isFareFamilySelected = Strings.isNotEmpty(tripParams.value.fareFamilyCode)
                     Db.getTripBucket().add(TripBucketItemFlightV2(response))
                     createTripResponseObservable.onNext(response)
                 }

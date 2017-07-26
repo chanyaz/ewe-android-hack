@@ -11,10 +11,7 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
-import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.BaseApiResponse
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.*
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -67,6 +64,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         @Inject set
 
     lateinit var travelerManager: TravelerManager
+    lateinit var createTripBuilder: FlightCreateTripParams.Builder
 
     val isByotEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
@@ -218,7 +216,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
             presenter.flightSummary.setPadding(0, 0, 0, 0)
         }
-
+        presenter.fareFamilyCardView.viewModel.updateTripObserver.subscribe{
+            createTripBuilder.productKey(it.first)
+            createTripBuilder.fareFamilyCode(it.second.fareFamilyCode)
+            createTripBuilder.fareFamilyTotalPrice(it.second.totalPrice.amount)
+            flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
+            flightCreateTripViewModel.performCreateTrip.onNext(Unit)
+        }
+        //flightCreateTripViewModel.isFareFamilySelected.subscribe(presenter.fareFamilyCardView.viewModel.updateFareFamilyUiObservable)
         Observable.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
                 { outbound, inbound ->
@@ -287,9 +292,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripResponseObservable.safeSubscribe { trip ->
-            trip!!
+            (trip as FlightTripResponse)!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
+            presenter.flightSummary.outboundFlightWidget.viewModel.flight.onNext(trip.details.getLegs()[0])
+            presenter.flightSummary.inboundFlightWidget.viewModel.flight.onNext(trip.details.getLegs()[1])
         }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
@@ -323,13 +330,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         viewModel.flightProductId.subscribe { productKey ->
             flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
-            val createTripParams = FlightCreateTripParams(productKey)
-            createTripParams.flexEnabled = isFlexEnabled(context)
+            createTripBuilder = FlightCreateTripParams.Builder()
+            createTripBuilder.productKey(productKey)
+            createTripBuilder.flexEnabled(isFlexEnabled(context))
 
             if(EBAndroidAppFlightSubpubChange){
-                createTripParams.setFeatureOverride()
+                createTripBuilder.setFeatureOverride()
             }
-            flightCreateTripViewModel.tripParams.onNext(createTripParams)
+            flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
             show(flightOverviewPresenter)
             flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }

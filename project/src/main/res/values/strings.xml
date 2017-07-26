@@ -4260,6 +4260,8 @@
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Preferred class {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_label">Upgrade your flights</string>
+    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
+    <string name="flight_fare_family_change_class_label">Change your cabin class</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">From</string>
     <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->

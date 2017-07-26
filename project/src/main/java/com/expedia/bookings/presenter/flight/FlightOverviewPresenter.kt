@@ -15,6 +15,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
+import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -40,6 +41,9 @@ import javax.inject.Inject
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
 
     lateinit var insuranceServices: InsuranceServices
+        @Inject set
+
+    lateinit var flightServices: FlightServices
         @Inject set
 
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
@@ -83,7 +87,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     val fareFamilyCardView: FareFamilyCardView by lazy {
         val widget = findViewById(R.id.fare_family_widget) as FareFamilyCardView
-        widget.viewModel = FareFamilyViewModel(context)
+        widget.viewModel = FareFamilyViewModel(context, flightServices)
         widget
     }
 

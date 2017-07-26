@@ -6,60 +6,56 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="18dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="18dp"
-        android:gravity="center_vertical">
+        android:paddingBottom="15dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="15dp">
 
         <com.expedia.bookings.widget.RoundImageView
             android:id="@+id/fare_family_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:src="@drawable/flight_overview_upsell_seat" />
 
-        <LinearLayout
-            android:id="@+id/fare_family_action_container"
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/fare_family_title"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/fare_family_icon"
-            android:orientation="vertical"
-            android:paddingLeft="10dp">
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:text="@string/flight_fare_family_upgrade_flight_label" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/fare_family_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/flight_fare_family_upgrade_flight_label"
-                style="@style/Core.Text.XLarge.Medium" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/selected_classes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="Core.Text.Default.Medium"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/selected_classes"
+            style="@style/Core.Text.Default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:orientation="vertical">
+            android:layout_below="@+id/fare_family_title"
+            android:layout_toRightOf="@id/fare_family_icon"
+            android:paddingLeft="10dp"
+            android:text="Selected" />
 
-            <com.expedia.bookings.widget.TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/flight_fare_family_from_label"
-                android:textSize="12sp"/>
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/fare_family_from_label"
+            style="@style/Core.Text.Default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/fare_family_title"
+            android:layout_gravity="end"
+            android:text="@string/flight_fare_family_from_label"
+            android:textSize="12sp" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/upgrade_delta_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+$0"
-                style="@style/Core.Text.XLarge"
-                android:layout_alignBaseline="@id/selected_classes" />
-        </LinearLayout>
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/upgrade_delta_price"
+            style="@style/Core.Text.XXLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/selected_classes"
+            android:layout_alignParentEnd="true"
+            android:text="$0" />
     </RelativeLayout>
 </merge>
