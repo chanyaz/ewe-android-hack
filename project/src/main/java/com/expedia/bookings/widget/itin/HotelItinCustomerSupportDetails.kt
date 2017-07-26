@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.itin
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -16,7 +17,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
-import android.content.pm.PackageManager
 
 class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
     val customerSupportTextView: TextView by bindView(R.id.customer_support_text)
@@ -63,7 +63,6 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
         builder.setUrl(url)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
-        builder.setAttemptForceMobileSite(true)
         return builder
     }
 }

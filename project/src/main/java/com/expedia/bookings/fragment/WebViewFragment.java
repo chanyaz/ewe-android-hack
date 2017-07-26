@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.HashMap;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
@@ -34,7 +38,7 @@ import com.expedia.bookings.webview.BaseWebViewClient;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
-import java.util.HashMap;
+
 import okhttp3.Cookie;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -56,7 +60,6 @@ public class WebViewFragment extends DialogFragment {
 	private static final String ARG_ENABLE_LOGIN = "ARG_ENABLE_LOGIN";
 	private static final String ARG_LOAD_EXPEDIA_COOKIES = "ARG_LOAD_EXPEDIA_COOKIES";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
-	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 
 	private static final String ARG_DIALOG_MODE = "ARG_DIALOG_MODE";
 	private static final String ARG_DIALOG_TITLE = "ARG_DIALOG_TITLE";
@@ -80,18 +83,12 @@ public class WebViewFragment extends DialogFragment {
 	private boolean enableSignIn;
 	private boolean mLoadCookies;
 	private boolean mAllowUseableNetRedirects;
-	private boolean mAttemptForceMobileSite;
 	private TrackingName mTrackingName;
 	private boolean handleBack;
 	private boolean retryOnError;
 
 	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
 		boolean allowUseableNetRedirects, String name, boolean handleBack, boolean retryOnError) {
-		return newInstance(url, enableSignIn, loadCookies, allowUseableNetRedirects, false, name, handleBack, retryOnError);
-	}
-
-	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
-		boolean allowUseableNetRedirects, boolean attemptForceMobileSite, String name, boolean handleBack, boolean retryOnError) {
 		WebViewFragment frag = new WebViewFragment();
 
 		Bundle args = new Bundle();
@@ -99,7 +96,6 @@ public class WebViewFragment extends DialogFragment {
 		args.putBoolean(ARG_ENABLE_LOGIN, enableSignIn);
 		args.putBoolean(ARG_LOAD_EXPEDIA_COOKIES, loadCookies);
 		args.putBoolean(ARG_ALLOW_MOBILE_REDIRECTS, allowUseableNetRedirects);
-		args.putBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, attemptForceMobileSite);
 		args.putString(ARG_TRACKING_NAME, name);
 		args.putBoolean(ARG_HANDLE_BACK, handleBack);
 		args.putBoolean(ARG_HANDLE_RETRY_ON_ERROR, retryOnError);
@@ -161,7 +157,6 @@ public class WebViewFragment extends DialogFragment {
 		}
 
 		mAllowUseableNetRedirects = args.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
-		mAttemptForceMobileSite = args.getBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, false);
 		handleBack = args.getBoolean(ARG_HANDLE_BACK, false);
 		retryOnError = args.getBoolean(ARG_HANDLE_RETRY_ON_ERROR, false);
 	}
@@ -321,13 +316,10 @@ public class WebViewFragment extends DialogFragment {
 			mWebView.getSettings().setUserAgentString(userAgentString);
 		}
 
-		if (mAttemptForceMobileSite) {
-			boolean isTabletDevice = AndroidUtils.isTablet(getContext());
-			StringBuilder sb = new StringBuilder("Android ");
-			sb.append(mWebView.getSettings().getUserAgentString());
-			sb.append(" app.webview." + ((isTabletDevice) ? "tablet" : "phone"));
-			mWebView.getSettings().setUserAgentString(sb.toString());
-		}
+		boolean isTabletDevice = AndroidUtils.isTablet(getContext());
+		mWebView.getSettings().setUserAgentString(
+			generateUserAgentString(mWebView.getSettings().getUserAgentString(), isTabletDevice));
+
 		mWebView.getSettings().setDisplayZoomControls(false);
 
 		mWebView.setWebViewClient(new BaseWebViewClient(getActivity(), mLoadCookies, mTrackingName) {
@@ -430,6 +422,20 @@ public class WebViewFragment extends DialogFragment {
 			}
 
 		});
+	}
+
+	@VisibleForTesting
+	protected String generateUserAgentString(String currentUserAgentString, boolean isTabletDevice) {
+		StringBuilder sb = new StringBuilder("Android ");
+		sb.append(currentUserAgentString);
+		sb.append(" app.webview");
+		if (isTabletDevice) {
+			sb.append(".tablet");
+		}
+		else {
+			sb.append(".phone");
+		}
+		return sb.toString();
 	}
 
 	private void attachWebView() {

@@ -266,7 +266,6 @@ public class NavUtils {
 			builder.setUrl(endpointProvider.getRailWebViewEndpointUrlForDE());
 			builder.setInjectExpediaCookies(true);
 			builder.setAllowMobileRedirects(true);
-			builder.setAttemptForceMobileSite(true);
 			builder.setLoginEnabled(true);
 			builder.setHandleBack(true);
 			builder.setRetryOnFailure(true);
@@ -337,7 +336,6 @@ public class NavUtils {
 			}
 			builder.setInjectExpediaCookies(true);
 			builder.setAllowMobileRedirects(true);
-			builder.setAttemptForceMobileSite(true);
 			builder.setLoginEnabled(true);
 			builder.setHandleBack(true);
 			builder.setRetryOnFailure(true);

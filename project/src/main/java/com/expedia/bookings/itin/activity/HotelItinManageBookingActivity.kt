@@ -76,7 +76,6 @@ class HotelItinManageBookingActivity : AppCompatActivity() {
         builder.setTitle(title)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
-        builder.setAttemptForceMobileSite(true)
         return builder
     }
 }

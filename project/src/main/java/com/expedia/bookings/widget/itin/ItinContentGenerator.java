@@ -622,7 +622,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		builder.setTitle(titleResId);
 		builder.setInjectExpediaCookies(true);
 		builder.setAllowMobileRedirects(false);
-		builder.setAttemptForceMobileSite(true);
 		return builder;
 	}
 

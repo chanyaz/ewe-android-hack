@@ -106,7 +106,6 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
         builder.setCheckInLink(true)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
-        builder.setAttemptForceMobileSite(true)
         builder.intent.putExtra(Constants.ITIN_CHECK_IN_AIRLINE_CODE, getAirlineCode(itinCardData))
         builder.intent.putExtra(Constants.ITIN_CHECK_IN_AIRLINE_NAME, getAirlineName(itinCardData))
         builder.intent.putExtra(Constants.ITIN_IS_SPLIT_TICKET, (itinCardData.tripComponent as TripFlight).flightTrip.isSplitTicket)

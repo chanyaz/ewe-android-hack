@@ -29,7 +29,6 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
 	private static final String ARG_ITIN_CHECKIN = "ARG_ITIN_CHECKIN";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
-	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 	private static final String ARG_RETURN_FROM_CANCEL_ROOM_BOOKING = "ARG_RETURN_FROM_CANCEL_ROOM_BOOKING";
 	private static final String ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING = "ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING";
 	private static final String ARG_RETURN_FROM_ROOM_UPGRADE = "ARG_RETURN_FROM_ROOM_UPGRADE";
@@ -126,11 +125,6 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 		public IntentBuilder setAllowMobileRedirects(boolean allowMobileRedirects) {
 			mIntent.putExtra(ARG_ALLOW_MOBILE_REDIRECTS, allowMobileRedirects);
-			return this;
-		}
-
-		public IntentBuilder setAttemptForceMobileSite(boolean attemptForceMobileSite) {
-			mIntent.putExtra(ARG_ATTEMPT_FORCE_MOBILE_SITE, attemptForceMobileSite);
 			return this;
 		}
 
@@ -247,9 +241,8 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 				Toast.makeText(this, t, Toast.LENGTH_SHORT).show();
 				return null;
 			}
-			boolean attemptForceMobileWeb = extras.getBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, false);
 			fragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects,
-				attemptForceMobileWeb, name, handleBack, retryOnError);
+				name, handleBack, retryOnError);
 		}
 		return fragment;
 	}

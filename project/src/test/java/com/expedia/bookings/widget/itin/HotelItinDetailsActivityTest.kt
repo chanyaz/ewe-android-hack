@@ -2,18 +2,17 @@ package com.expedia.bookings.widget.itin
 
 import android.text.format.DateFormat
 import android.view.View
-import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
+import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
-import com.expedia.bookings.utils.ClipboardUtils
-import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,6 +21,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import java.util.Locale
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelItinDetailsActivityTest {
@@ -88,7 +88,9 @@ class HotelItinDetailsActivityTest {
         var intent = shadowActivity.nextStartedActivity
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
         assertEquals("Price summary", intent.extras.getString("ARG_TITLE"))
-        assertEquals(ADMS_Measurement.getUrlWithVisitorData(itinCardDataHotel.detailsUrl) + "#price-header", intent.extras.getString("ARG_URL"))
+        // we cannot check against the Visitor ID stuff that gets added to the URL, because it adds unique data every time it is called
+        assertTrue(intent.extras.getString("ARG_URL").startsWith(itinCardDataHotel.detailsUrl))
+        assertTrue(intent.extras.getString("ARG_URL").endsWith("#price-header"))
 
         //additional info - toolbar title and url check
         bookingDetailsView.additionalInfoCard.performClick()
@@ -96,7 +98,8 @@ class HotelItinDetailsActivityTest {
         intent = shadowActivity.nextStartedActivity
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
         assertEquals("Additional information", intent.extras.getString("ARG_TITLE"))
-        assertEquals(ADMS_Measurement.getUrlWithVisitorData(itinCardDataHotel.detailsUrl), intent.extras.getString("ARG_URL"))
+        // we cannot check against the Visitor ID stuff that gets added to the URL, because it adds unique data every time it is called
+        assertTrue(intent.extras.getString("ARG_URL").startsWith(itinCardDataHotel.detailsUrl))
     }
 
     @Test

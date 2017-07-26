@@ -23,7 +23,6 @@ public class LegalClickableSpan extends URLSpan {
 		builder.setUrl(getURL());
 		builder.setTitle(title);
 		builder.setAllowMobileRedirects(true);
-		builder.setAttemptForceMobileSite(true);
 		builder.setLoginEnabled(true);
 		builder.setInjectExpediaCookies(true);
 		widget.getContext().startActivity(builder.getIntent());
