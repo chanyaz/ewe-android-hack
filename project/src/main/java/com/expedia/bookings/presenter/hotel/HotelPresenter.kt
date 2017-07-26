@@ -895,7 +895,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     fun handleGenericSearch(params: HotelSearchParams) {
         updateSearchParams(params)
 
-        resultsPresenter.shopWithPointsViewModel.isShopWithPointsAvailableObservable.onNext(params.shopWithPoints)
         show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
         resultsPresenter.viewModel.paramsSubject.onNext(params)
     }
