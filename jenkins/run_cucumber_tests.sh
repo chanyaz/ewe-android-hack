@@ -6,7 +6,7 @@ packageName=$2
 tags=$3
 
 if [ -z "$flavor" ]; then
-   echo "Missing Flavor"
+   echo "Missing Flavor "
    exit 1
 fi
 
