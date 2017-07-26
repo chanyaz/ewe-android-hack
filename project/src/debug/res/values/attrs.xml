@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- https://stackoverflow.com/questions/13719103/how-to-retrieve-style-attributes-programmatically-from-styles-xml -->
+    <declare-styleable name="DebugCoreTextStyleAttr" >
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="textStyle" />
+    </declare-styleable>
+</resources>

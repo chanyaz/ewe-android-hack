@@ -63,7 +63,7 @@ public class TextView extends android.widget.TextView {
 		}
 	}
 
-	private void setTypefaceByStyle(TextView view, int style) {
+	public void setTypefaceByStyle(TextView view, int style) {
 		switch (style) {
 		//		case BLACK | ITALIC: {
 		//			FontCache.setTypeface(view, FontCache.ROBOTO_BLACK_ITALIC);
