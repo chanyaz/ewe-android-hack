@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.itin
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -38,9 +39,16 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         val phoneNumber: String = itinCardDataHotel.localPhone
         val callButton: SummaryButton = SummaryButton(R.drawable.itin_call_hotel, phoneNumber, Phrase.from(context, R.string.itin_hotel_details_call_button_content_description_TEMPLATE).put("phonenumber", phoneNumber).format().toString(), View.OnClickListener {
             if (phoneNumber.isNotEmpty()) {
-                SocialUtils.call(context, phoneNumber)
+                val pm = context.packageManager
+                if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+                    SocialUtils.call(context, phoneNumber)
+                } else {
+                    ClipboardUtils.setText(context, phoneNumber)
+                    Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
+                }
             }
         })
+
         val directionsButton: SummaryButton = SummaryButton(R.drawable.itin_directions_hotel, context.getString(R.string.itin_action_directions), View.OnClickListener {
             val intent = GoogleMapsUtil.getDirectionsIntent(itinCardDataHotel.property.location.toLongFormattedString())
             if (intent != null) {

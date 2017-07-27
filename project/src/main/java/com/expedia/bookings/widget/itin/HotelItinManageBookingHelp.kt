@@ -1,11 +1,14 @@
 package com.expedia.bookings.widget.itin
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.mobiata.android.SocialUtils
@@ -38,7 +41,13 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
         callHotelButton.text = phoneNumber
         callHotelButton.setOnClickListener {
             if (phoneNumber.isNotEmpty()) {
-                SocialUtils.call(context, phoneNumber)
+                val pm = context.packageManager
+                if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+                    SocialUtils.call(context, phoneNumber)
+                } else {
+                    ClipboardUtils.setText(context, phoneNumber)
+                    Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
