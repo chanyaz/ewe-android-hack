@@ -732,6 +732,15 @@
             android:summary="%s"
             android:title="Title Change for Bundle Deals - 14953" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="14900"
+            android:layout="@layout/preference"
+            android:title="Packages Japan Launch" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

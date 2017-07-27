@@ -99,6 +99,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppPackagesRemoveBundleOverview = 13655;
 	public static final int EBAndroidAppPackagesMidApi = 14856;
 	public static final int EBAndroidAppPackagesTitleChange = 14953;
+	public static final int EBAndroidAppPackagesEnableJapanPOS = 14900;
 
 	// Account
 	public static final int EBAndroidAppAccountSinglePageSignUp = 13923;
@@ -212,6 +213,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightTravelerFormRevamp);
 		testIDs.add(EBAndroidRailHybridAppForDEEnabled);
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel);
+		testIDs.add(EBAndroidAppPackagesEnableJapanPOS);
 		return testIDs;
 	}
 
