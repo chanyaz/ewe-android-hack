@@ -141,4 +141,6 @@
     <string name="bundle_overview_price_widget_button_close">Affichage des détails du vol + hôtel. Bouton pour fermer.</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Insider Prices</string>
+    <!-- Shop as a BONUS+ member! -->
+    <string name="shop_as_a_member_TEMPLATE">Devenez membre BONUS+</string>
 </resources>

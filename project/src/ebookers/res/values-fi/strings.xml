@@ -141,4 +141,6 @@
     <string name="bundle_overview_price_widget_button_close">Näytetään lento + hotelli -paketin tiedot Painike sulkemiseen.</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Sisäpiirihinnat</string>
+    <!-- Shop as a BONUS+ member! -->
+    <string name="shop_as_a_member_TEMPLATE">Tee varauksia BONUS+-jäsenenä</string>
 </resources>
