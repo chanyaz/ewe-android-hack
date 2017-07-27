@@ -11,10 +11,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.rail.widget.PositionObservableTabLayout
+import com.expedia.bookings.rail.widget.RailOneWayReturnTabs
 import com.expedia.bookings.rail.widget.RailSearchPagerAdapter
 import com.expedia.bookings.rail.widget.RailSearchWidget
 import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -47,6 +49,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
     override val tabs: PositionObservableTabLayout by bindView(R.id.tabs)
     override val viewpager: ViewPager by bindView<ViewPager>(R.id.viewpager)
+
+    private val oneWayReturnTripTabs: RailOneWayReturnTabs by bindView(R.id.rail_one_way_return_tabs)
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(context).railComponent().suggestionsService()
@@ -124,6 +128,39 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     override fun onFinishInflate() {
         super.onFinishInflate()
 
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
+            tabs.visibility = View.GONE
+            oneWayReturnTripTabs.visibility = View.VISIBLE
+            initializeProWizardTabs()
+        } else {
+            tabs.visibility = View.VISIBLE
+            oneWayReturnTripTabs.visibility = View.GONE
+            initializeToolbarTabs()
+        }
+    }
+
+    override fun getOriginSearchBoxPlaceholderText(): String {
+        return context.resources.getString(R.string.rail_location_hint)
+    }
+
+    override fun getDestinationSearchBoxPlaceholderText(): String {
+        return context.resources.getString(R.string.rail_location_hint)
+    }
+
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.RAILS
+    }
+
+    private fun initializeProWizardTabs() {
+        oneWayReturnTripTabs.oneWayClickedSubject.subscribe {
+            handleRoundTripChanged(roundTrip = false)
+        }
+        oneWayReturnTripTabs.returnClickedSubject.subscribe {
+            handleRoundTripChanged(roundTrip = true)
+        }
+    }
+
+    private fun initializeToolbarTabs() {
         adapter = RailSearchPagerAdapter(context)
         viewpager.adapter = adapter
         viewpager.overScrollMode = ViewPager.OVER_SCROLL_NEVER
@@ -148,26 +185,18 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val isRoundTripSearch = tab.position == 1
-                searchViewModel.isRoundTripSearchObservable.onNext(isRoundTripSearch)
-                searchViewModel.resetDatesAndTimes()
-                if (isRoundTripSearch) {
-                    announceForAccessibility(context.getString(R.string.rail_tab_roundtrip_selected_announcement))
-                } else {
-                    announceForAccessibility(context.getString(R.string.rail_tab_oneway_selected_announcement))
-                }
+                handleRoundTripChanged(isRoundTripSearch)
             }
         })
     }
 
-    override fun getOriginSearchBoxPlaceholderText(): String {
-        return context.resources.getString(R.string.rail_location_hint)
-    }
-
-    override fun getDestinationSearchBoxPlaceholderText(): String {
-        return context.resources.getString(R.string.rail_location_hint)
-    }
-
-    override fun getLineOfBusiness(): LineOfBusiness {
-        return LineOfBusiness.RAILS
+    private fun handleRoundTripChanged(roundTrip: Boolean) {
+        searchViewModel.isRoundTripSearchObservable.onNext(roundTrip)
+        searchViewModel.resetDatesAndTimes()
+        if (roundTrip) {
+            announceForAccessibility(context.getString(R.string.rail_tab_roundtrip_selected_announcement))
+        } else {
+            announceForAccessibility(context.getString(R.string.rail_tab_oneway_selected_announcement))
+        }
     }
 }

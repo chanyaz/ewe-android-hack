@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.newflights
 
+import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions
@@ -27,7 +28,8 @@ open class FlightErrorTestCase : NewFlightTestCase() {
 
     protected fun searchFlights(suggestionResponseType: FlightApiMockResponseGenerator.SuggestionResponseType, isOneWay: Boolean = true) {
         if (isOneWay) {
-            onView(withText("ONE WAY")).perform(ViewActions.click())
+            Espresso.onView(Matchers.allOf(withText("ONE WAY"),
+                    isDescendantOfA(withId(R.id.tabs)))).perform(ViewActions.click())
         }
         SearchScreen.selectFlightOriginAndDestination(suggestionResponseType, 0)
         val startDate = LocalDate.now().plusDays(3)

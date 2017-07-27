@@ -49,11 +49,11 @@ public class RailScreen {
 	}
 
 	public static void selectOneWay() {
-		onView(withText(R.string.rail_one_way)).perform(click());
+		onView(allOf(withText(R.string.rail_one_way),isDescendantOfA(withId(R.id.tabs)))).perform(click());
 	}
 
 	public static void selectRoundTrip() {
-		onView(withText(R.string.rail_return)).perform(click());
+		onView(allOf(withText(R.string.rail_return),isDescendantOfA(withId(R.id.tabs)))).perform(click());
 	}
 
 	public static ViewInteraction dialogDoneButton() {

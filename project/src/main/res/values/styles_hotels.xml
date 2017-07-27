@@ -48,8 +48,6 @@
         <item name="hotel_urgency_background_color">@color/hotel_urgency_variant_color</item>
 
         <!-- InfoSite -->
-        <item name="pay_now_later_selector">@drawable/new_pay_now_later_selector</item>
-        <item name="hotel_pay_now_later_text">@color/hotel_pay_now_later_text_color</item>
         <item name="vip_info_select_ripple_drawable">@drawable/new_vip_info_select_ripple</item>
         <item name="map_pin_drawable">@drawable/map_marker_blue</item>
         <item name="secondary_ripple_button_drawable">@drawable/hotel_secondary_ripple_button</item>

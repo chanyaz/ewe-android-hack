@@ -18,7 +18,7 @@ import org.joda.time.LocalDate
 object FlightsScreen {
 
     @JvmStatic fun selectOneWay(): ViewInteraction {
-        return Espresso.onView(withText("ONE WAY")).perform(click())
+        return Espresso.onView(allOf(withText("ONE WAY"), isDescendantOfA(withId(R.id.tabs)))).perform(click())
     }
 
     fun selectDate(start: LocalDate) {

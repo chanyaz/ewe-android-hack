@@ -36,11 +36,9 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CollectionUtils
-import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.DESCRIPTION_ANIMATION
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HOTEL_DESC_COLLAPSE_LINES
 import com.expedia.bookings.widget.HotelInfoView
 import com.expedia.bookings.widget.HotelRoomCardView
@@ -66,7 +64,6 @@ import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.HotelRoomHeaderViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import rx.Observable
-import rx.Observer
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
@@ -129,13 +126,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
     private val renovationContainer: ViewGroup by bindView(R.id.renovation_container)
 
-    private val payNowButtonContainer: FrameLayout by bindView(R.id.radius_pay_now_container)
-    private val payNowButton: TextView by bindView(R.id.radius_pay_now)
-    private val payLaterButtonContainer: FrameLayout by bindView(R.id.radius_pay_later_container)
-    private val payLaterButton: TextView by bindView(R.id.radius_pay_later)
-
-    private val etpContainer: RelativeLayout by bindView(R.id.etp_placeholder)
-    private val etpContainerDropShadow: View by bindView(R.id.pay_later_drop_shadow)
+    private val payNowPayLaterTabs: PayNowPayLaterTabs by bindView(R.id.pay_now_pay_later_tabs)
     private val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
     private val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)
 
@@ -158,9 +149,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
 
-        FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
-        FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
-
         AccessibilityUtil.appendRoleContDesc(etpInfoTextSmall, etpInfoTextSmall.text.toString(), R.string.accessibility_cont_desc_role_button)
 
         hotelDescriptionContainer.setAccessibilityDelegate(object: AccessibilityDelegate() {
@@ -180,6 +168,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                 }
             }
         })
+
+        payNowPayLaterTabs.payNowClickedSubject.subscribe { payNowClicked() }
+        payNowPayLaterTabs.payLaterClickedSubject.subscribe { payLaterClicked() }
     }
 
     var viewModel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
@@ -287,7 +278,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
 
         vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
-        vm.etpContainerVisibility.subscribeVisibility(etpContainer)
+        vm.etpContainerVisibility.subscribeVisibility(payNowPayLaterTabs)
 
         Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut ->
             hasETP && hasFreeCancellation && !hotelSoldOut
@@ -329,8 +320,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         AnimUtils.reverseRotate(readMoreView)
         hotelDescription.maxLines = HOTEL_DESC_COLLAPSE_LINES
         renovationContainer.visibility = View.GONE
-        etpContainer.visibility = View.GONE
-        etpContainerDropShadow.visibility = View.GONE
+        payNowPayLaterTabs.visibility = View.GONE
         etpAndFreeCancellationMessagingContainer.visibility = View.GONE
 
         roomRateHeader.visibility = View.GONE
@@ -342,8 +332,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         freeCancellationAndETPMessaging.visibility = View.GONE
         singleMessageContainer.visibility = View.GONE
 
-        payNowButtonContainer.unsubscribeOnClick()
-        payLaterButtonContainer.unsubscribeOnClick()
+
+        payNowPayLaterTabs.unsubscribeClicks()
 
         roomContainer.removeAllViews()
         recycleRoomImageViews()
@@ -363,8 +353,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                 currentPoint = urgencyContainerLocation[1].toFloat())
         urgencyViewAlpha(urgencyAlpha)
 
-        if (etpContainer.visibility == View.VISIBLE) {
-            etpContainer.isEnabled = areRoomsOffScreenAboveETPToolbar(toolbarOffset)
+        if (payNowPayLaterTabs.visibility == View.VISIBLE) {
+            payNowPayLaterTabs.isEnabled = areRoomsOffScreenAboveETPToolbar(toolbarOffset)
         }
     }
 
@@ -394,7 +384,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     fun getRoomContainerScrollPosition(): Int {
         roomContainer.getLocationOnScreen(roomContainerPosition)
         var scrollToAmount = roomContainerPosition[1]
-        if (etpContainer.visibility == View.VISIBLE) scrollToAmount -= etpContainer.height
+        if (payNowPayLaterTabs.visibility == View.VISIBLE) scrollToAmount -= payNowPayLaterTabs.height
         if (roomRateHeader.visibility == View.VISIBLE) scrollToAmount -= roomRateHeader.height
         return scrollToAmount
     }
@@ -422,7 +412,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     private fun areRoomsOffScreenAboveETPToolbar(toolbarOffset: Float): Boolean {
         roomContainer.getLocationOnScreen(roomContainerPosition)
-        return roomContainerPosition[1] + roomContainer.height >= toolbarOffset + etpContainer.height
+        return roomContainerPosition[1] + roomContainer.height >= toolbarOffset + payNowPayLaterTabs.height
     }
 
     private fun updateRooms(roomList: List<HotelOffersResponse.HotelRoomResponse>, topValueAddList: List<String>,
@@ -724,30 +714,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         }
     }
 
-    private fun payNowLaterSelectionChanged(payNowSelected: Boolean) {
-        payNowButtonContainer.isSelected = payNowSelected
-        payLaterButtonContainer.isSelected = !payNowSelected
-
-        val checkMarkIcon = ContextCompat.getDrawable(context, R.drawable.sliding_radio_selector_left)
-        if (payNowSelected) {
-            payNowButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
-            payLaterButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-            payNowButtonContainer.unsubscribeOnClick()
-            payLaterButtonContainer.subscribeOnClick(payLaterClickObserver)
-        } else {
-            payNowButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-            payLaterButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
-            payLaterButtonContainer.unsubscribeOnClick()
-            payNowButtonContainer.subscribeOnClick(payNowClickObserver)
-        }
-
-        // Scroll to the top room in case of change in ETP selection when ETP container is sticked
-        if (etpContainerDropShadow.visibility == View.VISIBLE) {
-            requestFocusOnRoomsSubject.onNext(Unit)
-        }
-    }
-
-    private val payNowClickObserver: Observer<Unit> = endlessObserver {
+    private fun payNowClicked() {
         //pay now show all the offers
         payNowLaterSelectionChanged(true)
         viewModel.roomResponseListObservable.onNext(Pair(viewModel.hotelOffersResponse.hotelRoomResponse,
@@ -764,7 +731,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         HotelTracking.trackPayNowContainerClick()
     }
 
-    private val payLaterClickObserver: Observer<Unit> = endlessObserver {
+    private fun payLaterClicked()  {
         //pay later show only etp offers
         payNowLaterSelectionChanged(false)
         viewModel.etpRoomResponseListObservable.onNext(Pair(viewModel.etpOffersList,
@@ -773,5 +740,13 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
         roomRateRegularLoyaltyAppliedView.visibility = View.GONE
         HotelTracking.trackPayLaterContainerClick()
+    }
+
+    private fun payNowLaterSelectionChanged(payNowSelected: Boolean) {
+        if (payNowSelected) {
+            payNowPayLaterTabs.selectPayNowTab()
+        } else {
+            payNowPayLaterTabs.selectPayLaterTab()
+        }
     }
 }

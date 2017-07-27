@@ -23,8 +23,6 @@
         <item name="primary_button_color">@color/packages_primary_color</item>
         <item name="primary_button_ripple_color">@color/packages_primary_color</item>
 
-        <item name="pay_now_later_selector">@drawable/hotel_pay_now_later_button_selector</item>
-        <item name="hotel_pay_now_later_text">@color/sliding_group_text</item>
         <item name="secondary_ripple_button_drawable">@drawable/hotel_select_room_button_selector</item>
 
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>

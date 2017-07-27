@@ -102,6 +102,18 @@
                     android:focusable="false"
                     android:orientation="vertical">
 
+                    <com.expedia.bookings.widget.flights.FlightOneWayRoundTripTabs
+                        android:id="@+id/one_way_round_trip_tabs"
+                        style="@style/MaterialCardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="@dimen/cardview_border_radius"
+                        android:layout_marginRight="@dimen/cardview_border_radius"
+                        android:visibility="gone"
+                        app:tab_left_text="@string/flights_round_trip_label"
+                        app:tab_right_text="@string/flights_one_way_label"/>
+
                     <android.support.v7.widget.CardView
                         style="@style/MaterialCardView"
                         android:layout_width="match_parent"

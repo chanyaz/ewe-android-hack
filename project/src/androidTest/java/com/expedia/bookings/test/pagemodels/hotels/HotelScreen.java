@@ -88,11 +88,11 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction etpPlaceholder() {
-		return onView(withId(R.id.etp_placeholder));
+		return onView(withId(R.id.pay_now_pay_later_tabs));
 	}
 
 	public static ViewInteraction payNowAndLaterOptions() {
-		return onView(withId(R.id.radius_pay_options));
+		return onView(withId(R.id.pay_now_pay_later_tabs));
 	}
 
 	public static ViewInteraction roomsContainer() {
@@ -242,11 +242,11 @@ public class HotelScreen {
 	}
 
 	public static void clickPayLater() {
-		onView(withId(R.id.radius_pay_later)).perform(click());
+		onView(withId(R.id.right_tab_text_view)).perform(click());
 	}
 
 	public static void clickPayNow() {
-		onView(withId(R.id.radius_pay_now)).perform(click());
+		onView(withId(R.id.left_tab_text_view)).perform(click());
 	}
 
 	public static void clickRatingContainer() {

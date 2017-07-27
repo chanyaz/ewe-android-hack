@@ -35,6 +35,7 @@ import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
 import com.expedia.bookings.widget.TravelerWidgetV2
+import com.expedia.bookings.widget.flights.FlightOneWayRoundTripTabs
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.bookings.widget.suggestions.SuggestionAndLabelAdapter
 import com.expedia.util.notNullAndObservable
@@ -65,6 +66,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val flightAdvanceSearchWidget by lazy {
         flightAdvanceSearchStub.inflate().findViewById(R.id.flight_advanced_search_widget) as FlightAdvanceSearchWidget
     }
+
+    val oneWayRoundTripTabs: FlightOneWayRoundTripTabs by bindView(R.id.one_way_round_trip_tabs)
 
     lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
         @Inject set
@@ -260,7 +263,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2 //Not sure why we still have Flights V2 all over the place??
-        showFlightOneWayRoundTripOptions = true
+        showFlightOneWayRoundTripOptions = !FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
             swapFlightsLocationsButton.isEnabled = false
@@ -283,32 +286,16 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        tabs.visibility = View.VISIBLE
 
-        val pagerAdapter = FlightSearchPageAdapter(context)
-        viewpager.adapter = pagerAdapter
-        viewpager.overScrollMode = ViewPager.OVER_SCROLL_NEVER
-
-        tabs.setupWithViewPager(viewpager)
-
-        tabs.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                // do nothing
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // do nothing
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                val isRoundTripSearch = tab.position == 0
-                searchViewModel.isRoundTripSearchObservable.onNext(isRoundTripSearch)
-                announceForAccessibility(if (isRoundTripSearch)
-                    context.getString(R.string.flights_tab_selection_accouncement_roundtrip)
-                else
-                    context.getString(R.string.flights_tab_selection_accouncement_oneway))
-            }
-        })
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
+            tabs.visibility = View.GONE
+            oneWayRoundTripTabs.visibility = View.VISIBLE
+            initializeProWizardTabs()
+        } else {
+            tabs.visibility = View.VISIBLE
+            oneWayRoundTripTabs.visibility = View.GONE
+            initializeToolbarTabs()
+        }
     }
 
     override fun getSuggestionHistoryFileName(): String {
@@ -341,5 +328,46 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.FLIGHTS
+    }
+
+    private fun initializeProWizardTabs() {
+        oneWayRoundTripTabs.oneWayClickedSubject.subscribe {
+            roundTripChanged(roundTrip = false)
+        }
+        oneWayRoundTripTabs.roundTripClickedSubject.subscribe {
+            roundTripChanged(roundTrip = true)
+        }
+    }
+
+    private fun initializeToolbarTabs() {
+        val pagerAdapter = FlightSearchPageAdapter(context)
+        viewpager.adapter = pagerAdapter
+        viewpager.overScrollMode = ViewPager.OVER_SCROLL_NEVER
+
+        tabs.setupWithViewPager(viewpager)
+
+        tabs.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // do nothing
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // do nothing
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val isRoundTripSearch = tab.position == 0
+                roundTripChanged(isRoundTripSearch)
+            }
+        })
+    }
+
+    private fun roundTripChanged(roundTrip: Boolean) {
+        searchViewModel.isRoundTripSearchObservable.onNext(roundTrip)
+        if (roundTrip) {
+            announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_roundtrip))
+        } else {
+            announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_oneway))
+        }
     }
 }

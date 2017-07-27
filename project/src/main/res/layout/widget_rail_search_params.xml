@@ -72,21 +72,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.expedia.bookings.rail.widget.PositionObservableTabLayout
-                    android:id="@+id/tabs"
+                <FrameLayout
+                    android:id="@+id/tabs_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/rail_primary_color"
-                    app:tabIndicatorColor="@color/launch_tab_indicator"
-                    app:tabSelectedTextColor="@color/material_tab_text_selected"
-                    app:tabTextColor="@color/material_tab_text" />
+                    android:layout_height="wrap_content">
+
+                    <com.expedia.bookings.rail.widget.PositionObservableTabLayout
+                        android:id="@+id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/rail_primary_color"
+                        app:tabIndicatorColor="@color/launch_tab_indicator"
+                        app:tabSelectedTextColor="@color/material_tab_text_selected"
+                        app:tabTextColor="@color/material_tab_text" />
+
+                    <com.expedia.bookings.rail.widget.RailOneWayReturnTabs
+                        android:id="@+id/rail_one_way_return_tabs"
+                        style="@style/MaterialCardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/search_form_margin"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="13dp"
+                        android:textAllCaps="true"
+                        android:visibility="gone"
+                        app:tab_left_text="@string/rail_one_way"
+                        app:tab_right_text="@string/rail_return" />
+                </FrameLayout>
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@id/search_btn"
-                    android:layout_below="@id/tabs"
+                    android:layout_below="@id/tabs_container"
                     android:background="@color/transparent"
                     android:importantForAccessibility="no"/>
 
@@ -94,7 +113,7 @@
                     android:id="@+id/rail_search_widget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tabs" />
+                    android:layout_below="@id/tabs_container" />
 
                 <Button
                     android:id="@id/search_btn"

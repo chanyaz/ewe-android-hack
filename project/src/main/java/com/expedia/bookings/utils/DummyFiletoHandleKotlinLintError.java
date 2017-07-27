@@ -228,6 +228,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.price_change_decrease,
 		R.drawable.warning_triangle_icon,
 		R.layout.widget_vip_access_info,
+		R.layout.two_tab_card_view,
+		R.drawable.sliding_radio_selector_left,
 		R.string.accessibility_announcement_searching_flights,
 		R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE,
 		R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE,
