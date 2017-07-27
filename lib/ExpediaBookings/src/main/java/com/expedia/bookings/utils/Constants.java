@@ -52,6 +52,9 @@ public class Constants {
 	public static final String PACKAGE_LOAD_INBOUND_FLIGHT = "LOAD_INBOUND_FLIGHT";
 	public static final String REQUEST = "REQUEST";
 	public static final String INTENT_PERFORM_HOTEL_SEARCH = "INTENT_PERFORM_HOTEL_SEARCH";
+	// customer returned from hotel itin web view
+	public static final int ITIN_HOTEL_WEBPAGE_CODE = 61;
+	public static final String ITIN_HOTEL_WEBPAGE_TRIP_NUMBER = "ITIN_HOTEL_WEBPAGE_TRIP_NUMBER";
 
 	public static final String RAIL_CLIENT_CODE = "1002";
 	public static final String RAIL_STANDARD_FARE_CLASS = "Standard";

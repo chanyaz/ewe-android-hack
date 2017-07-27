@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.itin
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -8,6 +9,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 
 class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
@@ -40,22 +43,26 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
 
             manageBookingCard.setOnClickListener {
                 context.startActivity(HotelItinManageBookingActivity.createIntent(context, itinCardDataHotel.id))
+                OmnitureTracking.trackHotelItinManageBookingClick()
             }
             priceSummaryCard.setOnClickListener {
-                context.startActivity(buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, itinCardDataHotel.detailsUrl, "price-header").intent)
+                (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, itinCardDataHotel.detailsUrl, "price-header", itinCardDataHotel.tripNumber).intent, Constants.ITIN_HOTEL_WEBPAGE_CODE)
+                OmnitureTracking.trackHotelItinPricingRewardsClick()
             }
             additionalInfoCard.setOnClickListener {
-                context.startActivity(buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, itinCardDataHotel.detailsUrl, null).intent)
+                (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, itinCardDataHotel.detailsUrl, null, itinCardDataHotel.tripNumber).intent, Constants.ITIN_HOTEL_WEBPAGE_CODE)
+                OmnitureTracking.trackHotelItinAdditionalInfoClick()
             }
         }
     }
 
-    private fun buildWebViewIntent(title: Int, url: String, anchor: String?): WebViewActivity.IntentBuilder {
+    private fun buildWebViewIntent(title: Int, url: String, anchor: String?, tripId: String): WebViewActivity.IntentBuilder {
         val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
         if (anchor != null) builder.setUrlWithAnchor(url, anchor) else builder.setUrl(url)
         builder.setTitle(title)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
+        builder.setHotelItinTripId(tripId)
         return builder
     }
 }

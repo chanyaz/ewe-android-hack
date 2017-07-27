@@ -32,6 +32,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	private static final String ARG_RETURN_FROM_CANCEL_ROOM_BOOKING = "ARG_RETURN_FROM_CANCEL_ROOM_BOOKING";
 	private static final String ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING = "ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING";
 	private static final String ARG_RETURN_FROM_ROOM_UPGRADE = "ARG_RETURN_FROM_ROOM_UPGRADE";
+	private static final String ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW = "ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW";
 	private static final String ARG_HANDLE_BACK = "ARG_HANDLE_BACK";
 	private static final String ARG_HANDLE_RETRY_ON_ERROR = "ARG_HANDLE_RETRY_ON_ERROR";
 	private static final String APP_VISITOR_ID_PARAM = "appvi=";
@@ -84,6 +85,12 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 		public IntentBuilder setCheckInLink(Boolean checkInLink) {
 			mIntent.putExtra(ARG_ITIN_CHECKIN, checkInLink);
+			return this;
+		}
+
+		public IntentBuilder setHotelItinTripId(String hotelItinTripId) {
+			mIntent.putExtra(Constants.ITIN_HOTEL_WEBPAGE_TRIP_NUMBER, hotelItinTripId);
+			mIntent.putExtra(ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW, true);
 			return this;
 		}
 
@@ -173,6 +180,10 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 			setResult(RESULT_OK, resultIntent);
 		}
 		else if (extras.getBoolean(ARG_RETURN_FROM_ROOM_UPGRADE)) {
+			Intent resultIntent = new Intent(intent);
+			setResult(RESULT_OK, resultIntent);
+		}
+		else if (extras.getBoolean(ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW)) {
 			Intent resultIntent = new Intent(intent);
 			setResult(RESULT_OK, resultIntent);
 		}

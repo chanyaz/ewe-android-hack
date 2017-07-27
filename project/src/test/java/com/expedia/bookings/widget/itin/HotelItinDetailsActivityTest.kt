@@ -30,7 +30,8 @@ class HotelItinDetailsActivityTest {
     @Test
     fun sharedItinView() {
         val sharedItin = ItinCardDataHotelBuilder().isSharedItin(true).build()
-        activity.setUpWidgets(sharedItin)
+        activity.itinCardDataHotel = sharedItin
+        activity.setUpWidgets()
 
         val roomDetailsView: HotelItinRoomDetails = activity.roomDetailsView
         assertEquals(View.GONE, roomDetailsView.visibility)

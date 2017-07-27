@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
@@ -18,7 +16,7 @@ import com.expedia.bookings.widget.itin.HotelItinCheckInCheckOutDetails
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
 import com.expedia.bookings.widget.itin.HotelItinToolbar
 
-class HotelItinDetailsActivity() : AppCompatActivity() {
+open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
 
     val locationDetailsView: HotelItinLocationDetails by lazy {
         findViewById(R.id.widget_hotel_itin_location_details) as HotelItinLocationDetails
@@ -41,9 +39,7 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
     val hotelBookingDetailsView: HotelItinBookingDetails by lazy {
         findViewById(R.id.widget_hotel_itin_booking_details) as HotelItinBookingDetails
     }
-    val itinCardDataHotel: ItinCardDataHotel by lazy {
-        ItineraryManager.getInstance().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA)) as ItinCardDataHotel
-    }
+    lateinit var itinCardDataHotel: ItinCardDataHotel
 
     companion object {
         private const val ITIN_ID_EXTRA = "ITIN_ID"
@@ -64,10 +60,10 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        setUpWidgets(itinCardDataHotel)
+        updateItinCardDataHotel()
     }
 
-    fun setUpWidgets(itinCardDataHotel: ItinCardDataHotel) {
+    fun setUpWidgets() {
         locationDetailsView.setupWidget(itinCardDataHotel)
         hotelImageView.setUpWidget(itinCardDataHotel)
         checkinCheckoutView.setUpWidget(itinCardDataHotel)
@@ -85,4 +81,13 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
         }
     }
 
+    override fun updateItinCardDataHotel() {
+        val freshItinCardDataHotel: ItinCardDataHotel? = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA)) as ItinCardDataHotel
+        if (freshItinCardDataHotel == null) {
+            finish()
+        } else {
+            itinCardDataHotel = freshItinCardDataHotel
+            setUpWidgets()
+        }
+    }
 }
