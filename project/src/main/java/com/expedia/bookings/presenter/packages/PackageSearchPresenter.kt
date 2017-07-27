@@ -6,18 +6,23 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.SuggestionV4Utils
+
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -114,8 +119,20 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         widgetTravelerAndCabinClassStub.inflate()
     }
 
+    private fun getPackageTitleChange(): Int {
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesTitleChange, R.string.preference_packages_title_change)) {
+            val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)
+            if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
+                return R.string.nav_hotel_plus_flight_deals
+            }
+        }
+        return R.string.package_toolbar_title
+    }
+
     override fun inflate() {
-        View.inflate(context, R.layout.widget_base_flight_search, this)
+        val view = View.inflate(context, R.layout.widget_base_flight_search, this)
+        val packageTitleText = view.findViewById(R.id.title) as TextView
+        packageTitleText.text = resources.getString(getPackageTitleChange())
     }
 
     override fun getSuggestionHistoryFileName(): String {

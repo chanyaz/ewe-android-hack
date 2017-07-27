@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.user.User
@@ -29,11 +30,13 @@ import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -49,6 +52,7 @@ import org.robolectric.shadows.ShadowAlertDialog
 import java.util.Calendar
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -234,6 +238,34 @@ class AccountSettingsFragmentTest {
         givenFragmentSetup()
 
         assertTermsLinkVisibility(View.GONE)
+    }
+
+    @Test
+    fun testBundlePackageTitleChangeVariate1() {
+        SettingUtils.save(activity.baseContext, R.string.preference_packages_title_change, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
+        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
+        givenFragmentSetup()
+        givenSignedInAsUser(getMiddleTierRewardsMember())
+        val pendingPoints = fragment.view?.findViewById(R.id.pending_points) as TextView
+        pendingPoints.performClick()
+        val dialog = ShadowAlertDialog.getLatestAlertDialog()
+        val stringToTest = dialog.findViewById(R.id.packages_pp) as TextView
+        assertEquals("Hotel + Flight", stringToTest.text.toString())
+    }
+
+    @Test
+    fun testBundlePackageTitleChangeVariate2() {
+        SettingUtils.save(activity.baseContext, R.string.preference_packages_title_change, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
+        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
+        givenFragmentSetup()
+        givenSignedInAsUser(getMiddleTierRewardsMember())
+        val pendingPoints = fragment.view?.findViewById(R.id.pending_points) as TextView
+        pendingPoints.performClick()
+        val dialog = ShadowAlertDialog.getLatestAlertDialog()
+        val stringToTest = dialog.findViewById(R.id.packages_pp) as TextView
+        assertEquals("Hotel + Flight Deals", stringToTest.text.toString())
     }
 
     private fun doCountryTest(pointOfSaleId: PointOfSaleId, expectedCountryCode: String, expectedFlagResId: Int) {

@@ -7,9 +7,24 @@ import android.support.v4.app.DialogFragment
 import android.widget.TableRow
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.squareup.phrase.Phrase
 
 class PendingPointsDialogFragment : DialogFragment() {
+
+    private fun getPackageTitleChange(): Int {
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesTitleChange, R.string.preference_packages_title_change)) {
+            val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)
+            if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
+                return R.string.nav_hotel_plus_flight
+            } else {
+                return R.string.nav_hotel_plus_flight_deals
+            }
+        }
+        return R.string.nav_packages
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val title = arguments.getString("title")
@@ -27,6 +42,8 @@ class PendingPointsDialogFragment : DialogFragment() {
 
         val bundleDaysText = view.findViewById(R.id.packages_days) as TextView
         val bundleRow = view.findViewById(R.id.bundles_points_row) as TableRow
+        val packageTitleText = view.findViewById(R.id.packages_pp) as TextView
+        packageTitleText.text = resources.getString(getPackageTitleChange())
         bundleRow.contentDescription = createAccessibilityText(R.string.pending_points_bundles_accessibility_TEMPLATE, BUNDLE_DAYS)
         bundleDaysText.text = createDaysText(BUNDLE_DAYS)
 
