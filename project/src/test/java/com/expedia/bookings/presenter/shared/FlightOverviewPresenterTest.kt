@@ -35,19 +35,32 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun showPaymentFees() {
-        createSelectedFlightLeg()
-        val testSubscriber = TestSubscriber<Unit>()
+        createSelectedFlightLeg(true)
+        val testSubscriber = TestSubscriber<Boolean>()
         sut.showPaymentFeesObservable.subscribe(testSubscriber)
 
         sut.paymentFeesMayApplyTextView.performClick()
 
         testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue(true)
+    }
+
+    @Test
+    fun showTextPaymentFees() {
+        createSelectedFlightLeg(false)
+        val testSubscriber = TestSubscriber<Boolean>()
+        sut.showPaymentFeesObservable.subscribe(testSubscriber)
+
+        sut.paymentFeesMayApplyTextView.performClick()
+
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue(false)
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun showBaggageFees() {
         val expectedUrl = "https://www.expedia.com/" + BAGGAGE_FEES_URL_PATH
-        createSelectedFlightLeg()
+        createSelectedFlightLeg(true)
         val testSubscriber = TestSubscriber<String>()
         sut.baggageFeeShowSubject.subscribe(testSubscriber)
 
@@ -59,7 +72,7 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun selectFlightButton() {
-        createSelectedFlightLeg()
+        createSelectedFlightLeg(true)
         val testSubscriber = TestSubscriber<FlightLeg>()
         sut.vm.selectedFlightClickedSubject.subscribe(testSubscriber)
 
@@ -96,7 +109,7 @@ class FlightOverviewPresenterTest {
         val testSubscriber = TestSubscriber<Boolean>()
         sut.vm.showBasicEconomyTooltip.subscribe(testSubscriber)
 
-        createSelectedFlightLeg()
+        createSelectedFlightLeg(true)
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(false)
         assertEquals(View.GONE, sut.basicEconomyTooltip.visibility)
@@ -117,7 +130,7 @@ class FlightOverviewPresenterTest {
         sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
         sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipFareRules.subscribe(toolTipRulesTestSubscriber)
 
-        createSelectedFlightLeg()
+        createSelectedFlightLeg(true)
         createBasicEconomyTooltipInfo()
         sut.vm.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals(2, toolTipRulesTestSubscriber.onNextEvents[0].size)
@@ -126,7 +139,7 @@ class FlightOverviewPresenterTest {
         assertEquals("United Airlines Basic Economy Fare", toolTipTitleTestSubscriber.onNextEvents[0])
     }
 
-    private fun createSelectedFlightLeg() {
+    private fun createSelectedFlightLeg(hasObFees: Boolean) {
         flightLeg = FlightLeg()
         flightLeg.flightSegments = emptyList()
         flightLeg.packageOfferModel = PackageOfferModel()
@@ -136,6 +149,7 @@ class FlightOverviewPresenterTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket.formattedPrice = "$42.00"
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("42.00", "USD")
         flightLeg.baggageFeesUrl = BAGGAGE_FEES_URL_PATH
+        flightLeg.mayChargeObFees = hasObFees
         sut.vm.selectedFlightLegSubject.onNext(flightLeg)
     }
 

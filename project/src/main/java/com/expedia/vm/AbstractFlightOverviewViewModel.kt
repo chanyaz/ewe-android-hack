@@ -3,7 +3,6 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.util.endlessObserver
@@ -93,9 +92,11 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
         if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
             val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
             chargesObFeesTextSubject.onNext(paymentFeeText)
-            val hasAirlineFeeLink = selectedFlight.airlineMessageModel?.airlineFeeLink != null
+            val hasAirlineFeeLink = !selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()
             if (hasAirlineFeeLink){
                 obFeeDetailsUrlObservable.onNext(e3EndpointUrl + selectedFlight.airlineMessageModel.airlineFeeLink)
+            } else {
+                obFeeDetailsUrlObservable.onNext("")
             }
         }
         else{

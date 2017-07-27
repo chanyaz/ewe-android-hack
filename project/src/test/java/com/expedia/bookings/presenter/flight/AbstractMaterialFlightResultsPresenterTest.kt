@@ -168,7 +168,7 @@ class AbstractMaterialFlightResultsPresenterTest {
 
         sut.flightOfferViewModel.obFeeDetailsUrlObservable.onNext(expectedUrl)
 
-        sut.overviewPresenter.showPaymentFeesObservable.onNext(Unit)
+        sut.overviewPresenter.showPaymentFeesObservable.onNext(true)
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(expectedUrl)
     }

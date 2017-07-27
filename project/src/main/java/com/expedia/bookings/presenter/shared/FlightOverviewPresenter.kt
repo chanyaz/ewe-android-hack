@@ -43,7 +43,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     val showBaggageFeesButton: Button by bindView(R.id.show_baggage_fees)
     val paymentFeesMayApplyTextView: Button by bindView(R.id.show_payment_fees)
     val baggageFeeShowSubject = PublishSubject.create<String>()
-    val showPaymentFeesObservable = PublishSubject.create<Unit>()
+    val showPaymentFeesObservable = PublishSubject.create<Boolean>()
     val e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().e3EndpointUrl
 
     val basicEconomyToolTipInfoView = BasicEconomyToolTipView(context, null)
@@ -107,7 +107,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
                 }
             }
             paymentFeesMayApplyTextView.setOnClickListener {
-                showPaymentFeesObservable.onNext(Unit)
+                val hasFeeLink = !selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()
+                if (hasFeeLink || selectedFlight.mayChargeObFees) {
+                    showPaymentFeesObservable.onNext(true)
+                } else {
+                    paymentFeesMayApplyTextView.background = null
+                    showPaymentFeesObservable.onNext(false)
+                }
             }
             basicEconomyTooltip.setOnClickListener {
                 dialog.show()

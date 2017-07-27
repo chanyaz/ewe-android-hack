@@ -48,6 +48,7 @@ import com.expedia.util.safeSubscribe
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
@@ -205,9 +206,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
         vm.cardFeeWarningTextSubject.subscribeText(cardFeeWarningTextView)
-        vm.showCardFeeWarningText.subscribe {
-            cardFeeWarningTextView.visibility = View.VISIBLE
-        }
+        vm.showCardFeeWarningText.subscribeVisibility(cardFeeWarningTextView)
     }
 
     fun getPriceChangeDiffPercentage(oldPrice: Money, newPrice: Money): Int {

@@ -48,7 +48,6 @@ import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
 import java.io.IOException
-import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -171,6 +170,29 @@ class FlightCheckoutViewModelTest {
         cardFeeWarningTestSubscriber.assertValueCount(4)
         assertEquals("",
                 cardFeeWarningTestSubscriber.onNextEvents[3].toString())
+    }
+
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun selectedFlightHasFeesNoLinkCardFeeWarnings() {
+        setupSystemUnderTest()
+
+        val cardFeeWarningTestSubscriber = TestSubscriber<Spanned>()
+        sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestSubscriber)
+
+        sut.obFeeDetailsUrlSubject.onNext("")
+        givenAirlineChargesFees()
+
+        cardFeeWarningTestSubscriber.assertValueCount(2)
+        assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[0].toString())
+        assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
+                cardFeeWarningTestSubscriber.onNextEvents[1].toString())
+
+        setPOS(PointOfSaleId.FRANCE)
+
+        givenAirlineChargesFees()
+        cardFeeWarningTestSubscriber.assertValueCount(3)
+        assertEquals("There may be an additional fee, based on your payment method.",
+                cardFeeWarningTestSubscriber.onNextEvents[2].toString())
     }
 
     private fun setPOS(pos: PointOfSaleId) {

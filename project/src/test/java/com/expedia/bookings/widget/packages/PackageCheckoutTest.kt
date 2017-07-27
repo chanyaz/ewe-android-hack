@@ -349,6 +349,12 @@ class PackageCheckoutTest {
         assertUpdateTravelerDialog()
     }
 
+    @Test
+    fun testPaymentFeeHasNoLink() {
+        createTrip()
+        checkout.cardFeeWarningTextView.performClick()
+        assertEquals(View.GONE, overview.paymentFeeInfoWebView.visibility)
+    }
 
     private fun createTrip() {
         checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
@@ -425,6 +431,8 @@ class PackageCheckoutTest {
         checkout.getCreateTripViewModel().packageServices = packageServiceRule.services!!
         checkout.getCheckoutViewModel().packageServices = packageServiceRule.services!!
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+        overview.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("")
+        overview.getCheckoutPresenter().getCheckoutViewModel().selectedFlightChargesFees.onNext("Airline Fee")
         overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
         overview.bundleWidget.viewModel.hotelParamsObservable.onNext(getPackageSearchParams(1, emptyList(), false))
         overview.bottomCheckoutContainer.slideToPurchaseLayout.visibility = View.VISIBLE

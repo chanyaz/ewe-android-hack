@@ -138,7 +138,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
 
         checkoutPresenter.cardFeeWarningTextView.setOnClickListener {
-            show(paymentFeeInfoWebView)
+            val mayChargeObFees = !(checkoutPresenter.getCheckoutViewModel() as AbstractCardFeeEnabledCheckoutViewModel).obFeeDetailsUrlSubject.value.isNullOrBlank()
+            if (mayChargeObFees) {
+                show(paymentFeeInfoWebView)
+            }
         }
         setupCreateTripViewModelSubscriptions()
     }

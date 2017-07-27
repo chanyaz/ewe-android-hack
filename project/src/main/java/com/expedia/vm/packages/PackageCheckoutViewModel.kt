@@ -22,7 +22,6 @@ import com.expedia.util.safeSubscribe
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
-import rx.subjects.BehaviorSubject
 
 class PackageCheckoutViewModel(context: Context, var packageServices: PackageServices) : AbstractCardFeeEnabledCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
@@ -183,7 +182,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
 
     fun updateMayChargeFees(selectedFlight: FlightLeg) {
         if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
-            val hasAirlineFeeLink = selectedFlight.airlineMessageModel?.airlineFeeLink != null
+            val hasAirlineFeeLink = !selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()
             if (hasAirlineFeeLink) {
                 obFeeDetailsUrlSubject.onNext(e3Endpoint + selectedFlight.airlineMessageModel.airlineFeeLink)
             }

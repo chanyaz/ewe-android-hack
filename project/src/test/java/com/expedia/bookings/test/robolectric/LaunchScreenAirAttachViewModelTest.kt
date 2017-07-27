@@ -33,9 +33,9 @@ class LaunchScreenAirAttachViewModelTest {
     lateinit private var view: View
     lateinit private var context: Context
 
-    val firstLineSubsciber = TestSubscriber<String>()
-    val secondLineSubsciber = TestSubscriber<String>()
-    val offerExpiresSubsciber = TestSubscriber<String>()
+    val firstLineSubscriber = TestSubscriber<String>()
+    val secondLineSubscriber = TestSubscriber<String>()
+    val offerExpiresSubscriber = TestSubscriber<String>()
 
     @Before
     fun before() {
@@ -99,9 +99,9 @@ class LaunchScreenAirAttachViewModelTest {
     }
 
     private fun airAttachMessageSubscribe() {
-        sut.firstLineObserver.subscribe(firstLineSubsciber)
-        sut.secondLineObserver.subscribe(secondLineSubsciber)
-        sut.offerExpiresObserver.subscribe(offerExpiresSubsciber)
+        sut.firstLineObserver.subscribe(firstLineSubscriber)
+        sut.secondLineObserver.subscribe(secondLineSubscriber)
+        sut.offerExpiresObserver.subscribe(offerExpiresSubscriber)
     }
 
     private fun enableABTest() {

@@ -75,7 +75,7 @@ class FlightCheckoutPresenterTest {
 
     @Test
     fun showCardFeeWarnings(){
-        checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.onNext(Unit)
+        checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.onNext(true)
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.onNext(SpannedString("ABCDEFG"))
         assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
         assertEquals("ABCDEFG", checkoutPresenter.cardFeeWarningTextView.text.toString())

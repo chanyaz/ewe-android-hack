@@ -67,7 +67,7 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
         Observable.combineLatest(selectedFlightChargesFees, obFeeDetailsUrlSubject, {
             flightChargesFees, obFeeDetailsUrl ->
             cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(flightChargesFees, obFeeDetailsUrl))
-            showCardFeeWarningText.onNext(Unit)
+            showCardFeeWarningText.onNext(!flightChargesFees.isNullOrBlank())
         }).subscribe()
 
         compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {
@@ -101,18 +101,27 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
 
     private fun getAirlineMayChargeFeeText(flightChargesFeesTxt: String, obFeeUrl: String): SpannableStringBuilder {
         if (Strings.isNotEmpty(flightChargesFeesTxt)) {
-            val resId = if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
-                R.string.flights_there_maybe_additional_fee_TEMPLATE
+            if (!obFeeUrl.isNullOrBlank()) {
+                val resId = if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+                    R.string.flights_there_maybe_additional_fee_TEMPLATE
+                } else {
+                    R.string.flights_fee_added_based_on_payment_TEMPLATE
+                }
+                val airlineFeeWithLink =
+                        Phrase.from(context, resId)
+                                .put("airline_fee_url", obFeeUrl)
+                                .format().toString()
+                return StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true)
             } else {
-                R.string.flights_fee_added_based_on_payment_TEMPLATE
+                val resId = if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+                    R.string.flights_there_maybe_additional_fee
+                } else {
+                    R.string.flights_fee_added_based_on_payment
+                }
+                val airlineFee = context.resources.getString(resId)
+                return SpannableStringBuilder(airlineFee)
             }
-            val airlineFeeWithLink =
-                    Phrase.from(context, resId)
-                            .put("airline_fee_url", obFeeUrl)
-                            .format().toString()
-            return StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true)
         }
         return SpannableStringBuilder()
     }
-
 }
