@@ -2015,6 +2015,8 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_INFO_EDIT_ROOM = "App.Itinerary.Hotel.Info.EditRoom";
 	private static final String ITIN_NEW_SIGN_IN = "App.Itinerary.Login.Start";
 	private static final String ITIN_USER_REFRESH = "App.Itinerary.User.Refresh";
+	private static final String ITIN_HOTEL_MANAGE_BOOKING = "App.Itinerary.Hotel.ManageBooking";
+	private static final String ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards";
 
 	public static void trackItinEmpty() {
 		internalTrackPageLoadEventStandard(ITIN_EMPTY);
@@ -2173,6 +2175,21 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, ITIN_HOTEL_ROOM_CANCEL_CLICK);
 		s.setProp(16, ITIN_HOTEL_ROOM_CANCEL_CLICK);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackHotelItinManageBookingClick() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackHotelItinPricingRewardsClick() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_PRICING_REWARDS);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackHotelItinAdditionalInfoClick() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_INFO);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 

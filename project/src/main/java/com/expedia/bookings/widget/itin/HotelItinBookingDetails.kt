@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.bindView
 
 class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
@@ -36,12 +37,15 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
 
         manageBookingCard.setOnClickListener {
             context.startActivity(HotelItinManageBookingActivity.createIntent(context, itinCardDataHotel.id))
+            OmnitureTracking.trackHotelItinManageBookingClick()
         }
         priceSummaryCard.setOnClickListener {
             context.startActivity(buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, itinCardDataHotel.detailsUrl, "price-header").intent)
+            OmnitureTracking.trackHotelItinPricingRewardsClick()
         }
         additionalInfoCard.setOnClickListener {
             context.startActivity(buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, itinCardDataHotel.detailsUrl, null).intent)
+            OmnitureTracking.trackHotelItinAdditionalInfoClick()
         }
     }
 
