@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.webkit.WebView
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.pos.PointOfSale
@@ -20,7 +19,9 @@ import com.expedia.vm.WebViewViewModel
 class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
     val loadingWebview: LinearLayout by bindView(R.id.webview_loading_screen)
-    
+
+    var clearHistory = false
+
     override var viewModel: WebViewViewModel by notNullAndObservable { vm ->
         super.viewModel = vm
         vm as WebCheckoutViewViewModel
@@ -39,6 +40,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     override fun onFinishInflate() {
         super.onFinishInflate()
         toolbar.title = context.getString(R.string.secure_checkout)
+        toolbar.navigationIcon = context.getDrawable(R.drawable.ic_arrow_back_white_24dp)
     }
 
     override fun toggleLoading(loading: Boolean) {
@@ -56,7 +58,33 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         }
     }
 
+    override fun setExitButtonOnClickListener(listener: OnClickListener) {
+        toolbar.setNavigationOnClickListener {
+            viewModel.backObservable.onNext(Unit)
+        }
+    }
+
+    override fun onPageFinished(url: String) {
+        super.onPageFinished(url)
+        if (clearHistory) {
+            webView.clearHistory()
+            clearHistory = false
+        }
+        if (url.equals("about:blank")) {
+            viewModel.blankViewObservable.onNext(Unit)
+        }
+    }
+
     fun back() {
+        if (webView.canGoBack()) {
+            webView.goBack()
+            return
+        }
         (viewModel as WebCheckoutViewViewModel).userAccountRefresher.forceAccountRefreshForWebView()
     }
+
+    fun clearHistory() {
+        clearHistory = true
+    }
+
 }
