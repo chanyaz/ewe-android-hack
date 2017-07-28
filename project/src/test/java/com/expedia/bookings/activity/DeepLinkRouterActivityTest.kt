@@ -7,7 +7,6 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.deeplink.TripDeepLink
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.test.MultiBrand
@@ -18,6 +17,7 @@ import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.FlightActivity
 import com.expedia.ui.HotelActivity
 import com.expedia.util.ForceBucketPref
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -227,6 +227,10 @@ class DeepLinkRouterActivityTest {
 
         override fun getItineraryManagerInstance(): ItineraryManager {
             return mockItineraryManager
+        }
+
+        override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? {
+            return null
         }
 
         override fun goFetchSharedItinWithShortUrl(shortUrl: String, runnable: OnSharedItinUrlReceiveListener) {

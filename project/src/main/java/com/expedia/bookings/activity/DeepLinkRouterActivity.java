@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.expedia.bookings.R;
@@ -37,6 +38,7 @@ import com.expedia.bookings.deeplink.ShortUrlDeepLink;
 import com.expedia.bookings.deeplink.SignInDeepLink;
 import com.expedia.bookings.deeplink.SupportEmailDeepLink;
 import com.expedia.bookings.deeplink.TripDeepLink;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.ClientLogServices;
@@ -58,6 +60,10 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.PackageNavUtils;
 import com.expedia.util.ForceBucketPref;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
@@ -114,15 +120,66 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	@VisibleForTesting
 	protected void handleDeeplink() {
 		TrackingUtils.initializeTracking(this.getApplication());
-		// Handle incoming intents
+
+		if (ProductFlavorFeatureConfiguration.getInstance().isFirebaseEnabled()) {
+			handleDeeplinkFromFirebase();
+		}
+		else {
+			handleDeeplinkFromIntent();
+		}
+	}
+
+	private void handleDeeplinkFromFirebase() {
+		// First we try to load *every* deeplink as a Firebase dynamic link.
+		// If that fails (because it's not a firebase link) we fallback to regular intent deeplink
+
+		FirebaseDynamicLinks firebase = getFirebaseDynamicLinksInstance();
+		if (firebase != null) {
+			firebase.getDynamicLink(getIntent())
+				.addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+					@Override
+					public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+						// Get deep link from result (may be null if no link is found)
+						Uri deepLink;
+						if (pendingDynamicLinkData != null) {
+							deepLink = pendingDynamicLinkData.getLink();
+							Log.d(TAG, "getDynamicLink:onSuccess:foundDynamicLink");
+							handleDeepLinkUri(deepLink);
+						}
+						else {
+							Log.d(TAG, "getDynamicLink:onSuccess:noDynamicLink");
+							handleDeeplinkFromIntent();
+						}
+					}
+				})
+				.addOnFailureListener(this, new OnFailureListener() {
+					@Override
+					public void onFailure(@NonNull Exception e) {
+						Log.d(TAG, "getDynamicLink:onFailure", e);
+						handleDeeplinkFromIntent();
+					}
+				});
+		}
+		else {
+			// This should never occur in practice; mostly useful for testing
+			Log.d(TAG, "getDynamicLink:nullFirebase");
+			handleDeeplinkFromIntent();
+		}
+	}
+
+	private void handleDeeplinkFromIntent() {
 		Intent intent = getIntent();
 		Uri data = intent.getData();
 		if (data == null || data.getHost() == null) {
 			// bad data
 			finish();
-			return;
 		}
+		else {
+			handleDeepLinkUri(data);
+		}
+	}
 
+	private void handleDeepLinkUri(Uri data) {
 		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
 		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, data, queryData);
@@ -395,6 +452,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	protected ItineraryManager getItineraryManagerInstance() {
 		return ItineraryManager.getInstance();
+	}
+
+	protected FirebaseDynamicLinks getFirebaseDynamicLinksInstance() {
+		return FirebaseDynamicLinks.getInstance();
 	}
 
 	@VisibleForTesting

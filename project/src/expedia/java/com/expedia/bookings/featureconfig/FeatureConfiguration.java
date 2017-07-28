@@ -431,4 +431,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getPosURLToShow(String posUrl) {
 		return posUrl;
 	}
+
+	@Override
+	public boolean isFirebaseEnabled() {
+		return true;
+	}
+
 }

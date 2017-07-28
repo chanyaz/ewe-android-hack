@@ -192,4 +192,6 @@ public interface IProductFlavorFeatureConfiguration {
 	int getPOSSpecificBrandLogo();
 
 	String getPosURLToShow(String posUrl);
+
+	boolean isFirebaseEnabled();
 }

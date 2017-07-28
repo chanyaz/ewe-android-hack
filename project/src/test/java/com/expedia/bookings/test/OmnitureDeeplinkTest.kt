@@ -10,6 +10,7 @@ import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withoutEvars
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Test
@@ -22,7 +23,7 @@ import org.robolectric.util.ActivityController
 class OmnitureDeeplinkTest {
 
     lateinit var mockAnalyticsProvider: AnalyticsProvider
-    lateinit var deepLinkRouterActivityController: ActivityController<DeepLinkRouterActivity>
+    lateinit var deepLinkRouterActivityController: ActivityController<TestDeepLinkRouterActivity>
 
     @Before
     fun setup() {
@@ -172,12 +173,12 @@ class OmnitureDeeplinkTest {
         OmnitureTracking.trackAccountPageLoad()
     }
 
-    private fun createSystemUnderTest(): ActivityController<DeepLinkRouterActivity> {
-        val deepLinkRouterActivityController = Robolectric.buildActivity(DeepLinkRouterActivity::class.java)
+    private fun createSystemUnderTest(): ActivityController<TestDeepLinkRouterActivity> {
+        val deepLinkRouterActivityController = Robolectric.buildActivity(TestDeepLinkRouterActivity::class.java)
         return deepLinkRouterActivityController
     }
 
-    private fun setIntentOnActivity(deepLinkRouterActivityController: ActivityController<DeepLinkRouterActivity>, sharedItinUrl: String) {
+    private fun setIntentOnActivity(deepLinkRouterActivityController: ActivityController<TestDeepLinkRouterActivity>, sharedItinUrl: String) {
         val uri = Uri.parse(sharedItinUrl)
         val intent = Intent("", uri)
         deepLinkRouterActivityController.withIntent(intent)
@@ -208,5 +209,11 @@ class OmnitureDeeplinkTest {
                 allOf(withEvars(mapOf(15 to expectedValue15)),
                         withoutEvars(22)),
                 mockAnalyticsProvider)
+    }
+
+    class TestDeepLinkRouterActivity() : DeepLinkRouterActivity() {
+        override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? {
+            return null
+        }
     }
 }

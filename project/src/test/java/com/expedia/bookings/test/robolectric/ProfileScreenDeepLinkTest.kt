@@ -9,6 +9,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -82,6 +83,10 @@ class ProfileScreenDeepLinkTest {
 
         override fun getItineraryManagerInstance(): ItineraryManager {
             return mockItineraryManager
+        }
+
+        override fun getFirebaseDynamicLinksInstance(): FirebaseDynamicLinks? {
+            return null
         }
     }
 }
