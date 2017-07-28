@@ -1173,10 +1173,12 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_selected_classes_two_class_TEMPLATE,
 		R.layout.fare_family_card_view,
 		R.string.search_title,
-		//Please add your string above this line to avoid conflicts
 		R.string.error_package_date_mismatch_error,
 		R.string.preference_flight_traveler_form_revamp,
 		R.string.flights_fee_added_based_on_payment,
+		R.string.package_prices_taxes_fees_included_label,
+		//Please add your string above this line to avoid conflicts
 		R.string.flights_there_maybe_additional_fee
+		//Please add your string above this line to avoid conflicts
 	};
 }

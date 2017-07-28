@@ -408,4 +408,9 @@ public class StrUtilsTest {
 		assertEquals("Madrid, Spain (XTI-Chamartin Train Station)",
 			StrUtils.getDisplayNameForGaiaNearby(suggestionName.getFriendlyName(), suggestionName.getAirportName()));
 	}
+
+	@Test
+	public void testBundleTotalWithTaxesString() {
+		assertEquals("Trip total (with taxes & fee)", StrUtils.bundleTotalWithTaxesString(getContext()).toString());
+	}
 }

@@ -788,6 +788,8 @@
     <string name="prices_roundtrip_minimum_label">Prices roundtrip, per person, from</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">Prices one-way, per person, from</string>
+    <!-- Label indicating the price include hotel, flight ,taxes and fees-->
+    <string name="package_prices_taxes_fees_included_label">Total price roundtrip (including taxes and fees), per person - for hotel and flights</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Sold Out</string>
 
@@ -846,6 +848,10 @@
     <string name="total_with_tax">Total with Tax</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Trip Total</string>
+    <!-- Label describing the total price of the package that is going to be booked -->
+    <string name="packages_trip_total">Trip total\u0020</string>
+    <!-- Label describing the price of the package includes taxes and fees -->
+    <string name="packages_trip_total_append_taxes_and_fees">(with taxes &amp; fee)</string>
 
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">Creating the trip…</string>

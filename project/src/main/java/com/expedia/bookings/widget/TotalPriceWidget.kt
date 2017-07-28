@@ -91,7 +91,6 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         } else {
             bundleTotalText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
         }
-
     }
 
     fun resetPriceWidget() {

@@ -25,6 +25,7 @@ import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.vm.PackageHotelResultsViewModel
@@ -220,7 +221,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private fun bindData() {
         dataAvailableSubject.onNext(Db.getPackageResponse())
         val currencyCode = Db.getPackageResponse().getCurrencyCode()
-        bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
+            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        }
         val zero = Money(BigDecimal(0), currencyCode)
         bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(zero)
         bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(zero)

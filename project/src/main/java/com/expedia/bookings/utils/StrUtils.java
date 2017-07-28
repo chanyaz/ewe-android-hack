@@ -27,6 +27,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.BulletSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
@@ -838,5 +839,12 @@ public class StrUtils {
 			return sb.toString();
 		}
 
+	}
+
+	public static CharSequence bundleTotalWithTaxesString(Context context) {
+		SpannableBuilder builder = new SpannableBuilder();
+		builder.append(context.getString(R.string.packages_trip_total));
+		builder.append(context.getString(R.string.packages_trip_total_append_taxes_and_fees), new RelativeSizeSpan(0.8f));
+		return builder.build();
 	}
 }

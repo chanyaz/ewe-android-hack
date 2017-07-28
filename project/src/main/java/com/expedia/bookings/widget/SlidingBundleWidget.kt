@@ -19,10 +19,13 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
@@ -77,6 +80,12 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
                 }
             }
         })
+
+        if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) {
+            val bundleTotalText = StrUtils.bundleTotalWithTaxesString(context)
+            bundlePriceFooter.bundleTotalText.text = bundleTotalText
+            bundlePriceWidget.bundleTotalText.text = bundleTotalText
+        }
     }
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
@@ -235,7 +244,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
 
-        bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
+            bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        }
         bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
 
         updateBundleViews(product)
@@ -244,7 +255,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     private fun updateBundlePricing() {
         val currentOffer: PackageOfferModel = Db.getPackageResponse().getCurrentOfferModel()
         val packagePrice: PackageOfferModel.PackagePrice = currentOffer.price
-        bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
+            bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        }
         val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                 packagePrice.tripSavings.currencyCode)
         bundlePriceWidget.viewModel.pricePerPerson.onNext(Money(BigDecimal(packagePrice.pricePerPerson.amount.toDouble()),

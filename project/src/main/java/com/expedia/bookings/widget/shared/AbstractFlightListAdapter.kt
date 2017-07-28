@@ -54,6 +54,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     abstract protected fun showAdvanceSearchFilterHeader(): Boolean
     abstract protected fun isShowOnlyNonStopSearch(): Boolean
     abstract protected fun isShowOnlyRefundableSearch(): Boolean
+    abstract protected fun shouldShowTaxesAndFeeMessageInPackagesFSR(): Boolean
 
     @UiThread
     open fun setNewFlights(flights: List<FlightLeg>) {
@@ -167,19 +168,25 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val advanceSearchFilterHeader: TextView by bindView(R.id.flight_results_advance_search_filter_header)
 
         fun bind(isRoundTripSearch: Boolean) {
-            val roundTripStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
-            val oneWayStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
-            val priceHeaderText= context.resources.getString(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
-            val advanceSearchFilterHeaderText = FlightV2Utils.getAdvanceSearchFilterHeaderString(context, isShowOnlyNonStopSearch(), isShowOnlyRefundableSearch(), priceHeaderText)
-            if (showAdvanceSearchFilterHeader() && Strings.isNotEmpty(advanceSearchFilterHeaderText)) {
-                advanceSearchFilterHeader.visibility = View.VISIBLE
-                advanceSearchFilterHeader.text = advanceSearchFilterHeaderText
-                advanceSearchFilterHeader.contentDescription = advanceSearchFilterHeaderText
-                priceHeader.visibility = View.GONE
-            } else {
+            if (shouldShowTaxesAndFeeMessageInPackagesFSR()) {
                 advanceSearchFilterHeader.visibility = View.GONE
-                priceHeader.text = priceHeaderText
+                priceHeader.text = context.resources.getString(R.string.package_prices_taxes_fees_included_label)
                 priceHeader.visibility = View.VISIBLE
+            } else {
+                val roundTripStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
+                val oneWayStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
+                val priceHeaderText = context.resources.getString(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
+                val advanceSearchFilterHeaderText = FlightV2Utils.getAdvanceSearchFilterHeaderString(context, isShowOnlyNonStopSearch(), isShowOnlyRefundableSearch(), priceHeaderText)
+                if (showAdvanceSearchFilterHeader() && Strings.isNotEmpty(advanceSearchFilterHeaderText)) {
+                    advanceSearchFilterHeader.visibility = View.VISIBLE
+                    advanceSearchFilterHeader.text = advanceSearchFilterHeaderText
+                    advanceSearchFilterHeader.contentDescription = advanceSearchFilterHeaderText
+                    priceHeader.visibility = View.GONE
+                } else {
+                    advanceSearchFilterHeader.visibility = View.GONE
+                    priceHeader.text = priceHeaderText
+                    priceHeader.visibility = View.VISIBLE
+                }
             }
         }
     }

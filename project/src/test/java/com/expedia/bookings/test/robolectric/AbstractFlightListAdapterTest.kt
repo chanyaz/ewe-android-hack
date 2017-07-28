@@ -407,6 +407,10 @@ class AbstractFlightListAdapterTest {
 
     private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :
             AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+        override fun shouldShowTaxesAndFeeMessageInPackagesFSR(): Boolean {
+            return false
+        }
+
         override fun isShowOnlyNonStopSearch(): Boolean {
             return false
         }

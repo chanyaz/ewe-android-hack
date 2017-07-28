@@ -1,11 +1,17 @@
 package com.expedia.bookings.test.robolectric
 
+import android.widget.FrameLayout
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
@@ -76,6 +82,29 @@ class PackageFlightListAdapterTest {
         createExpectedFlightLeg()
         val packageFlightViewModel = sut.makeFlightViewModel(context, flightLeg)
         assertEquals(flightLeg, packageFlightViewModel.layover)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun flightResultsHeader() {
+        createSystemUnderTest()
+        val headerViewHolder = createHeaderViewHolder()
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals("Prices roundtrip, per person.", headerViewHolder.priceHeader.text)
+
+        val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
+        setPointOfSale(PointOfSaleId.JAPAN)
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals("Total price roundtrip (including taxes and fees), per person - for hotel and flights", headerViewHolder.priceHeader.text)
+        setPointOfSale(initialPOSID)
+    }
+
+    private fun createHeaderViewHolder(): AbstractFlightListAdapter.HeaderViewHolder {
+        return sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal) as AbstractFlightListAdapter.HeaderViewHolder
+    }
+
+    private fun setPointOfSale(posId: PointOfSaleId) {
+        PointOfSaleTestConfiguration.configurePOS(context, "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
     }
 
     private fun createExpectedFlightLeg() {

@@ -12,11 +12,13 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
@@ -51,6 +53,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
         toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
         scrollSpaceView = bundleWidget.scrollSpaceView
+        if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) {
+            totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
+        }
     }
 
     override fun onFinishInflate() {
@@ -103,6 +108,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.updateDbTravelers()
             totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+            resetBundleTotalTax()
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
@@ -119,6 +125,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             checkoutPresenter.updateDbTravelers()
             bundleWidget.collapseBundleWidgets()
             totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+            resetBundleTotalTax()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             val intent = Intent(context, PackageHotelActivity::class.java)
@@ -134,6 +141,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             checkoutPresenter.updateDbTravelers()
             bundleOverviewHeader.toggleOverviewHeader(false)
             totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+            resetBundleTotalTax()
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
@@ -145,6 +153,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             true
         })
 
+    }
+
+    private fun resetBundleTotalTax() {
+        if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) {
+            totalPriceWidget.bundleTotalText.text = StrUtils.bundleTotalWithTaxesString(context)
+        }
     }
 
     private fun setCheckoutHeaderOverviewDates() {
@@ -232,6 +246,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         val messageString =
                 if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
                     R.string.cost_summary_breakdown_total_due_today
+                else if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN)
+                    R.string.packages_trip_total
                 else
                     R.string.bundle_total_text
         totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))

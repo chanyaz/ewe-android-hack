@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.packages.PackageFlightViewModel
 import rx.subjects.PublishSubject
@@ -86,6 +88,10 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
 
     override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
         return false
+    }
+
+    override fun shouldShowTaxesAndFeeMessageInPackagesFSR(): Boolean {
+        return PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN
     }
 
     override fun showAllFlightsHeader(): Boolean {

@@ -1,14 +1,12 @@
 package com.expedia.bookings.widget.flights
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.vm.flights.FlightViewModel
@@ -28,6 +26,10 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
 
     override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
         return PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()
+    }
+
+    override fun shouldShowTaxesAndFeeMessageInPackagesFSR(): Boolean {
+        return false
     }
 
     override fun showAllFlightsHeader(): Boolean {

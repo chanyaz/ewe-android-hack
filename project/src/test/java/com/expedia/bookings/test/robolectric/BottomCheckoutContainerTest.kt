@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
@@ -25,7 +26,7 @@ class BottomCheckoutContainerTest {
 
     @Before
     fun setup() {
-        val activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().get()
+        val activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(context).defaultTravelerComponent()
         Ui.getApplication(context).defaultFlightComponents()
