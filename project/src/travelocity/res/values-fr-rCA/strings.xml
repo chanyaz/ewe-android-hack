@@ -73,4 +73,11 @@
     <string name="bundle_overview_price_widget_button_close">Affichage des détails du forfait. Bouton de fermeture.</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Réductions pour les membres</string>
+
+    <!--New User Onboarding 3rd page Brand-Specific String-->
+    <string name="reward_page_subtitle_TEMPLATE">Inscrivez-vous pour créer votre compte Travelocity gratuit</string>
+    <!-- Extra Savings on Your Escape! -->
+    <string name="shop_as_a_member_TEMPLATE">Économisez davantage en tant que membre!</string>
+    <!-- Earn even more when you book hotels in the app, and unlock Insider Prices and exclusive deals. -->
+    <string name="earn_rewards_and_unlock_deals">Ouvrez une session et profitez sans tarder des réductions de 10 % et plus sur nos meilleurs hôtels.</string>
 </resources>
