@@ -107,6 +107,28 @@ public class PointOfSaleTest {
 
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA})
+	public void checkShouldUseWebViewSyncCookieStore() {
+		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json", false);
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		assertEquals(false, pos.shouldUseWebViewSyncCookieStore());
+
+		assertShouldUseWebViewSyncCookieStore(PointOfSaleId.INDIA.getId(), true);
+		assertShouldUseWebViewSyncCookieStore(PointOfSaleId.THAILAND.getId(), true);
+		assertShouldUseWebViewSyncCookieStore(PointOfSaleId.BRAZIL.getId(), true);
+		assertShouldUseWebViewSyncCookieStore(PointOfSaleId.MALAYSIA.getId(), true);
+		assertShouldUseWebViewSyncCookieStore(PointOfSaleId.UNITED_STATES.getId(), false);
+	}
+
+	private void assertShouldUseWebViewSyncCookieStore(int pointOfSaleID, boolean expected) {
+		PointOfSale pos;
+		PointOfSaleTestConfiguration
+			.configurePOS(context, expediaSharedFilePath, Integer.toString(pointOfSaleID), false);
+		pos = PointOfSale.getPointOfSale();
+		assertEquals(expected, pos.shouldUseWebViewSyncCookieStore());
+	}
+
+	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void checkVipAccessEnabledLocales() {
 		// https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/8757
 		assertVipAccessForPOSKey(PointOfSaleId.ARGENTINA.getId(), true);

@@ -273,6 +273,8 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">검토하고 다시 제출해 주세요.</string>
+    <!--Accessibility content description for lock icon on checkout. -->
+    <string name="secure_lock_accessibility">자물쇠 아이콘, 보안 결제</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -879,6 +881,8 @@
     <string name="nav_transport">교통편</string>
     <!-- Packages -->
     <string name="nav_packages">패키지 특가 상품</string>
+    <string name="nav_hotel_plus_flight_deals">호텔+항공 특가 상품</string>
+    <string name="nav_hotel_plus_flight">호텔+항공</string>
     <!-- Rail -->
     <string name="nav_rail">기차</string>
     <string name="add_rail_card">레일카드 추가</string>
@@ -1418,8 +1422,10 @@
     <string name="itin_card_details_reload_cruise">크루즈 정보 다시 로드하기</string>
     <string name="itin_card_details_remove_itin">일정에서 삭제</string>
 
-    <!--Hotel itin card details-->
-    <string name="itin_hotel_details_room_details_title_text">객실 세부 정보</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_hotel_details_room_details_title_text">내 객실 정보</string>
+    <!--Hotel itin card booking details heading-->
+    <string name="itin_hotel_details_booking_details_title_text">예약 정보</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
     <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
@@ -1430,6 +1436,22 @@
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">호텔 전화번호는 {phonenumber}번입니다.</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">호텔 주소는 {address}입니다. 클립보드에 복사하려면 클릭하는 버튼</string>
+    <!--Hotel itin card manage booking subheading-->
+    <string name="itin_hotel_details_manage_booking_subheading">변경, 취소 또는 지원 요청</string>
+    <!--Hotel itin card price summary heading-->
+    <string name="itin_hotel_details_price_summary_heading">요금 요약</string>
+    <!--Hotel itin card additional info heading-->
+    <string name="itin_hotel_details_additional_info_heading">추가 정보</string>
+    <!--Hotel itin checkin text-->
+    <string name="itin_hotel_details_checkin_text">체크인</string>
+    <!--Hotel itin checkout text-->
+    <string name="itin_hotel_details_checkout_text">체크아웃</string>
+    <!--Hotel itin manage booking button to change or cancel room-->
+    <string name="itin_hotel_manage_booking_cancel_change_header">객실 변경 또는 취소</string>
+    <!--Hotel itin manage booking webview title-->
+    <string name="itin_hotel_manage_booking_webview_title">객실 변경 또는 취소</string>
+    <!--Hotel itin manage booking room details header-->
+    <string name="itin_hotel_manage_booking_header">예약 관리</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3일 후 체크인</string>
@@ -2726,10 +2748,14 @@
     <string name="booking_loading">예약 중…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">확인 이메일을 보낼 수 없습니다.</string>
+    <!--Message displayed under loading icon while loading checkout web view-->
+    <string name="almost_there">거의 다 되었어요!</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
     <string name="confirmation_number">확인 번호</string>
+    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
+    <string name="confirmation_number_TEMPLATE">확인 번호: {number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">일정 번호</string>
     <!-- Itinerary number label content description -->
@@ -3520,18 +3546,18 @@
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(만 26~59세)</string>
     <!-- Adult age label desc on rail search -->
-    <string name="rail_adult_age_label_desc">(만 26~59세)</string>
+    <string name="rail_adult_age_label_desc">(만 26세에서 59세)</string>
 
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label">(만 0~15세)</string>
     <!-- Children age label on rail search -->
-    <string name="rail_children_age_label_desc">(만 0~15세)</string>
+    <string name="rail_children_age_label_desc">(만 0세에서 15세)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label">(만 16~25세)</string>
 
     <!-- Youth age label on rail search -->
-    <string name="rail_youth_age_label_desc">(만 16~25세)</string>
+    <string name="rail_youth_age_label_desc">(만 16세에서 25세)</string>
 
     <!-- Senior age label on rail search -->
     <string name="rail_senior_age_label">(만 60세 이상)</string>
@@ -3540,18 +3566,18 @@
     <string name="children_age_label">(만 0~17세)</string>
 
     <!-- Children age label content description -->
-    <string name="children_age_label_cont_desc">(만 0~17세)</string>
+    <string name="children_age_label_cont_desc">(만 0세에서 17세)</string>
 
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">(만 18세 이상)</string>
     <!-- Youth age label on flight search -->
-    <string name="flight_youth_age_label">(만 13~17세)</string>
+    <string name="flight_youth_age_label">(만 12~17세)</string>
     <!-- Youth age label desc on flight search -->
-    <string name="flight_youth_age_label_desc">(만 13~17세)</string>
+    <string name="flight_youth_age_label_desc">(만 12세에서 17세)</string>
     <!-- Children age label on flight search -->
-    <string name="flight_children_age_label">(만 2~12세)</string>
+    <string name="flight_children_age_label">(만 2~11세)</string>
     <!-- Children age label desc on flight search -->
-    <string name="flight_children_age_label_desc">(만 2~12세)</string>
+    <string name="flight_children_age_label_desc">(만 2세에서 11세)</string>
 
     <!-- Infant age label on flight search -->
     <string name="flight_infant_age_label">(만 2세 미만)</string>
@@ -3737,6 +3763,7 @@
     <string name="error_package_origin_resolution_message_TEMPLATE">{origin} 이름의 출발지를 찾을 수 없습니다.</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
     <string name="error_package_destination_resolution_message_TEMPLATE">{destination} 이름의 목적지를 찾을 수 없습니다.</string>
+    <string name="error_package_date_mismatch_error">죄송합니다. 이 항공편은 호텔 체크인 시간 한참 전에 도착합니다. 다른 호텔 또는 항공편을 선택해 주세요.</string>
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">정말 하시겠어요?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->
@@ -3746,6 +3773,10 @@
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">직항</string>
+    <!-- Flight One stop description -->
+    <string name="flight_one_stop_description">1번 경유</string>
+    <!-- Flight Two stop description -->
+    <string name="flight_two_plus_stops_description">2번 이상 경유</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4099,6 +4130,8 @@
     <string name="cost_summary_breakdown_hotel_flight_summary">호텔+항공</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
     <string name="cost_summary_breakdown_taxes_fees">세금 및 수수료</string>
+    <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
+    <string name="cost_summary_breakdown_discount_TEMPLATE">{brand} 할인</string>
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">세금 및 수수료 포함({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->
@@ -4111,6 +4144,8 @@
     <string name="flight_add_adult_number_TEMPLATE">어른 {number} 정보</string>
     <!-- Add child traveler number template for example: Child 4 details -->
     <string name="flight_add_child_number_TEMPLATE">아동 {number} 정보</string>
+    <!-- Add youth traveler number template for example: Youth 2 details -->
+    <string name="flight_add_youth_number_TEMPLATE">청소년 {number} 정보</string>
     <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
     <string name="flight_add_infant_in_lap_number_TEMPLATE">무릎에 앉히는 영유아 {number} 정보</string>
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->

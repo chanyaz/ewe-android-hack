@@ -273,6 +273,8 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Vui lòng kiểm tra và gửi lại.</string>
+    <!--Accessibility content description for lock icon on checkout. -->
+    <string name="secure_lock_accessibility">Biểu tượng ổ khóa, thanh toán an toàn</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -879,6 +881,8 @@
     <string name="nav_transport">Phương tiện đưa đón</string>
     <!-- Packages -->
     <string name="nav_packages">Ưu đãi Gói</string>
+    <string name="nav_hotel_plus_flight_deals">Ưu đãi Khách sạn + Chuyến bay</string>
+    <string name="nav_hotel_plus_flight">Khách sạn + Chuyến bay</string>
     <!-- Rail -->
     <string name="nav_rail">Tàu hỏa</string>
     <string name="add_rail_card">Thêm railcard</string>
@@ -1418,8 +1422,10 @@
     <string name="itin_card_details_reload_cruise">Đang tải lại thông tin Du thuyền</string>
     <string name="itin_card_details_remove_itin">Xóa khỏi Lịch trình</string>
 
-    <!--Hotel itin card details-->
-    <string name="itin_hotel_details_room_details_title_text">Chi tiết phòng</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_hotel_details_room_details_title_text">Phòng của quý vị</string>
+    <!--Hotel itin card booking details heading-->
+    <string name="itin_hotel_details_booking_details_title_text">Thông tin đặt phòng</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
     <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
@@ -1430,6 +1436,22 @@
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Gọi khách sạn số {phonenumber}</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Địa chỉ khách sạn. {address}. Bấm để chép vào bộ nhớ đệm. Nút</string>
+    <!--Hotel itin card manage booking subheading-->
+    <string name="itin_hotel_details_manage_booking_subheading">Thay đổi, hủy hoặc hỗ trợ</string>
+    <!--Hotel itin card price summary heading-->
+    <string name="itin_hotel_details_price_summary_heading">Tóm tắt giá</string>
+    <!--Hotel itin card additional info heading-->
+    <string name="itin_hotel_details_additional_info_heading">Thông tin bổ sung</string>
+    <!--Hotel itin checkin text-->
+    <string name="itin_hotel_details_checkin_text">Nhận phòng</string>
+    <!--Hotel itin checkout text-->
+    <string name="itin_hotel_details_checkout_text">Trả phòng</string>
+    <!--Hotel itin manage booking button to change or cancel room-->
+    <string name="itin_hotel_manage_booking_cancel_change_header">Thay đổi hoặc hủy đặt phòng</string>
+    <!--Hotel itin manage booking webview title-->
+    <string name="itin_hotel_manage_booking_webview_title">Thay đổi hoặc hủy đặt phòng</string>
+    <!--Hotel itin manage booking room details header-->
+    <string name="itin_hotel_manage_booking_header">Quản lý đặt phòng</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Nhận phòng trong 3 ngày</string>
@@ -2726,10 +2748,14 @@
     <string name="booking_loading">Đang đặt…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Chúng tôi không thể gửi email xác nhận.</string>
+    <!--Message displayed under loading icon while loading checkout web view-->
+    <string name="almost_there">Gần xong rồi!</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
     <string name="confirmation_number">Số xác nhận</string>
+    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
+    <string name="confirmation_number_TEMPLATE">Mã xác nhận: {number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Số lịch trình</string>
     <!-- Itinerary number label content description -->
@@ -3545,13 +3571,13 @@
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">(18+ tuổi)</string>
     <!-- Youth age label on flight search -->
-    <string name="flight_youth_age_label">(13-17 tuổi)</string>
+    <string name="flight_youth_age_label">(12-17 tuổi)</string>
     <!-- Youth age label desc on flight search -->
-    <string name="flight_youth_age_label_desc">(13 đến 17 tuổi)</string>
+    <string name="flight_youth_age_label_desc">(12 đến 17 tuổi)</string>
     <!-- Children age label on flight search -->
-    <string name="flight_children_age_label">(2-12 tuổi)</string>
+    <string name="flight_children_age_label">(2-11 tuổi)</string>
     <!-- Children age label desc on flight search -->
-    <string name="flight_children_age_label_desc">(2 đến 12 tuổi)</string>
+    <string name="flight_children_age_label_desc">(2 đến 11 tuổi)</string>
 
     <!-- Infant age label on flight search -->
     <string name="flight_infant_age_label">(dưới 2 tuổi)</string>
@@ -3737,6 +3763,7 @@
     <string name="error_package_origin_resolution_message_TEMPLATE">Không tìm được điểm khởi hành {origin}</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
     <string name="error_package_destination_resolution_message_TEMPLATE">Không tìm được điểm đến {destination}</string>
+    <string name="error_package_date_mismatch_error">Rất tiếc, chuyến bay này đến quá sớm so với giờ nhận phòng tại khách sạn. Vui lòng chọn khách sạn hoặc chuyến bay khác.</string>
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">Chắc chắn không?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->
@@ -3746,6 +3773,10 @@
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">Bay thẳng</string>
+    <!-- Flight One stop description -->
+    <string name="flight_one_stop_description">1 điểm dừng</string>
+    <!-- Flight Two stop description -->
+    <string name="flight_two_plus_stops_description">2+ điểm dừng</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4099,6 +4130,8 @@
     <string name="cost_summary_breakdown_hotel_flight_summary">Khách sạn + Chuyến bay</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
     <string name="cost_summary_breakdown_taxes_fees">Thuế &amp; Phí</string>
+    <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
+    <string name="cost_summary_breakdown_discount_TEMPLATE">Giảm giá {brand}</string>
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Gồm thuế &amp; phí ({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->
@@ -4111,6 +4144,8 @@
     <string name="flight_add_adult_number_TEMPLATE">Chi tiết người lớn {number}</string>
     <!-- Add child traveler number template for example: Child 4 details -->
     <string name="flight_add_child_number_TEMPLATE">Chi tiết trẻ {number}</string>
+    <!-- Add youth traveler number template for example: Youth 2 details -->
+    <string name="flight_add_youth_number_TEMPLATE">Chi tiết thiếu niên {number}</string>
     <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
     <string name="flight_add_infant_in_lap_number_TEMPLATE">Chi tiết trẻ sơ sinh ngồi trong lòng {number}</string>
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->

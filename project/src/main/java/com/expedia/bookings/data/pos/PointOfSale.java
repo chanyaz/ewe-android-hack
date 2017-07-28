@@ -229,6 +229,7 @@ public class PointOfSale {
 	private boolean showPackageFreeUnrealDeal;
 
 	private boolean shouldShowWebCheckout;
+	private boolean shouldUseWebViewSyncCookieStore;
 	private String hotelsWebCheckoutURL;
 	private String hotelsWebBookingConfirmationURL;
 
@@ -826,8 +827,8 @@ public class PointOfSale {
 		return shouldShowWebCheckout;
 	}
 
-	public boolean shouldUseAutoWebViewSyncCookieStore() {
-		return shouldShowWebCheckout;
+	public boolean shouldUseWebViewSyncCookieStore() {
+		return shouldShowWebCheckout || shouldUseWebViewSyncCookieStore;
 	}
 
 	public String getHotelsWebCheckoutURL() {
@@ -1355,6 +1356,7 @@ public class PointOfSale {
 		pos.isEarnMessageEnabledForPackages = data.optBoolean("earnMessageEnabled:packages", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
 		pos.isEarnMessageEnabledForHotelsV2 = data.optBoolean("earnMessageEnabledV2:hotels", false);
+		pos.shouldUseWebViewSyncCookieStore = data.optBoolean("shouldUseWebViewSyncCookieStore", false);
 		pos.shouldShowWebCheckout = data.optBoolean("shouldShowWebCheckout", false);
 		pos.hotelsWebCheckoutURL = data.optString("webCheckoutURL:hotels");
 		pos.hotelsWebBookingConfirmationURL = data.optString("webBookingConfirmationURL:hotels");
