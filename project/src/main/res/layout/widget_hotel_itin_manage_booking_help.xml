@@ -32,7 +32,7 @@
                 android:layout_margin="16dp"
                 android:textColor="@color/gray10"
                 android:textSize="14sp"
-                tools:text="For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver:" />
+                tools:text="For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver" />
 
             <View
                 android:id="@+id/itin_hotel_manage_booking_hotel_separator"
@@ -60,6 +60,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:drawableLeft="@drawable/itin_call_hotel"
                 android:drawablePadding="8dp"
                 android:textColor="@color/itin_call_to_action_text"
