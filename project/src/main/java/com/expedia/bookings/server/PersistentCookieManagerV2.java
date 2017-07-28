@@ -51,7 +51,7 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 		InstanceCreator cookieTypeAdapter = new InstanceCreator<Cookie>() {
 			@Override
 			public Cookie createInstance(Type type) {
-				HttpUrl url = new HttpUrl.Builder().scheme("http").host("http://www.expedia.com").build();
+				HttpUrl url = new HttpUrl.Builder().scheme("http").host("www.expedia.com").build();
 				return Cookie.parse(url, "fakeCookie=v.1,1; Domain=.expedia.com; Path=/");
 			}
 		};
