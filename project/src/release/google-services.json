@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "919023678118",
+    "firebase_url": "https://expedia-native-apps.firebaseio.com",
+    "project_id": "expedia-native-apps",
+    "storage_bucket": "expedia-native-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919023678118:android:b10d576cf98dfc0b",
+        "android_client_info": {
+          "package_name": "com.expedia.bookings"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919023678118-59dvj57s5i1umioiq2sh8s5v3vtii9bn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvgvw4P11pCHspFQadADhYpwONAeoWpns"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

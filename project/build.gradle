@@ -77,6 +77,8 @@ dependencies {
     compile "io.reactivex:rxjava:${rxjava_version}"
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.16.1'
+    compile "com.google.firebase:firebase-core:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.firebase:firebase-invites:${rootProject.ext.googlePlayServicesVersion}"
 
     compile ('com.tune:tune-marketing-console-sdk:4.10.1') {
         exclude group: 'com.android.support', module: 'support-v4'
@@ -153,6 +155,8 @@ dependencies {
     androidTestCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestCompile 'com.linkedin.testbutler:test-butler-library:1.2.0'
 }
+
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
