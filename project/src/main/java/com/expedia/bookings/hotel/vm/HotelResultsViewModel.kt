@@ -42,6 +42,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         paramsSubject.subscribe(endlessObserver { params -> doSearch(params) })
 
         locationParamsSubject.subscribe(endlessObserver { suggestion ->
+            hotelSearchManager.reset()
             val paramBuilder = newParamBuilder(suggestion, cachedParams)
             doSearch(paramBuilder.build())
         })
