@@ -931,6 +931,9 @@
     <string name="rail_tab_roundtrip_selected_announcement">Showing return rail search screen</string>
 
     <!-- New launch screen -->
+    <!-- Search screen title -->
+    <string name="search_title">Search</string>
+
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Recommended Tonight</string>
     <!-- See all nearby deals -->

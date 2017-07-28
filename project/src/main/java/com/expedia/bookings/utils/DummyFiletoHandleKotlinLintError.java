@@ -1170,6 +1170,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_selected_classes_one_class_TEMPLATE,
 		R.string.flight_selected_classes_two_class_TEMPLATE,
 		R.layout.fare_family_card_view,
+		R.string.search_title,
 		//Please add your string above this line to avoid conflicts
 		R.string.error_package_date_mismatch_error
 	};

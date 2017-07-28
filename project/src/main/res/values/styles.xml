@@ -46,7 +46,7 @@
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
         <item name="skin_material_checkout_account_logo">@drawable/brand_logo</item>
-        
+
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonTextColor">@color/cvv_book_button_text_color</item>
         <item name="skin_errorWidgetEditButtonStyle">@style/Core.Button.Footer</item>
@@ -618,7 +618,7 @@
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
     </style>
-    
+
     <style name="ItinCheckInYesNoButtons">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -906,7 +906,7 @@
     </style>
 
     <!--Core represents any styles that are shared across LOBs throughout the app-->
-    <style name="Core"/>
+    <style name="Core" />
 
     <style name="Core.Text">
         <item name="android:textColor">@color/default_text_color</item>
@@ -948,6 +948,7 @@
     <style name="Core.Text.Large">
         <item name="android:textSize">@dimen/large_text_size</item>
     </style>
+
     <style name="Core.Text.Large.Gray3">
         <item name="android:textColor">@color/gray3</item>
     </style>
@@ -967,6 +968,7 @@
     <style name="Core.Text.XLarge">
         <item name="android:textSize">@dimen/xlarge_text_size</item>
     </style>
+
     <style name="Core.Text.XLarge.LightColor">
         <item name="android:textColor">@color/gray6</item>
     </style>
@@ -978,12 +980,15 @@
     <style name="Core.Text.XXLarge">
         <item name="android:textSize">@dimen/xxlarge_text_size</item>
     </style>
+
     <style name="Core.Text.XXLarge.Medium">
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="Core.Text.XXLarge.Medium.LightColor">
         <item name="android:textColor">@color/light_text_color</item>
     </style>
+
     <style name="Core.Text.XXLarge.Medium.Gray3">
         <item name="android:textColor">@color/gray3</item>
     </style>
@@ -1015,6 +1020,28 @@
         <item name="android:paddingLeft">31dp</item>
         <item name="android:paddingRight">31dp</item>
         <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="TabWidget" />
+
+    <style name="TabWidget.TabIcon">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="TabWidget.TabText">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/material_tab_text</item>
+        <item name="android:textSize">@dimen/large_text_size</item>
     </style>
 
     <style name="ETPInfoTextLeft" parent="HotelDetailsInfo">
@@ -1244,6 +1271,7 @@
     <style name="AccountDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:buttonBarButtonStyle">@style/customButtonStyle</item>
     </style>
+
     <style name="customButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/new_launch_alert_dialog_button_color</item>
         <item name="android:background">@color/white</item>

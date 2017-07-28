@@ -160,8 +160,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         if (AccessibilityUtil.isTalkBackEnabled(context)) {
             searchButton.isEnabled = false
         }
-        lobToolbar.viewModel = LobToolbarViewModel(context, getLineOfBusiness())
-        lobToolbar.updateVisibility(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav))
+
+        setupLobToolbar()
     }
 
     protected fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
@@ -545,6 +545,15 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     open fun shouldSaveSuggestionHierarchyChildInfo(): Boolean {
         return false
+    }
+
+    private fun setupLobToolbar() {
+        lobToolbar.viewModel = LobToolbarViewModel(context, getLineOfBusiness())
+        val newLaunchscreenEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)
+        lobToolbar.updateVisibility(newLaunchscreenEnabled)
+        if (newLaunchscreenEnabled) {
+            toolBarTitle.text = context.resources.getText(R.string.search_title)
+        }
     }
 
     abstract fun inflate()
