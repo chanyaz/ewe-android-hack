@@ -408,10 +408,13 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     fun focusRoomsForAlly() {
         Handler().postDelayed({
             if (roomContainer.childCount >= 0) {
-                if (viewModel.shouldGroupAndSortRoom()) {
-                    roomContainer.getChildAt(0).requestFocus()
-                } else {
-                    (roomContainer.getChildAt(0) as HotelRoomRateView).row.requestFocus()
+                val roomRateView = roomContainer.getChildAt(0)
+                roomRateView?.let { roomView ->
+                    if (viewModel.shouldGroupAndSortRoom()) {
+                        roomView.requestFocus()
+                    } else {
+                        (roomView as HotelRoomRateView).row.requestFocus()
+                    }
                 }
             }
         }, 400L)
