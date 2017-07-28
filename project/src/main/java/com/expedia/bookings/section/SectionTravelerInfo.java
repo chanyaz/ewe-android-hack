@@ -123,6 +123,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		if (mTraveler != null) {
 			mFields.bindDataAll(traveler);
 		}
+		setDbTraveler(traveler);
 	}
 
 	public void bind(Traveler traveler, int travelerIndex) {
@@ -241,6 +242,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	public Traveler getTraveler() {
 		return mTraveler;
+	}
+
+	private void setDbTraveler(Traveler traveler) {
+		ArrayList<Traveler> travelers = (ArrayList<Traveler>) Db.getTravelers();
+		travelers.clear();
+		travelers.add(0, traveler != null ? traveler : new Traveler());
 	}
 
 	//////////////////////////////////////

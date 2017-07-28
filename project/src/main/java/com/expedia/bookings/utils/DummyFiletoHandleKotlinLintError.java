@@ -779,6 +779,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.points_available_text_color,
 		R.string.etp_pay_now_earn_text,
 		R.color.hotelsv2_loyalty_applied_text_color,
+		R.layout.test_traveler_contact_details_widget,
 		R.string.fare_rule_text_TEMPLATE,
 		R.string.rail_search_range_error_TEMPLATE,
 		R.integer.calendar_min_search_time_rail,
