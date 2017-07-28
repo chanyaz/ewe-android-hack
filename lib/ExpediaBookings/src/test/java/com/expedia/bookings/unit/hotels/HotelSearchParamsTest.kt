@@ -84,6 +84,18 @@ class HotelSearchParamsTest {
         val searchParams = testParamBuilder.build()
         searchParams.sortType = "Price"
         assertEquals(HotelSearchParams.SortType.PRICE, searchParams.getSortOrder())
+        searchParams.sortType = "Discounts"
+        assertEquals(HotelSearchParams.SortType.MOBILE_DEALS, searchParams.getSortOrder())
+        searchParams.sortType = "Deals"
+        assertEquals(HotelSearchParams.SortType.MOBILE_DEALS, searchParams.getSortOrder())
+        searchParams.sortType = "Rating"
+        assertEquals(HotelSearchParams.SortType.REVIEWS, searchParams.getSortOrder())
+        searchParams.sortType = "guestRating"
+        assertEquals(HotelSearchParams.SortType.REVIEWS, searchParams.getSortOrder())
+        searchParams.sortType = ""
+        assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
+        searchParams.sortType = null
+        assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
     }
 
     @Test

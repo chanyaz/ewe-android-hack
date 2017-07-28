@@ -55,19 +55,19 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
     }
 
     private fun getSortTypeFromString(sortString: String?): SortType? {
-        if (Strings.isEmpty(sortString)) {
-            return null
-        }
-
-        when (sortString!!.toLowerCase()) {
-            "discounts" -> return SortType.MOBILE_DEALS
-            "deals" -> return SortType.MOBILE_DEALS
-            "price" -> return SortType.PRICE
-            "rating" -> return SortType.REVIEWS
-            else -> {
-                return null
+        if (sortString != null) {
+            when (sortString.toLowerCase()) {
+                "discounts" -> return SortType.MOBILE_DEALS
+                "deals" -> return SortType.MOBILE_DEALS
+                "price" -> return SortType.PRICE
+                "rating" -> return SortType.REVIEWS
+                "guestrating" -> return SortType.REVIEWS
+                else -> {
+                    return null
+                }
             }
         }
+        return null
     }
 
     class Builder(maxStay: Int, maxRange: Int, val filterUnavailable: Boolean = true) : BaseSearchParams.Builder(maxStay, maxRange) {
