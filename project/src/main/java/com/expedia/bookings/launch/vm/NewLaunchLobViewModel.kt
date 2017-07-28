@@ -54,7 +54,7 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.TRANSPORT)
         }
 
-        if (pos.supports(LineOfBusiness.RAILS) || (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidRailHybridAppForDEEnabled))) {
+        if (pos.supports(LineOfBusiness.RAILS) || (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidRailHybridAppForDEEnabled) && PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.GERMANY)) {
             lobs.add(LobInfo.RAILS)
         }
 

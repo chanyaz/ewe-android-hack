@@ -49,7 +49,7 @@ public class AbacusUtils {
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Rail tests
-	public static final int EBAndroidRailHybridAppForDEEnabled = 14818;
+	public static final int EBAndroidRailHybridAppForDEEnabled = 15102;
 
 	// Flight tests
 	public static final int EBAndroidAppOfferInsuranceInFlightSummary = 12268;
