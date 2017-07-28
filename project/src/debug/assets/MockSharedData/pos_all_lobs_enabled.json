@@ -1,0 +1,13 @@
+{
+  "US": {
+    "pointOfSaleId": 29,
+    "flightsEnabled": true,
+    "carsEnabled": true,
+    "lxEnabled": true,
+    "gtEnabled": true,
+    "packagesEnabled": true,
+    "railsEnabled": true,
+    "supportedLocales": [{}],
+    "automaticallyMappedLocales": []
+  }
+}

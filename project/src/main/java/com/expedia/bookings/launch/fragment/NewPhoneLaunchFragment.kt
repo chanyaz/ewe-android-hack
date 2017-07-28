@@ -68,6 +68,11 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        newPhoneLaunchWidget.initializeProWizard()
+    }
+
     override fun onResume() {
         super.onResume()
         newPhoneLaunchWidget.refreshState()

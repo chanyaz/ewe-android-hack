@@ -41,10 +41,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/pro_wizard_search_bar_card"
         style="@style/MaterialCardView"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/brand_logo_text_container"
@@ -54,12 +51,14 @@
         app:cardUseCompatPadding="true">
 
         <com.expedia.bookings.widget.shared.SearchInputTextView
+            android:id="@+id/pro_wizard_search_bar_view"
             style="@style/MaterialCardTextView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"
             android:contentDescription="@string/search_hotels_flight_more"
             android:ellipsize="end"
             android:maxLines="1"
+            android:background="@drawable/pro_wizard_ripple"
             app:input_icon="@drawable/search_form_icon_search"
             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
             app:input_text="@string/search_hotels_flight_more" />

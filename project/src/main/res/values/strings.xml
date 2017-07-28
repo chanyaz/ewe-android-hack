@@ -957,6 +957,13 @@
     <string name="launch_upcoming_trips_signed_in">You Have An Upcoming Trip!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Access your itineraries on the go and stay up to date on changes</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels">Search Hotels</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels_and_flights">Search Hotels and Flights</string>
+
     <!-- Label for super search bar at launch screen -->
     <string name="search_hotels_flight_more">Search Hotels, Flights, and more&#8230;</string>
 

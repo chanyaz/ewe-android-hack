@@ -37,6 +37,7 @@ import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
+import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.updateVisibility
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
@@ -101,9 +102,11 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         newLaunchLobWidget
     }
 
-    val proWizardSearchBar: RelativeLayout by bindView(R.id.pro_wizard_search_bar)
-    val proWizardSearchBarCard: CardView by bindView(R.id.pro_wizard_search_bar_card)
-    val proWizardSearchBarShadow: View by bindView(R.id.pro_wizard_search_bar_shadow)
+    private val proWizardSearchBar: RelativeLayout by bindView(R.id.pro_wizard_search_bar)
+    private val proWizardSearchBarView: SearchInputTextView by bindView(R.id.pro_wizard_search_bar_view)
+    private val proWizardSearchBarShadow: View by bindView(R.id.pro_wizard_search_bar_shadow)
+
+    private val proWizardItemDecorationPadding = PaddingItemDecoration(resources.getDimensionPixelOffset(R.dimen.launch_list_padding_to_pro_wizard))
 
     var hasInternetConnection = BehaviorSubject.create<Boolean>()
     var currentLocationSubject = BehaviorSubject.create<Location>()
@@ -154,10 +157,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             NavUtils.goToHotels(context, searchParams, animOptions, 0)
         }
 
-        proWizardSearchBarCard.setOnClickListener {
-            NavUtils.goToHotels(context, null, null, 0)
-        }
-
         adjustLobViewHeight()
 
         hasInternetConnection.subscribe { isOnline ->
@@ -198,15 +197,29 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                 locationNotAvailable.onNext(Unit)
             }
             launchListWidget.onPOSChange()
+
+            initializeProWizard()
         }
 
+        initializeProWizard()
+    }
+
+    fun initializeProWizard() {
         val proWizardBucketed = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)
         proWizardSearchBar.updateVisibility(proWizardBucketed)
         proWizardSearchBarShadow.updateVisibility(proWizardBucketed)
 
+        proWizardSearchBarView.setOnClickListener {
+            NavUtils.goToHotels(context, null, null, 0)
+        }
+
+        proWizardSearchBarView.setText(PointOfSale.getPointOfSale().getProWizardLOBString(context))
+
         if (proWizardBucketed) {
-            val padding = context.resources.getDimensionPixelOffset(R.dimen.launch_list_padding_to_pro_wizard)
-            launchListWidget.addItemDecoration(PaddingItemDecoration(padding))
+            launchListWidget.removeItemDecoration(proWizardItemDecorationPadding)
+            launchListWidget.addItemDecoration(proWizardItemDecorationPadding)
+        } else {
+            launchListWidget.removeItemDecoration(proWizardItemDecorationPadding)
         }
     }
 
