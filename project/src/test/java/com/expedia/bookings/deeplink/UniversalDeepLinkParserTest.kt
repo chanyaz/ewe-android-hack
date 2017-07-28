@@ -14,7 +14,7 @@ import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 
 @RunWith(RobolectricRunner::class)
-class UniversalDeepLinkParserTest() {
+class UniversalDeepLinkParserTest {
 
     val parser = UniversalDeepLinkParser(RuntimeEnvironment.application.assets)
 
@@ -112,14 +112,18 @@ class UniversalDeepLinkParserTest() {
         Assert.assertEquals(LocalDate(2017, 9, 27), output.departureDate)
         Assert.assertEquals(LocalDate(2017, 10, 11), output.returnDate)
 
-        data = data.buildUpon().appendQueryParameter("passengers", "children:2[8;10],adults:2,seniors:0,infantinlap:Y").build()
-        output = parser.parseDeepLink(data) as FlightDeepLink
+        val data_c1 = data.buildUpon().appendQueryParameter("passengers", "children:2[8;10],adults:2,seniors:0,infantinlap:Y").build()
+        output = parser.parseDeepLink(data_c1) as FlightDeepLink
         Assert.assertTrue(output is FlightDeepLink)
         Assert.assertEquals("SEA", output.origin)
         Assert.assertEquals("BKK", output.destination)
         Assert.assertEquals(LocalDate(2017, 9, 27), output.departureDate)
         Assert.assertEquals(LocalDate(2017, 10, 11), output.returnDate)
         Assert.assertEquals(2, output.numAdults)
+
+        val data_c2 = data.buildUpon().appendQueryParameter("passengers", "adults:5").build()
+        output = parser.parseDeepLink(data_c2) as FlightDeepLink
+        Assert.assertEquals(5, output.numAdults)
     }
 
     @Test

@@ -26,7 +26,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
     private val LEG_PATTERN = Pattern.compile("from:(.+),to:(.+),departure:(.+)")
     private val AIRPORT_CODE = Pattern.compile("[^A-Z]?([A-Z]{3})[^A-Z]?")
     private val DATETIME = Pattern.compile("([^T]+)T?")
-    private val NUM_ADULTS = Pattern.compile("adults:([0-9]+),")
+    private val NUM_ADULTS = Pattern.compile("adults:([0-9]+)")
     private val TIME = Pattern.compile("([0-9]{1,2})([0-9]{2})(AM|PM)")
     private val HOTEL_INFO_SITE = Pattern.compile("/[^\\.]+\\.h(\\d+)\\.hotel-information")
     private val TRIPS_ITIN_NUM = Pattern.compile("/trips/([0-9]+)")
