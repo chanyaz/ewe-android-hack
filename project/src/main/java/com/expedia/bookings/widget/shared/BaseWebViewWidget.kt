@@ -35,9 +35,8 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
 
         override fun onPageFinished(view: WebView, url: String) {
-            preventLoadingOfDivClass(HEADER_CLASS)
-            preventLoadingOfDivClass(FACEBOOK_LOGIN_CLASS)
-            toggleLoading(false)
+            super.onPageFinished(view, url)
+            onPageFinished(url)
         }
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
@@ -48,6 +47,12 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             super.onReceivedError(view, request, error)
             toggleLoading(false)
         }
+    }
+
+    open fun onPageFinished(url: String) {
+        preventLoadingOfDivClass(HEADER_CLASS)
+        preventLoadingOfDivClass(FACEBOOK_LOGIN_CLASS)
+        toggleLoading(false)
     }
 
     private fun preventLoadingOfDivClass(className: String) {
@@ -74,7 +79,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
     }
 
-    fun setExitButtonOnClickListener(listener: OnClickListener) {
+    open fun setExitButtonOnClickListener(listener: OnClickListener) {
         toolbar.setNavigationOnClickListener(listener)
     }
 
