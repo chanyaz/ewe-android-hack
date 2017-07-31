@@ -213,9 +213,6 @@ public class AccountButton extends LinearLayout {
 			if (lob == LineOfBusiness.FLIGHTS) {
 				mLoginContainer.setBackgroundResource(R.drawable.flight_cko_acct_btn_rewards_bg);
 			}
-			else {
-				mLoginContainer.setBackgroundResource(R.drawable.material_cko_acct_btn_rewards_bg);
-			}
 		}
 		else {
 			mLoginTextView.setText(getSignInWithoutRewardsText());

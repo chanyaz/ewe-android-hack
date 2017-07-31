@@ -47,11 +47,12 @@
     <android.support.v7.widget.CardView
         android:id="@+id/account_login_container"
         style="@style/MaterialCardView"
-        app:cardBackgroundColor="@color/material_checkout_account_button_background_color"
+        app:cardBackgroundColor="@color/material_cko_acct_btn_rewards_bg_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone"
+        android:foreground="?attr/selectableItemBackground"
         app:cardUseCompatPadding="true">
 
             <com.expedia.bookings.widget.TextView
