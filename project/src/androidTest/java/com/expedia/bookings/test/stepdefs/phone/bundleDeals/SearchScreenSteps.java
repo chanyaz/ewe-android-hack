@@ -267,44 +267,44 @@ public class SearchScreenSteps {
 		return monthDate;
 	}
 	private void validateHotelTravelDatesHSR(String startDate, String endDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.hotel_results_toolbar)), withText(Matchers.containsString("Guest"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.hotel_results_toolbar)), withText(Matchers.containsString("guests"))))
 			.check(matches(withText(Matchers.containsString(startDate + " - " + endDate))));
 	}
 	private void validateTravelDatesHotelWidget(String startDate, String endDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withText(Matchers.containsString("Guest"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withText(Matchers.containsString("guests"))))
 			.check(matches(withText(Matchers.containsString(startDate + " - " + endDate))));
 	}
 	private void validateHotelTravelersHSR(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.hotel_results_toolbar)), withText(Matchers.containsString("Guest"))))
-			.check(matches(withText(Matchers.containsString(travelers + " Guest"))));
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.hotel_results_toolbar)), withText(Matchers.containsString("guests"))))
+			.check(matches(withText(Matchers.containsString(travelers + " guests"))));
 	}
 	private void validateTravelersCountHotelWidget(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withText(Matchers.containsString("Guest"))))
-			.check(matches(withText(Matchers.containsString(travelers + " Guest"))));
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withText(Matchers.containsString("guests"))))
+			.check(matches(withText(Matchers.containsString(travelers + " guests"))));
 	}
 	private void validateTravelDatesFSR(String travelDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.flights_toolbar)), withText(Matchers.containsString("Traveler"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.flights_toolbar)), withText(Matchers.containsString("traveler"))))
 			.check(matches(withText(Matchers.containsString(travelDate))));
 	}
 	private void validateTravelDatesOutboundFlightWidget(String travelDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withText(Matchers.containsString("Traveler"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withText(Matchers.containsString("traveler"))))
 			.check(matches(withText(Matchers.containsString(travelDate))));
 	}
 	private void validateTravelDatesInboundFlightWidget(String travelDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withText(Matchers.containsString("Traveler"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withText(Matchers.containsString("traveler"))))
 			.check(matches(withText(Matchers.containsString(travelDate))));
 	}
 	private void validateTravelersCountFSR(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.flights_toolbar)), withText(Matchers.containsString("Travelers"))))
-			.check(matches(withText(Matchers.containsString(travelers + " Travelers"))));
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.flights_toolbar)), withText(Matchers.containsString("travelers"))))
+			.check(matches(withText(Matchers.containsString(travelers + " travelers"))));
 	}
 	private void validateTravelersCountFlightOutboundWidget(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withText(Matchers.containsString("Travelers"))))
-			.check(matches(withText(Matchers.containsString(travelers + " Travelers"))));
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withText(Matchers.containsString("travelers"))))
+			.check(matches(withText(Matchers.containsString(travelers + " travelers"))));
 	}
 	private void validateTravelersCountFlightInboundWidget(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withText(Matchers.containsString("Travelers"))))
-			.check(matches(withText(Matchers.containsString(travelers + " Travelers"))));
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withText(Matchers.containsString("travelers"))))
+			.check(matches(withText(Matchers.containsString(travelers + " travelers"))));
 	}
 	private void validateOutboundFlightLocation(String location) {
 		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),

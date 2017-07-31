@@ -19,16 +19,16 @@ Feature: Bundle Overview with packages details
       | Step 1 Text                       | Step 1: Select Hotel            |
       | Hotel Bar - Hotel text            | Select hotel in Las Vegas Strip |
       | Hotel Bar - Date                  | 5 - 10                          |
-      | Hotel Bar - travelers             | 4 Guests                        |
-      | Step 2 Text                       | Step 2: Select Flights          |
+      | Hotel Bar - travelers             | 4 guests                        |
+      | Step 2 Text                       | Step 2: Select flights          |
       | Hotel Image                       | Hotel icon Drawable             |
       | Outbound Flight Bar - Flight Text | Flight to Las Vegas             |
       | Outbound Flight Bar - date        | 5                               |
-      | Outbound Flight Bar - traveler    | 4 Travelers                     |
+      | Outbound Flight Bar - traveler    | 4 travelers                     |
       | Flight Outbound Image             | Flight Outbound drawable        |
       | Inbound Flight Bar - Flight Text  | Flight to San Francisco         |
       | Inbound Flight Bar - date         | 10                              |
-      | Inbound Flight Bar - traveler     | 4 Travelers                     |
+      | Inbound Flight Bar - traveler     | 4 travelers                     |
       | Flight Inbound Image              | Flight Inblund drawable         |
     And "Outbound Flight Bar" on bundle overview isDisabled: true
     And "Inbound Flight Bar" on bundle overview isDisabled: true
@@ -73,16 +73,16 @@ Feature: Bundle Overview with packages details
       | Step 1 Text                       | Step 1: Select Hotel            |
       | Hotel Bar - Hotel text            | Select hotel in Las Vegas Strip |
       | Hotel Bar - Date                  | 5 - 10                          |
-      | Hotel Bar - travelers             | 4 Guests                        |
-      | Step 2 Text                       | Step 2: Select Flights          |
+      | Hotel Bar - travelers             | 4 guests                        |
+      | Step 2 Text                       | Step 2: Select flights          |
       | Hotel Image                       | Hotel icon Drawable             |
       | Outbound Flight Bar - Flight Text | Flight to Las Vegas             |
       | Outbound Flight Bar - date        | 5                               |
-      | Outbound Flight Bar - traveler    | 4 Travelers                     |
+      | Outbound Flight Bar - traveler    | 4 travelers                     |
       | Flight Outbound Image             | Flight Outbound drawable        |
       | Inbound Flight Bar - Flight Text  | Flight to San Francisco         |
       | Inbound Flight Bar - date         | 10                              |
-      | Inbound Flight Bar - traveler     | 4 Travelers                     |
+      | Inbound Flight Bar - traveler     | 4 travelers                     |
       | Flight Inbound Image              | Flight Inblund drawable         |
     And "Outbound Flight Bar" on bundle overview isDisabled: true
     And "Inbound Flight Bar" on bundle overview isDisabled: true

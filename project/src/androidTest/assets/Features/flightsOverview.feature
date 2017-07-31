@@ -21,7 +21,7 @@ Feature: Flights Overview
     And I select inbound flight at position 1 and reach overview
     Then validate following information is present on the overview screen for isOutbound : true
       | destination                    | (DEL)                                             |
-      | travel date and traveller      | Mar 22 at 9:00 pm, 1 Traveler                     |
+      | travel date and traveller      | Mar 22 at 9:00 pm, 1 traveler                     |
       | Flight time                    | 9:00 pm - 11:00 pm                                     |
       | airport names                  | (SFO) SFO - (DEL) DEL                             |
       | airline name                   | happy_round_trip                                  |
@@ -30,7 +30,7 @@ Feature: Flights Overview
     Then collapse the outbound widget
     Then validate following information is present on the overview screen for isOutbound : false
       | destination                    | (SFO)                                             |
-      | travel date and traveller      | Mar 22 at 5:40 pm, 1 Traveler                       |
+      | travel date and traveller      | Mar 22 at 5:40 pm, 1 traveler                       |
       | Flight time                    | 5:40 pm - 8:15 pm                                      |
       | airport names                  | (DEL) DEL - (SFO) SFO                             |
       | airline name                   | American Airlines 179                             |

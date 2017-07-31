@@ -120,7 +120,7 @@ Feature: Flights Search
     When I launch "Flights" LOB
     Then departure field exists for flights search form
     And arrival field exists for flights search form
-    And calendar field exists for flights search form
+    And calendar field with text "Select dates" exists for flights search form
 
   @Flights @FlightSearch
   Scenario: Verifying UI fields visibility on one way trip search form
@@ -447,7 +447,7 @@ Feature: Flights Search
       | destination         | DEL - Indira Gandhi Intl.                |
       | start_date          | 5                                        |
       | end_date            | 10                                       |
-      | totalTravelers      | 5 Travelers                              |
+      | totalTravelers      | 5 travelers                              |
       | flightClass         | Economy                                  |
 
   @Flights @FlightSearch
@@ -477,7 +477,7 @@ Feature: Flights Search
       | source              | SFO - San Francisco Intl.                |
       | destination         | DEL - Indira Gandhi Intl.                |
       | start_date          | 10                                       |
-      | totalTravelers      | 4 Travelers                              |
+      | totalTravelers      | 4 travelers                              |
       | flightClass         | Premium Economy                          |
 
   @Flights @FlightSearch
@@ -504,7 +504,7 @@ Feature: Flights Search
       | destination         | DEL - Indira Gandhi Intl.                |
       | start_date          | 5                                        |
       | end_date            | 10                                       |
-      | totalTravelers      | 2 Travelers                              |
+      | totalTravelers      | 2 travelers                              |
       | flightClass         | Economy                                  |
     When I enter source for flights
       | source              | DEL                                      |
@@ -531,7 +531,7 @@ Feature: Flights Search
       | destination         | SFO - San Francisco Intl.                |
       | start_date          | 6                                        |
       | end_date            | 11                                       |
-      | totalTravelers      | 5 Travelers                              |
+      | totalTravelers      | 5 travelers                              |
       | flightClass         | Premium Economy                          |
 
   @Flights @FlightSearch
@@ -556,7 +556,7 @@ Feature: Flights Search
     And Validate FSR toolbar is consistent with search params
       | destination                 | Delhi, India             |
       | start_date                  | 10                       |
-      | totalTravelers              | 4 Travelers              |
+      | totalTravelers              | 4 travelers              |
     And I wait for results to load
     And I press back
     And I press back
@@ -565,7 +565,7 @@ Feature: Flights Search
       | source                      | SFO - San Francisco Intl.|
       | destination                 | DEL - Indira Gandhi Intl.|
       | start_date                  | 10                       |
-      | totalTravelers              | 4 Travelers              |
+      | totalTravelers              | 4 travelers              |
       | flightClass                       | Premium Economy          |
     Then I enter source for flights
       | source              | DEL                                      |
@@ -586,7 +586,7 @@ Feature: Flights Search
     And Validate FSR toolbar is consistent with search params
       | destination                 | San Francisco, CA        |
       | start_date                  | 11                       |
-      | totalTravelers              | 6 Travelers              |
+      | totalTravelers              | 6 travelers              |
     Then I press back
     And I press back
     And I launch "Flights" LOB
@@ -594,7 +594,7 @@ Feature: Flights Search
       | destination                 | SFO - San Francisco Intl.|
       | source                      | DEL - Indira Gandhi Intl.|
       | start_date                  | 11                       |
-      | totalTravelers              | 6 Travelers              |
+      | totalTravelers              | 6 travelers              |
       | flightClass                 | First Class              |
 
   @Flights @FlightSearch
@@ -652,7 +652,7 @@ Feature: Flights Search
     And on FSR validate the date is as user selected
       | start_date                            | 20                           |
     And on FSR Validate the total number of travelers
-      | totalTravelers                       | 5 Travelers                   |
+      | totalTravelers                       | 5 travelers                   |
 
   @Flight @FlightSearch
   Scenario: Validate the flight search API call for retained flight params for oneway

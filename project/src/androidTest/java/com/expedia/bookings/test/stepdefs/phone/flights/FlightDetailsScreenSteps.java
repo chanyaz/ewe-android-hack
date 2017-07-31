@@ -45,8 +45,8 @@ public class FlightDetailsScreenSteps {
 	@And("^on flight details the traveler count is (\\d+)$")
 	public void validateTravelerCountOnDetails(int count) throws Throwable {
 		onView(
-			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
-			.check(matches(withText(containsString(count + " Traveler"))));
+			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("travelers"))))
+			.check(matches(withText(containsString(count + " travelers"))));
 	}
 
 	@And("^on Flight detail check the date is as user selected$")
@@ -58,46 +58,15 @@ public class FlightDetailsScreenSteps {
 		String year = TestUtil.getYearFromDate(startDate);
 		String month = TestUtil.getMonthFromDate(startDate);
 		onView(
-			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
+			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("traveler"))))
 			.check(matches(withText(containsString(date))));
 		onView(
-			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
+			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("traveler"))))
 			.check(matches(withText(containsString(month))));
 		onView(
-			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
+			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("traveler"))))
 			.check(matches(withText(containsString(year))));
 	}
-
-	public static String getMonth(int month) {
-		switch (month) {
-		case 1:
-			return "Jan";
-		case 2:
-			return "Feb";
-		case 3:
-			return "Mar";
-		case 4:
-			return "Apr";
-		case 5:
-			return "May";
-		case 6:
-			return "Jun";
-		case 7:
-			return "Jul";
-		case 8:
-			return "Aug";
-		case 9:
-			return "Sep";
-		case 10:
-			return "Oct";
-		case 11:
-			return "Nov";
-		default:
-			return "Dec";
-		}
-
-	}
-
 
 	@And("^price displayed on flight details is \"([^\"]*)\"$")
 	public void verifyPriceOnOverview(String price) throws Throwable {
