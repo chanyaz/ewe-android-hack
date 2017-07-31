@@ -86,46 +86,21 @@ public class DateUtils {
 		return date != null ? date.toString(LX_DATE_PATTERN) : null;
 	}
 
-	public static String localDateToMMyyyy(LocalDate date) {
-		return date.toString("MM / yyyy");
-	}
-
-	public static String localDateToMMMd(LocalDate date) {
-		return date.toString("MMM d");
-	}
-
-	public static String localDateToMMMMd(LocalDate date) {
-		return date.toString("MMMM d");
-	}
-
-	public static String localDateToEEEMMMd(LocalDate date) {
-		return date.toString("EEE, MMM d");
-	}
-
+	// Leave Testinggg
 	public static String localDateToyyyyMMdd(LocalDate date) {
 		return date.toString("yyyy-MM-dd");
 	}
 
+	// Leave Testinggg
 	public static String dateTimeToHHmmss(DateTime date) {
 		return date.toString("HH:mm:ss");
-	}
-
-	public static String dateTimeToMMMdhmma(DateTime date) {
-		return date.toString("MMM d, h:mm a");
-	}
-
-	public static String dateTimeToMMMd(DateTime date) {
-		return date.toString("MMM d");
-	}
-
-	public static String dateTimeToEEEMMMdhmma(DateTime date) {
-		return date.toString("EEE, MMM d - h:mm a");
 	}
 
 	public static LocalDate yyyyMMddToLocalDate(String dateyyyyMMdd) {
 		return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));
 	}
 
+	// Leave Testinggg
 	public static LocalDate yyyyMMddToLocalDateSafe(String dateyyyyMMdd, LocalDate defaultValue) {
 		try {
 			return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));
@@ -145,10 +120,6 @@ public class DateUtils {
 
 	public static DateTime yyyyMMddHHmmToDateTime(String dateyyyyMMddHHmm) {
 		return DateTime.parse(dateyyyyMMddHHmm, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"));
-	}
-
-	public static DateTime dateyyyyMMddHHmmSSSZToDateTime(String dateyyyyMMddHHmmSSSZ) {
-		return DateTime.parse(dateyyyyMMddHHmmSSSZ, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
 	}
 
 	public static DateTime dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(String dateyyyyMMddHHmmSSSZ) {

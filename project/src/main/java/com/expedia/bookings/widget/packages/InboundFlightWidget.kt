@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.ui.PackageFlightActivity
 import com.squareup.phrase.Phrase
@@ -33,7 +33,7 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
 
     fun setTravelerInfoText() {
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", DateUtils.localDateToMMMd(viewModel.searchParams.value.endDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.endDate!!))
                 .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests)).format().toString())
     }
 
@@ -43,7 +43,7 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
         viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
         viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(viewModel.searchParams.value.origin)))
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", DateUtils.localDateToMMMd(viewModel.searchParams.value.endDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.endDate!!))
                 .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests))
                 .format()
                 .toString())
@@ -81,7 +81,7 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
 
     fun refreshTravelerInfoOnChangeFlights() {
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", DateUtils.localDateToMMMd(viewModel.searchParams.value.endDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.endDate!!))
                 .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests))
                 .format()
                 .toString())

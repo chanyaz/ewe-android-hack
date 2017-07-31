@@ -8,7 +8,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -52,8 +52,8 @@ public class PackageHotelResultsTest extends PackageTestCase {
 		PackageScreen.hotelResultsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(
 			isDisplayed(), withText("Hotels in Detroit, MI")))));
 
-		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
-		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
+		String startDate = LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(3));
+		String endDate = LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		PackageScreen.hotelResultsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(
 			isDisplayed(), withText(startDate + " - " + endDate + ", 3 guests")))));
 	}

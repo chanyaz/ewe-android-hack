@@ -288,7 +288,7 @@ object FlightV2Utils {
         }
 
     @JvmStatic fun getDepartureOnDateString(context: Context, flightLeg: FlightLeg) : String {
-        val date = DateUtils.localDateToMMMd(DateTime.parse(flightLeg.segments.first().departureTimeRaw).toLocalDate())
+        val date = LocaleBasedDateFormatUtils.localDateToMMMd(DateTime.parse(flightLeg.segments.first().departureTimeRaw).toLocalDate())
         return " " + Phrase.from(context.getString(R.string.flight_confirmation_crystal_title_on_date_TEMPLATE))
                 .put("date", date)
                 .format().toString()

@@ -15,7 +15,7 @@ import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripRails;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.squareup.phrase.Phrase;
 
 @RunWith(RobolectricRunner.class)
@@ -51,7 +51,7 @@ public class RailsItinContentGeneratorTest {
 		ItinContentGenerator<?> itin = getItinGenerator();
 		android.widget.TextView view = (android.widget.TextView) itin.getSummaryView(null, new LinearLayout(context, null));
 		String expectedSummaryText = Phrase.from(context, R.string.itin_card_rail_summary_TEMPLATE)
-			.put("datetime", DateUtils.dateTimeToEEEMMMdhmma(start)).format().toString();
+			.put("datetime", LocaleBasedDateFormatUtils.dateTimeToEEEMMMdhmma(start)).format().toString();
 		Assert.assertNotNull(view);
 		Assert.assertEquals(expectedSummaryText, view.getText().toString());
 

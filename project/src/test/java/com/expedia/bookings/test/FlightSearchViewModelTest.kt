@@ -9,6 +9,7 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
@@ -52,8 +53,8 @@ class FlightSearchViewModelTest {
 
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
-        val expectedStartDate = DateUtils.localDateToMMMd(startDate)
-        val expectedEndDate = DateUtils.localDateToMMMd(endDate)
+        val expectedStartDate = LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
+        val expectedEndDate = LocaleBasedDateFormatUtils.localDateToMMMd(endDate)
 
         sut.datesUpdated(startDate, endDate)
         assertEquals(null, sut.cachedEndDateObservable.value)
@@ -64,7 +65,7 @@ class FlightSearchViewModelTest {
         assertEquals("$expectedStartDate (One Way)", sut.dateTextObservable.value)
 
         val newStartDate = LocalDate.now().plusDays(20)
-        val expectedNewStartDate = DateUtils.localDateToMMMd(newStartDate)
+        val expectedNewStartDate = LocaleBasedDateFormatUtils.localDateToMMMd(newStartDate)
 
         sut.datesUpdated(newStartDate, null)
         sut.isRoundTripSearchObservable.onNext(true)

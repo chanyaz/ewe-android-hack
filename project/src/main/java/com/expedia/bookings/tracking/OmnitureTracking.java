@@ -2760,7 +2760,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.ProWizardTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppUserOnboarding);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
-
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLocaleBasedDateFormatting);
 		if (userStateManager.isUserAuthenticated()) {
 			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
 			if (!usersTripComponentTypeEventString.isEmpty()) {

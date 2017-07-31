@@ -11,6 +11,7 @@ import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
@@ -140,7 +141,7 @@ class HotelCheckoutSummaryViewModelTest {
         sut.freeCancellationText.subscribe(testTextSubscriber)
         createTripResponseObservable.onNext(createTripResponse)
 
-        val formattedCheckInDate = DateUtils.localDateToEEEMMMd(checkInDate)
+        val formattedCheckInDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(checkInDate)
         assertEquals("Free cancellation before ${formattedCheckInDate}", testTextSubscriber.onNextEvents[0])
     }
 

@@ -10,7 +10,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -94,8 +94,8 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 	}
 
 	private void checkBundleOverviewHotelContentDescription(boolean searchCompleted) {
-		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
-		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
+		String startDate = LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(3));
+		String endDate = LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		if (searchCompleted) {
 			PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription(
 				"Search completed. Select a hotel in Detroit from " + startDate + " to " + endDate
@@ -112,7 +112,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 	}
 
 	private void checkBundleOverviewFlightContentDescription(ViewInteraction view, String dateTime, String flightTo, boolean isInboundFlight, boolean isDisabled) {
-		String date = (dateTime != null) ? dateTime : isInboundFlight ? DateUtils.localDateToMMMd(LocalDate.now().plusDays(8)) : DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
+		String date = (dateTime != null) ? dateTime : isInboundFlight ? LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(8)) : LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(3));
 		String previous = isInboundFlight ? "Outbound Flight" : "Hotel";
 		if (isDisabled) {
 			view.check(matches(withContentDescription(
@@ -125,8 +125,8 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 	}
 
 	private void checkBundleOverviewHotelContentDescription(String selectedHotelName) {
-		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
-		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
+		String startDate = LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(3));
+		String endDate = LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		PackageScreen.bundleOverviewHotelRowContainer().check(matches(withContentDescription("" +
 			"You have selected hotel " + selectedHotelName + " from " + startDate + " to " + endDate + ", for 1 guest. Button to expand hotel details.")));
 		PackageScreen.hotelDetailsIcon().perform(click());
@@ -157,8 +157,8 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 
 	private void checkBundleSlidingWidgetContentDescription(String pricePerPerson, boolean isOpened) {
 		String str;
-		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
-		String endDate =  DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
+		String startDate = LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(3));
+		String endDate =  LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 
 		if (isOpened) {
 			str = "Trip to Detroit, MI. " + startDate + " to " + endDate + ", 1 traveler";

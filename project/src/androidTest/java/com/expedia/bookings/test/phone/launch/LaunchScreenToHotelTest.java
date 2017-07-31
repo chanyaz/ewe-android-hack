@@ -17,7 +17,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -51,8 +51,8 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 		SearchScreen.selectGuestsButton().check(ViewAssertions.matches(ViewMatchers.withText("2 guests")));
 		LocalDate checkIn = LocalDate.now().plusDays(1);
 		LocalDate checkOut = LocalDate.now().plusDays(2);
-		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
-		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
+		String expectedCheckInDate = LocaleBasedDateFormatUtils.localDateToMMMd(checkIn);
+		String expectedCheckoutDate = LocaleBasedDateFormatUtils.localDateToMMMd(checkOut);
 		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + " (1 night)";
 		SearchScreen.selectDateButton().check(ViewAssertions.matches(ViewMatchers.withText(expected)));
 	}

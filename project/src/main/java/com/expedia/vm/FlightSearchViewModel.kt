@@ -12,6 +12,7 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
@@ -331,7 +332,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (showDaywithDate) {
             return DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(date)
         }
-        return DateUtils.localDateToMMMd(date)
+        return LocaleBasedDateFormatUtils.localDateToMMMd(date!!)
     }
 
 }

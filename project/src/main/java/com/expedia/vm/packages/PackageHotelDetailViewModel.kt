@@ -11,6 +11,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.squareup.phrase.Phrase
@@ -28,13 +29,13 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         paramsSubject.subscribe { params ->
             val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
             searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
-                    .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))).put("guests", StrUtils.formatGuestString(context, params.guests))
+                    .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
+                    .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))).put("guests", StrUtils.formatGuestString(context, params.guests))
                     .format()
                     .toString())
             val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
-                    .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate())))
+                    .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
+                    .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate())))
                     .format().toString()
             searchDatesObservable.onNext(dates)
 

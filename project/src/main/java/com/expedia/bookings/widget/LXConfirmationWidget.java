@@ -25,6 +25,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.navigation.NavUtils;
@@ -140,7 +141,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		location.setText(lxState.activity.location);
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
-		date.setText(DateUtils.localDateToEEEMMMd(offerSelectedDate));
+		date.setText(LocaleBasedDateFormatUtils.localDateToEEEMMMd(offerSelectedDate));
 		emailText.setText(lxCheckoutParams.email);
 		confirmationText.setText(res.getString(R.string.lx_successful_checkout_email_label));
 		reservationConfirmation.setText(res.getString(R.string.lx_successful_checkout_reservation_label));

@@ -13,6 +13,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -230,7 +231,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         val searchParams = viewModel.searchParams.value
         return Phrase.from(context, R.string.select_flight_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
-                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate!! else searchParams.startDate))
                 .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
                 .format()
                 .toString()
@@ -240,7 +241,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         val searchParams = viewModel.searchParams.value
         return Phrase.from(context, R.string.select_flight_disabled_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
-                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate!! else searchParams.startDate))
                 .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
                 .put("previous", if (isInboundFlight()) context.getString(R.string.select_flight_disabled_choose_outbound) else context.getString(R.string.select_flight_disabled_choose_hotel))
                 .format()
@@ -255,7 +256,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         val searchParams = viewModel.searchParams.value
         return Phrase.from(context, R.string.select_flight_searching_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
-                .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate!! else searchParams.startDate))
                 .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
                 .format()
                 .toString()

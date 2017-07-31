@@ -23,6 +23,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -116,8 +117,8 @@ class PackageOverviewTest {
         val params = Db.getPackageParams()
         return Phrase.from(activity, R.string.select_hotel_selected_cont_desc_TEMPLATE)
                 .put("hotel", Db.getPackageSelectedHotel()?.localizedName ?: "")
-                .put("startdate", DateUtils.localDateToMMMd(params.startDate))
-                .put("enddate", DateUtils.localDateToMMMd(params.endDate))
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
+                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                 .put("guests", StrUtils.formatGuestString(activity, params.guests))
                 .put("expandstate", expandState)
                 .format()

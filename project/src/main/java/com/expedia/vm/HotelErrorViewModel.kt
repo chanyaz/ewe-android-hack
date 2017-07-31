@@ -6,6 +6,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
@@ -184,8 +185,8 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             titleObservable.onNext(params.suggestion.regionNames.shortName)
 
             subTitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
-                    .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                    .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn))
+                    .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut))
                     .put("guests", StrUtils.formatGuestString(context, params.guests))
                     .format()
                     .toString())

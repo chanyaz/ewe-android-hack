@@ -3,11 +3,8 @@ package com.expedia.vm.flights
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightV2Utils
-import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
-import org.joda.time.DateTime
 import rx.subjects.BehaviorSubject
 
 class FlightConfirmationCardViewModel (private val context: Context, flightLeg: FlightLeg, numberOfGuests: Int) {

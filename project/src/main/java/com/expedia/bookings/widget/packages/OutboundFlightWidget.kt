@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.ui.PackageFlightActivity
 import com.squareup.phrase.Phrase
@@ -33,7 +33,7 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
 
     fun setTravelerInfoText() {
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", DateUtils.localDateToMMMd(viewModel.searchParams.value.startDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.startDate))
                 .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests)).format().toString())
     }
 
@@ -43,7 +43,7 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
         viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
         viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(viewModel.searchParams.value.destination)))
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", DateUtils.localDateToMMMd(viewModel.searchParams.value.startDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.startDate))
                 .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests))
                 .format()
                 .toString())

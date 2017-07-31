@@ -10,6 +10,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
@@ -171,8 +172,8 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         val title = params.suggestion.regionNames?.shortName ?: params.suggestion.regionNames.fullName
         titleSubject.onNext(title)
         subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
-                .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn))
+                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut))
                 .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format())
     }

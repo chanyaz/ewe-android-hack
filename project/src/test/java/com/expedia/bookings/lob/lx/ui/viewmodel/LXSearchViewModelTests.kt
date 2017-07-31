@@ -11,6 +11,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -99,7 +100,7 @@ class LXSearchViewModelTests {
 
         //When user has selected the start date
         val startDate = LocalDate.now();
-        assertEquals(DateUtils.localDateToMMMd(startDate),vm.getDateInstructionText(startDate, null))
+        assertEquals(LocaleBasedDateFormatUtils.localDateToMMMd(startDate),vm.getDateInstructionText(startDate, null))
     }
 
     @Test

@@ -6,6 +6,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import org.joda.time.LocalDate
@@ -74,7 +75,7 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (start == null && end == null) {
             return context.getString(R.string.select_lx_search_dates)
         }
-        return DateUtils.localDateToMMMd(start)
+        return LocaleBasedDateFormatUtils.localDateToMMMd(start!!)
     }
 
     override fun sameStartAndEndDateAllowed(): Boolean {
@@ -95,17 +96,17 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
         if (forContentDescription) {
-            return getDateAccessibilityText(context.getString(R.string.select_start_date), DateUtils.localDateToMMMMd(start))
+            return getDateAccessibilityText(context.getString(R.string.select_start_date), LocaleBasedDateFormatUtils.localDateToMMMMd(start!!))
         } else {
-            return DateUtils.localDateToMMMMd(start)
+            return LocaleBasedDateFormatUtils.localDateToMMMMd(start!!)
         }
     }
 
     override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
         if (forContentDescription) {
-            return getDateAccessibilityText(context.getString(R.string.select_start_date), DateUtils.localDateToMMMMd(start))
+            return getDateAccessibilityText(context.getString(R.string.select_start_date), LocaleBasedDateFormatUtils.localDateToMMMMd(start))
         } else {
-            return DateUtils.localDateToMMMMd(start)
+            return LocaleBasedDateFormatUtils.localDateToMMMMd(start)
         }
     }
 }

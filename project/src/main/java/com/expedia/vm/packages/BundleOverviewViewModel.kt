@@ -11,6 +11,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -51,8 +52,8 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             val cityName = StrUtils.formatCity(params.destination)
             toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
             toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(params.startDate))
-                    .put("enddate", DateUtils.localDateToMMMd(params.endDate))
+                    .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
+                    .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
 
@@ -63,8 +64,8 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             val cityName = StrUtils.formatCity(params.destination)
             toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
             toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(params.startDate))
-                    .put("enddate", DateUtils.localDateToMMMd(params.endDate))
+                    .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
+                    .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
             val type = if (params.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT

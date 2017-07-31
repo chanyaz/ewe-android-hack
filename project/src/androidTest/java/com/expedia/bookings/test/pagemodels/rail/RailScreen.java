@@ -16,7 +16,7 @@ import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -213,11 +213,11 @@ public class RailScreen {
 
 		DateTime startDateTime = DateTime.now().plusDays(3).withTimeAtStartOfDay();
 		LocalDate startDate = startDateTime.toLocalDate();
-		String expectedStartDateTime = DateUtils.dateTimeToMMMdhmma(startDateTime);
+		String expectedStartDateTime = LocaleBasedDateFormatUtils.dateTimeToMMMdhmma(startDateTime);
 
 		DateTime endDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
 		LocalDate endDate = endDateTime.toLocalDate();
-		String expectedEndDateTime = DateUtils.dateTimeToMMMdhmma(endDateTime);
+		String expectedEndDateTime = LocaleBasedDateFormatUtils.dateTimeToMMMdhmma(endDateTime);
 		selectDates(startDate, endDate);
 
 		EspressoUtils.assertViewIsDisplayed(R.id.depart_slider_container);

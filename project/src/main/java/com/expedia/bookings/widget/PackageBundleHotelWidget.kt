@@ -18,6 +18,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -191,8 +192,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun loadingContentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         return Phrase.from(context, R.string.select_hotel_searching_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
@@ -204,8 +205,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun contentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         return Phrase.from(context, R.string.select_hotel_cont_desc_TEMPLATE)
                 .put("destination", StrUtils.formatCityName(Db.getPackageParams().destination))
@@ -217,8 +218,8 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     }
 
     override fun selectedCardContentDescription(): String {
-        val startDate = DateUtils.localDateToMMMd(Db.getPackageParams().startDate)
-        val endDate = DateUtils.localDateToMMMd(Db.getPackageParams().endDate)
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().startDate)
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(Db.getPackageParams().endDate!!)
         val guests = StrUtils.formatGuestString(context, Db.getPackageParams().guests)
         val expandState = if (mainContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
         return Phrase.from(context, R.string.select_hotel_selected_cont_desc_TEMPLATE)

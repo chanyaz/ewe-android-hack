@@ -24,6 +24,7 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
@@ -97,7 +98,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		lxGroupText.setText(lxState.selectedTicketsCountSummary(getContext()));
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
-		lxOfferDate.setText(DateUtils.localDateToEEEMMMd(offerSelectedDate));
+		lxOfferDate.setText(LocaleBasedDateFormatUtils.localDateToEEEMMMd(offerSelectedDate));
 		lxOfferLocation.setText(lxState.activity.location);
 
 		freeCancellationText.setVisibility(lxState.offer.freeCancellation ? VISIBLE : GONE);

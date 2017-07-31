@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
@@ -32,8 +33,8 @@ class HotelItinToolbarTest {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         hotelItinToolbar.setUpWidget(itinCardDataHotel, itinCardDataHotel.propertyName)
         val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-        val startDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.startDate.toString().substringBefore("T")))
-        val endDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.endDate.toString().substringBefore("T")))
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.startDate.toString().substringBefore("T")))
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.endDate.toString().substringBefore("T")))
         assertEquals(itinCardDataHotel.propertyName, hotelItinToolbar.toolbarTitleTextView.text)
         assertEquals(startDate + " - " + endDate, hotelItinToolbar.toolbarSubtitleTextView.text)
         assertEquals(startDate + " to " + endDate, hotelItinToolbar.toolbarSubtitleTextView.contentDescription)
@@ -45,8 +46,8 @@ class HotelItinToolbarTest {
         val titleString = activity.getString(R.string.itin_hotel_manage_booking_header)
         hotelItinToolbar.setUpWidget(itinCardDataHotel, titleString)
         val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-        val startDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.startDate.toString().substringBefore("T")))
-        val endDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.endDate.toString().substringBefore("T")))
+        val startDate = LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.startDate.toString().substringBefore("T")))
+        val endDate = LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.endDate.toString().substringBefore("T")))
         assertEquals(activity.getString(R.string.itin_hotel_manage_booking_header), hotelItinToolbar.toolbarTitleTextView.text)
         assertEquals(startDate + " - " + endDate, hotelItinToolbar.toolbarSubtitleTextView.text)
         assertEquals(startDate + " to " + endDate, hotelItinToolbar.toolbarSubtitleTextView.contentDescription)

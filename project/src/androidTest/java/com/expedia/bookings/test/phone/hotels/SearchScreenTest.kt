@@ -16,6 +16,7 @@ import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
 import com.mobiata.android.time.util.JodaUtils
@@ -185,9 +186,9 @@ class SearchScreenTest : HotelTestCase() {
         if (start == null && end == null) {
             return instrumentation.targetContext.resources.getString(R.string.select_dates)
         } else if (end == null) {
-            return instrumentation.targetContext.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+            return instrumentation.targetContext.resources.getString(R.string.select_checkout_date_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(start!!))
         } else {
-            return Phrase.from(instrumentation.targetContext, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
+            return Phrase.from(instrumentation.targetContext, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start!!)).put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(end)).format().toString()
         }
     }
 }

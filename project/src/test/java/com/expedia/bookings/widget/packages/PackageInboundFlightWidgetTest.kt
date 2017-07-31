@@ -11,6 +11,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
@@ -178,7 +179,7 @@ class PackageInboundFlightWidgetTest {
 
         val expectedText = Phrase.from(activity, R.string.select_flight_searching_cont_desc_TEMPLATE).
                 put("flight", testFlightText).
-                put("date", DateUtils.localDateToMMMd(LocalDate.now().plusDays(2))).
+                put("date", LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(2))).
                 put("travelers", "1 traveler").
                 format().toString()
 
@@ -191,7 +192,7 @@ class PackageInboundFlightWidgetTest {
 
         val expectedText = Phrase.from(activity, R.string.select_flight_cont_desc_TEMPLATE)
                 .put("flight", testFlightText)
-                .put("date", DateUtils.localDateToMMMd(LocalDate.now().plusDays(2)))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(LocalDate.now().plusDays(2)))
                 .put("travelers", "1 traveler")
                 .format()
                 .toString()

@@ -11,7 +11,7 @@ import com.expedia.bookings.test.espresso.RailTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.rail.RailScreen;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -40,7 +40,7 @@ public class RailSearchPresenterTest extends RailTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.depart_slider_container);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.return_slider_container);
 		RailScreen.dialogDoneButton().perform(click());
-		String expectedStartDateTime = DateUtils.dateTimeToMMMdhmma(startDateTime);
+		String expectedStartDateTime = LocaleBasedDateFormatUtils.dateTimeToMMMdhmma(startDateTime);
 		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDateTime);
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);

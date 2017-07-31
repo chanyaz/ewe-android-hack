@@ -36,7 +36,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
@@ -901,7 +901,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 				private void announceDateForAccessibility() {
 					LocalDate date = new LocalDate().withMonthOfYear(mMonth).withYear(mYear);
-					view.announceForAccessibility(DateUtils.localDateToMMyyyy(date));
+					view.announceForAccessibility(LocaleBasedDateFormatUtils.localDateToMMyyyy(date));
 				}
 
 			});

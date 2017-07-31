@@ -2491,8 +2491,6 @@
     <string name="nonstop_flight_filter_label">Nonstop flights only</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">Refundable flights only</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s to %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">Hotel name</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->

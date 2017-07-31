@@ -10,6 +10,7 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
@@ -129,7 +130,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         if (start == null && end == null) {
             return Pair(context.resources.getString(R.string.select_dates_proper_case), instructionsText)
         } else if (end == null) {
-            return Pair(DateUtils.localDateToMMMd(start), instructionsText)
+            return Pair(LocaleBasedDateFormatUtils.localDateToMMMd(start!!), instructionsText)
         } else {
             val dateText = getStartDashEndDateString(start!!, end)
             return Pair(dateText, instructionsText)
@@ -141,12 +142,12 @@ abstract class BaseSearchViewModel(val context: Context) {
             return context.resources.getString(R.string.select_dates_proper_case)
         } else if (endDate == null && isRoundTripSearch) {
             return Phrase.from(context, R.string.calendar_start_date_tooltip_cont_desc_TEMPLATE)
-                    .put("selecteddate", DateUtils.localDateToMMMd(startDate))
+                    .put("selecteddate", LocaleBasedDateFormatUtils.localDateToMMMd(startDate!!))
                     .put("instructiontext", getCalendarToolTipInstructions(startDate, endDate))
                     .format().toString()
         } else if (endDate == null && !isRoundTripSearch) {
             return Phrase.from(context, R.string.calendar_complete_tooltip_cont_desc_TEMPLATE)
-                    .put("selecteddate", DateUtils.localDateToMMMd(startDate))
+                    .put("selecteddate", LocaleBasedDateFormatUtils.localDateToMMMd(startDate!!))
                     .format().toString()
         } else {
             return Phrase.from(context, R.string.calendar_complete_tooltip_cont_desc_TEMPLATE)
@@ -173,16 +174,16 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     protected fun getStartDashEndDateString(start: LocalDate, end: LocalDate) : String {
         return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
-                .put("startdate", DateUtils.localDateToMMMd(start))
-                .put("enddate", DateUtils.localDateToMMMd(end))
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start))
+                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(end))
                 .format().toString()
     }
 
     protected fun getStartToEndDateString(start: LocalDate, end: LocalDate) : String {
         // need to explicitly use "to" for screen readers
         return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
-                .put("startdate", DateUtils.localDateToMMMd(start))
-                .put("enddate", DateUtils.localDateToMMMd(end))
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start))
+                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(end))
                 .format().toString()
     }
 

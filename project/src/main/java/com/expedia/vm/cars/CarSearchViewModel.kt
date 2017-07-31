@@ -7,6 +7,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.endlessObserver
@@ -127,7 +128,7 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
         if (start == null && end == null) {
             return context.getString(R.string.select_pickup_date);
         } else if (end == null) {
-            return context.resources.getString(R.string.select_drop_off_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+            return context.resources.getString(R.string.select_drop_off_date_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(start!!))
         }
         return getStartDashEndDateString(start!!, end)
     }

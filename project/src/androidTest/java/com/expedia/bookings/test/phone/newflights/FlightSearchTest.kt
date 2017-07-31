@@ -11,6 +11,7 @@ import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import org.joda.time.LocalDate
 import org.junit.Test
 
@@ -24,8 +25,8 @@ class FlightSearchTest: NewFlightTestCase() {
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
         SearchScreen.selectDates(startDate, endDate)
-        val expectedStartDate = DateUtils.localDateToMMMd(startDate)
-        val expectedEndDate = DateUtils.localDateToMMMd(endDate)
+        val expectedStartDate = LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
+        val expectedEndDate = LocaleBasedDateFormatUtils.localDateToMMMd(endDate)
         SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate - $expectedEndDate")))
 
         SearchScreen.origin().perform(click())
@@ -41,8 +42,8 @@ class FlightSearchTest: NewFlightTestCase() {
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
         SearchScreen.selectDates(startDate, endDate)
-        val expectedStartDate = DateUtils.localDateToMMMd(startDate)
-        val expectedEndDate = DateUtils.localDateToMMMd(endDate)
+        val expectedStartDate = LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
+        val expectedEndDate = LocaleBasedDateFormatUtils.localDateToMMMd(endDate)
         SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate - $expectedEndDate")))
 
         SearchScreen.searchButton().perform(click())
@@ -59,8 +60,8 @@ class FlightSearchTest: NewFlightTestCase() {
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
         SearchScreen.selectDates(startDate, endDate)
-        val expectedStartDate = DateUtils.localDateToMMMd(startDate)
-        val expectedEndDate = DateUtils.localDateToMMMd(endDate)
+        val expectedStartDate = LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
+        val expectedEndDate = LocaleBasedDateFormatUtils.localDateToMMMd(endDate)
         SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate - $expectedEndDate")))
 
         SearchScreen.searchButton().perform(click())
@@ -75,8 +76,8 @@ class FlightSearchTest: NewFlightTestCase() {
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(3)
         SearchScreen.selectDates(startDate, endDate)
-        val expectedStartDate = DateUtils.localDateToMMMd(startDate)
-        val expectedEndDate = DateUtils.localDateToMMMd(endDate)
+        val expectedStartDate = LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
+        val expectedEndDate = LocaleBasedDateFormatUtils.localDateToMMMd(endDate)
         SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate - $expectedEndDate")))
     }
 
@@ -88,7 +89,7 @@ class FlightSearchTest: NewFlightTestCase() {
 
         val startDate = LocalDate.now().plusDays(3)
         FlightsScreen.selectDate(startDate)
-        val expectedStartDate = DateUtils.localDateToMMMd(startDate)
+        val expectedStartDate = LocaleBasedDateFormatUtils.localDateToMMMd(startDate)
         SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate (One Way)")))
 
         SearchScreen.searchButton().perform(click())

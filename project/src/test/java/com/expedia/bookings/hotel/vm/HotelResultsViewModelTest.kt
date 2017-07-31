@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.testutils.JSONResourceReader
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -148,7 +149,7 @@ class HotelResultsViewModelTest {
 
     @Test
     fun subtitleSubjectSet() {
-        val expectedSubtitle = DateUtils.localDateToMMMd(checkInDate) + " - " + DateUtils.localDateToMMMd(checkOutDate) + ", 1 guest"
+        val expectedSubtitle = LocaleBasedDateFormatUtils.localDateToMMMd(checkInDate) + " - " + LocaleBasedDateFormatUtils.localDateToMMMd(checkOutDate) + ", 1 guest"
         val testSubscriber = TestSubscriber<CharSequence>()
         sut.subtitleSubject.subscribe(testSubscriber)
 

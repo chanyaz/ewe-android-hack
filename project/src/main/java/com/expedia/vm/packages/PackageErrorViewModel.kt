@@ -7,6 +7,7 @@ import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
@@ -196,8 +197,8 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
     private fun getToolbarSubtitle(params: PackageSearchParams): String {
         return Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                .put("startdate", DateUtils.localDateToMMMd(params.startDate))
-                .put("enddate", DateUtils.localDateToMMMd(params.endDate))
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
+                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                 .put("guests", StrUtils.formatTravelerString(context, params.guests))
                 .format()
                 .toString()

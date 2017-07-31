@@ -43,6 +43,7 @@ public class AbacusUtils {
 	public static final int EBAndroidPopulateCardholderName = 14525;
 	public static final int EBAndroidAppSecureCheckoutIcon = 14202;
 	public static final int EBAndroidAppFlightFlexEnabled = 15247;
+	public static final int EBAndroidAppLocaleBasedDateFormatting = 15316;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Rail tests
@@ -217,6 +218,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel);
 		testIDs.add(EBAndroidAppPackagesEnableJapanPOS);
 		testIDs.add(EBAndroidAppCarsAATest);
+		testIDs.add(EBAndroidAppLocaleBasedDateFormatting);
 		return testIDs;
 	}
 

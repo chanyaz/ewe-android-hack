@@ -10,6 +10,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
@@ -53,7 +54,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(suggestion)))
                 travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                        .put("date", DateUtils.localDateToMMMd(date))
+                        .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(date))
                         .put("travelers", StrUtils.formatTravelerString(context, guests))
                         .format()
                         .toString())
@@ -62,7 +63,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(suggestion)))
                 if (date != null) {
                     travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                            .put("date", DateUtils.localDateToMMMd(date))
+                            .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(date))
                             .put("travelers", StrUtils.formatTravelerString(context, guests))
                             .format()
                             .toString())
@@ -94,7 +95,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             flightDetailsIconObservable.onNext(true)
             flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             flightTravelInfoColorObservable.onNext(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
-            travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate),
+            travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(localDate),
                     FlightV2Utils.formatTimeShort(context, flight.departureDateTimeISO), StrUtils.formatTravelerString(context, guests)))
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(flight)))

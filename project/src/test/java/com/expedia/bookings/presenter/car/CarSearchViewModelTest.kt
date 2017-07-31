@@ -6,6 +6,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.vm.cars.CarSearchViewModel
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
@@ -118,17 +119,17 @@ class CarSearchViewModelTest {
 
         //when start date is not null and end date is null
         vm.datesUpdated(dateNow.plusDays(3), null)
-        assertEquals(dateInstructionTestSubscriber.onNextEvents[1].toString(), DateUtils.localDateToMMMd(dateNow.plusDays(3))
+        assertEquals(dateInstructionTestSubscriber.onNextEvents[1].toString(), LocaleBasedDateFormatUtils.localDateToMMMd(dateNow.plusDays(3))
                 + " - Select drop-off date")
-        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[1].first, DateUtils.localDateToMMMd(dateNow.plusDays(3)))
+        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[1].first, LocaleBasedDateFormatUtils.localDateToMMMd(dateNow.plusDays(3)))
         assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[1].second, "Next: Select drop-off date")
 
         //when start date and end date are not null
         vm.datesUpdated(dateNow, dateNow.plusDays(3))
-        assertEquals(dateInstructionTestSubscriber.onNextEvents[2].toString(), DateUtils.localDateToMMMd(dateNow)
-                + " - " + DateUtils.localDateToMMMd(dateNow.plusDays(3)))
-        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[2].first, DateUtils.localDateToMMMd(dateNow)
-                + " - " + DateUtils.localDateToMMMd(dateNow.plusDays(3)))
+        assertEquals(dateInstructionTestSubscriber.onNextEvents[2].toString(), LocaleBasedDateFormatUtils.localDateToMMMd(dateNow)
+                + " - " + LocaleBasedDateFormatUtils.localDateToMMMd(dateNow.plusDays(3)))
+        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[2].first, LocaleBasedDateFormatUtils.localDateToMMMd(dateNow)
+                + " - " + LocaleBasedDateFormatUtils.localDateToMMMd(dateNow.plusDays(3)))
         assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[2].second, "Drag to modify")
 
     }

@@ -502,6 +502,15 @@
             android:summary="%s"
             android:title="APIM HMAC authentication - 14654" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="15316"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Locale based date formatting - 15316" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

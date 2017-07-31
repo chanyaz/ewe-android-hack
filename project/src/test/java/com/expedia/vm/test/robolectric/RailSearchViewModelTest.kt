@@ -8,6 +8,7 @@ import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.vm.rail.RailSearchViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
@@ -336,7 +337,7 @@ class RailSearchViewModelTest {
     }
 
     private fun getExpectedStringFormatForDate(date: LocalDate) : String {
-        return DateUtils.localDateToMMMd(date)
+        return LocaleBasedDateFormatUtils.localDateToMMMd(date)
     }
 
     private fun getExpectedStringFormatForDateTime(startDate: LocalDate?, endDate: LocalDate?, forRoundTrip: Boolean) : String {

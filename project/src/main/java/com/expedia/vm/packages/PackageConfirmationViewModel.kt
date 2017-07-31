@@ -12,6 +12,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.RewardsUtil
@@ -84,8 +85,8 @@ class PackageConfirmationViewModel(private val context: Context) {
         val params = Db.getPackageParams()
         val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
         var subtitle = Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                .put("startdate", DateUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkInDate)))
-                .put("enddate", DateUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkOutDate)))
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkInDate)))
+                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkOutDate)))
                 .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format().toString()
 
@@ -96,7 +97,7 @@ class PackageConfirmationViewModel(private val context: Context) {
         val fmt = ISODateTimeFormat.dateTime();
         val localDate = LocalDate.parse(selectedFlight.departureDateTimeISO, fmt)
 
-        return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate),
+        return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(localDate),
                 FlightV2Utils.formatTimeShort(context, selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
     }
 

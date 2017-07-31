@@ -24,7 +24,7 @@ import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -464,8 +464,8 @@ public class PackageScreen {
 	}
 
 	public static String getDatesGuestInfoText(LocalDate startDate, LocalDate endDate) {
-		StringBuilder sb = new StringBuilder(DateUtils.localDateToMMMd(startDate));
-		sb.append(" - ").append(DateUtils.localDateToMMMd(endDate));
+		StringBuilder sb = new StringBuilder(LocaleBasedDateFormatUtils.localDateToMMMd(startDate));
+		sb.append(" - ").append(LocaleBasedDateFormatUtils.localDateToMMMd(endDate));
 		sb.append(", 1 guest");
 		return sb.toString();
 	}

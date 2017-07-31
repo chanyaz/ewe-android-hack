@@ -106,38 +106,10 @@ public class DateUtilsTests {
 	}
 
 	@Test
-	public void testDateTimeToEEEMMMdhmma() {
-		DateTime dateTimeExpected = DateTime.now()
-			.withYear(2015)
-			.withMonthOfYear(1)
-			.withDayOfMonth(31)
-			.withHourOfDay(10)
-			.withMinuteOfHour(0)
-			.withSecondOfMinute(0)
-			.withMillisOfSecond(0);
-
-		String obtained = DateUtils.dateTimeToEEEMMMdhmma(dateTimeExpected);
-
-		assertEquals("Sat, Jan 31 - 10:00 AM", obtained);
-	}
-
-	@Test
-	public void testLocalDateToMMyyyy() {
-		LocalDate localDateExpected = new LocalDate()
-			.withMonthOfYear(5)
-			.withYear(2020)
-			.withDayOfMonth(25);
-		String testString = DateUtils.localDateToMMyyyy(localDateExpected);
-
-		assertEquals("05 / 2020", testString);
-	}
-
-	@Test
 	public void testParseDurationFromISOFormat() {
 		String date = "PT2H20M";
 		Period period = DateUtils.parseDurationFromISOFormat(date);
 		assertEquals(2, period.getHours());
 		assertEquals(20, period.getMinutes());
 	}
-
 }

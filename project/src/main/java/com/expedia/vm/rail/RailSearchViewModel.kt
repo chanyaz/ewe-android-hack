@@ -8,6 +8,7 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.endlessObserver
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
@@ -162,7 +163,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         if (start == null && end == null) {
             return getCalendarDateLabel()
         } else if (end == null && isRoundTripSearchObservable.value) {
-            return Phrase.from(context.resources, R.string.select_return_date_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).format().toString()
+            return Phrase.from(context.resources, R.string.select_return_date_TEMPLATE).put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start!!)).format().toString()
         }
         return DateFormatUtils.formatRailDateRange(context, start, end)
     }

@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -46,8 +47,8 @@ class BundleHotelViewModel(val context: Context) {
                 if(Db.getPackageResponse() != null) {
                     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
                     hotelDatesGuestObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                            .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
-                            .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate())))
+                            .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
+                            .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate())))
                             .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
                             .format()
                             .toString())
@@ -95,7 +96,7 @@ class BundleHotelViewModel(val context: Context) {
         if (cancellationDateString != null) {
             val cancellationDate = DateUtils.yyyyMMddHHmmToDateTime(cancellationDateString)
             return Phrase.from(context, R.string.hotel_free_cancellation_TEMPLATE).put("date",
-                    DateUtils.dateTimeToMMMdhmma(cancellationDate))
+                    LocaleBasedDateFormatUtils.dateTimeToMMMdhmma(cancellationDate))
                     .format()
                     .toString()
         } else {

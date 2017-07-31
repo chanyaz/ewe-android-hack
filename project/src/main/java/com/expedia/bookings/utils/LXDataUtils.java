@@ -405,8 +405,8 @@ public class LXDataUtils {
 	public static String getToolbarSearchDateText(Context context, LxSearchParams searchParams, boolean isContDesc) {
 		return Phrase.from(context,
 			isContDesc ? R.string.lx_toolbar_date_range_cont_desc_TEMPLATE : R.string.lx_toolbar_date_range_TEMPLATE)
-			.put("from_date", DateUtils.localDateToMMMd(searchParams.getActivityStartDate()))
-			.put("to_date", DateUtils.localDateToMMMd(searchParams.getActivityEndDate()))
+			.put("from_date", LocaleBasedDateFormatUtils.localDateToMMMd(searchParams.getActivityStartDate()))
+			.put("to_date", LocaleBasedDateFormatUtils.localDateToMMMd(searchParams.getActivityEndDate()))
 			.format().toString();
 	}
 

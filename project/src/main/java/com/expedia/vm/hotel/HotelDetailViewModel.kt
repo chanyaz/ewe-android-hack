@@ -8,6 +8,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelDetailToolbarViewModel
@@ -20,8 +21,8 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
     init {
         paramsSubject.subscribe { params ->
             searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
-                    DateUtils.localDateToMMMd(params.checkIn)).put("enddate",
-                    DateUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests))
+                    LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn)).put("enddate",
+                    LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests))
                     .format()
                     .toString())
 

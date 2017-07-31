@@ -12,6 +12,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
@@ -129,7 +130,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     }
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
-        val selectCheckoutText = context.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+        val selectCheckoutText = context.getString(R.string.select_checkout_date_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(start!!))
         if (forContentDescription) {
             return getDateAccessibilityText(selectCheckoutText, "")
         }

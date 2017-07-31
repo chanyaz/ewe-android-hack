@@ -11,6 +11,7 @@ import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseCreateTripViewModel
@@ -57,8 +58,8 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                     //set the hotel check in, check out dates on checkout overview from create trip response
                     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
                     bundleDatesObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                            .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkInDate)))
-                            .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkOutDate)))
+                            .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkInDate)))
+                            .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkOutDate)))
                             .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
                             .format()
                             .toString())

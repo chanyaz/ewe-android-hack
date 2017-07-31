@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 
@@ -24,8 +25,8 @@ class PackageTotalPriceViewModel(context: Context, isSlidable: Boolean = false) 
             val params = Db.getPackageParams()
             Phrase.from(context, R.string.trip_overview_price_widget_expanded_TEMPLATE)
                     .put("city_name", StrUtils.formatCity(params.destination))
-                    .put("startdate", DateUtils.localDateToMMMd(params.startDate))
-                    .put("enddate", DateUtils.localDateToMMMd(params.endDate))
+                    .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
+                    .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString()
         } else if (pricePerPersonObservable.value != null) {

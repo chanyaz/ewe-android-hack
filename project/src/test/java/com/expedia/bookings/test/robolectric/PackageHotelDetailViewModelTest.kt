@@ -17,6 +17,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
 import org.joda.time.LocalDate
@@ -69,8 +70,8 @@ class PackageHotelDetailViewModelTest {
         testViewModel.paramsSubject.onNext(searchParams)
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-        val dates = DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())) + " - " +
-                DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))
+        val dates = LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())) + " - " +
+                LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))
         assertEquals(dates, testViewModel.searchDatesObservable.value)
         assertEquals("$dates, ${searchParams.guests} guests", testViewModel.searchInfoObservable.value)
     }

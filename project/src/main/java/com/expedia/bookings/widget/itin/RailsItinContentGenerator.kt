@@ -10,6 +10,7 @@ import com.expedia.bookings.bitmaps.IMedia
 import com.expedia.bookings.data.trips.ItinCardDataRails
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import java.util.ArrayList
@@ -75,7 +76,7 @@ class RailsItinContentGenerator(context: Context, val railItinCardData: ItinCard
         }
 
         view.text = Phrase.from(context, R.string.itin_card_rail_summary_TEMPLATE)
-                .put("datetime", DateUtils.dateTimeToEEEMMMdhmma(railItinCardData.startDate)).format()
+                .put("datetime", LocaleBasedDateFormatUtils.dateTimeToEEEMMMdhmma(railItinCardData.startDate)).format()
 
         return view
     }

@@ -18,6 +18,7 @@ import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
@@ -136,7 +137,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     private fun createCancellationTimeString(): String? {
         if (hotelRoomResponse.hasFreeCancellation && hotelRoomResponse.freeCancellationWindowDate != null) {
             val dateTime = DateUtils.yyyyMMddHHmmToDateTime(hotelRoomResponse.freeCancellationWindowDate).toLocalDate()
-            val cancellationDate = DateUtils.localDateToEEEMMMd(dateTime)
+            val cancellationDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(dateTime)
             return Phrase.from(context, R.string.before_TEMPLATE).put("date", cancellationDate).format().toString()
         }
         return null

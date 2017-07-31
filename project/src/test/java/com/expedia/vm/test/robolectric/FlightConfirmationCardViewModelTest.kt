@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.mobiata.android.util.SettingUtils
@@ -43,7 +44,7 @@ class FlightConfirmationCardViewModelTest {
 
     fun formatDate(ISODate: String) : String {
         val outboundLocal = DateTime.parse(ISODate).toLocalDate()
-        val formattedDate = DateUtils.localDateToMMMd(outboundLocal).toString()
+        val formattedDate = LocaleBasedDateFormatUtils.localDateToMMMd(outboundLocal).toString()
         return formattedDate
     }
 

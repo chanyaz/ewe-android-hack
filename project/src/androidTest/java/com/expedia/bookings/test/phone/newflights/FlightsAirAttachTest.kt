@@ -11,6 +11,7 @@ import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import org.hamcrest.Matchers
 import org.joda.time.DateTime
 import org.joda.time.DateTimeFieldType
@@ -80,8 +81,8 @@ class FlightsAirAttachTest : NewFlightTestCase() {
     }
 
     private fun assertValidToolbarInfoForSingleTraveler(testCheckinDate: LocalDate, testCheckoutDate: LocalDate) {
-        val testHotelCheckinDate = DateUtils.localDateToMMMd(testCheckinDate)
-        val testHotelCheckoutDate = DateUtils.localDateToMMMd(testCheckoutDate)
+        val testHotelCheckinDate = LocaleBasedDateFormatUtils.localDateToMMMd(testCheckinDate)
+        val testHotelCheckoutDate = LocaleBasedDateFormatUtils.localDateToMMMd(testCheckoutDate)
 
         Espresso.onView(Matchers.allOf<View>(ViewMatchers.withId(R.id.title),
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.hotel_results_toolbar)),
@@ -99,8 +100,8 @@ class FlightsAirAttachTest : NewFlightTestCase() {
     }
 
     private fun assertValidToolbarInfoForTravelerWithChildren(testCheckinDate: LocalDate, testCheckoutDate: LocalDate) {
-        val testHotelCheckinDate = DateUtils.localDateToMMMd(testCheckinDate)
-        val testHotelCheckoutDate = DateUtils.localDateToMMMd(testCheckoutDate)
+        val testHotelCheckinDate = LocaleBasedDateFormatUtils.localDateToMMMd(testCheckinDate)
+        val testHotelCheckoutDate = LocaleBasedDateFormatUtils.localDateToMMMd(testCheckoutDate)
 
         Espresso.onView(Matchers.allOf<View>(ViewMatchers.withId(R.id.title),
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.hotel_results_toolbar)),
