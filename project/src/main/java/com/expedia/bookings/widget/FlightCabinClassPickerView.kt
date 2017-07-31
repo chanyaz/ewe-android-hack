@@ -41,6 +41,7 @@ class FlightCabinClassPickerView(context: Context, attrs: AttributeSet) : Linear
             FlightServiceClassType.CabinCode.BUSINESS -> return businessClassRadioButton.id
             FlightServiceClassType.CabinCode.PREMIUM_COACH -> return premiumEcoClassRadioButton.id
             FlightServiceClassType.CabinCode.COACH -> return economyClassRadioButton.id
+            else -> throw RuntimeException("Could not find cabinCode : " + cabinCode)
         }
     }
 

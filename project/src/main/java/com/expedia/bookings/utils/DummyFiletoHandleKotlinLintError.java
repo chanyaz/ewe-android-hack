@@ -1213,6 +1213,14 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.find_a_hotel_tonight,
 		R.string.share_flight,
 		R.string.share_flight_status,
+		R.color.flight_cabin_class_text,
+		R.layout.flight_fare_family_item_layout,
+		R.string.cabin_class,
+		R.string.cabin_code_TEMPLATE,
+		R.string.flight_departure_arrival_code_round_trip_TEMPLATE,
+		R.string.flight_departure_arrival_code_one_way_TEMPLATE,
+		R.string.flight_airline_names_delimiter,
+		R.layout.widget_flight_fare_family_details,
 		//Please add your string above this line to avoid conflicts
 		R.string.flights_there_maybe_additional_fee
 		//Please add your string above this line to avoid conflicts

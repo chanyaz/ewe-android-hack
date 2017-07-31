@@ -251,116 +251,113 @@
             "totalFarePriceWithFee": "$696.00"
         }
     ],
-    "fareFamilies": {
-        "productKey": "v5-e99d61864667b307d16d9d991a613bc5-9-1~0.S~AQoCCAESBwjUBBABGAEgByABIAwgDSAJKAJSCb5DAYBMAdZYAQ~AQoiCiAI1YIBEgQxMDI0GIuQASCLuAEostd0MI_YdDhUQABYARIKCAEQARgBKgJVQRgBIgQIARABKAQoAygBKAIwAg",
-        "fareFamilyDetails": [
-            {
-                "fareFamilyName": "BASIC ECONOMY",
-                "fareFamilyCode": "ECOBASIC",
-                "totalPrice": {
-                    "amount": "87.20",
-                    "roundedAmount": "87",
-                    "formattedPrice": "$87.20",
-                    "formattedWholePrice": "$87",
-                    "currencyCode": "USD"
-                },
-                "deltaTotalPrice": {
-                    "amount": "0.00",
-                    "formattedPrice": "+$0.00",
-                    "formattedWholePrice": "+$0.00",
-                    "currencyCode": "USD"
-                },
-                "fareFamilyComponents": {
-                    "BONUS MILES": "Included",
-                    "CHANGEABLE TICKET": "NotAvailable",
-                    "PRIORITY BOARDING": "NotAvailable",
-                    "REFUNDABLE TICKET": "NotAvailable",
-                    "ADVANCED SEAT ASSIGNMENT": "NotAvailable",
-                    "BAGS": "FeeApplies",
-                    "CARRY ON UP TO 45 LI": "NotAvailable",
-                    "EXTRA LEGROOM   ECONOMY PLUS": "NotAvailable"
-                }
-            },
-            {
-                "fareFamilyName": "ECONOMY",
-                "fareFamilyCode": "ECONOMY",
-                "totalPrice": {
-                    "amount": "102.20",
-                    "roundedAmount": "102",
-                    "formattedPrice": "$102.20",
-                    "formattedWholePrice": "$102",
-                    "currencyCode": "USD"
-                },
-                "deltaTotalPrice": {
-                    "amount": "15.00",
-                    "formattedPrice": "+$15.00",
-                    "formattedWholePrice": "+$15.00",
-                    "currencyCode": "USD"
-                },
-                "fareFamilyComponents": {
-                    "BONUS MILES": "Included",
-                    "CHANGEABLE TICKET": "FeeApplies",
-                    "PRIORITY BOARDING": "FeeApplies",
-                    "ADVANCED SEAT ASSIGNMENT": "Included",
-                    "REFUNDABLE TICKET": "FeeApplies",
-                    "BAGS": "FeeApplies",
-                    "CARRY ON UP TO 45 LI": "Included",
-                    "EXTRA LEGROOM   ECONOMY PLUS": "FeeApplies"
-                }
-            },
-            {
-                "fareFamilyName": "ECONOMY FLEXIBLE",
-                "fareFamilyCode": "ECOFLEX",
-                "totalPrice": {
-                    "amount": "152.20",
-                    "roundedAmount": "152",
-                    "formattedPrice": "$152.20",
-                    "formattedWholePrice": "$152",
-                    "currencyCode": "USD"
-                },
-                "deltaTotalPrice": {
-                    "amount": "65.00",
-                    "formattedPrice": "+$65.00",
-                    "formattedWholePrice": "+$65.00",
-                    "currencyCode": "USD"
-                },
-                "fareFamilyComponents": {
-                    "CHANGEABLE TICKET": "Included",
-                    "BONUS MILES": "Included",
-                    "PRIORITY BOARDING": "FeeApplies",
-                    "REFUNDABLE TICKET": "Included",
-                    "ADVANCED SEAT ASSIGNMENT": "Included",
-                    "BAGS": "FeeApplies",
-                    "CARRY ON UP TO 45 LI": "Included",
-                    "EXTRA LEGROOM   ECONOMY PLUS": "FeeApplies"
-                }
-            },
-            {
-                "fareFamilyName": "FIRST OR BUSINESS",
-                "fareFamilyCode": "PREMIUM",
-                "totalPrice": {
-                    "amount": "227.20",
-                    "roundedAmount": "227",
-                    "formattedPrice": "$227.20",
-                    "formattedWholePrice": "$227",
-                    "currencyCode": "USD"
-                },
-                "deltaTotalPrice": {
-                    "amount": "140.00",
-                    "formattedPrice": "+$140.00",
-                    "formattedWholePrice": "+$140.00",
-                    "currencyCode": "USD"
-                },
-                "fareFamilyComponents": {
-                    "BONUS MILES": "Included",
-                    "CHANGEABLE TICKET": "FeeApplies",
-                    "PRIORITY BOARDING": "Included",
-                    "ADVANCED SEAT ASSIGNMENT": "Included",
-                    "CARRY ON UP TO 45 LI": "Included",
-                    "TWOLUGGAGE": "Included"
-                }
-            }
-        ]
-    },
-    "createTripStatus": "SUCCESS"
+  "fareFamilies": {
+    "productKey": "v5-9bae5f63484edde98f7d10af0bc7451c-1-5-1",
+    "fareFamilyDetails": [
+      {
+        "fareFamilyName": "ECONOMY",
+        "fareFamilyCode": "ECONOMY",
+        "cabinClass": "coach",
+        "totalPrice": {
+          "amount": "646.40",
+          "roundedAmount": "646",
+          "formattedPrice": "$646.40",
+          "formattedWholePrice": "$646",
+          "currencyCode": "USD"
+        },
+        "deltaTotalPrice": {
+          "amount": "0.00",
+          "formattedPrice": "+$0.00",
+          "formattedWholePrice": "+$0.00",
+          "currencyCode": "USD"
+        },
+        "fareFamilyComponents": {
+          "NotAvailable": {},
+          "Unknown": {},
+          "Included": {
+            "SeatReservation": "Seat Choice",
+            "CarryOnBag": "Carry On Bag",
+            "BonusMiles": "Bonus Miles"
+          },
+          "FeeApplies": {
+            "RefundBeforeDeparture": "Cancellation",
+            "Bags": "Checked Bags",
+            "ExtraLegroom": "Premium Seat",
+            "PriorityBoarding": "Priority Boarding",
+            "ChangesBeforeDeparture": "Changes"
+          }
+        },
+        "deltaPositive": true
+      },
+      {
+        "fareFamilyName": "FIRST OR BUSINESS",
+        "fareFamilyCode": "PREMIUM",
+        "cabinClass": "first",
+        "totalPrice": {
+          "amount": "1476.40",
+          "roundedAmount": "1476",
+          "formattedPrice": "$1,476.40",
+          "formattedWholePrice": "$1,476",
+          "currencyCode": "USD"
+        },
+        "deltaTotalPrice": {
+          "amount": "830.00",
+          "formattedPrice": "+$830.00",
+          "formattedWholePrice": "+$830.00",
+          "currencyCode": "USD"
+        },
+        "fareFamilyComponents": {
+          "NotAvailable": {},
+          "Unknown": {},
+          "Included": {
+            "SeatReservation": "Seat Choice",
+            "PriorityBoarding": "Priority Boarding",
+            "CarryOnBag": "Carry On Bag",
+            "TwoLuggage": "2 x Free Bags",
+            "BonusMiles": "Bonus Miles"
+          },
+          "FeeApplies": {
+            "ChangesBeforeDeparture": "Changes"
+          }
+        },
+        "deltaPositive": false
+      },
+      {
+        "fareFamilyName": "ECONOMY FLEXIBLE",
+        "fareFamilyCode": "ECOFLEX",
+        "cabinClass": "coach",
+        "totalPrice": {
+          "amount": "2558.40",
+          "roundedAmount": "2558",
+          "formattedPrice": "$2,558.40",
+          "formattedWholePrice": "$2,558",
+          "currencyCode": "USD"
+        },
+        "deltaTotalPrice": {
+          "amount": "1912.00",
+          "formattedPrice": "+$1,912.00",
+          "formattedWholePrice": "+$1,912.00",
+          "currencyCode": "USD"
+        },
+        "fareFamilyComponents": {
+          "NotAvailable": {},
+          "Unknown": {},
+          "Included": {
+            "SeatReservation": "Seat Choice",
+            "RefundBeforeDeparture": "Cancellation",
+            "CarryOnBag": "Carry On Bag",
+            "ChangesBeforeDeparture": "Changes",
+            "BonusMiles": "Bonus Miles"
+          },
+          "FeeApplies": {
+            "Bags": "Checked Bags",
+            "ExtraLegroom": "Premium Seat",
+            "PriorityBoarding": "Priority Boarding"
+          }
+        },
+        "deltaPositive": true
+      }
+    ]
+  },
+  "createTripStatus": "SUCCESS"
 }
