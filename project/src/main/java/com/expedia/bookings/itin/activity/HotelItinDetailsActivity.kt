@@ -82,7 +82,7 @@ open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
     }
 
     override fun updateItinCardDataHotel() {
-        val freshItinCardDataHotel: ItinCardDataHotel? = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA)) as ItinCardDataHotel
+        val freshItinCardDataHotel = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA)) as ItinCardDataHotel?
         if (freshItinCardDataHotel == null) {
             finish()
         } else {
