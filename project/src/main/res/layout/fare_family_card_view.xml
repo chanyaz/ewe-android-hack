@@ -55,4 +55,5 @@
             android:layout_alignBaseline="@+id/selected_classes"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
+
 </merge>

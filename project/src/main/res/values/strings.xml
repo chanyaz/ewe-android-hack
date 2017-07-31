@@ -787,6 +787,24 @@
     <!-- "Done" list header label -->
     <string name="Done">Done</string>
 
+    <!-- Cabin Class label -->
+    <string name="cabin_class">Cabin Class</string>
+
+    <!-- Cabin Class label -->
+    <string name="cabin_code">Cabin: {cabincode}</string>
+
+    <!-- Flights Roundtrip label -->
+    <string name="roundtrip">roundtrip</string>
+
+    <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
+    <string name="flight_departure_arrival_code_round_trip">{departure_code} - {arrival_code} - {departure_code}</string>
+
+    <!-- Flight fare family departure arrival code for one way trip. for example: DEL - SFO -->
+    <string name="flight_departure_arrival_code_one_way">{departure_code} - {arrival_code}</string>
+
+    <!-- Flight airling names -->
+    <string name="flight_airline_names_delimiter">,\u0020</string>
+
     <!-- Label indicating the direction of the rails is outbond-->
     <string name="select_outbound">Select outbound</string>
     <!-- Label indicating the direction of the rails is inbond-->
@@ -1880,6 +1898,9 @@
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">First Class</string>
+
+    <!-- Label for "mixed" cabin code -->
+    <string name="cabin_code_mixed">Mixed</string>
     <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
     <string name="flight_cabin_mixed_classes">Mixed classes</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->

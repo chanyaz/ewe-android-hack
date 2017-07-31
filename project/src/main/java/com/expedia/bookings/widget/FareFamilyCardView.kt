@@ -4,13 +4,16 @@ import android.content.Context
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FareFamilyViewModel
+import com.expedia.vm.flights.FlightFareFamilyViewModel
 
 
 class FareFamilyCardView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {

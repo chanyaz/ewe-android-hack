@@ -10,6 +10,7 @@ abstract class FlightTripResponse : TripResponse() {
     var selectedCardFees: Money? = null
     var fareFamilies: FareFamilies? = null
     var createTripStatus: String? = null
+    var isFareFamilyUpgraded : Boolean = false
 
     fun getSelectedInsuranceProduct() : InsuranceProduct? = getOffer().selectedInsuranceProduct
 
@@ -32,8 +33,9 @@ abstract class FlightTripResponse : TripResponse() {
     class FareFamilyDetails {
         lateinit var fareFamilyName: String
         lateinit var fareFamilyCode: String
+        lateinit var cabinClass: String
         lateinit var totalPrice: Money
         lateinit var deltaTotalPrice: Money
-        lateinit var fareFamilyComponents: HashMap<String, String>
+        lateinit var fareFamilyComponents: HashMap<String, HashMap<String, String>>
     }
 }

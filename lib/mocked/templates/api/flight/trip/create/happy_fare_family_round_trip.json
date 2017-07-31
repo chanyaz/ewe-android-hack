@@ -257,6 +257,7 @@
             {
                 "fareFamilyName": "BASIC ECONOMY",
                 "fareFamilyCode": "ECOBASIC",
+                "cabinClass": "COACH",
                 "totalPrice": {
                     "amount": "87.20",
                     "roundedAmount": "87",
@@ -271,19 +272,28 @@
                     "currencyCode": "USD"
                 },
                 "fareFamilyComponents": {
-                    "BONUS MILES": "Included",
-                    "CHANGEABLE TICKET": "NotAvailable",
-                    "PRIORITY BOARDING": "NotAvailable",
-                    "REFUNDABLE TICKET": "NotAvailable",
-                    "ADVANCED SEAT ASSIGNMENT": "NotAvailable",
-                    "BAGS": "FeeApplies",
-                    "CARRY ON UP TO 45 LI": "NotAvailable",
-                    "EXTRA LEGROOM   ECONOMY PLUS": "NotAvailable"
+                    "Included":{
+                        "OneLuggage": "1 x Free Bag",
+                        "PriorityCheckin": "Priority Check In"
+                    },
+                    "NotAvailable":{
+                        "LoungeAccess": "Lounge Access",
+                        "MilesEarned": "Miles Earned"
+                    },
+                    "Unknown":{
+                        "TwoThousandBonusMiles": "2000 Bonus Miles",
+                        "WaitingArea": "Exclusive Waiting Area"
+                    },
+                    "FeeApplies":{
+                        "TwoThousandBonusMiles": "2000 Bonus Miles",
+                        "WaitingArea": "Exclusive Waiting Area"
+                    }
                 }
             },
             {
                 "fareFamilyName": "ECONOMY",
                 "fareFamilyCode": "ECONOMY",
+                "cabinClass": "PREMIUM COACH",
                 "totalPrice": {
                     "amount": "102.20",
                     "roundedAmount": "102",
@@ -298,19 +308,28 @@
                     "currencyCode": "USD"
                 },
                 "fareFamilyComponents": {
-                    "BONUS MILES": "Included",
-                    "CHANGEABLE TICKET": "FeeApplies",
-                    "PRIORITY BOARDING": "FeeApplies",
-                    "ADVANCED SEAT ASSIGNMENT": "Included",
-                    "REFUNDABLE TICKET": "FeeApplies",
-                    "BAGS": "FeeApplies",
-                    "CARRY ON UP TO 45 LI": "Included",
-                    "EXTRA LEGROOM   ECONOMY PLUS": "FeeApplies"
+                    "Included":{
+                        "OneLuggage": "1 x Free Bag",
+                        "PriorityCheckin": "Priority Check In"
+                    },
+                    "NotAvailable":{
+                        "LoungeAccess": "Lounge Access",
+                        "MilesEarned": "Miles Earned"
+                    },
+                    "Unknown":{
+                        "TwoThousandBonusMiles": "2000 Bonus Miles",
+                        "WaitingArea": "Exclusive Waiting Area"
+                    },
+                    "FeeApplies":{
+                        "TwoThousandBonusMiles": "2000 Bonus Miles",
+                        "WaitingArea": "Exclusive Waiting Area"
+                    }
                 }
             },
             {
                 "fareFamilyName": "ECONOMY FLEXIBLE",
                 "fareFamilyCode": "ECOFLEX",
+                "cabinClass": "BUSINESS",
                 "totalPrice": {
                     "amount": "152.20",
                     "roundedAmount": "152",
@@ -325,19 +344,28 @@
                     "currencyCode": "USD"
                 },
                 "fareFamilyComponents": {
-                    "CHANGEABLE TICKET": "Included",
-                    "BONUS MILES": "Included",
-                    "PRIORITY BOARDING": "FeeApplies",
-                    "REFUNDABLE TICKET": "Included",
-                    "ADVANCED SEAT ASSIGNMENT": "Included",
-                    "BAGS": "FeeApplies",
-                    "CARRY ON UP TO 45 LI": "Included",
-                    "EXTRA LEGROOM   ECONOMY PLUS": "FeeApplies"
+                    "Included":{
+                        "OneLuggage": "1 x Free Bag",
+                        "PriorityCheckin": "Priority Check In"
+                    },
+                    "NotAvailable":{
+                        "LoungeAccess": "Lounge Access",
+                        "MilesEarned": "Miles Earned"
+                    },
+                    "Unknown":{
+                        "TwoThousandBonusMiles": "2000 Bonus Miles",
+                        "WaitingArea": "Exclusive Waiting Area"
+                    },
+                    "FeeApplies":{
+                        "TwoThousandBonusMiles": "2000 Bonus Miles",
+                        "WaitingArea": "Exclusive Waiting Area"
+                    }
                 }
             },
             {
                 "fareFamilyName": "FIRST OR BUSINESS",
                 "fareFamilyCode": "PREMIUM",
+                "cabinClass": "MIXED",
                 "totalPrice": {
                     "amount": "227.20",
                     "roundedAmount": "227",
@@ -352,12 +380,22 @@
                     "currencyCode": "USD"
                 },
                 "fareFamilyComponents": {
-                    "BONUS MILES": "Included",
-                    "CHANGEABLE TICKET": "FeeApplies",
-                    "PRIORITY BOARDING": "Included",
-                    "ADVANCED SEAT ASSIGNMENT": "Included",
-                    "CARRY ON UP TO 45 LI": "Included",
-                    "TWOLUGGAGE": "Included"
+                    "Included":{
+                        "OneLuggage": "1 x Free Bag",
+                        "PriorityCheckin": "Priority Check In"
+                    },
+                    "NotAvailable":{
+                        "LoungeAccess": "Lounge Access",
+                        "MilesEarned": "Miles Earned"
+                    },
+                    "Unknown":{
+                        "TwoThousandBonusMiles": "2000 Bonus Miles",
+                        "WaitingArea": "Exclusive Waiting Area"
+                    },
+                    "FeeApplies":{
+                        "TwoThousandBonusMiles": "2000 Bonus Miles",
+                        "WaitingArea": "Exclusive Waiting Area"
+                    }
                 }
             }
         ]

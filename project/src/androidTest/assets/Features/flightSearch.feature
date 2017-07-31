@@ -1,6 +1,6 @@
 Feature: Flights Search
 
-  @Flights @FlightSearch @Prod
+  @Flights @FlightSearch @Prod @WIP
   Scenario: Verifying if round trip International search works
 
     Given I launch the App

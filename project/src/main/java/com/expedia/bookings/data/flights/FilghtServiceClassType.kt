@@ -11,7 +11,8 @@ object FlightServiceClassType {
         COACH(R.string.cabin_code_coach,"E"),
         PREMIUM_COACH(R.string.cabin_code_premium_coach, "P"),
         BUSINESS(R.string.cabin_code_business, "B"),
-        FIRST(R.string.cabin_code_first, "F")
+        FIRST(R.string.cabin_code_first, "F"),
+        MIXED(R.string.cabin_code_mixed, "M")
     }
 
     fun getCabinCodeResourceId(seatClass: String): Int {
@@ -20,6 +21,7 @@ object FlightServiceClassType {
             "premium coach" -> return CabinCode.PREMIUM_COACH.resId
             "business" -> return CabinCode.BUSINESS.resId
             "first" -> return CabinCode.FIRST.resId
+            "mixed" -> return CabinCode.MIXED.resId
             else -> throw RuntimeException("Ran into unknown cabin code: " + seatClass)
         }
     }

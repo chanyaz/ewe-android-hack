@@ -13,6 +13,7 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
+import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
 import com.expedia.bookings.services.InsuranceServices
@@ -24,6 +25,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FareFamilyCardView
 import com.expedia.bookings.widget.InsuranceWidget
+import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
 import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
@@ -32,6 +34,7 @@ import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
+import com.expedia.vm.flights.FlightFareFamilyViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
@@ -50,12 +53,26 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
     val overviewPageUsableData = PageUsableData()
+    val isUserBucketedForFareFamily = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFareFamilyFlightSummary,
+            R.string.preference_fare_family_flight_summary)
+
 
     private val basicEconomyInfoWebView: BasicEconomyInfoWebView by lazy {
         val viewStub = findViewById(R.id.basic_economy_info_web_view) as ViewStub
         val basicEconomyInfoView = viewStub.inflate() as BasicEconomyInfoWebView
         basicEconomyInfoView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         basicEconomyInfoView
+    }
+
+    val flightFareFamilyDetailsWidget: FlightFareFamilyWidget by lazy {
+        val viewStub = findViewById(R.id.fare_family_details_view) as ViewStub
+        val flightFareFamilyView = viewStub.inflate() as FlightFareFamilyWidget
+        flightFareFamilyView.viewModel = FlightFareFamilyViewModel(context)
+        flightFareFamilyView.doneButton.setOnClickListener {
+            flightFareFamilyView.viewModel.doneButtonObservable.onNext(Unit)
+            super.back()
+        }
+        flightFareFamilyView
     }
 
     init {
@@ -84,6 +101,11 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     val fareFamilyCardView: FareFamilyCardView by lazy {
         val widget = findViewById(R.id.fare_family_widget) as FareFamilyCardView
         widget.viewModel = FareFamilyViewModel(context)
+        widget.setOnClickListener {
+            flightFareFamilyDetailsWidget.viewModel.clickObservable.onNext(Unit)
+            show(flightFareFamilyDetailsWidget)
+
+        }
         widget
     }
 
@@ -121,6 +143,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             }
         }
         addTransition(overviewToBasicEconomyInfoWebView)
+        addTransition(overviewToFamilyFare)
         if (isBucketedForShowMoreDetailsOnOverview) {
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.subTitleText.filter { Strings.isNotEmpty(it) }.subscribe {
                 bundleOverviewHeader.checkoutOverviewHeaderToolbar.checkInOutDates.text = it
@@ -141,6 +164,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             basicEconomyInfoWebView.visibility = if (forward) View.VISIBLE else View.GONE
+        }
+    }
+
+    val overviewToFamilyFare = object : VisibilityTransition(this, BaseTwoScreenOverviewPresenter.BundleDefault::class.java, FlightFareFamilyWidget::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            flightFareFamilyDetailsWidget.visibility = if (forward) View.VISIBLE else View.GONE
         }
     }
 
@@ -182,7 +212,10 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
         insuranceWidget.viewModel.tripObservable.onNext(tripResponse)
-        fareFamilyCardView.viewModel.tripObservable.onNext(tripResponse)
+        if (isUserBucketedForFareFamily) {
+            fareFamilyCardView.viewModel.tripObservable.onNext(tripResponse)
+            flightFareFamilyDetailsWidget.viewModel.tripObservable.onNext(tripResponse)
+        }
         viewModel.showBasicEconomyMessageObservable.onNext(shouldShowBasicEconomyMessage(tripResponse))
         basicEconomyInfoWebView.loadData(tripResponse.details.basicEconomyFareRules)
         overviewPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
