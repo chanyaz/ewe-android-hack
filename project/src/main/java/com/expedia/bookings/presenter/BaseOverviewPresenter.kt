@@ -38,9 +38,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     init {
         inflate()
-        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
-            resetCheckoutState()
-        }
+//        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
+//            resetCheckoutState()
+//        }
         checkoutPresenter.getCheckoutViewModel().checkoutPriceChangeObservable.subscribe {
             resetCheckoutState()
             if (currentState == CVVEntryWidget::class.java.name) {

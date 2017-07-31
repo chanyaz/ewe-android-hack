@@ -7,6 +7,8 @@ import rx.subjects.PublishSubject
 
 open class BaseCreateTripViewModel() {
     val performCreateTrip = PublishSubject.create<Unit>()
+    val webCreateTripResponseObservable: BehaviorSubject<TripResponse?> = BehaviorSubject.create<TripResponse?>()
+
     val createTripResponseObservable: BehaviorSubject<TripResponse?> = BehaviorSubject.create<TripResponse?>()
     val bundleDatesObservable = BehaviorSubject.create<String>()
     val showCreateTripDialogObservable = PublishSubject.create<Boolean>()

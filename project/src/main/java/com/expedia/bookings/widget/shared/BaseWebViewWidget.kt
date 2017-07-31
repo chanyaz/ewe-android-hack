@@ -35,8 +35,8 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
 
         override fun onPageFinished(view: WebView, url: String) {
-            preventLoadingOfDivClass(HEADER_CLASS)
-            preventLoadingOfDivClass(FACEBOOK_LOGIN_CLASS)
+//            preventLoadingOfDivClass(HEADER_CLASS)
+//            preventLoadingOfDivClass(FACEBOOK_LOGIN_CLASS)
             toggleLoading(false)
         }
 

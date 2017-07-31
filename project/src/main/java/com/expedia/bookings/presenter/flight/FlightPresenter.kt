@@ -15,6 +15,7 @@ import com.expedia.bookings.data.*
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
@@ -132,10 +133,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     private val detailsToWebCheckoutView = object : LeftToRightTransition(this, FlightOverviewPresenter::class.java, WebCheckoutView::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-                flightOverviewPresenter.visibility =             if (forward) View.GONE else View.VISIBLE
-            webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
-            webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
-            AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+            if(forward) {
+                flightOverviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+                webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
+                webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+            }
         }
     }
 
@@ -307,17 +310,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
-        createTripViewModel.createTripResponseObservable.safeSubscribe { trip ->
-            trip!!
-
+        createTripViewModel.webCreateTripResponseObservable.safeSubscribe {
+            it as FlightCreateTripResponse
             show(webCheckoutView)
+            webCheckoutView.viewModel.webViewURLObservable.onNext("https://www.expedia.com/FlightCheckout?tripId=${it.newTrip!!.tripId}")
 
 
 //            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
 //            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
         }
-        createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
-        createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
+//        createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
+//        createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
         createTripViewModel.noNetworkObservable.subscribe {
             show(inboundPresenter, FLAG_CLEAR_TOP)
         }

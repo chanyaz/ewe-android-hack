@@ -43,7 +43,8 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
                 else {
                     Db.getTripBucket().clearFlight()
                     Db.getTripBucket().add(TripBucketItemFlightV2(response))
-                    createTripResponseObservable.onNext(response)
+                    webCreateTripResponseObservable.onNext(response)
+//                    createTripResponseObservable.onNext(response)
                 }
             }
 
