@@ -70,7 +70,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
             webView.clearHistory()
             clearHistory = false
         }
-        if (url.equals("about:blank")) {
+        if (url.contains("about:blank")) {
             viewModel.blankViewObservable.onNext(Unit)
         }
     }
