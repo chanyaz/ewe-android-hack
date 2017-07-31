@@ -2,9 +2,9 @@ package com.expedia.vm.traveler
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.extensions.isFlightTravelerRevamped
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.utils.DateFormatUtils
@@ -14,7 +14,7 @@ import com.expedia.util.endlessObserver
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 
-class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseTravelerValidatorViewModel() {
+class DateOfBirthViewModel(var traveler: Traveler, val context: Context, val lob: LineOfBusiness) : BaseTravelerValidatorViewModel() {
 
     val travelerValidator: TravelerValidator by lazy {
         val validator = Ui.getApplication(context).travelerComponent().travelerValidator()
@@ -61,19 +61,19 @@ class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseT
         }
 
         val category = traveler.passengerCategory
-        val isBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+        val isFlightsBucketed = lob.isFlightTravelerRevamped()
         val errorString = when (category) {
             PassengerCategory.INFANT_IN_LAP,
             PassengerCategory.INFANT_IN_SEAT -> context.getString(R.string.traveler_infant_error)
             PassengerCategory.CHILD -> {
-                if (isBucketed) {
+                if (isFlightsBucketed) {
                     context.getString(R.string.traveler_child_error_message)
                 } else {
                     context.getString(R.string.traveler_child_error)
                 }
             }
             PassengerCategory.ADULT_CHILD -> {
-                if (isBucketed) {
+                if (isFlightsBucketed) {
                     context.getString(R.string.traveler_youth_error_message)
                 } else {
                     context.getString(R.string.traveler_adult_child_error)

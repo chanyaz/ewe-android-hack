@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -79,7 +80,7 @@ class TravelerSelectItemViewModelTest {
 
     @Test
     fun testAdultTitle() {
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
 
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
@@ -91,7 +92,7 @@ class TravelerSelectItemViewModelTest {
 
     @Test
     fun testChildTitle() {
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, 5)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, 5, PassengerCategory.CHILD, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
 
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
@@ -100,7 +101,7 @@ class TravelerSelectItemViewModelTest {
         assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
 
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, 1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, 1, PassengerCategory.CHILD, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false)
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitleInfant, selectVM.titleObservable.value)
@@ -108,7 +109,7 @@ class TravelerSelectItemViewModelTest {
         assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
 
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, 1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, 1, PassengerCategory.CHILD, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
 
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
@@ -121,7 +122,7 @@ class TravelerSelectItemViewModelTest {
     @Test
     fun testBucketedYouthTitle() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-        updateTravelerAndViewModel(Traveler(), PassengerCategory.ADULT_CHILD, 14)
+        updateTravelerAndViewModel(Traveler(), PassengerCategory.ADULT_CHILD, 14, LineOfBusiness.FLIGHTS_V2)
         expectedEmptyTitle = getExpectedEmptyTitle(PassengerCategory.ADULT_CHILD)
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
@@ -131,7 +132,7 @@ class TravelerSelectItemViewModelTest {
     @Test
     fun testBucketedAdultTitle() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-        updateTravelerAndViewModel(Traveler(), PassengerCategory.ADULT, 40)
+        updateTravelerAndViewModel(Traveler(), PassengerCategory.ADULT, 40, LineOfBusiness.FLIGHTS_V2)
         expectedEmptyTitle = getExpectedEmptyTitle(PassengerCategory.ADULT)
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
@@ -141,7 +142,7 @@ class TravelerSelectItemViewModelTest {
     @Test
     fun testBucketedInfantTitle() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-        updateTravelerAndViewModel(Traveler(), PassengerCategory.INFANT_IN_SEAT, 1)
+        updateTravelerAndViewModel(Traveler(), PassengerCategory.INFANT_IN_SEAT, 1, LineOfBusiness.FLIGHTS_V2)
         expectedEmptyTitle = getExpectedEmptyTitle(PassengerCategory.INFANT_IN_SEAT)
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
@@ -151,7 +152,7 @@ class TravelerSelectItemViewModelTest {
     @Test
     fun testBucketedChildTitle() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-        updateTravelerAndViewModel(Traveler(), PassengerCategory.CHILD, 5)
+        updateTravelerAndViewModel(Traveler(), PassengerCategory.CHILD, 5, LineOfBusiness.FLIGHTS_V2)
         expectedEmptyTitle = getExpectedEmptyTitle(PassengerCategory.CHILD)
 
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
@@ -160,7 +161,7 @@ class TravelerSelectItemViewModelTest {
 
     @Test
     fun testUpdateStatusDirtyEmptyTraveler() {
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
@@ -177,7 +178,7 @@ class TravelerSelectItemViewModelTest {
         travelerWithName.middleName = mockTravelerProvider.testMiddleName
         travelerWithName.lastName = mockTravelerProvider.testLastName
 
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = travelerWithName
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -195,7 +196,7 @@ class TravelerSelectItemViewModelTest {
         val travelerWithPhone= Traveler()
         travelerWithPhone.phoneNumber = mockTravelerProvider.testNumber
 
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = travelerWithPhone
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -214,7 +215,7 @@ class TravelerSelectItemViewModelTest {
         traveler.fullName = mockTravelerProvider.testFullName
         traveler.phoneNumber = mockTravelerProvider.testNumber
 
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = traveler
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -228,7 +229,7 @@ class TravelerSelectItemViewModelTest {
 
     @Test
     fun testUpdateStatusDirtyValidTraveler() {
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
         Mockito.`when`((selectVM.testTraveler as Traveler).fullNameBasedOnPos)
@@ -245,7 +246,7 @@ class TravelerSelectItemViewModelTest {
 
     @Test
     fun testUpdateStatusDirtyValidTravelerNeedingPassport() {
-        val selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        val selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(true) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
         Mockito.`when`((selectVM.testTraveler as Traveler).fullNameBasedOnPos)
@@ -268,7 +269,7 @@ class TravelerSelectItemViewModelTest {
         traveler.phoneNumber = mockTravelerProvider.testNumber
         traveler.gender = mockTravelerProvider.testGender
 
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = traveler
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -287,7 +288,7 @@ class TravelerSelectItemViewModelTest {
         traveler.phoneNumber = mockTravelerProvider.testNumber
         traveler.gender = mockTravelerProvider.testGender
 
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = traveler
         selectVM.travelerValidator.updateForNewSearch(testParams)
@@ -302,7 +303,7 @@ class TravelerSelectItemViewModelTest {
 
     @Test
     fun testUpdateStatusNeedsPassportDirtyBooking() {
-        val selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        val selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(true) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
         Mockito.`when`((selectVM.testTraveler as Traveler).fullNameBasedOnPos)
@@ -319,7 +320,7 @@ class TravelerSelectItemViewModelTest {
 
     @Test
     fun testUpdateStatusNoPhoneAddTravelers() {
-        selectVM = TestTravelerSelectItemViewModel(activity, testAddTravelerIndex, -1)
+        selectVM = TestTravelerSelectItemViewModel(activity, testAddTravelerIndex, -1, PassengerCategory.ADULT, LineOfBusiness.PACKAGES)
         selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTravelerWithoutPhone()
         Mockito.`when`((selectVM.testTraveler as Traveler).fullNameBasedOnPos)
@@ -344,12 +345,12 @@ class TravelerSelectItemViewModelTest {
         return packageParams
     }
 
-    private fun updateTravelerAndViewModel(traveler: Traveler, category: PassengerCategory, age: Int) {
+    private fun updateTravelerAndViewModel(traveler: Traveler, category: PassengerCategory, age: Int, lob: LineOfBusiness) {
         traveler.passengerCategory = category
         traveler.birthDate = LocalDate.now().plusYears(age)
         traveler.age = age
 
-        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, age, category)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, age, category, lob)
         selectVM.passportRequired.onNext(false)
         selectVM.testTraveler = traveler
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -363,7 +364,8 @@ class TravelerSelectItemViewModelTest {
                 .format().toString()
     }
 
-    class TestTravelerSelectItemViewModel(context: Context, index: Int, age: Int, category: PassengerCategory = PassengerCategory.ADULT) : TravelerSelectItemViewModel(context, index, age, category) {
+    class TestTravelerSelectItemViewModel(context: Context, index: Int, age: Int, category: PassengerCategory, lob: LineOfBusiness)
+        : TravelerSelectItemViewModel(context, index, age, category, lob) {
         var testTraveler:Traveler? = null
 
         override fun getTraveler(): Traveler {

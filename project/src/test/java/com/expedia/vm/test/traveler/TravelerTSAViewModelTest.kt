@@ -2,6 +2,7 @@ package com.expedia.vm.test.traveler
 
 import android.app.Activity
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -58,7 +59,7 @@ class TravelerTSAViewModelTest {
 
     @Test
     fun testDefaultDate() {
-        tsaVM = TravelerTSAViewModel(traveler, activity)
+        tsaVM = TravelerTSAViewModel(traveler, activity, LineOfBusiness.PACKAGES)
 
         assertEquals(EXPECTED_DEFAULT_DATE.dayOfMonth, tsaVM.dateOfBirthViewModel.defaultDateSubject.value.dayOfMonth)
         assertEquals(EXPECTED_DEFAULT_DATE.year, tsaVM.dateOfBirthViewModel.defaultDateSubject.value.year)
@@ -67,7 +68,7 @@ class TravelerTSAViewModelTest {
 
     @Test
     fun testUpdateTravelerGenderErrorReset() {
-        tsaVM = TravelerTSAViewModel(traveler, activity)
+        tsaVM = TravelerTSAViewModel(traveler, activity, LineOfBusiness.PACKAGES)
         val testSubscriber = TestSubscriber<Boolean>(1)
         tsaVM.genderViewModel.errorSubject.subscribe(testSubscriber)
         tsaVM.genderViewModel.errorSubject.onNext(true)
@@ -81,7 +82,7 @@ class TravelerTSAViewModelTest {
     fun testBirthDatePrePopulated() {
         travelerValidator.updateForNewSearch(getTestParams())
         traveler.birthDate = TEST_BIRTH_DATE
-        tsaVM = TravelerTSAViewModel(traveler, activity)
+        tsaVM = TravelerTSAViewModel(traveler, activity, LineOfBusiness.PACKAGES)
 
         val testSubscriber = TestSubscriber<LocalDate>(1)
         tsaVM.dateOfBirthViewModel.birthDateSubject.subscribe(testSubscriber)
@@ -119,8 +120,7 @@ class TravelerTSAViewModelTest {
 
     @Test
     fun testBucketedChildBirthDateError() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-        setupDefaultTestModel()
+        setupBucketedTestModel()
         tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
         tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
 
@@ -146,8 +146,7 @@ class TravelerTSAViewModelTest {
 
     @Test
     fun testBucketedYouthBirthDateError() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-        setupDefaultTestModel()
+        setupBucketedTestModel()
         tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
         tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
 
@@ -185,7 +184,7 @@ class TravelerTSAViewModelTest {
     @Test
     fun testGenderPrePopulated() {
         traveler.gender = TEST_GENDER
-        tsaVM = TravelerTSAViewModel(traveler, activity)
+        tsaVM = TravelerTSAViewModel(traveler, activity, LineOfBusiness.PACKAGES)
 
         val testSubscriber = TestSubscriber<Traveler.Gender>(1)
         tsaVM.genderViewModel.genderSubject.subscribe(testSubscriber)
@@ -200,7 +199,7 @@ class TravelerTSAViewModelTest {
         travelerValidator.updateForNewSearch(getTestParams())
         setAgeEnteredAtSearch(1, PassengerCategory.INFANT_IN_SEAT)
         traveler.birthDate = LocalDate.now().minusYears(18)
-        tsaVM = TravelerTSAViewModel(traveler, activity)
+        tsaVM = TravelerTSAViewModel(traveler, activity, LineOfBusiness.PACKAGES)
 
         tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
         tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
@@ -215,10 +214,21 @@ class TravelerTSAViewModelTest {
     }
 
     private fun setupDefaultTestModel() {
+        setSearchParams()
+        tsaVM = TravelerTSAViewModel(traveler, activity, LineOfBusiness.PACKAGES)
+    }
+
+    private fun setupBucketedTestModel() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+        setSearchParams()
+        tsaVM = TravelerTSAViewModel(traveler, activity, LineOfBusiness.FLIGHTS_V2)
+    }
+
+
+    private fun setSearchParams() {
         val searchParams = getTestParams()
         Db.setPackageParams(searchParams)
         travelerValidator.updateForNewSearch(searchParams)
-        tsaVM = TravelerTSAViewModel(traveler, activity)
     }
 
     private fun getTestParams() : PackageSearchParams {

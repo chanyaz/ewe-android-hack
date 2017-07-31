@@ -35,3 +35,7 @@ fun LineOfBusiness.hasBillingInfo(): Boolean {
 fun LineOfBusiness.isMaterialFormEnabled(context: Context) : Boolean {
     return LineOfBusinessExtensions.isUniversalCheckout(this, context) && isMaterialFormsEnabled()
 }
+
+fun LineOfBusiness.isFlightTravelerRevamped() : Boolean {
+    return this == LineOfBusiness.FLIGHTS_V2 && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+}

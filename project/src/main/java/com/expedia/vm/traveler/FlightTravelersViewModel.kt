@@ -11,7 +11,7 @@ import rx.subjects.PublishSubject
 
 class FlightTravelersViewModel(context: Context, lob: LineOfBusiness, showMainTravelerMinAgeMessaging: Boolean) : TravelersViewModel(context, lob, showMainTravelerMinAgeMessaging) {
     override fun createNewTravelerEntryWidgetModel(context: Context, index: Int, passportRequired: BehaviorSubject<Boolean>, currentStatus: TravelerCheckoutStatus): AbstractUniversalCKOTravelerEntryWidgetViewModel {
-        return FlightTravelerEntryWidgetViewModel(context, index, passportRequired, currentStatus)
+        return FlightTravelerEntryWidgetViewModel(context, index, passportRequired, currentStatus, lob)
     }
 
     override fun requiresMultipleTravelers() = getTravelers().size > 1

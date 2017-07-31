@@ -167,6 +167,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val travelersPresenter: AbstractTravelersPresenter by lazy {
         val presenter = travelersPresenterStub.inflate() as AbstractTravelersPresenter
         presenter.viewModel = createTravelersViewModel()
+        presenter.travelerPickerWidget.lineOfBusiness = getLineOfBusiness()
         presenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
         presenter.closeSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)

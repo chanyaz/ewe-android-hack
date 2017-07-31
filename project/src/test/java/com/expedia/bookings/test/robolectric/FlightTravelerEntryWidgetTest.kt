@@ -7,6 +7,7 @@ import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -362,7 +363,7 @@ class FlightTravelerEntryWidgetTest {
         showPassportCountryObservable.onNext(showPassport)
 
         testVM = FlightTravelerEntryWidgetViewModel(activity.applicationContext, travelerIndex, showPassportCountryObservable,
-                TravelerCheckoutStatus.CLEAN)
+                TravelerCheckoutStatus.CLEAN, LineOfBusiness.FLIGHTS_V2)
 
         widget.viewModel = testVM
     }

@@ -9,6 +9,7 @@ import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.LayoutInflater
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.espresso.AbacusTestUtils
@@ -75,7 +76,7 @@ class TSAEntryViewTest {
             val genderEditText = tsaEntryView.findViewById(R.id.edit_gender_btn) as TravelerEditText
             assertNotNull(genderEditText)
 
-            val tsaVM = TravelerTSAViewModel(Traveler(), activityTestRule.activity)
+            val tsaVM = TravelerTSAViewModel(Traveler(), activityTestRule.activity, LineOfBusiness.PACKAGES)
 
             tsaEntryView.viewModel = tsaVM
             tsaVM.genderViewModel.errorSubject.onNext(true)
@@ -97,7 +98,7 @@ class TSAEntryViewTest {
 
             val testTraveler = Traveler()
             testTraveler.gender = null
-            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity, LineOfBusiness.PACKAGES)
 
             assertNull(tsaEntryView.viewModel.genderViewModel.genderSubject.value)
             assertFalse(tsaEntryView.viewModel.genderViewModel.isValid())
@@ -129,7 +130,7 @@ class TSAEntryViewTest {
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
             val testTraveler = Traveler()
             testTraveler.gender = Traveler.Gender.MALE
-            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity, LineOfBusiness.PACKAGES)
 
             assertEquals(Traveler.Gender.MALE,tsaEntryView.viewModel.genderViewModel.genderSubject.value)
             assertTrue(tsaEntryView.isValidGender())
@@ -150,7 +151,7 @@ class TSAEntryViewTest {
         val testTraveler = Traveler()
         testTraveler.gender = null
         uiThreadTestRule.runOnUiThread {
-            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity, LineOfBusiness.PACKAGES)
         }
 
 
@@ -184,7 +185,7 @@ class TSAEntryViewTest {
         val testTraveler = Traveler()
         testTraveler.gender = null
         uiThreadTestRule.runOnUiThread {
-            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity, LineOfBusiness.PACKAGES)
         }
         Espresso.onView(ViewMatchers.withId(R.id.edit_birth_date_text_btn)).perform(ViewActions.replaceText("ㅎ"))
         Espresso.onView(ViewMatchers.withId(R.id.edit_birth_date_text_btn)).perform(ViewActions.replaceText("ㅎabkja"))
@@ -196,7 +197,7 @@ class TSAEntryViewTest {
         val testTraveler = Traveler()
         testTraveler.gender = Traveler.Gender.MALE
         uiThreadTestRule.runOnUiThread {
-            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity, LineOfBusiness.PACKAGES)
         }
 
         assertTrue(tsaEntryView.viewModel.genderViewModel.isValid())

@@ -4,8 +4,9 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.extensions.isFlightTravelerRevamped
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.FontCache
@@ -18,11 +19,11 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-open class TravelerSelectItemViewModel(val context: Context, val index: Int, val age: Int, val category: PassengerCategory) {
+open class TravelerSelectItemViewModel(val context: Context, val index: Int, val age: Int, val category: PassengerCategory, lob: LineOfBusiness) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
     val resources = context.resources
-    val emptyText = if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
+    val emptyText = if (lob.isFlightTravelerRevamped()) {
         Phrase.from(resources.getString(R.string.checkout_traveler_title_TEMPLATE))
                 .put("travelernumber", index + 1)
                 .put("passengerycategory", getPassengerAgeRangeString(context, category))

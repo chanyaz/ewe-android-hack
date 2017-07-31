@@ -12,6 +12,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.TravelerCheckoutStatus;
@@ -67,7 +68,7 @@ public class FlightTravelerEntryWidgetTest {
 		showPassportCountryObservable.onNext(true);
 
 		testVM = new FlightTravelerEntryWidgetViewModel(context, 0, showPassportCountryObservable,
-			TravelerCheckoutStatus.CLEAN);
+			TravelerCheckoutStatus.CLEAN, LineOfBusiness.PACKAGES);
 		setViewModel(testVM);
 
 		PackageScreen.clickTravelerAdvanced();
@@ -84,7 +85,7 @@ public class FlightTravelerEntryWidgetTest {
 		showPassportCountryObservable.onNext(true);
 
 		testVM = new FlightTravelerEntryWidgetViewModel(context, 0, showPassportCountryObservable,
-			TravelerCheckoutStatus.CLEAN);
+			TravelerCheckoutStatus.CLEAN, LineOfBusiness.PACKAGES);
 		setViewModel(testVM);
 
 		onView(withId(R.id.first_name_input)).perform(click());
@@ -105,7 +106,7 @@ public class FlightTravelerEntryWidgetTest {
 		showPassportCountryObservable.onNext(false);
 
 		testVM = new FlightTravelerEntryWidgetViewModel(context, 0, showPassportCountryObservable,
-			TravelerCheckoutStatus.CLEAN);
+			TravelerCheckoutStatus.CLEAN, LineOfBusiness.PACKAGES);
 
 		setViewModel(testVM);
 
@@ -124,7 +125,7 @@ public class FlightTravelerEntryWidgetTest {
 		showPassportCountryObservable.onNext(true);
 
 		testVM = new FlightTravelerEntryWidgetViewModel(context, 0, showPassportCountryObservable,
-			TravelerCheckoutStatus.CLEAN);
+			TravelerCheckoutStatus.CLEAN, LineOfBusiness.PACKAGES);
 
 		setViewModel(testVM);
 

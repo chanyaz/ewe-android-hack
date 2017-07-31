@@ -31,6 +31,7 @@ class TravelersPresenterTest {
         Db.setTravelers(getMockTravelers(5))
         travelersPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_travelers_presenter_view_stub, null) as AbstractTravelersPresenter
         travelersPresenter.viewModel = FlightTravelersViewModel(activity, LineOfBusiness.FLIGHTS, false)
+        travelersPresenter.travelerPickerWidget.lineOfBusiness = LineOfBusiness.FLIGHTS
         travelersPresenter.resetTravelers()
         travelersPresenter.updateAllTravelerStatuses()
     }

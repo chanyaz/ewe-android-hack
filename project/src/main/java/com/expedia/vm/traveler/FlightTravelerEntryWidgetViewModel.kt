@@ -2,8 +2,8 @@ package com.expedia.vm.traveler
 
 import android.content.Context
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
@@ -11,8 +11,8 @@ import com.expedia.bookings.utils.TravelerUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: Int, val showPassportCountryObservable: BehaviorSubject<Boolean>, travelerCheckoutStatus: TravelerCheckoutStatus) : AbstractUniversalCKOTravelerEntryWidgetViewModel(context, travelerIndex) {
-    var tsaViewModel = TravelerTSAViewModel(getTraveler(), context)
+class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: Int, val showPassportCountryObservable: BehaviorSubject<Boolean>, travelerCheckoutStatus: TravelerCheckoutStatus, lob: LineOfBusiness) : AbstractUniversalCKOTravelerEntryWidgetViewModel(context, travelerIndex) {
+    var tsaViewModel = TravelerTSAViewModel(getTraveler(), context, lob)
     var advancedOptionsViewModel = TravelerAdvancedOptionsViewModel(context)
     val passportCountrySubject = BehaviorSubject.create<String>()
     val passportValidSubject = BehaviorSubject.create<Boolean>()
