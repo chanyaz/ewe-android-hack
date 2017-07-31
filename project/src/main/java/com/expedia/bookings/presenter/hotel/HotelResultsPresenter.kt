@@ -120,6 +120,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             if (latLng != null) {
                 mapViewModel.mapBoundsSubject.onNext(latLng)
             }
+            filterBtnWithCountWidget.visibility = View.VISIBLE
             fab.isEnabled = true
         }
 
