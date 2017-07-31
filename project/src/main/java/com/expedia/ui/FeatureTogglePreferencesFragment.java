@@ -33,7 +33,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_populate_cardholder_name);
 
 		//Flight features
-
+		initializeFeatureCheck(R.string.preference_enable_flights_frequent_flyer_number);
 		//Packages Features
 		initializeFeatureCheck(R.string.preference_packages_mid_api);
 		initializeFeatureCheck(R.string.preference_packages_title_change);
