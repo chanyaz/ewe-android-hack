@@ -1,5 +1,6 @@
 package com.expedia.vm
 
+import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
@@ -53,6 +54,8 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
             override fun onError(e: Throwable) {
                 if (RetrofitUtils.isNetworkError(e)) {
                     noResponseObservable.onNext(Unit)
+                } else {
+                    Crashlytics.logException(Exception(("Hotel CreateTrip failed, non-network error: $e")))
                 }
             }
 
