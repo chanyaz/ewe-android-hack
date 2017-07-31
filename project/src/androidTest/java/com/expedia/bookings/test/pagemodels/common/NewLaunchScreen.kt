@@ -8,6 +8,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.view.View
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
@@ -31,7 +32,7 @@ object NewLaunchScreen {
 
     @JvmStatic fun packagesLaunchButton(): ViewInteraction {
         waitForLOBHeaderToBeDisplayed()
-        return onView(allOf<View>(withText("Bundle Deals"), isCompletelyDisplayed()))
+        return onView(allOf<View>(withText(getPackagesLaunchButtonText(BuildConfig.brand)), isCompletelyDisplayed()))
     }
 
     @JvmStatic fun activitiesLaunchButton(): ViewInteraction {
@@ -58,5 +59,18 @@ object NewLaunchScreen {
     @JvmStatic fun accountButton(): ViewInteraction {
         return onView(allOf(withText(R.string.account_settings_menu_label), isDescendantOfA(withId(R.id.tab_layout))))
     }
+
+    @JvmStatic fun getPackagesLaunchButtonText(brand: String): String {
+
+        return when (brand) {
+            "Orbitz", "CheapTickets" -> "Packages"
+            "ebookers" -> "Flight + Hotel"
+            "Travelocity" -> "Vacation Packages"
+            else -> {
+                "Bundle Deals"
+            }
+        }
+    }
+
 
 }

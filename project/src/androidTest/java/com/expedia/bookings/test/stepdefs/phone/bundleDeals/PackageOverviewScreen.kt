@@ -20,6 +20,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.support.test.espresso.matcher.ViewMatchers.withText
 
 import android.view.View
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.stepdefs.phone.TestUtil
@@ -39,7 +40,7 @@ class PackageOverviewScreen {
     @And("^I click on View your bundle$")
     @Throws(Throwable::class)
     fun performClickOnViewYourBundle() {
-        onView(withText("View your bundle")).perform(click())
+        onView(withText(getViewYourBundleText(BuildConfig.brand))).perform(click())
     }
 
     @And("^on POS Validate that Package Overview Screen is displayed$")
@@ -271,7 +272,7 @@ class PackageOverviewScreen {
     fun validateBundleTotalWidget(parameters: Map<String, String>) {
         onView(allOf<View>(withId(R.id.bundle_total_text),
                 isDescendantOfA(withId(R.id.total_price_widget))))
-                .check(matches(withText(parameters["bundle_total_text"])))
+                .check(matches(withText(getViewYourBundleTotalText(BuildConfig.brand))))
         onView(allOf<View>(withId(R.id.bundle_total_includes_text),
                 isDescendantOfA(withId(R.id.total_price_widget))))
                 .check(matches(withText(parameters["additional_text"])))
@@ -496,8 +497,8 @@ class PackageOverviewScreen {
         validateCostSummaryPriceDetails("Hotel + Flights", params.get("Hotel + Flights"))
         validateCostSummaryPriceDetails("room", params.get("room"))
         validateCostSummaryPriceDetails("Taxes", params.get("Taxes"))
-        validateCostSummaryPriceDetails("Bundle Discount", params.get("Bundle Discount"))
-        validateCostSummaryPriceDetails("Bundle total", params.get("Bundle total"))
+        validateCostSummaryPriceDetails(getViewYourBundleDiscountText(BuildConfig.brand), params.get("Bundle Discount"))
+        validateCostSummaryPriceDetails(getViewYourBundleTotalText(BuildConfig.brand), params.get("Bundle total"))
     }
 
     @Throws(Throwable::class)
@@ -532,4 +533,36 @@ class PackageOverviewScreen {
                 .check(matches(isDisplayed()))
 
     }
+
+    fun getViewYourBundleText(brand: String): String {
+        return when (brand) {
+            "Orbitz", "CheapTickets", "Travelocity" -> "View your package"
+            "ebookers" -> "View your Flight + Hotel"
+            else -> {
+                "View your bundle"
+            }
+        }
+    }
+
+    fun getViewYourBundleDiscountText(brand: String): String {
+        return when (brand) {
+            "Orbitz", "CheapTickets", "Travelocity" -> "Package Discount"
+            "ebookers" -> "Flight + Hotel Discount"
+            else -> {
+                "Bundle Discount"
+            }
+        }
+    }
+
+    fun getViewYourBundleTotalText(brand: String): String {
+        return when (brand) {
+            "Orbitz", "CheapTickets", "Travelocity" -> "Package total"
+            "ebookers" -> "Flight + Hotel total"
+            else -> {
+                "Bundle total"
+            }
+        }
+    }
+
+
 }

@@ -66,7 +66,7 @@ Feature: Package Overview
     And validate package outbound flight total duration
       | flight_duration           | Total Duration: 5h 12m                |
     And validate bundle total widget
-      | bundle_total_text         | Bundle total                          |
+      | bundle_total_text         | getValueBasedOnBrand                    |
       | additional_text           | includes hotel and flights              |
       | bundle_total_value        | $4,211.90                             |
       | savings                   | $540.62 Saved                         |
@@ -154,7 +154,7 @@ Feature: Package Overview
      And validate package inbound flight total duration
        | flight_duration           | Total Duration: 5h 15m                |
      And validate bundle total widget
-       | bundle_total_text         | Bundle total                          |
+       | bundle_total_text         | getValueBasedOnBrand                    |
        | additional_text           | includes hotel and flights              |
        | bundle_total_value        | $2,538.62                             |
        | savings                   | $56.50 Saved                          |
@@ -179,7 +179,7 @@ Feature: Package Overview
     And I select inbound flight to source at position 1
     And Validate that Package Overview screen is displayed
     And validate bundle total widget
-      | bundle_total_text         | Bundle total                          |
+      | bundle_total_text         | getValueBasedOnBrand                    |
       | additional_text           | includes hotel and flights              |
       | bundle_total_value        | $2,538.62                             |
       | savings                   | $56.50 Saved                          |
