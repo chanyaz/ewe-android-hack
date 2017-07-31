@@ -2536,6 +2536,7 @@ public class OmnitureTracking {
 	private static final String LOGIN_CREATE_USERNAME = "App.Account.Create.UserName";
 	private static final String LOGIN_CREATE_PASSWORD = "App.Account.Create.Password";
 	private static final String LOGIN_TOS = "App.Account.Create.Terms";
+	private static final String LOGIN_SINGLE_PAGE = "App.Account.Create";
 	private static final String LOGIN_MARKETING_OPT_IN = "App.Account.Terms.Email.Opt-In";
 	private static final String LOGIN_MARKETING_OPT_OUT = "App.Account.Terms.Email.Opt-Out";
 	private static final String LOGIN_ACCOUNT_CREATE_SUCCESS = "App.Account.Create.Success";
@@ -2675,6 +2676,14 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackSinglePage() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		// set the pageName
+		s.setAppState(LOGIN_SINGLE_PAGE);
+		s.setEvar(18, LOGIN_SINGLE_PAGE);
+		s.track();
+	}
+
 	public static void trackMarketingOptIn(boolean optIn) {
 		ADMS_Measurement s = createTrackLinkEvent(optIn ? LOGIN_MARKETING_OPT_IN : LOGIN_MARKETING_OPT_OUT);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
@@ -2695,6 +2704,15 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
+		s.setProp(36, error);
+		s.track();
+	}
+
+	public static void trackSinglePageAccountCreateError(String error) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		// set the pageName
+		s.setAppState(LOGIN_SINGLE_PAGE);
+		s.setEvar(18, LOGIN_SINGLE_PAGE);
 		s.setProp(36, error);
 		s.track();
 	}

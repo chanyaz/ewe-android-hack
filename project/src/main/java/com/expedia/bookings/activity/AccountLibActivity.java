@@ -279,6 +279,11 @@ public class AccountLibActivity extends AppCompatActivity
 		}
 
 		@Override
+		public void userViewedSinglePage() {
+			OmnitureTracking.trackSinglePage();
+		}
+
+		@Override
 		public void userExplicitlyModifiedMarketingOptIn(boolean b) {
 			OmnitureTracking.trackMarketingOptIn(b);
 		}
@@ -291,6 +296,11 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void userReceivedErrorOnSignInAttempt(String s) {
 			OmnitureTracking.trackAccountCreateError(s);
+		}
+
+		@Override
+		public void userReceivedErrorOnSinglePageSignInAttempt(String s) {
+			OmnitureTracking.trackSinglePageAccountCreateError(s);
 		}
 
 		@Override
