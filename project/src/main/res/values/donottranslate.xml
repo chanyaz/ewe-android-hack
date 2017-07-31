@@ -126,6 +126,7 @@
     <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
     <string name="preference_flight_traveler_form_revamp">preference_flight_traveler_form_revamp</string>
     <string name="preference_flight_enable_search_suggestion_label">preference_flight_enable_search_suggestion_label</string>
+    <string name="preference_enable_flights_frequent_flyer_number">preference_enable_flights_frequent_flyer_number</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

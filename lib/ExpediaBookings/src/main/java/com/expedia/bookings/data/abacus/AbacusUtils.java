@@ -70,6 +70,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightSwitchFields = 14918;
 	public static final int EBAndroidAppFlightTravelerFormRevamp = 14647;
 	public static final int EBAndroidAppFlightSearchSuggestionLabel = 14646;
+	public static final int EBAndroidAppFlightFrequentFlyerNumber = 14971;
 
 	// Hotel Tests
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
@@ -205,6 +206,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSignUpStringNonAPAC);
 		testIDs.add(EBAndroidAppSignUpStringAPAC);
 		testIDs.add(EBAndroidAppAPIMAuth);
+		testIDs.add(EBAndroidAppFlightFrequentFlyerNumber);
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp);
 		testIDs.add(EBAndroidPopulateCardholderName);
 		testIDs.add(EBAndroidAppSecureCheckoutIcon);
