@@ -2,6 +2,7 @@
 <com.expedia.bookings.widget.flights.FareFamilyItemWidget xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
     android:orientation="horizontal">
 
     <RadioButton
@@ -10,68 +11,102 @@
         android:layout_height="wrap_content"
         android:clickable="true" />
 
-
     <LinearLayout
-        android:id="@+id/fare_family_class_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/fare_family_class_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/fare_family_class_title"
-                style="@style/FareFamilyHeader" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/fare_family_class_price_delta"
-                style="@style/FareFamilyHeader"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="+ $100" />
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/fare_family_class_title"
+                    style="@style/FareFamilyHeader" />
 
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/fare_family_class_price_delta"
+                    style="@style/FareFamilyHeader"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="+ $100" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/fare_family_class_subtitle"
+                    style="@style/FareFamilyHeaderSubtitle"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/cabin_class"
+                    android:textSize="12sp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/fare_family_class_roundtrip_text"
+                    style="@style/FareFamilyHeaderSubtitle"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/roundtrip"
+                    android:textSize="10sp"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
         </LinearLayout>
+
+        <com.expedia.bookings.widget.FareFamilyPrimaryAmenitiesWidget
+            android:id="@+id/fare_family_primary_amenities_widget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/fare_family_show_more_container"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="26.5dp"
             android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/fare_family_class_subtitle"
-                style="@style/FareFamilyHeaderSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="@string/cabin_class"
-                android:textSize="12sp" />
+                android:text="@string/amenity_show_more"
+                android:textColor="@color/app_primary"
+                android:textSize="10sp" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/fare_family_class_roundtrip_text"
-                style="@style/FareFamilyHeaderSubtitle"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="@string/roundtrip"
-                android:textSize="10sp"
-                android:visibility="invisible" />
-
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/right"
+                android:tint="@color/gray7" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/gray2" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/gray2">
-
-    </View>
 
 </com.expedia.bookings.widget.flights.FareFamilyItemWidget>
 

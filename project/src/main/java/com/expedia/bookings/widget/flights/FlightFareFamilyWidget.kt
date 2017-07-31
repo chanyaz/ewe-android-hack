@@ -56,9 +56,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
         button
     }
 
-
     var viewModel: FlightFareFamilyViewModel by notNullAndObservable { vm ->
-
         vm.fareFamilyTripLocationObservable.subscribeTextAndVisibility(fareFamilyTripLocation)
         vm.airlinesObservable.subscribeTextAndVisibility(fareFamilyTripAirlines)
         vm.fareFamilyDetailsObservable.withLatestFrom(vm.selectedFareFamilyObservable, {
@@ -76,6 +74,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
 
                 val fareFamilyItem = inflater.inflate(R.layout.flight_fare_family_item_layout, fareFamilyRadioGroup, false) as FareFamilyItemWidget
                 fareFamilyItem.bindViewModel(fareFamilyItemViewModel)
+                vm.airlinesObservable.subscribe(fareFamilyItem.fareFamilyAmenitiesDialogView.viewModel.airlineNameSubject)
                 fareFamilyRadioGroup.addView(fareFamilyItem)
                 if (defaultChecked) {
                     selectedFareFamilyIndex = index
@@ -88,22 +87,19 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
                     scrollViewContainer.smoothScrollTo(0, yCoordinate.toInt())
                 }
             })
-
         }
         vm.choosingFareFamilyObservable.subscribe { fareFamilyDetails ->
             clearChecks()
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(createTripTotalText(fareFamilyDetails.fareFamilyName))
             totalPriceWidget.viewModel.total.onNext(fareFamilyDetails.totalPrice)
         }
-
     }
-
 
     override fun onFinishInflate() {
         super.onFinishInflate()
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
-            var lp = fareFamilyContainer.layoutParams as LayoutParams
+            val lp = fareFamilyContainer.layoutParams as LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
         }
     }
@@ -118,9 +114,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         toolbar.setBackgroundColor(ContextCompat.getColor(this.context, R.color.packages_flight_filter_background_color))
-
         totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
-
     }
 
     fun clearChecks() {
@@ -135,5 +129,4 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
                 .put("farefamily", Strings.capitalize(fareFamilyName, Locale.US))
                 .format().toString())
     }
-
 }

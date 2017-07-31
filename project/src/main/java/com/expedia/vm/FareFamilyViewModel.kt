@@ -6,7 +6,6 @@ import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightV2Utils
-import com.mobiata.android.Log
 import rx.subjects.PublishSubject
 
 class FareFamilyViewModel(private val context: Context) {

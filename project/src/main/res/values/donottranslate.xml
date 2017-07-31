@@ -441,4 +441,21 @@
     <string name="deeplink_hotel_search">expda://hotelSearch</string>
     <string name="deeplink_flight_share">expda://flightShare</string>
 
+    <!-- Amenities Keys -->
+    <string name="amenity_key_bags">Bags</string>
+    <string name="amenity_key_carry_on_bag">CarryOnBag</string>
+    <string name="amenity_key_one_luggage">OneLuggage</string>
+    <string name="amenity_key_two_luggage">TwoLuggage</string>
+    <string name="amenity_key_three_luggage">ThreeLuggage</string>
+    <string name="amenity_key_four_luggage">FourLuggage</string>
+    <string name="amenity_key_refund_before_departure">RefundBeforeDeparture</string>
+    <string name="amenity_key_refund_after_departure">RefundAfterDeparture</string>
+    <string name="amenity_key_seat_reservation">SeatReservation</string>
+
+    <!-- Amenity Family Keys -->
+    <string name="amenity_key_family_included">included</string>
+    <string name="amenity_key_family_chargeable">chargeable</string>
+    <string name="amenity_key_family_not_offered">notoffered</string>
+    <string name="amenity_key_family_unknown">unknown</string>
+
 </resources>

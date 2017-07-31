@@ -2513,6 +2513,8 @@
     <string name="ChooseLocation">Did you mean…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">DONE</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">OK</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Map</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4792,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Total including taxes and fees</string>
     <string name="excluding_taxes_fees">Excluding taxes and fees</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">Bags</string>
+    <string name="amenity_cancellation">Cancellation</string>
+    <string name="amenity_seat_selection">Seat Selection</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">show more</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">Included</string>
+    <string name="fare_family_fee_applies">Fee Applies</string>
+    <string name="fare_family_not_available">Not Available</string>
+    <string name="fare_family_unknown">Unknown</string>
 
 </resources>

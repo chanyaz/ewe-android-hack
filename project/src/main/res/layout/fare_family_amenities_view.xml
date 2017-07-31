@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="24dp"
+    tools:background="@color/white">
+
+    <TextView
+        android:id="@+id/fare_family_name"
+        style="@style/FareFamilyHeader"
+        tools:text="Fare Family Name" />
+
+    <TextView
+        android:id="@+id/airline_name"
+        style="@style/FareFamilyHeaderSubtitle"
+        android:layout_marginTop="12dp"
+        tools:text="Airline Name" />
+
+    <TextView
+        android:id="@+id/fare_family_cabin_class_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="12sp"
+        tools:text="Cabin: Class Name" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/amenities_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.FareFamilyPrimaryAmenitiesWidget
+                android:id="@+id/fare_family_primary_amenities_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

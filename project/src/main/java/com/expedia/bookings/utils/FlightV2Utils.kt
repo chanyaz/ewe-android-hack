@@ -8,7 +8,12 @@ import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.AmenityResourceType
+import com.expedia.bookings.data.flights.FlightAmenityCategory
+import com.expedia.bookings.data.flights.FlightBagAmenity
+import com.expedia.bookings.data.flights.FlightCancellationAmenity
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSeatReservationAmenity
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.text.HtmlCompat
@@ -367,7 +372,7 @@ object FlightV2Utils {
         return true
     }
 
-    fun getDeltaPricing (money: Money, deltaPositive: Boolean): String {
+    @JvmStatic fun getDeltaPricing (money: Money, deltaPositive: Boolean): String {
         val deltaPrice = StringBuilder()
         if (deltaPositive) {
             deltaPrice.append("+")
@@ -375,5 +380,121 @@ object FlightV2Utils {
         deltaPrice.append(Money.getFormattedMoneyFromAmountAndCurrencyCode(money.amount, money.currencyCode))
         return deltaPrice.toString()
 
+    }
+
+    @JvmStatic fun hasMoreAmenities(fareFamilyComponents: HashMap<String, HashMap<String, String>>): Boolean {
+        var hasMoreAmenities = false
+        for (amenityCategory in fareFamilyComponents.values) {
+            if (amenityCategory.size > 0) {
+                hasMoreAmenities = true
+                break
+            }
+        }
+        return hasMoreAmenities
+    }
+
+    @JvmStatic fun getBagsAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>, currencyCode: String): AmenityResourceType {
+        var resourceId = R.drawable.flight_upsell_cross_icon
+        var dispVal = ""
+        val bagAmenities = FlightBagAmenity.values()
+        for (bagAmenity in bagAmenities) {
+            val amenityCategory = getAmenityCategory(context.resources.getString(bagAmenity.key), fareFamilyComponents)
+            if (amenityCategory != null) {
+                if (amenityCategory == FlightAmenityCategory.CHARGEABLE) {
+                    val moneyCurrency = Money(0, currencyCode)
+                    dispVal = moneyCurrency.getCurrencySymbol()
+                } else if (amenityCategory == FlightAmenityCategory.INCLUDED) {
+                    dispVal = getBagsAmenityCount(context, bagAmenity)
+                    if (dispVal.isNullOrBlank()) {
+                        resourceId = R.drawable.flight_upsell_tick_icon
+                    }
+                } else {
+                    resourceId = R.drawable.flight_upsell_cross_icon
+                }
+                break
+            }
+        }
+        return AmenityResourceType(resourceId, dispVal)
+    }
+
+    @JvmStatic fun getCancellationAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>, currencyCode: String): AmenityResourceType {
+        var resourceId = R.drawable.flight_upsell_cross_icon
+        var dispVal = ""
+        val cancellationAmenities = FlightCancellationAmenity.values()
+        for (cancelAmenity in cancellationAmenities) {
+            val amenityCategory = getAmenityCategory(context.resources.getString(cancelAmenity.key), fareFamilyComponents)
+            if (amenityCategory != null) {
+                val resourceType = getAmenityDrawable(amenityCategory, currencyCode)
+                resourceId = resourceType.resourceId
+                dispVal = resourceType.dispVal
+                break
+            }
+        }
+        return AmenityResourceType(resourceId, dispVal)
+    }
+
+    @JvmStatic fun getSeatSelectionAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>, currencyCode: String): AmenityResourceType {
+        var resourceId = R.drawable.flight_upsell_cross_icon
+        var dispVal = ""
+        val seatSelectionAmenities = FlightSeatReservationAmenity.values()
+        for (seatSelectionAmenity in seatSelectionAmenities) {
+            val amenityCategory = getAmenityCategory(context.resources.getString(seatSelectionAmenity.key), fareFamilyComponents)
+            if (amenityCategory != null) {
+                val resourceType = getAmenityDrawable(amenityCategory, currencyCode)
+                resourceId = resourceType.resourceId
+                dispVal = resourceType.dispVal
+                break
+            }
+        }
+        return AmenityResourceType(resourceId, dispVal)
+    }
+
+    @JvmStatic fun getAmenityDrawable(amenityKey: String, fareFamilyComponents: HashMap<String, HashMap<String, String>>, currencyCode: String): AmenityResourceType {
+        var resourceId = R.drawable.flight_upsell_cross_icon
+        var dispVal = ""
+        val amenityCategory = getAmenityCategory(amenityKey, fareFamilyComponents)
+        if (amenityCategory != null) {
+            val resourceType = getAmenityDrawable(amenityCategory, currencyCode)
+            resourceId = resourceType.resourceId
+            dispVal = resourceType.dispVal
+        }
+        return AmenityResourceType(resourceId, dispVal)
+    }
+
+    private fun getBagsAmenityCount(context: Context, bagAmenity: FlightBagAmenity): String {
+        return when (bagAmenity) {
+            FlightBagAmenity.ONE_LUGGAGE -> context.resources.getString(R.string.one)
+            FlightBagAmenity.TWO_LUGGAGE -> context.resources.getString(R.string.two)
+            FlightBagAmenity.THREE_LUGGAGE -> context.resources.getString(R.string.three)
+            FlightBagAmenity.FOUR_LUGGAGE -> context.resources.getString(R.string.four)
+            else -> ""
+        }
+    }
+
+    private fun getAmenityDrawable(amenityCategory: FlightAmenityCategory, currencyCode: String): AmenityResourceType {
+        var resourceId = 0
+        var strVal = ""
+        if (amenityCategory == FlightAmenityCategory.CHARGEABLE) {
+            val moneyCurrency = Money(0, currencyCode)
+            strVal = moneyCurrency.getCurrencySymbol()
+        } else {
+            resourceId = when (amenityCategory) {
+                FlightAmenityCategory.INCLUDED -> R.drawable.flight_upsell_tick_icon
+                else -> R.drawable.flight_upsell_cross_icon
+            }
+        }
+        return AmenityResourceType(resourceId, strVal)
+    }
+
+    private fun getAmenityCategory(amenityKey: String, fareFamilyComponents: HashMap<String, HashMap<String, String>>): FlightAmenityCategory? {
+        var amenityCategory: FlightAmenityCategory? = null
+        val amenityGroups = fareFamilyComponents
+
+        for (amenityGroup in amenityGroups) {
+            if (amenityGroup.value.containsKey(amenityKey)) {
+                amenityCategory = FlightAmenityCategory.valueOf(amenityGroup.key.toUpperCase(Locale.US))
+            }
+        }
+        return amenityCategory
     }
 }

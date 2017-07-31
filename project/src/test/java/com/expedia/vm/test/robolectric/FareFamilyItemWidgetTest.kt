@@ -46,7 +46,6 @@ class FareFamilyItemWidgetTest {
     lateinit var flightCreateTripResponse: FlightCreateTripResponse
     lateinit private var activity: Activity
 
-
     @Before
     fun before() {
         val createTripResponseObserver = TestSubscriber<FlightCreateTripResponse>()
@@ -81,7 +80,7 @@ class FareFamilyItemWidgetTest {
         val firstFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(0) as FareFamilyItemWidget
         val thirdFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(2) as FareFamilyItemWidget
 
-        var fareFamilyTitle = firstFareFamilyItem.fareFamilyclassTitle
+        var fareFamilyTitle = firstFareFamilyItem.fareFamilyClassTitle
         var fareFamilyCabinClass = firstFareFamilyItem.fareFamilyCabinClass
         var fareFamilyDeltaAmount = firstFareFamilyItem.priceDelta
         var fareFamilyRoundTrip = firstFareFamilyItem.roundTrip
@@ -95,7 +94,7 @@ class FareFamilyItemWidgetTest {
         assertEquals(View.VISIBLE, fareFamilyRoundTrip.visibility)
         assertEquals("roundtrip", fareFamilyRoundTrip.text)
 
-        fareFamilyTitle = thirdFareFamilyItem.fareFamilyclassTitle
+        fareFamilyTitle = thirdFareFamilyItem.fareFamilyClassTitle
         fareFamilyCabinClass = thirdFareFamilyItem.fareFamilyCabinClass
         fareFamilyDeltaAmount = thirdFareFamilyItem.priceDelta
         fareFamilyRoundTrip = thirdFareFamilyItem.roundTrip
@@ -210,5 +209,4 @@ class FareFamilyItemWidgetTest {
 
         return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null,null)
     }
-
 }

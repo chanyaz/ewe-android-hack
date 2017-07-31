@@ -991,7 +991,7 @@
         <item name="textStyle">medium</item>
     </style>
 
-    <style name="Core.Widget"/>
+    <style name="Core.Widget" />
 
     <style name="Core.Widget.TwoTabTextView">
         <item name="android:layout_gravity">center</item>
@@ -1299,8 +1299,8 @@
     <style name="FlightFareFamilyAmenityText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_marginLeft">10dp</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray7</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
@@ -1313,9 +1313,9 @@
     </style>
 
     <style name="FlightFareFamilyAmenityIcon">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_width">12dp</item>
+        <item name="android:layout_height">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
     </style>
 
 </resources>

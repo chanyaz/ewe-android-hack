@@ -273,16 +273,17 @@
         },
         "fareFamilyComponents": {
           "chargeable": {
-            "RefundBeforeDeparture": "Cancellation",
             "Bags": "Checked Bags",
             "ExtraLegroom": "Premium Seat",
             "PriorityBoarding": "Priority Boarding",
             "ChangesBeforeDeparture": "Changes"
           },
-          "notoffered": {},
+          "notoffered": {
+            "RefundBeforeDeparture": "Cancellation"
+          },
           "included": {
             "SeatReservation": "Seat Choice",
-            "CarryOnBag": "Carry On Bag",
+            "FourLuggage": "4 x Free Luggage",
             "BonusMiles": "Bonus Miles"
           },
           "unknown": {}
@@ -308,17 +309,17 @@
         },
         "fareFamilyComponents": {
           "chargeable": {
+            "SeatReservation": "Seat Choice",
             "ChangesBeforeDeparture": "Changes"
           },
           "notoffered": {},
           "included": {
-            "SeatReservation": "Seat Choice",
             "PriorityBoarding": "Priority Boarding",
-            "CarryOnBag": "Carry On Bag",
-            "TwoLuggage": "2 x Free Bags",
             "BonusMiles": "Bonus Miles"
           },
-          "unknown": {}
+          "unknown": {
+            "CarryOnBag": "Carry On Bag"
+          }
         },
         "deltaPositive": true
       },
@@ -345,13 +346,14 @@
             "ExtraLegroom": "Premium Seat",
             "PriorityBoarding": "Priority Boarding"
           },
-          "notoffered": {},
+          "notoffered": {
+            "SeatReservation": "Seat Choice"
+          },
           "included": {
-            "SeatReservation": "Seat Choice",
-            "RefundBeforeDeparture": "Cancellation",
             "CarryOnBag": "Carry On Bag",
             "ChangesBeforeDeparture": "Changes",
-            "BonusMiles": "Bonus Miles"
+            "BonusMiles": "Bonus Miles",
+            "RefundBeforeDeparture": "Cancellation"
           },
           "unknown": {}
         },
