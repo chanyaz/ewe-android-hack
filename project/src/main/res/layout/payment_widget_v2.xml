@@ -32,7 +32,7 @@
                 android:layout_gravity="bottom|right"
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp"
-                android:src="@drawable/blue_small_pwp_icon"
+                android:src="@drawable/small_pwp_icon"
                 android:visibility="visible" />
         </FrameLayout>
 
