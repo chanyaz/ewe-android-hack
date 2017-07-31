@@ -30,6 +30,7 @@ import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
@@ -37,7 +38,6 @@ import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
@@ -786,7 +786,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
-		Boolean isItinCardDetailFeatureOn = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinHotelRedesign, R.string.preference_itin_card_detail);
+		Boolean isItinCardDetailFeatureOn = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinHotelRedesign);
 		if (view instanceof ItinButtonCard) {
 			// Do nothing
 		}

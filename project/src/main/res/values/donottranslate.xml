@@ -116,7 +116,6 @@
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
-    <string name="preference_itin_card_detail">preference_itin_card_detail</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_single_page_sign_up">preference_single_page_sign_up</string>
     <string name="preference_new_launchscreen_nav">preference_new_launchscreen_nav</string>
