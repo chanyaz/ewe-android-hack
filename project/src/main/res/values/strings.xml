@@ -1473,8 +1473,19 @@
     <string name="itin_hotel_itinerary_number_TEMPLATE">Itinerary # {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} customer support</string>
+    <!--Hotel customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
+    <string name="itin_hotel_customer_support_site_button_content_description_TEMPLATE">{brand} customer support link button</string>
     <!--Hotel customer support website toolbar header-->
     <string name="itin_hotel_customer_support_site_toolbar_header">Customer service</string>
+    <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">Call hotel at {phonenumber}. Button</string>
+    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Call {brand} at {phonenumber}. Button</string>
+    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">Confirmation number {number}. Click to copy</string>
+    <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Itinerary number {number}. Click to copy</string>
+
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

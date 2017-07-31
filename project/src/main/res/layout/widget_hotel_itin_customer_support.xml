@@ -34,11 +34,12 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/itinerary_number"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:background="?attr/selectableItemBackground"
             tools:text="Itinerary # 39485798457"
             android:textColor="@color/gray10"
             android:textSize="12sp"
@@ -46,7 +47,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/call_support_action_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/itin_call_hotel"
             android:drawablePadding="8dp"
@@ -63,7 +64,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/expedia_customer_support_site_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/itin_website_icon"
             android:drawablePadding="8dp"
