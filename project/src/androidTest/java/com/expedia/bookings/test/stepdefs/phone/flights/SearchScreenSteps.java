@@ -159,10 +159,10 @@ public class SearchScreenSteps {
 		SearchScreen.destination().check(matches(withText(containsString("Flying to"))));
 	}
 
-	@Then("^calendar field exists for flights search form$")
-	public void checkCalendarField() throws Throwable {
+	@Then("^calendar field with text \"(.*?)\" exists for flights search form$")
+	public void checkCalendarField(String dateStr) throws Throwable {
 		onView(withId(R.id.calendar_card)).check(matches(isDisplayed()));
-		onView(withId(R.id.calendar_card)).check(matches(withText(containsString("Select Dates"))));
+		onView(withId(R.id.calendar_card)).check(matches(withText(dateStr)));
 	}
 
 
@@ -191,7 +191,7 @@ public class SearchScreenSteps {
 		int totalNumberOfTravelers = Integer.parseInt(TestUtil.dataSet.get("adults")) + Integer
 			.parseInt(TestUtil.dataSet.get("child"));
 		onView(withId(R.id.traveler_card))
-			.check(matches(withText(containsString(String.valueOf(totalNumberOfTravelers) + " Traveler"))));
+			.check(matches(withText(containsString(String.valueOf(totalNumberOfTravelers) + " travelers"))));
 	}
 
 	@And("^I trigger flight search again with following parameters$")
@@ -271,24 +271,24 @@ public class SearchScreenSteps {
 		String date = String.valueOf(startDate.getDayOfMonth());
 		String year = String.valueOf(startDate.getYear());
 		String month = getMonth(startDate.getMonthOfYear());
-		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("travelers"))))
 			.check(matches(withText(containsString(date))));
-		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("travelers"))))
 			.check(matches(withText(containsString(month))));
-		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("travelers"))))
 			.check(matches(withText(containsString(year))));
 	}
 
 	@And("on FSR Validate the total number of travelers")
 	public void validateTotalTravelerCountOnFSR(Map<String, String> expParameters) throws Throwable {
-		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Travelers"))))
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("travelers"))))
 			.check(matches(withText(containsString(expParameters.get("totalTravelers")))));
 	}
 
 	@And("on FSR validate the date is as user selected")
 	public void validateDateOnFSR(Map<String, String> expParameters) throws Throwable {
 		DateTime startDateTime = DateTime.now().plusDays(Integer.parseInt(expParameters.get("start_date"))).withTimeAtStartOfDay();
-		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler")))).
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("travelers")))).
 		check(matches(withText(containsString(formatDateToShortDayAndDate(startDateTime)))));
 	}
 
@@ -323,8 +323,8 @@ public class SearchScreenSteps {
 
 	@And("^on outbound FSR the number of traveller are as user selected$")
 	public void verifyTravelersForInbound() throws Throwable {
-		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
-			.check(matches(withText(containsString(totalTravelers + " Traveler"))));
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("travelers"))))
+			.check(matches(withText(containsString(totalTravelers + " travelers"))));
 	}
 
 	@Then("^I verify date is as user selected for inbound flight$")
@@ -334,23 +334,23 @@ public class SearchScreenSteps {
 		String year = String.valueOf(startDate.getYear());
 		String month = getMonth(startDate.getMonthOfYear());
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), hasSibling(withText("Select return flight")),
-			withText(containsString("Traveler")))).check(matches(withText(containsString(date))));
+			withText(containsString("traveler")))).check(matches(withText(containsString(date))));
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), hasSibling(withText("Select return flight")),
-			withText(containsString("Traveler")))).check(matches(withText(containsString(month))));
+			withText(containsString("traveler")))).check(matches(withText(containsString(month))));
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), hasSibling(withText("Select return flight")),
-			withText(containsString("Traveler")))).check(matches(withText(containsString(year))));
+			withText(containsString("traveler")))).check(matches(withText(containsString(year))));
 	}
 
 	@And("^on inbound FSR the number of traveller are as user selected$")
 	public void verifyTravelersForOutbound() throws Throwable {
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), hasSibling(withText("Select return flight")),
-			withText(containsString("Traveler"))))
-			.check(matches(withText(containsString(totalTravelers + " Traveler"))));
+			withText(containsString("traveler"))))
+			.check(matches(withText(containsString(totalTravelers + " traveler"))));
 	}
 
 	@Then("^(\\d+) traveler count is as selected by user$")
 	public void checkNumberOfTravellers(int number) throws Throwable {
-		onView(withId(R.id.traveler_card)).check(matches(withText(containsString(number + " Traveler"))));
+		onView(withId(R.id.traveler_card)).check(matches(withText(containsString(number + " travelers"))));
 	}
 
 	@Then("^Validate that Done button is disabled$")
@@ -482,7 +482,7 @@ public class SearchScreenSteps {
 		String totalTravelers = searchFormParameters.get("totalTravelers");
 		DateTime startDate = DateTime.now().plusDays(Integer.parseInt(searchFormParameters.get("start_date")));
 		String checkString = formatDateToShortDayAndDate(startDate) + ", " + totalTravelers;
-		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("traveler"))))
 			.check(matches(withText(checkString)));
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Select flight to"))))
 			.check(matches(withText("Select flight to " + searchFormParameters.get("destination"))));

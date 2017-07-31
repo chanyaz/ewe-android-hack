@@ -278,6 +278,7 @@ Feature: Flights Search Results
       | end_date            | 10                                       |
       | adults              | 1                                        |
       | child               | 0                                        |
+      | guest               | 1 guest                                  |
     And I press back
     Then Validate that XSell Package Banner is displayed with title "Flight + Hotel" and description "Save when you book your flights and hotels together"
 

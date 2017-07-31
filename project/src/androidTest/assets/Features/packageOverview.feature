@@ -30,12 +30,12 @@ Feature: Package Overview
       | destination       | San Francisco, CA |
       | start_date        | 5                 |
       | end_date          | 10                |
-      | totalTravelers    | 4 Travelers       |
+      | totalTravelers    | 4 travelers       |
     And validate hotel selection step label
       | info_text         | Step 1: Select Hotel|
     And validate "varHotelName" is same as user selected on package overview screen
     Then validate hotel widget data on hotel overview widget
-      | info_text | Jul 10 - Jul 16, 4 Guests |
+      | info_text | Jul 10 - Jul 16, 4 guests |
     And validate hotel widget luggage image icon is checked
     Then I click on hotel widget details icon
     And verify hotel widget detail view is displayed
@@ -44,11 +44,11 @@ Feature: Package Overview
       | room_type           | 1 king bed2 king bed  |
       | hotel_address       | 1000 Brush Avenue     |
       | hotel_city          | Detroit, MI           |
-      | cancellation_status | Free Cancellation     |
+      | cancellation_status | Free cancellation     |
       | sale_status         | Sale!                 |
     And I click on hotel widget details icon
     And validate outbound flight selection label
-      | info_text           | Step 2: Select Flights|
+      | info_text           | Step 2: Select flights|
     And validate package outbound flight icon is checked
     And verify package outbound flight widget view is displayed : false
     And I click on package flight details icon
@@ -56,7 +56,7 @@ Feature: Package Overview
     And verify package outbound flight icon is displayed
     And validate package outbound flight data on package outbound flight widget
       | flight_to               | Flight to (DTW) Detroit        |
-      | info_text               | Jul 10 at 9:00 am, 4 Travelers |
+      | info_text               | Jul 10 at 9:00 am, 4 travelers |
     And validate package outbound flight details
       | departure_arrival_time    | 9:00 am - 11:12 am                    |
       | departure_arrival_airport | (SFO) San Francisco - (HNL) Honolulu  |
@@ -67,13 +67,13 @@ Feature: Package Overview
       | flight_duration           | Total Duration: 5h 12m                |
     And validate bundle total widget
       | bundle_total_text         | Bundle total                          |
-      | additional_text           | Includes flights + hotel              |
+      | additional_text           | includes hotel and flights              |
       | bundle_total_value        | $4,211.90                             |
       | savings                   | $540.62 Saved                         |
     And validate package inbound flight widget view
       | header                    | Select flight to Kathmandu            |
       | end_date                  | 10                                    |
-      | travelers                 | 4 Travelers                           |
+      | travelers                 | 4 travelers                           |
     And validate package inbound flight icon is unchecked
     And validate package inbound flight next icon is displayed
     And I click on package inbound flight next icon
@@ -102,12 +102,12 @@ Feature: Package Overview
       | destination       | Detroit, MI       |
       | start_date        | 5                 |
       | end_date          | 10                |
-      | totalTravelers    | 4 Travelers       |
+      | totalTravelers    | 4 travelers       |
     And validate hotel selection step label
       | info_text         | Hotel in Detroit - 1 room, 2 nights|
      And validate "varHotelName" is same as user selected on package overview screen
      Then validate hotel widget data on hotel overview widget
-       | info_text | Feb 2 - Feb 4, 4 Guests |
+       | info_text | Feb 2 - Feb 4, 4 guests |
      And validate hotel widget luggage image icon is checked
      Then I click on hotel widget details icon
      And verify hotel widget detail view is displayed
@@ -116,14 +116,14 @@ Feature: Package Overview
        | room_type           | 1 king bed2 king bed  |
        | hotel_address       | 1000 Brush Avenue     |
        | hotel_city          | Detroit, MI           |
-       | cancellation_status | Free Cancellation     |
+       | cancellation_status | Free cancellation     |
        | sale_status         | Sale!                 |
      And I click on hotel widget details icon
      And validate outbound flight selection label
        | info_text           | Flights - KTM to SFO, round trip|
      And validate package outbound flight data on package outbound flight widget
        | flight_to               | Flight to (DTW) Detroit        |
-       | info_text               | Jul 10 at 9:00 am, 4 Travelers |
+       | info_text               | Jul 10 at 9:00 am, 4 travelers |
      And validate package outbound flight icon is checked
      And I click on package flight details icon
      And verify package outbound flight widget view is displayed : true
@@ -140,7 +140,7 @@ Feature: Package Overview
      And validate package inbound flight icon is checked
      And validate package inbound flight data on package inbound flight widget
        | flight_from             | Flight to (SFO) San Francisco        |
-       | info_text_inbound       | Jul 16 at 1:45 pm, 4 Travelers       |
+       | info_text_inbound       | Jul 16 at 1:45 pm, 4 travelers       |
      And verify package inbound flight widget view is displayed : false
      And I click on package flight inbound details icon
      And verify package inbound flight widget view is displayed : true
@@ -155,7 +155,7 @@ Feature: Package Overview
        | flight_duration           | Total Duration: 5h 15m                |
      And validate bundle total widget
        | bundle_total_text         | Bundle total                          |
-       | additional_text           | Includes flights + hotel              |
+       | additional_text           | includes hotel and flights              |
        | bundle_total_value        | $2,538.62                             |
        | savings                   | $56.50 Saved                          |
 
@@ -180,7 +180,7 @@ Feature: Package Overview
     And Validate that Package Overview screen is displayed
     And validate bundle total widget
       | bundle_total_text         | Bundle total                          |
-      | additional_text           | Includes flights + hotel              |
+      | additional_text           | includes hotel and flights              |
       | bundle_total_value        | $2,538.62                             |
       | savings                   | $56.50 Saved                          |
     Then I click on trip total link

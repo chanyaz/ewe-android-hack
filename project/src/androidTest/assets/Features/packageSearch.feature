@@ -166,6 +166,7 @@ Feature: Package Search
     And I select outbound flight to destination at position 1
     And validate inbound flights loading on package overview screen
     And I select inbound flight to source at position 1
+    And Close price change Alert dialog if it is visible
     And I click on checkout button
     And I validate that checkout screen is displayed
 
@@ -196,6 +197,7 @@ Feature: Package Search
       | travel_date     | 10 |
       | Total_Travelers |  4 |
     And I select inbound flight to source at position 1
+    And Close price change Alert dialog if it is visible
     And I click on checkout button
     And I validate that checkout screen is displayed
 
@@ -217,6 +219,7 @@ Feature: Package Search
     And I select first room
     And I select outbound flight to destination at position 1
     And I select inbound flight to source at position 1
+    And Close price change Alert dialog if it is visible
     And validate "varHotelName" is same as user selected on package overview screen
     And validate hotel widget of overview screen with following details
       | start_date      |  5 |
@@ -290,7 +293,7 @@ Feature: Package Search
       | start_date          | 15                             |
       | end_date            | 20                             |
       | numberOfNights      | (5 nights)                     |
-      | totalTravelers      | 4 Travelers                    |
+      | totalTravelers      | 4 travelers                    |
 
   @Packages @PackageSearch @Prod
   Scenario: Validate Search form Default state for packages
@@ -300,5 +303,5 @@ Feature: Package Search
     Then Validate search form default state for packages
       | source              | Flying from      |
       | destination         | Flying to        |
-      | calendar            | Select Dates     |
-      | totalTravelers      | 1 Traveler       |
+      | calendar            | Select dates     |
+      | totalTravelers      | 1 traveler       |

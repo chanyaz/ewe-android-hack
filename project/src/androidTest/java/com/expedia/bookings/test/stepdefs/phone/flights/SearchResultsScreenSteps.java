@@ -124,9 +124,7 @@ public class SearchResultsScreenSteps {
 	private String getPackageHotelSubTitle(Map<String, String> parameters) {
 		StringBuilder stringBuilder = new StringBuilder("");
 		stringBuilder.append(TestUtil.getFormattedDateString(parameters.get("start_date"), parameters.get("end_date")));
-		stringBuilder.append(", ");
-		int totalGuests = (Integer.parseInt(parameters.get("adults")) + Integer.parseInt(parameters.get("child")));
-		stringBuilder.append(TestUtil.getFormattedGuestString(totalGuests));
+		stringBuilder.append(", " + parameters.get("guest"));
 		return stringBuilder.toString();
 	}
 
