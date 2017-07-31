@@ -10,6 +10,7 @@ abstract class FlightTripResponse : TripResponse() {
     var selectedCardFees: Money? = null
     var fareFamilies: FareFamilies? = null
     var createTripStatus: String? = null
+    var isFareFamilyUpgraded = false //TODO - This need to be handled
 
     fun getSelectedInsuranceProduct() : InsuranceProduct? = getOffer().selectedInsuranceProduct
 
@@ -24,16 +25,16 @@ abstract class FlightTripResponse : TripResponse() {
         return details.oldOffer.totalPriceWithInsurance ?: details.oldOffer.totalPrice
     }
 
-    class FareFamilies {
-        lateinit var productKey: String
-        lateinit var fareFamilyDetails: Array<FareFamilyDetails>
-    }
+    data class FareFamilies (
+            val productKey: String,
+            val fareFamilyDetails: Array<FareFamilyDetails>)
 
-    class FareFamilyDetails {
-        lateinit var fareFamilyName: String
-        lateinit var fareFamilyCode: String
-        lateinit var totalPrice: Money
-        lateinit var deltaTotalPrice: Money
-        lateinit var fareFamilyComponents: HashMap<String, String>
-    }
+    data class FareFamilyDetails (
+            val fareFamilyName: String,
+            val fareFamilyCode: String,
+            val cabinClass: String,
+            val totalPrice: Money,
+            val deltaTotalPrice: Money,
+            val deltaPositive: Boolean = false,
+            val fareFamilyComponents: HashMap<String, HashMap<String, String>>)
 }

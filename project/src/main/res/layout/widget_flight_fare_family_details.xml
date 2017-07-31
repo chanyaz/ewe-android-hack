@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/fareFamily_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/packages_flight_filter_background_color"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/fareFamily_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        app:contentInsetStartWithNavigation="0dp"
+        app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+
+    <com.expedia.bookings.widget.ScrollView
+        android:id="@+id/filter_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/fare_family_location_airline_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:orientation="vertical"
+            android:paddingLeft="16dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/fare_family_location"
+                style="@style/Core.Text.Default.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                tools:text="DEL - SFO - DEL" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/fare_family_airlines"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textSize="12sp"
+                tools:text="United Airlines, American Airlines" />
+
+            <RadioGroup
+                android:id="@+id/flight_fare_family_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+    </com.expedia.bookings.widget.ScrollView>
+</LinearLayout>

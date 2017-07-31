@@ -9,7 +9,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.FareFamilyViewModel
@@ -19,7 +18,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
-import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -65,15 +63,11 @@ class FareFamilyViewModelTest {
     }
 
     private fun tripResponseWithFareFamilyAvailable(): FlightCreateTripResponse {
-        val fareFamilyProduct = FlightTripResponse.FareFamilies()
-        val fareFamilyDetails = FlightTripResponse.FareFamilyDetails()
-        fareFamilyDetails.fareFamilyName = "Economy"
-        fareFamilyDetails.fareFamilyCode = "Economy"
-        fareFamilyDetails.totalPrice = Money("210.00", "USD")
-        val money = Money("42.00", "USD")
-        money.formattedPrice = "$42.00"
-        fareFamilyDetails.deltaTotalPrice = money
-        fareFamilyProduct.fareFamilyDetails = arrayOf(fareFamilyDetails)
+        val deltamoney = Money("42.00", "USD")
+        deltamoney.formattedPrice = "$42.00"
+        val fareFamilyDetails = FlightTripResponse.FareFamilyDetails("Economy", "Economy", "Economy",
+                Money("210.00", "USD"), deltamoney, true, HashMap())
+        val fareFamilyProduct = FlightTripResponse.FareFamilies("product-key", arrayOf(fareFamilyDetails))
         val trip = tripResponseWithoutFareFamilyAvailable()
         trip.fareFamilies = fareFamilyProduct
 

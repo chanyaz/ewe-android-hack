@@ -460,6 +460,7 @@
     <!-- Flight docked bar title text -->
     <color name="flight_docked_text">@color/gray7</color>
     <color name="flight_docked_text_outbound">@color/gray6</color>
+    <color name="flight_cabin_class_text">@color/gray8</color>
 
     <color name="error_widget_text">@color/gray6</color>
 
