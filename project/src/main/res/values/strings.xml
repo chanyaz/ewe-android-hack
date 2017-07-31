@@ -708,10 +708,6 @@
     <string name="traveler_age_title">Traveler Age</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">This traveler must be under the age of 24 months for the entire trip to travel as an infant</string>
-    <!-- Text for traveler child error displayed in alert dialog message-->
-    <string name="traveler_child_error_message">This traveler must be between the ages of 2 and 11 for the entire trip to travel as a child</string>
-    <!-- Text for traveler youth error displayed in alert dialog message-->
-    <string name="traveler_youth_error_message">This traveler must be between the ages of 12 and 17 for the entire trip to travel as a youth</string>
     <!-- Text for traveler child error-->
     <string name="traveler_child_error">This traveler must be under the age of 12 for the entire trip to travel as a child</string>
     <!-- Text for traveler adult child error-->
@@ -2059,12 +2055,8 @@
         <item quantity="one">+ {travelercount} additional traveler</item>
         <item quantity="other">+ {travelercount} additional travelers</item>
     </plurals>
-    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
-    <string name="checkout_traveler_title_TEMPLATE">Traveler {travelernumber} ({passengerycategory})</string>
     <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} year old</string>
-    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
-    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
     <!-- save traveler -->
     <string name="save_traveler">Save Traveler</string>
     <!-- no thanks -->
@@ -3595,25 +3587,17 @@
 
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">(18+ years old)</string>
-    <!-- Adult age label on flight checkout summary card-->
-    <string name="flight_checkout_adult_age_label">18+</string>
     <!-- Youth age label on flight search -->
     <string name="flight_youth_age_label">(12-17 years old)</string>
-    <!-- Youth age label on flight checkout traveler summary card -->
-    <string name="flight_checkout_youth_age_label">12-17</string>
     <!-- Youth age label desc on flight search -->
     <string name="flight_youth_age_label_desc">(12 to 17 years old)</string>
     <!-- Children age label on flight search -->
     <string name="flight_children_age_label">(2-11 years old)</string>
-    <!-- Children age label on flight checkout traveler summary card-->
-    <string name="flight_checkout_children_age_label">2-11</string>
     <!-- Children age label desc on flight search -->
     <string name="flight_children_age_label_desc">(2 to 11 years old)</string>
 
     <!-- Infant age label on flight search -->
     <string name="flight_infant_age_label">(less than 2 years old)</string>
-    <!-- Infant age label on flight checkout traveler summary card-->
-    <string name="flight_checkout_infant_age_label">under 2</string>
     <!--Flight Traveler widget infant minus button content description-->
     <string name="flight_add_infant_traveler_cont_desc">Add one infant traveler</string>
     <!--Flight Traveler widget infant minus button content description-->

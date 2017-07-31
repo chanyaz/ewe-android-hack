@@ -2,15 +2,10 @@ package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
 
-import android.content.Context;
-
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
-import com.squareup.phrase.Phrase;
 
 public class TravelerUtils {
 
@@ -49,31 +44,6 @@ public class TravelerUtils {
 			fullname = firstName.getText().toString() + " " + lastName.getText().toString();
 		}
 		return fullname;
-	}
-
-	public static String getTravelerAgeRangeString(Context context, PassengerCategory category) {
-		String passengerAge;
-		String passengerCategory;
-		if (category == PassengerCategory.ADULT_CHILD) {
-				passengerAge = context.getString(R.string.flight_checkout_youth_age_label);
-				passengerCategory = context.getString(R.string.ticket_type_youth);
-			}
-		else if (category == PassengerCategory.CHILD) {
-				passengerAge = context.getString(R.string.flight_checkout_children_age_label);
-				passengerCategory = context.getString(R.string.ticket_type_child);
-			}
-		else if (category == PassengerCategory.INFANT_IN_LAP || category == PassengerCategory.INFANT_IN_SEAT) {
-			passengerAge = context.getString(R.string.flight_checkout_infant_age_label);
-			passengerCategory = context.getString(R.string.ticket_type_infant);
-		}
-		else {
-			passengerAge = context.getString(R.string.flight_checkout_adult_age_label);
-			passengerCategory = context.getString(R.string.ticket_type_adult);
-		}
-		return Phrase.from(context.getString(R.string.traveler_age_range_TEMPLATE))
-			.put("category", passengerCategory)
-			.put("range", passengerAge)
-			.format().toString();
 	}
 }
 

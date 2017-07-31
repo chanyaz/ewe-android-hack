@@ -501,7 +501,7 @@ class PackageCheckoutTest {
         mockTravelerProvider.updateDBWithMockTravelers(numOfTravelers, testUser.primaryTraveler)
         checkout.travelerSummaryCardView.findViewById(R.id.traveler_default_state).performClick()
         checkout.travelersPresenter.travelerPickerWidget.viewModel.selectedTravelerSubject
-                .onNext(TravelerSelectItemViewModel(activity, if (numOfTravelers > 1) 1 else 0, 18, testUser.primaryTraveler.passengerCategory!!))
+                .onNext(TravelerSelectItemViewModel(activity, if (numOfTravelers > 1) 1 else 0, 18))
         checkout.travelersPresenter.show(checkout.travelersPresenter.travelerEntryWidget)
         checkout.travelersPresenter.travelerEntryWidget.viewModel.updateTraveler(enterTraveler(Traveler()))
     }
