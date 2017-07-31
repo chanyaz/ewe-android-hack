@@ -11,11 +11,7 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
-import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.BaseApiResponse
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TravelerParams
-import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.*
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -31,29 +27,21 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.SearchParamsHistoryUtil
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.TravelerManager
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isFlexEnabled
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.flights.FlightListAdapter
+import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.FlightActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
-import com.expedia.vm.flights.BaseFlightOffersViewModel
-import com.expedia.vm.flights.FlightConfirmationViewModel
-import com.expedia.vm.flights.FlightCreateTripViewModel
-import com.expedia.vm.flights.FlightErrorViewModel
-import com.expedia.vm.flights.FlightOffersViewModel
-import com.expedia.vm.flights.FlightOffersViewModelByot
+import com.expedia.vm.WebCheckoutViewViewModel
+import com.expedia.vm.flights.*
 import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 import rx.Observable
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
@@ -119,6 +107,38 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         presenter
     }
+
+
+    val webCheckoutViewStub: ViewStub by bindView(R.id.web_checkout_view_stub)
+
+    val webCheckoutView: WebCheckoutView by lazy {
+        val webCheckoutView = webCheckoutViewStub.inflate() as WebCheckoutView
+        val webCheckoutViewViewModel = WebCheckoutViewViewModel(context)
+//        webCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, paymentModel)
+//        setUpCreateTripErrorHandling(webCheckoutViewViewModel.createTripViewModel)
+        webCheckoutView.viewModel = webCheckoutViewViewModel
+
+        webCheckoutViewViewModel.closeView.subscribe {
+            webCheckoutViewViewModel.webViewURLObservable.onNext("about:blank")
+            super.back()
+        }
+        webCheckoutViewViewModel.fetchItinObservable.subscribe { bookedTripID ->
+//            itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
+        }
+
+        webCheckoutView
+    }
+
+    private val detailsToWebCheckoutView = object : LeftToRightTransition(this, FlightOverviewPresenter::class.java, WebCheckoutView::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+                flightOverviewPresenter.visibility =             if (forward) View.GONE else View.VISIBLE
+            webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
+            webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+        }
+    }
+
 
     val searchPresenter: FlightSearchPresenter by lazy {
         if (displayFlightDropDownRoutes()) {
@@ -289,8 +309,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripResponseObservable.safeSubscribe { trip ->
             trip!!
-            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
-            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
+
+            show(webCheckoutView)
+
+
+//            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
+//            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
         }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
@@ -411,6 +435,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(searchToInbound)
         addTransition(errorToConfirmation)
         addTransition(inboundToError)
+        addTransition(detailsToWebCheckoutView)
 
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
             SearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, loadSuccess, loadFailed)

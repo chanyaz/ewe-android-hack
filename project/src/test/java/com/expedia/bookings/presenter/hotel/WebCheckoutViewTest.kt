@@ -172,6 +172,17 @@ class WebCheckoutViewTest {
         urlSubscriber.assertValue("about:blank")
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webViewClosesOnAboutBlank() {
+        val closeViewSubscriber = TestSubscriber<Unit>()
+        getToWebCheckoutView()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).backObservable.onNext(Unit)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).webViewURLObservable.onNext("about:blank")
+        closeViewSubscriber.assertValueCount(1)
+    }
+
     private fun getToWebCheckoutView() {
         enableWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)

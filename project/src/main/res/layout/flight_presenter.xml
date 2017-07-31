@@ -36,6 +36,14 @@
         android:inflatedId="@+id/widget_bundle_overview"
         android:layout="@layout/flight_overview_stub" />
 
+
+    <ViewStub
+        android:id="@+id/web_checkout_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/web_checkout_view"
+        android:layout="@layout/web_checkout_view_stub" />
+
     <ViewStub
         android:id="@+id/confirmation_presenter"
         android:layout_width="match_parent"

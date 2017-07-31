@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.view.Window
+import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.Space
 import com.expedia.bookings.R
@@ -31,6 +32,8 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.presenter.hotel.HotelDetailPresenter
+import com.expedia.bookings.presenter.hotel.HotelErrorPresenter
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
@@ -41,6 +44,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
+import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -48,9 +52,7 @@ import com.expedia.util.safeSubscribe
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.vm.AbstractCheckoutViewModel
-import com.expedia.vm.BaseCreateTripViewModel
-import com.expedia.vm.PaymentViewModel
+import com.expedia.vm.*
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
@@ -250,19 +252,23 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.createTripResponseObservable.safeSubscribe { response ->
-            val oldPrice = response!!.getOldPrice()
-            if (oldPrice != null) {
-                trackCreateTripPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
-                if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, oldPrice.amount)) {
-                    vm.priceChangeAlertPriceObservable.onNext(response)
-                    return@safeSubscribe
+
+            if(true){
+
+            } else {
+                val oldPrice = response!!.getOldPrice()
+                if (oldPrice != null) {
+                    trackCreateTripPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
+                    if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, oldPrice.amount)) {
+                        vm.priceChangeAlertPriceObservable.onNext(response)
+                        return@safeSubscribe
+                    }
                 }
+                onCreateTripResponse(response)
             }
-            onCreateTripResponse(response)
         }
         setupCreateTripViewModel(vm)
     }
-
     fun hasPriceChange(response: TripResponse?): Boolean {
         return response?.getOldPrice() != null
     }
