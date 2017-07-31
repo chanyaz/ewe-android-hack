@@ -36,6 +36,8 @@
                 <data android:host="supportEmail"/>
                 <data android:host="reviewFeedbackEmail"/>
                 <data android:host="forceBucket"/>
+                <data android:host="packageSearch"/>
+                <data android:host="railSearch"/>
 
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />

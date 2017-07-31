@@ -31,6 +31,8 @@ import com.expedia.bookings.deeplink.ForceBucketDeepLink;
 import com.expedia.bookings.deeplink.HomeDeepLink;
 import com.expedia.bookings.deeplink.HotelDeepLink;
 import com.expedia.bookings.deeplink.MemberPricingDeepLink;
+import com.expedia.bookings.deeplink.PackageDeepLink;
+import com.expedia.bookings.deeplink.RailDeepLink;
 import com.expedia.bookings.deeplink.ReviewFeedbackEmailDeeplink;
 import com.expedia.bookings.deeplink.SharedItineraryDeepLink;
 import com.expedia.bookings.deeplink.ShortUrlDeepLink;
@@ -69,6 +71,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private UserStateManager userStateManager;
 	ClientLogServices clientLogServices;
 	private DeepLinkParser deepLinkParser = null;
+	private boolean supportsRails = PointOfSale.getPointOfSale().supports(LineOfBusiness.RAILS);
 
 	Observer<AbacusResponse> evaluateAbTests = new Observer<AbacusResponse>() {
 
@@ -177,6 +180,19 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 		else if (deepLink instanceof HomeDeepLink) {
 			NavUtils.goToLaunchScreen(this, true);
+			finish = true;
+		}
+		else if (deepLink instanceof PackageDeepLink) {
+			handlePackageSearch((PackageDeepLink) deepLink);
+			finish = true;
+		}
+		else if (deepLink instanceof RailDeepLink) {
+			if (supportsRails) {
+				handleRailSearch((RailDeepLink) deepLink);
+			}
+			else {
+				NavUtils.goToLaunchScreen(this, true);
+			}
 			finish = true;
 		}
 		else {
@@ -385,6 +401,14 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private void handleTrip(TripDeepLink tripDeepLink) {
 		NavUtils.goToItin(this, tripDeepLink.getItinNum());
+	}
+
+	private void handlePackageSearch(PackageDeepLink packageDeepLink) {
+		NavUtils.goToPackages(this, null, null);
+	}
+
+	private void handleRailSearch(RailDeepLink deepLink) {
+		NavUtils.goToRail(this, null);
 	}
 
 	@VisibleForTesting

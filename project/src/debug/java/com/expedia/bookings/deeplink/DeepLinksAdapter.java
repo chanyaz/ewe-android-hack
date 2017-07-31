@@ -90,6 +90,12 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Car Search with expired dates (show pop-up msg)", "expda://carSearch?pickupDateTime=2017-03-12T22:30:00&dropoffDateTime=2017-03-15T09:30:00&pickupLocation=DTW"),
 		new DeepLink("Car Search with future date", "expda://carSearch?pickupLocation=DTW", "pickupDateTime", 14, "dropoffDateTime", 18, "yyyy-MM-dd", "22:30:00", "09:30:00"),
 
+		new DeepLinkSection("Packages", R.color.app_primary),
+		new DeepLink("Package Search", "expda://packageSearch"),
+
+		new DeepLinkSection("Rails", R.color.app_primary),
+		new DeepLink("Rail Search", "expda://railSearch"),
+
 		new DeepLinkSection("Deferred", R.color.launch_screen_primary),
 		new DeepLink("Parc 55 San Francisco, a Hilton Hotel",
 			"https://169006.measurementapi.com/serve?action=click&publisher_id=169006&site_id=107678&invoke_url=expda%3A%2F%2FhotelSearch%3FhotelId%3D12539"),

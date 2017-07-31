@@ -191,6 +191,20 @@ class CustomDeepLinkParserTest {
     }
 
     @Test
+    fun packagesDeepLinkParsing() {
+        var data = Uri.parse("expda://packageSearch")
+        var output = parser.parseDeepLink(data)
+        Assert.assertTrue(output is PackageDeepLink)
+    }
+
+    @Test
+    fun railsDeepLinkParsing() {
+        var data = Uri.parse("expda://railSearch")
+        var output = parser.parseDeepLink(data)
+        Assert.assertTrue(output is RailDeepLink)
+    }
+
+    @Test
     fun sharedItineraryDeepLinkParsing() {
         var data = Uri.parse("expda://addSharedItinerary")
         var output = parser.parseDeepLink(data)
