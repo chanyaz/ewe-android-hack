@@ -23,6 +23,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.LXConfirmationWidget;
@@ -105,8 +106,14 @@ public class LXPresenter extends Presenter {
 			addTransition(checkoutToConfirmation);
 			addTransition(checkoutToResults);
 		}
-		show(resultsPresenter);
-		resultsPresenter.setVisibility(VISIBLE);
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+			show(searchParamsWidget);
+			searchParamsWidget.setVisibility(VISIBLE);
+		}
+		else {
+			show(resultsPresenter);
+			resultsPresenter.setVisibility(VISIBLE);
+		}
 
 		int[] attrs = {R.attr.skin_lxPrimaryColor};
 		TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
@@ -158,7 +165,8 @@ public class LXPresenter extends Presenter {
 			searchParamsWidget.setVisibility(forward ? GONE : VISIBLE);
 			resultsPresenter.animationFinalize(!forward);
 			searchParamsWidget.animationFinalize(!forward);
-			if (searchParamsWidget.getFirstLaunch()) {
+			if (searchParamsWidget.getFirstLaunch() &&
+				!FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
 				searchParamsWidget.showSuggestionState(false);
 			}
 			if (forward) {

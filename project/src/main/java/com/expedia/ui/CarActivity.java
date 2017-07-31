@@ -11,6 +11,7 @@ import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.car.CarPresenter;
 import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -34,7 +35,7 @@ public class CarActivity extends AbstractAppCompatActivity {
 			(getIntent().getBooleanExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, false)))) {
 			handleNavigationViaDeepLink();
 		}
-		else {
+		else if (!FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_new_launchscreen_nav)) {
 			carsPresenter.showSuggestionState();
 		}
 	}

@@ -23,6 +23,7 @@ import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -64,7 +65,8 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
             updateDestinationText(locationText)
-            if (this.visibility == VISIBLE && vm.startDate() == null) {
+            if (this.visibility == VISIBLE && vm.startDate() == null &&
+                    !FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
                 calendarWidgetV2.showCalendarDialog()
             }
         }
