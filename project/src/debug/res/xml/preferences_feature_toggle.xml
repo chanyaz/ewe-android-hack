@@ -99,6 +99,11 @@
         android:layout="@layout/preference_category_title"
         android:title="Itin Features">
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_expandable_hotel_itin_room_details"
+            android:layout="@layout/preference"
+            android:summary="Enable Expandable Hotel Room Details"
+            android:title="Expandable Hotel Room Details" />
 
     </PreferenceCategory>
 

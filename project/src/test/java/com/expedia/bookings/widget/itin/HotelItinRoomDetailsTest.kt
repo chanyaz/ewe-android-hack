@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
@@ -30,5 +31,16 @@ class HotelItinRoomDetailsTest {
 
         val expected = itinCardDataHotel.property.itinRoomType + ", " + itinCardDataHotel.property.itinBedType
         assertEquals(expected, roomDetailsWidget.roomDetailsText.text)
+    }
+
+    @Test
+    fun roomDetailsCollapseExpand() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+        roomDetailsWidget.collapseRoomDetailsView()
+        assertEquals(View.GONE, roomDetailsWidget.expandedRoomDetails.visibility)
+
+        roomDetailsWidget.expandRoomDetailsView()
+        assertEquals(View.VISIBLE, roomDetailsWidget.expandedRoomDetails.visibility)
     }
 }

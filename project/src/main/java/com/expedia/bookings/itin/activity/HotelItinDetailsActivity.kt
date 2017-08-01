@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.data.ItinCardDataHotel
@@ -39,6 +40,11 @@ open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
     val hotelBookingDetailsView: HotelItinBookingDetails by lazy {
         findViewById(R.id.widget_hotel_itin_booking_details) as HotelItinBookingDetails
     }
+
+    val roomDetailsChevron: ImageView by lazy {
+        findViewById(R.id.itin_hotel_room_details_chevron) as ImageView
+    }
+
     lateinit var itinCardDataHotel: ItinCardDataHotel
 
     companion object {
@@ -68,6 +74,10 @@ open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
         hotelImageView.setUpWidget(itinCardDataHotel)
         checkinCheckoutView.setUpWidget(itinCardDataHotel)
         roomDetailsView.setUpWidget(itinCardDataHotel)
+        if (roomDetailsView.isExpandableRoomDetailsOn()) {
+            roomDetailsView.collapseRoomDetailsView()
+            roomDetailsChevron.visibility = View.VISIBLE
+        }
         hotelBookingDetailsView.setUpWidget(itinCardDataHotel)
         toolbar.setUpWidget(itinCardDataHotel, itinCardDataHotel.propertyName)
         toolbar.setNavigationOnClickListener {
