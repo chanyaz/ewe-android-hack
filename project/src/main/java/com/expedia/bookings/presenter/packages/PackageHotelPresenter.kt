@@ -406,10 +406,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         override fun endTransition(forward: Boolean) {
             bundleSlidingWidget.finalizeBundleTransition(forward)
-            if(forward)
-                resultsPresenter.visibility = GONE
-            else
-                resultsPresenter.visibility = VISIBLE
         }
     }
 
