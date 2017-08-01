@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">Drop off time {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Sorry, we couldn\'t find any results. Please try again with different criteria.</string>
+    <string name="error_no_result_message">Sorry, we couldn\'t find any results. Please try again with a different search combination.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Your search returned no results. Please try reducing the amount of filters.</string>
     <!-- Transmission options filter label for a car rental -->
