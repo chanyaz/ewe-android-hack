@@ -19,15 +19,15 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FlightV2Utils.getAirlineNames
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMaterialFormsEnabled
-import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
 import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
-import com.expedia.bookings.widget.traveler.FrequentFlyerCard
 import com.expedia.bookings.widget.traveler.TSAEntryView
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeVisibility
@@ -152,6 +152,13 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                         R.string.passport_validation_error_message, R.drawable.material_dropdown)
             }
         }
+
+        vm.flightLegsObservable.subscribe { flightLegs ->
+            if (materialFormTestEnabled && frequentflyerTestEnabled && flightLegs != null) {
+                val airlines = getAirlineNames(flightLegs)
+                (frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).setFrequentFlyerCards(airlines)
+            }
+        }
     }
 
     init {
@@ -162,7 +169,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             setOnFocusChangeListenerForView(passportCountryEditBox)
             setOnFocusChangeListenerForView(advancedOptionsWidget.seatPreferenceEditBox)
             setOnFocusChangeListenerForView(advancedOptionsWidget.assistancePreferenceEditBox)
-            if(frequentflyerTestEnabled) {
+            if (frequentflyerTestEnabled) {
                 frequentFlyerButton = findViewById(R.id.traveler_frequent_flyer_button) as LinearLayout
                 frequentFlyerRecycler = findViewById(R.id.frequent_flyer_recycler_view) as RecyclerView
                 frequentFlyerIcon = findViewById(R.id.traveler_frequent_flyer_program_icon) as ImageView
@@ -356,19 +363,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     fun setUpFrequentFlyerRecyclerView(context: Context) {
         val linearLayoutManager = LinearLayoutManager(context)
         frequentFlyerRecycler?.layoutManager = linearLayoutManager
-        frequentFlyerRecycler?.isNestedScrollingEnabled = false
         frequentFlyerRecycler?.adapter = FrequentFlyerAdapter()
-        //will update getDummyFrequentFlyerValues() to set up real data
-        (frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).setFrequentFlyerCards(getDummyFrequentFlyerValues())
-
-    }
-
-    //will update function to take in real data
-    private fun getDummyFrequentFlyerValues(): List<FrequentFlyerCard> {
-        val frequentFlyerCards = ArrayList<FrequentFlyerCard>()
-        for (i in 0..2) {
-            frequentFlyerCards.add(FrequentFlyerCard())
-        }
-        return frequentFlyerCards
     }
 }

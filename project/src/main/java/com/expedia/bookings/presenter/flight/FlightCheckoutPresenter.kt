@@ -19,7 +19,6 @@ import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.InsuranceWidget
@@ -106,6 +105,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         loginWidget.updateRewardsText(getLineOfBusiness())
         insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
         (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(tripResponse.details.offer)
+        (travelersPresenter.viewModel as FlightTravelersViewModel).flightLegsObservable.onNext(tripResponse.details.legs)
     }
 
     override fun handleCheckoutPriceChange(tripResponse: TripResponse) {

@@ -25,6 +25,8 @@ import com.expedia.bookings.widget.traveler.TravelerPickerWidget
 import com.expedia.util.getMainTravelerToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
+import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
@@ -74,6 +76,8 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             } else {
                 travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
             }
+            (travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable
+                    .onNext((viewModel as FlightTravelersViewModel).flightLegsObservable.value)
         }
 
         doneClicked.subscribe {
@@ -169,6 +173,8 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         else if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.CLEAN) {
             travelerEntryWidget.resetErrorState()
         }
+        (travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable
+                .onNext((viewModel as FlightTravelersViewModel).flightLegsObservable.value)
     }
 
     private fun showPickerWidget() {

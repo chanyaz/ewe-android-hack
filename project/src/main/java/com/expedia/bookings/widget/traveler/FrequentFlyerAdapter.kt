@@ -45,6 +45,6 @@ class FrequentFlyerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Fi
     }
 }
 
-class FrequentFlyerCard {
-    val airlineName = "Alaska Airlines"
+class FrequentFlyerCard(airlineName: String) {
+    val airlineName = airlineName
 }

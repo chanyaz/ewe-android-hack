@@ -3,6 +3,7 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
@@ -17,6 +18,7 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
     val passportValidSubject = BehaviorSubject.create<Boolean>()
     val passportCountryObserver = BehaviorSubject.create<String>()
     val additionalNumberOfInvalidFields = PublishSubject.create<Int>()
+    val flightLegsObservable = BehaviorSubject.create<List<FlightLeg>>()
 
     init {
         updateTraveler(getTraveler())
