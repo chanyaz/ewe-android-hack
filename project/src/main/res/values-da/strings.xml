@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">Afleveringstidspunkt {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
+    <string name="error_no_result_message">Beklager, vi fandt desværre ingen resultater. Prøv venligst igen med andre søgekriterier.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Din søgning gav ingen resultater. Prøv at reducere antallet af filtre.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -953,6 +953,8 @@
     <string name="launch_upcoming_trips_signed_in">Du har en forestående rejse!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Få adgang til dine rejseplaner på farten, og hold dig opdateret om eventuelle rejser</string>
+    <!-- Label for super search bar at launch screen -->
+    <string name="search_hotels_flight_more">Søg efter hoteller, flyrejser og meget mere…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Book på farten</string>
@@ -1444,12 +1446,28 @@
     <string name="itin_hotel_details_checkin_text">Indtjekning</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">Udtjekning</string>
+    <!--Hotel itin checkin checkout to arrow content description-->
+    <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Til</string>
     <!--Hotel itin manage booking button to change or cancel room-->
     <string name="itin_hotel_manage_booking_cancel_change_header">ÆNDR ELLER AFBESTIL VÆRELSE</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Ændr eller afbestil værelse</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Administrer reservation</string>
+    <!--Hotel itin manage booking hotel help heading-->
+    <string name="itin_hotel_manage_booking_hotel_help_heading">Vi står klar til at hjælpe dig</string>
+    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Kontakt venligst {hotelname}, hvis du har særlige anmodninger eller spørgsmål til din reservation.</string>
+    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
+    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Bekræftelsesnummer: {number}</string>
+    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
+    <string name="itin_hotel_customer_support_header_text_TEMPLATE">Hvis du har brug for hjælp til at administrere din rejseplan, bedes du kontakte {brand}</string>
+    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_hotel_itinerary_number_TEMPLATE">Rejseplansnummer: {itinnumber}</string>
+    <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand}S kundeservice</string>
+    <!--Hotel customer support website toolbar header-->
+    <string name="itin_hotel_customer_support_site_toolbar_header">Kundeservice</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Indtjekning — 3 dage</string>
@@ -1707,7 +1725,7 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Vi beklager, men flyreservation via mobilen er endnu ikke tilgængelig, hvor du befinder dig.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">Afgangs- og ankomstlufthavne skal være forskellige.</string>
+    <string name="error_same_flight_departure_arrival">Sørg venligst for, at din afrejseby og din ankomstby er forskellige.</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
@@ -1763,8 +1781,6 @@
     <string name="before_TEMPLATE">før {date}</string>
 
     <!-- Flight details fragment -->
-    <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">OPLYSNINGER OM BAGAGEGEBYR</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s mellemlanding&lt;/b&gt; i %2$s</string>
     <!-- Price per person. For example: "$20.31 per person" -->
@@ -1797,18 +1813,12 @@
     <string name="earn_amount_TEMPLATE">Optjen {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">Optjen {price} i {currency}</string>
-    <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Gebyrer for håndbagage er gældende</string>
-    <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">Indtjekket bagage er ikke inkluderet</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">Betalingsgebyrer kan være gældende</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Yderligere gebyrer</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Bagagegebyr</string>
-    <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">Gebyr for betalingsadministration</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Nyt debetkort/kreditkort</string>
@@ -1843,7 +1853,7 @@
     <!-- Payment and ticket delivery fees may also apply -->
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Gebyrer for betaling og levering af billet kan også gælde</string>
     <!-- Includes flights+hotels -->
-    <string name="includes_flights_hotel">inkluderer fly + hotel</string>
+    <string name="includes_flights_hotel">inkl. hotel og fly</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d rejsende</item>
@@ -1869,8 +1879,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">Du anvender {points} ({amount}) Expedia+ point</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">Du anvender {points} ({amount}) Expedia+ point\nDer vil blive opkrævet {dueamount} fra dit kort</string>
-    <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_template">Dit kort debiteres {dueamount} (plus gebyr til flyselskabet)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">Beløb til betaling i dag: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -2236,8 +2244,6 @@
     <string name="privacy_policy">Fortrolighedspolitik</string>
     <!-- Fare information header -->
     <string name="fare_information">PRISOPLYSNINGER</string>
-    <!-- Airline Fee -->
-    <string name="Airline_fee">Gebyr til flyselskabet</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Filtre blev ryddet</string>
     <!-- split ticket rules and restrictions -->
@@ -2440,7 +2446,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">Søger blandt hundredvis af hoteller til dig…</string>
+    <string name="progress_searching_hotels_hundreds">Søger efter hoteller…</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Vælg et andet værelse</string>
     <!-- Message displayed when room is sold out -->
@@ -2453,6 +2459,12 @@
     <string name="current_location">Aktuelle placering</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Synligt område på kort</string>
+
+    <!-- Showing search suggestion label for current location -->
+    <string name="flight_search_suggestion_label_airport_near">Lufthavne i nærheden af dig</string>
+
+    <!-- Showing search suggestion label for recent search history -->
+    <string name="flight_search_suggestion_label_recent_search">Seneste søgninger</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -3662,18 +3674,6 @@
     <!-- Airline Payment Fee Apply Message -->
     <string name="airline_fee_apply">Betalingsgebyrer kan forekomme</string>
 
-    <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">Der opkræves et gebyr til flyselskabet ved betaling afhængigt af korttypen.</string>
-    <string name="airline_charge_notice">Flyselskaberne opkræver et ekstra gebyr afhængigt af betalingsmetoden.</string>
-    <string name="airline_fee_notice_payment">Der opkræves gebyrer til flyselskabet afhængigt af din betalingsmetode</string>
-
-    <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">Der opkræves muligvis et gebyr til flyselskabet ved betaling afhængigt af din korttype.</string>
-    <string name="airline_may_charge_notice">Flyselskaberne opkræver muligvis et ekstra gebyr afhængigt af betalingsmetoden.</string>
-    <string name="airline_may_fee_notice_payment">Der opkræves muligvis et gebyr til flyselskabet afhængigt af betalingsmetoden</string>
-
-    <!-- Packages -->
-
     <!-- Accessibility - Content Description for toolbar close button -->
     <string name="package_toolbar_close_cont_desc">Luk søgevindue</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
@@ -3702,7 +3702,7 @@
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Trin 1: Vælg hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Trin 2: Vælg flyrejse</string>
+    <string name="step_two">Trin 2: Vælg flyrejser</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Utroligt tilbud</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3748,7 +3748,7 @@
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Vælg hotel in %s</string>
     <!-- Bundle Overview searching flight -->
-    <string name="searching_flight_to">Søger efter fly til %s</string>
+    <string name="searching_flight_to">Søger efter flyrejser…</string>
     <!-- Package All Flight label -->
     <string name="all_flights_label">Alle flyrejser</string>
     <!-- Package Best Flight title -->

@@ -14,9 +14,9 @@
     <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
     <string name="nights_count_TEMPLATE">(%1$s)</string>
     <!-- Hotels search form default text for number of guests -->
-    <string name="hotel_search_guest_default_text">1 Guest</string>
+    <string name="hotel_search_guest_default_text">1 guest</string>
     <!-- Package search form default text for number of travelers -->
-    <string name="package_search_traveler_default_text">1 Traveller</string>
+    <string name="package_search_traveler_default_text">1 traveller</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">Drag to modify</string>
     <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">Drop off time {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Your search returned no results. Please retry your search with different criteria.</string>
+    <string name="error_no_result_message">Sorry, we couldn\'t find any results. Please try again with different criteria.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Your search returned no results. Please try reducing the amount of filters.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -953,6 +953,8 @@
     <string name="launch_upcoming_trips_signed_in">You Have An Upcoming Trip!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Access your itineraries on the go and stay up to date on changes</string>
+    <!-- Label for super search bar at launch screen -->
+    <string name="search_hotels_flight_more">Search Hotels, Flights, and more…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Book on the go</string>
@@ -1444,12 +1446,28 @@
     <string name="itin_hotel_details_checkin_text">Check-in</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">Check-out</string>
+    <!--Hotel itin checkin checkout to arrow content description-->
+    <string name="itin_hotel_details_checkout_to_arrow_cont_desc">To</string>
     <!--Hotel itin manage booking button to change or cancel room-->
     <string name="itin_hotel_manage_booking_cancel_change_header">CHANGE OR CANCEL ROOM</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Change Or Cancel Room</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Manage booking</string>
+    <!--Hotel itin manage booking hotel help heading-->
+    <string name="itin_hotel_manage_booking_hotel_help_heading">We\'re here to help</string>
+    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">For special requests or questions about your reservation, contact {hotelname}</string>
+    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
+    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Confirmation # {number}</string>
+    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
+    <string name="itin_hotel_customer_support_header_text_TEMPLATE">If you need help managing this itinerary, contact {brand}</string>
+    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_hotel_itinerary_number_TEMPLATE">Itinerary # {itinnumber}</string>
+    <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} customer support</string>
+    <!--Hotel customer support website toolbar header-->
+    <string name="itin_hotel_customer_support_site_toolbar_header">Customer service</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>
@@ -1707,13 +1725,13 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Sorry, but mobile flight booking is not yet available in your location.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">Departure and arrival airports must be different.</string>
+    <string name="error_same_flight_departure_arrival">Please make sure your departure and arrival cities are in different places.</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
     <string name="edit_search">Edit Search</string>
     <!-- Action mode asking users to select dates -->
-    <string name="select_dates">Select Dates</string>
+    <string name="select_dates">Select dates</string>
     <!-- Accessibility labeling to the user the trip dates card. -->
     <string name="trip_dates_cont_desc">Trip dates</string>
     <!-- Action mode asking users to select location -->
@@ -1763,8 +1781,6 @@
     <string name="before_TEMPLATE">before {date}</string>
 
     <!-- Flight details fragment -->
-    <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">Baggage Fee Information</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s stopover&lt;/b&gt; in %2$s</string>
     <!-- Price per person. For example: "$20.31 per person" -->
@@ -1797,18 +1813,12 @@
     <string name="earn_amount_TEMPLATE">Earn {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">Earn {price} in {currency}</string>
-    <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply</string>
-    <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">Checked baggage not included</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">Payment fees may apply</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Additional Fees</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Baggage Fees</string>
-    <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">Payment Processing Fees</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">New Debit/Credit Card</string>
@@ -1843,7 +1853,7 @@
     <!-- Payment and ticket delivery fees may also apply -->
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Payment and ticket delivery fees may also apply</string>
     <!-- Includes flights+hotels -->
-    <string name="includes_flights_hotel">Includes flights + hotel</string>
+    <string name="includes_flights_hotel">includes hotel and flights</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d travellers</item>
@@ -1869,8 +1879,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">You are using {points} ({amount}) Expedia+ points</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">You are using {points} ({amount}) Expedia+ points\nYour card will be charged {dueamount}</string>
-    <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_template">Your card will be charged {dueamount} (plus airline fee)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">Amount due today: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -2236,8 +2244,6 @@
     <string name="privacy_policy">Privacy Policy</string>
     <!-- Fare information header -->
     <string name="fare_information">FARE INFORMATION</string>
-    <!-- Airline Fee -->
-    <string name="Airline_fee">Airline Fee</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Filters cleared</string>
     <!-- split ticket rules and restrictions -->
@@ -2440,7 +2446,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">Searching hundreds of hotels for you!</string>
+    <string name="progress_searching_hotels_hundreds">Searching hotels…</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Select another room</string>
     <!-- Message displayed when room is sold out -->
@@ -2453,6 +2459,12 @@
     <string name="current_location">Current Location</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Visible Map Area</string>
+
+    <!-- Showing search suggestion label for current location -->
+    <string name="flight_search_suggestion_label_airport_near">Airports near you</string>
+
+    <!-- Showing search suggestion label for recent search history -->
+    <string name="flight_search_suggestion_label_recent_search">Recent searches</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -2693,7 +2705,7 @@
     <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
     <string name="map_select_a_room_cont_desc_TEMPLATE">Select a Room {price} button</string>
     <!-- The text we use when the search date it tonight -->
-    <string name="free_cancellation">Free Cancellation</string>
+    <string name="free_cancellation">Free cancellation</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">Hotel fees for this stay</string>
     <!-- Resort fee text for pacakges-->
@@ -2991,11 +3003,11 @@
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d Guests</item>
-        <item quantity="one">%d Guest</item>
-        <item quantity="two">%d Guests</item>
-        <item quantity="many">%d Guests</item>
-        <item quantity="other">%d Guests</item>
+        <item quantity="zero">%d guests</item>
+        <item quantity="one">%d guest</item>
+        <item quantity="two">%d guests</item>
+        <item quantity="many">%d guests</item>
+        <item quantity="other">%d guests</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
@@ -3662,18 +3674,6 @@
     <!-- Airline Payment Fee Apply Message -->
     <string name="airline_fee_apply">Payment Fees May Apply</string>
 
-    <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">An airline fee, based on card type, is added upon payment.</string>
-    <string name="airline_charge_notice">Airlines charge an additional fee based on payment method.</string>
-    <string name="airline_fee_notice_payment">Airline fee applies based on payment method</string>
-
-    <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">An airline fee, based on card type, may be added upon payment.</string>
-    <string name="airline_may_charge_notice">Airlines may charge an additional fee based on payment method.</string>
-    <string name="airline_may_fee_notice_payment">Airline fee may apply based on payment method</string>
-
-    <!-- Packages -->
-
     <!-- Accessibility - Content Description for toolbar close button -->
     <string name="package_toolbar_close_cont_desc">Close search screen</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
@@ -3702,7 +3702,7 @@
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Step 1: Select Hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Step 2: Select Flights</string>
+    <string name="step_two">Step 2: Select flights</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Smart Deal</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3748,7 +3748,7 @@
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Select hotel in %s</string>
     <!-- Bundle Overview searching flight -->
-    <string name="searching_flight_to">Searching flight to %s</string>
+    <string name="searching_flight_to">Searching flights…</string>
     <!-- Package All Flight label -->
     <string name="all_flights_label">All Flights</string>
     <!-- Package Best Flight title -->

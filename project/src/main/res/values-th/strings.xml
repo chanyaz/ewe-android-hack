@@ -14,7 +14,7 @@
     <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
     <string name="nights_count_TEMPLATE">(%1$s)</string>
     <!-- Hotels search form default text for number of guests -->
-    <string name="hotel_search_guest_default_text">1 คน</string>
+    <string name="hotel_search_guest_default_text">ผู้เข้าพัก 1 คน</string>
     <!-- Package search form default text for number of travelers -->
     <string name="package_search_traveler_default_text">ผู้เดินทาง 1 คน</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">เวลาส่งคืนรถ {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string>
+    <string name="error_no_result_message">ขออภัย เราไม่พบผลลัพธ์ โปรดปรับเกณฑ์การค้นหาแล้วลองอีกครั้ง</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองลดตัวกรองผลการค้นหา</string>
     <!-- Transmission options filter label for a car rental -->
@@ -953,6 +953,8 @@
     <string name="launch_upcoming_trips_signed_in">คุณมีทริปที่กำลังจะถึง!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">ดูแผนการเดินทางได้ทุกที่ทุกเวลาและไม่พลาดทุกการเปลี่ยนแปลง</string>
+    <!-- Label for super search bar at launch screen -->
+    <string name="search_hotels_flight_more">ค้นหาโรงแรม เที่ยวบิน และอีกมากมาย…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">จองได้ทุกที่ ทุกเวลา</string>
@@ -1444,12 +1446,28 @@
     <string name="itin_hotel_details_checkin_text">เช็คอิน</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">เช็คเอาท์</string>
+    <!--Hotel itin checkin checkout to arrow content description-->
+    <string name="itin_hotel_details_checkout_to_arrow_cont_desc">ถึง</string>
     <!--Hotel itin manage booking button to change or cancel room-->
     <string name="itin_hotel_manage_booking_cancel_change_header">เปลี่ยนแปลงหรือยกเลิกห้องพัก</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">เปลี่ยนแปลงหรือยกเลิกห้องพัก</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">จัดการการจอง</string>
+    <!--Hotel itin manage booking hotel help heading-->
+    <string name="itin_hotel_manage_booking_hotel_help_heading">เราพร้อมช่วยเหลือคุณ</string>
+    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">หากมีข้อสงสัยเกี่ยวกับการจองของคุณหรือคำขอพิเศษ โปรดติดต่อ {hotelname}</string>
+    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
+    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">รหัสการยืนยัน # {number}</string>
+    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
+    <string name="itin_hotel_customer_support_header_text_TEMPLATE">หากต้องการความช่วยเหลือเกี่ยวกับการจัดการแผนการเดินทางนี้ โปรดติดต่อ {brand}</string>
+    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_hotel_itinerary_number_TEMPLATE">หมายเลขแผนการเดินทาง # {itinnumber}</string>
+    <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} ฝ่ายบริการลูกค้า</string>
+    <!--Hotel customer support website toolbar header-->
+    <string name="itin_hotel_customer_support_site_toolbar_header">ฝ่ายบริการลูกค้า</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">เช็คอิน — 3 วัน</string>
@@ -1707,7 +1725,7 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">ขออภัย การจองเที่ยวบินทางมือถือยังไม่มีให้บริการในพื้นที่ของคุณ</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">สนามบินที่ออกเดินทางกับสนามบินปลายทางต้องไม่ใช่สนามบินเดียวกัน</string>
+    <string name="error_same_flight_departure_arrival">โปรดตรวจสอบว่าเมืองต้นทางและเมืองปลายทางอยู่คนละที่กัน</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
@@ -1763,8 +1781,6 @@
     <string name="before_TEMPLATE">ก่อน {date}</string>
 
     <!-- Flight details fragment -->
-    <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">ข้อมูลเกี่ยวกับค่าสัมภาระ</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;แวะพัก %1$s&lt;/b&gt; ที่ %2$s</string>
     <!-- Price per person. For example: "$20.31 per person" -->
@@ -1797,18 +1813,12 @@
     <string name="earn_amount_TEMPLATE">รับ {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">รับ {price} ใน {currency}</string>
-    <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">มีค่าสัมภาระถือขึ้นเครื่อง</string>
-    <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">ไม่รวมสัมภาระเช็คอิน</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">อาจมีค่าธรรมเนียมการชำระเงิน</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">ค่าธรรมเนียมเพิ่มเติม</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">ค่าสัมภาระ</string>
-    <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">ค่าธรรมเนียมการชำระเงิน</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">บัตรเครดิต/เดบิตใบใหม่</string>
@@ -1843,7 +1853,7 @@
     <!-- Payment and ticket delivery fees may also apply -->
     <string name="payment_and_ticket_delivery_fees_may_also_apply">อาจมีค่าธรรมเนียมการชำระเงินและการจัดส่งตั๋ว</string>
     <!-- Includes flights+hotels -->
-    <string name="includes_flights_hotel">รวมเที่ยวบิน + โรงแรม</string>
+    <string name="includes_flights_hotel">รวมโรงแรมและเที่ยวบิน</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">ผู้เดินทาง %1$d คน</item>
@@ -1869,8 +1879,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">คุณกำลังใช้คะแนน Expedia+ {points} คะแนน ({amount})</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">คุณกำลังใช้คะแนน Expedia+ {points} คะแนน ({amount}) \nบัตรเครดิตของคุณจะถูกเรียกเก็บเงิน {dueamount}</string>
-    <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_template">บัตรเครดิตของคุณจะถูกเรียกเก็บเงิน {dueamount} (รวมค่าธรรมเนียมสัมภาระ)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">ยอดที่ต้องจ่ายวันนี้: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -2236,8 +2244,6 @@
     <string name="privacy_policy">นโยบายความเป็นส่วนตัว</string>
     <!-- Fare information header -->
     <string name="fare_information">ข้อมูลค่าโดยสาร</string>
-    <!-- Airline Fee -->
-    <string name="Airline_fee">ค่าธรรมเนียมสัมภาระ</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">ลบตัวกรองแล้ว</string>
     <!-- split ticket rules and restrictions -->
@@ -2440,7 +2446,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">กำลังค้นหาโรงแรมให้คุณ!</string>
+    <string name="progress_searching_hotels_hundreds">ค้นหาโรงแรม…</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">โปรดเลือกห้องอื่น</string>
     <!-- Message displayed when room is sold out -->
@@ -2453,6 +2459,12 @@
     <string name="current_location">ตำแหน่งปัจจุบัน</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">แผนที่ที่กำลังดู</string>
+
+    <!-- Showing search suggestion label for current location -->
+    <string name="flight_search_suggestion_label_airport_near">สนามบินใกล้คุณ</string>
+
+    <!-- Showing search suggestion label for recent search history -->
+    <string name="flight_search_suggestion_label_recent_search">การค้นหาล่าสุด</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -2991,11 +3003,11 @@
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d คน</item>
-        <item quantity="one">%d คน</item>
-        <item quantity="two">%d คน</item>
-        <item quantity="many">%d คน</item>
-        <item quantity="other">%d คน</item>
+        <item quantity="zero">ผู้เข้าพัก %d คน</item>
+        <item quantity="one">ผู้เข้าพัก %d คน</item>
+        <item quantity="two">ผู้เข้าพัก %d คน</item>
+        <item quantity="many">ผู้เข้าพัก %d คน</item>
+        <item quantity="other">ผู้เข้าพัก %d คน</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
@@ -3662,18 +3674,6 @@
     <!-- Airline Payment Fee Apply Message -->
     <string name="airline_fee_apply">อาจมีค่าธรรมเนียมการชำระเงิน</string>
 
-    <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">ค่าธรรมเนียมสัมภาระจะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร</string>
-    <string name="airline_charge_notice">สายการบินเรียกเก็บค่าธรรมเนียมเพิ่มเติมตามวิธีการชำระเงิน</string>
-    <string name="airline_fee_notice_payment">อาจมีค่าธรรมเนียมสัมภาระ ทั้งนี้ขึ้นอยู่กับวิธีการชำระเงิน</string>
-
-    <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">ค่าธรรมเนียมสายการบินอาจบวกเพิ่มเข้าไปในการชำระเงิน ขึ้นอยู่กับประเภทของบัตร</string>
-    <string name="airline_may_charge_notice">สายการบินอาจเรียกเก็บค่าธรรมเนียมเพิ่มเติมตามวิธีการชำระเงิน</string>
-    <string name="airline_may_fee_notice_payment">อาจมีค่าธรรมเนียมสายการบิน ขึ้นอยู่กับประเภทของบัตร</string>
-
-    <!-- Packages -->
-
     <!-- Accessibility - Content Description for toolbar close button -->
     <string name="package_toolbar_close_cont_desc">ปิดหน้าจอค้นหา</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
@@ -3748,7 +3748,7 @@
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">เลือกโรงแรมใน%s</string>
     <!-- Bundle Overview searching flight -->
-    <string name="searching_flight_to">ค้นหาเที่ยวบินไปยัง%s</string>
+    <string name="searching_flight_to">ค้นหาเที่ยวบิน…</string>
     <!-- Package All Flight label -->
     <string name="all_flights_label">เที่ยวบินทั้งหมด</string>
     <!-- Package Best Flight title -->

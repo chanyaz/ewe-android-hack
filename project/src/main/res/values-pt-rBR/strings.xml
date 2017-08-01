@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">Horário de devolução: {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Sua busca não obteve resultados. Tente novamente usando outros critérios de busca.</string>
+    <string name="error_no_result_message">Impossível encontrar resultados. Tente novamente usando outros critérios de busca.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Sua busca não obteve resultados. Tente reduzir o número de filtros.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -953,6 +953,8 @@
     <string name="launch_upcoming_trips_signed_in">Você tem uma viagem programada!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Acesse seus itinerários de onde estiver e receba atualizações sobre quaisquer alterações</string>
+    <!-- Label for super search bar at launch screen -->
+    <string name="search_hotels_flight_more">Busque hotéis, voos e muito mais…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Reserve de onde estiver</string>
@@ -1444,12 +1446,28 @@
     <string name="itin_hotel_details_checkin_text">Check-in</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">Check-out</string>
+    <!--Hotel itin checkin checkout to arrow content description-->
+    <string name="itin_hotel_details_checkout_to_arrow_cont_desc">A</string>
     <!--Hotel itin manage booking button to change or cancel room-->
     <string name="itin_hotel_manage_booking_cancel_change_header">Alterar ou cancelar quarto</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Alterar ou cancelar quarto</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Administrar reserva</string>
+    <!--Hotel itin manage booking hotel help heading-->
+    <string name="itin_hotel_manage_booking_hotel_help_heading">Estamos aqui para ajudar você!</string>
+    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Para solicitações especiais ou dúvidas em relação à reserva, entre em contato com o {hotelname}</string>
+    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
+    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">N° de confirmação: {number}</string>
+    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
+    <string name="itin_hotel_customer_support_header_text_TEMPLATE">Se precisar de ajuda para administrar este itinerário, entrar em contato com a {brand}</string>
+    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_hotel_itinerary_number_TEMPLATE">N° do itinerário: {itinnumber}</string>
+    <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_hotel_customer_support_site_header_TEMPLATE">Atendimento ao cliente da {brand}</string>
+    <!--Hotel customer support website toolbar header-->
+    <string name="itin_hotel_customer_support_site_toolbar_header">Serviço de atendimento ao cliente</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in em 3 dias</string>
@@ -1707,7 +1725,7 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">As reservas com dispositivos móveis ainda não estão disponíveis para seu local.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">Os aeroportos de partida e chegada não podem ser o mesmo.</string>
+    <string name="error_same_flight_departure_arrival">Certifique-se de que as cidades de partida e chegada estejam em lugares diferentes.</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
@@ -1763,8 +1781,6 @@
     <string name="before_TEMPLATE">até {date}</string>
 
     <!-- Flight details fragment -->
-    <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">Informações sobre as taxas de bagagem</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; de escala em %2$s</string>
     <!-- Price per person. For example: "$20.31 per person" -->
@@ -1797,18 +1813,12 @@
     <string name="earn_amount_TEMPLATE">Ganhe {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">Ganhe {price} em {currency}</string>
-    <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Há taxas para bagagem de bordo</string>
-    <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">Despache de bagagem não incluído</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">Pode haver taxas de pagamento</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Taxas adicionais</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Taxas de bagagem</string>
-    <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">Taxas de processamento de pagamento</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Novo cartão de crédito/débito</string>
@@ -1843,7 +1853,7 @@
     <!-- Payment and ticket delivery fees may also apply -->
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Taxas de pagamento e de entrega do bilhete também podem ser aplicadas.</string>
     <!-- Includes flights+hotels -->
-    <string name="includes_flights_hotel">Inclui voos + hotel</string>
+    <string name="includes_flights_hotel">inclui hotel e voos</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d viajante</item>
@@ -1869,8 +1879,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">Você está usando {points} pontos ({amount}) do Expedia+</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">Você está usando {points} pontos ({amount}) do Expedia+\nO valor será debitado em seu cartão {dueamount}</string>
-    <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_template">Será cobrado o valor de {dueamount} em seu cartão (mais taxa da companhia aérea)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">Valor devido hoje: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -2236,8 +2244,6 @@
     <string name="privacy_policy">Política de privacidade</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMAÇÕES DE TARIFA</string>
-    <!-- Airline Fee -->
-    <string name="Airline_fee">Taxa da companhia aérea</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Filtros removidos</string>
     <!-- split ticket rules and restrictions -->
@@ -2440,7 +2446,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">Buscando centenas de hotéis pra você!</string>
+    <string name="progress_searching_hotels_hundreds">Buscando hotéis…</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Selecionar outro quarto</string>
     <!-- Message displayed when room is sold out -->
@@ -2453,6 +2459,12 @@
     <string name="current_location">Posição atual</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Mapa</string>
+
+    <!-- Showing search suggestion label for current location -->
+    <string name="flight_search_suggestion_label_airport_near">Aeroportos perto de você</string>
+
+    <!-- Showing search suggestion label for recent search history -->
+    <string name="flight_search_suggestion_label_recent_search">Buscas recentes</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -2951,31 +2963,31 @@
     <string name="app_not_available">Seu dispositivo móvel não possui um aplicativo capaz de realizar esta ação ou você não tem autorização para acessá-lo.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">%d Adulto</item>
-        <item quantity="one">%d Adulto</item>
-        <item quantity="two">%d Adultos</item>
-        <item quantity="many">%d Adultos</item>
-        <item quantity="other">%d Adultos</item>
+        <item quantity="zero">%d adulto</item>
+        <item quantity="one">%d adulto</item>
+        <item quantity="two">%d adultos</item>
+        <item quantity="many">%d adultos</item>
+        <item quantity="other">%d adultos</item>
     </plurals>
     <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
-        <item quantity="zero">%d Criança</item>
-        <item quantity="one">%d Criança</item>
-        <item quantity="two">%d Crianças</item>
-        <item quantity="many">%d Crianças</item>
-        <item quantity="other">%d Crianças</item>
+        <item quantity="zero">%d criança</item>
+        <item quantity="one">%d criança</item>
+        <item quantity="two">%d crianças</item>
+        <item quantity="many">%d crianças</item>
+        <item quantity="other">%d crianças</item>
     </plurals>
     <!-- A number of youth. Capitalized -->
     <plurals name="number_of_youth">
-        <item quantity="zero">%d Jovem</item>
-        <item quantity="one">%d Jovem</item>
-        <item quantity="two">%d Jovens</item>
-        <item quantity="many">%d Jovens</item>
-        <item quantity="other">%d Jovens</item>
+        <item quantity="zero">%d jovem</item>
+        <item quantity="one">%d jovem</item>
+        <item quantity="two">%d jovens</item>
+        <item quantity="many">%d jovens</item>
+        <item quantity="other">%d jovens</item>
     </plurals>
     <!-- A number of infant. Capitalized -->
     <plurals name="number_of_infant">
-        <item quantity="zero">%d bebês</item>
+        <item quantity="zero">%d bebê</item>
         <item quantity="one">%d bebê</item>
         <item quantity="two">%d bebês</item>
         <item quantity="many">%d bebês</item>
@@ -2983,19 +2995,19 @@
     </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
-        <item quantity="zero">%d Idoso</item>
-        <item quantity="one">%d Idoso</item>
-        <item quantity="two">%d Idosos</item>
-        <item quantity="many">%d Idosos</item>
-        <item quantity="other">%d Idosos</item>
+        <item quantity="zero">%d idoso</item>
+        <item quantity="one">%d idoso</item>
+        <item quantity="two">%d idosos</item>
+        <item quantity="many">%d idosos</item>
+        <item quantity="other">%d idosos</item>
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d Hóspede</item>
-        <item quantity="one">%d Hóspede</item>
-        <item quantity="two">%d Hóspedes</item>
-        <item quantity="many">%d Hóspedes</item>
-        <item quantity="other">%d Hóspedes</item>
+        <item quantity="zero">%d hóspede</item>
+        <item quantity="one">%d hóspede</item>
+        <item quantity="two">%d hóspedes</item>
+        <item quantity="many">%d hóspedes</item>
+        <item quantity="other">%d hóspedes</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
@@ -3662,18 +3674,6 @@
     <!-- Airline Payment Fee Apply Message -->
     <string name="airline_fee_apply">Sujeito a taxas de pagamento</string>
 
-    <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">Uma taxa da companhia aérea será adicionada no momento do pagamento, de acordo com o tipo de cartão.</string>
-    <string name="airline_charge_notice">As companhias aéreas cobram uma taxa adicional de acordo com o método de pagamento.</string>
-    <string name="airline_fee_notice_payment">A taxa da companhia aérea tem como base o método de pagamento.</string>
-
-    <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">Uma taxa da companhia aérea pode ser adicionada no momento do pagamento, com base no tipo de cartão.</string>
-    <string name="airline_may_charge_notice">As companhias aéreas podem cobrar uma taxa adicional de acordo com o método de pagamento.</string>
-    <string name="airline_may_fee_notice_payment">Uma taxa da companhia aérea pode ser aplicada de acordo com o método de pagamento</string>
-
-    <!-- Packages -->
-
     <!-- Accessibility - Content Description for toolbar close button -->
     <string name="package_toolbar_close_cont_desc">Fechar tela de busca</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
@@ -3748,7 +3748,7 @@
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Selecione hotel em %s</string>
     <!-- Bundle Overview searching flight -->
-    <string name="searching_flight_to">Procurando voo para %s</string>
+    <string name="searching_flight_to">Buscando voos…</string>
     <!-- Package All Flight label -->
     <string name="all_flights_label">Todos os voos</string>
     <!-- Package Best Flight title -->

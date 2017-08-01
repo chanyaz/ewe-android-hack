@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">Restitution à {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Votre recherche n\&apos;a donné aucun résultat. Veuillez tenter une nouvelle recherche avec des critères différents.</string>
+    <string name="error_no_result_message">Désolés, nous n\&apos;avons trouvé aucun résultat. Veuillez réessayer avec des critères différents.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Votre recherche n\&apos;a donné aucun résultat. Veuillez essayer de réduire le nombre de filtres.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -953,6 +953,8 @@
     <string name="launch_upcoming_trips_signed_in">Vous avez un voyage à venir !</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Accédez à vos voyages où que vous soyez et restez informé en cas de changement.</string>
+    <!-- Label for super search bar at launch screen -->
+    <string name="search_hotels_flight_more">Recherchez des hôtels, des vols et plus…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Réservez partout, à tout moment</string>
@@ -1444,12 +1446,28 @@
     <string name="itin_hotel_details_checkin_text">Arrivée</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">Départ</string>
+    <!--Hotel itin checkin checkout to arrow content description-->
+    <string name="itin_hotel_details_checkout_to_arrow_cont_desc">au</string>
     <!--Hotel itin manage booking button to change or cancel room-->
     <string name="itin_hotel_manage_booking_cancel_change_header">Modifier ou annuler la chambre</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Modifier ou annuler la chambre</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Gérer la réservation</string>
+    <!--Hotel itin manage booking hotel help heading-->
+    <string name="itin_hotel_manage_booking_hotel_help_heading">Nous sommes là pour vous aider</string>
+    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Si vous avez des demandes spéciales ou des questions sur votre réservation, contactez {hotelname}</string>
+    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
+    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Numéro de confirmation : {number}</string>
+    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
+    <string name="itin_hotel_customer_support_header_text_TEMPLATE">Si vous avez besoin d\&apos;aide pour gérer ce voyage, veuillez contacter {brand}</string>
+    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_hotel_itinerary_number_TEMPLATE">N° de voyage : {itinnumber}</string>
+    <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_hotel_customer_support_site_header_TEMPLATE">Service clients {brand}</string>
+    <!--Hotel customer support website toolbar header-->
+    <string name="itin_hotel_customer_support_site_toolbar_header">Service clients</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Arrivée dans 3 jours</string>
@@ -1707,13 +1725,13 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Désolés, la réservation de vols via mobile n\&apos;est pas encore disponible pour votre position actuelle.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">Les aéroports de départ et d\&apos;arrivée doivent être différents.</string>
+    <string name="error_same_flight_departure_arrival">Veuillez vous assurer que votre ville de départ est différente de votre destination.</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
     <string name="edit_search">Modifier la recherche</string>
     <!-- Action mode asking users to select dates -->
-    <string name="select_dates">Choisir les dates</string>
+    <string name="select_dates">Sélectionner les dates</string>
     <!-- Accessibility labeling to the user the trip dates card. -->
     <string name="trip_dates_cont_desc">Dates du voyage</string>
     <!-- Action mode asking users to select location -->
@@ -1763,8 +1781,6 @@
     <string name="before_TEMPLATE">avant le {date}</string>
 
     <!-- Flight details fragment -->
-    <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">Informations frais de bagages</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">Escale de &lt;b&gt;%1$s&lt;/b&gt; à %2$s</string>
     <!-- Price per person. For example: "$20.31 per person" -->
@@ -1797,18 +1813,12 @@
     <string name="earn_amount_TEMPLATE">Gagnez {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">Gagnez {price} en {currency}</string>
-    <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Supplément pour bagages à main</string>
-    <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">Bagage en soute non inclus</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">Des frais de réservation sont appliqués</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Frais supplémentaires</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Frais de bagages</string>
-    <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">Frais de réservation</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Nouvelle carte de crédit/débit</string>
@@ -1843,10 +1853,10 @@
     <!-- Payment and ticket delivery fees may also apply -->
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Des frais de paiement et de livraison des billets peuvent s\&apos;appliquer.</string>
     <!-- Includes flights+hotels -->
-    <string name="includes_flights_hotel">Inclut les vols + hôtel</string>
+    <string name="includes_flights_hotel">Vols et hôtels inclus</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d voyageurs</item>
+        <item quantity="zero">%1$d voyageur</item>
         <item quantity="one">%1$d voyageur</item>
         <item quantity="two">%1$d voyageurs</item>
         <item quantity="few">%1$d voyageurs</item>
@@ -1869,8 +1879,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">Vous allez utiliser {points} points Expedia+ ({amount}).</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">Vous allez utiliser {points} points Expedia+ ({amount}).\nUn montant de {dueamount} sera facturé sur votre carte.</string>
-    <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_template">Votre carte sera débitée de {dueamount} (plus les frais de compagnie aérienne).</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">Montant dû aujourd\&apos;hui : {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -2236,8 +2244,6 @@
     <string name="privacy_policy">Charte de confidentialité</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMATIONS SUR LES TARIFS</string>
-    <!-- Airline Fee -->
-    <string name="Airline_fee">Frais de compagnie aérienne</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Filtres supprimés</string>
     <!-- split ticket rules and restrictions -->
@@ -2440,7 +2446,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">Nous recherchons parmi des centaines d\&apos;hôtels pour vous !</string>
+    <string name="progress_searching_hotels_hundreds">Recherche d\&apos;hôtels…</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Sélectionnez une autre chambre</string>
     <!-- Message displayed when room is sold out -->
@@ -2453,6 +2459,12 @@
     <string name="current_location">Position actuelle</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Carte</string>
+
+    <!-- Showing search suggestion label for current location -->
+    <string name="flight_search_suggestion_label_airport_near">Aéroports près de vous</string>
+
+    <!-- Showing search suggestion label for recent search history -->
+    <string name="flight_search_suggestion_label_recent_search">Recherches récentes</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -3662,18 +3674,6 @@
     <!-- Airline Payment Fee Apply Message -->
     <string name="airline_fee_apply">Des frais de paiement peuvent s\&apos;appliquer</string>
 
-    <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">Des frais de compagnie aérienne seront ajoutés au moment du paiement, en fonction du type de carte.</string>
-    <string name="airline_charge_notice">Les compagnies aériennes imposent des frais supplémentaires en fonction du moyen de paiement utilisé.</string>
-    <string name="airline_fee_notice_payment">Des frais de compagnie aérienne s\&apos;appliquent selon le moyen de paiement.</string>
-
-    <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">Des frais de compagnie aérienne peuvent être ajoutés au moment du paiement, en fonction du type de carte.</string>
-    <string name="airline_may_charge_notice">Les compagnies aériennes peuvent appliquer des frais supplémentaires en fonction du moyen de paiement utilisé.</string>
-    <string name="airline_may_fee_notice_payment">Des frais de compagnie aérienne peuvent s\&apos;appliquer en fonction du moyen de paiement utilisé.</string>
-
-    <!-- Packages -->
-
     <!-- Accessibility - Content Description for toolbar close button -->
     <string name="package_toolbar_close_cont_desc">Fermer l\&apos;écran de recherche</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
@@ -3748,7 +3748,7 @@
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Choisir l\&apos;hôtel à %s</string>
     <!-- Bundle Overview searching flight -->
-    <string name="searching_flight_to">Recherche du vol pour %s</string>
+    <string name="searching_flight_to">Recherche de vols…</string>
     <!-- Package All Flight label -->
     <string name="all_flights_label">Tous les vols</string>
     <!-- Package Best Flight title -->
