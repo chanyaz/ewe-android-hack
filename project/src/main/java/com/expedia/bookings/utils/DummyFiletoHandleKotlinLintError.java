@@ -346,6 +346,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.checkout_payment_options,
 		R.plurals.hotel_results_default_header_TEMPLATE,
 		R.string.pwp_points_conversion_unauthenticated_access,
+		R.layout.frequent_flyer_program_card_layout,
+		R.string.collapse_frequent_flyer_button_cont_desc,
 		R.string.pwp_trip_service_error,
 		R.string.pwp_unknown_error,
 		R.dimen.calendar_height_with_time_slider,

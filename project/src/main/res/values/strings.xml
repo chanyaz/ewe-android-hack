@@ -2097,6 +2097,11 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Expand Advanced (Optional) Button</string>
     <string name="collapse_advanced_button_cont_desc">Collapse Advanced (Optional) Button</string>
+    <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
+    <string name="frequent_flyer_optional">Frequent Flyer Program (optional)</string>
+    <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
+    <string name="expand_frequent_flyer_button_cont_desc">Expand Frequent Flyer (Optional) Button</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">Collapse Frequent Flyer (Optional) Button</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">Update traveler information under your {brand} account to speed up future purchases?</string>
     <!-- Update traveler dialog title-->
@@ -2142,6 +2147,8 @@
     <string name="known_traveler_msg">This is the government-issued number used for TSA PreCheck</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">A redress number is a unique TSA-issued number that helps the TSA eliminate watch list misidentification and verify your identity.</string>
+    <!--Frequent flyer program number hint -->
+    <string name="frequent_flyer_program_number">Program Number</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">Seating Preference</string>
