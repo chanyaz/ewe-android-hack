@@ -50,6 +50,7 @@ public class LXSortFilterWidget extends LinearLayout {
 	private boolean themeAllThingsToDo;
 	private String filterActivity;
 	private boolean clearTextFromReset = false;
+	private boolean skippedFirstFilter = false;
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -148,6 +149,9 @@ public class LXSortFilterWidget extends LinearLayout {
 		public void onNext(Object o) {
 			if (clearTextFromReset) {
 				clearTextFromReset = false;
+			}
+			else if (!skippedFirstFilter) {
+				skippedFirstFilter = true;
 			}
 			else {
 				postLXFilterChangedEvent();
