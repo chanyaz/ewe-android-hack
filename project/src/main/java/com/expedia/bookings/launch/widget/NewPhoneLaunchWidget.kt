@@ -150,6 +150,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             params.checkOutDate = now.plusDays(1)
             params.numAdults = 2
             params.children = null
+            params.setSearchLatLon(selectedHotel.latitude, selectedHotel.longitude)
             NavUtils.goToHotels(context, params)
         }
 
@@ -378,7 +379,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         searchParams.checkInDate = currentDate
         searchParams.checkOutDate = currentDate.plusDays(1)
         searchParams.setSearchLatLon(loc.latitude, loc.longitude)
-        searchParams.setFromLaunchScreen(true)
         return searchParams
     }
 

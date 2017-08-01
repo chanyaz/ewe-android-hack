@@ -482,10 +482,12 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         errorPresenter.viewmodel = HotelErrorViewModel(context)
         errorPresenter.getViewModel().searchErrorObservable.subscribe {
             searchPresenter.resetSearchOptions()
-            show(searchPresenter, FLAG_CLEAR_TOP)
+            show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+            searchPresenter.showDefault()
         }
         errorPresenter.viewmodel.defaultErrorObservable.subscribe {
-            show(searchPresenter, FLAG_CLEAR_TOP)
+            show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+            searchPresenter.showDefault()
         }
         errorPresenter.getViewModel().filterNoResultsObservable.subscribe {
             resultsPresenter.showCachedResults()
@@ -516,7 +518,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
 
         errorPresenter.viewmodel.sessionTimeOutObservable.subscribe {
-            show(searchPresenter, FLAG_CLEAR_TOP)
+            show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+            searchPresenter.showDefault()
         }
 
         errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
@@ -910,11 +913,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsPresenter.viewModel.paramsSubject.onNext(params)
     }
 
-    private fun handleHotelIdSearch(params: HotelSearchParams) {
+    private fun handleHotelIdSearch(params: HotelSearchParams, fromDeepLink: Boolean = false) {
         updateSearchParams(params)
 
         HotelTracking.trackPinnedSearch()
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)) {
+        if (!fromDeepLink && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)) {
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
             resultsPresenter.viewModel.paramsSubject.onNext(params)
         } else {
@@ -981,7 +984,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         handler.hotelIdDeepLinkSubject.subscribe { params ->
             updateSearchForDeepLink(params)
             setDefaultTransition(Screen.DETAILS)
-            handleHotelIdSearch(params)
+            handleHotelIdSearch(params, true)
         }
 
         handler.deepLinkInvalidSubject.subscribe {

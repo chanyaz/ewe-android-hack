@@ -75,8 +75,6 @@ public class HotelSearchParams implements JSONable {
 	// This will get set if the HotelSearchParams object was created from the widget
 	private boolean mIsFromWidget;
 
-	private boolean mFromLaunchScreen;
-
 	/**
 	 *  The variables below are just for analytics
 	 *  mUserFreeformLocation is what the user entered for a freeform location.  We may disambiguate or
@@ -127,14 +125,6 @@ public class HotelSearchParams implements JSONable {
 
 	public HotelSearchParams copy() {
 		return new HotelSearchParams(toJson());
-	}
-
-	public boolean fromLaunchScreen() {
-		return mFromLaunchScreen;
-	}
-
-	public void setFromLaunchScreen(boolean fromLaunchScreen) {
-		mFromLaunchScreen = fromLaunchScreen;
 	}
 
 	public SearchType getSearchType() {
