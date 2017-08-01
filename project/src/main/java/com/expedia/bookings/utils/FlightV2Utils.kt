@@ -11,6 +11,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.widget.traveler.FrequentFlyerCard
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
@@ -194,6 +195,20 @@ object FlightV2Utils {
             return airlines.subList(0, 1)
         }
         return airlines
+    }
+
+    fun getAirlineNames(flightLegs: List<FlightLeg>): List<FrequentFlyerCard> {
+        val frequentFlyerCards = ArrayList<FrequentFlyerCard>()
+        val seenAirlines = ArrayList<String>()
+        flightLegs.forEach {
+            it.segments.forEach {
+                if (!seenAirlines.contains(it.airlineName)) {
+                    frequentFlyerCards.add(FrequentFlyerCard(it.airlineName))
+                    seenAirlines.add(it.airlineName)
+                }
+            }
+        }
+        return frequentFlyerCards
     }
 
     @JvmStatic fun isFlightMerchant(flightLeg: FlightLeg?): Boolean {

@@ -176,6 +176,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         presenter.viewModel.travelersCompletenessStatus.subscribe(travelerSummaryCard.viewModel.travelerStatusObserver)
         presenter.viewModel.allTravelersCompleteSubject.subscribe(getCheckoutViewModel().travelerCompleted)
         presenter.viewModel.invalidTravelersSubject.subscribe(getCheckoutViewModel().clearTravelers)
+        presenter.viewModel.frequentFlyersCarrierName.subscribe(getCheckoutViewModel().createTripResponseObservable)
         presenter
     }
 

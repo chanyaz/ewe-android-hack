@@ -3,6 +3,7 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -18,6 +19,7 @@ abstract class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
     val emptyTravelersSubject = BehaviorSubject.create<Unit>()
     val passportRequired = BehaviorSubject.create<Boolean>(false)
     val showMainTravelerMinAgeMessaging = BehaviorSubject.create<Boolean>(false)
+    val frequentFlyersCarrierName = BehaviorSubject.create<TripResponse>()
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)

@@ -6,6 +6,8 @@ import android.content.Context
 import android.os.Build
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
@@ -17,15 +19,19 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FlightV2Utils.getAirlineNames
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
+import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
 import com.expedia.bookings.widget.traveler.TSAEntryView
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.updateVisibility
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 
@@ -33,6 +39,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     val DEFAULT_EMPTY_PASSPORT = 0
     val materialFormTestEnabled = isMaterialFormsEnabled()
+    val frequentflyerTestEnabled = isFrequentFlyerNumberForFlightsEnabled(context)
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: AccessibleSpinner by bindView(R.id.passport_country_spinner)
     val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)
@@ -41,6 +48,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
     val advancedOptionsText: TextView by bindView(R.id.advanced_options_text)
+    var frequentFlyerButton: LinearLayout ?= null
+    var frequentFlyerRecycler: RecyclerView ?= null
+    var frequentFlyerIcon: ImageView ?= null
+    var frequentFlyerText: TextView ?= null
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
@@ -48,6 +59,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         val widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
         advancedOptionsWidget.measure(widthMeasureSpec, heightMeasureSpec)
         resizeAnimator.addViewSpec(advancedOptionsWidget, advancedOptionsWidget.measuredHeight)
+        resizeAnimator
+    }
+
+    val resizeOpenFrequentFlyerAnimator: ResizeHeightAnimator by lazy {
+        val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST)
+        val widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+        frequentFlyerRecycler?.measure(widthMeasureSpec, heightMeasureSpec)
+        resizeAnimator.addViewSpec(frequentFlyerRecycler as View, frequentFlyerRecycler?.measuredHeight as Int)
         resizeAnimator
     }
 
@@ -66,6 +86,26 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
             override fun onAnimationEnd(animation: Animator?) {
                 advancedOptionsWidget.visibility = Presenter.GONE
+            }
+        })
+        resizeAnimator
+    }
+
+    val resizeCloseFrequentFlyerAnimator: ResizeHeightAnimator by lazy {
+        val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+        resizeAnimator.addViewSpec(frequentFlyerRecycler as View, 0)
+        resizeAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                frequentFlyerRecycler?.visibility = Presenter.GONE
             }
         })
         resizeAnimator
@@ -112,6 +152,11 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                         R.string.passport_validation_error_message, R.drawable.material_dropdown)
             }
         }
+
+        vm.flightLegObservable.subscribe { flightLegs ->
+            val airlines = getAirlineNames(flightLegs)
+            (frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).setFrequentFlyerCards(airlines)
+        }
     }
 
     init {
@@ -122,6 +167,14 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             setOnFocusChangeListenerForView(passportCountryEditBox)
             setOnFocusChangeListenerForView(advancedOptionsWidget.seatPreferenceEditBox)
             setOnFocusChangeListenerForView(advancedOptionsWidget.assistancePreferenceEditBox)
+            if (frequentflyerTestEnabled) {
+                frequentFlyerButton = findViewById(R.id.traveler_frequent_flyer_button) as LinearLayout
+                frequentFlyerRecycler = findViewById(R.id.frequent_flyer_recycler_view) as RecyclerView
+                frequentFlyerIcon = findViewById(R.id.traveler_frequent_flyer_program_icon) as ImageView
+                frequentFlyerText = findViewById(R.id.frequent_flyer_program_text) as TextView
+                frequentFlyerButton?.updateVisibility(frequentflyerTestEnabled)
+                setUpRecyclerView(context)
+            }
         } else {
             val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
                     R.layout.material_spinner_item, R.layout.spinner_dropdown_item, true)
@@ -143,6 +196,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             passportCountryEditBox.setOnClickListener {
                 showCountryAlertDialog()
             }
+            if (frequentflyerTestEnabled) {
+                frequentFlyerButton?.setOnClickListener {
+                    if (frequentFlyerRecycler?.visibility == Presenter.GONE) {
+                        showFrequentFlyerProgram()
+                    } else {
+                        hideFrequentFlyerProgram()
+                    }
+                }
+            }
             setOnFocusChangeListenerForView(tsaEntryView.genderEditText!!)
         } else {
             tsaEntryView.genderSpinner?.addOnFocusChangeListener(this)
@@ -155,6 +217,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                 hideAdvancedOptions()
             }
         }
+
         val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
         if (isExtraPaddingRequired) {
             phoneEntryView.phoneNumber.updatePaddingForOldApi()
@@ -203,6 +266,19 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         AnimUtils.reverseRotate(advancedOptionsIcon)
         resizeCloseAnimator.start()
         advancedOptionsText.contentDescription = context.getString(R.string.expand_advanced_button_cont_desc)
+    }
+
+    private fun showFrequentFlyerProgram() {
+        frequentFlyerRecycler?.visibility = Presenter.VISIBLE
+        resizeOpenFrequentFlyerAnimator.start()
+        AnimUtils.rotate(frequentFlyerIcon)
+        frequentFlyerText?.contentDescription = context.getString(R.string.collapse_frequent_flyer_button_cont_desc)
+    }
+
+    private fun hideFrequentFlyerProgram() {
+        AnimUtils.reverseRotate(frequentFlyerIcon)
+        resizeCloseFrequentFlyerAnimator.start()
+        frequentFlyerText?.contentDescription = context.getString(R.string.expand_frequent_flyer_button_cont_desc)
     }
 
     private inner class CountryItemSelectedListener() : AdapterView.OnItemSelectedListener {
@@ -282,4 +358,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         tsaEntryView.genderEditText?.viewModel?.errorSubject?.onNext(false)
     }
 
+    fun setUpRecyclerView(context: Context) {
+        val linearLayoutManager = LinearLayoutManager(context)
+        frequentFlyerRecycler?.layoutManager = linearLayoutManager
+        frequentFlyerRecycler?.adapter = FrequentFlyerAdapter()
+    }
 }

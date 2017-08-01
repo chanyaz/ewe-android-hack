@@ -11,6 +11,7 @@ import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 
 class FlightTravelersPresenter(context: Context, attrs: AttributeSet) : AbstractTravelersPresenter(context, attrs) {
