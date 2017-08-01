@@ -106,7 +106,42 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:paddingTop="12dp"
-            android:paddingBottom="9dp"/>
+            android:paddingBottom="9dp" />
+
+        <LinearLayout
+            android:id="@+id/traveler_frequent_flyer_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/frequent_flyer_program_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/expand_frequent_flyer_button_cont_desc"
+                android:text="@string/frequent_flyer_optional"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:id="@+id/traveler_frequent_flyer_program_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/frequent_flyer_program_text"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center"
+                android:src="@drawable/read_more"
+                android:tint="@color/black" />
+
+        </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/frequent_flyer_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:visibility="gone"/>
 
     </LinearLayout>
 </merge>
