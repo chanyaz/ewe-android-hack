@@ -26,6 +26,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -284,6 +285,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 			ViewGroup.LayoutParams.WRAP_CONTENT);
 		int statusBarHeight = getStatusBarHeight(context);
 		lp.height = statusBarHeight;
+		v.setId(R.id.expedia_fake_status_bar);
 		v.setLayoutParams(lp);
 		v.setBackgroundColor(color);
 		if (toolbar != null) {

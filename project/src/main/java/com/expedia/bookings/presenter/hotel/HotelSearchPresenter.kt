@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -49,6 +50,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     val params = HotelSearchParams()
 
     private val mainContainer: LinearLayout by bindView(R.id.main_container)
+    private val advancedOptionsContainerCard: FrameLayout by bindView(R.id.advanced_options_card_view)
     private val advancedOptionsView: SearchInputTextView by bindView(R.id.advanced_options_view)
     private val advancedOptionsDetails: AdvancedSearchOptionsView by bindView(R.id.search_options_details_view)
 
@@ -141,7 +143,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_hotel_search, this)
-        travelerCardView.visibility = View.VISIBLE
         shopWithPointsWidget = swpWidgetStub.inflate().findViewById(R.id.widget_points_details) as ShopWithPointsWidget
     }
 
@@ -175,7 +176,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         advancedOptionsViewModel.searchOptionsSummarySubject.subscribeText(advancedOptionsView)
 
         val showAdvancedOptions = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)
-        advancedOptionsView.updateVisibility(showAdvancedOptions)
+        advancedOptionsContainerCard.updateVisibility(showAdvancedOptions)
     }
 
     override fun back(): Boolean {
@@ -232,7 +233,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         if (suggestion.isPinnedHotelSearch) {
             resetSearchOptions()
         }
-        advancedOptionsView.setInverseVisibility(suggestion.isPinnedHotelSearch)
+        advancedOptionsContainerCard.setInverseVisibility(suggestion.isPinnedHotelSearch)
     }
 
     private fun updateDestinationText(locationText: String) {

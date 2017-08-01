@@ -6,6 +6,7 @@
     <color name="app_primary">@color/blue2</color>
     <color name="app_primary_dark">@color/blue3</color>
     <color name="app_primary_light">@color/blue1</color>
+    <color name="app_status_bar_color">@color/blue4</color>
     <color name="brand_secondary">@color/exp_yellow</color>
 
     <!-- Action Bar colors -->
@@ -391,7 +392,6 @@
     <color name="rail_button_ripple_color">@color/blue3</color>
     <color name="rail_background_color">@color/gray1</color>
     <color name="rail_primary_dark_background_color">@color/blue4</color>
-    <color name="rail_status_bar_color">@color/blue4</color>
     <color name="rail_bundle_icon_color">@color/gray6</color>
     <color name="rail_title_color">@color/gray10</color>
     <color name="rail_regular_text_color">@color/gray7</color>

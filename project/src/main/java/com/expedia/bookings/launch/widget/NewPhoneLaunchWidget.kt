@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Rect
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.text.format.DateUtils
@@ -18,6 +19,7 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.ActivityTransitionUtil
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Property
@@ -26,6 +28,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
@@ -103,6 +106,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private val proWizardSearchBar: RelativeLayout by bindView(R.id.pro_wizard_search_bar)
+    private val proWizardSearchCardView: CardView by bindView(R.id.pro_wizard_search_card_view)
     private val proWizardSearchBarView: SearchInputTextView by bindView(R.id.pro_wizard_search_bar_view)
     private val proWizardSearchBarShadow: View by bindView(R.id.pro_wizard_search_bar_shadow)
 
@@ -211,7 +215,12 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         proWizardSearchBarShadow.updateVisibility(proWizardBucketed)
 
         proWizardSearchBarView.setOnClickListener {
-            NavUtils.goToHotels(context, null, null, 0)
+            val activity = context as NewPhoneLaunchActivity
+            val pairs = ActivityTransitionUtil.createPairsWithAndroidComponents(activity,
+                    proWizardSearchCardView, context.getString(R.string.pro_wizard_bar_hero_animation))
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as NewPhoneLaunchActivity, *pairs)
+
+            NavUtils.goToHotels(context, null, options.toBundle(), 0)
         }
 
         proWizardSearchBarView.setText(PointOfSale.getPointOfSale().getProWizardLOBString(context))

@@ -60,6 +60,7 @@ class DebugColorPaletteActivity : AppCompatActivity() {
                 DebugColorPaletteItem(colorId = R.color.app_primary),
                 DebugColorPaletteItem(colorId = R.color.app_primary_dark),
                 DebugColorPaletteItem(colorId = R.color.app_primary_light),
+                DebugColorPaletteItem(colorId = R.color.app_status_bar_color),
                 DebugColorPaletteItem(colorId = R.color.brand_secondary),
 
                 DebugColorPaletteItem(DebugColorPaletteItem.TITLE, "Gray Colors"),

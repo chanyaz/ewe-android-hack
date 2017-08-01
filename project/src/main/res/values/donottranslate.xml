@@ -420,4 +420,7 @@
 
     <string name="server_change_message">Changing the server requires a restart. By clicking OK, the app will close and relaunch</string>
     <string name="exp_u">fe627e29-3afb-4384-9fc0-a1d2a4dcd30c</string>
+
+    <!-- Transition strings -->
+    <string name="pro_wizard_bar_hero_animation">pro_wizard_bar_hero_animation</string>
 </resources>

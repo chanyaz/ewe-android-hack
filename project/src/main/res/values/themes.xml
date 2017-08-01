@@ -192,6 +192,13 @@
     <!-- TODO rename it to launch theme, remove old screen launch theme and all properties are placeholder !-->
     <style name="NewLaunchTheme" parent="AppTheme.Base">
         <item name="android:windowBackground">@color/gray1</item>
+
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowExitTransition">@transition/launch_activity_exit_transition</item>
+        <item name="android:windowReenterTransition">@transition/launch_activity_reenter_animation</item>
+
+        <item name="android:statusBarColor">@color/app_status_bar_color</item>
         <item name="android:colorPrimaryDark">#04445e</item>
         <item name="android:colorButtonNormal">@color/new_launch_primary_color</item>
         <item name="colorAccent">@color/new_launch_primary_color</item>

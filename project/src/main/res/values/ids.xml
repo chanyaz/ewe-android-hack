@@ -14,4 +14,6 @@
     <item name="price_range_decrease_max_price" type="id"/>
 
     <item name="seekbar_breakout_set_level" type="id"/>
+
+    <item name="expedia_fake_status_bar" type="id"/>
 </resources>

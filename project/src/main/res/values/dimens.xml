@@ -11,6 +11,10 @@
 
     <dimen name="action_bar_selected_tab_underline_height">1dp</dimen>
 
+    <!-- 8dp grid margins -->
+    <dimen name="small_margin">4dp</dimen>
+    <dimen name="default_margin">8dp</dimen>
+
     <!-- Launch dimens -->
     <dimen name="launch_header_height">48dp</dimen>
     <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>

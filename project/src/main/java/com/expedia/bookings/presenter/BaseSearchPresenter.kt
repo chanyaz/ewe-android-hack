@@ -11,7 +11,6 @@ import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
@@ -83,7 +82,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
     open val destinationCardView: SearchInputTextView by bindView(R.id.destination_card)
-    open val travelerCardView: CardView by bindView(R.id.traveler_card_view)
     open val travelerWidgetV2 by lazy {
         travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
     }
