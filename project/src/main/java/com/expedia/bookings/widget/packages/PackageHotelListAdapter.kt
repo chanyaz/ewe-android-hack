@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import rx.subjects.PublishSubject
 
@@ -13,5 +15,9 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
     override fun getHotelCellHolder(parent: ViewGroup): PackageHotelCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.package_hotel_cell, parent, false)
         return PackageHotelCellViewHolder(view as ViewGroup, parent.width)
+    }
+
+    override fun shouldShowPackageIncludesTaxesMessage(): Boolean {
+        return PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN
     }
 }

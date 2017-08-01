@@ -129,24 +129,6 @@ class PackageHotelCellTest {
         Assert.assertEquals("", packageHotelHolder.urgencyMessageContainer.urgencyMessageTextView.text)
     }
 
-    @Test fun testPriceIncludesFlights() {
-        val hotel = makeHotel()
-        packageHotelHolder.bindHotelData(hotel)
-        Assert.assertEquals(View.GONE, packageHotelHolder.priceIncludesFlightsView.visibility)
-
-        hotel.isPackage = true
-        hotel.thumbnailUrl = "https://media.expedia.com"
-        packageHotelHolder.bindHotelData(hotel)
-        Assert.assertEquals(View.VISIBLE, packageHotelHolder.priceIncludesFlightsView.visibility)
-
-    }
-
-    @Test fun testNoPriceIncludesFlights() {
-        val hotel = makeHotel()
-        packageHotelHolder.bindHotelData(hotel)
-        Assert.assertEquals(View.GONE, packageHotelHolder.priceIncludesFlightsView.visibility)
-    }
-
     private fun makeHotel(): Hotel {
         val hotel = Hotel()
         hotel.hotelId = "happy"

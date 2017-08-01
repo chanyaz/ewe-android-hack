@@ -16,8 +16,6 @@ import com.expedia.vm.packages.PackageHotelViewModel
 class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCellViewHolder(root) {
     val unrealDealMessageContainer: LinearLayout by root.bindView(R.id.unreal_deal_container)
     val unrealDealMessage: TextView by root.bindView(R.id.unreal_deal_message)
-    val priceIncludesFlightsDivider: View by root.bindView(R.id.price_includes_flights_divider)
-    val priceIncludesFlightsView: TextView by root.bindView(R.id.price_includes_flights)
 
     init {
         bindViewModel()
@@ -27,9 +25,6 @@ class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCel
         viewModel as PackageHotelViewModel
         viewModel.unrealDealMessageObservable.subscribeText(unrealDealMessage)
         viewModel.unrealDealMessageVisibilityObservable.subscribeVisibility(unrealDealMessageContainer)
-
-        viewModel.priceIncludesFlightsObservable.subscribeVisibility(priceIncludesFlightsDivider)
-        viewModel.priceIncludesFlightsObservable.subscribeVisibility(priceIncludesFlightsView)
     }
 
     override fun createHotelViewModel(context: Context): HotelViewModel {

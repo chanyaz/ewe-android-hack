@@ -5,7 +5,6 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
@@ -59,10 +58,4 @@ public class PackageHotelResultsTest extends PackageTestCase {
 			isDisplayed(), withText(startDate + " - " + endDate + ", 3 guests")))));
 	}
 
-	@Test
-	public void testUIElements() throws Throwable {
-		PackageScreen.searchPackage();
-		onView(withId(R.id.list_view))
-			.check(matches(CustomMatchers.atPosition(2, hasDescendant(withText("includes hotel and flights")))));
-	}
 }

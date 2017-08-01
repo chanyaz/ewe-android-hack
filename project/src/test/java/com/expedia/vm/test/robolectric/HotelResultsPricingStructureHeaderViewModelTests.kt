@@ -4,6 +4,11 @@ import android.content.Context
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import org.junit.Before
@@ -24,7 +29,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
 
     @Before
     fun before() {
-        sut = HotelResultsPricingStructureHeaderViewModel(getContext().resources)
+        sut = HotelResultsPricingStructureHeaderViewModel(getContext().resources, false)
         givenUserPriceType(HotelRate.UserPriceType.UNKNOWN)
         givenHotelsResultsCount(-1)
     }
@@ -72,6 +77,16 @@ class HotelResultsPricingStructureHeaderViewModelTests {
         assertExpectedText(HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES, 3, "Prices average per night • 3 Results", true)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackagesJapanHeaderShowTaxesAndFees() {
+        val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
+        setPointOfSale(PointOfSaleId.JAPAN)
+        sut = HotelResultsPricingStructureHeaderViewModel(getContext().resources, true)
+        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price (including taxes and fees), per person - for hotels and flights • 50 Results", false)
+        setPointOfSale(initialPOSID)
+    }
+
     private fun assertExpectedText(userPriceType: HotelRate.UserPriceType, hotelResultCount: Int, expectedString: String, expectedLoyaltyHeaderVisibility: Boolean = false) {
         givenUserPriceType(userPriceType)
         givenHotelsResultsCount(hotelResultCount)
@@ -109,5 +124,9 @@ class HotelResultsPricingStructureHeaderViewModelTests {
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application;
+    }
+
+    private fun setPointOfSale(posId: PointOfSaleId) {
+        PointOfSaleTestConfiguration.configurePOS(getContext(), "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
     }
 }

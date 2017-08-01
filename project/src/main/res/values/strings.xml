@@ -2714,6 +2714,10 @@
         <item quantity="other">Total price for stay • %d Results</item>
     </plurals>
 
+    <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
+         e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
+    <string name="package_hotel_results_includes_header_TEMPLATE">Total price (including taxes and fees), per person - for hotels and flights • {totalpriceresultcountheader}</string>
+
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% booked</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->

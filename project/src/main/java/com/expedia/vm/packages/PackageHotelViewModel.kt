@@ -14,15 +14,12 @@ class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
     val unrealDealMessageObservable = BehaviorSubject.create<String>()
     val unrealDealMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
 
-    val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>()
-
     override fun bindHotelData(hotel: Hotel) {
         super.bindHotelData(hotel)
 
         val unrealDeal = getUnrealDeal()
         unrealDealMessageObservable.onNext(unrealDeal)
         unrealDealMessageVisibilityObservable.onNext(unrealDeal.isNotEmpty())
-        priceIncludesFlightsObservable.onNext(hotel.isPackage)
     }
 
     override fun getHotelContentDesc(): CharSequence {
