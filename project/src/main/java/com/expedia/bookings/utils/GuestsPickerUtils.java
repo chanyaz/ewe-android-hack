@@ -22,6 +22,7 @@ public class GuestsPickerUtils {
 	public static final int MIN_CHILD_PC_AGE = 2;
 	public static final int MIN_ADULT_CHILD_PC_AGE = 12;
 	public static final int MIN_ADULT_PC_AGE = 18;
+	public static final int MAX_ADULT_AGE = 200;
 	public static final int MAX_SEAT_PREFERENCE = 2;
 
 	public static int getMaxAdults(int numChildren) {

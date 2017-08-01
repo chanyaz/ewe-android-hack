@@ -1,9 +1,7 @@
 package com.expedia.vm.traveler
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.Ui
@@ -59,16 +57,8 @@ class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseT
         }
 
         val category = traveler.passengerCategory
-
-        if (category == PassengerCategory.INFANT_IN_LAP || category == PassengerCategory.INFANT_IN_SEAT) {
-            birthErrorTextSubject.onNext(context.getString(R.string.traveler_infant_error))
-        } else if (category == PassengerCategory.CHILD) {
-            birthErrorTextSubject.onNext(context.getString(R.string.traveler_child_error))
-        } else if (category == PassengerCategory.ADULT_CHILD) {
-            birthErrorTextSubject.onNext(context.getString(R.string.traveler_adult_child_error))
-        } else {
-            birthErrorTextSubject.onNext(context.getString(R.string.traveler_adult_error))
-        }
+        val errorString = category?.getErrorString(context)
+        birthErrorTextSubject.onNext(errorString)
         errorSubject.onNext(true)
     }
 }

@@ -4,9 +4,11 @@ import android.app.Activity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.vm.traveler.TravelerTSAViewModel
@@ -35,6 +37,8 @@ class TravelerTSAViewModelTest {
     val TEST_CHILD_ERROR = "This traveler must be under the age of 12 for the entire trip to travel as a child"
     val TEST_ADULT_CHILD_ERROR = "This traveler must be between 12 and 17 years old at the time of the trip"
     val TEST_ADULT_ERROR = "This traveler must be 18 years or older"
+    val TEST_ADULT_CHILD_ERROR_V2 = "This traveler must be between the ages of 12 and 17 for the entire trip to travel as a youth"
+    val TEST_CHILD_ERROR_V2 = "This traveler must be between the ages of 2 and 11 for the entire trip to travel as a child"
 
     val testErrorTextSubscriber = TestSubscriber<String>()
     val testBirthDateErrorSubscriber = TestSubscriber<Boolean>()
@@ -47,6 +51,7 @@ class TravelerTSAViewModelTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         Ui.getApplication(activity).defaultTravelerComponent()
         travelerValidator = Ui.getApplication(activity).travelerComponent().travelerValidator()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
     }
 
     @Test
@@ -174,16 +179,50 @@ class TravelerTSAViewModelTest {
         assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
     }
 
+    @Test
+    fun testBucketedChildBirthDateError() {
+        setupBucketedTestModel()
+        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
+        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
+        setAgeEnteredAtSearch(6, PassengerCategory.CHILD)
+        tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(100))
+
+        assertEquals(TEST_CHILD_ERROR_V2, testErrorTextSubscriber.onNextEvents[0])
+        assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
+    }
+
+    @Test
+    fun testBucketedYouthBirthDateError() {
+        setupBucketedTestModel()
+        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
+        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
+        setAgeEnteredAtSearch(14, PassengerCategory.ADULT_CHILD)
+        tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(100))
+
+        assertEquals(TEST_ADULT_CHILD_ERROR_V2, testErrorTextSubscriber.onNextEvents[0])
+        assertTrue(testBirthDateErrorSubscriber.onNextEvents[0], "Expected Error State to be triggered")
+    }
+
     private fun setAgeEnteredAtSearch(searchedAge: Int, passengerCategory: PassengerCategory) {
         traveler.searchedAge = searchedAge
         traveler.passengerCategory = passengerCategory
     }
 
     private fun setupDefaultTestModel() {
+        setSearchParams()
+        tsaVM = TravelerTSAViewModel(traveler, activity.applicationContext)
+    }
+
+    private fun setupBucketedTestModel() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
+        setSearchParams()
+        tsaVM = TravelerTSAViewModel(traveler, activity.applicationContext)
+     }
+
+    private fun setSearchParams() {
         val searchParams = getTestParams()
         Db.setPackageParams(searchParams)
         travelerValidator.updateForNewSearch(searchParams)
-        tsaVM = TravelerTSAViewModel(traveler, activity)
     }
 
     private fun getTestParams() : PackageSearchParams {

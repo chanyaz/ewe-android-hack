@@ -714,6 +714,22 @@
     <string name="traveler_adult_child_error">This traveler must be between 12 and 17 years old at the time of the trip</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">This traveler must be 18 years or older</string>
+    <!-- Text for traveler child error displayed in alert dialog message-->
+    <string name="traveler_child_error_message">This traveler must be between the ages of 2 and 11 for the entire trip to travel as a child</string>
+    <!-- Text for traveler youth error displayed in alert dialog message-->
+    <string name="traveler_youth_error_message">This traveler must be between the ages of 12 and 17 for the entire trip to travel as a youth</string>
+    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
+    <string name="checkout_traveler_title_TEMPLATE">Traveler {travelernumber} ({passengerycategory})</string>
+    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <!-- Adult age label on flight checkout summary card-->
+    <string name="flight_checkout_adult_age_label">18+</string>
+    <!-- Youth age label on flight checkout traveler summary card -->
+    <string name="flight_checkout_youth_age_label">12-17</string>
+    <!-- Children age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_children_age_label">2-11</string>
+    <!-- Infant age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_infant_age_label">under 2</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Main traveler must check into the hotel. Must be 18 or older.</string>
     <!-- Text for enter traveler details-->

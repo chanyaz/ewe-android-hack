@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
 
+
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;

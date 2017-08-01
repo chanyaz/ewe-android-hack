@@ -15,6 +15,7 @@ import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -509,7 +510,7 @@ class PackageCheckoutTest {
         mockTravelerProvider.updateDBWithMockTravelers(numOfTravelers, testUser.primaryTraveler)
         checkout.travelerSummaryCardView.findViewById(R.id.traveler_default_state).performClick()
         checkout.travelersPresenter.travelerPickerWidget.viewModel.selectedTravelerSubject
-                .onNext(TravelerSelectItemViewModel(activity, if (numOfTravelers > 1) 1 else 0, 18))
+                .onNext(TravelerSelectItemViewModel(activity, if (numOfTravelers > 1) 1 else 0, 18, PassengerCategory.ADULT))
         checkout.travelersPresenter.show(checkout.travelersPresenter.travelerEntryWidget)
         checkout.travelersPresenter.travelerEntryWidget.viewModel.updateTraveler(enterTraveler(Traveler()))
     }

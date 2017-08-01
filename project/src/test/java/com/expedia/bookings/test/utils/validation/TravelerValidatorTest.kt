@@ -5,7 +5,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -34,6 +33,7 @@ class TravelerValidatorTest {
     val TEST_NUMBER = " 773 202 5862"
 
     val TOMORROW = LocalDate.now().plusDays(1)
+    val TODAY = LocalDate.now()
 
     val travelerValidator = TravelerValidator(UserStateManager(RuntimeEnvironment.application))
 
@@ -140,7 +140,7 @@ class TravelerValidatorTest {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
 
         val invalidBirthDate = LocalDate.now().plusDays(2)
-        val mockTraveler = getMockAdultTravelerWithBirthDate(invalidBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(invalidBirthDate, PassengerCategory.ADULT)
 
         travelerValidator.updateForNewSearch(packageSearchParams)
         assertFalse(travelerValidator.hasValidBirthDate(mockTraveler))
@@ -151,7 +151,7 @@ class TravelerValidatorTest {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
 
         val validBirthDate = TOMORROW.plusDays(1).minusYears(2)
-        val mockTraveler = getMockInfantTravelerWithBirthDate(validBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(validBirthDate, PassengerCategory.INFANT_IN_LAP)
 
         travelerValidator.updateForNewSearch(packageSearchParams)
         assertTrue(travelerValidator.hasValidBirthDate(mockTraveler))
@@ -162,7 +162,7 @@ class TravelerValidatorTest {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
 
         val invalidBirthDate = TOMORROW.minusYears(2)
-        val mockTraveler = getMockInfantTravelerWithBirthDate(invalidBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(invalidBirthDate, PassengerCategory.INFANT_IN_LAP)
 
         travelerValidator.updateForNewSearch(packageSearchParams)
         assertFalse(travelerValidator.hasValidBirthDate(mockTraveler))
@@ -172,7 +172,7 @@ class TravelerValidatorTest {
     fun invalidBirthDateEmpty() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
 
-        val mockTraveler = getMockAdultTravelerWithBirthDate(null)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(null, PassengerCategory.ADULT)
 
         travelerValidator.updateForNewSearch(packageSearchParams)
         assertFalse(travelerValidator.hasValidBirthDate(mockTraveler))
@@ -183,7 +183,7 @@ class TravelerValidatorTest {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
 
         val youngBirthDate = TOMORROW.minusYears(8)
-        val mockTraveler = getMockAdultTravelerWithBirthDate(youngBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(youngBirthDate, PassengerCategory.ADULT)
 
         travelerValidator.updateForNewSearch(packageSearchParams)
         assertFalse(travelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be to young to be considered an adult, " +
@@ -192,16 +192,110 @@ class TravelerValidatorTest {
     }
 
     @Test
-    fun validBirthDate() {
+    fun testValidBirthDateForAdultMinimumAge() {
+        val youngBirthDate = TODAY.minusYears(18)
+        val mockTraveler = givenTravelerWithCategoryAndBirthDate(youngBirthDate, PassengerCategory.ADULT)
+
+        assertTrue(travelerValidator.hasValidBirthDate(mockTraveler))
+    }
+
+    fun testInvalidBirthDateForYouthTooOld() {
+        val youngBirthDate = TODAY.minusYears(18)
+        val mockTraveler = givenTravelerWithCategoryAndBirthDate(youngBirthDate, PassengerCategory.ADULT_CHILD)
+
+        assertFalse(travelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be too old to be considered a youth, " +
+                "unfortunately this test also depends on the static method PassengerCategory.isDateWithinPassengerCategoryRange " +
+                "if this tests fails look there as well")
+    }
+
+    @Test
+    fun testValidBirthDateForYouthMaximum() {
+        val youngBirthDate = TODAY.minusYears(17)
+        val mockTraveler = givenTravelerWithCategoryAndBirthDate(youngBirthDate, PassengerCategory.ADULT_CHILD)
+
+        assertTrue(travelerValidator.hasValidBirthDate(mockTraveler))
+    }
+
+    @Test
+    fun testValidBirthDateForYouthMinimum() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
-
-        val adultBirthDate = TOMORROW.minusYears(24)
-        val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
-
+        val youngBirthDate = TODAY.minusYears(12)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(youngBirthDate, PassengerCategory.ADULT_CHILD)
         travelerValidator.updateForNewSearch(packageSearchParams)
+
+        assertTrue(travelerValidator.hasValidBirthDate(mockTraveler))
+    }
+
+    fun testInvalidBirthDateForYouthTooYoung() {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+        val youngBirthDate = TODAY.minusYears(11)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(youngBirthDate, PassengerCategory.ADULT_CHILD)
+        travelerValidator.updateForNewSearch(packageSearchParams)
+
+        assertFalse(travelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be too young to be considered a youth, " +
+                "unfortunately this test also depends on the static method PassengerCategory.isDateWithinPassengerCategoryRange " +
+                "if this tests fails look there as well")
+    }
+
+    @Test
+    fun testInvalidBirthDateForChildTooOld() {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+        val youngBirthDate = TODAY.minusYears(12)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(youngBirthDate, PassengerCategory.CHILD)
+        travelerValidator.updateForNewSearch(packageSearchParams)
+
+        assertFalse(travelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be too old to be considered a child, " +
+                "unfortunately this test also depends on the static method PassengerCategory.isDateWithinPassengerCategoryRange " +
+                "if this tests fails look there as well")
+    }
+
+    @Test
+    fun testValidBirthDateForChildMaximumAge() {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+        val youngBirthDate = TODAY.minusYears(11)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(youngBirthDate, PassengerCategory.CHILD)
+        travelerValidator.updateForNewSearch(packageSearchParams)
+
+        assertTrue(travelerValidator.hasValidBirthDate(mockTraveler))
+    }
+
+
+    @Test
+    fun testValidBirthDateForChildLowRangeMinimumAge() {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+        val youngBirthDate = TODAY.minusYears(2)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(youngBirthDate, PassengerCategory.CHILD)
+        travelerValidator.updateForNewSearch(packageSearchParams)
+
+        assertTrue(travelerValidator.hasValidBirthDate(mockTraveler))
+    }
+
+    @Test
+    fun testInvalidBirthDateTooYoungForChild() {
+        val youngBirthDate = TOMORROW.minusYears(1)
+        val mockTraveler = givenTravelerWithCategoryAndBirthDate(youngBirthDate, PassengerCategory.CHILD)
+
+        assertFalse(travelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be too young to be considered a child, " +
+                "unfortunately this test also depends on the static method PassengerCategory.isDateWithinPassengerCategoryRange " +
+                "if this tests fails look there as well")
+    }
+
+    @Test
+    fun validBirthDate() {
+        val adultBirthDate = TOMORROW.minusYears(24)
+        val mockTraveler = givenTravelerWithCategoryAndBirthDate(adultBirthDate, PassengerCategory.ADULT)
+
         assertTrue(travelerValidator.hasValidBirthDate(mockTraveler), "Traveler should be valid adult," +
                 "unfortunately this test also depends on the static method PassengerCategory.isDateWithinPassengerCategoryRange" +
                 "if this tests fails look there as well")
+    }
+
+    private fun givenTravelerWithCategoryAndBirthDate(birthDate: LocalDate, category: PassengerCategory): Traveler {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(birthDate, category)
+
+        travelerValidator.updateForNewSearch(packageSearchParams)
+        return mockTraveler
     }
 
     @Test
@@ -209,7 +303,7 @@ class TravelerValidatorTest {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
 
         val adultBirthDate = TOMORROW.minusYears(24)
-        val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate, PassengerCategory.ADULT)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
         Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
 
@@ -235,7 +329,7 @@ class TravelerValidatorTest {
         travelerValidator.updateForNewSearch(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
-        val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate, PassengerCategory.ADULT)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
         assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
@@ -267,7 +361,7 @@ class TravelerValidatorTest {
         travelerValidator.updateForNewSearch(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
-        val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate, PassengerCategory.ADULT)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
         assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
 
@@ -284,7 +378,7 @@ class TravelerValidatorTest {
         travelerValidator.updateForNewSearch(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
-        val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate, PassengerCategory.ADULT)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
         assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, addTravelerIndex, false))
@@ -311,7 +405,7 @@ class TravelerValidatorTest {
     @Test
     fun testIsEmptyWithBirthDate() {
         val adultBirthDate = TOMORROW.minusYears(24)
-        val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate, PassengerCategory.ADULT)
         Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
 
         assertFalse(travelerValidator.isTravelerEmpty(mockTraveler))
@@ -357,7 +451,7 @@ class TravelerValidatorTest {
         travelerValidator.updateForNewSearch(packageSearchParams)
 
         val adultBirthDate = TOMORROW.minusYears(24)
-        val guestTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        val guestTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate,  PassengerCategory.ADULT)
         Mockito.`when`(guestTraveler.name).thenReturn(getValidName())
 
         val user = UserLoginTestUtil.mockUser()
@@ -379,19 +473,10 @@ class TravelerValidatorTest {
         return validName
     }
 
-    private fun getMockInfantTravelerWithBirthDate(birthDate : LocalDate?) : Traveler {
+    private fun getMockTravelerWithBirthDateAndCategory(birthDate : LocalDate?, category: PassengerCategory) : Traveler {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.birthDate).thenReturn(birthDate)
-        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.INFANT_IN_LAP)
-
-        return mockTraveler
-    }
-
-
-    private fun getMockAdultTravelerWithBirthDate(birthDate : LocalDate?) : Traveler {
-        val mockTraveler = Mockito.mock(Traveler::class.java)
-        Mockito.`when`(mockTraveler.birthDate).thenReturn(birthDate)
-        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
+        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(category)
         Mockito.`when`(mockTraveler.gender).thenReturn(Traveler.Gender.MALE)
 
         return mockTraveler
@@ -410,7 +495,7 @@ class TravelerValidatorTest {
 
     private fun givenTravelerOnlyMissingPassport() : Traveler {
         val adultBirthDate = TOMORROW.minusYears(24)
-        val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        val mockTraveler = getMockTravelerWithBirthDateAndCategory(adultBirthDate, PassengerCategory.ADULT)
 
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
         Mockito.`when`(mockTraveler.email).thenReturn(TEST_EMAIL)
