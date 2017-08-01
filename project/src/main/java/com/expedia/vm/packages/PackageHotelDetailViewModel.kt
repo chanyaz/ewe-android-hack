@@ -57,7 +57,7 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
     }
 
     override fun pricePerDescriptor(): String {
-        return " " + context.getString(R.string.per_person)
+        return " " + context.getString(R.string.price_per_person)
     }
 
     override fun getLobPriceObservable(rate: HotelRate) {
@@ -117,6 +117,6 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
     }
 
     override fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
-        return priceToShowCustomerObservable.value + context.getString(R.string.per_person)
+        return priceToShowCustomerObservable.value + context.getString(R.string.price_per_person)
     }
 }

@@ -3718,8 +3718,6 @@
     <string name="show_map">Show map</string>
     <!-- Accessibility - Content Description for showing list fab on hotel search result -->
     <string name="show_list">Show list</string>
-    <!-- Label for per person -->
-    <string name="per_person">per person</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">Bundle total</string>
     <!-- Label for package bundle price on search-->
@@ -4380,7 +4378,8 @@
     <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Add protection for {price}&lt;/b&gt;{price_type}</string>
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/day</string>
-    <string name="insurance_price_per_person">/person</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person">/person</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Rated {rating} out of 5</string>

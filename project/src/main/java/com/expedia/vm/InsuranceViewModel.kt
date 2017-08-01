@@ -181,7 +181,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
                     .put("price_type", context.resources.getString(R.string.insurance_price_per_day)).format()
             InsurancePriceType.PRICE_PER_PERSON -> Phrase.from(context.resources, titleId)
                     .put("price", product!!.displayPrice.formattedWholePrice)
-                    .put("price_type", context.resources.getString(R.string.insurance_price_per_person)).format()
+                    .put("price_type", context.resources.getString(R.string.price_per_person)).format()
             else -> Phrase.from(context.resources, titleId).put("price", "").put("price_type", "").format()
         }
 

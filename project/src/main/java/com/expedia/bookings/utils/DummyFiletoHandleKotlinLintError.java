@@ -739,7 +739,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.insurance_benefits_international,
 		R.string.insurance_description,
 		R.string.insurance_price_per_day,
-		R.string.insurance_price_per_person,
+		R.string.price_per_person,
 		R.string.insurance_remove_error,
 		R.string.insurance_removing,
 		R.string.insurance_terms,
