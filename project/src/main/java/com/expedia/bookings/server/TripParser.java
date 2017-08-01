@@ -32,6 +32,9 @@ import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
+import com.expedia.bookings.data.trips.OccupantSelectedRoomOptions;
+import com.expedia.bookings.data.trips.OtherOccupantInfo;
+import com.expedia.bookings.data.trips.PrimaryOccupant;
 import com.expedia.bookings.data.trips.TicketingStatus;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
@@ -41,6 +44,7 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripCruise;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
+import com.expedia.bookings.data.trips.TripHotelRoom;
 import com.expedia.bookings.data.trips.TripPackage;
 import com.expedia.bookings.data.trips.TripRails;
 import com.expedia.bookings.utils.Ui;
@@ -271,6 +275,12 @@ public class TripParser {
 			hotel.setProperty(property);
 		}
 
+		parseHotelRooms(obj, hotel, property);
+
+		return hotel;
+	}
+
+	private void parseHotelRooms(JSONObject obj, TripHotel hotel, Property property) {
 		int guests = 0;
 		Traveler primaryTraveler = null;
 		JSONArray roomsJson = obj.optJSONArray("rooms");
@@ -282,7 +292,8 @@ public class TripParser {
 					hotel.addConfirmationNumber(conf);
 				}
 
-				property.setItinRoomType(room.optString("roomRatePlanDescription"));
+				String roomType = room.optString("roomRatePlanDescription");
+				property.setItinRoomType(roomType);
 
 				JSONObject nonPricePromotionData = room.optJSONObject("nonPricePromotionData");
 				if (nonPricePromotionData != null) {
@@ -290,26 +301,69 @@ public class TripParser {
 				}
 
 				JSONObject roomPreferences = room.optJSONObject("roomPreferences");
+				PrimaryOccupant primaryOccupant = null;
+				OccupantSelectedRoomOptions occupantSelectedRoomOptions = null;
+				OtherOccupantInfo otherOccupantInfo = null;
 				if (roomPreferences != null) {
-					JSONObject otherOccupantInfo = roomPreferences.optJSONObject("otherOccupantInfo");
-					if (otherOccupantInfo != null) {
-						guests += otherOccupantInfo.optInt("adultCount");
-						guests += otherOccupantInfo.optInt("childAndInfantCount");
+					JSONObject otherOccupantInfoObj = roomPreferences.optJSONObject("otherOccupantInfo");
+					if (otherOccupantInfoObj != null) {
+						int adultCount = otherOccupantInfoObj.optInt("adultCount");
+						guests += adultCount;
+						int childAndInfantCount = otherOccupantInfoObj.optInt("childAndInfantCount");
+						guests += childAndInfantCount;
+						otherOccupantInfo = new OtherOccupantInfo(
+							adultCount,
+							otherOccupantInfoObj.optInt("childCount"),
+							otherOccupantInfoObj.optInt("infantCount"),
+							childAndInfantCount,
+							otherOccupantInfoObj.optInt("maxGuestCount"),
+							parseListOfIntegers(otherOccupantInfoObj, "childAndInfantAges")
+						);
 					}
 
-					JSONObject occupantSelectedRoomOptions = roomPreferences
-							.optJSONObject("occupantSelectedRoomOptions");
-					if (occupantSelectedRoomOptions != null) {
-						property.setItinBedType(occupantSelectedRoomOptions.optString("bedTypeName"));
+					JSONObject occupantSelectedRoomOptionsObj = roomPreferences
+						.optJSONObject("occupantSelectedRoomOptions");
+					if (occupantSelectedRoomOptionsObj != null) {
+						String bedType = occupantSelectedRoomOptionsObj.optString("bedTypeName");
+						property.setItinBedType(bedType);
+
+						occupantSelectedRoomOptions = new OccupantSelectedRoomOptions(
+							bedType,
+							occupantSelectedRoomOptionsObj.optString("defaultBedTypeName"),
+							occupantSelectedRoomOptionsObj.optString("smokingPreference"),
+							occupantSelectedRoomOptionsObj.optString("specialRequest"),
+							parseListOfStrings(occupantSelectedRoomOptionsObj, "accessibilityOptions"),
+							occupantSelectedRoomOptionsObj.optBoolean("hasExtraBedAdult"),
+							occupantSelectedRoomOptionsObj.optBoolean("hasExtraBedChild"),
+							occupantSelectedRoomOptionsObj.optBoolean("hasExtraBedInfant"),
+							occupantSelectedRoomOptionsObj.optBoolean("isSmokingPreferenceSelected"),
+							occupantSelectedRoomOptionsObj.optBoolean("isRoomOptionsAvailable")
+						);
 					}
 					// Used only when importing a shared Itin
 					JSONObject primaryOccupantInfo = roomPreferences.optJSONObject("primaryOccupant");
 					if (primaryOccupantInfo != null) {
 						primaryTraveler = new Traveler();
-						primaryTraveler.setFirstName(primaryOccupantInfo.optString("firstName"));
-						primaryTraveler.setFullName(primaryOccupantInfo.optString("fullName"));
+						String firstName = primaryOccupantInfo.optString("firstName");
+						primaryTraveler.setFirstName(firstName);
+						String fullName = primaryOccupantInfo.optString("fullName");
+						primaryTraveler.setFullName(fullName);
+						primaryOccupant = new PrimaryOccupant(firstName, fullName, primaryOccupantInfo.optString("email"), primaryOccupantInfo.optString("phone"));
 					}
 				}
+
+				TripHotelRoom tripHotelRoom = new TripHotelRoom(
+					conf,
+					roomType,
+					room.optString("bookingStatus"),
+					primaryOccupant,
+					occupantSelectedRoomOptions,
+					otherOccupantInfo,
+					parseListOfStrings(room, "amenities"),
+					parseListOfIntegers(room, "amenityIds")
+				);
+
+				hotel.addRoom(tripHotelRoom);
 			}
 
 			if (!roomsJson.isNull(0)) {
@@ -326,8 +380,28 @@ public class TripParser {
 
 		hotel.setGuests(guests);
 		hotel.setPrimaryTraveler(primaryTraveler);
+	}
 
-		return hotel;
+	private List<String> parseListOfStrings(JSONObject obj, String key) {
+		JSONArray values = obj.optJSONArray(key);
+		List<String> list = new ArrayList<>();
+		if (values != null) {
+			for (int value = 0; value < values.length(); ++value) {
+				list.add(values.optString(value));
+			}
+		}
+		return list;
+	}
+
+	private List<Integer> parseListOfIntegers(JSONObject obj, String key) {
+		JSONArray values = obj.optJSONArray(key);
+		List<Integer> list = new ArrayList<>();
+		if (values != null) {
+			for (int value = 0; value < values.length(); ++value) {
+				list.add(values.optInt(value));
+			}
+		}
+		return list;
 	}
 
 	public TripFlight parseTripFlight(JSONObject obj) {

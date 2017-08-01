@@ -34,6 +34,23 @@ class TripParserTest {
     }
 
     @Test
+    fun roomsParsed() {
+        val tripParser = TripParser()
+        val hotelTripJson = getHotelTripJson(withUpgradeOffer = true)
+        val parsedHotelTrip = tripParser.parseTrip(hotelTripJson).tripComponents[0] as TripHotel
+        val rooms = parsedHotelTrip.rooms
+        val room = rooms[0]
+
+        assertEquals(1, rooms.size)
+        assertEquals("Deluxe Room, 1 King Bed", room.roomType)
+        assertEquals("BOOKED", room.bookingStatus)
+        assertEquals("Kevin", room.primaryOccupant.firstName)
+        assertEquals(1, room.otherOccupantInfo.adultCount)
+        assertEquals("1 king bed", room.occupantSelectedRoomOptions.bedTypeName)
+        assertEquals("Free Wireless Internet", room.amenities[0])
+    }
+
+    @Test
     fun iso8601Parsing() {
         val checkInDate = "2016-12-07T15:00:00-08:00"
         val checkOutDate = "2016-12-11T11:00:00-08:00"

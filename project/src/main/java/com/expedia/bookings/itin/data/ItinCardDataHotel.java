@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.trips.TripHotel;
+import com.expedia.bookings.data.trips.TripHotelRoom;
 import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -35,6 +36,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private Property mProperty;
+	private List<TripHotelRoom> mRooms;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTOR
@@ -43,6 +45,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	public ItinCardDataHotel(TripHotel tripComponent) {
 		super(tripComponent);
 		mProperty = tripComponent.getProperty();
+		mRooms = tripComponent.getRooms();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +79,10 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	public Property getProperty() {
 		return mProperty;
+	}
+
+	public List<TripHotelRoom> getRooms() {
+		return mRooms;
 	}
 
 	public String getPropertyName() {
