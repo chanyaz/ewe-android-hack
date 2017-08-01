@@ -1,8 +1,8 @@
 package com.expedia.vm.interfaces
 
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 interface IPayWithPointsViewModel {
     //INLETS

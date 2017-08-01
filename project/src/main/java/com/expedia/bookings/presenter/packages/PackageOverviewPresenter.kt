@@ -30,7 +30,7 @@ import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)

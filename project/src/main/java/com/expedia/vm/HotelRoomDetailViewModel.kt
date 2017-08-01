@@ -24,7 +24,7 @@ import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.TreeSet
@@ -75,7 +75,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val roomLeftString: String? get() = createRoomLeftString()
 
-    val roomSoldOut = BehaviorSubject.create<Boolean>(false)
+    val roomSoldOut = BehaviorSubject.createDefault<Boolean>(false)
 
     private val chargeableRateInfo = hotelRoomResponse.rateInfo.chargeableRateInfo
     private val hotelLoyaltyInfo: LoyaltyInformation? = chargeableRateInfo.loyaltyInfo

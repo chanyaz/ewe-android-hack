@@ -17,7 +17,7 @@ import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.ui.IconGenerator
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clusterManager: ClusterManager<MapItem>?, clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<MapItem>(context, map, clusterManager, clusterChangeSubject) {
     private val clusterIconGenerator = IconGenerator(context)

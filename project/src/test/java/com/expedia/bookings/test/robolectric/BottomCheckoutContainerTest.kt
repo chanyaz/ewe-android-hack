@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -40,12 +40,12 @@ class BottomCheckoutContainerTest {
 
     @Test
     fun testSliderPurchaseTotalText() {
-        val sliderPurchaseTotalTestTestSubscriber = TestSubscriber<CharSequence>()
-        bottomContainer.viewModel.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTestTestSubscriber)
+        val sliderPurchaseTotalTestTestObserver = TestObserver<CharSequence>()
+        bottomContainer.viewModel.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTestTestObserver)
 
         val totalChargedString = "Your card will be charged $50.00"
         bottomContainer.viewModel.sliderPurchaseTotalText.onNext(totalChargedString)
-        assertEquals(totalChargedString, sliderPurchaseTotalTestTestSubscriber.onNextEvents[0])
+        assertEquals(totalChargedString, sliderPurchaseTotalTestTestObserver.onNextEvents[0])
     }
 
     @Test

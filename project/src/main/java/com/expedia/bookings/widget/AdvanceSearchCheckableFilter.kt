@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.flights.AdvanceSearchFilter
-import rx.Observer
+import io.reactivex.Observer
 
 class AdvanceSearchCheckableFilter(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
     val filterLabel: TextView by bindView(R.id.filter_label)

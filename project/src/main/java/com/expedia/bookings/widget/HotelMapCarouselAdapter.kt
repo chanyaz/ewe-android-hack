@@ -24,8 +24,8 @@ import com.expedia.util.setTextAndVisibility
 import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import com.mobiata.android.text.StrikethroughTagHandler
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.properties.Delegates
 

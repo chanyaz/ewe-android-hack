@@ -18,14 +18,15 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.navigation.CarNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.squareup.phrase.Phrase
+import io.reactivex.Observer
+import io.reactivex.exceptions.OnErrorNotImplementedException
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
-import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 
 class PackageConfirmationViewModel(private val context: Context) {
     val showConfirmation = PublishSubject.create<Pair<String?, String>>()
@@ -98,7 +99,7 @@ class PackageConfirmationViewModel(private val context: Context) {
     }
 
     fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {
-        return object : Observer<Unit> {
+        return object : DisposableObserver<Unit>() {
             override fun onNext(t: Unit?) {
                 CarNavUtils.goToCars(context, null, NavUtils.FLAG_OPEN_SEARCH)
                 val activity = context as AppCompatActivity
@@ -106,10 +107,10 @@ class PackageConfirmationViewModel(private val context: Context) {
                 activity.finish()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 throw OnErrorNotImplementedException(e)
             }
         }

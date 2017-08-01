@@ -8,8 +8,7 @@ import com.expedia.bookings.services.HotelServices
 import org.joda.time.LocalDate
 import org.junit.Rule
 import org.junit.Test
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertFalse
@@ -17,14 +16,15 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.services.TestObserver
 
 class HotelShopWithPointsServicesTest {
-    var serviceRule = ServicesRule(HotelServices::class.java, Schedulers.immediate(), "../mocked/templates")
+    var serviceRule = ServicesRule(HotelServices::class.java, Schedulers.trampoline(), "../mocked/templates")
         @Rule get
 
     @Test
     fun testSearchResponseWithoutLoyalty() {
-        val testObserver: TestSubscriber<HotelSearchResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<HotelSearchResponse> = TestObserver.create()
 
         val suggestion = SuggestionV4()
         suggestion.gaiaId = "happy"
@@ -38,9 +38,9 @@ class HotelShopWithPointsServicesTest {
         serviceRule.services!!.search(hotelSearchParams).subscribe(testObserver)
 
         testObserver.awaitTerminalEvent()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertValueCount(1)
-        val searchResponse = testObserver.onNextEvents[0]
+        val searchResponse = testObserver.values()[0]
         assertFalse(searchResponse.hasLoyaltyInformation)
 
     }
@@ -48,7 +48,7 @@ class HotelShopWithPointsServicesTest {
     // Loyalty earn in ExpediaRewards is in Points
     @Test
     fun testSearchResponseWithLoyaltyPoints() {
-        val testObserver: TestSubscriber<HotelSearchResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<HotelSearchResponse> = TestObserver.create()
 
         val suggestion = SuggestionV4()
         suggestion.gaiaId = "happy_with_loyalty_points"
@@ -62,10 +62,10 @@ class HotelShopWithPointsServicesTest {
         serviceRule.services!!.search(hotelSearchParams).subscribe(testObserver)
 
         testObserver.awaitTerminalEvent()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertValueCount(1)
 
-        val searchResponse = testObserver.onNextEvents[0]
+        val searchResponse = testObserver.values()[0]
         assertTrue(searchResponse.hasLoyaltyInformation)
         val loyaltyInfo = searchResponse.hotelList[1].lowRateInfo.loyaltyInfo
         assertNotNull(loyaltyInfo.burn)
@@ -78,7 +78,7 @@ class HotelShopWithPointsServicesTest {
     // Loyalty earn in Orbitz is in money (Orbucks)
     @Test
     fun testSearchResponseWithLoyaltyPrice() {
-        val testObserver: TestSubscriber<HotelSearchResponse> = TestSubscriber.create()
+        val testObserver: TestObserver<HotelSearchResponse> = TestObserver.create()
 
         val suggestion = SuggestionV4()
         suggestion.gaiaId = "happy_with_loyalty_price"
@@ -92,10 +92,10 @@ class HotelShopWithPointsServicesTest {
         serviceRule.services!!.search(hotelSearchParams).subscribe(testObserver)
 
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertValueCount(1)
 
-        val searchResponse = testObserver.onNextEvents[0]
+        val searchResponse = testObserver.values()[0]
         assertTrue(searchResponse.hasLoyaltyInformation)
         val loyaltyInfo = searchResponse.hotelList[1].lowRateInfo.loyaltyInfo
         assertNotNull(loyaltyInfo.burn)
@@ -107,7 +107,7 @@ class HotelShopWithPointsServicesTest {
 
     @Test
     fun testOffersResponseWithoutLoyalty() {
-        val testObserver = TestSubscriber<HotelOffersResponse>()
+        val testObserver = TestObserver<HotelOffersResponse>()
 
         val suggestion = SuggestionV4()
         suggestion.gaiaId = "happypath"
@@ -120,17 +120,17 @@ class HotelShopWithPointsServicesTest {
                 .children(ArrayList<Int>()).build() as HotelSearchParams
         serviceRule.services!!.offers(params, "happypath", testObserver)
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertValueCount(1)
 
-        val offersResponse = testObserver.onNextEvents[0]
+        val offersResponse = testObserver.values()[0]
         assertFalse(offersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
     }
 
     // Loyalty earn in ExpediaRewards is in Points
     @Test
     fun testOffersResponseWithLoyaltyPoints() {
-        val testObserver = TestSubscriber<HotelOffersResponse>()
+        val testObserver = TestObserver<HotelOffersResponse>()
 
         val suggestion = SuggestionV4()
         suggestion.gaiaId = "happypath_with_loyalty_points"
@@ -143,10 +143,10 @@ class HotelShopWithPointsServicesTest {
                 .adults(2).children(ArrayList<Int>()).build() as HotelSearchParams
         serviceRule.services!!.offers(params, "happypath_with_loyalty_points", testObserver)
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertValueCount(1)
 
-        val offersResponse = testObserver.onNextEvents[0]
+        val offersResponse = testObserver.values()[0]
         val loyaltyInfo = offersResponse.hotelRoomResponse[0].rateInfo.chargeableRateInfo.loyaltyInfo
         assertTrue(offersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         assertNotNull(loyaltyInfo.burn)
@@ -159,7 +159,7 @@ class HotelShopWithPointsServicesTest {
     // Loyalty earn in Orbitz is in money (Orbucks)
     @Test
     fun testOffersResponseWithLoyaltyPrice() {
-        val testObserver = TestSubscriber<HotelOffersResponse>()
+        val testObserver = TestObserver<HotelOffersResponse>()
 
         val suggestion = SuggestionV4()
         suggestion.gaiaId = "happypath_with_loyalty_price"
@@ -172,10 +172,10 @@ class HotelShopWithPointsServicesTest {
                 .adults(2).children(ArrayList<Int>()).build() as HotelSearchParams
         serviceRule.services!!.offers(params, "happypath_with_loyalty_price", testObserver)
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertValueCount(1)
 
-        val offersResponse = testObserver.onNextEvents[0]
+        val offersResponse = testObserver.values()[0]
         val loyaltyInfo = offersResponse.hotelRoomResponse[0].rateInfo.chargeableRateInfo.loyaltyInfo
         assertTrue(offersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         assertNotNull(loyaltyInfo.burn)

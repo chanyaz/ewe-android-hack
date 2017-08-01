@@ -3,8 +3,8 @@ package com.expedia.vm
 import android.content.Context
 import android.support.annotation.ColorInt
 import com.expedia.bookings.utils.FontCache
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class BaseCostSummaryBreakdownViewModel(val context: Context) {
     val iconVisibilityObservable = PublishSubject.create<Boolean>()

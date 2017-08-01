@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
@@ -52,7 +53,7 @@ import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
-import rx.Observable
+import java.util.Date
 import javax.inject.Inject
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.vm.FlightWebCheckoutViewViewModel
@@ -67,7 +68,6 @@ import com.expedia.util.Optional
 import com.expedia.util.subscribeVisibility
 import com.mobiata.android.Log
 import rx.Observer
-import java.util.Date
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
@@ -262,7 +262,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             createTripBuilder.fareFamilyTotalPrice(it.second.totalPrice.amount)
             flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
         }
-        Observable.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
+        ObservableOld.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
                 { outbound, inbound ->
                     val baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)

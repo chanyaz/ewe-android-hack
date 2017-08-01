@@ -19,7 +19,7 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -33,29 +33,29 @@ class PaymentModelTest {
         @Rule get
 
     var paymentModel: PaymentModel<HotelCreateTripResponse> by notNullAndObservable {
-        it.createTripSubject.subscribe(createTripResponseTestSubscriber)
-        it.paymentSplits.subscribe(paymentSplitsTestSubscriber)
-        it.burnAmountSubject.subscribe(amountChosenToBePaidWithPointsTestSubscriber)
-        it.burnAmountToPointsApiResponse.subscribe(currencyToPointsApiResponseTestSubscriber)
-        it.burnAmountToPointsApiError.subscribe(currencyToPointsApiErrorTestSubscriber)
-        it.couponChangeSubject.subscribe(couponChangeTestSubscriber)
-        it.priceChangeDuringCheckoutSubject.subscribe(priceChangeDuringCheckoutTestSubscriber)
+        it.createTripSubject.subscribe(createTripResponseTestObserver)
+        it.paymentSplits.subscribe(paymentSplitsTestObserver)
+        it.burnAmountSubject.subscribe(amountChosenToBePaidWithPointsTestObserver)
+        it.burnAmountToPointsApiResponse.subscribe(currencyToPointsApiResponseTestObserver)
+        it.burnAmountToPointsApiError.subscribe(currencyToPointsApiErrorTestObserver)
+        it.couponChangeSubject.subscribe(couponChangeTestObserver)
+        it.priceChangeDuringCheckoutSubject.subscribe(priceChangeDuringCheckoutTestObserver)
     }
     var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
 
-    val amountChosenToBePaidWithPointsTestSubscriber = TestSubscriber<BigDecimal>()
-    val paymentSplitsTestSubscriber = TestSubscriber<PaymentSplits>()
-    val currencyToPointsApiResponseTestSubscriber = TestSubscriber<CalculatePointsResponse>()
-    val currencyToPointsApiErrorTestSubscriber = TestSubscriber<ApiError>()
-    val createTripResponseTestSubscriber = TestSubscriber<TripResponse>()
-    val couponChangeTestSubscriber = TestSubscriber<TripResponse>()
-    val priceChangeDuringCheckoutTestSubscriber = TestSubscriber<TripResponse>()
+    val amountChosenToBePaidWithPointsTestObserver = TestObserver<BigDecimal>()
+    val paymentSplitsTestObserver = TestObserver<PaymentSplits>()
+    val currencyToPointsApiResponseTestObserver = TestObserver<CalculatePointsResponse>()
+    val currencyToPointsApiErrorTestObserver = TestObserver<ApiError>()
+    val createTripResponseTestObserver = TestObserver<TripResponse>()
+    val couponChangeTestObserver = TestObserver<TripResponse>()
+    val priceChangeDuringCheckoutTestObserver = TestObserver<TripResponse>()
 
     //TODO Mock data for price change and coupon change does not have points in response similar to create trip
     //so leaving the tests for these for now and created mingle card for the same
     //https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/6016
-    //val priceChangeDuringCheckoutResponseTestSubscriber = ExtendedTestSubscriber<HotelCreateTripResponse>()
-    //val couponChangeResponseTestSubscriber = ExtendedTestSubscriber<HotelCreateTripResponse>()
+    //val priceChangeDuringCheckoutResponseTestObserver = ExtendedTestObserver<HotelCreateTripResponse>()
+    //val couponChangeResponseTestObserver = ExtendedTestObserver<HotelCreateTripResponse>()
 
     private fun setupCreateTrip(hasRedemablePoints: Boolean) {
         if (hasRedemablePoints)
@@ -90,29 +90,29 @@ class PaymentModelTest {
         //Expected Payment Split
         var expectedPaymentSplits = PaymentSplits(expediaPointDetails!!.maxPayableWithPoints!!, expediaPointDetails.remainingPayableByCard!!)
         paymentModel.createTripSubject.onNext(createTripResponse)
-        createTripResponseTestSubscriber.assertNoErrors()
-        createTripResponseTestSubscriber.assertValueCount(1)
-        createTripResponseTestSubscriber.assertValue(createTripResponse)
+        createTripResponseTestObserver.assertNoErrors()
+        createTripResponseTestObserver.assertValueCount(1)
+        createTripResponseTestObserver.assertValue(createTripResponse)
 
         //When SWP Opted is true
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[0], expectedPaymentSplits))
 
         //Expected Payment Split when SWP Opted is false
         paymentModel.swpOpted.onNext(false)
         paymentModel.createTripSubject.onNext(createTripResponse)
         expectedPaymentSplits = getPaymentSplitsForSwpOff()
 
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(2)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[1], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(2)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[1], expectedPaymentSplits))
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(0)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(0)
     }
 
     @Test
@@ -122,21 +122,21 @@ class PaymentModelTest {
         val expectedPaymentSplits = getPaymentSplitsForSwpOff()
 
         paymentModel.createTripSubject.onNext(createTripResponse)
-        createTripResponseTestSubscriber.assertNoErrors()
-        createTripResponseTestSubscriber.assertValueCount(1)
-        createTripResponseTestSubscriber.assertValue(createTripResponse)
+        createTripResponseTestObserver.assertNoErrors()
+        createTripResponseTestObserver.assertValueCount(1)
+        createTripResponseTestObserver.assertValue(createTripResponse)
 
         paymentModel.burnAmountSubject.onNext(BigDecimal.ZERO)
 
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(2)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[1], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(2)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[1], expectedPaymentSplits))
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(0)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(0)
     }
 
     @Test
@@ -146,24 +146,24 @@ class PaymentModelTest {
                 PointsAndCurrency(507f, PointsType.EARN, Money("3.7", "USD")))
 
         paymentModel.createTripSubject.onNext(createTripResponse)
-        createTripResponseTestSubscriber.assertNoErrors()
-        createTripResponseTestSubscriber.assertValueCount(1)
-        createTripResponseTestSubscriber.assertValue(createTripResponse)
+        createTripResponseTestObserver.assertNoErrors()
+        createTripResponseTestObserver.assertValueCount(1)
+        createTripResponseTestObserver.assertValue(createTripResponse)
 
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
         paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(1)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(1)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(0)
 
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(2)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[1], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(2)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[1], expectedPaymentSplits))
     }
 
     @Test
@@ -172,23 +172,23 @@ class PaymentModelTest {
         createTripResponse.tripId = "";
 
         paymentModel.createTripSubject.onNext(createTripResponse)
-        createTripResponseTestSubscriber.assertNoErrors()
-        createTripResponseTestSubscriber.assertValueCount(1)
-        createTripResponseTestSubscriber.assertValue(createTripResponse)
+        createTripResponseTestObserver.assertNoErrors()
+        createTripResponseTestObserver.assertValueCount(1)
+        createTripResponseTestObserver.assertValue(createTripResponse)
 
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
         paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(1)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(1)
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(0)
 
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(1)
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(1)
     }
 
     @Test
@@ -199,19 +199,19 @@ class PaymentModelTest {
         val expectedPaymentSplits = getPaymentSplitsForSwpOff()
 
         paymentModel.createTripSubject.onNext(createTripResponse)
-        createTripResponseTestSubscriber.assertNoErrors()
-        createTripResponseTestSubscriber.assertValueCount(1)
-        createTripResponseTestSubscriber.assertValue(createTripResponse)
+        createTripResponseTestObserver.assertNoErrors()
+        createTripResponseTestObserver.assertValueCount(1)
+        createTripResponseTestObserver.assertValue(createTripResponse)
 
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[0], expectedPaymentSplits))
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(0)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(0)
     }
 
     @Test
@@ -226,19 +226,19 @@ class PaymentModelTest {
         paymentModel.pwpOpted.onNext(true)
 
         paymentModel.couponChangeSubject.onNext(createTripResponse)
-        couponChangeTestSubscriber.assertNoErrors()
-        couponChangeTestSubscriber.assertValueCount(1)
-        couponChangeTestSubscriber.assertValue(createTripResponse)
+        couponChangeTestObserver.assertNoErrors()
+        couponChangeTestObserver.assertValueCount(1)
+        couponChangeTestObserver.assertValue(createTripResponse)
 
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[0], expectedPaymentSplits))
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(0)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(0)
     }
 
     @Test
@@ -248,23 +248,23 @@ class PaymentModelTest {
         paymentModel.swpOpted.onNext(false)
         paymentModel.pwpOpted.onNext(false)
         paymentModel.couponChangeSubject.onNext(createTripResponse)
-        couponChangeTestSubscriber.assertNoErrors()
-        couponChangeTestSubscriber.assertValueCount(1)
-        couponChangeTestSubscriber.assertValue(createTripResponse)
+        couponChangeTestObserver.assertNoErrors()
+        couponChangeTestObserver.assertValueCount(1)
+        couponChangeTestObserver.assertValue(createTripResponse)
 
         //Expected Payment Split when SWP Opted is false
         val expectedPaymentSplits = getPaymentSplitsForSwpOff()
 
         Assert.assertFalse(paymentModel.pwpOpted.value)
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[0], expectedPaymentSplits))
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(0)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(0)
 
         paymentModel.pwpOpted.onNext(true)
 
@@ -280,19 +280,19 @@ class PaymentModelTest {
         val expectedPaymentSplits = PaymentSplits(userPreference!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreference.remainingPayableByCard)
 
         paymentModel.priceChangeDuringCheckoutSubject.onNext(createTripResponse)
-        priceChangeDuringCheckoutTestSubscriber.assertNoErrors()
-        priceChangeDuringCheckoutTestSubscriber.assertValueCount(1)
-        priceChangeDuringCheckoutTestSubscriber.assertValue(createTripResponse)
+        priceChangeDuringCheckoutTestObserver.assertNoErrors()
+        priceChangeDuringCheckoutTestObserver.assertValueCount(1)
+        priceChangeDuringCheckoutTestObserver.assertValue(createTripResponse)
 
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[0], expectedPaymentSplits))
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(0)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(0)
     }
 
     @Test
@@ -304,19 +304,19 @@ class PaymentModelTest {
         val expectedPaymentSplits = getPaymentSplitsForSwpOff()
 
         paymentModel.priceChangeDuringCheckoutSubject.onNext(createTripResponse)
-        priceChangeDuringCheckoutTestSubscriber.assertNoErrors()
-        priceChangeDuringCheckoutTestSubscriber.assertValueCount(1)
-        priceChangeDuringCheckoutTestSubscriber.assertValue(createTripResponse)
+        priceChangeDuringCheckoutTestObserver.assertNoErrors()
+        priceChangeDuringCheckoutTestObserver.assertValueCount(1)
+        priceChangeDuringCheckoutTestObserver.assertValue(createTripResponse)
 
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[0], expectedPaymentSplits))
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(0)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(0)
     }
 
 
@@ -328,22 +328,22 @@ class PaymentModelTest {
         paymentModel.swpOpted.onNext(false)
         paymentModel.pwpOpted.onNext(false)
         paymentModel.priceChangeDuringCheckoutSubject.onNext(createTripResponse)
-        priceChangeDuringCheckoutTestSubscriber.assertNoErrors()
-        priceChangeDuringCheckoutTestSubscriber.assertValueCount(1)
-        priceChangeDuringCheckoutTestSubscriber.assertValue(createTripResponse)
+        priceChangeDuringCheckoutTestObserver.assertNoErrors()
+        priceChangeDuringCheckoutTestObserver.assertValueCount(1)
+        priceChangeDuringCheckoutTestObserver.assertValue(createTripResponse)
 
         //Expected Payment Split when SWP Opted is false
         val expectedPaymentSplits = getPaymentSplitsForSwpOff()
         Assert.assertFalse(paymentModel.pwpOpted.value)
-        paymentSplitsTestSubscriber.assertNoErrors()
-        paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        paymentSplitsTestObserver.assertNoErrors()
+        paymentSplitsTestObserver.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestObserver.onNextEvents[0], expectedPaymentSplits))
 
-        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
-        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+        currencyToPointsApiResponseTestObserver.assertNoErrors()
+        currencyToPointsApiResponseTestObserver.assertValueCount(0)
 
-        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
-        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+        currencyToPointsApiErrorTestObserver.assertNoErrors()
+        currencyToPointsApiErrorTestObserver.assertValueCount(0)
     }
 
     private fun comparePaymentSplits(paymentSplits: PaymentSplits, expectedPaymentSplits: PaymentSplits): Boolean {

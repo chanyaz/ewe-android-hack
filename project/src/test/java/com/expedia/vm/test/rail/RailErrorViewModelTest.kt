@@ -13,7 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -43,9 +43,9 @@ class RailErrorViewModelTest {
 
     @Test
     fun testSearchNoResults() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -60,9 +60,9 @@ class RailErrorViewModelTest {
 
     @Test
     fun testOtherSearchErrors() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -81,9 +81,9 @@ class RailErrorViewModelTest {
 
     @Test
     fun testCreateTripErrors() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -98,9 +98,9 @@ class RailErrorViewModelTest {
 
     @Test
     fun testCheckoutInvalidInputError() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -115,9 +115,9 @@ class RailErrorViewModelTest {
 
     @Test
     fun testCheckoutUnknownApiError() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
@@ -132,9 +132,9 @@ class RailErrorViewModelTest {
 
     @Test
     fun testCheckoutUnknownError() {
-        val testErrorImageSubscriber = TestSubscriber<Int>()
-        val testErrorMessageSubscriber = TestSubscriber<String>()
-        val testButtonTextSubscriber = TestSubscriber<String>()
+        val testErrorImageSubscriber = TestObserver<Int>()
+        val testErrorMessageSubscriber = TestObserver<String>()
+        val testButtonTextSubscriber = TestObserver<String>()
         subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
         subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
         subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)

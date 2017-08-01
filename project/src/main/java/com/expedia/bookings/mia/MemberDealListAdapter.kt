@@ -17,7 +17,7 @@ import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 
 class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

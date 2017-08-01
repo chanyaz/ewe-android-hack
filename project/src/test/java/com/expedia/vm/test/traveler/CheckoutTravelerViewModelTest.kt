@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -107,10 +107,10 @@ class CheckoutTravelerViewModelTest {
     @Test
     fun testValidation() {
         val testCompleteTraveler = mockTravelerProvider.getCompleteMockTraveler()
-        val testAllTravelersComplete = TestSubscriber.create<List<Traveler>>()
-        val testInvalidTravelers = TestSubscriber.create<Unit>()
-        val testEmptyTravelers = TestSubscriber.create<Unit>()
-        val testTravelerCompleteness = TestSubscriber.create<TravelerCheckoutStatus>()
+        val testAllTravelersComplete = TestObserver.create<List<Traveler>>()
+        val testInvalidTravelers = TestObserver.create<Unit>()
+        val testEmptyTravelers = TestObserver.create<Unit>()
+        val testTravelerCompleteness = TestObserver.create<TravelerCheckoutStatus>()
 
         val expectedAllTravelersComplete = listOf(arrayListOf(testCompleteTraveler))
         val expectedEmptyTravelers = arrayListOf(Unit)

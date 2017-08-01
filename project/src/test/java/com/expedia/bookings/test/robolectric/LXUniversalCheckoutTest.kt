@@ -15,7 +15,7 @@
 //import org.junit.runner.RunWith
 //import org.robolectric.Robolectric
 //import org.robolectric.annotation.Config
-//import rx.observers.TestSubscriber
+//import com.expedia.bookings.services.TestObserver
 //import kotlin.properties.Delegates
 //import kotlin.test.assertEquals
 //import kotlin.test.assertFalse
@@ -58,7 +58,7 @@
 //
 //    @Test
 //    fun testSummaryVisibility() {
-//        val testSubscriber = TestSubscriber<Boolean>()
+//        val testSubscriber = TestObserver<Boolean>()
 //        checkout.getCheckoutViewModel().hideOverviewSummaryObservable.subscribe(testSubscriber)
 //        assertEquals(View.VISIBLE, overview.summaryContainer.visibility)
 //

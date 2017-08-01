@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.Observer
+import io.reactivex.Observer
 
 class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
     val stopsLabel: TextView by bindView(R.id.label)

@@ -10,8 +10,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.SuggestionAdapterViewModel
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
@@ -25,7 +25,7 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
         vm.suggestionSelectedSubject
                 .doOnNext(suggestionSelectedObserver)
                 .debounce(waitForOtherSuggestionListeners + delayBeforeShowingDestinationSuggestions, TimeUnit.MILLISECONDS)
-                .observeOn(if (ExpediaBookingApp.isRobolectric()) Schedulers.immediate() else AndroidSchedulers.mainThread())
+                .observeOn(if (ExpediaBookingApp.isRobolectric()) Schedulers.trampoline() else AndroidSchedulers.mainThread())
                 .filter { destinationCardView.text.equals(getDestinationSearchBoxPlaceholderText()) }
                 .subscribe {
                     showSuggestionState(selectOrigin = false)

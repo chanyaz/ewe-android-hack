@@ -37,9 +37,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.Scheduler
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import io.reactivex.Scheduler
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
 import kotlin.properties.Delegates
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -52,15 +52,15 @@ class PaymentViewModelTest {
 
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
     private var viewModel: PaymentViewModel by notNullAndObservable {
-        it.paymentType.subscribe(paymentTypeTestSubscriber)
-        it.cardTitle.subscribe(cardTitleTestSubscriber)
-        it.cardSubtitle.subscribe(cardSubtitleTestSubscriber)
-        it.pwpSmallIcon.subscribe(pwpSmallIconTestSubscriber)
+        it.paymentType.subscribe(paymentTypeTestObserver)
+        it.cardTitle.subscribe(cardTitleTestObserver)
+        it.cardSubtitle.subscribe(cardSubtitleTestObserver)
+        it.pwpSmallIcon.subscribe(pwpSmallIconTestObserver)
     }
-    val paymentTypeTestSubscriber = TestSubscriber.create<Drawable>()
-    val cardTitleTestSubscriber = TestSubscriber.create<String>()
-    val cardSubtitleTestSubscriber = TestSubscriber.create<String>()
-    val pwpSmallIconTestSubscriber = TestSubscriber.create<Boolean>()
+    val paymentTypeTestObserver = TestObserver.create<Drawable>()
+    val cardTitleTestObserver = TestObserver.create<String>()
+    val cardSubtitleTestObserver = TestObserver.create<String>()
+    val pwpSmallIconTestObserver = TestObserver.create<Boolean>()
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
@@ -75,7 +75,7 @@ class PaymentViewModelTest {
     
     @Test
     fun showCardInfoLabelHaveInvalidPaymentWarning() {
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         val flightCreateTripResponse = FlightCreateTripResponse()
         val amexValidFormOfPayment = ValidFormOfPayment()
         amexValidFormOfPayment.name = "AmericanExpress"
@@ -94,7 +94,7 @@ class PaymentViewModelTest {
 
     @Test
     fun showInvalidPaymentTypeWarning() {
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         viewModel.showInvalidPaymentWarning.subscribe(testSubscriber)
 
         viewModel.paymentTypeWarningHandledByCkoView.onNext(false)
@@ -106,7 +106,7 @@ class PaymentViewModelTest {
 
     @Test
     fun dontShowInvalidPaymentTypeWarning() {
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         viewModel.showInvalidPaymentWarning.subscribe(testSubscriber)
 
         viewModel.paymentTypeWarningHandledByCkoView.onNext(true)
@@ -118,7 +118,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningHotels() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenHotelTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -132,7 +132,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningPackages() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenPackagesTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -146,7 +146,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningFlights() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenFlightsTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -160,7 +160,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningLX() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenLxTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -174,7 +174,7 @@ class PaymentViewModelTest {
 
     @Test
     fun invalidPaymentTypeWarningTransport() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         givenTransportTrip()
 
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
@@ -197,8 +197,6 @@ class PaymentViewModelTest {
         //User has not filled billing Info
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
 
-        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
-                ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard))
         cardTitleTestSubscriber.assertValues("Visa …1111", "Visa 4111", "Enter payment details")
         cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "")
         pwpSmallIconTestSubscriber.assertValues(false, false, false)
@@ -218,11 +216,22 @@ class PaymentViewModelTest {
         //User has not filled billing Info
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
 
+<<<<<<< HEAD
         paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(),R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
                 ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard))
+=======
+        paymentTypeTestObserver.assertValues(ContextCompat.getDrawable(getContext(),R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
+                ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon))
+<<<<<<< HEAD
+>>>>>>> 1913d40386... WIP
         cardTitleTestSubscriber.assertValues("Visa …1111", "Paying with Points & Visa …1111", "Enter payment details")
         cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "")
         pwpSmallIconTestSubscriber.assertValues(false, true, false)
+=======
+        cardTitleTestObserver.assertValues("Visa …1111", "Paying with Points & Visa …1111", "Payment Method")
+        cardSubtitleTestObserver.assertValues("Tap to edit", "Tap to edit", "Credit card, pay with points")
+        pwpSmallIconTestObserver.assertValues(false, true, false)
+>>>>>>> 7df61dae81... WIP
     }
 
     @Test
@@ -230,8 +239,8 @@ class PaymentViewModelTest {
     fun testPaymentTileWithPaymentABTest() {
         val viewModel = PaymentViewModel(getContext())
 
-        viewModel.cardTitle.subscribe(cardTitleTestSubscriber)
-        viewModel.cardSubtitle.subscribe(cardSubtitleTestSubscriber)
+        viewModel.cardTitle.subscribe(cardTitleTestObserver)
+        viewModel.cardSubtitle.subscribe(cardSubtitleTestObserver)
         viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
 
         viewModel.isRedeemable.onNext(false)
@@ -242,8 +251,8 @@ class PaymentViewModelTest {
         //User has not filled billing Info
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.INCOMPLETE))
-        cardSubtitleTestSubscriber.assertValues("","Enter missing payment details")
-        cardTitleTestSubscriber.assertValues("Enter payment details", "Enter payment details")
+        cardSubtitleTestObserver.assertValues("","Enter missing payment details")
+        cardTitleTestObserver.assertValues("Enter payment details", "Enter payment details")
     }
 
     @Test
@@ -260,17 +269,27 @@ class PaymentViewModelTest {
         //User logs out or chooses a hotel which does not has PWP
         viewModel.isRedeemable.onNext(false)
 
+<<<<<<< HEAD
         paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.pwp_icon),
+=======
+        paymentTypeTestObserver.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.blue_pwp_icon),
+>>>>>>> 5abc89409b... WIP
                 ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful))
+<<<<<<< HEAD
         cardTitleTestSubscriber.assertValues("Enter payment details", "Paying with Points", "Enter payment details")
         cardSubtitleTestSubscriber.assertValues("", "Tap to edit", "")
         pwpSmallIconTestSubscriber.assertValues(false, false, false)
+=======
+        cardTitleTestObserver.assertValues("Payment Method", "Paying with Points", "Payment Method")
+        cardSubtitleTestObserver.assertValues("Credit card, pay with points", "Tap to edit", "Enter credit card")
+        pwpSmallIconTestObserver.assertValues(false, false, false)
+>>>>>>> 7df61dae81... WIP
 
     }
 
     @Test
     fun testNewCheckoutBehavior() {
-        val testNewCheckoutSubscriber = TestSubscriber.create<Boolean>()
+        val testNewCheckoutSubscriber = TestObserver.create<Boolean>()
         viewModel.newCheckoutIsEnabled.subscribe(testNewCheckoutSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
@@ -285,8 +304,8 @@ class PaymentViewModelTest {
 
     @Test
     fun testMenuButtonBehaviorOnCardSelection() {
-        val testMenuVisibilitySubscriber = TestSubscriber.create<Boolean>()
-        val testEnableMenuSubscriber = TestSubscriber.create<Boolean>()
+        val testMenuVisibilitySubscriber = TestObserver.create<Boolean>()
+        val testEnableMenuSubscriber = TestObserver.create<Boolean>()
         viewModel.menuVisibility.subscribe(testMenuVisibilitySubscriber)
         viewModel.enableMenuItem.subscribe(testEnableMenuSubscriber)
 
@@ -400,7 +419,7 @@ class PaymentViewModelTest {
 
     class TestPaymentViewModelClass(context: Context): PaymentViewModel(context) {
         override fun getScheduler(): Scheduler {
-            return Schedulers.immediate()
+            return Schedulers.trampoline()
         }
     }
 }

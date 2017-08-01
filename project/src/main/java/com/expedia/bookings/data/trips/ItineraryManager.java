@@ -62,7 +62,7 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 
-import rx.functions.Action1;
+import io.reactivex.functions.Consumer;
 
 /**
  * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
@@ -1389,9 +1389,9 @@ public class ItineraryManager implements JSONable {
 
 		private void reauthFacebookUser() {
 			ServicesUtil.generateAccountService(mContext)
-				.facebookReauth(mContext).doOnNext(new Action1<FacebookLinkResponse>() {
+				.facebookReauth(mContext).doOnNext(new Consumer<FacebookLinkResponse>() {
 				@Override
-				public void call(FacebookLinkResponse linkResponse) {
+				public void accept(FacebookLinkResponse linkResponse) {
 					if (linkResponse != null
 						&& linkResponse.isSuccess()) {
 						Log.w(LOGGING_TAG, "FB: Autologin success");

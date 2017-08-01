@@ -6,8 +6,8 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption
 import com.expedia.bookings.rail.widget.TicketDeliveryMethod
 import com.expedia.bookings.utils.CollectionUtils
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailTicketDeliveryEntryViewModel(val context: Context) {
     //inputs
@@ -21,7 +21,7 @@ class RailTicketDeliveryEntryViewModel(val context: Context) {
     }
 
     val deliveryByMailSupported = ticketDeliveryByPostOptions.map { CollectionUtils.isNotEmpty(it) }
-    val ticketDeliveryObservable = BehaviorSubject.create<TicketDeliveryMethod>(TicketDeliveryMethod.PICKUP_AT_STATION)
+    val ticketDeliveryObservable = BehaviorSubject.createDefault<TicketDeliveryMethod>(TicketDeliveryMethod.PICKUP_AT_STATION)
     val ticketDeliveryMethodSelected = PublishSubject.create<TicketDeliveryMethod>()
     var ticketDeliveryOption: TicketDeliveryOption? = null
     val ticketDeliveryOptionSubject = BehaviorSubject.create<TicketDeliveryOption>()

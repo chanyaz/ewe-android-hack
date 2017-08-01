@@ -37,8 +37,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockWebServer;
 import com.expedia.bookings.unit.rail.RailCheckoutParamsMock;
-import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
+import com.expedia.bookings.services.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -51,10 +51,10 @@ public class RailServicesTest {
 	public MockWebServer server = new MockWebServer();
 	private RailServices service;
 	private RailApiSearchModel railSearchRequest;
-	private TestSubscriber<RailSearchResponse> searchResponseObserver;
-	private TestSubscriber<RailCreateTripResponse> createTripResponseObserver;
-	private TestSubscriber<RailCheckoutResponseWrapper> checkoutTripResponseObserver;
-	private TestSubscriber<CardFeeResponse> cardFeeResponseObserver;
+	private TestObserver<RailSearchResponse> searchResponseObserver;
+	private TestObserver<RailCreateTripResponse> createTripResponseObserver;
+	private TestObserver<RailCheckoutResponseWrapper> checkoutTripResponseObserver;
+	private TestObserver<CardFeeResponse> cardFeeResponseObserver;
 
 	@Before
 	public void before() throws IOException {
@@ -62,16 +62,16 @@ public class RailServicesTest {
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
 		service = new RailServices("http://localhost:" + server.getPort(), new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, interceptor, interceptor, false, Schedulers.immediate(), Schedulers.immediate());
+			interceptor, interceptor, interceptor, false, Schedulers.trampoline(), Schedulers.trampoline());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		searchResponseObserver = new TestSubscriber();
-		createTripResponseObserver = new TestSubscriber();
-		checkoutTripResponseObserver = new TestSubscriber();
-		cardFeeResponseObserver = new TestSubscriber();
+		searchResponseObserver = new TestObserver();
+		createTripResponseObserver = new TestObserver();
+		checkoutTripResponseObserver = new TestObserver();
+		cardFeeResponseObserver = new TestObserver();
 	}
 
 	@Test
@@ -81,9 +81,9 @@ public class RailServicesTest {
 		service.railSearch(railSearchRequest, searchResponseObserver);
 		searchResponseObserver.awaitTerminalEvent();
 
-		searchResponseObserver.assertCompleted();
+		searchResponseObserver.assertComplete();
 		searchResponseObserver.assertValueCount(1);
-		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
+		RailSearchResponse railSearchResponse = searchResponseObserver.values().get(0);
 		List<RailPassenger> passengers = railSearchResponse.passengerList;
 		assertEquals(4, passengers.size());
 		assertEquals(30, passengers.get(0).age);
@@ -116,9 +116,9 @@ public class RailServicesTest {
 
 		searchResponseObserver.awaitTerminalEvent();
 
-		searchResponseObserver.assertCompleted();
+		searchResponseObserver.assertComplete();
 		searchResponseObserver.assertValueCount(1);
-		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
+		RailSearchResponse railSearchResponse = searchResponseObserver.values().get(0);
 
 		assertTrue(railSearchResponse.hasError());
 		assertEquals(RailsApiStatusCodes.STATUS_SUCCESS, railSearchResponse.responseStatus.status);
@@ -132,9 +132,9 @@ public class RailServicesTest {
 
 		searchResponseObserver.awaitTerminalEvent();
 
-		searchResponseObserver.assertCompleted();
+		searchResponseObserver.assertComplete();
 		searchResponseObserver.assertValueCount(1);
-		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
+		RailSearchResponse railSearchResponse = searchResponseObserver.values().get(0);
 
 		assertTrue(railSearchResponse.hasError());
 	}
@@ -147,9 +147,9 @@ public class RailServicesTest {
 		service.railCreateTrip(offerTokens, createTripResponseObserver);
 		createTripResponseObserver.awaitTerminalEvent();
 
-		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertComplete();
 		createTripResponseObserver.assertValueCount(1);
-		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.values().get(0);
 
 		assertEquals("2584783d-7b84-406e-9fef-3e8e847d4d87", createTripResponse.tripId);
 
@@ -185,9 +185,9 @@ public class RailServicesTest {
 		service.railCreateTrip(offerTokens, createTripResponseObserver);
 		createTripResponseObserver.awaitTerminalEvent();
 
-		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertComplete();
 		createTripResponseObserver.assertValueCount(1);
-		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.values().get(0);
 		assertTrue(createTripResponse.hasPriceChange());
 	}
 
@@ -199,9 +199,9 @@ public class RailServicesTest {
 		service.railCreateTrip(offerTokens, createTripResponseObserver);
 		createTripResponseObserver.awaitTerminalEvent();
 
-		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertComplete();
 		createTripResponseObserver.assertValueCount(1);
-		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.values().get(0);
 		assertTrue(createTripResponse.isErrorResponse());
 	}
 
@@ -213,9 +213,9 @@ public class RailServicesTest {
 		service.railCreateTrip(offerTokens, createTripResponseObserver);
 		createTripResponseObserver.awaitTerminalEvent();
 
-		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertComplete();
 		createTripResponseObserver.assertValueCount(1);
-		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.values().get(0);
 		assertTrue(createTripResponse.isErrorResponse());
 	}
 
@@ -228,20 +228,20 @@ public class RailServicesTest {
 		service.railCheckoutTrip(params, checkoutTripResponseObserver);
 		checkoutTripResponseObserver.awaitTerminalEvent();
 
-		checkoutTripResponseObserver.assertCompleted();
+		checkoutTripResponseObserver.assertComplete();
 		checkoutTripResponseObserver.assertValueCount(1);
-		RailCheckoutResponseWrapper checkoutResponseWrapper = checkoutTripResponseObserver.getOnNextEvents().get(0);
+		RailCheckoutResponseWrapper checkoutResponseWrapper = checkoutTripResponseObserver.values().get(0);
 
 		assertEquals("8009690310416", checkoutResponseWrapper.checkoutResponse.orderId);
 	}
 
 	@Test
 	public void happyGetRailCards() {
-		TestSubscriber<RailCardsResponse> railCardsResponseTestSubscriber = new TestSubscriber<>();
-		service.railGetCards("en_GB", railCardsResponseTestSubscriber);
-		railCardsResponseTestSubscriber.awaitTerminalEvent();
-		railCardsResponseTestSubscriber.assertValueCount(1);
-		assertEquals(12, railCardsResponseTestSubscriber.getOnNextEvents().get(0).getRailCards().size());
+		TestObserver<RailCardsResponse> railCardsResponseTestObserver = new TestObserver<>();
+		service.railGetCards("en_GB", railCardsResponseTestObserver);
+		railCardsResponseTestObserver.awaitTerminalEvent();
+		railCardsResponseTestObserver.assertValueCount(1);
+		assertEquals(12, railCardsResponseTestObserver.values().get(0).getRailCards().size());
 	}
 
 	@Test
@@ -250,10 +250,10 @@ public class RailServicesTest {
 			RailCheckoutParamsMock.paymentInfo().getCards().get(0).getCreditCardNumber(),
 			RailCheckoutParamsMock.railTicketDeliveryStationInfo().getDeliveryOptionToken(), cardFeeResponseObserver);
 		cardFeeResponseObserver.awaitTerminalEvent();
-		cardFeeResponseObserver.assertCompleted();
+		cardFeeResponseObserver.assertComplete();
 		cardFeeResponseObserver.assertValueCount(1);
 
-		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.getOnNextEvents().get(0);
+		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.values().get(0);
 		assertEquals("£2.90", cardFeeResponse.feePrice.formattedPrice);
 	}
 
@@ -262,10 +262,10 @@ public class RailServicesTest {
 		service.railGetCardFees(RailCheckoutParamsMock.tripDetails().getTripId(), "000000",
 			RailCheckoutParamsMock.railTicketDeliveryStationInfo().getDeliveryOptionToken(), cardFeeResponseObserver);
 		cardFeeResponseObserver.awaitTerminalEvent();
-		cardFeeResponseObserver.assertCompleted();
+		cardFeeResponseObserver.assertComplete();
 		cardFeeResponseObserver.assertValueCount(1);
 
-		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.getOnNextEvents().get(0);
+		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.values().get(0);
 		assertTrue(cardFeeResponse.hasErrors());
 	}
 

@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreakdownViewModel(context) {
     val packageCostSummaryObservable = PublishSubject.create<PackageCreateTripResponse>()

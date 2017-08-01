@@ -1,13 +1,13 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.LocalDate
-import rx.Observable
-import rx.subjects.BehaviorSubject
 
 class FlightToolbarViewModel(private val context: Context) {
     //input
@@ -30,7 +30,7 @@ class FlightToolbarViewModel(private val context: Context) {
             menuVisibilitySubject.onNext(false)
         }
 
-        Observable.combineLatest(refreshToolBar, isOutboundSearch, city, travelers, date, { isResults, isOutboundSearch, cityBound, numTravelers, date ->
+        ObservableOld.combineLatest(refreshToolBar, isOutboundSearch, city, travelers, date, { isResults, isOutboundSearch, cityBound, numTravelers, date ->
             val resultsTitle: String = SuggestionStrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, cityBound))
             val overviewTitle: String = SuggestionStrUtils.formatCityName(context.resources.getString(R.string.flight_to_template, cityBound))
             val resultsOutInboundTitle: String = context.resources.getString(R.string.select_return_flight)

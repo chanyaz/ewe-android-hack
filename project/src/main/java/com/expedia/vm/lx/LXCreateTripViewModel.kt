@@ -11,7 +11,9 @@ import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
-import rx.Observer
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
 import javax.inject.Inject
 
 class LXCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
@@ -33,8 +35,8 @@ class LXCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
     }
 
     private fun makeCreateTripResponseObserver(): Observer<LXCreateTripResponseV2> {
-        return object : Observer<LXCreateTripResponseV2> {
-            override fun onCompleted() {
+        return object : DisposableObserver<LXCreateTripResponseV2>() {
+            override fun onComplete() {
                 showCreateTripDialogObservable.onNext(false)
 
             }

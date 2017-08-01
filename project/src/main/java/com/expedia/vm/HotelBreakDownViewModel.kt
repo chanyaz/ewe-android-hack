@@ -7,7 +7,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.utils.DateUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
 
 class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewModel: HotelCheckoutSummaryViewModel) {

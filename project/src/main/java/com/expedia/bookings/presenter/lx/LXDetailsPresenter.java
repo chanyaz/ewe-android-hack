@@ -38,10 +38,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
+import io.reactivex.Observer;
+import io.reactivex.functions.Consumer;
 import kotlin.Unit;
-import rx.Observer;
-import rx.Subscription;
-import rx.functions.Action1;
+import io.reactivex.disposables.Disposable;
 
 public class LXDetailsPresenter extends Presenter {
 	private LXActivity lxActivity;
@@ -85,7 +85,7 @@ public class LXDetailsPresenter extends Presenter {
 	@InjectView(R.id.lx_details_gradient_top)
 	View lxDetailsGradientTop;
 
-	private Subscription detailsSubscription;
+	private Disposable detailsSubscription;
 
 	private int searchTop;
 
@@ -99,9 +99,9 @@ public class LXDetailsPresenter extends Presenter {
 		addTransition(detailToMap);
 		setupToolbar();
 		details.addOnScrollListener(parallaxScrollListener);
-		details.mapClickSubject.subscribe(new Action1<Unit>() {
+		details.mapClickSubject.subscribe(new Consumer<Unit>() {
 			@Override
-			public void call(Unit unit) {
+			public void accept(Unit unit) {
 				show(fullscreenMapView);
 			}
 		});
@@ -115,7 +115,7 @@ public class LXDetailsPresenter extends Presenter {
 
 	public void cleanup() {
 		if (detailsSubscription != null) {
-			detailsSubscription.unsubscribe();
+			detailsSubscription.dispose();
 			detailsSubscription = null;
 		}
 	}

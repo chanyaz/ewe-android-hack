@@ -49,10 +49,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.Scheduler
+import io.reactivex.Scheduler
 import rx.android.schedulers.AndroidSchedulers
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -78,7 +78,7 @@ class FlightCheckoutViewModelTest {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_no_debit_cards_permitted.json")
         setupSystemUnderTest()
 
-        val debitCardNotAcceptedSubscriber = TestSubscriber<Boolean>()
+        val debitCardNotAcceptedSubscriber = TestObserver<Boolean>()
         sut.showDebitCardsNotAcceptedSubject.subscribe(debitCardNotAcceptedSubscriber)
 
         debitCardNotAcceptedSubscriber.assertValue(true)
@@ -89,7 +89,7 @@ class FlightCheckoutViewModelTest {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_test_config.json")
         setupSystemUnderTest()
 
-        val debitCardNotAcceptedSubscriber = TestSubscriber<Boolean>()
+        val debitCardNotAcceptedSubscriber = TestObserver<Boolean>()
         sut.showDebitCardsNotAcceptedSubject.subscribe(debitCardNotAcceptedSubscriber)
 
         debitCardNotAcceptedSubscriber.assertValue(false)
@@ -101,13 +101,13 @@ class FlightCheckoutViewModelTest {
         givenGoodTripResponse()
         setupSystemUnderTest()
 
-        val legalTextTestSubscriber = TestSubscriber<SpannableStringBuilder>()
-        sut.legalText.subscribe(legalTextTestSubscriber)
+        val legalTextTestObserver = TestObserver<SpannableStringBuilder>()
+        sut.legalText.subscribe(legalTextTestObserver)
 
         sut.createTripResponseObservable.onNext(Optional(newTripResponse))
 
-        legalTextTestSubscriber.assertValueCount(1)
-        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information.", legalTextTestSubscriber.onNextEvents[0].toString())
+        legalTextTestObserver.assertValueCount(1)
+        assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information.", legalTextTestObserver.onNextEvents[0].toString())
     }
 
     @Test
@@ -116,7 +116,7 @@ class FlightCheckoutViewModelTest {
         givenGoodTripResponse()
         setupSystemUnderTest()
 
-        val selectedCardFeeSubscriber = TestSubscriber<Money>()
+        val selectedCardFeeSubscriber = TestObserver<Money>()
         sut.selectedCardFeeObservable.subscribe(selectedCardFeeSubscriber)
 
         sut.createTripResponseObservable.onNext(Optional(newTripResponse))
@@ -133,11 +133,11 @@ class FlightCheckoutViewModelTest {
         givenGoodTripResponse()
         setupSystemUnderTest()
 
-        val legalTextTestSubscriber = TestSubscriber<SpannableStringBuilder>()
-        //val purchaseTotalTextTestSubscriber = TestSubscriber<CharSequence>()
+        val legalTextTestObserver = TestObserver<SpannableStringBuilder>()
+        //val purchaseTotalTextTestObserver = TestObserver<CharSequence>()
 
-        sut.legalText.subscribe(legalTextTestSubscriber)
-        //sut.purchaseTotalText.subscribe(purchaseTotalTextTestSubscriber)
+        sut.legalText.subscribe(legalTextTestObserver)
+        //sut.purchaseTotalText.subscribe(purchaseTotalTextTestObserver)
 
         sut.createTripResponseObservable.onNext(Optional(newTripResponse))
 
@@ -157,28 +157,28 @@ class FlightCheckoutViewModelTest {
     fun selectedFlightHasFeesShowCardFeeWarnings() {
         setupSystemUnderTest()
 
-        val cardFeeWarningTestSubscriber = TestSubscriber<Spanned>()
-        sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestSubscriber)
+        val cardFeeWarningTestObserver = TestObserver<Spanned>()
+        sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestObserver)
 
         givenObFeeUrl()
         givenAirlineChargesFees()
 
-        cardFeeWarningTestSubscriber.assertValueCount(2)
-        assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[0].toString())
+        cardFeeWarningTestObserver.assertValueCount(2)
+        assertEquals("", cardFeeWarningTestObserver.onNextEvents[0].toString())
         assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
-                cardFeeWarningTestSubscriber.onNextEvents[1].toString())
+                cardFeeWarningTestObserver.onNextEvents[1].toString())
 
         setPOS(PointOfSaleId.FRANCE)
 
         givenAirlineChargesFees()
-        cardFeeWarningTestSubscriber.assertValueCount(3)
+        cardFeeWarningTestObserver.assertValueCount(3)
         assertEquals("There may be an additional fee, based on your payment method.",
-                cardFeeWarningTestSubscriber.onNextEvents[2].toString())
+                cardFeeWarningTestObserver.onNextEvents[2].toString())
 
         sut.selectedCardFeeObservable.onNext(Money())
-        cardFeeWarningTestSubscriber.assertValueCount(4)
+        cardFeeWarningTestObserver.assertValueCount(4)
         assertEquals("",
-                cardFeeWarningTestSubscriber.onNextEvents[3].toString())
+                cardFeeWarningTestObserver.onNextEvents[3].toString())
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -213,15 +213,15 @@ class FlightCheckoutViewModelTest {
     fun selectedFlightHasNoFeesDontShowCardFeeWarnings() {
         setupSystemUnderTest()
 
-        val cardFeeWarningTestSubscriber = TestSubscriber<Spanned>()
-        sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestSubscriber)
+        val cardFeeWarningTestObserver = TestObserver<Spanned>()
+        sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestObserver)
 
         sut.obFeeDetailsUrlSubject.onNext("")
         sut.selectedFlightChargesFees.onNext("")
 
-        cardFeeWarningTestSubscriber.assertValueCount(2)
-        assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[0].toString())
-        assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[1].toString())
+        cardFeeWarningTestObserver.assertValueCount(2)
+        assertEquals("", cardFeeWarningTestObserver.onNextEvents[0].toString())
+        assertEquals("", cardFeeWarningTestObserver.onNextEvents[1].toString())
     }
 
     @Test
@@ -234,18 +234,18 @@ class FlightCheckoutViewModelTest {
         givenAirlineChargesFees()
         givenObFeeUrl()
 
-        val cardFeeTextSubscriber = TestSubscriber<Spanned>()
-        val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
-        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
+        val cardFeeTextSubscriber = TestObserver<Spanned>()
+        val cardFeeWarningTextSubscriber = TestObserver<Spanned>()
+        val hasCardFeeTestObserver = TestObserver<Boolean>()
 
         sut.cardFeeTextSubject.subscribe(cardFeeTextSubscriber)
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
-        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
+        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestObserver)
 
         sut.createTripResponseObservable.onNext(Optional(newTripResponse))
         sut.paymentViewModel.resetCardFees.onNext(Unit)
 
-        hasCardFeeTestSubscriber.assertValue(false)
+        hasCardFeeTestObserver.assertValue(false)
         cardFeeTextSubscriber.assertValueCount(1)
         cardFeeWarningTextSubscriber.assertValueCount(1)
         assertEquals("", cardFeeTextSubscriber.onNextEvents[0].toString())
@@ -266,15 +266,15 @@ class FlightCheckoutViewModelTest {
         setupCardFeeService()
         setupSystemUnderTest()
 
-        val cardFeeTextSubscriber = TestSubscriber<Spanned>()
-        val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
-        val flexStatusTextSubscriber = TestSubscriber<String>()
-        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
+        val cardFeeTextSubscriber = TestObserver<Spanned>()
+        val cardFeeWarningTextSubscriber = TestObserver<Spanned>()
+        val flexStatusTextSubscriber = TestObserver<String>()
+        val hasCardFeeTestObserver = TestObserver<Boolean>()
 
         sut.cardFeeTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeTextSubscriber)
         sut.cardFeeFlexStatus.subscribeOn(AndroidSchedulers.mainThread()).subscribe(flexStatusTextSubscriber)
         sut.cardFeeWarningTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeWarningTextSubscriber)
-        sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestSubscriber)
+        sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestObserver)
 
         sut.createTripResponseObservable.onNext(Optional(newTripResponse))
         sut.paymentViewModel.cardBIN.onNext("654321")
@@ -289,7 +289,7 @@ class FlightCheckoutViewModelTest {
         assertEquals("A payment method fee of $2.50 is included in the trip total.",
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
 
-        hasCardFeeTestSubscriber.assertValue(true)
+        hasCardFeeTestObserver.assertValue(true)
     }
 
     @Test
@@ -406,13 +406,13 @@ class FlightCheckoutViewModelTest {
         setupCardFeeService()
         setupSystemUnderTest()
 
-        val cardFeeTextSubscriber = TestSubscriber<Spanned>()
-        val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
-        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
+        val cardFeeTextSubscriber = TestObserver<Spanned>()
+        val cardFeeWarningTextSubscriber = TestObserver<Spanned>()
+        val hasCardFeeTestObserver = TestObserver<Boolean>()
 
         sut.cardFeeTextSubject.subscribe(cardFeeTextSubscriber)
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
-        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
+        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestObserver)
 
         sut.createTripResponseObservable.onNext(Optional(newTripResponse))
         sut.paymentViewModel.cardBIN.onNext("654321")
@@ -427,7 +427,7 @@ class FlightCheckoutViewModelTest {
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
         assertEquals("", cardFeeWarningTextSubscriber.onNextEvents[1].toString())
 
-        hasCardFeeTestSubscriber.assertValues(true, false)
+        hasCardFeeTestObserver.assertValues(true, false)
     }
 
     @Test
@@ -435,7 +435,7 @@ class FlightCheckoutViewModelTest {
         setupSystemUnderTest()
         givenUnknownErrorCheckoutParams()
 
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.checkoutErrorObservable.subscribe(testSubscriber)
         sut.checkoutParams.onNext(params)
 
@@ -451,7 +451,7 @@ class FlightCheckoutViewModelTest {
         val createTripResponse = FlightCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
 
-        val testSubscriber = TestSubscriber<Pair<BaseApiResponse, String>>()
+        val testSubscriber = TestObserver<Pair<BaseApiResponse, String>>()
         sut.bookingSuccessResponse.subscribe(testSubscriber)
         sut.checkoutParams.onNext(params)
 
@@ -464,7 +464,7 @@ class FlightCheckoutViewModelTest {
         setupSystemUnderTest()
         givenCheckoutPriceChangeParams()
 
-        val testSubscriber = TestSubscriber<TripResponse>()
+        val testSubscriber = TestObserver<TripResponse>()
         sut.checkoutPriceChangeObservable.subscribe(testSubscriber)
         sut.checkoutParams.onNext(params)
 
@@ -476,7 +476,7 @@ class FlightCheckoutViewModelTest {
     fun networkErrorDialogCancel() {
         setupSystemUnderTest()
 
-        val testSubscriber = TestSubscriber<Unit>()
+        val testSubscriber = TestObserver<Unit>()
         sut.showNoInternetRetryDialog.subscribe(testSubscriber)
         givenIOExceptionOnCheckoutRequest()
 
@@ -487,7 +487,7 @@ class FlightCheckoutViewModelTest {
     fun networkErrorDialogRetry() {
         setupSystemUnderTest()
 
-        val testSubscriber = TestSubscriber<Unit>()
+        val testSubscriber = TestObserver<Unit>()
         sut.showNoInternetRetryDialog.subscribe(testSubscriber)
         givenIOExceptionOnCheckoutRequest()
 
@@ -609,7 +609,7 @@ class FlightCheckoutViewModelTest {
         val interceptor = MockInterceptor()
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
     }
 
     private fun setupCardFeeService() {
@@ -618,7 +618,7 @@ class FlightCheckoutViewModelTest {
         val interceptor = MockInterceptor()
         cardFeeService = CardFeeService("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
     }
 
     private fun setupMockServer() {
@@ -664,7 +664,7 @@ class FlightCheckoutViewModelTest {
 
     class TestFlightCheckoutViewModelClass(context: Context): FlightCheckoutViewModel(context) {
         override fun getScheduler(): Scheduler {
-            return Schedulers.immediate()
+            return Schedulers.trampoline()
         }
     }
 }

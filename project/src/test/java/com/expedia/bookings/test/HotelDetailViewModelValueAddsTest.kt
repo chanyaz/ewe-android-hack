@@ -20,8 +20,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -42,16 +42,21 @@ class HotelDetailViewModelValueAddsTest {
         val interceptor = MockInterceptor()
         service = HotelServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
+<<<<<<< HEAD
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
         vm = HotelDetailViewModel(activity.applicationContext,
                 HotelInfoManager(Mockito.mock(HotelServices::class.java)))
+=======
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+        vm = HotelDetailViewModel(activity.applicationContext)
+>>>>>>> 0e8f08fc73... WIP
     }
 
-    private fun setUpTest(): TestSubscriber<HotelOffersResponse> {
+    private fun setUpTest(): TestObserver<HotelOffersResponse> {
         val root = File("../lib/mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
         server.setDispatcher(ExpediaDispatcher(opener))
-        val observer = TestSubscriber<HotelOffersResponse>()
+        val observer = TestObserver<HotelOffersResponse>()
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()
@@ -69,11 +74,11 @@ class HotelDetailViewModelValueAddsTest {
     fun verifyCommonRoomAmenities() {
         val observer = setUpTest()
         observer.awaitTerminalEvent()
-        observer.assertCompleted()
+        observer.assertComplete()
 
         val offerResponse = observer.onNextEvents[0]
 
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val expected = arrayListOf<String>()
         vm.commonAmenityTextObservable.subscribe(testSubscriber)
 
@@ -83,14 +88,14 @@ class HotelDetailViewModelValueAddsTest {
         expected.add("All rooms include free airport shuttle")
 
         testSubscriber.assertReceivedOnNext(expected)
-        testSubscriber.unsubscribe()
+        testSubscriber.dispose()
     }
 
     @Test
     fun verifyUniqueRoomAmenities() {
         val observer = setUpTest()
         observer.awaitTerminalEvent()
-        observer.assertCompleted()
+        observer.assertComplete()
 
         val offerResponse = observer.onNextEvents[0]
         vm.hotelOffersSubject.onNext(offerResponse)

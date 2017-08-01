@@ -18,9 +18,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.Observable
-import rx.observers.TestSubscriber
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.subjects.PublishSubject
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -34,7 +34,7 @@ class HotelSearchViewModelTest {
     private lateinit var suggestionBuilder: TestSuggestionV4Builder
 
     private val today = LocalDate.now()
-    private val testGenericSearchSubscriber = TestSubscriber.create<HotelSearchParams>()
+    private val testGenericSearchSubscriber = TestObserver.create<HotelSearchParams>()
 
     @Before
     fun setup() {
@@ -49,7 +49,7 @@ class HotelSearchViewModelTest {
     fun testSearchMissingRequiredParamDates() {
         triggerParams(suggestion = suggestionBuilder.build())
 
-        val testErrorSubscriber = TestSubscriber.create<Unit>()
+        val testErrorSubscriber = TestObserver.create<Unit>()
         testViewModel.errorNoDatesObservable.subscribe(testErrorSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
@@ -60,7 +60,7 @@ class HotelSearchViewModelTest {
     fun testSearchMissingRequiredParamDestination() {
         triggerParams(startDate = today, endDate = today.plusDays(1))
 
-        val testErrorSubscriber = TestSubscriber.create<Unit>()
+        val testErrorSubscriber = TestObserver.create<Unit>()
         testViewModel.errorNoDestinationObservable.subscribe(testErrorSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
@@ -76,7 +76,7 @@ class HotelSearchViewModelTest {
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = today, endDate = invalidEndDate)
 
-        val testErrorSubscriber = TestSubscriber.create<String>()
+        val testErrorSubscriber = TestObserver.create<String>()
         testViewModel.errorMaxDurationObservable.subscribe(testErrorSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
@@ -91,7 +91,7 @@ class HotelSearchViewModelTest {
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = invalidStartDate, endDate = invalidEndDate)
 
-        val testErrorSubscriber = TestSubscriber.create<String>()
+        val testErrorSubscriber = TestObserver.create<String>()
         testViewModel.errorMaxRangeObservable.subscribe(testErrorSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
@@ -105,7 +105,7 @@ class HotelSearchViewModelTest {
         val suggestion = suggestionBuilder.hotelId(expectedId).build()
         triggerParams(suggestion = suggestion, startDate = today, endDate = today.plusDays(1))
 
-        val testSubscriber = TestSubscriber.create<HotelSearchParams>()
+        val testSubscriber = TestObserver.create<HotelSearchParams>()
         testViewModel.hotelIdSearchSubject.subscribe(testSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
@@ -119,7 +119,7 @@ class HotelSearchViewModelTest {
         val suggestion = suggestionBuilder.type("RAW_TEXT_SEARCH").build()
         triggerParams(suggestion = suggestion, startDate = today, endDate = today.plusDays(1))
 
-        val testSubscriber = TestSubscriber.create<HotelSearchParams>()
+        val testSubscriber = TestObserver.create<HotelSearchParams>()
         testViewModel.rawTextSearchSubject.subscribe(testSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
@@ -134,7 +134,7 @@ class HotelSearchViewModelTest {
 
         val errors = Observable.merge(testViewModel.errorMaxRangeObservable, testViewModel.errorMaxDurationObservable,
                 testViewModel.errorNoDestinationObservable, testViewModel.errorNoDatesObservable)
-        val testSubscriber = TestSubscriber.create<Any>()
+        val testSubscriber = TestObserver.create<Any>()
         errors.subscribe(testSubscriber)
 
         testViewModel.searchObserver.onNext(Unit)
@@ -147,7 +147,7 @@ class HotelSearchViewModelTest {
     fun testPrefetchDisabled_invalidParams() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
         triggerParams(startDate = today, endDate = today.plusDays(1))
@@ -158,7 +158,7 @@ class HotelSearchViewModelTest {
     fun testPrefetchDisabled_hotelIdSearch() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
         val suggestion = suggestionBuilder.hotelId("12345").build()
@@ -170,7 +170,7 @@ class HotelSearchViewModelTest {
     fun testPrefetchDisabled_rawTextSearch() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
 
         val suggestion = suggestionBuilder.type("RAW_TEXT_SEARCH").build()
@@ -182,7 +182,7 @@ class HotelSearchViewModelTest {
     fun testPrefetchDisabled_advancedSearchOptions() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
         testViewModel.getParamsBuilder().hotelName("ADVANCED_OPTION")
         triggerParams(suggestion = suggestionBuilder.build(),
@@ -194,7 +194,7 @@ class HotelSearchViewModelTest {
     fun testPrefetchEnabled() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelGreedySearch, 1)
 
-        val testSubscriber = TestSubscriber.create<Unit>()
+        val testSubscriber = TestObserver.create<Unit>()
         mockSearchManager.searchCalledSubject.subscribe(testSubscriber)
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = today, endDate = today.plusDays(1))

@@ -12,6 +12,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.ApiError
@@ -62,10 +63,9 @@ import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.google.gson.Gson
 import retrofit2.HttpException
-import rx.Observable
-import rx.Observer
-import rx.Subscriber
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -192,7 +192,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         Ui.getApplication(context).packageComponent().inject(this)
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
 
-        Observable.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, trackEvent -> packageSearchResponse }).subscribe {
+        ObservableOld.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, trackEvent -> packageSearchResponse }).subscribe {
             trackSearchResult(it)
         }
     }
@@ -298,7 +298,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
         val info = packageServices.hotelInfo(hotelId)
 
-        Observable.zip(packageHotelOffers.doOnError {}, info.doOnError {},
+        ObservableOld.zip(packageHotelOffers.doOnError {}, info.doOnError {},
                 { packageHotelOffers, info ->
                     if (packageHotelOffers.hasRoomResponseErrors()) {
                         handleRoomResponseErrors(packageHotelOffers.roomResponseFirstErrorCode)
@@ -324,8 +324,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         activity.finish()
     }
 
-    private fun makeErrorSubscriber(showErrorDialog: Boolean): Subscriber<Any> {
-        return object : Subscriber<Any>() {
+    private fun makeErrorSubscriber(showErrorDialog: Boolean): DisposableObserver<Any> {
+        return object : DisposableObserver<Any>() {
             override fun onError(throwable: Throwable) {
                 if (throwable is HttpException) {
                     try {
@@ -340,10 +340,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 }
             }
 
-            override fun onNext(t: Any?) {
+            override fun onNext(t: Any) {
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
         }
     }

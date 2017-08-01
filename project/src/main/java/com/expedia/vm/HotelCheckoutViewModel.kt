@@ -1,15 +1,16 @@
 package com.expedia.vm
 
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.Date
 
 open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
@@ -32,7 +33,7 @@ open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentM
     }
 
     open fun getCheckoutResponseObserver(): Observer<HotelCheckoutResponse> {
-        return object : Observer<HotelCheckoutResponse> {
+        return object : DisposableObserver<HotelCheckoutResponse>() {
             override fun onNext(checkout: HotelCheckoutResponse) {
                 if (checkout.hasErrors()) {
                     when (checkout.firstError.errorCode) {
@@ -82,7 +83,7 @@ open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentM
                 noResponseObservable.onNext(e)
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

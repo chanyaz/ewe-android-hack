@@ -6,10 +6,10 @@ import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observable
-import rx.Scheduler
+import io.reactivex.Observable
+import io.reactivex.Scheduler
 
 open class InsuranceServices(endpoint: String, client: OkHttpClient, interceptor: Interceptor,
                              val observeOn: Scheduler, val subscribeOn: Scheduler) {
@@ -19,7 +19,7 @@ open class InsuranceServices(endpoint: String, client: OkHttpClient, interceptor
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client.newBuilder().addInterceptor(interceptor).build())
                 .build()
         adapter.create(InsuranceApi::class.java)

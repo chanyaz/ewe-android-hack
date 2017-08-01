@@ -11,7 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeOnClick
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class TravelerCountSelector(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val minusClickedSubject = PublishSubject.create<Unit>()

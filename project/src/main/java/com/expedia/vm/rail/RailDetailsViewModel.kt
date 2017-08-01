@@ -7,8 +7,8 @@ import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.rail.util.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.Collections
 
 open class RailDetailsViewModel(val context: Context) {

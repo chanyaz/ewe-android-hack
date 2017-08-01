@@ -21,19 +21,21 @@ import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment
 import com.expedia.bookings.launch.widget.PhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.mobiata.android.Log
 import com.mobiata.android.util.NetUtils
 import com.squareup.otto.Subscribe
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
 import org.joda.time.LocalDate
-import rx.Observer
-import rx.Subscription
 
 class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
     private val phoneLaunchWidget: PhoneLaunchWidget by bindView(R.id.new_phone_launch_widget)
-    private var locSubscription: Subscription? = null
+    private var locSubscription: Disposable? = null
     private var wasOffline = false
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -93,8 +95,8 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     }
 
     private fun findLocation() {
-        locSubscription = CurrentLocationObservable.create(activity).subscribe(object : Observer<Location> {
-            override fun onCompleted() {
+        locSubscription = CurrentLocationObservable.create(activity).subscribeObserver(object : DisposableObserver<Location>() {
+            override fun onComplete() {
                 // ignore
             }
 
@@ -110,7 +112,7 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
     override fun onPause() {
         super.onPause()
-        locSubscription?.unsubscribe()
+        locSubscription?.dispose()
         activity.unregisterReceiver(broadcastReceiver)
         phoneLaunchWidget.toggleProWizardClickListener(enable = false)
     }

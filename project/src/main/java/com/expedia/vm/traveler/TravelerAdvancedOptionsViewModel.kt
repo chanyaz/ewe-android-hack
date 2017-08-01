@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.util.endlessObserver
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
 class TravelerAdvancedOptionsViewModel(val context: Context) {

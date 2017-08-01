@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class ValueAddsContainer(context: Context, val attrs: AttributeSet?): LinearLayout(context, attrs) {
 

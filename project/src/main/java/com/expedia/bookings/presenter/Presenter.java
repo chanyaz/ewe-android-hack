@@ -23,8 +23,8 @@ import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * A FrameLayoutPresenter that maintains child presenters and animates
@@ -55,8 +55,8 @@ public class Presenter extends FrameLayout {
 	private boolean acceptAnimationUpdates = false;
 	private ValueAnimator animator;
 
-	private CompositeSubscription windowCompositeSubscription = new CompositeSubscription();
-	private CompositeSubscription visibilityCompositeSubscription = new CompositeSubscription();
+	private CompositeDisposable windowCompositeDisposable = new CompositeDisposable();
+	private CompositeDisposable visibilityCompositeDisposable = new CompositeDisposable();
 
 	public Presenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -72,8 +72,8 @@ public class Presenter extends FrameLayout {
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		Events.register(this);
-		windowCompositeSubscription.unsubscribe();
-		windowCompositeSubscription = new CompositeSubscription();
+		windowCompositeDisposable.dispose();
+		windowCompositeDisposable = new CompositeDisposable();
 		addWindowSubscriptions();
 	}
 
@@ -88,8 +88,8 @@ public class Presenter extends FrameLayout {
 	protected void onVisibilityChanged(View changedView, int visibility) {
 		super.onVisibilityChanged(changedView, visibility);
 		if (visibility == View.VISIBLE) {
-			visibilityCompositeSubscription.unsubscribe();
-			visibilityCompositeSubscription = new CompositeSubscription();
+			visibilityCompositeDisposable.dispose();
+			visibilityCompositeDisposable = new CompositeDisposable();
 			addVisibilitySubscriptions();
 		}
 		else {
@@ -526,27 +526,27 @@ public class Presenter extends FrameLayout {
 
 	}
 
-	protected void addWindowSubscription(Subscription subscription) {
-		windowCompositeSubscription.add(subscription);
+	protected void addWindowSubscription(Disposable subscription) {
+		windowCompositeDisposable.add(subscription);
 	}
 
 	@CallSuper
 	protected void unsubscribeWindowAtTeardown() {
-		windowCompositeSubscription.unsubscribe();
+		windowCompositeDisposable.dispose();
 	}
 
 	protected void addVisibilitySubscriptions() {
 
 	}
 
-	protected void addVisibilitySubscription(Subscription subscription) {
-		visibilityCompositeSubscription.add(subscription);
+	protected void addVisibilitySubscription(Disposable subscription) {
+		visibilityCompositeDisposable.add(subscription);
 	}
 
 	@CallSuper
 	protected void unsubscribeVisibilityAtTeardown() {
-		if (visibilityCompositeSubscription != null) {
-			visibilityCompositeSubscription.unsubscribe();
+		if (visibilityCompositeDisposable != null) {
+			visibilityCompositeDisposable.dispose();
 		}
 	}
 }

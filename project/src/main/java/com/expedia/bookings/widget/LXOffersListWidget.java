@@ -18,7 +18,7 @@ import com.expedia.bookings.data.lx.Offer;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.subjects.PublishSubject;
+import io.reactivex.subjects.PublishSubject;
 
 public class LXOffersListWidget extends android.widget.LinearLayout {
 	private boolean isGroundTransport;

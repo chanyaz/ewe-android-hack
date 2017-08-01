@@ -31,7 +31,7 @@ import com.expedia.ui.FlightActivity;
 import com.expedia.ui.LOBWebViewActivity;
 import com.expedia.vm.HotelConfirmationViewModel;
 
-import rx.observers.TestSubscriber;
+import com.expedia.bookings.services.TestObserver;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -152,15 +152,20 @@ public class HotelConfirmationViewModelTest {
 		givenCheckInDate();
 		givenCheckOutDate();
 
+<<<<<<< HEAD
 		TestSubscriber testSubscriber = new TestSubscriber<>();
 		Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest.getKey(),
+=======
+		TestObserver testSubscriber = new TestObserver<>();
+		Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest,
+>>>>>>> 7df61dae81... WIP
 			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		vm.getAddLXBtn().subscribe(testSubscriber);
 		vm.getAddLXBtn().onNext(getContext().getResources().getString(R.string.add_lx_TEMPLATE, hotelCity));
 
 		testSubscriber.assertValueCount(1);
 		testSubscriber.assertNoTerminalEvent();
-		assertEquals(testSubscriber.getOnNextEvents().get(0),
+		assertEquals(testSubscriber.values().get(0),
 			"Find activities while in San francisco");
 	}
 

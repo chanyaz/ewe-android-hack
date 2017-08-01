@@ -1,7 +1,7 @@
 package com.expedia.vm
 
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class FreeCancellationViewModel {
     val closeFreeCancellationObservable  = PublishSubject.create<Unit>()

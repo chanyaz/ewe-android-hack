@@ -13,7 +13,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomHeaderViewModel
 import android.view.ViewTreeObserver
 import com.expedia.util.setInverseVisibility
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewModel): RelativeLayout(context) {
 

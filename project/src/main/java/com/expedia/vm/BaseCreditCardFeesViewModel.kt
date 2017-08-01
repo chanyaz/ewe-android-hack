@@ -1,7 +1,7 @@
 package com.expedia.vm
 
 import com.expedia.vm.rail.RailCreditCardFeesViewModel
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 open abstract class BaseCreditCardFeesViewModel {
     // output

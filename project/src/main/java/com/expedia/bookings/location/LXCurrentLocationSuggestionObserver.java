@@ -13,7 +13,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 
-import rx.Observer;
+import io.reactivex.Observer;
 
 public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV4> {
 

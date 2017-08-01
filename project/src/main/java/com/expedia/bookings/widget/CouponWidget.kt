@@ -25,11 +25,12 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelCouponViewModel
 import com.mobiata.android.util.Ui
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 import com.expedia.bookings.dialog.DialogFactory

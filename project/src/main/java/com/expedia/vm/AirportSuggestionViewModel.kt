@@ -10,7 +10,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
-import rx.Observable
+import io.reactivex.Observable
 
 class AirportSuggestionViewModel(context: Context, suggestionsService: SuggestionV4Services, private val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
 

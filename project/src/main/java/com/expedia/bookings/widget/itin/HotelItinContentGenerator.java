@@ -58,7 +58,7 @@ import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 import com.squareup.phrase.Phrase;
 
-import rx.Observer;
+import io.reactivex.Observer;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 

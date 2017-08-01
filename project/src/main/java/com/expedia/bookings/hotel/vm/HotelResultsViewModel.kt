@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelResultsViewModel(context: Context, private val hotelSearchManager: HotelSearchManager) :
         BaseHotelResultsViewModel(context) {
@@ -107,7 +107,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
     }
 
     fun unsubscribeSearchResponse() {
-        hotelSearchManager.unsubscribe()
+        hotelSearchManager.dispose()
     }
 
     fun getSearchParams() : HotelSearchParams? {

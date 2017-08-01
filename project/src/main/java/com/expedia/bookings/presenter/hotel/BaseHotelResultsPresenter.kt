@@ -86,8 +86,8 @@ import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {

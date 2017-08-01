@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.widget.BaseHotelListAdapter
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>) :
         BaseHotelListAdapter(hotelSelectedSubject, headerSubject, pricingHeaderSelectedSubject) {

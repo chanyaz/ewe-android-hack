@@ -8,9 +8,9 @@ import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.endlessObserver
-import rx.Observable
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
 class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, val locale: String) {
 
@@ -40,16 +40,16 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
         reviewsDownloadsObservable.onNext(reviewsServices.reviews(params).map { Pair(reviewSort, it) })
     }
 
-    private val orderedReviewsObserver = object : Observer<Pair<ReviewSort, HotelReviewsResponse>> {
-        override fun onError(e: Throwable?) {
+    private val orderedReviewsObserver = object : DisposableObserver<Pair<ReviewSort, HotelReviewsResponse>>() {
+        override fun onError(e: Throwable) {
             OmnitureTracking.trackReviewLoadingError(e?.message?.toString() ?: "")
         }
 
-        override fun onNext(t: Pair<ReviewSort, HotelReviewsResponse>?) {
+        override fun onNext(t: Pair<ReviewSort, HotelReviewsResponse>) {
             reviewsObservable.onNext(t)
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
 
         }
     }

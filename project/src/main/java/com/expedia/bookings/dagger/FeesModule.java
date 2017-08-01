@@ -9,7 +9,7 @@ import dagger.Reusable;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.schedulers.Schedulers;
 
 @Module
 public class FeesModule {

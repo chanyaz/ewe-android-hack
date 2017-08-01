@@ -13,8 +13,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightConfirmationViewModel(val context: Context) {
 
@@ -29,7 +29,7 @@ class FlightConfirmationViewModel(val context: Context) {
     val tripTotalPriceSubject = PublishSubject.create<String>()
     val numberOfTravelersSubject = PublishSubject.create<Int>()
     val formattedTravelersStringSubject = PublishSubject.create<String>()
-    val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
+    val showTripProtectionMessage = BehaviorSubject.createDefault<Boolean>(false)
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 

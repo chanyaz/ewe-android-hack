@@ -14,10 +14,10 @@ import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.endlessObserver
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 
 class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalendar(context) {
 
@@ -140,8 +140,8 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         val (startMillis, endMillis) = times
         getParamsBuilder().departDateTimeMillis(startMillis)
         getParamsBuilder().returnDateTimeMillis(endMillis)
-        dateTextObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, false))
-        dateAccessibilityObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, true))
+        dateTextObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, false)!!) //TODO PUK
+        dateAccessibilityObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, true)!!) //TODO PUK
     }
 
     // Reset times if the start is equal to today and the selected time is before the current time

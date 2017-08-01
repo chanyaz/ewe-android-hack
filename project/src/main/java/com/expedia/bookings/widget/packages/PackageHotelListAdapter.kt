@@ -7,7 +7,9 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.widget.BaseHotelListAdapter
-import rx.subjects.PublishSubject
+import com.expedia.vm.hotel.HotelViewModel
+import com.expedia.vm.packages.PackageHotelViewModel
+import io.reactivex.subjects.PublishSubject
 
 class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>) :
         BaseHotelListAdapter(hotelSelectedSubject, headerSubject, pricingHeaderSelectedSubject) {

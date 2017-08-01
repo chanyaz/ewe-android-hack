@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -23,9 +24,8 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
-import rx.Observable
-import rx.Subscription
-import rx.subjects.PublishSubject
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 
 class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
@@ -35,7 +35,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     lateinit private var flightListAdapter: AbstractFlightListAdapter
     val lineOfBusinessSubject: PublishSubject<LineOfBusiness> = PublishSubject.create<LineOfBusiness>()
-    var trackScrollDepthSubscription: Subscription? = null
+    var trackScrollDepthSubscription: Disposable? = null
 
     // input
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
@@ -61,7 +61,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     override fun back(): Boolean {
-        trackScrollDepthSubscription?.unsubscribe()
+        trackScrollDepthSubscription?.dispose()
         return super.back()
     }
 

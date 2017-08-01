@@ -1,23 +1,23 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.content.res.Resources
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
-import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.ProgramName
-import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.withLatestFrom
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 
@@ -60,7 +60,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
 
     //INLETS
     override val userEnteredBurnAmount = PublishSubject.create<String>()
-    override val pwpOpted = BehaviorSubject.create<Boolean>(true)
+    override val pwpOpted = BehaviorSubject.createDefault<Boolean>(true)
     override val hasPwpEditBoxFocus = PublishSubject.create<Boolean>()
     override val clearUserEnteredBurnAmount = PublishSubject.create<Unit>()
     override val userToggledPwPSwitchWithUserEnteredBurnedAmountSubject = PublishSubject.create<Pair<Boolean, String>>()
@@ -138,7 +138,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
     //Locally Handled Errors - Burn Amount <= Trip Total AND Burn Amount > Total Burn Amount Available
     private val burnAmountLessThanTripTotalAndGreaterThanAvailableInAccountToBeHandledLocallyError = burnAmountAndLatestTripTotalFacade.filter { it.burnAmount.compareTo(it.tripTotal.amount) != 1 && it.burnAmount.compareTo(it.totalAvailableBurnAmount.amount) == 1 }
 
-    private val pointsAppliedAndErrorMessages: Observable<Pair<String, Boolean>> = Observable.merge(
+    private val pointsAppliedAndErrorMessages: Observable<Pair<String, Boolean>> = Observable.mergeArray(
             //Points received from Payment Splits
             paymentModel.paymentSplits.map { Pair(pointsAppliedMessage(it), true) },
             burnAmountGreaterThanTripTotalToBeHandledLocallyError.map { Pair(userEntersMoreThanTripTotalString, false) },

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.interfaces.ToolbarListener
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -16,7 +17,6 @@ import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
-import rx.Observable
 import kotlin.properties.Delegates
 
 class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs), ToolbarListener {
@@ -73,7 +73,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             navigationContentDescription = it
         }
 
-        Observable.combineLatest(vm.menuVisibility, vm.formFilledIn, { menuVisibility, formFilledIn -> Pair(menuVisibility, formFilledIn) })
+        ObservableOld.combineLatest(vm.menuVisibility, vm.formFilledIn, { menuVisibility, formFilledIn -> Pair(menuVisibility, formFilledIn) })
                 .filter { it.first }
                 .subscribe {
                     AccessibilityUtil.setMenuItemContentDescription(this, if (it.second) context.getString(R.string.done_cont_desc) else context.getString(R.string.next_cont_desc))

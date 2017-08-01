@@ -8,8 +8,8 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.util.endlessObserver
-import rx.Observer
-import rx.subjects.BehaviorSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
 
 class HotelReviewsViewModel(val context: Context, val lob: LineOfBusiness = LineOfBusiness.HOTELS) {
 

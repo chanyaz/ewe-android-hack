@@ -30,7 +30,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.text.DecimalFormat
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -217,7 +217,7 @@ class HotelRoomRateViewModelTest {
     fun roomInformationVisibility() {
         setupNonSoldOutRoomUnderTest()
 
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
 
         sut.roomInfoVisibilityObservable.subscribe(testSubscriber)
         testSubscriber.assertValuesAndClear(true)

@@ -1,11 +1,10 @@
 package com.expedia.vm.packages
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.vm.AbstractFlightOverviewViewModel
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewModel(context) {
 
@@ -15,9 +14,9 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
         }
     }
 
-    override val showBundlePriceSubject = BehaviorSubject.create(true)
-    override val showEarnMessage = BehaviorSubject.create(false)
-    override val showSeatClassAndBookingCode = BehaviorSubject.create(false)
+    override val showBundlePriceSubject = BehaviorSubject.createDefault(true)
+    override val showEarnMessage = BehaviorSubject.createDefault(false)
+    override val showSeatClassAndBookingCode = BehaviorSubject.createDefault(false)
 
     override fun pricePerPersonString(selectedFlight: FlightLeg): String {
         return selectedFlight.packageOfferModel.price.differentialPriceFormatted

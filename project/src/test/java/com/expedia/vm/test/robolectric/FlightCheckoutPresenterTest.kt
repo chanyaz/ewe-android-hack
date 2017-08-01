@@ -39,7 +39,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -65,8 +65,12 @@ class FlightCheckoutPresenterTest {
 
     @Test
     fun testPassportRequired() {
+<<<<<<< HEAD
         setupCheckout()
         val passportRequiredSubscriber = TestSubscriber<Boolean>()
+=======
+        val passportRequiredSubscriber = TestObserver<Boolean>()
+>>>>>>> 5abc89409b... WIP
         (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).passportRequired.subscribe(passportRequiredSubscriber)
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(getPassportRequiredCreateTripResponse(true)))
         passportRequiredSubscriber.assertValues(false, true)
@@ -100,8 +104,12 @@ class FlightCheckoutPresenterTest {
 
     @Test
     fun testPassportNotRequired() {
+<<<<<<< HEAD
         setupCheckout()
         val passportRequiredSubscriber = TestSubscriber<Boolean>()
+=======
+        val passportRequiredSubscriber = TestObserver<Boolean>()
+>>>>>>> 5abc89409b... WIP
         (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).passportRequired.subscribe(passportRequiredSubscriber)
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(getPassportRequiredCreateTripResponse(false)))
         passportRequiredSubscriber.assertValues(false, false)

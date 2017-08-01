@@ -1,10 +1,10 @@
 package com.expedia.vm.rail
 
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.vm.BaseCreditCardFeesViewModel
-import rx.Observable
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class RailCreditCardFeesViewModel : BaseCreditCardFeesViewModel() {
     // input
@@ -12,7 +12,7 @@ class RailCreditCardFeesViewModel : BaseCreditCardFeesViewModel() {
     val ticketDeliveryOptionSubject = BehaviorSubject.create<TicketDeliveryOption>()
 
     init {
-        Observable.combineLatest(validFormsOfPaymentSubject, ticketDeliveryOptionSubject, { vfop, tdo ->
+        ObservableOld.combineLatest(validFormsOfPaymentSubject, ticketDeliveryOptionSubject, { vfop, tdo ->
             getValidCreditCardsAndFeesForToken(vfop, tdo.deliveryOptionToken)
         }).subscribe { cardFeeRowList ->
             cardFeesObservable.onNext(cardFeeRowList)

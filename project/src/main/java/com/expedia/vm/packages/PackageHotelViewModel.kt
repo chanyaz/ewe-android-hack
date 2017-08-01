@@ -8,7 +8,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.vm.hotel.HotelViewModel
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
     val unrealDealMessageObservable = BehaviorSubject.create<String>()

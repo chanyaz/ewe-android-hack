@@ -21,7 +21,7 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTravelerEntryWidget;
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel;
-import rx.subjects.BehaviorSubject;
+import io.reactivex.subjects.BehaviorSubject;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;

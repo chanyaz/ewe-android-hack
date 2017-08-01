@@ -20,7 +20,7 @@ import com.expedia.vm.rail.RailCreateTripViewModel
 import com.expedia.vm.rail.RailTripSummaryViewModel
 import com.expedia.vm.rail.RailTotalPriceViewModel
 import com.expedia.vm.rail.RailPriceChangeViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)

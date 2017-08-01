@@ -11,8 +11,8 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.vm.flights.FlightViewModel
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isRoundTripSearchSubject: BehaviorSubject<Boolean>,
                              val isOutboundSearch: Boolean, val flightCabinClassSubject: BehaviorSubject<String>,

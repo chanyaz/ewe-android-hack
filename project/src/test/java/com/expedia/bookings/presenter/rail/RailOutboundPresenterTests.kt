@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
@@ -25,7 +25,7 @@ class RailOutboundPresenterTests {
 
     @Test
     fun testLegalBannerClick() {
-        val testSubscriber = TestSubscriber<Unit>()
+        val testSubscriber = TestObserver<Unit>()
         railOutboundPresenter.legalBannerClicked.subscribe(testSubscriber)
 
         railOutboundPresenter.legalBanner.performClick()

@@ -39,7 +39,7 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Observer;
+import io.reactivex.Observer;
 
 public class LXSortFilterWidget extends LinearLayout {
 

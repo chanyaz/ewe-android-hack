@@ -21,6 +21,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
 import com.expedia.bookings.section.CountrySpinnerAdapter
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.updatePaddingForOldApi
@@ -128,7 +129,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             addVisibilitySubscription(addressLineOne.subscribeTextChange(formFilledSubscriber))
             addVisibilitySubscription(addressCity.subscribeTextChange(formFilledSubscriber))
             addVisibilitySubscription(addressState.subscribeTextChange(formFilledSubscriber))
-            addVisibilitySubscription(sectionLocation.billingCountryCodeSubject.subscribe(formFilledSubscriber))
+            addVisibilitySubscription(sectionLocation.billingCountryCodeSubject.subscribeObserver(formFilledSubscriber))
             sectionLocation.billingCountryCodeSubject.subscribe { sectionLocation.resetValidation(R.id.edit_address_state, true) }
         }
     }

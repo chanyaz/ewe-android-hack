@@ -6,8 +6,8 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class GeocodeSearchModel(val context: Context) {
 

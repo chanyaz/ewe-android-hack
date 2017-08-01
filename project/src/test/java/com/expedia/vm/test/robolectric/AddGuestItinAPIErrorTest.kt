@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
@@ -41,8 +41,8 @@ class AddGuestItinAPIErrorTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun notAuthenticatedGuestItinError() {
-        val showErrorMessageSubscriber = TestSubscriber<String>()
-        val showSearchDialogSubscriber = TestSubscriber<Unit>()
+        val showErrorMessageSubscriber = TestObserver<String>()
+        val showSearchDialogSubscriber = TestObserver<Unit>()
 
         val email = "trip_error@mobiata.com"
         val tripNumber = "error_trip_response"
@@ -68,8 +68,8 @@ class AddGuestItinAPIErrorTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun badGuestItinRequestError() {
-        val showErrorMessageSubscriber = TestSubscriber<String>()
-        val showSearchDialogSubscriber = TestSubscriber<Unit>()
+        val showErrorMessageSubscriber = TestObserver<String>()
+        val showSearchDialogSubscriber = TestObserver<Unit>()
 
         val email = "trip_error@mobiata.com"
         val tripNumber = "error_bad_request_trip_response"

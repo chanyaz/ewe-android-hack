@@ -28,8 +28,8 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.util.SettingUtils;
-
-import rx.Observer;
+import io.reactivex.Observer;
+import io.reactivex.observers.DisposableObserver;
 
 public class RouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
 	boolean loadSignInView = false;
@@ -98,10 +98,10 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 				.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
 	}
 
-	private Observer<AbacusResponse> evaluatePreLaunchABTestsSubscriber = new Observer<AbacusResponse>() {
+	private Observer<AbacusResponse> evaluatePreLaunchABTestsSubscriber = new DisposableObserver<AbacusResponse>() {
 
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override

@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.TransitionElement
@@ -56,6 +57,7 @@ import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.bookings.withLatestFrom
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
 import com.expedia.util.setInverseVisibility
@@ -72,10 +74,9 @@ import com.expedia.vm.HotelWebCheckoutViewViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
-import rx.Observable
-import rx.Observer
-import rx.Subscription
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -303,7 +304,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
         confirmationPresenter.hotelConfirmationViewModel.setSearchParams(hotelSearchParams)
 
-        Observable.combineLatest(confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, {
+        ObservableOld.combineLatest(confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, {
             confirmationDetailsSet, confirmationUISet ->
             if (confirmationDetailsSet && confirmationUISet) {
                 pageUsableData.markAllViewsLoaded(Date().time)
@@ -336,8 +337,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(context, true)
-        return object : Observer<AbstractItinDetailsResponse> {
-            override fun onCompleted() {
+        return object : DisposableObserver<AbstractItinDetailsResponse>() {
+            override fun onComplete() {
 
             }
 

@@ -38,7 +38,7 @@ import com.expedia.vm.traveler.TravelersViewModel;
 import com.expedia.vm.traveler.TravelerSummaryViewModel;
 import com.squareup.phrase.Phrase;
 import kotlin.Unit;
-import rx.Observer;
+import io.reactivex.Observer;
 
 public class BaseTravelerPresenterTestHelper {
 

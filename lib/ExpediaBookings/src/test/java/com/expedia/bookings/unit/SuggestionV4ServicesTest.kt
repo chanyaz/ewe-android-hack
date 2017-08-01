@@ -6,18 +6,25 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.SuggestionV4Services
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+<<<<<<< HEAD
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+=======
+import java.io.File
+import kotlin.test.assertEquals
+>>>>>>> 7df61dae81... WIP
 
 class SuggestionV4ServicesTest {
 
@@ -39,7 +46,11 @@ class SuggestionV4ServicesTest {
         service = SuggestionV4Services("http://localhost:" + server.port,
                 "http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
+<<<<<<< HEAD
                 mockInterceptor, essMockInterceptor, gaiaMockInterceptor, Schedulers.immediate(), Schedulers.immediate())
+=======
+                interceptor, interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+>>>>>>> 7df61dae81... WIP
 
         givenExpediaDispatcherPrepared()
     }
@@ -89,14 +100,24 @@ class SuggestionV4ServicesTest {
 
     @Test
     fun testGetLxSuggestionsV4() {
+<<<<<<< HEAD
         val testObserver = TestSubscriber<List<SuggestionV4>>()
         service?.getLxSuggestionsV4("lon", testObserver, true)
+=======
+        val testObserver = TestObserver<List<SuggestionV4>>()
+        service?.getLxSuggestionsV4("lon","expedia.app.android.phone", testObserver, "en_US", true)
+>>>>>>> 7df61dae81... WIP
 
         testObserver.awaitTerminalEvent()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
         testObserver.assertValueCount(1)
+<<<<<<< HEAD
         val essSuggestions = testObserver.onNextEvents[0]
         assertEquals(essSuggestions[0].regionNames.fullName, "San Francisco, CA, United States (SFO-San Francisco Intl.)")
+=======
+        val essSuggestions = testObserver.values()[0]
+        assertEquals(essSuggestions.get(0).regionNames.fullName, "San Francisco, CA, United States (SFO-San Francisco Intl.)")
+>>>>>>> 5abc89409b... WIP
     }
 
     @Test
@@ -229,27 +250,27 @@ class SuggestionV4ServicesTest {
     }
 
     private fun getGaiaNearbySuggestion(location: Double): List<GaiaSuggestion> {
-        val test = TestSubscriber<List<GaiaSuggestion>>()
+        val test = TestObserver<List<GaiaSuggestion>>()
         val observer = service?.suggestNearbyGaia(location, location, "distance", "hotels", "en_US", 1)
         observer?.subscribe(test)
 
-        return test.onNextEvents[0]
+        return test.values()[0]
     }
 
     private fun getGaiaNearbySuggestionLXEnglish(location: Double): List<GaiaSuggestion> {
-        val test = TestSubscriber<List<GaiaSuggestion>>()
+        val test = TestObserver<List<GaiaSuggestion>>()
         val observer = service?.suggestNearbyGaia(location, location, "distance", "lx", "en_US", 1)
         observer?.subscribe(test)
 
-        return test.onNextEvents[0]
+        return test.values()[0]
     }
 
     private fun getGaiaNearbySuggestionLXFrench(location: Double): List<GaiaSuggestion> {
-        val test = TestSubscriber<List<GaiaSuggestion>>()
+        val test = TestObserver<List<GaiaSuggestion>>()
         val observer = service?.suggestNearbyGaia(location, location, "distance", "lx", "fr_FR", 1)
         observer?.subscribe(test)
 
-        return test.onNextEvents[0]
+        return test.values()[0]
     }
 
     private fun givenExpediaDispatcherPrepared() {

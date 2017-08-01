@@ -10,7 +10,7 @@ import com.expedia.bookings.services.SuggestionV4Services;
 
 import dagger.Module;
 import dagger.Provides;
-import rx.Observable;
+import io.reactivex.Observable;
 
 @Module
 public class LXCurrentLocationSuggestionModule {

@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
-import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailTripOffer
 import com.expedia.bookings.tracking.RailTracking
@@ -12,8 +11,8 @@ import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.StrUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.Locale
 
 class RailConfirmationViewModel(val context: Context) {
@@ -43,7 +42,7 @@ class RailConfirmationViewModel(val context: Context) {
 
         railOfferObserver.subscribe { offer ->
             val outbound = offer.outboundLegOption
-            destinationObservable.onNext(outbound?.arrivalStation?.stationDisplayName)
+            destinationObservable.onNext(outbound?.arrivalStation!!.stationDisplayName) //TODO PUK
             outboundCardTitleObservable.onNext(getCardTitle(outbound))
             outboundCardSubTitleObservable.onNext(getCardSubtitle(outbound, offer.passengerList.size))
 

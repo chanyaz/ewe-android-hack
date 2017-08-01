@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import rx.Observer
+import io.reactivex.Observer
 
 class ResortFeeWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

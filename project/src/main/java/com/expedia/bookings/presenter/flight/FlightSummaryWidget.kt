@@ -12,6 +12,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.InboundFlightWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
+import com.expedia.util.subscribeOnClick
+import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText

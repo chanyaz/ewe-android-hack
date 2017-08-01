@@ -5,7 +5,7 @@ import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter
 import com.expedia.util.endlessObserver
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
 open class TravelerPhoneViewModel(val context: Context) {

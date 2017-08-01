@@ -10,9 +10,8 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
-import com.expedia.util.safeSubscribe
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: Int, val showPassportCountryObservable: BehaviorSubject<Boolean>, travelerCheckoutStatus: TravelerCheckoutStatus) : AbstractUniversalCKOTravelerEntryWidgetViewModel(context, travelerIndex) {
     var tsaViewModel = TravelerTSAViewModel(getTraveler(), context)

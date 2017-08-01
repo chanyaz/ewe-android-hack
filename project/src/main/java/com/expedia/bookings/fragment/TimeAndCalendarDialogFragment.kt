@@ -21,7 +21,7 @@ import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import com.squareup.phrase.Phrase
-import rx.Subscription
+import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
 import org.joda.time.DateTime
 
@@ -36,10 +36,10 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
     var sliderContainer by Delegates.notNull<ViewGroup>()
     private val sliderListener = TimeSliderListener()
 
-    var departTimeSubscription by Delegates.notNull<Subscription>()
-    var returnTimeSubscription by Delegates.notNull<Subscription>()
-    var departSliderColorSubscription by Delegates.notNull<Subscription>()
-    var returnSliderColorSubscription by Delegates.notNull<Subscription>()
+    var departTimeSubscription by Delegates.notNull<Disposable>()
+    var returnTimeSubscription by Delegates.notNull<Disposable>()
+    var departSliderColorSubscription by Delegates.notNull<Disposable>()
+    var returnSliderColorSubscription by Delegates.notNull<Disposable>()
 
     companion object {
         fun createFragment(searchViewModel: SearchViewModelWithTimeSliderCalendar, rules: CalendarRules): TimeAndCalendarDialogFragment {
@@ -98,10 +98,10 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
         super.onDismiss(dialog)
 
         viewModel.buildDateTimeObserver.onNext(Pair(viewModel.departTimeSubject.value, viewModel.returnTimeSubject.value))
-        departTimeSubscription.unsubscribe()
-        returnTimeSubscription.unsubscribe()
-        departSliderColorSubscription.unsubscribe()
-        returnSliderColorSubscription.unsubscribe()
+        departTimeSubscription.dispose()
+        returnTimeSubscription.dispose()
+        departSliderColorSubscription.dispose()
+        returnSliderColorSubscription.dispose()
     }
 
     private fun setUpTooltipColor(color: Int) {

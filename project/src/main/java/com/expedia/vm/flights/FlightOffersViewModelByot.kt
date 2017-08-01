@@ -13,7 +13,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RetrofitUtils
-import rx.Observer
+import io.reactivex.Observer
 import java.util.HashMap
 import java.util.LinkedHashSet
 

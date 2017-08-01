@@ -35,8 +35,8 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Observer;
-import rx.Subscription;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class LXCheckoutPresenter extends Presenter {
 	private boolean isGroundTransport;
@@ -66,7 +66,7 @@ public class LXCheckoutPresenter extends Presenter {
 
 	private LXCheckoutParams checkoutParams;
 	private ProgressDialog checkoutDialog;
-	private Subscription checkoutSubscription;
+	private Disposable checkoutSubscription;
 
 	@Override
 	protected void onFinishInflate() {
@@ -95,7 +95,7 @@ public class LXCheckoutPresenter extends Presenter {
 
 	private void cleanup() {
 		if (checkoutSubscription != null) {
-			checkoutSubscription.unsubscribe();
+			checkoutSubscription.dispose();
 			checkoutSubscription = null;
 		}
 

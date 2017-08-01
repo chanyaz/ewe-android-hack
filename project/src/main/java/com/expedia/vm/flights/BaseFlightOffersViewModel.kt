@@ -19,10 +19,11 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
-import rx.Observer
-import rx.Subscription
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.HashMap
 
 abstract class BaseFlightOffersViewModel(val context: Context, val flightServices: FlightServices) {
@@ -62,9 +63,9 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     protected var isRoundTripSearch = true
     protected lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
 
-    protected var flightOutboundSearchSubscription: Subscription? = null
-    protected var flightInboundSearchSubscription: Subscription? = null
-    protected var flightCacheSearchSubscription: Subscription? = null
+    protected var flightOutboundSearchSubscription: Disposable? = null
+    protected var flightInboundSearchSubscription: Disposable? = null
+    protected var flightCacheSearchSubscription: Disposable? = null
 
     init {
         searchParamsObservable.subscribe { params ->
@@ -84,11 +85,11 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         }
 
         cancelOutboundSearchObservable.subscribe {
-            flightOutboundSearchSubscription?.unsubscribe()
+            flightOutboundSearchSubscription?.dispose()
         }
 
         cancelInboundSearchObservable.subscribe {
-            flightInboundSearchSubscription?.unsubscribe()
+            flightInboundSearchSubscription?.dispose()
         }
 
         cancelCachedSearchObservable.withLatestFrom(isCachedCallCompleted, { _, cachedCallCompleted -> cachedCallCompleted })
@@ -161,7 +162,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         // fires offer selected before flight selection confirmed to lookup terms, fees etc. in offer
         inboundSelected.subscribe {
             val offer = getFlightOffer(outboundSelected.value.legId, it.legId)
-            flightOfferSelected.onNext(offer)
+            flightOfferSelected.onNext(offer!!)
         }
     }
 
@@ -197,7 +198,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
     protected fun makeResultsObserver(): Observer<FlightSearchResponse> {
 
-        return object : Observer<FlightSearchResponse> {
+        return object : DisposableObserver<FlightSearchResponse>() {
 
             override fun onNext(response: FlightSearchResponse) {
                 if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache) ) {
@@ -251,7 +252,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
         }
     }

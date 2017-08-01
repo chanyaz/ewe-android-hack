@@ -7,12 +7,12 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observable
-import rx.Observer
-import rx.Scheduler
-import rx.Subscription
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
 
 open class UrgencyServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
                       private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
@@ -26,7 +26,7 @@ open class UrgencyServices(endpoint: String, okHttpClient: OkHttpClient, interce
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 

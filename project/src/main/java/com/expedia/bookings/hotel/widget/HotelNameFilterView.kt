@@ -12,7 +12,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelNameFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val filterNameChangedSubject = PublishSubject.create<CharSequence>()

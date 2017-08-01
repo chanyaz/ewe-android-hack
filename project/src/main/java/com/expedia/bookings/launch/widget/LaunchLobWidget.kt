@@ -19,7 +19,7 @@ import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 

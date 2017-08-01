@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -35,7 +35,7 @@ class RailCostSummaryBreakdownViewModelTest {
     fun passengerFareBreakdownIncluded() {
         costBreakdownVM = RailCostSummaryBreakdownViewModel(activity, false)
 
-        val breakdownsSubscriber = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val breakdownsSubscriber = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         costBreakdownVM.addRows.subscribe(breakdownsSubscriber)
         costBreakdownVM.railCostSummaryBreakdownObservable.onNext(buildRailResponseWithPassengerBreakdowns())
 
@@ -51,7 +51,7 @@ class RailCostSummaryBreakdownViewModelTest {
     fun priceBreakdownFeesIncluded() {
         costBreakdownVM = RailCostSummaryBreakdownViewModel(activity, false)
 
-        val breakdownsSubscriber = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val breakdownsSubscriber = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         costBreakdownVM.addRows.subscribe(breakdownsSubscriber)
         costBreakdownVM.railCostSummaryBreakdownObservable.onNext(buildRailResponseWithFees())
 

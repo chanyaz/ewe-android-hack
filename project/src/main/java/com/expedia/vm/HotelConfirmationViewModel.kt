@@ -34,14 +34,16 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.navigation.CarNavUtils
 import com.expedia.bookings.utils.navigation.FlightNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
+import com.expedia.bookings.withLatestFrom
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.util.SettingUtils
+import io.reactivex.Observer
+import io.reactivex.exceptions.OnErrorNotImplementedException
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
-import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -229,7 +231,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     }
 
     fun getAddLXBtnObserver(context: Context): Observer<Unit> {
-        return object : Observer<Unit> {
+        return object : DisposableObserver<Unit>() {
             override fun onNext(t: Unit?) {
                 LXNavUtils.goToActivities(context, null, LXDataUtils.fromHotelParams(context, checkInDate.value, checkOutDate.value, hotelLocation.value),
                         NavUtils.FLAG_OPEN_RESULTS)
@@ -237,18 +239,18 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
                 (context as Activity).finish()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 throw OnErrorNotImplementedException(e)
             }
         }
     }
 
     fun getAddFlightBtnObserver(context: Context): Observer<Unit> {
-        return object : Observer<Unit> {
-            override fun onNext(t: Unit?) {
+        return object : DisposableObserver<Unit>() {
+            override fun onNext(t: Unit) {
                 val flightSearchParams = Db.getFlightSearch().searchParams
                 flightSearchParams.reset()
                 val loc = Location()
@@ -261,42 +263,42 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
                 HotelTracking.trackHotelCrossSellFlight()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 throw OnErrorNotImplementedException(e)
             }
         }
     }
 
     fun getAddCarBtnObserver(context: Context): Observer<Unit> {
-        return object : Observer<Unit> {
+        return object : DisposableObserver<Unit>() {
             override fun onNext(t: Unit?) {
                 CarNavUtils.goToCars(context, null, NavUtils.FLAG_OPEN_SEARCH)
                 HotelTracking.trackHotelCrossSellCar()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 throw OnErrorNotImplementedException(e)
             }
         }
     }
 
     fun getAddToCalendarBtnObserver(context: Context): Observer<Unit> {
-        return object : Observer<Unit> {
-            override fun onNext(t: Unit?) {
+        return object : DisposableObserver<Unit>() {
+            override fun onNext(t: Unit) {
                 showAddToCalendarIntent(checkIn = true, context = context)
                 HotelTracking.trackHotelConfirmationCalendar()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 throw OnErrorNotImplementedException(e)
             }
         }
@@ -317,34 +319,34 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     }
 
     fun getCallSupportBtnObserver(context: Context): Observer<Unit> {
-        return object : Observer<Unit> {
-            override fun onNext(t: Unit?) {
+        return object : DisposableObserver<Unit>() {
+            override fun onNext(t: Unit) {
                 val phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser())
                 SocialUtils.call(context, phoneNumber)
                 HotelTracking.trackHotelCallCustomerSupport()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 throw OnErrorNotImplementedException(e)
             }
         }
     }
 
     fun getDirectionsToHotelBtnObserver(context: Context): Observer<Unit> {
-        return object : Observer<Unit> {
-            override fun onNext(t: Unit?) {
+        return object : DisposableObserver<Unit>() {
+            override fun onNext(t: Unit) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + hotelLocation.value.toLongFormattedString()))
                 context.startActivity(intent)
                 HotelTracking.trackHotelConfirmationDirection()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 throw OnErrorNotImplementedException(e)
             }
         }

@@ -3,7 +3,7 @@ package com.expedia.bookings.onboarding
 import android.view.GestureDetector
 import android.view.MotionEvent
 import com.expedia.bookings.utils.Constants
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 
 class LeftRightFlingListener : GestureDetector.SimpleOnGestureListener() {

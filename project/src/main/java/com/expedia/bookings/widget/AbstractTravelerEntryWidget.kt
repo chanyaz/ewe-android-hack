@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.pos.PointOfSale
@@ -19,9 +20,8 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
-import rx.Observable
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 
 abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs),
         TravelerButton.ITravelerButtonListener, View.OnFocusChangeListener {
@@ -45,7 +45,7 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         phoneEntryView.viewModel = vm.phoneViewModel
         vm.showEmailObservable.subscribeVisibility(emailEntryView)
         vm.showPhoneNumberObservable.subscribeVisibility(phoneEntryView)
-        Observable.combineLatest(vm.showEmailObservable, vm.showPhoneNumberObservable, { showEmail, showPhoneNumber ->
+        ObservableOld.combineLatest(vm.showEmailObservable, vm.showPhoneNumberObservable, { showEmail, showPhoneNumber ->
             val pointOfSale = PointOfSale.getPointOfSale()
             val nameView = if (pointOfSale.hideMiddleName() || pointOfSale.showLastNameFirst()) {
                 nameEntryView.firstName
@@ -73,7 +73,7 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
 
     abstract fun setUpViewModel(vm: AbstractUniversalCKOTravelerEntryWidgetViewModel)
 
-    var compositeSubscription: CompositeSubscription? = null
+    var CompositeDisposable: CompositeDisposable? = null
     val formFilledSubscriber = endlessObserver<String> {
         filledIn.onNext(isCompletelyFilled())
     }
@@ -111,14 +111,14 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        compositeSubscription?.unsubscribe()
+        CompositeDisposable?.dispose()
         if (changedView is AbstractTravelerEntryWidget) {
             if (visibility == View.VISIBLE) {
-                compositeSubscription = CompositeSubscription()
-                compositeSubscription?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
-                compositeSubscription?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
-                compositeSubscription?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
-                compositeSubscription?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
+                CompositeDisposable = CompositeDisposable()
+                CompositeDisposable?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
+                CompositeDisposable?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
+                CompositeDisposable?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
+                CompositeDisposable?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
             }
         }
     }

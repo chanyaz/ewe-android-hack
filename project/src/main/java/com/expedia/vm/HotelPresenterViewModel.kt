@@ -1,16 +1,14 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.ApiError
-import com.expedia.vm.hotel.HotelDetailViewModel
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
 class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, checkoutViewModel: HotelCheckoutViewModel?, detailViewModel: BaseHotelDetailViewModel) {
 
-    val didLastCreateTripOrCheckoutResultInRoomSoldOut = BehaviorSubject.create<Boolean>(false)
+    val didLastCreateTripOrCheckoutResultInRoomSoldOut = BehaviorSubject.createDefault<Boolean>(false)
 
     val selectedRoomSoldOut = Observable.merge(createTripViewModel.errorObservable, checkoutViewModel?.errorObservable)
             .filter { it.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE }
@@ -24,7 +22,7 @@ class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, che
     })
 
     init {
-        Observable.merge(createTripViewModel.errorObservable
+        Observable.mergeArray(createTripViewModel.errorObservable
                 .map { it.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE },
                 createTripViewModel.tripResponseObservable.map { false },
                 createTripViewModel.noResponseObservable.map { false },

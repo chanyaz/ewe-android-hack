@@ -5,7 +5,7 @@ import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.bookings.tracking.hotel.HotelFilterTracker
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context) {
     //in
@@ -19,7 +19,7 @@ class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context)
         doneObservable.subscribe {
             filterCountObservable.onNext(userFilterChoices.filterCount())
             if (defaultFilterOptions() && !withSearchOptions) {
-                filterObservable.onNext(originalResponse)
+                filterObservable.onNext(originalResponse!!) // TODO PUK
             } else if (sameFilterOptions()) {
                 showPreviousResultsObservable.onNext(Unit)
             } else {

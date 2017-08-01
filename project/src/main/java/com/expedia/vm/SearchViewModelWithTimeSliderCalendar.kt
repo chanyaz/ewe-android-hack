@@ -4,16 +4,16 @@ import android.content.Context
 import com.expedia.util.endlessObserver
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
 
 abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSearchViewModel(context) {
-    val departTimeSubject = BehaviorSubject.create<Int>(0)
-    val returnTimeSubject = BehaviorSubject.create<Int>(0)
+    val departTimeSubject = BehaviorSubject.createDefault<Int>(0)
+    val returnTimeSubject = BehaviorSubject.createDefault<Int>(0)
     val departTimeSliderTooltipColor = BehaviorSubject.create<Int>()
     val returnTimeSliderTooltipColor = BehaviorSubject.create<Int>()
-    val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(false)
+    val isRoundTripSearchObservable = BehaviorSubject.createDefault<Boolean>(false)
 
     val setUpTimeSliderSubject = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()
 

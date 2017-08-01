@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHolder>() {
     val galleryItemClickedSubject = PublishSubject.create<Unit>()

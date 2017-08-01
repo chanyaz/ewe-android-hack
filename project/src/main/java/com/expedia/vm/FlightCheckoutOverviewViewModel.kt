@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.mobiata.android.util.AndroidUtils
 import org.joda.time.format.DateTimeFormat
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewViewModel(context) {
     val width = AndroidUtils.getScreenSize(context).x

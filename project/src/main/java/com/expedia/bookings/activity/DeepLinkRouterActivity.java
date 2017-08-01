@@ -64,7 +64,7 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
-import rx.Observer;
+import io.reactivex.Observer;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot

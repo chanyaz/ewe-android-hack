@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.utils.bindView
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

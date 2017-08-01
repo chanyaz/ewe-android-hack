@@ -45,7 +45,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelRoomRateViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class HotelRoomRateView(context: Context) : LinearLayout(context) {

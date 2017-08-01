@@ -27,20 +27,25 @@ import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ProductSearchType;
+import com.expedia.bookings.services.TestObserver;
 import com.expedia.bookings.utils.Constants;
 import com.google.gson.Gson;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+<<<<<<< HEAD
 import retrofit2.HttpException;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
+=======
+>>>>>>> 5abc89409b... WIP
 
 public class PackageServicesTest {
 	@Rule
@@ -55,7 +60,7 @@ public class PackageServicesTest {
 		Interceptor interceptor = new MockInterceptor();
 		service = new PackageServices("http://localhost:" + server.getPort(),
 			new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, Schedulers.immediate(), Schedulers.immediate());
+			interceptor, Schedulers.trampoline(), Schedulers.trampoline());
 	}
 
 	@Test
@@ -63,7 +68,7 @@ public class PackageServicesTest {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -84,7 +89,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -96,9 +101,9 @@ public class PackageServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		BundleSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(48, response.getHotels().size());
 		Assert.assertEquals(2, response.getFlightLegs().size());
 		System.out.println(response.getFlightLegs().get(0).flightSegments.get(0).airlineLogoURL);
@@ -112,7 +117,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -284,9 +289,9 @@ public class PackageServicesTest {
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		BundleSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(50, response.getHotels().size());
 		Assert.assertEquals(100, response.getFlightLegs().size());
 
@@ -414,13 +419,13 @@ public class PackageServicesTest {
 		String prodID = "create_trip_multitraveler";
 		String destID = "6139057";
 
-		TestSubscriber<PackageCreateTripResponse> observer = new TestSubscriber<>();
+		TestObserver<PackageCreateTripResponse> observer = new TestObserver<>();
 		PackageCreateTripParams params = new PackageCreateTripParams(prodID, destID, 2, false, Arrays.asList(0, 8, 12));
 		service.createTrip(params).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertNoErrors();
-		observer.assertCompleted();
-		PackageCreateTripResponse response = observer.getOnNextEvents().get(0);
+		observer.assertComplete();
+		PackageCreateTripResponse response = observer.values().get(0);
 		Assert.assertEquals("$2,202.34", response.packageDetails.pricing.packageTotal.getFormattedMoneyFromAmountAndCurrencyCode());
 		Assert.assertEquals("4", response.packageDetails.flight.details.offer.numberOfTickets);
 	}

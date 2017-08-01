@@ -20,7 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -50,7 +50,7 @@ class RailCheckoutViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testTotalPriceText() {
-        val testSubscriber = TestSubscriber<CharSequence>()
+        val testSubscriber = TestObserver<CharSequence>()
         testViewModel.sliderPurchaseTotalText.subscribe(testSubscriber)
 
         testViewModel.totalPriceObserver.onNext(testPrice)
@@ -112,8 +112,8 @@ class RailCheckoutViewModelTest {
 
     @Test
     fun testPriceChange() {
-        val priceChangeTestSub = TestSubscriber<Pair<Money, Money>>()
-        val pricingSubjectTestSub = TestSubscriber<RailCreateTripResponse>()
+        val priceChangeTestSub = TestObserver<Pair<Money, Money>>()
+        val pricingSubjectTestSub = TestObserver<RailCreateTripResponse>()
 
         val oldMockResponse = RailCreateTripResponse()
         oldMockResponse.totalPrice = Money("12120", "USD")
@@ -131,7 +131,7 @@ class RailCheckoutViewModelTest {
 
     @Test
     fun testInvalidInputError() {
-        val errorTestSub = TestSubscriber<ApiError>()
+        val errorTestSub = TestObserver<ApiError>()
         testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
 
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("invalidinput"))
@@ -142,7 +142,7 @@ class RailCheckoutViewModelTest {
 
     @Test
     fun testUnknownApiError() {
-        val errorTestSub = TestSubscriber<ApiError>()
+        val errorTestSub = TestObserver<ApiError>()
         testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
 
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknownpayment"))
@@ -153,7 +153,7 @@ class RailCheckoutViewModelTest {
 
     @Test
     fun testOtherUnknownErrors() {
-        val errorTestSub = TestSubscriber<ApiError>()
+        val errorTestSub = TestObserver<ApiError>()
         testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
 
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknown"))
@@ -164,7 +164,7 @@ class RailCheckoutViewModelTest {
 
     @Test
     fun testRailCheckout() {
-        val checkoutTestSub = TestSubscriber<Pair<RailCheckoutResponse, String>>()
+        val checkoutTestSub = TestObserver<Pair<RailCheckoutResponse, String>>()
         testViewModel.bookingSuccessSubject.subscribe(checkoutTestSub)
         testViewModel.travelerCompleteObserver.onNext(buildMockTraveler())
 

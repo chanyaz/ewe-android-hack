@@ -9,9 +9,10 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitUtils
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>?) {
 
@@ -30,7 +31,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
     }
 
     open fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
-        return object : Observer<HotelCreateTripResponse> {
+        return object : DisposableObserver<HotelCreateTripResponse>() {
             override fun onNext(response: HotelCreateTripResponse) {
                 if (response.hasErrors()) {
                     if (response.firstError.errorInfo.field == "productKey") {
@@ -56,7 +57,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

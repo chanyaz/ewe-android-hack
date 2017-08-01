@@ -46,7 +46,7 @@ import com.squareup.phrase.Phrase;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import kotlin.Unit;
-import rx.Observer;
+import io.reactivex.Observer;
 
 public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener,
 	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener,

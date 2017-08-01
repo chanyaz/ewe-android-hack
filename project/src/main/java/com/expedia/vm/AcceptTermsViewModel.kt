@@ -1,9 +1,9 @@
 package com.expedia.vm
 
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class AcceptTermsViewModel {
-    var acceptedTermsObservable = BehaviorSubject.create<Boolean>(false)
+    var acceptedTermsObservable = BehaviorSubject.createDefault<Boolean>(false)
 
     fun resetAcceptedTerms() {
         acceptedTermsObservable.onNext(false)

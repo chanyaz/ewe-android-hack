@@ -6,7 +6,7 @@ import com.expedia.bookings.data.rail.responses.PassengerSegmentFare
 import com.expedia.bookings.data.rail.responses.RailSegment
 import com.expedia.bookings.utils.CollectionUtils
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailSegmentAmenitiesViewModel(val context: Context) {
     val segmentAmenitiesObservable = PublishSubject.create<Pair<RailSegment, PassengerSegmentFare?>>()

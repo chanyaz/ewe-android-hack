@@ -34,9 +34,10 @@ import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Observer;
-import rx.subjects.PublishSubject;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.Observer;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class TravelerContactDetailsWidget extends ExpandableCardView implements TravelerButton.ITravelerButtonListener {
 
@@ -89,7 +90,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	MerchandiseSpam emailOptInStatus;
 
 	public PublishSubject<Boolean> filledIn = PublishSubject.create();
-	public CompositeSubscription compositeSubscription = new CompositeSubscription();
+	public CompositeDisposable CompositeDisposable = new CompositeDisposable();
 
 	private UserStateManager userStateManager;
 
@@ -138,19 +139,19 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
 		super.onVisibilityChanged(changedView, visibility);
 		if (visibility == View.VISIBLE) {
-			compositeSubscription = new CompositeSubscription();
-			compositeSubscription.add(RxKt.subscribeTextChange(firstName, formFilledSubscriber));
-			compositeSubscription.add(RxKt.subscribeTextChange(lastName, formFilledSubscriber));
-			compositeSubscription.add(RxKt.subscribeTextChange(phoneNumber, formFilledSubscriber));
+			CompositeDisposable = new CompositeDisposable();
+			CompositeDisposable.add(RxKt.subscribeTextChange(firstName, formFilledSubscriber));
+			CompositeDisposable.add(RxKt.subscribeTextChange(lastName, formFilledSubscriber));
+			CompositeDisposable.add(RxKt.subscribeTextChange(phoneNumber, formFilledSubscriber));
 		}
 		else {
-			compositeSubscription.unsubscribe();
+			CompositeDisposable.dispose();
 		}
 	}
 
-	private Observer formFilledSubscriber = new Observer<String>() {
+	private Observer formFilledSubscriber = new DisposableObserver<String>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override

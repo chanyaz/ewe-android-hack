@@ -2,19 +2,19 @@ package com.expedia.bookings.test.robolectric;
 
 import org.junit.runners.model.InitializationError;
 
-import rx.Scheduler;
+import io.reactivex.Scheduler;
 import rx.android.plugins.RxAndroidPlugins;
 import rx.android.plugins.RxAndroidSchedulersHook;
 import rx.functions.Func1;
 import rx.plugins.RxJavaHooks;
-import rx.schedulers.Schedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class RxJavaTestImmediateSchedulerRunner extends RobolectricRunner {
 
 	private final RxAndroidSchedulersHook mRxAndroidSchedulersHook = new RxAndroidSchedulersHook() {
 		@Override
 		public Scheduler getMainThreadScheduler() {
-			return Schedulers.immediate();
+			return Schedulers.trampoline();
 		}
 	};
 
@@ -22,7 +22,7 @@ public class RxJavaTestImmediateSchedulerRunner extends RobolectricRunner {
 		new Func1<Scheduler, Scheduler>() {
 			@Override
 			public Scheduler call(Scheduler scheduler) {
-				return Schedulers.immediate();
+				return Schedulers.trampoline();
 			}
 		};
 

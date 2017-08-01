@@ -4,20 +4,21 @@ import android.content.Context
 import android.location.Location
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionType
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
-import rx.Observable
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services,
@@ -139,7 +140,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     }
 
     private fun generateLocationServiceCallback(): Observer<Location> {
-        return object : Observer<Location> {
+        return object : DisposableObserver<Location>() {
             override fun onNext(location: Location) {
                 if (showSuggestionsAndLabel()) {
                     getSuggestionsWithLabel(location)
@@ -148,11 +149,11 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 if (showSuggestionsAndLabel()) {
                     suggestionsAndLabelObservable.onNext(suggestionsListWithNearbyAndLabels())
                 } else {
@@ -163,7 +164,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     }
 
     fun generateSuggestionServiceCallback(): Observer<List<SuggestionV4>> {
-        return object : Observer<List<SuggestionV4>> {
+        return object : DisposableObserver<List<SuggestionV4>>() {
             override fun onNext(essSuggestions: List<SuggestionV4>) {
                 val rawQuerySuggestion = if (rawQueryEnabled && !lastQuery.isNullOrBlank()) listOf(suggestionWithRawQueryString(lastQuery)) else emptyList()
                 val essAndRawTextSuggestion = ArrayList<SuggestionV4>(rawQuerySuggestion)
@@ -175,10 +176,10 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 Log.e("Hotel Suggestions Error", e)
             }
         }

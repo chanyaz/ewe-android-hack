@@ -11,8 +11,8 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse.Neighborhood
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeOnClick
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 
 class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 

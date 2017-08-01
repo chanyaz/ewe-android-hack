@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelBottomButtonWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val changeDatesClickedSubject = PublishSubject.create<Unit>()

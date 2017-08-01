@@ -3,8 +3,8 @@ package com.expedia.vm
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     val total = PublishSubject.create<Money>()
@@ -14,7 +14,7 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
 
     val pricePerPersonObservable = BehaviorSubject.create<String>()
     val totalPriceObservable = BehaviorSubject.create<String>()
-    val savingsPriceObservable = BehaviorSubject.create<String>("")
+    val savingsPriceObservable = BehaviorSubject.createDefault<String>("")
     val bundleTextLabelObservable = BehaviorSubject.create<String>()
     val perPersonTextLabelObservable = BehaviorSubject.create<Boolean>()
     val bundleTotalIncludesObservable = BehaviorSubject.create<String>()

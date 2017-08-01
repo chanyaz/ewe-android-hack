@@ -44,7 +44,7 @@ import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.Date
 import javax.inject.Inject

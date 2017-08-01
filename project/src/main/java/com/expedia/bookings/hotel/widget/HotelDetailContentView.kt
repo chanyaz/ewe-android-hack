@@ -22,6 +22,7 @@ import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
@@ -67,8 +68,7 @@ import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.HotelRoomHeaderViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
-import rx.Observable
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
@@ -282,19 +282,19 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
         vm.etpContainerVisibility.subscribeVisibility(payNowPayLaterTabs)
 
-        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut ->
+        ObservableOld.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut ->
             hasETP && hasFreeCancellation && !hotelSoldOut
         }.subscribeVisibility(freeCancellationAndETPMessaging)
 
-        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut ->
+        ObservableOld.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut ->
             !(hasETP && hasFreeCancellation) && !hotelSoldOut
         }.subscribeVisibility(singleMessageContainer)
 
-        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hotelSoldOut ->
+        ObservableOld.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hotelSoldOut ->
             (hasETP || hasFreeCancellation || hasBestPriceGuarantee) && !hotelSoldOut
         }.subscribeVisibility(etpAndFreeCancellationMessagingContainer)
 
-        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.isUserRatingAvailableObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hasUserReviews, hotelSoldOut ->
+        ObservableOld.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.isUserRatingAvailableObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hasUserReviews, hotelSoldOut ->
             !hasETP && !hasFreeCancellation && hasBestPriceGuarantee && !hasUserReviews && !hotelSoldOut
         }.subscribeVisibility(bestPriceGuarantee)
 

@@ -8,8 +8,8 @@ import com.expedia.vm.HotelReviewsAdapterViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import rx.Observable
-import rx.observers.TestSubscriber
+import io.reactivex.Observable
+import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -32,9 +32,9 @@ class HotelReviewsTest {
 
     @Test
     fun reviewsBySortParam() {
-        val numberOfCriticalReviewsSubscriber = TestSubscriber<Int>()
-        val numberOfNewestReviewsSubscriber = TestSubscriber<Int>()
-        val numberOfFavorableReviewsSubscriber = TestSubscriber<Int>()
+        val numberOfCriticalReviewsSubscriber = TestObserver<Int>()
+        val numberOfNewestReviewsSubscriber = TestObserver<Int>()
+        val numberOfFavorableReviewsSubscriber = TestObserver<Int>()
 
         vm.criticalReviewsObservable.take(1).map { it.count() }.subscribe(numberOfCriticalReviewsSubscriber)
         vm.newestReviewsObservable.take(2).map { it.count() }.subscribe(numberOfNewestReviewsSubscriber)
@@ -51,7 +51,7 @@ class HotelReviewsTest {
         numberOfCriticalReviewsSubscriber.assertReceivedOnNext(listOf(NUMBER_CRITICAL_REVIEWS))
 
         numberOfFavorableReviewsSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        numberOfFavorableReviewsSubscriber.assertCompleted()
+        numberOfFavorableReviewsSubscriber.assertComplete()
         numberOfFavorableReviewsSubscriber.assertReceivedOnNext(listOf(NUMBER_FAVOURABLE_REVIEWS, NUMBER_FAVOURABLE_REVIEWS))
 
         numberOfNewestReviewsSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
@@ -75,7 +75,7 @@ class HotelReviewsTest {
 
     @Test
     fun reviewsSummary() {
-        val testSubscriber = TestSubscriber<ReviewSummary>()
+        val testSubscriber = TestObserver<ReviewSummary>()
         vm.reviewsSummaryObservable.take(1).subscribe(testSubscriber)
 
         Observable.concat(
@@ -85,7 +85,7 @@ class HotelReviewsTest {
 
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testSubscriber.assertNoErrors()
-        testSubscriber.assertCompleted()
+        testSubscriber.assertComplete()
     }
 
     private fun getExpectedReviewRequestStr(startParam: Int): String {

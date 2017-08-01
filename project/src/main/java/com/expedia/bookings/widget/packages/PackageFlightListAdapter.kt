@@ -10,7 +10,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.packages.PackageFlightViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isChangePackageSearch: Boolean)  : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearch = true) {

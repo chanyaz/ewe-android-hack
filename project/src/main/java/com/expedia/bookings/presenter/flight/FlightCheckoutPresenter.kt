@@ -5,6 +5,7 @@ import android.text.Spanned
 import android.text.SpannedString
 import android.util.AttributeSet
 import android.view.View
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
@@ -21,7 +22,6 @@ import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.InsuranceWidget
@@ -34,10 +34,9 @@ import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.otto.Subscribe
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-import rx.subjects.Subject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
@@ -52,7 +51,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         @Inject set
 
     init {
-        val debitCardsNotAcceptedSubject = BehaviorSubject.create<Spanned>(SpannedString(context.getString(R.string.flights_debit_cards_not_accepted)))
+        val debitCardsNotAcceptedSubject = BehaviorSubject.createDefault<Spanned>(SpannedString(context.getString(R.string.flights_debit_cards_not_accepted)))
 
         makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject, ckoViewModel.showingPaymentWidgetSubject,
                 debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
@@ -167,8 +166,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         return false
     }
 
-    private fun makePaymentErrorSubscriber(fee: Subject<Boolean, Boolean>, show: PublishSubject<Boolean>, textView: TextView, text: Subject<Spanned, Spanned>) {
-        Observable.combineLatest(fee, show, text,
+    private fun makePaymentErrorSubscriber(fee: Subject<Boolean>, show: PublishSubject<Boolean>, textView: TextView, text: Subject<Spanned>) {
+        ObservableOld.combineLatest(fee, show, text,
                 { fee, show, text ->
                     val cardFeeVisibility = if (fee && show) View.VISIBLE else View.GONE
                     if (cardFeeVisibility == VISIBLE) {
@@ -178,6 +177,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
                         toolbarDropShadow.visibility = visibility
                     } else if (textView.visibility == View.VISIBLE) {
                         AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
+                    } else {
+                        //ignore
                     }
                 }).subscribe()
     }

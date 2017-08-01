@@ -12,7 +12,7 @@ import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.accessibility.AccessibleSpinner
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailDeliveryAddressEntry(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), EntryManager.FormListener {
     val mailDeliverySectionLocation: SectionLocation by bindView(R.id.mail_delivery_address)

@@ -24,8 +24,9 @@ import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
+import io.reactivex.observers.DisposableObserver;
 import okhttp3.HttpUrl;
-import rx.Observer;
+import io.reactivex.Observer;
 
 public class AbacusHelperUtils {
 
@@ -40,9 +41,9 @@ public class AbacusHelperUtils {
 	}
 
 	private static Observer<AbacusResponse> getAbacusSubscriber(final Context context) {
-		return new Observer<AbacusResponse>() {
+		return new DisposableObserver<AbacusResponse>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 				Log.d("AbacusResponse - onCompleted");
 			}
 

@@ -10,7 +10,7 @@ import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.mobiata.android.util.AndroidUtils
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelDetailGalleryRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs) {
     val galleryScrolledSubject = PublishSubject.create<Int>()

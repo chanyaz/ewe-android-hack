@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -36,7 +36,7 @@ class DeepLinkUtilsTest {
         val interceptor = MockInterceptor()
         clientLogServices = ClientLogServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
 
         val dispatcher = object : Dispatcher() {
             @Throws(InterruptedException::class)

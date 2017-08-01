@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
@@ -26,42 +27,41 @@ import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.util.Optional
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 open class PaymentViewModel(val context: Context) {
     val resources = context.resources
 
     // inputs
-    val splitsType = BehaviorSubject.create<PaymentSplitsType>(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)
-    val isRedeemable = BehaviorSubject.create<Boolean>(false)
+    val splitsType = BehaviorSubject.createDefault<PaymentSplitsType>(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)
+    val isRedeemable = BehaviorSubject.createDefault<Boolean>(false)
     val billingInfoAndStatusUpdate = BehaviorSubject.create<Pair<BillingInfo?, ContactDetailsCompletenessStatus>>()
     val emptyBillingInfo = PublishSubject.create<Unit>()
     val storedCardRemoved = PublishSubject.create<Optional<StoredCreditCard>>()
     val showingPaymentForm = PublishSubject.create<Boolean>()
-    val newCheckoutIsEnabled = BehaviorSubject.create<Boolean>(false)
+    val newCheckoutIsEnabled = BehaviorSubject.createDefault<Boolean>(false)
     val enableMenuItem = PublishSubject.create<Boolean>()
     val menuVisibility = PublishSubject.create<Boolean>()
     val updateBackgroundColor = PublishSubject.create<Boolean>()
 
     val cardTypeSubject = PublishSubject.create<Optional<PaymentType>>()
-    val cardBIN = BehaviorSubject.create<String>("")
+    val cardBIN = BehaviorSubject.createDefault<String>("")
     val resetCardFees = PublishSubject.create<Unit>()
     val moveFocusToPostalCodeSubject = PublishSubject.create<Unit>()
     val userLogin = PublishSubject.create<Boolean>()
-    val isCreditCardRequired = BehaviorSubject.create<Boolean>(false)
-    val isZipValidationRequired = BehaviorSubject.create<Boolean>(false)
-    val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>(LineOfBusiness.HOTELS)
+    val isCreditCardRequired = BehaviorSubject.createDefault<Boolean>(false)
+    val isZipValidationRequired = BehaviorSubject.createDefault<Boolean>(false)
+    val lineOfBusiness = BehaviorSubject.createDefault<LineOfBusiness>(LineOfBusiness.HOTELS)
     val expandObserver = PublishSubject.create<Boolean>()
-    val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>(false)
+    val showDebitCardsNotAcceptedSubject = BehaviorSubject.createDefault<Boolean>(false)
     val selectCorrectCardObservable = PublishSubject.create<Boolean>()
     val clearTemporaryCardObservable = PublishSubject.create<Unit>()
     val travelerFirstName = BehaviorSubject.create<AccessibleEditText>()
     val travelerLastName = BehaviorSubject.create<AccessibleEditText>()
-    val populateCardholderNameObservable = BehaviorSubject.create<String>("")
+    val populateCardholderNameObservable = BehaviorSubject.createDefault<String>("")
     val createFakeAddressObservable = PublishSubject.create<Unit>()
 
     //ouputs
@@ -73,7 +73,7 @@ open class PaymentViewModel(val context: Context) {
 
     val pwpSmallIcon = PublishSubject.create<Boolean>()
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
-    val paymentTypeWarningHandledByCkoView = BehaviorSubject.create<Boolean>(false)
+    val paymentTypeWarningHandledByCkoView = BehaviorSubject.createDefault<Boolean>(false)
     val invalidPaymentTypeWarning = PublishSubject.create<String>()
     val showCardFeeInfoLabel = PublishSubject.create<Boolean>()
     val showInvalidPaymentWarning = PublishSubject.create<Boolean>()
@@ -90,7 +90,7 @@ open class PaymentViewModel(val context: Context) {
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     init {
-        Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
+        ObservableOld.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
             infoAndStatus, isRedeemable, splitsType ->
             object {
                 val info = infoAndStatus.first
@@ -132,7 +132,7 @@ open class PaymentViewModel(val context: Context) {
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
         }
 
-        Observable.combineLatest(travelerFirstName, travelerLastName, { firstName, lastName ->
+        ObservableOld.combineLatest(travelerFirstName, travelerLastName, { firstName, lastName ->
             if (firstName.valid && lastName.valid) {
                 if (firstName.text.isEmpty() && lastName.text.isEmpty()) {
                     populateCardholderNameObservable.onNext("")

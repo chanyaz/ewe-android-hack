@@ -1,13 +1,14 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.util.endlessObserver
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-import rx.Observable
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.Observable
 
 class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(context) {
 
@@ -21,10 +22,10 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
     private var childAges = arrayListOf(DEFAULT_CHILD_AGE, DEFAULT_CHILD_AGE, DEFAULT_CHILD_AGE, DEFAULT_CHILD_AGE)
 
     // Outputs
-    val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>(false)
+    val infantPreferenceSeatingObservable = BehaviorSubject.createDefault<Boolean>(false)
     val tooManyInfantsInLap = PublishSubject.create<Boolean>()
     val tooManyInfantsInSeat = PublishSubject.create<Boolean>()
-    val showInfantErrorMessage = Observable.zip(tooManyInfantsInLap, tooManyInfantsInSeat, { inLap, inSeat ->
+    val showInfantErrorMessage = ObservableOld.zip(tooManyInfantsInLap, tooManyInfantsInSeat, { inLap, inSeat ->
         when {
             inLap -> context.getString(R.string.max_one_infant_per_lap)
             inSeat -> context.getString(R.string.max_two_infants_seated_per_adult)

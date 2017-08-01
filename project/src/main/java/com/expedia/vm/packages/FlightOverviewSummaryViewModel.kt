@@ -8,7 +8,7 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.utils.DateFormatUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightOverviewSummaryViewModel(val context: Context) {
 

@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
@@ -21,6 +22,7 @@ import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.validation.TravelerValidator
+import com.expedia.bookings.withLatestFrom
 import com.expedia.ui.FlightActivity
 import com.expedia.util.FlightCalendarRules
 import com.expedia.util.Optional
@@ -28,9 +30,10 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.flights.AdvanceSearchFilter
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
@@ -48,7 +51,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val cachedSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     val cachedEndDateObservable = BehaviorSubject.create<Optional<LocalDate>>()
-    val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
+    val isRoundTripSearchObservable = BehaviorSubject.createDefault<Boolean>(true)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     var hasPreviousSearchParams = false

@@ -54,8 +54,8 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Observer;
-import rx.Subscription;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class LXResultsPresenter extends Presenter {
 
@@ -72,7 +72,7 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.lx_theme_results_widget)
 	LXThemeResultsWidget themeResultsWidget;
 
-	Subscription searchSubscription;
+	Disposable searchSubscription;
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
@@ -241,7 +241,7 @@ public class LXResultsPresenter extends Presenter {
 
 	private void cleanup() {
 		if (searchSubscription != null) {
-			searchSubscription.unsubscribe();
+			searchSubscription.dispose();
 		}
 	}
 

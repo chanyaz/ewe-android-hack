@@ -7,8 +7,8 @@ import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailTripOffer
 import com.expedia.bookings.utils.DateFormatUtils
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailTripSummaryViewModel(context: Context) {
     val railOfferObserver = BehaviorSubject.create<RailTripOffer>()

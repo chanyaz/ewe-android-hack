@@ -9,7 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface ClientLogApi {
 

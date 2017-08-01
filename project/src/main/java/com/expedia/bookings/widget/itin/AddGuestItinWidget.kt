@@ -20,7 +20,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.itin.AddGuestItinViewModel
 import com.mobiata.android.util.Ui
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {

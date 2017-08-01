@@ -1,13 +1,13 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
-import rx.Observable
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paymentModel: PaymentModel<T>, payWithPointsViewModel: IPayWithPointsViewModel) : IPaymentWidgetViewModel {
     //Inlets
@@ -23,7 +23,7 @@ class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paymentMode
     override val burnAmountApiCallResponsePending = PublishSubject.create<Boolean>()
     override val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
 
-    override val isPwpDirty = Observable.combineLatest(hasPwpEditBoxFocus, burnAmountApiCallResponsePending, {
+    override val isPwpDirty = ObservableOld.combineLatest(hasPwpEditBoxFocus, burnAmountApiCallResponsePending, {
         hasPwpEditBoxFocus, burnAmountApiCallResponsePending ->
         hasPwpEditBoxFocus || burnAmountApiCallResponsePending
     })

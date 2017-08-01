@@ -12,7 +12,7 @@ import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
-import rx.Observer
+import io.reactivex.Observer
 import kotlin.properties.Delegates
 
 class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {

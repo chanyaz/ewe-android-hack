@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import com.expedia.bookings.data.hotels.Hotel
 import com.mobiata.android.util.AndroidUtils
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 

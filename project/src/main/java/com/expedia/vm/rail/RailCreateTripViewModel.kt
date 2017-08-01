@@ -7,9 +7,10 @@ import com.expedia.bookings.data.trips.TripBucketItemRails
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.RetrofitUtils
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class RailCreateTripViewModel(val railServices: RailServices) {
     val offerTokensSelected = PublishSubject.create<List<String>>()
@@ -36,7 +37,7 @@ class RailCreateTripViewModel(val railServices: RailServices) {
     }
 
     fun makeCreateTripResponseObserver(): Observer<RailCreateTripResponse> {
-        return object : Observer<RailCreateTripResponse> {
+        return object : DisposableObserver<RailCreateTripResponse>() {
             override fun onNext(response: RailCreateTripResponse) {
                 if (response.isErrorResponse && !response.hasPriceChange()) {
                     RailTracking().trackCreateTripUnknownError()
@@ -52,7 +53,7 @@ class RailCreateTripViewModel(val railServices: RailServices) {
                 }
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 if (RetrofitUtils.isNetworkError(e)) {
                     showNoInternetRetryDialog.onNext(Unit)
                 } else {
@@ -61,7 +62,7 @@ class RailCreateTripViewModel(val railServices: RailServices) {
                 RailTracking().trackCreateTripApiNoResponseError()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
         }
     }

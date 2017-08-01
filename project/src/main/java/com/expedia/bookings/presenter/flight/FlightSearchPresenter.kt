@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.ImageView
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.LineOfBusiness
@@ -47,7 +48,6 @@ import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.flights.AdvanceSearchFilter
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
 import javax.inject.Inject
 
 open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
@@ -207,7 +207,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
-            Observable.combineLatest(
+            ObservableOld.combineLatest(
                     vm.formattedOriginObservable,
                     vm.formattedDestinationObservable,
                     { origin, destination ->
@@ -222,7 +222,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
 
         if (isUserBucketedInSearchFormValidation) {
-            Observable.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, invalidDates -> hasValidDates }).subscribe { hasValidDates ->
+            ObservableOld.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, invalidDates -> hasValidDates }).subscribe { hasValidDates ->
                 calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
             }
         }

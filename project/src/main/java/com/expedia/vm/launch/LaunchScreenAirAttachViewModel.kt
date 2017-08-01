@@ -11,8 +11,8 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, recentUpcomingFlightTrip: Trip, hotelSearchParams: HotelSearchParams, cityName: String) {
 

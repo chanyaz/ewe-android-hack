@@ -31,7 +31,7 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
 import com.expedia.vm.packages.PackageTotalPriceViewModel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 
 class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

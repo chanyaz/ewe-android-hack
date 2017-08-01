@@ -5,8 +5,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.bookings.withLatestFrom
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailInboundResultsViewModel(context: Context) : BaseRailResultsViewModel(context) {
     val outboundLegOptionSubject = PublishSubject.create<RailLegOption>()

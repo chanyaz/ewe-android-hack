@@ -14,7 +14,7 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -42,11 +42,11 @@ class PackageErrorViewModelTest {
     fun observableEmissionsOnSearchError(apiError: PackageApiError.Code) {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
-        val searchApiObservableTestSubscriber = TestSubscriber.create<PackageApiError.Code>()
-        subjectUnderTest.packageSearchApiErrorObserver.subscribe(searchApiObservableTestSubscriber)
+        val searchApiObservableTestObserver = TestObserver.create<PackageApiError.Code>()
+        subjectUnderTest.packageSearchApiErrorObserver.subscribe(searchApiObservableTestObserver)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+        val errorMessageObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestObserver)
 
 
         subjectUnderTest.paramsSubject.onNext(getPackageSearchParams())
@@ -58,7 +58,7 @@ class PackageErrorViewModelTest {
             else -> RuntimeEnvironment.application.getString(R.string.error_package_search_message)
         }
 
-        errorMessageObservableTestSubscriber.assertValues(expectedErrorMessage)
+        errorMessageObservableTestObserver.assertValues(expectedErrorMessage)
     }
 
     private fun getPackageSearchParams(): PackageSearchParams {
@@ -94,23 +94,23 @@ class PackageErrorViewModelTest {
     private fun observableEmissionsOnPaymentApiError(errorCode: ApiError.Code, field: String, @StringRes errorMessageId: Int) {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
-        val checkoutCardErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
-        subjectUnderTest.checkoutCardErrorObservable.subscribe(checkoutCardErrorObservableTestSubscriber)
+        val checkoutCardErrorObservableTestObserver = TestObserver.create<Unit>()
+        subjectUnderTest.checkoutCardErrorObservable.subscribe(checkoutCardErrorObservableTestObserver)
 
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
-        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+        val errorImageObservableTestObserver = TestObserver.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestObserver)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+        val errorMessageObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestObserver)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        val errorButtonObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestObserver)
 
-        val titleObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.titleObservable.subscribe(titleObservableTestSubscriber)
+        val titleObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.titleObservable.subscribe(titleObservableTestObserver)
 
-        val subtitleObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.subTitleObservable.subscribe(subtitleObservableTestSubscriber)
+        val subtitleObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.subTitleObservable.subscribe(subtitleObservableTestObserver)
 
         val apiError = ApiError(errorCode)
         apiError.errorInfo = ApiError.ErrorInfo()
@@ -119,28 +119,28 @@ class PackageErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
-        checkoutCardErrorObservableTestSubscriber.assertValues(Unit)
-        errorImageObservableTestSubscriber.assertValues(R.drawable.error_payment)
-        errorMessageObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(errorMessageId))
-        errorButtonObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.edit_payment))
-        titleObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.payment_failed_label))
-        subtitleObservableTestSubscriber.assertValues("")
+        checkoutCardErrorObservableTestObserver.assertValues(Unit)
+        errorImageObservableTestObserver.assertValues(R.drawable.error_payment)
+        errorMessageObservableTestObserver.assertValues(RuntimeEnvironment.application.getString(errorMessageId))
+        errorButtonObservableTestObserver.assertValues(RuntimeEnvironment.application.getString(R.string.edit_payment))
+        titleObservableTestObserver.assertValues(RuntimeEnvironment.application.getString(R.string.payment_failed_label))
+        subtitleObservableTestObserver.assertValues("")
     }
 
     @Test fun observableEmissionsOnUnknownError() {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
-        val checkoutUnknownErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
-        subjectUnderTest.checkoutUnknownErrorObservable.subscribe(checkoutUnknownErrorObservableTestSubscriber)
+        val checkoutUnknownErrorObservableTestObserver = TestObserver.create<Unit>()
+        subjectUnderTest.checkoutUnknownErrorObservable.subscribe(checkoutUnknownErrorObservableTestObserver)
 
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
-        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+        val errorImageObservableTestObserver = TestObserver.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestObserver)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+        val errorMessageObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestObserver)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        val errorButtonObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestObserver)
 
         val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN)
 
@@ -151,27 +151,38 @@ class PackageErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
+<<<<<<< HEAD
         checkoutUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
         val message = getContext().getString(R.string.package_error_server)
         errorMessageObservableTestSubscriber.assertValues(message)
         errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.retry))
+=======
+        checkoutUnknownErrorObservableTestObserver.assertValues(Unit)
+        errorImageObservableTestObserver.assertValues(R.drawable.error_default)
+        val message = Phrase.from(getContext(), R.string.error_server_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .format()
+                .toString()
+        errorMessageObservableTestObserver.assertValues(message)
+        errorButtonObservableTestObserver.assertValues(getContext().getString(R.string.retry))
+>>>>>>> 7df61dae81... WIP
     }
 
     @Test fun observableEmissionsOnCreateTripUnknownError() {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
-        val createTripUnknownErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
-        subjectUnderTest.createTripUnknownErrorObservable.subscribe(createTripUnknownErrorObservableTestSubscriber)
+        val createTripUnknownErrorObservableTestObserver = TestObserver.create<Unit>()
+        subjectUnderTest.createTripUnknownErrorObservable.subscribe(createTripUnknownErrorObservableTestObserver)
 
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
-        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+        val errorImageObservableTestObserver = TestObserver.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestObserver)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+        val errorMessageObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestObserver)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        val errorButtonObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestObserver)
 
         val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR);
         apiError.errorInfo = ApiError.ErrorInfo()
@@ -184,27 +195,38 @@ class PackageErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
+<<<<<<< HEAD
         createTripUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
         val message = getContext().getString(R.string.package_error_server)
         errorMessageObservableTestSubscriber.assertValues(message)
         errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.retry))
+=======
+        createTripUnknownErrorObservableTestObserver.assertValues(Unit)
+        errorImageObservableTestObserver.assertValues(R.drawable.error_default)
+        val message = Phrase.from(getContext(), R.string.error_server_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .format()
+                .toString()
+        errorMessageObservableTestObserver.assertValues(message)
+        errorButtonObservableTestObserver.assertValues(getContext().getString(R.string.retry))
+>>>>>>> 7df61dae81... WIP
     }
 
     @Test fun observableEmissionsOnCreateTripDateMismatchError() {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
-        val createTripUnknownErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
-        subjectUnderTest.createTripUnknownErrorObservable.subscribe(createTripUnknownErrorObservableTestSubscriber)
+        val createTripUnknownErrorObservableTestObserver = TestObserver.create<Unit>()
+        subjectUnderTest.createTripUnknownErrorObservable.subscribe(createTripUnknownErrorObservableTestObserver)
 
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
-        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+        val errorImageObservableTestObserver = TestObserver.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestObserver)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+        val errorMessageObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestObserver)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        val errorButtonObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestObserver)
 
         val apiError = ApiError(ApiError.Code.PACKAGE_DATE_MISMATCH_ERROR)
         apiError.errorInfo = ApiError.ErrorInfo()
@@ -217,26 +239,26 @@ class PackageErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
-        createTripUnknownErrorObservableTestSubscriber.assertValues(Unit)
-        errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
-        errorMessageObservableTestSubscriber.assertValues("Sorry, this flight arrives way before the hotel check-in time. Please pick a different hotel or flights.")
-        errorButtonObservableTestSubscriber.assertValues("Retry")
+        createTripUnknownErrorObservableTestObserver.assertValues(Unit)
+        errorImageObservableTestObserver.assertValues(R.drawable.error_default)
+        errorMessageObservableTestObserver.assertValues("Sorry, this flight arrives way before the hotel check-in time. Please pick a different hotel or flights.")
+        errorButtonObservableTestObserver.assertValues("Retry")
     }
 
     @Test fun observableEmissionsOnHotelOffersError() {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
-        val hotelOfferErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
-        subjectUnderTest.defaultErrorObservable.subscribe(hotelOfferErrorObservableTestSubscriber)
+        val hotelOfferErrorObservableTestObserver = TestObserver.create<Unit>()
+        subjectUnderTest.defaultErrorObservable.subscribe(hotelOfferErrorObservableTestObserver)
 
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
-        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+        val errorImageObservableTestObserver = TestObserver.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestObserver)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+        val errorMessageObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestObserver)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
-        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+        val errorButtonObservableTestObserver = TestObserver.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestObserver)
 
         val apiError = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR);
         apiError.errorInfo = ApiError.ErrorInfo()
@@ -250,9 +272,9 @@ class PackageErrorViewModelTest {
         subjectUnderTest.hotelOffersApiErrorObserver.onNext(apiError.errorCode)
         subjectUnderTest.defaultErrorObservable.onNext(Unit)
 
-        hotelOfferErrorObservableTestSubscriber.assertValues(Unit)
-        errorImageObservableTestSubscriber.assertValues(R.drawable.error_search)
-        errorMessageObservableTestSubscriber.assertValues(getContext().getString(R.string.error_package_search_message))
-        errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.edit_search))
+        hotelOfferErrorObservableTestObserver.assertValues(Unit)
+        errorImageObservableTestObserver.assertValues(R.drawable.error_search)
+        errorMessageObservableTestObserver.assertValues(getContext().getString(R.string.error_package_search_message))
+        errorButtonObservableTestObserver.assertValues(getContext().getString(R.string.edit_search))
     }
 }

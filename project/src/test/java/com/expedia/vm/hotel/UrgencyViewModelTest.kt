@@ -15,8 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -34,7 +34,7 @@ class UrgencyViewModelTest {
         logger.level = HttpLoggingInterceptor.Level.BODY
         val interceptor = MockInterceptor()
         urgencyService = UrgencyServices("http://localhost:" + server.getPort(), OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
         testViewModel = UrgencyViewModel(RuntimeEnvironment.application, urgencyService)
         today = LocalDate.now()
     }
@@ -47,8 +47,8 @@ class UrgencyViewModelTest {
 
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_happy.json"))
 
-        val testSoldOutTextSub = TestSubscriber<String>()
-        val testDescriptionTextSub = TestSubscriber<String>()
+        val testSoldOutTextSub = TestObserver<String>()
+        val testDescriptionTextSub = TestObserver<String>()
         testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
         testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
 
@@ -62,8 +62,8 @@ class UrgencyViewModelTest {
     fun testUrgencyBelowThreshold() {
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_below_threshold.json"))
 
-        val testSoldOutTextSub = TestSubscriber<String>()
-        val testDescriptionTextSub = TestSubscriber<String>()
+        val testSoldOutTextSub = TestObserver<String>()
+        val testDescriptionTextSub = TestObserver<String>()
         testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
         testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
 
@@ -80,7 +80,7 @@ class UrgencyViewModelTest {
 
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_max_threshold.json"))
 
-        val testSoldOutTextSub = TestSubscriber<String>()
+        val testSoldOutTextSub = TestObserver<String>()
         testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
@@ -96,7 +96,7 @@ class UrgencyViewModelTest {
 
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_requires_rounding.json"))
 
-        val testSoldOutTextSub = TestSubscriber<String>()
+        val testSoldOutTextSub = TestObserver<String>()
         testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
@@ -118,8 +118,8 @@ class UrgencyViewModelTest {
     fun testInvalidRegionId() {
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_happy.json"))
 
-        val testSoldOutTextSub = TestSubscriber<String>()
-        val testDescriptionTextSub = TestSubscriber<String>()
+        val testSoldOutTextSub = TestObserver<String>()
+        val testDescriptionTextSub = TestObserver<String>()
         testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
         testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
 

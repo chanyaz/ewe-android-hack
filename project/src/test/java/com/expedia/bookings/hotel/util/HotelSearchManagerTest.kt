@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -31,7 +31,7 @@ class HotelSearchManagerTest {
 
     @Test
     fun testHappy() {
-        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val testSuccessSub = TestObserver<HotelSearchResponse>()
         testManager.successSubject.subscribe(testSuccessSub)
 
         testManager.doSearch(makeParams())
@@ -44,10 +44,10 @@ class HotelSearchManagerTest {
 
     @Test
     fun testError() {
-        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val testSuccessSub = TestObserver<HotelSearchResponse>()
         testManager.successSubject.subscribe(testSuccessSub)
 
-        val testErrorSub = TestSubscriber<ApiError>()
+        val testErrorSub = TestObserver<ApiError>()
         testManager.errorSubject.subscribe(testErrorSub)
 
         testManager.doSearch(makeParams("mock_error"))
@@ -62,10 +62,10 @@ class HotelSearchManagerTest {
 
     @Test
     fun testNoResults() {
-        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val testSuccessSub = TestObserver<HotelSearchResponse>()
         testManager.successSubject.subscribe(testSuccessSub)
 
-        val testErrorSub = TestSubscriber<Unit>()
+        val testErrorSub = TestObserver<Unit>()
         testManager.noResultsSubject.subscribe(testErrorSub)
 
         testManager.doSearch(makeParams("noresults"))

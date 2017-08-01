@@ -21,7 +21,7 @@ import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.bindView
 import com.squareup.picasso.Picasso
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 
 class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {

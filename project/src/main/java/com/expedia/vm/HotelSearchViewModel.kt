@@ -20,7 +20,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import org.joda.time.LocalDate
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context, private val hotelSearchManager: HotelSearchManager) : BaseSearchViewModel(context) {

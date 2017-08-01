@@ -17,8 +17,8 @@ import com.expedia.vm.HotelCheckoutViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import rx.Observer
-import rx.observers.TestSubscriber
+import io.reactivex.Observer
+import com.expedia.bookings.services.TestObserver
 import java.io.IOException
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -34,7 +34,7 @@ class HotelCheckoutViewModelTests {
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
     lateinit var sut: HotelCheckoutViewModel
     lateinit var checkoutParams: HotelCheckoutV2Params
-    lateinit var testSubscriber: TestSubscriber<HotelCheckoutResponse>
+    lateinit var testSubscriber: TestObserver<HotelCheckoutResponse>
     lateinit var happyCreateTripResponse: HotelCreateTripResponse
 
     @Before
@@ -45,7 +45,7 @@ class HotelCheckoutViewModelTests {
 
     @Test
     fun unknownError() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getUnknownErrorCheckoutResponse())
@@ -56,7 +56,7 @@ class HotelCheckoutViewModelTests {
 
     @Test
     fun invalidTravelerInput() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getInvalidTravelerInputCheckoutResponse())
@@ -67,7 +67,7 @@ class HotelCheckoutViewModelTests {
 
     @Test
     fun invalidCardNumberInput() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getInvalidCardNumberInputCheckoutResponse())
@@ -78,7 +78,7 @@ class HotelCheckoutViewModelTests {
 
     @Test
     fun paymentFailed() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getPaymentFailedCheckoutResponse())
@@ -89,7 +89,7 @@ class HotelCheckoutViewModelTests {
 
     @Test
     fun sessionTimeout() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getSessionTimeoutCheckoutResponse())
@@ -100,7 +100,7 @@ class HotelCheckoutViewModelTests {
 
     @Test
     fun tripAlreadyBooked() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getTripAlreadyBookedCheckoutResponse())
@@ -113,7 +113,7 @@ class HotelCheckoutViewModelTests {
     fun priceChange() {
         givenWeHadAHappyCreateTripResponse()
         givenPriceChangeCheckoutResponse()
-        val testSubscriber = TestSubscriber<HotelCreateTripResponse>()
+        val testSubscriber = TestObserver<HotelCreateTripResponse>()
         sut.priceChangeResponseObservable.subscribe(testSubscriber)
 
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getPriceChangeCheckoutResponse())
@@ -125,7 +125,7 @@ class HotelCheckoutViewModelTests {
     @Test
     fun checkoutErrorCallsNoResponseObservable() {
         val networkErrorThrowable = IOException()
-        val testSubscriber = TestSubscriber<Throwable>()
+        val testSubscriber = TestObserver<Throwable>()
         sut.noResponseObservable.subscribe(testSubscriber)
 
         sut.getCheckoutResponseObserver().onError(networkErrorThrowable)
@@ -136,7 +136,7 @@ class HotelCheckoutViewModelTests {
     @Test
     fun newCheckoutParamsTriggersCheckoutCall() {
         givenGoodCheckoutResponse()
-        testSubscriber = TestSubscriber<HotelCheckoutResponse>()
+        testSubscriber = TestObserver<HotelCheckoutResponse>()
         sut = TestHotelCheckoutViewModel(testSubscriber, mockHotelTestServiceRule.services!!, paymentModel)
 
         sut.checkoutParams.onNext(checkoutParams)
@@ -170,7 +170,7 @@ class HotelCheckoutViewModelTests {
         Db.getTripBucket().add(TripBucketItemHotelV2(happyCreateTripResponse))
     }
 
-    class TestHotelCheckoutViewModel(val testSubscriber: TestSubscriber<HotelCheckoutResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>): HotelCheckoutViewModel(hotelServices,paymentModel) {
+    class TestHotelCheckoutViewModel(val testSubscriber: TestObserver<HotelCheckoutResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>): HotelCheckoutViewModel(hotelServices,paymentModel) {
         override fun getCheckoutResponseObserver(): Observer<HotelCheckoutResponse> {
             return testSubscriber
         }

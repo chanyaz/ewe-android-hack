@@ -13,7 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 
 @RunWith(RobolectricRunner::class)
 class ItinPOSHeaderViewModelTest {
@@ -33,16 +33,16 @@ class ItinPOSHeaderViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun updateSelectedPOS() {
-        val textTestSubscriber = TestSubscriber<String>()
-        val imageTestSubscriber = TestSubscriber<Int>()
-        sut.posTextViewSubject.subscribe(textTestSubscriber)
-        sut.posImageViewSubject.subscribe(imageTestSubscriber)
+        val textTestObserver = TestObserver<String>()
+        val imageTestObserver = TestObserver<Int>()
+        sut.posTextViewSubject.subscribe(textTestObserver)
+        sut.posImageViewSubject.subscribe(imageTestObserver)
 
         firePointOfSaleChange()
 
         // fired twice: once on creation and the second triggered from new POS
-        textTestSubscriber.assertValues("USA", "USA")
-        imageTestSubscriber.assertValues(R.drawable.ic_flag_us_icon, R.drawable.ic_flag_us_icon)
+        textTestObserver.assertValues("USA", "USA")
+        imageTestObserver.assertValues(R.drawable.ic_flag_us_icon, R.drawable.ic_flag_us_icon)
     }
 
     private fun firePointOfSaleChange() {

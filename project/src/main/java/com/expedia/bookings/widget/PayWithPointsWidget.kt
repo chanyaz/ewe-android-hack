@@ -12,18 +12,19 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.DecimalNumberInputFilter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeCursorVisible
+import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
-import com.expedia.util.subscribeEnabled
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import java.util.Locale
 import javax.inject.Inject
 
@@ -37,7 +38,7 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     val pwpSwitchView: Switch by bindView(R.id.pwp_switch)
     val pwpEditBoxContainer: View by bindView(R.id.pwp_edit_box_container)
 
-    val wasLastUpdateProgrammatic = BehaviorSubject.create<Boolean>(false)
+    val wasLastUpdateProgrammatic = BehaviorSubject.createDefault<Boolean>(false)
     var payWithPointsViewModel: IPayWithPointsViewModel by notNullAndObservable<IPayWithPointsViewModel> { pwpViewModel ->
         pwpViewModel.currencySymbol.subscribeText(currencySymbolView)
         pwpViewModel.totalPointsAndAmountAvailableToRedeem.subscribeText(totalPointsAvailableView)

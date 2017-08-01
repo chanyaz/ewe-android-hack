@@ -6,8 +6,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
-import rx.Observer
-import rx.subjects.BehaviorSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
 
 class RailTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(context){
 

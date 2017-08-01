@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.LxCalendarRules
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import org.joda.time.LocalDate
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override fun getCalendarRules(): CalendarRules {

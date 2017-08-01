@@ -34,7 +34,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import kotlin.properties.Delegates.notNull
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

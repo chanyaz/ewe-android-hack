@@ -50,8 +50,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import kotlin.Unit;
-import rx.Observer;
-import rx.subjects.PublishSubject;
+import io.reactivex.Observer;
+import io.reactivex.subjects.PublishSubject;
 
 public class LXActivityDetailsWidget extends LXDetailsScrollView implements RecyclerGallery.GalleryItemListener, RecyclerGallery.IImageViewBitmapLoadedListener {
 

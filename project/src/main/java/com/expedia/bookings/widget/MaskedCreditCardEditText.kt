@@ -7,7 +7,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import com.expedia.bookings.utils.NumberMaskFormatter
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class MaskedCreditCardEditText(context: Context, attributeSet: AttributeSet?) : AccessibleEditText(context, attributeSet) {
     val cardNumberTextSubject = PublishSubject.create<String>()

@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 
 @RunWith(RobolectricRunner::class)
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
@@ -27,7 +27,7 @@ class FlightResultsViewModelTest {
     fun airlineMayChargeFeesForApplicablePos() {
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airlines_charge_additional_fees.json")
 
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         sut.airlineChargesFeesSubject.subscribe(testSubscriber)
 
         sut.isOutboundResults.onNext(true)
@@ -39,7 +39,7 @@ class FlightResultsViewModelTest {
     fun airlineDoesNotChargeFeesForNonOutboundApplicablePos() {
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json")
 
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         sut.airlineChargesFeesSubject.subscribe(testSubscriber)
 
         sut.isOutboundResults.onNext(false)

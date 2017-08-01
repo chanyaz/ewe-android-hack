@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -19,10 +20,9 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.util.Optional
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 
@@ -40,7 +40,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val numNights = BehaviorSubject.create<String>()
     val guestCountObserver = BehaviorSubject.create<Int>()
     val numGuests = BehaviorSubject.create<String>()
-    val hasFreeCancellation = BehaviorSubject.create<Boolean>(false)
+    val hasFreeCancellation = BehaviorSubject.createDefault<Boolean>(false)
     val freeCancellationText = PublishSubject.create<String>()
     val valueAddsListObservable = BehaviorSubject.create<List<HotelOffersResponse.ValueAdds>>()
     val currencyCode = BehaviorSubject.create<String>()
@@ -53,16 +53,16 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val propertyServiceSurcharge = BehaviorSubject.create<Optional<Money>>()
     val taxStatusType = BehaviorSubject.create<String>()
     val extraGuestFees = BehaviorSubject.create<Money>()
-    val isBestPriceGuarantee = BehaviorSubject.create<Boolean>(false)
+    val isBestPriceGuarantee = BehaviorSubject.createDefault<Boolean>(false)
     val priceChangeMessage = BehaviorSubject.create<String>()
-    val isPriceChange = BehaviorSubject.create<Boolean>(false)
+    val isPriceChange = BehaviorSubject.createDefault<Boolean>(false)
     val priceChangeIconResourceId = BehaviorSubject.create<Int>()
-    val isResortCase = BehaviorSubject.create<Boolean>(false)
-    val isPayLater = BehaviorSubject.create<Boolean>(false)
-    val isPayLaterOrResortCase = BehaviorSubject.create<Boolean>(false)
-    val isDepositV2 = BehaviorSubject.create<Boolean>(false)
+    val isResortCase = BehaviorSubject.createDefault<Boolean>(false)
+    val isPayLater = BehaviorSubject.createDefault<Boolean>(false)
+    val isPayLaterOrResortCase = BehaviorSubject.createDefault<Boolean>(false)
+    val isDepositV2 = BehaviorSubject.createDefault<Boolean>(false)
     val feesPaidAtHotel = BehaviorSubject.create<String>()
-    val showFeesPaidAtHotel = BehaviorSubject.create<Boolean>(false)
+    val showFeesPaidAtHotel = BehaviorSubject.createDefault<Boolean>(false)
     val roomHeaderImage = BehaviorSubject.create<String?>()
     val burnAmountShownOnHotelCostBreakdown = BehaviorSubject.create<String>()
     val burnPointsShownOnHotelCostBreakdown = BehaviorSubject.create<String>()
@@ -78,7 +78,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     init {
 
         //TO-DO remove these observables when rewriting HotelBreakDownViewModel to be more reactive
-        Observable.combineLatest(newPriceSetObservable, createTripConsumed, { _, _ ->
+        ObservableOld.combineLatest(newPriceSetObservable, createTripConsumed, { _, _ ->
             newDataObservable.onNext(Unit)
         }).subscribe()
 

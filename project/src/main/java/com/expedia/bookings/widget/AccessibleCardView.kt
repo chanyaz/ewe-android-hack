@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.ViewGroup
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 abstract class AccessibleCardView(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 

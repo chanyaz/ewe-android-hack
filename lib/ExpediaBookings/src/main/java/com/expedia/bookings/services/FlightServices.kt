@@ -7,21 +7,22 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
 import com.google.gson.GsonBuilder
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.Days
 import org.joda.time.Period
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import rx.Observer
-import rx.Scheduler
-import rx.Subscription
-import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 // "open" so we can mock for unit tests
@@ -35,30 +36,30 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
         adapter.create(FlightApi::class.java)
     }
-    var searchRequestSubscription: Subscription? = null
-    var cachedSearchRequestSubscription: Subscription? = null
-    var createTripRequestSubscription: Subscription? = null
-    var checkoutRequestSubscription: Subscription? = null
+    var searchRequestSubscription: Disposable? = null
+    var cachedSearchRequestSubscription: Disposable? = null
+    var createTripRequestSubscription: Disposable? = null
+    var checkoutRequestSubscription: Disposable? = null
 
     // open so we can use Mockito to mock FlightServices
     open fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
-                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
-        searchRequestSubscription?.unsubscribe()
+                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
+        searchRequestSubscription?.dispose()
         searchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable)
-        return searchRequestSubscription as Subscription
+        return searchRequestSubscription as Disposable
     }
 
     open fun cachedFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
-                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
-        cachedSearchRequestSubscription?.unsubscribe()
+                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
+        cachedSearchRequestSubscription?.dispose()
         cachedSearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable)
-        return cachedSearchRequestSubscription as Subscription
+        return cachedSearchRequestSubscription as Disposable
     }
 
     private fun doFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
@@ -142,20 +143,20 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
     }
 
     // open so we can use Mockito to mock FlightServices
-    open fun createTrip(params: FlightCreateTripParams, observer: Observer<FlightCreateTripResponse>): Subscription {
-        createTripRequestSubscription?.unsubscribe()
+    open fun createTrip(params: FlightCreateTripParams, observer: Observer<FlightCreateTripResponse>): Disposable {
+        createTripRequestSubscription?.dispose()
 
         createTripRequestSubscription = flightApi.createTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
 
-        return createTripRequestSubscription as Subscription
+        return createTripRequestSubscription as Disposable
     }
 
     // open so we can use Mockito to mock FlightServices
-    open fun checkout(params: Map<String, Any>, observer: Observer<FlightCheckoutResponse>): Subscription {
-        checkoutRequestSubscription?.unsubscribe()
+    open fun checkout(params: Map<String, Any>, observer: Observer<FlightCheckoutResponse>): Disposable {
+        checkoutRequestSubscription?.dispose()
 
         checkoutRequestSubscription = flightApi.checkout(params)
                                         .observeOn(observeOn)
@@ -176,9 +177,9 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                                                 leg.airlines = airlines
                                             }
                                         }
-                                        .subscribe(observer)
+                                        .subscribeObserver(observer)
 
-        return checkoutRequestSubscription as Subscription
+        return checkoutRequestSubscription as Disposable
     }
     private fun setAirlineLogoUrl(segment: FlightLeg.FlightSegment){
         if (segment.airlineCode != null) {

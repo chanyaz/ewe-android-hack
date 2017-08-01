@@ -13,6 +13,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -21,10 +22,11 @@ import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import retrofit2.HttpException
-import rx.Observer
-import rx.Subscription
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class BundleOverviewViewModel(val context: Context, val packageServices: PackageServices?) {
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -48,7 +50,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val cancelSearchSubject = BehaviorSubject.create<Unit>()
     val airlineFeePackagesWarningTextObservable = PublishSubject.create<String>()
 
-    var searchPackageSubscriber: Subscription? = null
+    var searchPackageSubscriber: Disposable? = null
 
     init {
         hotelParamsObservable.subscribe { params ->
@@ -61,7 +63,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
 
-            searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled(context)) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
+            searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled(context)) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribeObserver(makeResultsObserver(PackageSearchType.HOTEL))
         }
 
         flightParamsObservable.subscribe { params ->
@@ -74,7 +76,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .format().toString())
             val type = if (params.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
 
-            searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled(context))))?.subscribe(makeResultsObserver(type))
+            searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled(context))))?.subscribeObserver(makeResultsObserver(type))
         }
 
         searchParamsChangeObservable.subscribe {
@@ -106,8 +108,8 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
 
         cancelSearchObservable.subscribe {
-            if (searchPackageSubscriber != null && !searchPackageSubscriber!!.isUnsubscribed) {
-                searchPackageSubscriber?.unsubscribe()
+            if (searchPackageSubscriber != null && !searchPackageSubscriber!!.isDisposed) {
+                searchPackageSubscriber?.dispose()
                 cancelSearchSubject.onNext(Unit)
             }
         }
@@ -126,7 +128,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     }
 
     fun makeResultsObserver(type: PackageSearchType): Observer<BundleSearchResponse> {
-        return object : Observer<BundleSearchResponse> {
+        return object : DisposableObserver<BundleSearchResponse>() {
             override fun onNext(response: BundleSearchResponse) {
                 if (response.hasErrors()) {
                     errorObservable.onNext(response.firstError)
@@ -155,12 +157,12 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 Log.i("package completed")
             }
 
-            override fun onError(throwable: Throwable?) {
-                Log.i("package error: " + throwable?.message)
+            override fun onError(throwable: Throwable) {
+                Log.i("package error: " + throwable.message)
                 if (throwable is HttpException) {
                     try {
                         val response = throwable.response().errorBody()

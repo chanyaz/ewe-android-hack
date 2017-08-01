@@ -5,7 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.FlightV2Utils
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class FlightConfirmationCardViewModel (private val context: Context, flightLeg: FlightLeg, numberOfGuests: Int) {
     val titleSubject = BehaviorSubject.create<String>()

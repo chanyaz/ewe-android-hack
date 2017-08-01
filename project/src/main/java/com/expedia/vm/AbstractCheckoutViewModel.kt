@@ -4,21 +4,21 @@ import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.crashlytics.android.Crashlytics
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.enums.TwoScreenOverviewState
-import rx.Scheduler
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
 import com.expedia.util.Optional
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -62,11 +62,11 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val showCardFeeWarningText = BehaviorSubject.create<Boolean>()
     val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
 
-    protected var compositeSubscription: CompositeSubscription? = null
+    protected var compositeDisposable: CompositeDisposable? = null
 
     init {
         injectComponents()
-        compositeSubscription = CompositeSubscription()
+        compositeDisposable = CompositeDisposable()
         clearTravelers.subscribe {
             builder.clearTravelers()
         }
@@ -104,13 +104,13 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     abstract fun injectComponents()
     abstract fun getTripId() : String
 
-    open protected fun getScheduler(): Scheduler = if (ExpediaBookingApp.isRobolectric()) Schedulers.immediate() else AndroidSchedulers.mainThread()
+    open protected fun getScheduler(): Scheduler = if (ExpediaBookingApp.isRobolectric()) Schedulers.trampoline() else AndroidSchedulers.mainThread()
 
     fun isValidForBooking() : Boolean {
         return builder.hasValidTravelerAndBillingInfo()
     }
 
     fun unsubscribeAll() {
-        compositeSubscription?.unsubscribe()
+        compositeDisposable?.dispose()
     }
 }

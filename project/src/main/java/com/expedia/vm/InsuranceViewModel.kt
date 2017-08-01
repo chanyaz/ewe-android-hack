@@ -23,9 +23,10 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SpannableLinkBuilder
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class InsuranceViewModel(private val context: Context, private val insuranceServices: InsuranceServices) {
     // inputs
@@ -105,7 +106,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         }
     }
 
-    val insuranceSelectionUpdatedObserver = object : Observer<FlightCreateTripResponse> {
+    val insuranceSelectionUpdatedObserver = object : DisposableObserver<FlightCreateTripResponse>() {
         private fun handleError(message: String) {
             FlightsV2Tracking.trackInsuranceError(message)
 
@@ -118,7 +119,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
             errorDialog.show()
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
             toggleSwitchEnabledObservable.onNext(true)
             updatingTripDialog.dismiss()
         }

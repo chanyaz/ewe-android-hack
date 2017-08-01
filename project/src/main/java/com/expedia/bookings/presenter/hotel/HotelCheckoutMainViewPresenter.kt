@@ -44,8 +44,8 @@ import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.squareup.otto.Subscribe
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 

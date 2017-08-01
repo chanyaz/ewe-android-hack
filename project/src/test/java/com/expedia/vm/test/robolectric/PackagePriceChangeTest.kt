@@ -40,7 +40,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -56,8 +56,8 @@ class PackagePriceChangeTest {
     private var overview: PackageOverviewPresenter by Delegates.notNull()
 
     lateinit var travelerValidator: TravelerValidator
-    private val priceChangeAlertSubscriber = TestSubscriber<TripResponse>()
-    private val showPriceChangeAlertSubscriber = TestSubscriber<Boolean>()
+    private val priceChangeAlertSubscriber = TestObserver<TripResponse>()
+    private val showPriceChangeAlertSubscriber = TestObserver<Boolean>()
 
     private val lowPackageTotal = Money(900, "USD")
     private val highPackageTotal = Money(1000, "USD")

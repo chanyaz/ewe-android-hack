@@ -1,15 +1,15 @@
 package com.expedia.vm.rail
 
 import android.content.Context
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.rail.util.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class RailLegSummaryViewModel(context: Context) {
     //inputs
@@ -29,7 +29,7 @@ class RailLegSummaryViewModel(context: Context) {
         getAppliedRailcardNames(railProduct)
     }
 
-    val railSummaryContentDescription = Observable.combineLatest(railLegOptionObserver, formattedStopsAndDurationObservable)
+    val railSummaryContentDescription = ObservableOld.combineLatest(railLegOptionObserver, formattedStopsAndDurationObservable)
     { legOption, stopsAndDuration ->
         Phrase.from(context, R.string.rail_result_card_cont_desc_TEMPLATE)
                 .put("departuretime", RailUtils.formatTimeToDeviceFormat(context, legOption.getDepartureDateTime()))

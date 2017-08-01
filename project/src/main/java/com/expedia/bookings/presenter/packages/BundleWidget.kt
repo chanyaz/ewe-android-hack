@@ -20,7 +20,7 @@ import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.BundleHotelViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

@@ -19,29 +19,29 @@ import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
 import com.mobiata.android.text.StrikethroughTagHandler
 import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.Subscription
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 
 class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, val hasETP: Boolean, val lob:LineOfBusiness) {
 
-    var lastRoomSelectedSubscription: Subscription? = null
+    var lastRoomSelectedSubscription: Disposable? = null
 
     //Output
     val roomSelectedObservable = PublishSubject.create<Pair<Int, HotelOffersResponse.HotelRoomResponse>>()
 
-    val roomSoldOut = BehaviorSubject.create<Boolean>(false)
+    val roomSoldOut = BehaviorSubject.createDefault<Boolean>(false)
 
     // TODO: null all these out on init
-    var roomTypeObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomTypeDescription)
+    var roomTypeObservable = BehaviorSubject.createDefault<String>(hotelRoomResponse.roomTypeDescription)
     var currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
     val hotelRate = hotelRoomResponse.rateInfo.chargeableRateInfo
     var priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.displayPrice.toDouble()
     var dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
-    var roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
-    var roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
+    var roomHeaderImageObservable = BehaviorSubject.createDefault<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
+    var roomRateInfoTextObservable = BehaviorSubject.createDefault<String>(hotelRoomResponse.roomLongDescription)
     var roomInfoVisibilityObservable = roomRateInfoTextObservable.map { roomInfoText -> !roomInfoText.isNullOrBlank() }
 
     val collapsedBedTypeObservable = BehaviorSubject.create<String>()
@@ -179,7 +179,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         } else {
             perNightPriceVisibleObservable.onNext(true)
             dailyPricePerNightObservable.onNext(makePayNowPriceToShow())
-            depositTerms.onNext(null)
+            depositTerms.onNext(emptyList())
         }
 
         val bedTypes = (hotelRoomResponse.bedTypes ?: emptyList()).map { it.description }.joinToString(context.resources.getString(R.string.delimiter_multiple_bed))
@@ -207,7 +207,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         collapsedUrgencyVisibilityObservable.onNext(!earnMessageVisibility)
 
         if (Strings.isNotEmpty(amenity)) expandedAmenityObservable.onNext(amenity)
-        lastRoomSelectedSubscription?.unsubscribe()
+        lastRoomSelectedSubscription?.dispose()
         roomSoldOut.onNext(false)
 
         val viewRoomContentDescription = Phrase.from(context, R.string.view_room_button_content_description_TEMPLATE)

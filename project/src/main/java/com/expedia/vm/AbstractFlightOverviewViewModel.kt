@@ -1,16 +1,16 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val selectedFlightLegSubject = BehaviorSubject.create<FlightLeg>()
@@ -24,7 +24,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val selectedFlightClickedSubject = BehaviorSubject.create<FlightLeg>()
     val chargesObFeesTextSubject = PublishSubject.create<String>()
     val airlineFeesWarningTextSubject = PublishSubject.create<String>()
-    var numberOfTravelers = BehaviorSubject.create<Int>(0)
+    var numberOfTravelers = BehaviorSubject.createDefault<Int>(0)
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
     val earnMessage = BehaviorSubject.create<String>()
@@ -51,7 +51,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
             showBasicEconomyTooltip.onNext(shouldShowBasicEconomyMessage(selectedFlight))
         }
 
-        Observable.zip(showBasicEconomyTooltip, selectedFlightLegSubject, { showBasicEconomyTooltip, selectedFlightLeg ->
+        ObservableOld.zip(showBasicEconomyTooltip, selectedFlightLegSubject, { showBasicEconomyTooltip, selectedFlightLeg ->
             if (showBasicEconomyTooltip) {
                 basicEconomyMessagingToolTipInfo.onNext(selectedFlightLeg.basicEconomyTooltipInfo)
             }

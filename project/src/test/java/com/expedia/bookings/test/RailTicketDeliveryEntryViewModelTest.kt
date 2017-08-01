@@ -6,7 +6,7 @@ import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -18,8 +18,8 @@ class RailTicketDeliveryEntryViewModelTest {
     @Test
     fun testDeliveryOptions() {
         val viewModel = RailTicketDeliveryEntryViewModel(RuntimeEnvironment.application)
-        val testSubscriberTicketDeliveryByPostOptions = TestSubscriber.create<List<RailTicketDeliveryOption>>()
-        val testSubscriberDeliveryByMailSupported = TestSubscriber.create<Boolean>()
+        val testSubscriberTicketDeliveryByPostOptions = TestObserver.create<List<RailTicketDeliveryOption>>()
+        val testSubscriberDeliveryByMailSupported = TestObserver.create<Boolean>()
         viewModel.ticketDeliveryByPostOptions.subscribe(testSubscriberTicketDeliveryByPostOptions)
         viewModel.deliveryByMailSupported.subscribe(testSubscriberDeliveryByMailSupported)
 

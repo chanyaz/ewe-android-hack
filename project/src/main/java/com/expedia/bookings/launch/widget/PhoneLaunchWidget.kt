@@ -45,12 +45,13 @@ import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.updateVisibility
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
-import rx.Observer
-import rx.Subscription
-import rx.subjects.BehaviorSubject
 import java.util.Locale
 import javax.inject.Inject
 
@@ -68,7 +69,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         @Inject set
 
     var searchParams: HotelSearchParams? = null
-    private var downloadSubscription: Subscription? = null
+    private var downloadSubscription: Disposable? = null
     private var wasHotelsDownloadEmpty = false
     private var launchDataTimeStamp: DateTime? = null
     private var isPOSChanged = false
@@ -345,14 +346,14 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
 
     private fun cleanup() {
         if (downloadSubscription != null) {
-            downloadSubscription?.unsubscribe()
+            downloadSubscription?.dispose()
             downloadSubscription = null
         }
     }
 
     fun getCollectionObserver(): Observer<Collection> {
-        val defaultCollectionListener = object : Observer<Collection> {
-            override fun onCompleted() {
+        val defaultCollectionListener = object : DisposableObserver<Collection>() {
+            override fun onComplete() {
                 cleanup()
                 Log.d(TAG, "Default collection download completed.")
             }
@@ -398,8 +399,8 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     }
 
     fun getNearByHotelObserver(): Observer<MutableList<Hotel>> {
-        val downloadListener = object : Observer<MutableList<Hotel>> {
-            override fun onCompleted() {
+        val downloadListener = object : DisposableObserver<MutableList<Hotel>>() {
+            override fun onComplete() {
                 if (!wasHotelsDownloadEmpty) {
                     cleanup()
                 }
@@ -432,8 +433,8 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         return downloadListener
     }
 
-    private val collectionDownloadListener = object : Observer<Collection> {
-        override fun onCompleted() {
+    private val collectionDownloadListener = object : DisposableObserver<Collection>() {
+        override fun onComplete() {
             cleanup()
             Log.d(TAG, "Collection download completed.")
         }

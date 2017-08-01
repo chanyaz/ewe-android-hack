@@ -21,9 +21,9 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEditText
 import com.expedia.util.subscribeTextChange
 import com.expedia.vm.traveler.BaseTravelerValidatorViewModel
-import rx.Observer
-import rx.Subscription
-import rx.subjects.BehaviorSubject
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 
 class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(context, attrs), View.OnFocusChangeListener {
@@ -34,8 +34,8 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     var errorContDesc = ""
     val defaultErrorString = context.resources.getString(R.string.accessibility_cont_desc_role_error)
 
-    private var textChangedSubscription: Subscription? = null
-    private var errorSubscription: Subscription? = null
+    private var textChangedSubscription: Disposable? = null
+    private var errorSubscription: Disposable? = null
     private var onFocusChangeListeners = ArrayList<OnFocusChangeListener>()
 
     var viewModel: BaseTravelerValidatorViewModel by notNullAndObservable {
@@ -70,7 +70,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
 
     fun addTextChangedSubscriber(observer: Observer<String>?) {
         if (observer != null) {
-            textChangedSubscription?.unsubscribe()
+            textChangedSubscription?.dispose()
             textChangedSubscription = this.subscribeTextChange(observer)
         }
         InvalidCharacterHelper.generateInvalidCharacterTextWatcher(this, viewModel, viewModel.invalidCharacterMode)
@@ -78,7 +78,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
 
     fun subscribeToError(errorSubject: BehaviorSubject<Boolean>?) {
         if (errorSubject != null) {
-            errorSubscription?.unsubscribe()
+            errorSubscription?.dispose()
             errorSubscription = errorSubject.subscribe { error ->
                 if (error) setError() else resetError()
             }
@@ -88,8 +88,8 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility != View.VISIBLE) {
-            textChangedSubscription?.unsubscribe()
-            errorSubscription?.unsubscribe()
+            textChangedSubscription?.dispose()
+            errorSubscription?.dispose()
         }
     }
 

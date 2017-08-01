@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -38,7 +38,7 @@ class RailCardPickerRowViewTest {
         assertNotNull(cardPickerRow.cardTypeSpinner.adapter)
         assertNotNull(cardPickerRow.cardQuantitySpinner.adapter)
 
-        val testSubscriber = TestSubscriber.create<RailCardSelected>()
+        val testSubscriber = TestObserver.create<RailCardSelected>()
         cardPickerRow.viewModel.cardTypeQuantityChanged.subscribe(testSubscriber)
 
         assertEquals(context.resources.getString(R.string.select_rail_card_hint), (cardPickerRow.cardTypeSpinner.selectedItem as SpinnerAdapterWithHint.SpinnerItem).value)

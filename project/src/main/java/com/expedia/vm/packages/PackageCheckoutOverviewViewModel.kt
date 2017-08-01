@@ -7,7 +7,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.utils.Images
 import com.expedia.vm.BaseCheckoutOverviewViewModel
 import com.mobiata.android.util.AndroidUtils
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class PackageCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewViewModel(context) {
     val width = AndroidUtils.getScreenSize(context).x / 2

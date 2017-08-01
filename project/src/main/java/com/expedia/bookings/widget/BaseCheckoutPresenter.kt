@@ -14,6 +14,7 @@ import android.view.ViewTreeObserver
 import android.view.Window
 import android.widget.LinearLayout
 import android.widget.Space
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -30,6 +31,7 @@ import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -54,7 +56,7 @@ import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
+import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -330,7 +332,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun setUpErrorMessaging() {
-        Observable.combineLatest(
+        ObservableOld.combineLatest(
                 paymentWidget.viewmodel.showingPaymentForm,
                 paymentWidget.viewmodel.invalidPaymentTypeWarning,
                 { showingGuestPaymentForm, invalidPaymentTypeWarning ->
@@ -350,7 +352,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                     }
                 }).subscribe()
 
-        Observable.combineLatest(getCheckoutViewModel().paymentTypeSelectedHasCardFee,
+        ObservableOld.combineLatest(getCheckoutViewModel().paymentTypeSelectedHasCardFee,
                 paymentWidget.viewmodel.showingPaymentForm,
                 { haveCardFee, showingGuestPaymentForm ->
                     ckoViewModel.showCardFeeWarningText.onNext(!showingGuestPaymentForm)
@@ -537,7 +539,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         addWindowSubscription(travelerManager.travelersUpdated.subscribe { travelersPresenter.resetTravelers() })
         addWindowSubscription(paymentWidget.viewmodel.cardTypeSubject.subscribe { paymentType -> cardType = paymentType.value })
         addWindowSubscription(paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() })
-        addWindowSubscription(paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(ckoViewModel.paymentCompleted))
+        addWindowSubscription(paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribeObserver(ckoViewModel.paymentCompleted))
     }
 
     override fun unsubscribeWindowAtTeardown() {

@@ -26,8 +26,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
+import com.expedia.bookings.services.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class InsuranceServicesTest {
 	@Rule
@@ -39,9 +39,9 @@ public class InsuranceServicesTest {
 	@Before
 	public void setUp() throws IOException {
 		flightServices = new FlightServices("http://localhost:" + server.getPort(), new OkHttpClient(),
-			new MockInterceptor(), Schedulers.immediate(), Schedulers.immediate());
+			new MockInterceptor(), Schedulers.trampoline(), Schedulers.trampoline());
 		insuranceServices = new InsuranceServices("http://localhost:" + server.getPort(), new OkHttpClient(),
-			new MockInterceptor(), Schedulers.immediate(), Schedulers.immediate());
+			new MockInterceptor(), Schedulers.trampoline(), Schedulers.trampoline());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
@@ -51,10 +51,10 @@ public class InsuranceServicesTest {
 	@Test
 	public void testInsuranceIsAvailableWhenRequestedAndCanBeAddedAndRemoved() throws Throwable {
 		// verify insurance is available when requested
-		TestSubscriber<FlightCreateTripResponse> createTripObserver = createTrip("happy_round_trip_with_insurance_available");
+		TestObserver<FlightCreateTripResponse> createTripObserver = createTrip("happy_round_trip_with_insurance_available");
 		createTripObserver.awaitTerminalEvent();
 		createTripObserver.assertNoErrors();
-		FlightCreateTripResponse trip = createTripObserver.getOnNextEvents().get(0);
+		FlightCreateTripResponse trip = createTripObserver.values().get(0);
 		List<InsuranceProduct> insuranceProducts = trip.getAvailableInsuranceProducts();
 		Assert.assertFalse(insuranceProducts.isEmpty());
 
@@ -75,30 +75,30 @@ public class InsuranceServicesTest {
 		Assert.assertEquals(product.typeId, "100001");
 
 		// add insurance to the trip and verify it comes back selected
-		TestSubscriber<FlightCreateTripResponse> addInsuranceObserver = new TestSubscriber<>();
+		TestObserver<FlightCreateTripResponse> addInsuranceObserver = new TestObserver<>();
 		insuranceServices.addInsuranceToTrip(new InsuranceTripParams(trip.getNewTrip().getTripId(), product.productId))
 			.subscribe(addInsuranceObserver);
 		addInsuranceObserver.awaitTerminalEvent();
 		addInsuranceObserver.assertNoErrors();
-		FlightCreateTripResponse updatedTrip = addInsuranceObserver.getOnNextEvents().get(0);
+		FlightCreateTripResponse updatedTrip = addInsuranceObserver.values().get(0);
 		Assert.assertNotNull(updatedTrip.getSelectedInsuranceProduct());
 
 		// remove insurance from the trip and verify it comes back blank
-		TestSubscriber<FlightCreateTripResponse> removeInsuranceObserver = new TestSubscriber<>();
+		TestObserver<FlightCreateTripResponse> removeInsuranceObserver = new TestObserver<>();
 		insuranceServices.removeInsuranceFromTrip(new InsuranceTripParams(trip.getNewTrip().getTripId())).subscribe(
 			removeInsuranceObserver);
 		removeInsuranceObserver.awaitTerminalEvent();
 		removeInsuranceObserver.assertNoErrors();
-		updatedTrip = removeInsuranceObserver.getOnNextEvents().get(0);
+		updatedTrip = removeInsuranceObserver.values().get(0);
 		Assert.assertNull(updatedTrip.getSelectedInsuranceProduct());
 	}
 
 	@Test
 	public void testInsuranceIsNotAvailableWhenNotRequested() throws Throwable {
-		TestSubscriber<FlightCreateTripResponse> tripObserver = createTrip("happy_round_trip");
+		TestObserver<FlightCreateTripResponse> tripObserver = createTrip("happy_round_trip");
 		tripObserver.awaitTerminalEvent();
 		tripObserver.assertNoErrors();
-		FlightCreateTripResponse flightCreateTripResponse = tripObserver.getOnNextEvents().get(0);
+		FlightCreateTripResponse flightCreateTripResponse = tripObserver.values().get(0);
 		List<InsuranceProduct> availableInsuranceProducts = flightCreateTripResponse.getAvailableInsuranceProducts();
 		Assert.assertTrue(availableInsuranceProducts.isEmpty());
 	}
@@ -107,6 +107,11 @@ public class InsuranceServicesTest {
 		TestSubscriber<FlightCreateTripResponse> tripObserver = new TestSubscriber<>();
 		flightServices.createTrip(new FlightCreateTripParams.
 			Builder().productKey(productKey).build(), tripObserver);
+=======
+	private TestObserver<FlightCreateTripResponse> createTrip(String productKey) throws Throwable {
+		TestObserver<FlightCreateTripResponse> tripObserver = new TestObserver<>();
+		flightServices.createTrip(new FlightCreateTripParams(productKey), tripObserver);
+>>>>>>> 5abc89409b... WIP
 		tripObserver.awaitTerminalEvent();
 		tripObserver.assertNoErrors();
 		return tripObserver;
@@ -126,7 +131,7 @@ public class InsuranceServicesTest {
 	}
 
 	private FlightTripDetails.FlightOffer getFlightOffer() {
-		TestSubscriber<FlightSearchResponse> flightSearchObserver = new TestSubscriber<>();
+		TestObserver<FlightSearchResponse> flightSearchObserver = new TestObserver<>();
 		FlightSearchParams flightSearchParams = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -138,7 +143,7 @@ public class InsuranceServicesTest {
 		flightServices.flightSearch(flightSearchParams, flightSearchObserver, null);
 		flightSearchObserver.awaitTerminalEvent();
 		flightSearchObserver.assertNoErrors();
-		FlightSearchResponse flightSearchResponse = flightSearchObserver.getOnNextEvents().get(0);
+		FlightSearchResponse flightSearchResponse = flightSearchObserver.values().get(0);
 		Assert.assertFalse(flightSearchResponse.getOffers().isEmpty());
 		return flightSearchResponse.getOffers().get(0);
 	}

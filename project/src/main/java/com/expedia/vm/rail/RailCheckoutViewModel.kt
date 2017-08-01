@@ -3,6 +3,7 @@ package com.expedia.vm.rail
 import android.content.Context
 import android.text.Spanned
 import android.text.SpannedString
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BillingInfo
@@ -22,10 +23,10 @@ import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -165,7 +166,7 @@ class RailCheckoutViewModel(val context: Context) {
             }
         }
 
-        Observable.combineLatest(paymentTypeSelectedHasCardFee, showingPaymentForm, { haveCardFee, showingPaymentForm ->
+        ObservableOld.combineLatest(paymentTypeSelectedHasCardFee, showingPaymentForm, { haveCardFee, showingPaymentForm ->
             haveCardFee && showingPaymentForm
         }).subscribe { displayCardFeesObservable.onNext(it) }
     }
@@ -193,13 +194,13 @@ class RailCheckoutViewModel(val context: Context) {
         newTripResponse.ticketDeliveryFees = newTripResponse.getTicketDeliveryFeeForOption(currentTicketDeliveryToken)
 
         cardFeeTripResponseSubject.onNext(newTripResponse)
-        selectedCardFeeObservable.onNext(cardFee)
+        selectedCardFeeObservable.onNext(cardFee!!) //TODO PUK
         updatePricingSubject.onNext(newTripResponse)
     }
 
     private fun getCardFeesCallback(): Observer<CardFeeResponse> {
 
-        return object : Observer<CardFeeResponse> {
+        return object: DisposableObserver<CardFeeResponse>() {
             override fun onNext(it: CardFeeResponse) {
                 if (!it.hasErrors()) {
                     updateCostBreakdownWithFees(it.feePrice, it.tripTotalPrice)
@@ -209,10 +210,10 @@ class RailCheckoutViewModel(val context: Context) {
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 cardFeeErrorObservable.onNext(Unit)
                 RailTracking().trackCardFeeApiNoResponseError()
             }
@@ -237,7 +238,7 @@ class RailCheckoutViewModel(val context: Context) {
     }
 
     private fun makeCheckoutResponseObserver(): Observer<RailCheckoutResponseWrapper> {
-        return object : Observer<RailCheckoutResponseWrapper> {
+        return object : DisposableObserver<RailCheckoutResponseWrapper>() {
             override fun onNext(response: RailCheckoutResponseWrapper) {
                 showCheckoutDialogObservable.onNext(false)
                 if (response.checkoutResponse != null) {
@@ -260,7 +261,7 @@ class RailCheckoutViewModel(val context: Context) {
                 RailTracking().trackCheckoutApiNoResponseError()
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

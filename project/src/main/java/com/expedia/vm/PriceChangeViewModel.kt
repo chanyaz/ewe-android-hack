@@ -3,11 +3,11 @@ package com.expedia.vm
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
-import rx.Observable
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 open class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
     val originalPrice = BehaviorSubject.create<Money>()
@@ -18,7 +18,7 @@ open class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
     val priceChangeVisibility = BehaviorSubject.create<Boolean>()
 
     init {
-        Observable.zip(originalPrice, newPrice, { originalPrice, newPrice ->
+        ObservableOld.zip(originalPrice, newPrice, { originalPrice, newPrice ->
             if (originalPrice != null) {
                 if (newPrice.amount > originalPrice.amount) {
                     priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.warning_triangle_icon))

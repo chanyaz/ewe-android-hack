@@ -20,8 +20,9 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.ui.GalleryActivity
 import com.google.gson.GsonBuilder
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 
@@ -97,8 +98,8 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
     }
 
     private fun makeOffersObservable() : Observer<RoomUpgradeOffersResponse> {
-        return object: Observer<RoomUpgradeOffersResponse> {
-            override fun onError(e: Throwable?) {
+        return object: DisposableObserver<RoomUpgradeOffersResponse>() {
+            override fun onError(e: Throwable) {
                 e?.printStackTrace()
                 mRoomUpgradeOffersSubject.onNext(Property.RoomUpgradeType.NO_UPGRADE_OFFERS)
             }
@@ -107,7 +108,7 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
                 mRoomUpgradeOffersSubject.onNext(if (response.upgradeOffers.roomOffers.isNotEmpty()) Property.RoomUpgradeType.HAS_UPGRADE_OFFERS else Property.RoomUpgradeType.NO_UPGRADE_OFFERS)
             }
 
-            override fun onCompleted() { }
+            override fun onComplete() { }
         }
     }
 

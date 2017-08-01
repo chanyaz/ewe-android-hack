@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -23,7 +23,7 @@ class HotelTravelerPickerTest {
 
     @Test
     fun defaults() {
-        val testSubscriber = TestSubscriber<TravelerParams>(1)
+        val testSubscriber = TestObserver<TravelerParams>(1)
         vm.travelerParamsObservable.subscribe(testSubscriber)
 
         testSubscriber.assertValueCount(1)
@@ -32,7 +32,7 @@ class HotelTravelerPickerTest {
 
     @Test
     fun simpleClicks() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
         assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
@@ -52,7 +52,7 @@ class HotelTravelerPickerTest {
 
     @Test
     fun lowerBounds() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
         assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
@@ -64,7 +64,7 @@ class HotelTravelerPickerTest {
 
     @Test
     fun adultUpperBounds() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
         assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
@@ -86,7 +86,7 @@ class HotelTravelerPickerTest {
 
     @Test
     fun childrenUpperBounds() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
         assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
@@ -112,7 +112,7 @@ class HotelTravelerPickerTest {
 
     @Test
     fun childrenAgeChange() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
         assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])

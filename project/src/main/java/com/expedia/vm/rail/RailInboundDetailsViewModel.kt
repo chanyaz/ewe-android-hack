@@ -2,7 +2,7 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.data.rail.responses.RailOffer
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 
 class RailInboundDetailsViewModel(context: Context) : RailDetailsViewModel(context) {
 

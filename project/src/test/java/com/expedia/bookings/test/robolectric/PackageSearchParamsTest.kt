@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -186,10 +186,10 @@ class PackageSearchParamsTest {
 
     @Test
     fun testDateAndOriginValidation() {
-        val searchParamsSubscriber = TestSubscriber<PackageSearchParams>()
-        val noOriginSubscriber = TestSubscriber<Unit>()
-        val noDatesSubscriber = TestSubscriber<Unit>()
-        val maxRangeSubscriber = TestSubscriber<String>()
+        val searchParamsSubscriber = TestObserver<PackageSearchParams>()
+        val noOriginSubscriber = TestObserver<Unit>()
+        val noDatesSubscriber = TestObserver<Unit>()
+        val maxRangeSubscriber = TestObserver<String>()
         val expectedSearchParams = arrayListOf<PackageSearchParams>()
         val expectedOrigins = arrayListOf<Unit>()
         val expectedDates = arrayListOf<Unit>()

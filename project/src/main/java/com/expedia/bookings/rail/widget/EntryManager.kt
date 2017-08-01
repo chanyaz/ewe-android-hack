@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeTextChange
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
 
 class EntryManager(private val formFields: List<TextView>, private val entryForm: FormListener) {
     interface FormListener {
@@ -12,7 +12,7 @@ class EntryManager(private val formFields: List<TextView>, private val entryForm
         fun formFieldChanged()
     }
 
-    private var formEntrySubscriptions: CompositeSubscription? = null
+    private var formEntrySubscriptions: CompositeDisposable? = null
     private val formFieldChangedSubscriber = endlessObserver<String> {
         entryForm.formFieldChanged()
     }
@@ -21,11 +21,11 @@ class EntryManager(private val formFields: List<TextView>, private val entryForm
     }
 
     fun visibilityChanged(visible: Boolean) {
-        formEntrySubscriptions?.unsubscribe()
+        formEntrySubscriptions?.dispose()
         var viewFocusListener: View.OnFocusChangeListener? = null
 
         if (visible) {
-            formEntrySubscriptions = CompositeSubscription()
+            formEntrySubscriptions = CompositeDisposable()
             viewFocusListener = formFocusListener
         }
 

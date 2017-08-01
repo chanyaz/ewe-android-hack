@@ -6,15 +6,15 @@ import com.expedia.bookings.data.ItinDetailsResponse
 import com.expedia.bookings.services.ItinTripServices
 import org.junit.Rule
 import org.junit.Test
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.services.TestObserver
 
 class ItinTripServicesTest {
-	var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../mocked/templates")
+	var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../mocked/templates")
 		@Rule get
 
 	@Test
@@ -25,25 +25,25 @@ class ItinTripServicesTest {
 
 	@Test
 	fun testTripDetailsAvailable() {
-		val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+		val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
 		serviceRule.services!!.getTripDetails("flight_trip_details", testObserver)
 
 		testObserver.awaitTerminalEvent()
-		testObserver.assertCompleted()
+		testObserver.assertComplete()
 		testObserver.assertValueCount(1)
-		assertEquals("53a6459c-822c-4425-9e14-3eea43f38a97", testObserver.onNextEvents[0].getResponseDataForItin()?.tripId)
+		assertEquals("53a6459c-822c-4425-9e14-3eea43f38a97", testObserver.values()[0].getResponseDataForItin()?.tripId)
 	}
 
 	@Test
 	fun testHotelTripDetailsAvailable() {
-		val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+		val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
 		serviceRule.services!!.getTripDetails("hotel_trip_details", testObserver)
 
 		testObserver.awaitTerminalEvent()
-		testObserver.assertCompleted()
+		testObserver.assertComplete()
 		testObserver.assertValueCount(1)
-		assertEquals("fb24d134-adbd-44f6-9904-48cfb33bbd50", testObserver.onNextEvents[0].getResponseDataForItin()?.tripId)
-		assertTrue(testObserver.onNextEvents[0] is HotelItinDetailsResponse)
+		assertEquals("fb24d134-adbd-44f6-9904-48cfb33bbd50", testObserver.values()[0].getResponseDataForItin()?.tripId)
+		assertTrue(testObserver.values()[0] is HotelItinDetailsResponse)
 	}
 
 }

@@ -12,7 +12,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class HotelDetailGalleryView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs),

@@ -11,8 +11,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+<<<<<<< HEAD
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+=======
+import com.expedia.bookings.services.TestObserver
+import java.util.concurrent.TimeUnit
+>>>>>>> 5abc89409b... WIP
 
 @RunWith(RobolectricRunner::class)
 class PackageHotelResultsViewModelTest {
@@ -26,8 +31,16 @@ class PackageHotelResultsViewModelTest {
         Db.setPackageParams(setUpParams())
         val activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
 
+<<<<<<< HEAD
         val titleSubscriber = TestSubscriber<String>()
         val subtitleSubscriber = TestSubscriber<CharSequence>()
+=======
+        val resultsSubscriber = TestObserver<HotelSearchResponse>()
+
+        val viewModel = PackageHotelResultsViewModel(activity, packageServiceRule.services!!)
+        viewModel.hotelResultsObservable.subscribe(resultsSubscriber)
+        viewModel.paramsSubject.onNext(makeHappyParams())
+>>>>>>> 5abc89409b... WIP
 
         val viewModel = PackageHotelResultsViewModel(activity)
         viewModel.titleSubject.subscribe(titleSubscriber)

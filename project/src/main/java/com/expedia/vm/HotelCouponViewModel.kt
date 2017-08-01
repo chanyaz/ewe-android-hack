@@ -12,16 +12,15 @@ import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.RetrofitUtils
-import rx.Observable
-import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.util.endlessObserver
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelCouponViewModel(val context: Context, val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     val applyObservable = PublishSubject.create<String>()
-    val removeObservable = BehaviorSubject.create<Boolean>(false)
+    val removeObservable = BehaviorSubject.createDefault<Boolean>(false)
     val couponObservable = PublishSubject.create<HotelCreateTripResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
     val errorShowDialogObservable = PublishSubject.create<ApiError>()

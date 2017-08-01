@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -36,7 +36,7 @@ class AbstractFlightOverviewViewModelTest {
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testObFeesLink() {
         setFlightOverviewModel(true)
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         sut.obFeeDetailsUrlObservable.subscribe(testSubscriber)
         setupFlightLeg()
         addObFees()
@@ -51,8 +51,8 @@ class AbstractFlightOverviewViewModelTest {
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testObFeesReset() {
         setFlightOverviewModel(true)
-        val obFeeTestSubscriber = TestSubscriber<String>()
-        sut.chargesObFeesTextSubject.subscribe(obFeeTestSubscriber)
+        val obFeeTestObserver = TestObserver<String>()
+        sut.chargesObFeesTextSubject.subscribe(obFeeTestObserver)
         setupFlightLeg()
         addObFees()
         sut.selectedFlightLegSubject.onNext(flightLeg)
@@ -60,17 +60,17 @@ class AbstractFlightOverviewViewModelTest {
         setupFlightLeg()
         sut.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals(false, flightLeg.airlineMessageModel.hasAirlineWithCCfee)
-        obFeeTestSubscriber.assertValues("", "Payment fees may apply", "")
+        obFeeTestObserver.assertValues("", "Payment fees may apply", "")
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testEarnMessage() {
         setFlightOverviewModel(false)
-        val showEarnMessageTestSubscriber = TestSubscriber<Boolean>()
-        val earnMessageTestSubscriber = TestSubscriber<String>()
-        sut.showEarnMessage.subscribe(showEarnMessageTestSubscriber)
-        sut.earnMessage.subscribe(earnMessageTestSubscriber)
+        val showEarnMessageTestObserver = TestObserver<Boolean>()
+        val earnMessageTestObserver = TestObserver<String>()
+        sut.showEarnMessage.subscribe(showEarnMessageTestObserver)
+        sut.earnMessage.subscribe(earnMessageTestObserver)
 
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_disabled.json", false)
         val pos = PointOfSale.getPointOfSale()
@@ -78,20 +78,20 @@ class AbstractFlightOverviewViewModelTest {
         setupFlightLeg()
         //pos not supports earn messaging and flight leg does not have a loyalty info object
         sut.selectedFlightLegSubject.onNext(flightLeg)
-        earnMessageTestSubscriber.assertValuesAndClear("")
-        showEarnMessageTestSubscriber.assertValuesAndClear(false)
+        earnMessageTestObserver.assertValuesAndClear("")
+        showEarnMessageTestObserver.assertValuesAndClear(false)
 
         //pos not supports earn messaging but flight leg has loyalty info object
         addLoyaltyInfo()
         sut.selectedFlightLegSubject.onNext(flightLeg)
-        earnMessageTestSubscriber.assertValuesAndClear("Earn 100 points")
-        showEarnMessageTestSubscriber.assertValuesAndClear(false)
+        earnMessageTestObserver.assertValuesAndClear("Earn 100 points")
+        showEarnMessageTestObserver.assertValuesAndClear(false)
 
         //pos supports earn messaging and flight leg has loyalty info object
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
         sut.selectedFlightLegSubject.onNext(flightLeg)
-        earnMessageTestSubscriber.assertValue("Earn 100 points")
-        showEarnMessageTestSubscriber.assertValue(true)
+        earnMessageTestObserver.assertValue("Earn 100 points")
+        showEarnMessageTestObserver.assertValue(true)
     }
 
     private fun setupFlightLeg() {

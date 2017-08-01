@@ -14,8 +14,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 open class TravelerSelectItemViewModel(val context: Context, val index: Int, val age: Int, val category: PassengerCategory) {
@@ -40,8 +40,8 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
     val subtitleTextColorObservable = BehaviorSubject.create<Int>()
     val titleFontObservable = BehaviorSubject.create<FontCache.Font>()
     val refreshStatusObservable= PublishSubject.create<Unit>()
-    var passportRequired = BehaviorSubject.create<Boolean>(false)
-    var currentStatusObservable = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
+    var passportRequired = BehaviorSubject.createDefault<Boolean>(false)
+    var currentStatusObservable = BehaviorSubject.createDefault<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
@@ -100,7 +100,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
 
     private fun setTravelerSummaryInfo(title: String, subTitle: String?, completenessStatus: ContactDetailsCompletenessStatus, font: FontCache.Font) {
         titleObservable.onNext(title)
-        subtitleObservable.onNext(subTitle)
+        subtitleObservable.onNext(subTitle!!)//TODO PUK
         iconStatusObservable.onNext(completenessStatus)
         titleFontObservable.onNext(font)
     }

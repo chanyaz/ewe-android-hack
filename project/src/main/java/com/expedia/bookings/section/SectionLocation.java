@@ -37,8 +37,8 @@ import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
 import kotlin.Unit;
-import rx.subjects.BehaviorSubject;
-import rx.subjects.PublishSubject;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 
 public class SectionLocation extends LinearLayout
 	implements ISection<Location>, ISectionEditable, InvalidCharacterListener {

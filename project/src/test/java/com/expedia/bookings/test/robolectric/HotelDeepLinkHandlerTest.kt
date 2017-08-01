@@ -16,16 +16,22 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 class HotelDeepLinkHandlerTest {
+<<<<<<< HEAD
     val testGenericSearchSubscriber = TestSubscriber.create<HotelSearchParams>()
     val testHotelIdToDetailsSubscriber = TestSubscriber.create<HotelSearchParams>()
     val testHotelIdToResultsSubscriber = TestSubscriber.create<HotelSearchParams>()
     val testErrorSearchSubscriber = TestSubscriber.create<Unit>()
+=======
+    val testGenericSearchSubscriber = TestObserver.create<HotelSearchParams>()
+    val testHotelIdSearchSubscriber = TestObserver.create<HotelSearchParams>()
+    val testErrorSearchSubscriber = TestObserver.create<Unit>()
+>>>>>>> 7df61dae81... WIP
 
     lateinit var handlerUnderTest: HotelDeepLinkHandler
     private val testSuggestionManager = TestHotelSuggestionManager(Mockito.mock(SuggestionV4Services::class.java))

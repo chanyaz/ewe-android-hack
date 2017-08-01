@@ -32,8 +32,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -58,7 +58,7 @@ class AbstractMaterialFlightResultsPresenterTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         service = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
         Ui.getApplication(context).defaultTravelerComponent()
     }
 
@@ -149,7 +149,7 @@ class AbstractMaterialFlightResultsPresenterTest {
     fun obFeeDetailsUrlNotSetWhenOBFeeNotShown() {
         createSystemUnderTest(false)
 
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val expectedUrl = "http://url"
         sut.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(testSubscriber)
 
@@ -162,7 +162,7 @@ class AbstractMaterialFlightResultsPresenterTest {
     fun obFeeDetailsUrlSet() {
         createSystemUnderTest(false)
 
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val expectedUrl = "http://url"
         sut.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(testSubscriber)
 

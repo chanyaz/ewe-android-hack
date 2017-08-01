@@ -16,9 +16,10 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.phrase.Phrase
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.format.DateTimeFormat
-import rx.Observer
-import rx.subjects.BehaviorSubject
 
 class PackageCreateTripViewModel(var packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
 
@@ -39,7 +40,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
     }
 
     fun makeCreateTripResponseObserver(): Observer<PackageCreateTripResponse> {
-        return object : Observer<PackageCreateTripResponse> {
+        return object : DisposableObserver<PackageCreateTripResponse>() {
             override fun onNext(response: PackageCreateTripResponse) {
                 showCreateTripDialogObservable.onNext(false)
                 if (response.hasErrors() && !response.hasPriceChange()) {
@@ -80,7 +81,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 // ignore
             }
         }

@@ -5,7 +5,7 @@ import com.expedia.bookings.data.collections.CollectionResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface CollectionApi {
 

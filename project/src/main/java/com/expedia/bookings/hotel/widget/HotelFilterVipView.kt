@@ -7,7 +7,7 @@ import android.widget.CheckBox
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelFilterVipView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     val vipCheckedSubject = PublishSubject.create<Boolean>()

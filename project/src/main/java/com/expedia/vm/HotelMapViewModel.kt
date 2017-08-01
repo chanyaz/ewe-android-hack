@@ -6,6 +6,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -17,10 +18,10 @@ import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.Observer
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 
 val ROOMS_LEFT_CUTOFF = 5
@@ -32,18 +33,18 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     val hotelStarRatingVisibility = BehaviorSubject.create<Boolean>()
     val strikethroughPrice = BehaviorSubject.create<CharSequence>()
     private val price = BehaviorSubject.create<CharSequence>()
-    val fromPrice = BehaviorSubject.create<CharSequence>("")
+    val fromPrice = BehaviorSubject.createDefault<CharSequence>("")
     val fromPriceVisibility = fromPrice.map { it != null && !it.equals("") }
     var isShopWithPoints = PublishSubject.create<Boolean>()
     var isAirAttached = PublishSubject.create<Boolean>()
     var isBucketForHideStrikeThough = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
-    val strikethroughPriceVisibility = Observable.combineLatest(fromPriceVisibility, strikethroughPrice, isShopWithPoints, isAirAttached)
+    val strikethroughPriceVisibility = ObservableOld.combineLatest(fromPriceVisibility, strikethroughPrice, isShopWithPoints, isAirAttached)
                                         {fromPriceVisible, strikethroughPrice, isShopWithPoints, isAirAttached ->
                                             ((fromPriceVisible && strikethroughPrice.isNotEmpty()) && (isShopWithPoints ||
                                                 (!isAirAttached && !isBucketForHideStrikeThough)))}
     val hotelLatLng = BehaviorSubject.create<DoubleArray>()
     val resetCameraPosition = PublishSubject.create<Unit>()
-    val selectARoomInvisibility = BehaviorSubject.create<Boolean>(false)
+    val selectARoomInvisibility = BehaviorSubject.createDefault<Boolean>(false)
     var selectRoomContDescription = PublishSubject.create<String>()
 
 

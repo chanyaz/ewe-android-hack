@@ -30,8 +30,8 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Observable;
-import rx.Subscription;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
 public class LXBaseActivity extends AbstractAppCompatActivity {
 
@@ -42,7 +42,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 	MapView detailsMapView;
 
 	private LXCurrentLocationSuggestionObserver currentLocationSuggestionObserver;
-	private Subscription currentLocationSuggestionSubscription;
+	private Disposable currentLocationSuggestionSubscription;
 
 	public static final String EXTRA_IS_GROUND_TRANSPORT = "IS_GROUND_TRANSPORT";
 	private boolean isGroundTransport;
@@ -215,7 +215,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 	protected void onStop() {
 		super.onStop();
 		if (currentLocationSuggestionSubscription != null) {
-			currentLocationSuggestionSubscription.unsubscribe();
+			currentLocationSuggestionSubscription.dispose();
 		}
 	}
 

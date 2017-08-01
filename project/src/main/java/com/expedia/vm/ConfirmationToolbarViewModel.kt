@@ -6,7 +6,7 @@ import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.Locale
 
 class ConfirmationToolbarViewModel(val context: Context) {

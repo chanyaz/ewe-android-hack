@@ -35,10 +35,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -64,7 +64,7 @@ class FlightInboundPresenterTest {
         val interceptor = MockInterceptor()
         service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
         flightInboundPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_inbound_stub, null) as FlightInboundPresenter
     }
 
@@ -86,7 +86,7 @@ class FlightInboundPresenterTest {
 
     @Test
     fun testResultsArePopulated() {
-        val isOutboundSearchSubscriber = TestSubscriber<Boolean>()
+        val isOutboundSearchSubscriber = TestObserver<Boolean>()
         flightInboundPresenter.toolbarViewModel.isOutboundSearch.subscribe(isOutboundSearchSubscriber)
         invokeSetupComplete()
 
@@ -111,12 +111,12 @@ class FlightInboundPresenterTest {
         invokeSetupComplete()
 
         var flightSearchParams = setupFlightSearchParams(0, 2)
-        var travellerCountSubscriber = TestSubscriber<Int>()
+        var travellerCountSubscriber = TestObserver<Int>()
         prepareFlightResultObservables(flightSearchParams, travellerCountSubscriber)
         travellerCountSubscriber.assertValue(2)
 
         flightSearchParams = setupFlightSearchParams(1, 2)
-        travellerCountSubscriber = TestSubscriber<Int>()
+        travellerCountSubscriber = TestObserver<Int>()
         prepareFlightResultObservables(flightSearchParams, travellerCountSubscriber)
         travellerCountSubscriber.assertValue(3)
     }
@@ -305,7 +305,7 @@ class FlightInboundPresenterTest {
         return suggestion
     }
 
-    private fun prepareFlightResultObservables(flightSearchParams: FlightSearchParams, travellerCountSubscriber: TestSubscriber<Int>) {
+    private fun prepareFlightResultObservables(flightSearchParams: FlightSearchParams, travellerCountSubscriber: TestObserver<Int>) {
         val flightSelectedSubject = PublishSubject.create<FlightLeg>()
         val isRoundTripSubject = BehaviorSubject.create<Boolean>()
         isRoundTripSubject.onNext(false)

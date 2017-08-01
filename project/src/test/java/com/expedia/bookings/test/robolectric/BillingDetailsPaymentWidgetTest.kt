@@ -48,7 +48,7 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertNull
 
@@ -629,7 +629,7 @@ class BillingDetailsPaymentWidgetTest {
     fun testMaterialBillingCountryValidation() {
         givenMaterialPaymentBillingWidget()
         val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.getParentTextInputLayout()!!
-        val testHasErrorSubscriber = TestSubscriber<Boolean>()
+        val testHasErrorSubscriber = TestObserver<Boolean>()
         billingDetailsPaymentWidget.sectionLocation.billingCountryErrorSubject.subscribe(testHasErrorSubscriber)
         val pointOfSale = PointOfSale.getPointOfSale().threeLetterCountryCode
         val position =  billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(pointOfSale)

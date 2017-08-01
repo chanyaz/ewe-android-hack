@@ -32,7 +32,7 @@ import com.expedia.vm.LXMapViewModel;
 import com.google.android.gms.maps.MapView;
 import com.squareup.otto.Subscribe;
 import javax.inject.Inject;
-import rx.Observer;
+import io.reactivex.Observer;
 
 public class LXPresenter extends Presenter {
 

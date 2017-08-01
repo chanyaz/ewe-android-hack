@@ -7,7 +7,7 @@ import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.rail.RailCreditCardFeesViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -23,7 +23,7 @@ class RailCreditCardFeesViewModelTest {
 
     @Test
     fun testVFOPWithNoTokenDoesNothing() {
-        val testSub = TestSubscriber<List<RailCreditCardFeesViewModel.CardFeesRow>>()
+        val testSub = TestObserver<List<RailCreditCardFeesViewModel.CardFeesRow>>()
         testViewModel.cardFeesObservable.subscribe(testSub)
 
         testViewModel.validFormsOfPaymentSubject.onNext(vfopList)
@@ -33,7 +33,7 @@ class RailCreditCardFeesViewModelTest {
 
     @Test
     fun testTokenWithNoVFOPDoesNothing() {
-        val testSub = TestSubscriber<List<RailCreditCardFeesViewModel.CardFeesRow>>()
+        val testSub = TestObserver<List<RailCreditCardFeesViewModel.CardFeesRow>>()
         testViewModel.cardFeesObservable.subscribe(testSub)
 
         testViewModel.ticketDeliveryOptionSubject.onNext(TicketDeliveryOption(
@@ -44,7 +44,7 @@ class RailCreditCardFeesViewModelTest {
 
     @Test
     fun testSingleToken() {
-        val testSub = TestSubscriber<List<RailCreditCardFeesViewModel.CardFeesRow>>()
+        val testSub = TestObserver<List<RailCreditCardFeesViewModel.CardFeesRow>>()
         testViewModel.cardFeesObservable.subscribe(testSub)
 
         testViewModel.validFormsOfPaymentSubject.onNext(vfopList)
@@ -62,7 +62,7 @@ class RailCreditCardFeesViewModelTest {
 
     @Test
     fun testMultipleTokensTriggered() {
-        val testSub = TestSubscriber<List<RailCreditCardFeesViewModel.CardFeesRow>>()
+        val testSub = TestObserver<List<RailCreditCardFeesViewModel.CardFeesRow>>()
         testViewModel.cardFeesObservable.subscribe(testSub)
 
         testViewModel.validFormsOfPaymentSubject.onNext(vfopList)

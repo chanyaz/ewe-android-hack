@@ -61,8 +61,8 @@ import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {

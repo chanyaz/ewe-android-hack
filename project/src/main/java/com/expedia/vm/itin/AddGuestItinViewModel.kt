@@ -2,15 +2,15 @@ package com.expedia.vm.itin
 
 import android.content.Context
 import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.section.CommonSectionValidators
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.mobiata.android.validation.ValidationError
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 open class AddGuestItinViewModel(val context: Context) {
 
@@ -49,7 +49,7 @@ open class AddGuestItinViewModel(val context: Context) {
             hasItinErrorObservable.onNext(!isValid)
         }
 
-        Observable.combineLatest(hasEmailErrorObservable, hasItinErrorObservable, { hasEmailError, hasItinError ->
+        ObservableOld.combineLatest(hasEmailErrorObservable, hasItinErrorObservable, { hasEmailError, hasItinError ->
             showErrorObservable.onNext(false)
         }).subscribe()
     }

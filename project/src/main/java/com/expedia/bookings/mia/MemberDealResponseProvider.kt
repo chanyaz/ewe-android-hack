@@ -4,16 +4,16 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.sos.MemberDealRequest
 import com.expedia.bookings.data.sos.MemberDealResponse
 import com.expedia.bookings.services.sos.SmartOfferService
-import rx.Observer
-import rx.Subscription
-import rx.subjects.PublishSubject
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
 class MemberDealResponseProvider(private val smartOfferService: SmartOfferService) {
 
     val dealsObserver = DealsObserver()
     val errorSubject = PublishSubject.create<Unit>()
     val memberDealResponseSubject = PublishSubject.create<MemberDealResponse>()
-    private var searchSubscription: Subscription? = null
+    private var searchSubscription: Disposable? = null
     private var returnedResponse: MemberDealResponse? = null
 
     init {
@@ -24,7 +24,7 @@ class MemberDealResponseProvider(private val smartOfferService: SmartOfferServic
 
     fun fetchDeals() {
         if (returnedResponse != null) {
-            memberDealResponseSubject.onNext(returnedResponse)
+            memberDealResponseSubject.onNext(returnedResponse!!)
         }
         else {
             val request = MemberDealRequest()
@@ -35,12 +35,12 @@ class MemberDealResponseProvider(private val smartOfferService: SmartOfferServic
         }
     }
 
-    inner class DealsObserver : Observer<MemberDealResponse> {
-        override fun onError(e: Throwable?) {
+    inner class DealsObserver : DisposableObserver<MemberDealResponse>() {
+        override fun onError(e: Throwable) {
             errorSubject.onNext(Unit)
         }
 
-        override fun onNext(response: MemberDealResponse?) {
+        override fun onNext(response: MemberDealResponse) {
             if (response == null || response.hasError()) {
                 errorSubject.onNext(Unit)
             } else {
@@ -48,14 +48,14 @@ class MemberDealResponseProvider(private val smartOfferService: SmartOfferServic
             }
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
             cleanup()
         }
     }
 
     private fun cleanup() {
         if (searchSubscription != null) {
-            searchSubscription!!.unsubscribe()
+            searchSubscription!!.dispose()
             searchSubscription = null
         }
     }

@@ -11,7 +11,7 @@ import com.expedia.bookings.data.lx.LXThemeType
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.bindView
 import com.squareup.otto.Subscribe
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class LXThemeResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) {

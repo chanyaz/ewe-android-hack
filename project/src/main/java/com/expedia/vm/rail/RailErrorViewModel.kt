@@ -7,8 +7,8 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.rail.util.RailUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractErrorViewModel
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 
 class RailErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
     val showSearch = PublishSubject.create<Unit>()

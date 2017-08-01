@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.text.SpannableStringBuilder
 import android.text.SpannedString
+import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.Money
@@ -14,9 +15,8 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.isFlexEnabled
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.Observer
-import rx.subjects.BehaviorSubject
+import io.reactivex.Observer
+import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -29,21 +29,21 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
     abstract fun getCardFeesCallback(): Observer<CardFeeResponse>
 
     val selectedCardFeeObservable = BehaviorSubject.create<Money>()
-    val selectedFlightChargesFees = BehaviorSubject.create<String>("")
-    val obFeeDetailsUrlSubject = BehaviorSubject.create<String>("")
+    val selectedFlightChargesFees = BehaviorSubject.createDefault<String>("")
+    val obFeeDetailsUrlSubject = BehaviorSubject.createDefault<String>("")
     private var lastFetchedCardFeeKeyPair: Pair<String, String>? = null
     val cardFeeFlexStatus = BehaviorSubject.create<String>()
 
     init {
-        compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {
+        compositeDisposable?.add(paymentViewModel.resetCardFees.subscribe {
             lastFetchedCardFeeKeyPair = null
             resetCardFees()
         })
 
-        compositeSubscription?.add(paymentViewModel.cardBIN
+        compositeDisposable?.add(paymentViewModel.cardBIN
                 .debounce(1, TimeUnit.SECONDS, getScheduler())
                 .subscribe { fetchCardFees(cardId = it, tripId = getTripId()) })
-        compositeSubscription?.add(createTripResponseObservable
+        compositeDisposable?.add(createTripResponseObservable
                 .subscribe {
                     val cardId = paymentViewModel.cardBIN.value
                     fetchCardFees(cardId, getTripId())
@@ -65,13 +65,13 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
     }
 
     private fun setupCardFeeSubjects() {
-        Observable.combineLatest(selectedFlightChargesFees, obFeeDetailsUrlSubject, {
+        ObservableOld.combineLatest(selectedFlightChargesFees, obFeeDetailsUrlSubject, {
             flightChargesFees, obFeeDetailsUrl ->
             cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(flightChargesFees, obFeeDetailsUrl))
             showCardFeeWarningText.onNext(!flightChargesFees.isNullOrBlank())
         }).subscribe()
 
-        compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {
+        compositeDisposable?.add(paymentViewModel.resetCardFees.subscribe {
             cardFeeService?.cancel()
             paymentTypeSelectedHasCardFee.onNext(false)
             cardFeeTextSubject.onNext(SpannedString(""))

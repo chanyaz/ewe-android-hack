@@ -36,7 +36,7 @@ import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :

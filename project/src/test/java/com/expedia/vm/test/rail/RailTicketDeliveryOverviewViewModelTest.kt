@@ -7,7 +7,7 @@ import com.expedia.vm.rail.RailTicketDeliveryOverviewViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -18,8 +18,8 @@ class RailTicketDeliveryOverviewViewModelTest {
 
     @Test
     fun testPickupAtStation() {
-        val testDeliveryIconSubscriber = TestSubscriber<Int>()
-        val testDeliveryTitleSubscriber = TestSubscriber<String>()
+        val testDeliveryIconSubscriber = TestObserver<Int>()
+        val testDeliveryTitleSubscriber = TestObserver<String>()
         ticketDeliveryOverviewVM.iconObservable.subscribe(testDeliveryIconSubscriber)
         ticketDeliveryOverviewVM.titleObservable.subscribe(testDeliveryTitleSubscriber)
 
@@ -30,8 +30,8 @@ class RailTicketDeliveryOverviewViewModelTest {
 
     @Test
     fun testDeliveryByMail() {
-        val testDeliveryIconSubscriber = TestSubscriber<Int>()
-        val testDeliveryTitleSubscriber = TestSubscriber<String>()
+        val testDeliveryIconSubscriber = TestObserver<Int>()
+        val testDeliveryTitleSubscriber = TestObserver<String>()
         ticketDeliveryOverviewVM.iconObservable.subscribe(testDeliveryIconSubscriber)
         ticketDeliveryOverviewVM.titleObservable.subscribe(testDeliveryTitleSubscriber)
 

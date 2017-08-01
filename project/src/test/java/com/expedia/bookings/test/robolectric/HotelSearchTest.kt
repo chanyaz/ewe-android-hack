@@ -30,7 +30,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -60,8 +60,8 @@ class HotelSearchTest {
 
     @Test
     fun selectDatesAndSearch() {
-        val testSubscriber = TestSubscriber<HotelSearchParams>()
-        val errorSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<HotelSearchParams>()
+        val errorSubscriber = TestObserver<String>()
         val expected = arrayListOf<HotelSearchParams>()
         val suggestion = getDummySuggestion()
 
@@ -111,7 +111,7 @@ class HotelSearchTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun shopWithPointsSelection() {
-        val testSubscriber = TestSubscriber<HotelSearchParams>()
+        val testSubscriber = TestObserver<HotelSearchParams>()
         val expected = arrayListOf<HotelSearchParams>()
         val suggestion = getDummySuggestion()
 

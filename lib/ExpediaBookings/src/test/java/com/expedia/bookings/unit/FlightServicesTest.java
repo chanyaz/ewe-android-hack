@@ -26,9 +26,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
+import com.expedia.bookings.services.TestObserver;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 public class FlightServicesTest {
 	@Rule
@@ -43,7 +43,7 @@ public class FlightServicesTest {
 		Interceptor interceptor = new MockInterceptor();
 		service = new FlightServices("http://localhost:" + server.getPort(),
 			new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, Schedulers.immediate(), Schedulers.immediate());
+			interceptor, Schedulers.trampoline(), Schedulers.trampoline());
 	}
 
 	@Test
@@ -52,9 +52,9 @@ public class FlightServicesTest {
 			.setBody("{garbage}"));
 		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
 
-		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
-		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
-		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+		TestObserver<FlightSearchResponse> observer = new TestObserver<>();
+		TestObserver resultsResponseReceivedTestObserver = new TestObserver();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestObserver);
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -68,7 +68,7 @@ public class FlightServicesTest {
 
 		observer.assertNoValues();
 		observer.assertError(IOException.class);
-		resultsResponseReceivedTestSubscriber.assertValueCount(0);
+		resultsResponseReceivedTestObserver.assertValueCount(0);
 	}
 
 	@Test
@@ -78,9 +78,9 @@ public class FlightServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
 
-		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
-		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
-		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+		TestObserver<FlightSearchResponse> observer = new TestObserver<>();
+		TestObserver resultsResponseReceivedTestObserver = new TestObserver();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestObserver);
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
 			.flightCabinClass("COACH")
 			.origin(getDummySuggestion())
@@ -94,10 +94,10 @@ public class FlightServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		resultsResponseReceivedTestSubscriber.assertValueCount(1);
-		FlightSearchResponse response = observer.getOnNextEvents().get(0);
+		resultsResponseReceivedTestObserver.assertValueCount(1);
+		FlightSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(7, response.getLegs().size());
 		Assert.assertEquals(5, response.getOffers().size());
 		Assert.assertEquals("coach", response.getOffers().get(0).offersSeatClassAndBookingCode.get(0).get(0).seatClass);
@@ -188,9 +188,9 @@ public class FlightServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
 
-		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
-		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
-		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+		TestObserver<FlightSearchResponse> observer = new TestObserver<>();
+		TestObserver resultsResponseReceivedTestObserver = new TestObserver();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestObserver);
 
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
 			.legNo(0)
@@ -205,9 +205,9 @@ public class FlightServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		resultsResponseReceivedTestSubscriber.assertValueCount(1);
+		resultsResponseReceivedTestObserver.assertValueCount(1);
 	}
 
 	@Test
@@ -217,9 +217,9 @@ public class FlightServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
 
-		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
-		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
-		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+		TestObserver<FlightSearchResponse> observer = new TestObserver<>();
+		TestObserver resultsResponseReceivedTestObserver = new TestObserver();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestObserver);
 
 
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
@@ -234,9 +234,9 @@ public class FlightServicesTest {
 		service.flightSearch(params, observer, resultsResponseReceived);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		resultsResponseReceivedTestSubscriber.assertValueCount(1);
+		resultsResponseReceivedTestObserver.assertValueCount(1);
 	}
 
 	@Test
@@ -245,7 +245,7 @@ public class FlightServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
+		TestObserver<FlightSearchResponse> observer = new TestObserver<>();
 		SuggestionV4 departureSuggestion = getDummySuggestion();
 		String suggestion = FlightApiMockResponseGenerator.SuggestionResponseType.SEARCH_ERROR.getSuggestionString();
 		departureSuggestion.hierarchyInfo.airport.airportCode = suggestion;
@@ -261,9 +261,9 @@ public class FlightServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		FlightSearchResponse response = observer.getOnNextEvents().get(0);
+		FlightSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(0, response.getLegs().size());
 		Assert.assertEquals(0, response.getOffers().size());
 	}

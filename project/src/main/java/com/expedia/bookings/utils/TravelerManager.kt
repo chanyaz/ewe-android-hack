@@ -6,7 +6,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class TravelerManager(private val userStateManager: UserStateManager) {
 

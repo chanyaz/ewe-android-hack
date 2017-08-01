@@ -11,7 +11,7 @@ import com.squareup.phrase.Phrase
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -20,7 +20,7 @@ class BundlePriceViewModelTest {
 
     @Test
     fun testBundleSaveLabel() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
 
         testViewModelUniversalCKO.savingsPriceObservable.subscribe(testSubscriber)
@@ -37,7 +37,7 @@ class BundlePriceViewModelTest {
 
     @Test
     fun testNoBundleSaveLabel() {
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         val testViewModelUniversalCKO = PackageTotalPriceViewModel(context)
         testViewModelUniversalCKO.savingsPriceObservable.subscribe(testSubscriber)
 

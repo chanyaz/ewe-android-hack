@@ -25,11 +25,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+<<<<<<< HEAD
 import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.Observable
 import rx.observers.TestSubscriber
 import java.io.IOException
+=======
+import io.reactivex.Observable
+import com.expedia.bookings.services.TestObserver
+>>>>>>> 7df61dae81... WIP
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -59,8 +64,8 @@ class HotelCouponTest {
 
     @Test
     fun couponErrors() {
-        val testSubscriber = TestSubscriber<ApiError>()
-        val s = TestSubscriber<Observable<HotelCreateTripResponse>>()
+        val testSubscriber = TestObserver<ApiError>()
+        val s = TestObserver<Observable<HotelCreateTripResponse>>()
         val expected = arrayListOf<ApiError>()
 
         vm.errorObservable.subscribe(testSubscriber)
@@ -86,7 +91,7 @@ class HotelCouponTest {
         val subscription = vm.enableSubmitButtonObservable.subscribe { latch.countDown() }
         vm.couponParamsObservable.onNext(couponParameters)
         latch.await(10, TimeUnit.SECONDS)
-        subscription.unsubscribe()
+        subscription.dispose()
         return makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, expectedError)
     }
 
@@ -100,7 +105,7 @@ class HotelCouponTest {
                 .userPreferencePointsDetails(listOf(pointsDetails))
                 .build()
 
-        val testSubscriber = TestSubscriber<HotelCreateTripResponse>()
+        val testSubscriber = TestObserver<HotelCreateTripResponse>()
         vm.couponObservable.subscribe(testSubscriber)
 
         vm.couponParamsObservable.onNext(couponParams)
@@ -122,7 +127,7 @@ class HotelCouponTest {
     fun removeCouponWorks() {
         val tripId = "hotel_coupon_remove_success"
 
-        val testSubscriber = TestSubscriber<HotelCreateTripResponse>()
+        val testSubscriber = TestObserver<HotelCreateTripResponse>()
         vm.couponObservable.subscribe(testSubscriber)
 
         vm.couponRemoveObservable.onNext(tripId)
@@ -148,10 +153,10 @@ class HotelCouponTest {
 
     @Test
     fun removeCouponFailureWithRetry() {
-        val testSubscriberCouponObservable = TestSubscriber<HotelCreateTripResponse>()
+        val testSubscriberCouponObservable = TestObserver<HotelCreateTripResponse>()
         vm.couponObservable.subscribe(testSubscriberCouponObservable)
 
-        val testSubscriberCouponRemoveErrorDialog = TestSubscriber<ApiError>()
+        val testSubscriberCouponRemoveErrorDialog = TestObserver<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
 
         vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
@@ -192,9 +197,9 @@ class HotelCouponTest {
 
 
     private fun checkCouponFailure(tripId: String, expectedErrorCode: ApiError.Code) {
-        val testSubscriberCouponRemoveErrorDialog = TestSubscriber<ApiError>()
+        val testSubscriberCouponRemoveErrorDialog = TestObserver<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
-        val testSubscriberCouponObservable = TestSubscriber<HotelCreateTripResponse>()
+        val testSubscriberCouponObservable = TestObserver<HotelCreateTripResponse>()
         vm.couponObservable.subscribe(testSubscriberCouponObservable)
 
         vm.couponRemoveObservable.onNext(tripId)

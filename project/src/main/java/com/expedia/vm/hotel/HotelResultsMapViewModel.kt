@@ -9,8 +9,8 @@ import com.expedia.bookings.hotel.map.MapItem
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location) {
     val mapInitializedObservable = PublishSubject.create<Unit>()
