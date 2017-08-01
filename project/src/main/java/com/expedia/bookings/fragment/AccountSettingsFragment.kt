@@ -47,6 +47,7 @@ import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -322,13 +323,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         }
 
         createAccountButton.setOnClickListener {
-            val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE,
-                    if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppAccountSinglePageSignUp, R.string.preference_single_page_sign_up))
-                        Config.InitialState.SinglePageCreateAccount
-                    else
-                        Config.InitialState.CreateAccount
-                    , null)
-            User.signIn(activity, args)
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppAccountSinglePageSignUp, R.string.preference_single_page_sign_up)) {
+                NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
+            }
+            else {
+                NavUtils.goToAccount(activity, Config.InitialState.CreateAccount)
+            }
         }
 
         openSourceCredits.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {

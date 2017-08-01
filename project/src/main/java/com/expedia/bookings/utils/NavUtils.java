@@ -117,9 +117,9 @@ public class NavUtils {
 		context.startActivity(intent);
 	}
 
-	public static void goToAccount(Activity activity) {
+	public static void goToAccount(Activity activity, Config.InitialState initialState) {
 		Bundle args = AccountLibActivity
-			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount,
+			.createArgumentsBundle(LineOfBusiness.PROFILE, initialState,
 				new ItinerarySyncLoginExtender());
 		User.signIn(activity, args);
 	}
