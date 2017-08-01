@@ -71,6 +71,44 @@ class WebCheckoutViewTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webCheckoutNotUsedWhenNotBucketed() {
+        bucketWebCheckoutABTest(false)
+        setPOSWithWebCheckoutABTestEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        selectHotelRoom()
+        webCheckoutViewObservable.assertValueCount(0)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webCheckoutUsedOnSupportedPOSWhenBucketed() {
+        bucketWebCheckoutABTest(true)
+        setPOSWithWebCheckoutABTestEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        selectHotelRoom()
+        webCheckoutViewObservable.assertValueCount(1)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webCheckoutNotUsedWhenBucketedButPOSDisabled() {
+        bucketWebCheckoutABTest(true)
+        setPOSWithWebCheckoutABTestEnabled(false)
+        setUpTestToStartAtDetailsScreen()
+        selectHotelRoom()
+        webCheckoutViewObservable.assertValueCount(0)
+    }
+
+    private fun bucketWebCheckoutABTest(enable: Boolean) {
+        if (enable) {
+            RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppHotelsWebCheckout)
+        } else {
+            RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppHotelsWebCheckout)
+        }
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewTripIDOnSuccessfulBooking() {
         val bookingTripIDSubscriber = TestSubscriber<String>()
         val fectchTripIDSubscriber = TestSubscriber<String>()
@@ -166,6 +204,12 @@ class WebCheckoutViewTest {
         PointOfSale.onPointOfSaleChanged(activity)
     }
 
+    private fun setPOSWithWebCheckoutABTestEnabled(enable: Boolean) {
+        val pointOfSale = if (enable) PointOfSaleId.MALAYSIA else PointOfSaleId.UNITED_STATES
+        SettingUtils.save(activity, "point_of_sale_key", pointOfSale.id.toString())
+        PointOfSale.onPointOfSaleChanged(activity)
+    }
+
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
@@ -183,5 +227,5 @@ class WebCheckoutViewTest {
         webCheckoutViewObservable = TestSubscriber<Unit>()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fireCreateTripObservable.subscribe(webCheckoutViewObservable)
     }
-    
+
 }
