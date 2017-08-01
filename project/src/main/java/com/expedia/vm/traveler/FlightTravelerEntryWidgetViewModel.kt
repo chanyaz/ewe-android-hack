@@ -3,7 +3,6 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
