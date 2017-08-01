@@ -35,7 +35,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/itin_hotel_details_chevron"
+                android:id="@+id/itin_hotel_room_details_chevron"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignBaseline="@+id/itin_hotel_details_room_details_text"
@@ -45,22 +45,22 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/read_more"
                 android:tint="@color/package_bundle_icon_color"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="12dp"
-            android:background="?attr/itin_card_summary_divider_color" />
 
         <LinearLayout
             android:id="@+id/expanded_room_details_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="12dp"
+                android:background="?attr/itin_card_summary_divider_color" />
 
             <!--Amenities-->
             <com.expedia.bookings.widget.TextView

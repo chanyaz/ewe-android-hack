@@ -68,6 +68,8 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
 
     fun setUpWidgets() {
         roomDetailsView.setUpWidget(itinCardDataHotel)
+        roomDetailsView.expandRoomDetailsView()
+        roomDetailsView.isRowClickable = false
         toolbar.setUpWidget(itinCardDataHotel, this.getString(R.string.itin_hotel_manage_booking_header))
         toolbar.setNavigationOnClickListener {
             super.finish()
