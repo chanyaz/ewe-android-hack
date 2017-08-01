@@ -106,11 +106,11 @@
     <!-- Text for viewing details-->
     <string name="cars_view_details_text">查看详细信息</string>
     <!-- Text for driver details toolbar-->
-    <string name="cars_driver_details_text">司机信息</string>
+    <string name="cars_driver_details_text">驾驶员信息</string>
     <!-- Text for enter driver details-->
-    <string name="enter_driver_details">输入司机的信息</string>
+    <string name="enter_driver_details">输入驾驶员的信息</string>
     <!-- Content description for enter driver details-->
-    <string name="enter_driver_details_cont_desc">按钮：输入司机信息</string>
+    <string name="enter_driver_details_cont_desc">按钮：输入驾驶员信息</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">选择保存的联系人</string>
     <!-- Car doors text-->
@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">还车时间 {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">您所做的搜索未返回任何结果。请选择其他条件，再搜索一次。</string>
+    <string name="error_no_result_message">很抱歉，我们找不到任何结果。请选取其他搜索条件，再试一次。</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">您所做的搜索未返回任何结果。请尝试减少筛选条件。</string>
     <!-- Transmission options filter label for a car rental -->
@@ -772,7 +772,7 @@
     <string name="Done">完成</string>
 
     <!-- Label indicating the direction of the rails is outbond-->
-    <string name="select_outbound">选择出发航班</string>
+    <string name="select_outbound">选择去程航班</string>
     <!-- Label indicating the direction of the rails is inbond-->
     <string name="select_return">选择返回航班</string>
     <!-- Label indicating the one way trip for rails-->
@@ -953,6 +953,8 @@
     <string name="launch_upcoming_trips_signed_in">您有即将出发的行程！</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">随时查看详细行程信息，即时把握最新动态</string>
+    <!-- Label for super search bar at launch screen -->
+    <string name="search_hotels_flight_more">搜索酒店、机票及其他旅行服务…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">随时随地，轻松预订</string>
@@ -1444,12 +1446,28 @@
     <string name="itin_hotel_details_checkin_text">入住</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">退房</string>
+    <!--Hotel itin checkin checkout to arrow content description-->
+    <string name="itin_hotel_details_checkout_to_arrow_cont_desc">到</string>
     <!--Hotel itin manage booking button to change or cancel room-->
     <string name="itin_hotel_manage_booking_cancel_change_header">变更或取消客房</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">变更或取消客房</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">管理订单</string>
+    <!--Hotel itin manage booking hotel help heading-->
+    <string name="itin_hotel_manage_booking_hotel_help_heading">随时为您提供协助</string>
+    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">如有特殊要求或有预订方面的问题，请联系 {hotelname}</string>
+    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
+    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">确认号码{number}</string>
+    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
+    <string name="itin_hotel_customer_support_header_text_TEMPLATE">如需行程管理方面的协助，请联系 {brand}</string>
+    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_hotel_itinerary_number_TEMPLATE">行程编号 {itinnumber}</string>
+    <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} 客户支持</string>
+    <!--Hotel customer support website toolbar header-->
+    <string name="itin_hotel_customer_support_site_toolbar_header">客户服务</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">入住 - 3 天</string>
@@ -1536,7 +1554,7 @@
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">%1$s%3$s飞往%2$s！\n%4$s</string>
     <!-- 1: departure city 2: arrival city 3: departure date(mm/dd/yyyy) 4: arrival date 5: outboundSharableURL 6: InboundSharableURL -->
-    <string name="share_msg_template_roundtrip_flight">我 %3$s 至 %4$s 搭乘 %1$s 到 %2$s 的往返航班！\n出发：%5$s\n返程：%6$s</string>
+    <string name="share_msg_template_roundtrip_flight">我 %3$s 至 %4$s 搭乘 %1$s 到 %2$s 的往返航班！\n去程：%5$s\n返程：%6$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">租车（%1$s– %2$s）</string>
     <!-- Car rental share subject (no dates) -->
@@ -1630,7 +1648,7 @@
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
     <string name="flights_tab_selection_accouncement_roundtrip">正在显示往返机票搜索屏幕</string>
     <!-- Label to identify selected outbound flight/rail card -->
-    <string name="outbound_label">出发</string>
+    <string name="outbound_label">去程</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">航班</string>
     <!-- Flights payment fees info web view title -->
@@ -1707,7 +1725,7 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">抱歉，您所在的位置尚未提供移动机票预订服务。</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">出发和到达机场不能是同一机场。</string>
+    <string name="error_same_flight_departure_arrival">请确保您选择的出发和到达城市位于不同地点。</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
@@ -1763,8 +1781,6 @@
     <string name="before_TEMPLATE">在 {date}前</string>
 
     <!-- Flight details fragment -->
-    <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">行李费信息</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">在%2$s&lt;b&gt;中途停留 %1$s&lt;/b&gt;</string>
     <!-- Price per person. For example: "$20.31 per person" -->
@@ -1797,18 +1813,12 @@
     <string name="earn_amount_TEMPLATE">累积 {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">累积 {price} {currency}</string>
-    <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">随身行李需付费</string>
-    <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">不包括托运行李</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">可能收取付款手续费</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">附加费用</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">行李费用</string>
-    <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">付款手续费</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">新的借记卡或信用卡</string>
@@ -1843,7 +1853,7 @@
     <!-- Payment and ticket delivery fees may also apply -->
     <string name="payment_and_ticket_delivery_fees_may_also_apply">可能另外收取付款处理费和送票费</string>
     <!-- Includes flights+hotels -->
-    <string name="includes_flights_hotel">包含机 + 酒</string>
+    <string name="includes_flights_hotel">含酒店和机票</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d 位旅客</item>
@@ -1869,8 +1879,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">您使用了 {points} Expedia+ 积分（价值 {amount}）</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">您使用了 {points} Expedia+ 积分（价值 {amount}）\n您的卡将被收取 {dueamount}</string>
-    <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_template">将向您的卡收取 {dueamount}（加航空公司收费）</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">今天应付金额：{dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1991,7 +1999,7 @@
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
-    <string name="credit_card_hint">信用卡号码</string>
+    <string name="credit_card_hint">信用卡卡号</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">输入新的借记卡或信用卡信息</string>
     <!-- Expiration date label -->
@@ -2236,8 +2244,6 @@
     <string name="privacy_policy">隐私政策</string>
     <!-- Fare information header -->
     <string name="fare_information">票价信息</string>
-    <!-- Airline Fee -->
-    <string name="Airline_fee">航空公司收费</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">已清除筛选条件</string>
     <!-- split ticket rules and restrictions -->
@@ -2319,7 +2325,7 @@
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">旅客：</string>
     <!-- Header for the outbound flight details section of the share flight email -->
-    <string name="share_flight_section_outbound">出发：</string>
+    <string name="share_flight_section_outbound">去程：</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">返程：</string>
 
@@ -2440,7 +2446,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">正在为您搜索数千家酒店！</string>
+    <string name="progress_searching_hotels_hundreds">正在搜索酒店…</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">选择其他房间</string>
     <!-- Message displayed when room is sold out -->
@@ -2453,6 +2459,12 @@
     <string name="current_location">当前位置</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">可见地图区域</string>
+
+    <!-- Showing search suggestion label for current location -->
+    <string name="flight_search_suggestion_label_airport_near">您附近的机场</string>
+
+    <!-- Showing search suggestion label for recent search history -->
+    <string name="flight_search_suggestion_label_recent_search">最近的搜索</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -2492,9 +2504,9 @@
     <string name="book_by_phone">电话预订</string>
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
-    <string name="vip_access">+VIP Access</string>
+    <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">选择 +VIP Access 酒店，+silver 和 +gold 会员可享受免费客房升级及其他礼遇（具体取决于入住时的供应情况）。</string>
+    <string name="vip_access_message">选择 VIP Access 酒店，+silver 和 +gold 会员可享受免费客房升级及其他礼遇（具体取决于入住时的供应情况）。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">仅限 VIP Access 酒店</string>
     <!-- Title for VIP Access message for Hotel Results -->
@@ -2693,7 +2705,7 @@
     <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
     <string name="map_select_a_room_cont_desc_TEMPLATE">订房按钮（房价 {price}）</string>
     <!-- The text we use when the search date it tonight -->
-    <string name="free_cancellation">免费取消预订</string>
+    <string name="free_cancellation">免费取消</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">此次住宿的酒店费用</string>
     <!-- Resort fee text for pacakges-->
@@ -2818,7 +2830,7 @@
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">很抱歉，我们遇到了问题。请再试一次。</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">很抱歉，该优惠券已使用。</string>
+    <string name="coupon_error_duplicate">很抱歉，该优惠券代码已使用。</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">很抱歉，我们遇到了问题。请再试一次。</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
@@ -2842,7 +2854,7 @@
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">很抱歉，我们目前无法处理优惠券。请再试一次。</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
-    <string name="coupon_error_invalid_stay_dates">很抱歉，该优惠券不能在这些日期使用。</string>
+    <string name="coupon_error_invalid_stay_dates">很抱歉，该优惠券不能在这些旅行日期使用。</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
     <string name="coupon_error_exceeded_earn_limit">很抱歉，该优惠券使用的次数太多了，不能再用了。</string>
     <!-- Error when applying coupon - Invalid Average Price -->
@@ -3592,7 +3604,7 @@
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">附近地区</string>
-    <string name="amenities">设施</string>
+    <string name="amenities">服务设施</string>
     <string name="star_rating">星级</string>
     <!-- Hotel Filters One star rating content description -->
     <string name="star_rating_one_cont_desc">1 星级</string>
@@ -3662,18 +3674,6 @@
     <!-- Airline Payment Fee Apply Message -->
     <string name="airline_fee_apply">可能收取付款手续费</string>
 
-    <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">根据卡的类型，付款时将添加航空公司收费。</string>
-    <string name="airline_charge_notice">航空公司根据付款方式收取额外费用。</string>
-    <string name="airline_fee_notice_payment">根据付款方式，航空公司可能会有一定费用。</string>
-
-    <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">根据卡的类型，付款时可能会有额外的航空公司收费。</string>
-    <string name="airline_may_charge_notice">根据付款方式，航空公司可能会有额外收费。</string>
-    <string name="airline_may_fee_notice_payment">根据付款方式，航空公司可能另有收费</string>
-
-    <!-- Packages -->
-
     <!-- Accessibility - Content Description for toolbar close button -->
     <string name="package_toolbar_close_cont_desc">关闭搜索屏幕</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
@@ -3741,14 +3741,14 @@
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">{travelers}、{date}飞往{flight}的机票请先选择{previous}。按钮。</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
-    <string name="select_flight_disabled_choose_outbound">出发航班</string>
+    <string name="select_flight_disabled_choose_outbound">去程航班</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
     <string name="select_flight_disabled_choose_hotel">酒店</string>
 
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">选择%s的酒店</string>
     <!-- Bundle Overview searching flight -->
-    <string name="searching_flight_to">搜索飞往%s的航班</string>
+    <string name="searching_flight_to">正在搜索机票…</string>
     <!-- Package All Flight label -->
     <string name="all_flights_label">所有航班</string>
     <!-- Package Best Flight title -->
@@ -3820,7 +3820,7 @@
     <!-- Accessibility announcement when search has completed and we're showing inbound flights results. Example: Showing inbound flights to San Francisco, CA -->
     <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">显示飞往{city}的返程航班</string>
     <!-- Accessibility announcement when search has completed and we're showing outbound flights results. Example: Showing outbound flights to Denver, CO -->
-    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">显示飞往{city}的出发航班</string>
+    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">显示飞往{city}的去程航班</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">选择飞往%1$s的航班</string>
     <!-- Flight to template -->
@@ -3996,7 +3996,7 @@
     <string name="rail_returning_at">返回时间：</string>
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
-    <string name="rail_checkout_outbound_TEMPLATE">出发：{date}</string>
+    <string name="rail_checkout_outbound_TEMPLATE">去程：{date}</string>
 
     <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">返程 - {date}</string>
@@ -4102,7 +4102,7 @@
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">票价 {price} 起</string>
    <!-- Rail selected outbound content description on the outbound results -->
-   <string name="rail_selected_outbound_cont_desc">所选出发行程：</string>
+   <string name="rail_selected_outbound_cont_desc">所选去程车次：</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">使用了铁路卡：{railcards}</string>

@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">Giờ trả xe{time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
+    <string name="error_no_result_message">Rất tiếc, không tìm được kết quả. Vui lòng tìm lại với yêu cầu khác.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Không tìm được kết quả. Vui lòng giảm số bộ lọc.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -953,6 +953,8 @@
     <string name="launch_upcoming_trips_signed_in">Gần đến chuyến đi của quý vị!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Xem lịch trình và cập nhật thay đổi trên đường</string>
+    <!-- Label for super search bar at launch screen -->
+    <string name="search_hotels_flight_more">Tìm khách sạn và sản phẩm du lịch khác…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Đặt mọi lúc, mọi nơi</string>
@@ -1444,12 +1446,28 @@
     <string name="itin_hotel_details_checkin_text">Nhận phòng</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">Trả phòng</string>
+    <!--Hotel itin checkin checkout to arrow content description-->
+    <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Đến</string>
     <!--Hotel itin manage booking button to change or cancel room-->
     <string name="itin_hotel_manage_booking_cancel_change_header">Thay đổi hoặc hủy đặt phòng</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Thay đổi hoặc hủy đặt phòng</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Quản lý đặt phòng</string>
+    <!--Hotel itin manage booking hotel help heading-->
+    <string name="itin_hotel_manage_booking_hotel_help_heading">Hỗ trợ</string>
+    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Nếu có yêu cầu đặc biệt hoặc câu hỏi về đặt phòng, vui lòng liên hệ {hotelname}</string>
+    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
+    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Số xác nhận {number}</string>
+    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
+    <string name="itin_hotel_customer_support_header_text_TEMPLATE">Nếu cần hỗ trợ quản lý lịch trình này, vui lòng liên hệ {brand}</string>
+    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_hotel_itinerary_number_TEMPLATE">Số lịch trình {itinnumber}</string>
+    <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_hotel_customer_support_site_header_TEMPLATE">Hỗ trợ khách hàng {brand}</string>
+    <!--Hotel customer support website toolbar header-->
+    <string name="itin_hotel_customer_support_site_toolbar_header">Dịch vụ khách hàng</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Nhận phòng trong 3 ngày</string>
@@ -1707,7 +1725,7 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Rất tiếc, tính năng đặt chuyến bay qua di động hiện chưa được áp dụng tại khu vực của quý vị.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">Sân bay khởi hành và đến phải khác nhau.</string>
+    <string name="error_same_flight_departure_arrival">Vui lòng kiểm tra đảm bảo thành phố khởi hành và đến khác nhau.</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
@@ -1763,8 +1781,6 @@
     <string name="before_TEMPLATE">trước {date}</string>
 
     <!-- Flight details fragment -->
-    <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">Thông tin phí hành lý</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s tạm dừng&lt;/b&gt; tại %2$s</string>
     <!-- Price per person. For example: "$20.31 per person" -->
@@ -1797,18 +1813,12 @@
     <string name="earn_amount_TEMPLATE">Nhận {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">Nhận {price} {currency}</string>
-    <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Áp dụng phí hành lý xách tay</string>
-    <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">Chưa bao gồm hành lý ký gửi</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">Có thể áp dụng phí thanh toán</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Phụ phí</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Phí hành lý</string>
-    <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">Phụ phí quy trình thanh toán</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Thẻ tín dụng/ghi nợ mới</string>
@@ -1843,14 +1853,14 @@
     <!-- Payment and ticket delivery fees may also apply -->
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Có thể áp dụng phí thanh toán và giao vé</string>
     <!-- Includes flights+hotels -->
-    <string name="includes_flights_hotel">Bao gồm chuyến bay + khách sạn</string>
+    <string name="includes_flights_hotel">gồm khách sạn và chuyến bay</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d khách</item>
-        <item quantity="one">%1$d Khách</item>
-        <item quantity="two">%1$d Khách</item>
-        <item quantity="few">%1$d Khách</item>
-        <item quantity="many">%1$d Khách</item>
+        <item quantity="one">%1$d khách</item>
+        <item quantity="two">%1$d khách</item>
+        <item quantity="few">%1$d khách</item>
+        <item quantity="many">%1$d khách</item>
         <item quantity="other">%1$d khách</item>
     </plurals>
     <!-- Price changed from -->
@@ -1869,8 +1879,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">Quý vị sử dụng {points} ({amount}) điểm Expedia+</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">Quý vị sử dụng {points} ({amount}) điểm Expedia+\nSẽ thu {dueamount} từ thẻ tín dụng của quý vị</string>
-    <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_template">Sẽ thu từ thẻ của quý vị {dueamount} (cùng phí hãng hàng không)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">Thanh toán hôm nay: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -2236,8 +2244,6 @@
     <string name="privacy_policy">Quyền riêng tư</string>
     <!-- Fare information header -->
     <string name="fare_information">THÔNG TIN GIÁ VÉ</string>
-    <!-- Airline Fee -->
-    <string name="Airline_fee">Phí hãng hàng không</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Đã xóa bộ lọc</string>
     <!-- split ticket rules and restrictions -->
@@ -2440,7 +2446,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">Đang tìm hàng trăm khách sạn cho quý vị!</string>
+    <string name="progress_searching_hotels_hundreds">Đang tìm khách sạn…</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Chọn phòng khác</string>
     <!-- Message displayed when room is sold out -->
@@ -2453,6 +2459,12 @@
     <string name="current_location">Địa điểm hiện tại</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Vùng hiển thị trên bản đồ</string>
+
+    <!-- Showing search suggestion label for current location -->
+    <string name="flight_search_suggestion_label_airport_near">Sân bay gần quý vị</string>
+
+    <!-- Showing search suggestion label for recent search history -->
+    <string name="flight_search_suggestion_label_recent_search">Tìm gần đây</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -3662,18 +3674,6 @@
     <!-- Airline Payment Fee Apply Message -->
     <string name="airline_fee_apply">Có thể áp dụng phí thanh toán</string>
 
-    <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy loại thẻ.</string>
-    <string name="airline_charge_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy hình thức thanh toán.</string>
-    <string name="airline_fee_notice_payment">Phí hãng hàng không tùy hình thức thanh toán</string>
-
-    <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">Có thể tính thêm phụ phí hãng hàng không khi thanh toán, tùy loại thẻ.</string>
-    <string name="airline_may_charge_notice">Hãng hàng không có thể thu phụ phí tùy hình thức thanh toán.</string>
-    <string name="airline_may_fee_notice_payment">Có thể thu phụ phí hãng hàng không tùy hình thức thanh toán</string>
-
-    <!-- Packages -->
-
     <!-- Accessibility - Content Description for toolbar close button -->
     <string name="package_toolbar_close_cont_desc">Đóng màn hình tìm kiếm</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
@@ -3702,7 +3702,7 @@
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Bước 1: Chọn Khách sạn</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Bước 2: Chọn Chuyến bay</string>
+    <string name="step_two">Bước 2: Chọn chuyến bay</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Ưu đãi Không tưởng</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3748,7 +3748,7 @@
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Chọn khách sạn tại %s</string>
     <!-- Bundle Overview searching flight -->
-    <string name="searching_flight_to">Tìm chuyến bay đến %s</string>
+    <string name="searching_flight_to">Đang tìm chuyến bay…</string>
     <!-- Package All Flight label -->
     <string name="all_flights_label">Tất cả các chuyến bay</string>
     <!-- Package Best Flight title -->

@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">Inlevertijd{time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Je zoekopdracht leverde geen resultaten op. Zoek opnieuw met andere zoekcriteria</string>
+    <string name="error_no_result_message">Sorry, we konden geen resultaten vinden. Probeer het opnieuw met andere zoekcriteria.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Je zoekopdracht leverde geen resultaten op. Probeer het aantal filters te reduceren.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -953,6 +953,8 @@
     <string name="launch_upcoming_trips_signed_in">Je hebt een aankomende reis!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Bekijk je reisplannen waar dan ook en blijf op de hoogte van wijzigingen</string>
+    <!-- Label for super search bar at launch screen -->
+    <string name="search_hotels_flight_more">Zoek hotels, vluchten en meer …</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Boek waar je ook bent</string>
@@ -1444,12 +1446,28 @@
     <string name="itin_hotel_details_checkin_text">Inchecken</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">Uitchecken</string>
+    <!--Hotel itin checkin checkout to arrow content description-->
+    <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Tot</string>
     <!--Hotel itin manage booking button to change or cancel room-->
     <string name="itin_hotel_manage_booking_cancel_change_header">Kamer wijzigen of annuleren</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Kamer wijzigen of annuleren</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Boeking beheren</string>
+    <!--Hotel itin manage booking hotel help heading-->
+    <string name="itin_hotel_manage_booking_hotel_help_heading">We helpen je graag</string>
+    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Neem contact op met {hotelname} voor speciale verzoeken of vragen over je boeking.</string>
+    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
+    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Bevestigingsnr. {number}</string>
+    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
+    <string name="itin_hotel_customer_support_header_text_TEMPLATE">Neem contact op met {brand} als je hulp nodig hebt bij dit reisplan.</string>
+    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
+    <string name="itin_hotel_itinerary_number_TEMPLATE">Reisplannr. {itinnumber}</string>
+    <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
+    <string name="itin_hotel_customer_support_site_header_TEMPLATE">Klantenservice van {brand}</string>
+    <!--Hotel customer support website toolbar header-->
+    <string name="itin_hotel_customer_support_site_toolbar_header">Klantenservice</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in over 3 dagen</string>
@@ -1707,7 +1725,7 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Het spijt ons, vluchtboekingen via je mobiele toestel is in jouw locatie nog niet beschikbaar.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">De luchthavens van vertrek en aankomst moeten verschillen.</string>
+    <string name="error_same_flight_departure_arrival">Zorg ervoor dat je plaats van vertrek en aankomst verschillen.</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->
@@ -1763,8 +1781,6 @@
     <string name="before_TEMPLATE">vóór {date}</string>
 
     <!-- Flight details fragment -->
-    <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">Bagagebeleid</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; tussenstop in %2$s</string>
     <!-- Price per person. For example: "$20.31 per person" -->
@@ -1797,18 +1813,12 @@
     <string name="earn_amount_TEMPLATE">Verdien {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">Ontvang {price} aan {currency}</string>
-    <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Toeslagen voor handbagage van toepassing</string>
-    <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">Ruimbagage niet inbegrepen</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">Transactiekosten mogelijk van toepassing</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Extra toeslagen</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Bagagekosten</string>
-    <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">Transactiekosten</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Nieuwe debit/creditcard</string>
@@ -1843,7 +1853,7 @@
     <!-- Payment and ticket delivery fees may also apply -->
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Mogelijk gelden er ook transactie- en ticketleveringskosten</string>
     <!-- Includes flights+hotels -->
-    <string name="includes_flights_hotel">Inclusief vluchten + hotel</string>
+    <string name="includes_flights_hotel">inclusief hotel en vluchten</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d reizigers</item>
@@ -1869,8 +1879,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">Je gebruikt {points} ({amount}) Expedia+ punten</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">Je gebruikt {points} ({amount}) Expedia+ punten\nOp je kaart wordt {dueamount} in rekening gebracht</string>
-    <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_template">Op jouw kaart wordt {dueamount} in rekening gebracht (plus airlinetoeslag)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">Vandaag te betalen: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -2236,8 +2244,6 @@
     <string name="privacy_policy">Privacybeleid</string>
     <!-- Fare information header -->
     <string name="fare_information">PRIJSGEGEVENS</string>
-    <!-- Airline Fee -->
-    <string name="Airline_fee">Airlinetoeslag</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Filters gewist</string>
     <!-- split ticket rules and restrictions -->
@@ -2440,7 +2446,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels_hundreds">We zoeken nu door honderden hotels voor jou!</string>
+    <string name="progress_searching_hotels_hundreds">We zoeken naar hotels …</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Selecteer een andere kamer</string>
     <!-- Message displayed when room is sold out -->
@@ -2453,6 +2459,12 @@
     <string name="current_location">Huidige locatie</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Zichtbaar kaartgebied</string>
+
+    <!-- Showing search suggestion label for current location -->
+    <string name="flight_search_suggestion_label_airport_near">Luchthavens in jouw buurt</string>
+
+    <!-- Showing search suggestion label for recent search history -->
+    <string name="flight_search_suggestion_label_recent_search">Recente zoekopdrachten</string>
 
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
@@ -2999,7 +3011,7 @@
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
-        <item quantity="zero">gasten</item>
+        <item quantity="zero">Gasten</item>
         <item quantity="one">gast</item>
         <item quantity="two">gasten</item>
         <item quantity="many">gasten</item>
@@ -3662,18 +3674,6 @@
     <!-- Airline Payment Fee Apply Message -->
     <string name="airline_fee_apply">Mogelijk gelden er transactiekosten</string>
 
-    <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">Op basis van het kaarttype wordt een airlinetoeslag toegevoegd bij het afrekenen.</string>
-    <string name="airline_charge_notice">Op basis van de betalingsmethode brengen airlines een toeslag in rekening.</string>
-    <string name="airline_fee_notice_payment">Op basis van de betalingsmethode wordt een airlinetoeslag berekend</string>
-
-    <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">Op basis van het kaarttype wordt mogelijk een airlinetoeslag toegevoegd bij het afrekenen.</string>
-    <string name="airline_may_charge_notice">Op basis van de betalingsmethode brengen airlines mogelijk een toeslag in rekening.</string>
-    <string name="airline_may_fee_notice_payment">Op basis van de betalingsmethode wordt mogelijk een airlinetoeslag berekend</string>
-
-    <!-- Packages -->
-
     <!-- Accessibility - Content Description for toolbar close button -->
     <string name="package_toolbar_close_cont_desc">Zoekvenster sluiten</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
@@ -3702,7 +3702,7 @@
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Stap 1: Selecteer hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Stap 2: Selecteer vlucht</string>
+    <string name="step_two">Stap 2: Selecteer vluchten</string>
     <!-- package hotel results unreal deal text label -->
     <string name="unreal_deal_text">Dwaze Deal</string>
     <!-- package hotel results unreal deal message for freeHotel -->
@@ -3748,7 +3748,7 @@
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Selecteer hotel in %s</string>
     <!-- Bundle Overview searching flight -->
-    <string name="searching_flight_to">We zoeken vluchten naar %s</string>
+    <string name="searching_flight_to">We zoeken naar vluchten …</string>
     <!-- Package All Flight label -->
     <string name="all_flights_label">Alle vluchten</string>
     <!-- Package Best Flight title -->
