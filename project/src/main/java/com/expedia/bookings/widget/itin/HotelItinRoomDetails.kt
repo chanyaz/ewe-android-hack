@@ -12,6 +12,8 @@ import com.squareup.phrase.Phrase
 
 class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
     val roomDetailsText: TextView by bindView(R.id.itin_hotel_details_room_details_text)
+    val reservedForText: TextView by bindView(R.id.itin_hotel_details_reserved_for)
+    val guestDetailsText: TextView by bindView(R.id.itin_hotel_details_guest_name)
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_room_details, this)
@@ -25,6 +27,10 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             roomDetailsText.text = Phrase.from(context, R.string.itin_hotel_details_room_details_text_TEMPLATE)
                     .put("roomtype", itinCardDataHotel.property.itinRoomType)
                     .put("bedtype", itinCardDataHotel.property.itinBedType).format().toString()
+
+
+            reservedForText.text = "Reserved for"
+            guestDetailsText.text = "Frank Funston, 1 Adult"
         }
     }
 }
