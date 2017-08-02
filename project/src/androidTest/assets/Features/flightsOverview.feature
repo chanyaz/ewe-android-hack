@@ -1,7 +1,7 @@
 Feature: Flights Overview
 
   @Flights @FlightsOverview
-  Scenario: Verify data consistency through Overview screen for round trip search
+  Scenario: Verify data consistency through Overview screen for round trip search 
     Given I launch the App
     And I bucket the following tests
       | FlightRateDetailExpansion |
