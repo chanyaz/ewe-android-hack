@@ -38,7 +38,6 @@
         <item name="primary_button_ripple_color">@color/app_primary_dark</item>
 
         <!-- Search -->
-        <item name="skin_searchButtonSelectorDrawable">@drawable/hotel_primary_ripple_button</item>
         <item name="spinner_traveler_text_color_drawable">@drawable/new_hotel_traveler_text_color</item>
 
         <!-- Results -->
@@ -51,7 +50,7 @@
         <item name="vip_info_select_ripple_drawable">@drawable/new_vip_info_select_ripple</item>
         <item name="map_pin_drawable">@drawable/map_marker_blue</item>
         <item name="secondary_ripple_button_drawable">@drawable/hotel_secondary_ripple_button</item>
-        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_primary_ripple_button</item>
+        <item name="hotel_select_room_ripple_drawable">@drawable/primary_ripple_button</item>
 
         <!-- Checkout -->
         <item name="traveler_checkout_circle_drawable">@drawable/new_traveler_checkout_circle</item>

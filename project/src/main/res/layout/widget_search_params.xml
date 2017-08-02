@@ -150,14 +150,9 @@
 
         <Button
             android:id="@+id/search_btn"
-            style="?attr/skin_searchButtonStyle"
+            style="@style/SearchButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/skin_searchButtonSelectorDrawable"
-            android:enabled="true"
-            android:minHeight="@dimen/recent_search_item_height"
-            android:text="@string/search"
-            android:textSize="17sp" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

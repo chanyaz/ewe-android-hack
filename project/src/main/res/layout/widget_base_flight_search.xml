@@ -234,19 +234,14 @@
             android:id="@+id/button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/white">
+            android:layout_gravity="bottom">
 
-            <Button
-                android:id="@+id/search_btn"
-                style="@style/MaterialFooterRoundButtonText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:layout_margin="9dp"
-                android:text="@string/search"
-                android:textSize="17sp"
-                android:enabled="true"/>
+        <Button
+            android:id="@+id/search_btn"
+            style="@style/SearchButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         </FrameLayout>
 
     </LinearLayout>
