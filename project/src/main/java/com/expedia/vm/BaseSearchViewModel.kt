@@ -23,7 +23,6 @@ abstract class BaseSearchViewModel(val context: Context) {
     var dateTextObservable = BehaviorSubject.create<CharSequence>()
     val dateInstructionObservable = PublishSubject.create<CharSequence>()
     val dateSetObservable = PublishSubject.create<Unit>()
-    val abortTimerObservable = PublishSubject.create<Unit>()
     val calendarTooltipContDescObservable = PublishSubject.create<String>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
     val locationTextObservable = PublishSubject.create<String>()

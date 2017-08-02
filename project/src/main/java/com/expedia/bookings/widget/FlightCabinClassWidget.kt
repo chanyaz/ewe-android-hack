@@ -11,7 +11,6 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.squareup.phrase.Phrase
 
-
 class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
 
 
@@ -51,7 +50,6 @@ class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInp
         builder.setView(flightCabinClassDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(flightCabinClassView.getSelectedClass())
-            flightCabinClassView.viewmodel.flightCabinClassSelectedObservable.onNext(Unit)
             FlightsV2Tracking.trackFlightCabinClassSelect(flightCabinClassView.getSelectedClass().name)
             dialog.dismiss()
         })

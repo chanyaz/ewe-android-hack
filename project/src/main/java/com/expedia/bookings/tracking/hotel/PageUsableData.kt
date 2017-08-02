@@ -1,9 +1,9 @@
 package com.expedia.bookings.tracking.hotel
 
-open class PageUsableData {
+class PageUsableData {
     val INVALID_TIME = -1L
-    protected var pageLoadStartedMillis: Long = INVALID_TIME
-    protected var viewsUsableTimeMillis: Long = INVALID_TIME
+    private var pageLoadStartedMillis: Long = INVALID_TIME
+    private var viewsUsableTimeMillis: Long = INVALID_TIME
 
     fun getLoadTimeInSeconds(): String? {
         if (pageLoadStartedMillis != INVALID_TIME && viewsUsableTimeMillis != INVALID_TIME) {
@@ -23,7 +23,7 @@ open class PageUsableData {
         viewsUsableTimeMillis = time
     }
 
-    protected fun reset() {
+    private fun reset() {
         pageLoadStartedMillis = INVALID_TIME
         viewsUsableTimeMillis = INVALID_TIME
     }

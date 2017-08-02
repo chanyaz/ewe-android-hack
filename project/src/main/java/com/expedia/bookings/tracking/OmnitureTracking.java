@@ -1422,8 +1422,6 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD = "App.Flight.Checkout.Payment.Edit.Card";
 	private static final String FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE = "App.Flight.Checkout.SlideToPurchase";
 	private static final String FLIGHT_CHECKOUT_CONFIRMATION = "App.Flight.Checkout.Confirmation";
-	private static final String FLIGHT_DATE_SEARCH = "App.TC.Flight.DateSearch";
-	private static final String FLIGHT_DATE_SEARCH_FIELDS_CHANGED = "App.Flight.DS.SearchFields.Changed";
 
 	private static final String FLIGHT_SEARCH_ONE_WAY_DETAILS = "App.Flight.Search.OneWay.Details";
 	private static final String FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE = "App.Flight.Search.OneWay.BaggageFee";
@@ -5499,21 +5497,6 @@ public class OmnitureTracking {
 
 	public static void trackItinAppRatingClickNo() {
 		trackItinAppRatingClick("App.RateApp.NoThanks");
-	}
-
-	public static void trackFlightsTimeToClick(String timeTaken) {
-		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_DATE_SEARCH);
-		StringBuilder eventBuilder = new StringBuilder("event235");
-		eventBuilder.append(",event236=");
-		eventBuilder.append(timeTaken);
-		s.setEvents(eventBuilder.toString());
-		s.trackLink(null, "o", "Time to Click", null, null);
-	}
-
-	public static void trackFlightsSearchFieldsChanged() {
-		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_DATE_SEARCH_FIELDS_CHANGED);
-		s.setEvents("event244");
-		s.trackLink(null, "o", "Search Fields Changed", null, null);
 	}
 
 	private static void trackItinAppRatingClick(String rfrrid) {
