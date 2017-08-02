@@ -63,30 +63,26 @@ class WebCheckoutViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedOnUnsupportedPOS() {
-        setPOSWithWebCheckoutEnabled(false)
-        setUpTestToStartAtDetailsScreen()
-        selectHotelRoom()
-        webCheckoutViewObservable.assertValueCount(0)
+        givenHotelDetailsScreen(setPOSWithWebCheckoutABTestEnabled = false)
+                .whenHotelRoomSelected()
+                .thenTheWebViewDoesNotBecomeVisible()
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedWhenNotBucketed() {
-        bucketWebCheckoutABTest(false)
-        setPOSWithWebCheckoutABTestEnabled(true)
-        setUpTestToStartAtDetailsScreen()
-        selectHotelRoom()
-        webCheckoutViewObservable.assertValueCount(0)
+        givenHotelDetailsScreen(bucketWebCheckoutABTest = false, setPOSWithWebCheckoutABTestEnabled = true)
+                .whenHotelRoomSelected()
+                .thenTheWebViewDoesNotBecomeVisible()
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutUsedOnSupportedPOSWhenBucketed() {
-        bucketWebCheckoutABTest(true)
-        setPOSWithWebCheckoutABTestEnabled(true)
-        setUpTestToStartAtDetailsScreen()
-        selectHotelRoom()
-        webCheckoutViewObservable.assertValueCount(1)
+        givenHotelDetailsScreen(bucketWebCheckoutABTest = true, setPOSWithWebCheckoutABTestEnabled = true)
+                .whenHotelRoomSelected()
+                .thenTheWebViewBecomesVisible()
+
     }
 
     @Test
@@ -220,7 +216,7 @@ class WebCheckoutViewTest {
         return suggestion
     }
 
-    private fun setUpTestToStartAtDetailsScreen(){
+    private fun setUpTestToStartAtDetailsScreen() {
         hotelPresenter = LayoutInflater.from(activity).inflate(R.layout.activity_hotel, null) as HotelPresenter
         hotelPresenter.hotelSearchParams = getDummyHotelSearchParams()
         hotelPresenter.show(hotelPresenter.detailPresenter)
@@ -228,4 +224,30 @@ class WebCheckoutViewTest {
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fireCreateTripObservable.subscribe(webCheckoutViewObservable)
     }
 
+    private fun givenHotelDetailsScreen(bucketWebCheckoutABTest: Boolean = false, setPOSWithWebCheckoutABTestEnabled: Boolean = false): Action {
+        bucketWebCheckoutABTest(bucketWebCheckoutABTest)
+        setPOSWithWebCheckoutABTestEnabled(setPOSWithWebCheckoutABTestEnabled)
+        setUpTestToStartAtDetailsScreen()
+        return Action()
+    }
+
+    private inner class Action {
+
+        fun whenHotelRoomSelected(): Action {
+            val hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
+            hotelPresenter.hotelDetailViewModel.roomSelectedSubject.onNext(hotelRoomResponse)
+            return this
+        }
+
+        fun thenTheWebViewDoesNotBecomeVisible() {
+            webCheckoutViewObservable.assertValueCount(0)
+        }
+
+        fun thenTheWebViewBecomesVisible() {
+            webCheckoutViewObservable.assertValueCount(1)
+        }
+
+    }
+
 }
+
