@@ -1494,6 +1494,10 @@
     <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">Confirmation number {number}. Click to copy</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Itinerary number {number}. Click to copy</string>
+    <!--Hotel itin room details requests header-->
+    <string name="itin_hotel_room_details_requests_header">Requests</string>
+    <!--Hotel itin room details requests disclaimer-->
+    <string name="itin_hotel_room_details_requests_disclaimer">These room requests have been passed to the hotel, but they will not be confirmed and are subject to availability at the time of check-in.</string>
 
 
     <!-- Message to users that they can check into their hotel in three days -->

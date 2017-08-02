@@ -92,14 +92,28 @@
                 android:background="?attr/itin_card_summary_divider_color" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/itin_hotel_details_requests"
+                android:id="@+id/itin_hotel_details_request_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"
                 android:textColor="@color/gray10"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                app:textStyle="medium"
+                android:text="@string/itin_hotel_room_details_requests_header"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_itin_room_details_requests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="12dp"
+                android:textSize="12sp"
+                android:textColor="@color/gray6"
+                android:textStyle="normal" />
 
             <View
                 android:layout_width="match_parent"
@@ -115,9 +129,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:textColor="@color/gray10"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/gray6"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:text="@string/itin_hotel_room_details_requests_disclaimer"/>
 
         </LinearLayout>
     </LinearLayout>
