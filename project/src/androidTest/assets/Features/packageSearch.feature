@@ -39,6 +39,8 @@ Feature: Package Search
     Then Validate that Calender widget is displayed: true
     And I choose date from calendar widget
       | start_date | 5  |
+    And Validate dates selected are correct
+      | start_date | 5  |
     And Validate that Done button is enabled
     And I click on Done button
     And Validate the date selected on calender button
@@ -57,6 +59,9 @@ Feature: Package Search
     And I choose date from calendar widget
       | start_date         | 5         |
       | end_date           | 10        |
+    And Validate dates selected are correct
+      | start_date         | 5         |
+      | end_date           | 10        |
       | number_of_nights   | (5 nights)|
     And Validate that Done button is enabled
     And I click on Done button
@@ -64,6 +69,31 @@ Feature: Package Search
       | start_date         | 5         |
       | end_date           | 10        |
       | number_of_nights   | (5 nights)|
+
+  @Packages @PackageSearch
+  Scenario: User should not be able to select more than 26 days in calendar for package search.
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I enter source and destination for packages
+      | source                | SFO                                                |
+      | destination           | DET                                                |
+      | source_suggest        | San Francisco, CA                                  |
+      | destination_suggest   | Detroit, MI (DTW-Detroit Metropolitan Wayne County)|
+    Then Validate that Calender widget is displayed: true
+    And I choose date from calendar widget
+      | start_date         | 5          |
+      | end_date           | 40         |
+    And Validate dates selected are correct
+      | start_date         | 5          |
+      | end_date           | 31         |
+      | number_of_nights   | (26 nights)|
+
+  @Packages @PackageSearch
+  Scenario: User should not be able to select dates more than 329 days from now.
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    And I open calendar widget
+    Then Validate that max end date selectable is 329 days from now
 
   @Packages @PackageSearch
   Scenario: Previous/Next month button validation of Calender Widget
@@ -96,6 +126,9 @@ Feature: Package Search
     And I choose date from calendar widget
       | start_date         | 5         |
       | end_date           | 10        |
+    And Validate dates selected are correct
+      | start_date         | 5         |
+      | end_date           | 10        |
       | number_of_nights   | (5 nights)|
     And I click on Done button
     And I click on guest button
@@ -123,6 +156,9 @@ Feature: Package Search
         | source_suggest        | San Francisco, CA                                  |
         | destination_suggest   | Detroit, MI (DTW-Detroit Metropolitan Wayne County)|
     And I choose date from calendar widget
+      | start_date         | 5         |
+      | end_date           | 10        |
+    And Validate dates selected are correct
       | start_date         | 5         |
       | end_date           | 10        |
       | number_of_nights   | (5 nights)|

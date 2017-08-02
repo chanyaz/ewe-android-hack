@@ -3555,6 +3555,19 @@
           "allTaxesAndAllFeesPerPersonFormatted": null
         },
         "urgencyMessage": null,
+        "brandedDealData": {
+          "dealVariation": "HotelDeal",
+          "freeNights": 1,
+          "savingsAmount": "$110",
+          "savingPercentageOverPackagePrice": 22,
+          "savingPercentageOverHotelPrice": 50,
+          "savingPercentageOverFlightPrice": 40,
+          "currentViewCount": 3
+        },
+        "brandedDeals": [
+          "HotelDeal",
+          "FreeOneNightHotel"
+        ],
         "promoCampaignLogoURI": "",
         "loyaltyInfo": {
           "earn": {
@@ -3581,6 +3594,7 @@
           },
           "isBurnApplied": true
         },
+        "featuredDeal": true,
         "bookingCount": 0,
         "minutesSinceLastBooking": -1,
         "changeFlightUrl": "/changeflight?packagePIID=c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-0&usePS=1&sourceType=mobileapp&packageType=fh&originId=6000581&ftla=SFO&packageTripType=2&ttla=DTW&toDate=2016-02-04&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&fromDate=2016-02-02&defaultFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&destinationId=6000199&currentFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70",

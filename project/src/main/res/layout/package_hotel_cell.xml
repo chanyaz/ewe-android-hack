@@ -34,6 +34,7 @@
                 android:visibility="gone">
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/unreal_deal_heading"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
