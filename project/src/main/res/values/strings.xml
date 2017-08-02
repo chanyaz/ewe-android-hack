@@ -3733,7 +3733,7 @@
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">View your bundle</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">Step 1: Select Hotel</string>
+    <string name="step_one">Step 1: Select hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Step 2: Select flights</string>
     <!-- package hotel results unreal deal text label -->
