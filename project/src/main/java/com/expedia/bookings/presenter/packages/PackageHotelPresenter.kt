@@ -40,7 +40,6 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
@@ -246,6 +245,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         selectedPackageHotel = hotel
         val params = Db.getPackageParams()
+        params.hotelId = hotel.hotelId
         getDetails(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode, params.adults, params.children.firstOrNull())
         PackagesTracking().trackHotelMapCarouselPropertyClick()
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_HOTEL)
@@ -415,8 +415,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val selectedRoomObserver = endlessObserver<HotelOffersResponse.HotelRoomResponse> { offer ->
         Db.setPackageSelectedHotel(selectedPackageHotel, offer)
         updatePackagePrice(offer)
-        val params = Db.getPackageParams();
-        params.packagePIID = offer.productKey;
+        val params = Db.getPackageParams()
+        params.packagePIID = offer.productKey
+        params.ratePlanCode = offer.ratePlanCode
+        params.roomTypeCode = offer.roomTypeCode
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()

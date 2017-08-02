@@ -10,6 +10,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.vm.AbstractFlightOverviewViewModel
@@ -63,7 +64,7 @@ class PackageFlightLoadingPresenter(context: Context, attrs: AttributeSet) : Bas
         return LineOfBusiness.PACKAGES
     }
 
-    override fun isOutboundResultsPresenter(): Boolean = Db.getPackageParams()?.isOutboundSearch() ?: false
+    override fun isOutboundResultsPresenter(): Boolean = Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
 
     override fun setupToolbarMenu() {
         //ignore

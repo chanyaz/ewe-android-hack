@@ -3,21 +3,24 @@ package com.expedia.bookings.data.flights;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.Period;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.multiitem.FlightOffer;
+import com.expedia.bookings.data.multiitem.MultiItemFlightLeg;
+import com.expedia.bookings.data.multiitem.MultiItemFlightSegment;
+import com.expedia.bookings.data.multiitem.MultiItemOffer;
 import com.expedia.bookings.data.packages.PackageOfferModel;
+import com.expedia.bookings.utils.Constants;
+import com.expedia.bookings.utils.DateUtils;
 
 public class FlightLeg {
-	public int airBookingProviderCode;
-	public String airFareBasisCode;
 	public AirlineMessageModel airlineMessageModel;
-	public String arrivalDateFormatted;
 	public String arrivalDateTimeISO;
 	public String arrivalTimeShort;
 	public String baggageFeesUrl;
 	public String carrierCode;
 	public String carrierName;
-	public String departureDateFormatted;
 	public String departureDateTimeISO;
 	public String departureTimeShort;
 	public String destinationAirport;
@@ -32,23 +35,12 @@ public class FlightLeg {
 	public List<FlightSegment> segments;
 //	flightSegments
 	public JSONObject freeCancellationBy;
-	public boolean freeFlightPromotion;
-	public boolean handBaggageOnly;
-	public boolean hasAllTrainSegments;
 	public boolean hasLayover;
-	public boolean hasTrainSegment;
 	public String legId;
-	public boolean mixedCarrierFlight;
-	public String originAirport;
 	public String originAirportCode;
-	public String originAirportLocalName;
 	public String originCity;
 	public boolean outbound;
-	public String promoCampaignLogoURI;
-	public List<String> seatMapUrlList;
 	public int stopCount;
-	public String totalTravelDistance;
-	public String totalTravelDistanceUnits;
 
 	public PackageOfferModel packageOfferModel;
 	public String flightPid;
@@ -64,13 +56,44 @@ public class FlightLeg {
 		return freeCancellationBy != null;
 	}
 
+	public static FlightLeg convertMultiItemFlightLeg(String flightLegId, FlightOffer flightOffer, MultiItemFlightLeg multiItemFlightLeg,
+		MultiItemOffer multiItemOffer) {
+
+		FlightLeg flightLeg = new FlightLeg();
+
+		PackageOfferModel.UrgencyMessage urgencyMessage = new PackageOfferModel.UrgencyMessage();
+		urgencyMessage.ticketsLeft = flightOffer.getSeatsLeft();
+
+		flightLeg.packageOfferModel = new PackageOfferModel(multiItemOffer);
+		flightLeg.packageOfferModel.urgencyMessage = urgencyMessage;
+
+		flightLeg.flightSegments = new ArrayList<>();
+		for (MultiItemFlightSegment multiItemFlightSegment : multiItemFlightLeg.getSegments()) {
+			FlightSegment flightSegment = FlightSegment.convertMultiItemFlightSegment(multiItemFlightSegment);
+			flightLeg.flightSegments.add(flightSegment);
+			flightLeg.airlines.add(new Airline(flightSegment.carrier, flightSegment.airlineLogoURL));
+		}
+
+		flightLeg.carrierName = multiItemFlightLeg.getSegments().get(0).getAirlineName(); //TODO PUK
+		flightLeg.arrivalDateTimeISO = flightLeg.flightSegments.get(flightLeg.flightSegments.size() - 1).arrivalDateTimeISO;
+		flightLeg.carrierCode = flightLeg.flightSegments.get(0).airlineCode;
+		flightLeg.departureDateTimeISO = flightLeg.flightSegments.get(0).departureDateTimeISO;
+		flightLeg.durationHour = 5;//TODO PUK
+		flightLeg.durationMinute = 5;//TODO PUK
+		flightLeg.elapsedDays = 1;//TODO PUK
+		flightLeg.hasLayover = multiItemFlightLeg.getStops() > 1;
+		flightLeg.legId = flightLegId;
+		flightLeg.departureLeg = flightLegId;
+		flightLeg.stopCount = multiItemFlightLeg.getStops();
+		flightLeg.destinationCity = flightLeg.flightSegments.get(flightLeg.flightSegments.size() - 1).arrivalCity;
+		flightLeg.destinationAirportCode = flightLeg.flightSegments.get(flightLeg.flightSegments.size() - 1).arrivalAirportCode;
+		return flightLeg;
+	}
+
 	public static class AirlineMessageModel {
 		public String airlineFeeLink;
 		public String airlineName;
-		public boolean  hasAirlineWithBagfee;
 		public boolean  hasAirlineWithCCfee;
-		public boolean  hasAirlineWithoutBagfee;
-		public boolean  hasAirlineWithSpecialBagfee;
 	}
 
 	public static class FlightSegment {
@@ -82,7 +105,6 @@ public class FlightLeg {
 		public String airlineLogoURL;
 		public String airlineLogo;
 		public String equipmentDescription;
-		public boolean displayOperatedByAirlineName;
 		public String operatingAirlineName;
 		public String operatingAirlineCode;
 
@@ -119,6 +141,40 @@ public class FlightLeg {
 
 		public String seatClass;
 		public String bookingCode;
+
+		public static FlightSegment convertMultiItemFlightSegment(MultiItemFlightSegment multiItemFlightSegment) {
+			FlightSegment flightSegment = new FlightSegment();
+			if (multiItemFlightSegment.getAirplaneType() != null) {
+				flightSegment.airplaneType = multiItemFlightSegment.getAirplaneType().getDescription();
+			}
+			else {
+				flightSegment.airplaneType = "";
+			}
+			flightSegment.flightNumber = multiItemFlightSegment.getFlightNumber();
+			flightSegment.carrier = multiItemFlightSegment.getAirlineName();
+			flightSegment.airlineCode = multiItemFlightSegment.getAirlineCode();
+			flightSegment.airlineLogoURL = Constants.AIRLINE_LOGO_BASE_URL + multiItemFlightSegment.getAirlineLogoUrl();
+
+			flightSegment.departureCity = multiItemFlightSegment.getDepartureCity();
+			flightSegment.departureAirportCode = multiItemFlightSegment.getArrivalAirportCode();
+			flightSegment.departureDateTimeISO = multiItemFlightSegment.getDepartureDateTime();
+
+			flightSegment.arrivalCity = multiItemFlightSegment.getArrivalCity();
+			flightSegment.arrivalAirportCode = multiItemFlightSegment.getArrivalAirportCode();
+			flightSegment.arrivalDateTimeISO = multiItemFlightSegment.getArrivalDateTime();
+
+			Period period = DateUtils.parseDurationFromISOFormat(multiItemFlightSegment.getFlightDuration());
+			flightSegment.durationHours = period.getHours();
+			flightSegment.durationMinutes = period.getMinutes();
+			flightSegment.layoverDurationHours = 0;//TODO PUK
+			flightSegment.layoverDurationMinutes = 0;//TODO PUK
+			flightSegment.elapsedDays = 0;//TODO PUK
+
+//			flightSegment.seatClass; //TODO PUK
+//			flightSegment.bookingCode; //TODO PUK
+
+			return flightSegment;
+		}
 	}
 
 	public static class BasicEconomyTooltipInfo {

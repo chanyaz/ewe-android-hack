@@ -3,18 +3,16 @@ package com.expedia.vm.packages
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.mobiata.android.Log
 import rx.Observer
 import rx.Subscription
@@ -34,8 +32,7 @@ class PackageFlightContainerViewModel(private val context: Context, private val 
     }
 
     private fun getProductSearchType(isOutboundSearch: Boolean): ProductSearchType {
-        val isMidAPIEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
-        if (isMidAPIEnabled) {
+        if (isMidAPIEnabled(context)) {
             if (isOutboundSearch) {
                 return ProductSearchType.MultiItemOutboundFlights
             } else {

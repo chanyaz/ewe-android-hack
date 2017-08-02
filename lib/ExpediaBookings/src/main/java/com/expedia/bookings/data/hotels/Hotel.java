@@ -88,16 +88,18 @@ public class Hotel {
 		Hotel hotel = new Hotel();
 		hotel.hotelId = multiItemHotel.getId();
 		hotel.localizedName = multiItemHotel.getName();
-		hotel.address = multiItemHotel.getAddress().getFirstAddressLine();
-		hotel.city = multiItemHotel.getAddress().getCity();
-		hotel.stateProvinceCode = multiItemHotel.getAddress().getProvinceCode();
-		hotel.countryCode = multiItemHotel.getAddress().getThreeLetterCountryCode();
-		hotel.postalCode = multiItemHotel.getAddress().getPostalCode();
+		if (multiItemHotel.getAddress() != null) {
+			hotel.address = multiItemHotel.getAddress().getFirstAddressLine();
+			hotel.city = multiItemHotel.getAddress().getCity();
+			hotel.stateProvinceCode = multiItemHotel.getAddress().getProvinceCode();
+			hotel.countryCode = multiItemHotel.getAddress().getThreeLetterCountryCode();
+			hotel.postalCode = multiItemHotel.getAddress().getPostalCode();
+			hotel.latitude = multiItemHotel.getAddress().getLatitude();
+			hotel.longitude = multiItemHotel.getAddress().getLongitude();
+		}
 		hotel.hotelStarRating = (float) multiItemHotel.getStarRating();
 		hotel.hotelGuestRating = NumberUtils.round(multiItemHotel.getAverageReview(), 1);
 		hotel.locationDescription = multiItemHotel.getShortDescription();
-		hotel.latitude = multiItemHotel.getAddress().getLatitude();
-		hotel.longitude = multiItemHotel.getAddress().getLongitude();
 		hotel.largeThumbnailUrl = multiItemHotel.getThumbnailUrl();
 		hotel.thumbnailUrl = multiItemHotel.getThumbnailUrl();
 		hotel.isVipAccess = multiItemHotel.getVip();

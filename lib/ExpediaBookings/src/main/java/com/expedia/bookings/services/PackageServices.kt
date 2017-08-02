@@ -28,6 +28,10 @@ import java.util.HashMap
 
 class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
+    private val PACKAGE_TYPE = "fh"
+    private val PRODUCT_TYPE_HOTELS = "hotels"
+    private val PRODUCT_TYPE_FLIGHTS = "flights"
+
     val packageApi: PackageApi by lazy {
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
@@ -51,24 +55,75 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
             ProductSearchType.OldPackageSearch -> oldPackageSearch(params)
             ProductSearchType.MultiItemHotels -> multiItemHotelsSearch(params)
             ProductSearchType.MultiItemHotelRooms -> TODO()
-            ProductSearchType.MultiItemOutboundFlights -> TODO()
-            ProductSearchType.MultiItemInboundFlights -> TODO()
+            ProductSearchType.MultiItemOutboundFlights -> multiItemOutboundFlightsSearch(params)
+            ProductSearchType.MultiItemInboundFlights -> multiItemInboundFlightsSearch(params)
         }
     }
 
     //Multi Item API
     private fun multiItemHotelsSearch(params: PackageSearchParams): Observable<BundleSearchResponse> {
         return packageApi.multiItemSearch(
-                productType = "hotels",
-                packageType = "fh",
+                productType = PRODUCT_TYPE_HOTELS,
+                packageType = PACKAGE_TYPE,
                 origin = params.origin?.hierarchyInfo?.airport?.airportCode,
+                originId = params.originId,
                 destination = params.destination?.hierarchyInfo?.airport?.airportCode,
+                destinationId = params.destinationId,
                 fromDate = params.startDate.toString(),
                 toDate = params.endDate.toString(),
                 adults = params.adults)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { it.setup() }
+    }
+
+    private fun multiItemOutboundFlightsSearch(params: PackageSearchParams): Observable<BundleSearchResponse> {
+        return packageApi.multiItemSearch(
+                productType = PRODUCT_TYPE_FLIGHTS,
+                packageType = PACKAGE_TYPE,
+                origin = params.origin?.hierarchyInfo?.airport?.airportCode,
+                originId = params.originId,
+                destination = params.destination?.hierarchyInfo?.airport?.airportCode,
+                destinationId = params.destinationId,
+                fromDate = params.startDate.toString(),
+                toDate = params.endDate.toString(),
+                adults = params.adults,
+                hotelId = params.hotelId,
+                ratePlanCode = params.ratePlanCode,
+                roomTypeCode = params.roomTypeCode,
+                legIndex = 0)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map {
+                    it.setup()
+                    it.setCurrentOfferModel(it.getHotels().first().packageOfferModel)//TODO PUK
+                    it
+                }
+    }
+
+    private fun multiItemInboundFlightsSearch(params: PackageSearchParams): Observable<BundleSearchResponse> {
+        return packageApi.multiItemSearch(
+                productType = PRODUCT_TYPE_FLIGHTS,
+                packageType = PACKAGE_TYPE,
+                origin = params.origin?.hierarchyInfo?.airport?.airportCode,
+                originId = params.originId,
+                destination = params.destination?.hierarchyInfo?.airport?.airportCode,
+                destinationId = params.destinationId,
+                fromDate = params.startDate.toString(),
+                toDate = params.endDate.toString(),
+                adults = params.adults,
+                hotelId = params.hotelId,
+                ratePlanCode = params.ratePlanCode,
+                roomTypeCode = params.roomTypeCode,
+                legIndex = 1,
+                outboundLegId = params.selectedLegId)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map {
+                    it.setup()
+                    it.setCurrentOfferModel(it.getHotels().first().packageOfferModel)//TODO PUK
+                    it
+                }
     }
 
     //PSS API

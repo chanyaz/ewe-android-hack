@@ -12,10 +12,10 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observer
@@ -60,7 +60,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             if (isRemoveBundleOverviewFeatureEnabled() && packageServices != null) {
                 autoAdvanceObservable.onNext(PackageSearchType.HOTEL)
             } else {
-                searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled()) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
+                searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled(context)) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
             }
         }
 
@@ -72,13 +72,13 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("enddate", DateUtils.localDateToMMMd(params.endDate))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
-            val type = if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            val type = if (params.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
 
             if (isRemoveBundleOverviewFeatureEnabled() && packageServices != null) {
                 flightResultsObservable.onNext(type)
                 autoAdvanceObservable.onNext(type)
             } else {
-                searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch()))?.subscribe(makeResultsObserver(type))
+                searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled(context))))?.subscribe(makeResultsObserver(type))
             }
         }
 
@@ -118,7 +118,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     }
 
     private fun getProductSearchType(isOutboundSearch: Boolean): ProductSearchType {
-        if (isMidAPIEnabled()) {
+        if (isMidAPIEnabled(context)) {
             if (isOutboundSearch) {
                 return ProductSearchType.MultiItemOutboundFlights
             } else {
@@ -127,10 +127,6 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         } else {
             return ProductSearchType.OldPackageSearch
         }
-    }
-
-    private fun isMidAPIEnabled(): Boolean {
-        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
     }
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {

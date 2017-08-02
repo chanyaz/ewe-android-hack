@@ -24,10 +24,10 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
@@ -212,10 +212,10 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
 
         if (product == Constants.PRODUCT_FLIGHT) {
             bundleOverViewWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
-            val type = if (Db.getPackageParams().isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            val type = if (Db.getPackageParams().isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
             bundleOverViewWidget.viewModel.flightResultsObservable.onNext(type)
 
-            if (!Db.getPackageParams().isOutboundSearch() && Db.getPackageSelectedOutboundFlight() != null) {
+            if (!Db.getPackageParams().isOutboundSearch(isMidAPIEnabled(context)) && Db.getPackageSelectedOutboundFlight() != null) {
                 bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
                 bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
                 bundleOverViewWidget.outboundFlightWidget.toggleFlightWidget(1f, true)

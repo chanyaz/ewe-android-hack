@@ -15,7 +15,6 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
@@ -23,10 +22,10 @@ import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
@@ -72,10 +71,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         activity.finish()
     }
 
-    private fun isMidAPIEnabled(): Boolean {
-        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
-    }
-
     init {
         toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
             menuFilter.isVisible = if (showMenu) true else false
@@ -88,13 +83,13 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
             val params = Db.getPackageParams()
             params.selectedLegId = null
-            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE, isMidAPIEnabled()))
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE, isMidAPIEnabled(context)))
         } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
-            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE, isMidAPIEnabled()))
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE, isMidAPIEnabled(context)))
         }
 
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)
-        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
+        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
         val bestPlusAllFlights = Db.getPackageResponse().getFlightLegs().filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
 
         // move bestFlight to the first place of the list
@@ -186,10 +181,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         show(overviewPresenter)
     }
 
-    override fun isOutboundResultsPresenter(): Boolean = Db.getPackageParams()?.isOutboundSearch() ?: false
+    override fun isOutboundResultsPresenter(): Boolean = Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
 
     override fun trackFlightOverviewLoad() {
-        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
+        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
         PackagesTracking().trackFlightRoundTripDetailsLoad(isOutboundSearch)
     }
 
@@ -198,7 +193,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun trackFlightResultsLoad() {
-        PackagesTracking().trackFlightRoundTripLoad(Db.getPackageParams()?.isOutboundSearch() ?: false)
+        PackagesTracking().trackFlightRoundTripLoad(Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false)
     }
 
     private val backFlowDefaultTransition = object : DefaultTransition(FlightResultsListViewPresenter::class.java.name) {

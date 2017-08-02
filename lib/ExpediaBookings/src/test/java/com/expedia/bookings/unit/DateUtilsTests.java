@@ -3,6 +3,7 @@ package com.expedia.bookings.unit;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
@@ -129,6 +130,14 @@ public class DateUtilsTests {
 		String testString = DateUtils.localDateToMMyyyy(localDateExpected);
 
 		assertEquals("05 / 2020", testString);
+	}
+
+	@Test
+	public void testParseDurationFromISOFormat() {
+		String date = "PT2H20M";
+		Period period = DateUtils.parseDurationFromISOFormat(date);
+		assertEquals(2, period.getHours());
+		assertEquals(20, period.getMinutes());
 	}
 
 }

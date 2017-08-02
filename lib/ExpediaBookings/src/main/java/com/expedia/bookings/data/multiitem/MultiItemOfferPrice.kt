@@ -14,7 +14,12 @@ data class MultiItemOfferPrice(
     fun priceToShowUsers(): Money {
         return totalPrice.toMoney()
     }
+
     fun strikeThroughPrice(): Money {
         return referenceTotalPrice.toMoney()
+    }
+
+    fun packageSavings(): Money {
+        return savings.toMoney()
     }
 }

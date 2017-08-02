@@ -3,6 +3,9 @@ package com.expedia.bookings.unit;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
@@ -12,6 +15,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripParams;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
@@ -96,7 +101,7 @@ public class PackageServicesTest {
 	}
 
 	@Test
-	public void testMockMIDSearchWorks() throws Throwable {
+	public void testMockMIDHotelSearchWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
@@ -110,13 +115,119 @@ public class PackageServicesTest {
 			.build();
 
 		service.packageSearch(params, ProductSearchType.MultiItemHotels).subscribe(observer);
-		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
 		observer.assertCompleted();
 		observer.assertValueCount(1);
 		BundleSearchResponse response = observer.getOnNextEvents().get(0);
 		Assert.assertEquals(50, response.getHotels().size());
+		Assert.assertEquals(100, response.getFlightLegs().size());
+
+		List<Hotel> hotels = response.getHotels();
+		Set<Hotel> uniqueHotels = new HashSet<>(hotels);
+		Assert.assertEquals(50, uniqueHotels.size());
+
+		List<FlightLeg> flightLegs = response.getFlightLegs();
+		Set<FlightLeg> uniqueOutboundFlightLegs = new HashSet<>();
+		Set<FlightLeg> uniqueInboundFlightLegs = new HashSet<>();
+		for (int index = 0; index < flightLegs.size(); index += 2) {
+			uniqueOutboundFlightLegs.add(flightLegs.get(index));
+		}
+		for (int index = 1; index < flightLegs.size(); index += 2) {
+			uniqueInboundFlightLegs.add(flightLegs.get(index));
+		}
+		Assert.assertEquals(1, uniqueOutboundFlightLegs.size());
+		Assert.assertEquals(1, uniqueInboundFlightLegs.size());
+	}
+
+	@Test
+	public void testMockMIDFlightOutboundSearchWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+		params.setHotelId("hotelID");
+		params.setRatePlanCode("flight_outbound_happy");
+		params.setRoomTypeCode("flight_outbound_happy");
+
+		service.packageSearch(params, ProductSearchType.MultiItemOutboundFlights).subscribe(observer);
+		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(50, response.getHotels().size());
+		Assert.assertEquals(100, response.getFlightLegs().size());
+
+		List<Hotel> hotels = response.getHotels();
+		Set<Hotel> uniqueHotels = new HashSet<>(hotels);
+		Assert.assertEquals(2, uniqueHotels.size());
+
+		List<FlightLeg> flightLegs = response.getFlightLegs();
+		Set<FlightLeg> uniqueOutboundFlightLegs = new HashSet<>();
+		Set<FlightLeg> uniqueInboundFlightLegs = new HashSet<>();
+		for (int index = 0; index < flightLegs.size(); index += 2) {
+			uniqueOutboundFlightLegs.add(flightLegs.get(index));
+		}
+		for (int index = 1; index < flightLegs.size(); index += 2) {
+			uniqueInboundFlightLegs.add(flightLegs.get(index));
+		}
+		Assert.assertEquals(50, uniqueOutboundFlightLegs.size());
+		Assert.assertEquals(18, uniqueInboundFlightLegs.size());
+	}
+
+	@Test
+	public void testMockMIDFlightInboundSearchWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+		params.setHotelId("hotelID");
+		params.setRatePlanCode("flight_outbound_happy");
+		params.setRoomTypeCode("flight_outbound_happy");
+		params.setSelectedLegId("flight_inbound_happy");
+
+		service.packageSearch(params, ProductSearchType.MultiItemInboundFlights).subscribe(observer);
+		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(50, response.getHotels().size());
+		Assert.assertEquals(100, response.getFlightLegs().size());
+
+		List<Hotel> hotels = response.getHotels();
+		Set<Hotel> uniqueHotels = new HashSet<>(hotels);
+		Assert.assertEquals(1, uniqueHotels.size());
+
+		List<FlightLeg> flightLegs = response.getFlightLegs();
+		Set<FlightLeg> uniqueOutboundFlightLegs = new HashSet<>();
+		Set<FlightLeg> uniqueInboundFlightLegs = new HashSet<>();
+		for (int index = 0; index < flightLegs.size(); index += 2) {
+			uniqueOutboundFlightLegs.add(flightLegs.get(index));
+		}
+		for (int index = 1; index < flightLegs.size(); index += 2) {
+			uniqueInboundFlightLegs.add(flightLegs.get(index));
+		}
+		Assert.assertEquals(1, uniqueOutboundFlightLegs.size());
+		Assert.assertEquals(50, uniqueInboundFlightLegs.size());
 	}
 
 	@Test

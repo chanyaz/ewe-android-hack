@@ -8,7 +8,7 @@ data class HotelOffer(
         val englishName: String,
         val shortDescription: String,
         val regionId: Long,
-        val address: Address,
+        val address: Address?,
         val starRating: Double,
         val averageReview: Float,
         val reviewCount: Int,

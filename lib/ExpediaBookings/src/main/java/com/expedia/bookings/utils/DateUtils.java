@@ -190,6 +190,14 @@ public class DateUtils {
 		return m.getMinutes();
 	}
 
+	/**
+	 * Parses the duration string in ISO format: P[yY][mM][dD][T[hH][mM][s[.s]S]]
+	 */
+	public static Period parseDurationFromISOFormat(String iSODurationString) {
+		PeriodFormatter formatter = ISOPeriodFormat.standard();
+		return formatter.parsePeriod(iSODurationString);
+	}
+
 	/*
 	* Parse long millis into HH:mm:ss format
 	* */

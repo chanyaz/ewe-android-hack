@@ -16,6 +16,6 @@ data class MultiItemFlightSegment(
     val flightDuration: String,
     val distance: Distance,
     val cabinClass: String,
-    val airplaneType: PlaneType,
+    val airplaneType: PlaneType?,
     val airlineLogoUrl: String
 )

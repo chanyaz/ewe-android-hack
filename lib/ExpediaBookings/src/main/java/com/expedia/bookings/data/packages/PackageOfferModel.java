@@ -26,9 +26,16 @@ public class PackageOfferModel {
 	public PackageOfferModel(MultiItemOffer multiItemOffer) {
 		loyaltyInfo = multiItemOffer.getLoyaltyInfo();
 
+		price = new PackagePrice();
+		price.packageTotalPrice = multiItemOffer.getPrice().priceToShowUsers();
+		price.tripSavings = multiItemOffer.getPrice().packageSavings();
+		price.differentialPriceFormatted = "$0";//TODO PUK
+		price.pricePerPerson = new Money("22", "USD");//TODO PUK
+		price.pricePerPersonFormatted = "$230";//TODO PUK
+
 		PackageDeal packageDeal = multiItemOffer.getPackageDeal();
 		if (packageDeal != null && packageDeal.getDeal() != null) {
-			featuredDeal = true;//TODO PUK confirm
+			featuredDeal = true;
 
 			brandedDealData = new BrandedDealData();
 			brandedDealData.dealVariation = packageDeal.getDeal().getSticker();

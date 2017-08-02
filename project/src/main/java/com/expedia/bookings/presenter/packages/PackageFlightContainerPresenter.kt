@@ -12,6 +12,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.vm.packages.PackageFlightContainerViewModel
 import com.expedia.vm.packages.PackageSearchType
@@ -55,7 +56,7 @@ class PackageFlightContainerPresenter(context: Context, attrs: AttributeSet) : P
             initFlightResultsPresenter()
         }
 
-        val type = if (Db.getPackageParams().isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+        val type = if (Db.getPackageParams().isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
         viewModel.performFlightSearch.onNext(type)
     }
 

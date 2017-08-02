@@ -17,10 +17,10 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.Observer
@@ -57,8 +57,7 @@ class PackageHotelResultsViewModel(context: Context, private val packageServices
     }
 
     private var productSearchType: ProductSearchType = {
-        val isMidApiEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
-        if (isMidApiEnabled) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch
+        if (isMidAPIEnabled(context)) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch
     }()
 
     private fun searchPackageHotels(params: PackageSearchParams) {

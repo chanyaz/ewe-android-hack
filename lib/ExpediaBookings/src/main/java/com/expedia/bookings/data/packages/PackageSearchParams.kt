@@ -26,6 +26,28 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     var defaultFlights: Array<String?> by Delegates.notNull()
     var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
 
+    //MID variables
+    var hotelId: String? = null
+    var ratePlanCode: String? = null
+    var roomTypeCode: String? = null
+
+    val originId: String?
+        get() {
+            return  origin?.hierarchyInfo?.airport?.multicity ?: origin?.gaiaId
+        }
+
+    val destinationId: String?
+        get() {
+            //Send gaiaId as the region id for destination to get the correct hotels
+            //Destination on pkgs can be a non-airport too For e.g. Zion national park,UT
+            //and Send airport region id for all POI suggestions types
+            if (destination?.type == "POI" ) {
+                return destination.hierarchyInfo?.airport?.multicity
+            } else {
+                return destination?.gaiaId
+            }
+        }
+
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
 
         override fun build(): PackageSearchParams {
@@ -52,8 +74,8 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         }
     }
 
-    fun isOutboundSearch(): Boolean {
-        return packagePIID != null && selectedLegId == null
+    fun isOutboundSearch(isMidApiEnabled: Boolean): Boolean {
+        return (isMidApiEnabled || packagePIID != null) && selectedLegId == null
     }
 
     fun isChangePackageSearch(): Boolean {
@@ -64,16 +86,8 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         val params = HashMap<String, Any?>()
         if (pageType != null) params.put("pageType", pageType)
         // TODO Xselling packages: In Flights module we have gaiaId so we have to set originId with gaiaId
-        params.put("originId", (origin?.hierarchyInfo?.airport?.multicity ?: origin?.gaiaId))
-
-        //Send gaiaId as the region id for destination to get the correct hotels
-        //Destination on pkgs can be a non-airport too For e.g. Zion national park,UT
-        //and Send airport region id for all POI suggestions types
-        if (destination?.type == "POI" ) {
-            params.put("destinationId", destination?.hierarchyInfo?.airport?.multicity)
-        } else {
-            params.put("destinationId", destination?.gaiaId)
-        }
+        params.put("originId", originId)
+        params.put("destinationId", destinationId)
         params.put("ftla", origin?.hierarchyInfo?.airport?.airportCode)
         params.put("ttla", destination?.hierarchyInfo?.airport?.airportCode)
         params.put("fromDate", startDate.toString())
@@ -88,7 +102,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         if (packagePIID != null) params.put("packagePIID", packagePIID)
         if (selectedLegId != null) params.put("selectedLegId", selectedLegId)
         params.put("packageTripType", Constants.PACKAGE_TRIP_TYPE)
-        if (isOutboundSearch() || isChangePackageSearch()) {
+        if (isOutboundSearch(false) || isChangePackageSearch()) {
             params.put("currentFlights", currentFlights.joinToString(","))
         }
 

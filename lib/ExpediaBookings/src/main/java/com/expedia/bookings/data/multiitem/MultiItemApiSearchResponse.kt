@@ -5,15 +5,14 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageOfferModel
 import java.util.ArrayList
+import java.util.HashMap
 
 data class MultiItemApiSearchResponse(
         val offers: List<MultiItemOffer>,
         val hotels: Map<String, HotelOffer>,
         val flights: Map<String, FlightOffer>,
         val flightLegs: Map<String, MultiItemFlightLeg>,
-//        val cars: Map<String, CarOffer>?,
         val errors: List<MultiItemError>?
-//        val messageInfo: MessageInfo?,
 ) : BundleSearchResponse {
 
     private lateinit var sortedHotels: List<Hotel>
@@ -24,14 +23,34 @@ data class MultiItemApiSearchResponse(
         sortedHotels = ArrayList()
         sortedFlights = ArrayList()
 
+        val convertedHotels = HashMap<String, Hotel>()
+        val convertedFlightLegs = HashMap<String, FlightLeg>()
+
         offers.map { offer ->
             (offer.packagedOffers + offer.searchedOffer).map { (productType, productKey) ->
                 when (productType) {
                     ProductType.Air -> {
-                        //TODO
+                        val flight = flights[productKey] as FlightOffer
+
+                        val outboundLegId = flight.legIds[0]
+                        val outboundFlight = convertedFlightLegs[outboundLegId] ?: FlightLeg.convertMultiItemFlightLeg(outboundLegId, flight, flightLegs[outboundLegId], offer)
+                        outboundFlight.outbound = true
+                        if (convertedFlightLegs[outboundLegId] == null) {
+                            convertedFlightLegs[outboundLegId] = outboundFlight
+                        }
+                        sortedFlights += outboundFlight
+
+                        val inboundLegId = flight.legIds[1]
+                        val inboundFlight = convertedFlightLegs[inboundLegId] ?: FlightLeg.convertMultiItemFlightLeg(inboundLegId, flight, flightLegs[inboundLegId], offer)
+                        if (convertedFlightLegs[inboundLegId] == null) {
+                            convertedFlightLegs[inboundLegId] = inboundFlight
+                        }
+                        sortedFlights += inboundFlight
                     }
                     ProductType.Hotel -> {
-                        sortedHotels += Hotel.convertMultiItemHotel(hotels[productKey], offer)
+                        val hotel = convertedHotels[productKey] ?: Hotel.convertMultiItemHotel(hotels[productKey], offer)
+                        convertedHotels[productKey] = hotel
+                        sortedHotels += hotel
                     }
                     else -> {
                     }

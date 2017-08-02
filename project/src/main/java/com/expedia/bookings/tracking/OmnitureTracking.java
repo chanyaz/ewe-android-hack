@@ -113,6 +113,8 @@ import java.util.Locale;
 import java.util.Objects;
 import kotlin.NotImplementedError;
 
+import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
+
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
  * can be inserted into the business logic as cleanly as possible. The events rely on Db.java to populate values when
@@ -4123,8 +4125,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesDestinationSearchInit() {
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppPackagesMidApi,
-			R.string.preference_packages_mid_api)) {
+		if (isMidAPIEnabled(sContext)) {
 			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH,
 				AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview, AbacusUtils.EBAndroidAppPackagesMidApi);
 		}

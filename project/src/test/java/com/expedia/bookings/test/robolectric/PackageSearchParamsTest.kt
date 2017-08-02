@@ -72,6 +72,27 @@ class PackageSearchParamsTest {
 
         var paramsMap = params.toQueryMap()
         assertEquals("123", paramsMap["originId"])
+        assertEquals("123", params.originId)
+    }
+
+    @Test
+    fun testOriginIdStringWhenMultiCityNull() {
+        val dummyOriginSuggestion = getDummySuggestion("123")
+        dummyOriginSuggestion.hierarchyInfo?.airport?.multicity = null
+
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .origin(dummyOriginSuggestion)
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        var paramsMap = params.toQueryMap()
+        assertEquals("1011", paramsMap["originId"])
+        assertEquals("1011", params.originId)
     }
 
     @Test
@@ -88,6 +109,26 @@ class PackageSearchParamsTest {
 
         var paramsMap = params.toQueryMap()
         assertEquals("1011", paramsMap["destinationId"])
+        assertEquals("1011", params.destinationId)
+    }
+
+    @Test
+    fun testDestinationIdStringWhenSuggestionTypePOI() {
+        val destinationDummySuggestion = getDummySuggestion("456")
+        destinationDummySuggestion.type = "POI"
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .origin(getDummySuggestion("123"))
+                .destination(destinationDummySuggestion)
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        var paramsMap = params.toQueryMap()
+        assertEquals("456", paramsMap["destinationId"])
+        assertEquals("456", params.destinationId)
     }
 
     @Test
