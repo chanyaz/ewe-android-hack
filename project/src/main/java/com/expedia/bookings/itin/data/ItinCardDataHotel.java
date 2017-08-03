@@ -60,6 +60,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		}
 		return null;
 	}
+
 	public boolean hasFetchedUpgradeOffers() {
 		return mProperty.getRoomUpgradeOfferType() != Property.RoomUpgradeType.NOT_CALLED_UPGRADE_API;
 	}

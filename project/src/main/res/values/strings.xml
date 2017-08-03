@@ -1523,7 +1523,10 @@
     <string name="itin_hotel_room_request_extra_child_bed">Extra child bed</string>
     <!--Hotel itin room request for extra infant bed-->
     <string name="itin_hotel_room_request_extra_infant_bed">Extra infant bed</string>
-
+    <!--Hotel itin room details reserved for-->
+    <string name="itin_hotel_room_details_reserved_for_header">Reserved for</string>
+    <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}, {numofguests}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

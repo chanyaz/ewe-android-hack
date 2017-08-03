@@ -34,6 +34,15 @@ class HotelItinRoomDetailsTest {
     }
 
     @Test
+    fun roomDetailsReservedFor() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+
+        val expectedString = "Kevin Carpenter, 1 adult "
+        assertEquals(expectedString, roomDetailsWidget.guestName.text)
+    }
+
+    @Test
     fun roomDetailsCollapseExpand() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         roomDetailsWidget.setUpWidget(itinCardDataHotel)

@@ -42,6 +42,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_hotel_customer_support_site_header_TEMPLATE,
 		R.string.itin_hotel_customer_support_site_toolbar_header,
 		R.layout.widget_hotel_itin_customer_support,
+		R.string.itin_hotel_room_details_reserved_for_header,
+		R.string.itin_hotel_room_details_guest_info_TEMPLATE,
 		R.string.hotel_results_map_view_cont_desc,
 		R.string.flights_tab_selection_accouncement_oneway,
 		R.string.flights_tab_selection_accouncement_roundtrip,

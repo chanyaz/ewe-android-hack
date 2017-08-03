@@ -23,10 +23,11 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
     val roomDetailsChevron: ImageView by bindView(R.id.itin_hotel_room_details_chevron)
     val expandedRoomDetails: LinearLayout by bindView(R.id.expanded_room_details_container)
     val roomRequestsText: TextView by bindView(R.id.hotel_itin_room_details_requests)
+    val reservedFor: TextView by bindView(R.id.itin_hotel_details_reserved_for)
+    val guestName: TextView by bindView(R.id.itin_hotel_details_guest_name)
     var isRowClickable = true
 
     private val collapsedRoomDetails: LinearLayout by bindView(R.id.itin_hotel_details_room_collapsed_view)
-
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_room_details, this)
@@ -52,8 +53,13 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             roomDetailsText.text = Phrase.from(context, R.string.itin_hotel_details_room_details_text_TEMPLATE)
                     .put("roomtype", itinCardDataHotel.property.itinRoomType)
                     .put("bedtype", itinCardDataHotel.property.itinBedType).format().toString()
+
+            reservedFor.text = context.getString(R.string.itin_hotel_room_details_reserved_for_header)
             if (itinCardDataHotel.lastHotelRoom != null) {
                 roomRequestsText.text = buildRoomRequests(itinCardDataHotel.lastHotelRoom)
+                guestName.text = Phrase.from(context, R.string.itin_hotel_room_details_guest_info_TEMPLATE)
+                        .put("guestname", itinCardDataHotel.lastHotelRoom.primaryOccupant.fullName)
+                        .put("numofguests", numberOfGuests(itinCardDataHotel.lastHotelRoom)).format().toString()
             }
         }
     }
@@ -129,5 +135,23 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
         }
         val formattedList = TextUtils.join(", ", accessibleList).toString()
         return formattedList
+    }
+
+    private fun numberOfGuests(tripHotelRoom: TripHotelRoom): String {
+        val sb = StringBuilder()
+        val otherOccupantsInfo = tripHotelRoom.otherOccupantInfo
+
+        if (otherOccupantsInfo.adultCount > 0) {
+            sb.append(context.resources.getQuantityString(R.plurals.number_of_adults, otherOccupantsInfo.adultCount, otherOccupantsInfo.adultCount).toLowerCase()).append(" ")
+        }
+
+        if (otherOccupantsInfo.childCount > 0) {
+            sb.append(",").append(context.resources.getQuantityString(R.plurals.number_of_children, otherOccupantsInfo.childCount, otherOccupantsInfo.childCount).toLowerCase()).append(" ")
+        }
+
+        if (otherOccupantsInfo.infantCount > 0) {
+            sb.append(",").append(context.resources.getQuantityString(R.plurals.number_of_infant, otherOccupantsInfo.infantCount, otherOccupantsInfo.infantCount).toLowerCase())
+        }
+        return sb.toString()
     }
 }
