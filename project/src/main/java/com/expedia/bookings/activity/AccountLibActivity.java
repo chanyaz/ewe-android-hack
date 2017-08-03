@@ -295,12 +295,12 @@ public class AccountLibActivity extends AppCompatActivity
 
 		@Override
 		public void userReceivedErrorOnSignInAttempt(String s) {
-			OmnitureTracking.trackAccountCreateError(s);
+			OmnitureTracking.trackSignInError(s);
 		}
 
 		@Override
-		public void userReceivedErrorOnSinglePageSignInAttempt(String s) {
-			OmnitureTracking.trackSinglePageAccountCreateError(s);
+		public void userReceivedErrorOnAccountCreationAttempt(String failureReason) {
+			OmnitureTracking.trackAccountCreationError(failureReason);
 		}
 
 		@Override

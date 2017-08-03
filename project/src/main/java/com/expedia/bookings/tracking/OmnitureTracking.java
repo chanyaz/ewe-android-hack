@@ -2538,6 +2538,7 @@ public class OmnitureTracking {
 	private static final String LOGIN_MARKETING_OPT_IN = "App.Account.Terms.Email.Opt-In";
 	private static final String LOGIN_MARKETING_OPT_OUT = "App.Account.Terms.Email.Opt-Out";
 	private static final String LOGIN_ACCOUNT_CREATE_SUCCESS = "App.Account.Create.Success";
+	private static final String LOGIN_ACCOUNT_CREATE_ERROR = "App.Account.Create.Error";
 	private static final String ACCOUNT_SCREEN = "App.Account.MyAccount";
 	private static final String ACCOUNT_COUNTRY_SETTING = "App.Account.Settings.Country";
 	private static final String ACCOUNT_SUPPORT_WEBSITE = "App.Account.Support.Website";
@@ -2691,13 +2692,22 @@ public class OmnitureTracking {
 	public static void trackAccountCreateSuccess() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
-		s.setAppState(LOGIN_ACCOUNT_CREATE_SUCCESS);
-		s.setEvar(18, LOGIN_ACCOUNT_CREATE_SUCCESS);
+		String pageName;
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
+			AbacusUtils.EBAndroidAppAccountSinglePageSignUp, R.string.preference_single_page_sign_up)) {
+			pageName = LOGIN_SINGLE_PAGE;
+		}
+		else {
+			pageName = LOGIN_ACCOUNT_CREATE_SUCCESS;
+		}
+
+		s.setAppState(pageName);
+		s.setEvar(18, pageName);
 		s.setEvents("event25,event26");
 		s.track();
 	}
 
-	public static void trackAccountCreateError(String error) {
+	public static void trackSignInError(String error) {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
@@ -2706,11 +2716,20 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackSinglePageAccountCreateError(String error) {
+	public static void trackAccountCreationError(String error) {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
-		s.setAppState(LOGIN_SINGLE_PAGE);
-		s.setEvar(18, LOGIN_SINGLE_PAGE);
+		String pageName;
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
+			AbacusUtils.EBAndroidAppAccountSinglePageSignUp, R.string.preference_single_page_sign_up)) {
+			pageName = LOGIN_SINGLE_PAGE;
+		}
+		else {
+			pageName = LOGIN_ACCOUNT_CREATE_ERROR;
+		}
+
+		s.setAppState(pageName);
+		s.setEvar(18, pageName);
 		s.setProp(36, error);
 		s.track();
 	}
