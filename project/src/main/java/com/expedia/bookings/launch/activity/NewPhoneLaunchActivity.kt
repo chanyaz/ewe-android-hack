@@ -16,6 +16,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import com.activeandroid.Cache
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -97,7 +98,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     val viewPager: DisableableViewPager by lazy {
         findViewById(R.id.viewpager) as DisableableViewPager
     }
-    val toolbar: NewPhoneLaunchToolbar by  lazy {
+    val toolbar: NewPhoneLaunchToolbar by lazy {
         findViewById(R.id.launch_toolbar) as NewPhoneLaunchToolbar
     }
 
@@ -156,8 +157,23 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
 
-        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_satellite_config))
-            SatelliteViewModel().fetchFeatureConfig()
+        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_satellite_config)) {
+            val FEATURE_CONFIG = "featureConfig"
+            val fetchPref = Cache.getContext().getSharedPreferences(FEATURE_CONFIG, 0)
+            val keys = fetchPref.all
+            val timestamp = keys["timestamp"].toString()
+            val currentTime = System.currentTimeMillis()
+            val oneDay: Long = 86400000
+
+            if ((currentTime - timestamp.toLong()) >= oneDay) {
+                System.out.println("satellite call")
+                SatelliteViewModel().fetchFeatureConfig()
+            } else {
+                System.out.println("No satellite call")
+                for (entry in keys.entries)
+                    System.out.println(entry.toString())
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -206,21 +222,18 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             if (resultCode == RESULT_OK && data != null) {
                 showFlightItinCheckinDialog(data)
             }
-        }
-        else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
+        } else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
             if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
                 val tripId = data.getStringExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
             }
-        }
-        else if (requestCode == Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE) {
+        } else if (requestCode == Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE) {
             if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
                 val tripId = data.getStringExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID)
                 itinListFragment?.showDeepRefreshLoadingView(true)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
             }
-        }
-        else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
+        } else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val tripId = data.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
