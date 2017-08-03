@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class TripHotel extends TripComponent {
 	private Set<String> mConfirmationNumbers;
 	private String mSharableDetailsUrl;
 	private Traveler mPrimaryTraveler; // Used in sharedItin.
+	private List<TripHotelRoom> mRooms = new ArrayList<>();
 
 	public TripHotel() {
 		super(Type.HOTEL);
@@ -79,6 +81,14 @@ public class TripHotel extends TripComponent {
 
 	public void setPrimaryTraveler(Traveler primaryTraveler) {
 		this.mPrimaryTraveler = primaryTraveler;
+	}
+
+	public void addRoom(TripHotelRoom room) {
+		getRooms().add(room);
+	}
+
+	public List<TripHotelRoom> getRooms() {
+		return mRooms;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
