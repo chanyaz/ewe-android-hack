@@ -4,7 +4,6 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.SatelliteServices
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
-import com.sun.xml.internal.fastinfoset.util.StringArray
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
@@ -36,9 +35,8 @@ class SatelliteResponseTest {
     @Test
     fun testSatelliteResponse() {
         var searchResponseObserver: TestSubscriber<List<String>> = TestSubscriber()
-        sat.fetchFeatureConfig(searchResponseObserver,"expedia.app.android.phone:6.9.0")
+        sat.subscribeSatellite(searchResponseObserver,"expedia.app.android.phone:6.9.0")
         searchResponseObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        searchResponseObserver.assertCompleted()
         searchResponseObserver.assertValueCount(1)
         val response  = listOf("downloadConfigsOnPOSChange","14731","14732","14484","mocked")
         searchResponseObserver.assertValues(response)

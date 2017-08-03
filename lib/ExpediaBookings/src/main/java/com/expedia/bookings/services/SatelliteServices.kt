@@ -27,8 +27,7 @@ open class SatelliteServices(endpoint: String, okHttpClient: OkHttpClient,interc
         adapter.create(SatelliteApi::class.java)
     }
 
-    fun fetchFeatureConfig(observer: Observer<List<String>>, clientId: String): Subscription {
-
+    fun subscribeSatellite(observer: Observer<List<String>>, clientId: String): Subscription {
         val search = satelliteApi.getFeatureConfigs(clientId, 1)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

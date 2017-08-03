@@ -8,8 +8,6 @@ import rx.Observer
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-
-
 class SatelliteViewModel {
 
     lateinit var satSearch: SatelliteServices
@@ -24,14 +22,7 @@ class SatelliteViewModel {
         override fun onNext(satelliteSearchResponse: List<String>) {
             if (satelliteSearchResponse != null) {
                 satelliteResponseSubject.onNext(satelliteSearchResponse)
-//                System.out.println(satelliteSearchResponse)
-                val FEATURE_CONFIG = "featureConfig"
-                val prefs = getContext().getSharedPreferences(FEATURE_CONFIG, 0).edit()
-                prefs.clear()
-                prefs.apply()
-                prefs.putString("test-id",satelliteSearchResponse.toString())
-                prefs.putLong("timestamp",System.currentTimeMillis())
-                prefs.apply()
+                SatellitePref().storeSatelliteResponse(getContext(),satelliteSearchResponse.toString())
             } else {
                 //nothing, swallow errors
             }
@@ -48,7 +39,7 @@ class SatelliteViewModel {
     }
 
     fun fetchFeatureConfig() {
-        satSearch.fetchFeatureConfig(featureConfigObserver, ServicesUtil.generateClientId(getContext()))
+        satSearch.subscribeSatellite(featureConfigObserver, ServicesUtil.generateClientId(getContext()))
     }
 
 }

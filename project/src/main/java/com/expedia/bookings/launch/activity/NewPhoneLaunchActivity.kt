@@ -16,7 +16,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import com.activeandroid.Cache
+import com.activeandroid.Cache.getContext
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -53,6 +53,7 @@ import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.updateVisibility
 import com.expedia.util.SatelliteViewModel
+import com.expedia.util.SatellitePref
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -158,20 +159,14 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
 
         if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_satellite_config)) {
-            val FEATURE_CONFIG = "featureConfig"
-            val fetchPref = Cache.getContext().getSharedPreferences(FEATURE_CONFIG, 0)
-            val keys = fetchPref.all
-            val timestamp = keys["timestamp"].toString()
-            val currentTime = System.currentTimeMillis()
-            val oneDay: Long = 86400000
-
-            if ((currentTime - timestamp.toLong()) >= oneDay) {
-                System.out.println("satellite call")
+            val callSatellite: Boolean = SatellitePref().callSatellite(getContext())
+            if(callSatellite) {
                 SatelliteViewModel().fetchFeatureConfig()
+                System.out.println("satellite call")
             } else {
-                System.out.println("No satellite call")
-                for (entry in keys.entries)
-                    System.out.println(entry.toString())
+                //dont call satellite
+                System.out.println("no satellite call")
+
             }
         }
     }
