@@ -1515,6 +1515,14 @@
     <string name="itin_hotel_room_details_requests_header">Requests</string>
     <!--Hotel itin room details requests disclaimer-->
     <string name="itin_hotel_room_details_requests_disclaimer">These room requests have been passed to the hotel, but they will not be confirmed and are subject to availability at the time of check-in.</string>
+    <!--Hotel itin room details no requests selected-->
+    <string name="itin_hotel_room_details_no_requests_selected">None selected at checkout</string>
+    <!--Hotel itin room request for extra adult bed-->
+    <string name="itin_hotel_room_request_extra_adult_bed">Extra adult bed</string>
+    <!--Hotel itin room request for extra child bed-->
+    <string name="itin_hotel_room_request_extra_child_bed">Extra child bed</string>
+    <!--Hotel itin room request for extra infant bed-->
+    <string name="itin_hotel_room_request_extra_infant_bed">Extra infant bed</string>
 
 
     <!-- Message to users that they can check into their hotel in three days -->

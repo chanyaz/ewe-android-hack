@@ -145,10 +145,11 @@
                 "occupantSelectedRoomOptions": {
                   "bedTypeName": "1 king bed",
                   "smokingPreference": "NONSMOKING_ROOM",
-                  "accessibilityOptions": [],
-                  "hasExtraBedAdult": false,
+                  "accessibilityOptions": ["Accessible bathroom", "Roll-in shower", "In-room accessibility"],
+                  "hasExtraBedAdult": true,
                   "hasExtraBedChild": false,
                   "hasExtraBedInfant": false,
+                  "specialRequest": "Please bring New York Times to the room",
                   "isSmokingPreferenceSelected": true,
                   "isRoomOptionsAvailable": true
                 },

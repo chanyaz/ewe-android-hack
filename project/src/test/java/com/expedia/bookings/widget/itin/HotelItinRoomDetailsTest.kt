@@ -43,4 +43,16 @@ class HotelItinRoomDetailsTest {
         roomDetailsWidget.expandRoomDetailsView()
         assertEquals(View.VISIBLE, roomDetailsWidget.expandedRoomDetails.visibility)
     }
+
+    @Test
+    fun roomRequestsAreCorrect() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+        val expectedString = "NONSMOKING_ROOM\n" +
+                "1 king bed\n" +
+                "Accessible bathroom, Roll-in shower, In-room accessibility\n" +
+                "\"Please bring New York Times to the room\"\n" +
+                "Extra adult bed"
+        assertEquals(expectedString, roomDetailsWidget.roomRequestsText.text)
+    }
 }

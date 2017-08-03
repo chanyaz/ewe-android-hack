@@ -52,6 +52,14 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+
+	public TripHotelRoom getLastHotelRoom() {
+		int numberOfRooms = getRooms().size();
+		if (numberOfRooms > 0) {
+			return mRooms.get(numberOfRooms - 1);
+		}
+		return null;
+	}
 	public boolean hasFetchedUpgradeOffers() {
 		return mProperty.getRoomUpgradeOfferType() != Property.RoomUpgradeType.NOT_CALLED_UPGRADE_API;
 	}
