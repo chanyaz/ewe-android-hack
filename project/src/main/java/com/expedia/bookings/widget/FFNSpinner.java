@@ -4,17 +4,22 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.*;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSale;
 
 public class FFNSpinner extends Spinner {
 
 	public FFNSpinner(Context context) {
 		super(context);
-		setAdapter(new TelephoneSpinnerAdapter(context));
+		setAdapter(new FFNSpinnerAdapter(context));
+		selectPOSCountry();
 	}
 
 	public FFNSpinner(Context context, AttributeSet attrs) {
@@ -29,6 +34,7 @@ public class FFNSpinner extends Spinner {
 		setAdapter(new FFNSpinnerAdapter(context, textLayout, dropDownView));
 
 		a.recycle();
+		selectPOSCountry();
 	}
 	@Override
 	public void onFinishInflate() {
@@ -39,24 +45,51 @@ public class FFNSpinner extends Spinner {
 	public void updateText() {
 		View child = getChildAt(0);
 		if (child instanceof android.widget.TextView) {
-			((android.widget.TextView) child).setText(String.format(Locale.getDefault(), "+%d", getSelectedAirline()));
+			((TextView) child).setText(String.format(Locale.getDefault(), "+%d", getSelectedFFNnumber()));
 		}
 	}
 
-	public void update(String airline) {
+	public void update(String FFNnumber, String airlineName) {
 		FFNSpinnerAdapter adapter = (FFNSpinnerAdapter) getAdapter();
 		for (int i = 0; i < adapter.getCount() - 1; i++) {
-			if (airline.equalsIgnoreCase(adapter.getAirlineName(i))) {
+			if (FFNnumber.equalsIgnoreCase("" + adapter.getFFNNumber(i)) && (TextUtils.isEmpty(airlineName)
+				|| airlineName.equalsIgnoreCase(adapter.getAirlineName(i)))) {
 				setSelection(i);
 			}
 		}
 	}
 
-	public String getSelectedAirline() {
+	public int getSelectedFFNnumber() {
+		int position = getSelectedItemPosition();
+		if (position == AdapterView.INVALID_POSITION) {
+			return AdapterView.INVALID_POSITION;
+		}
+		return ((FFNSpinnerAdapter) getAdapter()).getFFNNumber(position);
+	}
+
+	public String getSelectedAirlineName() {
 		int position = getSelectedItemPosition();
 		if (position == AdapterView.INVALID_POSITION) {
 			return null;
 		}
 		return ((FFNSpinnerAdapter) getAdapter()).getAirlineName(position);
+	}
+
+	public void selectPOSCountry() {
+		FFNSpinnerAdapter adapter = (FFNSpinnerAdapter) getAdapter();
+		String targetCountry = getContext().getString(PointOfSale.getPointOfSale()
+			.getCountryNameResId());
+		for (int i = 0; i < adapter.getCount(); i++) {
+			if (targetCountry.equalsIgnoreCase(adapter.getAirlineName(i))) {
+				setSelection(i);
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+		super.onInitializeAccessibilityNodeInfo(info);
+		info.setText(getContext().getString(R.string.ffn_program_text));
 	}
 }

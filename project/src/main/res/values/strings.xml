@@ -2099,6 +2099,8 @@
     <string name="collapse_advanced_button_cont_desc">Collapse Advanced (Optional) Button</string>
     <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
     <string name="frequent_flyer_optional">Frequent Flyer Program (optional)</string>
+    <!--Frequent Flyer Program-->
+    <string name="ffn_program_text">Programs</string>
     <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
     <string name="expand_frequent_flyer_button_cont_desc">Expand Frequent Flyer (Optional) Button</string>
     <string name="collapse_frequent_flyer_button_cont_desc">Collapse Frequent Flyer (Optional) Button</string>
