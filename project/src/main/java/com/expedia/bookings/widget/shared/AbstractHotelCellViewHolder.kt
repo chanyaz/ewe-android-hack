@@ -111,19 +111,30 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         val url = viewModel.getHotelLargeThumbnailUrl()
         if (url.isNotBlank()) {
 
-            var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
-            onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+            if (imageView.width == 0) {
+                // Because of prefetch search results get bound before they are laid out.
+                var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+                onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+                    PicassoHelper.Builder(itemView.context)
+                            .setPlaceholder(R.drawable.results_list_placeholder)
+                            .setError(R.drawable.room_fallback)
+                            .setCacheEnabled(false)
+                            .setTarget(target).setTag(PICASSO_TAG)
+                            .build()
+                            .load(HotelMedia(url).getBestUrls(imageView.width / 2))
+                    imageView.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
+                }
+
+                imageView.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
+            } else {
                 PicassoHelper.Builder(itemView.context)
                         .setPlaceholder(R.drawable.results_list_placeholder)
                         .setError(R.drawable.room_fallback)
                         .setCacheEnabled(false)
                         .setTarget(target).setTag(PICASSO_TAG)
                         .build()
-                        .load(HotelMedia(url).getBestUrls(root.width / 2))
-                root.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
+                        .load(HotelMedia(url).getBestUrls(imageView.width / 2))
             }
-
-            root.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
         }
 
         cardView.contentDescription = viewModel.getHotelContentDesc()
