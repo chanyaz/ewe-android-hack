@@ -44,10 +44,10 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		Common.delay(1);
 
 		Common.delay(1);
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Outbound to Detroit (DTW)")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 		PackageScreen.selectFlight(1);
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Outbound to Detroit (DTW)")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
 		assertSegmentData();
 		assertBundlePriceInFlight("$1,932");
