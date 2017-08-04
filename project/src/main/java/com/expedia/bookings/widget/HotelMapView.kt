@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.widget.RelativeLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
@@ -36,7 +37,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlin.properties.Delegates
 
-class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
+class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs), OnMapReadyCallback {
     val MAP_ZOOM_LEVEL = 15f
 
     var mapView: MapView by Delegates.notNull()
@@ -45,10 +46,9 @@ class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context,
     val selectRoomPrice: TextView by bindView(R.id.map_view_select_room_price)
     val selectRoomLabel: TextView by bindView(R.id.map_view_select_room)
 
-    val toolBar: Toolbar by bindView(R.id.toolbar)
+    val toolBar: Toolbar by bindView(R.id.infosite_map_toolbar)
     val toolBarTitle: TextView by bindView(R.id.hotel_name_text)
     var toolBarRating: StarRatingBar by Delegates.notNull()
-    val toolBarBackground: View by bindView(R.id.toolbar_background)
 
     var googleMap : GoogleMap? = null
 
@@ -67,8 +67,6 @@ class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context,
             toolBar.setPadding(0, statusBarHeight, 0, 0)
         }
         Ui.showTransparentStatusBar(context)
-        toolBar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-        toolBarBackground.layoutParams.height += statusBarHeight
         toolBar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
 
         val navIcon: ArrowXDrawable = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)

@@ -1,148 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="RelativeLayout">
 
-    <com.expedia.bookings.widget.FrameLayout android:id="@+id/stub_map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/infosite_map_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:orientation="vertical">
-
-        <View
-            android:id="@+id/select_a_room_dropshadow"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@drawable/map_shadow" />
+        android:layout_gravity="top"
+        android:background="?attr/primary_color"
+        android:minHeight="?attr/actionBarSize"
+        app:contentInsetStartWithNavigation="0dp">
 
         <LinearLayout
-            android:id="@+id/map_view_select_room_container"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:background="?attr/hotel_select_room_ripple_drawable"
-            android:orientation="horizontal"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp">
+            android:id="@+id/toolbar_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/map_view_select_room"
+                android:id="@+id/hotel_name_text"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:text="@string/select_a_room_instruction"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"/>
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:textStyle="medium" />
 
-            <LinearLayout
+            <com.expedia.bookings.widget.StarRatingBar
+                android:id="@+id/hotel_map_star_rating_bar"
+                android:layout_width="200dp"
+                android:layout_height="14dp"
+                android:visibility="gone"
+                app:star_color="@color/hotelsv2_detail_star_color"
+                app:star_drawable="@drawable/detail_star"
+                app:star_spacing="4dp" />
+
+            <com.expedia.bookings.widget.StarRatingBar
+                android:id="@+id/hotel_map_circle_rating_bar"
+                android:layout_width="200dp"
+                android:layout_height="14dp"
+                android:visibility="gone"
+                app:star_color="@color/hotelsv2_detail_star_color"
+                app:star_drawable="@drawable/circle_details"
+                app:star_spacing="4dp" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <com.expedia.bookings.widget.FrameLayout
+        android:id="@+id/stub_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/map_view_select_room_container"
+        android:layout_below="@+id/infosite_map_toolbar" />
+
+    <View
+        android:id="@+id/toolbar_dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_dropshadow_height"
+        android:background="@drawable/tb_shadow"
+        android:layout_below="@+id/infosite_map_toolbar"/>
+
+    <View
+        android:id="@+id/select_a_room_dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_above="@id/map_view_select_room_container"
+        android:background="@drawable/map_shadow" />
+
+    <LinearLayout
+        android:id="@+id/map_view_select_room_container"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/hotel_select_room_ripple_drawable"
+        android:orientation="horizontal"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/map_view_select_room"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="@string/select_a_room_instruction"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical"
+            android:orientation="vertical"
+            android:paddingRight="20dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/map_view_select_room_strikethrough_price"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="right|center_vertical"
-                android:orientation="vertical"
-                android:paddingRight="20dp">
+                android:layout_height="wrap_content"
+                android:alpha=".7"
+                android:gravity="right"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/map_view_select_room_strikethrough_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha=".7"
-                    android:gravity="right"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"
-                    android:visibility="gone"/>
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/map_view_select_room_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"/>
-
-            </LinearLayout>
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/map_view_select_room_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-
-    <View
-        android:id="@+id/toolbar_background"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/primary_color"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:minHeight="?attr/actionBarSize"
-            app:contentInsetStartWithNavigation="0dp">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:minHeight="?attr/actionBarSize">
-
-                <LinearLayout
-                    android:id="@+id/toolbar_two"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/hotel_name_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="#FFFFFF"
-                        android:textSize="18sp"
-                        app:textStyle="medium"/>
-
-                    <com.expedia.bookings.widget.StarRatingBar
-                        android:id="@+id/hotel_map_star_rating_bar"
-                        android:layout_width="200dp"
-                        android:layout_height="14dp"
-                        android:visibility="gone"
-                        app:star_color="@color/hotelsv2_detail_star_color"
-                        app:star_drawable="@drawable/detail_star"
-                        app:star_spacing="4dp" />
-
-                    <com.expedia.bookings.widget.StarRatingBar
-                        android:id="@+id/hotel_map_circle_rating_bar"
-                        android:layout_width="200dp"
-                        android:layout_height="14dp"
-                        android:visibility="gone"
-                        app:star_color="@color/hotelsv2_detail_star_color"
-                        app:star_drawable="@drawable/circle_details"
-                        app:star_spacing="4dp" />
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-        </android.support.v7.widget.Toolbar>
-
-        <View
-            android:id="@+id/toolbar_dropshadow"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_dropshadow_height"
-            android:background="@drawable/tb_shadow"/>
-
-    </LinearLayout>
 </merge>
