@@ -117,6 +117,10 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         onLoginSuccess()
     }
 
+    @Subscribe fun onUserLoggedOut(@Suppress("UNUSED_PARAMETER") event: Events.SignOut) {
+        onLogoutSuccess()
+    }
+
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.FLIGHTS_V2
     }

@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Rect
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
@@ -29,6 +30,7 @@ import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
@@ -135,9 +137,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     val logoutDialog: AlertDialog by lazy {
         val logoutFunc = fun() {
-            logoutUser()
+            signOutUser(context)
         }
         DialogFactory.createLogoutDialog(context, logoutFunc)
+    }
+
+    @VisibleForTesting
+    fun signOutUser(context: Context) {
+        User.signOut(context)
+        Events.post(Events.SignOut())
     }
 
     /** viewmodels **/
@@ -462,8 +470,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         logoutDialog.show()
     }
 
-    private fun logoutUser() {
-        User.signOut(context)
+    fun onLogoutSuccess() {
         updateDbTravelers()
         ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
         initLoggedInState(false)

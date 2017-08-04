@@ -58,6 +58,10 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         onLoginSuccess()
     }
 
+    @Subscribe fun onUserLoggedOut(@Suppress("UNUSED_PARAMETER") event: Events.SignOut) {
+        onLogoutSuccess()
+    }
+
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.PACKAGES
     }

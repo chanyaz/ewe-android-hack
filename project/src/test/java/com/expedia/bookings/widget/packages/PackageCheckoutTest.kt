@@ -25,6 +25,7 @@ import com.expedia.bookings.data.user.User
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
@@ -220,9 +221,43 @@ class PackageCheckoutTest {
 
         checkout.onLoginSuccess()
 
+        testUserLoggedIn.assertValue(true)
         assertNotEquals(checkout.paymentWidget.sectionBillingInfo.billingInfo.storedCard, testInvalidCard)
         assertEquals(checkout.paymentWidget.sectionBillingInfo.billingInfo.storedCard, testCard1)
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
+    }
+
+    @Test
+    fun testLoggedOutRefreshesUi() {
+        createTrip()
+
+        val testUserLoggedIn = TestSubscriber<Boolean>()
+        checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
+        val testUser = User()
+        val testCard1 = setUpCreditCards("4111111111111111", "testVisa", PaymentType.CARD_VISA, "2")
+
+        testUser.addStoredCreditCard(testCard1)
+        testUser.primaryTraveler = enterTraveler(Traveler())
+        Db.setUser(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
+        checkout.onLoginSuccess()
+
+        testUserLoggedIn.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        testUserLoggedIn.assertValue(true)
+        assertEquals("malcolm", Db.getTravelers()[0].firstName)
+        assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
+        assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
+        assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
+
+        checkout.signOutUser(activity)
+        checkout.onLogoutSuccess()
+
+        assertEquals(null, Db.getUser())
+        assertEquals(null, Db.getTravelers()[0].firstName)
+        assertEquals(checkout.paymentWidget.sectionBillingInfo.billingInfo.storedCard, null)
+        assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
+        assertEquals(TravelerCheckoutStatus.CLEAN, checkout.travelersPresenter.viewModel.travelersCompletenessStatus.value)
+        assertEquals(false, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
     }
 
     @Test
