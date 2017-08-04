@@ -51,7 +51,7 @@ public class FFNSpinnerAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public String getItem(int position) {
-		return String.format(Locale.getDefault(), "%s (%d)", getAirlineName(position), getFFNNumber(position));
+		return String.format(Locale.getDefault(), "%s Number: (%d)", getAirlineName(position), getFFNNumber(position));
 	}
 
 	public String getAirlineName(int position) {
@@ -104,11 +104,11 @@ public class FFNSpinnerAdapter extends ArrayAdapter<String> {
 
 	private void fillAirlines(Context context) {
 		final Resources res = context.getResources();
-		FFNAirlines.put("Airline A", 0001);
-		FFNAirlines.put("Airline B", 0002);
-		FFNAirlines.put("Airline C", 0003);
-		FFNAirlines.put("Airline D", 0004);
-		FFNAirlines.put("Airline E", 0005);
+		FFNAirlines.put("Airline A", 1234);
+		FFNAirlines.put("Airline B", 2345);
+		FFNAirlines.put("Airline C", 3456);
+		FFNAirlines.put("Airline D", 4567);
+		FFNAirlines.put("Airline E", 5678);
 	}
 
 }

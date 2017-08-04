@@ -32,7 +32,7 @@ public class FFNSpinner extends Spinner {
 			R.layout.simple_spinner_dropdown_item);
 
 		setAdapter(new FFNSpinnerAdapter(context, textLayout, dropDownView));
-
+		setPrompt("My Programs");
 		a.recycle();
 		selectPOSCountry();
 	}
@@ -90,6 +90,6 @@ public class FFNSpinner extends Spinner {
 	@Override
 	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
 		super.onInitializeAccessibilityNodeInfo(info);
-		info.setText(getContext().getString(R.string.ffn_program_text));
+		info.setText(getContext().getString(R.string.spinner_title));
 	}
 }
