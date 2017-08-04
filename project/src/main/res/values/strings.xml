@@ -848,11 +848,12 @@
     <string name="total_with_tax">Total with Tax</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Trip Total</string>
-    <!-- Label describing the total price of the package that is going to be booked -->
-    <string name="packages_trip_total">Trip total\u0020</string>
+    <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
+    <string name="packages_trip_total">Trip total</string>
     <!-- Label describing the price of the package includes taxes and fees -->
-    <string name="packages_trip_total_append_taxes_and_fees">(with taxes &amp; fee)</string>
-
+    <string name="packages_append_taxes_and_fees">(with taxes &amp; fee)</string>
+    <!-- Template for packages total includes taxes and fees e.g Trip total (with taxes & fee) -->
+    <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">Creating the trip…</string>
 

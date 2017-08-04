@@ -843,8 +843,12 @@ public class StrUtils {
 
 	public static CharSequence bundleTotalWithTaxesString(Context context) {
 		SpannableBuilder builder = new SpannableBuilder();
-		builder.append(context.getString(R.string.packages_trip_total));
-		builder.append(context.getString(R.string.packages_trip_total_append_taxes_and_fees), new RelativeSizeSpan(0.8f));
-		return builder.build();
+		builder.append(context.getString(R.string.packages_append_taxes_and_fees),
+			FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR), new RelativeSizeSpan(0.8f));
+		CharSequence appendTaxesFeesMessage = builder.build();
+		return Phrase.from(context, R.string.packages_trip_total_with_taxes_and_fees_TEMPLATE)
+			.put("totalstring", context.getString(R.string.packages_trip_total))
+			.put("taxesandfeesstring", appendTaxesFeesMessage)
+			.format();
 	}
 }

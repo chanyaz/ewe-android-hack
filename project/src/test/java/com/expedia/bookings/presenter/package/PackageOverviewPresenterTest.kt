@@ -63,7 +63,7 @@ class PackageOverviewPresenterTest {
         assertEquals("Bundle total", overviewPresenter.totalPriceWidget.bundleTotalText.text)
         setPointOfSale(PointOfSaleId.JAPAN)
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
-        assertEquals("Trip total ", overviewPresenter.totalPriceWidget.bundleTotalText.text)
+        assertEquals("Trip total", overviewPresenter.totalPriceWidget.bundleTotalText.text)
         setPointOfSale(initialPOSID)
     }
 
