@@ -89,6 +89,11 @@
         <attr name="drop_down_view" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="FFNSpinner">
+        <attr name="ffn_text_view_layout" format="reference" />
+        <attr name="ffn_drop_down_view" format="reference"/>
+    </declare-styleable>
+
     <!-- So that we can define different credit card icons for flights vs hotels -->
     <declare-styleable name="stored_credit_card_section">
         <attr name="cardIcon" format="reference" />

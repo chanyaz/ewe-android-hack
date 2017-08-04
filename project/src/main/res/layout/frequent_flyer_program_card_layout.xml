@@ -29,14 +29,14 @@
                 android:orientation="vertical"
                 android:padding= "10dp">
 
-                <com.expedia.bookings.widget.TelephoneSpinner
-                    android:id="@+id/edit_frequent_flyer_program_spinner"
+                <com.expedia.bookings.widget.FFNSpinner
+                    android:id="@+id/spinner"
                     style="@style/FakeSpinner.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/traveler_frequent_flyer_program_number"
