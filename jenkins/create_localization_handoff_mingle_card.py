@@ -3,10 +3,8 @@ import sys
 import datetime
 import pytz
 import traceback
+import os
 from slack_send_message import send_public_slack_message
-
-MINGLE_ACCESS_ID='mingler'
-MINGLE_ACCESS_SECRET="+94zjsneYF6iwS1lqdLdKmvAyx0ilt8o1RuV71fKU+E="
 
 UTC = pytz.utc
 handoffDate = datetime.datetime.now(tz=UTC).strftime('%A %d, %b %Y, %H:%M %p %Z')
@@ -17,16 +15,19 @@ fileLocation = sys.argv[3]
 slack_access_token = sys.argv[4]
 assignTo = sys.argv[5]
 tpmComments = sys.argv[6]
+MINGLE_ACCESS_ID = os.environ['MINGLE_ACCESS_ID']
+MINGLE_ACCESS_SECRET = os.environ['MINGLE_ACCESS_TOKEN']
+mingleProject = 'ebapp'
 
 if brandName == 'expedia':
-    mingleProject = 'eb_ad_app'
     slack_channel = '#bexg-app-android'
-    cardProperties = {'Team':'PF_US', 'Releases - Release':'(Current Release)', 'Theme':'Localizations', 'Schedule - Iteration':'(Current Iteration)',
-    'Status':'Analysis', 'Assigned':assignTo}
+    team = 'Platform'
 else:
-    mingleProject = 'india_mobile_team'
     slack_channel = '#ewe-mobile-india'
-    cardProperties = {'Sprint Tree - Sprint':'(Current Sprint)', 'Theme':'Localizations', 'Status':'In analysis', 'Assigned':assignTo, 'OS':'Android', 'LOB':'MB'}
+    team = 'Multibrand'
+
+cardProperties = {'Platform':'Android', 'Team':team, 'Releases - Release':'(Release *WIP)', 'Theme':'Localizations', 'Schedule - Iteration':'(Current Iteration)',
+                  'Status':'Analysis', 'Assigned':assignTo}
 
 cardName = 'LOC DROP - {handoff_date}'.format(handoff_date=handoffDate)
 cardDescription = 'Loc handoff<br><br>Brand : {brand_name}<br>Branch : {branch_name}<br>Date : {date}<br>Comments : {tpm_comments}' \

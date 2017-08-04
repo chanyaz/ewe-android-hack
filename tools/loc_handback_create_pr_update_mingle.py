@@ -3,7 +3,6 @@ parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.sys.path.insert(0,os.path.join(parentdir, "jenkins"))
 import sys
 from github3 import login
-import logging
 from mingle_utils import murmurInProject, uploadAttachment
 from pr_utils import prUrl
 import subprocess
@@ -22,14 +21,9 @@ gitBaseBranchName = sys.argv[4]
 mingleCardNumber = sys.argv[5]
 zipFileLocation = sys.argv[6]
 
-if isMultiBrand(brandName):
-    mingleProjectId = 'india_mobile_team'
-else:
-    mingleProjectId = 'eb_ad_app'
-
-
-mingleAccessId = "rkochhar"
-mingleAccessSecret = "5ISptP8ZqZDO7YNh0ZbwADo2NYRNLRIDSIFDxT0qS+Q="
+mingleProjectId = 'ebapp'
+mingleAccessId = os.environ['MINGLE_ACCESS_ID']
+mingleAccessSecret = os.environ['MINGLE_ACCESS_TOKEN']
 githubToken = os.environ['GITHUB_ACCESS_TOKEN']
 github = login(token=githubToken)
 repo = github.repository('ExpediaInc', 'ewe-android-eb')
