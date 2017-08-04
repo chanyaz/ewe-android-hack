@@ -8,11 +8,12 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.mobiata.android.widget.Spinner;
 
 public class FFNSpinner extends Spinner {
 
@@ -32,7 +33,7 @@ public class FFNSpinner extends Spinner {
 			R.layout.simple_spinner_dropdown_item);
 
 		setAdapter(new FFNSpinnerAdapter(context, textLayout, dropDownView));
-		setPrompt("My Programs");
+		setPrompt(getContext().getString(R.string.spinner_title));
 		a.recycle();
 		selectPOSCountry();
 	}
