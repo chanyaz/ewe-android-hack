@@ -9,7 +9,7 @@
         android:paddingTop="10dp">
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/frequent_flyer_program_name_title"
+            android:id="@+id/frequent_flyer_program_card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -38,7 +38,7 @@
                     android:layout_gravity="center_horizontal">
 
                     <com.expedia.bookings.widget.traveler.TravelerEditText
-                        android:id="@+id/edit_traveler_frequent_flyer_name"
+                        android:id="@+id/edit_frequent_flyer_program_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="13"
@@ -48,7 +48,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/traveler_frequent_flyer_program_number"
+                    android:id="@+id/frequent_flyer_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/frequent_flyer_program_number"
@@ -56,7 +56,7 @@
                     android:layout_gravity="center_horizontal">
 
                     <com.expedia.bookings.widget.traveler.TravelerEditText
-                        android:id="@+id/edit_traveler_frequent_flyer_program_number"
+                        android:id="@+id/edit_frequent_flyer_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="13"
