@@ -1,21 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import com.expedia.bookings.ADMS_Measurement;
-import com.adobe.mobile.Config;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -23,6 +7,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -34,7 +19,8 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Pair;
-
+import com.adobe.mobile.Config;
+import com.expedia.bookings.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -112,7 +98,19 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import kotlin.NotImplementedError;
 
 /**
@@ -824,6 +822,10 @@ public class OmnitureTracking {
 		}
 		else {
 			s.setEvar(52, "Pay Now");
+		}
+
+		if (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsWebCheckout);
 		}
 
 		s.trackLink(null, "o", "Hotel Infosite", null, null);
