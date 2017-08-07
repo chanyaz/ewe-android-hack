@@ -29,15 +29,23 @@
                 android:orientation="vertical"
                 android:padding= "10dp">
 
-                <com.expedia.bookings.widget.FFNSpinner
-                    android:id="@+id/spinner"
-                    style="@style/FakeSpinner.Light"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/frequent_flyer_program_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_horizontal"
-                    android:prompt="@string/spinner_title"/>
+                    android:hint="@string/frequent_flyer_program_name"
+                    android:labelFor="@+id/frequent_flyer_program_name"
+                    android:layout_gravity="center_horizontal">
+
+                    <com.expedia.bookings.widget.traveler.TravelerEditText
+                        android:id="@+id/edit_traveler_frequent_flyer_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="13"
+                        android:maxLines="1"
+                        android:textSize="@dimen/traveler_input_text_size"/>
+
+                </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/traveler_frequent_flyer_program_number"
@@ -48,7 +56,7 @@
                     android:layout_gravity="center_horizontal">
 
                     <com.expedia.bookings.widget.traveler.TravelerEditText
-                        android:id="@+id/edit_traveler_frequent_flyer_program"
+                        android:id="@+id/edit_traveler_frequent_flyer_program_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="13"

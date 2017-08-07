@@ -66,16 +66,16 @@ public class FFNSpinnerAdapter extends ArrayAdapter<String> {
 		return FFNnumber[position];
 	}
 
-	public int getCountryCodeFromCountryName(String countryName) {
-		return FFNAirlines.get(countryName);
+	public int getFFNnumberFromAirlineName(String airlineName) {
+		return FFNAirlines.get(airlineName);
 	}
 
-	public int getPositionFromName(String countryName) {
-		if (Strings.isEmpty(countryName)) {
+	public int getPositionFromName(String airlineName) {
+		if (Strings.isEmpty(airlineName)) {
 			return CurrentPosition;
 		}
 		for (int i = 0; i < FFNAirlines.size(); i++) {
-			if (getAirlineName(i).equals(countryName)) {
+			if (getAirlineName(i).equals(airlineName)) {
 				return i;
 			}
 		}

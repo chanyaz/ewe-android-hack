@@ -2151,6 +2151,8 @@
     <string name="redress_number_msg">A redress number is a unique TSA-issued number that helps the TSA eliminate watch list misidentification and verify your identity.</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">Program Number</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">Frequent flyer program</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">Seating Preference</string>
