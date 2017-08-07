@@ -602,7 +602,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
-                if (!PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
+                if ((searchPresenter.flightAdvanceSearchView.visibility == View.VISIBLE) && !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
                         Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)) {
                     searchPresenter.flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
                 }
