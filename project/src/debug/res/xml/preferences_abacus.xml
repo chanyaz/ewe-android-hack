@@ -448,15 +448,16 @@
             android:summary="%s"
             android:title="Checkout button text - 13480" />
 
+
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_checkout_text_choices"
-            android:entryValues="@array/abacus_checkout_text_values"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="14761"
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotels Web Checkout AB text - 14761" />
-
+        
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
