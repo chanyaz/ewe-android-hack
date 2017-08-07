@@ -26,6 +26,7 @@ import com.expedia.bookings.deeplink.CarDeepLink;
 import com.expedia.bookings.deeplink.DeepLink;
 import com.expedia.bookings.deeplink.DeepLinkParser;
 import com.expedia.bookings.deeplink.FlightDeepLink;
+import com.expedia.bookings.deeplink.FlightShareDeepLink;
 import com.expedia.bookings.deeplink.ForceBucketDeepLink;
 import com.expedia.bookings.deeplink.HomeDeepLink;
 import com.expedia.bookings.deeplink.HotelDeepLink;
@@ -51,6 +52,7 @@ import com.expedia.bookings.utils.navigation.CarNavUtils;
 import com.expedia.bookings.utils.navigation.FlightNavUtils;
 import com.expedia.bookings.utils.navigation.HotelNavUtils;
 import com.expedia.bookings.utils.navigation.NavUtils;
+import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
@@ -192,6 +194,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			else {
 				NavUtils.goToLaunchScreen(this, true);
 			}
+			finish = true;
+		}
+		else if (deepLink instanceof FlightShareDeepLink) {
+			handleFlightShareDeepLink((FlightShareDeepLink)deepLink);
 			finish = true;
 		}
 		else {
@@ -408,6 +414,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private void handleRailSearch(RailDeepLink deepLink) {
 		NavUtils.goToRail(this, null, 0);
+	}
+
+	private void handleFlightShareDeepLink(FlightShareDeepLink flightShareDeepLink) {
+		ShortcutUtils.INSTANCE.shareFlightStatus(this.getBaseContext());
 	}
 
 	@VisibleForTesting

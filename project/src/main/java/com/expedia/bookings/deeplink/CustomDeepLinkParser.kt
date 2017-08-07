@@ -32,6 +32,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
             "forcebucket" -> return parseForceBucketDeepLink(data)
             "packagesearch" -> return parsePackagesSearchCustomDeepLink(data)
             "railsearch" -> return parseRailSearchCustomDeepLink(data)
+            "flightshare" -> return parseFlightShareCustomDeepLink(data)
             else -> return HomeDeepLink()
         }
     }
@@ -127,6 +128,10 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
 
     private fun parseRailSearchCustomDeepLink(data: Uri): RailDeepLink {
         return RailDeepLink()
+    }
+
+    private fun parseFlightShareCustomDeepLink(data: Uri): FlightShareDeepLink {
+        return FlightShareDeepLink()
     }
 
     private fun parseChildAges(childAgesStr: String, numAdults: Int): List<ChildTraveler>? {

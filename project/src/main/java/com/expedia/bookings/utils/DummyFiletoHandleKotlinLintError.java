@@ -1207,6 +1207,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_search,
 		R.drawable.ic_work,
 		R.layout.pro_wizard_launch_tab_view,
+		R.string.get_a_room,
+		R.string.find_a_hotel_tonight,
+		R.string.share_flight,
+		R.string.share_flight_status,
 		//Please add your string above this line to avoid conflicts
 		R.string.flights_there_maybe_additional_fee
 		//Please add your string above this line to avoid conflicts

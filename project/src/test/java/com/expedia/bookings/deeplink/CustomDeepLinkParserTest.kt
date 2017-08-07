@@ -286,6 +286,13 @@ class CustomDeepLinkParserTest {
         Assert.assertTrue(output is HomeDeepLink)
     }
 
+    @Test
+    fun flightShareDeepLinkParsing() {
+        var data = Uri.parse("expda://flightShare")
+        var output = parser.parseDeepLink(data)
+        Assert.assertTrue(output is FlightShareDeepLink)
+    }
+
     private fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
         Assert.assertEquals(childrenExpected.size, childrenActual.size)
         for (i in childrenExpected.indices) {

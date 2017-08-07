@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.text.format.DateUtils;
@@ -62,6 +64,7 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
+import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
@@ -307,6 +310,15 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		if (BugShakerShim.isBugShakerEnabled(this)) {
 			BugShakerShim.startNewBugShaker(this);
+		}
+		initializeAppShortcuts();
+	}
+
+	@TargetApi(25)
+	private void initializeAppShortcuts() {
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+			ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+			ShortcutUtils.INSTANCE.initialize(getBaseContext(), shortcutManager);
 		}
 	}
 

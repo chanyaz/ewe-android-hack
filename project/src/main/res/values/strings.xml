@@ -4712,4 +4712,13 @@
     <!--Create a new Expedia account-->
     <string name="signup_variant_control_TEMPLATE">Create a new {brand} account</string>
 
+    <!--App shortcut for hotel search-->
+    <string name="get_a_room">Get a room</string>
+    <!--App shortcut for hotel search long version-->
+    <string name="find_a_hotel_tonight">Find a hotel tonight</string>
+    <!--App shortcut for sharing flight info-->
+    <string name="share_flight">Share flight</string>
+    <!--App shortcut for sharing flight info long version-->
+    <string name="share_flight_status">Share flight status</string>
+
 </resources>
