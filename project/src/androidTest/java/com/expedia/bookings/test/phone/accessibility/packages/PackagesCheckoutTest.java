@@ -54,16 +54,16 @@ public class PackagesCheckoutTest extends PackageTestCase {
 
 		PackageScreen.clickPaymentInfo();
 		Espresso.closeSoftKeyboard();
-		onView(withId(R.id.edit_creditcard_number)).check(matches(withInfoText(" Enter new Debit/Credit Card")));
+		onView(withId(R.id.edit_creditcard_number)).check(matches(withInfoText("Enter new Debit/Credit Card")));
 		onView(withId(R.id.edit_creditcard_exp_text_btn))
 			.check(matches(withInfoText(" Expiration Date, Opens dialog")));
-		onView(withId(R.id.edit_creditcard_cvv)).check(matches(withInfoText(" CVV")));
-		onView(withId(R.id.edit_name_on_card)).check(matches(withInfoText(" Cardholder name")));
-		onView(withId(R.id.edit_address_line_one)).check(matches(withInfoText(" Address line 1")));
-		onView(withId(R.id.edit_address_line_two)).check(matches(withInfoText(" Address line 2 (optional)")));
-		onView(withId(R.id.edit_address_city)).check(matches(withInfoText(" City")));
-		onView(withId(R.id.edit_address_state)).check(matches(withInfoText(" State")));
-		onView(withId(R.id.edit_address_postal_code)).check(matches(withInfoText(" Zip Code")));
+		onView(withId(R.id.edit_creditcard_cvv)).check(matches(withInfoText("CVV")));
+		onView(withId(R.id.edit_name_on_card)).check(matches(withInfoText("Cardholder name")));
+		onView(withId(R.id.edit_address_line_one)).check(matches(withInfoText("Address line 1")));
+		onView(withId(R.id.edit_address_line_two)).check(matches(withInfoText("Address line 2 (optional)")));
+		onView(withId(R.id.edit_address_city)).check(matches(withInfoText("City")));
+		onView(withId(R.id.edit_address_state)).check(matches(withInfoText("State")));
+		onView(withId(R.id.edit_address_postal_code)).check(matches(withInfoText("Zip Code")));
 		Common.pressBack();
 
 		PackageScreen.clickPaymentInfo();
@@ -71,7 +71,7 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		PackageScreen.enterCreditCard();
 		PackageScreen.completePaymentForm();
 		onView(withId(R.id.edit_creditcard_number))
-			.check(matches(withInfoText(" Enter new Debit/Credit Card, 4111111111111111")));
+			.check(matches(withInfoText("Enter new Debit/Credit Card, 4111111111111111")));
 		LocalDate monthDate = LocalDate.now();
 		LocalDate yearDate = LocalDate.now();
 		yearDate = yearDate.plusYears(1);
@@ -79,14 +79,14 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		String dateString = monthDate.toString("MM") + "/" + yearDate.toString("yy");
 		onView(withId(R.id.edit_creditcard_exp_text_btn))
 			.check(matches(withInfoText(" Expiration Date, " + dateString + ", Opens dialog")));
-		onView(withId(R.id.edit_creditcard_cvv)).check(matches(withInfoText(" CVV")));
-		onView(withId(R.id.edit_name_on_card)).check(matches(withInfoText(" Cardholder name, Mobiata Auto")));
+		onView(withId(R.id.edit_creditcard_cvv)).check(matches(withInfoText("CVV")));
+		onView(withId(R.id.edit_name_on_card)).check(matches(withInfoText("Cardholder name, Mobiata Auto")));
 		onView(withId(R.id.edit_address_line_one))
-			.check(matches(withInfoText(" Address line 1, 123 California Street")));
-		onView(withId(R.id.edit_address_line_two)).check(matches(withInfoText(" Address line 2 (optional)")));
-		onView(withId(R.id.edit_address_city)).check(matches(withInfoText(" City, San Francisco")));
-		onView(withId(R.id.edit_address_state)).check(matches(withInfoText(" State, CA")));
-		onView(withId(R.id.edit_address_postal_code)).check(matches(withInfoText(" Zip Code, 94105")));
+			.check(matches(withInfoText("Address line 1, 123 California Street")));
+		onView(withId(R.id.edit_address_line_two)).check(matches(withInfoText("Address line 2 (optional)")));
+		onView(withId(R.id.edit_address_city)).check(matches(withInfoText("City, San Francisco")));
+		onView(withId(R.id.edit_address_state)).check(matches(withInfoText("State, CA")));
+		onView(withId(R.id.edit_address_postal_code)).check(matches(withInfoText("Zip Code, 94105")));
 		Common.pressBack();
 	}
 }

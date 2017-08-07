@@ -35,7 +35,7 @@ class AccessiblePasswordEditTextTest {
     {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.onInitializeAccessibilityNodeInfo(testNode)
-        assertEquals(" CVV", testNode.text.toString())
+        assertEquals("CVV", testNode.text.toString())
     }
 
     @Test
@@ -44,7 +44,7 @@ class AccessiblePasswordEditTextTest {
         val testNode = AccessibilityNodeInfo.obtain()
         editText.setText("123")
         editText.onInitializeAccessibilityNodeInfo(testNode)
-        assertEquals(" CVV", testNode.text.toString())
+        assertEquals("CVV", testNode.text.toString())
     }
 
     @Test
@@ -54,7 +54,7 @@ class AccessiblePasswordEditTextTest {
         editText.setText("321")
         editText.valid = false
         editText.onInitializeAccessibilityNodeInfo(testNode)
-        assertEquals(" CVV, Error, ", testNode.text.toString())
+        assertEquals("CVV, Error, ", testNode.text.toString())
     }
 
     @Test
@@ -65,6 +65,6 @@ class AccessiblePasswordEditTextTest {
         editText.valid = false
         editText.errorMessage = "Enter a valid CVV"
         editText.onInitializeAccessibilityNodeInfo(testNode)
-        assertEquals(" CVV, Error, Enter a valid CVV", testNode.text.toString())
+        assertEquals("CVV, Error, Enter a valid CVV", testNode.text.toString())
     }
 }

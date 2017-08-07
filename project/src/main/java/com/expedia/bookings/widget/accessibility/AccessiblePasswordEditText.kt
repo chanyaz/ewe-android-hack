@@ -9,7 +9,7 @@ class AccessiblePasswordEditText(context: Context, attributeSet: AttributeSet) :
     override fun getAccessibilityNodeInfo(): String {
         val hint = (this.parent as? TextInputLayout)?.hint ?: this.hint?.toString() ?: ""
         val error = (this.parent as? TextInputLayout)?.error ?:  errorMessage
-        val sb: StringBuilder = StringBuilder(" $hint")
+        val sb: StringBuilder = StringBuilder("$hint")
         if (!valid) {
             sb.append(", $defaultErrorString, $error")
         }

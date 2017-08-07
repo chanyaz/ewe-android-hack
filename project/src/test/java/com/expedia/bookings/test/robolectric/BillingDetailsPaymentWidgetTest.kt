@@ -73,7 +73,7 @@ class BillingDetailsPaymentWidgetTest {
         val securityCodeInput = billingDetailsPaymentWidget.findViewById(R.id.edit_creditcard_cvv) as AccessibleEditText
         //test for accessibility content description
         securityCodeInput.getAccessibilityNodeInfo()
-        assertEquals(securityCodeInput.contentDescription, " CVV")
+        assertEquals(securityCodeInput.contentDescription, "CVV")
         assertNotNull(securityCodeInput)
     }
 
