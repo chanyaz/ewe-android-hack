@@ -43,8 +43,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private var bottomButtonContainerHeight = 0
     private val screenSize by lazy { Ui.getScreenSize(context) }
 
-    private var initialScrollTop = 0
-
     val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
     private var toolBarHeight = 0
 
@@ -70,6 +68,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private var galleryCollapsedConstraintSet = ConstraintSet()
     private var galleryFullScreenConstraintSet = ConstraintSet()
+
+    private var alreadyTrackedGalleryClick = false
 
     var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
         resortFeeWidget.feeDescriptionText.setText(vm.getResortFeeText())
@@ -128,6 +128,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
 
         galleryView.galleryClickedSubject.subscribe {
+            if (!alreadyTrackedGalleryClick) {
+                viewmodel.trackHotelDetailGalleryClick()
+                alreadyTrackedGalleryClick = true
+            }
             if (galleryExpanded) {
                 collapseGallery()
             } else {
@@ -170,6 +174,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         contentView.updateSpacer(getStickyRoomSizeMinusShadow())
         hideResortAndSelectRoom()
         galleryView.setGalleryItems(ArrayList())
+        alreadyTrackedGalleryClick = false
     }
 
     fun refresh() {

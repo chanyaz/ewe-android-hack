@@ -228,6 +228,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_DETAIL_BOOK_PHONE = "App.Hotels.Infosite.BookPhone";
 	private static final String HOTELSV2_DETAIL_SELECT_ROOM = "App.Hotels.Infosite.SelectRoom";
 	private static final String HOTELSV2_MAP_SELECT_ROOM = "App.Hotels.IS.Map.SelectRoom";
+	private static final String HOTELSV2_DETAIL_GALLERY_CLICK = "App.Hotels.IS.Gallery.Hotel";
 	private static final String HOTELSV2_REVIEWS = "App.Hotels.Reviews";
 
 	private static final String HOTELSV2_ETP_INFO = "App.Hotels.ETPInfo";
@@ -857,6 +858,16 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_SELECT_ROOM);
 		s.trackLink(null, "o", "Hotel Infosite", null, null);
+	}
+
+	public static void trackHotelDetailGalleryClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_GALLERY_CLICK + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_GALLERY_CLICK);
+
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink(null, "o", "Gallery View", null, null);
 	}
 
 	public static void trackLinkHotelV2MapSelectRoom() {
@@ -3247,7 +3258,6 @@ public class OmnitureTracking {
 	private static ADMS_Measurement createTrackLinkEvent(String link) {
 		ADMS_Measurement s = getFreshTrackingObject();
 
-
 		// link
 		s.setEvar(28, link);
 		s.setProp(16, link);
@@ -3943,6 +3953,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_DETAILS_ROOM_INFO = "App.Package.Hotels.IS.MoreRoomInfo";
 	private static final String PACKAGES_HOTEL_DETAILS_MAP = "App.Package.Infosite.Map";
 	private static final String PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM = "App.Package.IS.Map.SelectRoom";
+	private static final String PACKAGES_HOTELS_DETAIL_GALLERY_CLICK = "App.Package.Hotels.IS.Gallery.Hotel";
 
 	private static final String PACKAGES_HOTELS_SEARCH_REFINE = "App.Package.Hotels.Search.Filter";
 	private static final String PACKAGES_HOTELS_SORT_BY_TEMPLATE = "App.Package.Hotels.Search.Sort.";
@@ -4276,6 +4287,16 @@ public class OmnitureTracking {
 			link.append("Top");
 		}
 		createAndtrackLinkEvent(link.toString(), "Package Infosite");
+	}
+
+	public static void trackPackageHotelDetailGalleryClick() {
+		Log.d(TAG, "Tracking \"" + PACKAGES_HOTELS_DETAIL_GALLERY_CLICK + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(PACKAGES_HOTELS_DETAIL_GALLERY_CLICK);
+
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink(null, "o", "Gallery View", null, null);
 	}
 
 	public static void trackPackagesHotelReviewPageLoad() {

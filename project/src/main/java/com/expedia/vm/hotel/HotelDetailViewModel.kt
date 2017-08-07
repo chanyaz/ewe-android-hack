@@ -91,6 +91,10 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
         HotelTracking.trackHotelDetailMapView()
     }
 
+    override fun trackHotelDetailGalleryClick() {
+        HotelTracking.trackHotelDetailGalleryClick()
+    }
+
     companion object {
         @JvmStatic fun convertToToolbarViewModel(detailViewModel: BaseHotelDetailViewModel): HotelDetailToolbarViewModel {
             val viewModel = HotelDetailToolbarViewModel(detailViewModel.context, detailViewModel.hotelNameObservable.value, detailViewModel.hotelRatingObservable.value, detailViewModel.hotelSoldOut.value)

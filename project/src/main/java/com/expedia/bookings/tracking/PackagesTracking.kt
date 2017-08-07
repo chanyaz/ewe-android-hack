@@ -121,6 +121,10 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesHotelInfoActionSelectRoom(stickyButton)
     }
 
+    fun trackHotelDetailGalleryClick() {
+        OmnitureTracking.trackPackageHotelDetailGalleryClick()
+    }
+
     fun trackHotelReviewPageLoad() {
         OmnitureTracking.trackPackagesHotelReviewPageLoad()
     }

@@ -168,6 +168,10 @@ open class HotelTracking {
             OmnitureTracking.trackLinkHotelV2DetailSelectRoom()
         }
 
+        fun trackHotelDetailGalleryClick() {
+            OmnitureTracking.trackHotelDetailGalleryClick()
+        }
+
         fun trackTravelerPickerClick(text: String) {
             OmnitureTracking.trackHotelTravelerPickerClick(text)
         }

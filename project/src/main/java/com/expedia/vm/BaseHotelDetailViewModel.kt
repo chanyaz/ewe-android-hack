@@ -66,6 +66,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     abstract fun trackHotelDetailSelectRoomClick(isStickyButton: Boolean)
     abstract fun trackHotelViewBookClick()
     abstract fun trackHotelDetailMapViewClick()
+    abstract fun trackHotelDetailGalleryClick()
     abstract fun trackHotelDetailLoad(isRoomSoldOut: Boolean)
 
     val roomSelectedSubject = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
