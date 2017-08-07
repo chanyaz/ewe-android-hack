@@ -70,6 +70,17 @@ public class TripUtils {
 		}
 	}
 
+	public static List<TripComponent> getTripsComponentsInStartTimeAscendingOrder(List<TripComponent> trips) {
+		if (trips.size() > 1) {
+			List<TripComponent> sortedList = new ArrayList<>(trips);
+			Collections.sort(sortedList, SORT_ASCENDING_ORDER_COMPARATOR_COMPONENT);
+			return sortedList;
+		}
+		else {
+			return trips;
+		}
+	}
+
 	public static void putTripComponents(JSONObject obj, List<TripComponent> tripComponents) throws JSONException {
 		JSONUtils.putJSONableList(obj, "tripComponents", tripComponents);
 	}
@@ -118,10 +129,34 @@ public class TripUtils {
 		return components;
 	}
 
-
 	private static final Comparator<Trip> SORT_ASCENDING_ORDER_COMPARATOR = new Comparator<Trip>() {
 		@Override
 		public int compare(Trip trip1, Trip trip2) {
+
+			if (trip1.getStartDate() == null) {
+				if (trip1.getStartDate() == trip2.getStartDate()) {
+					return 0;
+				}
+				else {
+					return 1;
+				}
+			}
+
+			if (trip1.getStartDate().isBefore(trip2.getStartDate())) {
+				return -1;
+			}
+			else if (trip1.getStartDate().isEqual(trip2.getStartDate())) {
+				return 0;
+			}
+			else {
+				return 1;
+			}
+		}
+	};
+
+	private static final Comparator<TripComponent> SORT_ASCENDING_ORDER_COMPARATOR_COMPONENT = new Comparator<TripComponent>() {
+		@Override
+		public int compare(TripComponent trip1, TripComponent trip2) {
 
 			if (trip1.getStartDate() == null) {
 				if (trip1.getStartDate() == trip2.getStartDate()) {
@@ -236,7 +271,6 @@ public class TripUtils {
 		tripComponentOrder.add(TripComponent.Type.CAR);
 		tripComponentOrder.add(TripComponent.Type.ACTIVITY);
 		tripComponentOrder.add(TripComponent.Type.RAILS);
-		tripComponentOrder.add(TripComponent.Type.PACKAGE);
 		return tripComponentOrder;
 	}
 
@@ -252,7 +286,14 @@ public class TripUtils {
 			if (!trip.isShared()) {
 				for (TripComponent component : trip.getTripComponents()) {
 					if (component != null) {
-						usersTripComponentTypeHashSet.add(component.getType());
+						if (component.getType() == TripComponent.Type.PACKAGE) {
+							for (TripComponent packageComponents : trip.getTripComponents()) {
+								usersTripComponentTypeHashSet.add(packageComponents.getType());
+							}
+						}
+						else {
+							usersTripComponentTypeHashSet.add(component.getType());
+						}
 					}
 				}
 			}
@@ -268,7 +309,6 @@ public class TripUtils {
 		tripComponentTypeEventHashMap.put(TripComponent.Type.CAR, "event252");
 		tripComponentTypeEventHashMap.put(TripComponent.Type.ACTIVITY, "event253");
 		tripComponentTypeEventHashMap.put(TripComponent.Type.RAILS, "event254");
-		tripComponentTypeEventHashMap.put(TripComponent.Type.PACKAGE, "event255");
 
 		return tripComponentTypeEventHashMap;
 	}
@@ -283,8 +323,6 @@ public class TripUtils {
 			return "AIR";
 		case "ACTIVITY":
 			return "LX";
-		case "PACKAGE":
-			return "PGK";
 		case "RAILS":
 			return "RAIL";
 		case "CAR":
@@ -295,26 +333,37 @@ public class TripUtils {
 	}
 
 	public static String getUsersActiveTrip(Collection<Trip> trips, TripComponent.Type tripType) {
-		List<Trip> usersTrips = new ArrayList<>();
-		String activeTripString = "";
+		List<TripComponent> usersTripComponents = new ArrayList<>();
+		String activeTripComponentString = "";
 		for (Trip trip : trips) {
-			if (trip.getEndDate() != null && trip.getEndDate().plusDays(1).isAfterNow() && !trip.getTripComponents().isEmpty()) {
-				TripComponent tripComponent = trip.getTripComponents().get(0);
-				if (tripComponent.getType().equals(tripType)) {
-					usersTrips.add(trip);
+			if (trip.getEndDate() != null && trip.getEndDate().plusDays(1).isAfterNow() && !trip.getTripComponents()
+				.isEmpty()) {
+				for (TripComponent tripComp : trip.getTripComponents()) {
+					if (tripComp.getType() == TripComponent.Type.PACKAGE) {
+						TripPackage pack = (TripPackage) tripComp;
+						for (TripComponent packComp : pack.getTripComponents()) {
+							if (packComp.getType().equals(tripType)) {
+								usersTripComponents.add(packComp);
+							}
+
+						}
+					}
+					else if (tripComp.getType().equals(tripType)) {
+						usersTripComponents.add(tripComp);
+					}
+				}
+
+				if (!usersTripComponents.isEmpty()) {
+					List<TripComponent> sortedTrips = getTripsComponentsInStartTimeAscendingOrder(usersTripComponents);
+					activeTripComponentString = calculateActiveTripDatesFromNow(sortedTrips.get(0));
 				}
 			}
 		}
-		if (!usersTrips.isEmpty()) {
-			List<Trip> sortedTrips = getTripsInStartTimeAscendingOrder(usersTrips);
-			activeTripString = calculateActiveTripDatesFromNow(sortedTrips.get(0));
-		}
-
-		return activeTripString;
+		return activeTripComponentString;
 	}
 
 	@VisibleForTesting
-	private static String calculateActiveTripDatesFromNow(Trip trip) {
+	private static String calculateActiveTripDatesFromNow(TripComponent trip) {
 		DateTime now = DateTime.now();
 		StringBuilder tripDataStringBuilder = new StringBuilder();
 		DateTime tripStartDate = trip.getStartDate().withTimeAtStartOfDay();
@@ -326,7 +375,7 @@ public class TripUtils {
 		}
 		int endDateDaysBetweenNow = Days.daysBetween(now, tripEndDate).getDays();
 
-		String tripType = setTripComponentTypeCode(trip.getTripComponents().get(0));
+		String tripType = setTripComponentTypeCode(trip);
 
 		String tripDataString = tripDataStringBuilder.append(tripType)
 			.append(":")
@@ -337,5 +386,5 @@ public class TripUtils {
 
 		return tripDataString;
 	}
-	
+
 }

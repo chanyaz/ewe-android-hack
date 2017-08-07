@@ -350,7 +350,6 @@ class TripUtilsTest {
         val usersTrips = getUsersTripsForEventString()
         val usersTripTypeEventSet = TripUtils.createUsersTripComponentTypeEventString(usersTrips)
         val expectedValues = HashSet<String>()
-        expectedValues.add("event255")
         expectedValues.add("event250")
         expectedValues.add("event251")
         val expectedString = TextUtils.join(",", expectedValues)
@@ -358,12 +357,12 @@ class TripUtilsTest {
     }
 
     @Test
-    fun userWithOneActiveTrip() {
+    fun userWithOneActivePackageTrip() {
         val oneTrip = getUserWithOneTrip()
         val oneTripComponentTypesEventString = TripUtils.createUsersTripComponentTypeEventString(oneTrip)
         val oneTripProp75String = TripUtils.createUsersProp75String(oneTrip)
-        val expectedEventString = "event255"
-        val expectedProp75String = "PGK:3:10"
+        val expectedEventString = "event250,event252,event251"
+        val expectedProp75String = "HOT:3:10|AIR:3:10|CAR:3:10"
         assertEquals(expectedEventString, oneTripComponentTypesEventString)
         assertEquals(expectedProp75String, oneTripProp75String)
     }
@@ -392,7 +391,7 @@ class TripUtilsTest {
     fun getUsersProp75String() {
         val usersTrips = getUsersTrips();
         val prop75String = TripUtils.createUsersProp75String(usersTrips);
-        val expectedProp75String = "HOT:-1:3|AIR:-1:3|CAR:-5:0|LX:2:2|RAIL:0:0|PGK:3:10"
+        val expectedProp75String = "HOT:-1:3|AIR:-1:3|CAR:-5:0|LX:2:2|RAIL:0:0"
         assertEquals(expectedProp75String, prop75String)
     }
 
@@ -509,6 +508,9 @@ class TripUtilsTest {
     private fun getUserWithOneTrip() : Collection<Trip> {
         val packageTrip = Trip()
         packageTrip.addTripComponent(TripPackage())
+        packageTrip.addTripComponent(TripHotel())
+        packageTrip.addTripComponent(TripCar())
+        packageTrip.addTripComponent(TripFlight())
         packageTrip.startDate = DateTime.now().plusDays(3)
         packageTrip.endDate = DateTime.now().plusDays(10)
 
