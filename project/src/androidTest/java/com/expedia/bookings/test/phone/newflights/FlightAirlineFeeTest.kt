@@ -46,6 +46,10 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
 
         assertCheckoutOverviewCardFeeWarningShown()
         assertCostSummaryDialogShowsFees()
+
+        Common.pressBack()
+        PackageScreen.checkout().perform(click())
+        assertCostSummaryDialogShowsFees()
     }
 
     @Test

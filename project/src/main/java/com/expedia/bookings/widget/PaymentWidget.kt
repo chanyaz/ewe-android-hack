@@ -350,13 +350,13 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     fun selectFirstAvailableCard() {
-        sectionBillingInfo.bind(Db.getBillingInfo())
         val tripItem = Db.getTripBucket().getItem(getLineOfBusiness())
         if (tripItem != null) {
             if ((hasStoredCard() && !tripItem.isPaymentTypeSupported(getCardType())) || !hasStoredCard()) {
                 val storedUserCreditCards = Db.getUser().storedCreditCards
                 for (storedCard in storedUserCreditCards) {
                     if (tripItem.isPaymentTypeSupported(storedCard.type)) {
+                        sectionBillingInfo.bind(Db.getBillingInfo())
                         Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
                         val currentCC = Db.getBillingInfo().storedCard
                         BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, currentCC)
