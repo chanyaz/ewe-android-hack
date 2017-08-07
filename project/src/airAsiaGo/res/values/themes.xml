@@ -114,12 +114,6 @@
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
-
-        <!-- Brand Logo -->
-        <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
-        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text</item>
-        <item name="skin_acctLogoTextDrawableMarginLeft">-36dp</item>
-        <item name="skin_acctLogoTextDrawableMarginTop">5dp</item>
     </style>
 
     <style name="LaunchActionBarTabAirAsiaGoStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">

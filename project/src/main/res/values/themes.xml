@@ -187,12 +187,6 @@
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_tripsTabText">@string/trips</item>
-
-        <!-- Brand Logo -->
-        <item name="skin_acctLogoSmallDrawable">@drawable/acct__logo_small</item>
-        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text</item>
-        <item name="skin_acctLogoTextDrawableMarginLeft">6dp</item>
-        <item name="skin_acctLogoTextDrawableMarginTop">5dp</item>
     </style>
 
     <!-- TODO rename it to launch theme, remove old screen launch theme and all properties are placeholder !-->
