@@ -306,10 +306,10 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14602"
+            android:key="15185"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Advance Search Filters on SRP - 14602" />
+            android:title="Advance Search Filters on SRP - 15185" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
