@@ -25,6 +25,8 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
     val roomRequestsText: TextView by bindView(R.id.hotel_itin_room_details_requests)
     val reservedFor: TextView by bindView(R.id.itin_hotel_details_reserved_for)
     val guestName: TextView by bindView(R.id.itin_hotel_details_guest_name)
+    val amenitiesContainer: LinearLayout by bindView(R.id.itin_hotel_room_amenities_container)
+    val amenitiesDivider: View by bindView(R.id.amenities_summary_divider)
     var isRowClickable = true
 
     private val collapsedRoomDetails: LinearLayout by bindView(R.id.itin_hotel_details_room_collapsed_view)
@@ -53,13 +55,13 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             roomDetailsText.text = Phrase.from(context, R.string.itin_hotel_details_room_details_text_TEMPLATE)
                     .put("roomtype", itinCardDataHotel.property.itinRoomType)
                     .put("bedtype", itinCardDataHotel.property.itinBedType).format().toString()
-
             reservedFor.text = context.getString(R.string.itin_hotel_room_details_reserved_for_header)
             if (itinCardDataHotel.lastHotelRoom != null) {
                 roomRequestsText.text = buildRoomRequests(itinCardDataHotel.lastHotelRoom)
                 guestName.text = Phrase.from(context, R.string.itin_hotel_room_details_guest_info_TEMPLATE)
                         .put("guestname", itinCardDataHotel.lastHotelRoom.primaryOccupant.fullName)
                         .put("numofguests", numberOfGuests(itinCardDataHotel.lastHotelRoom)).format().toString()
+                setUpAmenities(itinCardDataHotel.lastHotelRoom)
             }
         }
     }
@@ -158,5 +160,35 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             sb.append(",").append(context.resources.getQuantityString(R.plurals.number_of_infant, otherOccupantsInfo.infantCount, otherOccupantsInfo.infantCount).toLowerCase())
         }
         return sb.toString()
+    }
+
+    fun setUpAmenities(tripHotelRoom: TripHotelRoom) {
+        val amenities = tripHotelRoom.amenityIds
+        var showAmenities: Boolean = false
+        amenitiesContainer.removeAllViews()
+        amenities.forEach {
+            val amenity = HotelItinRoomAmenity(context)
+            when (it) {
+                2, 4, 8, 4096, 8192, 16777216 -> {
+                    amenity.setUp(context.resources.getString(R.string.itin_hotel_room_amenity_free_breakfast), R.drawable.itin_hotel_room_free_breakfast)
+                    amenitiesContainer.addView(amenity)
+                    showAmenities = true
+                }
+                128 -> {
+                    amenity.setUp(context.resources.getString(R.string.itin_hotel_room_amenity_free_parking), R.drawable.itin_hotel_room_parking_icon)
+                    amenitiesContainer.addView(amenity)
+                    showAmenities = true
+                }
+                2048 -> {
+                    amenity.setUp(context.resources.getString(R.string.itin_hotel_room_amenity_free_wifi), R.drawable.itin_hotel_free_wifi)
+                    amenitiesContainer.addView(amenity)
+                    showAmenities = true
+                }
+            }
+        }
+        if (!showAmenities) {
+            amenitiesContainer.visibility = View.GONE
+            amenitiesDivider.visibility = View.GONE
+        }
     }
 }

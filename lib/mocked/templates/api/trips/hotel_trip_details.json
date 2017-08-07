@@ -200,6 +200,9 @@
               "amenities": [
                 "Free Wireless Internet"
               ],
+              "amenityIds": [
+                2048
+              ],
               "nonPricePromotionData": {
                 "id": "1",
                 "version": "1",

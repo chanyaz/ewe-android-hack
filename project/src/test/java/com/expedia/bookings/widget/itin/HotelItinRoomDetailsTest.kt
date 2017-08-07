@@ -10,6 +10,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
+import org.robolectric.shadows.ShadowDrawable
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -63,5 +65,19 @@ class HotelItinRoomDetailsTest {
                 "\"Please bring New York Times to the room\"\n" +
                 "Extra adult bed"
         assertEquals(expectedString, roomDetailsWidget.roomRequestsText.text)
+    }
+
+    @Test
+    fun roomAmenitiesAreDisplayedAndCorrect() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+
+        assertEquals(View.VISIBLE, roomDetailsWidget.amenitiesContainer.visibility)
+        if(roomDetailsWidget.amenitiesContainer.childCount > 0) {
+            val amenity: HotelItinRoomAmenity? = roomDetailsWidget.amenitiesContainer.getChildAt(0) as HotelItinRoomAmenity?
+            assertEquals("Free\nWifi", amenity?.getLabel()?.text?.toString())
+            val shadowDrawable: ShadowDrawable = Shadows.shadowOf(amenity?.getIcon()?.drawable)
+            assertEquals(R.drawable.itin_hotel_free_wifi, shadowDrawable.createdFromResId)
+        }
     }
 }

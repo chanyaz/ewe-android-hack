@@ -59,12 +59,25 @@
             android:visibility="gone">
 
             <View
+                android:id="@+id/amenities_summary_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/itin_card_summary_divider_color" />
+
+            <LinearLayout
+                android:id="@+id/itin_hotel_room_amenities_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="12dp"
                 android:background="?attr/itin_card_summary_divider_color" />
 
-            <!--Amenities-->
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/itin_hotel_details_reserved_for"
                 android:layout_width="wrap_content"
