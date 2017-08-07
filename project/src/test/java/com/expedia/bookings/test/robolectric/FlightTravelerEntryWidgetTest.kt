@@ -36,6 +36,7 @@ import org.robolectric.shadows.ShadowAlertDialog
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates.notNull
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -340,6 +341,19 @@ class FlightTravelerEntryWidgetTest {
 
         val travelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById(R.id.select_traveler_button) as Button
         assertEquals(traveler.fullName, travelerButton.text.toString())
+    }
+
+    @Test
+    fun testGetTravelerReturnsTravelerIfEmpty() {
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        Db.clear()
+
+        assertEquals(0, Db.getTravelers().size)
+
+        val testTraveler = testVM.getTraveler()
+        assertNotNull(testTraveler)
+        assertEquals(Traveler().tuid, testTraveler.tuid)
     }
 
     private fun givenMaterialForm(isMaterialForm: Boolean) {
