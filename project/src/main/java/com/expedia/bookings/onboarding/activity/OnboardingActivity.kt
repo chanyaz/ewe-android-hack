@@ -23,7 +23,7 @@ import com.expedia.bookings.onboarding.LeftRightFlingListener
 import com.expedia.bookings.onboarding.adapter.OnboardingPagerAdapter
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.squareup.phrase.Phrase
 

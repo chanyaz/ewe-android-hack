@@ -19,7 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
 

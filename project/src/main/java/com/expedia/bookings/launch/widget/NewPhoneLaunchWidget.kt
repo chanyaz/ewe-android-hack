@@ -36,9 +36,9 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.JodaUtils
-import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.updateVisibility
@@ -155,11 +155,11 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             params.numAdults = 2
             params.children = null
             params.setSearchLatLon(selectedHotel.latitude, selectedHotel.longitude)
-            NavUtils.goToHotels(context, params)
+            HotelNavUtils.goToHotels(context, params)
         }
 
         (launchListWidget.adapter as LaunchListAdapter).seeAllClickSubject.subscribe { animOptions ->
-            NavUtils.goToHotels(context, searchParams, animOptions, 0)
+            HotelNavUtils.goToHotels(context, searchParams, animOptions, 0)
         }
 
         adjustLobViewHeight()
@@ -220,7 +220,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                     proWizardSearchCardView, context.getString(R.string.pro_wizard_bar_hero_animation))
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as NewPhoneLaunchActivity, *pairs)
 
-            NavUtils.goToHotels(context, null, options.toBundle(), 0)
+            HotelNavUtils.goToHotelsV2Params(context, null, options.toBundle(), 0)
         }
 
         proWizardSearchBarView.setText(PointOfSale.getPointOfSale().getProWizardLOBString(context))

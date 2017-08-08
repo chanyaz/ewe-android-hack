@@ -19,7 +19,7 @@ import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.flights.FlightConfirmationShareBroadcastReceiver
 import com.expedia.vm.ConfirmationToolbarViewModel

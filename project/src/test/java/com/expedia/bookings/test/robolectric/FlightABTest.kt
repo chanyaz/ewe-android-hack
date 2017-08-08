@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.FlightNavUtils
 import com.expedia.ui.FlightActivity
 import org.junit.Before
 import org.junit.Test
@@ -22,7 +22,7 @@ class FlightABTest {
 
     @Test
     fun newFlightPath() {
-        NavUtils.goToFlights(activity, true)
+        FlightNavUtils.goToFlights(activity)
         val intent = Shadows.shadowOf(activity).peekNextStartedActivity()
         assertEquals(FlightActivity::class.java.name, intent.component.className)
     }

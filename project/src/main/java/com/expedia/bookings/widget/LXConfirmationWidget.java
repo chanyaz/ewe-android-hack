@@ -27,7 +27,7 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;

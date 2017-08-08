@@ -216,7 +216,6 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:taskAffinity="com.expedia.bookings.activity.CarActivity"
             android:theme="@style/V2.Theme.Cars"
             tools:ignore="UnusedAttribute" />
 
@@ -233,7 +232,6 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
             android:theme="@style/V2.Theme.LX"
             tools:ignore="UnusedAttribute" />
 
@@ -244,7 +242,6 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:taskAffinity="com.expedia.bookings.ui.HotelActivity"
             android:theme="@style/Theme.Hotels.Default"
             tools:ignore="UnusedAttribute" />
 
@@ -254,7 +251,6 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:taskAffinity="com.expedia.ui.RailActivity"
             android:theme="@style/Theme.Rail"
             tools:ignore="UnusedAttribute"/>
 
@@ -263,7 +259,6 @@
             android:label="Flights"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:taskAffinity="com.expedia.ui.FlightActivity"
             android:theme="@style/V2.Theme.Packages" />
 
         <!-- Packages -->
@@ -272,7 +267,6 @@
             android:name="com.expedia.ui.PackageActivity"
             android:label="Packages"
             android:screenOrientation="portrait"
-            android:taskAffinity="com.expedia.ui.PackageActivity"
             android:launchMode="singleTop"
             android:theme="@style/V2.Theme.Packages" />
 

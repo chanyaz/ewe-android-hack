@@ -13,11 +13,12 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightV2Utils
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.navigation.CarNavUtils
 import com.expedia.ui.PackageActivity
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
@@ -109,7 +110,7 @@ class PackageConfirmationViewModel(private val context: Context) {
                         .startDate(Db.getPackageParams().startDate).endDate(Db.getPackageParams().endDate)
                         .origin(originSuggestion).build() as CarSearchParam
 
-                NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
+                CarNavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
                 val activity = context as AppCompatActivity
                 activity.setResult(Activity.RESULT_OK)
                 activity.finish()

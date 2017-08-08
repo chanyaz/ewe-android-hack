@@ -2,13 +2,12 @@ package com.expedia.bookings.test
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
-import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
@@ -57,7 +56,7 @@ class RailWebViewTest {
     }
 
     private fun goToRails() {
-        NavUtils.goToRail(activity, null)
+        NavUtils.goToRail(activity, null, 0)
         activity.finish()
     }
 

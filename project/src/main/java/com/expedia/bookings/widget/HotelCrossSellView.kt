@@ -8,11 +8,11 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.HotelsV2DataUtil
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.LayoutUtils
+import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.packages.HotelCrossSellViewModel
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -42,7 +42,7 @@ class HotelCrossSellView(context: Context, attrs: AttributeSet) : CardView(conte
             FlightsV2Tracking.trackAirAttachClicked()
             val flightLegs = viewModel.confirmationObservable.value.getFirstFlightTripDetails().getLegs()
             val sp = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(flightLegs, viewModel.searchParamsObservable.value)
-            NavUtils.goToHotelsV2(context, sp, null, NavUtils.FLAG_DEEPLINK)
+            HotelNavUtils.goToHotelsV2Params(context, sp, null, NavUtils.FLAG_DEEPLINK)
             val activity = context as AppCompatActivity
             activity.finish()
         }

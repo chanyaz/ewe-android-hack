@@ -16,7 +16,7 @@ import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.server.CrossContextHelper
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.RecentAirports
 import com.expedia.bookings.widget.FlightRouteAdapter
 import com.mobiata.android.BackgroundDownloader

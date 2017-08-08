@@ -22,8 +22,8 @@ import com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.requestLocationPermission
 import com.mobiata.android.Log
@@ -164,7 +164,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         params.checkOutDate = now.plusDays(2)
         params.numAdults = 2
         params.children = null
-        NavUtils.goToHotels(activity, params, event.animOptions, 0)
+        HotelNavUtils.goToHotels(activity, params, event.animOptions, 0)
     }
 
     @Subscribe

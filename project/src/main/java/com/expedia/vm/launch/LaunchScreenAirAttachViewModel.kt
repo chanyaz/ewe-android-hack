@@ -10,7 +10,7 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -36,11 +36,11 @@ class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, r
 
             val animOptions = AnimUtils.createActivityScaleBundle(itemView)
             if (hotelSearchParams == null) {
-                NavUtils.goToHotels(context, animOptions)
+                HotelNavUtils.goToHotels(context, animOptions)
                 OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
 
             } else {
-                NavUtils.goToHotels(context, hotelSearchParams)
+                HotelNavUtils.goToHotels(context, hotelSearchParams)
                 OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
             }
         }

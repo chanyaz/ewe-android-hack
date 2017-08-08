@@ -8,6 +8,7 @@ import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.utils.navigation.HotelNavUtils;
 
 public class HotelCrossSellUtils {
 
@@ -20,7 +21,7 @@ public class HotelCrossSellUtils {
 	}
 
 	public static void deepLinkHotels(final Context context, final HotelSearchParams hotelSearchParams) {
-		NavUtils.goToHotels(context, hotelSearchParams);
+		HotelNavUtils.goToHotels(context, hotelSearchParams);
 	}
 
 }

@@ -11,7 +11,7 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ConfirmationRowCardView
 import com.expedia.bookings.widget.ConfirmationSummaryCardView

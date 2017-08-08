@@ -11,8 +11,9 @@ import com.expedia.bookings.data.sos.MemberDealResponse
 import com.expedia.bookings.mia.activity.MemberDealActivity
 import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
@@ -64,7 +65,7 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
             view.setOnClickListener { v ->
                 val memberDealActivity = context as MemberDealActivity
                 val animOptions = AnimUtils.createActivityScaleBundle(memberDealActivity.currentFocus)
-                NavUtils.goToHotels(this.context, holder.searchParams, animOptions, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
+                HotelNavUtils.goToHotels(this.context, holder.searchParams, animOptions, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
             }
 
             return holder

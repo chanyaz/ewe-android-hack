@@ -38,7 +38,9 @@ import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.navigation.FlightNavUtils;
+import com.expedia.bookings.utils.navigation.HotelNavUtils;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
@@ -243,7 +245,7 @@ public class CarConfirmationWidget extends FrameLayout {
 	@OnClick(R.id.add_hotel_textView)
 	public void searchHotels() {
 		HotelSearchParams sp = HotelSearchParams.fromCarParams(offer);
-		NavUtils.goToHotels(getContext(), sp);
+		HotelNavUtils.goToHotels(getContext(), sp);
 		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(LineOfBusiness.HOTELS);
 		Events.post(new Events.FinishActivity());
 	}
@@ -291,7 +293,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		flightSearchParams.setReturnDate(offer.getDropOffTime().toLocalDate());
 
 		// Go to flights
-		NavUtils.goToFlights(getContext(), flightSearchParams);
+		FlightNavUtils.goToFlights(getContext(), flightSearchParams);
 	}
 
 	public void setFocusOnToolbarForAccessibility() {

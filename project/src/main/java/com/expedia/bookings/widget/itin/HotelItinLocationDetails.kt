@@ -11,7 +11,7 @@ import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.GoogleMapsUtil
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ItinActionsSection
 import com.expedia.bookings.widget.LocationMapImageView

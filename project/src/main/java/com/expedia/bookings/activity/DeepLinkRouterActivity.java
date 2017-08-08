@@ -46,11 +46,16 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.LXNavUtils;
+import com.expedia.bookings.utils.navigation.CarNavUtils;
+import com.expedia.bookings.utils.navigation.FlightNavUtils;
+import com.expedia.bookings.utils.navigation.HotelNavUtils;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.bookings.utils.navigation.PackageNavUtils;
 import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -238,10 +243,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			CarSearchParam carSearchParams = CarDataUtils.fromDeepLink(carDeepLink);
 			if (carSearchParams != null && JodaUtils
 				.isBeforeOrEquals(carSearchParams.getStartDateTime(), carSearchParams.getEndDateTime())) {
-				NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
+				CarNavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
 			}
 			else {
-				NavUtils.goToCars(this, null);
+				CarNavUtils.goToCars(this, null);
 			}
 		}
 		else {
@@ -254,7 +259,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
 			LxSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(activityDeepLink);
-			NavUtils.goToActivities(this, null, searchParams, NavUtils.FLAG_DEEPLINK);
+			LXNavUtils.goToActivities(this, null, searchParams, NavUtils.FLAG_DEEPLINK);
 		}
 		else {
 			NavUtils.goToLaunchScreen(this, false, LineOfBusiness.LX);
@@ -312,10 +317,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 
 		if (deepLink.getMemberOnlyDealSearch()) {
-			NavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH);
+			HotelNavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH);
 		}
 		else {
-			NavUtils.goToHotels(DeepLinkRouterActivity.this, hotelSearchParams, null, NavUtils.FLAG_DEEPLINK);
+			HotelNavUtils.goToHotels(DeepLinkRouterActivity.this, hotelSearchParams, null, NavUtils.FLAG_DEEPLINK);
 		}
 
 		finish();
@@ -358,7 +363,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			params.setNumAdults(flightDeepLink.getNumAdults());
 		}
 
-		NavUtils.goToFlights(this, params);
+		FlightNavUtils.goToFlights(this, params);
 	}
 
 	private void handleShortUrl(ShortUrlDeepLink shortUrlDeepLink) {
@@ -398,11 +403,11 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private void handlePackageSearch(PackageDeepLink packageDeepLink) {
-		NavUtils.goToPackages(this, null, null);
+		PackageNavUtils.goToPackages(this, null, null, 0);
 	}
 
 	private void handleRailSearch(RailDeepLink deepLink) {
-		NavUtils.goToRail(this, null);
+		NavUtils.goToRail(this, null, 0);
 	}
 
 	@VisibleForTesting

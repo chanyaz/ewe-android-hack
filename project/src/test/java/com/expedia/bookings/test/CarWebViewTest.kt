@@ -9,8 +9,8 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.navigation.CarNavUtils
 import com.expedia.ui.CarActivity
 import com.expedia.ui.CarWebViewActivity
 import com.mobiata.android.util.SettingUtils
@@ -230,7 +230,7 @@ class CarWebViewTest {
     }
 
     private fun goToCars() {
-        NavUtils.goToCars(activity, null)
+        CarNavUtils.goToCars(activity, null)
         activity.finish()
     }
 

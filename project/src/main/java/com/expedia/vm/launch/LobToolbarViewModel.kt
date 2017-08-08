@@ -17,7 +17,11 @@ class LobToolbarViewModel(context: Context, val defaultLob: LineOfBusiness) {
     private val nav = NavigationHelper(context)
 
     init {
-        lobSelectedSubject.subscribe { lineOfBusiness -> launchLineOfBusiness(lineOfBusiness) }
+        lobSelectedSubject.subscribe { lineOfBusiness ->
+            if (lineOfBusiness != defaultLob) {
+                launchLineOfBusiness(lineOfBusiness)
+            }
+        }
     }
 
     //TODO re-using LobInfo for now, but once we change the toolbar per Art's new design, we'll probably need something different here
@@ -64,13 +68,13 @@ class LobToolbarViewModel(context: Context, val defaultLob: LineOfBusiness) {
 
     private fun launchLineOfBusiness(lob: LineOfBusiness) {
         when (lob) {
-            LineOfBusiness.HOTELS -> nav.goToHotels(null)
-            LineOfBusiness.FLIGHTS -> nav.goToFlights(null)
-            LineOfBusiness.TRANSPORT -> nav.goToTransport(null)
-            LineOfBusiness.LX -> nav.goToActivities(null)
-            LineOfBusiness.CARS -> nav.goToCars(null)
-            LineOfBusiness.PACKAGES -> nav.goToPackages(null, null)
-            LineOfBusiness.RAILS -> nav.goToRail(null)
+            LineOfBusiness.HOTELS -> nav.goToHotels(null, finishCallingActivity = true)
+            LineOfBusiness.FLIGHTS -> nav.goToFlights(null, finishCallingActivity = true)
+            LineOfBusiness.TRANSPORT -> nav.goToTransport(null, finishCallingActivity = true)
+            LineOfBusiness.LX -> nav.goToActivities(null, finishCallingActivity = true)
+            LineOfBusiness.CARS -> nav.goToCars(null, finishCallingActivity = true)
+            LineOfBusiness.PACKAGES -> nav.goToPackages(null, null, finishCallingActivity = true)
+            LineOfBusiness.RAILS -> nav.goToRail(null, finishCallingActivity = true)
             else -> {
                 //Add other lobs navigation in future
             }

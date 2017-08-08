@@ -28,11 +28,14 @@ import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.LXDataUtils
-import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.LXNavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
+import com.expedia.bookings.utils.navigation.CarNavUtils
+import com.expedia.bookings.utils.navigation.FlightNavUtils
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
@@ -230,7 +233,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     fun getAddLXBtnObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                NavUtils.goToActivities(context, null, LXDataUtils.fromHotelParams(context, checkInDate.value, checkOutDate.value, hotelLocation.value),
+                LXNavUtils.goToActivities(context, null, LXDataUtils.fromHotelParams(context, checkInDate.value, checkOutDate.value, hotelLocation.value),
                         NavUtils.FLAG_OPEN_RESULTS)
                 HotelTracking.trackHotelCrossSellLX()
                 (context as Activity).finish()
@@ -256,7 +259,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
                 flightSearchParams.departureDate = checkInDate.value
                 flightSearchParams.returnDate = checkOutDate.value
 
-                NavUtils.goToFlights(context, true)
+                FlightNavUtils.goToFlights(context)
                 HotelTracking.trackHotelCrossSellFlight()
             }
 
@@ -276,7 +279,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
                         null, hotelLocation.value.toShortFormattedString())
                 val carSearchParams = CarSearchParam.Builder().origin(originSuggestion)
                         .startDate(checkInDate.value).endDate(checkOutDate.value).build() as CarSearchParam
-                NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
+                CarNavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
                 HotelTracking.trackHotelCrossSellCar()
             }
 
