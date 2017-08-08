@@ -5,7 +5,4 @@
     <dimen name="min_height_rating_bar_small">16dp</dimen>
     <dimen name="max_height_rating_bar_small">16dp</dimen>
 
-    <!-- px equivalents -->
-    <dimen name="two_px_allthethings">1.333333333dp</dimen>
-
 </resources>

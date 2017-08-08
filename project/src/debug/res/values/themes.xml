@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Theme.Phone.Preferences" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:logo">@drawable/ic_action_bar_brand_logo</item>
+        <item name="colorPrimaryDark">#3A464F</item>
+        <item name="colorPrimary">#495863</item>
+        <item name="android:windowBackground">@color/preferences_activity_bg</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    </style>
+</resources>

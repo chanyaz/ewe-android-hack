@@ -19,9 +19,9 @@
         <meta-data android:name="asset_statements" android:resource="@string/asset_statements" />
 
         <activity
-            android:name="com.expedia.bookings.activity.ExpediaBookingPreferenceActivity"
+            android:name="com.expedia.bookings.preference.ExpediaBookingPreferenceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.Preferences" />
+            android:theme="@style/Theme.Phone.Preferences"/>
 
         <activity
             android:name="com.expedia.bookings.activity.PlaygroundActivity"

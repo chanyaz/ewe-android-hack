@@ -56,6 +56,8 @@ dependencies {
     compile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:design:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:customtabs:${rootProject.ext.supportLibVersion}"
+    debugCompile "com.android.support:preference-v7:${rootProject.ext.supportLibVersion}"
+    debugCompile "com.android.support:preference-v14:${rootProject.ext.supportLibVersion}"
 
     compile "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"

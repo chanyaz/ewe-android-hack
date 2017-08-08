@@ -407,7 +407,6 @@
     <color name="preferences_activity_bg">#eceff1</color>
     <color name="preferences_category_bg">#c0c7cd</color>
     <color name="preferences_divider">#c0c7cd</color>
-    <color name="preferences_highlight">#40000000</color>
 
     <color name="bg_air_attach_banner_divider">#4D555D</color>
     <color name="preferences_text">@color/launch_toolbar_background_color</color>

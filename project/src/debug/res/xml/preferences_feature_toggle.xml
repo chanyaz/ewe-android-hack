@@ -7,7 +7,6 @@
 
         <CheckBoxPreference
             android:key="@string/preference_satellite_config"
-            android:layout="@layout/preference"
             android:summary="Enable satellite remote feature config."
             android:title="Enable satellite" />
     </PreferenceCategory>
@@ -18,18 +17,15 @@
 
         <CheckBoxPreference
             android:key="@string/preference_switch_to_from_flight_locations"
-            android:layout="@layout/preference"
             android:summary="Switch between to and from flight locations"
             android:title="Switch between to and from flight locations" />
 
         <CheckBoxPreference
             android:key="preference_flight_traveler_form_revamp"
-            android:layout="@layout/preference"
             android:summary="Flight Traveler Form Revamp"
             android:title="Flight Traveler Form Revamp" />
         <CheckBoxPreference
             android:key="@string/preference_fare_family_flight_summary"
-            android:layout="@layout/preference"
             android:summary="Fare Family on Flight Summary"
             android:title="Fare Family on Flight Summary" />
 
@@ -41,13 +37,11 @@
 
         <CheckBoxPreference
             android:key="@string/preference_enable_smart_lock"
-            android:layout="@layout/preference"
             android:summary="Easy way to login use smart lock."
             android:title="Enable Smart Lock Feature" />
 
         <CheckBoxPreference
             android:key="@string/preference_single_page_sign_up"
-            android:layout="@layout/preference"
             android:summary="Single page sign up flow."
             android:title="Enable Single Page Sign Up Flow" />
 
@@ -59,7 +53,6 @@
 
         <CheckBoxPreference
             android:key="@string/preference_enable_activity_map"
-            android:layout="@layout/preference"
             android:summary="Activity Infosite Map."
             android:title="Enable Activity Infosite Map" />
 
@@ -71,25 +64,21 @@
 
         <CheckBoxPreference
             android:key="@string/preference_enable_universal_checkout_on_lx"
-            android:layout="@layout/preference"
             android:summary="Bring universal checkout to LX"
             android:title="Enable Universal Checkout on LX" />
 
         <CheckBoxPreference
             android:key="@string/preference_populate_cardholder_name"
-            android:layout="@layout/preference"
             android:summary="Enable populate cardholder name"
             android:title="Enable populate cardholder name" />
 
         <CheckBoxPreference
             android:key="@string/preference_enable_secure_icon"
-            android:layout="@layout/preference"
             android:summary="Enable secure icon for Flight and Bundle Checkout pages"
             android:title="Enable secure icon for Flight and Bundle Checkout pages" />
 
         <CheckBoxPreference
             android:key="@string/preference_enable_flights_frequent_flyer_number"
-            android:layout="@layout/preference"
             android:summary="Enable Frequent Flyer Number for Flights"
             android:title="Enable Frequent Flyer Number for Flights" />
 
@@ -106,7 +95,6 @@
 
         <CheckBoxPreference
             android:key="@string/preference_enable_expandable_hotel_itin_room_details"
-            android:layout="@layout/preference"
             android:summary="Enable Expandable Hotel Room Details"
             android:title="Expandable Hotel Room Details" />
 
@@ -118,9 +106,9 @@
 
         <CheckBoxPreference
             android:key="@string/preference_packages_mid_api"
-            android:layout="@layout/preference"
             android:summary="Packages MID API"
             android:title="Packages MID API" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -129,7 +117,6 @@
 
         <CheckBoxPreference
             android:key="@string/preference_flight_enable_search_suggestion_label"
-            android:layout="@layout/preference"
             android:summary="Show search suggestion label"
             android:title="Enable search with suggestion label" />
 

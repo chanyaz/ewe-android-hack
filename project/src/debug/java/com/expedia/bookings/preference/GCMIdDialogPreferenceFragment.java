@@ -1,52 +1,30 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.preference;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.preference.DialogPreference;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.widget.Toast;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.utils.ClipboardUtils;
 
-/**
- * This is a DialogPreference that just displays the GCM Id used for push notifications.
- * It does not actually alter any preferences.
- */
-public class GCMIdDialogPreference extends DialogPreference {
+public class GCMIdDialogPreferenceFragment extends PreferenceDialogFragmentCompat {
 
-	Dialog mDialog;
-
-	public GCMIdDialogPreference(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
-
-	public GCMIdDialogPreference(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
+	public static GCMIdDialogPreferenceFragment newInstance(String key) {
+		final GCMIdDialogPreferenceFragment fragment = new GCMIdDialogPreferenceFragment();
+		final Bundle b = new Bundle(1);
+		b.putString(ARG_KEY, key);
+		fragment.setArguments(b);
+		return fragment;
 	}
 
 	@Override
-	public Dialog getDialog() {
-		return mDialog;
-	}
-
-	@Override
-	protected void onDialogClosed(boolean positiveResult) {
-		super.onDialogClosed(positiveResult);
-		mDialog = null;
-	}
-
-	@Override
-	protected void showDialog(Bundle state) {
+	protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
 		Context context = getContext();
 		final String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("GCM Info");
 
 		if (TextUtils.isEmpty(gcmId)) {
@@ -62,15 +40,14 @@ public class GCMIdDialogPreference extends DialogPreference {
 
 			});
 		}
-
 		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.dismiss();
 			}
 		});
-
-		mDialog = builder.create();
-		mDialog.show();
 	}
 
+	@Override
+	public void onDialogClosed(boolean positiveResult) {
+	}
 }

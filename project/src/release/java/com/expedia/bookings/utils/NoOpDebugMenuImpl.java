@@ -2,7 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.util.Collections;
 import java.util.List;
-
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -33,5 +33,10 @@ class NoOpDebugMenuImpl implements DebugMenu {
 
 	@Override
 	public void startTestActivity(String className) {
+	}
+
+	@Override
+	public Intent getSettingActivityIntent() {
+		return new Intent();
 	}
 }

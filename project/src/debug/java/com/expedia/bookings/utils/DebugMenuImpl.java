@@ -156,6 +156,11 @@ class DebugMenuImpl implements DebugMenu {
 	}
 
 	@Override
+	public Intent getSettingActivityIntent() {
+		return new Intent(hostActivity, settingsActivityClass);
+	}
+
+	@Override
 	public void startTestActivity(String className) {
 		try {
 			Intent intent = new Intent(hostActivity, Class.forName(className));

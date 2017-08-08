@@ -19,7 +19,6 @@ import android.widget.TextView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -94,7 +93,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     private var newPhoneLaunchFragment: NewPhoneLaunchFragment? = null
 
     private val debugMenu: DebugMenu by lazy {
-        DebugMenuFactory.newInstance(this, ExpediaBookingPreferenceActivity::class.java)
+        DebugMenuFactory.newInstance(this)
     }
     private var hasMenu = false
 

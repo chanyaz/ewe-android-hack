@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
@@ -23,7 +22,6 @@ import com.expedia.account.Config
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
-import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -147,7 +145,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         @Inject set
 
     val debugMenu: DebugMenu by lazy {
-        DebugMenuFactory.newInstance(activity, ExpediaBookingPreferenceActivity::class.java)
+        DebugMenuFactory.newInstance(activity)
     }
 
     val debugAlertDialog: AlertDialog by lazy {
@@ -640,8 +638,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             }
 
             ROW_SETTINGS -> {
-                val intent = Intent(context, ExpediaBookingPreferenceActivity::class.java)
-                activity.startActivityForResult(intent, Constants.REQUEST_SETTINGS)
+                activity.startActivityForResult(debugMenu.settingActivityIntent, Constants.REQUEST_SETTINGS)
                 return true
             }
 

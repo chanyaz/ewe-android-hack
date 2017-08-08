@@ -2,10 +2,11 @@ package com.expedia.bookings.utils;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import com.expedia.bookings.preference.ExpediaBookingPreferenceActivity;
 
 public class DebugMenuFactory {
-	public static DebugMenu newInstance(@NonNull Activity hostActivity, @Nullable Class<? extends Activity> settingsActivityClass) {
-		return new DebugMenuImpl(hostActivity, settingsActivityClass);
+	public static DebugMenu newInstance(@NonNull Activity hostActivity) {
+		return new DebugMenuImpl(hostActivity, ExpediaBookingPreferenceActivity.class);
 	}
 }
