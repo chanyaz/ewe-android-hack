@@ -101,7 +101,12 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
         val occupantSelectedRoomOptions = tripHotelRoom.occupantSelectedRoomOptions
 
         if (occupantSelectedRoomOptions.isSmokingPreferenceSelected) {
-            list.add(occupantSelectedRoomOptions.smokingPreference)
+            if (occupantSelectedRoomOptions.smokingPreference == "NONSMOKING_ROOM") {
+                list.add(context.getString(R.string.non_smoking))
+            }
+            if (occupantSelectedRoomOptions.smokingPreference == "SMOKING_ROOM") {
+                list.add(context.getString(R.string.smoking))
+            }
         }
         if (occupantSelectedRoomOptions.bedTypeName != "") {
             list.add(occupantSelectedRoomOptions.bedTypeName)
