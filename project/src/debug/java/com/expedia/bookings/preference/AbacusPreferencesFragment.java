@@ -1,8 +1,8 @@
-package com.expedia.ui;
+package com.expedia.bookings.preference;
 
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
+import android.support.v7.preference.ListPreference;
+import android.support.v7.preference.Preference;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;

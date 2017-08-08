@@ -258,9 +258,6 @@
     <!-- Misc Dimensions -->
     <dimen name="alert_dialog_title_height">64dip</dimen>
 
-    <!-- px equivalents -->
-    <dimen name="two_px_allthethings">2dp</dimen>
-
     <!-- From ABS, Dialog title height -->
     <dimen name="alert_dialog_window_title_height">64dip</dimen>
 

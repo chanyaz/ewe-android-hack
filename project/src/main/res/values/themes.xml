@@ -137,6 +137,7 @@
         <item name="colorPrimaryDark">#3A464F</item>
         <item name="colorPrimary">#495863</item>
         <item name="android:windowBackground">@color/preferences_activity_bg</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
     <style name="Theme.Phone.Dark" parent="Theme.Phone">

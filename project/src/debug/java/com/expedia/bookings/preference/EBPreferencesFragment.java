@@ -1,4 +1,4 @@
-package com.expedia.ui;
+package com.expedia.bookings.preference;
 
 import java.io.IOException;
 
@@ -9,14 +9,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceScreen;
+
+import android.support.v7.preference.CheckBoxPreference;
+import android.support.v7.preference.ListPreference;
+import android.support.v7.preference.Preference;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.user.User;
@@ -29,6 +28,8 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class EBPreferencesFragment extends BasePreferenceFragment {
+
+	private static final String GCM_ID_POPUP_TAG = "GCM_ID_POPUP_TAG";
 
 	@Override
 	public void onStart() {
@@ -113,6 +114,19 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		}
 	}
 
+	@Override
+	public void onDisplayPreferenceDialog(Preference preference) {
+		GCMIdDialogPreferenceFragment dialogFragment;
+		if (preference instanceof GCMIdDialogPreference) {
+			dialogFragment = GCMIdDialogPreferenceFragment.newInstance(preference.getKey());
+			dialogFragment.setTargetFragment(this, 0);
+			dialogFragment.show(this.getFragmentManager(), GCM_ID_POPUP_TAG);
+		}
+		else {
+			super.onDisplayPreferenceDialog(preference);
+		}
+	}
+
 	private void restartApp() {
 		Intent mStartActivity = new Intent(getActivity(), RouterActivity.class);
 		int mPendingIntentId = 123456;
@@ -124,7 +138,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 	}
 
 	@Override
-	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+	public boolean onPreferenceTreeClick(Preference preference) {
 		final ExpediaBookingPreferenceActivity activity = (ExpediaBookingPreferenceActivity) getActivity();
 		String key = preference.getKey();
 
@@ -171,6 +185,6 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			User.signOut(getActivity());
 		}
 
-		return super.onPreferenceTreeClick(preferenceScreen, preference);
+		return super.onPreferenceTreeClick(preference);
 	}
 }

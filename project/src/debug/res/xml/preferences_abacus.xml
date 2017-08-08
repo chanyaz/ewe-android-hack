@@ -9,7 +9,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="13246"
-            android:layout="@layout/preference"
             android:title="Hotel Room Rate Always Expanded - 13246" />
 
         <ListPreference
@@ -18,7 +17,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="13277"
-            android:layout="@layout/preference"
             android:title="HSR Urgency Message - 13277" />
 
         <ListPreference
@@ -27,7 +25,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="13563"
-            android:layout="@layout/preference"
             android:title="Hotel Pinned Search - 13563" />
 
         <ListPreference
@@ -36,7 +33,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="14591"
-            android:layout="@layout/preference"
             android:title="Hotel Grouped Room Rate Offer - 14591" />
 
         <ListPreference
@@ -44,7 +40,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14271"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel hide search icon - 14271" />
 
@@ -53,7 +48,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14923"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Sort call to action - 14923" />
 
@@ -62,7 +56,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14483"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Auto Suggest Same as Web - 14483" />
 
@@ -71,7 +64,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14911"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Super Search - 14911" />
 
@@ -80,7 +72,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14785"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Gallery Animation - 14785" />
 
@@ -89,7 +80,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15228"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Greedy Search - 15228" />
 
@@ -98,7 +88,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14863"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Hide Strikethrough Price - 14863" />
     </PreferenceCategory>
@@ -111,7 +100,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="9165"
-            android:layout="@layout/preference"
             android:title="LX Category Test - 9165" />
 
         <ListPreference
@@ -119,7 +107,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="9467"
-            android:layout="@layout/preference"
             android:title="LX first activity expanded - 9467" />
 
         <ListPreference
@@ -127,7 +114,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="10000"
-            android:layout="@layout/preference"
             android:title="LX RTR on search and details - 10000" />
 
         <ListPreference
@@ -135,7 +121,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="10556"
-            android:layout="@layout/preference"
             android:title="LX Cross sell on hotel confirmation - 10556" />
 
         <ListPreference
@@ -143,7 +128,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="12689"
-            android:layout="@layout/preference"
             android:title="LX Text Search Filter - 12689" />
 
         <ListPreference
@@ -151,7 +135,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="13050"
-            android:layout="@layout/preference"
             android:title="LX Disable POI Search - 13050" />
 
         <ListPreference
@@ -159,7 +142,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="13152"
-            android:layout="@layout/preference"
             android:title="LX Navigate To SRP - 13152" />
 
         <ListPreference
@@ -167,7 +149,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="14380"
-            android:layout="@layout/preference"
             android:title="LX Voucher Redemption - 14380" />
 
     </PreferenceCategory>
@@ -181,7 +162,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="12268"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Offer Insurance in Flight Summary - 12268" />
 
@@ -190,7 +170,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15074"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Fare Family in Flight Summary - 15074​" />
 
@@ -199,7 +178,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="12637"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flight Expanded Rate Detail - 12637" />
 
@@ -208,7 +186,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="12763"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flight Seat Class And Booking Code View - 12763" />
 
@@ -217,7 +194,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13202"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flight Byot Search - 13202" />
 
@@ -226,7 +202,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13514"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Simplify flight shopping - 13514" />
 
@@ -235,7 +210,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13842"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flights static sort filter - 13842" />
 
@@ -244,7 +218,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13505"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Show more info on flight overview - 13505" />
 
@@ -253,7 +226,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14241"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="AA test for flights - 14241" />
 
@@ -262,7 +234,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13843"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Search form validation - 13843" />
 
@@ -271,7 +242,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13844"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hide FSR Infographics - 13844" />
 
@@ -280,7 +250,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14183"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Cross Sell Package on FSR - 14183" />
 
@@ -289,7 +258,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14297"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Retain previous Flight search params - 14297" />
 
@@ -298,7 +266,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14742"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Showing day along with date Flight search - 14742" />
 
@@ -307,7 +274,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15185"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Advance Search Filters on SRP - 15185" />
 
@@ -316,7 +282,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14936"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flight subpub change - 14936 " />
       
@@ -325,7 +290,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14918"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Switch to and from flight fields - 14918" />
 
@@ -334,7 +298,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14647"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Revamp Traveler form for Flight search - 14647" />
 
@@ -343,7 +306,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14646"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Show Search Suggestion label - 14646" />
     </PreferenceCategory>
@@ -358,7 +320,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="13345"
-            android:layout="@layout/preference"
             android:title="Show Air Attach Message on Launch screen - 13345"/>
 
         <ListPreference
@@ -367,7 +328,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="13697"
-            android:layout="@layout/preference"
             android:title="Show Member Pricing card on Launch Screen - 13697" />
 
         <ListPreference
@@ -376,7 +336,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:key="13548"
             android:summary="%s"
-            android:layout="@layout/preference"
             android:title="New User Onboarding" />
 
     </PreferenceCategory>
@@ -390,7 +349,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="12630"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="LX Universal Checkout - 12630" />
 
@@ -399,7 +357,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="9898"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Secure Checkout: toolbar title - 9898" />
 
@@ -408,7 +365,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="7774"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Car Insurance Included CKO - 7774" />
 
@@ -417,7 +373,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="12721"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Universal Checkout Forms test - 12721" />
 
@@ -426,7 +381,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14513"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Free Cancellation Tooltip - 14513" />
 
@@ -435,7 +389,6 @@
             android:entries="@array/abacus_itin_share_button_choices"
             android:entryValues="@array/abacus_itin_share_button_choice_values"
             android:key="14137"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flight Confirmation sharing button - 14137" />
 
@@ -444,7 +397,6 @@
             android:entries="@array/abacus_checkout_text_choices"
             android:entryValues="@array/abacus_checkout_text_values"
             android:key="13480"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Checkout button text - 13480" />
 
@@ -454,7 +406,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14761"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotels Web Checkout AB text - 14761" />
         
@@ -463,7 +414,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13280"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Checkout info update string AB test - 13280" />
 
@@ -472,7 +422,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13825"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Checkout disabled STP state AB test - 13825" />
 
@@ -481,7 +430,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14525"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Checkout populate cardholder name AB test - 14525" />
 
@@ -490,7 +438,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14202"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Checkout secure icon AB test - 14202" />
 
@@ -499,7 +446,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14880"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flex for flights AB test - 14880" />
 
@@ -508,7 +454,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14971"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Frequent Flyer Number for Flights - 14971" />
 
@@ -524,7 +469,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="11269"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Smart Lock Sign In Test - 11269" />
 
@@ -533,7 +477,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13923"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Single Page Sign Up - 13923" />
 
@@ -550,7 +493,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="11455"
-            android:layout="@layout/preference"
             android:title="Integration AA Test - 11455" />
 
         <ListPreference
@@ -558,7 +500,6 @@
             android:entries="@array/abacus_signup_string_choices"
             android:entryValues="@array/abacus_signup_string_choice_values"
             android:key="14215"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Sign Up Strings Non-APAC - 14215" />
 
@@ -567,7 +508,6 @@
             android:entries="@array/abacus_signup_string_choices"
             android:entryValues="@array/abacus_signup_string_choice_values"
             android:key="14218"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Sign Up Strings APAC - 14218" />
 
@@ -576,7 +516,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15102"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="RailsWebView - DE" />
 
@@ -585,7 +524,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14654"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="APIM HMAC authentication - 14654" />
 
@@ -601,7 +539,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="13257"
-            android:layout="@layout/preference"
             android:title="User Reviews - 13257" />
 
         <ListPreference
@@ -610,7 +547,6 @@
             android:defaultValue="-1"
             android:summary="%s"
             android:key="13196"
-            android:layout="@layout/preference"
             android:title="Hotel Upgrade web view - 13196"/>
 
         <ListPreference
@@ -619,7 +555,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="14741"
-            android:layout="@layout/preference"
             android:title="Hotel Itin Details Redesign - 14741" />
 
         <ListPreference
@@ -628,7 +563,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="14201"
-            android:layout="@layout/preference"
             android:title="Itin share button icon or text - 14201"/>
 
     </PreferenceCategory>
@@ -643,7 +577,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="12913"
-            android:layout="@layout/preference"
             android:title="CarsWebView - UK" />
 
         <ListPreference
@@ -652,7 +585,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="13658"
-            android:layout="@layout/preference"
             android:title="CarsWebView - TVLY" />
 
         <ListPreference
@@ -661,7 +593,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="13648"
-            android:layout="@layout/preference"
             android:title="CarsWebView - US" />
 
         <ListPreference
@@ -669,7 +600,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13830"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="CarsWebView - CT" />
 
@@ -678,7 +608,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13826"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="CarsWebView - EB" />
 
@@ -687,7 +616,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13828"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="CarsWebView - AUNZ" />
 
@@ -696,7 +624,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13829"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="CarsWebView - CA" />
 
@@ -705,7 +632,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13660"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="CarsWebView - OB" />
 
@@ -714,7 +640,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="13827"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="CarsWebView - EMEA" />
 
@@ -723,7 +648,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14632"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="CarsFlexView - 14632" />
 
@@ -739,7 +663,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="13655"
-            android:layout="@layout/preference"
             android:title="Packages Remove Bundle Overview" />
 
         <ListPreference
@@ -748,7 +671,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="14856"
-            android:layout="@layout/preference"
             android:title="Packages MID API" />
 
         <ListPreference
@@ -756,7 +678,6 @@
             android:entries="@array/abacus_package_title_change"
             android:entryValues="@array/abacus_package_title_change_choice_values"
             android:key="14953"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Title Change for Bundle Deals - 14953" />
 
@@ -766,7 +687,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="14900"
-            android:layout="@layout/preference"
             android:title="Packages Japan Launch" />
 
     </PreferenceCategory>

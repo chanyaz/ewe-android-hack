@@ -1,19 +1,26 @@
-package com.expedia.bookings.activity;
+package com.expedia.bookings.preference;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.ui.EBPreferencesFragment;
 import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
+import rx.subjects.PublishSubject;
 
-public class ExpediaBookingPreferenceActivity extends AppCompatActivity {
+public class ExpediaBookingPreferenceActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+
+	private SearchView searchView;
+
+	public PublishSubject<String> searchQueryChangeSubject = PublishSubject.create();
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -39,10 +46,19 @@ public class ExpediaBookingPreferenceActivity extends AppCompatActivity {
 
 		setResult(Constants.RESULT_NO_CHANGES);
 
-		getFragmentManager()
+		getSupportFragmentManager()
 			.beginTransaction()
 			.replace(R.id.fragment_container, new EBPreferencesFragment())
 			.commit();
+
+		searchView = (SearchView) findViewById(R.id.preference_search_bar);
+		searchView.setOnQueryTextListener(this);
+		searchView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				searchView.setIconified(false);
+			}
+		});
 	}
 
 	@Override
@@ -81,5 +97,20 @@ public class ExpediaBookingPreferenceActivity extends AppCompatActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		return false;
+	}
+
+	@Override
+	public boolean onQueryTextChange(String query) {
+		searchQueryChangeSubject.onNext(query);
+		return true;
+	}
+
+	public void clearQuery() {
+		searchView.setQuery("", false);
 	}
 }
