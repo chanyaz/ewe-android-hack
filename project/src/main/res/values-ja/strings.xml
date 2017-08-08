@@ -5,7 +5,7 @@
     <!-- Hotels Calendar Strings -->
     <string name="select_checkin_date">チェックイン日を選択</string>
     <!-- Package Calendar Strings -->
-    <string name="select_departure_date">往路 (行き) 出発日を選択</string>
+    <string name="select_departure_date">行きの日付を選択</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">次に、チェックアウト日を選択</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
@@ -153,7 +153,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">{startdate} – 現地出発日を選択</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – 帰りの日付を選択</string>
     <!-- Car Calendar Strings -->
     <string name="select_pickup_date">借出日を選択してください</string>
     <!-- Label for pick-up time picker -->
@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">返却時刻 {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">申し訳ございません。条件に一致する結果が見つかりませんでした。検索条件を変更してもう一度お試しください。</string>
+    <string name="error_no_result_message">申し訳ございません。条件に一致する結果が見つかりませんでした。別の検索条件で再試行してください。</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">検索結果はありません。検索条件の数を減らしてください。</string>
     <!-- Transmission options filter label for a car rental -->
@@ -772,9 +772,9 @@
     <string name="Done">完了</string>
 
     <!-- Label indicating the direction of the rails is outbond-->
-    <string name="select_outbound">往路 (行き) を選択する</string>
+    <string name="select_outbound">行きの便を選択する</string>
     <!-- Label indicating the direction of the rails is inbond-->
-    <string name="select_return">復路 (帰り) 便を選択する</string>
+    <string name="select_return">帰りの便を選択する</string>
     <!-- Label indicating the one way trip for rails-->
     <string name="one_way_from">片道 最低価格 :</string>
     <!-- Label indicating the round trip for rails-->
@@ -789,7 +789,7 @@
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">片道 (1 名あたり) の最低価格</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
-    <string name="package_prices_taxes_fees_included_label">1名あたりのホテル + 航空券 (税およびサービス料込み)</string>
+    <string name="package_prices_taxes_fees_included_label">1 名あたりの往復料金合計 (税およびサービス料込み) - 航空券 + ホテル</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">売り切れ</string>
 
@@ -842,19 +842,18 @@
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">今すぐお支払いの金額 : {amount}</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
-    <string name="n_reviews_TEMPLATE">%1$s 件のレビュー</string>
+    <string name="n_reviews_TEMPLATE">%1$s 件の口コミ</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">税込合計</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
-    <string name="trip_total">旅行の合計料金</string>
+    <string name="trip_total">合計料金</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
-    <string name="packages_trip_total">合計料金\u0020</string>
+    <string name="packages_trip_total">合計料金</string>
     <!-- Label describing the price of the package includes taxes and fees -->
     <string name="packages_append_taxes_and_fees">(税およびサービス料込み)</string>
     <!-- Template for packages total includes taxes and fees e.g Trip total (with taxes & fee) -->
     <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
-
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">旅行を作成中…</string>
 
@@ -911,7 +910,7 @@
     <string name="rail_depart_time_cont_desc_TEMPLATE">出発日時 {time}</string>
 
     <!-- Accessibility string informs the user of selected return time. Ex. "Return Time: Feb 8 15:00-->
-    <string name="rail_return_time_cont_desc_TEMPLATE">現地出発日時 {time}</string>
+    <string name="rail_return_time_cont_desc_TEMPLATE">帰りの日時 {time}</string>
 
     <!-- Accessibility string to tell the user this text is also a button -->
     <string name="rail_from_hint_cont_desc">出発地ボタン</string>
@@ -939,6 +938,9 @@
     <string name="rail_tab_roundtrip_selected_announcement">往復の鉄道の検索画面を表示中</string>
 
     <!-- New launch screen -->
+    <!-- Search screen title -->
+    <string name="search_title">検索</string>
+
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">今晩のおすすめ</string>
     <!-- See all nearby deals -->
@@ -961,6 +963,13 @@
     <string name="launch_upcoming_trips_signed_in">まもなくご旅行日です !</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">外出先でも旅程にアクセスし、最新の変更事項をチェックしましょう</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels">ホテルを検索</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels_and_flights">ホテル、航空券を検索</string>
+
     <!-- Label for super search bar at launch screen -->
     <string name="search_hotels_flight_more">ホテル、航空券、その他を検索…</string>
 
@@ -1100,7 +1109,7 @@
     <!-- Activity information -->
     <string name="activity_information">現地ツアー情報</string>
     <!-- Depart (TZ) template -->
-    <string name="depart_tz_TEMPLATE">往路 (行き) 出発日 (%1$s)</string>
+    <string name="depart_tz_TEMPLATE">行きの日付 (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">到着日 (%1$s)</string>
     <!-- Flight Confirmation code label -->
@@ -1441,9 +1450,9 @@
     <!--Hotel itin map view content description-->
     <string name="itin_hotel_details_map_view_content_description">ホテルの所在地 Google マップ</string>
     <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
-    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">ホテルの電話番号 ：{phonenumber}</string>
+    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">ホテル ({phonenumber}) に電話する</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
-    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">ホテルの住所 ：{address}クリックしてクリップボードにコピー。ボタン</string>
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">ホテルの住所。{address}。クリックしてクリップボードにコピー。ボタン</string>
     <!--Hotel itin card manage booking subheading-->
     <string name="itin_hotel_details_manage_booking_subheading">変更、キャンセル、お問い合わせ</string>
     <!--Hotel itin card price summary heading-->
@@ -1474,8 +1483,23 @@
     <string name="itin_hotel_itinerary_number_TEMPLATE">旅程番号 : {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} カスタマー サポート</string>
+    <!--Hotel customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
+    <string name="itin_hotel_customer_support_site_button_content_description_TEMPLATE">{brand} カスタマーサポート リンク ボタン</string>
     <!--Hotel customer support website toolbar header-->
     <string name="itin_hotel_customer_support_site_toolbar_header">カスタマー サービス</string>
+    <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">ホテル ({phonenumber}) に電話する。ボタン</string>
+    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">{brand} ({phonenumber}) に電話する。ボタン</string>
+    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">確認番号 {number}。クリックしてコピーする</string>
+    <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">旅程番号 {number}。クリックしてコピーする</string>
+    <!--Hotel itin room details requests header-->
+    <string name="itin_hotel_room_details_requests_header">リクエスト内容</string>
+    <!--Hotel itin room details requests disclaimer-->
+    <string name="itin_hotel_room_details_requests_disclaimer">これらの客室リクエストはホテルに伝えられますが、確約ではなく、チェックイン時の空室状況によってはご希望に添えない場合があります。</string>
+
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">チェックイン — 3 日後</string>
@@ -1562,7 +1586,7 @@
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">%1$sは %3$s に%2$sへ行きます ! \n%4$s</string>
     <!-- 1: departure city 2: arrival city 3: departure date(mm/dd/yyyy) 4: arrival date 5: outboundSharableURL 6: InboundSharableURL -->
-    <string name="share_msg_template_roundtrip_flight">%1$s ～ %2$s間の往復フライト (%3$s ～ %4$s) を利用します ! \n往路便 (行き) : %5$s\n復路便 (帰り) : %6$s</string>
+    <string name="share_msg_template_roundtrip_flight">%1$s ～ %2$s間の往復フライト (%3$s ～ %4$s) を利用します ! \n行きの便 : %5$s\n帰りの便 : %6$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">レンタカー (%1$s ～ %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -1656,7 +1680,7 @@
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
     <string name="flights_tab_selection_accouncement_roundtrip">往復フライトの検索画面を表示中</string>
     <!-- Label to identify selected outbound flight/rail card -->
-    <string name="outbound_label">往路 (行き)</string>
+    <string name="outbound_label">行き</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">航空券</string>
     <!-- Flights payment fees info web view title -->
@@ -1669,9 +1693,13 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">カードの種類によって異なる金額の&lt;a href=\"{airline_fee_url}\"&gt;航空会社の手数料&lt;/a&gt;が追加されます。これらの手数料は合計料金に追加されます。</string>
+    <!-- An airline fee is added upon payment message without linking to webview -->
+    <string name="flights_fee_added_based_on_payment">カードの種類によって異なる金額の航空会社の手数料が追加されます。これらの手数料は合計料金に追加されます。</string>
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
     <string name="flights_there_maybe_additional_fee_TEMPLATE">お支払い方法に応じて&lt;a href=\"{airline_fee_url}\"&gt;追加手数料&lt;/a&gt;が課金される場合があります。</string>
+    <!-- There may be an additional fee based on payment method without linking to webview -->
+    <string name="flights_there_maybe_additional_fee">お支払い方法に応じて追加手数料が課金される場合があります。</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">デビットカードはご利用いただけません。</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -1774,7 +1802,7 @@
     <!-- Calendar instructions rail start date selected -->
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
-    <string name="calendar_instructions_date_range_flight_select_return_date">次に、復路 (帰り) 出発日を選択</string>
+    <string name="calendar_instructions_date_range_flight_select_return_date">次に、帰りの日付を選択</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">チェックイン日を選択</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -2259,7 +2287,7 @@
     <!-- split ticket rules - cancellation policy -->
     <string name="split_ticket_rules_cancellation_policy">万一どちらかのフライトが変更あるいはキャンセルされた場合でも、残りのフライトが自動的に変更されることはありませんのでご注意ください。残りのフライトの変更には手数料がかかる場合があります。</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
-    <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;往路 (行き) 便&lt;/a&gt;および&lt;a href=\"{returnlink}\"&gt;復路 (帰り) 便&lt;/a&gt;には、それぞれの手荷物料金が適用されます。</string>
+    <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;行きの便&lt;/a&gt;および&lt;a href=\"{returnlink}\"&gt;帰りの便&lt;/a&gt;には、それぞれの手荷物料金が適用されます。</string>
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">キャンセル</string>
@@ -2306,8 +2334,8 @@
     <!-- Default cardholder name on front of credit card on CVV screen -->
     <string name="Preferred_Customer">カード名義人名</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
-    <string name="cvv_enter_security_code">CVV 番号を入力</string>
-    <string name="cvv_enter_security_code_v2">CVV</string>
+    <string name="cvv_enter_security_code">セキュリティコードを入力</string>
+    <string name="cvv_enter_security_code_v2">セキュリティコード</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2333,9 +2361,9 @@
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">旅行者 :</string>
     <!-- Header for the outbound flight details section of the share flight email -->
-    <string name="share_flight_section_outbound">往路 (行き) :</string>
+    <string name="share_flight_section_outbound">行き :</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">復路 (帰り) :</string>
+    <string name="share_flight_section_return">帰り :</string>
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->
@@ -2618,18 +2646,18 @@
     <!-- Read more of the review -->
     <string name="more">もっと読む</string>
     <!-- Special case for 0 reviews -->
-    <string name="no_reviews">レビューなし</string>
+    <string name="no_reviews">口コミなし</string>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
-        <item quantity="zero">レビューなし</item>
-        <item quantity="one">%s 件のレビューを表示</item>
-        <item quantity="two">%s 件のレビューを表示</item>
-        <item quantity="many">%s 件のレビューを表示</item>
-        <item quantity="other">%s 件のレビューを表示</item>
+        <item quantity="zero">口コミなし</item>
+        <item quantity="one">%s 件の口コミを表示</item>
+        <item quantity="two">%s 件の口コミを表示</item>
+        <item quantity="many">%s 件の口コミを表示</item>
+        <item quantity="other">%s 件の口コミを表示</item>
     </plurals>
 
-    <string name="zero_reviews">0 件のレビュー</string>
+    <string name="zero_reviews">0 件の口コミ</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -2637,11 +2665,11 @@
     -->
     <string name="user_review_name_and_location_signature">%1$s ～ %2$s</string>
     <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">このホテルのネガティブなレビューはまだありません</string>
+    <string name="user_review_no_critical_reviews">このホテルのネガティブな口コミはまだありません</string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">このホテルのポジティブなレビューはまだありません</string>
+    <string name="user_review_no_favorable_reviews">このホテルのポジティブな口コミはまだありません</string>
     <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">このホテルの最近のレビューはありません</string>
+    <string name="user_review_no_recent_reviews">このホテルの最近の口コミはありません</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">今すぐ予約、後からお支払い</string>
@@ -2690,6 +2718,10 @@
         <item quantity="many">合計宿泊料金 • 結果 %d 件</item>
         <item quantity="other">合計宿泊料金 • 結果 %d 件</item>
     </plurals>
+
+    <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
+         e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
+    <string name="package_hotel_results_includes_header_TEMPLATE">1 名あたりの往復料金合計 (税およびサービス料込み) - 航空券 + ホテル • {totalpriceresultcountheader}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 予約済み</string>
@@ -3701,8 +3733,6 @@
     <string name="show_map">マップを表示する</string>
     <!-- Accessibility - Content Description for showing list fab on hotel search result -->
     <string name="show_list">リストを表示する</string>
-    <!-- Label for per person -->
-    <string name="per_person">1 名あたり</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">合計料金</string>
     <!-- Label for package bundle price on search-->
@@ -3729,7 +3759,7 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings}保存済み</string>
     <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
-    <string name="select_hotel_cont_desc_TEMPLATE">検索が完了しました。チェックイン日 {startdate}、チェックアウト日 {enddate}、宿泊人数 {guests} 人で{destination}のホテルを選択します。ボタン</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">検索が完了しました。チェックイン日 {startdate}、チェックアウト日 {enddate}、宿泊人数 {guests} 名で{destination}のホテルを選択します。ボタン</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
     <string name="select_hotel_searching_cont_desc_TEMPLATE">チェックイン日 {startdate}、チェックアウト日 {enddate}、宿泊人数 {guests} 人で{destination}のホテルを検索しています。お待ちください</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
@@ -3749,7 +3779,7 @@
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">出発日{date}、{flight}行きのフライト {travelers} 名分。{previous}のフライトを先に選択してください。ボタン。</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
-    <string name="select_flight_disabled_choose_outbound">往路 (行き) 便</string>
+    <string name="select_flight_disabled_choose_outbound">行きの便</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
     <string name="select_flight_disabled_choose_hotel">ホテル</string>
 
@@ -3826,9 +3856,9 @@
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">フライトを検索中です。お待ちください。</string>
     <!-- Accessibility announcement when search has completed and we're showing inbound flights results. Example: Showing inbound flights to San Francisco, CA -->
-    <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">{city}への復路便を表示中</string>
+    <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">{city}への帰りの便を表示中</string>
     <!-- Accessibility announcement when search has completed and we're showing outbound flights results. Example: Showing outbound flights to Denver, CO -->
-    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">{city}への往路便を表示中</string>
+    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">{city}への行きの便を表示中</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$sへのフライトを選択</string>
     <!-- Flight to template -->
@@ -3837,10 +3867,8 @@
     <string name="flight_confirmation_crystal_title_on_date_TEMPLATE">、{date}</string>
     <!-- Flight Confirmation Cards Crystal - flight to template E.g. MSP to SFO · 1 stop-->
     <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime} ～ {arrivaltime} · {stops}</string>
-    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
-    <string name="flight_to_card_TEMPLATE">{airportcity} ({airportcode}) 行きのフライト</string>
     <!-- Select return flight -->
-    <string name="select_return_flight">復路 (帰り) 便を選択</string>
+    <string name="select_return_flight">帰りの便を選択</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">%1$sへのフライト</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
@@ -3859,7 +3887,7 @@
         <item quantity="other">{city}のホテル - 1 室、{number} 泊</item>
     </plurals>
     <!-- Label for Package Banner on Flight Search Results Screen -->
-    <string name="flight_package_banner_title">航空券 + ホテル</string>
+    <string name="flight_package_banner_title">ホテル + 航空券</string>
     <!-- Description for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_description">航空券とホテルを同時に予約するとお得 !</string>
     <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
@@ -3998,16 +4026,16 @@
     <string name="rail_change_at_station_TEMPLATE">{station_name}で乗換</string>
 
     <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
-    <string name="rail_departing_at">往路 (行き) 出発時刻</string>
+    <string name="rail_departing_at">行きの出発時刻</string>
 
     <!--rail search screen - user is specifiying what time they want their return train to leave at -->
-    <string name="rail_returning_at">復路 (帰り) 出発時刻</string>
+    <string name="rail_returning_at">帰りの出発時刻</string>
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
-    <string name="rail_checkout_outbound_TEMPLATE">往路 (行き) - {date}</string>
+    <string name="rail_checkout_outbound_TEMPLATE">行き - {date}</string>
 
     <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
-    <string name="rail_checkout_inbound_TEMPLATE">復路 (帰り) - {date}</string>
+    <string name="rail_checkout_inbound_TEMPLATE">帰り - {date}</string>
 
     <!-- rail checkout overview label indicating the user selected an open return journey.-->
     <string name="rail_open_return_messaging">出発日から 1 カ月以内の有効な列車をご利用ください</string>
@@ -4028,7 +4056,7 @@
     <string name="fare_rules">運賃規則</string>
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
-    <string name="rail_segment_no_amenities">アメニティなし</string>
+    <string name="rail_segment_no_amenities">設備とサービスなし</string>
 
     <!-- Label for amenities disclaimer on the rail amenities screen -->
     <string name="rail_amenities_disclaimer">乗車中、設備やサービスをご利用いただけない場合があります。</string>
@@ -4058,7 +4086,7 @@
     <string name="rail_credit_card_fee">カード手数料</string>
 
     <!-- Credit card fee disclaimer on payment screen -->
-    <string name="rail_card_fee_disclaimer">ご利用のカードの種類によっては、鉄道予約サービス サプライヤーから追加の手数料 (返金不可) が課金されます。デビットカードを使用すると、この手数料がかかりません。</string>
+    <string name="rail_card_fee_disclaimer">ご利用のカードの種類によっては、鉄道予約サービス サプライヤーから追加の手数料 (返金不可) が課金されます。デビットカードを使用することで、この手数料が不要になります。。</string>
 
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">カードの種類別の手数料</string>
@@ -4110,7 +4138,7 @@
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">運賃 {price}～</string>
    <!-- Rail selected outbound content description on the outbound results -->
-   <string name="rail_selected_outbound_cont_desc">選択した往路 (行き) の鉄道 :</string>
+   <string name="rail_selected_outbound_cont_desc">選択した行きの鉄道 :</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">適用されたレイルカード : {railcards}</string>
@@ -4272,6 +4300,16 @@
     <string name="choose_preferred_class_cont_desc">ご希望のクラスを選択。ダイアログ</string>
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">ご希望のクラス {class}</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_label">フライトのアップグレード</string>
+    <!-- Label for fare family delta pricing. Example. From -->
+    <string name="flight_fare_family_from_label">最低料金</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">&lt;b&gt;選択済み :&lt;/b&gt; {class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">&lt;b&gt;選択済み :&lt;/b&gt; {class_one}、{class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">&lt;b&gt;選択済み :&lt;/b&gt; 複数のクラス</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
@@ -4355,7 +4393,8 @@
     <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;保険を追加 : {price}&lt;/b&gt;{price_type}</string>
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/ 日</string>
-    <string name="insurance_price_per_person">/ 人</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person">/ 人</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">5 段階中 {rating} の評価</string>
@@ -4395,7 +4434,7 @@
     <string name="search_result_multiple_duration_cont_desc_TEMPLATE">所要時間 {duration} プラス</string>
 
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
-    <string name="cvv_text_field_cont_desc">CVV テキスト フィールド</string>
+    <string name="cvv_text_field_cont_desc">セキュリティコード テキスト フィールド</string>
 
     <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title}エラー : 未入力の旅行者情報を入力してくださいボタン。</string>
@@ -4495,7 +4534,7 @@
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">今後のサービス向上のため、Play Store でのアプリ評価にご協力ください。</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button">レビュー</string>
+    <string name="dialog_app_rating_review_button">口コミ</string>
     <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button_alt">アプリを評価する</string>
     <!-- Button for App Rating Dialog to email feedback -->
@@ -4571,7 +4610,7 @@
     <!-- Checkout validation error message for billing address country -->
     <string name="error_select_a_billing_country">クレジットカード登録住所の国を選択してください</string>
     <!-- Checkout validation error message for credit card security code -->
-    <string name="error_enter_valid_cvv">有効な CVV 番号を入力してください</string>
+    <string name="error_enter_valid_cvv">有効なセキュリティコードを入力してください</string>
     <!-- Checkout validation error message for credit card name -->
     <string name="error_enter_a_valid_card_name">カードに表示されているお名前を入力してください</string>
     <!-- Checkout validation error message for phone country code -->

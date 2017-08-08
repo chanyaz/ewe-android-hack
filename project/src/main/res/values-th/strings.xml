@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">เวลาส่งคืนรถ {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">ขออภัย เราไม่พบผลลัพธ์ โปรดปรับเกณฑ์การค้นหาแล้วลองอีกครั้ง</string>
+    <string name="error_no_result_message">ขออภัย เราไม่พบผลลัพธ์ โปรดปรับการค้นหาแล้วลองอีกครั้ง</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองลดตัวกรองผลการค้นหา</string>
     <!-- Transmission options filter label for a car rental -->
@@ -788,6 +788,8 @@
     <string name="prices_roundtrip_minimum_label">ราคาไป-กลับต่อคน เริ่มที่</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">ราคาเที่ยวเดียวต่อคน เริ่มที่</string>
+    <!-- Label indicating the price include hotel, flight ,taxes and fees-->
+    <string name="package_prices_taxes_fees_included_label">ราคารวมไปกลับ (รวมภาษีและค่าธรรมเนียม) ราคาต่อคน - สำหรับโรงแรมและเที่ยวบิน</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">หมดแล้ว</string>
 
@@ -846,7 +848,12 @@
     <string name="total_with_tax">ราคารวมภาษี</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">ราคารวม</string>
-
+    <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
+    <string name="packages_trip_total">ยอดรวมทริป</string>
+    <!-- Label describing the price of the package includes taxes and fees -->
+    <string name="packages_append_taxes_and_fees">(รวมภาษีและค่าธรรมเนียม)</string>
+    <!-- Template for packages total includes taxes and fees e.g Trip total (with taxes & fee) -->
+    <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">กำลังสร้างการเดินทาง…</string>
 
@@ -931,6 +938,9 @@
     <string name="rail_tab_roundtrip_selected_announcement">แสดงหน้าจอค้นหารถไฟขากลับ</string>
 
     <!-- New launch screen -->
+    <!-- Search screen title -->
+    <string name="search_title">ค้นหา</string>
+
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">โรงแรมแนะนำคืนนี้</string>
     <!-- See all nearby deals -->
@@ -953,6 +963,13 @@
     <string name="launch_upcoming_trips_signed_in">คุณมีทริปที่กำลังจะถึง!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">ดูแผนการเดินทางได้ทุกที่ทุกเวลาและไม่พลาดทุกการเปลี่ยนแปลง</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels">ค้นหาโรงแรม</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels_and_flights">ค้นหาโรงแรมและเที่ยวบิน</string>
+
     <!-- Label for super search bar at launch screen -->
     <string name="search_hotels_flight_more">ค้นหาโรงแรม เที่ยวบิน และอีกมากมาย…</string>
 
@@ -1466,8 +1483,23 @@
     <string name="itin_hotel_itinerary_number_TEMPLATE">หมายเลขแผนการเดินทาง # {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} ฝ่ายบริการลูกค้า</string>
+    <!--Hotel customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
+    <string name="itin_hotel_customer_support_site_button_content_description_TEMPLATE">ปุ่มลิงก์ฝ่ายบริการลูกค้า{brand}</string>
     <!--Hotel customer support website toolbar header-->
     <string name="itin_hotel_customer_support_site_toolbar_header">ฝ่ายบริการลูกค้า</string>
+    <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">โทรติดต่อโรงแรมได้ที่ {phonenumber} ปุ่ม</string>
+    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">โทรติดต่อ {brand} ได้ที่ {phonenumber} ปุ่ม</string>
+    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">หมายเลขยืนยัน {number} คลิกเพื่อคัดลอก</string>
+    <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">หมายเลขแผนการเดินทาง {number} คลิกเพื่อคัดลอก</string>
+    <!--Hotel itin room details requests header-->
+    <string name="itin_hotel_room_details_requests_header">คำขอ</string>
+    <!--Hotel itin room details requests disclaimer-->
+    <string name="itin_hotel_room_details_requests_disclaimer">เราได้ส่งคำขอไปยังโรงแรมเรียบร้อยแล้ว ทั้งนี้เราไม่สามารถยืนยันการให้บริการตามคำขอเหล่านี้ ขึ้นอยู่กับความพร้อมในการให้บริการ ณ เวลาเช็คอิน</string>
+
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">เช็คอิน — 3 วัน</string>
@@ -1661,9 +1693,13 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">&lt;a href=\"{airline_fee_url}\"&gt;ค่าธรรมเนียมสายการบิน&lt;/a&gt; จะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร ค่าธรรมเนียมนี้จะบวกเพิ่มเข้ากับยอดการชำระเงินรวม</string>
+    <!-- An airline fee is added upon payment message without linking to webview -->
+    <string name="flights_fee_added_based_on_payment">ค่าธรรมเนียมสัมภาระจะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร ค่าธรรมเนียมนี้จะบวกเพิ่มเข้ากับยอดการชำระเงินรวม</string>
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
     <string name="flights_there_maybe_additional_fee_TEMPLATE">อาจมี&lt;a href=\"{airline_fee_url}\"&gt;ค่าธรรมเนียมเพิ่มเติม&lt;/a&gt;ตามวิธีการชำระเงิน</string>
+    <!-- There may be an additional fee based on payment method without linking to webview -->
+    <string name="flights_there_maybe_additional_fee">อาจมีค่าธรรมเนียมเพิ่มเติมตามวิธีการชำระเงิน</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">ไม่รับบัตรเดบิต</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2683,6 +2719,10 @@
         <item quantity="other">ราคารวมสำหรับการเข้าพัก • %d รายการ</item>
     </plurals>
 
+    <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
+         e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
+    <string name="package_hotel_results_includes_header_TEMPLATE">ราคารวม (รวมภาษีและค่าธรรมเนียม) ราคาต่อคน - สำหรับโรงแรมและเที่ยวบิน • {totalpriceresultcountheader}</string>
+
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">จองแล้ว {percentage}%</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
@@ -3693,8 +3733,6 @@
     <string name="show_map">แสดงแผนที่</string>
     <!-- Accessibility - Content Description for showing list fab on hotel search result -->
     <string name="show_list">แสดงรายการ</string>
-    <!-- Label for per person -->
-    <string name="per_person">ต่อคน</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">ยอดรวมแพ็คเกจ</string>
     <!-- Label for package bundle price on search-->
@@ -3829,8 +3867,6 @@
     <string name="flight_confirmation_crystal_title_on_date_TEMPLATE">{date}</string>
     <!-- Flight Confirmation Cards Crystal - flight to template E.g. MSP to SFO · 1 stop-->
     <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime} - {arrivaltime} · {stops}</string>
-    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
-    <string name="flight_to_card_TEMPLATE">เที่ยวบินไปยัง{airportcity} ({airportcode})</string>
     <!-- Select return flight -->
     <string name="select_return_flight">เลือกเที่ยวบินขากลับ</string>
     <!-- Flight overview - flight to template -->
@@ -3848,10 +3884,10 @@
     <!-- Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE">
         <item quantity="one">โรงแรมใน{city} - 1 ห้อง, {number} คืน</item>
-        <item quantity="other">โรงแรมใน{city} - 1 ห้อง, {number} คืน</item>
+        <item quantity="other">โรงแรมใน {city} - 1 ห้อง, {number} คืน</item>
     </plurals>
     <!-- Label for Package Banner on Flight Search Results Screen -->
-    <string name="flight_package_banner_title">เที่ยวบิน + โรงแรม</string>
+    <string name="flight_package_banner_title">โรงแรม + เที่ยวบิน</string>
     <!-- Description for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_description">ประหยัดกว่าเมื่อจองเที่ยวบินและโรงแรมพร้อมกัน</string>
     <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
@@ -4264,6 +4300,17 @@
     <string name="choose_preferred_class_cont_desc">เลือกระดับชั้นโดยสาร กล่องโต้ตอบ</string>
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">ระดับชั้นโดยสารที่ต้องการ {class}</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_label">อัพเกรดเที่ยวบินของคุณ</string>
+    <!-- Label for fare family delta pricing. Example. From -->
+    <string name="flight_fare_family_from_label">เริ่มที่</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">&lt;b&gt;ชั้นโดยสารที่เลือก:&lt;/b&gt; {class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">&lt;b&gt;ชั้นโดยสารที่เลือก:&lt;/b&gt; {class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">&lt;b&gt;ชั้นโดยสารที่เลือก:&lt;/b&gt; ชั้นโดยสารผสม
+</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} ถึง {enddate}</string>
@@ -4347,7 +4394,8 @@
     <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;เพิ่มประกันภัย {price}&lt;/b&gt;{price_type}</string>
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/วัน</string>
-    <string name="insurance_price_per_person">/คน</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person">/คน</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">ได้รับ {rating} เต็ม 5 คะแนน</string>
