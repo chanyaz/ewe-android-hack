@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">반납 시간 {time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">죄송합니다. 검색 결과가 없습니다. 검색 조건을 변경하여 다시 시도해 주세요.</string>
+    <string name="error_no_result_message">죄송합니다. 검색 결과가 없습니다. 다른 검색 조건으로 다시 시도해 주세요.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">검색 결과가 없습니다. 필터 개수를 줄여보세요.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -788,6 +788,8 @@
     <string name="prices_roundtrip_minimum_label">1인당 왕복 요금 최저가</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">1인당 편도 요금 최저가</string>
+    <!-- Label indicating the price include hotel, flight ,taxes and fees-->
+    <string name="package_prices_taxes_fees_included_label">총 왕복 요금(세금 및 수수료 포함) - 1인당, 호텔 및 항공 포함</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">매진</string>
 
@@ -846,7 +848,12 @@
     <string name="total_with_tax">세금 포함 총계</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">총 금액</string>
-
+    <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
+    <string name="packages_trip_total">총 금액</string>
+    <!-- Label describing the price of the package includes taxes and fees -->
+    <string name="packages_append_taxes_and_fees">(세금 및 수수료 포함)</string>
+    <!-- Template for packages total includes taxes and fees e.g Trip total (with taxes & fee) -->
+    <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">여행 만드는 중…</string>
 
@@ -931,6 +938,9 @@
     <string name="rail_tab_roundtrip_selected_announcement">왕복 기차 검색 화면을 보여줍니다.</string>
 
     <!-- New launch screen -->
+    <!-- Search screen title -->
+    <string name="search_title">검색</string>
+
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">오늘 밤 추천 상품</string>
     <!-- See all nearby deals -->
@@ -953,6 +963,13 @@
     <string name="launch_upcoming_trips_signed_in">고객님, 다가오는 여행 일정이 있습니다!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">이동 중에도 일정을 확인하시고 최신 변경 사항도 놓치지 마세요.</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels">호텔 검색</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels_and_flights">호텔 및 항공편 검색</string>
+
     <!-- Label for super search bar at launch screen -->
     <string name="search_hotels_flight_more">호텔, 항공 및 기타 여행 상품 검색…</string>
 
@@ -1466,8 +1483,23 @@
     <string name="itin_hotel_itinerary_number_TEMPLATE">일정 번호 - {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} 고객 지원</string>
+    <!--Hotel customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
+    <string name="itin_hotel_customer_support_site_button_content_description_TEMPLATE">{brand} 고객 지원 링크 버튼</string>
     <!--Hotel customer support website toolbar header-->
     <string name="itin_hotel_customer_support_site_toolbar_header">고객 서비스</string>
+    <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">호텔 전화번호: {phonenumber} 버튼</string>
+    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">{brand} 문의 전화번호: {phonenumber} 버튼</string>
+    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">확인 번호: {number} 클릭하여 복사</string>
+    <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">일정 번호: {number} 클릭하여 복사</string>
+    <!--Hotel itin room details requests header-->
+    <string name="itin_hotel_room_details_requests_header">요청 사항</string>
+    <!--Hotel itin room details requests disclaimer-->
+    <string name="itin_hotel_room_details_requests_disclaimer">이러한 객실 요청 사항은 해당 호텔에 전달되었지만, 확정된 것은 아니며 체크인 시 이용 상황에 따라 제공 가능 여부가 달라질 수 있습니다.</string>
+
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3일 후 체크인</string>
@@ -1661,9 +1693,13 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">카드 종류에 따라 &lt;a href=\"{airline_fee_url}\"&gt;항공사 수수료&lt;/a&gt;가 결제 시 추가됩니다. 이러한 요금은 결제 시 총 요금에 추가됩니다.</string>
+    <!-- An airline fee is added upon payment message without linking to webview -->
+    <string name="flights_fee_added_based_on_payment">카드 종류에 따라 항공사 수수료가 결제 시 추가됩니다. 이러한 요금은 결제 시 총 요금에 추가됩니다.</string>
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
     <string name="flights_there_maybe_additional_fee_TEMPLATE">결제 방법에 따라 &lt;a href=\"{airline_fee_url}\"&gt;추가 수수료&lt;/a&gt;가 있을 수 있습니다.</string>
+    <!-- There may be an additional fee based on payment method without linking to webview -->
+    <string name="flights_there_maybe_additional_fee">결제 방법에 따라 추가 수수료가 있을 수 있습니다.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">직불카드로는 결제하실 수 없습니다.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2683,6 +2719,10 @@
         <item quantity="other">숙박 총합계 • %d개 결과</item>
     </plurals>
 
+    <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
+         e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
+    <string name="package_hotel_results_includes_header_TEMPLATE">총 요금(세금 및 수수료 포함) - 1인당, 호텔 및 항공 포함 • {totalpriceresultcountheader}</string>
+
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 예약됨</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
@@ -3693,8 +3733,6 @@
     <string name="show_map">지도 가져오기</string>
     <!-- Accessibility - Content Description for showing list fab on hotel search result -->
     <string name="show_list">목록 가져오기</string>
-    <!-- Label for per person -->
-    <string name="per_person">1인당</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">항공+호텔 총액</string>
     <!-- Label for package bundle price on search-->
@@ -3829,8 +3867,6 @@
     <string name="flight_confirmation_crystal_title_on_date_TEMPLATE">, {date}</string>
     <!-- Flight Confirmation Cards Crystal - flight to template E.g. MSP to SFO · 1 stop-->
     <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime} - {arrivaltime} · {stops}</string>
-    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
-    <string name="flight_to_card_TEMPLATE">{airportcity}({airportcode})행 항공편</string>
     <!-- Select return flight -->
     <string name="select_return_flight">오는 항공편 선택</string>
     <!-- Flight overview - flight to template -->
@@ -3851,7 +3887,7 @@
         <item quantity="other">{city} 호텔 - 객실 1개, {number}박</item>
     </plurals>
     <!-- Label for Package Banner on Flight Search Results Screen -->
-    <string name="flight_package_banner_title">항공 + 호텔</string>
+    <string name="flight_package_banner_title">호텔+항공</string>
     <!-- Description for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_description">항공과 호텔을 함께 예약하고 할인받으세요!</string>
     <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
@@ -4264,6 +4300,16 @@
     <string name="choose_preferred_class_cont_desc">선호 등급 선택. 대화상자</string>
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">선호 등급 {class}</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_label">항공편 업그레이드</string>
+    <!-- Label for fare family delta pricing. Example. From -->
+    <string name="flight_fare_family_from_label">최저</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">&lt;b&gt;현재 좌석 등급:&lt;/b&gt; {class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">&lt;b&gt;현재 좌석 등급:&lt;/b&gt; {class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">&lt;b&gt;현재 좌석 등급:&lt;/b&gt; 혼합된 좌석 등급</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} ~ {enddate}</string>
@@ -4347,7 +4393,8 @@
     <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;보험({price_type} {price}) 추가&lt;/b&gt;</string>
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">1일 기준</string>
-    <string name="insurance_price_per_person">1인당</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person">1인당</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">평점: {rating} (5점 만점)</string>
@@ -4450,9 +4497,9 @@
     <!-- Package cost summary row snippet  e.g. 4 guests-->
     <plurals name="number_of_guest_TEMPLATE">
         <item quantity="zero">숙박객 {guest}명</item>
-        <item quantity="one">숙박객 {guest}명</item>
-        <item quantity="two">숙박객 {guest}명</item>
-        <item quantity="many">숙박객 {guest}명</item>
+        <item quantity="one">{guest}명</item>
+        <item quantity="two">{guest}명</item>
+        <item quantity="many">{guest}명</item>
         <item quantity="other">숙박객 {guest}명</item>
     </plurals>
     <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
