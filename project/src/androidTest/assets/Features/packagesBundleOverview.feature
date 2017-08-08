@@ -16,7 +16,7 @@ Feature: Bundle Overview with packages details
     And I wait for hotels results for packages to load
     And I tap on bundle overview sliding widget bar at the bottom
     Then following information on the bundle overview screen isDisplayed: true
-      | Step 1 Text                       | Step 1: Select Hotel            |
+      | Step 1 Text                       | Step 1: Select hotel            |
       | Hotel Bar - Hotel text            | Select hotel in Las Vegas Strip |
       | Hotel Bar - Date                  | 5 - 10                          |
       | Hotel Bar - travelers             | 4 guests                        |
@@ -70,7 +70,7 @@ Feature: Bundle Overview with packages details
     And I press back
     Then Bundle Overview screen is displayed
     And following information on the bundle overview screen isDisplayed: true
-      | Step 1 Text                       | Step 1: Select Hotel            |
+      | Step 1 Text                       | Step 1: Select hotel            |
       | Hotel Bar - Hotel text            | Select hotel in Las Vegas Strip |
       | Hotel Bar - Date                  | 5 - 10                          |
       | Hotel Bar - travelers             | 4 guests                        |

@@ -32,7 +32,7 @@ Feature: Package Overview
       | end_date          | 10                |
       | totalTravelers    | 4 travelers       |
     And validate hotel selection step label
-      | info_text         | Step 1: Select Hotel|
+      | info_text         | Step 1: Select hotel|
     And validate "varHotelName" is same as user selected on package overview screen
     Then validate hotel widget data on hotel overview widget
       | info_text | Jul 10 - Jul 16, 4 guests |
