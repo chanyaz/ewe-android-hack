@@ -169,7 +169,7 @@
     <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
     <string name="drop_off_slider_cont_desc_TEMPLATE">Giờ trả xe{time}</string>
     <!-- Car search error -->
-    <string name="error_no_result_message">Rất tiếc, không tìm được kết quả. Vui lòng tìm lại với yêu cầu khác.</string>
+    <string name="error_no_result_message">Rất tiếc, không tìm được kết quả. Vui lòng thử lại với nhóm điều kiện tìm kiếm khác.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Không tìm được kết quả. Vui lòng giảm số bộ lọc.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -788,6 +788,8 @@
     <string name="prices_roundtrip_minimum_label">Giá hai chiều, mỗi người, từ</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">Giá một chiều, mỗi người, từ</string>
+    <!-- Label indicating the price include hotel, flight ,taxes and fees-->
+    <string name="package_prices_taxes_fees_included_label">Tổng giá hai chiều (gồm thuế &amp; phí), mỗi người - khách sạn và chuyến bay</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Hết chỗ</string>
 
@@ -846,7 +848,12 @@
     <string name="total_with_tax">Tổng gồm thuế</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Tổng chuyến đi</string>
-
+    <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
+    <string name="packages_trip_total">Tổng giá</string>
+    <!-- Label describing the price of the package includes taxes and fees -->
+    <string name="packages_append_taxes_and_fees">(gồm thuế &amp; phí)</string>
+    <!-- Template for packages total includes taxes and fees e.g Trip total (with taxes & fee) -->
+    <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">Đang tạo chuyến đi…</string>
 
@@ -931,6 +938,9 @@
     <string name="rail_tab_roundtrip_selected_announcement">Hiển thị màn hình tìm vé tàu hỏa khứ hồi</string>
 
     <!-- New launch screen -->
+    <!-- Search screen title -->
+    <string name="search_title">Tìm kiếm</string>
+
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Nhận phòng đêm nay</string>
     <!-- See all nearby deals -->
@@ -953,6 +963,13 @@
     <string name="launch_upcoming_trips_signed_in">Gần đến chuyến đi của quý vị!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Xem lịch trình và cập nhật thay đổi trên đường</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels">Tìm khách sạn</string>
+
+    <!-- Label for pro wizard bar on launch screen -->
+    <string name="search_hotels_and_flights">Tìm khách sạn và chuyến bay</string>
+
     <!-- Label for super search bar at launch screen -->
     <string name="search_hotels_flight_more">Tìm khách sạn và sản phẩm du lịch khác…</string>
 
@@ -1466,8 +1483,23 @@
     <string name="itin_hotel_itinerary_number_TEMPLATE">Số lịch trình {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_hotel_customer_support_site_header_TEMPLATE">Hỗ trợ khách hàng {brand}</string>
+    <!--Hotel customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
+    <string name="itin_hotel_customer_support_site_button_content_description_TEMPLATE">Nút liên kết hỗ trợ khách hàng {brand}</string>
     <!--Hotel customer support website toolbar header-->
     <string name="itin_hotel_customer_support_site_toolbar_header">Dịch vụ khách hàng</string>
+    <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">Gọi khách sạn qua {phonenumber}. Nút</string>
+    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Gọi {brand} qua {phonenumber}. Nút</string>
+    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">Số xác nhận {number}. Bấm để chép</string>
+    <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
+    <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Số lịch trình {number}. Bấm để chép</string>
+    <!--Hotel itin room details requests header-->
+    <string name="itin_hotel_room_details_requests_header">Yêu cầu</string>
+    <!--Hotel itin room details requests disclaimer-->
+    <string name="itin_hotel_room_details_requests_disclaimer">Chúng tôi đã chuyển yêu cầu đến khách sạn, tuy nhiên, những yêu cầu này không được xác nhận và được đáp ứng tùy thuộc tình hình thực tế khi nhận phòng.</string>
+
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Nhận phòng trong 3 ngày</string>
@@ -1661,9 +1693,13 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Sẽ thu bổ sung &lt;a href=\"{airline_fee_url}\"&gt;phí hãng hàng không&lt;/a&gt;, tùy loại thẻ, khi thanh toán. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
+    <!-- An airline fee is added upon payment message without linking to webview -->
+    <string name="flights_fee_added_based_on_payment">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy loại thẻ. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
     <string name="flights_there_maybe_additional_fee_TEMPLATE">Có thể áp dụng &lt;a href=\"{airline_fee_url}\"&gt;phụ phí&lt;/a&gt;, tùy phương thức thanh toán của quý vị.</string>
+    <!-- There may be an additional fee based on payment method without linking to webview -->
+    <string name="flights_there_maybe_additional_fee">Có thể áp dụng phụ phí, tùy phương thức thanh toán của quý vị.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Không nhận thanh toán bằng thẻ ghi nợ.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2683,6 +2719,10 @@
         <item quantity="other">Tổng giá cho thời gian lưu trú • %d kết quả</item>
     </plurals>
 
+    <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
+         e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
+    <string name="package_hotel_results_includes_header_TEMPLATE">Tổng giá (gồm thuế &amp; phí), mỗi người - khách sạn và chuyến bay • {totalpriceresultcountheader}</string>
+
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">Đã đặt {percentage}%</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
@@ -3693,8 +3733,6 @@
     <string name="show_map">Hiển thị bản đồ</string>
     <!-- Accessibility - Content Description for showing list fab on hotel search result -->
     <string name="show_list">Hiển thị danh sách</string>
-    <!-- Label for per person -->
-    <string name="per_person">/1 người</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">Tổng gói</string>
     <!-- Label for package bundle price on search-->
@@ -3829,8 +3867,6 @@
     <string name="flight_confirmation_crystal_title_on_date_TEMPLATE">{date}</string>
     <!-- Flight Confirmation Cards Crystal - flight to template E.g. MSP to SFO · 1 stop-->
     <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime} - {arrivaltime} · {stops}</string>
-    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
-    <string name="flight_to_card_TEMPLATE">Chuyến bay đến ({airportcode}) {airportcity}</string>
     <!-- Select return flight -->
     <string name="select_return_flight">Chọn chuyến bay về</string>
     <!-- Flight overview - flight to template -->
@@ -3851,7 +3887,7 @@
         <item quantity="other">Khách sạn tại {city} - 1 phòng, {number} đêm</item>
     </plurals>
     <!-- Label for Package Banner on Flight Search Results Screen -->
-    <string name="flight_package_banner_title">Chuyến bay + Khách sạn</string>
+    <string name="flight_package_banner_title">Khách sạn + Chuyến bay</string>
     <!-- Description for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_description">Tiết kiệm khi bạn đặt cùng lúc cả chuyến bay và khách sạn</string>
     <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
@@ -4264,6 +4300,16 @@
     <string name="choose_preferred_class_cont_desc">Chọn hạng ưu tiên. Hộp thoại</string>
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Ưu tiên chọn hạng {class}</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_label">Nâng hạng chuyến bay</string>
+    <!-- Label for fare family delta pricing. Example. From -->
+    <string name="flight_fare_family_from_label">Từ</string>
+    <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->
+    <string name="flight_selected_classes_one_class_TEMPLATE">&lt;b&gt;Hạng:&lt;/b&gt; {class}</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Selected Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">&lt;b&gt;Hạng:&lt;/b&gt; {class_one}, {class_two}</string>
+    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
+    <string name="flight_selected_classes_mixed_classes">&lt;b&gt;Hạng:&lt;/b&gt; Nhiều hạng khác nhau</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} đến {enddate}</string>
@@ -4347,7 +4393,8 @@
     <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Thêm bảo hiểm với {price}&lt;/b&gt;{price_type}</string>
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/ngày</string>
-    <string name="insurance_price_per_person">/người</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person">/người</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Điểm đánh giá {rating}/5</string>
