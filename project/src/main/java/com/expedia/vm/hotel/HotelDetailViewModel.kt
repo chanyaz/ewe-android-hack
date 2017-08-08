@@ -12,6 +12,7 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelDetailToolbarViewModel
 import com.squareup.phrase.Phrase
@@ -105,6 +106,15 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
 
     override fun trackHotelDetailGalleryClick() {
         HotelTracking.trackHotelDetailGalleryClick()
+    }
+
+    override fun shouldShowBookByPhone(): Boolean {
+        return !hotelOffersResponse.deskTopOverrideNumber
+                && !Strings.isEmpty(hotelOffersResponse.telesalesNumber)
+    }
+
+    override fun getTelesalesNumber(): String {
+        return hotelOffersResponse.telesalesNumber
     }
 
     companion object {

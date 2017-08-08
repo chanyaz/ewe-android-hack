@@ -47,6 +47,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 	public int totalReviews;
 	public int totalRecommendations;
 	public String telesalesNumber;
+	public String packageTelesalesNumber;
 	public boolean isVipAccess;
 
 	public List<Photos> photos;

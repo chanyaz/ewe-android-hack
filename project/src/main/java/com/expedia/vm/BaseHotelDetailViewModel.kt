@@ -15,6 +15,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
@@ -67,6 +68,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     abstract fun trackHotelDetailMapViewClick()
     abstract fun trackHotelDetailGalleryClick()
     abstract fun trackHotelDetailLoad(isRoomSoldOut: Boolean)
+    abstract fun shouldShowBookByPhone(): Boolean
+    abstract fun getTelesalesNumber(): String
 
     val roomSelectedSubject = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
@@ -170,7 +173,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             LoyaltyMembershipTier.BASE -> PointOfSale.getPointOfSale().supportPhoneNumberBaseTier
             LoyaltyMembershipTier.MIDDLE -> PointOfSale.getPointOfSale().supportPhoneNumberMiddleTier
             LoyaltyMembershipTier.TOP -> PointOfSale.getPointOfSale().supportPhoneNumberTopTier
-            else -> hotelOffersResponse.telesalesNumber
+            else -> getTelesalesNumber()
         }
 
         if (supportPhoneNumber == null) {
@@ -432,12 +435,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             hotelResortFeeIncludedTextObservable.onNext(null)
         }
 
-        if (getLOB() == LineOfBusiness.HOTELS) {
-            showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
-                    && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
-        } else {
-            showBookByPhoneObservable.onNext(false)
-        }
+        showBookByPhoneObservable.onNext(shouldShowBookByPhone())
 
         loadTimeData.markAllViewsLoaded(System.currentTimeMillis())
         trackHotelDetailLoad(false)
