@@ -50,11 +50,22 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
 
         vm.infantPreferenceSeatingObservable.subscribe { hasInfants ->
             if (vm.showSeatingPreference && hasInfants) {
-                infantPreferenceSeatingView.visibility = View.VISIBLE
+                if (infantPreferenceSeatingView.visibility != View.VISIBLE) {
+                    infantPreferenceSeatingView.animate()
+                            .alpha(1f)
+                            .setDuration(500)
+                    infantPreferenceSeatingView.visibility = View.VISIBLE
+                }
             } else {
-                infantPreferenceSeatingView.visibility = View.GONE
+                if (infantPreferenceSeatingView.visibility != View.GONE) {
+                    infantPreferenceSeatingView.animate()
+                            .alpha(0f)
+                            .setDuration(500)
+                    infantPreferenceSeatingView.visibility = View.GONE
+                }
             }
         }
+
         vm.adultTextObservable.subscribeText(adultCountSelector.travelerText)
         vm.childTextObservable.subscribeText(childCountSelector.travelerText)
         vm.youthTextObservable.subscribeText(youthCountSelector.travelerText)
@@ -126,6 +137,7 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
         adultCountSelector.travelerMinus.viewTreeObserver.addOnPreDrawListener(
                 object : ViewTreeObserver.OnPreDrawListener {
                     override fun onPreDraw(): Boolean {
+                        infantPreferenceSeatingView.visibility = View.GONE
                         adultCountSelector.travelerMinus.viewTreeObserver.removeOnPreDrawListener(this)
                         adultCountSelector.travelerMinus.setAccessibilityHoverFocus()
                         return true
