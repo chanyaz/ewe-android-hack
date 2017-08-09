@@ -33,8 +33,7 @@
                     android:id="@+id/edit_frequent_flyer_program_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/frequent_flyer_program_number"
-                    android:labelFor="@+id/frequent_flyer_program_number"
+                    android:hint="@string/none"
                     android:layout_gravity="center_horizontal">
 
                     <com.expedia.bookings.widget.traveler.TravelerEditText

@@ -203,7 +203,7 @@ object FlightV2Utils {
         flightLegs.forEach {
             it.segments.forEach {
                 if (!seenAirlines.contains(it.airlineName)) {
-                    frequentFlyerCards.add(FrequentFlyerCard(it.airlineName))
+                    frequentFlyerCards.add(FrequentFlyerCard(it.airlineName, it.airlineCode))
                     seenAirlines.add(it.airlineName)
                 }
             }

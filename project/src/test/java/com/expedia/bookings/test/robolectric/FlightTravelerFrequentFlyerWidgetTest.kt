@@ -96,6 +96,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
             for (i in 0 until size!!) {
                 flight.segments.add(FlightSegment())
                 flight.segments.get(i).airlineName = airlineNames.get(i)
+                flight.segments.get(i).airlineCode = "AA"
             }
         }
     }
