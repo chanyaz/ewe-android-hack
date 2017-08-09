@@ -36,6 +36,7 @@ function setUpForPythonScripts() {
     pip install "github3.py==1.0.0.a4"
     pip install slackclient
     pip install "lxml==3.5.0"
+    pip install python-dateutil
 
     # exit if finds 'needs-human' label
     python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_ACCESS_TOKEN $ghprbPullId

@@ -13,6 +13,7 @@ pip install enum
 pip install "github3.py==1.0.0.a4"
 pip install slackclient
 pip install objectpath
+pip install python-dateutil
 
 # Prepare device and install test butler apk
 adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X install -r tools/test-butler-app-1.2.0.apk
