@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.hotel
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Rect
@@ -13,6 +14,7 @@ import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -110,9 +112,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
-            filterBtnWithCountWidget.visibility = View.VISIBLE
-            filterBtnWithCountWidget.translationY = 0f
+            if (filterBtnWithCountWidget.translationY != 0f) {
+                showSortAndFilter()
+            }
         }
+
         vm.mapResultsObservable.subscribe(listResultsObserver)
         vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
         vm.mapResultsObservable.subscribe {
@@ -120,16 +124,14 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             if (latLng != null) {
                 mapViewModel.mapBoundsSubject.onNext(latLng)
             }
-            filterBtnWithCountWidget.visibility = View.VISIBLE
             fab.isEnabled = true
         }
 
         vm.filterResultsObservable.subscribe(listResultsObserver)
         vm.filterResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.filterResultsObservable.subscribe {
-            if (previousWasList) {
-                filterBtnWithCountWidget.visibility = View.VISIBLE
-                filterBtnWithCountWidget.translationY = 0f
+            if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
+                showSortAndFilter()
             } else {
                 fab.isEnabled = true
             }
@@ -144,7 +146,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         vm.paramsSubject.subscribe { newParams(it) }
-        vm.searchInProgressSubject.subscribe {  resetForNewSearch() }
+        vm.searchInProgressSubject.subscribe { resetForNewSearch() }
         vm.hotelResultsObservable.subscribe { show(ResultsList()) }
 
         vm.locationParamsSubject.subscribe { params ->
@@ -169,6 +171,17 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
 
         vm.errorObservable.subscribe { hideMapLoadingOverlay() }
+    }
+
+    private fun showSortAndFilter() {
+        val anim = ValueAnimator.ofFloat(0.toFloat(), 1.toFloat())
+        anim.duration = 500
+        anim.interpolator = DecelerateInterpolator(2f)
+        anim.addUpdateListener({ animation ->
+            val translateTo = animation.animatedValue as Float
+            sortFilterButtonTransition?.toOrigin(translateTo)
+        })
+        anim.start()
     }
 
     private fun initSortCallToAction() {
@@ -265,7 +278,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun showLoading() {
         super.showLoading()
-        filterBtnWithCountWidget.visibility = View.GONE
+        sortFilterButtonTransition?.jumpToTarget()
         urgencyDropDownContainer.visibility = View.GONE
         narrowResultsPromptView.visibility = View.GONE
         narrowResultsPromptView.clearAnimation()
@@ -361,7 +374,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     fun showCachedResults() {
         filterView.viewModel.clearObservable.onNext(Unit)
         val cachedResponse = filterView.viewModel.originalResponse ?: adapter.resultsSubject.value
-        filterBtnWithCountWidget.visibility = VISIBLE
         if (previousWasList) {
             viewModel.hotelResultsObservable.onNext(cachedResponse)
         } else {

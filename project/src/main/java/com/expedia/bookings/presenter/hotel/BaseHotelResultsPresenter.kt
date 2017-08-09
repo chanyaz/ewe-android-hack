@@ -1043,7 +1043,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterView.show()
             filterScreenShown = forward
             if (forward) {
-                sortFilterButtonTransition?.jumpToTarget()
                 fab.visibility = View.GONE
             } else {
                 recyclerView.visibility = View.VISIBLE
@@ -1057,9 +1056,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             super.updateTransition(f, forward)
             val translatePercentage = if (forward) 1 - f else f
             filterView.translationY = filterView.height * translatePercentage
-            if (!forward) {
-                sortFilterButtonTransition?.toOrigin(f)
-            }
         }
 
         override fun endTransition(forward: Boolean) {
@@ -1067,7 +1063,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             transitionRunning = false
             if (!forward) filterView.visibility = View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
-            if (!forward) sortFilterButtonTransition?.jumpToOrigin()
             if (!forward && !fabShouldBeHiddenOnList()) {
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()
