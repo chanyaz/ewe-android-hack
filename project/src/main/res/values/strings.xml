@@ -2153,6 +2153,8 @@
     <string name="frequent_flyer_program_number">Program Number</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">Frequent flyer program</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">My programs</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">Seating Preference</string>

@@ -1,8 +1,6 @@
 package com.expedia.bookings.widget.traveler
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
