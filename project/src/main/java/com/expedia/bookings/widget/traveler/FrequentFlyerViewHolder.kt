@@ -11,7 +11,6 @@ import com.expedia.util.subscribeEditText
 import com.expedia.bookings.widget.FrequentFlyerSpinnerAdapter
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
-import com.expedia.vm.FrequentFlyerNumberViewModel
 import com.expedia.vm.FrequentFlyerProgramViewModel
 import com.expedia.vm.traveler.FlightTravelerFrequentFlyerItemViewModel
 
@@ -54,5 +53,10 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
     fun bind(frequentFlyerCard: FrequentFlyerCard) {
         vm.bind(frequentFlyerCard)
         frequentFlyerNameTitle.text = vm.getTitle()
+    }
+
+    init {
+        frequentFlyerNumberInput.viewModel = vm.ffnProgramNumberViewModel
+        vm.ffnProgramNumberSubject.subscribeEditText(frequentFlyerNumberInput)
     }
 }
