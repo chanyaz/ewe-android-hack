@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FFNSpinnerAdapter
+import com.expedia.bookings.widget.FrequentFlyerSpinnerAdapter
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
 import com.expedia.vm.FrequentFlyerProgramViewModel
@@ -17,8 +17,8 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
     val frequentFlyerNumber: TravelerEditText by bindView(R.id.edit_frequent_flyer_number)
     val frequentFlyerNameTitle: TextView by bindView(R.id.frequent_flyer_program_card_title)
 
-    val frequentFlyerAdapter : FFNSpinnerAdapter by lazy {
-        val adapter = FFNSpinnerAdapter(context, R.layout.material_item)
+    val frequentFlyerAdapter : FrequentFlyerSpinnerAdapter by lazy {
+        val adapter = FrequentFlyerSpinnerAdapter(context, R.layout.material_item)
         adapter.currentPosition = adapter.getPositionFromName(vm.frequentFlyerProgramObservable.value)
         adapter
     }
@@ -28,7 +28,7 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
         builder.setTitle(context.resources.getString(R.string.frequent_flyer_my_programs))
         builder.setSingleChoiceItems(frequentFlyerAdapter, frequentFlyerAdapter.currentPosition, { dialogInterface, position ->
             val airlineName = frequentFlyerAdapter.getAirlineName(position)
-            val airlineCode = frequentFlyerAdapter.getFFNNumber(position)
+            val airlineCode = frequentFlyerAdapter.getFrequentFlyerNumber(position)
             vm.frequentFlyerProgramObservable.onNext(airlineName)
             vm.frequentFlyerNumberObservable.onNext(airlineCode.toString())
             dialogInterface.dismiss()
@@ -38,9 +38,9 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
     }
 
     init {
-        val textVm = FrequentFlyerProgramViewModel()
-        frequentFlyerProgram.viewModel = textVm
-        frequentFlyerNumber.viewModel = textVm
+        val textViewModel = FrequentFlyerProgramViewModel()
+        frequentFlyerProgram.viewModel = textViewModel
+        frequentFlyerNumber.viewModel = textViewModel
         frequentFlyerProgram.setOnClickListener {
             frequentFlyerDialog.show()
         }

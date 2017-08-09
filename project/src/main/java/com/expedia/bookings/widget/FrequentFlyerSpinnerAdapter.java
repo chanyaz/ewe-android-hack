@@ -16,22 +16,22 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.Ui;
 
-public class FFNSpinnerAdapter extends ArrayAdapter<String> {
-	private static final Map<String, Integer> FFNAirlines = new HashMap<String, Integer>();
+public class FrequentFlyerSpinnerAdapter extends ArrayAdapter<String> {
+	private static final Map<String, Integer> FrequentFlyerAirlines = new HashMap<>();
 
-	private int[] FFNnumber;
-	private String[] airlinePrograms;
+	private int[] frequentFlyerNumber;
+	private String[] frequentFlyerProgram;
 	private int CurrentPosition;
 
-	public FFNSpinnerAdapter(Context context) {
-		this(context, R.layout.simple_spinner_item);
-	}
+//	public FrequentFlyerSpinnerAdapter(Context context) {
+//		this(context, R.layout.simple_spinner_item);
+//	}
 
-	public FFNSpinnerAdapter(Context context, int textViewResourceId) {
+	public FrequentFlyerSpinnerAdapter(Context context, int textViewResourceId) {
 		this(context, textViewResourceId, R.layout.simple_spinner_dropdown_item);
 	}
 
-	public FFNSpinnerAdapter(Context context, int textViewResId, int dropDownViewResId) {
+	public FrequentFlyerSpinnerAdapter(Context context, int textViewResId, int dropDownViewResId) {
 		super(context, textViewResId);
 		setDropDownViewResource(dropDownViewResId);
 		init(context);
@@ -39,42 +39,42 @@ public class FFNSpinnerAdapter extends ArrayAdapter<String> {
 
 	private void init(Context context) {
 		final Resources res = context.getResources();
-		FFNnumber = res.getIntArray(R.array.ffn_number);
-		airlinePrograms = res.getStringArray(R.array.ffn_programs);
-		fillAirlines(context);
+		frequentFlyerNumber = res.getIntArray(R.array.ffn_number);
+		frequentFlyerProgram = res.getStringArray(R.array.ffn_programs);
+		fillAirlines();
 	}
 
 	@Override
 	public int getCount() {
-		return FFNnumber.length;
+		return frequentFlyerNumber.length;
 	}
 
 	@Override
 	public String getItem(int position) {
-		return String.format(Locale.getDefault(), "%s Number: (%d)", getAirlineName(position), getFFNNumber(position));
+		return String.format(Locale.getDefault(), "%s Number: (%d)", getAirlineName(position), getFrequentFlyerNumber(position));
 	}
 
 	public String getAirlineName(int position) {
-		return airlinePrograms[position];
+		return frequentFlyerProgram[position];
 	}
 
-	public int getFFNNumber(int position) {
-		if (FFNAirlines.containsKey(getAirlineName(position))) {
-			return FFNAirlines.get(getAirlineName(position));
+	public int getFrequentFlyerNumber(int position) {
+		if (FrequentFlyerAirlines.containsKey(getAirlineName(position))) {
+			return FrequentFlyerAirlines.get(getAirlineName(position));
 		}
 
-		return FFNnumber[position];
+		return frequentFlyerNumber[position];
 	}
-
-	public int getFFNnumberFromAirlineName(String airlineName) {
-		return FFNAirlines.get(airlineName);
-	}
+//
+//	public int getFFNnumberFromAirlineName(String airlineName) {
+//		return FrequentFlyerAirlines.get(airlineName);
+//	}
 
 	public int getPositionFromName(String airlineName) {
 		if (Strings.isEmpty(airlineName)) {
 			return CurrentPosition;
 		}
-		for (int i = 0; i < FFNAirlines.size(); i++) {
+		for (int i = 0; i < FrequentFlyerAirlines.size(); i++) {
 			if (getAirlineName(i).equals(airlineName)) {
 				return i;
 			}
@@ -102,13 +102,12 @@ public class FFNSpinnerAdapter extends ArrayAdapter<String> {
 		return CurrentPosition;
 	}
 
-	private void fillAirlines(Context context) {
-		final Resources res = context.getResources();
-		FFNAirlines.put("Airline A", 1234);
-		FFNAirlines.put("Airline B", 2345);
-		FFNAirlines.put("Airline C", 3456);
-		FFNAirlines.put("Airline D", 4567);
-		FFNAirlines.put("Airline E", 5678);
+	private void fillAirlines() {
+		FrequentFlyerAirlines.put("Airline A", 1234);
+		FrequentFlyerAirlines.put("Airline B", 2345);
+		FrequentFlyerAirlines.put("Airline C", 3456);
+		FrequentFlyerAirlines.put("Airline D", 4567);
+		FrequentFlyerAirlines.put("Airline E", 5678);
 	}
 
 }
