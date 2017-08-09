@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.Traveler.SeatPreference;
+import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.user.UserPreference;
@@ -88,6 +89,20 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					if (traveler.getPassportCountries().size() > 1) { // multiple passports.
 						// force customer to select a passport (#4834)
 						traveler.setPrimaryPassportCountry(null);
+					}
+				}
+
+				//Parse frequent flyer memberships
+				if (response.has("frequentFlyerMemberships")) {
+					JSONArray ffnArr = response.optJSONArray("frequentFlyerMemberships");
+					int size = ffnArr.length();
+					for (int a = 0; a < size; a++) {
+						JSONObject ffnJson = ffnArr.optJSONObject(a);
+						TravelerFrequentFlyerMembership frequentFlyerMembership = new TravelerFrequentFlyerMembership();
+						frequentFlyerMembership.setMembershipNumber(ffnJson.optString("membershipNumber", null));
+						frequentFlyerMembership.setPlanCode(ffnJson.optString("planCode", null));
+						frequentFlyerMembership.setAirlineCode(ffnJson.optString("airlineCode", null));
+						traveler.addFrequentFlyerMembership(frequentFlyerMembership);
 					}
 				}
 
@@ -189,6 +204,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		traveler.setMiddleName(obj.optString("middleName", null));
 		traveler.setLastName(obj.optString("lastName", null));
 		traveler.setIsStoredTraveler(true);
+
 		return traveler;
 	}
 

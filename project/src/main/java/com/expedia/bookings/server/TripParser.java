@@ -28,6 +28,7 @@ import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.FlightConfirmation;

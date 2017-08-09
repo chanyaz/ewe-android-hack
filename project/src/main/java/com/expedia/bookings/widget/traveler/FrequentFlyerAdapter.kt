@@ -7,8 +7,9 @@ import android.widget.Filter
 import android.widget.Filterable
 import com.expedia.bookings.R
 import com.expedia.vm.traveler.FlightTravelerFrequentFlyerItemViewModel
+import com.expedia.bookings.data.Traveler
 
-class FrequentFlyerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class FrequentFlyerAdapter(val traveler: Traveler) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     private var frequentFlyerCards: List<FrequentFlyerCard> = emptyList()
 
@@ -23,8 +24,8 @@ class FrequentFlyerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Fi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.frequent_flyer_program_card_layout, parent, false)
-        val vm = FlightTravelerFrequentFlyerItemViewModel()
-        return FrequentFlyerViewHolder(view as ViewGroup, vm)
+        val vm = FlightTravelerFrequentFlyerItemViewModel(traveler)
+        return FrequentFlyerViewHolder(view as ViewGroup, vm, parent.context)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
@@ -45,6 +46,7 @@ class FrequentFlyerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Fi
     }
 }
 
-class FrequentFlyerCard(airlineName: String) {
+class FrequentFlyerCard(airlineName: String, airlineCode: String) {
     val airlineName = airlineName
+    val airlineCode = airlineCode
 }

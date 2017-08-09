@@ -14,6 +14,7 @@ import rx.subjects.PublishSubject
 class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: Int, val showPassportCountryObservable: BehaviorSubject<Boolean>, travelerCheckoutStatus: TravelerCheckoutStatus) : AbstractUniversalCKOTravelerEntryWidgetViewModel(context, travelerIndex) {
     var tsaViewModel = TravelerTSAViewModel(getTraveler(), context)
     var advancedOptionsViewModel = TravelerAdvancedOptionsViewModel(context)
+
     val passportCountrySubject = BehaviorSubject.create<String>()
     val passportValidSubject = BehaviorSubject.create<Boolean>()
     val passportCountryObserver = BehaviorSubject.create<String>()

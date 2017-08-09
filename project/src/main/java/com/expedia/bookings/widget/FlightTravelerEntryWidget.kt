@@ -116,6 +116,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
+        if (materialFormTestEnabled && isFrequentFlyerNumberForFlightsEnabled(context)) {
+            frequentFlyerRecycler?.adapter = FrequentFlyerAdapter(vm.getTraveler())
+        }
         vm.passportCountrySubject.subscribe { countryCode ->
             if (materialFormTestEnabled) {
                 if (countryCode.isNullOrBlank()) {
@@ -155,7 +158,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
         vm.flightLegObservable.subscribe { flightLegs ->
             val airlines = getAirlineNames(flightLegs)
-            (frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).setFrequentFlyerCards(airlines)
+            if (materialFormTestEnabled && frequentflyerTestEnabled && flightLegs != null) {
+                (frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).setFrequentFlyerCards(airlines)
+
+            }
         }
     }
 
@@ -361,6 +367,5 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     fun setUpRecyclerView(context: Context) {
         val linearLayoutManager = LinearLayoutManager(context)
         frequentFlyerRecycler?.layoutManager = linearLayoutManager
-        frequentFlyerRecycler?.adapter = FrequentFlyerAdapter()
     }
 }

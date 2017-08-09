@@ -2,7 +2,10 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
@@ -16,6 +19,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership;
 import com.expedia.bookings.data.user.UserPreference.Category;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
@@ -53,6 +57,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private PassengerCategory mPassengerCategory;
 	private int mSearchedAge = -1;
 	private int mAge;
+	private Map<String, TravelerFrequentFlyerMembership> frequentFlyerMemberships = new HashMap<>();
 
 
 	private static final int MIN_CHILD_AGE = 2;
@@ -289,6 +294,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		return retStr;
+	}
+
+	public void addFrequentFlyerMembership(TravelerFrequentFlyerMembership frequentFlyerMembership) {
+		this.frequentFlyerMemberships.put(frequentFlyerMembership.getAirlineCode(), frequentFlyerMembership);
+	}
+
+	public Map<String, TravelerFrequentFlyerMembership> getFrequentFlyerMemberships() {
+		return frequentFlyerMemberships;
 	}
 
 	public void setPassengerCategory(PassengerCategory passengerCategory) {
@@ -567,6 +580,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			JSONUtils.putStringList(obj, "passportCountries", mPassportCountries);
 			JSONUtils.putEnum(obj, "seatPreference", mSeatPreference);
 			JSONUtils.putEnum(obj, "assistance", mAssistance);
+			JSONUtils.putJSONableStringMap(obj, "frequentFlyerMemberships", frequentFlyerMemberships);
 
 			JSONUtils.putEnum(obj, "passengerCategory", mPassengerCategory);
 
@@ -607,6 +621,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mBirthDate = JodaUtils.getLocalDateFromJson(obj, "birthLocalDate");
 		mRedressNumber = obj.optString("redressNumber");
 		mKnownTravelerNumber = obj.optString("knownTravelerNumber");
+		frequentFlyerMemberships = JSONUtils.getJSONableStringMap(obj, "frequentFlyerMemberships", TravelerFrequentFlyerMembership.class, new HashMap<String, TravelerFrequentFlyerMembership>());
 
 		mPassportCountries = JSONUtils.getStringList(obj, "passportCountries");
 		setSeatPreference(JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class));

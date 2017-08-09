@@ -75,6 +75,18 @@
        "expirationDate": "2013-07"
      }
     ],
+  "frequentFlyerMemberships": [
+    {
+      "membershipNumber":"membershipNumber1",
+      "planCode":"planCode1",
+      "airlineCode": "airlineCode1"
+    },
+    {
+      "membershipNumber":"membershipNumber2",
+      "planCode":"planCode2",
+      "airlineCode": "airlineCode2"
+    }
+  ],
    "loyaltyMembershipNumber":"308127915",
    "isSmokingPreferred":false,
   "tsaDetails": {
