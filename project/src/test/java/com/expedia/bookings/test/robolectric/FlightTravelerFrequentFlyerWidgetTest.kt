@@ -25,6 +25,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.subjects.BehaviorSubject
+import java.util.ArrayList
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -96,6 +97,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
             for (i in 0 until size!!) {
                 flight.segments.add(FlightSegment())
                 flight.segments.get(i).airlineName = airlineNames.get(i)
+                flight.segments.get(i).airlineCode = "AA"
             }
         }
     }

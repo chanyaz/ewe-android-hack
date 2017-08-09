@@ -76,8 +76,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             } else {
                 travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
             }
-            (travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable
-                    .onNext((viewModel as FlightTravelersViewModel).flightLegsObservable.value)
+            updateFlightTravelerEntryWidgetViewModel()
         }
 
         doneClicked.subscribe {
@@ -173,8 +172,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         else if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.CLEAN) {
             travelerEntryWidget.resetErrorState()
         }
-        (travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable
-                .onNext((viewModel as FlightTravelersViewModel).flightLegsObservable.value)
+        updateFlightTravelerEntryWidgetViewModel()
     }
 
     private fun showPickerWidget() {
@@ -261,5 +259,12 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
                 (travelerEntryWidget.viewModel.getTraveler().compareTo(Db.getWorkingTravelerManager().workingTraveler)) != 0 &&
                 travelerEntryWidget.getNumberOfInvalidFields() == 0
 
+    }
+
+    private fun updateFlightTravelerEntryWidgetViewModel() {
+        val flightTravelerEntryWidgetViewModel = travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel
+        val flightTravelersViewModel = viewModel as FlightTravelersViewModel
+        flightTravelerEntryWidgetViewModel.flightLegsObservable.onNext(flightTravelersViewModel.flightLegs)
+        flightTravelerEntryWidgetViewModel.frequentFlyerPlans.onNext(flightTravelersViewModel.frequentFlyerPlans)
     }
 }

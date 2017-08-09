@@ -18,6 +18,7 @@ import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import java.util.Locale
+import java.util.ArrayList
 
 object FlightV2Utils {
     val TICKETS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
@@ -204,7 +205,7 @@ object FlightV2Utils {
         flightLegs.forEach {
             it.segments.forEach {
                 if (!seenAirlines.contains(it.airlineName)) {
-                    frequentFlyerCards.add(FrequentFlyerCard(it.airlineName))
+                    frequentFlyerCards.add(FrequentFlyerCard(it.airlineName, it.airlineCode))
                     seenAirlines.add(it.airlineName)
                 }
             }

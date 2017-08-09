@@ -1,53 +1,51 @@
 package com.expedia.bookings.widget
 
-import java.util.ArrayList
-import java.util.LinkedHashMap
-import java.util.Locale
-
 import android.content.Context
 import android.text.SpannableString
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-
+import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
 import com.expedia.bookings.utils.Strings
 import com.mobiata.android.util.Ui
+import java.util.LinkedHashMap
+import java.util.ArrayList
 
-class FrequentFlyerSpinnerAdapter(context: Context, textViewResId: Int, dropDownViewResId: Int) : ArrayAdapter<String>(context, textViewResId) {
-    private var frequentFlyerProgram: ArrayList<String>? = null
+class FrequentFlyerDialogAdapter(context: Context, textViewResId: Int, dropDownViewResId: Int, frequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>) : ArrayAdapter<String>(context, textViewResId) {
+    var frequentFlyerProgramNames: ArrayList<String> = ArrayList()
     var currentPosition: Int = 0
 
     init {
         setDropDownViewResource(dropDownViewResId)
-        init()
+        init(frequentFlyerPlans)
     }
 
-    private fun init() {
-        fillAirlines()
-        frequentFlyerProgram = ArrayList(FrequentFlyerAirlines.keys)
+    private fun init(frequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>) {
+        FrequentFlyerPlans = frequentFlyerPlans
     }
 
     override fun getCount(): Int {
-        return FrequentFlyerAirlines.size
+        return FrequentFlyerPlans.size
     }
 
     override fun getItem(position: Int): String? {
-        return String.format(Locale.getDefault(), "%s Number: (%d)", getFrequentFlyerProgram(position), getFrequentFlyerNumber(position))
+        return getFrequentFlyerProgram(position)
     }
 
     fun getFrequentFlyerProgram(position: Int): String {
-        return frequentFlyerProgram!![position]
+        return frequentFlyerProgramNames!![position]
     }
 
-    fun getFrequentFlyerNumber(position: Int): Int {
-        return (FrequentFlyerAirlines[getFrequentFlyerProgram(position)])!!
+    fun getFrequentFlyerNumber(position: Int): String? {
+        return FrequentFlyerPlans[getFrequentFlyerProgram(position)]?.membershipNumber ?: ""
     }
 
     fun getPositionFromName(airlineName: String): Int {
         if (Strings.isEmpty(airlineName)) {
             return currentPosition
         }
-        for (i in 0..FrequentFlyerAirlines.size - 1) {
+
+        for (i in 0..FrequentFlyerPlans.size - 1) {
             if (getFrequentFlyerProgram(i) == airlineName) {
                 return i
             }
@@ -66,17 +64,8 @@ class FrequentFlyerSpinnerAdapter(context: Context, textViewResId: Int, dropDown
         return retView
     }
 
-    private fun fillAirlines() {
-        FrequentFlyerAirlines.put("Airline A", 1234)
-        FrequentFlyerAirlines.put("Airline B", 2345)
-        FrequentFlyerAirlines.put("Airline C", 3456)
-        FrequentFlyerAirlines.put("Airline D", 4567)
-        FrequentFlyerAirlines.put("Airline E", 5678)
-    }
-
     companion object {
-
-        private val FrequentFlyerAirlines = LinkedHashMap<String, Int>()
+        private var FrequentFlyerPlans = LinkedHashMap<String, FrequentFlyerPlansTripResponse>()
     }
 
 }

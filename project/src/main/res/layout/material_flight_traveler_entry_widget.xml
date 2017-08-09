@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/expand_advanced_button_cont_desc"
                 android:text="@string/advanced_optional"
-                android:textColor="@color/black"
+                android:textColor="@color/app_primary"
                 android:textSize="18dp" />
 
             <ImageView
@@ -96,7 +96,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_gravity="center"
                 android:src="@drawable/read_more"
-                android:tint="@color/black" />
+                android:tint="@color/app_primary" />
 
         </LinearLayout>
 
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/expand_frequent_flyer_button_cont_desc"
                 android:text="@string/frequent_flyer_optional"
-                android:textColor="@color/black"
+                android:textColor="@color/app_primary"
                 android:textSize="18dp" />
 
             <ImageView
@@ -132,7 +132,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_gravity="center"
                 android:src="@drawable/read_more"
-                android:tint="@color/black" />
+                android:tint="@color/app_primary" />
 
         </LinearLayout>
 

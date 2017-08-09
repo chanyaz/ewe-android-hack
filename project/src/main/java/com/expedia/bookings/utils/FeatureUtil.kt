@@ -30,6 +30,7 @@ fun isFrequentFlyerNumberForFlightsEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
             AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber,
             R.string.preference_enable_flights_frequent_flyer_number)
+            && isMaterialFormsEnabled()
 }
 
 fun isHideFormFieldsEnabled(context: Context): Boolean {

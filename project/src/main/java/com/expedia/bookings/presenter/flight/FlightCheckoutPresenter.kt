@@ -13,6 +13,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
@@ -104,8 +105,14 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         getCreateTripViewModel().updateOverviewUiObservable.onNext(tripResponse)
         loginWidget.updateRewardsText(getLineOfBusiness())
         insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
-        (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(tripResponse.details.offer)
-        (travelersPresenter.viewModel as FlightTravelersViewModel).flightLegsObservable.onNext(tripResponse.details.legs)
+        updateFlightTravelersViewModel(tripResponse)
+    }
+
+    private fun updateFlightTravelersViewModel(tripResponse: FlightTripResponse) {
+        val flightTravelersViewModel = travelersPresenter.viewModel as FlightTravelersViewModel
+        flightTravelersViewModel.flightOfferObservable.onNext(tripResponse.details.offer)
+        flightTravelersViewModel.flightLegs = tripResponse.details.legs
+        flightTravelersViewModel.frequentFlyerPlans = (tripResponse as? FlightCreateTripResponse)?.frequentFlyerPlans
     }
 
     override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
