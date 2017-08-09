@@ -270,7 +270,7 @@ Feature: Flights Search Results
       | child               | 0                                        |
       | class               | Economy                                  |
     And I wait for results to load
-    Then Validate that XSell Package Banner is displayed with title "Flight + Hotel" and description "Save when you book your flights and hotels together"
+    Then Validate that XSell Package Banner is displayed with title "Hotel + Flight" and description "Save when you book your flights and hotels together"
     And I tap on XSell Package Banner
     Then Validate Hotel Search Results Screen Header
       | title               | Hotels in Delhi, India                   |
@@ -280,7 +280,7 @@ Feature: Flights Search Results
       | child               | 0                                        |
       | guest               | 1 guest                                  |
     And I press back
-    Then Validate that XSell Package Banner is displayed with title "Flight + Hotel" and description "Save when you book your flights and hotels together"
+    Then Validate that XSell Package Banner is displayed with title "Hotel + Flight" and description "Save when you book your flights and hotels together"
 
   @Flights  @EBOnly
   Scenario: Validate that XSell Package Banner is not displayed for POS other than UK/US POS
