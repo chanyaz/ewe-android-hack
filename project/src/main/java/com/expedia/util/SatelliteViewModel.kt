@@ -24,6 +24,7 @@ class SatelliteViewModel {
         override fun onNext(satelliteSearchResponse: List<String>) {
             if (satelliteSearchResponse != null) {
                 satelliteResponseSubject.onNext(satelliteSearchResponse)
+                SatelliteConfigManager().storeSatelliteResponse(getContext(), satelliteSearchResponse.toString())
             } else {
                 Log.d(LOGGING_TAG, "HMAC 403 or no tests in list")
             }
@@ -39,7 +40,10 @@ class SatelliteViewModel {
     }
 
     fun fetchFeatureConfig() {
-        sattelliteServices.fetchFeatureConfig(featureConfigObserver, ServicesUtil.generateClientId(getContext()))
+        val callSatellite: Boolean = SatelliteConfigManager().shouldCallSatellite(getContext())
+        if (callSatellite) {
+            sattelliteServices.fetchFeatureConfig(featureConfigObserver, ServicesUtil.generateClientId(getContext()))
+        }
     }
 
 }
