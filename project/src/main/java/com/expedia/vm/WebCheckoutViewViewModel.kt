@@ -3,16 +3,18 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.util.notNullAndObservable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 
 class WebCheckoutViewViewModel(val context: Context) : WebViewViewModel(), UserAccountRefresher.IUserAccountRefreshListener  {
     // var so that we can mock it for unit testing
@@ -31,6 +33,8 @@ class WebCheckoutViewViewModel(val context: Context) : WebViewViewModel(), UserA
         }
     }
 
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
     init {
         offerObservable.map { Unit }.subscribe(fireCreateTripObservable)
         fireCreateTripObservable.subscribe { doCreateTrip() }
@@ -45,7 +49,7 @@ class WebCheckoutViewViewModel(val context: Context) : WebViewViewModel(), UserA
     }
 
     override fun onUserAccountRefreshed() {
-        User.addUserToAccountManager(context, Db.getUser())
+        userStateManager.addUserToAccountManager(Db.getUser())
         val bookTripId = bookedTripIDObservable.value
         if (Strings.isNotEmpty(bookTripId)) {
             fetchItinObservable.onNext(bookTripId)

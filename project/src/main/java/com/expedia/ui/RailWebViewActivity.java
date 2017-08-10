@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import com.expedia.bookings.R;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.tracking.RailWebViewTracking;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 
 /**
@@ -22,6 +23,7 @@ public class RailWebViewActivity extends WebViewActivity implements UserAccountR
 
 	private UserAccountRefresher userAccountRefresher;
 	private ProgressBar mProgressBar;
+	private UserStateManager userStateManager;
 
 	public static class IntentBuilder extends WebViewActivity.IntentBuilder {
 		public IntentBuilder(Context context) {
@@ -35,6 +37,7 @@ public class RailWebViewActivity extends WebViewActivity implements UserAccountR
 		super.onCreate(savedInstanceState);
 		userAccountRefresher = new UserAccountRefresher(this, LineOfBusiness.RAILS, this);
 		mProgressBar = (ProgressBar) findViewById(R.id.webview_progress_view);
+		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 	}
 
 	@Override
@@ -63,7 +66,7 @@ public class RailWebViewActivity extends WebViewActivity implements UserAccountR
 
 	@Override
 	public void onUserAccountRefreshed() {
-		User.addUserToAccountManager(this, Db.getUser());
+		userStateManager.addUserToAccountManager(Db.getUser());
 	}
 
 	@Override

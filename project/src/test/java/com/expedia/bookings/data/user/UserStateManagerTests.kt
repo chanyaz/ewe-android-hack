@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.user
 
+import android.accounts.AccountManager
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
@@ -9,9 +10,9 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.UserAccountRefresher
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -85,6 +86,92 @@ class UserStateManagerTests {
         userStateManager.onLoginAccountsChanged()
 
         assertFalse(User.isLoggedInOnDisk(RuntimeEnvironment.application))
+    }
+
+    @Test
+    fun testAddUserToAccountManagerWithNullUserDoesNothing() {
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+        val manager = AccountManager.get(RuntimeEnvironment.application)
+
+        userStateManager.addUserToAccountManager(null)
+
+        assertTrue(manager.accounts.isEmpty())
+    }
+
+    @Test
+    fun testAddUserToAccountManagerWithInvalidUserDoesNothing() {
+        val user = UserLoginTestUtil.mockUser()
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+        val manager = AccountManager.get(RuntimeEnvironment.application)
+
+        userStateManager.addUserToAccountManager(user)
+
+        assertTrue(manager.accounts.isEmpty())
+    }
+
+    @Test
+    fun testAddUserToAccountManagerWithValidUserIsAdded() {
+        val user = UserLoginTestUtil.mockUser()
+        user.primaryTraveler.email = "test@expedia.com"
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+        val manager = AccountManager.get(RuntimeEnvironment.application)
+
+        userStateManager.addUserToAccountManager(user)
+
+        val storedUserEmail = manager.accounts.first().name
+
+        assertEquals(user.primaryTraveler.email, storedUserEmail)
+    }
+
+    @Test
+    fun testAddUserToAccountManagerSkipsAlreadyKnownUser() {
+        val user = UserLoginTestUtil.mockUser()
+        user.primaryTraveler.email = "test@expedia.com"
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+        val manager = AccountManager.get(RuntimeEnvironment.application)
+
+        userStateManager.addUserToAccountManager(user)
+
+        var storedUserEmail = manager.accounts.first().name
+
+        assertEquals(user.primaryTraveler.email, storedUserEmail)
+
+        userStateManager.addUserToAccountManager(user)
+
+        assertTrue(manager.accounts.size == 1)
+
+        storedUserEmail = manager.accounts.first().name
+
+        assertEquals(user.primaryTraveler.email, storedUserEmail)
+    }
+
+    @Test
+    fun testAddUserToAccountManagerReplacesKnownUserWithUserToBeAdded() {
+        val firstUser = UserLoginTestUtil.mockUser()
+        firstUser.primaryTraveler.email = "test@expedia.com"
+
+        val secondUser = UserLoginTestUtil.mockUser()
+        secondUser.primaryTraveler.email = "anotherTest@expedia.com"
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+        val manager = AccountManager.get(RuntimeEnvironment.application)
+
+        userStateManager.addUserToAccountManager(firstUser)
+
+        var storedUserEmail = manager.accounts.first().name
+
+        assertEquals(firstUser.primaryTraveler.email, storedUserEmail)
+
+        userStateManager.addUserToAccountManager(secondUser)
+
+        assertTrue(manager.accounts.size == 1)
+
+        storedUserEmail = manager.accounts.first().name
+
+        assertEquals(secondUser.primaryTraveler.email, storedUserEmail)
     }
 
     private fun givenSignedInAsUser(user: User) {

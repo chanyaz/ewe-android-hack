@@ -28,7 +28,6 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.CollectionUtils;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
@@ -349,51 +348,6 @@ public class User implements JSONable {
 		if (usr != null) {
 			manager.invalidateAuthToken(accountType, usr.getTuidString());
 		}
-	}
-
-	/**
-	 * This method is important. This is the method that adds the account to AccountManager.
-	 * If we log in and this doesn't get called, User.isLoggedIn() will
-	 * still return false, and user data will not be allowed to sync.
-	 */
-	public static void addUserToAccountManager(Context context, User usr) {
-		if (context != null && usr != null && Strings.isNotEmpty(usr.getPrimaryTraveler().getEmail())) {
-			//Add the account to the account manager
-			String accountType = context.getString(R.string.expedia_account_type_identifier);
-			String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
-			AccountManager manager = AccountManager.get(context);
-
-			boolean accountAlreadyExists = false;
-
-			//We are adding a new user to account manager, so we clobber ALL old accountmanager expedia accounts.
-			Account[] accounts = manager.getAccountsByType(accountType);
-			if (accounts != null && accounts.length > 0) {
-				for (Account account : accounts) {
-					if (isItThisUsersAccount(usr, account)) {
-						accountAlreadyExists = true;
-					}
-					else {
-						manager.removeAccount(account, null, null);
-					}
-				}
-			}
-
-			//Add the new account
-			if (!accountAlreadyExists) {
-				final Account account = new Account(usr.getPrimaryTraveler().getEmail(), accountType);
-				manager.addAccountExplicitly(account, usr.getTuidString(), null);
-				manager.setAuthToken(account, tokenType, usr.getTuidString());
-				//Set data syncing enabled/disabled
-				String contentAuthority = context.getString(R.string.authority_account_sync);
-				ContentResolver.setSyncAutomatically(account, contentAuthority, false);
-			}
-
-
-		}
-	}
-
-	private static boolean isItThisUsersAccount(User user, Account account) {
-		return account.name.equals(user.getPrimaryTraveler().getEmail());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

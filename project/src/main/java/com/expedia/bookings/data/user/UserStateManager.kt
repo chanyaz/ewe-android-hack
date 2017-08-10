@@ -1,6 +1,11 @@
 package com.expedia.bookings.data.user
 
+import android.accounts.Account
+import android.accounts.AccountManager
+import android.app.Application
+import android.content.ContentResolver
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
@@ -41,5 +46,37 @@ class UserStateManager(val context: Context) {
         }
 
         return LoyaltyMembershipTier.NONE
+    }
+
+    fun addUserToAccountManager(user: User?) {
+        if (user != null && user.primaryTraveler.email != null && user.primaryTraveler.email.isNotEmpty()) {
+            val accountType = context.getString(R.string.expedia_account_type_identifier)
+            val tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier)
+
+            val manager = AccountManager.get(context)
+
+            var accountExists = false
+
+            val accounts = manager.getAccountsByType(accountType)
+
+            if (accounts.isNotEmpty()) {
+                accounts.forEach {
+                    if (it.name == user.primaryTraveler.email) accountExists = true
+                    else manager.removeAccount(it, null, null)
+                }
+            }
+
+            if (!accountExists) {
+                val account = Account(user.primaryTraveler.email, accountType)
+                manager.addAccountExplicitly(account, user.tuidString, null)
+                manager.setAuthToken(account, tokenType, user.tuidString)
+
+                val contentAuthority = context.getString(R.string.authority_account_sync)
+
+                if (!ExpediaBookingApp.isAutomation()) {
+                    ContentResolver.setSyncAutomatically(account, contentAuthority, false)
+                }
+            }
+        }
     }
 }

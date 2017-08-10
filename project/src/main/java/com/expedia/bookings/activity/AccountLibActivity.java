@@ -18,7 +18,6 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
@@ -195,7 +194,8 @@ public class AccountLibActivity extends AppCompatActivity
 	// TODO - talk to Mohit (as he is the tracking dude) about this. Doesn't seem right
 	@Override
 	public void onUserAccountRefreshed() {
-		User.addUserToAccountManager(this, Db.getUser());
+		userStateManager.addUserToAccountManager(Db.getUser());
+
 		if (userStateManager.isUserAuthenticated()) {
 			if (userLoggedInWithFacebook) {
 				OmnitureTracking.trackLoginSuccess();
