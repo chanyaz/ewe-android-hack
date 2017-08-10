@@ -489,7 +489,7 @@ public class ShareUtils {
 		int diff = longMsgLength - SMS_CHAR_LIMIT;
 		if (diff > 0) {
 			if (hotelName.length() - diff <= 20) {
-				hotelName = hotelName.substring(0, 20);
+				hotelName = hotelName.substring(0, hotelName.length() >= 20 ? 20 : hotelName.length());
 			}
 			else {
 				hotelName = hotelName.substring(0, hotelName.length() - diff);

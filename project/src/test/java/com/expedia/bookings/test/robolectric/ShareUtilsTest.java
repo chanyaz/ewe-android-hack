@@ -32,6 +32,11 @@ public class ShareUtilsTest {
 		hotelName = repeat('a', 100);
 		longMessage = repeat('b', 150 + hotelName.length());
 		Assert.assertEquals(20, ShareUtils.clipHotelName(longMessage.length(), hotelName).length());
+
+		// Don't clip hotel names shorter than 20 characters
+		hotelName = repeat('a', 15);
+		longMessage = repeat('b', 150 + hotelName.length());
+		Assert.assertEquals(15, ShareUtils.clipHotelName(longMessage.length(), hotelName).length());
 	}
 
 	private String repeat(char c, int num) {
