@@ -120,7 +120,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return dispatchSuggest(request)
         }
 
-        //GAIA Suggest
+        // GAIA Suggest
         if (request.path.contains("/features")) {
             return dispatchGaiaSuggest(request)
         }
@@ -178,9 +178,9 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         return make404()
     }
 
-    fun doesRequestHaveValidUserAgent(request: RecordedRequest): Boolean {
+    private fun doesRequestHaveValidUserAgent(request: RecordedRequest): Boolean {
         val userAgent = request.headers.get("user-agent")
-        val regExp = Regex("^[a-zA-Z]+/\\d+\\.\\d+(\\.\\d+){0,1}(.*) \\(EHad; Mobiata\\)$")
+        val regExp = Regex("^[a-zA-Z]+/\\d+\\.\\d+(\\.\\d+)?(.*) \\(EHad; Mobiata\\)$")
         return regExp.matches(userAgent.toString())
     }
 
@@ -197,7 +197,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         val fileName = request.path.substring(startIndex, endIndex)
 
         val pacificTimeZone = DateTimeZone.forID("America/Los_Angeles")
-        val easternTimeZone = DateTimeZone.forID("America/New_York")
         val startOfTodayPacific = DateTime.now().withZone(pacificTimeZone).withTimeAtStartOfDay()
 
         val hotelCheckIn = startOfTodayPacific.plusDays(10).withHourOfDay(11).withMinuteOfHour(32)
@@ -263,8 +262,8 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             airAttachExpiry = airAttachExpiry.plusHours(1)
         }
 
-        params.put("airAttachOfferExpiresEpochSeconds", "" + airAttachExpiry.millis / 1000);
-        params.put("airAttachOfferExpiresTzOffset", "" + pacificTimeZone.getOffset(airAttachExpiry.millis) / 1000);
+        params.put("airAttachOfferExpiresEpochSeconds", "" + airAttachExpiry.millis / 1000)
+        params.put("airAttachOfferExpiresTzOffset", "" + pacificTimeZone.getOffset(airAttachExpiry.millis) / 1000)
 
         // Inject car DateTimes
         val carPickup = startOfTodayEastern.plusDays(14).withHourOfDay(11).withMinuteOfHour(32)
@@ -287,13 +286,12 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         val pckgStart = startOfTodayPacific.plusDays(35).withHourOfDay(4)
         val pckgEnd = startOfTodayPacific.plusDays(41).withHourOfDay(12)
         val pckgHotelCheckIn = startOfTodayPacific.plusDays(35).withHourOfDay(8).withMinuteOfHour(0)
-        var pckgHotelCheckOut: DateTime
-        try {
-            pckgHotelCheckOut = startOfTodayPacific.plusDays(40).withHourOfDay(2).withMinuteOfHour(0)
+        val pckgHotelCheckOut = try {
+            startOfTodayPacific.plusDays(40).withHourOfDay(2).withMinuteOfHour(0)
         } catch (e: IllegalArgumentException) {
-            pckgHotelCheckOut = startOfTodayPacific.plusDays(40).withHourOfDay(3).withMinuteOfHour(0)
-
+            startOfTodayPacific.plusDays(40).withHourOfDay(3).withMinuteOfHour(0)
         }
+
         val pckgOutboundFlightDeparture = startOfTodayPacific.plusDays(35).withHourOfDay(4)
         val pckgOutboundFlightArrival = startOfTodayPacific.plusDays(35).withHourOfDay(6).withMinuteOfHour(4)
         val pckgInboundFlightDeparture = startOfTodayPacific.plusDays(40).withHourOfDay(10)
@@ -334,21 +332,16 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         return makeResponse("/api/trips/happy.json", params)
     }
 
-    private fun dispatchUpgradeOffersResponse(): MockResponse {
-        return makeResponse("/api/trips/upgradeOffers/happy.json", emptyMap())
-    }
+    private fun dispatchUpgradeOffersResponse(): MockResponse =
+            makeResponse("/api/trips/upgradeOffers/happy.json", emptyMap())
 
     private fun dispatchSuggest(request: RecordedRequest): MockResponse {
         var type: String? = ""
-        var regionType: String? = ""
         var latlong: String? = ""
         var lob: String? = ""
         val params = parseHttpRequest(request)
         if (params.containsKey("type")) {
             type = params["type"]
-        }
-        if (params.containsKey("regiontype")) {
-            regionType = params["regiontype"]
         }
         if (params.containsKey("latlong")) {
             latlong = params["latlong"]
@@ -357,46 +350,50 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             lob = params["lob"]
         }
 
-        if (request.path.startsWith("/hint/es/v2/ac/en_US")) {
-            val requestPath = request.path
-            val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?'))
-            return makeResponse("hint/es/v2/ac/en_US/" + unUrlEscape(filename) + ".json")
-        } else if (request.path.startsWith("/hint/es/v3/ac/en_US")) {
-            if (type == "14") {
-                return makeResponse("/hint/es/v3/ac/en_US/suggestion_city.json")
-            } else {
-                return makeResponse("/hint/es/v3/ac/en_US/suggestion.json")
-            }
-        } else if (request.path.startsWith("/hint/es/v1/nearby/en_US")) {
-            if (latlong == "31.32|75.57") {
-                return makeResponse("/hint/es/v1/nearby/en_US/suggestion_with_no_lx_activities.json")
-            } else if (type == "14") {
-                return makeResponse("/hint/es/v1/nearby/en_US/suggestion_city.json")
-            } else {
-                return makeResponse("/hint/es/v1/nearby/en_US/suggestion.json")
-            }// City
-        } else if (request.path.startsWith("/api/v4/typeahead/")) {
-            if ("FLIGHTS".equals(lob)) {
-                //Material Flights
-                if (request.path.startsWith("/api/v4/typeahead/lon?")) {
-                    return makeResponse("/api/v4/suggestion_flights_lon.json")
-                }
-                return makeResponse("/api/v4/suggestion_flights.json")
-            } else if ("PACKAGES".equals(lob)) {
-                if (request.path.startsWith("/api/v4/typeahead/del?")) {
-                    return makeResponse("/api/v4/suggestion_packages_del.json")
-                }
-                return makeResponse("/api/v4/suggestion.json")
-            } else {
+        when {
+            request.path.startsWith("/hint/es/v2/ac/en_US") -> {
                 val requestPath = request.path
-                val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?')).toLowerCase()
-                if ("Flights".equals(lob, false)) {
-                    return makeResponse("/api/v4/suggestion_" + unUrlEscape(filename) + ".json")
-                } else {
+                val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?'))
+                return makeResponse("hint/es/v2/ac/en_US/" + unUrlEscape(filename) + ".json")
+            }
+            request.path.startsWith("/hint/es/v3/ac/en_US") -> return if (type == "14") {
+                makeResponse("/hint/es/v3/ac/en_US/suggestion_city.json")
+            } else {
+                makeResponse("/hint/es/v3/ac/en_US/suggestion.json")
+            }
+            request.path.startsWith("/hint/es/v1/nearby/en_US") -> return when {
+                latlong == "31.32|75.57" -> makeResponse("/hint/es/v1/nearby/en_US/suggestion_with_no_lx_activities.json")
+                type == "14" -> makeResponse("/hint/es/v1/nearby/en_US/suggestion_city.json")
+                else -> makeResponse("/hint/es/v1/nearby/en_US/suggestion.json")
+            }
+
+        // City
+            request.path.startsWith("/api/v4/typeahead/") -> when (lob) {
+                "FLIGHTS" -> {
+                    //Material Flights
+                    if (request.path.startsWith("/api/v4/typeahead/lon?")) {
+                        return makeResponse("/api/v4/suggestion_flights_lon.json")
+                    }
+                    return makeResponse("/api/v4/suggestion_flights.json")
+                }
+                "PACKAGES" -> {
+                    if (request.path.startsWith("/api/v4/typeahead/del?")) {
+                        return makeResponse("/api/v4/suggestion_packages_del.json")
+                    }
                     return makeResponse("/api/v4/suggestion.json")
+                }
+                else -> {
+                    val requestPath = request.path
+                    val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?')).toLowerCase()
+                    return if ("Flights".equals(lob, false)) {
+                        makeResponse("/api/v4/suggestion_" + unUrlEscape(filename) + ".json")
+                    } else {
+                        makeResponse("/api/v4/suggestion.json")
+                    }
                 }
             }
         }
+
         return make404()
     }
 
@@ -423,25 +420,25 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return makeResponse("/api/gaia/nearby_gaia_suggestion_with_no_lx_activities.json")
         }
         if ((latitude == "3.0") && (longitude == "3.0") && (lob == "hotels")) {
-            return makeResponse("/api/gaia/nearby_gaia_suggestion.json");
+            return makeResponse("/api/gaia/nearby_gaia_suggestion.json")
         }
         if ((latitude == "1.0") && (longitude == "1.0") && lob == "hotels") {
-            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result.json");
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result.json")
         }
         if ((latitude == "0.0") && (longitude == "0.0") && lob == "hotels") {
-            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_zero_results.json");
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_zero_results.json")
         }
         if ((latitude == "3.0") && (longitude == "3.0") && lob == "lx") {
-            return makeResponse("/api/gaia/nearby_gaia_suggestion_lx.json");
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_lx.json")
         }
         if ((latitude == "1.0") && (longitude == "1.0") && lob == "lx" && locale == "fr_FR") {
-            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result_lx_french.json");
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result_lx_french.json")
         }
         if ((latitude == "1.0") && (longitude == "1.0") && lob == "lx" && locale == "en_US") {
-            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result_lx_english.json");
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result_lx_english.json")
         }
         if ((latitude == "0.0") && (longitude == "0.0") && lob == "lx") {
-            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_zero_results.json");
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_zero_results.json")
         }
         return make404()
     }
@@ -458,35 +455,31 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
     }
 
-    private fun dispatchStaticContent(request: RecordedRequest): MockResponse {
-        return makeResponse(request.path)
-    }
+    private fun dispatchStaticContent(request: RecordedRequest): MockResponse =
+            makeResponse(request.path)
 
     private fun dispatchUserProfile(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)
         return makeResponse("api/user/profile/user_profile_" + params["tuid"] + ".json")
     }
 
-    private fun makeResponse(fileName: String, params: Map<String, String>? = null, responseCode: Int = 200): MockResponse {
-        return makeResponse(fileName, params, fileOpener, responseCode)
-    }
+    private fun makeResponse(fileName: String, params: Map<String, String>? = null, responseCode: Int = 200): MockResponse =
+            makeResponse(fileName, params, fileOpener, responseCode)
 
     private fun dispatchTravelAd(endPoint: String): MockResponse {
         val count = travelAdRequests[endPoint] ?: 0
         travelAdRequests.put(endPoint, count + 1)
-        return makeEmptyResponse();
+        return makeEmptyResponse()
     }
 
-    private fun dispatchReviews(): MockResponse {
-        return makeResponse("api/hotelreviews/hotel/happy.json")
-    }
+    private fun dispatchReviews(): MockResponse = makeResponse("api/hotelreviews/hotel/happy.json")
 
     private fun dispatchCalculatePoints(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)
         val tripParams = params["tripId"]?.split("|") ?: listOf(params["tripId"])
         val response = makeResponse("/m/api/trip/calculatePoints/"+ tripParams[0] +".json")
         if (tripParams.size > 1) {
-            response.setBodyDelay(tripParams[1]?.toLong() ?: 0  , TimeUnit.MILLISECONDS)
+            response.setBodyDelay(tripParams[1]?.toLong() ?: 0, TimeUnit.MILLISECONDS)
         }
         return response
     }
@@ -506,8 +499,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         return makeResponse("api/flight/trip/create/$filename.json", params)
     }
 
-    fun numOfTravelAdRequests(key: String): Int {
-        return travelAdRequests[key] ?: 0
-    }
+    fun numOfTravelAdRequests(key: String): Int = travelAdRequests[key] ?: 0
 }
 
