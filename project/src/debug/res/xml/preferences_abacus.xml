@@ -88,10 +88,10 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14670"
+            android:key="15228"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Hotel Greedy Search - 14670" />
+            android:title="Hotel Greedy Search - 15228" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
