@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
@@ -28,6 +29,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightCheckoutViewModel
 import com.mobiata.android.util.SettingUtils
@@ -281,6 +283,77 @@ class FlightCheckoutViewModelTest {
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
 
         hasCardFeeTestSubscriber.assertValue(true)
+    }
+
+
+    @Test
+    fun testFlexEnabledCardFeeArbitrage() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFlexEnabled)
+        givenGoodCheckoutParams()
+        givenGoodTripResponse()
+        setupCardFeeService()
+        setupSystemUnderTest()
+
+        val cardFeeTextSubscriber = TestSubscriber<Spanned>()
+        val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
+        val flexStatusTextSubscriber = TestSubscriber<String>()
+        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
+
+        sut.cardFeeTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeTextSubscriber)
+        sut.cardFeeFlexStatus.subscribeOn(AndroidSchedulers.mainThread()).subscribe(flexStatusTextSubscriber)
+        sut.cardFeeWarningTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeWarningTextSubscriber)
+        sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestSubscriber)
+
+        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.paymentViewModel.cardBIN.onNext("6011111111111111")
+
+        cardFeeTextSubscriber.assertValueCount(1)
+        assertEquals("Payment method fee: $1.50", cardFeeTextSubscriber.onNextEvents[0].toString())
+
+        flexStatusTextSubscriber.assertValueCount(1)
+        assertEquals("FLEX | ARBITRAGE", flexStatusTextSubscriber.onNextEvents[0].toString())
+
+        cardFeeWarningTextSubscriber.assertValueCount(1)
+        assertEquals("A payment method fee of $1.50 is included in the trip total.",
+                cardFeeWarningTextSubscriber.onNextEvents[0].toString())
+
+        hasCardFeeTestSubscriber.assertValue(true)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightFlexEnabled)
+    }
+
+    @Test
+    fun testFlexEnabledNoCardFee() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFlexEnabled)
+        givenGoodCheckoutParams()
+        givenGoodTripResponse()
+        setupCardFeeService()
+        setupSystemUnderTest()
+
+        val cardFeeTextSubscriber = TestSubscriber<Spanned>()
+        val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
+        val flexStatusTextSubscriber = TestSubscriber<String>()
+        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
+
+        sut.cardFeeTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeTextSubscriber)
+        sut.cardFeeFlexStatus.subscribeOn(AndroidSchedulers.mainThread()).subscribe(flexStatusTextSubscriber)
+        sut.cardFeeWarningTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeWarningTextSubscriber)
+        sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestSubscriber)
+
+        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.paymentViewModel.cardBIN.onNext("000000")
+
+        cardFeeTextSubscriber.assertValueCount(1)
+        assertEquals("", cardFeeTextSubscriber.onNextEvents[0].toString())
+
+        flexStatusTextSubscriber.assertValueCount(1)
+        assertEquals("FLEX | NO FEE", flexStatusTextSubscriber.onNextEvents[0].toString())
+
+        cardFeeWarningTextSubscriber.assertValueCount(1)
+        assertEquals("",
+                cardFeeWarningTextSubscriber.onNextEvents[0].toString())
+
+        hasCardFeeTestSubscriber.assertValue(false)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightFlexEnabled)
     }
 
     @Test

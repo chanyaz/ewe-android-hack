@@ -30,9 +30,9 @@ open class CardFeeService(endpoint: String, okHttpClient: OkHttpClient, intercep
     }
 
     // open so we can mock for tests
-    open fun getCardFees(tripId: String, creditCardId: String, observer: Observer<CardFeeResponse>): Subscription {
+    open fun getCardFees(tripId: String, creditCardId: String, isFlexEnabled: Boolean, observer: Observer<CardFeeResponse>): Subscription {
         subscription?.unsubscribe() // cancels any existing calls we're waiting on
-        val subscription = cardFeeApi.cardFee(tripId, creditCardId)
+        val subscription = cardFeeApi.cardFee(tripId, creditCardId, isFlexEnabled)
                                      .observeOn(observeOn)
                                      .subscribeOn(subscribeOn)
                                      .subscribe(observer)

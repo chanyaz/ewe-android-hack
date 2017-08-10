@@ -330,7 +330,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         viewModel.flightProductId.subscribe { productKey ->
             flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
             val createTripParams = FlightCreateTripParams(productKey)
-            createTripParams.flexEnabled = isFlexEnabled(context)
+            createTripParams.flexEnabled = isFlexEnabled()
 
             if(EBAndroidAppFlightSubpubChange){
                 createTripParams.setFeatureOverride()

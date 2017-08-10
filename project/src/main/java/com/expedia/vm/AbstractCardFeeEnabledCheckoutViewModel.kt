@@ -12,6 +12,7 @@ import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.isFlexEnabled
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
@@ -58,7 +59,7 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
             val fetchFreshCardFee = !(tripId.equals(lastFetchedTripId) && cardId.equals(lastFetchedCardId))
             if (fetchFreshCardFee) {
                 lastFetchedCardFeeKeyPair = Pair(tripId, cardId)
-                cardFeeService?.getCardFees(tripId, cardId, getCardFeesCallback())
+                cardFeeService?.getCardFees(tripId, cardId, isFlexEnabled(), getCardFeesCallback())
             }
         }
     }

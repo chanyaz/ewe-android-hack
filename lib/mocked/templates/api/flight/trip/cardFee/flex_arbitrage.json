@@ -1,0 +1,16 @@
+{
+  "tripId":"e567996c-7194-4f08-8508-d367642481c4",
+  "flexStatus": "FLEX | ARBITRAGE",
+  "feePrice":{
+    "amount":"1.50",
+    "formattedPrice":"$1.50",
+    "formattedWholePrice":"$1",
+    "currencyCode":"USD"
+  },
+  "tripTotalPrice":{
+    "amount":"43.50",
+    "formattedPrice":"$43.50",
+    "formattedWholePrice":"$43",
+    "currencyCode":"USD"
+  }
+}

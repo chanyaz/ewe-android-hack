@@ -12,7 +12,7 @@ fun isMaterialFormsEnabled(): Boolean {
 fun isDisabledSTPStateEnabled(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppDisabledSTPState)
 }
-fun isFlexEnabled(context: Context): Boolean {
+fun isFlexEnabled(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFlexEnabled)
 }
 

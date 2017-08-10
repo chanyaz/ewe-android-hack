@@ -20,6 +20,8 @@ class CardFeeServiceRequestDispatcher(fileOpener: FileOpener) : AbstractDispatch
 
             "000000" -> zeroFeesResponse
 
+            "6011111111111111" -> getMockResponse("/api/flight/trip/cardFee/flex_arbitrage.json")
+
             else -> getMockResponse("/api/flight/trip/cardFee/happy.json")
         }
     }
