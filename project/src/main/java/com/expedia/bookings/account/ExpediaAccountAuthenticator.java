@@ -10,16 +10,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 
 /**
  * ExpediaAccountAuthenticator - for using the AccountManager with expedia accounts.
@@ -158,17 +156,6 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator im
 
 	@Override
 	public void onAccountsUpdated(Account[] accounts) {
-		Log.d("onAccountsUpdated called");
-		if (ExpediaBookingApp.isAutomation()) {
-			Log.d("onAccountsUpdated automation so ignoring broadcast");
-			return;
-		}
-
-		if (User.isLoggedInOnDisk(mContext) && !User.isLoggedInToAccountManager(mContext)) {
-			Log.d("onAccountsUpdated signing out user");
-			User.signOut(mContext);
-			//We start a sync so that any listeners will get notified of onSyncFinished()
-			ItineraryManager.getInstance().startSync(true);
-		}
+		Ui.getApplication(mContext).appComponent().userStateManager().onLoginAccountsChanged();
 	}
 }

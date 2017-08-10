@@ -22,7 +22,8 @@ class UserLoginTestUtil {
         @JvmStatic
         fun setupUserAndMockLogin(user: User, activity: Activity) {
 
-            user.save(activity)
+            setupUserAndMockDiskOnlyLogin(user, activity)
+
             Db.setUser(user)
 
             val accountType = activity.resources.getString(R.string.expedia_account_type_identifier)
@@ -32,6 +33,11 @@ class UserLoginTestUtil {
             shadowAccountManager.addAccount(account)
 
             User.signIn(activity, null)
+        }
+
+        @JvmStatic
+        fun setupUserAndMockDiskOnlyLogin(user: User, activity: Activity = getContext()) {
+            user.save(activity)
         }
 
         @JvmStatic

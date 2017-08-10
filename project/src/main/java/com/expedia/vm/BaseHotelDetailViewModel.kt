@@ -15,7 +15,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
@@ -166,7 +165,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     }
 
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
-        var supportPhoneNumber = when (User.getLoggedInLoyaltyMembershipTier(context)) {
+        var supportPhoneNumber = when (userStateManager.getCurrentUserLoyaltyTier()) {
             LoyaltyMembershipTier.BASE -> PointOfSale.getPointOfSale().supportPhoneNumberBaseTier
             LoyaltyMembershipTier.MIDDLE -> PointOfSale.getPointOfSale().supportPhoneNumberMiddleTier
             LoyaltyMembershipTier.TOP -> PointOfSale.getPointOfSale().supportPhoneNumberTopTier

@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -250,7 +251,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
 
     fun shouldShowTravelerDialog() : Boolean {
         return currentState == FlightTravelerEntryWidget::class.java.name &&
-                User.isLoggedInToAccountManager(context) &&
+                userStateManager.isUserAuthenticated() &&
                 (travelerEntryWidget.viewModel.getTraveler().compareTo(Db.getWorkingTravelerManager().workingTraveler)) != 0 &&
                 travelerEntryWidget.getNumberOfInvalidFields() == 0
 

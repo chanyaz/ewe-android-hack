@@ -19,7 +19,6 @@ import com.expedia.bookings.activity.RestrictedProfileActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.StoredCreditCard;
@@ -174,7 +173,7 @@ public class User implements JSONable {
 	 * @param context
 	 * @return
 	 */
-	public static boolean isLoggedInOnDisk(Context context) {
+	static boolean isLoggedInOnDisk(Context context) {
 		File file = context.getFileStreamPath(SAVED_INFO_FILENAME);
 		return file != null && file.exists();
 	}
@@ -187,7 +186,7 @@ public class User implements JSONable {
 	 * @param context
 	 * @return
 	 */
-	public static boolean isLoggedInToAccountManager(Context context) {
+	static boolean isLoggedInToAccountManager(Context context) {
 		boolean isLoggedIn = false;
 		String accountType = context.getString(R.string.expedia_account_type_identifier);
 		String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
@@ -265,13 +264,15 @@ public class User implements JSONable {
 	private static void performSignOutCleanupActions(Context context) {
 		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.performSignOutCleanupActions");
 
-		//Itinerary Manager
-		ItineraryManager.getInstance().clear();
-		logger.addSplit("ItineraryManager.getInstance().clear();");
+		if (!ExpediaBookingApp.isRobolectric()) {
+			//Itinerary Manager
+			ItineraryManager.getInstance().clear();
+			logger.addSplit("ItineraryManager.getInstance().clear();");
 
-		//Delete all Notifications
-		Notification.deleteAll(context);
-		logger.addSplit("Notification.deleteAll(context);");
+			//Delete all Notifications
+			Notification.deleteAll(context);
+			logger.addSplit("Notification.deleteAll(context);");
+		}
 
 		//If the data has already been populated in memory, we should clear that....
 		if (Db.getWorkingBillingInfoManager() != null) {
@@ -561,27 +562,6 @@ public class User implements JSONable {
 		}
 	}
 
-	/**
-	 * Returns the logged in user's LoyaltyMembershipTier. If the user is not logged in, this
-	 * will return LoyaltyMembershipTier.NONE
-	 * @param context
-	 * @return
-	 */
-	public static LoyaltyMembershipTier getLoggedInLoyaltyMembershipTier(Context context) {
-		if (User.isLoggedIn(context)) {
-
-			if (Db.getUser() == null) {
-				Db.loadUser(context);
-			}
-			UserLoyaltyMembershipInformation loyaltyInfo = Db.getUser().getLoyaltyMembershipInformation();
-			if (loyaltyInfo != null) {
-				return loyaltyInfo.getLoyaltyMembershipTier();
-			}
-		}
-
-		return LoyaltyMembershipTier.NONE;
-	}
-
 	public StoredPointsCard getStoredPointsCard(PaymentType paymentType) {
 		paymentType.assertIsPoints();
 		if (CollectionUtils.isNotEmpty(mStoredPointsCards)) {
@@ -594,7 +574,7 @@ public class User implements JSONable {
 		return null;
 	}
 
-	public static void loadUser(Context context, UserAccountRefresher.IUserAccountRefreshListener listener) {
+	static void loadUser(Context context, UserAccountRefresher.IUserAccountRefreshListener listener) {
 		UserAccountRefresher userAccountRefresher = new UserAccountRefresher(context, LineOfBusiness.NONE, listener);
 		userAccountRefresher.forceAccountRefresh();
 	}

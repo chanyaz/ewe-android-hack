@@ -185,7 +185,7 @@ public class UserAccountRefresher {
 	/**
 	 * Ok so we have a users facebook session, but we need the users information for that to be useful so lets get that
 	 */
-	protected void fetchFacebookUserInfo() {
+	private void fetchFacebookUserInfo() {
 		Log.d("FB: fetchFacebookUserInfo");
 
 		ServicesUtil.generateAccountService(context).facebookReauth(context)

@@ -27,7 +27,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParam;
@@ -974,7 +973,7 @@ public class TuneUtils {
 	private static String getMembershipTier() {
 		if (userStateManager.isUserAuthenticated()) {
 			lazyLoadUser();
-			return User.getLoggedInLoyaltyMembershipTier(context).toApiValue();
+			return userStateManager.getCurrentUserLoyaltyTier().toApiValue();
 		}
 		return "";
 	}

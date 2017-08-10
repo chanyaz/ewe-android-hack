@@ -34,7 +34,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
@@ -53,6 +52,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
 import com.expedia.bookings.notification.Notification;
@@ -79,9 +79,13 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	private String mSharableImageURL;
 	protected MediaCallback callback;
 
+	private UserStateManager userStateManager;
+
 	public ItinContentGenerator(Context context, T itinCardData) {
 		mContext = context;
 		mItinCardData = itinCardData;
+
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 	}
 
 	public T getItinCardData() {
@@ -423,7 +427,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		final String supportPhoneNumber;
 		final String supportEmail;
 		View view = null;
-		switch (User.getLoggedInLoyaltyMembershipTier(mContext)) {
+		switch (userStateManager.getCurrentUserLoyaltyTier()) {
 		case BASE:
 			labelResId = R.string.rewards_base_tier_customer_support;
 			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBaseTier();
