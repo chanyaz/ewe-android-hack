@@ -86,8 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:animateLayoutChanges="true">
+                    android:orientation="vertical">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/infant_type_text_label_1"

@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.animation.Animator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -9,12 +10,16 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.shared.TravelerCountSelector
 import com.expedia.util.*
 import com.expedia.vm.BaseTravelerPickerViewModel
 import com.expedia.vm.FlightTravelerPickerViewModel
+import com.mobiata.android.Log
 import rx.Observer
 
 
@@ -35,6 +40,38 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
 
     val infantPreferenceSeatingView: LinearLayout by bindView(R.id.infant_preference_seating)
     val infantError: TextView by bindView(R.id.error_message_infants)
+    val ANIMATION_DURATION = 500L
+
+    val resizeOpenAnimator: ResizeHeightAnimator by lazy {
+        val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST)
+        val widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+        infantPreferenceSeatingView.measure(widthMeasureSpec, heightMeasureSpec)
+        resizeAnimator.addViewSpec(infantPreferenceSeatingView, infantPreferenceSeatingView.measuredHeight)
+        Log.d("height  ", "height  " + infantPreferenceSeatingView.measuredHeight)
+        resizeAnimator
+    }
+
+    val resizeCloseAnimator: ResizeHeightAnimator by lazy {
+        val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+        resizeAnimator.addViewSpec(infantPreferenceSeatingView, 0)
+        resizeAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                infantPreferenceSeatingView.visibility = Presenter.GONE
+                Log.d("close height  ", "height  " + infantPreferenceSeatingView.measuredHeight)
+            }
+        })
+        resizeAnimator
+    }
 
     var viewmodel: FlightTravelerPickerViewModel by notNullAndObservable { vm ->
         vm.showInfantErrorMessage.subscribeTextAndVisibility(infantError)
@@ -48,11 +85,32 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
         infantCountSelector.minusClickedSubject.subscribe(vm.decrementInfantObserver)
         infantCountSelector.plusClickedSubject.subscribe(vm.incrementInfantObserver)
 
+//        vm.infantPreferenceSeatingObservable.subscribe { hasInfants ->
+//            if (vm.showSeatingPreference && hasInfants) {
+//                if (infantPreferenceSeatingView.visibility == View.GONE) {
+//                    infantPreferenceSeatingView.visibility = View.VISIBLE
+//                    val resizeAnimator = ResizeHeightAnimator(500L)
+//                    resizeAnimator.addViewSpec(infantPreferenceSeatingView, 241, 0)
+//                    resizeAnimator.start()
+//                    Log.d("height  ", "height  " + infantPreferenceSeatingView.measuredHeight)
+//                }
+//            } else if (infantPreferenceSeatingView.visibility == View.VISIBLE) {
+//                val resizeAnimator = ResizeHeightAnimator(500L)
+//                resizeAnimator.addViewSpec(infantPreferenceSeatingView, 0)
+//                resizeAnimator.start()
+//                infantPreferenceSeatingView.visibility = View.GONE
+//                Log.d("collapse height  ", "height  " + infantPreferenceSeatingView.measuredHeight)
+//            }
+//        }
+
         vm.infantPreferenceSeatingObservable.subscribe { hasInfants ->
             if (vm.showSeatingPreference && hasInfants) {
-                infantPreferenceSeatingView.visibility = View.VISIBLE
-            } else {
-                infantPreferenceSeatingView.visibility = View.GONE
+                if (infantPreferenceSeatingView.visibility == View.GONE) {
+                    infantPreferenceSeatingView.visibility = View.VISIBLE
+                    resizeOpenAnimator.start()
+                }
+            } else if (infantPreferenceSeatingView.visibility == View.VISIBLE) {
+                resizeCloseAnimator.start()
             }
         }
         vm.adultTextObservable.subscribeText(adultCountSelector.travelerText)
@@ -123,6 +181,7 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
 
     init {
         View.inflate(context, R.layout.widget_flight_traveler_picker, this)
+        infantPreferenceSeatingView.visibility = View.GONE
         adultCountSelector.travelerMinus.viewTreeObserver.addOnPreDrawListener(
                 object : ViewTreeObserver.OnPreDrawListener {
                     override fun onPreDraw(): Boolean {
