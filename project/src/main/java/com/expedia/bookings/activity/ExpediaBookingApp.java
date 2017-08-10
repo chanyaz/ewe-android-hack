@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import com.expedia.bookings.data.country.CountryConfig;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
@@ -139,6 +140,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		// Initialize some parts of the code that require a Context
 		initializePointOfSale();
 		startupTimer.addSplit("PointOfSale Init");
+
+		CountryConfig.loadCountryConfigs(getAssets());
 
 		mAppComponent = DaggerAppComponent.builder()
 			.appModule(new AppModule(this))
