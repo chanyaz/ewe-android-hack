@@ -327,7 +327,7 @@ class PackageCheckoutTest {
 
     @Test
     fun testSaveTravelerDialogShowsForNewTraveler() {
-        givenCompletedTravelerEntryWidget(3)
+        givenCompletedTravelerEntryWidget()
         val newTraveler = enterTraveler(Traveler())
         newTraveler.tuid = 0
 

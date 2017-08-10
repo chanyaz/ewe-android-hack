@@ -46,7 +46,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         Ui.getApplication(context).travelerComponent().inject(this)
         setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
         subtitleTextColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
-        refreshStatus()
+        passportRequired.map { Unit }.subscribe(refreshStatusObservable)
         refreshStatusObservable.subscribe{
             refreshStatus()
         }

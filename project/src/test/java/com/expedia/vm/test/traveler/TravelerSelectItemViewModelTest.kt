@@ -278,6 +278,30 @@ class TravelerSelectItemViewModelTest {
     }
 
     @Test
+    fun testPassportRequiredRefreshStatus() {
+        val selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1, PassengerCategory.ADULT)
+        selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        Mockito.`when`((selectVM.testTraveler as Traveler).fullNameBasedOnPos)
+                .thenReturn(mockTravelerProvider.testFullName)
+        selectVM.travelerValidator.updateForNewSearch(testParams)
+        selectVM.passportRequired.onNext(false)
+
+        assertEquals(ContactDetailsCompletenessStatus.COMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
+        assertEquals(mockTravelerProvider.adultBirthDate.toString("MM/dd/yyyy"), selectVM.subtitleObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
+        assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
+
+        selectVM.passportRequired.onNext(true)
+
+        assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(mockTravelerProvider.testFullName, selectVM.titleObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value)
+        assertEquals(expectedErrorColor, selectVM.subtitleTextColorObservable.value)
+        assertEquals(expectedDefaultFont, selectVM.titleFontObservable.value)
+    }
+
+    @Test
     fun testUpdateStatusNoPhoneAddTravelers() {
         selectVM = TestTravelerSelectItemViewModel(activity, testAddTravelerIndex, -1, PassengerCategory.ADULT)
         selectVM.passportRequired.onNext(false) 

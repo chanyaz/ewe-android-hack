@@ -1,7 +1,9 @@
 package com.expedia.bookings.test.phone.newflights
 
 import android.support.test.espresso.Espresso
+import android.support.test.espresso.Espresso.onData
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.doesNotExist
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -19,9 +21,14 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel.clickLogin
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel.enterUsername
+import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel.enterPassword
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.instanceOf
 import org.joda.time.LocalDate
 import org.junit.Test
 import java.util.concurrent.TimeUnit
@@ -138,6 +145,40 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
                 matches(withText("Enter traveler details")))
     }
 
+    @Test
+    fun testMultiTravelerWithPassportFlow() {
+        flightSearchWithPassportAndGoToCheckout(2)
+
+        clickLogin()
+        enterUsername("qa-ehcc@mobiata.com")
+        enterPassword("password")
+        val signInButton = onView(withId(R.id.sign_in_button))
+        signInButton.perform(waitForViewToDisplay())
+        Common.closeSoftKeyboard(CheckoutViewModel.password())
+        signInButton.perform(click())
+        onView(withId(android.R.id.button1)).perform(ViewActions.click())
+
+        PackageScreen.travelerInfo().perform(click())
+        onView(allOf(withImageDrawable(R.drawable.invalid),
+                isDescendantOfA(withId(R.id.main_traveler_container)))).check(
+                matches(isDisplayed()))
+        onView(withText("Traveler details")).perform(waitForViewToDisplay())
+        onView(allOf(isDescendantOfA(withId(R.id.main_traveler_container)), withText("Enter missing traveler details"))).perform(click())
+
+        onView(withText("Edit Traveler 1 (Adult)")).perform(waitForViewToDisplay())
+        EspressoUtils.assertViewIsDisplayed(R.id.passport_country_spinner)
+        onView(withId(R.id.passport_country_spinner)).perform(click())
+        onData(allOf<String>(`is`<Any>(instanceOf<Any>(String::class.java)), `is`<String>("Afghanistan"))).perform(click())
+        EspressoUtils.assertViewWithTextIsDisplayed("Passport: Afghanistan")
+        Common.pressBack()
+        onView(withId(android.R.id.button1)).perform(ViewActions.click())
+
+        onView(withText("Traveler details")).perform(waitForViewToDisplay())
+        onView(allOf(withImageDrawable(R.drawable.validated),
+                isDescendantOfA(withId(R.id.main_traveler_container)))).check(
+                matches(isDisplayed()))
+    }
+
     private fun flightSearchAndGoToCheckout(numberOfTravelers: Int) {
         SearchScreen.origin().perform(click())
         SearchScreen.selectFlightOriginAndDestination()
@@ -151,6 +192,23 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         FlightsScreen.selectOutboundFlight().perform(click())
         FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0)
         FlightsScreen.selectInboundFlight().perform(click())
+        PackageScreen.checkout().perform(click())
+    }
+
+    private fun flightSearchWithPassportAndGoToCheckout(numberOfTravelers: Int) {
+        SearchScreen.origin().perform(click())
+        SearchScreen.selectFlightOriginAndDestination()
+        val startDate = LocalDate.now().plusDays(3)
+        val endDate = LocalDate.now().plusDays(8)
+        SearchScreen.selectDates(startDate, endDate)
+        SearchScreen.selectGuestsButton().perform(click())
+        SearchScreen.setGuests(numberOfTravelers, 0)
+        SearchScreen.searchButton().perform(click())
+        FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 1)
+        FlightsScreen.selectOutboundFlight().perform(click())
+        FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0)
+        FlightsScreen.selectInboundFlight().perform(click())
+        onView(withId(android.R.id.button1)).perform(ViewActions.click())
         PackageScreen.checkout().perform(click())
     }
 }
