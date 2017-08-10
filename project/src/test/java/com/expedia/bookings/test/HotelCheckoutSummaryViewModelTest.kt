@@ -237,17 +237,7 @@ class HotelCheckoutSummaryViewModelTest {
         paymentModel.createTripSubject.onNext(createTripResponse)
         assertFalse(sut.isShoppingWithPoints.value)
     }
-
-    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testBestPriceGuaranteeMessagingNotShown() {
-        givenHappyHotelProductResponse()
-        setup()
-        setPOS(PointOfSaleId.AUSTRALIA)
-        paymentModel.createTripSubject.onNext(createTripResponse)
-
-        assertFalse(sut.isBestPriceGuarantee.value)
-    }
-
+    
     private fun setPOS(pos: PointOfSaleId) {
         SettingUtils.save(context, R.string.PointOfSaleKey, pos.id.toString())
         PointOfSale.onPointOfSaleChanged(context)
