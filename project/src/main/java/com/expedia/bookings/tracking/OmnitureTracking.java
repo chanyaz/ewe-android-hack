@@ -2758,7 +2758,6 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppUserOnboarding);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 
 		if (userStateManager.isUserAuthenticated()) {
@@ -2808,7 +2807,6 @@ public class OmnitureTracking {
 
 	public static void trackAccountPageLoad() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppUserOnboarding);
 		// set the pageName
 		s.setAppState(ACCOUNT_SCREEN);
 		s.setEvar(18, ACCOUNT_SCREEN);

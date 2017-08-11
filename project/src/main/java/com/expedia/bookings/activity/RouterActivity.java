@@ -76,7 +76,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID());
-			query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
@@ -223,6 +222,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	}
 
 	private boolean showNewUserOnboarding() {
-		return ExpediaBookingApp.isFirstLaunchEver() && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppUserOnboarding);
+		return ExpediaBookingApp.isFirstLaunchEver();
 	}
 }
