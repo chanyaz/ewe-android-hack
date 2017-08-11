@@ -51,16 +51,16 @@ public class FrequentFlyerSpinnerAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public String getItem(int position) {
-		return String.format(Locale.getDefault(), "%s Number: (%d)", getAirlineName(position), getFrequentFlyerNumber(position));
+		return String.format(Locale.getDefault(), "%s Number: (%d)", getFrequentFlyerProgram(position), getFrequentFlyerNumber(position));
 	}
 
-	public String getAirlineName(int position) {
+	public String getFrequentFlyerProgram(int position) {
 		return frequentFlyerProgram[position];
 	}
 
 	public int getFrequentFlyerNumber(int position) {
-		if (FrequentFlyerAirlines.containsKey(getAirlineName(position))) {
-			return FrequentFlyerAirlines.get(getAirlineName(position));
+		if (FrequentFlyerAirlines.containsKey(getFrequentFlyerProgram(position))) {
+			return FrequentFlyerAirlines.get(getFrequentFlyerProgram(position));
 		}
 
 		return frequentFlyerNumber[position];
@@ -75,7 +75,7 @@ public class FrequentFlyerSpinnerAdapter extends ArrayAdapter<String> {
 			return CurrentPosition;
 		}
 		for (int i = 0; i < FrequentFlyerAirlines.size(); i++) {
-			if (getAirlineName(i).equals(airlineName)) {
+			if (getFrequentFlyerProgram(i).equals(airlineName)) {
 				return i;
 			}
 		}

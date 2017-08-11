@@ -9,6 +9,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrequentFlyerSpinnerAdapter
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
+import com.expedia.vm.FrequentFlyerNumberViewModel
 import com.expedia.vm.FrequentFlyerProgramViewModel
 import com.expedia.vm.traveler.FlightTravelerFrequentFlyerItemViewModel
 
@@ -27,7 +28,7 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
         val builder = AlertDialog.Builder(context)
         builder.setTitle(context.resources.getString(R.string.frequent_flyer_my_programs))
         builder.setSingleChoiceItems(frequentFlyerAdapter, frequentFlyerAdapter.currentPosition, { dialogInterface, position ->
-            val airlineName = frequentFlyerAdapter.getAirlineName(position)
+            val airlineName = frequentFlyerAdapter.getFrequentFlyerProgram(position)
             val airlineCode = frequentFlyerAdapter.getFrequentFlyerNumber(position)
             vm.frequentFlyerProgramObservable.onNext(airlineName)
             vm.frequentFlyerNumberObservable.onNext(airlineCode.toString())
@@ -38,14 +39,15 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
     }
 
     init {
-        val textViewModel = FrequentFlyerProgramViewModel()
-        frequentFlyerProgram.viewModel = textViewModel
-        frequentFlyerNumber.viewModel = textViewModel
+        val textViewProgramViewModel = FrequentFlyerProgramViewModel()
+        val textViewNumberViewModel = FrequentFlyerNumberViewModel()
+        frequentFlyerProgram.viewModel = textViewProgramViewModel
+        frequentFlyerNumber.viewModel = textViewNumberViewModel
         frequentFlyerProgram.setOnClickListener {
             frequentFlyerDialog.show()
         }
-        vm.frequentFlyerNumberObservable.subscribeText(frequentFlyerNumber)
         vm.frequentFlyerProgramObservable.subscribeText(frequentFlyerProgram)
+        vm.frequentFlyerNumberObservable.subscribeText(frequentFlyerNumber)
     }
 
     fun bind(frequentFlyerCard: FrequentFlyerCard) {
