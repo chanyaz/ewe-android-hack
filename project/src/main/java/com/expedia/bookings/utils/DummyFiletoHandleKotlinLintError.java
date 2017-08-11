@@ -1201,6 +1201,12 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flights_fee_added_based_on_payment,
 		R.string.package_prices_taxes_fees_included_label,
 		R.string.package_hotel_results_includes_header_TEMPLATE,
+		R.dimen.launch_pro_wizard_tab_text_size,
+		R.dimen.launch_pro_wizard_tab_selected_text_size,
+		R.drawable.ic_account_circle,
+		R.drawable.ic_search,
+		R.drawable.ic_work,
+		R.layout.pro_wizard_launch_tab_view,
 		//Please add your string above this line to avoid conflicts
 		R.string.flights_there_maybe_additional_fee
 		//Please add your string above this line to avoid conflicts

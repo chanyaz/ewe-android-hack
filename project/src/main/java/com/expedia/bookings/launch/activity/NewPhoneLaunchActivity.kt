@@ -34,6 +34,7 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
+import com.expedia.bookings.launch.widget.ProWizardLaunchTabView
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ClientLogServices
@@ -265,7 +266,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         // auto dismiss when clicked.
         Notification.dismissExisting(notification)
     }
-
 
     private val pageChangeListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -545,11 +545,24 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     private fun setupBottomNav() {
         bottomNavTabLayout.setupWithViewPager(viewPager)
-        bottomNavTabLayout.setOnTabSelectedListener(pageChangeListener)
+        bottomNavTabLayout.addOnTabSelectedListener(pageChangeListener)
         bottomNavTabLayout.visibility = View.VISIBLE
         bottomNavShadow.visibility = View.VISIBLE
 
         toolbar.visibility = View.GONE
+
+        setupBottomTabIcons()
+    }
+
+    private fun setupBottomTabIcons() {
+        val shopTab = ProWizardLaunchTabView(this, R.drawable.ic_search, resources.getString(R.string.shop))
+        bottomNavTabLayout.getTabAt(PAGER_POS_LAUNCH)?.customView = shopTab
+
+        val itinTab = ProWizardLaunchTabView(this, R.drawable.ic_work, resources.getString(Ui.obtainThemeResID(this, R.attr.skin_tripsTabText)))
+        bottomNavTabLayout.getTabAt(PAGER_POS_ITIN)?.customView = itinTab
+
+        val accountTab = ProWizardLaunchTabView(this, R.drawable.ic_account_circle, resources.getString(R.string.account_settings_menu_label))
+        bottomNavTabLayout.getTabAt(PAGER_POS_ACCOUNT)?.customView = accountTab
     }
 
     private fun setupTopNav() {

@@ -52,7 +52,7 @@
     <!-- Launch Screen colors -->
     <color name="exp_old_launch">#495863</color> <!-- Slate Gray -->
 
-    <color name="exp_launch_blue">#0063BB</color>
+    <color name="exp_launch_blue">@color/app_primary</color>
     <color name="exp_launch_secondary_blue">#005199</color>
     <color name="exp_launch_yellow">#FFED18</color>
 
