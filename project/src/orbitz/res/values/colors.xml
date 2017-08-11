@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="app_primary">#004d7c</color>
+    <color name="app_primary_dark">#003D69</color>
     <color name="action_bar_bg_color">#00253C</color>
     <color name="actionbar_button_background_pressed">#004888</color>
     <color name="hotels_primary_color">@color/lob_btn_color</color>

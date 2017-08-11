@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="app_primary">#26344F</color>
+    <color name="app_primary_dark">#1C273F</color>
     <color name="action_bar_bg_color">#26344F</color>
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
     <color name="preferences_text">#495863</color>

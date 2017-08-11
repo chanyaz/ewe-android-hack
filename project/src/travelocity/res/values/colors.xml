@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="app_primary">#003E74</color>
+    <color name="app_primary_dark">#003061</color>
     <color name="bg_blue_color_travelocity">#003e74</color>
     <color name="lob_primary_color">#003e74</color>
     <color name="actionbar_button_background_pressed">#004888</color>

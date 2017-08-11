@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="app_primary">#116FAA</color>
+    <color name="app_primary_dark">#0C5C99</color>
     <color name="action_bar_bg_color">#FFFFFF</color>
     <color name="actionbar_button_background_pressed">#004888</color>
     <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_color</color>

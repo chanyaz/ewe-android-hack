@@ -2,6 +2,7 @@
 <resources>
     <color name="app_primary">#e31f0e</color>
     <color name="aag_primary_color">#E31F0E</color>
+    <color name="app_primary_dark">#DC170A</color>
     <color name="aag_secondary_color">#F18700</color>
     <color name="hotel_price_text_color_airasiago">#333</color>
     <color name="hotel_price_sale_text_color_airasiago">@color/aag_primary_color</color>
