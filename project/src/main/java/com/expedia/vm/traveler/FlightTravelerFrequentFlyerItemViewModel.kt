@@ -5,11 +5,12 @@ import com.expedia.bookings.widget.traveler.FrequentFlyerCard
 import rx.subjects.PublishSubject
 
 class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
-    //TODO: update traveler with FFN info
-    //TODO: set up VM for input fields
     private lateinit var frequentFlyerCard: FrequentFlyerCard
     val ffnProgramNumberViewModel = FrequentFlyerProgramNumberViewModel(traveler, "")
     val ffnProgramNumberSubject = PublishSubject.create<String>()
+
+    val frequentFlyerProgramObservable = PublishSubject.create<String>()
+    val frequentFlyerNumberObservable = PublishSubject.create<String>()
 
     fun bind(frequentFlyerCard: FrequentFlyerCard) {
         this.frequentFlyerCard = frequentFlyerCard
@@ -25,12 +26,7 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
         this.traveler = traveler
         ffnProgramNumberViewModel.traveler = traveler
 
-        val frequentFlyerProgramNumber = traveler.frequentFlyerMemberships.get(frequentFlyerCard.airlineCode)?.membershipNumber
-        if (frequentFlyerProgramNumber?.isNotEmpty() ?: false) {
-            ffnProgramNumberSubject.onNext(frequentFlyerProgramNumber)
-        } else {
-            ffnProgramNumberSubject.onNext("")
-        }
-
+        val frequentFlyerProgramNumber = traveler.frequentFlyerMemberships[(frequentFlyerCard.airlineCode)]?.membershipNumber ?: ""
+        ffnProgramNumberSubject.onNext(frequentFlyerProgramNumber)
     }
 }
