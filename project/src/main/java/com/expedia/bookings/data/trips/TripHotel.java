@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.json.JSONUtils;
 
 public class TripHotel extends TripComponent {
@@ -105,9 +106,11 @@ public class TripHotel extends TripComponent {
 			JSONUtils.putJSONable(obj, "property", mProperty);
 			obj.put("guests", mGuests);
 			obj.putOpt("checkInTime", mCheckInTime);
+			obj.putOpt("checkOutTime", mCheckOutTime);
 			JSONUtils.putStringList(obj, "confNumbers", mConfirmationNumbers);
 			obj.putOpt("sharableItemDetailURL", mSharableDetailsUrl);
 			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
+			GsonUtil.putListForJsonable(obj, "rooms", mRooms);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -121,8 +124,10 @@ public class TripHotel extends TripComponent {
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
 		mGuests = obj.optInt("guests");
 		mCheckInTime = obj.optString("checkInTime", null);
+		mCheckOutTime = obj.optString("checkOutTime", null);
 		mSharableDetailsUrl = obj.optString("sharableItemDetailURL");
 		mPrimaryTraveler = JSONUtils.getJSONable(obj, "primaryTraveler", Traveler.class);
+		mRooms = GsonUtil.getListForJsonable(obj, "rooms", TripHotelRoom.Companion.getGsonTypeToken());
 
 		List<String> confNumbers = JSONUtils.getStringList(obj, "confNumbers");
 		if (confNumbers != null && confNumbers.size() > 0) {

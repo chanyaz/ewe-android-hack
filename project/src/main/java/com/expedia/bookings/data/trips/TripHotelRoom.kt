@@ -1,15 +1,22 @@
 package com.expedia.bookings.data.trips
 
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
+
 data class TripHotelRoom(
         var hotelConfirmationNumber: String,
         var roomType: String,
         var bookingStatus: String,
-        var primaryOccupant: PrimaryOccupant,
-        var occupantSelectedRoomOptions: OccupantSelectedRoomOptions,
-        var otherOccupantInfo: OtherOccupantInfo,
-        var amenities: List<String>,
-        var amenityIds: List<Int>
-)
+        var primaryOccupant: PrimaryOccupant?,
+        var occupantSelectedRoomOptions: OccupantSelectedRoomOptions?,
+        var otherOccupantInfo: OtherOccupantInfo?,
+        var amenities: List<String> = emptyList(),
+        var amenityIds: List<Int> = emptyList()
+) {
+    companion object {
+        val gsonTypeToken: Type? = object : TypeToken<List<TripHotelRoom>>() {}.type
+    }
+}
 
 data class PrimaryOccupant(
         var firstName: String,

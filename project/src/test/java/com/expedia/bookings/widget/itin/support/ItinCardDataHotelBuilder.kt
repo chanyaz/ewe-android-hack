@@ -18,6 +18,10 @@ class ItinCardDataHotelBuilder {
     private var bookingChangeUrl = ""
     private var roomUpgradeApiUrl = ""
     private var roomUpgradeWebUrl = ""
+    private var primaryOccupantFullName = "Kevin Carpenter"
+    private var adultCount = 1
+    private var childCount = 0
+    private var infantCount = 0
 
     fun build(): ItinCardDataHotel {
         val itinCardDataHotel = makeHotel()
@@ -37,6 +41,11 @@ class ItinCardDataHotelBuilder {
         if (bookingChangeUrl.isNotEmpty()) {
             itinCardDataHotel.property.bookingChangeWebUrl = bookingChangeUrl
         }
+
+        itinCardDataHotel.lastHotelRoom.primaryOccupant?.fullName = primaryOccupantFullName
+        itinCardDataHotel.lastHotelRoom.otherOccupantInfo?.adultCount = adultCount
+        itinCardDataHotel.lastHotelRoom.otherOccupantInfo?.childCount = childCount
+        itinCardDataHotel.lastHotelRoom.otherOccupantInfo?.infantCount = infantCount
 
         return itinCardDataHotel
     }
@@ -78,6 +87,29 @@ class ItinCardDataHotelBuilder {
 
     fun withCheckOutDate(checkOutDate: DateTime?): ItinCardDataHotelBuilder {
         this.checkOutDate = checkOutDate
+        return this
+    }
+
+    fun withAdultChildInfantCount(numOfAdults: Int, numOfChildren: Int, numOfInfants: Int): ItinCardDataHotelBuilder {
+        adultCount = numOfAdults
+        childCount = numOfChildren
+        infantCount = numOfInfants
+        return this
+    }
+
+    fun withPrimaryOccupantFullName(name: String): ItinCardDataHotelBuilder {
+        primaryOccupantFullName = name
+        return this
+    }
+
+    fun withAdultCount(numOfAdults: Int): ItinCardDataHotelBuilder {
+        adultCount = numOfAdults
+        return this
+    }
+
+    fun withEmptyGuestNameAndOccupants(name: String, numOfOccupants: Int): ItinCardDataHotelBuilder {
+        primaryOccupantFullName = name
+        adultCount = numOfOccupants
         return this
     }
 

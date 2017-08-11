@@ -20,10 +20,11 @@ class HotelItinRoomAmenity(context: Context) : CoordinatorLayout(context) {
         View.inflate(context, R.layout.widget_itin_hotel_room_amenity, this)
     }
 
-    fun setUp(label: String, icon: Int) {
+    fun setUp(label: String, icon: Int, contdesc: String) {
         this.layoutParams = params
         amenityIcon.setImageResource(icon)
         amenityLabel.text = label
+        amenityLabel.contentDescription = contdesc
     }
 
     @VisibleForTesting (otherwise = VisibleForTesting.PRIVATE)

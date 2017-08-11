@@ -5,6 +5,7 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripActivity
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.mobiata.android.json.JSONUtils
 import okio.Okio
 import org.joda.time.format.ISODateTimeFormat
 import org.json.JSONArray
@@ -44,9 +45,9 @@ class TripParserTest {
         assertEquals(1, rooms.size)
         assertEquals("Deluxe Room, 1 King Bed", room.roomType)
         assertEquals("BOOKED", room.bookingStatus)
-        assertEquals("Kevin", room.primaryOccupant.firstName)
-        assertEquals(1, room.otherOccupantInfo.adultCount)
-        assertEquals("1 king bed", room.occupantSelectedRoomOptions.bedTypeName)
+        assertEquals("Kevin", room.primaryOccupant?.firstName)
+        assertEquals(1, room.otherOccupantInfo?.adultCount)
+        assertEquals("1 king bed", room.occupantSelectedRoomOptions?.bedTypeName)
         assertEquals("Free Wireless Internet", room.amenities[0])
     }
 
@@ -171,6 +172,19 @@ class TripParserTest {
         tripFlight.flightTrip.legs[0].setLegDuration(duration)
         val parseLegDurationMinutes = tripFlight.flightTrip.legs[0].durationMinutes()
         assertEquals(0, parseLegDurationMinutes)
+    }
+
+    @Test
+    fun testTripHotelJSONClone() {
+        val tripParser = TripParser()
+        val hotelTripJson = getHotelTripJson(false)
+        val parsedTripHotel = tripParser.parseTrip(hotelTripJson).tripComponents[0] as TripHotel
+        val clonedTripHotel = JSONUtils.clone(parsedTripHotel, TripHotel::class.java)
+        assertEquals(parsedTripHotel.property.propertyId, clonedTripHotel.property.propertyId)
+        assertEquals(parsedTripHotel.checkInTime, clonedTripHotel.checkInTime)
+        assertEquals(parsedTripHotel.checkOutTime, clonedTripHotel.checkOutTime)
+        assertEquals(parsedTripHotel.rooms.size, clonedTripHotel.rooms.size)
+        assertEquals(parsedTripHotel.rooms[0].roomType, clonedTripHotel.rooms[0].roomType)
     }
 
     private fun getHotelTripJsonWithISO8061dateString(checkInDate: String, checkOutDate: String): JSONObject {

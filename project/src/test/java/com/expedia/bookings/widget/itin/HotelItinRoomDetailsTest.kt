@@ -36,12 +36,79 @@ class HotelItinRoomDetailsTest {
     }
 
     @Test
-    fun roomDetailsReservedFor() {
+    fun reservedForWhenGuestNameOccupantInfoNotEmpty() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         roomDetailsWidget.setUpWidget(itinCardDataHotel)
 
-        val expectedString = "Kevin Carpenter, 1 adult "
+        val expectedString = "Kevin Carpenter, 1 adult"
         assertEquals(expectedString, roomDetailsWidget.guestName.text)
+    }
+
+    @Test
+    fun reservedForAdultsChildrenAndInfant() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultChildInfantCount(3, 2, 1).build()
+
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+
+        val expectedString = "Kevin Carpenter, 3 adults, 2 children, 1 infant"
+        assertEquals(expectedString, roomDetailsWidget.guestName.text)
+    }
+
+    @Test
+    fun reservedForAdults1ChildAndInfants() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultChildInfantCount(4, 1, 2).build()
+
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+
+        val expectedString = "Kevin Carpenter, 4 adults, 1 child, 2 infants"
+        assertEquals(expectedString, roomDetailsWidget.guestName.text)
+    }
+
+    @Test
+    fun reservedForAdultsChildNullInfantNotNull() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultChildInfantCount(2, 0, 1).build()
+
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+
+        val expectedString = "Kevin Carpenter, 2 adults, 1 infant"
+        assertEquals(expectedString, roomDetailsWidget.guestName.text)
+    }
+
+    @Test
+    fun reservedForAdultsChildNotNullInfantNull() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultChildInfantCount(2, 3, 0).build()
+
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+
+        val expectedString = "Kevin Carpenter, 2 adults, 3 children"
+        assertEquals(expectedString, roomDetailsWidget.guestName.text)
+    }
+
+    @Test
+    fun reservedForWhenGuestNameNullOccupantInfoNotNull() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().withPrimaryOccupantFullName("").build()
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+
+        val expectedString = "1 adult"
+        assertEquals(expectedString, roomDetailsWidget.guestName.text)
+    }
+
+    @Test
+    fun reservedForWhenGuestNameNotNullOccupantInfoNull() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().withAdultCount(0).build()
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+
+        val expectedString = "Kevin Carpenter"
+        assertEquals(expectedString, roomDetailsWidget.guestName.text)
+    }
+
+    @Test
+    fun reservedForWhenGuestNameAndOccupantInfoAreNull() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().withEmptyGuestNameAndOccupants("", 0).build()
+        roomDetailsWidget.setUpWidget(itinCardDataHotel)
+
+        assertEquals(View.GONE, roomDetailsWidget.reservedFor.visibility)
+        assertEquals(View.GONE, roomDetailsWidget.guestName.visibility)
     }
 
     @Test

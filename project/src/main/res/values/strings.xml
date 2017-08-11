@@ -1537,6 +1537,12 @@
     <string name="itin_hotel_room_amenity_free_parking">Free\nParking</string>
     <!--Hotel itin room amenity free wifi-->
     <string name="itin_hotel_room_amenity_free_wifi">Free\nWifi</string>
+    <!--Hotel itin room amenity free breakfast content description-->
+    <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">Breakfast Included</string>
+    <!--Hotel itin room amenity free parking content description-->
+    <string name="itin_hotel_room_amenity_free_parking_cont_desc">Free Parking</string>
+    <!--Hotel itin room amenity free wifi content description-->
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Free Wifi</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>
