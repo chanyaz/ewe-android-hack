@@ -7,10 +7,6 @@ class FrequentFlyerProgramViewModel : BaseTravelerValidatorViewModel() {
 
     override val invalidCharacterMode = InvalidCharacterHelper.Mode.ALPHANUMERIC
 
-//    init {
-//        textSubject.subscribe { "12345" }
-//    }
-
     override fun isValid(): Boolean {
         return true
     }

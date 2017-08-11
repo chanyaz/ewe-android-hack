@@ -10,7 +10,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Strings;
@@ -22,10 +22,6 @@ public class FrequentFlyerSpinnerAdapter extends ArrayAdapter<String> {
 	private int[] frequentFlyerNumber;
 	private String[] frequentFlyerProgram;
 	private int CurrentPosition;
-
-//	public FrequentFlyerSpinnerAdapter(Context context) {
-//		this(context, R.layout.simple_spinner_item);
-//	}
 
 	public FrequentFlyerSpinnerAdapter(Context context, int textViewResourceId) {
 		this(context, textViewResourceId, R.layout.simple_spinner_dropdown_item);
@@ -65,10 +61,6 @@ public class FrequentFlyerSpinnerAdapter extends ArrayAdapter<String> {
 
 		return frequentFlyerNumber[position];
 	}
-//
-//	public int getFFNnumberFromAirlineName(String airlineName) {
-//		return FrequentFlyerAirlines.get(airlineName);
-//	}
 
 	public int getPositionFromName(String airlineName) {
 		if (Strings.isEmpty(airlineName)) {
