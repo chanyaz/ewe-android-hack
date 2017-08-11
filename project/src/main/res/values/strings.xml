@@ -2191,6 +2191,10 @@
     <string name="known_traveler_msg">This is the government-issued number used for TSA PreCheck</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">A redress number is a unique TSA-issued number that helps the TSA eliminate watch list misidentification and verify your identity.</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">Frequent flyer program</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">My programs</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">Program Number</string>
     <!-- Saving traveler info spinner dialog -->

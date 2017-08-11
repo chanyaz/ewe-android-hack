@@ -1189,6 +1189,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_search_suggestion_label_airport_near,
 		R.string.flight_search_suggestion_label_recent_search,
 		R.dimen.launch_list_padding_to_pro_wizard,
+		R.string.frequent_flyer_my_programs,
 		R.integer.pro_wizard_shared_enter_duration,
 		R.integer.pro_wizard_shared_return_duration,
 		R.string.flight_selected_classes_mixed_classes,

@@ -24,7 +24,7 @@ class FrequentFlyerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Fi
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.frequent_flyer_program_card_layout, parent, false)
         val vm = FlightTravelerFrequentFlyerItemViewModel()
-        return FrequentFlyerViewHolder(view as ViewGroup, vm)
+        return FrequentFlyerViewHolder(view as ViewGroup, vm, parent.context)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
