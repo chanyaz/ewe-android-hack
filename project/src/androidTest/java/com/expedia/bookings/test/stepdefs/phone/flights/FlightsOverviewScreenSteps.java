@@ -1,8 +1,14 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import java.util.Map;
+
+import org.hamcrest.Matchers;
+
+import android.support.test.espresso.matcher.ViewMatchers;
+
 import com.expedia.bookings.R;
-
-
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
@@ -11,17 +17,9 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-
-import android.support.test.espresso.matcher.ViewMatchers;
-
-import static org.hamcrest.Matchers.not;
-import org.hamcrest.Matchers;
-
-import java.util.Map;
-
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -31,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 
 public class FlightsOverviewScreenSteps {
@@ -38,6 +37,37 @@ public class FlightsOverviewScreenSteps {
 	public void clickOnCheckoutButton() throws Throwable {
 		FlightsOverviewScreen.clickOnCheckoutButton();
 	}
+
+	@And("^Close price change Alert dialog$")
+	public void closeAlertDialog() throws Throwable {
+		SearchScreen.searchAlertDialogDone().perform(click());
+	}
+
+	@And("^Validate that alert Dialog Box with title \"(.*?)\" is visible$")
+	public void validatePriceChangeDialogHeading(String heading) throws Throwable {
+		Common.delay(1);
+		onView(withText(heading)).check(matches(isDisplayed()));
+	}
+
+	@And("^Validate Price Change to \"(.*?)\" from \"(.*?)\"$")
+	public void validatePriceChangeDialogString(String newPrice, String oldPrice) throws Throwable {
+		onView(allOf(withId(android.R.id.message), withText("The price of your trip has changed from " + oldPrice + " to "
+			+ newPrice + ". Rates can change frequently. Book now to lock in this price.")))
+			.check(matches(isDisplayed()));
+	}
+
+	@And("^Check if Trip Total is \"(.*?)\" on Price Change$")
+	public void validateTripTotalOnPriceChange(String finalPrice) throws Throwable {
+		onView(Matchers.allOf(withId(R.id.bundle_total_price), withText(finalPrice))).check(matches(isDisplayed()));
+	}
+
+	@And("^Check if Cost Summary Dialog Box has \"(.*?)\" as Final Price$")
+	public void validateCostSummaryPriceChange(String finalPrice) throws Throwable {
+		onView(withId(R.id.bundle_total_text)).perform(click());
+		onView(Matchers.allOf(withId(R.id.price_type_text_view), withText("Total Due Today"), hasSibling(withText(finalPrice)))).check(matches(isDisplayed()));
+		closeAlertDialog();
+	}
+
 	@Then("^collapse the outbound widget$")
 	public void collapseOutboundWidget() throws Throwable {
 		onView(allOf(withParent(withParent(withParent((withId(R.id.package_bundle_outbound_flight_widget))))),

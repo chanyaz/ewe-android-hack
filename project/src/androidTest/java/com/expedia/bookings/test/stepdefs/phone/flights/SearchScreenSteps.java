@@ -17,8 +17,8 @@ import android.support.test.espresso.matcher.RootMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.BuildConfig;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
@@ -287,9 +287,10 @@ public class SearchScreenSteps {
 
 	@And("on FSR validate the date is as user selected")
 	public void validateDateOnFSR(Map<String, String> expParameters) throws Throwable {
-		DateTime startDateTime = DateTime.now().plusDays(Integer.parseInt(expParameters.get("start_date"))).withTimeAtStartOfDay();
+		DateTime startDateTime = DateTime.now().plusDays(Integer.parseInt(expParameters.get("start_date")))
+			.withTimeAtStartOfDay();
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("travelers")))).
-		check(matches(withText(containsString(formatDateToShortDayAndDate(startDateTime)))));
+			check(matches(withText(containsString(formatDateToShortDayAndDate(startDateTime)))));
 	}
 
 	public static String getMonth(int month) {
@@ -381,14 +382,13 @@ public class SearchScreenSteps {
 	}
 
 	@And("^Close price change Alert dialog if it is visible$")
-	public void closeAlertDialog() throws Throwable {
+	public void closeAlertDialogIfVisible() throws Throwable {
 		Common.delay(1);
 		ViewInteraction searchAlertDialogDonebutton = SearchScreen.searchAlertDialogDone();
 		if (TestUtil.doesViewExists(searchAlertDialogDonebutton)) {
 			searchAlertDialogDonebutton.perform(click());
 		}
 	}
-
 
 	@When("^I click on class widget$")
 	public void clickPreferredClassWidget() throws Throwable {
@@ -434,11 +434,11 @@ public class SearchScreenSteps {
 		HashMap<String, String> modifiableExpParameters = new HashMap<>();
 		modifiableExpParameters.putAll(expParameters);
 		Format dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-		if (modifiableExpParameters.get("departureDate") != null ) {
+		if (modifiableExpParameters.get("departureDate") != null) {
 			LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(expParameters.get("departureDate")));
 			modifiableExpParameters.put("departureDate", dateFormatter.format(stDate.toDate()).toString());
 		}
-		if (modifiableExpParameters.get("returnDate") != null ) {
+		if (modifiableExpParameters.get("returnDate") != null) {
 			LocalDate returnDate = LocalDate.now().plusDays(Integer.parseInt(expParameters.get("returnDate")));
 			modifiableExpParameters.put("returnDate", dateFormatter.format(returnDate.toDate()).toString());
 		}
@@ -455,7 +455,7 @@ public class SearchScreenSteps {
 		if (expParameters.get("end_date") != null) {
 			endDate = " - " + getDateInMMMdd(expParameters.get("end_date"));
 		}
-		String expectedCalendarDate = startDate + endDate ;
+		String expectedCalendarDate = startDate + endDate;
 		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
 		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
 		SearchScreen.calendarCard().check(matches(withText(expectedCalendarDate)));

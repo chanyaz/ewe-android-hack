@@ -171,3 +171,52 @@ Feature: Flights Overview
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
     Then basic economy link with text "Please Read Important Flight Restrictions" isDisplayed : true
+    
+  @Flights @FlightsOverview
+  Scenario: Verify the price decrease dialog box appears on price change.
+    Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | sfo                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 5 |
+    And I can trigger flights search
+    And I wait for results to load
+    And I select outbound flight at position 2
+    Then Select outbound flight from Overview
+    And Validate that alert Dialog Box with title "Price Change" is visible
+    And Validate Price Change to "$696.00" from "$763.00"
+    And Close price change Alert dialog
+    And Check if Trip Total is "$696" on Price Change
+    And Check if Cost Summary Dialog Box has "$696.00" as Final Price
+
+
+  @Flights @FlightsOverview
+  Scenario: Verify the price increase dialog box appears on price change.
+    Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | sfo                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 5 |
+    And I can trigger flights search
+    And I wait for results to load
+    And I select outbound flight at position 12
+    Then Select outbound flight from Overview
+    And Validate that alert Dialog Box with title "Price Change" is visible
+    And Validate Price Change to "$896.00" from "$763.00"
+    And Close price change Alert dialog
+    And Check if Trip Total is "$896" on Price Change
+    And Check if Cost Summary Dialog Box has "$896.00" as Final Price

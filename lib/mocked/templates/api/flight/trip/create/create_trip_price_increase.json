@@ -1,0 +1,583 @@
+{
+  "newTrip": {
+    "itineraryNumber": "7195073302566",
+    "travelRecordLocator": "1398292801",
+    "tripId": "happy_one_way"
+  },
+  "passengerCategories": [
+    "ADULT"
+  ],
+  "totalPrice": {
+    "amount": "896.00",
+    "formattedPrice": "$896.00",
+    "formattedWholePrice": "$896",
+    "currencyCode": "USD"
+  },
+  "details": {
+    "offer": {
+      "legIds": [
+        "70610ef21cd0610778f0ddb4585901d0",
+        "3e3329c238dd310cdc388b29f4cef9c6"
+      ],
+      "currency": "USD",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620",
+        "currencyCode": "USD"
+      },
+      "totalFare": "896.00",
+      "totalPrice": {
+        "amount": "896.00",
+        "formattedPrice": "$896.00",
+        "formattedWholePrice": "$896",
+        "currencyCode": "USD"
+      },
+      "pricePerPassengerCategory": [
+        {
+          "passengerCategory": "ADULT",
+          "totalPrice": {
+            "amount": "689.00",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689",
+            "currencyCode": "USD"
+          },
+          "basePrice": {
+            "amount": "620.46",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620",
+            "currencyCode": "USD"
+          },
+          "taxesPrice": {
+            "amount": "68.54",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69",
+            "currencyCode": "USD"
+          }
+        }
+      ],
+      "averageTotalPricePerTicket": {
+        "amount": "896.00",
+        "formattedPrice": "$896.00",
+        "formattedWholePrice": "$896",
+        "currencyCode": "USD"
+      },
+      "numberOfTickets": 1,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69",
+        "currencyCode": "USD"
+      },
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7",
+        "currencyCode": "USD"
+      },
+      "showFees": true,
+      "productKey": "9f744e734589cc29d3cb1cb59506c1d5-1-1",
+      "seatsRemaining": 11,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "S",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "S",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "S",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "M",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "M",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "M",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=KWI&destinationapt=ANC&cabinclass=3&mktgcarrier=QR&opcarrier=&farebasis=SLR3I1RX&bookingclass=S&travelDate=2016-07-23&flightNumber=1081&langid=1033",
+      "fareType": "PUBLISHED",
+      "isInternational": false,
+      "isPassportNeeded": false,
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isSplitTicket": false,
+      "airFulfillmentMethod": [
+        "ETicket"
+      ]
+    },
+    "productKey": "9f744e734589cc29d3cb1cb59506c1d5-1-1",
+    "flightRules": [
+      {
+        "isChangeAllowed": true,
+        "isEnrouteChangeAllowed": false,
+        "isEnrouteRefundAllowed": false,
+        "isRefundable": false,
+        "changePenaltyAmount": "75.00",
+        "changePenaltyPrice": {
+          "amount": "75.00",
+          "formattedPrice": "$75.00",
+          "formattedWholePrice": "$75",
+          "currencyCode": "USD"
+        },
+        "summaryText": " V FARE BASIS BK FARE TRAVEL-TICKET AP MINMAX RTG\n 1 SLR3I1RX S R 1594.00 D31DE T31DE - 1/ 6M AT01\nPASSENGER TYPE-ADT AUTO PRICE-YES \nFROM-KWI TO-ANC CXR-QR TVL-23JUL16 RULE-RY04 IPRA/1\nFARE BASIS-SLR3I1RX NORMAL FARE DIS-N VENDOR-ATP\nFARE TYPE-ER RT-ECONOMY RESTRICTED\nKWD 480.000 CONS E23FEB16 D31DEC18 FC-SLR3I1RX FN-3P \nSYSTEM DATES - CREATED 22FEB16/1022 EXPIRES INFINITY\n \n50.RULE APPLICATION AND OTHER CONDITIONS\n NOTE - THE FOLLOWING TEXT IS INFORMATIONAL AND NOT\n VALIDATED FOR AUTOPRICING.\n QATAR REGULAR FARES.\n APPLICATION\n AREA\n THESE FARES APPLY \n BETWEEN AREA 1 AND AREA 2/AREA 3.\n CLASS OF SERVICE\n THESE FARES APPLY FOR ECONOMY CLASS SERVICE.\n TYPES OF TRANSPORTATION\n FARES GOVERNED BY THIS RULE CAN BE USED TO CREATE\n ONE-WAY/ROUND-TRIP/CIRCLE-TRIP/OPEN-JAW JOURNEYS.\n CAPACITY LIMITATIONS\n THE CARRIER SHALL LIMIT THE NUMBER OF PASSENGERS\n CARRIED ON ANY ONE FLIGHT AT FARES GOVERNED BY\n THIS RULE AND SUCH FARES WILL NOT NECESSARILY BE\n AVAILABLE ON ALL FLIGHTS. THE NUMBER OF SEATS,\n WHICH THE CARRIER SHALL MAKE AVAILABLE ON A GIVEN\n FLIGHT, WILL BE DETERMINED BY THE CARRIERS BEST\n JUDGEMENT.\n THE CARRIER SHALL LIMIT THE NUMBER OF PASSENGERS\n CARRIED ON ANY ONE FLIGHT AT FARES GOVERNED BY\n THIS RULE AND SUCH FARES WILL NOT NECESSARILY BE\n AVAILABLE ON ALL FLIGHTS.\n -------------------------------------------------\n THE NUMBER OF SEATS WHICH THE CARRIER SHALL MAKE\n AVAILABLE ON A GIVEN FLIGHT WILL BE DETERMINED BY\n THE CARRIERS BEST JUDGEMENT.\n -------------------------------------------------\n \n ALL THE LOWER CLASS FARES CAN BE UPGRADED TO\n HIGHER LEVEL PAYING THE DIFFERENCE IN FARE AND\n CHANGE RESERVATION PENALTY. CHANGE RESERVATION\n PENALTY TO BE COLLECTED AS PER ORIGINAL FARE PAID\n OR AS PER NEW FARE CONDITIONS WHICHEVER IS\n HIGHER.\n IF ORIGINAL TICKET IS NON REFUNDABLE.ORIGINAL\n AMOUNT PAID WILL REMAIN NONREFUNDABLE.\n OTHER CONDITIONS\n ALL FARES ARE SUBJECT TO CHANGE OR WITHDRAWAL\n WITHOUT NOTICE.\n --------------------------------------------------\n FARES ARE ONLY GUARANTEED IF AUTO-PRICED AND\n TICKETED IN GDS WITHIN 24H OR WITHIN\n STIPULATED TICKETING TIME LIMIT WHENEVER THIS\n IS LESS THAN 24H.\n01.ELIGIBILITY\n NO ELIGIBILITY REQUIREMENTS APPLY.\n02.DAY/TIME\n NO DAY/TIME TRAVEL RESTRICTIONS APPLY.\n03.SEASONALITY\n PERMITTED 20DEC THROUGH 29JUN OR 11JUL THROUGH 31AUG\n OR 04SEP THROUGH 16DEC ON THE FIRST INTERNATIONAL\n SECTOR. SEASON IS BASED ON DATE OF ORIGIN.\n04.FLIGHT APPLICATION\n THE FARE COMPONENT MUST NOT BE ON\n ONE OR MORE OF THE FOLLOWING\n ET FLIGHTS 1001 THROUGH 1899\n AT FLIGHTS 9851 THROUGH 9999\n AT FLIGHTS 9000 THROUGH 9699\n AA FLIGHTS 9047 THROUGH 9099\n AA FLIGHTS 8440 THROUGH 8452\n AA FLIGHTS 8284 THROUGH 8394\n AA FLIGHTS 8104 THROUGH 8253\n AA FLIGHTS 7860 THROUGH 7949\n AA FLIGHTS 7454 THROUGH 7637\n AA FLIGHTS 7270 THROUGH 7294\n AA FLIGHTS 7211 THROUGH 7238\n AA FLIGHTS 7171 THROUGH 7180\n AA FLIGHTS 6780 THROUGH 7166\n AA FLIGHTS 8285 THROUGH 8286.\n AND\n THE FARE COMPONENT MUST BE ON\n ONE OR MORE OF THE FOLLOWING\n ANY 5H FLIGHT OPERATED BY 5H\n ANY AA FLIGHT\n ANY AS FLIGHT OPERATED BY AS\n ANY B6 FLIGHT OPERATED BY B6\n ANY ET FLIGHT OPERATED BY ET\n ANY IZ FLIGHT OPERATED BY IZ\n ANY RG FLIGHT OPERATED BY RG\n ANY RJ FLIGHT OPERATED BY RJ\n ANY SV FLIGHT OPERATED BY SV\n ANY AT FLIGHT OPERATED BY AT\n ANY KP FLIGHT OPERATED BY KP\n ANY WY FLIGHT OPERATED BY WY\n ANY QR FLIGHT\n ANY B8 FLIGHT OPERATED BY B8\n ANY BA FLIGHT OPERATED BY BA\n ANY BA FLIGHT OPERATED BY MN\n ANY BA FLIGHT OPERATED BY EZ.\n05.ADVANCE RESERVATIONS/TICKETING\n FARE RULE\n NOTE - TEXT BELOW NOT VALIDATED FOR AUTOPRICING.\n BELOW TTL CONDITIONS APPLY FROM TRAVEL ON/AFTER\n 18JUN 16 TO ON/BEFORE 06AUG 16 AND TRAVEL\n 07AUG 16 TO ON/BEFORE 18SEP 16 AND TRAVEL\n ON/AFTER 15DEC 16 TO ON/BEFORE 10JAN 17.\n RESERVATIONS ARE REQUIRED FOR ALL SECTORS.\n WHEN RESERVATIONS ARE MADE AT LEAST 30 DAYS BEFORE\n DEPARTURE TICKETING MUST BE COMPLETED WITHIN 5\n DAYS AFTER RESERVATIONS ARE MADE OR AT LEAST 8\n DAYS BEFORE DEPARTURE WHICHEVER IS EARLIER.\n OR - RESERVATIONS ARE REQUIRED FOR ALL SECTORS.\n WHEN RESERVATIONS ARE MADE AT LEAST 11 DAYS BEFORE\n DEPARTURE TICKETING MUST BE COMPLETED WITHIN 48\n HOURS AFTER RESERVATIONS ARE MADE.\n OR - RESERVATIONS ARE REQUIRED FOR ALL SECTORS.\n WHEN RESERVATIONS ARE MADE AT LEAST 4 DAYS BEFORE\n DEPARTURE TICKETING MUST BE COMPLETED WITHIN 24\n HOURS AFTER RESERVATIONS ARE MADE.\n OR - RESERVATIONS FOR ALL SECTORS AND TICKETING\n MUST BE COMPLETED AT THE SAME TIME.\n -------------------------------------------\n DIFFERENCE COULD EXIST BETWEEN THE CRS LAST\n TICKETING DATE AND TTL ROBOT REMARK.\n THE MOST RESTRICTIVE DATE PREVAILS.\n ---------------------------------------------\n IF THE COUPONS ARE NOT USED IN THE CORRECT\n SEQUENCE - QR RESERVES THE RIGHT TO CHARGE THE\n HIGHER FARE OR CANCEL THE PNR.\n NO REFUND PERMITTED.\n ---------------------------------------------\n \n GENERAL RULE - APPLY UNLESS OTHERWISE SPECIFIED\n NOTE - TEXT BELOW NOT VALIDATED FOR AUTOPRICING.\n QR TTL NOTE-\n WHEN RESERVATIONS ARE MADE AT LEAST 11 DAYS BEFORE\n DEPARTURE TICKETING MUST BE COMPLETED WITHIN\n 8 DAYS AFTER RESERVATIONS ARE MADE OR AT LEAST\n 7 DAYS BEFORE DEPARTURE WHICHEVER IS EARLIER.\n --------------------------------------------------\n WHEN RESERVATIONS ARE MADE AT LEAST 4 DAYS BEFORE\n DEPARTURE TICKETING MUST BE COMPLETED AT LEAST 72\n HOURS BEFORE DEPARTURE.\n --------------------------------------------------\n WHEN RESERVATIONS ARE MADE AT LEAST 2 DAYS BEFORE\n DEPARTURE TICKETING MUST BE COMPLETED AT LEAST 24\n HOURS BEFORE DEPARTURE.\n --------------------------------------------------\n RESERVATIONS AND TICKETING MUST BE COMPLETED AT\n THE SAME TIME.\n06.MINIMUM STAY\n TRAVEL FROM LAST STOPOVER MUST COMMENCE NO EARLIER\n THAN 1 DAY AFTER DEPARTURE FROM FARE ORIGIN.\n07.MAXIMUM STAY\n TRAVEL FROM LAST STOPOVER MUST COMMENCE NO LATER THAN\n 6 MONTHS AFTER DEPARTURE FROM FARE ORIGIN.\n08.STOPOVERS\n ORIGINATING MIDDLE EAST -\n 5 STOPOVERS PERMITTED ON THE PRICING UNIT\n LIMITED TO 1 FREE AND 4 AT USD 100.00 EACH.\n NONE IN DOH INBOUND\n 1 FREE IN EUROPE/AFRICA\n 1 FREE IN AREA 3/AREA 1\n 1 IN DOH OUTBOUND AT USD 100.00\n 4 IN AREA 2/AREA 3/AREA 1 AT USD 100.00 EACH.\n A STOPOVER MAY NOT EXCEED 7 DAYS.\n NOTE - TEXT BELOW NOT VALIDATED FOR AUTOPRICING.\n PURCHASE OF AN OFFICIAL QR HOLIDAY STOPOVER\n PACKAGE WILL SUPERSEDE THE ABOVE RULES STOPOVER\n FEES AND RESTRICTIONS. REFER TO QR OFFICES AND QR\n HOLIDAYS FOR MORE INFORMATION ABOUT THE OFFICIAL\n STOPOVER PACKAGE AND BOOKING PROCESS.\n PURCHASE OF ONEWORLD MIDDLE EAST PASS IN\n CONJUCTION WITH INTERNATIONAL QR TICKET WILL\n SUPERSEDE THE ABOVE RULE STOPOVER FEE AND\n RESTRICTIONS. REFER TO INFORMATION ON WORLD\n MIDDLE EAST PASS. AGENT SHOULD CONTACT QR OFFICE\n AND PROVIDE PNR DETAILS AND TICKET DETAILS OF\n BOTH LONG HAUL TICKET AND ME PASS TICKET.SAME\n INFORMATION SHOULD BE FORWARDED BY QR OFFICE.\n --------------------------------------------------\n ALL STOPOVER FOR THE PURPOSE OF CONNECTION STPC\n MAY BE PROVIDED FOR ITINERARIES WHERE SHORTEST\n STOPOVER OPTION IS MORE THAN 8 HOURS AND LESS\n THAN 24 HORUS FOR FULL DETAILS CONTACT LOCAL QR\n OFFICE.\n -----------------------------------------------\n IF THE STOPOVER IN DOHA BETWEEN CONNECTING\n FLIGHTS IS LESS THAN 24 HOURS PLEASE NOTE THAT\n THE BAGS WILL ALWAYS BE CHECKED THROUGH TO THE\n FINAL DESTINATION.THE PASSENGERS SHOULD CARRY\n EVERYTHING THEY NEED IN DOHA IN A HAND BAG.\n -----------------------------------------------\n IN CASE THE PASSENGER NEEDS THE BAGS IN DOHA\n TWO SEPARATE TICKETS NEED TO BE BOUGHT.\n --------------------\n ORIGINATING AREA 1 -\n 5 STOPOVERS PERMITTED ON THE PRICING UNIT\n LIMITED TO 1 FREE AND 4 AT USD 100.00 EACH.\n 1 FREE IN AREA 3/AREA 1\n 1 FREE IN EUROPE/AFRICA\n 1 IN DOH EITHER OUT/IN AT USD 100.00\n 4 IN AREA 3/AREA 1/EUROPE/AFRICA AT USD 100.00\n EACH.\n A STOPOVER MAY NOT EXCEED 7 DAYS.\n NOTE - TEXT BELOW NOT VALIDATED FOR AUTOPRICING.\n PURCHASE OF AN OFFICIAL QR HOLIDAY STOPOVER\n PACKAGE WILL SUPERSEDE THE ABOVE RULES STOPOVER\n FEES AND RESTRICTIONS. REFER TO QR OFFICES AND QR\n HOLIDAYS FOR MORE INFORMATION ABOUT THE OFFICIAL\n STOPOVER PACKAGE AND BOOKING PROCESS.\n PURCHASE OF ONEWORLD MIDDLE EAST PASS IN\n CONJUCTION WITH INTERNATIONAL QR TICKET WILL\n SUPERSEDE THE ABOVE RULE STOPOVER FEE AND\n RESTRICTIONS. REFER TO INFORMATION ON WORLD\n MIDDLE EAST PASS. AGENT SHOULD CONTACT QR OFFICE\n AND PROVIDE PNR DETAILS AND TICKET DETAILS OF\n BOTH LONG HAUL TICKET AND ME PASS TICKET.SAME\n INFORMATION SHOULD BE FORWARDED BY QR OFFICE.\n --------------------------------------------------\n ALL STOPOVER FOR THE PURPOSE OF CONNECTION STPC\n MAY BE PROVIDED FOR ITINERARIES WHERE SHORTEST\n STOPOVER OPTION IS MORE THAN 8 HOURS AND LESS\n THAN 24 HORUS FOR FULL DETAILS CONTACT LOCAL QR\n OFFICE.\n -----------------------------------------------\n IF THE STOPOVER IN DOHA BETWEEN CONNECTING\n FLIGHTS IS LESS THAN 24 HOURS PLEASE NOTE THAT\n THE BAGS WILL ALWAYS BE CHECKED THROUGH TO THE\n FINAL DESTINATION.THE PASSENGERS SHOULD CARRY\n EVERYTHING THEY NEED IN DOHA IN A HAND BAG.\n -----------------------------------------------\n IN CASE THE PASSENGER NEEDS THE BAGS IN DOHA\n TWO SEPARATE TICKETS NEED TO BE BOUGHT.\n --------------------\n09.TRANSFERS\n UNLIMITED TRANSFERS PERMITTED ON THE PRICING UNIT.\n FARE BREAK AND EMBEDDED SURFACE SECTORS NOT PERMITTED\n ON THE FARE COMPONENT.\n10.COMBINATIONS\n END-ON-END\n END-ON-END COMBINATIONS PERMITTED WITH DOMESTIC\n FARES. VALIDATE ALL FARE COMPONENTS. SIDE TRIPS\n PERMITTED WITH NO RESTRICTIONS.\n OPEN JAWS/ROUND TRIPS/CIRCLE TRIPS\n FARES MAY BE COMBINED ON A HALF ROUND TRIP BASIS\n -TO FORM SINGLE OR DOUBLE OPEN JAWS\n A MAXIMUM OF TWO INTERNATIONAL FARE COMPONENTS\n PERMITTED. MILEAGE OF THE OPEN SEGMENT MUST BE EQUAL/\n LESS THAN MILEAGE OF THE SHORTEST FLOWN FARE\n COMPONENT.\n -TO FORM ROUND TRIPS\n -TO FORM CIRCLE TRIPS \n A MAXIMUM OF TWO INTERNATIONAL FARE COMPONENTS ‡ PERMITTED.\n OPEN JAWS/ROUND TRIPS/CIRCLE TRIPS NOTE -\n THE MOST RESTRICTIVE RULES AND CONDITIONS APPLIES.\n PROVIDED -\n COMBINATIONS ARE WITH ANY FARE FOR CARRIER YY NOT\n IN ANY RULE IN ANY TARIFF.\n COMBINATIONS ARE WITH ANY FARE FOR CARRIER QR IN\n ANY RULE IN ANY TARIFF.\n11.BLACKOUT DATES\n NO BLACKOUT DATES APPLY.\n12.SURCHARGES\n NO SURCHARGE REQUIREMENTS APPLY.\n13.ACCOMPANIED TRAVEL\n ACCOMPANIED TRAVEL NOT REQUIRED.\n14.TRAVEL RESTRICTIONS\n VALID FOR TRAVEL COMMENCING ON/BEFORE 31DEC18.\n15.SALES RESTRICTIONS\n FOOTNOTE RULE\n TICKETS MUST BE ISSUED ON/BEFORE 31DEC18.\n \n FARE RULE\n TICKETS MAY BE ISSUED BY PTA. SITI/SOTO/SOTI\n TRANSACTIONS PERMITTED. SITO TRANSACTIONS NOT\n PERMITTED.\n TICKETS MAY NOT BE SOLD IN ERITREA/NIGERIA/VENEZUELA.\n NOTE - TEXT BELOW NOT VALIDATED FOR AUTOPRICING.\n TICKET ON DEPARTURE NOT PERMITTED.\n ------------------------------------\n EXTENSION OF VALIDITY NOT PERMITTED.\n -------------------------------------\n \n GENERAL RULE - APPLY UNLESS OTHERWISE SPECIFIED\n TICKETS MUST BE ISSUED ON THE STOCK OF QR OR HR.\n TICKETS MUST BE ISSUED BY ELECTRONIC TICKETING.\n NOTE - TEXT BELOW NOT VALIDATED FOR AUTOPRICING.\n ONLY FARES WITH QR IN THE ROUTING CAN BE SOLD ON\n HR STOCK AND QR FARES WITH INTERLINE PARTNERS IN\n THE ROUTING IS NOT PERMITTED FOR SALE ON HR STOCK\n -------------------------------------------------\n OR - TICKETS MUST BE ISSUED ON THE STOCK OF QR.\n TICKETS MUST BE ISSUED BY ELECTRONIC TICKETING.\n NOTE - TEXT BELOW NOT VALIDATED FOR AUTOPRICING.\n ALL BOOKINGS MUST ADHERE FULLY TO QR BOOKING\n POLICY AND BOOKING MUST ALWAYS BE DONE AS PER\n FULL ORIGIN AND DESTINATION AVAILABILITY.\n ANY VIOLATION WILL BE SUBJECT TO ADM AND ACCESS\n TO QR INVENTORY WILL BE CLOSED IN CASE OF\n PERSISTENT VIOLATIONS.\n -----\n PLEASE REFER TO GGAIRQRBTP\n FOR FURTHER DETAILS OF QR PROHIBITED BOOKING\n PRACTICES FOR AMADEUS USERS\n -----\n DRS.SABRE.COM FOR SABRE USERS\n -----\n G/AIR/QR0/P4 FOR WORLDSPAN USERS\n -----\n GCDISPLAYQR FOR GALILEO USERS\n -----\n FOR FURTHER INFORMATION PLEASE CONTACT LOCAL QR\n OFFICES OR LOCAL GDS HELPDESK\n --------------------------------------------------\n16.PENALTIES\n FARE RULE\n CANCELLATIONS\n \n ANY TIME\n CHARGE USD 75.00.\n \n CHARGE USD 150.00 FOR NO-SHOW.\n \n CHANGES\n \n ANY TIME\n CHARGE USD 40.00.\n \n GENERAL RULE - APPLY UNLESS OTHERWISE SPECIFIED\n NOTE - TEXT BELOW NOT VALIDATED FOR AUTOPRICING.\n NO-SHOW\n A PASSENGER FAILS TO CHANGE/CANCEL HIS/HER\n RESERVATION 3 HOURS PRIOR TO DEPARTURE ANY RE-\n BOOKING MADE WITHIN 3 HOURS PRIOR TO\n DEPARTURE OR AFTER DEPARTURE OF FLIGHT AS SHOWN\n IN THE E-TICKET WILL BE CONSIDERED AS A NO-SHOW.\n --------------------------------------------------\n FOR A SCENARIO WHERE IN THE ORIGINAL RESERVATION\n IS CANCELLED PRIOR TO NO-SHOW CONDITION BUT THE\n NEW RESERVATION ARE MADE AFTER DEPARTURE OF THE\n FLIGHT AS MENTIONED IN E- TICKET COUPON\n RESERVATION AND TICKETING STAFF MAY PERFORM A\n MANUAL TRANSACTION WITHOUT ATC ENTRIES TO AVOID\n THE COLLECTION OF NO-SHOW FEE\n -------------------------------------------------\n IN CASE OF NO-SHOW CHARGE REBOOK OR REFUND FEE\n IN ADDITION TO NO-SHOW FEE\n --------------------------------------------------\n CHANGES -\n FEES APPLICATION -\n THE CHANGE FEE APPLIES PER TRANSACTION\n THE CHANGE FEE APPLIES PER FARE COMPONENT.\n WHEN MORE THAN ONE FARE COMPONENT IS CHANGED\n THE HIGHEST PENALTY OF ANY OF THE CHANGED FARE\n COMPONENTS WILL APPLY.\n -------------------------------------------------\n REPRICING SCENARIO-\n 1.BEFORE DEPARTURE\n BEFORE UTILIZATION OF THE FIRST COUPON OF THE TKT\n WHEN VOLUNTARY CHANGE OCCURS IRRESPECTIVE OF THE\n OUTBOUND OR INBOUND FLIGHT OF THE JOURNEY THE\n FARE WILL BE RECALCULATED APPLY NEW FARE/RULES\n ADHERING TO THE AP CONDITION IN EFFECT ON THE\n DATE OF THE RE-ISSUE.\n 2.AFTER DEPARTURE\n AFTER UTILIZATION OF THE FIRST COUPON OF THE TKT\n NEW FARE WILL BE RECALCULATED USING FARES IN\n EFFECT ON THE DATE HISTORICAL FARES WHEN THE\n ORIGINAL TICKET WAS ISSUED.\n 3.CHANGE PENALTY BEFORE/AFTER DEPARTURE WILL BE\n CHARGED PLUS NO-SHOW CHARGES AND THE TICKET\n NEEDS TO BE REISSUED WITH APPLICABLE FARE\n DIFFERENCE IF ANY.\n 4.IN CASE OF REISSUED CHANGE/NO-SHOW FEES MUST\n COMPLY WITH ALL PROVISIONS OF THE ORIGINALLY\n TICKET FARE.\n NOTE-\n CHANGE/NO-SHOW FEES MUST BE CODED AS XP IN THE\n TAX FIELD\n -------------------------------------------------\n 1FOC CHANGE PERMITTED TO INBOUND ONLY FOR\n BOOKINGS MADE WITH TRAVEL BEYOND SYSTEM\n RANGE\n --------------------------------------------------\n NAME CHANGE NOT PERMITTED.\n --------------------------------------------------\n CHARGE APPLIES FOR ADULT CHILD AND INFANT\n OCCUPYING A SEAT. CHARGE INCLUDING NO-SHOW CHARGE\n WILL NOT APPLY FOR INFANT NOT OCCUPYING A SEAT.\n --------------------------------------------------\n UPGRADE -\n ANY TIME WITHIN THE TICKET VALIDITY FARES CAN BE\n UPGRADED TO ANY FARE IN A HIGHER CABIN AND THEN\n THE FARE WILL BE RECALCULATED FROM THE POINT OF\n ORIGIN PROVIDED THE CONDITIONS OF THE HIGHER\n CABIN HAVE BEEN MET. RE-ISSUE AND CHANGE FEE WILL\n NOT BE APPLICABLE HOWEVER ADDITIONAL TAX-IF ANY\n HAVE TO BE COLLECTED. IF THE RE-ISSUED TICKET IS\n SUBSEQUENTLY CANCELLED THE ORIGINAL OR PENALTY OF\n THE MOST RESTRICTED FARE WILL APPLY.\n --------------------------------------------------\n RE-ROUTING -\n WHEN A VOLUNTARY CHANGE IS REQUESTED BY THE\n PASSENGER CHANGES ARE PERMITTED ON THE SAME OR\n HIGHER BOOKING CLASS ONLY. IN CASE THERE IS A\n CHANGE OF FARE BREAK POINT AND THE NEW FARE\n RESULTS IN A LOWER FARE / TAX THE RESIDUAL VALUE\n AFTER DEDUCTION OF PENALTIES AS APPLICABLE WILL\n BE RETURNED TO THE PASSENGER IN THE FORM OF AN\n EMD FOR FURTHER TRANSPORTATION AND OR REFUND TO\n THE ORIGINAL FORM OF PAYMENT.\n --------------------------------------------------\n WAIVERS -\n WAIVED FOR DEATH OF PASSENGER OR FAMILY MEMBER.\n ALL WAIVERS HAS TO BE PROCESSED THROUGH QR\n OFFICES ONLY AND SUPPORTING DOCUMENT HAS TO BE\n PRESENTED.\n FULL REFUND PERMITTED BEFORE DEPARTURE IN CASE OF\n REJECTION OF VISA. WAIVERS HAS TO BE PROCESSED\n THROUGH QR OFFICES ONLY AND EMBASSY STATEMENT HAS\n TO BE PRESENTED AS SUPPORTING DOCUMENT\n --------------------------------------------------\n CANCELLATION -\n REFUND ON PARTIALLY USED TICKET -\n APPLICABLE PENALTIES PLUS APPLICABLE OW FARE IN\n SAME RBD. IF ONE WAY FARE IS NOT AVAILABLE OR\n PUBLISHED ON THE INVENTORY MENTIONED ON THE\n TICKET THEN DEDUCT NEXT AVAILABLE OW IN HIGHER\n RBD FOR WHICH THE JOURNEY HAS BEEN PERFORMED\n 1.ANY NON-REFUNDABLE AMOUNT FROM A PREVIOUS\n TICKET REMAINS NON-REFUNDABLE FOLLOWING A\n CHANGE.\n 2.WHEN FARE COMBINED WITH A NON-REFUNDABLE FARE\n THE CANCELLATION FEE WILL APPLY FROM THE AMOUNT\n OF THE NON-REFUNDABLE FARE WITHOUT DEDUCT\n ADDITIONAL CANCELLATION FEE.\n -------------------------------------------------\n FOR REFUNDABLE FARES REFUND REQUEST POSSIBLE\n WITHIN 364 DAYS OF ORIGINAL TICKET ISSUE.\n HOWEVER IT SHOULD DISTINGUISH BETWEEN PARTIALLY\n AND FULLY UNUTILIZED E-TICKETS\n PARTIALLY UTILIZED-364 DAYS FROM THE DATE OF 1ST\n UPLIFTED COUPON\n FULLY UNUTILIZED-364 DAYS FROM ORIGINAL E-TICKET\n ISSUE\n --------------------------------------------------\n FOR NON-REFUNDABLE FARES YQ/YR AND SURCHARGES ARE\n NON-REFUNDABLE\n --------------------------------------------------\n NON REFUNDABLE FARES YQ/YR PORTION ON REISSUED\n TICKETS -\n IF NON-REFUNDABLE FARE IS RE-ISSUED TO A\n REFUNDABLE FARE YQ / YR WILL BE PROCESSED AS PER\n THE NEW FARE CONDITION AND ONLY THE BASE FARE OF\n THE ORIGINAL NON-REFUNDABLE TICKET REMAINS AS NON-\n REFUNDABLE.\n ------------------------------------------------\n PARTIAL REFUND CALCULATION YQ/YR FOR REFUNDABLE\n FARE WITH FEE -\n IF APPLICABLE OW FARE PLUS CANCELLATION FEES\n EXCEED THE ACTUAL COLLECTED BASE FARE FOR THE\n JOURNEY THE BASE FARE PAID REMAINS NON-\n REFUNDABLE. ALL UNUTILIZED COUPONS FLOWN BASED\n TAXES INCLUDING YQ/YR WILL BE REFUNDABLE FOR\n SUCH SCENARIOS.\n TICKETS WHICH ARE USED BEYOND POINT OF TURNAROUND-\n NO REFUND PERMITTED\n OUT OF SEQUENCE NO REFUND PERMITTED\n --------------------------------------------------\n WHEN A TICKET IS ISSUED WITH COMBINATION OF FARES\n WITH DIFFERENT PENALTY RULES THE MOST RESTRICTIVE\n CANCELLATION RULES WILL APPLY FOR THE ENTIRE\n TICKET.IF A TICKET HAS BEEN RE-ISSUED MULTIPLE\n TIMES AND FINALLY SUBMITTED FOR CANCELLATION/\n REFUND THE HIGHEST CANCELLATION FEE/NON-REFUNDABLE\n AMOUNT AMONG ALL THE REISSUED FARE WILL APPLY.\n --------------------------------------------------\n17.HIP/MILEAGE EXCEPTIONS\n THE HIGHER INTERMEDIATE POINT RULE DOES NOT APPLY FOR\n STOPOVERS.\n AND - THE HIGHER INTERMEDIATE POINT RULE DOES NOT APPLY\n FOR CONNECTIONS.\n18.TICKET ENDORSEMENTS\n THE ORIGINAL AND THE REISSUED TICKET MUST BE ANNOTATED\n - NON END/CHNG PENALTIES - AND - AS PER RULE - IN THE\n ENDORSEMENT BOX.\n19.CHILDREN DISCOUNTS\n CNN/ACCOMPANIED CHILD PSGR 2-11 - CHARGE 75 PERCENT OF\n THE FARE.\n TICKETING CODE - BASE FARE CODE PLUS CH.\n MUST BE ACCOMPANIED ON ALL FLIGHTS IN THE SAME\n COMPARTMENT BY ADULT PSGR 16 OR OLDER.\n OR - INF/INFANT WITHOUT A SEAT PSGR UNDER 2 - CHARGE 10\n PERCENT OF THE FARE.\n TICKETING CODE - BASE FARE CODE PLUS IN.\n MUST BE ACCOMPANIED ON ALL FLIGHTS IN THE SAME\n COMPARTMENT BY ADULT PSGR 16 OR OLDER.\n OR - INS/INFANT WITH A SEAT PSGR UNDER 2 - CHARGE 75\n PERCENT OF THE FARE.\n TICKETING CODE - BASE FARE CODE PLUS CH.\n MUST BE ACCOMPANIED ON ALL FLIGHTS IN THE SAME\n COMPARTMENT BY ADULT PSGR 16 OR OLDER.\n OR - UNN/UNACCOMPANIED CHILD PSGR 5-11 - CHARGE 100\n PERCENT OF THE LOWEST APPLICABLE FARE.\n TICKETING CODE - BASE FARE CODE PLUS CH.\n NOTE - TEXT BELOW NOT VALIDATED FOR AUTOPRICING. \n UNACCOMPANIED CHILD UNDER 5 - NOT PERMITTED ‡20.TOUR CONDUCTOR DISCOUNTS\n NO DISCOUNTS FOR TOUR CONDUCTORS.\n21.AGENT DISCOUNTS\n NO DISCOUNTS FOR SALE AGENTS.\n22.ALL OTHER DISCOUNTS\n NO DISCOUNTS FOR OTHERS.\n23.MISCELLANEOUS PROVISIONS\n THIS FARE MAY ONLY BE USED TO CONSTRUCT UNPUBLISHED\n FARES.\n25.FARE BY RULE\n NOT APPLICABLE.\n26.GROUPS\n NO GROUP PROVISIONS APPLY.\n27.TOURS\n NO TOUR PROVISIONS APPLY.\n28.VISIT ANOTHER COUNTRY\n NO VISIT ANOTHER COUNTRY PROVISIONS APPLY.\n29.DEPOSITS\n NO DEPOSIT PROVISIONS APPLY.\n31.VOLUNTARY CHANGES\n ENTER RD*31 OR RD‡LINE NUM‡*31 FOR VOLUNTARY CHGS.\n33.VOLUNTARY REFUNDS\n CHECK CATEGORY 16 OR CONTACT CARRIER FOR DETAILS.\n35.NEGOTIATED FARES\n NOT APPLICABLE.\nIC.INTERNATIONAL CONSTRUCTION\n \n** ADDONS FOR INFORMATION ONLY **\nFARE--RT\n PUBLISHED AMOUNT CONVERTED AMOUNT\nADDON CITIES F/B CUR VIA NUC\nPUBLISHED KWI-CHI SLR3I1RX KWD 230.000 KWD 230.000 \nADDON DST CHI-ANC L***** USD 829.00 KWD 250.000 \n ATP ZONE 100 ADD-ON TARIFF AUSA/999 \n \n 1 NUC - 1 USD ROUNDED TO NEAREST 1 USD \nKWD CONVERTED TO USD USING BSR 1 KWD - 3.32071 USD \n\n."
+      }
+    ],
+    "oldOffer": {
+      "legIds": [
+        "70610ef21cd0610778f0ddb4585901d0",
+        "3e3329c238dd310cdc388b29f4cef9c6"
+      ],
+      "currency": "USD",
+      "baseFare": "672.49",
+      "baseFarePrice": {
+        "amount": "672.49",
+        "formattedPrice": "$672.49",
+        "formattedWholePrice": "$672",
+        "currencyCode": "USD"
+      },
+      "totalFare": "763.00",
+      "totalPrice": {
+        "amount": "763.00",
+        "formattedPrice": "$763.00",
+        "formattedWholePrice": "$763",
+        "currencyCode": "USD"
+      },
+      "pricePerPassengerCategory": [
+        {
+          "passengerCategory": "ADULT",
+          "totalPrice": {
+            "amount": "756.00",
+            "formattedPrice": "$756.00",
+            "formattedWholePrice": "$756",
+            "currencyCode": "USD"
+          },
+          "basePrice": {
+            "amount": "672.49",
+            "formattedPrice": "$672.49",
+            "formattedWholePrice": "$672",
+            "currencyCode": "USD"
+          },
+          "taxesPrice": {
+            "amount": "83.51",
+            "formattedPrice": "$83.51",
+            "formattedWholePrice": "$84",
+            "currencyCode": "USD"
+          }
+        }
+      ],
+      "averageTotalPricePerTicket": {
+        "amount": "763.00",
+        "formattedPrice": "$763.00",
+        "formattedWholePrice": "$763",
+        "currencyCode": "USD"
+      },
+      "numberOfTickets": 1,
+      "taxes": "83.51",
+      "taxesPrice": {
+        "amount": "83.51",
+        "formattedPrice": "$83.51",
+        "formattedWholePrice": "$84",
+        "currencyCode": "USD"
+      },
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7",
+        "currencyCode": "USD"
+      },
+      "showFees": true,
+      "productKey": "v5-f7f186674f5cc97cb2efb48f6c4e762c-3-15-1",
+      "seatsRemaining": 11,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "S",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "S",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "S",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=KWI&destinationapt=ANC&cabinclass=3&mktgcarrier=QR&opcarrier=&farebasis=SLR3I1RX&bookingclass=S&travelDate=2016-07-23&flightNumber=1081&langid=1033",
+      "fareType": "PUBLISHED",
+      "isInternational": false,
+      "isPassportNeeded": false,
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isSplitTicket": false,
+      "airFulfillmentMethod": [
+        "ETicket"
+      ]
+    },
+    "priceChangeAmount": "-67.00",
+    "changedPrice": {
+      "amount": "-67.00",
+      "formattedPrice": "($67.00)",
+      "formattedWholePrice": "($67)",
+      "currencyCode": "USD"
+    },
+    "obFeeTotalAmount": "0.00",
+    "obFeePrice": {
+      "amount": "0.00",
+      "formattedPrice": "$0.00",
+      "formattedWholePrice": "$0",
+      "currencyCode": "USD"
+    },
+    "legs": [
+      {
+        "legId": "70610ef21cd0610778f0ddb4585901d0",
+        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=KWI&destinationapt=ANC&cabinclass=3&mktgcarrier=QR&opcarrier=&farebasis=SLR3I1RX&bookingclass=S&travelDate=2016-07-23&flightNumber=1081&langid=1033",
+        "segments": [
+          {
+            "departureTime": "July 23, 2016 7:05:00 PM",
+            "departureTimeEpochSeconds": 1469289900,
+            "departureTimeRaw": "2016-07-23T19:05:00.000+03:00",
+            "departureTimeZoneOffsetSeconds": 10800,
+            "arrivalTime": "July 23, 2016 8:30:00 PM",
+            "arrivalTimeEpochSeconds": 1469295000,
+            "arrivalTimeRaw": "2016-07-23T20:30:00.000+03:00",
+            "arrivalTimeZoneOffsetSeconds": 10800,
+            "arrivalAirportCode": "DOH",
+            "arrivalAirportLocation": "Doha, QAT",
+            "arrivalAirportAddress": {
+              "city": "Doha",
+              "state": " Qatar",
+              "country": "QAT"
+            },
+            "departureAirportCode": "KWI",
+            "departureAirportLocation": "Kuwait City, KWT",
+            "departureAirportAddress": {
+              "city": "Kuwait City",
+              "state": " Kuwait",
+              "country": "KWT"
+            },
+            "airlineName": "Qatar Airways",
+            "airlineCode": "QR",
+            "externalAirlineCode": "QR",
+            "flightNumber": "1081",
+            "equipmentCode": "320",
+            "equipmentDescription": "Airbus A320",
+            "duration": "PT1H25M",
+            "distance": 353,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Meal",
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT11H35M"
+          },
+          {
+            "departureTime": "July 24, 2016 8:05:00 AM",
+            "departureTimeEpochSeconds": 1469336700,
+            "departureTimeRaw": "2016-07-24T08:05:00.000+03:00",
+            "departureTimeZoneOffsetSeconds": 10800,
+            "arrivalTime": "July 24, 2016 2:05:00 PM",
+            "arrivalTimeEpochSeconds": 1469394300,
+            "arrivalTimeRaw": "2016-07-24T14:05:00.000-07:00",
+            "arrivalTimeZoneOffsetSeconds": -25200,
+            "arrivalAirportCode": "LAX",
+            "arrivalAirportLocation": "Los Angeles, USA",
+            "arrivalAirportAddress": {
+              "city": "Los Angeles",
+              "state": " CA",
+              "country": "USA"
+            },
+            "departureAirportCode": "DOH",
+            "departureAirportLocation": "Doha, QAT",
+            "departureAirportAddress": {
+              "city": "Doha",
+              "state": " Qatar",
+              "country": "QAT"
+            },
+            "airlineName": "Qatar Airways",
+            "airlineCode": "QR",
+            "externalAirlineCode": "QR",
+            "flightNumber": "739",
+            "equipmentCode": "77L",
+            "equipmentDescription": "BOEING 777-200LR",
+            "duration": "PT16H",
+            "distance": 8294,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Meal",
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT5H32M"
+          },
+          {
+            "departureTime": "July 24, 2016 7:37:00 PM",
+            "departureTimeEpochSeconds": 1469414220,
+            "departureTimeRaw": "2016-07-24T19:37:00.000-07:00",
+            "departureTimeZoneOffsetSeconds": -25200,
+            "arrivalTime": "July 25, 2016 12:20:00 AM",
+            "arrivalTimeEpochSeconds": 1469434800,
+            "arrivalTimeRaw": "2016-07-25T00:20:00.000-08:00",
+            "arrivalTimeZoneOffsetSeconds": -28800,
+            "arrivalAirportCode": "ANC",
+            "arrivalAirportLocation": "Anchorage, USA",
+            "arrivalAirportAddress": {
+              "city": "Anchorage",
+              "state": " AK",
+              "country": "USA"
+            },
+            "departureAirportCode": "LAX",
+            "departureAirportLocation": "Los Angeles, USA",
+            "departureAirportAddress": {
+              "city": "Los Angeles",
+              "state": " CA",
+              "country": "USA"
+            },
+            "airlineName": "American Airlines",
+            "airlineCode": "AA",
+            "externalAirlineCode": "AA",
+            "flightNumber": "676",
+            "equipmentCode": "319",
+            "equipmentDescription": "Airbus A319",
+            "duration": "PT5H43M",
+            "distance": 2343,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Food For Purchase",
+            "providerCode": "Sabre",
+            "hasSeatMap": true
+          }
+        ],
+        "freeCancellationBy": {
+          "raw": "2016-07-07T23:59:00Z",
+          "localized": "Jul 7, 2016 11:59:00 PM",
+          "epochSeconds": 1467935940,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Thu, 7 Jul",
+          "localizedMediumDate": "Jul 7, 2016",
+          "localizedFullDate": "Thursday, July 7, 2016",
+          "localizedLongDate": "July 7, 2016",
+          "localizedShortTime": "11:59 PM"
+        }
+      },
+      {
+        "legId": "3e3329c238dd310cdc388b29f4cef9c6",
+        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=ANC&destinationapt=KWI&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=&bookingclass=M&travelDate=2016-07-30&flightNumber=653&langid=1033",
+        "segments": [
+          {
+            "departureTime": "July 29, 2016 11:35:00 PM",
+            "departureTimeEpochSeconds": 1469864100,
+            "departureTimeRaw": "2016-07-29T23:35:00.000-08:00",
+            "departureTimeZoneOffsetSeconds": -28800,
+            "arrivalTime": "July 30, 2016 6:10:00 AM",
+            "arrivalTimeEpochSeconds": 1469884200,
+            "arrivalTimeRaw": "2016-07-30T06:10:00.000-07:00",
+            "arrivalTimeZoneOffsetSeconds": -25200,
+            "arrivalAirportCode": "LAX",
+            "arrivalAirportLocation": "Los Angeles, USA",
+            "arrivalAirportAddress": {
+              "city": "Los Angeles",
+              "state": " CA",
+              "country": "USA"
+            },
+            "departureAirportCode": "ANC",
+            "departureAirportLocation": "Anchorage, USA",
+            "departureAirportAddress": {
+              "city": "Anchorage",
+              "state": " AK",
+              "country": "USA"
+            },
+            "airlineName": "American Airlines",
+            "airlineCode": "AA",
+            "externalAirlineCode": "AA",
+            "flightNumber": "653",
+            "equipmentCode": "319",
+            "equipmentDescription": "Airbus A319",
+            "duration": "PT5H35M",
+            "distance": 2343,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Food For Purchase",
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT9H55M"
+          },
+          {
+            "departureTime": "July 30, 2016 4:05:00 PM",
+            "departureTimeEpochSeconds": 1469919900,
+            "departureTimeRaw": "2016-07-30T16:05:00.000-07:00",
+            "departureTimeZoneOffsetSeconds": -25200,
+            "arrivalTime": "July 31, 2016 6:00:00 PM",
+            "arrivalTimeEpochSeconds": 1469977200,
+            "arrivalTimeRaw": "2016-07-31T18:00:00.000+03:00",
+            "arrivalTimeZoneOffsetSeconds": 10800,
+            "arrivalAirportCode": "DOH",
+            "arrivalAirportLocation": "Doha, QAT",
+            "arrivalAirportAddress": {
+              "city": "Doha",
+              "state": " Qatar",
+              "country": "QAT"
+            },
+            "departureAirportCode": "LAX",
+            "departureAirportLocation": "Los Angeles, USA",
+            "departureAirportAddress": {
+              "city": "Los Angeles",
+              "state": " CA",
+              "country": "USA"
+            },
+            "airlineName": "Qatar Airways",
+            "airlineCode": "QR",
+            "externalAirlineCode": "QR",
+            "flightNumber": "740",
+            "equipmentCode": "77L",
+            "equipmentDescription": "BOEING 777-200LR",
+            "duration": "PT15H55M",
+            "distance": 8294,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Meal",
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT1H10M"
+          },
+          {
+            "departureTime": "July 31, 2016 7:10:00 PM",
+            "departureTimeEpochSeconds": 1469981400,
+            "departureTimeRaw": "2016-07-31T19:10:00.000+03:00",
+            "departureTimeZoneOffsetSeconds": 10800,
+            "arrivalTime": "July 31, 2016 8:35:00 PM",
+            "arrivalTimeEpochSeconds": 1469986500,
+            "arrivalTimeRaw": "2016-07-31T20:35:00.000+03:00",
+            "arrivalTimeZoneOffsetSeconds": 10800,
+            "arrivalAirportCode": "KWI",
+            "arrivalAirportLocation": "Kuwait City, KWT",
+            "arrivalAirportAddress": {
+              "city": "Kuwait City",
+              "state": " Kuwait",
+              "country": "KWT"
+            },
+            "departureAirportCode": "DOH",
+            "departureAirportLocation": "Doha, QAT",
+            "departureAirportAddress": {
+              "city": "Doha",
+              "state": " Qatar",
+              "country": "QAT"
+            },
+            "airlineName": "Qatar Airways",
+            "airlineCode": "QR",
+            "externalAirlineCode": "QR",
+            "flightNumber": "1088",
+            "equipmentCode": "320",
+            "equipmentDescription": "Airbus A320",
+            "duration": "PT1H25M",
+            "distance": 353,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Meal",
+            "providerCode": "Sabre",
+            "hasSeatMap": true
+          }
+        ],
+        "freeCancellationBy": {
+          "raw": "2016-07-07T23:59:00Z",
+          "localized": "Jul 7, 2016 11:59:00 PM",
+          "epochSeconds": 1467935940,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Thu, 7 Jul",
+          "localizedMediumDate": "Jul 7, 2016",
+          "localizedFullDate": "Thursday, July 7, 2016",
+          "localizedLongDate": "July 7, 2016",
+          "localizedShortTime": "11:59 PM"
+        }
+      }
+    ],
+    "destinationRegionId": 6139064,
+    "isSplitTicket": false
+  },
+  "rules": {
+    "RuleToTextMap": {
+      "ChangePenaltyText": "A change fee of $75.00 per ticket is charged by the airline for all itinerary changes.",
+      "AdditionalAirlineFees": "The airline may charge additional fees for checked baggage or other optional services.",
+      "RefundabilityText": "Tickets are nonrefundable and nontransferable.",
+      "CancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+      "AirlineLiabilityLimitations": "Please read important information regarding airline liability limitations.",
+      "CancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+      "CompletePenaltyRules": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+      "BookingFeeLegalText": "An additional non-refundable administration fees is applied for flights booked on a standalone basis through the Call Centre. Customers are informed of the administration fee by their Call Centre Agent at the time of their call.",
+      "BookingFeeText": "This price includes a nonrefundable booking fee."
+    },
+    "RuleToUrlMap": {
+      "CompletePenaltyRules": "https://www.expedia.com/Fare-Rules?tripid=8dbb2280-613b-455d-85fd-510b887af728&tlid=1033",
+      "AdditionalAirlineFees": "https://www.expedia.com/Flights-BagFees?originapt=KWI&destinationapt=ANC&cabinclass=3&mktgcarrier=QR&opcarrier=&farebasis=SLR3I1RX&bookingclass=S&travelDate=2016-07-23&flightNumber=1081",
+      "AirlineLiabilityLimitations": "https://www.expedia.com/p/info-main/warsaw?&tlid=1033"
+    }
+  },
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    }
+  ],
+  "isCustomerTitleRequired": false,
+  "rewardsPoints": "1218",
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 1218,
+    "isActiveRewardsMember": true,
+    "rewardsMembershipTierName": "Gold"
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 1218,
+    "isActiveRewardsMember": true,
+    "rewardsMembershipTierName": "Gold"
+  },
+  "activityId": "60c03816-6298-4e47-b08b-85ff8dad00b8",
+  "tealeafTransactionId": "tealeafFlight:happy_one_way",
+  "isSplitTicket": false
+}
