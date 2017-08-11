@@ -1,8 +1,14 @@
 package com.expedia.bookings
 
+import com.expedia.bookings.test.CustomMatchers.Companion.matchesPattern
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import org.junit.Assert.assertThat
 import org.junit.Test
+import org.junit.runner.RunWith
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
+@RunWith(RobolectricRunner::class)
 class ADMS_MeasurementTest {
 
     @Test
@@ -69,5 +75,12 @@ class ADMS_MeasurementTest {
         val sharedInstance = ADMS_Measurement.sharedInstance()
         sharedInstance.setEvar(10, null)
         assertEquals("", sharedInstance.getOmnitureDataValue("&&v10"))
+    }
+
+    @Test
+    fun visitorIdIsNonNullAndOnlyNumeric() {
+        val visitorId = ADMS_Measurement.sharedInstance().visitorID
+        assertNotNull(visitorId)
+        assertThat(visitorId, matchesPattern("^[0-9]+$"))
     }
 }

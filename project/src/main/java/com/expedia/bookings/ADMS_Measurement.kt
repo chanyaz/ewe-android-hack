@@ -12,7 +12,7 @@ class ADMS_Measurement {
     var appState: String? = null
 
     val visitorID by lazy {
-        Config.getUserIdentifier()
+        Visitor.getMarketingCloudId()
     }
 
     private val cData = HashMap<String, Any>()
