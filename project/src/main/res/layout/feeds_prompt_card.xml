@@ -17,7 +17,8 @@
         <LinearLayout
             android:id="@+id/top_half"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="wrap_content"
+            android:minHeight="110dp"
             android:background="@drawable/bg_sign_in_placeholder_launch"
             android:gravity="bottom|left"
             android:orientation="vertical"
