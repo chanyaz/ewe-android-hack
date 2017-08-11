@@ -31,3 +31,7 @@ fun isFrequentFlyerNumberForFlightsEnabled(context: Context): Boolean {
             AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber,
             R.string.preference_enable_flights_frequent_flyer_number)
 }
+
+fun isHideFormFieldsEnabled(context: Context): Boolean {
+    return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hide_form_fields_based_on_billing_country_address)
+}

@@ -88,6 +88,11 @@
             android:summary="Enable Frequent Flyer Number for Flights"
             android:title="Enable Frequent Flyer Number for Flights" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_hide_form_fields_based_on_billing_country_address"
+            android:summary="Hide Form Fields Based on Billing Country Address"
+            android:title="Hide Form Fields Based on Billing Country Address" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -26,16 +26,16 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_smart_lock);
 		initializeFeatureCheck(R.string.preference_single_page_sign_up);
 		initializeFeatureCheck(R.string.preference_enable_activity_map);
-		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
-		initializeFeatureCheck(R.string.preference_enable_secure_icon);
 
-		//hotel features
-		initializeFeatureCheck(R.string.preference_populate_cardholder_name);
-
-		//Flight features
-		initializeFeatureCheck(R.string.preference_enable_flights_frequent_flyer_number);
 		//Packages Features
 		initializeFeatureCheck(R.string.preference_packages_mid_api);
+
+		//Universal Checkout Features
+		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
+		initializeFeatureCheck(R.string.preference_populate_cardholder_name);
+		initializeFeatureCheck(R.string.preference_enable_secure_icon);
+		initializeFeatureCheck(R.string.preference_enable_flights_frequent_flyer_number);
+		initializeFeatureCheck(R.string.preference_hide_form_fields_based_on_billing_country_address);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {
