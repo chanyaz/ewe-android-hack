@@ -2754,9 +2754,9 @@ public class OmnitureTracking {
 		if (userStateManager.isUserAuthenticated()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		}
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_packages_title_change)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
-		}
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
+
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 
@@ -3754,7 +3754,7 @@ public class OmnitureTracking {
 
 	public static void trackAppRailWebViewSignIn() {
 		createAndtrackLinkEvent(RAIL_WEBVIEW_SIGNIN, "Rail Webview");
- 	}
+	}
 
 	public static void trackAppRailWebViewLogOut() {
 		createAndtrackLinkEvent(RAIL_WEBVIEW_LOGOUT, "Rail Webview");
@@ -3764,7 +3764,7 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(RAIL_WEBVIEW_CLOSE, "Rail Webview");
 	}
 
- 	public static void trackAppRailWebViewABTest() {
+	public static void trackAppRailWebViewABTest() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidRailHybridAppForDEEnabled);
 		s.trackLink(null, "o", "Rail Webview", null, null);
@@ -4881,7 +4881,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackResultOutBoundFlights(
-		FlightSearchTrackingData searchTrackingData , boolean isSubpub) {
+		FlightSearchTrackingData searchTrackingData, boolean isSubpub) {
 		String pageName =
 			searchTrackingData.getReturnDate() != null ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHTS_V2_SEARCH_ONEWAY;
 
@@ -4913,7 +4913,7 @@ public class OmnitureTracking {
 		if (isSubpub) {
 			events.append(",event203");
 		}
-		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(),events.toString());
+		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), events.toString());
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSimplifyFlightShopping);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightStaticSortFilter);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
@@ -5140,8 +5140,8 @@ public class OmnitureTracking {
 		str += searchTrackingData.getAdults();
 
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
-						AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
-						R.string.preference_flight_traveler_form_revamp)) {
+			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
+			R.string.preference_flight_traveler_form_revamp)) {
 			for (int age : searchTrackingData.getChildren()) {
 				if (age > 11 && age < 18) {
 					++youthCount;

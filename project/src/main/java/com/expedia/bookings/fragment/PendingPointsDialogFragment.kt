@@ -15,7 +15,7 @@ import com.squareup.phrase.Phrase
 class PendingPointsDialogFragment : DialogFragment() {
 
     private fun getPackageTitleChange(): Int {
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesTitleChange, R.string.preference_packages_title_change)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)) {
             val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)
             if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
                 return R.string.nav_hotel_plus_flight

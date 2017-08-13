@@ -2,9 +2,9 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -17,7 +17,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -78,7 +77,6 @@ class NewLaunchLobWidgetTest {
 
     @Test
     fun checkTitleChangeStringVariant1() {
-        SettingUtils.save(getContext(), R.string.preference_packages_title_change, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
         RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
         setUp()
@@ -87,7 +85,6 @@ class NewLaunchLobWidgetTest {
 
     @Test
     fun checkTitleChangeStringVariant2() {
-        SettingUtils.save(getContext(), R.string.preference_packages_title_change, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
         RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
         setUp()
@@ -148,7 +145,7 @@ class NewLaunchLobWidgetTest {
         for (lobInfo in LobInfo.values()) {
             lobLabelInfoMap.put(getContext().getString(lobInfo.labelRes), lobInfo)
         }
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppPackagesTitleChange, R.string.preference_packages_title_change)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)) {
             lobLabelInfoMap.put("Hotel + Flight", LobInfo.PACKAGES)
             lobLabelInfoMap.put("Hotel + Flight Deals", LobInfo.PACKAGES)
         }
