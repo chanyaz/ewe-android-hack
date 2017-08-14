@@ -44,7 +44,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppAPIMAuth = 14654;
 	public static final int EBAndroidPopulateCardholderName = 14525;
 	public static final int EBAndroidAppSecureCheckoutIcon = 14202;
-	public static final int EBAndroidAppFlightFlexEnabled = 14880;
+	public static final int EBAndroidAppFlightFlexEnabled = 15247;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Rail tests
