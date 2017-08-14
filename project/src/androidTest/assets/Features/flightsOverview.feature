@@ -240,7 +240,7 @@ Feature: Flights Overview
       And I select outbound flight at position 4
       Then Select outbound flight from Overview
       Then validate if error-toolbar has text "Sold Out"
-      Then validate if error image is shown
+      Then validate if error image is of "Expedia"
       Then validate that error-action-button is present and have text "New Search"
       Then validate that error text is "We're sorry. This flight has sold out."
       And Click on "New Search" button
@@ -248,8 +248,39 @@ Feature: Flights Overview
       And I select outbound flight at position 4
       Then Select outbound flight from Overview
       Then validate if error-toolbar has text "Sold Out"
-      Then validate if error image is shown
+      Then validate if error image is of "Expedia"
       Then validate that error-action-button is present and have text "New Search"
       Then validate that error text is "We're sorry. This flight has sold out."
+
+  @Flights @FlightsOverview
+  Scenario: Verify the "session time out" happy path.
+    Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | sfo                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 5 |
+    And I can trigger flights search
+    And I wait for results to load
+    And I select outbound flight at position 6
+    Then Select outbound flight from Overview
+    Then validate if error-toolbar has text "Session Expired"
+    Then validate if error image is of "Watch"
+    Then validate that error-action-button is present and have text "New Search"
+    Then validate that error text is "Still there? Your session has expired. Please try your search again."
+    And Click on "New Search" button
+    And I can trigger flights search
+    And I select outbound flight at position 6
+    Then Select outbound flight from Overview
+    Then validate if error-toolbar has text "Session Expired"
+    Then validate if error image is of "Watch"
+    Then validate that error-action-button is present and have text "New Search"
+    Then validate that error text is "Still there? Your session has expired. Please try your search again."
 
 

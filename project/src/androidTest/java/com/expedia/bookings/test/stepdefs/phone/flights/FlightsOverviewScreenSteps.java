@@ -201,9 +201,14 @@ public class FlightsOverviewScreenSteps {
 		onView(allOf(withId(R.id.error_toolbar), hasDescendant(withText(errorToolbarText)))).check(matches(isDisplayed()));
 	}
 
-	@Then("^validate if error image is shown$")
-	public void validateErrorImage() {
-		onView(withId(R.id.error_image)).check(matches(withImageDrawable(R.drawable.error_default)));
+	@Then("^validate if error image is of \"(.*?)\"$")
+	public void validateErrorImage(String imageDesc) {
+		if (imageDesc == "Expedia") {
+			onView(withId(R.id.error_image)).check(matches(withImageDrawable(R.drawable.error_default)));
+		}
+		else if (imageDesc == "Watch") {
+			onView(withId(R.id.error_image)).check(matches(withImageDrawable(R.drawable.error_timeout)));
+		}
 	}
 
 	@Then("^validate that error-action-button is present and have text \"(.*?)\"$")
