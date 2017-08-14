@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.flights;
 
+import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +16,8 @@ public class FlightCreateTripResponse extends FlightTripResponse {
 
 	@SerializedName("rules")
 	public FlightRules flightRules;
-
+	
+	public FrequentFlyerPlans frequentFlyerPlans;
 	@NotNull
 	@Override
 	public Money getTripTotalExcludingFee() {
@@ -50,5 +52,10 @@ public class FlightCreateTripResponse extends FlightTripResponse {
 		@SerializedName("RuleToUrlMap")
 		public Map<String, String> rulesToUrl;
 
+	}
+
+	class FrequentFlyerPlans {
+		public List<FrequentFlyerPlansTripResponse> allFrequentFlyerPlans;
+		public List<FrequentFlyerPlansTripResponse> enrolledFrequentFlyerPlans;
 	}
 }
