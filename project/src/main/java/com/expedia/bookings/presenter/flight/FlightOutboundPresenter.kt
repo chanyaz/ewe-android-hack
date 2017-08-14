@@ -44,6 +44,10 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
         FlightsV2Tracking.trackSortFilterClick()
     }
 
+    override fun trackFlightScrollDepth(scrollDepth: Int) {
+        FlightsV2Tracking.trackSRPScrollDepth(scrollDepth, true, flightOfferViewModel.isRoundTripSearchSubject.value, flightOfferViewModel.totalOutboundResults)
+    }
+
     override fun trackFlightResultsLoad() {
         val trackingData = searchTrackingBuilder.build()
         FlightsV2Tracking.trackResultOutBoundFlights(trackingData, flightOfferViewModel.isSubPub)

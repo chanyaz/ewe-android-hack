@@ -4859,6 +4859,18 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Switched to-from fields", null, null);
 	}
 
+	public static void trackFlightSRPScrollDepth(int scrollDepth, boolean isOutboundFlight, boolean isRoundTrip,
+		int totalCount) {
+		String pageName = !isRoundTrip ? FLIGHTS_V2_SEARCH_ONEWAY :
+			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHT_SEARCH_ROUNDTRIP_IN;
+		StringBuilder link = new StringBuilder(pageName);
+		link.append(".Scroll.").append(scrollDepth);
+		ADMS_Measurement s = createTrackLinkEvent(link.toString());
+		String event = new StringBuilder("event245=").append(totalCount).toString();
+		s.setEvents(event);
+		s.trackLink(null, "o", "Scroll", null, null);
+	}
+
 	public static void trackPageLoadFlightSearchV2() {
 		ADMS_Measurement s = getFreshTrackingObject();
 
@@ -4957,7 +4969,6 @@ public class OmnitureTracking {
 		s.setProp(2, "Flight");
 		s.track();
 	}
-
 	public static void trackFlightSortBy(String sortedBy) {
 		createAndtrackLinkEvent(FLIGHTS_V2_SORTBY_TEMPLATE + sortedBy, "Search Results Sort");
 	}

@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.flights
 
 import android.content.Context
+import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -17,6 +18,12 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
                              val isOutboundSearch: Boolean, val flightCabinClassSubject: BehaviorSubject<String>,
                              val nonStopSearchFilterAppliedSubject: BehaviorSubject<Boolean>, val refundableFilterAppliedSearchSubject: BehaviorSubject<Boolean> )
                             : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+
+    val ScrollDepth1 = 25
+    val ScrollDepth2 = 60
+    val ScrollDepth3 = 90
+    lateinit var scrollDepthMap : HashMap<Int, Int>
+    val trackScrollDepthSubject = PublishSubject.create<Int>()
 
     override fun adjustPosition(): Int {
         isCrossSellPackageOnFSR = showCrossSellPackageBannerCell()
@@ -49,7 +56,6 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
                 (flightCabinClassSubject.value == null || flightCabinClassSubject.value == FlightServiceClassType.CabinCode.COACH.name))
     }
 
-
     override fun showAdvanceSearchFilterHeader(): Boolean {
         return !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
                 Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
@@ -61,5 +67,31 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
 
     override fun isShowOnlyRefundableSearch(): Boolean {
         return if (refundableFilterAppliedSearchSubject.value != null) refundableFilterAppliedSearchSubject.value else false
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+        super.onBindViewHolder(holder, position)
+        if (holder is FlightViewHolder && shouldTrackScrollDepth()) {
+            val scrolledPosition = position - adjustPosition()
+            if (scrollDepthMap.contains(scrolledPosition)) {
+                trackScrollDepthSubject.onNext(scrollDepthMap[scrolledPosition])
+                scrollDepthMap.remove(scrolledPosition)
+            }
+        }
+    }
+
+    fun initializeScrollDepthMap() {
+        scrollDepthMap = HashMap<Int, Int>()
+        scrollDepthMap.put(findScrolledPosition(ScrollDepth1), ScrollDepth1)
+        scrollDepthMap.put(findScrolledPosition(ScrollDepth2), ScrollDepth2)
+        scrollDepthMap.put(findScrolledPosition(ScrollDepth3), ScrollDepth3)
+    }
+
+    private fun findScrolledPosition(percentage: Int): Int {
+        return (percentage * flights.size) / 100
+    }
+
+    private fun shouldTrackScrollDepth(): Boolean {
+        return scrollDepthMap.isNotEmpty()
     }
 }

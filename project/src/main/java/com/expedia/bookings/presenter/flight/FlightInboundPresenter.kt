@@ -46,6 +46,10 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
         FlightsV2Tracking.trackFlightOverview(false, true)
     }
 
+    override fun trackFlightScrollDepth(scrollDepth: Int) {
+        FlightsV2Tracking.trackSRPScrollDepth(scrollDepth, false, true, flightOfferViewModel.totalInboundResults)
+    }
+
     override fun trackFlightSortFilterLoad() {
         FlightsV2Tracking.trackSortFilterClick()
     }

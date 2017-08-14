@@ -12,6 +12,7 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
 import com.expedia.vm.flights.FlightOverviewViewModel
+import rx.Subscription
 
 abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: AttributeSet?) : BaseFlightPresenter(context, attrs) {
 
@@ -22,6 +23,10 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
     }
 
     open fun setupComplete() {
+        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject,
+                isOutboundResultsPresenter(), flightOfferViewModel.flightCabinClassSubject, flightOfferViewModel.nonStopSearchFilterAppliedSubject,
+                flightOfferViewModel.refundableFilterAppliedSearchSubject)
+
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
             val travelerParams = Db.getFlightSearchParams()
             if (travelerParams != null) {
@@ -29,10 +34,14 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
             }
             resultsPresenter.lineOfBusinessSubject.onNext(getLineOfBusiness())
             show(resultsPresenter, FLAG_CLEAR_BACKSTACK)
+            flightListAdapter.initializeScrollDepthMap()
+            resultsPresenter.trackScrollDepthSubscription = flightListAdapter.trackScrollDepthSubject.subscribe {
+                trackFlightScrollDepth(it)
+            }
+            filter.viewModelBase.atleastOneFilterIsApplied.filter { it }.subscribe {
+                resultsPresenter.trackScrollDepthSubscription?.unsubscribe()
+            }
         }
-        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject,
-                isOutboundResultsPresenter(), flightOfferViewModel.flightCabinClassSubject, flightOfferViewModel.nonStopSearchFilterAppliedSubject,
-                flightOfferViewModel.refundableFilterAppliedSearchSubject)
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         overviewPresenter.showPaymentFeesObservable.subscribe {
@@ -65,4 +74,6 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.FLIGHTS_V2
     }
+
+    abstract fun trackFlightScrollDepth(scrollDepth: Int)
 }

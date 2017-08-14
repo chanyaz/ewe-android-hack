@@ -12,12 +12,17 @@ import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.TuneUtils
+import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
 
 object FlightsV2Tracking {
     fun trackSearchClick() {
         OmnitureTracking.trackFlightSearchButtonClick()
+    }
+
+    fun trackSRPScrollDepth(scrollDepth: Int, isOutboundFlight: Boolean, isRoundTrip: Boolean, totalCount: Int) {
+        OmnitureTracking.trackFlightSRPScrollDepth(scrollDepth, isOutboundFlight, isRoundTrip, totalCount)
     }
 
     fun trackSearchPageLoad() {

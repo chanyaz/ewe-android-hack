@@ -45,6 +45,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
     var previousSort = FlightFilter.Sort.PRICE
     var isAirlinesExpanded: Boolean = false
+    val atleastOneFilterIsApplied = PublishSubject.create<Boolean>()
 
     enum class Stops(val stops: Int) {
         NONSTOP(0),
@@ -174,6 +175,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
             } else {
                 filteredZeroResultObservable.onNext(Unit)
             }
+            atleastOneFilterIsApplied.onNext(filterCountObservable.value > 0)
         }
 
         clearObservable.subscribe { params ->

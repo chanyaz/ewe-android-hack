@@ -24,6 +24,7 @@ import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
 import rx.Observable
+import rx.Subscription
 import rx.subjects.PublishSubject
 
 class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -34,6 +35,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     lateinit private var flightListAdapter: AbstractFlightListAdapter
     val lineOfBusinessSubject: PublishSubject<LineOfBusiness> = PublishSubject.create<LineOfBusiness>()
+    var trackScrollDepthSubscription: Subscription? = null
 
     // input
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
@@ -56,6 +58,11 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         dockedOutboundFlightSelection.viewModel = selectedOutboundFlightViewModel
         outboundFlightSelectedSubject.subscribe { positionChildren() }
         setupFilterButton()
+    }
+
+    override fun back(): Boolean {
+        trackScrollDepthSubscription?.unsubscribe()
+        return super.back()
     }
 
     private fun setPaymentLegalMessage(showLegalPaymentMessage: Boolean, lineOfBusiness: LineOfBusiness) {

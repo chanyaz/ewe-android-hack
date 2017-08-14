@@ -259,5 +259,8 @@ class AbstractMaterialFlightResultsPresenterTest {
             throw UnsupportedOperationException()
         }
 
+        override fun trackFlightScrollDepth(scrollDepth: Int) {
+            //Do Nothing
+        }
     }
 }
