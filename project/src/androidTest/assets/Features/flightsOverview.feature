@@ -222,7 +222,7 @@ Feature: Flights Overview
     And Check if Cost Summary Dialog Box has "$896.00" as Final Price
 
     @Flights @FlightsOverview
-    Scenario: Verify the "sold out flights" happy path.
+    Scenario: Verify the "sold out flights" scenario.
       Given I launch the App
       And I put following tests in control
         | FlightsCrossSellPackage |
@@ -239,21 +239,28 @@ Feature: Flights Overview
       And I wait for results to load
       And I select outbound flight at position 4
       Then Select outbound flight from Overview
-      Then validate if error-toolbar has text "Sold Out"
-      Then validate if error image is of "Expedia"
-      Then validate that error-action-button is present and have text "New Search"
-      Then validate that error text is "We're sorry. This flight has sold out."
-      And Click on "New Search" button
+      Then Validate if error-toolbar has text "Sold Out"
+      Then Validate if error image is of "Expedia"
+      Then Validate that error-action-button is present and have text "New Search"
+      Then Validate that error text is "We're sorry. This flight has sold out."
+      And I press back
       And I can trigger flights search
       And I select outbound flight at position 4
       Then Select outbound flight from Overview
-      Then validate if error-toolbar has text "Sold Out"
-      Then validate if error image is of "Expedia"
-      Then validate that error-action-button is present and have text "New Search"
-      Then validate that error text is "We're sorry. This flight has sold out."
+      Then Validate if error-toolbar has text "Sold Out"
+      Then Validate if error image is of "Expedia"
+      Then Validate that error-action-button is present and have text "New Search"
+      Then Validate that error text is "We're sorry. This flight has sold out."
+      And Click on "New Search" button
+      Then Validate search form retains details of search for flights
+        | source              | SFO - San Francisco Intl.                |
+        | destination         | DEL - Indira Gandhi Intl.                |
+        | start_date          | 5                                        |
+        | totalTravelers      | 1 traveler                               |
+        | flightClass         | Economy                                  |
 
   @Flights @FlightsOverview
-  Scenario: Verify the "session time out" happy path.
+  Scenario: Verify the "session time out" scenario.
     Given I launch the App
     And I put following tests in control
       | FlightsCrossSellPackage |
@@ -270,17 +277,101 @@ Feature: Flights Overview
     And I wait for results to load
     And I select outbound flight at position 6
     Then Select outbound flight from Overview
-    Then validate if error-toolbar has text "Session Expired"
-    Then validate if error image is of "Watch"
-    Then validate that error-action-button is present and have text "New Search"
-    Then validate that error text is "Still there? Your session has expired. Please try your search again."
-    And Click on "New Search" button
+    Then Validate if error-toolbar has text "Session Expired"
+    Then Validate if error image is of "Watch"
+    Then Validate that error-action-button is present and have text "New Search"
+    Then Validate that error text is "Still there? Your session has expired. Please try your search again."
+    And I press back
     And I can trigger flights search
     And I select outbound flight at position 6
     Then Select outbound flight from Overview
-    Then validate if error-toolbar has text "Session Expired"
-    Then validate if error image is of "Watch"
-    Then validate that error-action-button is present and have text "New Search"
-    Then validate that error text is "Still there? Your session has expired. Please try your search again."
+    Then Validate if error-toolbar has text "Session Expired"
+    Then Validate if error image is of "Watch"
+    Then Validate that error-action-button is present and have text "New Search"
+    Then Validate that error text is "Still there? Your session has expired. Please try your search again."
+    And Click on "New Search" button
+    Then Validate search form retains details of search for flights
+      | source              | SFO - San Francisco Intl.                |
+      | destination         | DEL - Indira Gandhi Intl.                |
+      | start_date          | 5                                        |
+      | totalTravelers      | 1 traveler                               |
+      | flightClass         | Economy                                  |
+
+  @Flights @FlightsOverview
+  Scenario: Verify the "flight unavailable" scenario.
+    Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | sfo                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 5 |
+    And I can trigger flights search
+    And I wait for results to load
+    And I select outbound flight at position 5
+    Then Select outbound flight from Overview
+    Then Validate if error-toolbar has text "Flight Unavailable"
+    Then Validate if error image is of "Expedia"
+    Then Validate that error-action-button is present and have text "New Search"
+    Then Validate that error text is "We're sorry. This flight is no longer available"
+    And I press back
+    And I can trigger flights search
+    And I select outbound flight at position 5
+    Then Select outbound flight from Overview
+    Then Validate if error-toolbar has text "Flight Unavailable"
+    Then Validate if error image is of "Expedia"
+    Then Validate that error-action-button is present and have text "New Search"
+    Then Validate that error text is "We're sorry. This flight is no longer available"
+    And Click on "New Search" button
+    Then Validate search form retains details of search for flights
+      | source              | SFO - San Francisco Intl.                |
+      | destination         | DEL - Indira Gandhi Intl.                |
+      | start_date          | 5                                        |
+      | totalTravelers      | 1 traveler                               |
+      | flightClass         | Economy                                  |
+
+  @Flights @FlightsOverview
+  Scenario: Verify the "unknown error" scenario.
+    Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | sfo                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 5 |
+    And I can trigger flights search
+    And I wait for results to load
+    And I select outbound flight at position 3
+    Then Select outbound flight from Overview
+    Then Validate if error-toolbar has text "Error"
+    Then Validate if error image is of "Expedia"
+    Then Validate that error-action-button is present and have text "Retry"
+    Then Validate that error text is "Whoops. Let's try that again."
+    And I press back
+    And I can trigger flights search
+    And I select outbound flight at position 3
+    Then Select outbound flight from Overview
+    Then Validate if error-toolbar has text "Error"
+    Then Validate if error image is of "Expedia"
+    Then Validate that error-action-button is present and have text "Retry"
+    Then Validate that error text is "Whoops. Let's try that again."
+    And Click on "Retry" button
+    Then Validate search form retains details of search for flights
+      | source              | SFO - San Francisco Intl.                |
+      | destination         | DEL - Indira Gandhi Intl.                |
+      | start_date          | 5                                        |
+      | totalTravelers      | 1 traveler                               |
+      | flightClass         | Economy                                  |
+
 
 

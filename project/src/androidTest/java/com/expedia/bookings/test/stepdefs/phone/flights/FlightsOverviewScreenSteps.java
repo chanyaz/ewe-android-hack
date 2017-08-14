@@ -20,18 +20,14 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.hasFocus;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -74,7 +70,7 @@ public class FlightsOverviewScreenSteps {
 	}
 
 	@And("^Click on \"(.*?)\" button$")
-	public void clickBackButton(String errorButtonText) {
+	public void clickErrorButton(String errorButtonText) {
 		onView(allOf(withId(R.id.error_action_button), withText(errorButtonText))).perform(click());
 	}
 
@@ -196,27 +192,27 @@ public class FlightsOverviewScreenSteps {
 			.check(matches(allOf(hasSibling(withId(R.id.price_text_view)), isDisplayed())));
 	}
 
-	@Then("^validate if error-toolbar has text \"(.*?)\"$")
+	@Then("^Validate if error-toolbar has text \"(.*?)\"$")
 	public void validateErrorToolbarText(String errorToolbarText) {
 		onView(allOf(withId(R.id.error_toolbar), hasDescendant(withText(errorToolbarText)))).check(matches(isDisplayed()));
 	}
 
-	@Then("^validate if error image is of \"(.*?)\"$")
+	@Then("^Validate if error image is of \"(.*?)\"$")
 	public void validateErrorImage(String imageDesc) {
-		if (imageDesc == "Expedia") {
+		if (imageDesc.equals("Expedia")) {
 			onView(withId(R.id.error_image)).check(matches(withImageDrawable(R.drawable.error_default)));
 		}
-		else if (imageDesc == "Watch") {
+		else if (imageDesc.equals("Watch")) {
 			onView(withId(R.id.error_image)).check(matches(withImageDrawable(R.drawable.error_timeout)));
 		}
 	}
 
-	@Then("^validate that error-action-button is present and have text \"(.*?)\"$")
+	@Then("^Validate that error-action-button is present and have text \"(.*?)\"$")
 	public void validateErrorButtonText(String errorButtonText) {
 		onView(allOf(withId(R.id.error_action_button), withText(errorButtonText))).check(matches(isDisplayed()));
 	}
 
-	@Then("^validate that error text is \"(.*?)\"$")
+	@Then("^Validate that error text is \"(.*?)\"$")
 	public void validateErrorText(String errorText) {
 		onView(allOf(withId(R.id.error_text), withText(errorText))).check(matches(isDisplayed()));
 	}
