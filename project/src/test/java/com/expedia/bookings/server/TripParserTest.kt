@@ -66,8 +66,7 @@ class TripParserTest {
 
             assertEquals(parser.parseDateTime(checkInDate), hotelTripComponent.startDate)
             assertEquals(parser.parseDateTime(checkOutDate), hotelTripComponent.endDate)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
     }
@@ -83,8 +82,7 @@ class TripParserTest {
         var trip: Trip
         try {
             trip = tripParser.parseTrip(lxTripJsonObj)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
         val tripActivity = trip.tripComponents.get(0) as TripActivity
@@ -105,8 +103,7 @@ class TripParserTest {
         var trip: Trip
         try {
             trip = tripParser.parseTrip(lxTripJsonObj)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
         val tripActivity = trip.tripComponents.get(0) as TripActivity
@@ -127,8 +124,7 @@ class TripParserTest {
         var trip: Trip
         try {
             trip = tripParser.parseTrip(lxTripJsonObj)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
         val tripActivity = trip.tripComponents.get(0) as TripActivity
@@ -237,4 +233,76 @@ class TripParserTest {
         return null
     }
 
+    @Test
+    fun testTripHotelNoRooms() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelNoRoomsJSON()).tripComponents[0] as TripHotel
+
+        assertEquals(true, parsedHotelTrip.rooms.isEmpty())
+    }
+
+    @Test
+    fun testTripHotelNoPrimaryOccupant() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelNoRoomPreferenceJSON("primaryOccupant")).tripComponents[0] as TripHotel
+        val rooms = parsedHotelTrip.rooms
+        assertEquals(true, rooms.isNotEmpty())
+
+        val firstRoom = rooms[0]
+        assertEquals(null, firstRoom.primaryOccupant)
+    }
+
+    @Test
+    fun testTripHotelNoOtherOccupantInfo() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelNoRoomPreferenceJSON("otherOccupantInfo")).tripComponents[0] as TripHotel
+        val rooms = parsedHotelTrip.rooms
+        assertEquals(true, rooms.isNotEmpty())
+
+        val firstRoom = rooms[0]
+        assertEquals(null, firstRoom.otherOccupantInfo)
+    }
+
+    @Test
+    fun testTripHotelNoOccupantSelectedRoomOptions() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelNoRoomPreferenceJSON("occupantSelectedRoomOptions")).tripComponents[0] as TripHotel
+        val rooms = parsedHotelTrip.rooms
+        assertEquals(true, rooms.isNotEmpty())
+
+        val firstRoom = rooms[0]
+        assertEquals(null, firstRoom.occupantSelectedRoomOptions)
+    }
+
+    @Test
+    fun testTripHotelNoAmenityIDs() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelNoRoomAmenities()).tripComponents[0] as TripHotel
+        val rooms = parsedHotelTrip.rooms
+        assertEquals(true, rooms.isNotEmpty())
+
+        val firstRoom = rooms[0]
+        assertEquals(true, firstRoom.amenityIds.isEmpty())
+    }
+
+    private fun getHotelNoRoomsJSON(): JSONObject {
+        val hotelTripJson = getHotelTripJson()
+        val hotel = hotelTripJson.getJSONArray("hotels").getJSONObject(0)
+        hotel.remove("rooms")
+        return hotelTripJson
+    }
+
+    private fun getHotelNoRoomPreferenceJSON(prefToRemove: String): JSONObject {
+        val hotelTripJson = getHotelTripJson()
+        val roomPrefs = hotelTripJson.getJSONArray("hotels").getJSONObject(0).getJSONArray("rooms").getJSONObject(0).getJSONObject("roomPreferences")
+        roomPrefs.remove(prefToRemove)
+        return hotelTripJson
+    }
+
+    private fun getHotelNoRoomAmenities(): JSONObject {
+        val hotelTripJson = getHotelTripJson()
+        val room = hotelTripJson.getJSONArray("hotels").getJSONObject(0).getJSONArray("rooms").getJSONObject(0)
+        room.remove("amenityIds")
+        return hotelTripJson
+    }
 }

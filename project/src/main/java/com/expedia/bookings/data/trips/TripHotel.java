@@ -127,7 +127,8 @@ public class TripHotel extends TripComponent {
 		mCheckOutTime = obj.optString("checkOutTime", null);
 		mSharableDetailsUrl = obj.optString("sharableItemDetailURL");
 		mPrimaryTraveler = JSONUtils.getJSONable(obj, "primaryTraveler", Traveler.class);
-		mRooms = GsonUtil.getListForJsonable(obj, "rooms", TripHotelRoom.Companion.getGsonTypeToken());
+		List<TripHotelRoom> rooms = GsonUtil.getListForJsonable(obj, "rooms", TripHotelRoom.Companion.getGsonTypeToken());
+		mRooms = (rooms != null) ? rooms : new ArrayList<TripHotelRoom>();
 
 		List<String> confNumbers = JSONUtils.getStringList(obj, "confNumbers");
 		if (confNumbers != null && confNumbers.size() > 0) {

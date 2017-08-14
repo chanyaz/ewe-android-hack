@@ -1,0 +1,119 @@
+{
+  "type": "HOTEL",
+  "uniqueId": "B43C38B0-6F14-4D9D-BBEC-F56AEA3DF3B9_0",
+  "startDateTime": "2018-03-12T15:00:00.000+05:30",
+  "endDateTime": "2018-03-16T11:00:00.000+05:30",
+  "bookingStatus": "BOOKED",
+  "shareInfo": {
+    "sharableDetailsURL": ""
+  },
+  "property": {
+    "name": "Crest Hotel",
+    "propertyId": "17669432",
+    "location": {
+      "streetAddress": [
+        "12, Achaiah Shetty Layout, Aramane Nagar",
+        "Mekhri Circle"
+      ],
+      "city": "Bengaluru",
+      "stateCode": "Karnataka",
+      "countryCode": "IND",
+      "postalCode": "560080",
+      "latitude": 13.014492,
+      "longitude": 77.583052
+    },
+    "thumbnail": {
+      "url": "https:\/\/media.expedia.com\/hotels\/18000000\/17670000\/17669500\/17669432\/51f825a8_l.jpg",
+      "isPlaceholder": false
+    },
+    "media": [],
+    "localPhone": "91-0-8040998755",
+    "tollFreePhone": "91-80-40998755",
+    "available": false,
+    "roomsLeft": 0,
+    "amenityMask": 0,
+    "hotelRating": 3.5,
+    "averageExpediaRating": 0,
+    "isLowestRateMobileExclusive": false,
+    "isLowestRateTonightOnly": false,
+    "infoSiteUrl": "http:\/\/www.expedia.com\/itin.h17669432.Hotel-Information?langid=1033",
+    "isDesktopOverrideNumber": false,
+    "isVipAccess": false,
+    "showCircles": false,
+    "isFromSearchByHotel": false,
+    "itinBedType": "1 queen bed",
+    "itinRoomType": "Deluxe Double Room, 1 Bedroom",
+    "hasEtpOffer": false,
+    "isSponsored": false,
+    "hasShownImpression": false,
+    "isETPHotel": false,
+    "mRoomCancelLink": "https:\/\/www.expedia.com\/hotel-cancel-details?tripid=58fc868b-63e9-42cc-a0c3-6ac4dd78beaa&ordernumber=8065305197869&orderlineguid=48a6d0f9-7a09-4f67-ab1d-710060cc65ff&roomNumber=0",
+    "mBookingChangeWebUrl": "https:\/\/www.expedia.com\/trips\/58fc868b-63e9-42cc-a0c3-6ac4dd78beaa\/ordernumber\/8065305197869\/orderlinenumber\/48a6d0f9-7a09-4f67-ab1d-710060cc65ff\/change?blockHardChange=true&mobileWebView=true",
+    "mRoomUpgradeWebViewUrl": "",
+    "mRoomUpgradeOffersApiUrl": "",
+    "mRoomUpgradeOfferType": "NOT_CALLED_UPGRADE_API"
+  },
+  "guests": 1,
+  "checkInTime": "noon",
+  "checkOutTime": "noon",
+  "primaryTraveler": {
+    "tuid": 0,
+    "firstName": "Nina",
+    "fullName": "Nina Ricci",
+    "phoneNumbers": [],
+    "isSmokingPreferred": false,
+    "gender": "GENDER",
+    "seatPreference": "WINDOW",
+    "assistance": "NONE",
+    "searchedAge": -1,
+    "saveToExpediaAccount": false,
+    "fromGoogleWallet": false,
+    "age": 0,
+    "isSelectable": true,
+    "isNew": false,
+    "isChangedPrimaryPassportCountry": false
+  },
+  "rooms": [
+    {
+      "amenities": [
+        "Free Parking",
+        "Free Breakfast",
+        "Free Internet"
+      ],
+      "amenityIds": [
+        128,
+        1073742786,
+        1073742787
+      ],
+      "bookingStatus": "BOOKED",
+      "hotelConfirmationNumber": "",
+      "occupantSelectedRoomOptions": {
+        "accessibilityOptions": [],
+        "bedTypeName": "1 queen bed",
+        "defaultBedTypeName": "1 queen bed",
+        "hasExtraBedAdult": false,
+        "hasExtraBedChild": false,
+        "hasExtraBedInfant": false,
+        "isRoomOptionsAvailable": true,
+        "isSmokingPreferenceSelected": true,
+        "smokingPreference": "NONSMOKING_ROOM",
+        "specialRequest": ""
+      },
+      "otherOccupantInfo": {
+        "adultCount": 1,
+        "childAndInfantAges": [],
+        "childAndInfantCount": 0,
+        "childCount": 0,
+        "infantCount": 0,
+        "maxGuestCount": 0
+      },
+      "primaryOccupant": {
+        "email": "test123@123.com",
+        "firstName": "Nina",
+        "fullName": "Nina Ricci",
+        "phone": "1-555-8885858"
+      },
+      "roomType": "Deluxe Double Room, 1 Bedroom"
+    }
+  ]
+}
