@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.widget.EditText
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.country.CountryConfig
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.otto.Events
@@ -21,11 +22,13 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isHideFormFieldsEnabled
 import com.expedia.bookings.widget.updatePaddingForOldApi
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
+import com.expedia.util.updateVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.otto.Subscribe
 
@@ -35,11 +38,13 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     val addressLineOne: AccessibleEditText by bindView(R.id.edit_address_line_one)
     val addressLineTwo: AccessibleEditText by bindView(R.id.edit_address_line_two)
     val addressCity: AccessibleEditText by bindView(R.id.edit_address_city)
+    var addressStateLayout: TextInputLayout ?= null
     val addressState: AccessibleEditText by bindView(R.id.edit_address_state)
     val creditCardFeeDisclaimer: TextView by bindView(R.id.card_fee_disclaimer)
     var maskedCreditLayout: TextInputLayout ?= null
     var defaultCreditCardNumberLayout: TextInputLayout ?= null
     var editCountryEditText: EditText ?= null
+    var postalCodeLayout: TextInputLayout ?= null
     val cardInfoSummary: LinearLayout by bindView(R.id.card_info_summary)
 
     val creditCardFeesView = CreditCardFeesView(context, null)
@@ -62,6 +67,14 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             if (lob.isMaterialFormEnabled(context)) {
                 setupMaterialForm()
             }
+        }
+        paymentViewModel.updateBillingCountryFields.subscribe { country ->
+            val hideFieldsRequirements = getBillingAddressCountryConfig(country)
+            val showState = hideFieldsRequirements.stateRequired != CountryConfig.StateRequired.NOT_REQUIRED
+            postalCodeLayout?.updateVisibility(hideFieldsRequirements.postalCodeRequired)
+            addressStateLayout?.updateVisibility(showState)
+            postalCodeLayout?.clearFocus()
+            addressStateLayout?.clearFocus()
         }
     }
 
@@ -161,6 +174,8 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         defaultCreditCardNumberLayout = findViewById(R.id.material_edit_credit_card_number) as TextInputLayout
         editCountryEditText = findViewById(R.id.material_edit_country) as AccessibleEditText
         maskedCreditLayout = findViewById(R.id.material_edit_masked_creditcard_number) as TextInputLayout
+        addressStateLayout = findViewById(R.id.material_edit_address_state) as TextInputLayout
+        postalCodeLayout = findViewById(R.id.material_edit_address_postal_code) as TextInputLayout
 
         editCountryEditText?.setOnClickListener{
             showCountryDialog()
@@ -190,6 +205,12 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             val countryName = sectionLocation.materialCountryAdapter.getItem(countryPosition)
             editCountryEditText?.setText(countryName)
             sectionLocation.location.countryCode = billingCountry
+
+            if (isHideFormFieldsEnabled(context)) {
+                val twoLetterCountryCode = sectionLocation.materialCountryAdapter
+                        .getItemValue(countryPosition, CountrySpinnerAdapter.CountryDisplayType.TWO_LETTER)
+                viewmodel.updateBillingCountryFields.onNext(twoLetterCountryCode)
+            }
         }
 
         sectionLocation.validateBillingCountrySubject.subscribe {
@@ -221,5 +242,11 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         sectionLocation.updateCountryDependantValidation()
         sectionLocation.rebindCountryDependantFields()
         sectionLocation.updateStateFieldBasedOnBillingCountry(billingCountryCode)
+    }
+
+    private fun getBillingAddressCountryConfig(country: String): CountryConfig.BillingAddressCountryConfig {
+        val billingCountryConfigs = CountryConfig.countryConfig.billingCountryConfigs
+        val countryConfigNumber = CountryConfig.getCountryConfigId(country)
+        return billingCountryConfigs[countryConfigNumber] as CountryConfig.BillingAddressCountryConfig
     }
 }

@@ -79,6 +79,7 @@ open class PaymentViewModel(val context: Context) {
     val onTemporarySavedCreditCardChosen = PublishSubject.create<Unit>()
     val ccFeeDisclaimer = PublishSubject.create<String>()
     val isFeatureEnabledForPaymentInfoTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
+    val updateBillingCountryFields = PublishSubject.create<String>()
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 

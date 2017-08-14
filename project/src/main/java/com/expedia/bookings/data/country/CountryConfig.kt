@@ -1,8 +1,10 @@
 package com.expedia.bookings.data.country
 
 import android.content.res.AssetManager
+import com.expedia.bookings.utils.Constants
 import com.google.gson.Gson
 import java.io.IOException
+import java.util.AbstractCollection
 
 class CountryConfig {
 
@@ -11,7 +13,6 @@ class CountryConfig {
 
     class BillingAddressCountryConfig {
         var postalCodeRequired: Boolean = true
-        var cityRequired: Boolean = true
         var stateRequired = StateRequired.REQUIRED
     }
 
@@ -20,7 +21,6 @@ class CountryConfig {
         OPTIONAL,
         NOT_REQUIRED
     }
-
 
     companion object {
 
@@ -45,6 +45,13 @@ class CountryConfig {
             }
 
             return json
+        }
+
+        fun getCountryConfigId(countryCode: String): String {
+            if (!countryConfig.countries.contains(countryCode)) {
+                return Constants.DEFAULT_HIDE_FIELDS_CONFIG_ID
+            }
+            return (countryConfig.countries[countryCode]?.values as AbstractCollection).toArray()[0].toString()
         }
     }
 

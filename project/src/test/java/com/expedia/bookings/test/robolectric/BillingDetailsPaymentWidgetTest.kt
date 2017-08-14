@@ -719,6 +719,26 @@ class BillingDetailsPaymentWidgetTest {
         assertEquals("4111111111111111", billingDetailsPaymentWidget.creditCardNumber.text.toString())
     }
 
+    @Test
+    fun testMaterialBillingHideProperFormFields() {
+        givenMaterialPaymentBillingWidget()
+
+        billingDetailsPaymentWidget.viewmodel.updateBillingCountryFields.onNext("AL")
+        assertFormFieldsHiddenProperly(View.GONE, View.VISIBLE)
+
+        billingDetailsPaymentWidget.viewmodel.updateBillingCountryFields.onNext("AU")
+        assertFormFieldsHiddenProperly(View.VISIBLE, View.VISIBLE)
+
+        billingDetailsPaymentWidget.viewmodel.updateBillingCountryFields.onNext("AF")
+        assertFormFieldsHiddenProperly(View.GONE, View.GONE)
+
+        billingDetailsPaymentWidget.viewmodel.updateBillingCountryFields.onNext("HK")
+        assertFormFieldsHiddenProperly(View.VISIBLE, View.GONE)
+
+        billingDetailsPaymentWidget.viewmodel.updateBillingCountryFields.onNext("US")
+        assertFormFieldsHiddenProperly(View.VISIBLE, View.VISIBLE)
+    }
+
     private fun getUserWithStoredCard(): User {
         val user = User()
         user.addStoredCreditCard(getNewCard())
@@ -840,5 +860,10 @@ class BillingDetailsPaymentWidgetTest {
         visaFormOfPayment.name = "Visa"
         packageCreateTripResponse.validFormsOfPayment = listOf(visaFormOfPayment)
         Db.getTripBucket().add(TripBucketItemPackages(packageCreateTripResponse))
+    }
+
+    private fun assertFormFieldsHiddenProperly(addressStateVisibility: Int, postalCodeVisiblity: Int)  {
+        assertTrue(billingDetailsPaymentWidget.addressStateLayout?.visibility == addressStateVisibility)
+        assertTrue(billingDetailsPaymentWidget.postalCodeLayout?.visibility == postalCodeVisiblity)
     }
 }
