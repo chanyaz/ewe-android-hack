@@ -2032,6 +2032,7 @@ public class OmnitureTracking {
 	private static final String ITIN_USER_REFRESH = "App.Itinerary.User.Refresh";
 	private static final String ITIN_HOTEL_MANAGE_BOOKING = "App.Itinerary.Hotel.ManageBooking";
 	private static final String ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards";
+	private static final String ITIN_HOTEL_CHECK_IN_POLICIES = "App.Itinerary.Hotel.Info.Check-in";
 
 	public static void trackItinEmpty() {
 		internalTrackPageLoadEventStandard(ITIN_EMPTY);
@@ -2205,6 +2206,11 @@ public class OmnitureTracking {
 
 	public static void trackHotelItinAdditionalInfoClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_INFO);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackHotelItinCheckInPoliciesDialogClick() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHECK_IN_POLICIES);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 

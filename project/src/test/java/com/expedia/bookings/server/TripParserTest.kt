@@ -285,6 +285,31 @@ class TripParserTest {
         assertEquals(true, firstRoom.amenityIds.isEmpty())
     }
 
+    @Test
+    fun testTripHotelNoCheckInPolicies() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelNoCheckInPolicies()).tripComponents[0] as TripHotel
+        val checkInPolicies = parsedHotelTrip.property.checkInPolicies
+        assertEquals(true, checkInPolicies.isEmpty())
+    }
+
+    @Test
+    fun testTripHotelCheckInPolicies() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelTripJson()).tripComponents[0] as TripHotel
+        val checkInPolicies = parsedHotelTrip.property.checkInPolicies
+        val testPolicies = listOf("Minimum check-in age is 18", "Check-in time starts at 3 PM")
+        assertEquals(testPolicies, checkInPolicies)
+    }
+
+    @Test
+    fun testTripHotelEmptyCheckInPolicies() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelNoCheckInPolicies(true)).tripComponents[0] as TripHotel
+        val checkInPolicies = parsedHotelTrip.property.checkInPolicies
+        assertEquals(true, checkInPolicies.isEmpty())
+    }
+
     private fun getHotelNoRoomsJSON(): JSONObject {
         val hotelTripJson = getHotelTripJson()
         val hotel = hotelTripJson.getJSONArray("hotels").getJSONObject(0)
@@ -303,6 +328,14 @@ class TripParserTest {
         val hotelTripJson = getHotelTripJson()
         val room = hotelTripJson.getJSONArray("hotels").getJSONObject(0).getJSONArray("rooms").getJSONObject(0)
         room.remove("amenityIds")
+        return hotelTripJson
+    }
+
+    private fun getHotelNoCheckInPolicies(isEmpty: Boolean = false): JSONObject {
+        val hotelTripJson = getHotelTripJson()
+        val hotelPropertyInfo = hotelTripJson.getJSONArray("hotels").getJSONObject(0).getJSONObject("hotelPropertyInfo")
+        hotelPropertyInfo.remove("checkInPolicies")
+        if(isEmpty) hotelPropertyInfo.put("checkInPolicies", JSONArray())
         return hotelTripJson
     }
 }

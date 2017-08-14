@@ -96,6 +96,7 @@ public class Property implements JSONable {
 	private HotelTextSection mFeesText;
 	private HotelTextSection mMandatoryFeesText;
 	private HotelTextSection mRenovationText;
+	private List<String> checkInPolicies = new ArrayList<>();
 
 	// These change based on when the user requests data
 	private boolean mAvailable;
@@ -393,6 +394,14 @@ public class Property implements JSONable {
 		mIsVipAccess = isVipAccess;
 	}
 
+	public void setCheckInPolicies(List<String> policies) {
+		checkInPolicies = policies;
+	}
+
+	public List<String> getCheckInPolicies() {
+		return checkInPolicies;
+	}
+
 	public boolean shouldShowCircles() {
 		return mShowCircles;
 	}
@@ -523,6 +532,7 @@ public class Property implements JSONable {
 			obj.putOpt("mRoomUpgradeWebViewUrl", mRoomUpgradeWebViewUrl);
 			obj.putOpt("mRoomUpgradeOffersApiUrl", mRoomUpgradeOffersApiUrl);
 			obj.putOpt("mRoomUpgradeOfferType", mRoomUpgradeOfferType.name());
+			JSONUtils.putStringList(obj, "checkInPolicies", checkInPolicies);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -577,6 +587,10 @@ public class Property implements JSONable {
 		mRoomUpgradeWebViewUrl = obj.optString("mRoomUpgradeWebViewUrl", "");
 		mRoomUpgradeOffersApiUrl = obj.optString("mRoomUpgradeOffersApiUrl", "");
 		mRoomUpgradeOfferType = RoomUpgradeType.valueOf(obj.optString("mRoomUpgradeOfferType", RoomUpgradeType.NOT_CALLED_UPGRADE_API.name()));
+		List<String> policies = JSONUtils.getStringList(obj, "checkInPolicies");
+		if (policies != null && policies.size() > 0) {
+			checkInPolicies = policies;
+		}
 		return true;
 	}
 

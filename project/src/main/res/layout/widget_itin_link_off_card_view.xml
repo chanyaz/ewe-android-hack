@@ -56,7 +56,7 @@
             android:id="@+id/link_off_card_chevron"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/gray10"
+            android:tint="@color/gray6"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"

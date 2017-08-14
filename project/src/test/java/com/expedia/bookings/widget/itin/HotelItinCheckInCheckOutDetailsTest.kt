@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.shadows.ShadowAlertDialog
 import java.util.Locale
 import kotlin.test.assertEquals
 
@@ -21,7 +23,7 @@ class HotelItinCheckInCheckOutDetailsTest {
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(HotelItinDetailsActivity::class.java).create().get()
+        activity = Robolectric.buildActivity(HotelItinDetailsActivity::class.java).create().start().get()
         activity.setTheme(R.style.ItinTheme)
         hotelItinCheckinCheckOutWidget = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_checkin_checkout_details, null) as HotelItinCheckInCheckOutDetails
     }
@@ -41,4 +43,15 @@ class HotelItinCheckInCheckOutDetailsTest {
         assertEquals(itinCardDataHotel.checkOutTime?.toLowerCase(), hotelItinCheckinCheckOutWidget.checkOutTimeView.text)
     }
 
+    @Test
+    fun testItinHotelCheckInPolicies() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+
+        hotelItinCheckinCheckOutWidget.checkInOutPoliciesContainer.performClick()
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val checkInPolicesText = alertDialog.findViewById(R.id.fragment_dialog_scrollable_text_content) as TextView
+        assertEquals(true, alertDialog.isShowing)
+        assertEquals("Minimum check-in age is 18\nCheck-in time starts at 3 PM", checkInPolicesText.text.toString())
+    }
 }

@@ -272,6 +272,15 @@ public class TripParser {
 			boolean isVipHotel = propertyJson.optBoolean("isVipAccess", false);
 			property.setIsVipAccess(isVipHotel);
 
+			JSONArray checkInPoliciesJSON = propertyJson.optJSONArray("checkInPolicies");
+			if (checkInPoliciesJSON != null) {
+				List<String> checkInPolicies = new ArrayList<>();
+				for (int policy = 0; policy < checkInPoliciesJSON.length(); ++policy) {
+					checkInPolicies.add(checkInPoliciesJSON.optString(policy));
+				}
+				property.setCheckInPolicies(checkInPolicies);
+			}
+
 			hotel.setProperty(property);
 		}
 
