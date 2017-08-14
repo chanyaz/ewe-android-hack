@@ -83,7 +83,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.JAPAN)
         sut = HotelResultsPricingStructureHeaderViewModel(getContext().resources, true)
-        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price (including taxes and fees), per person - for hotels and flights • 50 Results", false)
+        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip (including taxes and fees), per person - for hotels and flights • 50 Results", false)
         setPointOfSale(initialPOSID)
     }
 

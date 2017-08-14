@@ -2771,7 +2771,7 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Total price (including taxes and fees), per person - for hotels and flights • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Total price roundtrip (including taxes and fees), per person - for hotels and flights • {totalpriceresultcountheader}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% booked</string>
