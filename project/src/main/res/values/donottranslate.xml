@@ -122,7 +122,6 @@
     <string name="preference_populate_cardholder_name">preference_populate_cardholder_name</string>
     <string name="preference_enable_secure_icon">preference_enable_secure_icon</string>
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
-    <string name="preference_packages_title_change">preference_packages_title_change</string>
     <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
     <string name="preference_flight_traveler_form_revamp">preference_flight_traveler_form_revamp</string>
     <string name="preference_flight_enable_search_suggestion_label">preference_flight_enable_search_suggestion_label</string>

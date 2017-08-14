@@ -120,7 +120,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
     }
 
     private fun getPackageTitleChange(): Int {
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesTitleChange, R.string.preference_packages_title_change)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)) {
             val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)
             if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
                 return R.string.nav_hotel_plus_flight_deals

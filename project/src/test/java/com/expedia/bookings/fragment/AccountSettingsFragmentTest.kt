@@ -242,7 +242,6 @@ class AccountSettingsFragmentTest {
 
     @Test
     fun testBundlePackageTitleChangeVariate1() {
-        SettingUtils.save(activity.baseContext, R.string.preference_packages_title_change, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
         RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
         givenFragmentSetup()
@@ -256,7 +255,6 @@ class AccountSettingsFragmentTest {
 
     @Test
     fun testBundlePackageTitleChangeVariate2() {
-        SettingUtils.save(activity.baseContext, R.string.preference_packages_title_change, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
         RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
         givenFragmentSetup()

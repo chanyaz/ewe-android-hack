@@ -109,11 +109,6 @@
             android:key="@string/preference_packages_mid_api"
             android:summary="Packages MID API"
             android:title="Packages MID API" />
-
-        <CheckBoxPreference
-            android:key="preference_packages_title_change"
-            android:summary="Show Hotel + Flight"
-            android:title="Title Change in Bundle Deals" />
     </PreferenceCategory>
 
     <PreferenceCategory

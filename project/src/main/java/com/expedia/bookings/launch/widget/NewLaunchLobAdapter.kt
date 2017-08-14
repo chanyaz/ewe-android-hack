@@ -78,7 +78,7 @@ class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewMod
         fun bind(info: LobInfo, spansMultipleColumns: Boolean, context: Context, lobEnabled: Boolean) {
             lobInfo = info
             isLobEnabled = lobEnabled
-            val showChangedTitle = info == LobInfo.PACKAGES && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesTitleChange, R.string.preference_packages_title_change)
+            val showChangedTitle = info == LobInfo.PACKAGES && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)
             if (showChangedTitle) {
                 lobText.setText(getPackageTitleChange());
             } else {
