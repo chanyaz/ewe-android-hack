@@ -220,3 +220,36 @@ Feature: Flights Overview
     And Close price change Alert dialog
     And Check if Trip Total is "$896" on Price Change
     And Check if Cost Summary Dialog Box has "$896.00" as Final Price
+
+    @Flights @FlightsOverview
+    Scenario: Verify the "sold out flights" happy path.
+      Given I launch the App
+      And I put following tests in control
+        | FlightsCrossSellPackage |
+      And I launch "Flights" LOB
+      And I select one way trip
+      When I enter source and destination for flights
+        | source              | sfo                                      |
+        | destination         | DEL                                      |
+        | source_suggest      | San Francisco, CA                        |
+        | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      And I pick departure date for flights
+        | start_date | 5 |
+      And I can trigger flights search
+      And I wait for results to load
+      And I select outbound flight at position 4
+      Then Select outbound flight from Overview
+      Then validate if error-toolbar has text "Sold Out"
+      Then validate if error image is shown
+      Then validate that error-action-button is present and have text "New Search"
+      Then validate that error text is "We're sorry. This flight has sold out."
+      And Click on "New Search" button
+      And I can trigger flights search
+      And I select outbound flight at position 4
+      Then Select outbound flight from Overview
+      Then validate if error-toolbar has text "Sold Out"
+      Then validate if error image is shown
+      Then validate that error-action-button is present and have text "New Search"
+      Then validate that error text is "We're sorry. This flight has sold out."
+
+

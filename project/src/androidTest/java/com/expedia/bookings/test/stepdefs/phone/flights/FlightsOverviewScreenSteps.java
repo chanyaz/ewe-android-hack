@@ -20,14 +20,19 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasFocus;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
@@ -66,6 +71,11 @@ public class FlightsOverviewScreenSteps {
 		onView(withId(R.id.bundle_total_text)).perform(click());
 		onView(Matchers.allOf(withId(R.id.price_type_text_view), withText("Total Due Today"), hasSibling(withText(finalPrice)))).check(matches(isDisplayed()));
 		closeAlertDialog();
+	}
+
+	@And("^Click on \"(.*?)\" button$")
+	public void clickBackButton(String errorButtonText) {
+		onView(allOf(withId(R.id.error_action_button), withText(errorButtonText))).perform(click());
 	}
 
 	@Then("^collapse the outbound widget$")
@@ -185,6 +195,27 @@ public class FlightsOverviewScreenSteps {
 			withText(price), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).perform(scrollTo())
 			.check(matches(allOf(hasSibling(withId(R.id.price_text_view)), isDisplayed())));
 	}
+
+	@Then("^validate if error-toolbar has text \"(.*?)\"$")
+	public void validateErrorToolbarText(String errorToolbarText) {
+		onView(allOf(withId(R.id.error_toolbar), hasDescendant(withText(errorToolbarText)))).check(matches(isDisplayed()));
+	}
+
+	@Then("^validate if error image is shown$")
+	public void validateErrorImage() {
+		onView(withId(R.id.error_image)).check(matches(withImageDrawable(R.drawable.error_default)));
+	}
+
+	@Then("^validate that error-action-button is present and have text \"(.*?)\"$")
+	public void validateErrorButtonText(String errorButtonText) {
+		onView(allOf(withId(R.id.error_action_button), withText(errorButtonText))).check(matches(isDisplayed()));
+	}
+
+	@Then("^validate that error text is \"(.*?)\"$")
+	public void validateErrorText(String errorText) {
+		onView(allOf(withId(R.id.error_text), withText(errorText))).check(matches(isDisplayed()));
+	}
+
 	private void validateFlightInfo(int resId, String parameter, boolean outBound) throws Throwable {
 		onView(Matchers.allOf(outBound ? isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))
 						: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
