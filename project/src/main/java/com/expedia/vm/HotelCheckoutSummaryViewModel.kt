@@ -67,6 +67,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val amountDueTodayLabelObservable = BehaviorSubject.create<String>()
     val createTripConsumed = BehaviorSubject.create<Unit>()
     val newPriceSetObservable = BehaviorSubject.create<Unit>()
+    val createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
 
     init {
 
@@ -75,7 +76,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             newDataObservable.onNext(Unit)
         }).subscribe()
 
-        paymentModel.createTripSubject.subscribe { it ->
+        createTripResponseObservable.subscribe { it ->
 
             val room = it.newHotelProductResponse.hotelRoomResponse
             val rate = room.rateInfo.chargeableRateInfo

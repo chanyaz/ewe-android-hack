@@ -20,6 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -39,6 +40,7 @@ class HotelCheckoutSummaryViewModelTest {
     lateinit private var sut: HotelCheckoutSummaryViewModel
     lateinit private var createTripResponse: HotelCreateTripResponse
     lateinit private var hotelProductResponse: HotelCreateTripResponse.HotelProductResponse
+    private var createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
     lateinit private var paymentModel: PaymentModel<HotelCreateTripResponse>
     lateinit private var context: Application
 
@@ -60,8 +62,9 @@ class HotelCheckoutSummaryViewModelTest {
         val testNewDataSubscriber = TestSubscriber<Unit>()
         sut.newDataObservable.subscribe(testNewDataSubscriber)
 
-
+        createTripResponseObservable.onNext(createTripResponse)
         paymentModel.createTripSubject.onNext(createTripResponse)
+
         val hotelRoomResponse = hotelProductResponse.hotelRoomResponse
         val rate = hotelRoomResponse.rateInfo.chargeableRateInfo
         val expectedRateAdjustments = rate.getPriceAdjustments()
@@ -104,7 +107,7 @@ class HotelCheckoutSummaryViewModelTest {
         givenHappyHotelProductResponseWithPropertyFee()
         setup()
 
-        paymentModel.createTripSubject.onNext(createTripResponse)
+        createTripResponseObservable.onNext(createTripResponse)
         val actualValue = sut.propertyServiceSurcharge.value
         val expectedValue = Money(BigDecimal(7.56), "USD")
         assertEquals(expectedValue.formattedMoney, actualValue?.formattedMoney)
@@ -120,7 +123,7 @@ class HotelCheckoutSummaryViewModelTest {
         givenHappyHotelProductResponseWithPropertyFee()
         setup()
 
-        paymentModel.createTripSubject.onNext(createTripResponse)
+        createTripResponseObservable.onNext(createTripResponse)
         val actualValue = sut.propertyServiceSurcharge.value
         assertNull(actualValue)
     }
@@ -135,7 +138,7 @@ class HotelCheckoutSummaryViewModelTest {
         val checkInDate = LocalDate.now().plusDays(10)
         createTripResponse.newHotelProductResponse.hotelRoomResponse.freeCancellationWindowDate = checkInDate.toString() + " 23:59"
         sut.freeCancellationText.subscribe(testTextSubscriber)
-        paymentModel.createTripSubject.onNext(createTripResponse)
+        createTripResponseObservable.onNext(createTripResponse)
 
         val formattedCheckInDate = DateUtils.localDateToEEEMMMd(checkInDate)
         assertEquals("Free cancellation before ${formattedCheckInDate}", testTextSubscriber.onNextEvents[0])
@@ -146,6 +149,8 @@ class HotelCheckoutSummaryViewModelTest {
     fun notPayLaterHoteldueNowIsTotalPrice() {
         givenHappyHotelProductResponse()
         setup()
+
+        createTripResponseObservable.onNext(createTripResponse)
 
         paymentModel.createTripSubject.onNext(createTripResponse)
         val expectedTotal = hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.displayTotalPrice.formattedMoney
@@ -160,6 +165,8 @@ class HotelCheckoutSummaryViewModelTest {
         givenPayLaterHotelProductResponse()
         setup()
 
+        createTripResponseObservable.onNext(createTripResponse)
+
         paymentModel.createTripSubject.onNext(createTripResponse)
         val expectedDueNow = "AUD" + hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.depositAmount
 
@@ -172,6 +179,7 @@ class HotelCheckoutSummaryViewModelTest {
         givenPriceChangedUpResponse()
         setup()
 
+        createTripResponseObservable.onNext(createTripResponse)
         paymentModel.createTripSubject.onNext(createTripResponse)
         assertEquals("Price changed from $2,394.88", sut.priceChangeMessage.value)
         assertEquals(R.drawable.warning_triangle_icon, sut.priceChangeIconResourceId.value)
@@ -184,6 +192,7 @@ class HotelCheckoutSummaryViewModelTest {
         givenPriceChangedDownResponse()
         setup()
 
+        createTripResponseObservable.onNext(createTripResponse)
         paymentModel.createTripSubject.onNext(createTripResponse)
         assertEquals("Price dropped from $2,394.88", sut.priceChangeMessage.value)
         assertEquals(R.drawable.price_change_decrease, sut.priceChangeIconResourceId.value)
@@ -197,6 +206,8 @@ class HotelCheckoutSummaryViewModelTest {
 
         //User is fully paying with points
         givenLoggedInUserWithRedeemablePointsMoreThanTripTotalResponse()
+
+        createTripResponseObservable.onNext(createTripResponse)
         paymentModel.createTripSubject.onNext(createTripResponse)
         assertTrue(sut.isShoppingWithPoints.value)
         assertEquals("$1,000.00", sut.burnAmountShownOnHotelCostBreakdown.value)
@@ -221,6 +232,8 @@ class HotelCheckoutSummaryViewModelTest {
 
         //User is paying with points and card both
         givenLoggedInUserWithRedeemablePointsLessThanTripTotalResponse()
+        createTripResponseObservable.onNext(createTripResponse)
+
         paymentModel.createTripSubject.onNext(createTripResponse)
         assertTrue(sut.isShoppingWithPoints.value)
         assertEquals("$100.00", sut.burnAmountShownOnHotelCostBreakdown.value)
@@ -234,6 +247,8 @@ class HotelCheckoutSummaryViewModelTest {
 
         //User has less than 3500 points
         givenLoggedInUserWithNonRedeemablePointsResponse()
+        createTripResponseObservable.onNext(createTripResponse)
+
         paymentModel.createTripSubject.onNext(createTripResponse)
         assertFalse(sut.isShoppingWithPoints.value)
     }
@@ -287,5 +302,6 @@ class HotelCheckoutSummaryViewModelTest {
     private fun setup() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         sut = HotelCheckoutSummaryViewModel(context, paymentModel)
+        createTripResponseObservable.subscribe(sut.createTripResponseObservable)
     }
 }

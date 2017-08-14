@@ -16,6 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -31,6 +32,7 @@ class HotelBreakdownTest {
 
     private var vm: HotelBreakDownViewModel by Delegates.notNull()
     private var hotelCheckoutSummaryViewModel: HotelCheckoutSummaryViewModel by Delegates.notNull()
+    private var createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
     private var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
     private var context: Application by Delegates.notNull()
@@ -40,6 +42,7 @@ class HotelBreakdownTest {
         context = RuntimeEnvironment.application
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         hotelCheckoutSummaryViewModel = HotelCheckoutSummaryViewModel(context, paymentModel)
+        createTripResponseObservable.subscribe(hotelCheckoutSummaryViewModel.createTripResponseObservable)
         vm = HotelBreakDownViewModel(context, hotelCheckoutSummaryViewModel)
     }
 
@@ -188,6 +191,8 @@ class HotelBreakdownTest {
         vm.addRows.subscribe { latch.countDown() }
 
         paymentModel.createTripSubject.onNext(createTripResponse)
+        createTripResponseObservable.onNext(createTripResponse)
+
 
         runBeforeComplete?.run()
 
