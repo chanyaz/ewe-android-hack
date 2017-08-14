@@ -92,7 +92,6 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					}
 				}
 
-				//Parse frequent flyer memberships
 				if (response.has("frequentFlyerMemberships")) {
 					JSONArray ffnArr = response.optJSONArray("frequentFlyerMemberships");
 					int size = ffnArr.length();
