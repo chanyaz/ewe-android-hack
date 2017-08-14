@@ -8,9 +8,12 @@ import org.joda.time.DateTime;
 
 import android.content.Intent;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -311,5 +314,21 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isAbacusTestEnabled() {
 		return false;
+	}
+
+	@Override
+	public AlertDialog getUnsupportedVersionDialog(Context context) {
+		LayoutInflater layoutInflator = LayoutInflater.from(context);
+		View unsupportedVersionView = layoutInflator.inflate(R.layout.widget_unsupported_version, null);
+		final AlertDialog dialog = new AlertDialog.Builder(context).create();
+		Button gotItButton = (Button) unsupportedVersionView.findViewById(R.id.got_it_button);
+		gotItButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		dialog.setView(unsupportedVersionView);
+		return dialog;
 	}
 }

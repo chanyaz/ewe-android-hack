@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0063bb"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/unsupported_version_dialog_padding">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_unsupported_version_samsung" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="27dp"
+            android:text="@string/heads_up"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="4dp"
+            android:background="#ffc60b" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:padding="@dimen/unsupported_version_dialog_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/unsupported_version"
+            android:textColor="#323232"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+
+        <Button
+            android:id="@+id/got_it_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="33dp"
+            android:background="@drawable/btn_unsupported_version"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/got_it"
+            android:textColor="#000000" />
+    </LinearLayout>
+</LinearLayout>

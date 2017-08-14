@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -374,5 +375,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isAbacusTestEnabled() {
 		return false;
+	}
+
+	@Override
+	public AlertDialog getUnsupportedVersionDialog(Context context) {
+		return null;
 	}
 }

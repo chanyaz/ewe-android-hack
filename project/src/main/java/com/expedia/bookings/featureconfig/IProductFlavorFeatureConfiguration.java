@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 
@@ -147,4 +148,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean sortByDistanceForCurrentLocation();
 
 	boolean isAbacusTestEnabled();
+
+	AlertDialog getUnsupportedVersionDialog(Context context);
 }

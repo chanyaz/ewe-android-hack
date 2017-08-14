@@ -9,4 +9,6 @@
     <dimen name="intro_content_padding">20dp</dimen>
     <dimen name="intro_pager_action_padding">30dp</dimen>
 
+    <!-- Unsupported version Dialog -->
+    <dimen name="unsupported_version_dialog_padding">30dp</dimen>
 </resources>

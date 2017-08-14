@@ -12,5 +12,10 @@
     <string name="search_activities">Search activities</string>
     <!-- Airport code and name (code - name) -->
     <string name="airport_code_name_TEMPLATE">{code} - {name}</string>
-
+    <!-- Using an unsupported version of the App. Update to Expedia from Google Play Store -->
+    <string name="unsupported_version">You\'re using an unsupported version of the Expedia App.\n\nTo get the best Expedia experience on your mobile device, download the Expedia App for Android in Google Play.</string>
+    <!-- GOT IT -->
+    <string name="got_it">GOT IT</string>
+    <!-- Heads Up! -->
+    <string name="heads_up">Heads up!</string>
 </resources>

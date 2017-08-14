@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -311,5 +312,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean isAbacusTestEnabled() {
 		return false;
+	}
+
+	@Override
+	public AlertDialog getUnsupportedVersionDialog(Context context) {
+		return null;
 	}
 }

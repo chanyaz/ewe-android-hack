@@ -168,6 +168,11 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
 		}
 
+		AlertDialog unsupportedVersionDialog = ProductFlavorFeatureConfiguration.getInstance().getUnsupportedVersionDialog(this);
+		if(unsupportedVersionDialog != null) {
+			unsupportedVersionDialog.show();
+		}
+
 		// Debug code to notify QA to open ExpediaDebug app
 		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
 	}
