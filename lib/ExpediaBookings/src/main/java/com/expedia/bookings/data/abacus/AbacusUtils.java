@@ -39,8 +39,6 @@ public class AbacusUtils {
 	public static final int EBAndroidLXVoucherRedemption = 14380;
 	public static final int EBAndroidAppTripsDetailRemoveCalendar = 14201;
 	public static final int EBAndroidAppFreeCancellationTooltip = 14513;
-	public static final int EBAndroidAppSignUpStringNonAPAC = 14215;
-	public static final int EBAndroidAppSignUpStringAPAC = 14218;
 	public static final int EBAndroidAppAPIMAuth = 14654;
 	public static final int EBAndroidPopulateCardholderName = 14525;
 	public static final int EBAndroidAppSecureCheckoutIcon = 14202;
@@ -206,8 +204,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelSuperSearch);
 		testIDs.add(EBAndroidAppHotelHideStrikethroughPrice);
 		testIDs.add(EBAndroidAppHotelThrottleGalleryAnimation);
-		testIDs.add(EBAndroidAppSignUpStringNonAPAC);
-		testIDs.add(EBAndroidAppSignUpStringAPAC);
 		testIDs.add(EBAndroidAppAPIMAuth);
 		testIDs.add(EBAndroidAppFlightFrequentFlyerNumber);
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp);

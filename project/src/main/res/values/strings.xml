@@ -4703,14 +4703,8 @@
     <string name="title_seek_bar_edit">Edit seek control level</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
-    <!--Account Sign Up String Varaint 1-->
-    <string name="signup_variant_1">Sign Up</string>
-    <!--Account Sign Up String Varaint 2-->
-    <string name="signup_variant_2">Create Your Free Account</string>
-    <!--Create Your Expedia Account-->
-    <string name="signup_variant_3_TEMPLATE">Create Your {brand} Account</string>
-    <!--Create a new Expedia account-->
-    <string name="signup_variant_control_TEMPLATE">Create a new {brand} account</string>
+    <!--Create Your Expedia Account, example: Create Your Orbitz/Expedia/Travelocity Account-->
+    <string name="account_signup_TEMPLATE">Create Your {brand} Account</string>
 
     <!--App shortcut for hotel search-->
     <string name="get_a_room">Get a room</string>
@@ -4718,7 +4712,7 @@
     <string name="find_a_hotel_tonight">Find a hotel tonight</string>
     <!--App shortcut for sharing flight info-->
     <string name="share_flight">Share flight</string>
-    <!--App shortcut for sharing flight info long version-->
+    <!--App shortcut for sharing flight info long version.-->
     <string name="share_flight_status">Share flight status</string>
 
 </resources>

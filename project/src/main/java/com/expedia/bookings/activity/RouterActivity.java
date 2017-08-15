@@ -20,7 +20,6 @@ import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
@@ -82,16 +81,9 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
 			query.addExperiment(AbacusUtils.EBAndroidAppPackagesTitleChange);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
-			if (Constants.ASIA_PACIFIC_REGION.equals(pos.getBusinessRegion())) {
-				query.addExperiment(AbacusUtils.EBAndroidAppSignUpStringAPAC);
-			}
-			else {
-				query.addExperiment(AbacusUtils.EBAndroidAppSignUpStringNonAPAC);
-			}
 			query.addExperiment(AbacusUtils.EBAndroidAppAPIMAuth);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightSubpubChange);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
-
 		}
 
 		Ui.getApplication(this).appComponent().abacus()

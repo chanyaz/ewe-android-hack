@@ -108,9 +108,6 @@
     <string name="preference_user_has_seen_review_prompt">preference_user_has_seen_review_prompt</string>
     <string name="preference_user_has_booked_hotel_or_flight">preference_user_has_booked_hotel_or_flight</string>
     <string name="preference_date_last_review_prompt_shown">preference_date_last_review_prompt_shown</string>
-    <string name="preference_abacus_setting_signup">Sign Up</string>
-    <string name="preference_abacus_setting_create_free_account">Create Your Free Account</string>
-    <string name="preference_abacus_setting_create_brand_account">Create Your Expedia Account</string>
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>

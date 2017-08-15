@@ -82,7 +82,6 @@ import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.PageUsableData;
 import com.expedia.bookings.utils.CollectionUtils;
-import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
@@ -110,7 +109,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import kotlin.NotImplementedError;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
@@ -2618,13 +2616,6 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
-
-		if (Objects.equals(PointOfSale.getPointOfSale().getBusinessRegion(), Constants.ASIA_PACIFIC_REGION)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppSignUpStringAPAC);
-		}
-		else {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppSignUpStringNonAPAC);
-		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSmartLockTest);
 		s.track();

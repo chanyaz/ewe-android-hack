@@ -859,22 +859,6 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="abacus_signup_string_choices">
-        <item>@string/preference_abacus_setting_server</item>
-        <item>@string/preference_abacus_setting_control</item>
-        <item>@string/preference_abacus_setting_signup</item>
-        <item>@string/preference_abacus_setting_create_free_account</item>
-        <item>@string/preference_abacus_setting_create_brand_account</item>
-    </string-array>
-
-    <string-array name="abacus_signup_string_choice_values">
-        <item>-1</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
     <string-array name="abacus_itin_share_button_choices">
         <item>@string/preference_abacus_setting_server</item>
         <item>@string/preference_abacus_setting_control</item>

@@ -106,16 +106,6 @@ public class AccountLibActivity extends AppCompatActivity
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
 		Config.InitialState startState = Config.InitialState.SignIn;
-		int variation = AbacusUtils.DefaultThreeVariant.CONTROL.ordinal();
-
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSignUpStringNonAPAC)) {
-			variation = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppSignUpStringNonAPAC);
-		}
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSignUpStringAPAC)) {
-			variation = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppSignUpStringAPAC);
-		}
-
-		String abTestAccountSignUpString = getVariantStringForAccountStringTest(variation);
 
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_BUNDLE)) {
@@ -165,7 +155,7 @@ public class AccountLibActivity extends AppCompatActivity
 			.setAutoEnrollUserInRewards(PointOfSale.getPointOfSale().shouldAutoEnrollUserInRewards())
 			.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
 			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this))
-			.setSignupString(abTestAccountSignUpString);
+			.setSignupString(Phrase.from(this, R.string.account_signup_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSmartLockTest,
 			R.string.preference_enable_smart_lock)) {
@@ -313,22 +303,6 @@ public class AccountLibActivity extends AppCompatActivity
 			OmnitureTracking.trackSmartLockPasswordSignIn();
 		}
 	};
-
-	private String getVariantStringForAccountStringTest(int variation) {
-		if (variation == AbacusUtils.DefaultThreeVariant.VARIANT1.ordinal()) {
-			return getString(R.string.signup_variant_1);
-		}
-
-		if (variation == AbacusUtils.DefaultThreeVariant.VARIANT2.ordinal()) {
-			return getString(R.string.signup_variant_2);
-		}
-
-		if (variation == AbacusUtils.DefaultThreeVariant.VARIANT3.ordinal()) {
-			return Phrase.from(this, R.string.signup_variant_3_TEMPLATE).put("brand", BuildConfig.brand).format().toString();
-		}
-
-		return Phrase.from(this, R.string.signup_variant_control_TEMPLATE).put("brand", BuildConfig.brand).format().toString();
-	}
 
 	public class Listener extends AccountView.Listener {
 
