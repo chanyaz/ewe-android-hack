@@ -714,6 +714,22 @@
     <string name="traveler_adult_child_error">ผู้เดินทางนี้ต้องอายุระหว่าง 12-17 ปีในเวลาที่ร่วมทริป</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">ผู้เดินทางนี้ต้องอายุอย่างน้อย 18 ปี</string>
+    <!-- Text for traveler child error displayed in alert dialog message-->
+    <string name="traveler_child_error_message">ผู้เดินทางนี้ต้องมีอายุระหว่าง 2-11 ปีขณะที่ร่วมทริปเพื่อที่จะเดินทางในฐานะเด็ก</string>
+    <!-- Text for traveler youth error displayed in alert dialog message-->
+    <string name="traveler_youth_error_message">ผู้เดินทางนี้ต้องมีอายุระหว่าง 12-17 ปีขณะที่ร่วมทริปเพื่อที่จะเดินทางในฐานะเยาวชน</string>
+    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
+    <string name="checkout_traveler_title_TEMPLATE">ผู้เดินทาง {travelernumber} ({passengerycategory})</string>
+    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <!-- Adult age label on flight checkout summary card-->
+    <string name="flight_checkout_adult_age_label">18+</string>
+    <!-- Youth age label on flight checkout traveler summary card -->
+    <string name="flight_checkout_youth_age_label">12-17</string>
+    <!-- Children age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_children_age_label">2-11</string>
+    <!-- Infant age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_infant_age_label">น้อยกว่า 2 ปี</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">ผู้เดินทางหลักต้องเช็คอินเข้าโรงแรม ต้องอายุอย่างน้อย 18 ปี</string>
     <!-- Text for enter traveler details-->
@@ -1499,7 +1515,34 @@
     <string name="itin_hotel_room_details_requests_header">คำขอ</string>
     <!--Hotel itin room details requests disclaimer-->
     <string name="itin_hotel_room_details_requests_disclaimer">เราได้ส่งคำขอไปยังโรงแรมเรียบร้อยแล้ว ทั้งนี้เราไม่สามารถยืนยันการให้บริการตามคำขอเหล่านี้ ขึ้นอยู่กับความพร้อมในการให้บริการ ณ เวลาเช็คอิน</string>
-
+    <!--Hotel itin room details no requests selected-->
+    <string name="itin_hotel_room_details_no_requests_selected">ไม่ได้เลือกที่หน้าชำระเงิน</string>
+    <!--Hotel itin room request for extra adult bed-->
+    <string name="itin_hotel_room_request_extra_adult_bed">เตียงเสริมสำหรับผู้ใหญ่</string>
+    <!--Hotel itin room request for extra child bed-->
+    <string name="itin_hotel_room_request_extra_child_bed">เตียงเสริมสำหรับเด็ก</string>
+    <!--Hotel itin room request for extra infant bed-->
+    <string name="itin_hotel_room_request_extra_infant_bed">เตียงเสริมสำหรับทารก</string>
+    <!--Hotel itin room request for non-smoking-->
+    <string name="non_smoking">ไม่สูบบุหรี่</string>
+    <!--Hotel itin room request for smoking-->
+    <string name="smoking">สูบบุหรี่</string>
+    <!--Hotel itin room details reserved for-->
+    <string name="itin_hotel_room_details_reserved_for_header">สำหรับ</string>
+    <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}, {numofguests}</string>
+    <!--Hotel itin room amenity free breakfast-->
+    <string name="itin_hotel_room_amenity_free_breakfast">รวม\nอาหารเช้า</string>
+    <!--Hotel itin room amenity free parking-->
+    <string name="itin_hotel_room_amenity_free_parking">ที่จอดรถ\nฟรี</string>
+    <!--Hotel itin room amenity free wifi-->
+    <string name="itin_hotel_room_amenity_free_wifi">Wifi\n ฟรี</string>
+    <!--Hotel itin room amenity free breakfast content description-->
+    <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">รวมอาหารเช้า</string>
+    <!--Hotel itin room amenity free parking content description-->
+    <string name="itin_hotel_room_amenity_free_parking_cont_desc">ที่จอดรถฟรี</string>
+    <!--Hotel itin room amenity free wifi content description-->
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wifi ฟรี</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">เช็คอิน — 3 วัน</string>
@@ -2098,6 +2141,11 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">ปุ่มขยายตัวเลือกเพิ่มเติม (ไม่บังคับ)</string>
     <string name="collapse_advanced_button_cont_desc">ปุ่มย่อตัวเลือกเพิ่มเติม (ไม่บังคับ)</string>
+    <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
+    <string name="frequent_flyer_optional">โปรแกรมสะสมไมล์ (ไม่บังคับ)</string>
+    <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
+    <string name="expand_frequent_flyer_button_cont_desc">ปุ่มขยายโปรแกรมสะสมไมล์ (ไม่บังคับ)</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">ปุ่มย่อโปรแกรมสะสมไมล์ (ไม่บังคับ)</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">อัพเดทข้อมูลผู้เดินทางในบัญชี{brand}ของคุณเพื่อให้จองได้รวดเร็วขึ้นในครั้งถัดไป?</string>
     <!-- Update traveler dialog title-->
@@ -2143,6 +2191,8 @@
     <string name="known_traveler_msg">นี่เป็นหมายเลขที่ออกโดยรัฐบาลเพื่อใช้สำหรับ TSA PreCheck</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">หมายเลข Redress เป็นหมายเลขเฉพาะที่ออกโดย TSA ซึ่งช่วยให้ TSA ลดการระบุตัวตามรายชื่อเฝ้าระวังผิดพลาดและยืนยันตัวตนของคุณได้ถูกต้อง</string>
+    <!--Frequent flyer program number hint -->
+    <string name="frequent_flyer_program_number">หมายเลขโปรแกรม</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">เลือกที่นั่ง</string>
@@ -3861,6 +3911,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">แสดงเที่ยวบินขาออกไปยัง{city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">เลือกเที่ยวบินไปยัง%1$s</string>
+    <!-- Outbound to template. -->
+    <string name="outbound_to_TEMPLATE">เดินทางไปยัง {cityname} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">เที่ยวบินไปยัง%1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3871,6 +3923,8 @@
     <string name="select_return_flight">เลือกเที่ยวบินขากลับ</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">เที่ยวบินไปยัง %1$s</string>
+    <!-- Inbound to template. -->
+    <string name="inbound_to_TEMPLATE">เดินทางมาถึง {cityname} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->

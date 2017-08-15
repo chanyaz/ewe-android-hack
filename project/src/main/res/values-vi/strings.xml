@@ -714,6 +714,22 @@
     <string name="traveler_adult_child_error">Khách này phải từ 12 đến 17 tuổi khi thực hiện chuyến đi</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">Khách phải từ 18 tuổi trở lên</string>
+    <!-- Text for traveler child error displayed in alert dialog message-->
+    <string name="traveler_child_error_message">Khách này phải từ 2-11 tuổi suốt toàn bộ thời gian chuyến đi để được tính là trẻ em</string>
+    <!-- Text for traveler youth error displayed in alert dialog message-->
+    <string name="traveler_youth_error_message">Khách này phải từ 12-17 tuổi suốt toàn bộ thời gian chuyến đi để được tính là thiếu niên</string>
+    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
+    <string name="checkout_traveler_title_TEMPLATE">Khách {travelernumber} ({passengerycategory})</string>
+    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <!-- Adult age label on flight checkout summary card-->
+    <string name="flight_checkout_adult_age_label">18+</string>
+    <!-- Youth age label on flight checkout traveler summary card -->
+    <string name="flight_checkout_youth_age_label">12-17</string>
+    <!-- Children age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_children_age_label">2-11</string>
+    <!-- Infant age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_infant_age_label">dưới 2</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Khách chính phải là người nhận phòng. Phải từ 18 tuổi trở lên.</string>
     <!-- Text for enter traveler details-->
@@ -1499,7 +1515,34 @@
     <string name="itin_hotel_room_details_requests_header">Yêu cầu</string>
     <!--Hotel itin room details requests disclaimer-->
     <string name="itin_hotel_room_details_requests_disclaimer">Chúng tôi đã chuyển yêu cầu đến khách sạn, tuy nhiên, những yêu cầu này không được xác nhận và được đáp ứng tùy thuộc tình hình thực tế khi nhận phòng.</string>
-
+    <!--Hotel itin room details no requests selected-->
+    <string name="itin_hotel_room_details_no_requests_selected">Không có tùy chọn khi thanh toán</string>
+    <!--Hotel itin room request for extra adult bed-->
+    <string name="itin_hotel_room_request_extra_adult_bed">Thêm giường bổ sung người lớn</string>
+    <!--Hotel itin room request for extra child bed-->
+    <string name="itin_hotel_room_request_extra_child_bed">Thêm giường bổ sung trẻ em</string>
+    <!--Hotel itin room request for extra infant bed-->
+    <string name="itin_hotel_room_request_extra_infant_bed">Thêm giường bổ sung trẻ sơ sinh</string>
+    <!--Hotel itin room request for non-smoking-->
+    <string name="non_smoking">Không hút thuốc</string>
+    <!--Hotel itin room request for smoking-->
+    <string name="smoking">Hút thuốc</string>
+    <!--Hotel itin room details reserved for-->
+    <string name="itin_hotel_room_details_reserved_for_header">Đặt cho</string>
+    <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}, {numofguests}</string>
+    <!--Hotel itin room amenity free breakfast-->
+    <string name="itin_hotel_room_amenity_free_breakfast">Gồm\nbữa sáng</string>
+    <!--Hotel itin room amenity free parking-->
+    <string name="itin_hotel_room_amenity_free_parking">Đậu xe\nmiễn phí</string>
+    <!--Hotel itin room amenity free wifi-->
+    <string name="itin_hotel_room_amenity_free_wifi">Wifi\nmiễn phí</string>
+    <!--Hotel itin room amenity free breakfast content description-->
+    <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">Gồm bữa sáng</string>
+    <!--Hotel itin room amenity free parking content description-->
+    <string name="itin_hotel_room_amenity_free_parking_cont_desc">Đậu xe miễn phí</string>
+    <!--Hotel itin room amenity free wifi content description-->
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wifi miễn phí</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Nhận phòng trong 3 ngày</string>
@@ -2098,6 +2141,11 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Nút mở rộng (tùy chọn)</string>
     <string name="collapse_advanced_button_cont_desc">Nút đóng (tùy chọn)</string>
+    <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
+    <string name="frequent_flyer_optional">Chương trình khách bay thường xuyên (tùy chọn)</string>
+    <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
+    <string name="expand_frequent_flyer_button_cont_desc">Nút mở chương trình khách bay thường xuyên (tùy chọn)</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">Nút đóng chương trình khách bay thường xuyên (tùy chọn)</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">Cập nhật thông tin khách trong tài khoản {brand} để đặt nhanh hơn trong tương lai?</string>
     <!-- Update traveler dialog title-->
@@ -2143,6 +2191,8 @@
     <string name="known_traveler_msg">Đây là số do chính phủ cấp, dùng cho chương trình TSA PreCheck</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">Số redress là số duy nhất do TSA cấp cho cá nhân, giúp TSA xác nhận danh tính và loại trừ trường hợp nhận dạng nhầm trong danh sách cần theo dõi.</string>
+    <!--Frequent flyer program number hint -->
+    <string name="frequent_flyer_program_number">Mã số chương trình</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">Chỗ ngồi ưa thích</string>
@@ -3861,6 +3911,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Hiển thị chuyến bay đi đến {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Chọn chuyến bay đến %1$s</string>
+    <!-- Outbound to template. -->
+    <string name="outbound_to_TEMPLATE">Bay đi đến {cityname} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Bay đến %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3871,6 +3923,8 @@
     <string name="select_return_flight">Chọn chuyến bay về</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Bay đến %1$s</string>
+    <!-- Inbound to template. -->
+    <string name="inbound_to_TEMPLATE">Bay về {cityname} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
