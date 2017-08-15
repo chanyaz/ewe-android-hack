@@ -243,7 +243,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    protected fun resetListOffset() {
+    fun resetListOffset() {
         val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -mapListSplitAnchor.toFloat())
         mover.duration = 300
         mover.start()

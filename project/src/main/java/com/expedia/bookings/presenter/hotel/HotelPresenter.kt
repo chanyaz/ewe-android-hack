@@ -911,6 +911,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     fun handleGenericSearch(params: HotelSearchParams) {
         updateSearchParams(params)
 
+        resultsPresenter.resetListOffset()
         show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
         resultsPresenter.viewModel.paramsSubject.onNext(params)
     }
@@ -920,6 +921,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         HotelTracking.trackPinnedSearch()
         if (!fromDeepLink && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)) {
+            resultsPresenter.resetListOffset()
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
             resultsPresenter.viewModel.paramsSubject.onNext(params)
         } else {
