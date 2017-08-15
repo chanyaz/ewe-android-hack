@@ -5,8 +5,6 @@ import com.expedia.vm.traveler.BaseTravelerValidatorViewModel
 
 class FrequentFlyerProgramViewModel : BaseTravelerValidatorViewModel() {
 
-    override val invalidCharacterMode = InvalidCharacterHelper.Mode.ALPHANUMERIC
-
     override fun isValid(): Boolean {
         return true
     }

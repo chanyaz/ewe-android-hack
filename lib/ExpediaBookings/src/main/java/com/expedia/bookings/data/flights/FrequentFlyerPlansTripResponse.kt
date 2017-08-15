@@ -7,4 +7,5 @@ class FrequentFlyerPlansTripResponse {
     var frequentFlyerPlanCode: String = ""
     var frequentFlyerPlanID: String = ""
     var frequentFlyerPlanName: String = ""
+    var membershipNumber: String = ""
 }

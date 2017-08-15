@@ -4,8 +4,10 @@ import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -19,6 +21,7 @@ class FlightTravelersViewModel(context: Context, lob: LineOfBusiness, showMainTr
 
     val flightOfferObservable = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val flightLegsObservable = BehaviorSubject.create<List<FlightLeg>>()
+    val frequentFlyerPlans = BehaviorSubject.create<FlightCreateTripResponse.FrequentFlyerPlans>()
 
     init{
         flightOfferObservable.map { it.isPassportNeeded || it.isInternational }.subscribe(passportRequired)

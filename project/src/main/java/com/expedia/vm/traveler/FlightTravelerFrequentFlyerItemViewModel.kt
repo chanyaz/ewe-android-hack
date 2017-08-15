@@ -1,11 +1,18 @@
 package com.expedia.vm.traveler
 
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
 import com.expedia.bookings.widget.traveler.FrequentFlyerCard
 import rx.subjects.PublishSubject
+import java.util.TreeMap
+import kotlin.properties.Delegates
 
 class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
     private lateinit var frequentFlyerCard: FrequentFlyerCard
+    var allFrequentFlyerPlans: TreeMap<String, FrequentFlyerPlansTripResponse> = TreeMap()
+    var enrolledPlans: TreeMap<String, FrequentFlyerPlansTripResponse> = TreeMap()
+    var allAirlineNames: ArrayList<String> = ArrayList()
     val ffnProgramNumberViewModel = FrequentFlyerProgramNumberViewModel(traveler, "")
     val ffnProgramNumberSubject = PublishSubject.create<String>()
 
@@ -27,6 +34,9 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
         ffnProgramNumberViewModel.traveler = traveler
 
         val frequentFlyerProgramNumber = traveler.frequentFlyerMemberships[(frequentFlyerCard.airlineCode)]?.membershipNumber ?: ""
+        val frequentFlyerProgramName = if (traveler.frequentFlyerMemberships.containsKey(frequentFlyerCard.airlineCode))
+            (allFrequentFlyerPlans[frequentFlyerCard.airlineCode] as FrequentFlyerPlansTripResponse).frequentFlyerPlanName else ""
         ffnProgramNumberSubject.onNext(frequentFlyerProgramNumber)
+        frequentFlyerProgramObservable.onNext(frequentFlyerProgramName)
     }
 }

@@ -54,7 +54,7 @@ public class FlightCreateTripResponse extends FlightTripResponse {
 
 	}
 
-	class FrequentFlyerPlans {
+	public class FrequentFlyerPlans {
 		public List<FrequentFlyerPlansTripResponse> allFrequentFlyerPlans;
 		public List<FrequentFlyerPlansTripResponse> enrolledFrequentFlyerPlans;
 	}

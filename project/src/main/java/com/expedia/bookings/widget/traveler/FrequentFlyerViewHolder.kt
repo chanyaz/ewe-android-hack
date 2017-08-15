@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.traveler
 
 import android.content.Context
-import android.support.design.widget.TextInputLayout
 import android.app.AlertDialog
 import android.view.ViewGroup
 import android.support.v7.widget.RecyclerView
@@ -20,7 +19,8 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
     val frequentFlyerNumberInput: TravelerEditText by root.bindView(R.id.edit_frequent_flyer_number)
 
     val frequentFlyerAdapter : FrequentFlyerSpinnerAdapter by lazy {
-        val adapter = FrequentFlyerSpinnerAdapter(context, R.layout.material_item, R.layout.simple_spinner_dropdown_item)
+        val adapter = FrequentFlyerSpinnerAdapter(context, R.layout.material_item, R.layout.simple_spinner_dropdown_item, vm.allFrequentFlyerPlans)
+        adapter.frequentFlyerProgram = vm.allAirlineNames
         adapter.currentPosition = adapter.getPositionFromName(vm.frequentFlyerProgramObservable.toString())
         adapter
     }
@@ -32,7 +32,9 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
             val airlineName = frequentFlyerAdapter.getFrequentFlyerProgram(position)
             val airlineCode = frequentFlyerAdapter.getFrequentFlyerNumber(position)
             vm.frequentFlyerProgramObservable.onNext(airlineName)
-            vm.frequentFlyerNumberObservable.onNext(airlineCode.toString())
+            if (!airlineCode.isNullOrBlank()) {
+                vm.frequentFlyerNumberObservable.onNext(airlineCode)
+            }
             dialogInterface.dismiss()
         })
 

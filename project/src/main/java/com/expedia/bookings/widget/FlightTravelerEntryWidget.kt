@@ -162,6 +162,12 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                 (frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).setFrequentFlyerCards(airlines)
             }
         }
+
+        vm.frequentFlyerPlans.subscribe { frequentFlyerPlans ->
+            if (materialFormTestEnabled && frequentflyerTestEnabled) {
+                (frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).frequentFlyerPlans.onNext(frequentFlyerPlans)
+            }
+        }
     }
 
     init {

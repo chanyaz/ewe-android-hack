@@ -78,6 +78,8 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             }
             (travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable
                     .onNext((viewModel as FlightTravelersViewModel).flightLegsObservable.value)
+            (travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans
+                    .onNext((viewModel as FlightTravelersViewModel).frequentFlyerPlans.value)
         }
 
         doneClicked.subscribe {
@@ -175,6 +177,8 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         }
         (travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable
                 .onNext((viewModel as FlightTravelersViewModel).flightLegsObservable.value)
+        (travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans
+                .onNext((viewModel as FlightTravelersViewModel).frequentFlyerPlans.value)
     }
 
     private fun showPickerWidget() {
