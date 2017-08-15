@@ -141,7 +141,9 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             if (newDatePickerFragment == null) {
                 newDatePickerFragment = DatePickerDialogFragment.createFragment(dateSetListener, date)
             }
-            newDatePickerFragment!!.show(fragmentActivity.supportFragmentManager, TAG_DATE_PICKER)
+            if (!newDatePickerFragment!!.isAdded) {
+                newDatePickerFragment!!.show(fragmentActivity.supportFragmentManager, TAG_DATE_PICKER)
+            }
         }
     }
 
