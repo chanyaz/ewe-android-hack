@@ -14,6 +14,7 @@ import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
+import com.expedia.bookings.test.espresso.Common
 
 class FlightPriceChangeTest: FlightErrorTestCase() {
 
@@ -66,24 +67,24 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
         PackageScreen.enterTravelerInfo()
         PackageScreen.enterPaymentInfo("checkoutpricechangewithinsurance lastname")
         CheckoutViewModel.performSlideToPurchase()
-
+        FlightsOverviewScreen.assertPriceChangeShown("The price of your trip has changed from \$715.00 to \$763.00. Rates can change frequently. Book now to lock in this price.")
+        onView(withId(android.R.id.button1)).perform(ViewActions.click())
         assertInsuranceAfterPriceChange()
     }
 
-// Disabled on April 28, 2017 for repeated flakiness - ScottW
-//    @Test
-//    fun testCheckoutSignedInPriceChange() {
-//        getToCheckoutOverview(PriceChangeType.CHECKOUT)
-//
-//        CheckoutViewModel.signInOnCheckout()
-//
-//        Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
-//        CheckoutViewModel.clickPaymentInfo()
-//        CheckoutViewModel.selectStoredCard("Saved checkoutpricechange")
-//        Common.pressBack()
-//        CheckoutViewModel.performSlideToPurchase(true)
-//        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
-//    }
+    @Test
+    fun testCheckoutSignedInPriceChange() {
+        getToCheckoutOverview(PriceChangeType.CHECKOUT)
+        PackageScreen.checkout().perform(ViewActions.click())
+        CheckoutViewModel.signInOnCheckout()
+
+        Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
+        CheckoutViewModel.clickPaymentInfo()
+        CheckoutViewModel.selectStoredCard("Saved checkoutpricechange")
+        Common.pressBack()
+        CheckoutViewModel.performSlideToPurchase(true)
+        FlightsOverviewScreen.assertPriceChangeShown("The price of your trip has changed from \$696.00 to \$763.00. Rates can change frequently. Book now to lock in this price.")
+    }
 
     private fun getToCheckoutOverview(priceChangeType: PriceChangeType, isOneWay: Boolean = true) {
         searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, isOneWay)
