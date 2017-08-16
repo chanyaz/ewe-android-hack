@@ -38,7 +38,7 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
         private const val ID_EXTRA = "ITINID"
 
         fun createIntent(context: Context, id: String): Intent {
-            val i: Intent = Intent(context, HotelItinManageBookingActivity::class.java)
+            val i = Intent(context, HotelItinManageBookingActivity::class.java)
             i.putExtra(HotelItinManageBookingActivity.ID_EXTRA, id)
             return i
         }
@@ -75,6 +75,7 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
         toolbar.setUpWidget(itinCardDataHotel, this.getString(R.string.itin_hotel_manage_booking_header))
         toolbar.setNavigationOnClickListener {
             super.finish()
+            overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
         }
         manageBookingButton.setOnClickListener {
             this.startActivityForResult(buildWebViewIntent(R.string.itin_hotel_manage_booking_webview_title, itinCardDataHotel.detailsUrl, "overview-header", itinCardDataHotel.tripNumber).intent, Constants.ITIN_HOTEL_WEBPAGE_CODE)

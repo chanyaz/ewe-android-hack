@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin
 
 import android.app.Activity
 import android.content.Context
+import android.support.v4.app.ActivityOptionsCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -42,7 +43,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
             additionalInfoCard.hideSubheading()
 
             manageBookingCard.setOnClickListener {
-                context.startActivity(HotelItinManageBookingActivity.createIntent(context, itinCardDataHotel.id))
+                context.startActivity(HotelItinManageBookingActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
                 OmnitureTracking.trackHotelItinManageBookingClick()
             }
             priceSummaryCard.setOnClickListener {

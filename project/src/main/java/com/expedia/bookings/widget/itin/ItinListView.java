@@ -15,6 +15,7 @@ import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -797,7 +798,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			openItinInWebView(data.getDetailsUrl());
 		}
 		else if (data.getTripComponentType() == TripComponent.Type.HOTEL && isItinCardDetailFeatureOn) {
-			getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()));
+			getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()),
+				ActivityOptionsCompat
+					.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
+					.toBundle());
 			OmnitureTracking.trackItinHotel(getContext());
 		}
 		else if (data.hasDetailData()) {

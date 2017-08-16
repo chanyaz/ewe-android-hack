@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.activity
 import android.content.Intent
 import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
+import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.utils.Constants
@@ -23,7 +24,7 @@ abstract class HotelItinBaseActivity() : AppCompatActivity() {
         }
     }
 
-    inner class ItinSyncListener: ItineraryManager.ItinerarySyncAdapter() {
+    inner class ItinSyncListener : ItineraryManager.ItinerarySyncAdapter() {
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
             super.onSyncFinished(trips)
             updateItinCardDataHotel()
@@ -40,6 +41,11 @@ abstract class HotelItinBaseActivity() : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         getItineraryManager().removeSyncListener(syncListener)
+    }
+
+    override fun onBackPressed() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
     }
 
     @VisibleForTesting

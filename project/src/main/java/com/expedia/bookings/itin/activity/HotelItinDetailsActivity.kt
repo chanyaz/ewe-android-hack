@@ -56,7 +56,8 @@ open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
     companion object {
         private const val ITIN_ID_EXTRA = "ITIN_ID"
 
-        @JvmStatic fun createIntent(context: Context, id: String): Intent {
+        @JvmStatic
+        fun createIntent(context: Context, id: String): Intent {
             val i = Intent(context, HotelItinDetailsActivity::class.java)
             i.putExtra(HotelItinDetailsActivity.ITIN_ID_EXTRA, id)
             return i
@@ -68,6 +69,7 @@ open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
         Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_card_details)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
     }
 
     override fun onResume() {
@@ -91,11 +93,11 @@ open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
         toolbar.setUpWidget(itinCardDataHotel, itinCardDataHotel.propertyName)
         toolbar.setNavigationOnClickListener {
             super.finish()
+            overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
         }
         if (itinCardDataHotel.isSharedItin) {
             roomDetailsHeader.visibility = View.GONE
-        }
-        else if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
+        } else if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
             toolbar.showShare()
         }
     }
