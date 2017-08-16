@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
@@ -22,12 +23,14 @@ import com.expedia.account.Config
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
+import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -36,6 +39,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.ClearPrivateDataUtil
 import com.expedia.bookings.utils.Constants
@@ -145,7 +149,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         @Inject set
 
     val debugMenu: DebugMenu by lazy {
-        DebugMenuFactory.newInstance(activity)
+        DebugMenuFactory.newInstance(activity, ExpediaBookingPreferenceActivity::class.java)
     }
 
     val debugAlertDialog: AlertDialog by lazy {
@@ -639,7 +643,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             }
 
             ROW_SETTINGS -> {
-                activity.startActivityForResult(debugMenu.settingActivityIntent, Constants.REQUEST_SETTINGS)
+                val intent = Intent(context, ExpediaBookingPreferenceActivity::class.java)
+                activity.startActivityForResult(intent, Constants.REQUEST_SETTINGS)
                 return true
             }
 
