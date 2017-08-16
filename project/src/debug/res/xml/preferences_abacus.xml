@@ -281,9 +281,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14936"
+            android:key="15211"
             android:summary="%s"
-            android:title="Flight subpub change - 14936 " />
+            android:title="Flight subpub change - 15211 " />
       
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
