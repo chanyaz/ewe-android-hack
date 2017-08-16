@@ -628,4 +628,14 @@ public class Db {
 		}
 		return defaultVal;
 	}
+
+	public static void resetTravelers() {
+		List travelers = getTravelers();
+		int numOfTravelers = travelers.size();
+		travelers.clear();
+
+		for (int i = 0; i < numOfTravelers; i++) {
+			travelers.add(i, new Traveler());
+		}
+	}
 }
