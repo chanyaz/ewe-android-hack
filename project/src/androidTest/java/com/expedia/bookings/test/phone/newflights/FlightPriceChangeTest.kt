@@ -14,6 +14,7 @@ import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
+import com.expedia.bookings.test.espresso.Common
 
 class FlightPriceChangeTest: FlightErrorTestCase() {
 
@@ -71,19 +72,19 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
     }
 
 // Disabled on April 28, 2017 for repeated flakiness - ScottW
-//    @Test
-//    fun testCheckoutSignedInPriceChange() {
-//        getToCheckoutOverview(PriceChangeType.CHECKOUT)
-//
-//        CheckoutViewModel.signInOnCheckout()
-//
-//        Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
-//        CheckoutViewModel.clickPaymentInfo()
-//        CheckoutViewModel.selectStoredCard("Saved checkoutpricechange")
-//        Common.pressBack()
-//        CheckoutViewModel.performSlideToPurchase(true)
-//        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
-//    }
+    @Test
+    fun testCheckoutSignedInPriceChange() {
+        getToCheckoutOverview(PriceChangeType.CHECKOUT)
+
+        CheckoutViewModel.signInOnCheckout()
+
+        Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
+        CheckoutViewModel.clickPaymentInfo()
+        CheckoutViewModel.selectStoredCard("Saved checkoutpricechange")
+        Common.pressBack()
+        CheckoutViewModel.performSlideToPurchase(true)
+        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
+    }
 
     private fun getToCheckoutOverview(priceChangeType: PriceChangeType, isOneWay: Boolean = true) {
         searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, isOneWay)
