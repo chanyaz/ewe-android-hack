@@ -345,11 +345,15 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testGetTravelerReturnsTravelerIfEmpty() {
-        givenMaterialForm(true)
-        setupViewModel(0, false)
         Db.clear()
+        givenMaterialForm(true)
+        assertEquals(2, Db.getTravelers().size)
+        assertEquals(12345, Db.getTravelers()[0].tuid)
 
-        assertEquals(0, Db.getTravelers().size)
+        Db.resetTravelers()
+        assertEquals(2, Db.getTravelers().size)
+
+        setupViewModel(0, false)
 
         val testTraveler = testVM.getTraveler()
         assertNotNull(testTraveler)

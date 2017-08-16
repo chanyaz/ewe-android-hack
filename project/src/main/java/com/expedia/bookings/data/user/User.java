@@ -290,7 +290,7 @@ public class User implements JSONable {
 		}
 
 		Db.resetBillingInfo();
-		Db.getTravelers().clear();
+		Db.resetTravelers();
 		logger.addSplit("User billing and traveler info deletion.");
 		logger.dumpToLog();
 	}

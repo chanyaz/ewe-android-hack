@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -44,6 +45,7 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
+import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.PaymentWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
@@ -66,7 +68,7 @@ public class PaymentWidgetFlowTest {
 
 	@Before
 	public void before() {
-
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		StoredCreditCard storedCreditCard = new StoredCreditCard();
 		storedCreditCard.setCardNumber("4111111111111111");
 		storedCreditCard.setType(PaymentType.CARD_AMERICAN_EXPRESS);
@@ -83,7 +85,6 @@ public class PaymentWidgetFlowTest {
 		location.setDestinationId("SF");
 
 		BillingInfo billingInfo = new BillingInfo();
-		billingInfo = new BillingInfo();
 		billingInfo.setEmail("qa-ehcc@mobiata.com");
 		billingInfo.setFirstName("JexperCC");
 		billingInfo.setLastName("MobiataTestaverde");
