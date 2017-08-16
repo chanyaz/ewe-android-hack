@@ -6,6 +6,7 @@ import android.widget.EditText;
 import com.expedia.bookings.R;
 import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.dialog.TextViewDialog.OnDismissListener;
+import com.github.stkent.bugshaker.utilities.StringUtils;
 import com.mobiata.android.Log;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Pattern;
@@ -16,7 +17,7 @@ public class InvalidCharacterHelper {
 	//Matches ascii characters that are only letters, latin accents, apostrophe, dash(es), periods, commas or spaces.
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_NAMES = Pattern.compile("^[a-zA-ZÀ-ÿ',. -]*$");
 	//Matches ascii characters that are only letters, numbers.
-	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ALPHANUMERIC = Pattern.compile("^[a-zA-Z0-9]*$");
+	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ALPHANUMERIC = Pattern.compile("^[a-zA-Z0-9 ]*$");
 	//Matches all characters
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ANY = Pattern.compile(".*");
 

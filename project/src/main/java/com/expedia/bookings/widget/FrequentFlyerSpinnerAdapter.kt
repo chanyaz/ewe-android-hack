@@ -31,9 +31,9 @@ class FrequentFlyerSpinnerAdapter(context: Context, textViewResId: Int, dropDown
     }
 
     override fun getItem(position: Int): String? {
-        if (getFrequentFlyerNumber(position).isNullOrBlank()) {
-            return String.format(getFrequentFlyerProgram(position))
-        }
+//        if (getFrequentFlyerNumber(position).isNullOrBlank()) {
+//            return String.format(getFrequentFlyerProgram(position))
+//        }
         return String.format(Locale.getDefault(), "%s Number: (%s)",getFrequentFlyerProgram(position), getFrequentFlyerNumber(position))
     }
 

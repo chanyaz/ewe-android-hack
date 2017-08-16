@@ -41,7 +41,7 @@
                     android:id="@+id/edit_frequent_flyer_program_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="13"
+                    android:maxLength="40"
                     android:maxLines="1"
                     android:textSize="@dimen/traveler_input_text_size"/>
 
@@ -59,7 +59,7 @@
                     android:id="@+id/edit_frequent_flyer_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="13"
+                    android:maxLength="40"
                     android:maxLines="1"
                     android:textSize="@dimen/traveler_input_text_size"/>
 

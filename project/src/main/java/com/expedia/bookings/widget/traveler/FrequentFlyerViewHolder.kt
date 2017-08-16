@@ -21,13 +21,13 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
     val frequentFlyerAdapter : FrequentFlyerSpinnerAdapter by lazy {
         val adapter = FrequentFlyerSpinnerAdapter(context, R.layout.material_item, R.layout.simple_spinner_dropdown_item, vm.allFrequentFlyerPlans)
         adapter.frequentFlyerProgram = vm.allAirlineNames
-        adapter.currentPosition = adapter.getPositionFromName(vm.frequentFlyerProgramObservable.toString())
+        adapter.currentPosition = adapter.getPositionFromName(vm.frequentFlyerProgramObservable.value)
         adapter
     }
 
     val frequentFlyerDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle(context.resources.getString(R.string.frequent_flyer_my_programs))
+        builder.setTitle(context.resources.getString(R.string.frequent_flyer_all_programs))
         builder.setSingleChoiceItems(frequentFlyerAdapter, frequentFlyerAdapter.currentPosition, { dialogInterface, position ->
             val airlineName = frequentFlyerAdapter.getFrequentFlyerProgram(position)
             val airlineCode = frequentFlyerAdapter.getFrequentFlyerNumber(position)
