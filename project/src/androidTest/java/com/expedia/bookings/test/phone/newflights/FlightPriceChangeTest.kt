@@ -71,11 +71,10 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
         assertInsuranceAfterPriceChange()
     }
 
-// Disabled on April 28, 2017 for repeated flakiness - ScottW
     @Test
     fun testCheckoutSignedInPriceChange() {
         getToCheckoutOverview(PriceChangeType.CHECKOUT)
-
+        PackageScreen.checkout().perform(ViewActions.click())
         CheckoutViewModel.signInOnCheckout()
 
         Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
@@ -83,7 +82,7 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
         CheckoutViewModel.selectStoredCard("Saved checkoutpricechange")
         Common.pressBack()
         CheckoutViewModel.performSlideToPurchase(true)
-        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
+        FlightsOverviewScreen.assertPriceChangeShown("The price of your trip has changed from \$696.00 to \$763.00. Rates can change frequently. Book now to lock in this price.")
     }
 
     private fun getToCheckoutOverview(priceChangeType: PriceChangeType, isOneWay: Boolean = true) {

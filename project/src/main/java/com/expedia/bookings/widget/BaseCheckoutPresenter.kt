@@ -201,6 +201,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             val oldPrice = response.getOldPrice()
             if (oldPrice != null) {
                 trackCheckoutPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
+                showAlertDialogForPriceChange(response as TripResponse)
             }
             handleCheckoutPriceChange(response)
         }
