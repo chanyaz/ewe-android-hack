@@ -3,7 +3,6 @@ package com.expedia.bookings.preference;
 
 import android.os.Bundle;
 import android.support.v7.preference.CheckBoxPreference;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 

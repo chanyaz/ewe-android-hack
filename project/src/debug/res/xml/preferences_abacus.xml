@@ -459,7 +459,6 @@
 
     </PreferenceCategory>
 
-
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="Account">

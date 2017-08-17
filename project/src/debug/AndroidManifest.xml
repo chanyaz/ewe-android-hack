@@ -21,7 +21,7 @@
         <activity
             android:name="com.expedia.bookings.preference.ExpediaBookingPreferenceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.Preferences" />
+            android:theme="@style/Theme.Phone.Preferences"/>
 
         <activity
             android:name="com.expedia.bookings.activity.PlaygroundActivity"
