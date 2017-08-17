@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils
 
-import android.annotation.TargetApi
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -9,6 +8,7 @@ import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
+import android.support.annotation.RequiresApi
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
@@ -19,17 +19,17 @@ import com.expedia.bookings.utils.navigation.NavUtils
 import com.mobiata.android.util.SettingUtils
 import java.util.*
 
-@TargetApi(25)
+@RequiresApi(25)
 object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
 
     private lateinit var mainContext: Context
     private var shortcutManager: ShortcutManager? = null
     private var loadedTrips: MutableCollection<Trip> = arrayListOf()
 
-    fun initialize(context: Context, manager: ShortcutManager?) {
+    fun initialize(context: Context) {
         ItineraryManager.getInstance().addSyncListener(this)
         mainContext = context
-        shortcutManager = manager
+        shortcutManager = mainContext.getSystemService<ShortcutManager>(ShortcutManager::class.java)
         setupShortcuts()
     }
 

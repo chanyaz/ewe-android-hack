@@ -5,16 +5,15 @@ import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 
-import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.os.Build;
 import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
@@ -311,14 +310,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (BugShakerShim.isBugShakerEnabled(this)) {
 			BugShakerShim.startNewBugShaker(this);
 		}
-		initializeAppShortcuts();
-	}
-
-	@TargetApi(25)
-	private void initializeAppShortcuts() {
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-			ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
-			ShortcutUtils.INSTANCE.initialize(getBaseContext(), shortcutManager);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+			ShortcutUtils.INSTANCE.initialize(getBaseContext());
 		}
 	}
 
