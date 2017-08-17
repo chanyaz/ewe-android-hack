@@ -74,13 +74,13 @@ public class FlightsOverviewScreenSteps {
 		onView(allOf(withId(R.id.error_action_button), withText(errorButtonText))).perform(click());
 	}
 
-	@Then("^collapse the outbound widget$")
-	public void collapseOutboundWidget() throws Throwable {
+	@Then("^toggle the outbound widget$")
+	public void toggleOutboundWidget() throws Throwable {
 		onView(allOf(withParent(withParent(withParent((withId(R.id.package_bundle_outbound_flight_widget))))),
 				withId(R.id.package_flight_details_icon))).perform(click());
 	}
-	@Then("^collapse the inbound widget$")
-	public void collapseInboundWidget() throws Throwable {
+	@Then("^toggle the inbound widget$")
+	public void toggleInboundWidget() throws Throwable {
 		onView(allOf(withParent(withParent(withParent((withId(R.id.package_bundle_inbound_flight_widget))))),
 				withId(R.id.package_flight_details_icon))).perform(click());
 	}

@@ -14,7 +14,6 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -32,7 +31,6 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -442,10 +440,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()
         flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
                 .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)) {
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.expandFlightDetails(false)
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.expandFlightDetails(false)
-        }
     }
 
     val searchArgbEvaluator = ArgbEvaluator()

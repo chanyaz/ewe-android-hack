@@ -52,10 +52,6 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightByotSearch,
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
-		if (list.contains("FlightRateDetailExpansion")) {
-			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightRateDetailExpansion,
-					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
-		}
 		if (list.contains("FlightXSellPackage")) {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR,
 					AbacusUtils.DefaultVariant.BUCKETED.ordinal());

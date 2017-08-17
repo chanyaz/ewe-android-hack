@@ -3,8 +3,6 @@ Feature: Flights Overview
   @Flights @FlightsOverview
   Scenario: Verify data consistency through Overview screen for round trip search
     Given I launch the App
-    And I bucket the following tests
-      | FlightRateDetailExpansion |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -19,6 +17,7 @@ Feature: Flights Overview
     And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    Then toggle the outbound widget
     Then validate following information is present on the overview screen for isOutbound : true
       | destination                    | (DEL)                                             |
       | travel date and traveller      | Mar 22 at 9:00 pm, 1 traveler                     |
@@ -27,7 +26,8 @@ Feature: Flights Overview
       | airline name                   | happy_round_trip                                  |
       | flight duration                | 2h 0m                                             |
     And validate total duration on flight Overview is "2h 0m" for isOutbound : true
-    Then collapse the outbound widget
+    Then toggle the outbound widget
+    Then toggle the inbound widget
     Then validate following information is present on the overview screen for isOutbound : false
       | destination                    | (SFO)                                             |
       | travel date and traveller      | Mar 22 at 5:40 pm, 1 traveler                       |
@@ -36,13 +36,11 @@ Feature: Flights Overview
       | airline name                   | American Airlines 179                             |
       | flight duration                | 2h 35m                                            |
     And validate total duration on flight Overview is "2h 35m" for isOutbound : false
-    And collapse the inbound widget
+    And toggle the inbound widget
 
   @Flights @FlightsOverview
   Scenario: Verify data consistency for multi-leg flights on Overview screen.
     Given I launch the App
-    And I bucket the following tests
-      | FlightRateDetailExpansion |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -58,6 +56,7 @@ Feature: Flights Overview
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
     And I click on Ok button of Alert dialog
+    Then toggle the outbound widget
     Then validate following flight details for multi-leg flights
       | first-segment-flight time      | 5:40 pm - 8:15 pm                          |
       | first-segment-airport name     | (SEA) Seattle, USA - (LAX) Los Angeles, USA       |
@@ -73,8 +72,6 @@ Feature: Flights Overview
   @Flights @FlightsOverview
   Scenario: Verify message on free cancellation and split ticket messaging on Overview screen.
     Given I launch the App
-    And I bucket the following tests
-      | FlightRateDetailExpansion |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -90,16 +87,12 @@ Feature: Flights Overview
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
     And I click on Ok button of Alert dialog
-    Then collapse the outbound widget
-    And collapse the inbound widget
     Then validate free cancellation message is displayed
     And validate split ticket messaging is displayed
 
   @Flights @FlightsOverview
   Scenario: Verify price details on cost summary popup on Flights Overview.
     Given I launch the App
-    And I bucket the following tests
-      | FlightRateDetailExpansion |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -115,8 +108,6 @@ Feature: Flights Overview
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
     And Close price change Alert dialog if it is visible
-    Then collapse the outbound widget
-    And collapse the inbound widget
     Then validate total price of the trip is "$64"
     Then I click on trip total link
     Then validate following detailed information is present on cost summary screen
@@ -128,11 +119,9 @@ Feature: Flights Overview
     And I click on Done button
     And I click on checkout button
 
-  @Flights @FlightsOverview @Prod
+  @Flights @FlightsOverviewTest @Prod
   Scenario: Verify cost summary popup for multi-travellers on Flights Overview.
     Given I launch the App
-    And I bucket the following tests
-      | FlightRateDetailExpansion |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |

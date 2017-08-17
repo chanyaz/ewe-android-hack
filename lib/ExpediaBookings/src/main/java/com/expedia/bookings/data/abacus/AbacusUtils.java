@@ -52,7 +52,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppOfferInsuranceInFlightSummary = 12268;
 	public static final int EBAndroidAppFareFamilyFlightSummary = 15074;
 	public static final int EBAndroidAppFlightByotSearch = 13202;
-	public static final int EBAndroidAppFlightRateDetailExpansion = 12637;
 	public static final int EBAndroidAppFlightsSeatClassAndBookingCode = 12763;
 	public static final int EBAndroidAppSimplifyFlightShopping = 13514;
 	public static final int EBAndroidAppFlightsMoreInfoOnOverview = 13505;
@@ -151,7 +150,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSmartLockTest);
 		testIDs.add(EBAndroidAppOfferInsuranceInFlightSummary);
 		testIDs.add(EBAndroidAppFareFamilyFlightSummary);
-		testIDs.add(EBAndroidAppFlightRateDetailExpansion);
 		testIDs.add(EBAndroidAppBringUniversalCheckoutToLX);
 		testIDs.add(EBAndroidAppLXFilterSearch);
 		testIDs.add(EBAndroidAppCheckoutButtonText);

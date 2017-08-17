@@ -5022,7 +5022,6 @@ public class OmnitureTracking {
 		}
 
 		s.setProducts(getFlightProductString(false));
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailExpansion);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview);
 
 		StringBuilder eventStringBuilder = new StringBuilder(s.getEvents());

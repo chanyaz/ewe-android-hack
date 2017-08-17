@@ -198,15 +198,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="12637"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Flight Expanded Rate Detail - 12637" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="12763"
             android:layout="@layout/preference"
             android:summary="%s"

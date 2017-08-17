@@ -146,9 +146,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight), 0)
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
             }
-            if (viewModel.isUserBucketedForRateDetailExpansionTest) {
-                expandFlightDetails(false)
-            }
             this.selectedCardObservable.onNext(Unit)
         }
     }
@@ -203,9 +200,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     }
 
     fun backButtonPressed() {
-        if (viewModel.isUserBucketedForRateDetailExpansionTest && !isFlightSegmentDetailsExpanded()) {
-            expandFlightDetails()
-        } else if (isFlightSegmentDetailsExpanded()) {
+        if (isFlightSegmentDetailsExpanded()) {
             collapseFlightDetails()
         }
     }
