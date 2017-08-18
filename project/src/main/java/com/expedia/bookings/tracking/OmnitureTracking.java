@@ -3739,6 +3739,12 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Car Flexview", null, null);
 	}
 
+	public static void trackAppCarAATest() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarsAATest);
+		s.trackLink(null, "o", "Car AA test", null, null);
+	}
+
 	public static void trackAppRailWebViewRetry() {
 		createAndtrackLinkEvent(RAIL_WEBVIEW_RETRY, "Rail Webview");
 	}

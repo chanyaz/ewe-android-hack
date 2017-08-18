@@ -19,6 +19,7 @@ class CarNavUtils : NavUtils() {
 
         @JvmStatic fun goToCars(context: Context, animOptions: Bundle?) {
             sendKillActivityBroadcast(context)
+            CarWebViewTracking().trackAppCarAAtest();
             CarWebViewTracking().trackAppCarWebViewABTest()
             if (PointOfSale.getPointOfSale().supportsCarsWebView() && Db.getAbacusResponse().isUserBucketedForTest(PointOfSale.getPointOfSale().carsWebViewABTestID)) {
                 val builder = CarWebViewActivity.IntentBuilder(context)
