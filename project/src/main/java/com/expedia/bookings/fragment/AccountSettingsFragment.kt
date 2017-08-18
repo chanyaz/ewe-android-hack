@@ -30,7 +30,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -39,7 +38,6 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.ClearPrivateDataUtil
 import com.expedia.bookings.utils.Constants
@@ -361,8 +359,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onStart() {
         super.onStart()
-        accountToolbar.updateVisibility(FeatureToggleUtil.isFeatureEnabled(getContext(),
-                R.string.preference_new_launchscreen_nav))
+        accountToolbar.updateVisibility(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest))
     }
 
     override fun onUserAccountRefreshed() {

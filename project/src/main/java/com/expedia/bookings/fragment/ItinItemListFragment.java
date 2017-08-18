@@ -31,6 +31,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
@@ -42,7 +43,6 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
@@ -245,7 +245,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
 			tripToolbar.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -555,7 +555,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		ObjectAnimator shadowSlideDown = ObjectAnimator.ofFloat(mShadowImageView, "translationY", -actionBarHeight, 0);
 		AnimatorSet animatorSet = new AnimatorSet();
 		animatorSet.setDuration(400);
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
 			ObjectAnimator toolbarSlideIn = ObjectAnimator.ofFloat(tripToolbar, "translationY", -actionBarHeight, 0);
 			toolbarSlideIn.addListener(new AnimatorListenerAdapter() {
 				@Override
@@ -588,7 +588,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		AnimatorSet animatorSet = new AnimatorSet();
 		animatorSet.setDuration(400);
 
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
 			pagerSlideUp = ObjectAnimator.ofFloat(mItinListView, "translationY", 0, -actionBarHeight);
 			shadowSlideUp  = ObjectAnimator.ofFloat(mShadowImageView, "translationY", 0, -actionBarHeight);
 			ObjectAnimator toolbarSlideOut = ObjectAnimator.ofFloat(tripToolbar, "translationY", 0, -actionBarHeight);
@@ -628,7 +628,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	private int getToolbarHeight() {
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
 			return tripToolbar.getHeight();
 		}
 		else {
@@ -786,5 +786,4 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public void showDeepRefreshLoadingView(boolean show) {
 		mDeepRefreshLoadingView.setVisibility(show ? View.VISIBLE : View.GONE);
 	}
-
 }

@@ -37,7 +37,6 @@ import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
@@ -444,7 +443,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean showProWizard() {
-		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav);
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest);
 	}
 
 	public int getOffset() {

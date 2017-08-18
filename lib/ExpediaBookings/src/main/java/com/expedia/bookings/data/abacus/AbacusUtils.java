@@ -105,6 +105,9 @@ public class AbacusUtils {
 	// Account
 	public static final int EBAndroidAppAccountSinglePageSignUp = 13923;
 
+	// Launch
+	public static final int ProWizardTest = 14687;
+
 	public enum DefaultVariant {
 		CONTROL,
 		BUCKETED
@@ -204,6 +207,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppAPIMAuth);
 		testIDs.add(EBAndroidAppFlightFrequentFlyerNumber);
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp);
+		testIDs.add(ProWizardTest);
 		testIDs.add(EBAndroidPopulateCardholderName);
 		testIDs.add(EBAndroidAppSecureCheckoutIcon);
 		testIDs.add(EBAndroidAppPackagesMidApi);

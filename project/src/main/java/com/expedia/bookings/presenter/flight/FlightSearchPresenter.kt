@@ -261,7 +261,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2 //Not sure why we still have Flights V2 all over the place??
-        showFlightOneWayRoundTripOptions = !FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)
+        showFlightOneWayRoundTripOptions = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
             swapFlightsLocationsButton.isEnabled = false
@@ -285,7 +285,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
             tabs.visibility = View.GONE
             oneWayRoundTripTabs.visibility = View.VISIBLE
             initializeProWizardTabs()

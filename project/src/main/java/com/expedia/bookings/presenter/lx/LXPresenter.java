@@ -13,8 +13,10 @@ import android.view.animation.DecelerateInterpolator;
 import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.TransitionElement;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
@@ -23,7 +25,6 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.LXConfirmationWidget;
@@ -106,7 +107,7 @@ public class LXPresenter extends Presenter {
 			addTransition(checkoutToConfirmation);
 			addTransition(checkoutToResults);
 		}
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
 			show(searchParamsWidget);
 			searchParamsWidget.setVisibility(VISIBLE);
 		}
@@ -165,8 +166,8 @@ public class LXPresenter extends Presenter {
 			searchParamsWidget.setVisibility(forward ? GONE : VISIBLE);
 			resultsPresenter.animationFinalize(!forward);
 			searchParamsWidget.animationFinalize(!forward);
-			if (searchParamsWidget.getFirstLaunch() &&
-				!FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_new_launchscreen_nav)) {
+			if (searchParamsWidget.getFirstLaunch()
+					&& !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
 				searchParamsWidget.showSuggestionState(false);
 			}
 			if (forward) {

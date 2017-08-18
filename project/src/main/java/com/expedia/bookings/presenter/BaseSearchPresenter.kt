@@ -33,15 +33,16 @@ import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.launch.widget.LobToolbarWidget
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.CalendarShortDateRenderer
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -547,7 +548,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     private fun setupLobToolbar() {
         lobToolbar.viewModel = LobToolbarViewModel(context, getLineOfBusiness())
-        val newLaunchscreenEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)
+        val newLaunchscreenEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)
         lobToolbar.updateVisibility(newLaunchscreenEnabled)
         if (newLaunchscreenEnabled) {
             toolBarTitle.text = context.resources.getText(R.string.search_title)

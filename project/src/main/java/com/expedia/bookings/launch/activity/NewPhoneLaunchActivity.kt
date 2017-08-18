@@ -21,7 +21,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -406,7 +408,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onStart() {
         super.onStart()
-        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_new_launchscreen_nav)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
             setupBottomNav()
         } else {
             setupTopNav()
@@ -576,7 +578,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     private fun slideNavigationOut() {
-        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_new_launchscreen_nav)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
             bottomNavShadow.visibility = View.GONE
             val bottomBarSlideOut = TranslateYAnimator(bottomNavTabLayout,
                     startY = 0f, endY = bottomNavTabLayout.height.toFloat(),
@@ -594,7 +596,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     private fun slideNavigationIn() {
-        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_new_launchscreen_nav)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
             val bottomBarSlideIn = TranslateYAnimator(bottomNavTabLayout,
                     startY = bottomNavTabLayout.height.toFloat(), endY = 0f,
                     duration = TOOLBAR_ANIM_DURATION,

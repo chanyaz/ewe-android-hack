@@ -2751,6 +2751,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
 
 
+		trackAbacusTest(s, AbacusUtils.ProWizardTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppUserOnboarding);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 

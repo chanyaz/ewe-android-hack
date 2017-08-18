@@ -548,7 +548,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
-            if (!FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
+            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
                 searchPresenter.showSuggestionState(selectOrigin = false)
             }
             searchPresenter.resetSuggestionTracking()
