@@ -244,7 +244,7 @@ android {
             applicationId "com.samsung.travel.android"
 
             def major = 1
-            def minor = 4
+            def minor = 5
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
