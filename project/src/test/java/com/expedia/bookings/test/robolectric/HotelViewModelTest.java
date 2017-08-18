@@ -51,6 +51,7 @@ import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricRunner.class)
@@ -259,7 +260,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	public void urgencyMessageSoldOutHasFirstPriority() {
+	public void noUrgencyMessageIfHotelIsSoldOut() {
 		givenHotelWithFewRoomsLeft();
 		givenHotelMobileExclusive();
 		givenSoldOutHotel();
@@ -267,17 +268,11 @@ public class HotelViewModelTest {
 
 		setupSystemUnderTest();
 		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
-
-		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(null,
-			R.color.hotel_sold_out_color,
-			RuntimeEnvironment.application.getResources().getString(R.string.trip_bucket_sold_out),
-			R.color.white);
-
-		assertEquals(compareTo, msg);
+		assertNull(msg);
 	}
 
 	@Test
-	public void urgencyMessageFewRoomsLeftHasSecondPriority() {
+	public void urgencyMessageFewRoomsLeftHasFirstPriority() {
 		givenHotelWithFewRoomsLeft();
 		givenHotelMobileExclusive();
 		givenHotelTonightOnly();
@@ -295,7 +290,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	public void urgencyMessageTonightOnlyHasThirdPriority() {
+	public void urgencyMessageTonightOnlyHasSecondPriority() {
 		givenHotelTonightOnly();
 		givenHotelMobileExclusive();
 

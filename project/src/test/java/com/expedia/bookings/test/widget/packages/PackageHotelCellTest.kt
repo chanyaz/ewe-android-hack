@@ -54,9 +54,9 @@ class PackageHotelCellTest {
         givenHotelWithFewRoomsLeft(hotel)
         packageHotelHolder.bindHotelData(hotel)
 
-        Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyMessageContainer.visibility)
-        Assert.assertEquals("Sold Out", packageHotelHolder.urgencyMessageContainer.urgencyMessageTextView.text)
-        Assert.assertEquals(View.GONE, packageHotelHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
+        Assert.assertEquals(View.GONE, packageHotelHolder.urgencyMessageContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, packageHotelHolder.hotelPriceTopAmenity.soldOutTextView.visibility)
+        Assert.assertEquals(View.GONE, packageHotelHolder.hotelPriceTopAmenity.priceContainer.visibility)
 
         Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_sold_out_hotel_gray), packageHotelHolder.hotelNameStarAmenityDistance.ratingBar.getStarColor())
         Assert.assertNotNull(packageHotelHolder.imageView.colorFilter)
@@ -74,7 +74,7 @@ class PackageHotelCellTest {
         packageHotelHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyMessageContainer.visibility)
-        Assert.assertNotEquals("Sold Out", packageHotelHolder.urgencyMessageContainer.urgencyMessageTextView.text)
+        Assert.assertEquals(View.GONE, packageHotelHolder.hotelPriceTopAmenity.soldOutTextView.visibility)
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
 
         Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_detail_star_color), packageHotelHolder.hotelNameStarAmenityDistance.ratingBar.getStarColor())

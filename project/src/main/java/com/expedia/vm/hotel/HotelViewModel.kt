@@ -90,7 +90,7 @@ open class HotelViewModel(private val context: Context) {
         }
     }
 
-    fun getImageColorFilter() : ColorMatrixColorFilter? {
+    fun getImageColorFilter(): ColorMatrixColorFilter? {
         if (isHotelSoldOut) {
             val colorMatrix = android.graphics.ColorMatrix()
             colorMatrix.setSaturation(0f)
@@ -117,7 +117,7 @@ open class HotelViewModel(private val context: Context) {
         } else if (LoyaltyUtil.isShopWithPoints(hotel.lowRateInfo)) {
             return true
         } else if (!hotel.lowRateInfo.airAttached &&
-            !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
+                !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
             return priceToShowUsers < strikeThroughPriceToShowUsers
         } else {
             return false
@@ -154,10 +154,8 @@ open class HotelViewModel(private val context: Context) {
     }
 
     fun getHighestPriorityUrgencyMessage(): UrgencyMessage? {
-        val soldOutUrgency = getSoldOutUrgencyMessage()
-
-        if (soldOutUrgency != null) {
-            return soldOutUrgency
+        if (isHotelSoldOut) {
+            return null
         }
 
         val memberDealUrgency = getMemberDealUrgencyMessage()
@@ -245,13 +243,6 @@ open class HotelViewModel(private val context: Context) {
         result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
 
         return result.build()
-    }
-
-    private fun getSoldOutUrgencyMessage(): UrgencyMessage? {
-        if (isHotelSoldOut) {
-            return UrgencyMessage(null, R.color.hotel_sold_out_color, resources.getString(R.string.trip_bucket_sold_out))
-        }
-        return null
     }
 
     private fun getMemberDealUrgencyMessage(): UrgencyMessage? {

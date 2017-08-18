@@ -7,6 +7,8 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 
 class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -15,6 +17,7 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
     val strikeThroughPriceTextView: TextView by bindView(R.id.strike_through_price)
     val pricePerNightTextView: TextView by bindView(R.id.price_per_night)
     val topAmenityTextView: TextView by bindView(R.id.top_amenity)
+    val soldOutTextView: TextView by bindView(R.id.sold_out_text)
 
     init {
         View.inflate(context, R.layout.hotel_cell_price_top_amenity, this)
@@ -27,13 +30,19 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
     }
 
     fun update(viewModel: HotelViewModel) {
-        strikeThroughPriceTextView.visibility = if (viewModel.shouldShowStrikeThroughPrice()) View.VISIBLE else View.GONE
-        strikeThroughPriceTextView.text = viewModel.hotelStrikeThroughPriceFormatted
+        soldOutTextView.updateVisibility(viewModel.isHotelSoldOut)
+        priceContainer.setInverseVisibility(viewModel.isHotelSoldOut)
+        if (viewModel.isHotelSoldOut) {
+            topAmenityTextView.visibility = View.GONE
+        } else {
+            strikeThroughPriceTextView.visibility = if (viewModel.shouldShowStrikeThroughPrice()) View.VISIBLE else View.GONE
+            strikeThroughPriceTextView.text = viewModel.hotelStrikeThroughPriceFormatted
 
-        pricePerNightTextView.text = viewModel.pricePerNight
-        pricePerNightTextView.setTextColor(viewModel.pricePerNightColor)
+            pricePerNightTextView.text = viewModel.pricePerNight
+            pricePerNightTextView.setTextColor(viewModel.pricePerNightColor)
 
-        topAmenityTextView.visibility = if (viewModel.topAmenityTitle.isNotBlank()) View.VISIBLE else View.GONE
-        topAmenityTextView.text = viewModel.topAmenityTitle
+            topAmenityTextView.visibility = if (viewModel.topAmenityTitle.isNotBlank()) View.VISIBLE else View.GONE
+            topAmenityTextView.text = viewModel.topAmenityTitle
+        }
     }
 }

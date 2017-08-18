@@ -71,7 +71,7 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewIsDisplayedAtPosition(9, R.id.air_attach_layout);
 		assertViewWithTextIsDisplayedAtPosition(9, R.id.air_attach_discount, "-12%");
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(10));
-		assertViewWithTextIsDisplayedAtPosition(10, R.id.urgency_message, "Sold Out");
+		assertViewWithTextIsDisplayedAtPosition(10, R.id.sold_out_text, "We are sold out");
 	}
 
 	@Test

@@ -15,15 +15,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.LayoutUtils
@@ -51,9 +48,11 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
 
-    val resources = root.resources
+    val hotelClickedSubject = PublishSubject.create<Int>()
 
+    val resources = root.resources
     var hotelId: String by Delegates.notNull()
+    val viewModel = createHotelViewModel(itemView.context)
 
     val pinnedHotelTextView: TextView by root.bindView(R.id.pinned_hotel_view)
     val imageView: ImageView by root.bindView(R.id.background)
@@ -72,12 +71,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
     val airAttachSWPImage: ImageView by root.bindView(R.id.air_attach_swp_image)
     val earnMessagingText: TextView by root.bindView(R.id.earn_messaging)
-
     val cardView: CardView by root.bindView(R.id.card_view)
-
-    val hotelClickedSubject = PublishSubject.create<Int>()
-
-    val viewModel = createHotelViewModel(itemView.context)
 
     init {
         itemView.setOnClickListener(this)
@@ -108,6 +102,20 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
 
         ratingPointsContainer.updateVisibility(viewModel.showRatingPointsContainer())
 
+        loadHotelImage()
+
+        cardView.contentDescription = viewModel.getHotelContentDesc()
+    }
+
+    override fun onClick(view: View) {
+        hotelClickedSubject.onNext(adapterPosition)
+    }
+
+    fun markPinned(pin: Boolean) {
+        pinnedHotelTextView.updateVisibility(pin)
+    }
+
+    private fun loadHotelImage() {
         val url = viewModel.getHotelLargeThumbnailUrl()
         if (url.isNotBlank()) {
 
@@ -136,12 +144,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
                         .load(HotelMedia(url).getBestUrls(imageView.width / 2))
             }
         }
-
-        cardView.contentDescription = viewModel.getHotelContentDesc()
-    }
-
-    fun markPinned(pin: Boolean) {
-        pinnedHotelTextView.updateVisibility(pin)
     }
 
     private fun updateAirAttach() {
@@ -166,10 +168,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         guestRating.updateVisibility(viewModel.isHotelGuestRatingAvailable)
         guestRatingRecommendedText.updateVisibility(viewModel.isHotelGuestRatingAvailable)
         noGuestRating.setInverseVisibility(viewModel.isHotelGuestRatingAvailable)
-    }
-
-    override fun onClick(view: View) {
-        hotelClickedSubject.onNext(adapterPosition)
     }
 
     private val target = object : PicassoTarget() {

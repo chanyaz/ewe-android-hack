@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Show information for hotel of price {price} below, Button</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">We are sold out</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Purchase</string>
 

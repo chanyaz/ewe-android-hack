@@ -3,7 +3,6 @@ package com.expedia.bookings.data.hotels
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.utils.Strings
 import org.joda.time.LocalDate
 import java.util.HashMap
 

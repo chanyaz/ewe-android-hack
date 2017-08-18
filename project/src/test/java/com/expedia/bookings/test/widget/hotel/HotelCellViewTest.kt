@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -23,7 +22,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import org.junit.Assert
 import org.junit.Before
@@ -62,10 +60,9 @@ class HotelCellViewTest {
         givenHotelWithFewRoomsLeft(hotel)
         hotelViewHolder.bindHotelData(hotel)
 
-        Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
-        Assert.assertEquals("Sold Out", hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
-        Assert.assertEquals(View.GONE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
-
+        Assert.assertEquals(View.GONE, hotelViewHolder.urgencyMessageContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.hotelPriceTopAmenity.soldOutTextView.visibility)
+        Assert.assertEquals(View.GONE, hotelViewHolder.hotelPriceTopAmenity.priceContainer.visibility)
         Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_sold_out_hotel_gray), hotelViewHolder.hotelNameStarAmenityDistance.ratingBar.getStarColor())
         Assert.assertNotNull(hotelViewHolder.imageView.colorFilter)
     }
@@ -82,7 +79,7 @@ class HotelCellViewTest {
         hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
-        Assert.assertNotEquals("Sold Out", hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
+        Assert.assertEquals(View.GONE, hotelViewHolder.hotelPriceTopAmenity.soldOutTextView.visibility)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
 
         Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_detail_star_color), hotelViewHolder.hotelNameStarAmenityDistance.ratingBar.getStarColor())

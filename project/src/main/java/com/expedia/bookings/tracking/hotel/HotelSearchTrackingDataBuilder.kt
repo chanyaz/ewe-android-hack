@@ -92,6 +92,6 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
                 minPropertyRate = propertyRate
             }
         }
-        return minPropertyRate.displayTotalPrice?.getAmount()?.toString()
+        return minPropertyRate?.displayTotalPrice?.getAmount()?.toString()
     }
 }
