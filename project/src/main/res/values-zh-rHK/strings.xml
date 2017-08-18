@@ -714,6 +714,22 @@
     <string name="traveler_adult_child_error">此旅客於行程期間必須介乎 12 至 17 歲</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">此旅客必須為 18 歲或以上</string>
+    <!-- Text for traveler child error displayed in alert dialog message-->
+    <string name="traveler_child_error_message">此旅客於整個行程期間必須介乎 2 至 11 歲方可享用小童價格</string>
+    <!-- Text for traveler youth error displayed in alert dialog message-->
+    <string name="traveler_youth_error_message">此旅客於整個行程期間必須介乎 12 至 17 歲方可享用青少年價格</string>
+    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
+    <string name="checkout_traveler_title_TEMPLATE">旅客 {travelernumber} ({passengerycategory})</string>
+    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <!-- Adult age label on flight checkout summary card-->
+    <string name="flight_checkout_adult_age_label">18 歲或以上</string>
+    <!-- Youth age label on flight checkout traveler summary card -->
+    <string name="flight_checkout_youth_age_label">12 至 17 歲</string>
+    <!-- Children age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_children_age_label">2 至 11 歲</string>
+    <!-- Infant age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_infant_age_label">2 歲以下</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">主要旅客必須登記入住酒店。必須為 18 歲或以上。</string>
     <!-- Text for enter traveler details-->
@@ -1490,7 +1506,7 @@
     <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">致電 {phonenumber} 與酒店聯絡。按鈕</string>
     <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
-    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">致電 {phonenumber} 與 {brand} 聯絡。按鈕</string>
+    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">致電 {phonenumber} 與{brand}聯絡。按鈕</string>
     <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">確認號碼：{number}。點擊以複製</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
@@ -1499,7 +1515,34 @@
     <string name="itin_hotel_room_details_requests_header">要求</string>
     <!--Hotel itin room details requests disclaimer-->
     <string name="itin_hotel_room_details_requests_disclaimer">這些客房要求已轉達給住宿，但不會作出確認，提供與否需視乎登記入住時的供應情況而定。</string>
-
+    <!--Hotel itin room details no requests selected-->
+    <string name="itin_hotel_room_details_no_requests_selected">結帳時並無選擇</string>
+    <!--Hotel itin room request for extra adult bed-->
+    <string name="itin_hotel_room_request_extra_adult_bed">額外成人床</string>
+    <!--Hotel itin room request for extra child bed-->
+    <string name="itin_hotel_room_request_extra_child_bed">額外兒童床</string>
+    <!--Hotel itin room request for extra infant bed-->
+    <string name="itin_hotel_room_request_extra_infant_bed">額外嬰兒床</string>
+    <!--Hotel itin room request for non-smoking-->
+    <string name="non_smoking">非吸煙</string>
+    <!--Hotel itin room request for smoking-->
+    <string name="smoking">吸煙</string>
+    <!--Hotel itin room details reserved for-->
+    <string name="itin_hotel_room_details_reserved_for_header">入住房客：</string>
+    <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}，{numofguests}</string>
+    <!--Hotel itin room amenity free breakfast-->
+    <string name="itin_hotel_room_amenity_free_breakfast">包括\n早餐</string>
+    <!--Hotel itin room amenity free parking-->
+    <string name="itin_hotel_room_amenity_free_parking">免費\n泊車位</string>
+    <!--Hotel itin room amenity free wifi-->
+    <string name="itin_hotel_room_amenity_free_wifi">免費\n無線上網</string>
+    <!--Hotel itin room amenity free breakfast content description-->
+    <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">包括早餐</string>
+    <!--Hotel itin room amenity free parking content description-->
+    <string name="itin_hotel_room_amenity_free_parking_cont_desc">免費泊車位</string>
+    <!--Hotel itin room amenity free wifi content description-->
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">免費無線上網</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">入住 - 3 日後</string>
@@ -2098,6 +2141,11 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">展開其他資料 (選填) 的按鈕</string>
     <string name="collapse_advanced_button_cont_desc">收起其他資料 (選填) 的按鈕</string>
+    <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
+    <string name="frequent_flyer_optional">飛行常客計劃 (選填)</string>
+    <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
+    <string name="expand_frequent_flyer_button_cont_desc">展開飛行常客 (選填) 按鈕</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">收合飛行常客 (選填) 按鈕</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">更新您 {brand} 帳戶內的旅客資料，下次預訂更快捷方便。</string>
     <!-- Update traveler dialog title-->
@@ -2143,6 +2191,8 @@
     <string name="known_traveler_msg">這是用於 TSA PreCheck 的政府發出編號</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">申訴編號是指由 TSA 發出的獨有編號，它有助 TSA 排除將旅客誤認為監察名單人士，並可確認您的身分。</string>
+    <!--Frequent flyer program number hint -->
+    <string name="frequent_flyer_program_number">計劃號碼</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">座位喜好</string>
@@ -3861,6 +3911,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">正在顯示前往{city}的出發航班</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">選擇前往%1$s的航班</string>
+    <!-- Outbound to template. -->
+    <string name="outbound_to_TEMPLATE">出發往{cityname} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">前往%1$s的航班</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3871,6 +3923,8 @@
     <string name="select_return_flight">選擇回程航班</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">前往%1$s的航班</string>
+    <!-- Inbound to template. -->
+    <string name="inbound_to_TEMPLATE">返回{cityname} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->

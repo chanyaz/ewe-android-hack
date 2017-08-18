@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
@@ -10,66 +9,78 @@
             android:entries="@array/api_names"
             android:entryValues="@array/api_names"
             android:key="@string/preference_which_api_to_use_key"
+            android:layout="@layout/preference"
             android:title="Select API" />
 
         <Preference
             android:title="Abacus Tests"
             android:key="@string/preference_open_abacus_settings"
+            android:layout="@layout/preference"
             android:summary="Click to view tests and change buckets" />
 
         <Preference
             android:title="Feature Toggle"
             android:key="@string/preference_open_feature_toggle_settings"
+            android:layout="@layout/preference"
             android:summary="Click for Features Toggle" />
 
         <EditTextPreference
             android:defaultValue="localhost:3000"
             android:key="@string/preference_proxy_server_address"
+            android:layout="@layout/preference"
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
             android:title="Server/Proxy Address" />
 
         <Preference
             android:key="@string/preference_clear_user_cookies"
+            android:layout="@layout/preference"
             android:summary="Clears user cookies to simulate bad cookies scenario."
             android:title="Clear user cookies" />
 
         <Preference
             android:key="@string/preference_force_fs_db_update"
+            android:layout="@layout/preference"
             android:summary="If you think the internal FS.db is out of date"
             android:title="Force FlightStats DB Update" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_enable_picasso_logging"
+            android:layout="@layout/preference"
             android:summary="Show detailed logging of Picasso activity."
             android:title="Enable Picasso Logging" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_enable_bugshaker"
+            android:layout="@layout/preference"
             android:summary="Enable bug reporting upon shake."
             android:title="Enable Bugshaker" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_enable_leakcanary"
+            android:layout="@layout/preference"
             android:summary="Enable super useful memory analysis tool (requires restart)"
             android:title="Enable LeakCanary" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_enable_chuck_notification"
+            android:layout="@layout/preference"
             android:summary="Enable Chuck (In-app HTTP inspector for OkHttp clients) notification."
             android:title="Enable Chuck notification" />
 
         <Preference
             android:title="Show Chuck UI"
             android:key="@string/preference_chuck_show_ui"
+            android:layout="@layout/preference"
             android:summary="Click to view Chuck UI for HTTP requests" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_disable_modern_https_security"
+            android:layout="@layout/preference"
             android:summary="Allows connecting to insecure https and http servers"
             android:title="Disable Modern https security" />
 
@@ -82,11 +93,13 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_launch_screen_overflow"
+            android:layout="@layout/preference"
             android:summary="(please kill the app and start again to see the changes.)"
             android:title="Show OverFlow Menu in New Launch Screen" />
 
         <CheckBoxPreference
             android:key="PREF_FIRST_LAUNCH"
+            android:layout="@layout/preference"
             android:summary="Check to see first launch behavior (please kill and restart the app)"
             android:title="Show First App Launch Behavior" />
 
@@ -99,11 +112,13 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_hotel_bookings"
+            android:layout="@layout/preference"
             android:summary="Do hotel bookings, but suppress any actual booking from going through"
             android:title="Suppress Hotel Bookings" />
 
         <CheckBoxPreference
             android:key="@string/preference_filter_merchant_properties"
+            android:layout="@layout/preference"
             android:summary="Only return non-merchant hotels for testing"
             android:title="Filter Merchant Hotels" />
 
@@ -111,6 +126,7 @@
             android:defaultValue="@string/preference_fake_price_change_default"
             android:inputType="numberDecimal|numberSigned"
             android:key="@string/preference_fake_hotel_price_change"
+            android:layout="@layout/preference"
             android:summary="Fake a price change during checkout (e.g., 10.25 for a $10.25 price change)"
             android:title="Fake Hotel Price Change" />
 
@@ -123,6 +139,7 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_package_bookings"
+            android:layout="@layout/preference"
             android:summary="Do package bookings, but suppress any actual booking from going through"
             android:title="Suppress Package Bookings" />
 
@@ -135,6 +152,7 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_car_bookings"
+            android:layout="@layout/preference"
             android:summary="Do car bookings, but suppress any actual booking from going through"
             android:title="Suppress Car Bookings" />
 
@@ -147,6 +165,7 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_lx_bookings"
+            android:layout="@layout/preference"
             android:summary="Do LX bookings, but suppress any actual booking from going through"
             android:title="Suppress LX Bookings" />
 
@@ -159,6 +178,7 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_flight_bookings"
+            android:layout="@layout/preference"
             android:summary="Do flight bookings, but suppress any actual booking from going through"
             android:title="Suppress Flight Bookings" />
 
@@ -166,6 +186,7 @@
             android:defaultValue="@string/preference_fake_price_change_default"
             android:inputType="numberDecimal|numberSigned"
             android:key="@string/preference_fake_flight_price_change"
+            android:layout="@layout/preference"
             android:summary="Fake a price change during checkout (e.g., 10.25 for a $10.25 price change)"
             android:title="Fake Flight Price Change" />
 
@@ -173,18 +194,21 @@
             android:defaultValue="@string/preference_flight_fake_obfees_default"
             android:inputType="numberDecimal|numberSigned"
             android:key="@string/preference_flight_fake_obfees"
+            android:layout="@layout/preference"
             android:summary="Fake some online booking fees.  Positive numbers only."
             android:title="Fake Flight ObFees" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_force_passenger_category_error"
+            android:layout="@layout/preference"
             android:summary="Force the main passenger's passenger category to be 'ADULT_CHILD' instead of 'ADULT'"
             android:title="Force a PassengerCategory error" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_swp_flights_earn_messaging"
+            android:layout="@layout/preference"
             android:summary="Enable shop with points earn messaging"
             android:title="Enable Earn Messaging" />
 
@@ -194,19 +218,22 @@
         android:layout="@layout/preference_category_title"
         android:title="Push" >
 
-        <com.expedia.bookings.preference.GCMIdDialogPreference
+        <com.expedia.bookings.widget.GCMIdDialogPreference
             android:key="@string/preference_push_notification_gcm_id"
+            android:layout="@layout/preference"
             android:title="GCM Info" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_disable_push_registration"
+            android:layout="@layout/preference"
             android:summary="Don't tell the server about flights in your itineraries"
             android:title="Disable push registrations." />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_push_notification_any_flight"
+            android:layout="@layout/preference"
             android:summary="If we get a push notification for a flight, but can&apos;t find that flight locally, then just use any other available flight"
             android:title="Push notifications use local flight." />
 
@@ -219,12 +246,14 @@
         <EditTextPreference
             android:defaultValue=""
             android:key="@string/preference_fake_current_location"
+            android:layout="@layout/preference"
             android:summary="Type in as &apos;lat,lng&apos;.  Works on launcher and hotel search."
             android:title="Fake Current Location" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_force_new_location"
+            android:layout="@layout/preference"
             android:summary="Force launcher to fetch new location. Does not work if fake location set, remove fake location to force fetch."
             android:title="Force Location Fetch" />
 
@@ -237,6 +266,7 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_show_itin_checkin"
+            android:layout="@layout/preference"
             android:summary="Show Check In Now button on Itin flights before 24 hours (kill the app and start again to see the changes.)"
             android:title="Show Itin Check In Now for Flights" />
 
@@ -249,9 +279,9 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_enable_tune"
+            android:layout="@layout/preference"
             android:summary="Enable tune integration (kill the app and start again to see the changes.)"
             android:title="Enable Tune" />
 
     </PreferenceCategory>
-
 </PreferenceScreen>
