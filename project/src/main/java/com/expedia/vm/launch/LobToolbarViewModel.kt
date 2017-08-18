@@ -13,7 +13,6 @@ class LobToolbarViewModel(context: Context, val defaultLob: LineOfBusiness) {
     val lobSelectedSubject = PublishSubject.create<LineOfBusiness>()
 
     val supportedLobs: ArrayList<LobInfo> = getLobs()
-    val selectedLobPosition = getDefaultLobPosition()
     private val nav = NavigationHelper(context)
 
     init {
@@ -58,9 +57,9 @@ class LobToolbarViewModel(context: Context, val defaultLob: LineOfBusiness) {
         return lobs
     }
 
-    private fun getDefaultLobPosition(): Int {
+    fun getLobPosition(lob: LineOfBusiness): Int {
         for ((index, lobInfo) in supportedLobs.withIndex()) {
-            if (lobInfo.lineOfBusiness == defaultLob)
+            if (lobInfo.lineOfBusiness == lob)
                 return index
         }
         return 0

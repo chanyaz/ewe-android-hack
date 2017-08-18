@@ -19,6 +19,7 @@ import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
 
 import dagger.Component;
@@ -69,4 +70,6 @@ public interface AppComponent {
 	SmartOfferService smartOfferService();
 
 	UserStateManager userStateManager();
+
+	SearchLobToolbarCache searchLobToolbarCache();
 }

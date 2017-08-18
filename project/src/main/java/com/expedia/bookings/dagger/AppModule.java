@@ -30,6 +30,7 @@ import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
@@ -273,5 +274,11 @@ public class AppModule {
 		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getSmartOfferServiceEndpoint();
 		return new SmartOfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	SearchLobToolbarCache provideSearchLobToolbarCache() {
+		return new SearchLobToolbarCache();
 	}
 }
