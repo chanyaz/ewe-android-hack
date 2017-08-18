@@ -4123,12 +4123,7 @@ public class OmnitureTracking {
 
 	public static void trackPackagesDestinationSearchInit() {
 		if (isMidAPIEnabled(sContext)) {
-			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH,
-				AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview, AbacusUtils.EBAndroidAppPackagesMidApi);
-		}
-		else {
-			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH,
-				AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview);
+			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesMidApi);
 		}
 	}
 

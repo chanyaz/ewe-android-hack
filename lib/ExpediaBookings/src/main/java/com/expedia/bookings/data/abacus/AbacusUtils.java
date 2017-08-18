@@ -99,7 +99,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppCarsAATest = 15311;
 
 	// Packages Tests
-	public static final int EBAndroidAppPackagesRemoveBundleOverview = 13655;
 	public static final int EBAndroidAppPackagesMidApi = 14856;
 	public static final int EBAndroidAppPackagesTitleChange = 14953;
 	public static final int EBAndroidAppPackagesEnableJapanPOS = 14900;
@@ -187,7 +186,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppCarsWebViewEMEA);
 		testIDs.add(EBAndroidAppCarsFlexView);
 		testIDs.add(EBAndroidAppUserOnboarding);
-		testIDs.add(EBAndroidAppPackagesRemoveBundleOverview);
 		testIDs.add(EBAndroidAppFlightAATest);
 		testIDs.add(EBAndroidAppFlightSearchFormValidation);
 		testIDs.add(EBAndroidAppHotelPinnedSearch);

@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.packages.PackageFlightContainerPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.packages.PackageFlightPresenter android:id="@+id/package_flight_presenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/package_flight_container"
-    android:layout_height="match_parent">
-
-    <ViewStub
-        android:id="@+id/package_flight_loading_presenter_stub"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:inflatedId="@+id/package_flight_loading_presenter"
-        android:layout="@layout/package_flight_loading_presenter_stub" />
-
-    <ViewStub
-        android:id="@+id/package_flight_presenter_stub"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:inflatedId="@+id/package_flight_presenter"
-        android:layout="@layout/package_flight_presenter_stub" />
-</com.expedia.bookings.presenter.packages.PackageFlightContainerPresenter>
+    android:layout_height="match_parent" />

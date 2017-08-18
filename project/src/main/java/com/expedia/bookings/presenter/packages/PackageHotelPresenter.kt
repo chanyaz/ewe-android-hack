@@ -17,7 +17,6 @@ import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -94,7 +93,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewModel = PackageHotelResultsViewModel(context, packageServices)
+        presenter.viewModel = PackageHotelResultsViewModel(context)
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.hideBundlePriceOverviewSubject.subscribe(hideBundlePriceOverviewObserver)
         presenter
@@ -189,10 +188,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsToOverview.animationDuration = duration
     }
 
-    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
-    }
-
     override fun onFinishInflate() {
         super.onFinishInflate()
         addTransition(resultsToDetail)
@@ -204,10 +199,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             bindData()
         }
 
-        if(!isRemoveBundleOverviewFeatureEnabled()) {
-            bundleSlidingWidget.animationFinished.subscribe {
-                resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
-            }
+        bundleSlidingWidget.animationFinished.subscribe {
+            resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
         }
     }
 
@@ -469,11 +462,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultDetailsTransition)
             }
         }
-    }
-
-    override fun back(): Boolean {
-        resultsPresenter.viewModel.unsubscribeSearchResponse()
-        return super.back()
     }
 
     private fun trackSearchResult(response: BundleSearchResponse) {

@@ -7,7 +7,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.otto.Events
@@ -38,10 +37,6 @@ class PackageActivity : AbstractAppCompatActivity() {
         isCrossSellPackageOnFSREnabled = intent.getBooleanExtra(Constants.INTENT_PERFORM_HOTEL_SEARCH, false)
     }
 
-    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -51,7 +46,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
-        packagePresenter.bundleLoadingView.visibility = if (isRemoveBundleOverviewFeatureEnabled()) View.VISIBLE else View.GONE
+        packagePresenter.bundleLoadingView.visibility = View.GONE
 
         when (resultCode) {
             Activity.RESULT_CANCELED -> {
@@ -64,11 +59,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                         return
                     }
 
-                    if (isRemoveBundleOverviewFeatureEnabled()) {
-                        onBackPressed()
-                    } else {
-                        PackagesTracking().trackViewBundlePageLoad()
-                    }
+                    PackagesTracking().trackViewBundlePageLoad()
 
                     if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
                         Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
@@ -210,9 +201,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     private fun packageFlightSearch() {
-        if (!isRemoveBundleOverviewFeatureEnabled()) {
-            PackagesTracking().trackViewBundlePageLoad()
-        }
+        PackagesTracking().trackViewBundlePageLoad()
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
     }
 

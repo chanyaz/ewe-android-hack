@@ -1,7 +1,6 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.PackageScope;
-import com.expedia.bookings.presenter.packages.PackageFlightContainerPresenter;
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter;
 import com.expedia.bookings.presenter.packages.PackagePresenter;
 import com.expedia.bookings.services.PackageServices;
@@ -19,7 +18,6 @@ public interface PackageComponent {
 	void inject(PackageHotelPresenter presenter);
 	void inject(PackageCheckoutPresenter presenter);
 	void inject(PackageCheckoutViewModel model);
-	void inject(PackageFlightContainerPresenter presenter);
 
 	PackageServices packageServices();
 	ReviewsServices reviewsServices();

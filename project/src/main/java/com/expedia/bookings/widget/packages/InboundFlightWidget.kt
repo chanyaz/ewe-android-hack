@@ -6,12 +6,9 @@ import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.ui.PackageFlightActivity
 import com.squareup.phrase.Phrase
@@ -21,14 +18,10 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
         return true
     }
 
-    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
-    }
-
     override fun showLoading() {
         toggleFlightWidget(1f, false)
 
-        viewModel.showLoadingStateObservable.onNext(!isRemoveBundleOverviewFeatureEnabled())
+        viewModel.showLoadingStateObservable.onNext(true)
         viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to))
     }
 

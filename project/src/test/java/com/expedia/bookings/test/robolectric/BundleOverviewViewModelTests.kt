@@ -1,15 +1,12 @@
 package com.expedia.bookings.test.robolectric
 
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -31,13 +28,8 @@ class BundleOverviewViewModelTests {
 
     @Before
     fun setup() {
-        setRemoveBundleOverviewScreenTest()
         setUpParams()
         sut = BundleOverviewViewModel(context, serviceRule.services!!)
-    }
-
-    private fun setRemoveBundleOverviewScreenTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     @Test
@@ -75,7 +67,8 @@ class BundleOverviewViewModelTests {
         val resultsSubscriber = TestSubscriber<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
         val params = setUpParams()
-        params.packagePIID = "packagePIID"
+        params.packagePIID = "happy_outbound_flight"
+        params.currentFlights = arrayOf("legs")
         sut.flightParamsObservable.onNext(params)
 
         resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)

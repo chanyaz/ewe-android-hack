@@ -3,7 +3,6 @@ package com.expedia.vm.packages
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -57,11 +56,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
 
-            if (isRemoveBundleOverviewFeatureEnabled() && packageServices != null) {
-                autoAdvanceObservable.onNext(PackageSearchType.HOTEL)
-            } else {
-                searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled(context)) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
-            }
+            searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled(context)) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
         }
 
         flightParamsObservable.subscribe { params ->
@@ -74,12 +69,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .format().toString())
             val type = if (params.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
 
-            if (isRemoveBundleOverviewFeatureEnabled() && packageServices != null) {
-                flightResultsObservable.onNext(type)
-                autoAdvanceObservable.onNext(type)
-            } else {
-                searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled(context))))?.subscribe(makeResultsObserver(type))
-            }
+            searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled(context))))?.subscribe(makeResultsObserver(type))
         }
 
         searchParamsChangeObservable.subscribe {
@@ -127,10 +117,6 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         } else {
             return ProductSearchType.OldPackageSearch
         }
-    }
-
-    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     fun makeResultsObserver(type: PackageSearchType): Observer<BundleSearchResponse> {

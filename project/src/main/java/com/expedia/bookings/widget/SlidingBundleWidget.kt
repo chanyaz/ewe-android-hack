@@ -17,7 +17,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -62,7 +61,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
                 if (bundlePriceWidget.height != 0) {
                     bundlePriceWidget.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     val activity = context as Activity
-                    if (!isRemoveBundleOverviewFeatureEnabled() && activity.intent.extras == null) {
+                    if (activity.intent.extras == null) {
                         bundlePriceWidget.animateBundleWidget(1f, true)
                         finalizeBundleTransition(true, false)
                         bundleFooterContainer.translationY = -statusBarHeight.toFloat()
@@ -86,10 +85,6 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
             bundlePriceFooter.bundleTotalText.text = bundleTotalText
             bundlePriceWidget.bundleTotalText.text = bundleTotalText
         }
-    }
-
-    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     fun startBundleTransition(forward: Boolean) {
