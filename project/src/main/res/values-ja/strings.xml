@@ -714,6 +714,22 @@
     <string name="traveler_adult_child_error">旅行時に 12 歳 ～ 17 歳である必要があります</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">18 歳以上である必要があります。</string>
+    <!-- Text for traveler child error displayed in alert dialog message-->
+    <string name="traveler_child_error_message">お子様とみなされるには、旅行期間中に年齢が 2 ～ 11 歳である必要があります</string>
+    <!-- Text for traveler youth error displayed in alert dialog message-->
+    <string name="traveler_youth_error_message">中人とみなされるには、旅行期間中に年齢が 12 ～ 17 歳である必要があります</string>
+    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
+    <string name="checkout_traveler_title_TEMPLATE">旅行者 {travelernumber} ({passengerycategory})</string>
+    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <!-- Adult age label on flight checkout summary card-->
+    <string name="flight_checkout_adult_age_label">18 歳以上</string>
+    <!-- Youth age label on flight checkout traveler summary card -->
+    <string name="flight_checkout_youth_age_label">12 ～ 17 歳</string>
+    <!-- Children age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_children_age_label">2 ～ 11 歳</string>
+    <!-- Infant age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_infant_age_label">2 歳未満</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">代表者がホテルにチェックインしてください。18 歳以上である必要があります。</string>
     <!-- Text for enter traveler details-->
@@ -1499,7 +1515,34 @@
     <string name="itin_hotel_room_details_requests_header">リクエスト内容</string>
     <!--Hotel itin room details requests disclaimer-->
     <string name="itin_hotel_room_details_requests_disclaimer">これらの客室リクエストはホテルに伝えられますが、確約ではなく、チェックイン時の空室状況によってはご希望に添えない場合があります。</string>
-
+    <!--Hotel itin room details no requests selected-->
+    <string name="itin_hotel_room_details_no_requests_selected">お支払い時に未選択</string>
+    <!--Hotel itin room request for extra adult bed-->
+    <string name="itin_hotel_room_request_extra_adult_bed">追加の大人用ベッド</string>
+    <!--Hotel itin room request for extra child bed-->
+    <string name="itin_hotel_room_request_extra_child_bed">追加のお子様用ベッド</string>
+    <!--Hotel itin room request for extra infant bed-->
+    <string name="itin_hotel_room_request_extra_infant_bed">追加の幼児用ベッド</string>
+    <!--Hotel itin room request for non-smoking-->
+    <string name="non_smoking">禁煙</string>
+    <!--Hotel itin room request for smoking-->
+    <string name="smoking">喫煙</string>
+    <!--Hotel itin room details reserved for-->
+    <string name="itin_hotel_room_details_reserved_for_header">予約者 : </string>
+    <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}、{numofguests}</string>
+    <!--Hotel itin room amenity free breakfast-->
+    <string name="itin_hotel_room_amenity_free_breakfast">朝食\n込み</string>
+    <!--Hotel itin room amenity free parking-->
+    <string name="itin_hotel_room_amenity_free_parking">パーキング\n無料</string>
+    <!--Hotel itin room amenity free wifi-->
+    <string name="itin_hotel_room_amenity_free_wifi">無料\nWiFi</string>
+    <!--Hotel itin room amenity free breakfast content description-->
+    <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">朝食込み</string>
+    <!--Hotel itin room amenity free parking content description-->
+    <string name="itin_hotel_room_amenity_free_parking_cont_desc">パーキング無料</string>
+    <!--Hotel itin room amenity free wifi content description-->
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">無料 WiFi</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">チェックイン — 3 日後</string>
@@ -2098,6 +2141,11 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">このボタンをタップすると、詳細オプションが表示されます。</string>
     <string name="collapse_advanced_button_cont_desc">このボタンをタップすると、詳細オプションが非表示になります。</string>
+    <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
+    <string name="frequent_flyer_optional">フリークエント フライヤー プログラム (オプション)</string>
+    <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
+    <string name="expand_frequent_flyer_button_cont_desc">フリークエント フライヤー プログラム (オプション) を表示するボタン</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">フリークエント フライヤー プログラム (オプション) を非表示にするボタン</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">{brand} アカウントで旅行者の情報を更新しますか ? 更新すると、次回からご予約が簡単に行えます。</string>
     <!-- Update traveler dialog title-->
@@ -2143,6 +2191,8 @@
     <string name="known_traveler_msg">これは運輸保安局 (TSA) の事前チェックに必要な、政府発行の番号です</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">リドレスナンバーとは、監視対象者リストに登録されている人物と同姓同名の方が誤って識別されてしまうことを防止するために、運輸保安局 (TSA) が発行する番号です。</string>
+    <!--Frequent flyer program number hint -->
+    <string name="frequent_flyer_program_number">プログラム番号</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">座席希望</string>
@@ -3861,6 +3911,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">{city}への行きの便を表示中</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$sへのフライトを選択</string>
+    <!-- Outbound to template. -->
+    <string name="outbound_to_TEMPLATE">行きの目的地 : {cityname} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">%1$sへのフライト</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3871,6 +3923,8 @@
     <string name="select_return_flight">帰りの便を選択</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">%1$sへのフライト</string>
+    <!-- Inbound to template. -->
+    <string name="inbound_to_TEMPLATE">帰りの到着地 : {cityname} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}、{travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4633,7 +4687,7 @@
     <string name="option_TEMPLATE">オプション {number}</string>
 
     <!-- Content description for double tap action to collapse HIS room info -->
-    <string name="collapse_room_info_cont_desc">表示する</string>
+    <string name="collapse_room_info_cont_desc">非表示にする</string>
     <!-- Content description for double tap action to expand HIS room info -->
     <string name="expand_room_info_cont_desc">非表示にする</string>
 

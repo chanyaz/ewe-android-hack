@@ -707,13 +707,29 @@
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">Edad del pasajero</string>
     <!-- Text for traveler infant error-->
-    <string name="traveler_infant_error">Durante todo el viaje, este pasajero debe tener menos de 24 meses para que sea considerado un bebé</string>
+    <string name="traveler_infant_error">Durante todo el viaje, este pasajero debe tener menos de 24 meses para viajar en calidad de bebé</string>
     <!-- Text for traveler child error-->
-    <string name="traveler_child_error">Durante todo el viaje, este pasajero debe tener menos de 12 años para que sea considerado un menor</string>
+    <string name="traveler_child_error">Durante todo el viaje, este pasajero debe tener menos de 12 años para viajar en calidad de niño</string>
     <!-- Text for traveler adult child error-->
     <string name="traveler_adult_child_error">Al momento del viaje, este pasajero debe tener entre 12 y 17 años</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">Este pasajero debe tener al menos 18 años</string>
+    <!-- Text for traveler child error displayed in alert dialog message-->
+    <string name="traveler_child_error_message">Durante todo el viaje, este pasajero debe tener entre 2 y 11 años para viajar en calidad de niño</string>
+    <!-- Text for traveler youth error displayed in alert dialog message-->
+    <string name="traveler_youth_error_message">Durante todo el viaje, este pasajero debe tener entre 12 y 17 años para viajar en calidad de joven</string>
+    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
+    <string name="checkout_traveler_title_TEMPLATE">Pasajero {travelernumber} ({passengerycategory})</string>
+    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <!-- Adult age label on flight checkout summary card-->
+    <string name="flight_checkout_adult_age_label">Más de 18</string>
+    <!-- Youth age label on flight checkout traveler summary card -->
+    <string name="flight_checkout_youth_age_label">12 a 17</string>
+    <!-- Children age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_children_age_label">2 a 11</string>
+    <!-- Infant age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_infant_age_label">Menos de 2</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">El huésped principal debe realizar el check-in en el hotel. Debe tener 18 años o más.</string>
     <!-- Text for enter traveler details-->
@@ -1499,7 +1515,34 @@
     <string name="itin_hotel_room_details_requests_header">Solicitudes</string>
     <!--Hotel itin room details requests disclaimer-->
     <string name="itin_hotel_room_details_requests_disclaimer">Transmitimos las solicitudes de habitación al hotel, aunque no están confirmadas. Están sujetas a disponibilidad al momento del check-in.</string>
-
+    <!--Hotel itin room details no requests selected-->
+    <string name="itin_hotel_room_details_no_requests_selected">Ningún elemento seleccionado en la página de pago</string>
+    <!--Hotel itin room request for extra adult bed-->
+    <string name="itin_hotel_room_request_extra_adult_bed">Cama adicional para adulto</string>
+    <!--Hotel itin room request for extra child bed-->
+    <string name="itin_hotel_room_request_extra_child_bed">Cama adicional para niño</string>
+    <!--Hotel itin room request for extra infant bed-->
+    <string name="itin_hotel_room_request_extra_infant_bed">Cuna adicional</string>
+    <!--Hotel itin room request for non-smoking-->
+    <string name="non_smoking">No fumador</string>
+    <!--Hotel itin room request for smoking-->
+    <string name="smoking">Fumador</string>
+    <!--Hotel itin room details reserved for-->
+    <string name="itin_hotel_room_details_reserved_for_header">Reservación para</string>
+    <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}, {numofguests}</string>
+    <!--Hotel itin room amenity free breakfast-->
+    <string name="itin_hotel_room_amenity_free_breakfast">Desayuno\nincluido</string>
+    <!--Hotel itin room amenity free parking-->
+    <string name="itin_hotel_room_amenity_free_parking">Estacionamiento\ngratis</string>
+    <!--Hotel itin room amenity free wifi-->
+    <string name="itin_hotel_room_amenity_free_wifi">Wifi\ngratis</string>
+    <!--Hotel itin room amenity free breakfast content description-->
+    <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">Desayuno incluido</string>
+    <!--Hotel itin room amenity free parking content description-->
+    <string name="itin_hotel_room_amenity_free_parking_cont_desc">Estacionamiento gratis</string>
+    <!--Hotel itin room amenity free wifi content description-->
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wifi gratis</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in en 3 días</string>
@@ -2098,6 +2141,11 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Botón para ampliar las opciones avanzadas</string>
     <string name="collapse_advanced_button_cont_desc">Botón para reducir las opciones avanzadas</string>
+    <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
+    <string name="frequent_flyer_optional">Programa de viajero frecuente (opcional)</string>
+    <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
+    <string name="expand_frequent_flyer_button_cont_desc">Botón para expandir el programa de viajero frecuente (opcional)</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">Botón para reducir el programa de viajero frecuente (opcional)</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">¿Deseas actualizar los datos del pasajero de tu cuenta de {brand} para agilizar tus futuras compras?</string>
     <!-- Update traveler dialog title-->
@@ -2143,6 +2191,8 @@
     <string name="known_traveler_msg">Este es un número emitido por el gobierno para el programa TSA PreCheck.</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">El número de rectificación es un número único emitido por la TSA para eliminar errores de identificación y poder verificar tu identidad.</string>
+    <!--Frequent flyer program number hint -->
+    <string name="frequent_flyer_program_number">Número del programa</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">Preferencia de asientos</string>
@@ -3861,6 +3911,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Mostrando vuelos de ida a {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Seleccionar un vuelo %1$s</string>
+    <!-- Outbound to template. -->
+    <string name="outbound_to_TEMPLATE">Ida a {cityname} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Vuelo a %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3871,6 +3923,8 @@
     <string name="select_return_flight">Seleccionar un vuelo de regreso</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Vuelo a %1$s</string>
+    <!-- Inbound to template. -->
+    <string name="inbound_to_TEMPLATE">Regreso a {cityname} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->

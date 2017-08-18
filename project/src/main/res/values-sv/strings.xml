@@ -714,6 +714,22 @@
     <string name="traveler_adult_child_error">Resenären måste vara mellan 12 och 17 år vid resan</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">Resenären måste vara minst 18 år gammal</string>
+    <!-- Text for traveler child error displayed in alert dialog message-->
+    <string name="traveler_child_error_message">Resenären måste vara mellan 2 och 11 år under hela resan för att resa som barn</string>
+    <!-- Text for traveler youth error displayed in alert dialog message-->
+    <string name="traveler_youth_error_message">Resenären måste vara mellan 12 och 17 år under hela resan för att resa som ungdom</string>
+    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
+    <string name="checkout_traveler_title_TEMPLATE">Resenär {travelernumber} ({passengerycategory})</string>
+    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <!-- Adult age label on flight checkout summary card-->
+    <string name="flight_checkout_adult_age_label">18+</string>
+    <!-- Youth age label on flight checkout traveler summary card -->
+    <string name="flight_checkout_youth_age_label">12-17</string>
+    <!-- Children age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_children_age_label">2-11</string>
+    <!-- Infant age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_infant_age_label">Under 2</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Huvudresenären måste checka in på hotellet. Måste vara minst 18 år.</string>
     <!-- Text for enter traveler details-->
@@ -1499,7 +1515,34 @@
     <string name="itin_hotel_room_details_requests_header">Särskilda önskemål</string>
     <!--Hotel itin room details requests disclaimer-->
     <string name="itin_hotel_room_details_requests_disclaimer">Dessa önskemål har skickats till hotellet, men kommer inte att bekräftas förrän vid incheckningen och är tillgängliga i mån av tillgång.</string>
-
+    <!--Hotel itin room details no requests selected-->
+    <string name="itin_hotel_room_details_no_requests_selected">Inga valda vid betalning</string>
+    <!--Hotel itin room request for extra adult bed-->
+    <string name="itin_hotel_room_request_extra_adult_bed">Extra vuxensäng</string>
+    <!--Hotel itin room request for extra child bed-->
+    <string name="itin_hotel_room_request_extra_child_bed">Extra barnsäng</string>
+    <!--Hotel itin room request for extra infant bed-->
+    <string name="itin_hotel_room_request_extra_infant_bed">Extra spjälsäng</string>
+    <!--Hotel itin room request for non-smoking-->
+    <string name="non_smoking">Rökfritt</string>
+    <!--Hotel itin room request for smoking-->
+    <string name="smoking">Rökning tillåtet</string>
+    <!--Hotel itin room details reserved for-->
+    <string name="itin_hotel_room_details_reserved_for_header">Bokat för</string>
+    <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}, {numofguests}</string>
+    <!--Hotel itin room amenity free breakfast-->
+    <string name="itin_hotel_room_amenity_free_breakfast">Frukost\ningår</string>
+    <!--Hotel itin room amenity free parking-->
+    <string name="itin_hotel_room_amenity_free_parking">Avgiftsfri\nparkering</string>
+    <!--Hotel itin room amenity free wifi-->
+    <string name="itin_hotel_room_amenity_free_wifi">Gratis\nwi-fi</string>
+    <!--Hotel itin room amenity free breakfast content description-->
+    <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">Frukost ingår</string>
+    <!--Hotel itin room amenity free parking content description-->
+    <string name="itin_hotel_room_amenity_free_parking_cont_desc">Avgiftsfri parkering</string>
+    <!--Hotel itin room amenity free wifi content description-->
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Gratis wi-fi</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Incheckning — 3 dagar</string>
@@ -2098,6 +2141,11 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Knapp för att visa avancerade alternativ (valfritt)</string>
     <string name="collapse_advanced_button_cont_desc">Knapp för att dölja avancerade alternativ (valfritt)</string>
+    <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
+    <string name="frequent_flyer_optional">Frequent flyer (valfritt)</string>
+    <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
+    <string name="expand_frequent_flyer_button_cont_desc">Expandera knappen för frequent flyer (valfritt)</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">Dölj knappen för frequent flyer (valfritt)</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">Vill du uppdatera resenärsinformation på ditt {brand}-konto för att boka snabbare nästa gång?</string>
     <!-- Update traveler dialog title-->
@@ -2143,6 +2191,8 @@
     <string name="known_traveler_msg">Detta är det statligt utfärdade numret som används för TSA PreCheck</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">Redressnummer är ett unikt nummer, utfärdat av TSA, vilket hjälper TSA att utesluta felidentifieringar på bevakningslistor samt att styrka din identitet.</string>
+    <!--Frequent flyer program number hint -->
+    <string name="frequent_flyer_program_number">Programnummer</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">Platspreferens</string>
@@ -3861,6 +3911,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Visar avreseflyg till {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Välj flyg till %1$s</string>
+    <!-- Outbound to template. -->
+    <string name="outbound_to_TEMPLATE">Avresa till {cityname} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Flyg till %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3871,6 +3923,8 @@
     <string name="select_return_flight">Välj returflyg</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Flyg till %1$s</string>
+    <!-- Inbound to template. -->
+    <string name="inbound_to_TEMPLATE">Återresa till {cityname} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->

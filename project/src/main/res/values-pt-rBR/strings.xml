@@ -714,6 +714,22 @@
     <string name="traveler_adult_child_error">No momento da viagem, o viajante deverá ter entre 12 e 17 anos de idade</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">O viajante deverá ter no mínimo 18 anos de idade</string>
+    <!-- Text for traveler child error displayed in alert dialog message-->
+    <string name="traveler_child_error_message">Para ser considerado uma criança, este viajante deverá ter entre 2 e 11 anos até a data de conclusão da viagem.</string>
+    <!-- Text for traveler youth error displayed in alert dialog message-->
+    <string name="traveler_youth_error_message">Para ser considerado um adolescente, este viajante deverá ter entre 12 e 17 anos até a data de conclusão da viagem.</string>
+    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
+    <string name="checkout_traveler_title_TEMPLATE">Viajante {travelernumber} ({passengerycategory})</string>
+    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <!-- Adult age label on flight checkout summary card-->
+    <string name="flight_checkout_adult_age_label">18+</string>
+    <!-- Youth age label on flight checkout traveler summary card -->
+    <string name="flight_checkout_youth_age_label">12-17</string>
+    <!-- Children age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_children_age_label">2-11</string>
+    <!-- Infant age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_infant_age_label">até 2</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">O viajante principal deve fazer check-in no hotel. Deve ser maior de 18 anos.</string>
     <!-- Text for enter traveler details-->
@@ -1499,7 +1515,34 @@
     <string name="itin_hotel_room_details_requests_header">Solicitações</string>
     <!--Hotel itin room details requests disclaimer-->
     <string name="itin_hotel_room_details_requests_disclaimer">As solicitações para este quarto foram repassadas ao hotel, mas não estão confirmadas e estão sujeitas à disponibilidade no momento do check-in.</string>
-
+    <!--Hotel itin room details no requests selected-->
+    <string name="itin_hotel_room_details_no_requests_selected">Nenhuma opção selecionada no check-out</string>
+    <!--Hotel itin room request for extra adult bed-->
+    <string name="itin_hotel_room_request_extra_adult_bed">Cama extra para adulto</string>
+    <!--Hotel itin room request for extra child bed-->
+    <string name="itin_hotel_room_request_extra_child_bed">Cama extra para criança</string>
+    <!--Hotel itin room request for extra infant bed-->
+    <string name="itin_hotel_room_request_extra_infant_bed">Cama extra para bebê</string>
+    <!--Hotel itin room request for non-smoking-->
+    <string name="non_smoking">Para não fumantes</string>
+    <!--Hotel itin room request for smoking-->
+    <string name="smoking">Para fumantes</string>
+    <!--Hotel itin room details reserved for-->
+    <string name="itin_hotel_room_details_reserved_for_header">Reservado para</string>
+    <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}, {numofguests}</string>
+    <!--Hotel itin room amenity free breakfast-->
+    <string name="itin_hotel_room_amenity_free_breakfast">Café da manhã\nincluído</string>
+    <!--Hotel itin room amenity free parking-->
+    <string name="itin_hotel_room_amenity_free_parking">Estacionamento\ngratuito</string>
+    <!--Hotel itin room amenity free wifi-->
+    <string name="itin_hotel_room_amenity_free_wifi">Wi-Fi\ngrátis</string>
+    <!--Hotel itin room amenity free breakfast content description-->
+    <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">Café da manhã incluído</string>
+    <!--Hotel itin room amenity free parking content description-->
+    <string name="itin_hotel_room_amenity_free_parking_cont_desc">Estacionamento grátis</string>
+    <!--Hotel itin room amenity free wifi content description-->
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wi-Fi grátis</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in em 3 dias</string>
@@ -2098,6 +2141,11 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Botão para abrir as opções avançadas (opcional)</string>
     <string name="collapse_advanced_button_cont_desc">Botão para recolher as opções avançadas (opcional)</string>
+    <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
+    <string name="frequent_flyer_optional">Programa de fidelidade (opcional)</string>
+    <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
+    <string name="expand_frequent_flyer_button_cont_desc">Expandir botão do programa de fidelidade (opcional)</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">Recolher botão do programa de fidelidade (opcional)</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">Atualizar as informações do viajante em sua conta da {brand} para agilizar suas próximas compras?</string>
     <!-- Update traveler dialog title-->
@@ -2143,6 +2191,8 @@
     <string name="known_traveler_msg">Esse número emitido pelo governo norte-americano é usado para o programa TSA PreCheck</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">O número de reparação é um número exclusivo emitido pela Administração de Segurança de Transportes (TSA) dos EUA para eliminar erros de identificação na lista de observação e verificar sua identidade.</string>
+    <!--Frequent flyer program number hint -->
+    <string name="frequent_flyer_program_number">Número do programa</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">Preferência de assento</string>
@@ -3861,6 +3911,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Exibindo voos de ida para {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Selecione um voo para %1$s</string>
+    <!-- Outbound to template. -->
+    <string name="outbound_to_TEMPLATE">Saindo de{cityname}{airportcode}</string>
     <!-- Flight to template -->
     <string name="flight_to">Voo para %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3871,6 +3923,8 @@
     <string name="select_return_flight">Selecione o voo de volta</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Voo para %1$s</string>
+    <!-- Inbound to template. -->
+    <string name="inbound_to_TEMPLATE">Chegando a{cityname}{airportcode}</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->

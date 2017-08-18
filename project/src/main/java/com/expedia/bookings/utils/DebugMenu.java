@@ -2,7 +2,6 @@ package com.expedia.bookings.utils;
 
 import java.util.List;
 
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,5 +18,4 @@ public interface DebugMenu {
 	List<DebugActivityInfo> getDebugActivityInfoList();
 	void addShortcutsForAllLaunchers();
 	void startTestActivity(String className);
-	Intent getSettingActivityIntent();
 }
