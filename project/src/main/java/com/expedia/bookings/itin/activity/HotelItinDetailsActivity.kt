@@ -1,19 +1,21 @@
 package com.expedia.bookings.itin.activity
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.HotelItinBookingDetails
+import com.expedia.bookings.widget.itin.HotelItinCheckInCheckOutDetails
 import com.expedia.bookings.widget.itin.HotelItinImage
 import com.expedia.bookings.widget.itin.HotelItinLocationDetails
-import com.expedia.bookings.widget.itin.HotelItinCheckInCheckOutDetails
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
 import com.expedia.bookings.widget.itin.HotelItinToolbar
 
@@ -45,6 +47,10 @@ open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
         findViewById(R.id.itin_hotel_room_details_chevron) as ImageView
     }
 
+    val container: ViewGroup by lazy {
+        findViewById(R.id.container) as ViewGroup
+    }
+
     lateinit var itinCardDataHotel: ItinCardDataHotel
 
     companion object {
@@ -70,6 +76,8 @@ open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
     }
 
     fun setUpWidgets() {
+        container.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+
         locationDetailsView.setupWidget(itinCardDataHotel)
         hotelImageView.setUpWidget(itinCardDataHotel)
         checkinCheckoutView.setUpWidget(itinCardDataHotel)

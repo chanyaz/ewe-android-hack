@@ -26,11 +26,13 @@
         android:fadingEdge="none">
 
         <LinearLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp">
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp">
 
             <!--Hotel thumbnail-->
             <com.expedia.bookings.widget.itin.HotelItinImage

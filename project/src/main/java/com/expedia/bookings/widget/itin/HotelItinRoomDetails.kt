@@ -1,15 +1,15 @@
 package com.expedia.bookings.widget.itin
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.support.annotation.VisibleForTesting
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.trips.OccupantSelectedRoomOptions
-import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.data.trips.TripHotelRoom
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.AnimUtils
@@ -29,6 +29,7 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
     val guestName: TextView by bindView(R.id.itin_hotel_details_guest_name)
     val amenitiesContainer: LinearLayout by bindView(R.id.itin_hotel_room_amenities_container)
     val amenitiesDivider: View by bindView(R.id.amenities_summary_divider)
+    val container: ViewGroup by bindView(R.id.container)
     var isRowClickable = true
 
     private val collapsedRoomDetails: LinearLayout by bindView(R.id.itin_hotel_details_room_collapsed_view)
@@ -62,6 +63,9 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
                 reservedForDetails(itinCardDataHotel.lastHotelRoom)
                 setUpAmenities(itinCardDataHotel.lastHotelRoom)
             }
+
+            container.layoutTransition.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0)
+            container.layoutTransition.setStartDelay(LayoutTransition.APPEARING, 0)
         }
     }
 
@@ -93,7 +97,6 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
     fun collapseRoomDetailsView() {
         expandedRoomDetails.visibility = View.GONE
         AnimUtils.reverseRotate(roomDetailsChevron)
-        roomDetailsChevron.clearAnimation()
     }
 
     fun isExpandableRoomDetailsOn(): Boolean {
