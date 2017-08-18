@@ -714,6 +714,22 @@
     <string name="traveler_adult_child_error">此旅客於旅行期間的年齡需為 12-17 歲。</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">此旅客必須年滿 18 歲。</string>
+    <!-- Text for traveler child error displayed in alert dialog message-->
+    <string name="traveler_child_error_message">此旅客於旅行期間之年齡需全程為 2 至 11 歲之間，才可以兒童身分參加此行程。</string>
+    <!-- Text for traveler youth error displayed in alert dialog message-->
+    <string name="traveler_youth_error_message">此旅客於旅行期間之年齡需全程為 12 至 17 歲之間，才可以兒童身分參加此行程。</string>
+    <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
+    <string name="checkout_traveler_title_TEMPLATE">旅客 {travelernumber} ({passengerycategory})</string>
+    <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <!-- Adult age label on flight checkout summary card-->
+    <string name="flight_checkout_adult_age_label">18 歲以上</string>
+    <!-- Youth age label on flight checkout traveler summary card -->
+    <string name="flight_checkout_youth_age_label">12 至 17 歲</string>
+    <!-- Children age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_children_age_label">2 至 11 歲</string>
+    <!-- Infant age label on flight checkout traveler summary card-->
+    <string name="flight_checkout_infant_age_label">2 歲以下</string>
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">主要旅客必須登記入住飯店。必須年滿 18 歲。</string>
     <!-- Text for enter traveler details-->
@@ -1499,7 +1515,34 @@
     <string name="itin_hotel_room_details_requests_header">要求</string>
     <!--Hotel itin room details requests disclaimer-->
     <string name="itin_hotel_room_details_requests_disclaimer">這些客房要求已轉達給飯店，但業者不會進行確認，在入住時視實際供應情況而定。</string>
-
+    <!--Hotel itin room details no requests selected-->
+    <string name="itin_hotel_room_details_no_requests_selected">結帳時沒有選擇任何項目</string>
+    <!--Hotel itin room request for extra adult bed-->
+    <string name="itin_hotel_room_request_extra_adult_bed">額外成人床</string>
+    <!--Hotel itin room request for extra child bed-->
+    <string name="itin_hotel_room_request_extra_child_bed">額外兒童床</string>
+    <!--Hotel itin room request for extra infant bed-->
+    <string name="itin_hotel_room_request_extra_infant_bed">額外嬰兒床</string>
+    <!--Hotel itin room request for non-smoking-->
+    <string name="non_smoking">非吸煙</string>
+    <!--Hotel itin room request for smoking-->
+    <string name="smoking">吸煙</string>
+    <!--Hotel itin room details reserved for-->
+    <string name="itin_hotel_room_details_reserved_for_header">入住房客：</string>
+    <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}，{numofguests}</string>
+    <!--Hotel itin room amenity free breakfast-->
+    <string name="itin_hotel_room_amenity_free_breakfast">含早餐\n</string>
+    <!--Hotel itin room amenity free parking-->
+    <string name="itin_hotel_room_amenity_free_parking">免費\n停車</string>
+    <!--Hotel itin room amenity free wifi-->
+    <string name="itin_hotel_room_amenity_free_wifi">免費\n無線上網</string>
+    <!--Hotel itin room amenity free breakfast content description-->
+    <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">含早餐</string>
+    <!--Hotel itin room amenity free parking content description-->
+    <string name="itin_hotel_room_amenity_free_parking_cont_desc">免費停車</string>
+    <!--Hotel itin room amenity free wifi content description-->
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">免費無線上網</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3 天後入住</string>
@@ -2098,6 +2141,11 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">展開進階 (選項) 按鈕</string>
     <string name="collapse_advanced_button_cont_desc">收合進階 (選項) 按鈕</string>
+    <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
+    <string name="frequent_flyer_optional">航空公司會員計劃 (選填)</string>
+    <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
+    <string name="expand_frequent_flyer_button_cont_desc">展開航空公司會員 (選填) 按鈕</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">收合航空公司會員 (選填) 按鈕</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">想要更新您 {brand} 帳戶中的旅客資訊，以加快預訂速度嗎？</string>
     <!-- Update traveler dialog title-->
@@ -2143,6 +2191,8 @@
     <string name="known_traveler_msg">這是政府發出的編號，用於 TSA PreCheck</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">申訴編號是 TSA 發出的特別編號，它有助於 TSA 避免誤認旅客為被監控人士，並且可以確認您的身分。</string>
+    <!--Frequent flyer program number hint -->
+    <string name="frequent_flyer_program_number">計劃編號</string>
     <!-- Saving traveler info spinner dialog -->
     <!-- Seating Preference -->
     <string name="seating_preference">座位偏好</string>
@@ -3861,6 +3911,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">正在顯示前往{city}的班機</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">選擇前往%1$s的班機</string>
+    <!-- Outbound to template. -->
+    <string name="outbound_to_TEMPLATE">前往{cityname} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">班機前往%1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3871,6 +3923,8 @@
     <string name="select_return_flight">選擇回程班機</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">班機前往%1$s</string>
+    <!-- Inbound to template. -->
+    <string name="inbound_to_TEMPLATE">返回{cityname} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}，{travelers}</string>
     <!-- Toolbar text for hotel results -->
