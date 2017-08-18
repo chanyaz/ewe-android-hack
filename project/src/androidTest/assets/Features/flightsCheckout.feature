@@ -276,7 +276,7 @@ Feature: Flights Checkout
     And I press back
     And I press back
     And I wait for inbound flights results to load
-    And I select inbound flight at position 2 and reach overview
+    And I select inbound flight at position 1 and reach overview
     When I click on checkout button
     And I wait for checkout screen to load
     And Validate that Main traveller "Traveler Details" is selected by default
@@ -326,3 +326,31 @@ Feature: Flights Checkout
     And I wait for checkout screen to load
     And Validate that Main traveller "Traveler Details" is selected by default
     And Validate that Credit card "Payment Method" is selected by default
+
+  @Flights @FlightsCheckout
+    Scenario: Verify that error message should be displayed if card is not accepted by certain flight on payment screen.
+      Given I launch the App
+      And I launch "Flights" LOB
+      When I make a flight search with following parameters
+        | source              | SFO                                      |
+        | destination         | DEL                                      |
+        | source_suggest      | San Francisco, CA                        |
+        | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+        | start_date          | 15                                       |
+        | end_date            | 20                                       |
+        | adults              | 1                                        |
+        | child               | 0                                        |
+      And I wait for results to load
+      And I select outbound flight at position 2 and reach inbound FSR
+      And I wait for inbound flights results to load
+      And I select inbound flight at position 1 and reach overview
+      And Close price change Alert dialog if it is visible
+      When I click on checkout button
+      And I wait for checkout screen to load
+      And I click on Payment Info
+      Then I verify that field to enter credit card is present on the payment details form
+      Then I enter the card number
+        | card_number              | 343434343434343                    |
+      Then Validate the error message displayed
+        | error_message            | Airline does not accept American Express    |
+      And Also verify the credit card image when card is not accepted for payment

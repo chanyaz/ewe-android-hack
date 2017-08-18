@@ -130,6 +130,27 @@ public class FlightsCheckoutScreenSteps {
 		CheckoutViewModel.clickPaymentInfo();
 	}
 
+	@Then("^I verify that field to enter credit card is present on the payment details form$")
+	public void verifyCreditCardFieldIsPresent() throws Throwable {
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay()).check(matches(isDisplayed()));
+	}
+
+	@Then("^I enter the card number$")
+	public void enterCardNumber (Map<String, String> parameters) throws Throwable {
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
+		PackageScreen.enterCreditCardNumber(parameters.get("card_number"));
+	}
+
+	@Then("^Validate the error message displayed$")
+	public void errorMessage (Map<String, String> parameters) throws Throwable {
+		PackageScreen.errorMessageWhenCardNotAccepted(parameters.get("error_message"));
+	}
+
+	@Then("^Also verify the credit card image when card is not accepted for payment$")
+	public void verifyCardImageWhenNotAccepted() throws Throwable {
+		onView(withId(R.id.display_credit_card_brand_icon_grey)).check(matches(withImageDrawable(R.drawable.ic_lcc_no_card_payment_entry)));
+	}
+
 	@Then("^I verify that cardholder name field is present on the payment details form$")
 	public void verifyCardholderNameFieldIsPresent() throws Throwable {
 		CardInfoScreen.nameOnCardEditText().perform(waitForViewToDisplay()).check(matches(isDisplayed()));

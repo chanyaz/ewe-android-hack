@@ -88,7 +88,6 @@ public class PackageScreen {
 	}
 
 
-
 	public static void searchPackage() throws Throwable {
 		SearchScreen.doGenericSearch();
 	}
@@ -252,7 +251,8 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction hotelBundleContainer() {
-		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.row_container)));
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
+			withId(R.id.row_container)));
 	}
 
 	public static ViewInteraction outboundFlightBundleContainer() {
@@ -425,6 +425,16 @@ public class PackageScreen {
 	public static void enterCreditCard() {
 		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+	}
+
+	public static void enterCreditCardNumber(String cardNumb) throws Throwable {
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
+		CardInfoScreen.creditCardNumberEditText().perform(typeText(cardNumb));
+	}
+
+	public static void errorMessageWhenCardNotAccepted(String errorMess) throws Throwable {
+		CardInfoScreen.errorMessageCardNotAccepted().perform(waitForViewToDisplay());
+		CardInfoScreen.errorMessageCardNotAccepted().check(matches(withText(errorMess)));
 	}
 
 	public static void completePaymentForm() {

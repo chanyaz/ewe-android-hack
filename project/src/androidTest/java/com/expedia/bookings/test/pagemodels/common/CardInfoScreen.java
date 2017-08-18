@@ -27,6 +27,7 @@ public class CardInfoScreen {
 	private static final int YEAR_UP_BUTTON_ID = R.id.year_up;
 	private static final int CREDIT_CARD_CVV = R.id.edit_creditcard_cvv;
 	private static final int CARD_INFO_LABEL_ID = R.id.card_info_label;
+	private static final int ERROR_MESSAGE = R.id.invalid_payment_type_warning;
 
 	// Object access
 
@@ -52,6 +53,10 @@ public class CardInfoScreen {
 
 	public static ViewInteraction postalCodeEditText() {
 		return onView(withId(POSTAL_CODE_EDIT_TEXT_ID));
+	}
+
+	public static ViewInteraction errorMessageCardNotAccepted() {
+		return onView(withId(ERROR_MESSAGE));
 	}
 
 	// Object access expiration date dialog
