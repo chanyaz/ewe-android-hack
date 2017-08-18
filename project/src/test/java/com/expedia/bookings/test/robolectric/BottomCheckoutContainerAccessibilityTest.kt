@@ -34,13 +34,11 @@ class BottomCheckoutContainerAccessibilityTest {
 
     @Test
     fun testToggleBottomContainerViewsAccessibility() {
-        val disabledSTPStateEnabled = true
-
-        bottomContainer.toggleCheckoutButtonOrSlider(false, TwoScreenOverviewState.BUNDLE, disabledSTPStateEnabled)
+        bottomContainer.toggleCheckoutButtonOrSlider(false, TwoScreenOverviewState.BUNDLE)
         assertTrue(bottomContainer.checkoutButtonContainer.visibility == View.VISIBLE)
         assertTrue(bottomContainer.accessiblePurchaseButton.visibility == View.GONE)
 
-        bottomContainer.toggleCheckoutButtonOrSlider(true, TwoScreenOverviewState.CHECKOUT, disabledSTPStateEnabled)
+        bottomContainer.toggleCheckoutButtonOrSlider(true, TwoScreenOverviewState.CHECKOUT)
         assertTrue(bottomContainer.checkoutButtonContainer.visibility == View.GONE)
         assertTrue(bottomContainer.accessiblePurchaseButton.visibility == View.VISIBLE)
     }

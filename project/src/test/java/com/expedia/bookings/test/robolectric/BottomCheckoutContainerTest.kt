@@ -46,21 +46,19 @@ class BottomCheckoutContainerTest {
 
     @Test
     fun testToggleBottomContainerViews() {
-        val disabledSTPStateEnabled = true
-
-        bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.BUNDLE, false, disabledSTPStateEnabled)
+        bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.BUNDLE, false)
         assertTrue(bottomContainer.checkoutButtonContainer.visibility == View.VISIBLE)
         assertTrue(bottomContainer.slideToPurchase.visibility == View.GONE)
 
-        bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.CHECKOUT, true, disabledSTPStateEnabled)
+        bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.CHECKOUT, true)
         assertTrue(bottomContainer.checkoutButtonContainer.visibility == View.GONE)
         assertTrue(bottomContainer.slideToPurchase.visibility == View.VISIBLE)
 
-        bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.CHECKOUT, false, disabledSTPStateEnabled)
+        bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.CHECKOUT, false)
         assertTrue(bottomContainer.checkoutButtonContainer.visibility == View.VISIBLE)
         assertTrue(bottomContainer.slideToPurchase.visibility == View.GONE)
 
-        bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.OTHER, false, disabledSTPStateEnabled)
+        bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.OTHER, false)
         assertTrue(bottomContainer.checkoutButtonContainer.visibility == View.GONE)
         assertTrue(bottomContainer.slideToPurchase.visibility == View.GONE)
     }

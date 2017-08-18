@@ -12,17 +12,16 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
-import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
-import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
+import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -348,7 +347,7 @@ public class PackageScreen {
 	public static void clickLegalInformation() {
 		onView(withId(R.id.bottom_container)).perform(waitForViewToDisplay());
 		onView(withId(R.id.legal_information_text_view)).perform(scrollTo());
-		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), click());
+		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), scrollTo(), click());
 	}
 
 	public static void clickPaymentDone() {

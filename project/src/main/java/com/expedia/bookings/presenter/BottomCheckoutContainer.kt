@@ -142,9 +142,9 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
         slideToPurchase.addSlideToListener(this)
     }
 
-    fun toggleBottomContainerViews(state: TwoScreenOverviewState, showSlider: Boolean, disabledSTPStateEnabled: Boolean) {
+    fun toggleBottomContainerViews(state: TwoScreenOverviewState, showSlider: Boolean) {
         toggleSlideToPurchaseText(showSlider)
-        toggleCheckoutButtonOrSlider(showSlider, state, disabledSTPStateEnabled)
+        toggleCheckoutButtonOrSlider(showSlider, state)
     }
 
     fun toggleSlideToPurchaseText(showSlider: Boolean) {
@@ -153,7 +153,7 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
         slideTotalText.updateVisibility(hasText && showSlider)
     }
 
-    fun toggleCheckoutButtonOrSlider(showSlider: Boolean, state: TwoScreenOverviewState, disabledSTPStateEnabled: Boolean) {
+    fun toggleCheckoutButtonOrSlider(showSlider: Boolean, state: TwoScreenOverviewState) {
         if (AccessibilityUtil.isTalkBackEnabled(context) && showSlider) {
             //hide the slider for talkback users and show a purchase button
             accessiblePurchaseButton.setText(context.getString(R.string.accessibility_purchase_button))
@@ -168,7 +168,9 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
                 slideToPurchase.visibility = View.VISIBLE
                 checkoutButtonContainer.visibility = View.GONE
             } else {
-                if (state == TwoScreenOverviewState.BUNDLE || (disabledSTPStateEnabled && state == TwoScreenOverviewState.CHECKOUT)) {
+                if (state == TwoScreenOverviewState.OTHER) {
+                    checkoutButtonContainer.visibility = View.GONE
+                } else {
                     checkoutButtonContainer.visibility = View.VISIBLE
                     val checkoutButtonTextColor = ContextCompat.getColor(context, if (state == TwoScreenOverviewState.BUNDLE) {
                         R.color.search_dialog_background_v2
@@ -176,8 +178,6 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
                         R.color.white_disabled
                     })
                     checkoutButton.setTextColor(checkoutButtonTextColor)
-                } else {
-                    checkoutButtonContainer.visibility = View.GONE
                 }
                 slideToPurchase.visibility = View.GONE
             }

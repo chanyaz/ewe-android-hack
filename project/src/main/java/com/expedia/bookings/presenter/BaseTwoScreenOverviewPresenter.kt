@@ -16,7 +16,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.bookings.enums.TwoScreenOverviewState
-import com.expedia.bookings.utils.isDisabledSTPStateEnabled
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -48,8 +47,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     abstract fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel
 
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
-
-    val disabledSTPStateEnabled = isDisabledSTPStateEnabled()
 
     val ANIMATION_DURATION = 400
 
@@ -333,7 +330,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun toggleBottomContainerViews(state: TwoScreenOverviewState) {
         val showSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
                 && state == TwoScreenOverviewState.CHECKOUT
-        bottomCheckoutContainer.toggleBottomContainerViews(state, showSlider, disabledSTPStateEnabled)
+        bottomCheckoutContainer.toggleBottomContainerViews(state, showSlider)
         toggleAcceptTermsWidget(showSlider, checkoutPresenter)
         if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
@@ -368,9 +365,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
         checkoutPresenter.getCheckoutViewModel().bottomContainerInverseVisibilityObservable.subscribe { forward ->
             bottomContainer.setInverseVisibility(forward)
-            if (disabledSTPStateEnabled) {
-                checkoutButtonContainer.setInverseVisibility(forward)
-            }
+            checkoutButtonContainer.setInverseVisibility(forward)
         }
         checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
             toggleBottomContainerViews(currentState)

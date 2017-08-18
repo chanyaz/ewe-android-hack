@@ -4860,8 +4860,6 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppDisabledSTPState);
-
 		trackAbacusTest(s, AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSecureCheckoutIcon);

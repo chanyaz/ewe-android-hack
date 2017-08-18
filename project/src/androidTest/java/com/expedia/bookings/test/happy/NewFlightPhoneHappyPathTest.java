@@ -11,7 +11,6 @@ import android.app.Instrumentation;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
-import android.widget.Button;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
@@ -70,8 +69,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppDisabledSTPState, AbacusUtils.DefaultVariant.CONTROL.ordinal());
-
 		Method method = getClass().getMethod(getName(), (Class[]) null);
 
 		if (method.getName().equals("testNewFlightHappyPath") || method.getName().equals("testNewFlightHappyPathWithMaterialForms")) {
@@ -80,77 +77,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		super.tearDown();
 	}
 
-	@Test
-	public void testNewFlightHappyPath() throws Throwable {
-		SearchScreen.origin().perform(click());
-		SearchScreen.selectFlightOriginAndDestination();
-		LocalDate startDate = LocalDate.now().plusDays(3);
-		LocalDate endDate = LocalDate.now().plusDays(8);
-		SearchScreen.selectDates(startDate, endDate);
-
-		SearchScreen.searchButton().perform(click());
-
-		FlightTestHelpers.assertFlightOutbound();
-		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 2);
-		FlightsScreen.selectOutboundFlight().perform(click());
-
-		FlightTestHelpers.assertFlightInbound();
-		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip_with_insurance_available");
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
-		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
-		assertInsuranceVisibilityTests();
-		FlightsScreen.selectInboundFlight().perform(click());
-
-		assertCheckoutOverview();
-		assertCostSummaryView();
-
-		// move to Flight/common screen
-		PackageScreen.checkout().perform(click());
-
-		assertInsuranceIsVisible();
-		PackageScreen.showInsuranceBenefits();
-		assertInsuranceBenefits();
-		PackageScreen.showInsuranceTerms();
-		assertInsuranceTerms();
-		PackageScreen.swipeToAddInsurance();
-		assertInsuranceIsAdded();
-		assertInsuranceToggleIsEnabled();
-		PackageScreen.toggleInsuranceSwitch();
-		assertInsuranceIsNotAdded();
-		assertInsuranceToggleIsEnabled();
-
-		PackageScreen.clickLegalInformation();
-		assertLegalInformation();
-		Common.pressBack();
-
-		PackageScreen.travelerInfo().perform(scrollTo(), click());
-		TravelerDetails.enterFirstName("Eidur");
-		TravelerDetails.enterLastName("Gudjohnsen");
-		TravelerDetails.enterEmail("test@gmail.com");
-		Espresso.closeSoftKeyboard();
-		TravelerDetails.enterPhoneNumber("4155554321");
-		Espresso.closeSoftKeyboard();
-		TravelerDetails.selectBirthDate(1989, 6, 9);
-		TravelerDetails.selectGender("Male");
-		TravelerDetails.clickAdvanced();
-		TravelerDetails.enterRedressNumber("1234567");
-		TravelerDetails.clickDone();
-
-		PackageScreen.clickPaymentInfo();
-		onView(withId(R.id.card_fee_warning_text)).check(matches(not(isDisplayed())));
-		PackageScreen.enterCreditCard();
-		PackageScreen.completePaymentForm();
-		assertInsuranceIsNotVisible();
-		PackageScreen.clickPaymentDone();
-		onView(withId(R.id.card_fee_warning_text)).check(matches(isDisplayed()));
-
-		// TODO - assert checkout overview information
-		CheckoutViewModel.performSlideToPurchase();
-
-		assertConfirmationView();
-	}
 
 	@Test
 	public void testNewFlightHappyPathWithMaterialForms() throws Throwable {
@@ -250,8 +176,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	@Test
-	public void testDisabledSTPState() throws Throwable {
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppDisabledSTPState, AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+	public void testNewFlightHappyPath() throws Throwable {
 		getToCheckoutScreen();
 		assertViewIsCompletelyDisplayed(R.id.checkout_button);
 		onView(withId(R.id.checkout_button)).check(matches(withTextColor("#30FFFFFF")));
@@ -287,8 +212,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertSignedInConfirmationView();
 	}
 
-	@Test
-	public void getToCheckoutScreen() throws Throwable {
+	private void getToCheckoutScreen() throws Throwable {
 		selectOriginDestinationAndDates();
 
 		SearchScreen.searchButton().perform(click());
@@ -297,7 +221,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		assertCheckoutOverview();
 		assertCostSummaryView();
-		Button checkoutButton = (Button) getActivity().findViewById(R.id.checkout_button);
 		onView(withId(R.id.checkout_button)).check(matches(withTextColor("#FFFFFFFF")));
 
 		PackageScreen.checkout().perform(click());
@@ -340,8 +263,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertLegalInformation() {
-		onView(withId(R.id.rules_and_restrictions)).perform(ViewActions.waitForViewToDisplay())
-			.check(matches(isDisplayed()));
+		onView(withId(R.id.rules_and_restrictions)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.terms_and_conditions)).check(matches(isDisplayed()));
 		onView(withId(R.id.privacy_policy)).check(matches(isDisplayed()));
 		onView(withId(R.id.liabilities_link_text_view)).check(matches(isDisplayed()));

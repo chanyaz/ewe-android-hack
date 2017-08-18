@@ -27,7 +27,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppTripsUserReviews = 13257;
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppFlightsConfirmationItinSharing = 14137;
-	public static final int EBAndroidAppDisabledSTPState = 13825;
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
 	public static final int EBAndroidAppCheckoutButtonText = 13480;
 	public static final int EBAndroidAppShowAirAttachMessageOnLaunchScreen = 13345;
@@ -168,7 +167,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightByotSearch);
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelUrgencyMessage);
-		testIDs.add(EBAndroidAppDisabledSTPState);
 		testIDs.add(EBAndroidAppLXNavigateToSRP);
 		testIDs.add(EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelUpgrade);

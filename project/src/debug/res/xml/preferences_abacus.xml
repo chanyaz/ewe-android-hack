@@ -268,7 +268,7 @@
             android:key="15211"
             android:summary="%s"
             android:title="Flight subpub change - 15211 " />
-      
+
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
@@ -408,7 +408,7 @@
             android:key="14761"
             android:summary="%s"
             android:title="Hotels Web Checkout AB text - 14761" />
-        
+
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
@@ -416,15 +416,7 @@
             android:key="13280"
             android:summary="%s"
             android:title="Checkout info update string AB test - 13280" />
-
-        <ListPreference
-            android:defaultValue="-1"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="13825"
-            android:summary="%s"
-            android:title="Checkout disabled STP state AB test - 13825" />
-
+        
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/abacus_default_choices"

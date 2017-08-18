@@ -9,9 +9,6 @@ fun isMaterialFormsEnabled(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 }
 
-fun isDisabledSTPStateEnabled(): Boolean {
-    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppDisabledSTPState)
-}
 fun isFlexEnabled(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFlexEnabled)
 }
