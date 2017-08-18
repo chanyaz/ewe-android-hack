@@ -78,6 +78,15 @@ class FlightTravelerEntryWidgetTest {
     }
 
     @Test
+    fun testInvalidPassportCountrySetsEmptyString() {
+        givenMaterialForm(true)
+        setupViewModel(0, showPassport = true)
+
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).passportCountrySubject.onNext("2KA9$%@!@")
+        assertEquals("", widget.passportCountryEditBox.text.toString())
+    }
+
+    @Test
     fun testPassportErrorMessage() {
         givenMaterialForm(false)
 

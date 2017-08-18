@@ -118,11 +118,13 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
         vm.passportCountrySubject.subscribe { countryCode ->
             if (materialFormTestEnabled) {
+                val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
+                        R.layout.material_item)
                 if (countryCode.isNullOrBlank()) {
                     passportCountryEditBox.setText(countryCode)
+                } else if (adapter.getPositionByCountryThreeLetterCode(countryCode) == -1) {
+                    passportCountryEditBox.setText(null)
                 } else {
-                    val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
-                            R.layout.material_item)
                     val countryName = adapter.getItem(adapter.getPositionByCountryThreeLetterCode(countryCode))
                     passportCountryEditBox.setText(countryName)
                     vm.passportValidSubject.onNext(true)
