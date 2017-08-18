@@ -82,7 +82,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     private val priceContainer: ViewGroup by bindView(R.id.price_widget)
     @VisibleForTesting val detailsSoldOut: TextView by bindView(R.id.details_sold_out)
-    private val searchDatesInfo: TextView by bindView(R.id.search_dates_info)
 
     private val hotelPriceContainer: View by bindView(R.id.hotel_price_container)
     @VisibleForTesting val price: TextView by bindView(R.id.price)
@@ -236,7 +235,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         perDescriptor.text = vm.pricePerDescriptor()
 
         vm.hotelPriceContentDesc.subscribeContentDescription(hotelPriceContainer)
-        vm.searchDatesObservable.subscribeText(searchDatesInfo)
 
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
         vm.userRatingObservable.subscribeText(userRating)
@@ -645,7 +643,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private fun priceViewAlpha(ratio: Float) {
         perDescriptor.alpha = ratio
         price.alpha = ratio
-        searchDatesInfo.alpha = ratio
         searchInfo.alpha = ratio
         strikeThroughPrice.alpha = ratio
         searchInfo.alpha = ratio
