@@ -230,7 +230,7 @@ class CarWebViewTest {
     }
 
     private fun goToCars() {
-        CarNavUtils.goToCars(activity, null)
+        CarNavUtils.goToCars(activity, null, 0)
         activity.finish()
     }
 

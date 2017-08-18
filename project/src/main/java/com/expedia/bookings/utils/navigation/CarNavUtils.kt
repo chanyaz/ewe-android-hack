@@ -17,7 +17,7 @@ import com.expedia.ui.CarWebViewActivity
 class CarNavUtils : NavUtils() {
     companion object {
 
-        @JvmStatic fun goToCars(context: Context, animOptions: Bundle?) {
+        @JvmStatic fun goToCars(context: Context, animOptions: Bundle?, expediaFlags: Int) {
             sendKillActivityBroadcast(context)
             CarWebViewTracking().trackAppCarAAtest();
             CarWebViewTracking().trackAppCarWebViewABTest()
@@ -37,9 +37,11 @@ class CarNavUtils : NavUtils() {
                 builder.setTitle(context.getString(R.string.nav_car_rentals))
                 builder.setTrackingName("CarWebView")
                 startActivity(context, builder.intent, null)
+                finishIfFlagged(context, expediaFlags)
             } else {
                 val intent = Intent(context, CarActivity::class.java)
                 startActivity(context, intent, animOptions)
+                finishIfFlagged(context, expediaFlags)
             }
         }
 

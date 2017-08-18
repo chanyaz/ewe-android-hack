@@ -252,7 +252,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 				CarNavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
 			}
 			else {
-				CarNavUtils.goToCars(this, null);
+				CarNavUtils.goToCars(this, null, 0);
 			}
 		}
 		else {

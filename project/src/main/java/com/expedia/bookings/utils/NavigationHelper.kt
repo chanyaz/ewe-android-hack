@@ -38,9 +38,9 @@ open class NavigationHelper {
 
     open fun goToCars(animOptions: Bundle?, finishCallingActivity: Boolean = false) {
         if (finishCallingActivity) {
-            CarNavUtils.goToCars(context, animOptions, null, NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK)
+            CarNavUtils.goToCars(context, animOptions, NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK)
         } else {
-            CarNavUtils.goToCars(context, animOptions)
+            CarNavUtils.goToCars(context, animOptions, 0)
         }
     }
 
