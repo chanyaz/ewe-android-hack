@@ -29,7 +29,7 @@
                 android:textSize="12sp"
                 android:visibility="gone" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -37,57 +37,14 @@
                 android:paddingRight="16dp"
                 android:paddingTop="16dp">
 
-                <com.expedia.bookings.widget.shared.TravelerCountSelector
-                    android:id="@+id/adult_count_selector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/flight_adult_age_label"
-                    app:traveler_age_label_desc="@string/flight_adult_age_label"
-                    app:traveler_minus="@string/remove_adult_traveler_cont_desc"
-                    app:traveler_plus="@string/add_adult_traveler_cont_desc" />
-
-                <com.expedia.bookings.widget.shared.TravelerCountSelector
-                    android:id="@+id/youth_count_selector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/flight_youth_age_label"
-                    app:traveler_age_label_desc="@string/flight_youth_age_label_desc"
-                    app:traveler_minus="@string/rails_remove_youth_traveler_cont_desc"
-                    app:traveler_plus="@string/rails_add_youth_traveler_cont_desc" />
-
-                <com.expedia.bookings.widget.shared.TravelerCountSelector
-                    android:id="@+id/child_count_selector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/flight_children_age_label"
-                    app:traveler_age_label_desc="@string/flight_children_age_label_desc"
-                    app:traveler_minus="@string/remove_child_traveler_cont_desc"
-                    app:traveler_plus="@string/add_child_traveler_cont_desc" />
-
-                <com.expedia.bookings.widget.shared.TravelerCountSelector
-                    android:id="@+id/infant_count_selector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/flight_infant_age_label"
-                    app:traveler_age_label_desc="@string/flight_infant_age_label"
-                    app:traveler_minus="@string/flight_remove_infant_traveler_cont_desc"
-                    app:traveler_plus="@string/flight_add_infant_traveler_cont_desc" />
-
                 <LinearLayout
                     android:id="@+id/infant_preference_seating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/traveller_count_container"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:animateLayoutChanges="true">
+                    android:visibility="gone"
+                    android:orientation="vertical">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/infant_type_text_label_1"
@@ -154,7 +111,59 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@id/traveller_count_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.expedia.bookings.widget.shared.TravelerCountSelector
+                        android:id="@+id/adult_count_selector"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/traveler_table_margin"
+                        android:orientation="horizontal"
+                        app:traveler_age_label="@string/flight_adult_age_label"
+                        app:traveler_age_label_desc="@string/flight_adult_age_label"
+                        app:traveler_minus="@string/remove_adult_traveler_cont_desc"
+                        app:traveler_plus="@string/add_adult_traveler_cont_desc" />
+
+                    <com.expedia.bookings.widget.shared.TravelerCountSelector
+                        android:id="@+id/youth_count_selector"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/traveler_table_margin"
+                        android:orientation="horizontal"
+                        app:traveler_age_label="@string/flight_youth_age_label"
+                        app:traveler_age_label_desc="@string/flight_youth_age_label_desc"
+                        app:traveler_minus="@string/rails_remove_youth_traveler_cont_desc"
+                        app:traveler_plus="@string/rails_add_youth_traveler_cont_desc" />
+
+                    <com.expedia.bookings.widget.shared.TravelerCountSelector
+                        android:id="@+id/child_count_selector"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/traveler_table_margin"
+                        android:orientation="horizontal"
+                        app:traveler_age_label="@string/flight_children_age_label"
+                        app:traveler_age_label_desc="@string/flight_children_age_label_desc"
+                        app:traveler_minus="@string/remove_child_traveler_cont_desc"
+                        app:traveler_plus="@string/add_child_traveler_cont_desc" />
+
+                    <com.expedia.bookings.widget.shared.TravelerCountSelector
+                        android:id="@+id/infant_count_selector"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/traveler_table_margin"
+                        android:orientation="horizontal"
+                        app:traveler_age_label="@string/flight_infant_age_label"
+                        app:traveler_age_label_desc="@string/flight_infant_age_label"
+                        app:traveler_minus="@string/flight_remove_infant_traveler_cont_desc"
+                        app:traveler_plus="@string/flight_add_infant_traveler_cont_desc" />
+                </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>

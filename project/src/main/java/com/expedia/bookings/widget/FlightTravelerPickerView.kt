@@ -4,11 +4,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.TranslateAnimation
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.RelativeLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.shared.TravelerCountSelector
@@ -34,7 +37,9 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
     val infantInSeat: RadioButton by bindView(R.id.inSeat)
 
     val infantPreferenceSeatingView: LinearLayout by bindView(R.id.infant_preference_seating)
+
     val infantError: TextView by bindView(R.id.error_message_infants)
+    val ANIMATION_DURATION = 250L
 
     var viewmodel: FlightTravelerPickerViewModel by notNullAndObservable { vm ->
         vm.showInfantErrorMessage.subscribeTextAndVisibility(infantError)
@@ -48,11 +53,27 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
         infantCountSelector.minusClickedSubject.subscribe(vm.decrementInfantObserver)
         infantCountSelector.plusClickedSubject.subscribe(vm.incrementInfantObserver)
 
+
         vm.infantPreferenceSeatingObservable.subscribe { hasInfants ->
             if (vm.showSeatingPreference && hasInfants) {
-                infantPreferenceSeatingView.visibility = View.VISIBLE
-            } else {
-                infantPreferenceSeatingView.visibility = View.GONE
+                if (infantPreferenceSeatingView.visibility == View.GONE) {
+                    infantPreferenceSeatingView.visibility = View.VISIBLE
+                    val progressAnimation = TranslateAnimation(0f, 0f, -200f, 0f)
+                    progressAnimation.interpolator = LinearInterpolator()
+                    progressAnimation.duration = ANIMATION_DURATION
+                    infantPreferenceSeatingView.startAnimation(progressAnimation)
+                }
+            } else if (infantPreferenceSeatingView.visibility == View.VISIBLE) {
+                val progressAnimation = TranslateAnimation(0f, 0f, 0f, -200f)
+                progressAnimation.interpolator = LinearInterpolator()
+                progressAnimation.duration = ANIMATION_DURATION
+                progressAnimation.setAnimationListener(object : AnimationListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animation?) {
+                        super.onAnimationEnd(animation)
+                        infantPreferenceSeatingView.visibility = View.GONE
+                    }
+                })
+                infantPreferenceSeatingView.startAnimation(progressAnimation)
             }
         }
         vm.adultTextObservable.subscribeText(adultCountSelector.travelerText)
