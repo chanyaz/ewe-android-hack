@@ -1,7 +1,7 @@
 package com.expedia.bookings.fragment
 
 import android.os.Bundle
-import com.google.android.gms.common.GoogleApiAvailability
+import com.expedia.bookings.R
 import com.mobiata.android.util.HtmlUtils
 import com.mobiata.android.util.IoUtils
 import java.io.IOException
@@ -24,16 +24,11 @@ class OpenSourceLicenseWebViewFragment : WebViewFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val license = GoogleApiAvailability.getInstance().getOpenSourceSoftwareLicenseInfo(activity)
-        var gps = ""
-        if (license != null) {
-            gps = "<h3>Google Play Services</h3>\n<pre>\n" + HtmlUtils.escape(license) + "</pre>\n"
+        mHtmlData = try {
+            IoUtils.convertStreamToString(activity.assets.open("open_source_licenses.html"))
         }
-
-        try {
-            mHtmlData = IoUtils.convertStreamToString(activity.assets.open("open_source_licenses.html")).replace("{gps}", gps)
-        } catch (e: IOException) {
-            mHtmlData = HtmlUtils.wrapInHeadAndBody(gps)
+        catch (e: IOException) {
+            HtmlUtils.wrapInHeadAndBody(this.getString(R.string.open_source_software_licenses_error))
         }
     }
 }

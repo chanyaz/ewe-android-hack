@@ -1107,6 +1107,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.info_label_privacy_policy,
 		R.string.copyright_TEMPLATE,
 		R.string.open_source_software_licenses,
+		R.string.open_source_software_licenses_error,
 		R.string.this_app_makes_use_of_the_following,
 		R.string.loyalty_points_pending,
 		R.string.reward_base_tier_name_short,
