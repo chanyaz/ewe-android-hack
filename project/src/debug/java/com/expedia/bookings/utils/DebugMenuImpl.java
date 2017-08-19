@@ -145,6 +145,7 @@ class DebugMenuImpl implements DebugMenu {
 	private void createLongPressShortcut(DebugActivityInfo activityInfo, Intent shortcutIntent) {
 		Context context = hostActivity.getApplicationContext();
 		ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
+		shortcutManager.removeAllDynamicShortcuts();
 		ShortcutInfo shortcutInfo = new ShortcutInfo.Builder(context, activityInfo.displayName.replace(" ", ""))
 				.setShortLabel(activityInfo.displayName)
 				.setIcon(Icon.createWithResource(context, R.drawable.ic_launcher))

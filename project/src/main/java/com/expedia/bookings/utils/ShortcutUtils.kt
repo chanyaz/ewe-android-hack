@@ -17,7 +17,6 @@ import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.mobiata.android.util.SettingUtils
-import java.util.*
 
 @RequiresApi(25)
 object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
@@ -25,6 +24,8 @@ object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
     private lateinit var mainContext: Context
     private var shortcutManager: ShortcutManager? = null
     private var loadedTrips: MutableCollection<Trip> = arrayListOf()
+    private var allShortcuts: List<ShortcutInfo> = listOf()
+    private var noFlightShortcuts: List<ShortcutInfo> = listOf()
 
     fun initialize(context: Context) {
         ItineraryManager.getInstance().addSyncListener(this)
@@ -55,7 +56,9 @@ object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
                 .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("expda://flightShare")))
                 .build()
 
-        shortcutManager?.dynamicShortcuts = Arrays.asList(tripsShortcut, hotelShortcut, shareFlightShortcut)
+        allShortcuts = listOf(tripsShortcut, hotelShortcut, shareFlightShortcut)
+        noFlightShortcuts = listOf(tripsShortcut, hotelShortcut)
+        shortcutManager?.dynamicShortcuts = noFlightShortcuts
     }
 
     fun shareFlightStatus(context: Context) {
@@ -72,8 +75,8 @@ object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
             }
 
             if (flightTrips.isNotEmpty()) {
-                val closestFlightTrip = flightTrips.last()
-                val tripFlightComponent = closestFlightTrip.tripComponents.findLast { tripComponent -> tripComponent.type == TripComponent.Type.FLIGHT } as TripFlight
+                val closestFlightTrip = flightTrips.sortedBy{ flight -> flight.startDate }.first()
+                val tripFlightComponent = closestFlightTrip.tripComponents.first { tripComponent -> tripComponent.type == TripComponent.Type.FLIGHT && tripComponent.startDate.isAfterNow } as TripFlight
                 val shareString = shareUtils.getFlightShareTextShort(tripFlightComponent.flightTrip.getLeg(0), closestFlightTrip.shareInfo.sharableDetailsUrl, false, tripFlightComponent.travelers.first().firstName)
 
                 val shareIntent = Intent()
@@ -98,10 +101,21 @@ object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
 
     override fun onSyncFinished(trips: MutableCollection<Trip>?) {
         if (trips != null && trips.any()) {
-            shortcutManager?.enableShortcuts(listOf("flight"))
+            var hasFlights = false
             loadedTrips = trips
+            for (trip in loadedTrips) {
+                if (trip.tripComponents.any({ c -> c.type == TripComponent.Type.FLIGHT })) {
+                    hasFlights = true
+                }
+            }
+
+            when (hasFlights) {
+                true -> shortcutManager?.dynamicShortcuts = allShortcuts
+                false -> shortcutManager?.dynamicShortcuts = noFlightShortcuts
+            }
+
         } else {
-            shortcutManager?.disableShortcuts(listOf("flight"))
+            shortcutManager?.dynamicShortcuts = noFlightShortcuts
         }
     }
 }
