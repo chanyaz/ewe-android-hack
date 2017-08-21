@@ -99,7 +99,6 @@ class FlightInboundPresenterTest {
     @Test
     fun testSearchParamsObservable() {
         invokeSetupComplete()
-        flightInboundPresenter.flightOfferViewModel.searchParamsObservable.onNext(getSearchParams(true).build())
         assertEquals(View.GONE, flightInboundPresenter.resultsPresenter.filterButton.visibility)
     }
 

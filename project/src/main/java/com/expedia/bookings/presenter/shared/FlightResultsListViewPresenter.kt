@@ -108,12 +108,6 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun setupFilterButton() {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightStaticSortFilter)) {
-            filterButton.visibility = View.VISIBLE
-        } else {
-            recyclerView.addOnScrollListener(filterButton.hideShowOnRecyclerViewScrollListener())
-            filterButton.visibility = View.GONE
-        }
         val outValue = TypedValue()
         context.theme.resolveAttribute(R.attr.hotel_select_room_ripple_drawable, outValue, true)
         filterButton.setBackground(outValue.resourceId)

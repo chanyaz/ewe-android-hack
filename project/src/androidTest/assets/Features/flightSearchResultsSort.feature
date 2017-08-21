@@ -3,8 +3,6 @@ Feature: Sorting of Flight results
   @Prod @Flights @FlightSort
   Scenario: Verify flight results are sorted by price by default
     Given I launch the App
-    And I bucket the following tests
-      | FlightStaticSortFilter  |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -24,8 +22,6 @@ Feature: Sorting of Flight results
   @Prod @Flights @FlightSort
   Scenario: Verify flight results can be sorted by departure time
     Given I launch the App
-    And I bucket the following tests
-      | FlightStaticSortFilter  |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -47,8 +43,6 @@ Feature: Sorting of Flight results
   @Prod @Flights @FlightSort
   Scenario: Verify flight results can be sorted by arrival time
     Given I launch the App
-    And I bucket the following tests
-      | FlightStaticSortFilter  |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -70,8 +64,6 @@ Feature: Sorting of Flight results
   @Prod @Flights @FlightSort
   Scenario: Verify flight results can be sorted by flight duration
     Given I launch the App
-    And I bucket the following tests
-      | FlightStaticSortFilter  |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |

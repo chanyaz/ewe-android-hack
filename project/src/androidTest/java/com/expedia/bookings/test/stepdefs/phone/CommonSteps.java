@@ -64,10 +64,6 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightRetainSearchParams,
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
-		if (list.contains("FlightStaticSortFilter")) {
-			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightStaticSortFilter,
-				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
-		}
 
 		Db.setAbacusResponse(abacusResponse);
 	}

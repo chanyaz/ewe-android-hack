@@ -234,15 +234,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="13842"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Flights static sort filter - 13842" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="13505"
             android:layout="@layout/preference"
             android:summary="%s"
