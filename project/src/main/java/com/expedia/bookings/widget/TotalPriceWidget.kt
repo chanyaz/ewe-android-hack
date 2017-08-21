@@ -7,18 +7,23 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
@@ -35,6 +40,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     val perPersonText: TextView by bindView(R.id.per_person_text)
     val bundleTitle: TextView by bindView(R.id.bundle_title)
     val bundleSubtitle: TextView by bindView(R.id.bundle_subtitle)
+    val priceProgressBar: ProgressBar by bindView(R.id.total_price_progress)
 
     val eval: ArgbEvaluator = ArgbEvaluator()
     val titleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_primary_text), Color.WHITE)
@@ -51,6 +57,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         vm.contentDescriptionObservable.subscribe { description ->
             this.contentDescription = description
         }
+        vm.priceAvailableObservable.subscribeInverseVisibility(priceProgressBar)
     }
 
     val breakdown = CostSummaryBreakDownView(context, null)
@@ -100,6 +107,9 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
         viewModel.total.onNext(Money(BigDecimal("0.00"), currencyCode))
         viewModel.savings.onNext(Money(BigDecimal("0.00"), currencyCode))
+        if (viewModel.shouldShowTotalPriceLoadingProgress() && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
+            viewModel.priceAvailableObservable.onNext(false)
+        }
         toggleBundleTotalCompoundDrawable(false)
         viewModel.savingsPriceObservable.onNext("")
     }

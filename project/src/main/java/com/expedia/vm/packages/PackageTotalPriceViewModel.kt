@@ -38,4 +38,8 @@ class PackageTotalPriceViewModel(context: Context, isSlidable: Boolean = false) 
         }
         return description
     }
+
+    override fun shouldShowTotalPriceLoadingProgress(): Boolean {
+        return false
+    }
 }

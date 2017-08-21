@@ -12,6 +12,7 @@ import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
@@ -178,6 +179,11 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override fun onTripResponse(tripResponse: TripResponse?) {
         tripResponse as FlightTripResponse
         totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice())
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
+            getCheckoutPresenter().getCheckoutViewModel()
+                    .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
+            totalPriceWidget.viewModel.priceAvailableObservable.onNext(true)
+        }
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
         insuranceWidget.viewModel.tripObservable.onNext(tripResponse)

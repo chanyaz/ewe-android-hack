@@ -38,4 +38,8 @@ class FlightTotalPriceViewModel(context: Context) : AbstractUniversalCKOTotalPri
         }
         return description
     }
+
+    override fun shouldShowTotalPriceLoadingProgress(): Boolean {
+        return true
+    }
 }

@@ -70,6 +70,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightSearchSuggestionLabel = 14646;
 	public static final int EBAndroidAppFlightFrequentFlyerNumber = 14971;
 	public static final int EBAndroidAppFlightSuggestionOnOneCharacter = 15349;
+	public static final int EBAndroidAppFlightRateDetailsFromCache = 14769;
 
 	// Hotel Tests
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
@@ -224,6 +225,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLocaleBasedDateFormatting);
 		testIDs.add(EBAndroidAppHideApacBillingAddressFields);
 		testIDs.add(EBAndroidAppFlightSuggestionOnOneCharacter);
+		testIDs.add(EBAndroidAppFlightRateDetailsFromCache);
 		return testIDs;
 	}
 

@@ -5081,6 +5081,9 @@ public class OmnitureTracking {
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_fare_family_flight_summary)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFareFamilyFlightSummary);
 		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_rate_detail_from_cache)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);
+		}
 
 		s.setProducts(getFlightProductString(false));
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview);

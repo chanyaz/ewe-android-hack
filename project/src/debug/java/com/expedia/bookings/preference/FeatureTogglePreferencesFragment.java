@@ -38,6 +38,9 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_flights_frequent_flyer_number);
 		initializeFeatureCheck(R.string.preference_hide_form_fields_based_on_billing_country_address);
 		initializeFeatureCheck(R.string.preference_hide_apac_billing_address_fields);
+
+		//Flight Features
+		initializeFeatureCheck(R.string.preference_flight_rate_detail_from_cache);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

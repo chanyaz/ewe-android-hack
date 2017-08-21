@@ -1,16 +1,20 @@
 package com.expedia.vm.test.robolectric
 
+import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightCreateTripViewModel
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.logging.HttpLoggingInterceptor
@@ -113,6 +117,22 @@ class FlightCreateTripViewModelTest {
         givenCreateTripCallWithIOException()
 
         testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun createTripDialogVisibility() {
+        val testSubscriber = TestSubscriber<Boolean>()
+        givenGoodCreateTripParams()
+
+        sut.showCreateTripDialogObservable.subscribe(testSubscriber)
+        sut.tripParams.onNext(params)
+        sut.performCreateTrip.onNext(Unit)
+        testSubscriber.assertValueCount(2)
+
+        SettingUtils.save(context, R.string.preference_flight_rate_detail_from_cache, true)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)
+        sut.performCreateTrip.onNext(Unit)
+        testSubscriber.assertValueCount(2)
     }
 
     private fun givenCreateTripCallWithIOException() {

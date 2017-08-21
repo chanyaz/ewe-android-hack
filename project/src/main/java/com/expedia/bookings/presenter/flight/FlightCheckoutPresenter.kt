@@ -20,6 +20,7 @@ import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.InsuranceWidget
@@ -92,7 +93,9 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         vm as FlightCreateTripViewModel
 
         vm.tripParams.subscribe {
-            vm.showCreateTripDialogObservable.onNext(true)
+            if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
+                vm.showCreateTripDialogObservable.onNext(true)
+            }
             userAccountRefresher.ensureAccountIsRefreshed()
         }
     }

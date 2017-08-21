@@ -31,4 +31,8 @@ class RailTotalPriceViewModel(val context: Context) : BaseTotalPriceWidgetViewMo
         total.onNext(response.totalPayablePrice)
         costBreakdownEnabledObservable.onNext(true)
     }
+
+    override fun shouldShowTotalPriceLoadingProgress(): Boolean {
+        return false
+    }
 }

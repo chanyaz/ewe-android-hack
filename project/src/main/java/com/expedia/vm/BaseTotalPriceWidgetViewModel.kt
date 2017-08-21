@@ -8,6 +8,7 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     val total = PublishSubject.create<Money>()
     val savings = PublishSubject.create<Money>()
     val pricePerPerson = PublishSubject.create<Money>()
+    val priceAvailableObservable = PublishSubject.create<Boolean>()
 
     val pricePerPersonObservable = BehaviorSubject.create<String>()
     val totalPriceObservable = BehaviorSubject.create<String>()
@@ -21,6 +22,7 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     abstract fun getAccessibleContentDescription(isCostBreakdownShown: Boolean = false,
                                                  isSlidable: Boolean = false, isExpanded: Boolean = false) : String
 
+    abstract fun shouldShowTotalPriceLoadingProgress(): Boolean
     init {
         total.subscribe { total ->
             totalPriceObservable.onNext(total.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))

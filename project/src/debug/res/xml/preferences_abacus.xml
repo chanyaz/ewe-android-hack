@@ -301,6 +301,13 @@
             android:summary="%s"
             android:title="Auto Suggest with one character input - 15349" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14769"
+            android:summary="%s"
+            android:title="Flight rate details from cache (i.e. remove fullscreen progress) - 14769" />
     </PreferenceCategory>
 
     <PreferenceCategory

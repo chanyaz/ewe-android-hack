@@ -70,6 +70,14 @@
         android:gravity="right"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/total_price_progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
         <com.expedia.bookings.widget.TextView
             android:id="@+id/bundle_total_price"
             style="@style/BundleOverviewFooter.PrimaryText"
