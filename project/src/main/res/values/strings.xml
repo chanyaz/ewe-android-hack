@@ -2111,7 +2111,7 @@
     <!--Address Province hint-->
     <string name="address_province_hint">Province</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">County/State/Province</string>
+    <string name="address_county_hint">County/State/Province (optional)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->

@@ -590,10 +590,10 @@ class BillingDetailsPaymentWidgetTest {
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
         billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("MEX")
-        assertValidState(stateLayout, "County/State/Province")
+        assertValidState(stateLayout, "County/State/Province (optional)")
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("MEX")
-        assertValidState(stateLayout, "County/State/Province")
+        assertValidState(stateLayout, "County/State/Province (optional)")
     }
 
     @Test
