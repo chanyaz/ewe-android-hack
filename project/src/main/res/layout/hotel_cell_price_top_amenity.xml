@@ -34,9 +34,9 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/sold_out_text"
+        style="@style/Core.Text.Large.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/result_cells_gray_text"
-        android:textSize="@dimen/large_text_size"
         android:text="@string/hotel_sold_out_label"/>
 </merge>
