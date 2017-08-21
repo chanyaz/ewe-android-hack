@@ -2954,6 +2954,18 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
+	public static void trackProWizardClick() {
+		String link = LAUNCH_SCREEN_LOB_NAVIGATION;
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setEvar(12, LAUNCH_SEARCH);
+		s.setEvar(28, link);
+		s.setProp(16, link);
+
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
 	public static void trackNewLaunchScreenSeeAllClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		addCommonLaunchScreenFields(s, LAUNCH_MESSAGING, "SeeAll");

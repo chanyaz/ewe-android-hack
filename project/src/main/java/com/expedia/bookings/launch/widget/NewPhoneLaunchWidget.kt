@@ -216,6 +216,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         proWizardSearchBarShadow.updateVisibility(proWizardBucketed)
 
         proWizardSearchBarView.setOnClickListener {
+            OmnitureTracking.trackProWizardClick()
             val activity = context as NewPhoneLaunchActivity
             val pairs = ActivityTransitionUtil.createPairsWithAndroidComponents(activity,
                     proWizardSearchCardView, context.getString(R.string.pro_wizard_bar_hero_animation))
