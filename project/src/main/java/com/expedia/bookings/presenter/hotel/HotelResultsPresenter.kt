@@ -158,7 +158,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.filterParamsSubject.subscribe {
             if (previousWasList) {
                 showLoading()
-                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
                 resetListOffset()
             } else {
                 show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
@@ -400,7 +399,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     private fun resetForNewSearch() {
         showLoading()
-        show(ResultsList())
+        show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
     }
 
     private class UrgencyAnimation(urgencyContainer: LinearLayout, toolbarShadow: View) {

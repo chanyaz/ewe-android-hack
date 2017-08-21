@@ -338,6 +338,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 return true
             } else {
                 filterView.viewModel.doneObservable.onNext(Unit)
+                return true
             }
         } else if (ResultsList().javaClass.name == currentState) {
             clearMarkers(false)
