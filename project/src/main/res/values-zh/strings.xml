@@ -2771,7 +2771,7 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">总价（含税费）/人 - 包括酒店和机票 • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">往返总价（含税费）/人 - 包括酒店和机票 • {totalpriceresultcountheader}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 已订出</string>
@@ -3688,9 +3688,13 @@
     <!-- Used in flight search for specifying infant's sitting -->
     <string name="flight_infant_type_label">2 岁以下婴儿：</string>
     <!-- Used in flight search for specifying infant's sitting inLap -->
-    <string name="flight_infant_InLap">怀抱</string>
+    <string name="flight_infant_in_lap">怀抱</string>
     <!-- Used in flight search for specifying infant's sitting in Seat-->
-    <string name="flight_infant_InSeat">占座</string>
+    <string name="flight_infant_in_seat">占座</string>
+    <!-- Used in flight search for describing infant's sitting in Lap -->
+    <string name="flight_infant_desciption_in_lap">请按下按钮，选择偏好怀抱婴儿</string>
+    <!-- Used in flight search for describing infant's sitting in Seat -->
+    <string name="flight_infant_desciption_in_seat">请按下按钮，选择偏好占座婴儿</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">附近地区</string>
@@ -4699,13 +4703,16 @@
     <string name="title_seek_bar_edit">编辑进度滑块控件等级</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
-    <!--Account Sign Up String Varaint 1-->
-    <string name="signup_variant_1">注册</string>
-    <!--Account Sign Up String Varaint 2-->
-    <string name="signup_variant_2">创建您的免费帐户</string>
-    <!--Create Your Expedia Account-->
-    <string name="signup_variant_3_TEMPLATE">创建您的 {brand} 帐户</string>
-    <!--Create a new Expedia account-->
-    <string name="signup_variant_control_TEMPLATE">创建新的 {brand} 帐户</string>
+    <!--Create Your Expedia Account, example: Create Your Orbitz/Expedia/Travelocity Account-->
+    <string name="account_signup_TEMPLATE">创建您的 {brand} 帐户</string>
+
+    <!--App shortcut for hotel search-->
+    <string name="get_a_room">预订房间</string>
+    <!--App shortcut for hotel search long version-->
+    <string name="find_a_hotel_tonight">查找今晚入住的酒店</string>
+    <!--App shortcut for sharing flight info-->
+    <string name="share_flight">分享航班</string>
+    <!--App shortcut for sharing flight info long version.-->
+    <string name="share_flight_status">分享航班状态</string>
 
 </resources>
