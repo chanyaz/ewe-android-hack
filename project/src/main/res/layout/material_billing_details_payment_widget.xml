@@ -173,6 +173,7 @@
                                 android:layout_gravity="bottom|left"
                                 android:hint="@string/credit_debit_card_hint"
                                 android:labelFor="@+id/edit_creditcard_number"
+                                android:importantForAccessibility="no"
                                 android:layout_weight="1">
 
                                 <com.expedia.bookings.widget.NumberMaskEditText
@@ -195,6 +196,7 @@
                                 android:layout_height="wrap_content"
                                 android:visibility="gone"
                                 android:hint="@string/credit_card_hint"
+                                android:importantForAccessibility="no"
                                 android:labelFor="@+id/edit_masked_creditcard_number">
 
                                 <com.expedia.bookings.widget.MaskedCreditCardEditText
@@ -231,6 +233,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:hint="@string/expiration_date"
+                                android:importantForAccessibility="no"
                                 android:labelFor="@+id/edit_creditcard_exp_text_btn">
 
                                 <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
@@ -249,6 +252,7 @@
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:labelFor="@+id/edit_creditcard_cvv"
+                                android:importantForAccessibility="no"
                                 android:hint="@string/cvv_enter_security_code_v2">
 
                                 <com.expedia.bookings.widget.accessibility.AccessiblePasswordEditText
@@ -271,6 +275,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/cardholder_name_hint"
+                        android:importantForAccessibility="no"
                         android:labelFor="@+id/edit_name_on_card">
 
                             <com.expedia.bookings.widget.accessibility.AccessibleEditText

@@ -29,6 +29,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.bookings.widget.accessibility.AccessiblePasswordEditText
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
@@ -75,6 +76,26 @@ class BillingDetailsPaymentWidgetTest {
         securityCodeInput.getAccessibilityNodeInfo()
         assertEquals(securityCodeInput.contentDescription, "CVV")
         assertNotNull(securityCodeInput)
+    }
+
+    @Test
+    fun testAccessibilityOnPaymentDetailScreen() {
+        givenPackageTripWithVisaValidFormOfPayment()
+        givenMaterialPaymentBillingWidget()
+        val expirationDate = billingDetailsPaymentWidget.findViewById(billingDetailsPaymentWidget.creditCardNumber.getNextFocusForwardId())
+        assertEquals(expirationDate, billingDetailsPaymentWidget.expirationDate)
+        val cvvView = billingDetailsPaymentWidget.findViewById(expirationDate.getNextFocusForwardId())
+        assertEquals(cvvView, billingDetailsPaymentWidget.creditCardCvv)
+        val cardholderName = billingDetailsPaymentWidget.findViewById(cvvView.getNextFocusForwardId())
+        assertEquals(cardholderName, billingDetailsPaymentWidget.creditCardName)
+        val addressLine1 = billingDetailsPaymentWidget.findViewById(cardholderName.getNextFocusForwardId())
+        assertEquals(addressLine1, billingDetailsPaymentWidget.addressLineOne)
+        val city = billingDetailsPaymentWidget.findViewById(addressLine1.getNextFocusForwardId())
+        assertEquals(city, billingDetailsPaymentWidget.addressCity)
+        val state = billingDetailsPaymentWidget.findViewById(city.getNextFocusForwardId())
+        assertEquals(state, billingDetailsPaymentWidget.addressState)
+        val zip = billingDetailsPaymentWidget.findViewById(state.getNextFocusForwardId())
+        assertEquals(zip, billingDetailsPaymentWidget.creditCardPostalCode)
     }
 
     @Test

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/address_line_one_hint"
+        android:importantForAccessibility="no"
         android:labelFor="@+id/edit_address_line_one">
 
         <com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -29,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/address_line_two_hint"
+        android:importantForAccessibility="no"
         android:labelFor="@+id/edit_address_line_two">
 
         <com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -62,6 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/edit_address_city"
+                android:importantForAccessibility="no"
                 android:hint="@string/address_city_hint">
 
                 <com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -83,6 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/edit_address_state"
+                android:importantForAccessibility="no"
                 android:hint="@string/address_state_hint">
 
                 <com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -111,6 +115,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/material_edit_country"
+                android:importantForAccessibility="no"
                 android:hint="@string/country">
 
                 <com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -133,6 +138,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/edit_address_postal_code"
+                android:importantForAccessibility="no"
                 android:hint="@string/address_zip_code_hint">
 
                 <com.expedia.bookings.widget.accessibility.AccessibleEditText
