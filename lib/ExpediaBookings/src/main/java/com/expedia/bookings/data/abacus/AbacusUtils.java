@@ -189,7 +189,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppCarsWebViewEMEA);
 		testIDs.add(EBAndroidAppCarsWebViewNewPOS);
 		testIDs.add(EBAndroidAppCarsFlexView);
-		testIDs.add(EBAndroidAppUserOnboarding);
 		testIDs.add(EBAndroidAppFlightAATest);
 		testIDs.add(EBAndroidAppFlightSearchFormValidation);
 		testIDs.add(EBAndroidAppHotelPinnedSearch);

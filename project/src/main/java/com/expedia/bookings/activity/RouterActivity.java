@@ -1,7 +1,9 @@
 package com.expedia.bookings.activity;
 
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,19 +18,13 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.expedia.bookings.utils.navigation.NavUtils;
-import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.facebook.appevents.AppEventsLogger;
-import com.mobiata.android.util.SettingUtils;
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import rx.Observer;
 
@@ -75,7 +71,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID());
-			query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
@@ -179,20 +174,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 	@Override
 	public void onUserAccountRefreshed() {
-		handleAppLaunch();
-	}
-
-	private void handleAppLaunch() {
-		TrackingUtils.initializeTracking(this.getApplication());
-		// Show app introduction if available and not already shown.
-		if (ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled() && !SettingUtils
-			.get(this, R.string.preference_app_intro_shown_once, false)) {
-			ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(this);
-			finishActivity();
-		}
-		else {
-			launchOpeningView();
-		}
+		launchOpeningView();
 	}
 
 	private void showSplashThenLaunchOpeningView(final LaunchDestination destination) {
@@ -201,8 +183,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			@Override
 			public void run() {
 				if (showNewUserOnboarding()) {
-					Intent intent = new Intent(RouterActivity.this, OnboardingActivity.class);
-					startActivity(intent);
+					ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(RouterActivity.this);
 				}
 				else {
 					if (destination == LaunchDestination.LAUNCH_SCREEN) {
@@ -218,6 +199,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	}
 
 	private boolean showNewUserOnboarding() {
-		return ExpediaBookingApp.isFirstLaunchEver() && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppUserOnboarding);
+		return ExpediaBookingApp.isFirstLaunchEver() && ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled();
 	}
 }

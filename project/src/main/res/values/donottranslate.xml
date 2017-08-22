@@ -90,7 +90,6 @@
     <string name="preference_disable_modern_https_security">preference_disable_modern_https_security</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
     <string name="preference_swp_flights_earn_messaging">preference_swp_flights_earn_messaging</string>
-    <string name="preference_app_intro_shown_once">preference_app_intro_shown_once</string>
     <string name="preference_open_abacus_settings">preference_open_abacus_settings</string>
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_control">Control Group</string>

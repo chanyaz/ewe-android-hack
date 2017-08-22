@@ -23,8 +23,11 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.navigation.FlightNavUtils;
+import com.expedia.bookings.utils.navigation.HotelNavUtils;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.squareup.otto.Subscribe;
@@ -81,7 +84,7 @@ public class CollectionLaunchWidget extends LinearLayout {
 		params.setChildren(null);
 
 		// Go to hotels
-		NavUtils.goToHotels(getContext(), params, animOptions, 0);
+		HotelNavUtils.goToHotels(getContext(), params, animOptions, 0);
 	}
 
 	@OnClick(R.id.button_search_flights)
@@ -97,7 +100,7 @@ public class CollectionLaunchWidget extends LinearLayout {
 		flightSearchParams.setDepartureDate(LocalDate.now().plusDays(1));
 
 		// Go to flights
-		NavUtils.goToFlights(getContext(), true);
+		FlightNavUtils.goToFlights(getContext());
 	}
 
 	@OnClick(R.id.button_search_activities)
@@ -106,7 +109,7 @@ public class CollectionLaunchWidget extends LinearLayout {
 			.startDate(LocalDate.now().plusDays(1)).endDate(LocalDate.now().plusDays(14)).build();
 
 		// Go to Lx
-		NavUtils.goToActivities(getContext(), animOptions, params, NavUtils.FLAG_OPEN_SEARCH);
+		LXNavUtils.goToActivities(getContext(), animOptions, params, NavUtils.FLAG_OPEN_SEARCH);
 	}
 
 	// Hotel search in collection location

@@ -9,8 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.NavUtils;
-import com.mobiata.android.util.SettingUtils;
+import com.expedia.bookings.utils.navigation.NavUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -108,8 +107,6 @@ public class AppIntroWidget extends FrameLayout implements ViewPager.OnPageChang
 
 	private void goToLaunchScreen() {
 		NavUtils.goToLaunchScreen(getContext());
-		SettingUtils
-			.save(getContext(), R.string.preference_app_intro_shown_once, true);
 		((Activity) getContext()).finish();
 	}
 }

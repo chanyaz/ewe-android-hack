@@ -327,14 +327,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
-            android:key="13548"
-            android:summary="%s"
-            android:title="New User Onboarding" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
             android:key="14687"
             android:summary="%s"
             android:title="ProWizard Launch/Search - 14687" />
@@ -525,7 +517,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15316"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Locale based date formatting - 15316" />
 

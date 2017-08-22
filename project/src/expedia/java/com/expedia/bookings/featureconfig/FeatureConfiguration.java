@@ -7,6 +7,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.View;
 
@@ -16,6 +17,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.hotel.DisplaySort;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
@@ -215,11 +217,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isAppIntroEnabled() {
-		return false;
+		return true;
 	}
 
 	public void launchAppIntroScreen(Context context) {
-		throw new UnsupportedOperationException("App intro not supported.");
+		Intent intent = new Intent(context, OnboardingActivity.class);
+		context.startActivity(intent);
 	}
 
 	public boolean shouldSendSiteIdInRequests() {
