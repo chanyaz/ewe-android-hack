@@ -42,7 +42,7 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.PACKAGES)
         }
 
-        if (pos.supports(LineOfBusiness.CARS)) {
+        if (pos.supports(LineOfBusiness.CARS) && carsLOBOnNewPOS()) {
             lobs.add(LobInfo.CARS)
         }
 
@@ -63,5 +63,16 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
 
     private fun trackLobNavigation(lineOfBusiness: LineOfBusiness) {
         OmnitureTracking.trackNewLaunchScreenLobNavigation(lineOfBusiness)
+    }
+
+    private fun carsLOBOnNewPOS(): Boolean {
+        //the POS check will be removed once we are sure there are no issues on cars path for these POS
+        val carsPresentOnPOS = PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.ARGENTINA && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.AUSTRIA
+            && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.BRAZIL && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.BELGIUM
+            && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.DENMARK && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.MEXICO
+            && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.SPAIN && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.NETHERLANDS
+            && PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.NORWAY
+        val showCarsLOB = carsPresentOnPOS || Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsWebViewNewPOS)
+        return showCarsLOB
     }
 }

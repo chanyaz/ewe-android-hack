@@ -93,6 +93,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppCarsWebViewCA = 13829;
 	public static final int EBAndroidAppCarsWebViewOB = 13660;
 	public static final int EBAndroidAppCarsWebViewEMEA = 13827;
+	public static final int EBAndroidAppCarsWebViewNewPOS = 15271;
 	public static final int EBAndroidAppCarsFlexView = 14632;
 	public static final int EBAndroidAppCarsAATest = 15311;
 
@@ -217,6 +218,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel);
 		testIDs.add(EBAndroidAppPackagesEnableJapanPOS);
 		testIDs.add(EBAndroidAppCarsAATest);
+		testIDs.add(EBAndroidAppCarsWebViewNewPOS);
 		return testIDs;
 	}
 

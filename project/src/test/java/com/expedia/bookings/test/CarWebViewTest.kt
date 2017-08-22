@@ -4,6 +4,7 @@ package com.expedia.bookings.test
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -278,6 +279,15 @@ class CarWebViewTest {
         setPOSWithCarWebViewEnabled(PointOfSaleId.UNITED_STATES.id.toString())
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsFlexView)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewUS)
+        verifyCarsWebViewIsLaunched()
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensWebViewAR() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.ARGENTINA.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewNewPOS)
+        assert(PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS))
         verifyCarsWebViewIsLaunched()
     }
 
