@@ -53,6 +53,8 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     private val advancedOptionsView: SearchInputTextView by bindView(R.id.advanced_options_view)
     private val advancedOptionsDetails: AdvancedSearchOptionsView by bindView(R.id.search_options_details_view)
 
+    private val advancedOptionsViewModel = AdvancedSearchOptionsViewModel(context)
+
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
@@ -95,7 +97,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             calendarWidgetV2.setAccessibilityHoverFocus()
         }
 
-        advancedOptionsDetails.viewModel.searchOptionsSubject.subscribe(searchViewModel.advancedOptionsObserver)
+        advancedOptionsViewModel.searchOptionsSubject.subscribe(searchViewModel.advancedOptionsObserver)
 
         searchButton.setOnClickListener {
             searchTrackingBuilder.markSearchClicked()
@@ -159,7 +161,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
 
-        val advancedOptionsViewModel = AdvancedSearchOptionsViewModel(context)
         advancedOptionsDetails.viewModel = advancedOptionsViewModel
         addTransition(searchToAdvancedOptions)
 
@@ -180,6 +181,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     override fun back(): Boolean {
         if (AdvancedSearchOptionsView::class.java.name == currentState) {
+            advancedOptionsViewModel.doneObservable.onNext(Unit)
             return back(0)
         }
         return super.back()
@@ -220,7 +222,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     fun resetSearchOptions() {
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
-            advancedOptionsDetails.viewModel.resetSearchOptionsObservable.onNext(Unit)
+            advancedOptionsViewModel.resetSearchOptionsObservable.onNext(Unit)
         }
     }
 
