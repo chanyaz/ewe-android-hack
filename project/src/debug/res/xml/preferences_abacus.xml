@@ -94,67 +94,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="LX tests">
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="9165"
-            android:title="LX Category Test - 9165" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="9467"
-            android:title="LX first activity expanded - 9467" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="10000"
-            android:title="LX RTR on search and details - 10000" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="10556"
-            android:title="LX Cross sell on hotel confirmation - 10556" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="12689"
-            android:title="LX Text Search Filter - 12689" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="13050"
-            android:title="LX Disable POI Search - 13050" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="13152"
-            android:title="LX Navigate To SRP - 13152" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="14380"
-            android:title="LX Voucher Redemption - 14380" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Material Flights Tests">
 
         <ListPreference
@@ -454,7 +393,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="12622"
-            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hide Apac Billing Address Fields - 12622" />
 
@@ -688,6 +626,67 @@
             android:summary="%s"
             android:key="14900"
             android:title="Packages Japan Launch" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="LX tests">
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="9165"
+            android:title="LX Category Test - 9165" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="9467"
+            android:title="LX first activity expanded - 9467" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="10000"
+            android:title="LX RTR on search and details - 10000" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="10556"
+            android:title="LX Cross sell on hotel confirmation - 10556" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="12689"
+            android:title="LX Text Search Filter - 12689" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="13050"
+            android:title="LX Disable POI Search - 13050" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="13152"
+            android:title="LX Navigate To SRP - 13152" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="14380"
+            android:title="LX Voucher Redemption - 14380" />
 
     </PreferenceCategory>
 
