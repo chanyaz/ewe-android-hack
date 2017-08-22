@@ -111,6 +111,7 @@ import java.util.List;
 import java.util.Locale;
 import kotlin.NotImplementedError;
 
+import static com.expedia.bookings.utils.FeatureUtilKt.isMaterialFormsEnabled;
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
 
 /**
@@ -1451,7 +1452,17 @@ public class OmnitureTracking {
 	}
 
 	private static void trackPageLoadFlightCheckoutPaymentEditCard() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD);
+		String pageName = FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(pageName);
+		s.setEvar(18, pageName);
+
+		if (isMaterialFormsEnabled()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHideApacBillingAddressFields);
+		}
+
+		s.track();
 	}
 
 	public static void trackPageLoadFlightCheckoutWarsaw() {
