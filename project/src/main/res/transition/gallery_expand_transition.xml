@@ -8,7 +8,7 @@
         </changeBounds>
     </transitionSet>
 
-    <changeImageTransform android:startDelay="100">
+    <changeImageTransform>
         <targets android:targetId="@id/gallery_item_image_view"/>
     </changeImageTransform>
 </transitionSet>
