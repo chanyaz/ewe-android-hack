@@ -7,9 +7,11 @@ import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
@@ -50,5 +52,24 @@ class HotelItinDetailsActivityTest {
 
         val shareIcon: View = activity.findViewById(R.id.itin_share_button)
         assertEquals(View.GONE, shareIcon.visibility)
+    }
+
+    @Test
+    fun testRoomDetailsExpansion() {
+        SettingUtils.save(activity, R.string.preference_enable_expandable_hotel_itin_room_details, true)
+
+        val itinCardDataHotelMock = Mockito.spy(itinCardDataHotel)
+        activity.itinCardDataHotel = itinCardDataHotelMock
+        Mockito.`when`(activity.itinCardDataHotel.lastHotelRoom).thenReturn(null)
+        activity.setUpWidgets()
+        assertEquals(View.GONE, activity.roomDetailsView.expandedRoomDetails.visibility)
+        assertEquals(View.GONE, activity.roomDetailsChevron.visibility)
+        assertEquals(false, activity.roomDetailsView.isRowClickable)
+
+        activity.itinCardDataHotel = itinCardDataHotel
+        activity.setUpWidgets()
+        assertEquals(View.GONE, activity.roomDetailsView.expandedRoomDetails.visibility)
+        assertEquals(View.VISIBLE, activity.roomDetailsChevron.visibility)
+        assertEquals(true, activity.roomDetailsView.isRowClickable)
     }
 }

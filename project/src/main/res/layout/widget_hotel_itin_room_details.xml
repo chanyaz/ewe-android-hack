@@ -66,13 +66,19 @@
                 android:layout_height="1dp"
                 android:background="?attr/itin_card_summary_divider_color" />
 
-            <LinearLayout
-                android:id="@+id/itin_hotel_room_amenities_container"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginRight="16dp">
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/itin_hotel_room_amenities_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <View
                 android:layout_width="match_parent"

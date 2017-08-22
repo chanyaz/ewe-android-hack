@@ -30,7 +30,7 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
     val amenitiesContainer: LinearLayout by bindView(R.id.itin_hotel_room_amenities_container)
     val amenitiesDivider: View by bindView(R.id.amenities_summary_divider)
     val container: ViewGroup by bindView(R.id.container)
-    var isRowClickable = true
+    var isRowClickable = false
 
     private val collapsedRoomDetails: LinearLayout by bindView(R.id.itin_hotel_details_room_collapsed_view)
 

@@ -12,7 +12,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 
 class HotelItinRoomAmenity(context: Context) : CoordinatorLayout(context) {
-    private val params = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1.0f)
     private val amenityIcon : ImageView by bindView(R.id.itin_hotel_room_amenity_icon)
     private val amenityLabel: TextView by bindView(R.id.itin_hotel_room_amenity_label)
 
@@ -21,7 +20,6 @@ class HotelItinRoomAmenity(context: Context) : CoordinatorLayout(context) {
     }
 
     fun setUp(label: String, icon: Int, contdesc: String) {
-        this.layoutParams = params
         amenityIcon.setImageResource(icon)
         amenityLabel.text = label
         amenityLabel.contentDescription = contdesc
