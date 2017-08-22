@@ -12,7 +12,7 @@ import com.mobiata.android.json.JSONUtils;
 
 public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse> {
 
-	public static enum Type {
+	public enum Type {
 		HOTELS,
 		FLIGHTS,
 	}

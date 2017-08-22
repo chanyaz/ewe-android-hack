@@ -98,11 +98,8 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 
 	@Override
 	public boolean hasConfirmationNumber() {
-		if (getTripComponent() != null && ((TripFlight) getTripComponent()).getConfirmations() != null
-				&& ((TripFlight) getTripComponent()).getConfirmations().size() > 0) {
-			return true;
-		}
-		return false;
+		return getTripComponent() != null && ((TripFlight) getTripComponent()).getConfirmations() != null
+			&& ((TripFlight) getTripComponent()).getConfirmations().size() > 0;
 	}
 
 	@Override

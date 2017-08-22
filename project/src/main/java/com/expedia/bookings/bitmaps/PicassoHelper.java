@@ -167,10 +167,7 @@ public class PicassoHelper implements Target, Callback {
 	private boolean retry() {
 		while (mUrls != null && mIndex + 1 < mUrls.size()) {
 			mIndex++;
-			if (FailedUrlCache.getInstance().contains(getUrl())) {
-				continue;
-			}
-			else {
+			if (!FailedUrlCache.getInstance().contains(getUrl())) {
 				return true;
 			}
 		}

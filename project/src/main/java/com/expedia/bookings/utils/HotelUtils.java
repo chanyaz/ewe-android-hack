@@ -27,10 +27,7 @@ public class HotelUtils {
 
 	// Distance formatting
 	public static boolean isDistanceUnitInMiles() {
-		if (Locale.getDefault().getCountry().toLowerCase(Locale.ENGLISH).equals("us")) {
-			return true;
-		}
-		return false;
+		return Locale.getDefault().getCountry().toLowerCase(Locale.ENGLISH).equals("us");
 	}
 
 	public static String formatDistanceForNearby(Resources resources, Hotel offer, boolean abbreviated) {

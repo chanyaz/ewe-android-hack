@@ -27,7 +27,7 @@ public class HotelFilter implements JSONable {
 		private final double miles;
 		private final double kilometers;
 
-		private SearchRadius(double mi, double km) {
+		SearchRadius(double mi, double km) {
 			miles = mi;
 			kilometers = km;
 		}
@@ -42,11 +42,11 @@ public class HotelFilter implements JSONable {
 		}
 	}
 
-	public static enum PriceRange {
+	enum PriceRange {
 		CHEAP, MODERATE, EXPENSIVE, ALL
 	}
 
-	public static enum Sort {
+	public enum Sort {
 		RECOMMENDED(R.string.sort_description_recommended),
 		PRICE(R.string.sort_description_price),
 		DEALS(R.string.sort_description_deals),
@@ -55,7 +55,7 @@ public class HotelFilter implements JSONable {
 
 		private int mResId;
 
-		private Sort(int resId) {
+		Sort(int resId) {
 			mResId = resId;
 		}
 

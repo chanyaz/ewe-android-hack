@@ -10,7 +10,7 @@ import com.expedia.bookings.widget.TextViewExtensionsKt;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
-public abstract class SectionFieldEditable<FieldType extends View, Data extends Object> extends
+public abstract class SectionFieldEditable<FieldType extends View, Data> extends
 		SectionField<FieldType, Data> {
 
 	ArrayList<SectionFieldValidIndicator<?, Data>> mPostValidators = new ArrayList<SectionFieldValidIndicator<?, Data>>();
@@ -36,7 +36,7 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 		boolean valid = true;
 		if (hasBoundField()) {
 			Validator<FieldType> validator = getValidator();
-			valid = (validator == null) ? false : validator.validate(getField()) == ValidationError.NO_ERROR;
+			valid = validator != null && validator.validate(getField()) == ValidationError.NO_ERROR;
 		}
 		firePostValidators(valid);
 		return valid;

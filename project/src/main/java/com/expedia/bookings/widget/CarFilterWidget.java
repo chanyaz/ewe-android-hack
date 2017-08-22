@@ -377,12 +377,7 @@ public class CarFilterWidget extends LinearLayout {
 			count += event.filteredCarOffers.offers.size();
 		}
 
-		if (count == 0) {
-			isFilteredToZeroResults = true;
-		}
-		else {
-			isFilteredToZeroResults = false;
-		}
+		isFilteredToZeroResults = count == 0;
 		updateDoneButton();
 		dynamicFeedbackWidget.setDynamicCounterText(count);
 	}

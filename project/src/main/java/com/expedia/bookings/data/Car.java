@@ -14,7 +14,7 @@ import com.mobiata.android.json.JSONable;
 
 public class Car implements JSONable {
 
-	public static enum Category {
+	public enum Category {
 		MINI(R.string.car_category_mini, R.string.share_template_short_car_type_mini),
 		ECONOMY(R.string.car_category_economy, R.string.share_template_short_car_type_economy),
 		COMPACT(R.string.car_category_compact, R.string.share_template_short_car_type_compact),
@@ -37,7 +37,7 @@ public class Car implements JSONable {
 		private int mResId;
 		private int mShareId;
 
-		private Category(int resId, int shareId) {
+		Category(int resId, int shareId) {
 			mResId = resId;
 			mShareId = shareId;
 		}

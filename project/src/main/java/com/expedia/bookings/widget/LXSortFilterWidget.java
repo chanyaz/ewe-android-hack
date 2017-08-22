@@ -194,7 +194,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 				LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
 				String categoryKey = filterCategory.getKey();
-				lxCategoryMetadata.checked = selectedFilterCategories.containsKey(categoryKey) ? true : false;
+				lxCategoryMetadata.checked = selectedFilterCategories.containsKey(categoryKey);
 				LXFilterCategoryWidget categoryView = Ui
 					.inflate(R.layout.section_lx_filter_row, filterCategoriesContainer, false);
 				categoryView.bind(lxCategoryMetadata, categoryKey);

@@ -15,7 +15,7 @@ import com.mobiata.android.maps.MapUtils;
 
 public class Distance implements JSONable, Comparable<Distance> {
 
-	public static enum DistanceUnit {
+	public enum DistanceUnit {
 		MILES, KILOMETERS;
 
 		public static DistanceUnit getDefaultDistanceUnit() {

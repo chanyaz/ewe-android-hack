@@ -7,7 +7,7 @@ import android.view.View;
  *
  * @param <Data>
  */
-public class ValidationIndicatorExclamationSpinner<Data extends Object> extends
+public class ValidationIndicatorExclamationSpinner<Data> extends
 	SectionFieldValidIndicator<RailDeliverySpinnerWithValidationIndicator, Data> {
 
 	Boolean mWasValid = true;

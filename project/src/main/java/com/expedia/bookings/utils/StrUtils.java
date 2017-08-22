@@ -163,10 +163,7 @@ public class StrUtils {
 		int lastSeparator = 0;
 		for (Object token : tokens) {
 			if (token instanceof Integer) {
-				if (lastSeparator != 0) {
-					continue;
-				}
-				else {
+				if (lastSeparator == 0) {
 					lastSeparator = (Integer) token;
 				}
 			}

@@ -387,7 +387,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					menuDone.setVisible(false);
 				}
 				else {
-					menuDone.setVisible(isCheckoutFormComplete() ? false : true);
+					menuDone.setVisible(!isCheckoutFormComplete());
 				}
 			}
 		}

@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.mobiata.android.util.Ui;
 
-public abstract class SectionField<FieldType extends View, Data extends Object> {
+public abstract class SectionField<FieldType extends View, Data> {
 
 	private int mFieldId;
 	protected FieldType mField;

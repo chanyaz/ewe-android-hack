@@ -173,11 +173,8 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 
 	@Override
 	public boolean hasConfirmationNumber() {
-		if (getTripComponent() != null && ((TripCar) getTripComponent()).getCar() != null
-				&& !TextUtils.isEmpty(((TripCar) getTripComponent()).getCar().getConfNumber())) {
-			return true;
-		}
-		return false;
+		return getTripComponent() != null && ((TripCar) getTripComponent()).getCar() != null
+			&& !TextUtils.isEmpty(((TripCar) getTripComponent()).getCar().getConfNumber());
 	}
 
 	@Override

@@ -47,10 +47,7 @@ public class TripUtils {
 				boolean startDateToday = trip.getStartDate().isEqual(dateTime);
 
 				if (!hasTripStarted && startDateBefore || startDateToday) {
-					if (!includeSharedItins && trip.isShared()) {
-						continue; // don't add shared itins to the list
-					}
-					else {
+					if (includeSharedItins || !trip.isShared()) {
 						return true;
 					}
 				}

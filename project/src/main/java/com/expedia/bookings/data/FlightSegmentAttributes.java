@@ -18,7 +18,7 @@ public class FlightSegmentAttributes implements JSONable {
 
 		private int mResId;
 
-		private CabinCode(int resId) {
+		CabinCode(int resId) {
 			mResId = resId;
 		}
 

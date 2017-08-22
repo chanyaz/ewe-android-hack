@@ -29,7 +29,7 @@ public class Rate implements JSONable {
 	public enum UserPriceType {
 		RATE_FOR_WHOLE_STAY_WITH_TAXES,
 		PER_NIGHT_RATE_NO_TAXES,
-		UNKNOWN;
+		UNKNOWN
 	}
 
 	// Which price to display to users

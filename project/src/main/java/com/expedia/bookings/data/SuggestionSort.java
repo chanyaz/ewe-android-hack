@@ -6,5 +6,5 @@ package com.expedia.bookings.data;
  */
 public enum SuggestionSort {
 	POPULARITY,
-	DISTANCE;
+	DISTANCE
 }

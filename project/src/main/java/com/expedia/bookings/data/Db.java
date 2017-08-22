@@ -536,7 +536,7 @@ public class Db {
 				return true;
 			}
 		}, SAVED_TRIP_BUCKET_FILE_NAME, "TripBucket");
-		boolean isAirAttachQualified = hasTrip ? sDb.mTripBucket.isUserAirAttachQualified() : false;
+		boolean isAirAttachQualified = hasTrip && sDb.mTripBucket.isUserAirAttachQualified();
 		return hasTrip;
 	}
 

@@ -63,7 +63,7 @@ public class FlightTripView extends View {
 		AIRPORT_START_END,
 		AIRPORT_LAYOVER,
 		FLIGHT_LINE,
-		EMPTY_SPACE;
+		EMPTY_SPACE
 	}
 
 	private class DrawComponent {

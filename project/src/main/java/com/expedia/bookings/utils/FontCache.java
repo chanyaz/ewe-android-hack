@@ -34,7 +34,7 @@ public class FontCache {
 
 		private String mPath;
 
-		private Font(String path) {
+		Font(String path) {
 			mPath = path;
 		}
 

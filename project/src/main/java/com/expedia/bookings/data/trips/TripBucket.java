@@ -339,11 +339,8 @@ public class TripBucket implements JSONable {
 			return false;
 		}
 
-		if (hotelCheckinIsDayBeforeFlightLands() && !hotelCheckoutIsBeforeOrAfterFlightLeaves()) {
-			return true;
-		}
+		return hotelCheckinIsDayBeforeFlightLands() && !hotelCheckoutIsBeforeOrAfterFlightLeaves();
 
-		return false;
 	}
 
 	private boolean hasMismatchedDates() {
@@ -355,11 +352,8 @@ public class TripBucket implements JSONable {
 			return true;
 		}
 
-		if (daysBetweenFlights() && hotelCheckoutIsBeforeOrAfterFlightLeaves()) {
-			return true;
-		}
+		return daysBetweenFlights() && hotelCheckoutIsBeforeOrAfterFlightLeaves();
 
-		return false;
 	}
 
 	private boolean hotelCheckinIsDayBeforeFlightLands() {

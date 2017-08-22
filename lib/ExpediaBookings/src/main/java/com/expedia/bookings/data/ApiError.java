@@ -102,7 +102,6 @@ public class ApiError extends RuntimeException {
 		public String summary;
 		public String source;
 		public String sourceErrorId;
-		public String sourceErrorMessage;
 		public String field;
 		public String cause;
 		public String couponErrorType;
@@ -114,11 +113,7 @@ public class ApiError extends RuntimeException {
 				if (other.field != null && field != null && !Strings.equals(other.field, field)) {
 					return false;
 				}
-				if (other.couponErrorType != null && couponErrorType != null && !Strings
-					.equals(other.couponErrorType, couponErrorType)) {
-					return false;
-				}
-				return true;
+				return Strings.equals(other.couponErrorType, couponErrorType);
 			}
 			return false;
 		}
@@ -148,10 +143,12 @@ public class ApiError extends RuntimeException {
 			if (other.errorCode != errorCode) {
 				return false;
 			}
-			if (other.errorInfo != null && errorInfo != null && !other.errorInfo.equals(errorInfo)) {
-				return false;
+			if (other.errorInfo == null || errorInfo == null) {
+				return true;
 			}
-			return true;
+			else {
+				return other.errorInfo.equals(errorInfo);
+			}
 		}
 		return false;
 	}

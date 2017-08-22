@@ -8,7 +8,7 @@ import android.database.DataSetObserver;
 
 public class FlightFilter {
 
-	public static enum Sort {
+	public enum Sort {
 		PRICE,
 		DEPARTURE,
 		ARRIVAL,

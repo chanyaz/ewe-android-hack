@@ -14,5 +14,5 @@ public interface CardFeeApi {
 	@POST("/api/flight/trip/cardFee")
 	Observable<CardFeeResponse> cardFee(@Field("tripId") String tripId,
 		@Field("creditCardId") String creditCardId,
-		@Query("featureOverride") Boolean featureOverride);;
+		@Query("featureOverride") Boolean featureOverride);
 }

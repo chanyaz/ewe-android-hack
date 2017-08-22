@@ -50,10 +50,7 @@ public class CarFilter {
 		if (hasAirConditioning && !offer.vehicleInfo.hasAirConditioning) {
 			return false;
 		}
-		if (hasUnlimitedMileage && !offer.hasUnlimitedMileage) {
-			return false;
-		}
-		return true;
+		return !hasUnlimitedMileage || offer.hasUnlimitedMileage;
 	}
 
 	// Checks if the user has altered the filter

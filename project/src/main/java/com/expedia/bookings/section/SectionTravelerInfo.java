@@ -614,7 +614,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	}
 
 	//This class is defined so that we can have both SectionFieldEditable and OnDateSetListener implemented in a single class
-	abstract static class SectionFieldEditableWithDateChangeListener<FieldType extends View, Data extends Object>
+	abstract static class SectionFieldEditableWithDateChangeListener<FieldType extends View, Data>
 		extends
 		SectionFieldEditable<FieldType, Data> implements DatePickerDialog.OnDateSetListener {
 		public SectionFieldEditableWithDateChangeListener(int fieldId) {

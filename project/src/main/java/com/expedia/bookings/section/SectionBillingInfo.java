@@ -807,10 +807,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		private OnSetExpirationListener mListener;
 
-		public static interface OnSetExpirationListener {
-			public void onExpirationSet(int month, int year);
+		public interface OnSetExpirationListener {
+			void onExpirationSet(int month, int year);
 
-			public void resetValidationOnExpiryField();
+			void resetValidationOnExpiryField();
 		}
 
 		public static ExpirationPickerFragment newInstance(LocalDate expDate, OnSetExpirationListener listener) {

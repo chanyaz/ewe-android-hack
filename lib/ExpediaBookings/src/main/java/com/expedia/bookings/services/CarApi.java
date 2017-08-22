@@ -16,13 +16,13 @@ import rx.Observable;
 public interface CarApi {
 
 	@GET("/m/api/cars/search/airport")
-	public Observable<CarSearchResponse> roundtripCarSearch(
+	Observable<CarSearchResponse> roundtripCarSearch(
 		@Query("airportCode") String airportCode,
 		@Query("pickupTime") String pickupTime,
 		@Query("dropOffTime") String dropoffTime);
 
 	@GET("/m/api/cars/search/location")
-	public Observable<CarSearchResponse> roundtripCarSearch(
+	Observable<CarSearchResponse> roundtripCarSearch(
 		@Query("pickupLocation.lat") double pickupLocationLatitude,
 		@Query("pickupLocation.lon") double pickupLocationLongitude,
 		@Query("pickupTime") String pickupTime,
@@ -30,12 +30,12 @@ public interface CarApi {
 		@Query("searchRadius") int searchRadius);
 
 	@GET("/m/api/cars/trip/create")
-	public Observable<CarCreateTripResponse> createTrip(
+	Observable<CarCreateTripResponse> createTrip(
 		@Query("productKey") String productKey,
 		@Query("expectedTotalFare") String expectedTotalFare);
 
 	@FormUrlEncoded
 	@POST("/m/api/cars/trip/checkout")
-	public Observable<CarCheckoutResponse> checkout(
+	Observable<CarCheckoutResponse> checkout(
 		@FieldMap Map<String, Object> params);
 }

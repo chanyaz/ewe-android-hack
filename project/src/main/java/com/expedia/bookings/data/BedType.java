@@ -1,5 +1,6 @@
 package com.expedia.bookings.data;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,7 +43,7 @@ public class BedType implements JSONable {
 	 * http://developer.ean.com/general_info/BedTypes
 	 *
 	 */
-	public static enum BedTypeId {
+		enum BedTypeId {
 
 		/*
 		 * King bed types in order of priority
@@ -114,11 +115,9 @@ public class BedType implements JSONable {
 
 		private Set<String> mIds;
 
-		private BedTypeId(String[] ids) {
-			mIds = new HashSet<String>();
-			for (String id : ids) {
-				mIds.add(id);
-			}
+		BedTypeId(String[] ids) {
+			mIds = new HashSet<>();
+			Collections.addAll(mIds, ids);
 		}
 
 		public static BedTypeId fromStringId(String id) {

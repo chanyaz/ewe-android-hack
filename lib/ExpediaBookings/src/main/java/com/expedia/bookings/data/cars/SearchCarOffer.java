@@ -7,9 +7,6 @@ public class SearchCarOffer extends BaseCarOffer {
 	public boolean isToggled = false;
 
 	public boolean hasProductKey(String productKey) {
-		if (Strings.equals(this.productKey, productKey)) {
-			return true;
-		}
-		return false;
+		return Strings.equals(this.productKey, productKey);
 	}
 }

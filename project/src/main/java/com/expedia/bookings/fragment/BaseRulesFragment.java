@@ -35,7 +35,7 @@ public abstract class BaseRulesFragment extends Fragment {
 
 		private String mKey;
 
-		private RulesKeys(String key) {
+		RulesKeys(String key) {
 			mKey = key;
 		}
 

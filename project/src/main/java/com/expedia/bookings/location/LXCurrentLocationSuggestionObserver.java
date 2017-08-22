@@ -36,7 +36,6 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 	public void onError(Throwable e) {
 		if (RetrofitUtils.isNetworkError(e)) {
 			showNoInternetErrorDialog(R.string.error_no_internet);
-			return;
 		}
 		else {
 			LXNavUtils.handleLXSearchFailure(e, SearchType.DEFAULT_SEARCH, isGroundTransport);

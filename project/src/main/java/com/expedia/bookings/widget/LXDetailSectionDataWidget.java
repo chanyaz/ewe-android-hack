@@ -58,7 +58,7 @@ public class LXDetailSectionDataWidget extends LinearLayout implements View.OnCl
 						Layout textLayout = sectionContent.getLayout();
 						if (textLayout != null) {
 							int lines = textLayout.getLineCount();
-							boolean isReadMoreVisible = lines > maxLineCount ? true : false;
+							boolean isReadMoreVisible = lines > maxLineCount;
 							readMoreView.setVisibility(isReadMoreVisible ? View.VISIBLE : View.GONE);
 							setClickable(isReadMoreVisible);
 						}

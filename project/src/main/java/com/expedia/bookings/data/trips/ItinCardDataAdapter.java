@@ -712,31 +712,19 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	private boolean ignoreNonHotelItineraries(ItinCardData data) {
-		if (!data.getTripComponentType().equals(Type.HOTEL) || !(data instanceof ItinCardDataHotel)) {
-			return true;
-		}
-		return false;
+		return !data.getTripComponentType().equals(Type.HOTEL) || !(data instanceof ItinCardDataHotel);
 	}
 
 	private boolean ignoreItinCardDataFallback(ItinCardData data) {
-		if (data instanceof ItinCardDataFallback) {
-			return true;
-		}
-		return false;
+		return data instanceof ItinCardDataFallback;
 	}
 
 	private boolean ignorePastItineraries(DateTime start, DateTime currentDate) {
-		if (currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear()) {
-			return true;
-		}
-		return false;
+		return currentDate.isAfter(start) && currentDate.getDayOfYear() > start.getDayOfYear();
 	}
 
 	private boolean ignoreDismissedTripIds(HashSet<String> dismissedTripIds, ItinCardData data) {
-		if (dismissedTripIds.contains(data.getTripId())) {
-			return true;
-		}
-		return false;
+		return dismissedTripIds.contains(data.getTripId());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

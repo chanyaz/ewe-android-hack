@@ -18,7 +18,7 @@ import com.squareup.phrase.Phrase;
 
 @SuppressWarnings("serial")
 public class ServerError implements JSONable {
-	public static enum ApiMethod {
+	public enum ApiMethod {
 		CHECKOUT,
 		SEARCH_RESULTS,
 		HOTEL_OFFERS,
@@ -39,7 +39,7 @@ public class ServerError implements JSONable {
 		TRIP_DETAILS,
 	}
 
-	public static enum ErrorCode {
+	public enum ErrorCode {
 		BOOKING_FAILED,
 		BOOKING_SUCCEEDED_WITH_ERRORS,
 		HOTEL_OFFER_UNAVAILABLE,

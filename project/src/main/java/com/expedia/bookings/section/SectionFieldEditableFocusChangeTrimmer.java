@@ -10,7 +10,7 @@ import android.widget.EditText;
  * @param <FieldType>
  * @param <Data>
  */
-public abstract class SectionFieldEditableFocusChangeTrimmer<FieldType extends EditText, Data extends Object> extends
+public abstract class SectionFieldEditableFocusChangeTrimmer<FieldType extends EditText, Data> extends
 		SectionFieldEditable<FieldType, Data> {
 
 	public SectionFieldEditableFocusChangeTrimmer(int fieldId) {

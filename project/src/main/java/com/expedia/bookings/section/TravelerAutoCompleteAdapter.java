@@ -214,7 +214,6 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				if (!TextUtils.isEmpty(mFilterStr) && !TextUtils.isEmpty(trav.getFullName()) && !trav.getFullName()
 					.toLowerCase(Locale.getDefault()).contains(mFilterStr.toLowerCase(Locale.getDefault()))) {
 					availableTravelers.remove(i);
-					continue;
 				}
 			}
 			if (availableTravelers.size() == 1 && Strings.isEmpty(availableTravelers.get(0).getFullName())) {

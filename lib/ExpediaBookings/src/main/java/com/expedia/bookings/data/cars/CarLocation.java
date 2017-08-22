@@ -44,6 +44,6 @@ public class CarLocation {
 	}
 
 	public boolean isAddressLine2Available() {
-		return Strings.isNotEmpty(cityName) && Strings.isNotEmpty(provinceStateName) ? true : false;
+		return Strings.isNotEmpty(cityName) && Strings.isNotEmpty(provinceStateName);
 	}
 }

@@ -308,12 +308,9 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 			return false;
 		}
 		//Checkout the major fields, if any of them have data, then we know some data has been manually entered
-		if (!Strings.isEmpty(getLocation().getStreetAddressString()) || !Strings.isEmpty(getLocation().getCity())
+		return !Strings.isEmpty(getLocation().getStreetAddressString()) || !Strings.isEmpty(getLocation().getCity())
 			|| !Strings.isEmpty(getLocation().getPostalCode()) || !Strings.isEmpty(getLocation().getStateCode())
-			|| !Strings.isEmpty(getNameOnCard()) || !Strings.isEmpty(getNumber())) {
-			return true;
-		}
-		return false;
+			|| !Strings.isEmpty(getNameOnCard()) || !Strings.isEmpty(getNumber());
 	}
 
 }

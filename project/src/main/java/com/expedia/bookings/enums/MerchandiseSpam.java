@@ -12,5 +12,5 @@ public enum MerchandiseSpam {
 	/*The guest will be opted in unless they consent to OPT OUT via a checkbox. The checkbox is checked by default*/
 	CONSENT_TO_OPT_OUT_SELECTED,
 	/*For point of sale that's not relevant and for signed in users. */
-	NOT_APPLICABLE;
+	NOT_APPLICABLE
 }

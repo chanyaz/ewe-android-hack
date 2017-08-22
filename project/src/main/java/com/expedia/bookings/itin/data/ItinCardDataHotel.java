@@ -243,11 +243,8 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	@Override
 	public boolean hasConfirmationNumber() {
-		if (getTripComponent() != null && ((TripHotel) getTripComponent()).getConfirmationNumbers() != null
-				&& ((TripHotel) getTripComponent()).getConfirmationNumbers().size() > 0) {
-			return true;
-		}
-		return false;
+		return getTripComponent() != null && ((TripHotel) getTripComponent()).getConfirmationNumbers() != null
+			&& ((TripHotel) getTripComponent()).getConfirmationNumbers().size() > 0;
 	}
 
 	public String getLastConfirmationNumber() {

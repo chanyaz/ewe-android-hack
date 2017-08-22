@@ -590,7 +590,7 @@ public class HotelSearchParams implements JSONable {
 			// compare some state variables (such as lat/lon, which are retrieved from the freeform location
 
 			return this.getSearchType().equals(other.getSearchType())
-					&& (mQuery != null ? mQuery.equals(other.getQuery()) : true) // mFreeformLocation may be null
+					&& (mQuery == null || mQuery.equals(other.getQuery())) // mFreeformLocation may be null
 					&& this.mSearchLatitude == other.getSearchLatitude()
 					&& this.mSearchLongitude == other.getSearchLongitude()
 					&& ((mCheckInDate != null && other.getCheckInDate() != null && this.mCheckInDate.equals(other

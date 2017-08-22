@@ -76,10 +76,7 @@ public class CustomMatchers {
 
 			@Override
 			public boolean matchesSafely(TextView textView) {
-				if (Color.parseColor(hexColor) == textView.getCurrentTextColor()) {
-					return true;
-				}
-				return false;
+				return Color.parseColor(hexColor) == textView.getCurrentTextColor();
 			}
 		};
 	}
@@ -361,10 +358,7 @@ public class CustomMatchers {
 
 			@Override
 			protected boolean matchesSafely(View item) {
-				if (item.getContentDescription().toString().equals(contentDescription)) {
-					return true;
-				}
-				return false;
+				return item.getContentDescription().toString().equals(contentDescription);
 			}
 		};
 	}
@@ -378,10 +372,7 @@ public class CustomMatchers {
 
 			@Override
 			public boolean matchesSafely(Toolbar toolbar) {
-				if (toolbar.getNavigationContentDescription().toString().equals(contentDescription)) {
-					return true;
-				}
-				return false;
+				return toolbar.getNavigationContentDescription().toString().equals(contentDescription);
 			}
 		};
 	}
@@ -396,10 +387,7 @@ public class CustomMatchers {
 			@Override
 			protected boolean matchesSafely(View item) {
 				AccessibilityNodeInfo accessibilityNodeInfo = item.createAccessibilityNodeInfo();
-				if (accessibilityNodeInfo.getText().equals(infoText)) {
-					return true;
-				}
-				return false;
+				return accessibilityNodeInfo.getText().equals(infoText);
 			}
 		};
 	}

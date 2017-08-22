@@ -26,7 +26,7 @@ public enum PaymentType {
 	private String mCode;
 	private String mOmnitureTrackingCode;
 
-	private PaymentType(String code, String omnitureTrackingCode) {
+	PaymentType(String code, String omnitureTrackingCode) {
 		mCode = code;
 		mOmnitureTrackingCode = omnitureTrackingCode;
 	}

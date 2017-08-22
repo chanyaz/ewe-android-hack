@@ -31,7 +31,7 @@ import com.mobiata.android.json.JSONable;
  */
 public class Suggestion implements JSONable {
 
-	public static enum Type {
+	public enum Type {
 		CITY,
 		ATTRACTION,
 		AIRPORT,

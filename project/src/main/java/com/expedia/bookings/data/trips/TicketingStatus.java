@@ -5,5 +5,5 @@ public enum TicketingStatus {
 	INPROGRESS,
 	CANCELLED,
 	VOIDED,
-	NONE;
+	NONE
 }

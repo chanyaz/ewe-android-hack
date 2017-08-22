@@ -192,7 +192,6 @@ public class CarResultsPresenter extends Presenter {
 		public void onError(Throwable e) {
 			if (e instanceof ApiError) {
 				handleInputValidationErrors((ApiError) e);
-				return;
 			}
 		}
 
@@ -221,7 +220,6 @@ public class CarResultsPresenter extends Presenter {
 			if (e instanceof ApiError) {
 				handleInputValidationErrors((ApiError) e);
 				OmnitureTracking.trackAppCarNoResults((ApiError) e);
-				return;
 			}
 		}
 

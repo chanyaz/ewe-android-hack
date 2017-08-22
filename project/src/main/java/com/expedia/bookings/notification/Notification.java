@@ -45,7 +45,7 @@ public class Notification extends Model implements JSONable {
 		NEW,
 		NOTIFIED,
 		DISMISSED,
-		EXPIRED;
+		EXPIRED
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class Notification extends Model implements JSONable {
 		DESTINATION,
 		CAR,
 		ACTIVITY,
-		NONE;
+		NONE
 	}
 
 	/**

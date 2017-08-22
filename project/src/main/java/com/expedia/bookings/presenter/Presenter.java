@@ -386,11 +386,8 @@ public class Presenter extends FrameLayout {
 		if (transitions.containsKey(a) && transitions.get(a).containsKey(b)) {
 			return true;
 		}
-		if (transitions.containsKey(b) && transitions.get(b).containsKey(a)) {
-			return true;
-		}
+		return transitions.containsKey(b) && transitions.get(b).containsKey(a);
 
-		return false;
 	}
 
 	public static abstract class DefaultTransition extends Transition {

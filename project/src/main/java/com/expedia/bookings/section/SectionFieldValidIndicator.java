@@ -2,7 +2,7 @@ package com.expedia.bookings.section;
 
 import android.view.View;
 
-public abstract class SectionFieldValidIndicator<FieldType extends View, Data extends Object> extends
+public abstract class SectionFieldValidIndicator<FieldType extends View, Data> extends
 		SectionField<FieldType, Data> {
 
 	public SectionFieldValidIndicator(int fieldId) {

@@ -21,7 +21,7 @@ import com.mobiata.android.json.JSONable;
 
 public class Property implements JSONable {
 
-	public static enum Amenity {
+	public enum Amenity {
 		// @formatter:off
 		BUSINESS_CENTER(0x0000001, R.string.AmenityBusinessCenter),
 		FITNESS_CENTER(0x0000002, R.string.AmenityFitnessCenter),
@@ -56,7 +56,7 @@ public class Property implements JSONable {
 		private int flag;
 		private int strId;
 
-		private Amenity(int newFlag, int newStrId) {
+		Amenity(int newFlag, int newStrId) {
 			this.flag = newFlag;
 			this.strId = newStrId;
 		}
