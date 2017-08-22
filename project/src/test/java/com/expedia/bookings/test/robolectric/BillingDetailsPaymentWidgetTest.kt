@@ -669,7 +669,7 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
         billingDetailsPaymentWidget.sectionLocation.resetValidation(R.id.edit_address_postal_code, true)
         billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.UNITED_STATES)
-        assertValidState(postalLayout, "Zip")
+        assertValidState(postalLayout, "Zip Code")
         assertEquals(InputType.TYPE_CLASS_NUMBER, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)

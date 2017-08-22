@@ -2104,10 +2104,8 @@
     <string name="address_mail_delivery_option_hint">Mail Delivery Options</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postal Code</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">Zip Code</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">Zip</string>
     <!--Address Province hint-->
     <string name="address_province_hint">Province</string>
     <!--Address Country/State/Province hint-->

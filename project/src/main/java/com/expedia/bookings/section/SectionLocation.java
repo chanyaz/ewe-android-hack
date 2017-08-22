@@ -567,12 +567,7 @@ public class SectionLocation extends LinearLayout
 						|| (!mEditCountrySpinner.hasBoundField() && posId == ProductFlavorFeatureConfiguration.getInstance()
 						.getUSPointOfSaleId())) {
 						this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
-						if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
-							this.getField().setHint(R.string.address_zip_code_hint);
-						}
-						else {
-							this.getField().setHint(R.string.address_postal_code_hint_US);
-						}
+						this.getField().setHint(R.string.address_zip_code_hint);
 					}
 					else {
 						this.getField().setInputType(InputType.TYPE_CLASS_TEXT);
@@ -833,12 +828,7 @@ public class SectionLocation extends LinearLayout
 			if (materialCountryAdapter.getItemValue(materialCountryAdapter
 				.getPositionByCountryThreeLetterCode(billingCountryCodeSubject.getValue()), CountryDisplayType.THREE_LETTER)
 				.equalsIgnoreCase("USA")) {
-				if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
-					postalHintString = R.string.address_zip_code_hint;
-				}
-				else {
-					postalHintString = R.string.address_postal_code_hint_US;
-				}
+				postalHintString = R.string.address_zip_code_hint;
 				postalErrorString = R.string.error_enter_a_zip_code;
 				mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 			}
@@ -850,12 +840,7 @@ public class SectionLocation extends LinearLayout
 		}
 		else if (pointOfSaleId.equals(ProductFlavorFeatureConfiguration.getInstance().getUSPointOfSaleId())) {
 			mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
-			if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
-				postalHintString = R.string.address_zip_code_hint;
-			}
-			else {
-				postalHintString = R.string.address_postal_code_hint_US;
-			}
+			postalHintString = R.string.address_zip_code_hint;
 			postalErrorString = R.string.error_enter_a_zip_code;
 		}
 		else {
