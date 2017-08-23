@@ -11,7 +11,7 @@ import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.HotelItinManageBookingHelp
-import com.expedia.bookings.widget.itin.HotelItinCustomerSupportDetails
+import com.expedia.bookings.itin.widget.HotelItinCustomerSupportDetails
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
 import com.expedia.bookings.widget.itin.HotelItinToolbar
 

@@ -76,7 +76,7 @@
                 android:layout_marginRight="11dp" />
 
             <!--Customer Support-->
-            <com.expedia.bookings.widget.itin.HotelItinCustomerSupportDetails
+            <com.expedia.bookings.itin.widget.HotelItinCustomerSupportDetails
                 android:id="@+id/widget_hotel_itin_customer_support"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
