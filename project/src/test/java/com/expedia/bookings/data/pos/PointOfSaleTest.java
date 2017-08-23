@@ -209,6 +209,41 @@ public class PointOfSaleTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA})
+	public void hideBillingAddressForApac() {
+		assertHideBillingAddressForPOSKey(PointOfSaleId.ARGENTINA.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.AUSTRIA.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.AUSTRALIA.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.BELGIUM.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.BRAZIL.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.CANADA.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.DENMARK.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.SPAIN.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.FRANCE.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.HONG_KONG.getId(), true);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.INDONESIA.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.IRELAND.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.INDIA.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.JAPAN.getId(), true);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.SOUTH_KOREA.getId(), true);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.MEXICO.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.MALAYSIA.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.NETHERLANDS.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.NORWAY.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.NEW_ZEALND.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.PHILIPPINES.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.SWEDEN.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.SINGAPORE.getId(), true);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.THAILAND.getId(), true);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.TAIWAN.getId(), true);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.UNITED_KINGDOM.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.UNITED_STATES.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.VIETNAM.getId(), true);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.SWITZERLAND.getId(), false);
+		assertHideBillingAddressForPOSKey(PointOfSaleId.FINLAND.getId(), false);
+	}
+
+	@Test
 	public void proWizardHotelOnlyPOS() {
 		String expectedText = context.getString(R.string.search_hotels);
 		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_hotel_lob_only.json", false);
@@ -245,5 +280,11 @@ public class PointOfSaleTest {
 		PointOfSaleTestConfiguration.configurePOS(context, expediaSharedFilePath, Integer.toString(posKey), false);
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		assertEquals(enabled, pos.isEarnMessageEnabledForHotels());
+	}
+
+	private void assertHideBillingAddressForPOSKey(int posKey, boolean enabled) {
+		PointOfSaleTestConfiguration.configurePOS(context, expediaSharedFilePath, Integer.toString(posKey), false);
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		assertEquals(enabled, pos.shouldHideBillingAddressFields());
 	}
 }
