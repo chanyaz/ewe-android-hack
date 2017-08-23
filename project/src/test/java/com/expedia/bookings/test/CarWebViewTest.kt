@@ -281,4 +281,12 @@ class CarWebViewTest {
         verifyCarsWebViewIsLaunched()
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensWebViewAR() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.ARGENTINA.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewNewPOS)
+        verifyCarsWebViewIsLaunched()
+    }
+
 }

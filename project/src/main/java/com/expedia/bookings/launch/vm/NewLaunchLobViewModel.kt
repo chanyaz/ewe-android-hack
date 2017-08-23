@@ -42,7 +42,7 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.PACKAGES)
         }
 
-        if (pos.supports(LineOfBusiness.CARS)) {
+        if (pos.supports(LineOfBusiness.CARS) || Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsWebViewNewPOS)) {
             lobs.add(LobInfo.CARS)
         }
 

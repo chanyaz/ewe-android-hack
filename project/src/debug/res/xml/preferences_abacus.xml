@@ -640,6 +640,14 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
+            android:key="15271"
+            android:summary="%s"
+            android:title="CarsWebView - New POS" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="14632"
             android:summary="%s"
             android:title="CarsFlexView - 14632" />
