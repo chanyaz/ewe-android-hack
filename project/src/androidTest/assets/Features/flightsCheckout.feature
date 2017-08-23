@@ -278,6 +278,7 @@ Feature: Flights Checkout
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
     When I click on checkout button
+    And Close price change Alert dialog if it is visible
     And I wait for checkout screen to load
     And Validate that Main traveller "Traveler Details" is selected by default
     And Validate that Credit card "Payment Method" is selected by default
@@ -323,6 +324,7 @@ Feature: Flights Checkout
     And I press back
     And I select outbound flight at position 2 and reach inbound FSR
     When I click on checkout button
+    And Close price change Alert dialog if it is visible
     And I wait for checkout screen to load
     And Validate that Main traveller "Traveler Details" is selected by default
     And Validate that Credit card "Payment Method" is selected by default

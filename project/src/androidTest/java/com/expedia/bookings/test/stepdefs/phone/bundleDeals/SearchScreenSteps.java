@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.hamcrest.Matchers;
@@ -52,6 +53,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.getString;
 
 
+import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEEMMMdd;
@@ -177,7 +179,7 @@ public class SearchScreenSteps {
 	}
 	@Then("^I store the hotel name in \"(.*?)\"$")
 	public void saveHotel(String key) throws Throwable {
-		onView(withId(R.id.hotel_details_toolbar)).perform(waitForViewToDisplay());
+		onView(withId(R.id.hotel_details_toolbar)).perform(waitFor(isDisplayed(), 30, TimeUnit.SECONDS));
 		TestUtil.storeDataAtRuntime.put(key, getHotelName());
 	}
 	@Then("^I select first room$")
