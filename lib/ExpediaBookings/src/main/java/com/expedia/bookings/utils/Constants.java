@@ -91,4 +91,7 @@ public class Constants {
 	public static final String ASIA_PACIFIC_REGION = "APAC";
 
 	public static final String FEATURE_SUBPUB = "SubPub";
+
+	public static final String FEATURE_FLEX = "Flex";
+
 }
