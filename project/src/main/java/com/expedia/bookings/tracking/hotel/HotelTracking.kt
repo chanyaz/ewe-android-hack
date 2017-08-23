@@ -222,8 +222,16 @@ open class HotelTracking {
             OmnitureTracking.trackPinnedSearch()
         }
 
+        fun trackHotelsInvalidInput() {
+            OmnitureTracking.trackHotelV2InvalidInput()
+        }
+
         fun trackHotelsNoResult() {
             OmnitureTracking.trackHotelV2NoResult()
+        }
+
+        fun trackHotelsNoPinnedResult(errorReason: String) {
+            OmnitureTracking.trackHotelV2NoPinnedResult(errorReason)
         }
 
         fun trackHotelFilter() {

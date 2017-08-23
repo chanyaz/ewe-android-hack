@@ -3,12 +3,15 @@ package com.expedia.bookings.hotel.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
@@ -31,6 +34,9 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
     val searchingForHotelsDateTime = PublishSubject.create<Unit>()
     val resultsReceivedDateTimeObservable = PublishSubject.create<Unit>()
+
+    var cachedResponse: HotelSearchResponse? = null
+        private set
 
     private var isFilteredSearch = false
     private var cachedParams: HotelSearchParams? = null
@@ -58,7 +64,20 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
         hotelSearchManager.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable)
         hotelSearchManager.successSubject.subscribe { response ->
-            onSearchResponseSuccess(response)
+            val bucketedToPinnedSearch = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)
+            if (bucketedToPinnedSearch && cachedParams?.isPinnedSearch() ?: false) {
+                if (verifyPinnedHotelResponse(response)) {
+                    response.isPinnedSearch = true
+                    onSearchResponseSuccess(response)
+                } else {
+                    response.isPinnedSearch = false
+                    val error = ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND)
+                    errorObservable.onNext(error)
+                    cachedResponse = response
+                }
+            } else {
+                onSearchResponseSuccess(response)
+            }
         }
 
         hotelSearchManager.errorSubject.subscribe(errorObservable)
@@ -176,5 +195,13 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
                 .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut))
                 .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format())
+    }
+
+    private fun verifyPinnedHotelResponse(response: HotelSearchResponse): Boolean {
+        val hotelId = cachedParams?.suggestion?.hotelId
+        if (hotelId != null && CollectionUtils.isNotEmpty(response.hotelList)) {
+            return response.hotelList[0].hotelId == hotelId
+        }
+        return false
     }
 }

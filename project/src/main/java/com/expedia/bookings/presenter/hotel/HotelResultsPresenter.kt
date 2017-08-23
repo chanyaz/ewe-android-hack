@@ -370,13 +370,19 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return HotelFilterViewModel(context)
     }
 
-    fun showCachedResults() {
+    fun showFilterCachedResults() {
         filterView.viewModel.clearObservable.onNext(Unit)
-        val cachedResponse = filterView.viewModel.originalResponse ?: adapter.resultsSubject.value
+        val cachedFilterResponse = filterView.viewModel.originalResponse ?: adapter.resultsSubject.value
         if (previousWasList) {
-            viewModel.hotelResultsObservable.onNext(cachedResponse)
+            viewModel.hotelResultsObservable.onNext(cachedFilterResponse)
         } else {
-            viewModel.mapResultsObservable.onNext(cachedResponse)
+            viewModel.mapResultsObservable.onNext(cachedFilterResponse)
+        }
+    }
+
+    fun showCachedResults() {
+        if (viewModel.cachedResponse != null) {
+            viewModel.hotelResultsObservable.onNext(viewModel.cachedResponse)
         }
     }
 

@@ -1221,6 +1221,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_departure_arrival_code_one_way_TEMPLATE,
 		R.string.flight_airline_names_delimiter,
 		R.layout.widget_flight_fare_family_details,
+		R.string.nearby_results,
+		R.string.error_no_pinned_result_message,
 		//Please add your string above this line to avoid conflicts
 		R.string.flights_there_maybe_additional_fee
 		//Please add your string above this line to avoid conflicts

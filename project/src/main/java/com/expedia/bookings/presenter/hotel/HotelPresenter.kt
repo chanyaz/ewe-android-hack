@@ -492,6 +492,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchPresenter.showDefault()
         }
         errorPresenter.getViewModel().filterNoResultsObservable.subscribe {
+            resultsPresenter.showFilterCachedResults()
+            show(resultsPresenter, FLAG_CLEAR_TOP)
+        }
+        errorPresenter.getViewModel().pinnedNotFoundToNearByHotelObservable.subscribe {
             resultsPresenter.showCachedResults()
             show(resultsPresenter, FLAG_CLEAR_TOP)
         }

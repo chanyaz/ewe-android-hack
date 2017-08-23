@@ -4712,6 +4712,11 @@
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">We couldn\'t find properties that match your filter selections.</string>
 
+    <!-- Nearby results title -->
+    <string name="nearby_results">Nearby Results</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">Your search returned no results. Please retry your search with different criteria.</string>
+
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">Excludes {amount} daily resort fee</string>
 

@@ -18,7 +18,7 @@ import kotlin.properties.Delegates
 class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     // Inputs
     val apiErrorObserver = PublishSubject.create<ApiError>()
-    val paramsSubject = PublishSubject.create<HotelSearchParams>()
+    val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
     var error: ApiError by Delegates.notNull()
 
     // Outputs
@@ -27,6 +27,8 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     // Handle different errors
     val searchErrorObservable = BehaviorSubject.create<Unit>()
     val filterNoResultsObservable = BehaviorSubject.create<Unit>()
+
+    val pinnedNotFoundToNearByHotelObservable = PublishSubject.create<Unit>()
 
     init {
         errorButtonClickedObservable.subscribe {
@@ -42,6 +44,9 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 }
                 ApiError.Code.HOTEL_FILTER_NO_RESULTS -> {
                     filterNoResultsObservable.onNext(Unit)
+                }
+                ApiError.Code.HOTEL_PINNED_NOT_FOUND -> {
+                    pinnedNotFoundToNearByHotelObservable.onNext(Unit)
                 }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     checkoutCardErrorObservable.onNext(Unit)
@@ -81,6 +86,16 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             error = it
             hotelSoldOutErrorObservable.onNext(false)
             when (it.errorCode) {
+                ApiError.Code.INVALID_INPUT -> {
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
+                    if (paramsSubject.value != null && paramsSubject.value.isPinnedSearch()) {
+                        HotelTracking.trackHotelsNoPinnedResult("Invalid input")
+                    } else {
+                        HotelTracking.trackHotelsInvalidInput()
+                    }
+                }
                 ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
@@ -98,6 +113,12 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_filter_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.reset_filter))
+                }
+                ApiError.Code.HOTEL_PINNED_NOT_FOUND -> {
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_pinned_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.nearby_results))
+                    HotelTracking.trackHotelsNoPinnedResult("Selected hotel not returned in position 0")
                 }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_payment)
@@ -182,7 +203,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
         }
 
         paramsSubject.subscribe(endlessObserver { params ->
-            titleObservable.onNext(params.suggestion.regionNames.shortName)
+            titleObservable.onNext(params.suggestion.regionNames.shortName ?: params.suggestion.regionNames.fullName)
 
             subTitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                     .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn))

@@ -50,6 +50,7 @@ public class ApiError extends RuntimeException {
 		HOTEL_SEARCH_NO_RESULTS,
 		HOTEL_MAP_SEARCH_NO_RESULTS,
 		HOTEL_FILTER_NO_RESULTS,
+		HOTEL_PINNED_NOT_FOUND,
 
 		//Hotel Checkout Errors
 		HOTEL_CHECKOUT_CARD_DETAILS,
