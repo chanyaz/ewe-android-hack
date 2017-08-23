@@ -38,7 +38,9 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
 
     init {
         View.inflate(context, R.layout.itin_pos_header, this)
-        Ui.getApplication(context).tripComponent().inject(this)
+        if (!isInEditMode) {
+            Ui.getApplication(context).tripComponent().inject(this)
+        }
     }
 
     override fun onDetachedFromWindow() {
@@ -49,7 +51,17 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     @VisibleForTesting
     public override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        if (!isInEditMode) {
+            bindViewSubscriptions()
+        }
+    }
 
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        setupCountryButtonListener()
+    }
+
+    private fun bindViewSubscriptions() {
         subscriptions?.unsubscribe()
         val subscriptions = CompositeSubscription()
 
@@ -62,11 +74,6 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         subscriptions.add(itinPOSHeaderViewModel.posUrlSubject.subscribeText(pointOfSaleUrlTextView))
 
         this.subscriptions = subscriptions
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        setupCountryButtonListener()
     }
 
     private fun setupCountryButtonListener() {
