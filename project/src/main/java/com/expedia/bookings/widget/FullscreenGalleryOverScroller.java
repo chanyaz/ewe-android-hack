@@ -16,13 +16,12 @@ public class FullscreenGalleryOverScroller<T extends GalleryScrollView> extends 
 	public void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY,
 			int overX, int overY) {
 
-		int initialScrollTop = 0;
 		GalleryScrollView view = mScrollViewRef.get();
 		if (view == null) {
 			return;
 		}
 
-		initialScrollTop = view.getInitialScrollTop();
+		int initialScrollTop = view.getInitialScrollTop();
 		int modifiedMinY = minY;
 		int modifiedMaxY = maxY;
 
@@ -30,7 +29,6 @@ public class FullscreenGalleryOverScroller<T extends GalleryScrollView> extends 
 		if (startY > initialScrollTop && velocityY < 0) {
 			modifiedMinY = Math.max(initialScrollTop, minY);
 		}
-
 		else if (startY < initialScrollTop) {
 			if (velocityY < 0) {
 				modifiedMinY = 0;

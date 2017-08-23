@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.widget.ScrollView
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionListenerAdapter
 import com.expedia.bookings.data.Db
@@ -55,7 +56,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
 
-    private val detailContainer: NewHotelDetailsScrollView by bindView(R.id.detail_container)
+    private val detailContainer: ScrollView by bindView(R.id.detail_container)
     private val constraintView: ConstraintLayout by bindView(R.id.content_constraint_container)
     private var galleryExpanded = false
 

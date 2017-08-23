@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:layout="http://schemas.android.com/tools">
 
-    <com.expedia.bookings.widget.NewHotelDetailsScrollView
+    <ScrollView
         android:id="@+id/detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:scrollbars="none">
-
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/content_constraint_container"
@@ -37,7 +36,7 @@
 
         </android.support.constraint.ConstraintLayout>
 
-    </com.expedia.bookings.widget.NewHotelDetailsScrollView>
+    </ScrollView>
 
     <com.expedia.bookings.widget.ResortFeeWidget
         android:id="@+id/resort_fee_widget"

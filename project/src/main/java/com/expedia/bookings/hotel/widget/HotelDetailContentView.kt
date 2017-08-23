@@ -330,7 +330,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         freeCancellationAndETPMessaging.visibility = View.GONE
         singleMessageContainer.visibility = View.GONE
 
-
         payNowPayLaterTabs.unsubscribeClicks()
 
         roomContainer.removeAllViews()
