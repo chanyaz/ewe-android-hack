@@ -96,7 +96,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public void contactUsViaWeb(Context context) {
-		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
+		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getBookingSupportUrl(), true);
 	}
 
 	@Override
