@@ -99,18 +99,10 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 		Collections.sort(availableOffers, new Comparator<Offer>() {
 			@Override
 			public int compare(Offer lhs, Offer rhs) {
-				int sortOrder = 0;
 				Collections.sort(lhs.availabilityInfoOfSelectedDate.tickets);
 				Collections.sort(rhs.availabilityInfoOfSelectedDate.tickets);
-				for (int iTicketCount = 0; iTicketCount < lhs.availabilityInfoOfSelectedDate.tickets.size();
-					iTicketCount++) {
-					sortOrder = lhs.availabilityInfoOfSelectedDate.tickets.get(iTicketCount).money
-						.compareTo(rhs.availabilityInfoOfSelectedDate.tickets.get(iTicketCount).money);
-					if (sortOrder != 0) {
-						break;
-					}
-				}
-				return sortOrder;
+				return lhs.availabilityInfoOfSelectedDate.tickets.get(0).money
+						.compareTo(rhs.availabilityInfoOfSelectedDate.tickets.get(0).money);
 			}
 		});
 		return availableOffers;
