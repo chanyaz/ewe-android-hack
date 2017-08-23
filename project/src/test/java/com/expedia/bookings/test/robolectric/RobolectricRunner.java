@@ -21,6 +21,7 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.OmnitureTestUtils;
 import com.expedia.bookings.test.RunForBrands;
 
 public class RobolectricRunner extends RobolectricTestRunner {
@@ -50,6 +51,11 @@ public class RobolectricRunner extends RobolectricTestRunner {
 		@Override
 		public Application createApplication(final Method method, final AndroidManifest appManifest, Config config) {
 			return new TestExpediaBookingApp();
+		}
+
+		@Override
+		public void afterTest(Method method) {
+			OmnitureTestUtils.setNormalAnalyticsProvider();
 		}
 	}
 

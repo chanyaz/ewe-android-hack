@@ -2,23 +2,22 @@ package com.expedia.bookings
 
 import android.app.Activity
 import android.content.Context
-import com.adobe.mobile.Analytics
-import com.adobe.mobile.Config
-import com.adobe.mobile.Visitor
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureAnalyticsProvider
 import java.util.Hashtable
 
-class ADMS_Measurement {
+open class ADMS_Measurement {
 
     var appState: String? = null
 
     val visitorID by lazy {
-        Visitor.getMarketingCloudId()
+        analyticsProvider.getVisitorId()
     }
 
     private val cData = HashMap<String, Any>()
 
     fun setDebugLogging(enable: Boolean) {
-        Config.setDebugLogging(enable)
+        analyticsProvider.enableDebugLogging(enable)
     }
 
     fun setEvar(i: Int, s: String?) {
@@ -61,22 +60,22 @@ class ADMS_Measurement {
         cData.put(CURRENCY_CODE, s ?: "")
     }
 
-    fun trackLink(linkURL: String?, linkType: String?, linkName: String?, contextData: Hashtable<String, Object>?, variables: Hashtable<String, Object>?) {
+    fun trackLink(linkURL: String?, linkType: String?, linkName: String?, contextData: Hashtable<String, Any>?, variables: Hashtable<String, Any>?) {
         cData.put(LINK_NAME, linkName ?: "")
         cData.put(LINK_TYPE, linkType ?: "")
-        Analytics.trackAction(linkName, cData)
+        analyticsProvider.trackAction(linkName, cData)
     }
 
     fun track() {
-        Analytics.trackState(appState, cData)
+        analyticsProvider.trackState(appState, cData)
     }
 
     fun pauseActivity() {
-        Config.pauseCollectingLifecycleData();
+        analyticsProvider.onPauseActivity()
     }
 
     fun resumeActivity(activity: Activity) {
-        Config.collectLifecycleData(activity);
+        analyticsProvider.onResumeActivity(activity)
     }
 
     fun getOmnitureDataValue(key: String): Any? {
@@ -85,32 +84,29 @@ class ADMS_Measurement {
 
     companion object {
 
-        private val EVAR = "&&v"
+        private const val EVAR = "&&v"
+        private const val PROP = "&&c"
+        private const val EVENTS = "&&events"
+        private const val PRODUCTS = "&&products"
+        private const val CURRENCY_CODE = "&&cc"
+        private const val PURCHASE_ID = "&&purchaseID"
+        private const val LINK_NAME = "&&linkName"
+        private const val LINK_TYPE = "&&linkType"
 
-        private val PROP = "&&c"
+        private val defaultAnalyticsProvider = OmnitureAnalyticsProvider()
+        private var testAnalyticsProvider: AnalyticsProvider? = null
 
-        private val EVENTS = "&&events"
+        private val analyticsProvider: AnalyticsProvider
+                get() = testAnalyticsProvider ?: defaultAnalyticsProvider
 
-        private val PRODUCTS = "&&products"
+        @JvmStatic fun sharedInstance(sContext: Context): ADMS_Measurement = ADMS_Measurement()
 
-        private val CURRENCY_CODE = "&&cc"
+        @JvmStatic fun sharedInstance(): ADMS_Measurement = ADMS_Measurement()
 
-        private val PURCHASE_ID = "&&purchaseID"
+        @JvmStatic fun getUrlWithVisitorData(url: String?): String = analyticsProvider.getUrlWithVisitorData(url)
 
-        private val LINK_NAME = "&&linkName"
-
-        private val LINK_TYPE = "&&linkType"
-
-        @JvmStatic fun sharedInstance(sContext: Context): ADMS_Measurement {
-            return ADMS_Measurement()
-        }
-
-        @JvmStatic fun sharedInstance(): ADMS_Measurement {
-            return ADMS_Measurement()
-        }
-
-        @JvmStatic fun getUrlWithVisitorData(url: String?): String {
-            return Visitor.appendToURL(url)
+        @JvmStatic protected fun setAnalyticsProviderForTest(provider: AnalyticsProvider?) {
+            testAnalyticsProvider = provider
         }
     }
 }
