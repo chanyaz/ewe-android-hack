@@ -6,6 +6,7 @@ import org.hamcrest.Matchers;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
@@ -159,7 +160,7 @@ public class FlightsOverviewScreenSteps {
 		validateCostSummaryPriceDetails("Adult 1 details", params.get("Adult 1 details"));
 		validateCostSummaryPriceDetails("Flight", params.get("Flight"));
 		validateCostSummaryPriceDetails("Taxes & Fees", params.get("Taxes & Fees"));
-		validateCostSummaryPriceDetails("Expedia Booking Fee", params.get("Expedia Booking Fee"));
+		validateCostSummaryPriceDetails(BuildConfig.brand + " Booking Fee", params.get("Booking Fee"));
 		validateCostSummaryPriceDetails("Total Due Today", params.get("Total Due Today"));
 	}
 	@Then("^basic economy link with text \"([^\"]*)\" isDisplayed : (true|false)$")
@@ -185,10 +186,17 @@ public class FlightsOverviewScreenSteps {
 				.check(matches(allOf(hasSibling(withId(R.id.price_text_view)), isDisplayed())));
 			}
 	}
-	@Then("^validate price for \"([^\"]*)\" is displayed$")
+	@And("^validate price for \"([^\"]*)\" is displayed$")
 	public void validatePriceTotalDueToday(String price) throws Throwable {
 		onView(allOf(isDescendantOfA(withId(R.id.breakdown_container)), withId(R.id.price_type_text_view),
 			withText(price), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).perform(scrollTo())
+			.check(matches(allOf(hasSibling(withId(R.id.price_text_view)), isDisplayed())));
+	}
+
+	@And("^validate Booking Fee text is displayed$")
+	public void validateBookingFeeText() throws Throwable {
+		onView(allOf(isDescendantOfA(withId(R.id.breakdown_container)), withId(R.id.price_type_text_view),
+			withText(BuildConfig.brand + " Booking Fee"), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).perform(scrollTo())
 			.check(matches(allOf(hasSibling(withId(R.id.price_text_view)), isDisplayed())));
 	}
 

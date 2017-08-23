@@ -114,7 +114,7 @@ Feature: Flights Overview
       | Adult 1 details     | $64.00 |
       | Flight              | $48.95 |
       | Taxes & Fees        | $15.05 |
-      | Expedia Booking Fee | $0.00  |
+      | Booking Fee | $0.00  |
       | Total Due Today     | $64.00 |
     And I click on Done button
     And I click on checkout button
@@ -139,7 +139,7 @@ Feature: Flights Overview
     And Close price change Alert dialog if it is visible
     And I click on trip total link
     Then validate price info for multi travellers
-    And validate price for "Expedia Booking Fee" is displayed
+    And validate Booking Fee text is displayed
     And validate price for "Total Due Today" is displayed
 
   @Flights @FlightsOverview
