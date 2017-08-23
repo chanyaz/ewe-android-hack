@@ -2741,8 +2741,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
 		String pageName;
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
-			AbacusUtils.EBAndroidAppAccountSinglePageSignUp, R.string.preference_single_page_sign_up)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
 			pageName = LOGIN_SINGLE_PAGE;
 		}
 		else {
@@ -2768,8 +2767,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
 		String pageName;
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
-			AbacusUtils.EBAndroidAppAccountSinglePageSignUp, R.string.preference_single_page_sign_up)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
 			pageName = LOGIN_SINGLE_PAGE;
 		}
 		else {

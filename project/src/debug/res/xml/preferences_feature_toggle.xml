@@ -40,11 +40,6 @@
             android:summary="Easy way to login use smart lock."
             android:title="Enable Smart Lock Feature" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_single_page_sign_up"
-            android:summary="Single page sign up flow."
-            android:title="Enable Single Page Sign Up Flow" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

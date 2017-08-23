@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.View
 import com.expedia.account.Config
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -22,7 +23,7 @@ class SignInPlaceholderCard(itemView: View, context: Context) : AbstractGenericP
         }
 
         button_two.setOnClickListener {
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppAccountSinglePageSignUp, R.string.preference_single_page_sign_up)) {
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
                 NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
             }
             else {

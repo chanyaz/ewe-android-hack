@@ -319,7 +319,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         }
 
         createAccountButton.setOnClickListener {
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppAccountSinglePageSignUp, R.string.preference_single_page_sign_up)) {
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
                 NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
             }
             else {

@@ -161,8 +161,7 @@ public class AccountLibActivity extends AppCompatActivity
 			config.setParentActivity(this);
 		}
 
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppAccountSinglePageSignUp,
-			R.string.preference_single_page_sign_up)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
 			accountView.setWhiteBackgroundFromActivity(whiteBackground);
 			config.setEnableSinglePageSignUp(true);
 		}
