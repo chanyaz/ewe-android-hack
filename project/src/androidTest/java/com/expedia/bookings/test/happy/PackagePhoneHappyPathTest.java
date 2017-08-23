@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
@@ -89,20 +90,20 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		onView(allOf(withId(R.id.boarding_warning), withText(mRes.getString(R.string.name_must_match_warning_new)))).check(matches(isDisplayed()));
-		PackageScreen.enterFirstName("FiveStar");
-		PackageScreen.enterLastName("Bear");
-		PackageScreen.enterEmail("test@email.com");
+		TravelerDetails.enterFirstName("FiveStar");
+		TravelerDetails.enterLastName("Bear");
+		TravelerDetails.enterEmail("test@email.com");
 		Espresso.closeSoftKeyboard();
-		PackageScreen.enterPhoneNumber("7732025862");
+		TravelerDetails.enterPhoneNumber("7732025862");
 		Espresso.closeSoftKeyboard();
-		PackageScreen.selectBirthDate(1989, 6, 9);
+		TravelerDetails.selectBirthDate(1989, 6, 9);
 		Espresso.closeSoftKeyboard();
-		PackageScreen.selectGender("Male");
+		TravelerDetails.selectGender("Male");
 		Espresso.closeSoftKeyboard();
 
-		PackageScreen.clickTravelerAdvanced();
-		PackageScreen.enterRedressNumber("1234567");
-		PackageScreen.enterKnownTravelerNumber("TN12345");
+		TravelerDetails.clickAdvanced();
+		TravelerDetails.enterRedressNumber("1234567");
+		TravelerDetails.enterKnownTravelerNumber("TN12345");
 
 		Common.closeSoftKeyboard(onView(withId(R.id.first_name_input)));
 		PackageScreen.clickSpecialAssistance();
@@ -111,7 +112,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.clickSeatPreference();
 		onView(withText("Window")).perform(waitForViewToDisplay(), click());
 
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 		PackageScreen.enterPaymentInfo();
 
 		assertCheckout();
@@ -154,17 +155,17 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Common.delay(1);
 		onView(withText("Add New Traveler")).perform(click());
 		Common.delay(1);
-		PackageScreen.enterFirstName("FiveStar");
-		PackageScreen.enterLastName("Bear");
+		TravelerDetails.enterFirstName("FiveStar");
+		TravelerDetails.enterLastName("Bear");
 		Espresso.closeSoftKeyboard();
-		PackageScreen.enterPhoneNumber("7732025862");
+		TravelerDetails.enterPhoneNumber("7732025862");
 		Espresso.closeSoftKeyboard();
 
-		PackageScreen.selectBirthDate(1989, 6, 9);
+		TravelerDetails.selectBirthDate(1989, 6, 9);
 		Espresso.closeSoftKeyboard();
-		PackageScreen.selectGender("Male");
+		TravelerDetails.selectGender("Male");
 		Espresso.closeSoftKeyboard();
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 
 		onView(withText(R.string.no_thanks)).perform(click());
 

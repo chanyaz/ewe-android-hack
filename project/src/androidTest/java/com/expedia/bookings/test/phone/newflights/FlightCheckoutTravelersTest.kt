@@ -25,6 +25,7 @@ import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel.clickLogin
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel.enterUsername
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel.enterPassword
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.`is`
@@ -52,7 +53,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
                 doesNotExist())
         EspressoUser.clickOnText("Edit Traveler 1 (Adult)")
         Espresso.closeSoftKeyboard()
-        PackageScreen.clickTravelerDone()
+        TravelerDetails.clickDone()
         Common.delay(1)
         onView(withId(R.id.first_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
         onView(withId(R.id.last_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
@@ -89,7 +90,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(withText("Traveler details")).perform(waitForViewToDisplay())
         onView(withId(R.id.additional_traveler_container)).perform(click())
         Espresso.closeSoftKeyboard()
-        PackageScreen.clickTravelerDone()
+        TravelerDetails.clickDone()
         Common.delay(1)
         onView(withId(R.id.first_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
         onView(withId(R.id.last_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
@@ -105,8 +106,8 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
         Espresso.closeSoftKeyboard()
 
-        PackageScreen.enterFirstName("FiveStar")
-        PackageScreen.enterLastName("Bear")
+        TravelerDetails.enterFirstName("FiveStar")
+        TravelerDetails.enterLastName("Bear")
         Espresso.closeSoftKeyboard()
         Common.pressBack()
 

@@ -14,7 +14,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel;
 
 import kotlin.Unit;
@@ -55,14 +55,14 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 		setTravelerViewModelForEmptyTravelers(1);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
-		PackageScreen.enterFirstName(testFirstName);
-		PackageScreen.enterLastName(testLastName);
-		PackageScreen.enterEmail(testEmail);
+		TravelerDetails.enterFirstName(testFirstName);
+		TravelerDetails.enterLastName(testLastName);
+		TravelerDetails.enterEmail(testEmail);
 		Espresso.closeSoftKeyboard();
-		PackageScreen.enterPhoneNumber(testPhone);
+		TravelerDetails.enterPhoneNumber(testPhone);
 		Espresso.closeSoftKeyboard();
-		PackageScreen.selectBirthDate(06, 20, 1990);
-		PackageScreen.selectGender(testGender);
+		TravelerDetails.selectBirthDate(06, 20, 1990);
+		TravelerDetails.selectGender(testGender);
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -116,7 +116,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		Espresso.closeSoftKeyboard();
 		EspressoUser.clickOnView(R.id.edit_phone_number);
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 		String today = new LocalDate().withYear(1999).toString("MM/dd/yyyy");
 		assertEquals("Oscar Grouch, " + today + ", traveler details complete. Button.", testTravelerDefault.getContentDescription());
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.validated);
@@ -171,7 +171,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 	public void testEntryDirtyState() throws Throwable {
 		setTravelerViewModelForEmptyTravelers(1);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
-		PackageScreen.enterLastName(testLastName);
+		TravelerDetails.enterLastName(testLastName);
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -237,7 +237,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
 	}
 }

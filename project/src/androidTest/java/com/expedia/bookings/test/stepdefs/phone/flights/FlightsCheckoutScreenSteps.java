@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
@@ -46,25 +47,25 @@ public class FlightsCheckoutScreenSteps {
 		for (String key : parameters.keySet()) {
 			switch (key) {
 			case "firstName":
-				PackageScreen.enterFirstName(parameters.get("firstName"));
+				TravelerDetails.enterFirstName(parameters.get("firstName"));
 				break;
 			case "lastName":
-				PackageScreen.enterLastName(parameters.get("lastName"));
+				TravelerDetails.enterLastName(parameters.get("lastName"));
 				break;
 			case "email":
-				PackageScreen.enterEmail(parameters.get("email"));
+				TravelerDetails.enterEmail(parameters.get("email"));
 				break;
 			case "phoneNumber":
-				PackageScreen.enterPhoneNumber(parameters.get("phoneNumber"));
+				TravelerDetails.enterPhoneNumber(parameters.get("phoneNumber"));
 				break;
 			case "year":
 				int year = Integer.parseInt(parameters.get("year"));
 				int month = Integer.parseInt(parameters.get("month"));
 				int date = Integer.parseInt(parameters.get("date"));
-				PackageScreen.selectBirthDate(year,month,date);
+				TravelerDetails.selectBirthDate(year,month,date);
 				break;
 			case "gender":
-				PackageScreen.selectGender(parameters.get("gender"));
+				TravelerDetails.selectGender(parameters.get("gender"));
 				break;
 			case "passport":
 				selectPassport(parameters.get("passport"));
@@ -75,7 +76,7 @@ public class FlightsCheckoutScreenSteps {
 
 	@And("^I save the traveller details by hitting done$")
 	public void saveTravellersDetails() throws Throwable {
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 	}
 
 	@And("^Traveller details are not saved$")

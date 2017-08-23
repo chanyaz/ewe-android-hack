@@ -11,6 +11,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import org.hamcrest.CoreMatchers
 import org.joda.time.LocalDate
@@ -63,7 +64,7 @@ class FlightCheckoutKnownTravelerNumberTest : NewFlightTestCase() {
         EspressoUtils.waitForViewNotYetInLayoutToDisplay((ViewMatchers.withId(R.id.traveler_default_state)), 10, TimeUnit.SECONDS)
         PackageScreen.travelerInfo().perform(ViewActions.click())
         Espresso.closeSoftKeyboard()
-        PackageScreen.clickTravelerAdvanced()
+        TravelerDetails.clickAdvanced()
     }
     
 }

@@ -8,6 +8,7 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
@@ -194,16 +195,16 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
     }
 
     private fun enterTravelerInfo() {
-        PackageScreen.enterFirstName("Eidur")
-        PackageScreen.enterLastName("Gudjohnsen")
-        PackageScreen.enterPhoneNumber("4155554321")
+        TravelerDetails.enterFirstName("Eidur")
+        TravelerDetails.enterLastName("Gudjohnsen")
+        TravelerDetails.enterPhoneNumber("4155554321")
         Espresso.closeSoftKeyboard()
-        PackageScreen.enterEmail("test@gmail.com")
+        TravelerDetails.enterEmail("test@gmail.com")
         Espresso.closeSoftKeyboard()
-        PackageScreen.selectBirthDate(1989, 6, 9)
-        PackageScreen.selectGender("Male")
-        PackageScreen.clickTravelerAdvanced()
-        PackageScreen.enterRedressNumber("1234567")
+        TravelerDetails.selectBirthDate(1989, 6, 9)
+        TravelerDetails.selectGender("Male")
+        TravelerDetails.clickAdvanced()
+        TravelerDetails.enterRedressNumber("1234567")
     }
 
     private fun enterPaymentInfo() {

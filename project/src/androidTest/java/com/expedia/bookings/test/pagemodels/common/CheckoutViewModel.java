@@ -31,6 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -190,7 +191,7 @@ public class CheckoutViewModel {
 	}
 
 	private static void waitForCheckoutToolbar() {
-		onView(withId(R.id.checkout_toolbar)).perform(waitForViewToDisplay());
+		waitForViewNotYetInLayoutToDisplay((withId(R.id.checkout_toolbar)), 10, TimeUnit.SECONDS);
 	}
 
 	public static void clickLogin() {

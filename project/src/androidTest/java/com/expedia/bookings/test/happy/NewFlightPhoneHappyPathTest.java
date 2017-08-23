@@ -21,6 +21,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
@@ -125,17 +126,17 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		Common.pressBack();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
-		PackageScreen.enterFirstName("Eidur");
-		PackageScreen.enterLastName("Gudjohnsen");
-		PackageScreen.enterEmail("test@gmail.com");
+		TravelerDetails.enterFirstName("Eidur");
+		TravelerDetails.enterLastName("Gudjohnsen");
+		TravelerDetails.enterEmail("test@gmail.com");
 		Espresso.closeSoftKeyboard();
-		PackageScreen.enterPhoneNumber("4155554321");
+		TravelerDetails.enterPhoneNumber("4155554321");
 		Espresso.closeSoftKeyboard();
-		PackageScreen.selectBirthDate(1989, 6, 9);
-		PackageScreen.selectGender("Male");
-		PackageScreen.clickTravelerAdvanced();
-		PackageScreen.enterRedressNumber("1234567");
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.selectBirthDate(1989, 6, 9);
+		TravelerDetails.selectGender("Male");
+		TravelerDetails.clickAdvanced();
+		TravelerDetails.enterRedressNumber("1234567");
+		TravelerDetails.clickDone();
 
 		PackageScreen.clickPaymentInfo();
 		onView(withId(R.id.card_fee_warning_text)).check(matches(not(isDisplayed())));
@@ -220,18 +221,18 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(withId(R.id.material_edit_phone_number_country_code)).check(matches(withCompoundDrawable(R.drawable.material_dropdown)));
 		onView(withId(R.id.edit_gender_btn)).check(matches(withCompoundDrawable(R.drawable.material_dropdown)));
 		onView(withId(R.id.edit_birth_date_text_btn)).check(matches(withCompoundDrawable(R.drawable.material_dropdown)));
-		PackageScreen.enterFirstName("Eidur");
-		PackageScreen.enterLastName("Gudjohnsen");
-		PackageScreen.enterEmail("test@gmail.com");
+		TravelerDetails.enterFirstName("Eidur");
+		TravelerDetails.enterLastName("Gudjohnsen");
+		TravelerDetails.enterEmail("test@gmail.com");
 		Espresso.closeSoftKeyboard();
-		PackageScreen.enterPhoneNumber("4155554321");
+		TravelerDetails.enterPhoneNumber("4155554321");
 		Espresso.closeSoftKeyboard();
-		PackageScreen.selectBirthDate(1989, 6, 9);
-		PackageScreen.materialSelectGender("Male");
-		PackageScreen.clickTravelerAdvanced();
-		PackageScreen.enterRedressNumber("1234567");
+		TravelerDetails.selectBirthDate(1989, 6, 9);
+		TravelerDetails.materialSelectGender("Male");
+		TravelerDetails.clickAdvanced();
+		TravelerDetails.enterRedressNumber("1234567");
 		onView(withId(R.id.contact_airline_text)).perform(scrollTo()).check(matches(isDisplayed()));
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 
 		PackageScreen.clickPaymentInfo();
 		onView(withId(R.id.edit_creditcard_exp_text_btn)).check(matches(withCompoundDrawable(R.drawable.material_dropdown)));
@@ -274,10 +275,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		Espresso.closeSoftKeyboard();
-		PackageScreen.clickTravelerAdvanced();
+		TravelerDetails.clickAdvanced();
 		onView(withId(R.id.traveler_number)).check(matches(withText("TN123456789")));
 		onView(withId(R.id.redress_number)).check(matches(withText("1234567")));
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");

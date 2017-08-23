@@ -8,6 +8,7 @@ import android.support.test.espresso.Espresso;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -31,9 +32,9 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		onView(withId(R.id.edit_email_address)).check(matches(withInfoText(" Email Address (for confirmation), , ")));
 		onView(withId(R.id.edit_phone_number)).check(matches(withInfoText(" Phone Number, , ")));
 		onView(withId(R.id.edit_birth_date_text_btn)).check(matches(withInfoText(" Date of Birth, , ")));
-		PackageScreen.clickTravelerAdvanced();
+		TravelerDetails.clickAdvanced();
 		onView(withId(R.id.redress_number)).check(matches(withInfoText(" Redress # (if applicable), , ")));
-		PackageScreen.clickTravelerAdvanced();
+		TravelerDetails.clickAdvanced();
 		Common.pressBack();
 
 		PackageScreen.enterTravelerInfo();

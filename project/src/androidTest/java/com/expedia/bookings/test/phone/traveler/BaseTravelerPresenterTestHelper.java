@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.traveler;
 
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.vm.traveler.FlightTravelersViewModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,6 @@ import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.validation.TravelerValidator;
@@ -150,19 +150,19 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected void enterValidTraveler(boolean withPhoneNumber, boolean withEmail) {
-		PackageScreen.enterFirstName(testFirstName);
-		PackageScreen.enterLastName(testLastName);
+		TravelerDetails.enterFirstName(testFirstName);
+		TravelerDetails.enterLastName(testLastName);
 		if (withEmail) {
-			PackageScreen.enterEmail(testEmail);
+			TravelerDetails.enterEmail(testEmail);
 		}
 		Espresso.closeSoftKeyboard();
 		if (withPhoneNumber) {
-			PackageScreen.enterPhoneNumber(testPhone);
+			TravelerDetails.enterPhoneNumber(testPhone);
 		}
 		Espresso.closeSoftKeyboard();
 		Common.delay(1);
-		PackageScreen.selectBirthDate(1991, 1, 27);
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.selectBirthDate(1991, 1, 27);
+		TravelerDetails.clickDone();
 		Espresso.closeSoftKeyboard();
 	}
 

@@ -9,6 +9,7 @@ import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -172,16 +173,16 @@ class FlightsAirAttachTest : NewFlightTestCase() {
     }
 
     private fun enterPrimaryTravelerInfo() {
-        PackageScreen.enterFirstName("Fake")
-        PackageScreen.enterLastName("Traveler")
-        PackageScreen.enterPhoneNumber("4155554321")
+        TravelerDetails.enterFirstName("Fake")
+        TravelerDetails.enterLastName("Traveler")
+        TravelerDetails.enterPhoneNumber("4155554321")
         Espresso.closeSoftKeyboard()
-        PackageScreen.enterEmail("test@gmail.com")
+        TravelerDetails.enterEmail("test@gmail.com")
         Espresso.closeSoftKeyboard()
-        PackageScreen.selectBirthDate(1989, 6, 9)
-        PackageScreen.selectGender("Male")
-        PackageScreen.clickTravelerAdvanced()
-        PackageScreen.enterRedressNumber("1234567")
+        TravelerDetails.selectBirthDate(1989, 6, 9)
+        TravelerDetails.selectGender("Male")
+        TravelerDetails.clickAdvanced()
+        TravelerDetails.enterRedressNumber("1234567")
         PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
     }
 
@@ -190,23 +191,23 @@ class FlightsAirAttachTest : NewFlightTestCase() {
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.additional_traveler_container)),
                 ViewMatchers.withText("Edit Traveler 2 (10 year old)"))).perform(ViewActions.click())
 
-        PackageScreen.enterFirstName("First")
-        PackageScreen.enterLastName("Child")
-        PackageScreen.selectBirthDate(DateTime.now().minusYears(10).get(DateTimeFieldType.year()), 6, 9)
-        PackageScreen.selectGender("Male")
+        TravelerDetails.enterFirstName("First")
+        TravelerDetails.enterLastName("Child")
+        TravelerDetails.selectBirthDate(DateTime.now().minusYears(10).get(DateTimeFieldType.year()), 6, 9)
+        TravelerDetails.selectGender("Male")
 
-        PackageScreen.clickTravelerDone()
+        TravelerDetails.clickDone()
 
         Espresso.onView(Matchers.allOf<View>(ViewMatchers.withId(R.id.primary_details_text),
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.additional_traveler_container)),
                 ViewMatchers.withText("Edit Traveler 3 (10 year old)"))).perform(ViewActions.click())
 
-        PackageScreen.enterFirstName("Second")
-        PackageScreen.enterLastName("Child")
-        PackageScreen.selectBirthDate(DateTime.now().minusYears(10).get(DateTimeFieldType.year()), 6, 9)
-        PackageScreen.selectGender("Female")
+        TravelerDetails.enterFirstName("Second")
+        TravelerDetails.enterLastName("Child")
+        TravelerDetails.selectBirthDate(DateTime.now().minusYears(10).get(DateTimeFieldType.year()), 6, 9)
+        TravelerDetails.selectGender("Female")
 
-        PackageScreen.clickTravelerDone()
+        TravelerDetails.clickDone()
     }
 
     private fun enterPaymentInfo() {

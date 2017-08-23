@@ -20,6 +20,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.traveler.TravelersViewModel;
@@ -160,7 +161,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUser.clickOnText(expectedTravelerOneText);
 
-		PackageScreen.enterFirstName(testFirstName);
+		TravelerDetails.enterFirstName(testFirstName);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
@@ -170,8 +171,8 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		});
 		assertEquals(4, testTravelersPresenter.getTravelerEntryWidget().getNumberOfInvalidFields());
 
-		PackageScreen.enterLastName(testLastName);
-		PackageScreen.enterEmail(testEmail);
+		TravelerDetails.enterLastName(testLastName);
+		TravelerDetails.enterEmail(testEmail);
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -239,7 +240,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		EspressoUser.clickOnText(expectedFilledTravelerChildText);
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		checkOscarInvalid(R.id.traveler_status_icon, R.drawable.validated, testChildFullName);
 	}
@@ -261,7 +262,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		EspressoUser.clickOnText(expectedFilledTravelerChildText);
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		checkOscarInvalid(R.id.traveler_status_icon, R.drawable.validated, testChildFullName);
 	}
@@ -312,7 +313,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		onView(allOf(isDescendantOfA(withId(R.id.main_traveler_container)), withText(expectedFilledTravelerOneText))).perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
-		PackageScreen.clickTravelerDone();
+		TravelerDetails.clickDone();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
 	}
 

@@ -16,7 +16,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTravelerEntryWidget;
@@ -70,7 +70,7 @@ public class FlightTravelerEntryWidgetTest {
 			TravelerCheckoutStatus.CLEAN);
 		setViewModel(testVM);
 
-		PackageScreen.clickTravelerAdvanced();
+		TravelerDetails.clickAdvanced();
 		EspressoUtils.assertViewIsDisplayed(R.id.redress_number);
 		EspressoUtils.assertViewIsDisplayed(R.id.passport_country_spinner);
 		onView(allOf(withSpinnerText(testEmptyPassport)));
@@ -109,7 +109,7 @@ public class FlightTravelerEntryWidgetTest {
 
 		setViewModel(testVM);
 
-		PackageScreen.clickTravelerAdvanced();
+		TravelerDetails.clickAdvanced();
 		EspressoUtils.assertViewIsDisplayed(R.id.redress_number);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.passport_country_spinner);
 	}

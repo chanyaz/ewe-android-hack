@@ -19,6 +19,7 @@ import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.pagemodels.common.PaymentOptionsScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import org.joda.time.LocalDate
 import org.junit.Test
@@ -57,8 +58,8 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         flightSearchAndGoToCheckout()
 
         PackageScreen.travelerInfo().perform(ViewActions.click())
-        PackageScreen.enterFirstName("Eidur")
-        PackageScreen.clickTravelerDone()
+        TravelerDetails.enterFirstName("Eidur")
+        TravelerDetails.clickDone()
         onView(withId(R.id.last_name_layout_input)).check(matches(hasTextInputLayoutErrorText("Enter last name using letters only (minimum 2 characters)")))
         Common.pressBack()
 
@@ -138,17 +139,17 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
     }
 
     private fun fillTravelerDetails() {
-        PackageScreen.enterFirstName("Eidur")
-        PackageScreen.enterLastName("Gudjohnsen")
-        PackageScreen.enterEmail("eidur@eidur.com")
+        TravelerDetails.enterFirstName("Eidur")
+        TravelerDetails.enterLastName("Gudjohnsen")
+        TravelerDetails.enterEmail("eidur@eidur.com")
         Espresso.closeSoftKeyboard()
-        PackageScreen.enterPhoneNumber("4155554321")
+        TravelerDetails.enterPhoneNumber("4155554321")
         Espresso.closeSoftKeyboard()
-        PackageScreen.selectBirthDate(1989, 6, 9)
-        PackageScreen.selectGender("Male")
-        PackageScreen.clickTravelerAdvanced()
-        PackageScreen.enterRedressNumber("1234567")
-        PackageScreen.clickTravelerDone()
+        TravelerDetails.selectBirthDate(1989, 6, 9)
+        TravelerDetails.selectGender("Male")
+        TravelerDetails.clickAdvanced()
+        TravelerDetails.enterRedressNumber("1234567")
+        TravelerDetails.clickDone()
     }
 
     private fun assertTravelerInfoCleared() {
