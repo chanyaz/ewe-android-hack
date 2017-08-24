@@ -7,7 +7,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -19,6 +18,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Pair;
+
 import com.adobe.mobile.Config;
 import com.expedia.bookings.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
@@ -97,6 +97,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -109,6 +110,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
 import kotlin.NotImplementedError;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isMaterialFormsEnabled;
@@ -2070,6 +2072,8 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards";
 	private static final String ITIN_HOTEL_CHECK_IN_POLICIES = "App.Itinerary.Hotel.Info.Check-in";
 	private static final String ITIN_HOTEL_CHANGE_CANCEL_RULES = "App.Itinerary.Hotel.Manage.Info.Change-Cancel";
+	private static final String ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia";
+	private static final String ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP";
 
 	public static void trackItinEmpty() {
 		internalTrackPageLoadEventStandard(ITIN_EMPTY);
@@ -2322,6 +2326,16 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelDirections() {
 		internalTrackLink(ITIN_HOTEL_DIRECTIONS);
+	}
+
+	public static void trackItinHotelCallSupport() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL_EXPEDIA);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinHotelOpenSupportWebsite() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_OPEN_SUPPORT_WEBSITE);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	public static void trackItinHotelCall() {

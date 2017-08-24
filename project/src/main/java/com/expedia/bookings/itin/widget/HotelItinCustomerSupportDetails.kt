@@ -12,6 +12,7 @@ import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -46,6 +47,7 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
                 val pm = context.packageManager
                 if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
                     SocialUtils.call(context, supportNumber)
+                    OmnitureTracking.trackItinHotelCallSupport()
                 } else {
                     ClipboardUtils.setText(context, supportNumber)
                     Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
@@ -58,6 +60,7 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
         customerSupportSiteButton.contentDescription = Phrase.from(context, R.string.itin_hotel_customer_support_site_button_content_description_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         customerSupportSiteButton.setOnClickListener {
             context.startActivity(buildWebViewIntent(R.string.itin_hotel_customer_support_site_toolbar_header, PointOfSale.getPointOfSale().appSupportUrl).intent)
+            OmnitureTracking.trackItinHotelOpenSupportWebsite()
         }
     }
 

@@ -1,10 +1,13 @@
 package com.expedia.bookings.itin.widget
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
@@ -12,9 +15,13 @@ import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
+import org.hamcrest.Matcher
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.mockito.hamcrest.MockitoHamcrest
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
@@ -60,5 +67,57 @@ class HotelItinCustomerSupportDetailsTest {
         intent = shadowActivity.nextStartedActivity
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
         assertEquals("Customer service", intent.extras.getString("ARG_TITLE"))
+    }
+
+    @Test
+    fun clickCallSupportIsTrackedInOmnitureWhenPhoneIsAvailable() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        RuntimeEnvironment.getRobolectricPackageManager().setSystemFeature(PackageManager.FEATURE_TELEPHONY, true)
+
+        customerSupportWidget.callSupportActionButton.performClick()
+        assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Manage.Call.Expedia", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun clickCallSupportIsNotTrackedInOmnitureWhenNoPhoneIsAvailable() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        RuntimeEnvironment.getRobolectricPackageManager().setSystemFeature(PackageManager.FEATURE_TELEPHONY, false)
+
+        customerSupportWidget.callSupportActionButton.performClick()
+        assertLinkNotTracked(mockAnalyticsProvider)
+    }
+
+    @Test
+    fun clickSupportWebsiteIsTrackedInOmniture() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        customerSupportWidget.customerSupportSiteButton.performClick()
+        assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Manage.CSP", mockAnalyticsProvider)
+    }
+
+    private fun assertLinkTracked(linkName: String, rfrrId: String, mockAnalyticsProvider: AnalyticsProvider) {
+        val expectedData = mapOf(
+                "&&linkType" to "o",
+                "&&linkName" to linkName,
+                "&&v28" to rfrrId,
+                "&&c16" to rfrrId
+        )
+
+        Mockito.verify(mockAnalyticsProvider).trackAction(Mockito.eq(linkName), mapThat(hasEntries(expectedData)))
+    }
+
+    private fun assertLinkNotTracked(mockAnalyticsProvider: AnalyticsProvider) {
+        Mockito.verify(mockAnalyticsProvider, Mockito.never())
+                .trackAction(Mockito.anyString(), Mockito.anyMapOf(String::class.java, Any::class.java))
+    }
+
+    private fun hasEntries(data: Map<String, Any>): Matcher<Map<String, Any>> =
+            Matchers.allOf(data.map { Matchers.hasEntry(it.key, it.value) })
+
+    private fun mapThat(matcher: Matcher<Map<String, Any>>): Map<String, Any> {
+        MockitoHamcrest.argThat(matcher)
+        return emptyMap()
     }
 }
