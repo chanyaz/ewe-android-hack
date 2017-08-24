@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import android.support.annotation.StringRes
 import android.support.v7.widget.ActionMenuView
 import android.support.v7.widget.Toolbar
 import android.view.View
@@ -58,8 +59,8 @@ object AccessibilityUtil {
         }
     }
 
-    @JvmStatic fun appendRoleContDesc(view: View, string: String, roleResId: Int) {
-        view.contentDescription = StringBuilder(string).append(" ").append(view.context.getString(roleResId))
+    @JvmStatic fun appendRoleContDesc(view: View, contentDescription: String, @StringRes roleResId: Int) {
+        view.contentDescription = contentDescription + " " + view.context.getString(roleResId)
     }
 
     @JvmStatic fun getNumberOfInvalidFields(vararg isValid: Boolean): Int {

@@ -2293,6 +2293,8 @@
     <string name="air_attach_variant1_string">Because You Booked a Flight</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">Save on a hotel because you booked a flight</string>
+    <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
+    <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Button</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Arriving</string>
     <!-- Accessibility label for departing icon on itin  -->

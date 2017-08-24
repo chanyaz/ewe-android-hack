@@ -44,8 +44,8 @@ class LaunchScreenAirAttachViewModelTest {
         view = LayoutInflater.from(context).inflate(R.layout.launch_screen_air_attach_card, null)
     }
 
-    private fun createSystemUnderTest(hotelSearchParams: HotelSearchParams, cityName: String, epochSecs: Long = 200L) {
-        flightTrip = createFlightTrip(epochSecs)
+    private fun createSystemUnderTest(hotelSearchParams: HotelSearchParams, cityName: String, expiryDateTime: LocalDateTime) {
+        flightTrip = createFlightTrip(expiryDateTime)
         sut = LaunchScreenAirAttachViewModel(context, view, flightTrip, hotelSearchParams, cityName)
     }
 
@@ -54,10 +54,10 @@ class LaunchScreenAirAttachViewModelTest {
         enableABTest()
         AbacusTestUtils.bucketTestWithVariant(13345, 1)
 
-        val expirationEpochSec = LocalDateTime.now().plusDays(20).plusHours(8).toDateTime().millis / 1000
-        val contentDesc = "Offer expires in 20 days Up to 55% off San Francisco Hotels Save on a hotel because you booked a flight  Button"
+        val expiryDateTime = LocalDateTime.now().plusDays(20)
+        val contentDesc = "Offer expires in 20 days. Up to 55% off San Francisco Hotels. Save on a hotel because you booked a flight. Button"
 
-        createSystemUnderTest(createHotelSearchParams(), "San Francisco", expirationEpochSec)
+        createSystemUnderTest(createHotelSearchParams(), "San Francisco", expiryDateTime)
         airAttachMessageSubscribe()
 
         assertEquals("Up to 55% off San Francisco Hotels", sut.firstLineObserver.value)
@@ -71,10 +71,10 @@ class LaunchScreenAirAttachViewModelTest {
         enableABTest()
         AbacusTestUtils.bucketTestWithVariant(13345, 2)
 
-        val expirationEpochSec = LocalDateTime.now().plusHours(5).toDateTime().millis / 1000
-        val contentDesc = "Offer expires in 4 hours Because You Booked a Flight Save up to 55% off San Francisco Hotels  Button"
+        val expiryDateTime = LocalDateTime.now().plusHours(5)
+        val contentDesc = "Offer expires in 4 hours. Because You Booked a Flight. Save up to 55% off San Francisco Hotels. Button"
 
-        createSystemUnderTest(createHotelSearchParams(), "San Francisco", expirationEpochSec)
+        createSystemUnderTest(createHotelSearchParams(), "San Francisco", expiryDateTime)
         airAttachMessageSubscribe()
 
         assertEquals("Because You Booked a Flight", sut.firstLineObserver.value)
@@ -88,10 +88,10 @@ class LaunchScreenAirAttachViewModelTest {
         enableABTest()
         AbacusTestUtils.bucketTestWithVariant(13345, 1)
 
-        val expirationEpochSec = LocalDateTime.now().toDateTime().millis / 1000
-        val contentDesc = "Offer expires soon Up to 55% off San Francisco Hotels Save on a hotel because you booked a flight  Button"
+        val expiryDateTime = LocalDateTime.now()
+        val contentDesc = "Offer expires soon. Up to 55% off San Francisco Hotels. Save on a hotel because you booked a flight. Button"
 
-        createSystemUnderTest(createHotelSearchParams(), "San Francisco", expirationEpochSec)
+        createSystemUnderTest(createHotelSearchParams(), "San Francisco", expiryDateTime)
         airAttachMessageSubscribe()
 
         assertEquals("Offer expires soon", sut.offerExpiresObserver.value)
@@ -120,12 +120,13 @@ class LaunchScreenAirAttachViewModelTest {
         return params
     }
 
-    private fun createAirAttach(expirationEpochSec: Long): AirAttach {
+    private fun createAirAttach(expiryLocalDateTime: LocalDateTime): AirAttach {
         val jsonObj = JSONObject()
         val offerExpiresObj = JSONObject()
+        val expiryDateTime = expiryLocalDateTime.toDateTime()
 
-        offerExpiresObj.put("epochSeconds", expirationEpochSec)
-        offerExpiresObj.put("timeZoneOffsetSeconds", -28800)
+        offerExpiresObj.put("epochSeconds", expiryDateTime.millis / 1000)
+        offerExpiresObj.put("timeZoneOffsetSeconds", expiryDateTime.getZone().getOffset(expiryDateTime) / 1000)
         jsonObj.put("airAttachQualified", true)
         jsonObj.put("offerExpiresTime", offerExpiresObj)
 
@@ -137,9 +138,9 @@ class LaunchScreenAirAttachViewModelTest {
         return airAttach
     }
 
-    private fun createFlightTrip(expirationEpochSec: Long): Trip {
+    private fun createFlightTrip(expiryDateTime: LocalDateTime): Trip {
         flightTrip = Mockito.mock(Trip::class.java)
-        val airAttach = createAirAttach(expirationEpochSec)
+        val airAttach = createAirAttach(expiryDateTime)
         Mockito.`when`(flightTrip.airAttach).thenReturn(airAttach)
 
         return flightTrip

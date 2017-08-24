@@ -1209,6 +1209,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_search,
 		R.drawable.ic_work,
 		R.layout.pro_wizard_launch_tab_view,
+		R.string.air_attach_card_cont_desc_TEMPLATE,
 		R.string.get_a_room,
 		R.string.find_a_hotel_tonight,
 		R.string.share_flight,
