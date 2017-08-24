@@ -263,7 +263,7 @@ public class SlideToWidgetLL extends RelativeLayout {
 	 * Listeners
 	 */
 
-	private List<ISlideToListener> mSlideToListeners = new ArrayList<ISlideToListener>();
+	private final List<ISlideToListener> mSlideToListeners = new ArrayList<ISlideToListener>();
 
 	public boolean addSlideToListener(ISlideToListener listener) {
 		return mSlideToListeners.add(listener);

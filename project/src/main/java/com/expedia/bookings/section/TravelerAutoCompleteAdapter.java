@@ -32,7 +32,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	private static final int ITEM_VIEW_TYPE_ADD_TRAVELER = 2;
 	private static final int ITEM_VIEW_TYPE_COUNT = 3;
 
-	private TravelersFilter mFilter = new TravelersFilter();
+	private final TravelersFilter mFilter = new TravelersFilter();
 	private String mFilterStr;
 
 
@@ -82,9 +82,9 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	}
 
 	private static class ViewHolder {
-		TextView tv;
-		TextView initials;
-		ImageView icon;
+		final TextView tv;
+		final TextView initials;
+		final ImageView icon;
 
 		public ViewHolder(View v) {
 			tv = Ui.findView(v, R.id.text1);

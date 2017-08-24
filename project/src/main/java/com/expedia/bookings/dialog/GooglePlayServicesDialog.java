@@ -13,7 +13,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.mobiata.android.Log;
 
 public class GooglePlayServicesDialog {
-	private Activity mActivity;
+	private final Activity mActivity;
 	private GooglePlayServicesConnectionSuccessListener mListener;
 
 	public interface GooglePlayServicesConnectionSuccessListener {

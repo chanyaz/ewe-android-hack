@@ -17,8 +17,8 @@ import android.text.style.ReplacementSpan;
  */
 public class EmbellishedTextSpan extends ReplacementSpan {
 
-	String mTextBefore;
-	String mTextAfter;
+	final String mTextBefore;
+	final String mTextAfter;
 
 	public EmbellishedTextSpan(String before, String after) {
 		mTextBefore = before;

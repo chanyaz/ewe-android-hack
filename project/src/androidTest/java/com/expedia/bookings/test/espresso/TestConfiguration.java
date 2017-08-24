@@ -19,9 +19,9 @@ public class TestConfiguration {
 	private static final String CONFIG_FILE_NAME = "config.json";
 
 	public static class Config {
-		public String server;
-		public String language;
-		public String country;
+		public final String server;
+		public final String language;
+		public final String country;
 	}
 
 	public static boolean exists() {

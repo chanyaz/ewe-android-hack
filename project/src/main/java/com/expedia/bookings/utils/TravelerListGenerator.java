@@ -17,7 +17,7 @@ import com.expedia.bookings.enums.PassengerCategory;
  */
 public class TravelerListGenerator {
 
-	public Comparator<Traveler> byPassengerCategory = new Comparator<Traveler>() {
+	public final Comparator<Traveler> byPassengerCategory = new Comparator<Traveler>() {
 		@Override
 		public int compare(Traveler lhs, Traveler rhs) {
 			FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
@@ -32,7 +32,7 @@ public class TravelerListGenerator {
 		}
 	};
 
-	private ArrayList<Traveler> mTravelerList;
+	private final ArrayList<Traveler> mTravelerList;
 
 	private int mNumDesiredAdults = 0;
 	private int mNumDesiredAdultChildren = 0;

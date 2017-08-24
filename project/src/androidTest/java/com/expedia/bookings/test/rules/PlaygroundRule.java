@@ -14,7 +14,8 @@ import com.expedia.bookings.activity.PlaygroundActivity;
  */
 public class PlaygroundRule extends ActivityTestRule<PlaygroundActivity> {
 
-	private @LayoutRes int layout;
+	private @LayoutRes
+	final int layout;
 	private @StyleRes int style;
 
 	public PlaygroundRule(@LayoutRes int layout) {

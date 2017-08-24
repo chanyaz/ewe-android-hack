@@ -11,7 +11,7 @@ public enum LoyaltyMembershipTier {
 		return this == MIDDLE || this == TOP;
 	}
 
-	private static String[] expectedApiValues = ProductFlavorFeatureConfiguration.getInstance().getRewardTierAPINames();
+	private static final String[] expectedApiValues = ProductFlavorFeatureConfiguration.getInstance().getRewardTierAPINames();
 
 	public static LoyaltyMembershipTier fromApiValue(@Nullable String apiValue) {
 

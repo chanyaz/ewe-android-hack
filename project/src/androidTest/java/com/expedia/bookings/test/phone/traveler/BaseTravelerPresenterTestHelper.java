@@ -50,7 +50,7 @@ public class BaseTravelerPresenterTestHelper {
 	private CheckoutToolbar testToolbar;
 	protected TravelersViewModel mockViewModel;
 
-	protected TravelerName testName = new TravelerName();
+	protected final TravelerName testName = new TravelerName();
 	protected final String testChildFullName = "Oscar Grouch Jr.";
 	protected final String testFirstName = "Oscar";
 	protected final String testUpdatedFirstName = "UpdatedOscar";
@@ -83,8 +83,8 @@ public class BaseTravelerPresenterTestHelper {
 		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengerage", "1 year old")
 		.format().toString();
 
-	private Context context = InstrumentationRegistry.getTargetContext();
-	protected String pointOfSaleCountry = context.getString(PointOfSale.getPointOfSale().getCountryNameResId());
+	private final Context context = InstrumentationRegistry.getTargetContext();
+	protected final String pointOfSaleCountry = context.getString(PointOfSale.getPointOfSale().getCountryNameResId());
 
 	@Rule
 	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_traveler_presenter,

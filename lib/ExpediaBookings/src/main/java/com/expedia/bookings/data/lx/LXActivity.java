@@ -10,19 +10,19 @@ import com.google.gson.annotations.SerializedName;
 public class LXActivity {
 
 	public String id;
-	public String title;
+	public final String title;
 	@SerializedName("imageUrl")
-	public String smallImageUrl;
+	public final String smallImageUrl;
 	// API considers this large relative to the other. But its smaller than the large image in Details response.
 	@SerializedName("largeImageURL")
-	public String mediumImageURL;
+	public final String mediumImageURL;
 	public String fromPriceValue;
-	public LXTicketType fromPriceTicketCode;
-	public List<String> categories;
-	public String duration;
-	public String fromOriginalPriceValue;
+	public final LXTicketType fromPriceTicketCode;
+	public final List<String> categories;
+	public final String duration;
+	public final String fromOriginalPriceValue;
 	// True if the offers have different durations.
-	public boolean isMultiDuration;
+	public final boolean isMultiDuration;
 
 	//Utility Members
 	public String location;
@@ -30,9 +30,9 @@ public class LXActivity {
 	public String regionId;
 	public int freeCancellationMinHours;
 	public Money price;
-	public Money originalPrice;
+	public final Money originalPrice;
 	public transient int popularityForClientSort;
-	public int recommendationScore;
+	public final int recommendationScore;
 
 	public List<LXImage> getImages() {
 		List<LXImage> images = new ArrayList<>();

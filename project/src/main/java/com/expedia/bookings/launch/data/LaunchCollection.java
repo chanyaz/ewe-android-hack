@@ -8,14 +8,14 @@ import android.text.TextUtils;
 import com.expedia.bookings.utils.Images;
 
 public class LaunchCollection {
-	public String title;
+	public final String title;
 	public String id;
-	public String imageCode;
+	public final String imageCode;
 	public List<LaunchLocation> locations;
 
 	// Not parsed from json
-	public CharSequence stylizedTitle;
-	public boolean isDestinationImageCode;
+	public final CharSequence stylizedTitle;
+	public final boolean isDestinationImageCode;
 	public transient Drawable imageDrawable;
 
 	public String getImageUrl() {

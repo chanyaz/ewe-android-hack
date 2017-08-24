@@ -32,7 +32,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	private static final int ITEM_VIEW_TYPE_COUNT = 2;
 
 	private TripBucketItem mTripBucketItem;
-	private UserStateManager userStateManager;
+	private final UserStateManager userStateManager;
 
 	//It will be set true if user chose 'Save' on filling in new card details. If he chose 'No Thanks', it will be set false.
 	private boolean hasTemporarilySavedCard = false;

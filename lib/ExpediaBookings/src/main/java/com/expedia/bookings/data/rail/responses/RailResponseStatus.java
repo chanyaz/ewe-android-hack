@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RailResponseStatus {
-	public String status;
-	public String statusCategory;
-	public List<Warning> warningList = new ArrayList<>();
+	public final String status;
+	public final String statusCategory;
+	public final List<Warning> warningList = new ArrayList<>();
 
 	public Warning getWarningByCode(String code) {
 		for (Warning w : warningList) {
@@ -18,7 +18,7 @@ public class RailResponseStatus {
 	}
 
 	public static class Warning {
-		public String warningCode;
+		public final String warningCode;
 		public String warningDescription;
 	}
 }

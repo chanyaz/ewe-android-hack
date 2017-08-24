@@ -64,9 +64,9 @@ public class HotelMedia implements JSONable, IMedia {
 		Y("y", 500, 500),
 		Z("z", 1000, 1000);
 
-		public String code;
-		public int width;
-		public int height;
+		public final String code;
+		public final int width;
+		public final int height;
 
 		Size(String c, int w, int h) {
 			code = c;

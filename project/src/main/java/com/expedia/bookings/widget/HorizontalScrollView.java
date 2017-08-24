@@ -11,7 +11,7 @@ public class HorizontalScrollView extends android.widget.HorizontalScrollView {
 		void onScrollChanged(HorizontalScrollView scrollView, int x, int y, int oldx, int oldy);
 	}
 
-	private HashSet<OnScrollListener> mOnScrollListener = new HashSet<OnScrollListener>();
+	private final HashSet<OnScrollListener> mOnScrollListener = new HashSet<OnScrollListener>();
 
 	public HorizontalScrollView(Context context) {
 		super(context);

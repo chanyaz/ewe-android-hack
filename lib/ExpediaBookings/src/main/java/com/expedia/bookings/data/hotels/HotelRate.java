@@ -34,11 +34,11 @@ public class HotelRate {
 	public String ratePlanCode;
 	public boolean showResortFeeMessage;
 	public boolean resortFeeInclusion;
-	public List<PriceAdjustments> priceAdjustments;
-	public List<SurchargesForEntireStay> surchargesForEntireStay;
+	public final List<PriceAdjustments> priceAdjustments;
+	public final List<SurchargesForEntireStay> surchargesForEntireStay;
 	public List<NightlyRatesPerRoom> nightlyRatesPerRoom;
 	public String depositAmountToShowUsers;
-	public String depositAmount;
+	public final String depositAmount;
 	public LoyaltyInformation loyaltyInfo;
 
 	public Money packagePricePerPerson;
@@ -78,12 +78,12 @@ public class HotelRate {
 	}
 
 	public static class PriceAdjustments {
-		public String amount;
+		public final String amount;
 	}
 
 	public static class SurchargesForEntireStay {
-		public String type;
-		public String amount;
+		public final String type;
+		public final String amount;
 	}
 
 	public Money getPriceAdjustments() {

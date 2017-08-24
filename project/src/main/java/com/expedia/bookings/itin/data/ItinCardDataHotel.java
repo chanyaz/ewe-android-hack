@@ -35,8 +35,8 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private Property mProperty;
-	private List<TripHotelRoom> mRooms;
+	private final Property mProperty;
+	private final List<TripHotelRoom> mRooms;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTOR

@@ -59,7 +59,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Inject
 	public HotelServices hotelServices;
-	private ItinCardDataHotel data;
+	private final ItinCardDataHotel data;
 
 	public HotelItinContentGenerator(Context context, ItinCardDataHotel data, MediaCallback callback) {
 		super(context, data);
@@ -88,7 +88,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		data.getProperty().addMedia(placeholder);
 	}
 
-	private Observer<HotelOffersResponse> observer = new Observer<HotelOffersResponse>() {
+	private final Observer<HotelOffersResponse> observer = new Observer<HotelOffersResponse>() {
 
 		@Override
 		public void onCompleted() {

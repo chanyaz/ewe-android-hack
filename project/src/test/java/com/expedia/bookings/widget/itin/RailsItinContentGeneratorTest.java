@@ -22,8 +22,8 @@ import com.squareup.phrase.Phrase;
 public class RailsItinContentGeneratorTest {
 
 	Context context;
-	DateTime start = DateTime.now();
-	DateTime end = DateTime.now().plusDays(1);
+	final DateTime start = DateTime.now();
+	final DateTime end = DateTime.now().plusDays(1);
 
 	@Before
 	public void before() {

@@ -9,7 +9,7 @@ import java.util.Set;
  * Represents all properties in a particular price tier, along with some metadata about them.
  */
 public class PriceTier {
-	private Set<Property> mProperties;
+	private final Set<Property> mProperties;
 
 	private Money mMin;
 

@@ -5,7 +5,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 
 public class TripBucketItemPackages extends TripBucketItem {
 
-	public PackageCreateTripResponse mPackageTripResponse;
+	public final PackageCreateTripResponse mPackageTripResponse;
 
 	public TripBucketItemPackages(PackageCreateTripResponse packageTripResponse) {
 		mPackageTripResponse = packageTripResponse;

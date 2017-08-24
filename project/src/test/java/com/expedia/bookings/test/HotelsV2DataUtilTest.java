@@ -32,7 +32,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 @RunWith(RobolectricRunner.class)
 @Config(shadows = {ShadowGCM.class,ShadowUserManager.class,ShadowAccountManagerEB.class})
 public class HotelsV2DataUtilTest {
-	private Context context = RuntimeEnvironment.application;
+	private final Context context = RuntimeEnvironment.application;
 
 	@Test
 	public void v2SearchParamsFromJson() {

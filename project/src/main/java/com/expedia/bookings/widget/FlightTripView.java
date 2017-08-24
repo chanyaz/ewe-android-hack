@@ -31,9 +31,9 @@ public class FlightTripView extends View {
 
 	private static final int TYPEFACE_MEDIUM = 0;
 
-	private Paint mTripPaint;
-	private Paint mTripFilledPaint;
-	private TextPaint mTextPaint;
+	private final Paint mTripPaint;
+	private final Paint mTripFilledPaint;
+	private final TextPaint mTextPaint;
 
 	private boolean mSpecifiedTextSize = false;
 
@@ -45,7 +45,7 @@ public class FlightTripView extends View {
 	private DateTime mMaxTime;
 
 	// Dimensions loaded in resources
-	private float mMinPaddingBetweenLabels;
+	private final float mMinPaddingBetweenLabels;
 
 	// Sometimes we want extra space between our circles and our text
 	private float mWaypointTextTopMargin = 0;
@@ -93,9 +93,9 @@ public class FlightTripView extends View {
 	}
 
 	// Pre-allocate for rendering
-	private RectF mCircleBounds;
-	private RectF mLeftArcBounds;
-	private RectF mRightArcBounds;
+	private final RectF mCircleBounds;
+	private final RectF mLeftArcBounds;
+	private final RectF mRightArcBounds;
 
 	public FlightTripView(Context context, AttributeSet attrs) {
 		super(context, attrs);

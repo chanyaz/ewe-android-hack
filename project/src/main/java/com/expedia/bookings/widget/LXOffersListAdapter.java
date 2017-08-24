@@ -90,7 +90,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 		private Offer offer;
 		private PublishSubject<Offer> publishSuject;
 
-		private View itemView;
+		private final View itemView;
 		private boolean isGroundTransport;
 
 		public ViewHolder(View itemView) {

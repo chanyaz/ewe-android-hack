@@ -10,15 +10,15 @@ public class RailSegment {
 	public static final String TRANSFER = "Transfer";
 
 	public Integer travelSegmentIndex;
-	public String travelMode;
+	public final String travelMode;
 	public RailStation departureStation;
 	public RailStation arrivalStation;
-	public RailDateTime departureDateTime;
-	public RailDateTime arrivalDateTime;
+	public final RailDateTime departureDateTime;
+	public final RailDateTime arrivalDateTime;
 	public String marketingCarrier; //"Virgin"
 	public String operatingCarrier; //"Virgin"
-	public RailTravelMedium travelMedium;
-	public String duration;  //ISO duration format P[yY][mM][dD][T[hH][mM][s[.s]S]]
+	public final RailTravelMedium travelMedium;
+	public final String duration;  //ISO duration format P[yY][mM][dD][T[hH][mM][s[.s]S]]
 
 	public int durationMinutes() {
 		return DateUtils.parseDurationMinutesFromISOFormat(duration);

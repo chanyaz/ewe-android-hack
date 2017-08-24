@@ -21,7 +21,7 @@ import com.expedia.bookings.widget.FilterSeekBar;
 @RunWith(RobolectricRunner.class)
 public class FilterSeekBarTest {
 
-	private static Context context = RuntimeEnvironment.application;
+	private static final Context context = RuntimeEnvironment.application;
 
 	@Test
 	public void seekBarValueUpdate() {

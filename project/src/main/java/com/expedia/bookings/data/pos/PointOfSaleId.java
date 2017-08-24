@@ -67,7 +67,7 @@ public enum PointOfSaleId {
 	EBOOKERS_FRANCE(70420),
 	MRJET_SWEDEN(70465);
 
-	private int mId;
+	private final int mId;
 
 	PointOfSaleId(int id) {
 		mId = id;

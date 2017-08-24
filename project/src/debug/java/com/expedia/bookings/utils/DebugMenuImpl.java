@@ -26,9 +26,9 @@ import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 
 class DebugMenuImpl implements DebugMenu {
-	private Activity hostActivity;
-	private Class<? extends Activity> settingsActivityClass;
-	private List<DebugActivityInfo> debugActivities = new ArrayList<>();
+	private final Activity hostActivity;
+	private final Class<? extends Activity> settingsActivityClass;
+	private final List<DebugActivityInfo> debugActivities = new ArrayList<>();
 
 	DebugMenuImpl(@NonNull Activity hostActivity, @Nullable Class<? extends Activity> settingsActivityClass) {
 		this.hostActivity = hostActivity;

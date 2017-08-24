@@ -7,11 +7,11 @@ import com.expedia.bookings.utils.Strings;
 
 public class PackageCreateTripParams {
 
-	private String productKey;
-	private String destinationId;
-	private int numOfAdults;
-	private boolean infantsInLap;
-	private List<Integer> childAges;
+	private final String productKey;
+	private final String destinationId;
+	private final int numOfAdults;
+	private final boolean infantsInLap;
+	private final List<Integer> childAges;
 	public boolean flexEnabled;
 
 	public PackageCreateTripParams(String productKey, String destinationId,

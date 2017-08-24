@@ -6,8 +6,8 @@ import java.util.List;
 // Class used to construct urls for the akamai image converter
 public class Akeakamai {
 
-	private String url;
-	private List<String> commands = new ArrayList<>();
+	private final String url;
+	private final List<String> commands = new ArrayList<>();
 
 	public Akeakamai(String url) {
 		this.url = url;
@@ -60,7 +60,7 @@ public class Akeakamai {
 		return new Pixels(pixels);
 	}
 
-	private static Preserve mPreserve = new Preserve();
+	private static final Preserve mPreserve = new Preserve();
 	public static Preserve preserve() {
 		return mPreserve;
 	}
@@ -76,7 +76,7 @@ public class Akeakamai {
 		public static final int TOP = 4;
 		public static final int BOTTOM = 5;
 
-		private int alignment;
+		private final int alignment;
 		private Dimension dimension;
 
 		public Alignment(int alignment) {

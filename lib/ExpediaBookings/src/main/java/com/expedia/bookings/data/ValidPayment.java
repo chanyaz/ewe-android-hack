@@ -63,7 +63,7 @@ public class ValidPayment {
 		return false;
 	}
 
-	public static Type gsonListTypeToken = new TypeToken<List<ValidPayment>>() {
+	public static final Type gsonListTypeToken = new TypeToken<List<ValidPayment>>() {
 	}.getType();
 
 }

@@ -87,7 +87,7 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 
 		return new RecyclerView.OnScrollListener() {
 			private int scrolledDistance = 0;
-			private int heightOfButton = (int) getResources().getDimension(R.dimen.flight_sort_filter_container_height);
+			private final int heightOfButton = (int) getResources().getDimension(R.dimen.flight_sort_filter_container_height);
 
 			@Override
 			public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

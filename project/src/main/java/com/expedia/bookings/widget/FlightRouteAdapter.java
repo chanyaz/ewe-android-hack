@@ -25,27 +25,27 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 public class FlightRouteAdapter extends BaseAdapter {
 
 
-	private Context mContext;
+	private final Context mContext;
 
-	private RecentList<Location> mRecentSearches;
+	private final RecentList<Location> mRecentSearches;
 
-	private FlightRoutes mRoutes;
+	private final FlightRoutes mRoutes;
 
-	private List<Row> mRows = new ArrayList<>();
+	private final List<Row> mRows = new ArrayList<>();
 
-	private boolean mIsOrigin;
+	private final boolean mIsOrigin;
 
 	private String mOrigin;
 
 	private FlightRouteAdapterListener mListener;
 
-	private int mDropDownRowPaddingLeft;
+	private final int mDropDownRowPaddingLeft;
 
-	private boolean dropDownMode;
+	private final boolean dropDownMode;
 
-	private boolean rowDividersEnabled;
+	private final boolean rowDividersEnabled;
 
-	@LayoutRes private int dropdownLayoutResourceId;
+	@LayoutRes private final int dropdownLayoutResourceId;
 
 	public FlightRouteAdapter(Context context, FlightRoutes routes, RecentList<Location> recentSearches,
 		boolean isOrigin) {
@@ -294,7 +294,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 	}
 
 	private class HeaderRow implements Row {
-		private String mText;
+		private final String mText;
 
 		public HeaderRow(String country) {
 			mText = country;
@@ -331,7 +331,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 	}
 
 	private class AirportRow implements Row {
-		private Airport mAirport;
+		private final Airport mAirport;
 
 		public AirportRow(Airport airport) {
 			mAirport = airport;

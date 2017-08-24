@@ -4,13 +4,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class SummaryButton {
-	private int mIconResId;
-	private String mText;
-	private String mContentDescription;
-	private boolean mShouldShowPopup;
-	private OnClickListener mOnClickListener;
-	private View mPopupContentView;
-	private OnClickListener mPopupOnClickListener;
+	private final int mIconResId;
+	private final String mText;
+	private final String mContentDescription;
+	private final boolean mShouldShowPopup;
+	private final OnClickListener mOnClickListener;
+	private final View mPopupContentView;
+	private final OnClickListener mPopupOnClickListener;
 
 	public SummaryButton(int iconResId, String text, OnClickListener onClickListener) {
 		this(iconResId, text, null, onClickListener, null, null);

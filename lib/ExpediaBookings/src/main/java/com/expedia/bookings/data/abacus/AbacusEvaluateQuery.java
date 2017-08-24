@@ -7,7 +7,7 @@ import java.util.List;
  * Created by malnguyen on 4/15/15.
  */
 public class AbacusEvaluateQuery extends AbacusBaseQuery {
-	public List<Integer> evaluatedExperiments = new ArrayList<>();
+	public final List<Integer> evaluatedExperiments = new ArrayList<>();
 
 	public AbacusEvaluateQuery(String guid, int tpid, int eapid) {
 		super(guid, tpid, eapid);

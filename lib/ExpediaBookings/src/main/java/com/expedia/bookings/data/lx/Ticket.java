@@ -6,14 +6,14 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.PriceBreakdownItemType;
 
 public class Ticket implements Comparable<Ticket> {
-	public String ticketId;
+	public final String ticketId;
 	public LXTicketType code;
 	public String restrictionText;
-	public String amount;
+	public final String amount;
 	public Money money;
 	// Count is manipulated from the ticket picker. But this is send back in create trip/ checkout api response.
 	public int count;
-	public List<LXPriceBreakdownItem> priceBreakdownItemList;
+	public final List<LXPriceBreakdownItem> priceBreakdownItemList;
 
 	public LXPriceBreakdownItem getBreakdownForType(PriceBreakdownItemType type) {
 		for (LXPriceBreakdownItem lxPriceBreakdownItem : priceBreakdownItemList) {

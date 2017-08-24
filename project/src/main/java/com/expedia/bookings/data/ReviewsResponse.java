@@ -6,7 +6,7 @@ import java.util.List;
 public class ReviewsResponse extends Response {
 
 	private int mNumReviewsInResponse;
-	private List<Review> mReviews;
+	private final List<Review> mReviews;
 
 	public ReviewsResponse() {
 		mReviews = new ArrayList<Review>();

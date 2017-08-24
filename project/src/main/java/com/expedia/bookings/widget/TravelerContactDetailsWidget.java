@@ -88,7 +88,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	public Boolean emailOptIn;
 	MerchandiseSpam emailOptInStatus;
 
-	public PublishSubject<Boolean> filledIn = PublishSubject.create();
+	public final PublishSubject<Boolean> filledIn = PublishSubject.create();
 	public CompositeSubscription compositeSubscription = new CompositeSubscription();
 
 	private UserStateManager userStateManager;
@@ -148,7 +148,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 	}
 
-	private Observer formFilledSubscriber = new Observer<String>() {
+	private final Observer formFilledSubscriber = new Observer<String>() {
 		@Override
 		public void onCompleted() {
 		}

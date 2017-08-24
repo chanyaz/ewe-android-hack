@@ -48,8 +48,8 @@ public class MaskView extends View {
 
 	// Pre-allocate for rendering
 	private Rect mClipBounds;
-	private int[] mThisLocation = new int[2];
-	private int[] mExposedLocation = new int[2];
+	private final int[] mThisLocation = new int[2];
+	private final int[] mExposedLocation = new int[2];
 
 	public MaskView(Context context) {
 		super(context);

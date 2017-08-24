@@ -38,7 +38,7 @@ public class StateManager<T> {
 	private int mFrames;
 	private float mLastAnimPercentage;
 	private float mAvgFrameDuration;
-	private boolean mSnapAnimation = true;
+	private final boolean mSnapAnimation = true;
 
 
 	/**

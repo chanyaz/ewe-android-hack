@@ -77,9 +77,9 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private UserStateManager userStateManager;
 	ClientLogServices clientLogServices;
 	private DeepLinkParser deepLinkParser = null;
-	private boolean supportsRails = PointOfSale.getPointOfSale().supports(LineOfBusiness.RAILS);
+	private final boolean supportsRails = PointOfSale.getPointOfSale().supports(LineOfBusiness.RAILS);
 
-	Observer<AbacusResponse> evaluateAbTests = new Observer<AbacusResponse>() {
+	final Observer<AbacusResponse> evaluateAbTests = new Observer<AbacusResponse>() {
 
 		@Override
 		public void onCompleted() {

@@ -72,7 +72,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private ItinCardDataAdapter mAdapter;
+	private final ItinCardDataAdapter mAdapter;
 
 	private String mSelectedCardId;
 
@@ -93,10 +93,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private int mLastItemCount = 0;
 
-	private Semaphore mModeSwitchSemaphore = new Semaphore(1);
-	Queue<Runnable> mUiQueue = new LinkedList<Runnable>();
+	private final Semaphore mModeSwitchSemaphore = new Semaphore(1);
+	final Queue<Runnable> mUiQueue = new LinkedList<Runnable>();
 
-	private FooterView mFooterView;
+	private final FooterView mFooterView;
 
 	private int mExpandedHeight = 0;
 

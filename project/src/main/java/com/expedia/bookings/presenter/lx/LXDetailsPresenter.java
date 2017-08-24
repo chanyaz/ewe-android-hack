@@ -141,7 +141,7 @@ public class LXDetailsPresenter extends Presenter {
 			.show();
 	}
 
-	private Observer<ActivityDetailsResponse> detailsObserver = new Observer<ActivityDetailsResponse>() {
+	private final Observer<ActivityDetailsResponse> detailsObserver = new Observer<ActivityDetailsResponse>() {
 		@Override
 		public void onCompleted() {
 			// ignore
@@ -166,7 +166,7 @@ public class LXDetailsPresenter extends Presenter {
 		}
 	};
 
-	public Transition detailToMap = new ScaleTransition(this, LXActivityDetailsWidget.class, LXMapView.class) {
+	public final Transition detailToMap = new ScaleTransition(this, LXActivityDetailsWidget.class, LXMapView.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -251,7 +251,7 @@ public class LXDetailsPresenter extends Presenter {
 		toolbarDropshadow.setAlpha(0);
 	}
 
-	com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
+	final com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
 		@Override
 		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx,
 			int oldy) {

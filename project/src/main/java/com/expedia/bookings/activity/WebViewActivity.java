@@ -45,8 +45,8 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 	public static class IntentBuilder {
 
-		private Context mContext;
-		private Intent mIntent;
+		private final Context mContext;
+		private final Intent mIntent;
 
 		public IntentBuilder(Context context) {
 			mContext = context;

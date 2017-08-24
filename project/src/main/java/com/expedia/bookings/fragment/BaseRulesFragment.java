@@ -33,7 +33,7 @@ public abstract class BaseRulesFragment extends Fragment {
 		LCC_EMAIL_TEXT("LccPartnerConfEmailsText"),
 		LCC_CHECKIN_TEXT("flightRulesLCCPrecheckinAdvice");
 
-		private String mKey;
+		private final String mKey;
 
 		RulesKeys(String key) {
 			mKey = key;

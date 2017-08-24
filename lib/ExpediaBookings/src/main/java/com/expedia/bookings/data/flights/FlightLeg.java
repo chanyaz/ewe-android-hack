@@ -34,7 +34,7 @@ public class FlightLeg {
 	public List<FlightSegment> flightSegments;
 	public List<FlightSegment> segments;
 //	flightSegments
-	public JSONObject freeCancellationBy;
+	public final JSONObject freeCancellationBy;
 	public boolean hasLayover;
 	public String legId;
 	public String originAirportCode;
@@ -45,7 +45,7 @@ public class FlightLeg {
 	public PackageOfferModel packageOfferModel;
 	public String flightPid;
 	public String departureLeg;
-	public List<Airline> airlines = new ArrayList<>();
+	public final List<Airline> airlines = new ArrayList<>();
 	public boolean isBestFlight;
 	public boolean mayChargeObFees;
 	public boolean isBasicEconomy;

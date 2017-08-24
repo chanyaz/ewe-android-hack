@@ -191,7 +191,7 @@ public class Events {
 	}
 
 	public static class CarsInvalidInput {
-		public String field;
+		public final String field;
 
 		public CarsInvalidInput(String field) {
 			this.field = field;
@@ -203,7 +203,7 @@ public class Events {
 	}
 
 	public static class CarsFilterDone {
-		public CarFilter carFilter;
+		public final CarFilter carFilter;
 
 		public CarsFilterDone(CarFilter carFilter) {
 			this.carFilter = carFilter;
@@ -215,7 +215,7 @@ public class Events {
 	}
 
 	public static class CarsNewSearchParams {
-		public CarSearchParam carSearchParams;
+		public final CarSearchParam carSearchParams;
 		public String productKey;
 
 		public CarsNewSearchParams(CarSearchParam params) {
@@ -234,7 +234,7 @@ public class Events {
 	}
 
 	public static class CarsShowSearchResults {
-		public CarSearch results;
+		public final CarSearch results;
 
 		public CarsShowSearchResults(CarSearch results) {
 			this.results = results;
@@ -246,7 +246,7 @@ public class Events {
 	}
 
 	public static class CarsShowSearchResultsError {
-		public ApiError error;
+		public final ApiError error;
 
 		public CarsShowSearchResultsError(ApiError error) {
 			this.error = error;
@@ -254,7 +254,7 @@ public class Events {
 	}
 
 	public static class CarsShowDetails {
-		public CategorizedCarOffers categorizedCarOffers;
+		public final CategorizedCarOffers categorizedCarOffers;
 
 		public CarsShowDetails(CategorizedCarOffers offers) {
 			categorizedCarOffers = offers;
@@ -266,9 +266,9 @@ public class Events {
 	}
 
 	public static class CarsUpdateCheckoutSummaryAfterPriceChange {
-		public CreateTripCarOffer originalCreateTripOffer;
-		public CreateTripCarOffer newCreateTripOffer;
-		public String tripId;
+		public final CreateTripCarOffer originalCreateTripOffer;
+		public final CreateTripCarOffer newCreateTripOffer;
+		public final String tripId;
 
 		public CarsUpdateCheckoutSummaryAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer,
 			String tripId) {
@@ -279,10 +279,10 @@ public class Events {
 	}
 
 	public static class CarsShowCheckout {
-		public String productKey;
-		public Money fare;
-		public boolean isInsuranceIncluded;
-		public LatLng location;
+		public final String productKey;
+		public final Money fare;
+		public final boolean isInsuranceIncluded;
+		public final LatLng location;
 
 		public CarsShowCheckout(String productKey, Money fare, boolean isInsuranceIncluded, LatLng location) {
 			this.productKey = productKey;
@@ -293,7 +293,7 @@ public class Events {
 	}
 
 	public static class CarsCheckoutCreateTripSuccess {
-		public CarCreateTripResponse response;
+		public final CarCreateTripResponse response;
 
 		public CarsCheckoutCreateTripSuccess(CarCreateTripResponse carCreateTripResponse) {
 			this.response = carCreateTripResponse;
@@ -301,7 +301,7 @@ public class Events {
 	}
 
 	public static class ShowCVV {
-		public BillingInfo billingInfo;
+		public final BillingInfo billingInfo;
 
 		public ShowCVV(BillingInfo info) {
 			this.billingInfo = info;
@@ -309,7 +309,7 @@ public class Events {
 	}
 
 	public static class CarsKickOffSearchCall {
-		public CarSearchParam carSearchParams;
+		public final CarSearchParam carSearchParams;
 
 		public CarsKickOffSearchCall(CarSearchParam params) {
 			this.carSearchParams = params;
@@ -317,7 +317,7 @@ public class Events {
 	}
 
 	public static class CarsKickOffCheckoutCall {
-		public CarCheckoutParamsBuilder checkoutParamsBuilder;
+		public final CarCheckoutParamsBuilder checkoutParamsBuilder;
 
 		public CarsKickOffCheckoutCall(CarCheckoutParamsBuilder checkoutParamsBuilder) {
 			this.checkoutParamsBuilder = checkoutParamsBuilder;
@@ -325,7 +325,7 @@ public class Events {
 	}
 
 	public static class CarsShowConfirmation {
-		public CarCheckoutResponse checkoutResponse;
+		public final CarCheckoutResponse checkoutResponse;
 
 		public CarsShowConfirmation(CarCheckoutResponse checkoutResponse) {
 			this.checkoutResponse = checkoutResponse;
@@ -333,8 +333,8 @@ public class Events {
 	}
 
 	public static class CarsCategoryFilterCheckChanged {
-		public CarCategory category;
-		public boolean checked;
+		public final CarCategory category;
+		public final boolean checked;
 
 		public CarsCategoryFilterCheckChanged(CarCategory category, boolean checked) {
 			this.category = category;
@@ -343,8 +343,8 @@ public class Events {
 	}
 
 	public static class CarsSupplierFilterCheckChanged {
-		public String supplier;
-		public boolean checked;
+		public final String supplier;
+		public final boolean checked;
 
 		public CarsSupplierFilterCheckChanged(String supplier, boolean checked) {
 			this.supplier = supplier;
@@ -353,8 +353,8 @@ public class Events {
 	}
 
 	public static class CarsIsFiltered {
-		public CarSearch filteredCarSearch;
-		public CategorizedCarOffers filteredCarOffers;
+		public final CarSearch filteredCarSearch;
+		public final CategorizedCarOffers filteredCarOffers;
 
 		public CarsIsFiltered(CarSearch filteredCarSearch, CategorizedCarOffers filteredCarOffers) {
 			this.filteredCarSearch = filteredCarSearch;
@@ -363,7 +363,7 @@ public class Events {
 	}
 
 	public static class CarsShowProductKeyDetails {
-		public CarSearch productKeyCarSearch;
+		public final CarSearch productKeyCarSearch;
 
 		public CarsShowProductKeyDetails(CarSearch productKeyCarSearch) {
 			this.productKeyCarSearch = productKeyCarSearch;
@@ -371,7 +371,7 @@ public class Events {
 	}
 
 	public static class CarsShowResultsForProductKey {
-		public CarSearch productKeyCarSearch;
+		public final CarSearch productKeyCarSearch;
 
 		public CarsShowResultsForProductKey(CarSearch productKeyCarSearch) {
 			this.productKeyCarSearch = productKeyCarSearch;
@@ -395,9 +395,9 @@ public class Events {
 	}
 
 	public static class LXNewSearch {
-		public String locationName;
-		public LocalDate startDate;
-		public LocalDate endDate;
+		public final String locationName;
+		public final LocalDate startDate;
+		public final LocalDate endDate;
 
 		public LXNewSearch(String locationName, LocalDate startDate, LocalDate endDate) {
 			this.locationName = locationName;
@@ -407,7 +407,7 @@ public class Events {
 	}
 
 	public static class LXNewSearchParamsAvailable {
-		public LxSearchParams lxSearchParams;
+		public final LxSearchParams lxSearchParams;
 
 		public LXNewSearchParamsAvailable(LxSearchParams params) {
 			lxSearchParams = params;
@@ -445,7 +445,7 @@ public class Events {
 	}
 
 	public static class LXSearchResultsAvailable {
-		public LXSearchResponse lxSearchResponse;
+		public final LXSearchResponse lxSearchResponse;
 
 		public LXSearchResultsAvailable(LXSearchResponse lxSearchResponse) {
 			this.lxSearchResponse = lxSearchResponse;
@@ -453,8 +453,8 @@ public class Events {
 	}
 
 	public static class LXFilterCategoryCheckedChanged {
-		public LXCategoryMetadata lxCategoryMetadata;
-		public String categoryKey;
+		public final LXCategoryMetadata lxCategoryMetadata;
+		public final String categoryKey;
 
 		public LXFilterCategoryCheckedChanged(LXCategoryMetadata lxCategoryMetadata, String categoryKey) {
 			this.lxCategoryMetadata = lxCategoryMetadata;
@@ -463,7 +463,7 @@ public class Events {
 	}
 
 	public static class LXFilterChanged {
-		public LXSortFilterMetadata lxSortFilterMetadata;
+		public final LXSortFilterMetadata lxSortFilterMetadata;
 
 		public LXFilterChanged(LXSortFilterMetadata lxSortFilterMetadata) {
 			this.lxSortFilterMetadata = lxSortFilterMetadata;
@@ -471,8 +471,8 @@ public class Events {
 	}
 
 	public static class LXSearchFilterResultsReady {
-		public List<LXActivity> filteredActivities;
-		public Map<String, LXCategoryMetadata> filterCategories;
+		public final List<LXActivity> filteredActivities;
+		public final Map<String, LXCategoryMetadata> filterCategories;
 
 		public LXSearchFilterResultsReady(List<LXActivity> filteredActivities,
 			Map<String, LXCategoryMetadata> filterCategories) {
@@ -482,8 +482,8 @@ public class Events {
 	}
 
 	public static class LXShowSearchError {
-		public ApiError error;
-		public SearchType searchType;
+		public final ApiError error;
+		public final SearchType searchType;
 
 		public LXShowSearchError(ApiError error, SearchType searchType) {
 			this.error = error;
@@ -492,7 +492,7 @@ public class Events {
 	}
 
 	public static class LXActivitySelected {
-		public LXActivity lxActivity;
+		public final LXActivity lxActivity;
 
 		public LXActivitySelected(LXActivity lxActivity) {
 			this.lxActivity = lxActivity;
@@ -508,7 +508,7 @@ public class Events {
 	}
 
 	public static class LXUpdateCheckoutSummaryAfterPriceChange {
-		public LXCheckoutResponse lxCheckoutResponse;
+		public final LXCheckoutResponse lxCheckoutResponse;
 
 		public LXUpdateCheckoutSummaryAfterPriceChange(LXCheckoutResponse lxCheckoutResponse) {
 			this.lxCheckoutResponse = lxCheckoutResponse;
@@ -520,7 +520,7 @@ public class Events {
 	}
 
 	public static class LXShowDetails {
-		public ActivityDetailsResponse activityDetails;
+		public final ActivityDetailsResponse activityDetails;
 
 		public LXShowDetails(ActivityDetailsResponse activityDetails) {
 			this.activityDetails = activityDetails;
@@ -528,8 +528,8 @@ public class Events {
 	}
 
 	public static class LXCreateTripSucceeded {
-		public LXCreateTripResponse createTripResponse;
-		public LXActivity activity;
+		public final LXCreateTripResponse createTripResponse;
+		public final LXActivity activity;
 
 		public LXCreateTripSucceeded(LXCreateTripResponse createTripResponse, LXActivity activity) {
 			this.createTripResponse = createTripResponse;
@@ -538,8 +538,8 @@ public class Events {
 	}
 
 	public static class LXTicketCountChanged {
-		public Ticket ticket;
-		public String offerId;
+		public final Ticket ticket;
+		public final String offerId;
 
 		public LXTicketCountChanged(Ticket ticket, String offerId) {
 			this.ticket = ticket;
@@ -548,7 +548,7 @@ public class Events {
 	}
 
 	public static class LXOfferExpanded {
-		public Offer offer;
+		public final Offer offer;
 
 		public LXOfferExpanded(Offer offer) {
 			this.offer = offer;
@@ -556,8 +556,8 @@ public class Events {
 	}
 
 	public static class LXOfferBooked {
-		public Offer offer;
-		public List<Ticket> selectedTickets;
+		public final Offer offer;
+		public final List<Ticket> selectedTickets;
 
 		public LXOfferBooked(Offer offer, List<Ticket> selectedTickets) {
 			this.offer = offer;
@@ -566,7 +566,7 @@ public class Events {
 	}
 
 	public static class LXKickOffCheckoutCall {
-		public LXCheckoutParams checkoutParams;
+		public final LXCheckoutParams checkoutParams;
 
 		public LXKickOffCheckoutCall(LXCheckoutParams checkoutParams) {
 			this.checkoutParams = checkoutParams;
@@ -574,7 +574,7 @@ public class Events {
 	}
 
 	public static class LXCheckoutSucceeded {
-		public LXCheckoutResponse checkoutResponse;
+		public final LXCheckoutResponse checkoutResponse;
 
 		public LXCheckoutSucceeded(LXCheckoutResponse checkoutResponse) {
 			this.checkoutResponse = checkoutResponse;
@@ -582,7 +582,7 @@ public class Events {
 	}
 
 	public static class LXError {
-		public ApiError apiError;
+		public final ApiError apiError;
 
 		public LXError(ApiError apiError) {
 			this.apiError = apiError;
@@ -590,8 +590,8 @@ public class Events {
 	}
 
 	public static class LXDetailsDateChanged {
-		public LocalDate dateSelected;
-		public LXOfferDatesButton buttonSelected;
+		public final LocalDate dateSelected;
+		public final LXOfferDatesButton buttonSelected;
 
 		public LXDetailsDateChanged(LocalDate dateSelected, LXOfferDatesButton buttonSelected) {
 			this.dateSelected = dateSelected;
@@ -608,7 +608,7 @@ public class Events {
 	}
 
 	public static class LXInvalidInput {
-		public String field;
+		public final String field;
 
 		public LXInvalidInput(String field) {
 			this.field = field;
@@ -625,7 +625,7 @@ public class Events {
 	// Launch screen
 
 	public static class LaunchHotelSearchResponse {
-		public List<Hotel> topHotels;
+		public final List<Hotel> topHotels;
 
 		public LaunchHotelSearchResponse(List<Hotel> topHotels) {
 			this.topHotels = topHotels;
@@ -633,7 +633,7 @@ public class Events {
 	}
 
 	public static class LaunchListItemSelected {
-		public Hotel offer;
+		public final Hotel offer;
 
 		public LaunchListItemSelected(Hotel offer) {
 			this.offer = offer;
@@ -641,7 +641,7 @@ public class Events {
 	}
 
 	public static class CollectionDownloadComplete {
-		public Collection collection;
+		public final Collection collection;
 
 		public CollectionDownloadComplete(Collection collection) {
 			this.collection = collection;
@@ -649,9 +649,9 @@ public class Events {
 	}
 
 	public static class LaunchCollectionItemSelected {
-		public String collectionUrl;
-		public CollectionLocation collectionLocation;
-		public Bundle animOptions;
+		public final String collectionUrl;
+		public final CollectionLocation collectionLocation;
+		public final Bundle animOptions;
 
 		public LaunchCollectionItemSelected(CollectionLocation location, Bundle animOptions,
 			String url) {

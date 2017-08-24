@@ -14,8 +14,8 @@ import com.google.gson.annotations.SerializedName;
 public class FlightTripDetails {
 
 	//TODO might need to add more fields once we know what's needed for the checkout screen
-	public List<FlightLeg> legs;
-	public FlightOffer offer;
+	public final List<FlightLeg> legs;
+	public final FlightOffer offer;
 	public FlightOffer oldOffer;
 	public Money obFeePrice;
 	public String basicEconomyFareRules = "";
@@ -26,32 +26,32 @@ public class FlightTripDetails {
 		public List<PricePerPassengerCategory>  pricePerPassengerCategory;
 
 		public Money baseFarePrice;
-		public Money totalPrice;
+		public final Money totalPrice;
 		public Money averageTotalPricePerTicket;
-		public Money discountAmount;
+		public final Money discountAmount;
 		public Money taxesPrice;
 		public Money feesPrice;
-		public String currency;
-		public String fees;
+		public final String currency;
+		public final String fees;
 
 		public String baggageFeesUrl;
-		public String fareType;
+		public final String fareType;
 		public boolean isInternational;
 		public boolean isPassportNeeded;
-		public boolean isSplitTicket;
+		public final boolean isSplitTicket;
 		public boolean hasBagFee;
 		public boolean hasNoBagFee;
 		public boolean showFees;
 		public boolean mayChargeOBFees;
-		public String numberOfTickets;
+		public final String numberOfTickets;
 		public int seatsRemaining;
-		public List<SplitFarePrice> splitFarePrice;
+		public final List<SplitFarePrice> splitFarePrice;
 		@SerializedName("segmentAttributes")
-		public List<List<SeatClassAndBookingCode>> offersSeatClassAndBookingCode;
+		public final List<List<SeatClassAndBookingCode>> offersSeatClassAndBookingCode;
 		public LoyaltyInformation loyaltyInfo;
 
-		public List<InsuranceProduct> availableInsuranceProducts = Collections.emptyList();
-		public InsuranceProduct selectedInsuranceProduct;
+		public final List<InsuranceProduct> availableInsuranceProducts = Collections.emptyList();
+		public final InsuranceProduct selectedInsuranceProduct;
 
 		public Money getBookingFee() {
 			return new Money(fees, currency);
@@ -74,11 +74,11 @@ public class FlightTripDetails {
 	}
 
 	public class SplitFarePrice {
-		public Money totalPrice;
+		public final Money totalPrice;
 	}
 
 	public class PricePerPassengerCategory implements Comparable<PricePerPassengerCategory> {
-		public PassengerCategory passengerCategory;
+		public final PassengerCategory passengerCategory;
 		public Money basePrice;
 		public Money totalPrice;
 		public Money taxesPrice;
@@ -117,6 +117,6 @@ public class FlightTripDetails {
 	public class SeatClassAndBookingCode {
 		public String bookingCode;
 		@SerializedName("cabinCode")
-		public String seatClass;
+		public final String seatClass;
 	}
 }

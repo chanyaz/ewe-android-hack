@@ -1,15 +1,15 @@
 package com.expedia.bookings.data.urgency;
 
 public class RegionTicker {
-	String displayName;
-	RegionLevelData regionLevelData;
+	final String displayName;
+	final RegionLevelData regionLevelData;
 
 	private class RegionLevelData {
-		CompressionSummary compressionSummary;
+		final CompressionSummary compressionSummary;
 	}
 
 	private class CompressionSummary {
-		int score;
+		final int score;
 		String status;
 	}
 

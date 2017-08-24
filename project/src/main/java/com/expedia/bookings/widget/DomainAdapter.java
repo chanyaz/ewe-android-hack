@@ -15,7 +15,7 @@ public class DomainAdapter extends BaseAdapter {
 	private CharSequence[] mDomains;
 
 	private Integer[] flagsArray;
-	private LayoutInflater mInflater;
+	private final LayoutInflater mInflater;
 	private int mSelected = 0;
 
 	public DomainAdapter(Context context) {

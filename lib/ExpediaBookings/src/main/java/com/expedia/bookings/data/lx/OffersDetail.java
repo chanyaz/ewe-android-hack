@@ -7,7 +7,7 @@ import org.joda.time.LocalDate;
 import com.expedia.bookings.utils.DateUtils;
 
 public class OffersDetail {
-	public List<Offer> offers;
+	public final List<Offer> offers;
 
 	public boolean isAvailableOnDate(LocalDate dateSelected) {
 		for (Offer offer : offers) {

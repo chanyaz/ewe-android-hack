@@ -26,9 +26,9 @@ import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 
 public class PersistentCookieManager implements PersistentCookiesCookieJar {
-	private HashMap<String, HashMap<String, Cookie>> cookieStore = new HashMap<>();
-	private File storage;
-	private Gson gson;
+	private final HashMap<String, HashMap<String, Cookie>> cookieStore = new HashMap<>();
+	private final File storage;
+	private final Gson gson;
 
 	public PersistentCookieManager(File storage) {
 		this(storage, null);
@@ -256,8 +256,8 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 	}
 
 	public static class UriCookiePair {
-		public URI uri;
-		public HttpCookie cookie;
+		public final URI uri;
+		public final HttpCookie cookie;
 
 		public UriCookiePair(URI uri, HttpCookie cookie) {
 			this.uri = uri;

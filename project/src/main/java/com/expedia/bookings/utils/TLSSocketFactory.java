@@ -9,7 +9,7 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class TLSSocketFactory extends SSLSocketFactory {
 
-	private SSLSocketFactory delegate;
+	private final SSLSocketFactory delegate;
 
 	public TLSSocketFactory(SSLContext context) {
 		delegate = context.getSocketFactory();

@@ -18,9 +18,9 @@ import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.AutocompleteSuggestion;
 
 public class SearchSuggestionAdapter extends ArrayAdapter<AutocompleteSuggestion> implements Filterable {
-	private LayoutInflater mInflater;
-	private String mCurrentLocationString;
-	private ArrayList<AutocompleteSuggestion> data = new ArrayList<>();
+	private final LayoutInflater mInflater;
+	private final String mCurrentLocationString;
+	private final ArrayList<AutocompleteSuggestion> data = new ArrayList<>();
 
 	public SearchSuggestionAdapter(Context context) {
 		super(context, R.layout.row_suggestion);

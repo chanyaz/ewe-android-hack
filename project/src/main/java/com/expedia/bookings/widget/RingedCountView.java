@@ -291,19 +291,19 @@ public class RingedCountView extends View {
 	/////////////////////////////////////////////////////////////////////////////////////
 	private static class RingDrawable extends Drawable {
 
-		private Paint mBackgroundPaint;
+		private final Paint mBackgroundPaint;
 
 		// Ring properties
-		private Paint mPrimaryArcPaint;
-		private Paint mSecondaryArcPaint;
+		private final Paint mPrimaryArcPaint;
+		private final Paint mSecondaryArcPaint;
 		private float mRadius, mCx, mCy;
-		private Rect mPadding = new Rect();
+		private final Rect mPadding = new Rect();
 		private RectF mOval;
 		private float mFilledPercent = 0f;
 
 		// Text properties
-		private Paint mCountTextPaint;
-		private Paint mCaptionTextPaint;
+		private final Paint mCountTextPaint;
+		private final Paint mCaptionTextPaint;
 		private float mCount;
 		private String mCountText;
 		private String mCaption;

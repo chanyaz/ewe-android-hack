@@ -57,7 +57,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 	private List<SearchCarOffer> offers = new ArrayList<>();
 	private int mLastExpanded = 0;
 	private static final float MAP_ZOOM_LEVEL = 12;
-	PublishSubject<SearchCarOffer> subject;
+	final PublishSubject<SearchCarOffer> subject;
 
 	public CarOffersAdapter(Context context, PublishSubject<SearchCarOffer> subject) {
 		this.subject = subject;
@@ -146,7 +146,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 		@InjectView(R.id.main_container)
 		public android.widget.FrameLayout mainContainer;
 
-		public Context mContext;
+		public final Context mContext;
 
 		public ViewHolder(View view) {
 			super(view);

@@ -20,7 +20,7 @@ import com.mobiata.android.Log;
 
 public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightCheckoutResponse> {
 
-	private Context mContext;
+	private final Context mContext;
 
 	public FlightCheckoutResponseHandler(Context context) {
 		mContext = context;

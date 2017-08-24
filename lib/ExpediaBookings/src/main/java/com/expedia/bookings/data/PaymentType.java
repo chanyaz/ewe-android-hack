@@ -23,8 +23,8 @@ public enum PaymentType {
 	POINTS_REWARDS("ER", "Rewards"),
 	UNKNOWN("?", "no card required");
 
-	private String mCode;
-	private String mOmnitureTrackingCode;
+	private final String mCode;
+	private final String mOmnitureTrackingCode;
 
 	PaymentType(String code, String omnitureTrackingCode) {
 		mCode = code;

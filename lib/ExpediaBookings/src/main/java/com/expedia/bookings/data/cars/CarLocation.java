@@ -22,14 +22,14 @@ public class CarLocation {
 	public LocationType locationType;
 	public String locationDescription;
 	public String airportInstructions;
-	public String locationCode;
+	public final String locationCode;
 	public Double latitude;
 	public Double longitude;
-	public String addressLine1;
-	public String cityName;
-	public String provinceStateName;
-	public String countryCode;
-	public String regionId;
+	public final String addressLine1;
+	public final String cityName;
+	public final String provinceStateName;
+	public final String countryCode;
+	public final String regionId;
 
 	public String toAddress() {
 		return addressLine1 + " " + cityName + " " + provinceStateName + " " + countryCode;

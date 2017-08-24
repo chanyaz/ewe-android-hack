@@ -53,8 +53,8 @@ public class Property implements JSONable {
 		FREE_PARKING(0x8000000, R.string.AmenityFreeParking);
 		// @formatter:on
 
-		private int flag;
-		private int strId;
+		private final int flag;
+		private final int strId;
 
 		Amenity(int newFlag, int newStrId) {
 			this.flag = newFlag;

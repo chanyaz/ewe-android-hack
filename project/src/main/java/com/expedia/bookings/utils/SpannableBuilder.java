@@ -5,7 +5,7 @@ import android.text.style.CharacterStyle;
 
 // Much more usable SpannableStringBuilder
 public class SpannableBuilder {
-	private SpannableStringBuilder mBuilder;
+	private final SpannableStringBuilder mBuilder;
 
 	public SpannableBuilder() {
 		mBuilder = new SpannableStringBuilder();

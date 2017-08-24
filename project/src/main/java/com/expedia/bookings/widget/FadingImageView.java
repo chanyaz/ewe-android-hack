@@ -24,9 +24,9 @@ public class FadingImageView extends ImageView {
 
 	private boolean mEnabled = true;
 
-	private Paint mFadePaint;
+	private final Paint mFadePaint;
 
-	private Rect mBounds;
+	private final Rect mBounds;
 
 	public FadingImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);

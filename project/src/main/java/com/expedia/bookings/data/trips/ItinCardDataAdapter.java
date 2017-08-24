@@ -58,15 +58,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private Context mContext;
+	private final Context mContext;
 	private int mSummaryCardPosition;
 	private int mAltSummaryCardPosition;
-	private List<ItinCardData> mItinCardDatas;
+	private final List<ItinCardData> mItinCardDatas;
 	private int mDetailPosition = -1;
 	private String mSelectedCardId;
 	// This is used when we are syncing with the manager; that way we don't ever make
 	// the adapter's data and the ListView's data go out of sync.
-	private List<ItinCardData> mItinCardDatasSync;
+	private final List<ItinCardData> mItinCardDatasSync;
 
 	private boolean mSimpleMode = false;
 

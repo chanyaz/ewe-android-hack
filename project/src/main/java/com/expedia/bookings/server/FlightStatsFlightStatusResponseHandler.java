@@ -12,7 +12,7 @@ import com.mobiata.flightlib.data.Waypoint;
 
 public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<FlightStatsFlightResponse> {
 
-	private String mAirline;
+	private final String mAirline;
 
 	public FlightStatsFlightStatusResponseHandler(String airline) {
 		mAirline = airline;

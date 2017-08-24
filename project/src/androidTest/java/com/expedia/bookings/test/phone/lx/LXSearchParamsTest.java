@@ -33,7 +33,7 @@ public class LXSearchParamsTest {
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
 
 	LXSearchPresenter searchParamsWidget;
-	LocalDate start = LocalDate.now();
+	final LocalDate start = LocalDate.now();
 
 	@Before
 	public void before() {

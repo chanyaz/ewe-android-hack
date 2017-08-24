@@ -7,7 +7,7 @@ import java.util.List;
  * Created by malnguyen on 4/15/15.
  */
 public class AbacusLogQuery extends AbacusBaseQuery {
-	public List<AbacusTest> evaluatedExperiments = new ArrayList<>();
+	public final List<AbacusTest> evaluatedExperiments = new ArrayList<>();
 
 	public AbacusLogQuery(String guid, int tpid, int eapid) {
 		super(guid, tpid, eapid);

@@ -3,14 +3,14 @@ package com.expedia.bookings.data.cars;
 import com.google.gson.annotations.SerializedName;
 
 public class BaseCarOffer {
-	public String productKey;
+	public final String productKey;
 	public CarVendor vendor;
 	@SerializedName("creditCardRequiredToGuaranteeReservation")
-	public boolean checkoutRequiresCard;
+	public final boolean checkoutRequiresCard;
 	public CarLocation pickUpLocation;
-	public CarLocation dropOffLocation;
+	public final CarLocation dropOffLocation;
 	public CarInfo vehicleInfo;
 	public boolean hasFreeCancellation;
 	public boolean hasUnlimitedMileage;
-	public boolean isInsuranceIncluded;
+	public final boolean isInsuranceIncluded;
 }

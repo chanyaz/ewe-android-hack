@@ -42,17 +42,17 @@ import rx.subjects.PublishSubject;
 public class SectionLocation extends LinearLayout
 	implements ISection<Location>, ISectionEditable, InvalidCharacterListener {
 
-	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
-	SectionFieldList<Location> mFields = new SectionFieldList<>();
-	List<String> mCountriesWithStates = Arrays
+	final ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
+	final SectionFieldList<Location> mFields = new SectionFieldList<>();
+	final List<String> mCountriesWithStates = Arrays
 		.asList(getContext().getResources().getStringArray(R.array.countriesWithStateForBilling));
 
 	Location mLocation;
 	Context mContext;
 	LineOfBusiness mLineOfBusiness;
-	public BehaviorSubject<String> billingCountryCodeSubject = BehaviorSubject.create();
-	public PublishSubject<Boolean> billingCountryErrorSubject = PublishSubject.create();
-	public PublishSubject<Unit> validateBillingCountrySubject = PublishSubject.create();
+	public final BehaviorSubject<String> billingCountryCodeSubject = BehaviorSubject.create();
+	public final PublishSubject<Boolean> billingCountryErrorSubject = PublishSubject.create();
+	public final PublishSubject<Unit> validateBillingCountrySubject = PublishSubject.create();
 	CountrySpinnerAdapter materialCountryAdapter;
 
 	public SectionLocation(Context context) {

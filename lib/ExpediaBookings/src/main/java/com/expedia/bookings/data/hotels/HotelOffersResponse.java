@@ -25,12 +25,12 @@ public class HotelOffersResponse extends BaseApiResponse {
 	public String firstHotelOverview;
 	public String hotelAddress;
 	public List<HotelAmenities> hotelAmenities;
-	public String hotelCity;
+	public final String hotelCity;
 	public String hotelStateProvince;
 	public String hotelCountry;
 	public double hotelGuestRating;
-	public String hotelId;
-	public String hotelName;
+	public final String hotelId;
+	public final String hotelName;
 	public List<HotelRoomResponse> hotelRoomResponse;
 	public List<HotelText> hotelOverviewText;
 	public HotelText hotelAmenitiesText;
@@ -40,7 +40,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 
 	public double latitude;
 	public double longitude;
-	public String locationId;
+	public final String locationId;
 
 	public double hotelStarRating;
 
@@ -68,9 +68,9 @@ public class HotelOffersResponse extends BaseApiResponse {
 	public static class HotelRoomResponse {
 		@Nullable
 		public List<BedTypes> bedTypes;
-		public String cancellationPolicy;
+		public final String cancellationPolicy;
 		public String currentAllotment;
-		public boolean depositRequired;
+		public final boolean depositRequired;
 		public boolean hasFreeCancellation;
 		public String freeCancellationWindowDate;
 		public HotelRoomResponse payLaterOffer;
@@ -88,7 +88,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public boolean isDiscountRestrictedToCurrentSourceType;
 		public boolean isSameDayDRR;
 		public boolean isPayLater;
-		public List<String> depositPolicy;
+		public final List<String> depositPolicy;
 		public boolean isMemberDeal;
 		public String ratePlanCode;
 		public String roomTypeCode;
@@ -173,7 +173,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 	}
 
 	public static class Photos {
-		public String displayText;
+		public final String displayText;
 		public String url;
 	}
 

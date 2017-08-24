@@ -13,8 +13,8 @@ import com.mobiata.android.util.Ui;
  */
 public abstract class BackManager {
 
-	private ArrayList<IBackManageable> mListeners = new ArrayList<IBackManageable>();
-	private IBackManageable mManageable;
+	private final ArrayList<IBackManageable> mListeners = new ArrayList<IBackManageable>();
+	private final IBackManageable mManageable;
 
 	/**
 	 * This will typically be the IBackManageable that this BackManager is declared within.

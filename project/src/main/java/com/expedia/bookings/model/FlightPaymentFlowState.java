@@ -18,8 +18,8 @@ import com.expedia.bookings.utils.Ui;
  *
  */
 public class FlightPaymentFlowState {
-	SectionLocation mBillingAddress;
-	SectionBillingInfo mCardInfo;
+	final SectionLocation mBillingAddress;
+	final SectionBillingInfo mCardInfo;
 
 	private FlightPaymentFlowState(Context context) {
 		LayoutInflater inflater = LayoutInflater.from(context);

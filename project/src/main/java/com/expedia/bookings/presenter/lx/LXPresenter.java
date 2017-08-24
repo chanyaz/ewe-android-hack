@@ -125,7 +125,7 @@ public class LXPresenter extends Presenter {
 		setLxDetailMap();
 	}
 
-	private Observer<LxSearchParams> lxSearchParamsObserver = new Observer<LxSearchParams>() {
+	private final Observer<LxSearchParams> lxSearchParamsObserver = new Observer<LxSearchParams>() {
 		@Override
 		public void onCompleted() {
 		}
@@ -140,10 +140,10 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	TransitionElement searchBackgroundColor = new TransitionElement(ContextCompat.getColor(getContext(), R.color.search_anim_background), Color.TRANSPARENT);
-	ArgbEvaluator searchArgbEvaluator = new ArgbEvaluator();
+	final TransitionElement searchBackgroundColor = new TransitionElement(ContextCompat.getColor(getContext(), R.color.search_anim_background), Color.TRANSPARENT);
+	final ArgbEvaluator searchArgbEvaluator = new ArgbEvaluator();
 
-	private Transition searchParamsToResults = new Transition(LXSearchPresenter.class,
+	private final Transition searchParamsToResults = new Transition(LXSearchPresenter.class,
 		LXResultsPresenter.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
@@ -179,7 +179,7 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class, LXCheckoutPresenter.class) {
+	private final Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class, LXCheckoutPresenter.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -189,7 +189,7 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToCheckoutV2 = new VisibilityTransition(this, LXDetailsPresenter.class, LXOverviewPresenter.class) {
+	private final Transition detailsToCheckoutV2 = new VisibilityTransition(this, LXDetailsPresenter.class, LXOverviewPresenter.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -205,7 +205,7 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Presenter.Transition resultsToDetails = new Presenter.Transition(LXResultsPresenter.class.getName(),
+	private final Presenter.Transition resultsToDetails = new Presenter.Transition(LXResultsPresenter.class.getName(),
 		LXDetailsPresenter.class.getName(), new DecelerateInterpolator(), ANIMATION_DURATION) {
 		private int detailsHeight;
 
@@ -245,7 +245,7 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition searchOverlayOnResults = new Transition(LXResultsPresenter.class,
+	private final Transition searchOverlayOnResults = new Transition(LXResultsPresenter.class,
 		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
@@ -280,7 +280,7 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition searchOverlayOnDetails = new Transition(LXDetailsPresenter.class,
+	private final Transition searchOverlayOnDetails = new Transition(LXDetailsPresenter.class,
 		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
@@ -308,7 +308,7 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchPresenter.class) {
+	private final Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchPresenter.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -321,9 +321,9 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class, LXConfirmationWidget.class);
+	private final Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class, LXConfirmationWidget.class);
 
-	private Transition checkoutToResults = new VisibilityTransition(this, LXCheckoutPresenter.class, LXResultsPresenter.class) {
+	private final Transition checkoutToResults = new VisibilityTransition(this, LXCheckoutPresenter.class, LXResultsPresenter.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);

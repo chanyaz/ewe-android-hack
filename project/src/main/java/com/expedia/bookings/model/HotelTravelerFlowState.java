@@ -15,9 +15,9 @@ import com.expedia.bookings.utils.Ui;
 public class HotelTravelerFlowState {
 	//private static TravelerFlowState mInstance;
 
-	Context mContext;
+	final Context mContext;
 
-	SectionTravelerInfo mTravelerInfoOne;
+	final SectionTravelerInfo mTravelerInfoOne;
 
 	private HotelTravelerFlowState(Context context) {
 		mContext = context;

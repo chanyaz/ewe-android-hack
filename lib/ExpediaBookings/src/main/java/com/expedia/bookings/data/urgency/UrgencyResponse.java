@@ -3,8 +3,8 @@ package com.expedia.bookings.data.urgency;
 import java.util.List;
 
 public class UrgencyResponse {
-	int responseStatusCode;
-	List<RegionTicker> regionTicker;
+	final int responseStatusCode;
+	final List<RegionTicker> regionTicker;
 
 	public boolean hasError() {
 		return responseStatusCode != 0;

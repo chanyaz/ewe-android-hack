@@ -20,7 +20,7 @@ public class TouchableFrameLayout extends FrameLayout {
 		void onTouch(MotionEvent ev);
 	}
 
-	TouchControlHelper mTouchHelper = new TouchControlHelper();
+	final TouchControlHelper mTouchHelper = new TouchControlHelper();
 
 	TouchListener mTouchListener;
 

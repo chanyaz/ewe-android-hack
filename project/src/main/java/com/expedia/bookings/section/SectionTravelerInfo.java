@@ -53,8 +53,8 @@ import com.mobiata.android.validation.Validator;
 public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>,
 	ISectionEditable, InvalidCharacterListener {
 
-	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
-	SectionFieldList<Traveler> mFields = new SectionFieldList<>();
+	final ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
+	final SectionFieldList<Traveler> mFields = new SectionFieldList<>();
 
 	private Traveler mTraveler;
 
@@ -254,7 +254,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	//////INVALID CHARACTER STUFF
 	//////////////////////////////////////
 
-	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<>();
+	final ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<>();
 
 	@Override
 	public void onInvalidCharacterEntered(CharSequence text, Mode mode) {

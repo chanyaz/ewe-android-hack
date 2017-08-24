@@ -32,7 +32,7 @@ public class ShadowCookieManagerEB {
 	private static final String[] COOKIE_ATTRS_NOT_STRICT = { "Expires", "expires" };
 	private static final List<Cookie> emtpyCookieList = new ArrayList<>();
 	private static CookieManager cookieManager;
-	private CookieStore store = new BasicCookieStore();
+	private final CookieStore store = new BasicCookieStore();
 	private boolean accept;
 	private boolean flushed;
 

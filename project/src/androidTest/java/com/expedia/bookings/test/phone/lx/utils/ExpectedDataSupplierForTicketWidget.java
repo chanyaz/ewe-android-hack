@@ -16,10 +16,10 @@ import com.expedia.bookings.test.phone.lx.models.TicketSummaryDataModel;
 
 public class ExpectedDataSupplierForTicketWidget {
 	private BigDecimal total = BigDecimal.ZERO;
-	private List<TicketDataModel> mTicketsToOffer = new ArrayList<>();
-	private HashMap<TicketDataModel, Integer> mTotalTickets = new HashMap<>();
-	private String ticketName;
-	HashMap<String,String> expectedPlural = new HashMap<String, String>();
+	private final List<TicketDataModel> mTicketsToOffer = new ArrayList<>();
+	private final HashMap<TicketDataModel, Integer> mTotalTickets = new HashMap<>();
+	private final String ticketName;
+	final HashMap<String,String> expectedPlural = new HashMap<String, String>();
 
 	public ExpectedDataSupplierForTicketWidget(TicketSummaryDataModel summary) {
 		/*

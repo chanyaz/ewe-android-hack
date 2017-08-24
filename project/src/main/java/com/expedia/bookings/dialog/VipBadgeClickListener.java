@@ -9,10 +9,10 @@ import com.mobiata.android.app.SimpleDialogFragment;
 
 public class VipBadgeClickListener implements View.OnClickListener {
 
-	private FragmentManager mFragmentManager;
+	private final FragmentManager mFragmentManager;
 
-	String mTitle;
-	String mMessage;
+	final String mTitle;
+	final String mMessage;
 
 	public VipBadgeClickListener(Resources res, FragmentManager manager) {
 		mTitle = res.getString(R.string.vip_access);

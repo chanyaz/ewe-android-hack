@@ -42,8 +42,8 @@ public class NumTravelersPopupDropdown {
 
 		private static final int MAX_NUM_ADULTS = 6;
 
-		private Context mContext;
-		private LayoutInflater mInflater;
+		private final Context mContext;
+		private final LayoutInflater mInflater;
 		private List<String> mItems;
 
 		public NumTravelersAdapter(Context context) {

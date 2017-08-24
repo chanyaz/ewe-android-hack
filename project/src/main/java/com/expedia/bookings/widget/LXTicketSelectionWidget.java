@@ -67,7 +67,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	@InjectView(R.id.offer_description)
 	LXOfferDescription offerDescription;
 
-	private List<Ticket> selectedTickets = new ArrayList<>();
+	private final List<Ticket> selectedTickets = new ArrayList<>();
 
 	private String offerId;
 

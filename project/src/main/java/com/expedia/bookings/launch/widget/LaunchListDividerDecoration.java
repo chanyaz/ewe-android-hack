@@ -23,11 +23,11 @@ import com.expedia.bookings.widget.RecyclerDividerDecoration;
 
 class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 
-	private int mTop;
-	private int mBottom;
-	private int mLeft;
-	private int mRight;
-	private int mMiddle;
+	private final int mTop;
+	private final int mBottom;
+	private final int mLeft;
+	private final int mRight;
+	private final int mMiddle;
 
 	LaunchListDividerDecoration(Context context) {
 		mTop = 0;

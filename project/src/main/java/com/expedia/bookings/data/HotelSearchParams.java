@@ -36,8 +36,8 @@ public class HotelSearchParams implements JSONable {
 		FREEFORM(false, false),
 		HOTEL(true, true),;
 
-		private boolean mShouldShowDistance;
-		private boolean mShouldShowExactLocation;
+		private final boolean mShouldShowDistance;
+		private final boolean mShouldShowExactLocation;
 
 		SearchType(boolean shouldShowDistance, boolean shouldShowExactLocation) {
 			mShouldShowDistance = shouldShowDistance;

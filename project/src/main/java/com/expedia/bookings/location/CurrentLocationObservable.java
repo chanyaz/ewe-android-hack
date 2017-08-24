@@ -23,7 +23,7 @@ public class CurrentLocationObservable implements
 		return Observable.create(new CurrentLocationObservable(context));
 	}
 
-	private GoogleApiClient googleApiClient;
+	private final GoogleApiClient googleApiClient;
 	Subscriber<? super Location> subscriber;
 
 	private CurrentLocationObservable(Context context) {

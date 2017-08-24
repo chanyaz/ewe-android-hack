@@ -4,7 +4,7 @@ import java.util.List;
 
 public class RoomInfoFields {
 
-	String room;
+	final String room;
 
 	public RoomInfoFields(int numberOfAdults, List<Integer> childAges) {
 		StringBuilder sb = new StringBuilder();

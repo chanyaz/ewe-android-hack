@@ -6,7 +6,7 @@ import com.expedia.bookings.data.trips.TripBucketItem;
 
 public class TripBucketItemFlightV2 extends TripBucketItem {
 	public FlightCheckoutResponse flightCheckoutResponse;
-	public FlightCreateTripResponse flightCreateTripResponse;
+	public final FlightCreateTripResponse flightCreateTripResponse;
 
 	public TripBucketItemFlightV2(FlightCreateTripResponse flightCreateTripResponse) {
 		this.flightCreateTripResponse = flightCreateTripResponse;

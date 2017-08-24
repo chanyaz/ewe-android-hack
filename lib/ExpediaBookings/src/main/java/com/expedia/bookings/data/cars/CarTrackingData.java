@@ -11,6 +11,6 @@ public class CarTrackingData {
 	public String inventoryType;
 
 	@SerializedName("SIPP_CODE")
-	public String sippCode;
+	public final String sippCode;
 
 }

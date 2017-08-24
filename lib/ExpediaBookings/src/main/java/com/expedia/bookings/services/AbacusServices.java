@@ -20,11 +20,11 @@ import rx.Scheduler;
 import rx.Subscription;
 
 public class AbacusServices {
-	private AbacusApi api;
-	private Gson gson;
+	private final AbacusApi api;
+	private final Gson gson;
 
-	private Scheduler observeOn;
-	private Scheduler subscribeOn;
+	private final Scheduler observeOn;
+	private final Scheduler subscribeOn;
 
 	public AbacusServices(String endpoint, OkHttpClient client, Interceptor interceptor, Scheduler observeOn,
 		Scheduler subscribeOn) {

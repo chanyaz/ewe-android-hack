@@ -17,7 +17,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
 public class CommonSteps {
-	AbacusResponse abacusResponse = new AbacusResponse();
+	final AbacusResponse abacusResponse = new AbacusResponse();
 	@And("^I set the POS to \"(.*?)\"$")
 	public void setPOS(String name) throws Throwable {
 		switch (name) {

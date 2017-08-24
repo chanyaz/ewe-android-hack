@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.GsonUtil;
 
 public class TripPackage extends TripComponent {
 
-	private List<TripComponent> mTripComponents = new ArrayList<TripComponent>();
+	private final List<TripComponent> mTripComponents = new ArrayList<TripComponent>();
 
 	private Money mTotal;
 

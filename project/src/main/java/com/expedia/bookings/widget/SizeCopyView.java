@@ -51,7 +51,7 @@ public class SizeCopyView extends View {
 		reset();
 	}
 
-	private ViewTreeObserver.OnPreDrawListener mPreDrawListener = new ViewTreeObserver.OnPreDrawListener() {
+	private final ViewTreeObserver.OnPreDrawListener mPreDrawListener = new ViewTreeObserver.OnPreDrawListener() {
 		@Override
 		public boolean onPreDraw() {
 			if (mViewRef != null && mViewRef.get() != null && viewHasChanged(mViewRef.get())) {

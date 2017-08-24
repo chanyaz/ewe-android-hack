@@ -25,7 +25,7 @@ public abstract class ExpandableCardView extends FrameLayout
 
 	private EditText mCurrentEditText;
 	public ToolbarListener mToolbarListener;
-	public List<IExpandedListener> expandedListeners = new ArrayList();
+	public final List<IExpandedListener> expandedListeners = new ArrayList();
 	private boolean isExpanded;
 
 	public void addExpandedListener(IExpandedListener listener) {

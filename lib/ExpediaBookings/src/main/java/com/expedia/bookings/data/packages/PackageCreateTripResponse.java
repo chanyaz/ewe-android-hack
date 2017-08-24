@@ -11,13 +11,13 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.google.gson.annotations.SerializedName;
 
 public class PackageCreateTripResponse extends TripResponse {
-	public PackageDetails packageDetails;
-	public PackageDetails oldPackageDetails;
+	public final PackageDetails packageDetails;
+	public final PackageDetails oldPackageDetails;
 	public Money changedPrice;
 	public String newTotalPrice;
-	public String packageRulesAndRestrictions;
+	public final String packageRulesAndRestrictions;
 	public Money selectedCardFees;
-	public Money totalPriceIncludingFees;
+	public final Money totalPriceIncludingFees;
 
 	@Nullable
 	@Override
@@ -32,21 +32,21 @@ public class PackageCreateTripResponse extends TripResponse {
 		public String tealeafTransactionId;
 		public String tripId;
 		public String itineraryNumber;
-		public HotelCreateTripResponse.HotelProductResponse hotel;
-		public FlightProduct flight;
-		public Pricing pricing;
+		public final HotelCreateTripResponse.HotelProductResponse hotel;
+		public final FlightProduct flight;
+		public final Pricing pricing;
 	}
 
 	public static class Pricing {
-		public Money packageTotal;
+		public final Money packageTotal;
 		public Money basePrice;
 		public Money totalTaxesAndFees;
 		public Money hotelPrice;
 		public Money flightPrice;
 		public Money savings;
 		public boolean taxesAndFeesIncluded;
-		public HotelPricing hotelPricing;
-		public Money bundleTotal;
+		public final HotelPricing hotelPricing;
+		public final Money bundleTotal;
 
 		public boolean hasResortFee() {
 			return hotelPricing != null && hotelPricing.mandatoryFees != null &&
@@ -55,17 +55,17 @@ public class PackageCreateTripResponse extends TripResponse {
 	}
 
 	public static class HotelPricing {
-		public MandatoryFees mandatoryFees;
+		public final MandatoryFees mandatoryFees;
 	}
 
 	public static class MandatoryFees {
-		public Money feeTotal;
+		public final Money feeTotal;
 	}
 
 	public static class FlightProduct {
-		public FlightTripDetails details;
+		public final FlightTripDetails details;
 		@SerializedName("rules")
-		public FlightCreateTripResponse.FlightRules flightRules;
+		public final FlightCreateTripResponse.FlightRules flightRules;
 	}
 
 	@NotNull

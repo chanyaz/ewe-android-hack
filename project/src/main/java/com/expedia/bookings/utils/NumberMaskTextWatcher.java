@@ -22,7 +22,7 @@ public class NumberMaskTextWatcher implements TextWatcher {
 	private static final String TAG = NumberMaskTextWatcher.class.getSimpleName();
 
 	boolean mLoopDetect = false;
-	private NumberMaskFormatter mMaskFormatter;
+	private final NumberMaskFormatter mMaskFormatter;
 
 	public NumberMaskTextWatcher(String mask) {
 		this(new NumberMaskFormatter(mask));

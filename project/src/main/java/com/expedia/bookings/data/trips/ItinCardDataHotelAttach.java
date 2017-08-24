@@ -8,9 +8,9 @@ import com.expedia.bookings.data.HotelSearchParams;
 
 public class ItinCardDataHotelAttach extends ItinCardData {
 
-	private TripFlight mTripFlight;
-	private FlightLeg mFirstLeg;
-	private FlightLeg mNextLeg;
+	private final TripFlight mTripFlight;
+	private final FlightLeg mFirstLeg;
+	private final FlightLeg mNextLeg;
 
 	public ItinCardDataHotelAttach(TripFlight parent, FlightLeg firstLeg, FlightLeg nextLeg) {
 		super(parent);

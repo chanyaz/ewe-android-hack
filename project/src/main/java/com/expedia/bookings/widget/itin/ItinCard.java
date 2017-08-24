@@ -93,43 +93,43 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private boolean mSelectCard;
 	private boolean mShadeCard;
 
-	private int mTitleLayoutHeight;
-	private int mItinCardExtraTopPadding;
-	private int mItinCardExtraBottomPadding;
-	private int mActionButtonLayoutHeight;
+	private final int mTitleLayoutHeight;
+	private final int mItinCardExtraTopPadding;
+	private final int mItinCardExtraBottomPadding;
+	private final int mActionButtonLayoutHeight;
 
 	private int mFixedItinTypeImageTranslation;
 
-	private int mExpandedCardHeaderImageHeight;
-	private int mMiniCardHeaderImageHeight;
+	private final int mExpandedCardHeaderImageHeight;
+	private final int mMiniCardHeaderImageHeight;
 
 	// Views from the ItinCard itself
-	private View mTopExtraPaddingView;
-	private View mBottomExtraPaddingView;
+	private final View mTopExtraPaddingView;
+	private final View mBottomExtraPaddingView;
 
-	private ViewGroup mCardLayout;
-	private ViewGroup mTitleLayout;
-	private ViewGroup mTitleContentLayout;
-	private ViewGroup mHeaderLayout;
-	private ViewGroup mHeaderTextLayout;
-	private ViewGroup mSummarySectionLayout;
-	private ViewGroup mSummaryLayout;
-	private ImageView mChevronImageView;
-	private ViewGroup mDetailsLayout;
-	private ItinActionsSection mActionButtonLayout;
+	private final ViewGroup mCardLayout;
+	private final ViewGroup mTitleLayout;
+	private final ViewGroup mTitleContentLayout;
+	private final ViewGroup mHeaderLayout;
+	private final ViewGroup mHeaderTextLayout;
+	private final ViewGroup mSummarySectionLayout;
+	private final ViewGroup mSummaryLayout;
+	private final ImageView mChevronImageView;
+	private final ViewGroup mDetailsLayout;
+	private final ItinActionsSection mActionButtonLayout;
 
-	private AlphaImageView mItinTypeImageView;
-	private AlphaImageView mFixedItinTypeImageView;
+	private final AlphaImageView mItinTypeImageView;
+	private final AlphaImageView mFixedItinTypeImageView;
 
-	private ScrollView mScrollView;
-	private ParallaxContainer mHeaderImageContainer;
-	protected RecyclerGallery mHeaderGallery;
-	private ImageView mHeaderOverlayImageView;
-	private TextView mHeaderTextView;
-	private TextView mHeaderTextDateView;
-	private View mSelectedView;
-	private View mHeaderShadeView;
-	private View mSummaryDividerView;
+	private final ScrollView mScrollView;
+	private final ParallaxContainer mHeaderImageContainer;
+	protected final RecyclerGallery mHeaderGallery;
+	private final ImageView mHeaderOverlayImageView;
+	private final TextView mHeaderTextView;
+	private final TextView mHeaderTextDateView;
+	private final View mSelectedView;
+	private final View mHeaderShadeView;
+	private final View mSummaryDividerView;
 
 	// Views generated an ItinContentGenerator (that get reused)
 	private View mHeaderView;

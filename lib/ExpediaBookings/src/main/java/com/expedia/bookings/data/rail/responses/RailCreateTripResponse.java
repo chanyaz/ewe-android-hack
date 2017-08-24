@@ -11,18 +11,18 @@ import com.expedia.bookings.data.flights.ValidFormOfPayment;
 import com.expedia.bookings.utils.CollectionUtils;
 
 public class RailCreateTripResponse extends BaseApiResponse {
-	public Money totalPrice;
+	public final Money totalPrice;
 	public String offerToken;
-	public RailDomainProduct railDomainProduct;
-	public List<RailValidFormOfPayment> validFormsOfPayment;
-	public String tripId;
-	public RailResponseStatus responseStatus;
+	public final RailDomainProduct railDomainProduct;
+	public final List<RailValidFormOfPayment> validFormsOfPayment;
+	public final String tripId;
+	public final RailResponseStatus responseStatus;
 
 	// Set through code
 	@Nullable
-	public Money totalPriceIncludingFees;
-	public Money selectedCardFees;
-	public Money ticketDeliveryFees;
+	public final Money totalPriceIncludingFees;
+	public final Money selectedCardFees;
+	public final Money ticketDeliveryFees;
 
 	public static class RailValidFormOfPayment extends ValidFormOfPayment {
 		public Map<RailTicketDeliveryOptionToken, Fee> fees;

@@ -30,7 +30,7 @@ public class SuggestionV4 {
 	}
 
 	public IconType iconType = IconType.SEARCH_TYPE_ICON;
-	public boolean isSearchThisArea;
+	public final boolean isSearchThisArea;
 
 	public static class RegionNames {
 		public String fullName;

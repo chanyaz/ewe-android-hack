@@ -9,7 +9,7 @@ public class PassengerSegmentFare {
 	public String fareDescription;
 	public String carrierFareClassCategoryName;
 	public String carrierFareClassDisplayName;
-	public Integer travelSegmentIndex;
+	public final Integer travelSegmentIndex;
 	public List<Amenity> amenityList;
 
 	public static class Amenity {

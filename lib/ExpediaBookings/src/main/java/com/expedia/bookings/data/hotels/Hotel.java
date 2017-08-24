@@ -18,7 +18,7 @@ public class Hotel {
 	public String countryCode;
 	public String postalCode;
 	public String airportCode;
-	public String supplierType;
+	public final String supplierType;
 	public float hotelStarRating;
 	public String hotelStarRatingCssClassName;
 	public float hotelGuestRating;
@@ -30,13 +30,13 @@ public class Hotel {
 	public double latitude;
 	public double longitude;
 	public double proximityDistanceInMiles;
-	public double proximityDistanceInKiloMeters;
+	public final double proximityDistanceInKiloMeters;
 	public String largeThumbnailUrl;
 	public String thumbnailUrl;
 	public String discountMessage;
 	public boolean isDiscountRestrictedToCurrentSourceType;
 	public boolean isSameDayDRR;
-	public boolean isHotelAvailable;
+	public final boolean isHotelAvailable;
 	public boolean isSponsoredListing;
 	public transient boolean hasShownImpression;
 	public String clickTrackingUrl;
@@ -45,7 +45,7 @@ public class Hotel {
 	public List<HotelAmenity> amenities;
 	public String distanceUnit;
 	public boolean isVipAccess;
-	public boolean isPaymentChoiceAvailable;
+	public final boolean isPaymentChoiceAvailable;
 	public boolean isShowEtpChoice;
 	public boolean isMemberDeal;
 

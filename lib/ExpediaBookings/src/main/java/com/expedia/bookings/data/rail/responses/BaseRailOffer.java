@@ -15,10 +15,10 @@ import com.expedia.bookings.utils.CollectionUtils;
 public abstract class BaseRailOffer {
 	public Money totalPrice;
 	public String railOfferToken;
-	public List<PriceBreakdown> priceBreakdown = Collections.emptyList();
-	public List<RailPassenger> passengerList = Collections.emptyList();
+	public final List<PriceBreakdown> priceBreakdown = Collections.emptyList();
+	public final List<RailPassenger> passengerList = Collections.emptyList();
 
-	private Map<PriceCategoryCode, PriceBreakdown> mapping = new HashMap<>();
+	private final Map<PriceCategoryCode, PriceBreakdown> mapping = new HashMap<>();
 
 	public abstract List<? extends RailProduct> getRailProductList();
 

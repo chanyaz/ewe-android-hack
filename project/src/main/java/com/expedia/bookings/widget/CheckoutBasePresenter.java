@@ -369,7 +369,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		scrollAnimation.start();
 	}
 
-	com.expedia.bookings.widget.ScrollView.OnScrollListener checkoutScrollListener = new ScrollView.OnScrollListener() {
+	final com.expedia.bookings.widget.ScrollView.OnScrollListener checkoutScrollListener = new ScrollView.OnScrollListener() {
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			if (listenToScroll) {
@@ -485,7 +485,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public static class CheckoutFailed {
 	}
 
-	private DefaultTransition defaultTransition = new DefaultTransition(CheckoutDefault.class.getName()) {
+	private final DefaultTransition defaultTransition = new DefaultTransition(CheckoutDefault.class.getName()) {
 		@Override
 		public void endTransition(boolean forward) {
 			showProgress(true);
@@ -504,7 +504,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	};
 
-	private Transition defaultToReady = new Transition(CheckoutDefault.class, Ready.class) {
+	private final Transition defaultToReady = new Transition(CheckoutDefault.class, Ready.class) {
 		@Override
 		public void startTransition(boolean forward) {
 			super.startTransition(forward);
@@ -571,7 +571,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	}
 
-	private Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {
+	private final Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -579,7 +579,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	};
 
-	private Presenter.Transition defaultToExpanded = new Presenter.Transition(Ready.class,
+	private final Presenter.Transition defaultToExpanded = new Presenter.Transition(Ready.class,
 		WidgetExpanded.class) {
 
 		@Override
@@ -634,7 +634,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	};
 
-	private Presenter.Transition defaultToPayment = new Presenter.Transition(Ready.class,
+	private final Presenter.Transition defaultToPayment = new Presenter.Transition(Ready.class,
 		PaymentWidget.class) {
 
 		@Override
@@ -684,7 +684,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	};
 
-	private Presenter.Transition defaultToPaymentV2 = new Presenter.Transition(Ready.class,
+	private final Presenter.Transition defaultToPaymentV2 = new Presenter.Transition(Ready.class,
 		PaymentWidgetV2.class) {
 
 		@Override
@@ -859,7 +859,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		return mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete();
 	}
 
-	public Observer<Boolean> expandPaymentObserver = new Observer<Boolean>() {
+	public final Observer<Boolean> expandPaymentObserver = new Observer<Boolean>() {
 
 		@Override
 		public void onCompleted() {

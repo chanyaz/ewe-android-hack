@@ -7,7 +7,7 @@ import android.view.View;
 
 public class GridLinesItemDecoration extends RecyclerView.ItemDecoration {
 
-	Paint linePaint;
+	final Paint linePaint;
 
 	public GridLinesItemDecoration(int color, float strokeWidth) {
 		linePaint = new Paint();

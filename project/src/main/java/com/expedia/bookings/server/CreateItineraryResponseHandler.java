@@ -22,7 +22,7 @@ import java.util.List;
 
 public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateItineraryResponse> {
 
-	private Context mContext;
+	private final Context mContext;
 
 	public CreateItineraryResponseHandler(Context context) {
 		mContext = context;

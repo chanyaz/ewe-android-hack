@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 public class LXSearchResponse {
-	public String regionId;
+	public final String regionId;
 	public String startDate;
 	public String endDate;
 	public List<LXActivity> activities;
-	public Map<String, LXCategoryMetadata> filterCategories;
+	public final Map<String, LXCategoryMetadata> filterCategories;
 	public boolean searchFailure;
 	public String currencyCode;
-	public boolean isFromCachedResponse;
+	public final boolean isFromCachedResponse;
 	public String destination;
 
 	// Utility Members - Required for Filtering
 	public transient List<LXActivity> unFilteredActivities = new ArrayList<>();
-	public transient List<LXTheme> lxThemes = new ArrayList<>();
+	public final transient List<LXTheme> lxThemes = new ArrayList<>();
 
 	public LXActivity getActivityFromID(String activityId) {
 		for (LXActivity lxActivity : activities) {

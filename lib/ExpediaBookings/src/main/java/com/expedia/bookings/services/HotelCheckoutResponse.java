@@ -11,39 +11,39 @@ import com.expedia.bookings.utils.Strings;
 
 public class HotelCheckoutResponse extends BaseApiResponse {
 
-	public CheckoutResponse checkoutResponse;
-	public String orderId;
-	public String currencyCode;
-	public String totalCharges;
-	public List<PointsDetails> pointsDetails;
-	public UserPaymentPreferences userPreferencePoints;
+	public final CheckoutResponse checkoutResponse;
+	public final String orderId;
+	public final String currencyCode;
+	public final String totalCharges;
+	public final List<PointsDetails> pointsDetails;
+	public final UserPaymentPreferences userPreferencePoints;
 
 	public static class BookingResponse {
 
-		public String itineraryNumber;
+		public final String itineraryNumber;
 		public String email;
 		public String tripId;
-		public String supplierType;
-		public String travelRecordLocator;
+		public final String supplierType;
+		public final String travelRecordLocator;
 	}
 
 	public static class CheckoutResponse {
 
-		public BookingResponse bookingResponse;
-		public ProductResponse productResponse;
-		public PriceChangeResponse jsonPriceChangeResponse;
+		public final BookingResponse bookingResponse;
+		public final ProductResponse productResponse;
+		public final PriceChangeResponse jsonPriceChangeResponse;
 	}
 
 	public static class ProductResponse {
-		public String checkInDate;
-		public String checkOutDate;
-		public String hotelId;
-		public String hotelName;
-		public String localizedHotelName;
+		public final String checkInDate;
+		public final String checkOutDate;
+		public final String hotelId;
+		public final String hotelName;
+		public final String localizedHotelName;
 		public String hotelAddress;
-		public String hotelCity;
+		public final String hotelCity;
 		public String hotelStateProvince;
-		public HotelOffersResponse.HotelRoomResponse hotelRoomResponse;
+		public final HotelOffersResponse.HotelRoomResponse hotelRoomResponse;
 		public String hotelCountry;
 		public String regionId;
 		public String bigImageUrl;
@@ -57,7 +57,7 @@ public class HotelCheckoutResponse extends BaseApiResponse {
 	}
 
 	public static class PriceChangeResponse {
-		public HotelCreateTripResponse.HotelProductResponse oldProduct;
-		public HotelCreateTripResponse.HotelProductResponse newProduct;
+		public final HotelCreateTripResponse.HotelProductResponse oldProduct;
+		public final HotelCreateTripResponse.HotelProductResponse newProduct;
 	}
 }

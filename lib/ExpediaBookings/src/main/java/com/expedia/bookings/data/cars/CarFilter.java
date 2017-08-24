@@ -8,8 +8,8 @@ import java.util.Set;
 
 public class CarFilter {
 	// Total set of supported filters
-	public Set<CarCategory> categoriesSupported = EnumSet.noneOf(CarCategory.class);
-	public Set<String> suppliersSupported = new LinkedHashSet<>();
+	public final Set<CarCategory> categoriesSupported = EnumSet.noneOf(CarCategory.class);
+	public final Set<String> suppliersSupported = new LinkedHashSet<>();
 
 	// Current set of filters the user has chosen
 	public Set<CarCategory> categoriesIncluded = EnumSet.noneOf(CarCategory.class);

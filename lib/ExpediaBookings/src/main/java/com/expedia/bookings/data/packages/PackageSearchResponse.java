@@ -12,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class PackageSearchResponse extends PackageBaseApiResponse implements BundleSearchResponse {
 	@SerializedName("packagePageInput")
-	public PackageInfo packageInfo;
-	public PackageResult packageResult;
-	public UniversalDataObject universalDataObject;
+	public final PackageInfo packageInfo;
+	public final PackageResult packageResult;
+	public final UniversalDataObject universalDataObject;
 
 	@Override
 	public String getHotelCheckInDate() {
@@ -63,49 +63,49 @@ public class PackageSearchResponse extends PackageBaseApiResponse implements Bun
 	}
 
 	public static class PackageInfo {
-		public HotelCheckinDate hotelCheckinDate;
-		public HotelCheckoutDate hotelCheckoutDate;
+		public final HotelCheckinDate hotelCheckinDate;
+		public final HotelCheckoutDate hotelCheckoutDate;
 	}
 
 	public static class HotelCheckinDate {
-		public String isoDate;
+		public final String isoDate;
 	}
 
 	public static class HotelCheckoutDate {
-		public String isoDate;
+		public final String isoDate;
 	}
 
 	public static class PackageResult {
 		@SerializedName("hotels")
-		public HotelPackage hotelsPackage;
+		public final HotelPackage hotelsPackage;
 		@SerializedName("flights")
-		public FlightPackage flightsPackage;
+		public final FlightPackage flightsPackage;
 		public PackageOfferModel currentSelectedOffer;
-		public List<PackageOfferModel> packageOfferModels;
+		public final List<PackageOfferModel> packageOfferModels;
 	}
 
 	public static class HotelPackage {
-		public List<Hotel> hotels = new ArrayList<>();
+		public final List<Hotel> hotels = new ArrayList<>();
 	}
 
 	public static class FlightPackage {
-		public List<FlightLeg> flights = new ArrayList<>();
+		public final List<FlightLeg> flights = new ArrayList<>();
 	}
 
 	public static class UniversalDataObject {
-		public Entity entity;
+		public final Entity entity;
 	}
 
 	public static class Entity {
-		public PackageFHSearch packageFHSearch;
+		public final PackageFHSearch packageFHSearch;
 	}
 
 	public static class PackageFHSearch {
-		public PackageFHSearchResults packageFHSearchResults;
+		public final PackageFHSearchResults packageFHSearchResults;
 	}
 
 	public static class PackageFHSearchResults {
-		public int resultsCount;
-		public int sponsoredListingsSize;
+		public final int resultsCount;
+		public final int sponsoredListingsSize;
 	}
 }

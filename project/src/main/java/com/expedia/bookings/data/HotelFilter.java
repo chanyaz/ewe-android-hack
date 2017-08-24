@@ -53,7 +53,7 @@ public class HotelFilter implements JSONable {
 		RATING(R.string.sort_description_rating),
 		DISTANCE(R.string.sort_description_distance);
 
-		private int mResId;
+		private final int mResId;
 
 		Sort(int resId) {
 			mResId = resId;
@@ -64,7 +64,7 @@ public class HotelFilter implements JSONable {
 		}
 	}
 
-	private Set<OnFilterChangedListener> mListeners;
+	private final Set<OnFilterChangedListener> mListeners;
 
 	// This listener is special because it actually updates the data.  This is to solve
 	// a race condition where one listener updates the data whereas the other one consumes it.

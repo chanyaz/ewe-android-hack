@@ -51,11 +51,11 @@ public enum PassengerCategory {
 			R.string.traveler_infant_error);
 
 
-	private Pair<Integer, Integer> ageRange;
-	private int controlErrorString;
-	private int bucketedCategoryString;
-	private int bucketedAgeString;
-	private int bucketedErrorString;
+	private final Pair<Integer, Integer> ageRange;
+	private final int controlErrorString;
+	private final int bucketedCategoryString;
+	private final int bucketedAgeString;
+	private final int bucketedErrorString;
 
 	PassengerCategory(Integer minimumAge, Integer maximumAge, int ageString, int categoryString, int controlErrorString, int bucketedErrorString) {
 		this.ageRange = new Pair<>(minimumAge, maximumAge);

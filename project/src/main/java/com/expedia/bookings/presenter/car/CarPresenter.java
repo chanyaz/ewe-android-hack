@@ -65,7 +65,7 @@ public class CarPresenter extends Presenter {
 		carResultsPresenter.locationDescriptionSubject.subscribe(carSearchPresenter.getSearchViewModel().getFormattedOriginObservable());
 	}
 
-	private Observer<CarSearchParam> carSearchParamsObserver = new Observer<CarSearchParam>() {
+	private final Observer<CarSearchParam> carSearchParamsObserver = new Observer<CarSearchParam>() {
 		@Override
 		public void onCompleted() {
 		}
@@ -80,10 +80,10 @@ public class CarPresenter extends Presenter {
 		}
 	};
 
-	TransitionElement searchBackgroundColor = new TransitionElement(ContextCompat.getColor(getContext(), R.color.search_anim_background), Color.TRANSPARENT);
-	ArgbEvaluator searchArgbEvaluator = new ArgbEvaluator();
+	final TransitionElement searchBackgroundColor = new TransitionElement(ContextCompat.getColor(getContext(), R.color.search_anim_background), Color.TRANSPARENT);
+	final ArgbEvaluator searchArgbEvaluator = new ArgbEvaluator();
 
-	private DefaultTransition defaultSearchTransition = new Presenter.DefaultTransition(CarSearchPresenter.class.getName()) {
+	private final DefaultTransition defaultSearchTransition = new Presenter.DefaultTransition(CarSearchPresenter.class.getName()) {
 		@Override
 		public void endTransition(boolean forward) {
 			carSearchPresenter.setVisibility(VISIBLE);
@@ -95,7 +95,7 @@ public class CarPresenter extends Presenter {
 		carSearchPresenter.showSuggestionState(true);
 	}
 
-	private Transition checkoutToConfirmation = new LeftToRightTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class) {
+	private final Transition checkoutToConfirmation = new LeftToRightTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -108,9 +108,9 @@ public class CarPresenter extends Presenter {
 		}
 	};
 
-	private Transition resultsToCheckout = new LeftToRightTransition(this, CarResultsPresenter.class, CarCheckoutPresenter.class);
+	private final Transition resultsToCheckout = new LeftToRightTransition(this, CarResultsPresenter.class, CarCheckoutPresenter.class);
 
-	private Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class, CarSearchPresenter.class) {
+	private final Transition checkoutToSearch = new VisibilityTransition(this, CarCheckoutPresenter.class, CarSearchPresenter.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -118,7 +118,7 @@ public class CarPresenter extends Presenter {
 		}
 	};
 
-	private Transition showParamsOverlay = new Transition(CarResultsPresenter.class,
+	private final Transition showParamsOverlay = new Transition(CarResultsPresenter.class,
 		ParamsOverlayState.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
@@ -150,7 +150,7 @@ public class CarPresenter extends Presenter {
 		}
 	};
 
-	private Transition searchToResults = new Transition(CarSearchPresenter.class,
+	private final Transition searchToResults = new Transition(CarSearchPresenter.class,
 		CarResultsPresenter.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {

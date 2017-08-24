@@ -213,7 +213,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	}
 
 	public static class ViewHolder {
-		public TextView text;
+		public final TextView text;
 
 		public ViewHolder(View view) {
 			text = Ui.findView(view, android.R.id.text1);
@@ -234,9 +234,9 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	}
 
 	public static class CountryNameData {
-		String mName;
-		String mTwoLetter;
-		String mThreeLetter;
+		final String mName;
+		final String mTwoLetter;
+		final String mThreeLetter;
 
 		public CountryNameData(String name, String twoLetter, String threeLetter) {
 			mName = name;
@@ -261,7 +261,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 
 	private static class CountryNameDataComparator implements Comparator<CountryNameData> {
 
-		private CountryDisplayType mDisplayType;
+		private final CountryDisplayType mDisplayType;
 
 		public CountryNameDataComparator(CountryDisplayType displayType) {
 			mDisplayType = displayType;

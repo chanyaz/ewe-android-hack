@@ -50,8 +50,8 @@ import java.util.ArrayList;
 public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable,
 	InvalidCharacterListener {
 
-	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
-	SectionFieldList<BillingInfo> mFields = new SectionFieldList<>();
+	final ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
+	final SectionFieldList<BillingInfo> mFields = new SectionFieldList<>();
 
 	private final static DateTimeFormatter MONTHYEAR_FORMATTER = DateTimeFormat.forPattern("MM/yy");
 
@@ -222,7 +222,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////INVALID CHARACTER STUFF
 	//////////////////////////////////////
 
-	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<>();
+	final ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<>();
 
 	@Override
 	public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
@@ -243,7 +243,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
-	SectionField<TextView, BillingInfo> mDisplayEmailDisclaimer = new SectionField<TextView, BillingInfo>(
+	final SectionField<TextView, BillingInfo> mDisplayEmailDisclaimer = new SectionField<TextView, BillingInfo>(
 		R.id.email_disclaimer) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
@@ -251,7 +251,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	public SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconGrey = new SectionField<ImageView, BillingInfo>(
+	public final SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconGrey = new SectionField<ImageView, BillingInfo>(
 		R.id.display_credit_card_brand_icon_grey) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
@@ -287,7 +287,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconWhite = new SectionField<ImageView, BillingInfo>(
+	final SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconWhite = new SectionField<ImageView, BillingInfo>(
 		R.id.display_credit_card_brand_icon_white) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
@@ -306,7 +306,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionField<SectionLocation, BillingInfo> mDisplayAddress = new SectionField<SectionLocation, BillingInfo>(
+	final SectionField<SectionLocation, BillingInfo> mDisplayAddress = new SectionField<SectionLocation, BillingInfo>(
 		R.id.section_location_address) {
 		@Override
 		public void onHasFieldAndData(SectionLocation field, BillingInfo data) {
@@ -316,7 +316,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionField<TextView, BillingInfo> mDisplayCreditCardSecurityCode = new SectionField<TextView, BillingInfo>(
+	final SectionField<TextView, BillingInfo> mDisplayCreditCardSecurityCode = new SectionField<TextView, BillingInfo>(
 		R.id.edit_creditcard_cvv) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo billingInfo) {
@@ -327,32 +327,32 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
-	ValidationIndicatorExclamation<BillingInfo> mValidCCNum = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidCCNum = new ValidationIndicatorExclamation<>(
 		R.id.edit_creditcard_number);
-	ValidationIndicatorExclamation<BillingInfo> mValidMaskedCCNum = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidMaskedCCNum = new ValidationIndicatorExclamation<>(
 		R.id.edit_masked_creditcard_number);
-	ValidationIndicatorExclamation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclamation<>(
 		R.id.edit_name_on_card);
-	ValidationIndicatorExclamation<BillingInfo> mValidFirstName = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidFirstName = new ValidationIndicatorExclamation<>(
 		R.id.edit_first_name);
-	ValidationIndicatorExclamation<BillingInfo> mValidLastName = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidLastName = new ValidationIndicatorExclamation<>(
 		R.id.edit_last_name);
-	ValidationIndicatorExclamation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorExclamation<>(
 		R.id.edit_phone_number);
-	ValidationIndicatorExclamation<BillingInfo> mValidEmail = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidEmail = new ValidationIndicatorExclamation<>(
 		R.id.edit_email_address);
-	ValidationIndicatorExclamation<BillingInfo> mValidPostalCode = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidPostalCode = new ValidationIndicatorExclamation<>(
 		R.id.edit_address_postal_code);
-	ValidationIndicatorExclamation<BillingInfo> mValidExpiration = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidExpiration = new ValidationIndicatorExclamation<>(
 		R.id.edit_creditcard_exp_text_btn);
-	ValidationIndicatorExclamation<BillingInfo> mValidSecurityCode = new ValidationIndicatorExclamation<>(
+	final ValidationIndicatorExclamation<BillingInfo> mValidSecurityCode = new ValidationIndicatorExclamation<>(
 		R.id.edit_creditcard_cvv);
 
 	//////////////////////////////////////
 	////// EDIT FIELDS
 	//////////////////////////////////////
 
-	public SectionFieldEditable<EditText, BillingInfo> mEditCreditCardNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+	public final SectionFieldEditable<EditText, BillingInfo> mEditCreditCardNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_creditcard_number) {
 
 		private ColorStateList mOriginalTextColors = null;
@@ -454,7 +454,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionFieldEditable<EditText, BillingInfo> mEditFirstName = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+	final SectionFieldEditable<EditText, BillingInfo> mEditFirstName = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_first_name) {
 
 		@Override
@@ -499,7 +499,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionFieldEditable<EditText, BillingInfo> mEditLastName = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+	final SectionFieldEditable<EditText, BillingInfo> mEditLastName = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_last_name) {
 
 		@Override
@@ -544,10 +544,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionFieldEditable<EditText, BillingInfo> mEditPostalCode = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+	final SectionFieldEditable<EditText, BillingInfo> mEditPostalCode = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_address_postal_code) {
 
-		Validator<EditText> mValidator = new Validator<EditText>() {
+		final Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
 				if (isPostalCodeRequired() &&  !LobExtensionsKt.hasBillingInfo(mLineOfBusiness)) {
@@ -616,7 +616,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	}
 
-	SectionFieldEditable<EditText, BillingInfo> mEditNameOnCard = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+	final SectionFieldEditable<EditText, BillingInfo> mEditNameOnCard = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_name_on_card) {
 
 		@Override
@@ -657,7 +657,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionFieldEditable<EditText, BillingInfo> mEditEmailAddress = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+	final SectionFieldEditable<EditText, BillingInfo> mEditEmailAddress = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_email_address) {
 
 		@Override
@@ -702,7 +702,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionFieldEditable<EditText, BillingInfo> mEditPhoneNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+	final SectionFieldEditable<EditText, BillingInfo> mEditPhoneNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_phone_number) {
 
 		@Override
@@ -741,10 +741,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardSecurityCode = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+	final SectionFieldEditable<EditText, BillingInfo> mEditCreditCardSecurityCode = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_creditcard_cvv) {
 
-		Validator<EditText> mValidator = new Validator<EditText>() {
+		final Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
 				if (mLineOfBusiness == LineOfBusiness.PACKAGES || mLineOfBusiness == LineOfBusiness.FLIGHTS_V2
@@ -938,7 +938,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	}
 
-	SectionFieldEditable<TextView, BillingInfo> mEditCardExpirationDateTextBtn = new SectionFieldEditable<TextView, BillingInfo>(
+	final SectionFieldEditable<TextView, BillingInfo> mEditCardExpirationDateTextBtn = new SectionFieldEditable<TextView, BillingInfo>(
 		R.id.edit_creditcard_exp_text_btn) {
 		private final static String TAG_EXPR_DATE_PICKER = "TAG_EXPR_DATE_PICKER";
 
@@ -1027,7 +1027,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			field.setText(btnTxt);
 		}
 
-		Validator<TextView> mValidator = new Validator<TextView>() {
+		final Validator<TextView> mValidator = new Validator<TextView>() {
 
 			@Override
 			public int validate(TextView obj) {

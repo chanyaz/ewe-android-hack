@@ -10,7 +10,7 @@ import okhttp3.mockwebserver.MockWebServer;
 
 public final class ExpediaMockWebServer {
 
-	private MockWebServer mockWebServer;
+	private final MockWebServer mockWebServer;
 	private ExpediaDispatcher dispatcher = null;
 
 

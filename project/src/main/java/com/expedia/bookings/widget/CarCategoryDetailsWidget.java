@@ -42,7 +42,7 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 	private static final int LIST_DIVIDER_HEIGHT = 0;
 	private float headerHeight;
 	private float offset;
-	private PublishSubject<SearchCarOffer> searchCarOfferPublishSubject = PublishSubject.create();
+	private final PublishSubject<SearchCarOffer> searchCarOfferPublishSubject = PublishSubject.create();
 
 	@Override
 	public void onFinishInflate() {

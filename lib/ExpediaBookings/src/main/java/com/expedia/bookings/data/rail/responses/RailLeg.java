@@ -9,10 +9,10 @@ import org.jetbrains.annotations.Nullable;
 import com.expedia.bookings.data.Money;
 
 public class RailLeg {
-	public Integer legBoundOrder;
+	public final Integer legBoundOrder;
 	public RailStation departureStation;
 	public RailStation arrivalStation;
-	public List<RailLegOption> legOptionList;
+	public final List<RailLegOption> legOptionList;
 	public Money cheapestPrice;
 
 	@Nullable

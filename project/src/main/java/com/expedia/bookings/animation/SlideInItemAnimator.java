@@ -12,7 +12,7 @@ import com.expedia.bookings.launch.widget.LaunchDataItem;
 
 
 public class SlideInItemAnimator extends DefaultItemAnimator {
-	private RecyclerView recyclerView;
+	private final RecyclerView recyclerView;
 
 	public SlideInItemAnimator(RecyclerView recyclerView) {
 		this.recyclerView = recyclerView;

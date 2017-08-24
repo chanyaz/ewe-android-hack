@@ -8,7 +8,7 @@ public class LaunchLocation {
 	public String subtitle;
 	public String description;
 	public String id;
-	public String imageCode;
+	public final String imageCode;
 	public SuggestionV2 location;
 
 	public String getImageUrl() {

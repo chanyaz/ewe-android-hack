@@ -14,8 +14,8 @@ import android.graphics.drawable.Drawable;
 import com.larvalabs.svgandroid.SVG;
 
 public class SvgDrawable extends Drawable {
-	private SVG mSvg;
-	private Matrix mMatrix;
+	private final SVG mSvg;
+	private final Matrix mMatrix;
 
 	public SvgDrawable(SVG svg, Matrix matrix) {
 		mSvg = svg;
@@ -27,11 +27,11 @@ public class SvgDrawable extends Drawable {
 		final Canvas finalCanvas = canvas;
 		final Rect bounds = getBounds();
 		Canvas interceptingCanvas = new Canvas() {
-			private RectF pathBounds = new RectF();
+			private final RectF pathBounds = new RectF();
 			private Path scaledPath = new Path();
-			private Path clippedPath = new Path();
-			private Region region = new Region();
-			private Region clipRegion = new Region(bounds);
+			private final Path clippedPath = new Path();
+			private final Region region = new Region();
+			private final Region clipRegion = new Region(bounds);
 
 			final private Matrix identity = new Matrix();
 

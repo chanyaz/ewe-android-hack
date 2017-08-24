@@ -6,7 +6,7 @@ import com.expedia.bookings.utils.Images;
 
 public class LastSearchLaunchCollection extends LaunchCollection {
 
-	public String launchImageCode;
+	public final String launchImageCode;
 
 	@Override
 	public String getImageUrl() {

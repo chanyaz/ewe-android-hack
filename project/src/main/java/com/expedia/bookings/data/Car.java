@@ -34,8 +34,8 @@ public class Car implements JSONable {
 		LUXURY_ELITE(R.string.car_category_luxury_elite, R.string.share_template_short_car_type_luxury_elite),
 		OVERSIZE(R.string.car_category_oversize, R.string.share_template_short_car_type_oversize);
 
-		private int mResId;
-		private int mShareId;
+		private final int mResId;
+		private final int mShareId;
 
 		Category(int resId, int shareId) {
 			mResId = resId;

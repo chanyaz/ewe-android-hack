@@ -65,7 +65,7 @@ public class CustomEditText extends EditText {
 	 * dismissing the error when the user starts
 	 * typing something
 	 */
-	private TextWatcher textWatcher = new TextWatcher() {
+	private final TextWatcher textWatcher = new TextWatcher() {
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {

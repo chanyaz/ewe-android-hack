@@ -11,7 +11,7 @@ public class ActivityKillReceiver extends BroadcastReceiver {
 
 	public static final String BROADCAST_KILL_ACTIVITY_INTENT = "com.expedia.bookings.activity.KILL";
 
-	private Activity mActivity;
+	private final Activity mActivity;
 
 	public ActivityKillReceiver(Activity activity) {
 		mActivity = activity;

@@ -17,7 +17,7 @@ import okhttp3.Response;
 
 public class AutoJsonResponseHandler<T> implements ResponseHandler<GsonResponse<T>> {
 
-	private Class<T> mType;
+	private final Class<T> mType;
 
 	public AutoJsonResponseHandler(Class<T> type) {
 		mType = type;

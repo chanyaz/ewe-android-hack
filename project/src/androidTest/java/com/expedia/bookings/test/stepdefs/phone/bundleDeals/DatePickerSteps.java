@@ -21,8 +21,8 @@ import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getFormattedDate
 import static org.hamcrest.Matchers.allOf;
 
 public class DatePickerSteps {
-	Format dateFormatterEEEMMMd = new SimpleDateFormat("EEE, MMM d", Locale.US);
-	Format dateFormatMMMd = new SimpleDateFormat("MMM d", Locale.US);
+	final Format dateFormatterEEEMMMd = new SimpleDateFormat("EEE, MMM d", Locale.US);
+	final Format dateFormatMMMd = new SimpleDateFormat("MMM d", Locale.US);
 
 	@Then("^Text \"(.*?)\"  should be displayed below calender title$")
 	public void validateCalenderSubtitle(String text) throws Throwable {

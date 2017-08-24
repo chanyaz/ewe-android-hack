@@ -4,5 +4,5 @@ import java.util.List;
 
 public class LXBookableItem {
 
-	public List<Ticket> tickets;
+	public final List<Ticket> tickets;
 }

@@ -32,10 +32,10 @@ public class UserAccountRefresher {
 
 	private IUserAccountRefreshListener userAccountRefreshListener;
 
-	private String keyRefreshUser;
+	private final String keyRefreshUser;
 	//When we last refreshed user data.
 	private long mLastRefreshedUserTimeMillis = 0L;
-	private Context context;
+	private final Context context;
 
 	@Inject
 	UserLoginStateChangedModel userLoginStateChangedModel;

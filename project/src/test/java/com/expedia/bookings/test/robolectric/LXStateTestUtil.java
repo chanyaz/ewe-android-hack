@@ -19,7 +19,7 @@ import com.google.gson.GsonBuilder;
 
 public class LXStateTestUtil {
 
-	private static Gson gson = new GsonBuilder().create();
+	private static final Gson gson = new GsonBuilder().create();
 
 	public static void selectActivityState() {
 		LXActivity lxActivity = gson.fromJson(

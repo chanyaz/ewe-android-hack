@@ -11,7 +11,7 @@ import com.mobiata.android.Log;
 
 public class BookingResponseHandler extends JsonResponseHandler<HotelBookingResponse> {
 
-	private Context mContext;
+	private final Context mContext;
 
 	public BookingResponseHandler(Context context) {
 		mContext = context;

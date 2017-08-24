@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.Strings;
 
 public class RailTripOffer extends BaseRailOffer {
 	public List<RailTripProduct> railProductList;
-	public List<RailTicketDeliveryOption> ticketDeliveryOptionList;
+	public final List<RailTicketDeliveryOption> ticketDeliveryOptionList;
 
 	@Override
 	public List<? extends RailProduct> getRailProductList() {

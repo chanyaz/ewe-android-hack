@@ -112,8 +112,8 @@ public class CarResultsPresenter extends Presenter {
 	private CarSearch unfilteredSearch = new CarSearch();
 	private int searchTop;
 	private CarSearch filteredSearch = new CarSearch();
-	PublishSubject filterDonePublishSubject = PublishSubject.create();
-	PublishSubject locationDescriptionSubject = PublishSubject.create();
+	final PublishSubject filterDonePublishSubject = PublishSubject.create();
+	final PublishSubject locationDescriptionSubject = PublishSubject.create();
 
 	@Override
 	protected void onFinishInflate() {
@@ -182,7 +182,7 @@ public class CarResultsPresenter extends Presenter {
 		}
 	}
 
-	private Observer<CarSearch> searchWithProductKeyObserver = new Observer<CarSearch>() {
+	private final Observer<CarSearch> searchWithProductKeyObserver = new Observer<CarSearch>() {
 		@Override
 		public void onCompleted() {
 			cleanup();
@@ -202,7 +202,7 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
-	private Observer<CarSearch> searchObserver = new Observer<CarSearch>() {
+	private final Observer<CarSearch> searchObserver = new Observer<CarSearch>() {
 		@Override
 		public void onCompleted() {
 			cleanup();

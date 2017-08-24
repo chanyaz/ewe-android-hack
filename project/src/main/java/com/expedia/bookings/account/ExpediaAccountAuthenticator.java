@@ -37,8 +37,8 @@ import com.expedia.bookings.utils.Ui;
  */
 public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator implements OnAccountsUpdateListener {
 
-	private Context mContext;
-	private UserStateManager userStateManager;
+	private final Context mContext;
+	private final UserStateManager userStateManager;
 
 	public ExpediaAccountAuthenticator(Context context) {
 		super(context);

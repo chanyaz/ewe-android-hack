@@ -14,7 +14,7 @@ import com.mobiata.android.json.JSONUtils;
 
 public class FlightSearchResponse extends Response {
 
-	private List<FlightTrip> mTrips;
+	private final List<FlightTrip> mTrips;
 
 	private List<Location> mSearchCities;
 

@@ -74,7 +74,7 @@ public class UserToTripAssocLoginExtender extends LoginExtender {
 		}
 	}
 
-	private Download<AssociateUserToTripResponse> mAssociateUserAndTripDownload = new Download<AssociateUserToTripResponse>() {
+	private final Download<AssociateUserToTripResponse> mAssociateUserAndTripDownload = new Download<AssociateUserToTripResponse>() {
 		@Override
 		public AssociateUserToTripResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);

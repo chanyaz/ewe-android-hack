@@ -464,10 +464,10 @@ public class FlightTrip implements JSONable {
 	}
 
 	public static class FlightTripComparator implements Comparator<FlightTrip> {
-		private int mLegPosition;
+		private final int mLegPosition;
 
 		// A list of fields to compare; automatically generated based on the focus field
-		private CompareField[] mToCompare;
+		private final CompareField[] mToCompare;
 
 		public FlightTripComparator(int legPosition, CompareField focus) {
 			mLegPosition = legPosition;

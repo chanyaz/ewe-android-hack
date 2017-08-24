@@ -47,7 +47,7 @@ public class PushNotificationUtils {
 
 	//We can cache (hashes of) the payloads we have sent to our api, and use them to prevent ourselves from sending
 	//the same payload multiple times. Usually our flights dont change so this will save the api some work.
-	private static HashMap<String, String> sPayloadMap = new HashMap<String, String>();
+	private static final HashMap<String, String> sPayloadMap = new HashMap<String, String>();
 
 	//The server will splode if we make simultanious calls using the same regId,
 	//so we create objects to synchronize with (usually this will have one entry)

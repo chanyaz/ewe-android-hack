@@ -171,7 +171,7 @@ public class NonHierarchicalDistanceBasedAlgorithm implements Algorithm<MapItem>
 		public final MapItem mClusterItem;
 		private final Point mPoint;
 		private final LatLng mPosition;
-		private Set<MapItem> singletonSet;
+		private final Set<MapItem> singletonSet;
 
 		private QuadItem(MapItem item) {
 			mClusterItem = item;

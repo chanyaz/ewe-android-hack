@@ -19,13 +19,13 @@ import com.mobiata.android.util.TimingLogger;
  */
 public class StateListenerCollection<T> {
 	//These are the persistant lists of our class
-	private CopyOnWriteArrayList<IStateListener<T>> mStateChangeListeners = new CopyOnWriteArrayList<IStateListener<T>>();
-	private CopyOnWriteArraySet<IStateListener<T>> mInactiveStateChangeListeners = new CopyOnWriteArraySet<IStateListener<T>>();
+	private final CopyOnWriteArrayList<IStateListener<T>> mStateChangeListeners = new CopyOnWriteArrayList<IStateListener<T>>();
+	private final CopyOnWriteArraySet<IStateListener<T>> mInactiveStateChangeListeners = new CopyOnWriteArraySet<IStateListener<T>>();
 
 	//These are temporary stores that help us add and remove things while iterating.
 	private boolean mIsIterating = false;
-	private LinkedHashMap<IStateListener<T>, ListenerAction> mPendingActions = new LinkedHashMap<IStateListener<T>, ListenerAction>();
-	private boolean mProfilingEnabled = false;
+	private final LinkedHashMap<IStateListener<T>, ListenerAction> mPendingActions = new LinkedHashMap<IStateListener<T>, ListenerAction>();
+	private final boolean mProfilingEnabled = false;
 
 	private enum ListenerAction {
 		ADD,

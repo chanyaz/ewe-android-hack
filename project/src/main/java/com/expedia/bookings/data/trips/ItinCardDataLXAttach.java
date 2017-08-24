@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.LXDataUtils;
 
 public class ItinCardDataLXAttach extends ItinCardData {
 
-	private TripHotel tripHotel;
+	private final TripHotel tripHotel;
 
 	public ItinCardDataLXAttach(TripHotel tripHotel) {
 		super(tripHotel);

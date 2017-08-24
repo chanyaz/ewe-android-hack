@@ -84,12 +84,12 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
 	/**
 	 * Icons for each bucket.
 	 */
-	private SparseArray<BitmapDescriptor> mIcons = new SparseArray<BitmapDescriptor>();
+	private final SparseArray<BitmapDescriptor> mIcons = new SparseArray<BitmapDescriptor>();
 
 	/**
 	 * Markers for single ClusterItems.
 	 */
-	private MarkerCache<T> mMarkerCache = new MarkerCache<T>();
+	private final MarkerCache<T> mMarkerCache = new MarkerCache<T>();
 
 	/**
 	 * If cluster size is less than this size, display individual markers.
@@ -104,8 +104,8 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
 	/**
 	 * Lookup between markers and the associated cluster.
 	 */
-	private Map<Marker, Cluster<T>> mMarkerToCluster = new HashMap<Marker, Cluster<T>>();
-	private Map<Cluster<T>, Marker> mClusterToMarker = new HashMap<Cluster<T>, Marker>();
+	private final Map<Marker, Cluster<T>> mMarkerToCluster = new HashMap<Marker, Cluster<T>>();
+	private final Map<Cluster<T>, Marker> mClusterToMarker = new HashMap<Cluster<T>, Marker>();
 
 	/**
 	 * The target zoom level for the current set of clusters.
@@ -119,7 +119,7 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
 	private ClusterManager.OnClusterItemClickListener<T> mItemClickListener;
 	private ClusterManager.OnClusterItemInfoWindowClickListener<T> mItemInfoWindowClickListener;
 
-	private PublishSubject<Unit> clusterChangeSubject;
+	private final PublishSubject<Unit> clusterChangeSubject;
 
 	public DefaultClusterRenderer(Context context, GoogleMap map, ClusterManager<T> clusterManager,
 		PublishSubject<Unit> clusterChangeSubject) {
@@ -512,11 +512,11 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
 		private final Lock lock = new ReentrantLock();
 		private final Condition busyCondition = lock.newCondition();
 
-		private Queue<CreateMarkerTask> mCreateMarkerTasks = new LinkedList<CreateMarkerTask>();
-		private Queue<CreateMarkerTask> mOnScreenCreateMarkerTasks = new LinkedList<CreateMarkerTask>();
-		private Queue<Marker> mRemoveMarkerTasks = new LinkedList<Marker>();
-		private Queue<Marker> mOnScreenRemoveMarkerTasks = new LinkedList<Marker>();
-		private Queue<AnimationTask> mAnimationTasks = new LinkedList<AnimationTask>();
+		private final Queue<CreateMarkerTask> mCreateMarkerTasks = new LinkedList<CreateMarkerTask>();
+		private final Queue<CreateMarkerTask> mOnScreenCreateMarkerTasks = new LinkedList<CreateMarkerTask>();
+		private final Queue<Marker> mRemoveMarkerTasks = new LinkedList<Marker>();
+		private final Queue<Marker> mOnScreenRemoveMarkerTasks = new LinkedList<Marker>();
+		private final Queue<AnimationTask> mAnimationTasks = new LinkedList<AnimationTask>();
 
 		/**
 		 * Whether the idle listener has been added to the UI thread's MessageQueue.
@@ -711,8 +711,8 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements ClusterRen
 	 * A cache of markers representing individual ClusterItems.
 	 */
 	private static class MarkerCache<T> {
-		private Map<T, Marker> mCache = new HashMap<T, Marker>();
-		private Map<Marker, T> mCacheReverse = new HashMap<Marker, T>();
+		private final Map<T, Marker> mCache = new HashMap<T, Marker>();
+		private final Map<Marker, T> mCacheReverse = new HashMap<Marker, T>();
 
 		public Marker get(T item) {
 			return mCache.get(item);

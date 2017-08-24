@@ -11,7 +11,7 @@ import com.mobiata.android.Log;
 
 public class TripDetailsResponseHandler extends JsonResponseHandler<TripDetailsResponse> {
 
-	private Context mContext;
+	private final Context mContext;
 
 	public TripDetailsResponseHandler(Context context) {
 		mContext = context;

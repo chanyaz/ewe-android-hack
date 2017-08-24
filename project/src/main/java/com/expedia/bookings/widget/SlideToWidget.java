@@ -46,7 +46,7 @@ public class SlideToWidget extends RelativeLayout {
 	private int mMaxLeftMargin;
 	private int mTargetLeftMargin;
 
-	private List<ISlideToListener> mSlideToListeners = new ArrayList<ISlideToListener>();
+	private final List<ISlideToListener> mSlideToListeners = new ArrayList<ISlideToListener>();
 
 	private boolean mPerformedHapticForTarget;
 

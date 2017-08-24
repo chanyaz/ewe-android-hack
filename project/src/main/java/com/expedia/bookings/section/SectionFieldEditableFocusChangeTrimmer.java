@@ -25,7 +25,7 @@ public abstract class SectionFieldEditableFocusChangeTrimmer<FieldType extends E
 		}
 	}
 
-	private OnFocusChangeListener mFocusChangeTrimmer = new OnFocusChangeListener() {
+	private final OnFocusChangeListener mFocusChangeTrimmer = new OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (!hasFocus) {

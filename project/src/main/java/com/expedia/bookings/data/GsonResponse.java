@@ -2,7 +2,7 @@ package com.expedia.bookings.data;
 
 public class GsonResponse<T> extends Response {
 
-	private T mObject;
+	private final T mObject;
 
 	public GsonResponse(T object) {
 		mObject = object;

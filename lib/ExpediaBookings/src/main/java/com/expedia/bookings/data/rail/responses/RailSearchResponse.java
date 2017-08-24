@@ -15,10 +15,10 @@ public class RailSearchResponse {
 	private final static int OUTBOUND_BOUND_ORDER = 1;
 	private final static int INBOUND_BOUND_ORDER = 2;
 
-	public List<RailPassenger> passengerList;
-	public List<RailLeg> legList;
-	public List<RailOffer> offerList;
-	public RailResponseStatus responseStatus;
+	public final List<RailPassenger> passengerList;
+	public final List<RailLeg> legList;
+	public final List<RailOffer> offerList;
+	public final RailResponseStatus responseStatus;
 
 	public List<RailOffer> findOffersForLegOption(RailLegOption legOption) {
 		List<RailOffer> offers = new ArrayList<>();

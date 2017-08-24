@@ -40,7 +40,7 @@ public class TimeSlider extends SeekBar {
 	private final int thumbColor;
 
 	private Drawable thumb;
-	private ArrayList<OnSeekBarChangeListener> onSeekBarChangeListeners = new ArrayList<>();
+	private final ArrayList<OnSeekBarChangeListener> onSeekBarChangeListeners = new ArrayList<>();
 
 	private Paint textPaint;
 	private Paint thumbPaint;
@@ -105,7 +105,7 @@ public class TimeSlider extends SeekBar {
 		onSeekBarChangeListeners.add(listener);
 	}
 
-	private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+	private final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 		int previousProgress = 0;
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int requestedProgress, boolean fromUser) {

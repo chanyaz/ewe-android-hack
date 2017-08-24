@@ -25,8 +25,8 @@ public class HotelSearchResponse extends BaseApiResponse {
 	public transient boolean isPinnedSearch;
 
 	public static class Neighborhood {
-		public String name;
-		public String id;
+		public final String name;
+		public final String id;
 
 		public transient List<Hotel> hotels = new ArrayList<>();
 		public transient int score;

@@ -15,7 +15,7 @@ public class HotelCreateTripResponse extends TripResponse {
 	public String userId;
 	public HotelProductResponse originalHotelProductResponse;
 	public HotelProductResponse newHotelProductResponse;
-	public String tealeafTransactionId;
+	public final String tealeafTransactionId;
 	public Coupon coupon;
 
 	@NotNull
@@ -30,16 +30,16 @@ public class HotelCreateTripResponse extends TripResponse {
 	}
 
 	public static class HotelProductResponse {
-		public String checkInDate;
-		public String checkOutDate;
+		public final String checkInDate;
+		public final String checkOutDate;
 		public String adultCount;
 		public String numberOfNights;
 		public String numberOfRooms;
-		public String hotelId;
-		public String hotelName;
-		public String localizedHotelName;
+		public final String hotelId;
+		public final String hotelName;
+		public final String localizedHotelName;
 		public String hotelAddress;
-		public String hotelCity;
+		public final String hotelCity;
 		public String hotelStateProvince;
 		public String hotelCountry;
 		public String regionId;

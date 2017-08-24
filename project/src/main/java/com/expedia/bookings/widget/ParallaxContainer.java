@@ -54,7 +54,7 @@ import com.expedia.bookings.R;
  */
 public class ParallaxContainer extends FrameLayout {
 
-	private int[] mLocation = new int[2];
+	private final int[] mLocation = new int[2];
 	private SegmentedLinearInterpolator mInterpolator;
 	private float mOffsetTop = 0;
 	private float mOffsetBottom = 0;
@@ -130,7 +130,7 @@ public class ParallaxContainer extends FrameLayout {
 		scrollTo(0, counterscroll);
 	}
 
-	private ScrollView.OnScrollListener mOnScrollListener = new ScrollView.OnScrollListener() {
+	private final ScrollView.OnScrollListener mOnScrollListener = new ScrollView.OnScrollListener() {
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			getLocationOnScreen(mLocation);
@@ -139,7 +139,7 @@ public class ParallaxContainer extends FrameLayout {
 	};
 
 	// TODO: find a better way to be notified when the position of this view changes.
-	private OnGlobalLayoutListener mLayoutListener = new OnGlobalLayoutListener() {
+	private final OnGlobalLayoutListener mLayoutListener = new OnGlobalLayoutListener() {
 		@Override
 		public void onGlobalLayout() {
 			// TODO: this is called many times per second. why?
@@ -193,7 +193,7 @@ public class ParallaxContainer extends FrameLayout {
 	 * _______/
 	 */
 	private static class SegmentedLinearInterpolator {
-		PointF[] mPoints;
+		final PointF[] mPoints;
 
 		public SegmentedLinearInterpolator(PointF... points) {
 			mPoints = points;

@@ -166,18 +166,18 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 
 	private class ExposedLayerDrawable extends Drawable {
 
-		private Drawable mUnselected;
-		private Paint mUnselectedDivider;
+		private final Drawable mUnselected;
+		private final Paint mUnselectedDivider;
 
-		private Drawable mSelected;
-		private Paint mSelectedDivider;
+		private final Drawable mSelected;
+		private final Paint mSelectedDivider;
 
-		private Rect mRectExposed;
+		private final Rect mRectExposed;
 
-		private Rect mRectFrom;
-		private Rect mRectTo;
+		private final Rect mRectFrom;
+		private final Rect mRectTo;
 
-		private int mSluggishness;
+		private final int mSluggishness;
 
 		private Animator mAnimator;
 

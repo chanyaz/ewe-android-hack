@@ -31,8 +31,8 @@ public final class CalendarPickerActions {
 	}
 
 	public final static class CalendarPickerClickDatesAction implements ViewAction {
-		private LocalDate mStartDate;
-		private LocalDate mEndDate;
+		private final LocalDate mStartDate;
+		private final LocalDate mEndDate;
 
 		public CalendarPickerClickDatesAction(LocalDate start, LocalDate end) {
 			mStartDate = start;
@@ -58,8 +58,8 @@ public final class CalendarPickerActions {
 	}
 
 	public final static class CalendarPickerValidateTooltipAction implements ViewAction {
-		private String mlineOne;
-		private String mlineTwo;
+		private final String mlineOne;
+		private final String mlineTwo;
 
 		public CalendarPickerValidateTooltipAction(String lineOne, String lineTwo) {
 			mlineOne = lineOne;

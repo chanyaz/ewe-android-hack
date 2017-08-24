@@ -17,7 +17,7 @@ import com.mobiata.flightlib.data.Airport;
 
 public class RoutesResponseHandler extends JsonResponseHandler<RoutesResponse> {
 
-	private Context mContext;
+	private final Context mContext;
 
 	public RoutesResponseHandler(Context context) {
 		mContext = context;

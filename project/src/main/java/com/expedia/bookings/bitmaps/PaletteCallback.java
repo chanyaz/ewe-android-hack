@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.ColorBuilder;
 import com.squareup.picasso.Callback;
 
 public abstract class PaletteCallback implements Callback {
-	private ImageView mImageView;
+	private final ImageView mImageView;
 
 	public PaletteCallback(ImageView imageView) {
 		mImageView = imageView;

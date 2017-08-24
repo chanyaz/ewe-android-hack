@@ -67,7 +67,7 @@ public class PointOfSale {
 	private PointOfSaleId mPointOfSale;
 
 	// List of locales associated with this POS
-	private List<PointOfSaleLocale> mLocales = new ArrayList<>();
+	private final List<PointOfSaleLocale> mLocales = new ArrayList<>();
 
 	// The base URL of the POS
 	private String mUrl;
@@ -246,8 +246,10 @@ public class PointOfSale {
 
 	private static class CountryResources {
 		@StringRes
+		final
 		int countryNameResId;
 		@DrawableRes
+		final
 		int countryFlagResId;
 
 		CountryResources(@StringRes int nameResId) {

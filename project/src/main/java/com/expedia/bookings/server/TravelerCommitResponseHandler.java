@@ -12,8 +12,8 @@ import com.mobiata.android.Log;
 
 public class TravelerCommitResponseHandler extends JsonResponseHandler<TravelerCommitResponse> {
 
-	private Traveler mTraveler;
-	private Context mContext;
+	private final Traveler mTraveler;
+	private final Context mContext;
 
 	public TravelerCommitResponseHandler(Context context, Traveler trav) {
 		mContext = context;

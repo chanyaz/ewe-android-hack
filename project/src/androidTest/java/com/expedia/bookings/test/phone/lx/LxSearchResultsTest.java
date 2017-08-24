@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.containsString;
 public class LxSearchResultsTest extends LxTestCase {
 
 	List<LXActivity> mActivities;
-	SearchResultsHandler searchResultsHandler = new SearchResultsHandler();
+	final SearchResultsHandler searchResultsHandler = new SearchResultsHandler();
 
 	@Test
 	public void testSearchResultPageTestCases() throws Throwable {

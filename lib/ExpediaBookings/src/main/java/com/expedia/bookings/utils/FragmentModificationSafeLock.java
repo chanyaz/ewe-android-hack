@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class FragmentModificationSafeLock {
 
-	private List<Runnable> mRunWhenSafe = new ArrayList<>();
+	private final List<Runnable> mRunWhenSafe = new ArrayList<>();
 
 	private boolean mSafe = false;
 

@@ -1,7 +1,7 @@
 package com.expedia.bookings.data.packages;
 
 public class PackageHotel {
-	public String hotelPid;
+	public final String hotelPid;
 	public boolean allInclusiveAvailable;
 	public boolean available;
 	public int distanceFromAirport;
@@ -9,18 +9,18 @@ public class PackageHotel {
 	public String drrHook;
 	public String drrMessage;
 	public boolean exclusiveAmenity;
-	public HotelAddress hotelAddress;
-	public String hotelDescription;
+	public final HotelAddress hotelAddress;
+	public final String hotelDescription;
 //	hotelExtraModelList
-	public String hotelId;
-	public String hotelName;
-	public String hotelStarRating;
+	public final String hotelId;
+	public final String hotelName;
+	public final String hotelStarRating;
 	public String infositeURL;
-	public double latitude;
-	public String localizedHotelName;
-	public double longitude;
+	public final double latitude;
+	public final String localizedHotelName;
+	public final double longitude;
 	public String neighborhood;
-	public float overallReview;
+	public final float overallReview;
 	public boolean pinnedHotel;
 //	ratePlanAmenities
 	public String ratePlanCode;
@@ -31,16 +31,16 @@ public class PackageHotel {
 	public boolean showRatingAsStars;
 	public boolean showTHNectarDiv;
 	public String superlative;
-	public String thumbnailURL;
-	public boolean vip;
-	public PackageOfferModel packageOfferModel;
+	public final String thumbnailURL;
+	public final boolean vip;
+	public final PackageOfferModel packageOfferModel;
 
 	public static class HotelAddress {
-		public String city;
-		public String countryAlpha3Code;
-		public String firstAddressLine;
-		public String postalCode;
-		public String province;
+		public final String city;
+		public final String countryAlpha3Code;
+		public final String firstAddressLine;
+		public final String postalCode;
+		public final String province;
 		public String provinceShort;
 		public String secondAddressLine;
 	}

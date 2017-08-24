@@ -11,16 +11,16 @@ import org.jetbrains.annotations.NotNull;
 import com.expedia.bookings.utils.CollectionUtils;
 
 public class RailProduct {
-	public List<Integer> legOptionIndexList;
-	public List<PassengerSegmentFare> segmentFareDetailList = new ArrayList();
-	public List<RailCard> fareQualifierList = new ArrayList();
+	public final List<Integer> legOptionIndexList;
+	public final List<PassengerSegmentFare> segmentFareDetailList = new ArrayList();
+	public final List<RailCard> fareQualifierList = new ArrayList();
 	public boolean refundable;
 	public List<String> refundableRules;
 	public List<String> fareNotes;
 	public String aggregatedCarrierServiceClassDisplayName;
-	public String aggregatedCarrierFareClassDisplayName;
+	public final String aggregatedCarrierFareClassDisplayName;
 	public String aggregatedFareDescription;
-	public boolean openReturn;
+	public final boolean openReturn;
 
 	@NotNull
 	public Map<Integer, PassengerSegmentFare> getSegmentToFareMapping() {

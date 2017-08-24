@@ -37,11 +37,11 @@ public class FlightSearch implements JSONable {
 	private FlightSearchResponse mSearchResponse;
 	private FlightSearchState mSearchState = new FlightSearchState();
 
-	private Map<Flight, FlightStatsRating> mFlightStatsRatings = new HashMap<Flight, FlightStatsRating>();
+	private final Map<Flight, FlightStatsRating> mFlightStatsRatings = new HashMap<Flight, FlightStatsRating>();
 
 	// Not to be saved - transitory states!
-	private Map<String, FlightTrip> mFlightTripMap = new HashMap<String, FlightTrip>();
-	private Map<String, FlightLeg> mFlightLegMap = new HashMap<String, FlightLeg>();
+	private final Map<String, FlightTrip> mFlightTripMap = new HashMap<String, FlightTrip>();
+	private final Map<String, FlightLeg> mFlightLegMap = new HashMap<String, FlightLeg>();
 	private FlightTripQuery[] mFlightTripQueries;
 
 	public void reset() {

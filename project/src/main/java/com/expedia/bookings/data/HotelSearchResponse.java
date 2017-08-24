@@ -129,7 +129,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 */
 
 	// Pricing tiers (clustered)
-	private Map<PriceRange, PriceTier> mPriceTiers;
+	private final Map<PriceRange, PriceTier> mPriceTiers;
 
 	// The filter that defines how properties are presented
 	private HotelFilter mFilter;

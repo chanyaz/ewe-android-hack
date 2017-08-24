@@ -45,7 +45,7 @@ public class FlightTravelerEntryWidgetTest {
 	private FlightTravelerEntryWidgetViewModel testVM;
 
 	protected final String testEmptyPassport = "Passport: Country";
-	private Context context = InstrumentationRegistry.getTargetContext();
+	private final Context context = InstrumentationRegistry.getTargetContext();
 
 	@Rule
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();

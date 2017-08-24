@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.AbsListView;
 
 public class PicassoScrollListener extends RecyclerView.OnScrollListener implements AbsListView.OnScrollListener {
-	private String mTag;
-	private PicassoHelper mHelper;
+	private final String mTag;
+	private final PicassoHelper mHelper;
 
 	public PicassoScrollListener(Context context, String tag) {
 		mHelper = new PicassoHelper.Builder(context).build();

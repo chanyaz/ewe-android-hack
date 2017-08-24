@@ -31,9 +31,9 @@ import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 
 public class PersistentCookieManagerV2 extends CookieManager implements PersistentCookiesCookieJar {
-	private android.webkit.CookieManager webkitCookieManager;
-	private File storage;
-	private Gson gson;
+	private final android.webkit.CookieManager webkitCookieManager;
+	private final File storage;
+	private final Gson gson;
 
 	public PersistentCookieManagerV2(File storage) {
 		this(storage, null);

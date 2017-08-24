@@ -11,7 +11,7 @@ public class ScrollView extends android.widget.ScrollView {
 		void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy);
 	}
 
-	private HashSet<OnScrollListener> mOnScrollListener = new HashSet<OnScrollListener>();
+	private final HashSet<OnScrollListener> mOnScrollListener = new HashSet<OnScrollListener>();
 
 	public ScrollView(Context context) {
 		super(context);

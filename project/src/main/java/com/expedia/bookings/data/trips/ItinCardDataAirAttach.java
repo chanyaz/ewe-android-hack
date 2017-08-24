@@ -6,9 +6,9 @@ import com.expedia.bookings.utils.HotelCrossSellUtils;
 
 public class ItinCardDataAirAttach extends ItinCardData {
 
-	private TripFlight mTripFlight;
-	private FlightLeg mFirstLeg;
-	private FlightLeg mNextLeg;
+	private final TripFlight mTripFlight;
+	private final FlightLeg mFirstLeg;
+	private final FlightLeg mNextLeg;
 
 	public ItinCardDataAirAttach(TripFlight parent, FlightLeg firstLeg, FlightLeg nextLeg) {
 		super(parent);

@@ -7,7 +7,7 @@ public class FailedUrlCache {
 
 	private static volatile FailedUrlCache singletonInstance = null;
 
-	private static Set<String> mIgnore = new HashSet<String>();
+	private static final Set<String> mIgnore = new HashSet<String>();
 
 	private FailedUrlCache() {
 	}

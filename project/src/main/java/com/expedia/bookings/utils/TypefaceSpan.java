@@ -6,7 +6,7 @@ import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 
 public class TypefaceSpan extends MetricAffectingSpan {
-	private Typeface mTypeface;
+	private final Typeface mTypeface;
 
 	public TypefaceSpan(Typeface typeface) {
 		mTypeface = typeface;

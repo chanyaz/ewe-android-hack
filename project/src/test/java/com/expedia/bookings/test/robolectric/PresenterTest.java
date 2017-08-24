@@ -34,7 +34,7 @@ public class PresenterTest {
 	}
 
 	private class CustomBackPresenter extends Presenter {
-		Presenter parentPresenter;
+		final Presenter parentPresenter;
 
 		public CustomBackPresenter(Context context, AttributeSet attrs, Presenter parent) {
 			super(context, attrs);

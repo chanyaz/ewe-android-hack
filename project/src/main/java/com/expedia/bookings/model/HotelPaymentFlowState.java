@@ -11,8 +11,8 @@ import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelPaymentFlowState {
-	SectionLocation mSectionLocation;
-	SectionBillingInfo mSectionBillingInfo;
+	final SectionLocation mSectionLocation;
+	final SectionBillingInfo mSectionBillingInfo;
 
 	private HotelPaymentFlowState(Context context) {
 		mSectionLocation = Ui.inflate(context, R.layout.section_hotel_edit_address, null);

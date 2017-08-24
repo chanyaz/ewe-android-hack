@@ -2,8 +2,8 @@ package com.expedia.bookings.data.lx;
 
 public class LXImage {
 
-	public String imageURL;
-	public ImageSize imageSize;
+	public final String imageURL;
+	public final ImageSize imageSize;
 
 	public LXImage(String imageURL, ImageSize imageSize) {
 		this.imageURL = imageURL;
@@ -15,8 +15,8 @@ public class LXImage {
 		MEDIUM(500, 281),
 		LARGE(1000, 561);
 
-		public int width;
-		public int height;
+		public final int width;
+		public final int height;
 
 		ImageSize(int width, int height) {
 			this.width = width;

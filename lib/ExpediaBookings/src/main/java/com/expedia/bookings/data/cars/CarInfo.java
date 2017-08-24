@@ -8,10 +8,10 @@ public class CarInfo {
 	public CarCategory category;
 	public CarType type;
 	public Fuel fuel;
-	public Transmission transmission;
+	public final Transmission transmission;
 	public Drive drive;
 
-	public boolean hasAirConditioning;
+	public final boolean hasAirConditioning;
 	public List<String> makes = new ArrayList<>();
 
 	public int minDoors;

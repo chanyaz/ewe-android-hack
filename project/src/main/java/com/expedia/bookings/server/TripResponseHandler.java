@@ -14,7 +14,7 @@ import com.mobiata.android.Log;
 
 public class TripResponseHandler extends JsonResponseHandler<TripResponse> {
 
-	private Context mContext;
+	private final Context mContext;
 
 	public TripResponseHandler(Context context) {
 		mContext = context;

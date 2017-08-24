@@ -7,9 +7,9 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 public class HotelCreateTripParams {
-	String productKey;
-	boolean qualifyAirAttach;
-	RoomInfoFields roomInfoFields;
+	final String productKey;
+	final boolean qualifyAirAttach;
+	final RoomInfoFields roomInfoFields;
 
 	public HotelCreateTripParams(String productKey, boolean qualifyAirAttach, int numberOfAdults, List<Integer> childAges) {
 		this.productKey = productKey;

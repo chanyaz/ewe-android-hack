@@ -4,10 +4,10 @@ import com.expedia.bookings.data.Money;
 
 public class RailPassenger {
 	public String passengerIndex;
-	public int age;
-	public boolean primaryTraveler;
-	public PassengerAgeGroup passengerAgeGroup;
-	public Money price;
+	public final int age;
+	public final boolean primaryTraveler;
+	public final PassengerAgeGroup passengerAgeGroup;
+	public final Money price;
 
 	public enum PassengerAgeGroup {
 		ADULT,

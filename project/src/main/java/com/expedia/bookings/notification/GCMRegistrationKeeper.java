@@ -38,7 +38,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	private static GCMRegistrationKeeper sInstance;
 
 	private String mActiveRegistrationId = "";
-	private Set<String> mExpiredRegistrationIds = new HashSet<String>();
+	private final Set<String> mExpiredRegistrationIds = new HashSet<String>();
 
 	/**
 	 * Get the instance of our GCMRegistrationKeeper, initializing it

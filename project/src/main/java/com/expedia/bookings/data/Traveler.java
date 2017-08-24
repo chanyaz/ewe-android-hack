@@ -36,7 +36,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private Long mExpediaUserId;
 
 	// General
-	private TravelerName mName = new TravelerName();
+	private final TravelerName mName = new TravelerName();
 	private Location mHomeAddress;
 	private List<Phone> mPhoneNumbers = new ArrayList<>();
 	private String mEmail;

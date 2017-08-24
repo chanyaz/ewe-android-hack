@@ -8,16 +8,16 @@ import com.expedia.bookings.data.BaseApiResponse;
 
 public class LXCreateTripResponse extends BaseApiResponse {
 	public String itineraryNumber;
-	public String tripId;
+	public final String tripId;
 	public List<ValidPayment> validFormsOfPayment;
-	public LXExpediaRewards expediaRewards;
-	public Money newTotalPrice;
-	public LXProduct lxProduct;
+	public final LXExpediaRewards expediaRewards;
+	public final Money newTotalPrice;
+	public final LXProduct lxProduct;
 
 	public String getRewardsPoints() {
 		return expediaRewards != null ? expediaRewards.totalPointsToEarn : "";
 	}
 
 	// Injected after receiving response; required for communicating price change
-	public Money originalPrice;
+	public final Money originalPrice;
 }

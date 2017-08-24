@@ -131,7 +131,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	private int mInitialScrollTop = 0;
 	private boolean mHasBeenTouched = false;
 	SegmentedLinearInterpolator mIGalleryScroll;
-	public PublishSubject<Unit> mapClickSubject =  PublishSubject.create();
+	public final PublishSubject<Unit> mapClickSubject =  PublishSubject.create();
 
 	private boolean userBucketedForRTRTest;
 	private boolean isGroundTransport;
@@ -459,7 +459,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 	}
 
-	private Observer<Offer> lxOfferObserever = new Observer<Offer>() {
+	private final Observer<Offer> lxOfferObserever = new Observer<Offer>() {
 		@Override
 		public void onCompleted() {
 		}

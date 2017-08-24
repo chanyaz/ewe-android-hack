@@ -49,7 +49,7 @@ import com.expedia.util.LoyaltyUtil;
 import com.squareup.phrase.Phrase;
 
 public class AccountButton extends LinearLayout {
-	private Context mContext;
+	private final Context mContext;
 	private AccountButtonClickListener mListener;
 
 	private View mAccountLoadingContainer;

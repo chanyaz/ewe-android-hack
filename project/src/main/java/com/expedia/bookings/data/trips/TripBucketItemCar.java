@@ -6,7 +6,7 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.utils.CurrencyUtils;
 
 public class TripBucketItemCar extends TripBucketItem {
-	public CarCreateTripResponse mCarTripResponse;
+	public final CarCreateTripResponse mCarTripResponse;
 
 	public TripBucketItemCar(CarCreateTripResponse carTripResponse) {
 		this.mCarTripResponse = carTripResponse;

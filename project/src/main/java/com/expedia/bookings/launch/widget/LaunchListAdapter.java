@@ -66,19 +66,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
 	}
 
-	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
-	public PublishSubject<Bundle> seeAllClickSubject = PublishSubject.create();
+	public final PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
+	public final PublishSubject<Bundle> seeAllClickSubject = PublishSubject.create();
 
-	private BehaviorSubject<Unit> posSubject = BehaviorSubject.create();
-	private BehaviorSubject<Boolean> hasInternetConnectionChangeSubject = BehaviorSubject.create();
-	private PublishSubject<String> memberDealBackgroundUrlSubject = PublishSubject.create();
+	private final BehaviorSubject<Unit> posSubject = BehaviorSubject.create();
+	private final BehaviorSubject<Boolean> hasInternetConnectionChangeSubject = BehaviorSubject.create();
+	private final PublishSubject<String> memberDealBackgroundUrlSubject = PublishSubject.create();
 	private List<LaunchDataItem> staticCards = new ArrayList<>();
 	private List<LaunchDataItem> dynamicCards = new ArrayList<>();
 	private ArrayList<LaunchDataItem> listData = new ArrayList<>();
 
-	private Context context;
+	private final Context context;
 	private ViewGroup parentView;
-	private View headerView;
+	private final View headerView;
 	private TextView seeAllButton;
 	private TextView launchListTitle;
 

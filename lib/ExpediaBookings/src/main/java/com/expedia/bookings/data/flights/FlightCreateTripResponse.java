@@ -47,7 +47,7 @@ public class FlightCreateTripResponse extends FlightTripResponse {
 
 	public class FlightRules {
 		@SerializedName("RuleToTextMap")
-		public Map<String, String> rulesToText;
+		public final Map<String, String> rulesToText;
 
 		@SerializedName("RuleToUrlMap")
 		public Map<String, String> rulesToUrl;

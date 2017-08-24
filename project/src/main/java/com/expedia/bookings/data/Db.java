@@ -63,11 +63,11 @@ public class Db {
 
 	// Hotel search object - represents both the parameters and
 	// the returned results
-	private HotelSearch mHotelSearch = new HotelSearch();
+	private final HotelSearch mHotelSearch = new HotelSearch();
 
 	// The filter applied to HotelSearchResponse.  Note that this HotelFilter can cause a memory leak;
 	// One has to be sure to change the listeners on the HotelFilter whenever appropriate.
-	private HotelFilter mFilter = new HotelFilter();
+	private final HotelFilter mFilter = new HotelFilter();
 
 	// The billing info.  Make sure to properly clear this out when requested
 	private BillingInfo mBillingInfo;
@@ -83,13 +83,13 @@ public class Db {
 
 	// Flight search object - represents both the parameters and
 	// the returned results
-	private FlightSearch mFlightSearch = new FlightSearch();
+	private final FlightSearch mFlightSearch = new FlightSearch();
 
 	// Map of airline code --> airline name
 	//
 	// This data can be cached between requests, and we only need to save
 	// it to disk when it becomes dirty.
-	private Map<String, String> mAirlineNames = new HashMap<String, String>();
+	private final Map<String, String> mAirlineNames = new HashMap<String, String>();
 
 	// Trip Bucket
 	private TripBucket mTripBucket = new TripBucket();

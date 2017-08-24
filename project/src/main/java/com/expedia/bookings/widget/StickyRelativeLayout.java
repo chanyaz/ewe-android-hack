@@ -32,8 +32,8 @@ import android.widget.RelativeLayout;
 public class StickyRelativeLayout extends RelativeLayout {
 
 	// Do not re-allocate these all the time
-	private int[] mLocation = new int[2];
-	private Rect mVisible = new Rect();
+	private final int[] mLocation = new int[2];
+	private final Rect mVisible = new Rect();
 
 	public StickyRelativeLayout(Context context) {
 		super(context);
@@ -86,7 +86,7 @@ public class StickyRelativeLayout extends RelativeLayout {
 		}
 	}
 
-	private ScrollView.OnScrollListener mOnScrollListener = new ScrollView.OnScrollListener() {
+	private final ScrollView.OnScrollListener mOnScrollListener = new ScrollView.OnScrollListener() {
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			getLocationOnScreen(mLocation);
@@ -95,7 +95,7 @@ public class StickyRelativeLayout extends RelativeLayout {
 	};
 
 	// TODO: find a better way to be notified when the position of this view changes.
-	private OnGlobalLayoutListener mLayoutListener = new OnGlobalLayoutListener() {
+	private final OnGlobalLayoutListener mLayoutListener = new OnGlobalLayoutListener() {
 		@Override
 		public void onGlobalLayout() {
 			// TODO: this is called many times per second. why?

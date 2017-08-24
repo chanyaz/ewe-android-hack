@@ -9,20 +9,20 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.DateUtils;
 
 public class RailLegOption implements Comparable<RailLegOption> {
-	public Integer legOptionIndex;
-	public RailStation departureStation;
-	public RailStation arrivalStation;
-	public RailDateTime departureDateTime;
-	public RailDateTime arrivalDateTime;
+	public final Integer legOptionIndex;
+	public final RailStation departureStation;
+	public final RailStation arrivalStation;
+	public final RailDateTime departureDateTime;
+	public final RailDateTime arrivalDateTime;
 	public List<RailSegment> travelSegmentList;
-	public String duration;  //ISO duration format P[yY][mM][dD][T[hH][mM][s[.s]S]]
+	public final String duration;  //ISO duration format P[yY][mM][dD][T[hH][mM][s[.s]S]]
 	public String aggregatedMarketingCarrier;
 	public String aggregatedOperatingCarrier;
 	public Integer noOfChanges;
 	public Money bestPrice;
 	public boolean overtakenJourney;
 	// Not returned by api but set in code.
-	public boolean doesAnyOfferHasFareQualifier;
+	public final boolean doesAnyOfferHasFareQualifier;
 
 	public int durationMinutes() {
 		return DateUtils.parseDurationMinutesFromISOFormat(duration);

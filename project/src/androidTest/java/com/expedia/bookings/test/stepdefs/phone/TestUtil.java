@@ -30,7 +30,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestUtil {
 	public static Map<String, String> dataSet;
-	public static Map<String, String> storeDataAtRuntime = new HashMap();
+	public static final Map<String, String> storeDataAtRuntime = new HashMap();
 
 	public static int convertFlightDepartureTimeToInteger(String time) throws ParseException {
 

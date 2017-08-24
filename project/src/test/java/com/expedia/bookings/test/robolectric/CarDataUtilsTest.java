@@ -33,7 +33,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(RobolectricRunner.class)
 public class CarDataUtilsTest {
 
-	DeepLinkParser deepLinkParser = new DeepLinkParser(RuntimeEnvironment.application.getAssets());
+	final DeepLinkParser deepLinkParser = new DeepLinkParser(RuntimeEnvironment.application.getAssets());
 
 	@Test
 	public void testGetInfoCount() {

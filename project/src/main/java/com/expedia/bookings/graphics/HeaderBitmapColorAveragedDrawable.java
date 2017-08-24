@@ -56,7 +56,7 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 		return callback;
 	}
 
-	private PicassoTarget callback = new PicassoTarget() {
+	private final PicassoTarget callback = new PicassoTarget() {
 
 		@Override
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

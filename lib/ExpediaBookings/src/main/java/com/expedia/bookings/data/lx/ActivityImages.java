@@ -8,11 +8,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class ActivityImages {
 	@SerializedName("url")
-	public String mediumImageURL;
+	public final String mediumImageURL;
 	@SerializedName("large")
-	public String largeImageURL;
+	public final String largeImageURL;
 	@SerializedName("caption")
-	public String imageCaption;
+	public final String imageCaption;
 
 	public List<LXImage> getImages() {
 		List<LXImage> images = new ArrayList<>();

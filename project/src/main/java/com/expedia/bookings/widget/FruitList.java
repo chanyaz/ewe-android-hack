@@ -189,7 +189,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		sizeOrDataChanged();
 	}
 
-	private DataSetObserver mDataSetObserver = new DataSetObserver() {
+	private final DataSetObserver mDataSetObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {
 			sizeOrDataChanged();

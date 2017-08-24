@@ -57,7 +57,7 @@ public class HeaderBitmapDrawable extends Drawable {
 
 	// For drawing the bitmap
 	private BitmapShader mBitmapShader;
-	private Paint mBitmapPaint;
+	private final Paint mBitmapPaint;
 
 	// For the rounded corners
 	private int mCornerRadius;
@@ -68,7 +68,7 @@ public class HeaderBitmapDrawable extends Drawable {
 	// For a built-in gradient
 	private int[] mColors = null;
 	private float[] mPositions = null;
-	private Paint mGradientPaint;
+	private final Paint mGradientPaint;
 
 	// Used to create matrix (if requested)
 	private ScaleType mScaleType;
@@ -366,7 +366,7 @@ public class HeaderBitmapDrawable extends Drawable {
 		return picassoTarget;
 	}
 
-	private PicassoTarget picassoTarget = new PicassoTarget() {
+	private final PicassoTarget picassoTarget = new PicassoTarget() {
 
 		@Override
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

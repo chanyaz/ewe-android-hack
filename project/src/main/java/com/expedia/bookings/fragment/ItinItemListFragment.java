@@ -111,7 +111,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public BehaviorSubject<Boolean> toolBarVisibilitySubject = BehaviorSubject.create();
 
-	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
+	private final FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
 	/**
 	 * Creates a new fragment that will open right away to the passed uniqueId.

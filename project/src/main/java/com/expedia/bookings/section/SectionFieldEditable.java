@@ -13,7 +13,7 @@ import com.mobiata.android.validation.Validator;
 public abstract class SectionFieldEditable<FieldType extends View, Data> extends
 		SectionField<FieldType, Data> {
 
-	ArrayList<SectionFieldValidIndicator<?, Data>> mPostValidators = new ArrayList<SectionFieldValidIndicator<?, Data>>();
+	final ArrayList<SectionFieldValidIndicator<?, Data>> mPostValidators = new ArrayList<SectionFieldValidIndicator<?, Data>>();
 
 	public SectionFieldEditable(int fieldId) {
 		super(fieldId);

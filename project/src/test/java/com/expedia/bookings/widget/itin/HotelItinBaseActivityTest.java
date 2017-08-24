@@ -57,8 +57,8 @@ public class HotelItinBaseActivityTest {
 	}
 
 	public static class TestHotelItinDetailsActivity extends HotelItinDetailsActivity {
-		private ItineraryManager mockItinManager = Mockito.mock(ItineraryManager.class);
-		private TestHotelItinDetailsActivity testHotelItinDetailsActivity = this;
+		private final ItineraryManager mockItinManager = Mockito.mock(ItineraryManager.class);
+		private final TestHotelItinDetailsActivity testHotelItinDetailsActivity = this;
 
 		public TestHotelItinDetailsActivity() {
 			Mockito.when(mockItinManager.deepRefreshTrip(Mockito.anyString(), Mockito.anyBoolean()))

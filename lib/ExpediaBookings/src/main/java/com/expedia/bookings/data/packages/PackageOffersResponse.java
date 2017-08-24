@@ -11,7 +11,7 @@ import com.expedia.bookings.data.multiitem.BundleHotelRoomResponse;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 
 public class PackageOffersResponse extends BaseApiResponse implements BundleHotelRoomResponse {
-	public List<PackageHotelOffer> packageHotelOffers;
+	public final List<PackageHotelOffer> packageHotelOffers;
 
 	String checkInDate, checkOutDate;
 
@@ -53,30 +53,30 @@ public class PackageOffersResponse extends BaseApiResponse implements BundleHote
 	}
 
 	public static class PackageHotelOffer {
-		public CancellationPolicy cancellationPolicy;
-		public String packageProductId;
-		public HotelOffersResponse.HotelRoomResponse hotelOffer;
-		public Money pricePerPerson;
-		public Money priceDifferencePerNight;
-		public PackagePricing packagePricing;
-		public LoyaltyInformation loyaltyInfo;
+		public final CancellationPolicy cancellationPolicy;
+		public final String packageProductId;
+		public final HotelOffersResponse.HotelRoomResponse hotelOffer;
+		public final Money pricePerPerson;
+		public final Money priceDifferencePerNight;
+		public final PackagePricing packagePricing;
+		public final LoyaltyInformation loyaltyInfo;
 	}
 
 	public static class PackagePricing {
-		public HotelPricing hotelPricing;
-		public Money savings;
-		public Money packageTotal;
+		public final HotelPricing hotelPricing;
+		public final Money savings;
+		public final Money packageTotal;
 	}
 
 	public static class CancellationPolicy {
-		public Boolean hasFreeCancellation;
+		public final Boolean hasFreeCancellation;
 	}
 
 	public static class HotelPricing {
-		public MandatoryFees mandatoryFees;
+		public final MandatoryFees mandatoryFees;
 	}
 
 	public static class MandatoryFees {
-		public Money feeTotal;
+		public final Money feeTotal;
 	}
 }

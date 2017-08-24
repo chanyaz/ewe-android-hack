@@ -9,13 +9,13 @@ public class CategorizedCarOffers {
 	public CarCategory category;
 	public CarType type;
 	public String carCategoryDisplayLabel;
-	public List<SearchCarOffer> offers = new ArrayList<>();
+	public final List<SearchCarOffer> offers = new ArrayList<>();
 
 	// Storing data used to display icons, keeping it sorted
 	// as an optimization.
-	public Interval passengerSet = new Interval();
-	public Interval luggageSet = new Interval();
-	public Interval doorSet = new Interval();
+	public final Interval passengerSet = new Interval();
+	public final Interval luggageSet = new Interval();
+	public final Interval doorSet = new Interval();
 
 	private SearchCarOffer lowestTotalPriceOffer;
 

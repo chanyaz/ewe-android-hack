@@ -52,7 +52,7 @@ public class RecyclerGallery extends RecyclerView {
 	private A11yLinearLayoutManager mLayoutManager;
 	private GalleryItemScrollListener mScrollListener;
 	public boolean showPhotoCount = true;
-	public boolean canScroll = true;
+	public final boolean canScroll = true;
 
 	public class A11yLinearLayoutManager extends LinearLayoutManager {
 
@@ -81,7 +81,7 @@ public class RecyclerGallery extends RecyclerView {
 
 	private IImageViewBitmapLoadedListener imageViewBitmapLoadedListener;
 
-	private boolean enableProgressBarOnImageViews = false;
+	private final boolean enableProgressBarOnImageViews = false;
 
 	private ColorFilter mColorFilter = null;
 
@@ -275,7 +275,7 @@ public class RecyclerGallery extends RecyclerView {
 				}
 			}
 
-			public PicassoTarget callback = new PicassoTarget() {
+			public final PicassoTarget callback = new PicassoTarget() {
 				@Override
 				public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 					super.onBitmapLoaded(bitmap, from);
@@ -392,7 +392,7 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	private class SpaceDecoration extends RecyclerView.ItemDecoration {
-		private int mPadding;
+		private final int mPadding;
 
 		public SpaceDecoration() {
 			mPadding = getPadding();

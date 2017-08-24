@@ -3,7 +3,7 @@ package com.expedia.bookings.animation;
 import android.view.animation.Interpolator;
 
 public class LooseLipsSinkShipsInterpolator implements Interpolator {
-	private Interpolator mInterpolator;
+	private final Interpolator mInterpolator;
 	private float mLastInput = 0.0f;
 
 	public LooseLipsSinkShipsInterpolator(Interpolator interpolator) {

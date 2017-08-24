@@ -15,7 +15,7 @@ import android.view.View;
  */
 public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 
-	private ArrayList<SectionField<?, T>> mFields = new ArrayList<SectionField<?, T>>();
+	private final ArrayList<SectionField<?, T>> mFields = new ArrayList<SectionField<?, T>>();
 
 	@Override
 	public SectionField<?, T> get(int location) {

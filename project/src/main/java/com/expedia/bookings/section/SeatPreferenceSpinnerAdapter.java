@@ -20,7 +20,7 @@ import com.mobiata.android.util.Ui;
 public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	Integer color;
 	private int mCurrentPosition;
-	private int mDropdownResourceId;
+	private final int mDropdownResourceId;
 
 	class SeatPreferenceSpinnerHelper {
 		SeatPreference mSeatPreference;

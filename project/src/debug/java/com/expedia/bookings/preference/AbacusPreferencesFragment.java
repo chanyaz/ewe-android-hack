@@ -29,7 +29,7 @@ public class AbacusPreferencesFragment extends BasePreferenceFragment {
 		}
 	}
 
-	private Preference.OnPreferenceChangeListener abacusPrefListener = new Preference.OnPreferenceChangeListener() {
+	private final Preference.OnPreferenceChangeListener abacusPrefListener = new Preference.OnPreferenceChangeListener() {
 		@Override
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
 			int value = Integer.valueOf(newValue.toString());

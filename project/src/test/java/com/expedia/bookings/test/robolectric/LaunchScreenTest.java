@@ -27,9 +27,9 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricRunner.class)
 public class LaunchScreenTest {
-	private CollectionLocation collectionLocation = new CollectionLocation();
-	private Hotel hotel = new Hotel();
-	private Hotel hotelNoRating = new Hotel();
+	private final CollectionLocation collectionLocation = new CollectionLocation();
+	private final Hotel hotel = new Hotel();
+	private final Hotel hotelNoRating = new Hotel();
 	@Before
 	public void before() {
 		HotelRate rate = new HotelRate();

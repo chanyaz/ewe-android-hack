@@ -48,7 +48,7 @@ public abstract class GalleryScrollView extends CustomScrollerScrollView {
 	 *
 	 */
 	public static class SegmentedLinearInterpolator {
-		PointF[] mPoints;
+		final PointF[] mPoints;
 
 		public SegmentedLinearInterpolator(PointF... points) {
 			mPoints = points;

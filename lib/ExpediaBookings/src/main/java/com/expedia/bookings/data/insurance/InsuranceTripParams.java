@@ -6,8 +6,8 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 public class InsuranceTripParams {
-	private String insuranceProductId;
-	private String tripId;
+	private final String insuranceProductId;
+	private final String tripId;
 
 	public InsuranceTripParams(@NotNull String tripId) {
 		this(tripId, null);

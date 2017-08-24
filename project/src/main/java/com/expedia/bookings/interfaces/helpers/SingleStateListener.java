@@ -10,9 +10,10 @@ import com.expedia.bookings.interfaces.IStateListener;
  * Created by dmelton on 6/10/14.
  */
 public class SingleStateListener<T> implements IStateListener<T> {
-	private T mStateOne, mStateTwo;
-	private boolean isBidirectional;
-	private ISingleStateListener mListener;
+	private final T mStateOne;
+	private final T mStateTwo;
+	private final boolean isBidirectional;
+	private final ISingleStateListener mListener;
 
 	public SingleStateListener(T stateOne, T stateTwo, boolean bidirectional, ISingleStateListener listener) {
 		mStateOne = stateOne;

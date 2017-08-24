@@ -6,7 +6,7 @@ import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 
 public class TripBucketItemHotelV2 extends TripBucketItem {
-	public HotelCreateTripResponse mHotelTripResponse;
+	public final HotelCreateTripResponse mHotelTripResponse;
 
 	public TripBucketItemHotelV2(HotelCreateTripResponse mHotelTripResponse) {
 		this.mHotelTripResponse = mHotelTripResponse;

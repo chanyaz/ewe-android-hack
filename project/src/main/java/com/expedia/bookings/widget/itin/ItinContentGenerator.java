@@ -70,8 +70,8 @@ import com.squareup.phrase.Phrase;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
-	private Context mContext;
-	public T mItinCardData;
+	private final Context mContext;
+	public final T mItinCardData;
 
 	private boolean mDetailsSummaryHideTypeIcon = true;
 	private boolean mDetailsSummaryHideTitle = true;
@@ -79,7 +79,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	private String mSharableImageURL;
 	protected MediaCallback callback;
 
-	private UserStateManager userStateManager;
+	private final UserStateManager userStateManager;
 
 	public ItinContentGenerator(Context context, T itinCardData) {
 		mContext = context;

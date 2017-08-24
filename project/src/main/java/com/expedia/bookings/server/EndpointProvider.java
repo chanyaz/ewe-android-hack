@@ -21,15 +21,15 @@ import okhttp3.HttpUrl;
 
 public class EndpointProvider {
 
-	private EnumMap<EndPoint, String> serverUrls = new EnumMap<EndPoint, String>(EndPoint.class);
-	private Context context;
+	private final EnumMap<EndPoint, String> serverUrls = new EnumMap<EndPoint, String>(EndPoint.class);
+	private final Context context;
 
 	public static class EndpointMap {
-		String production;
-		String integration;
-		String development;
-		String trunk;
-		String publicIntegration;
+		final String production;
+		final String integration;
+		final String development;
+		final String trunk;
+		final String publicIntegration;
 	}
 
 	public EndpointProvider(Context context, InputStream input) {

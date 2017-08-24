@@ -213,8 +213,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 	}
 
 	private static class Notifier {
-		private Notification mNotification;
-		private Context mContext;
+		private final Notification mNotification;
+		private final Context mContext;
 		private Bitmap mBitmap;
 		private List<String> mUrls;
 
@@ -263,7 +263,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			}
 		}
 
-		private PicassoTarget mDestinationImageLoaded = new PicassoTarget() {
+		private final PicassoTarget mDestinationImageLoaded = new PicassoTarget() {
 			@Override
 			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 				super.onBitmapLoaded(bitmap, from);
@@ -295,7 +295,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 		}
 
 		// Callbacks for TwoLevelImageCache image loader
-		private PicassoTarget mTwoLevelImageLoaded = new PicassoTarget() {
+		private final PicassoTarget mTwoLevelImageLoaded = new PicassoTarget() {
 			@Override
 			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 				super.onBitmapLoaded(bitmap, from);

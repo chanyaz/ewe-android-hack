@@ -7,7 +7,7 @@ import com.expedia.bookings.utils.Constants;
 
 public class FlightCreateTripParams {
 
-	private String productKey;
+	private final String productKey;
 	public boolean flexEnabled;
 	private String featureOverride;
 

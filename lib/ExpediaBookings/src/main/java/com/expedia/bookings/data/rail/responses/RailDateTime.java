@@ -3,7 +3,7 @@ package com.expedia.bookings.data.rail.responses;
 import org.joda.time.DateTime;
 
 public class RailDateTime implements Comparable<RailDateTime> {
-	public String raw;
+	public final String raw;
 	public Long epochSeconds;
 	public String localized;
 	public String localizedShortDate;

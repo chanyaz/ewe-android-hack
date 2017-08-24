@@ -153,9 +153,9 @@ public class GsonUtilTest {
 			TWO
 		}
 
-		String name;
-		BigDecimal money;
-		SpecialEnum type;
+		final String name;
+		final BigDecimal money;
+		final SpecialEnum type;
 		String nullVar;
 
 		public TestClass(String name, BigDecimal money, SpecialEnum type) {
@@ -169,7 +169,7 @@ public class GsonUtilTest {
 	}.getType();
 
 	private static class ClassWithMoney {
-		Money money;
+		final Money money;
 	}
 
 }

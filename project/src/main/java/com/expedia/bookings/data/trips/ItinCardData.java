@@ -10,7 +10,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class ItinCardData {
 
-	private TripComponent mTripComponent;
+	private final TripComponent mTripComponent;
 
 	// Non-persistant but unique ID across rotations etc.
 	private String mId;

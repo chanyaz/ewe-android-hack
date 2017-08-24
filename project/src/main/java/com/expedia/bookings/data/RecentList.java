@@ -27,7 +27,7 @@ public class RecentList<E extends JSONable> {
 
 	private int mMaxItems;
 
-	private Class<E> mClass;
+	private final Class<E> mClass;
 
 	/**
 	 * Creates an empty recent search list with max items of 5

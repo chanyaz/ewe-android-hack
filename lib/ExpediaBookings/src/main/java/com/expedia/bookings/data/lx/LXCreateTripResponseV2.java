@@ -8,7 +8,7 @@ import com.expedia.bookings.data.TripResponse;
 public class LXCreateTripResponseV2 extends TripResponse {
 
 	public String itineraryNumber;
-	public LXExpediaRewards expediaRewards;
+	public final LXExpediaRewards expediaRewards;
 	public Money newTotalPrice;
 	public LXProduct lxProduct;
 
@@ -17,7 +17,7 @@ public class LXCreateTripResponseV2 extends TripResponse {
 	}
 
 	// Injected after receiving response; required for communicating price change
-	public Money originalPrice;
+	public final Money originalPrice;
 
 	@NotNull
 	@Override

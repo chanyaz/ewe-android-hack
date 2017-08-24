@@ -1,7 +1,7 @@
 package com.expedia.bookings.data;
 
 public class TripInfo {
-	public String itineraryNumber;
-	public String travelRecordLocator;
-	public String tripId;
+	public final String itineraryNumber;
+	public final String travelRecordLocator;
+	public final String tripId;
 }

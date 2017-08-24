@@ -28,7 +28,7 @@ public class PicassoHelper implements Target, Callback {
 	// Keeps track of which URL we're going to try next
 	private int mIndex;
 
-	private Context mContext;
+	private final Context mContext;
 	private ImageView mView;
 
 	private int mResId;
@@ -46,7 +46,7 @@ public class PicassoHelper implements Target, Callback {
 
 	private String mTag;
 
-	private Picasso mPicasso;
+	private final Picasso mPicasso;
 
 	public static void init(Context context, OkHttpClient client) {
 		if (!ExpediaBookingApp.isAutomation()) {
@@ -292,7 +292,7 @@ public class PicassoHelper implements Target, Callback {
 	public static class Builder {
 
 		// Required attributes
-		private Context mContext;
+		private final Context mContext;
 		private int mDefaultResId;
 		private int mErrorResId;
 		private ImageView mView;

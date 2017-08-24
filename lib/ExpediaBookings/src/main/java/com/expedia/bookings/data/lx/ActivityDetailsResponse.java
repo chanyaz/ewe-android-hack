@@ -7,30 +7,30 @@ import com.expedia.bookings.data.cars.LatLong;
 import com.google.gson.annotations.SerializedName;
 
 public class ActivityDetailsResponse {
-	public String id;
+	public final String id;
 	public String title;
-	public String description;
-	public List<ActivityImages> images;
+	public final String description;
+	public final List<ActivityImages> images;
 	public String fromPrice;
 	public LXTicketType fromPriceTicketCode;
-	public String location;
-	public List<String> highlights;
-	public OffersDetail offersDetail;
+	public final String location;
+	public final List<String> highlights;
+	public final OffersDetail offersDetail;
 	public String currencyCode;
-	public String regionId;
-	public List<String> inclusions;
-	public List<String> exclusions;
-	public List<String> knowBeforeYouBook;
-	public int freeCancellationMinHours;
+	public final String regionId;
+	public final List<String> inclusions;
+	public final List<String> exclusions;
+	public final List<String> knowBeforeYouBook;
+	public final int freeCancellationMinHours;
 	@SerializedName("typeGT")
 	public boolean isGroundTransport;
 	public String passengers;
 	public String bags;
-	public String destination;
+	public final String destination;
 	public LXRedemptionType redemptionType;
-	public int recommendationScore;
-	public LXLocation eventLocation;
-	public List<LXLocation> redemptionLocation = new ArrayList<>();
+	public final int recommendationScore;
+	public final LXLocation eventLocation;
+	public final List<LXLocation> redemptionLocation = new ArrayList<>();
 
 	public static class LXLocation {
 		public String addressName;
@@ -38,7 +38,7 @@ public class ActivityDetailsResponse {
 		public String city;
 		public String province;
 		public String postalCode;
-		public String latLng;
+		public final String latLng;
 
 		public static LatLong getLocation(String latLong) {
 			String[] latLongArray = latLong.split(",");

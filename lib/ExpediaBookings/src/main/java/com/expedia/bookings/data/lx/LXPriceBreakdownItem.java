@@ -4,6 +4,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.PriceBreakdownItemType;
 
 public class LXPriceBreakdownItem {
-	public Money price;
-	public PriceBreakdownItemType type;
+	public final Money price;
+	public final PriceBreakdownItemType type;
 }

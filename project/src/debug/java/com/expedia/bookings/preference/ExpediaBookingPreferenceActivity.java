@@ -20,7 +20,7 @@ public class ExpediaBookingPreferenceActivity extends AppCompatActivity implemen
 
 	private SearchView searchView;
 
-	public PublishSubject<String> searchQueryChangeSubject = PublishSubject.create();
+	public final PublishSubject<String> searchQueryChangeSubject = PublishSubject.create();
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,

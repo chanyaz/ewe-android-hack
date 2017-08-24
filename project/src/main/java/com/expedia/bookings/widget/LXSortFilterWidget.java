@@ -136,7 +136,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		RxKt.subscribeTextChange(activityNameFilterEditText, activityFilterSubscriber);
 	}
 
-	private Observer activityFilterSubscriber = new Observer() {
+	private final Observer activityFilterSubscriber = new Observer() {
 		@Override
 		public void onCompleted() {
 		}

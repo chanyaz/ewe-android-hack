@@ -55,7 +55,7 @@ public class TravelerButton extends LinearLayout {
 	private ListPopupWindow mStoredTravelerPopup;
 	private ITravelerButtonListener mTravelerButtonListener;
 	private String mLastSelectedTravelerTuid;
-	private int addNewTravelerPosition = 1;
+	private final int addNewTravelerPosition = 1;
 
 	public interface ITravelerButtonListener {
 		void onTravelerChosen(Traveler traveler);

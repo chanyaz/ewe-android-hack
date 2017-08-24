@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 public class CarSearchResponse extends com.expedia.bookings.data.BaseApiResponse {
 	public DateTime pickupTime;
 	public DateTime dropOffTime;
-	public List<SearchCarOffer> offers = new ArrayList<>();
+	public final List<SearchCarOffer> offers = new ArrayList<>();
 
 	public boolean hasProductKey(String productKey) {
 		for (SearchCarOffer offer : offers) {

@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.DateUtils;
 public class Offer {
 	public String id;
 	public String title;
-	public List<AvailabilityInfo> availabilityInfo;
+	public final List<AvailabilityInfo> availabilityInfo;
 	public boolean freeCancellation;
 	public String duration;
 	public String description;
@@ -18,7 +18,7 @@ public class Offer {
 	public boolean isToggled;
 	public String bags;
 	public String passengers;
-	public boolean isGroundTransport;
+	public final boolean isGroundTransport;
 	public LXRedemptionType redemptionType;
 
 	// Utility for available info on selected date - not coming from the API

@@ -5,7 +5,7 @@ import java.lang.ref.WeakReference;
 import android.widget.OverScroller;
 
 public class FullscreenGalleryOverScroller<T extends GalleryScrollView> extends OverScroller {
-	private WeakReference<T> mScrollViewRef;
+	private final WeakReference<T> mScrollViewRef;
 
 	public FullscreenGalleryOverScroller(T view) {
 		super(view.getContext());

@@ -6,7 +6,7 @@ import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.utils.CurrencyUtils;
 
 public class TripBucketItemLX extends TripBucketItem {
-	LXCreateTripResponse createTripResponse;
+	final LXCreateTripResponse createTripResponse;
 
 	public TripBucketItemLX(LXCreateTripResponse createTripResponse) {
 		this.createTripResponse = createTripResponse;

@@ -162,7 +162,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 		}
 
-		private PicassoTarget target = new PicassoTarget() {
+		private final PicassoTarget target = new PicassoTarget() {
 			@Override
 			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 				super.onBitmapLoaded(bitmap, from);

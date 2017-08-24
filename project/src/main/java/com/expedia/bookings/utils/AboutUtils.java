@@ -32,7 +32,7 @@ import java.util.List;
 // Methods that tie together TabletAboutActivity and AboutActivity
 public class AboutUtils {
 
-	private Activity mActivity;
+	private final Activity mActivity;
 
 	public AboutUtils(Activity activity) {
 		mActivity = activity;

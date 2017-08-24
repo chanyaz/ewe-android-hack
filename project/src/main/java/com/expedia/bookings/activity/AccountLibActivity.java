@@ -66,7 +66,7 @@ public class AccountLibActivity extends AppCompatActivity
 	private LoginExtender loginExtender;
 	private UserAccountRefresher userAccountRefresher;
 	private boolean userLoggedInWithFacebook = false;
-	private Listener listener = new Listener();
+	private final Listener listener = new Listener();
 
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
@@ -224,7 +224,7 @@ public class AccountLibActivity extends AppCompatActivity
 		extenderStatus.setText(status);
 	}
 
-	private AnalyticsListener analyticsListener = new AnalyticsListener() {
+	private final AnalyticsListener analyticsListener = new AnalyticsListener() {
 		@Override
 		public void signInSucceeded() {
 			OmnitureTracking.trackLoginSuccess();

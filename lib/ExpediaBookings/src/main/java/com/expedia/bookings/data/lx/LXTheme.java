@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public class LXTheme {
-	public Map<String, LXCategoryMetadata> filterCategories = new HashMap<>();
+	public final Map<String, LXCategoryMetadata> filterCategories = new HashMap<>();
 	public LXThemeType themeType;
-	public List<LXActivity> activities = new ArrayList<>();
+	public final List<LXActivity> activities = new ArrayList<>();
 	public String title;
 	public String description;
 	public String titleEN;

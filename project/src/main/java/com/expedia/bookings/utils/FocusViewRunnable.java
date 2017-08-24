@@ -14,8 +14,8 @@ public class FocusViewRunnable implements Runnable {
 
 	private static final long DELAY_MILLIS = 200;
 
-	private Fragment mFragment;
-	private View mView;
+	private final Fragment mFragment;
+	private final View mView;
 
 	public FocusViewRunnable(Fragment fragment, View view) {
 		mFragment = fragment;

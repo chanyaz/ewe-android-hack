@@ -3,8 +3,8 @@ package com.expedia.bookings.data.cars;
 import com.expedia.bookings.utils.NumberUtils;
 
 public class LatLong {
-	public double lat;
-	public double lng;
+	public final double lat;
+	public final double lng;
 
 	public LatLong(double lat, double lng) {
 		this.lat = lat;

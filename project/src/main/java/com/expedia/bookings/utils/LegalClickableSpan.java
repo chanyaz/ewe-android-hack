@@ -8,8 +8,8 @@ import com.expedia.bookings.activity.WebViewActivity;
 
 public class LegalClickableSpan extends URLSpan {
 
-	private String title;
-	private boolean hasUnderline;
+	private final String title;
+	private final boolean hasUnderline;
 
 	public LegalClickableSpan(String url, String title, boolean hasUnderline) {
 		super(url);

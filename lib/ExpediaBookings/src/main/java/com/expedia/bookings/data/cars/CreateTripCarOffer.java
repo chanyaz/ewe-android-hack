@@ -7,7 +7,7 @@ public class CreateTripCarOffer extends BaseCarOffer {
 	private DateTime pickupTime;
 	private DateTime dropOffTime;
 	public CreateTripCarFare detailedFare;
-	public String rulesAndRestrictionsURL;
+	public final String rulesAndRestrictionsURL;
 
 	public DateTime getPickupTime() {
 		return pickupTime.toLocalDateTime().toDateTime();

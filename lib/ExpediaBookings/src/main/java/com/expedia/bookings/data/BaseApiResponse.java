@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 public class BaseApiResponse {
-	public String activityId;
+	public final String activityId;
 	public List<ApiError> errors;
 
 	public boolean hasErrors() {

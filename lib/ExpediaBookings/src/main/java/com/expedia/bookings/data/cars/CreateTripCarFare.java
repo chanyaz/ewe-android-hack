@@ -6,10 +6,10 @@ import com.expedia.bookings.data.Money;
 
 public class CreateTripCarFare extends BaseCarFare {
 
-	public Money totalDueToday;
-	public Money totalDueAtPickup;
+	public final Money totalDueToday;
+	public final Money totalDueAtPickup;
 	public Money grandTotal;
-	public List<RateBreakdownItem> priceBreakdownOfTotalDueToday;
-	public List<RateBreakdownItem> priceBreakdownOfTotalDueAtPickup;
+	public final List<RateBreakdownItem> priceBreakdownOfTotalDueToday;
+	public final List<RateBreakdownItem> priceBreakdownOfTotalDueAtPickup;
 
 }

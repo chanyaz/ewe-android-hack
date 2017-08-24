@@ -189,7 +189,7 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			Events.post(new Events.CarsShowDetails(offers));
 		}
 
-		private PicassoTarget target = new PicassoTarget() {
+		private final PicassoTarget target = new PicassoTarget() {
 			@Override
 			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 				super.onBitmapLoaded(bitmap, from);
