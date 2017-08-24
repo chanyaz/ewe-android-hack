@@ -8,7 +8,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FareFamilyViewModel
@@ -22,7 +21,6 @@ class FareFamilyCardView(context: Context, attrs: AttributeSet) : CardView(conte
         vm.selectedClassObservable.subscribeText(selectedClassTextView)
         vm.deltaPriceObservable.subscribeText(deltaPriceView)
         vm.widgetVisibilityObservable.subscribeVisibility(this)
-        subscribeOnClick(vm.fareFamilyCardClickObserver)
     }
 
     init {

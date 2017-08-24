@@ -17,14 +17,13 @@ class FareFamilyViewModel(private val context: Context) {
     val widgetVisibilityObservable = PublishSubject.create<Boolean>()
     val selectedClassObservable = PublishSubject.create<CharSequence>()
     val deltaPriceObservable = PublishSubject.create<String>()
-    val fareFamilyCardClickObserver = PublishSubject.create<Unit>()
 
     val isUserBucketedForFareFamily = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFareFamilyFlightSummary,
             R.string.preference_fare_family_flight_summary)
 
     init {
         tripObservable.subscribe { trip ->
-            widgetVisibilityObservable.onNext(isUserBucketedForFareFamily && trip.fareFamilies?.fareFamilyDetails!=null && trip.fareFamilies!!.fareFamilyDetails.isNotEmpty() && !trip.getOffer().isSplitTicket)
+            widgetVisibilityObservable.onNext(isUserBucketedForFareFamily && trip.fareFamilies != null && !trip.getOffer().isSplitTicket)
             if (trip.fareFamilies != null) {
                 val fareFamilyDetails = (trip.fareFamilies as FareFamilies).fareFamilyDetails
                 if (fareFamilyDetails != null && fareFamilyDetails.isNotEmpty()) {

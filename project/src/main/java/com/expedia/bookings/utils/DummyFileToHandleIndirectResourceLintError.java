@@ -25,15 +25,6 @@ public class DummyFileToHandleIndirectResourceLintError {
 		R.drawable.itin_website_icon,
 		R.color.btn_sign_in_pressed,
 		R.color.btn_sign_in_focused,
-		R.drawable.flight_upsell_cross_icon,
-		R.drawable.flight_upsell_oval_icon,
-		R.drawable.flight_upsell_tick_icon,
-		R.string.roundtrip,
-		R.style.FlightFareFamilyTextStyle,
-		R.style.FlightFareFamilyAmenityText,
-		R.style.FareFamilyHeader,
-		R.style.FareFamilyHeaderSubtitle,
-		R.style.FlightFareFamilyAmenityIcon,
 		R.bool.tablet
 	};
 }
