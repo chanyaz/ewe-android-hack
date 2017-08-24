@@ -152,7 +152,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val changeDates = PublishSubject.create<Unit>()
     val hotelSelectedObservable = PublishSubject.create<Unit>()
     private val allRoomsSoldOut = BehaviorSubject.create<Boolean>(false)
-    private val noRoomsInOffersResponse = BehaviorSubject.create<Boolean>(false)
 
     var isCurrentLocationSearch = false
     var selectedRoomIndex = -1
@@ -233,8 +232,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     protected val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     init {
-        Observable.combineLatest(allRoomsSoldOut, noRoomsInOffersResponse)
-        { allRoomsSoldOut, noRoomsInOffersResponse -> allRoomsSoldOut || noRoomsInOffersResponse }.subscribe(hotelSoldOut)
+        allRoomsSoldOut.subscribe(hotelSoldOut)
 
         selectedRoomSoldOut.subscribe {
             if (selectedRoomIndex != -1) {
@@ -482,9 +480,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         hotelRatingObservableVisibility.onNext(offerResponse.hotelStarRating > 0)
         hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, offerResponse.hotelStarRating.toInt()))
 
-        allRoomsSoldOut.onNext(false)
+        allRoomsSoldOut.onNext(CollectionUtils.isEmpty(offerResponse.hotelRoomResponse))
         lastExpandedRowIndexObservable.onNext(-1)
-        noRoomsInOffersResponse.onNext(CollectionUtils.isEmpty(offerResponse.hotelRoomResponse))
 
         val firstHotelRoomResponse = offerResponse.hotelRoomResponse?.firstOrNull()
         if (firstHotelRoomResponse != null) {

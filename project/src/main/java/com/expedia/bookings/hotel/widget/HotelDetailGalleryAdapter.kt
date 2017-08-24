@@ -7,7 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import rx.subjects.PublishSubject
 
-class HotelDetailGalleryAdapter() : RecyclerView.Adapter<HotelDetailGalleryViewHolder>() {
+class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHolder>() {
     val galleryItemClickedSubject = PublishSubject.create<Unit>()
 
     private var mediaList: List<HotelMedia> = emptyList()
@@ -19,8 +19,10 @@ class HotelDetailGalleryAdapter() : RecyclerView.Adapter<HotelDetailGalleryViewH
     }
 
     fun updateSoldOut(soldOut: Boolean) {
-        this.soldOut = soldOut
-        notifyItemRangeChanged(0, itemCount) // rebind
+        if (this.soldOut != soldOut) {
+            this.soldOut = soldOut
+            notifyItemRangeChanged(0, itemCount)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotelDetailGalleryViewHolder {
