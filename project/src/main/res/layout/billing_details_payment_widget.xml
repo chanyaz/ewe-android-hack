@@ -265,6 +265,7 @@
                     </LinearLayout>
 
                     <com.expedia.bookings.widget.TextView
+                        android:id="@+id/billing_address_title"
                         style="@style/HeaderTextAboveCardviews"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

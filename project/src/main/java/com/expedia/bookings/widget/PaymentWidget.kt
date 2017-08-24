@@ -23,6 +23,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.ISectionEditable
@@ -40,6 +41,7 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isHideApacBillingFieldsEnabled
 import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.isPopulateCardholderNameEnabled
 import com.expedia.bookings.utils.setFocusForView
@@ -64,6 +66,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val billingInfoContainer: ViewGroup by bindView(R.id.section_billing_info_container)
     val paymentOptionCreditDebitCard: TextView by bindView(R.id.payment_option_credit_debit)
     val sectionBillingInfo: SectionBillingInfo by bindView(R.id.section_billing_info)
+    val billingAddressTitle: TextView by bindView(R.id.billing_address_title)
     val sectionLocation: SectionLocation by bindView(R.id.section_location_address)
     val creditCardNumber: NumberMaskEditText by bindView(R.id.edit_creditcard_number)
     val creditCardName: AccessibleEditText by bindView(R.id.edit_name_on_card)
@@ -91,6 +94,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val focusedView = PublishSubject.create<View>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
     val populateCardholderNameTestEnabled = isPopulateCardholderNameEnabled(context)
+    val hideApacBillingFieldsEnabled = isHideApacBillingFieldsEnabled(context)
 
     private val userStateManager: UserStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
@@ -204,6 +208,15 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
         vm.moveFocusToPostalCodeSubject.subscribe {
             creditCardPostalCode.requestFocus()
+        }
+
+        vm.clearHiddenBillingAddress.subscribe {
+            if (!isCompletelyFilled()) {
+                val location = Location()
+                sectionBillingInfo.billingInfo.location = location
+                sectionLocation.bind(location)
+                sectionLocation.resetValidation()
+            }
         }
     }
 
@@ -597,6 +610,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(forward) else updateLegacyToolbarMenu(!forward)
             viewmodel.showingPaymentForm.onNext(forward)
+            if (materialFormTestEnabled && hideApacBillingFieldsEnabled) {
+                if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
+                else viewmodel.clearHiddenBillingAddress.onNext(Unit)
+            }
         }
     }
 
@@ -629,6 +646,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(forward) else updateLegacyToolbarMenu(!forward)
+            if (materialFormTestEnabled && hideApacBillingFieldsEnabled) {
+                if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
+                else viewmodel.clearHiddenBillingAddress.onNext(Unit)
+            }
         }
     }
 

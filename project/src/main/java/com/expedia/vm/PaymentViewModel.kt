@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -60,6 +61,7 @@ open class PaymentViewModel(val context: Context) {
     val travelerFirstName = BehaviorSubject.create<AccessibleEditText>()
     val travelerLastName = BehaviorSubject.create<AccessibleEditText>()
     val populateCardholderNameObservable = BehaviorSubject.create<String>("")
+    val createFakeAddressObservable = PublishSubject.create<Unit>()
 
     //ouputs
     val iconStatus = PublishSubject.create<ContactDetailsCompletenessStatus>()
@@ -80,6 +82,9 @@ open class PaymentViewModel(val context: Context) {
     val ccFeeDisclaimer = PublishSubject.create<String>()
     val isFeatureEnabledForPaymentInfoTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
     val updateBillingCountryFields = PublishSubject.create<String>()
+    val removeBillingAddressForApac = PublishSubject.create<Boolean>()
+    val populateFakeBillingAddress = PublishSubject.create<Location>()
+    val clearHiddenBillingAddress = PublishSubject.create<Unit>()
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
@@ -194,6 +199,16 @@ open class PaymentViewModel(val context: Context) {
 
         clearTemporaryCardObservable.subscribe {
             Db.clearTemporaryCard()
+        }
+        createFakeAddressObservable.subscribe {
+            val location = Location()
+            location.city = resources.getString(R.string.dummy_city)
+            location.countryCode = resources.getString(R.string.dummy_country)
+            location.addStreetAddressLine(resources.getString(R.string.dummy_address_line_one))
+            location.addStreetAddressLine(resources.getString(R.string.dummy_address_line_two))
+            location.postalCode = resources.getString(R.string.dummy_postal_code)
+            location.stateCode = resources.getString(R.string.dummy_state)
+            populateFakeBillingAddress.onNext(location)
         }
     }
 

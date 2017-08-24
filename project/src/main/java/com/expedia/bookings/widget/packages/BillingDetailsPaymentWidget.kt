@@ -76,6 +76,14 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             postalCodeLayout?.clearFocus()
             addressStateLayout?.clearFocus()
         }
+        paymentViewModel.removeBillingAddressForApac.subscribe { shouldHide ->
+            billingAddressTitle.updateVisibility(!shouldHide)
+            sectionLocation.updateVisibility(!shouldHide)
+            viewmodel.createFakeAddressObservable.onNext(Unit)
+        }
+        paymentViewModel.populateFakeBillingAddress.subscribe { location ->
+            sectionLocation.bind(location)
+        }
     }
 
     override fun onFinishInflate() {

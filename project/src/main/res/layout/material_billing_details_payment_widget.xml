@@ -293,6 +293,7 @@
                     </LinearLayout>
 
                     <com.expedia.bookings.widget.TextView
+                        android:id="@+id/billing_address_title"
                         style="@style/MaterialCheckoutTextHeader"
                         android:focusable="true"
                         android:focusableInTouchMode="true"

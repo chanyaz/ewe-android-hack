@@ -1224,8 +1224,13 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_flight_fare_family_details,
 		R.string.nearby_results,
 		R.string.error_no_pinned_result_message,
-		//Please add your string above this line to avoid conflicts
-		R.string.flights_there_maybe_additional_fee
+		R.string.flights_there_maybe_additional_fee,
+		R.string.dummy_address_line_one,
+		R.string.dummy_address_line_two,
+		R.string.dummy_city,
+		R.string.dummy_state,
+		R.string.dummy_country,
+		R.string.dummy_postal_code
 		//Please add your string above this line to avoid conflicts
 	};
 }

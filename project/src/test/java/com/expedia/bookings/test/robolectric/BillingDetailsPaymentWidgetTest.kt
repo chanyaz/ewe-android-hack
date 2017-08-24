@@ -29,7 +29,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.accessibility.AccessiblePasswordEditText
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
@@ -760,6 +759,71 @@ class BillingDetailsPaymentWidgetTest {
         assertFormFieldsHiddenProperly(View.VISIBLE, View.VISIBLE)
     }
 
+    @Test
+    fun testShouldHideBillingAddressFields() {
+        givenMaterialPaymentBillingWidget()
+        billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(true)
+        assertBillingAddressSectionHidden(shouldHide = true)
+    }
+
+    @Test
+    fun testShouldNotHideBillingAddressFields() {
+        givenMaterialPaymentBillingWidget()
+        billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(false)
+        assertBillingAddressSectionHidden(shouldHide = false)
+    }
+
+    @Test
+    fun testCreateFakeAddress() {
+        givenMaterialPaymentBillingWidget()
+        val testCreateFakeAddressSubscriber = TestSubscriber.create<Unit>()
+        val testPopulateFakeBillingAddressSubscriber = TestSubscriber.create<Location>()
+        billingDetailsPaymentWidget.viewmodel.createFakeAddressObservable.subscribe(testCreateFakeAddressSubscriber)
+        billingDetailsPaymentWidget.viewmodel.populateFakeBillingAddress.subscribe(testPopulateFakeBillingAddressSubscriber)
+        billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(true)
+
+        assertEquals(1, testCreateFakeAddressSubscriber.onNextEvents.size)
+        assertEquals(1, testPopulateFakeBillingAddressSubscriber.onNextEvents.size)
+
+        val fakeAddress = testPopulateFakeBillingAddressSubscriber.onNextEvents[0]
+        assertValidFakeAddress(fakeAddress)
+    }
+
+    @Test
+    fun testIsCompletelyFilledHiddenBillingAddress() {
+        givenMaterialPaymentBillingWidget()
+        billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(true)
+
+        billingDetailsPaymentWidget.creditCardNumber.setText("4444444444444442")
+        billingDetailsPaymentWidget.creditCardName.setText("Hidden Billing")
+        billingDetailsPaymentWidget.creditCardCvv.setText("111")
+        billingDetailsPaymentWidget.expirationDate.setText(cardExpiry.toString())
+        assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
+    }
+
+    @Test
+    fun testShouldClearHiddenBillingAddress() {
+        givenMaterialPaymentBillingWidget()
+        billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(true)
+
+        billingDetailsPaymentWidget.viewmodel.clearHiddenBillingAddress.onNext(Unit)
+        assertFalse(billingDetailsPaymentWidget.isAtLeastPartiallyFilled())
+    }
+
+    @Test
+    fun testShouldNotClearBillingInformation() {
+        givenMaterialPaymentBillingWidget()
+        billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(true)
+
+        billingDetailsPaymentWidget.creditCardNumber.setText("4444444444444442")
+        billingDetailsPaymentWidget.creditCardName.setText("Hidden Billing")
+        billingDetailsPaymentWidget.creditCardCvv.setText("111")
+        billingDetailsPaymentWidget.expirationDate.setText(cardExpiry.toString())
+
+        billingDetailsPaymentWidget.viewmodel.clearHiddenBillingAddress.onNext(Unit)
+        assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
+    }
+
     private fun getUserWithStoredCard(): User {
         val user = User()
         user.addStoredCreditCard(getNewCard())
@@ -886,5 +950,19 @@ class BillingDetailsPaymentWidgetTest {
     private fun assertFormFieldsHiddenProperly(addressStateVisibility: Int, postalCodeVisiblity: Int)  {
         assertTrue(billingDetailsPaymentWidget.addressStateLayout?.visibility == addressStateVisibility)
         assertTrue(billingDetailsPaymentWidget.postalCodeLayout?.visibility == postalCodeVisiblity)
+    }
+
+    private fun assertBillingAddressSectionHidden(shouldHide: Boolean) {
+        assertTrue(billingDetailsPaymentWidget.billingAddressTitle?.visibility == if (shouldHide) View.GONE else View.VISIBLE)
+        assertTrue(billingDetailsPaymentWidget.sectionLocation?.visibility == if (shouldHide) View.GONE else View.VISIBLE)
+    }
+
+    private fun assertValidFakeAddress(fakeAddress: Location) {
+        assertEquals("USA", fakeAddress.countryCode)
+        assertEquals("Any street1", fakeAddress.streetAddressLine1)
+        assertEquals("Any street2", fakeAddress.streetAddressLine2)
+        assertEquals("Any city", fakeAddress.city)
+        assertEquals("MA", fakeAddress.stateCode)
+        assertEquals("12345", fakeAddress.postalCode)
     }
 }
