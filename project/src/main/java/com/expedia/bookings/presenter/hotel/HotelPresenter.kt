@@ -47,7 +47,6 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -133,7 +132,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.searchViewModel = searchViewModel
 
         searchViewModel.genericSearchSubject.subscribe { params -> handleGenericSearch(params) }
-        searchViewModel.hotelIdSearchSubject.subscribe { params -> handleHotelIdSearch(params) }
+        searchViewModel.hotelIdSearchSubject.subscribe { params ->
+            HotelTracking.trackPinnedSearch()
+            handleHotelIdSearch(params, goToResults = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch))
+        }
         searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
 
         presenter
@@ -920,15 +922,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsPresenter.viewModel.paramsSubject.onNext(params)
     }
 
-    private fun handleHotelIdSearch(params: HotelSearchParams, fromDeepLink: Boolean = false) {
+    private fun handleHotelIdSearch(params: HotelSearchParams, goToResults: Boolean = false) {
         updateSearchParams(params)
 
-        HotelTracking.trackPinnedSearch()
-        if (!fromDeepLink && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)) {
+        if (goToResults) {
+            setDefaultTransition(Screen.RESULTS)
             resultsPresenter.resetListOffset()
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
             resultsPresenter.viewModel.paramsSubject.onNext(params)
         } else {
+            setDefaultTransition(Screen.DETAILS)
             showDetails(params.suggestion.hotelId, true)
         }
     }
@@ -991,8 +994,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
         handler.hotelIdDeepLinkSubject.subscribe { params ->
             updateSearchForDeepLink(params)
-            setDefaultTransition(Screen.DETAILS)
-            handleHotelIdSearch(params, true)
+            handleHotelIdSearch(params, goToResults = params.forcePinnedSearch)
         }
 
         handler.deepLinkInvalidSubject.subscribe {

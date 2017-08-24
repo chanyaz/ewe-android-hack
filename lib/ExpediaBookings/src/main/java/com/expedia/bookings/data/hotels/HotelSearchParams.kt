@@ -14,6 +14,8 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
     var forPackage = false
     var filterOptions: HotelFilterOptions? = null
     var enableSponsoredListings = true
+    var forcePinnedSearch = false
+
     fun isCurrentLocationSearch(): Boolean {
         return suggestion.isCurrentLocationSearch
     }

@@ -280,6 +280,13 @@ class UniversalDeepLinkParserTest {
         Assert.assertEquals(5, parsed.mctc)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun mctcSearchSelectedHotel() {
+        val data = Uri.parse("https://www.expedia.com/mobile/deeplink/Hotel-Search?&selected=1808319")
+        val parsed = parser.parseUniversalDeepLink(data) as HotelDeepLink
+        Assert.assertEquals("1808319", parsed.selectedHotelId)
+    }
 
     private fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
         Assert.assertEquals(childrenExpected.size, childrenActual.size)

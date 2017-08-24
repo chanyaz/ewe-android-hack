@@ -60,6 +60,8 @@ class HotelsV2DataUtil {
             val checkOutDate = if (hasValidDates) params.checkOutDate else LocalDate.now().plusDays(1)
             val shopWithPointsAvailable = LoyaltyUtil.isShopWithPointsAvailable(Ui.getApplication(context).appComponent().userStateManager())
             val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, shopWithPointsAvailable, true, params.sortType, params.mctc)
+
+            v2params.forcePinnedSearch = params.forcePinnedSearch
             return v2params
         }
 

@@ -53,6 +53,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
         }
 
         hotelDeepLink.hotelId = getQueryParameterIfExists(data, queryParameterNames, "hotelId")
+        hotelDeepLink.selectedHotelId = getQueryParameterIfExists(data, queryParameterNames, "selected")
         hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "checkInDate", DateTimeFormat.forPattern("yyyy-MM-dd"))
         hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "checkOutDate", DateTimeFormat.forPattern("yyyy-MM-dd"))
         hotelDeepLink.sortType = getQueryParameterIfExists(data, queryParameterNames, "sortType")

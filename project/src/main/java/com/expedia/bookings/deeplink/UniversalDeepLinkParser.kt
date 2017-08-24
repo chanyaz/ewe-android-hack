@@ -113,6 +113,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
         hotelDeepLink.numAdults = getIntegerParameterIfExists(data, queryParameterNames, "adults")
         hotelDeepLink.sortType = getQueryParameterIfExists(data, queryParameterNames, "sort")
         hotelDeepLink.regionId = getQueryParameterIfExists(data, queryParameterNames, "regionId")
+        hotelDeepLink.selectedHotelId = getQueryParameterIfExists(data, queryParameterNames, "selected")
         hotelDeepLink.mctc = getNullableIntegerParameterIfExists(data, queryParameterNames, "mctc")
 
         if (data.toString().toLowerCase().contains("/hotels") && queryParameterNames.size == 1 && hotelDeepLink.sortType?.toLowerCase() == "discounts") {

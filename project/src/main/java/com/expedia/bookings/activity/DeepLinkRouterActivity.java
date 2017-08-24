@@ -322,6 +322,11 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			Log.d(TAG, "Setting hotel sort type: " + hotelSearchParams.getSortType());
 		}
 
+		if (deepLink.getSelectedHotelId() != null) {
+			hotelSearchParams.hotelId = deepLink.getSelectedHotelId();
+			hotelSearchParams.forcePinnedSearch = true;
+		}
+
 		if (deepLink.getMemberOnlyDealSearch()) {
 			HotelNavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH);
 		}

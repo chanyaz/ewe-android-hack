@@ -231,6 +231,16 @@ public class HotelsV2DataUtilTest {
 		Assert.assertTrue("SWP expected to be enabled", v2params.getShopWithPoints());
 	}
 
+	@Test
+	public void testHotelV2FromHotelV1ForcePinned() {
+		com.expedia.bookings.data.HotelSearchParams v1Params = new com.expedia.bookings.data.HotelSearchParams();
+		v1Params.forcePinnedSearch = true;
+
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params);
+
+		Assert.assertTrue(v2params.getForcePinnedSearch());
+	}
+
 	private FlightSearchParams setupFlightSearchParams() {
 		SuggestionV4 departureSuggestion = new SuggestionV4();
 		departureSuggestion.gaiaId = "1234";
