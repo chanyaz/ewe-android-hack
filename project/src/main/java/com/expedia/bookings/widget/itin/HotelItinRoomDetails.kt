@@ -3,6 +3,8 @@ package com.expedia.bookings.widget.itin
 import android.animation.LayoutTransition
 import android.content.Context
 import android.support.annotation.VisibleForTesting
+import android.support.v4.app.FragmentActivity
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
@@ -11,7 +13,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripHotelRoom
+import com.expedia.bookings.fragment.ScrollableContentDialogFragment
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
@@ -30,7 +34,10 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
     val amenitiesContainer: LinearLayout by bindView(R.id.itin_hotel_room_amenities_container)
     val amenitiesDivider: View by bindView(R.id.amenities_summary_divider)
     val container: ViewGroup by bindView(R.id.container)
+    val changeCancelRulesContainer: LinearLayout by bindView(R.id.change_cancel_rules_container)
+    val changeCancelRulesButtonText: TextView by bindView(R.id.change_cancel_rules_button_text)
     var isRowClickable = false
+    val DIALOG_TAG = "CHANGE_CANCEL_RULES_DIALOG"
 
     private val collapsedRoomDetails: LinearLayout by bindView(R.id.itin_hotel_details_room_collapsed_view)
 
@@ -217,6 +224,20 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
         if (!showAmenities) {
             amenitiesContainer.visibility = View.GONE
             amenitiesDivider.visibility = View.GONE
+        }
+    }
+
+    fun showChangeCancelRules(itinCardDataHotel: ItinCardDataHotel) {
+        if (itinCardDataHotel.changeAndCancelRules != null && itinCardDataHotel.changeAndCancelRules.isNotEmpty()) {
+            changeCancelRulesContainer.visibility = View.VISIBLE
+            changeCancelRulesContainer.setOnClickListener {
+                val fragmentManager = (context as FragmentActivity).supportFragmentManager
+                val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_cancel_rules_label),
+                        TextUtils.join("\n", itinCardDataHotel.changeAndCancelRules).toString())
+                dialog.show(fragmentManager, DIALOG_TAG)
+                OmnitureTracking.trackHotelItinChangeAndCancelRulesDialogClick()
+            }
+            changeCancelRulesButtonText.setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
         }
     }
 }

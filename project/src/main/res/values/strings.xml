@@ -1568,6 +1568,8 @@
     <string name="itin_hotel_check_in_policies_button_text">Check-in information</string>
     <!--Title for a pop-up that lists out detailed check-in policies-->
     <string name="itin_hotel_check_in_policies_dialog_heading">Check-in policies</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">Change and cancellation rules</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

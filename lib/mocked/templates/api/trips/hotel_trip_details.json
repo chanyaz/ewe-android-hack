@@ -91,6 +91,13 @@
             "isVipAccess": false,
             "googleMapsLink": "http://maps.google.com?q=94108+San+Francisco,+665+Bush+St+"
           },
+          "rules": {
+            "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Adante Hotel, a C-Two Hotel charges the following cancellation and change fees.",
+            "cancelChangeRules": [
+              "Cancellations or changes made after 3:00PM (Pacific Daylight Time (US & Canada); Tijuana) on Oct 17, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.",
+              "Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel."
+            ]
+          },
           "rooms": [
             {
               "uniqueID": "5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0_520073486",

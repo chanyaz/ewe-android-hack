@@ -65,11 +65,13 @@ class HotelItinDetailsActivityTest {
         assertEquals(View.GONE, activity.roomDetailsView.expandedRoomDetails.visibility)
         assertEquals(View.GONE, activity.roomDetailsChevron.visibility)
         assertEquals(false, activity.roomDetailsView.isRowClickable)
+        assertEquals(View.GONE, activity.roomDetailsView.changeCancelRulesContainer.visibility)
 
         activity.itinCardDataHotel = itinCardDataHotel
         activity.setUpWidgets()
         assertEquals(View.GONE, activity.roomDetailsView.expandedRoomDetails.visibility)
         assertEquals(View.VISIBLE, activity.roomDetailsChevron.visibility)
         assertEquals(true, activity.roomDetailsView.isRowClickable)
+        assertEquals(View.GONE, activity.roomDetailsView.changeCancelRulesContainer.visibility)
     }
 }

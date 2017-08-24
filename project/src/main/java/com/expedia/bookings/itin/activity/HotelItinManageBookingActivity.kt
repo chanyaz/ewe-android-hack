@@ -70,6 +70,7 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
         roomDetailsView.setUpWidget(itinCardDataHotel)
         if (roomDetailsView.isExpandableRoomDetailsOn() && itinCardDataHotel.lastHotelRoom != null) {
             roomDetailsView.expandRoomDetailsView()
+            roomDetailsView.showChangeCancelRules(itinCardDataHotel)
         }
         toolbar.setUpWidget(itinCardDataHotel, this.getString(R.string.itin_hotel_manage_booking_header))
         toolbar.setNavigationOnClickListener {

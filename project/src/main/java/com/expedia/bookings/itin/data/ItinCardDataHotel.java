@@ -278,4 +278,11 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 		return super.getLocation();
 	}
+
+	public List<String> getChangeAndCancelRules() {
+		if (getTripComponent() != null) {
+			return ((TripHotel) getTripComponent()).getChangeAndCancelRules();
+		}
+		return null;
+	}
 }

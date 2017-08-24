@@ -49,6 +49,7 @@ import com.expedia.bookings.data.trips.TripPackage;
 import com.expedia.bookings.data.trips.TripRails;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
@@ -272,16 +273,25 @@ public class TripParser {
 			boolean isVipHotel = propertyJson.optBoolean("isVipAccess", false);
 			property.setIsVipAccess(isVipHotel);
 
-			JSONArray checkInPoliciesJSON = propertyJson.optJSONArray("checkInPolicies");
-			if (checkInPoliciesJSON != null) {
-				List<String> checkInPolicies = new ArrayList<>();
-				for (int policy = 0; policy < checkInPoliciesJSON.length(); ++policy) {
-					checkInPolicies.add(checkInPoliciesJSON.optString(policy));
-				}
+			List<String> checkInPolicies = JSONUtils.getStringList(propertyJson, "checkInPolicies");
+			if (checkInPolicies != null && !checkInPolicies.isEmpty()) {
 				property.setCheckInPolicies(checkInPolicies);
 			}
 
 			hotel.setProperty(property);
+		}
+
+		JSONObject rulesJson = obj.optJSONObject("rules");
+		if (rulesJson != null) {
+			List<String> rules = new ArrayList<>();
+			if (rulesJson.has("cancelChangeRulesIntroduction") && !rulesJson.optString("cancelChangeRulesIntroduction").isEmpty()) {
+				rules.add(rulesJson.optString("cancelChangeRulesIntroduction"));
+			}
+			List<String> cancelChangeRules = JSONUtils.getStringList(rulesJson, "cancelChangeRules");
+			if (cancelChangeRules != null && !cancelChangeRules.isEmpty()) {
+				rules.addAll(cancelChangeRules);
+			}
+			hotel.setChangeAndCancelRules(rules);
 		}
 
 		parseHotelRooms(obj, hotel, property);

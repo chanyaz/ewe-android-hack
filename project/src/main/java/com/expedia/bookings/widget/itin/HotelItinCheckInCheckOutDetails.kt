@@ -1,8 +1,6 @@
 package com.expedia.bookings.widget.itin
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
@@ -50,13 +48,7 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
                 dialog.show(fragmentManager, DIALOG_TAG)
                 OmnitureTracking.trackHotelItinCheckInPoliciesDialogClick()
             }
-            setTextViewDrawableColor(checkInOutPoliciesButtonText, R.color.app_primary)
+            checkInOutPoliciesButtonText.setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
         }
-    }
-
-    private fun setTextViewDrawableColor(textView: TextView, color: Int) {
-        textView.compoundDrawables
-                .filterNotNull()
-                .forEach { it.colorFilter = PorterDuffColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_IN) }
     }
 }

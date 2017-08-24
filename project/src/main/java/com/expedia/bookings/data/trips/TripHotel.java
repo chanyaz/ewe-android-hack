@@ -23,6 +23,7 @@ public class TripHotel extends TripComponent {
 	private String mSharableDetailsUrl;
 	private Traveler mPrimaryTraveler; // Used in sharedItin.
 	private List<TripHotelRoom> mRooms = new ArrayList<>();
+	private List<String> changeAndCancelRules = new ArrayList<>();
 
 	public TripHotel() {
 		super(Type.HOTEL);
@@ -92,6 +93,14 @@ public class TripHotel extends TripComponent {
 		return mRooms;
 	}
 
+	public void setChangeAndCancelRules(List<String> rules) {
+		changeAndCancelRules = rules;
+	}
+
+	public List<String> getChangeAndCancelRules() {
+		return changeAndCancelRules;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -111,6 +120,7 @@ public class TripHotel extends TripComponent {
 			obj.putOpt("sharableItemDetailURL", mSharableDetailsUrl);
 			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
 			GsonUtil.putListForJsonable(obj, "rooms", mRooms);
+			JSONUtils.putStringList(obj, "changeAndCancelRules", changeAndCancelRules);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -134,6 +144,11 @@ public class TripHotel extends TripComponent {
 		if (confNumbers != null && confNumbers.size() > 0) {
 			mConfirmationNumbers = new LinkedHashSet<String>();
 			mConfirmationNumbers.addAll(confNumbers);
+		}
+
+		List<String> rules = JSONUtils.getStringList(obj, "changeAndCancelRules");
+		if (rules != null && rules.size() > 0) {
+			changeAndCancelRules = rules;
 		}
 
 		return true;

@@ -36,7 +36,8 @@
                 android:paddingBottom="16dp"
                 android:textColor="@color/gray10"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="Deluxe room, 1 King bed"/>
 
             <ImageView
                 android:id="@+id/itin_hotel_room_details_chevron"
@@ -49,7 +50,8 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/read_more"
                 android:tint="@color/package_bundle_icon_color"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
         </LinearLayout>
 
@@ -58,7 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <View
                 android:id="@+id/amenities_summary_divider"
@@ -138,7 +141,8 @@
                 android:textSize="12sp"
                 android:textColor="@color/gray6"
                 android:textStyle="normal"
-                android:lineSpacingExtra="4dp" />
+                android:lineSpacingExtra="4dp"
+                tools:text="Please leave some Champagne on the table"/>
 
             <View
                 android:layout_width="match_parent"
@@ -160,6 +164,34 @@
                 android:textStyle="normal"
                 android:text="@string/itin_hotel_room_details_requests_disclaimer"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/change_cancel_rules_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/itin_card_summary_divider_color" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/change_cancel_rules_button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="12dp"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/ic_info"
+                android:gravity="center_vertical"
+                android:text="@string/itin_hotel_check_cancel_rules_label"
+                android:textColor="@color/app_primary"
+                android:textSize="12sp"
+                android:textStyle="normal" />
         </LinearLayout>
     </LinearLayout>
 

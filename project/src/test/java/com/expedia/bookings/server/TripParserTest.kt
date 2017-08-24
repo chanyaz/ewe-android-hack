@@ -310,6 +310,33 @@ class TripParserTest {
         assertEquals(true, checkInPolicies.isEmpty())
     }
 
+    @Test
+    fun testTripHotelNoChangeCancelRules() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelNoChangeCancelRules()).tripComponents[0] as TripHotel
+        val changeAndCancelRules = parsedHotelTrip.changeAndCancelRules
+        assertEquals(true, changeAndCancelRules.isEmpty())
+    }
+
+    @Test
+    fun testTripHotelChangeCancelRules() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelTripJson()).tripComponents[0] as TripHotel
+        val changeAndCancelRules = parsedHotelTrip.changeAndCancelRules
+        val testRules = listOf("We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Adante Hotel, a C-Two Hotel charges the following cancellation and change fees.",
+                "Cancellations or changes made after 3:00PM (Pacific Daylight Time (US & Canada); Tijuana) on Oct 17, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.",
+                "Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel.")
+        assertEquals(testRules, changeAndCancelRules)
+    }
+
+    @Test
+    fun testTripHotelEmptyChangeCancelRules() {
+        val tripParser = TripParser()
+        val parsedHotelTrip = tripParser.parseTrip(getHotelNoChangeCancelRules(true)).tripComponents[0] as TripHotel
+        val rules = parsedHotelTrip.changeAndCancelRules
+        assertEquals(true, rules.isEmpty())
+    }
+
     private fun getHotelNoRoomsJSON(): JSONObject {
         val hotelTripJson = getHotelTripJson()
         val hotel = hotelTripJson.getJSONArray("hotels").getJSONObject(0)
@@ -335,7 +362,19 @@ class TripParserTest {
         val hotelTripJson = getHotelTripJson()
         val hotelPropertyInfo = hotelTripJson.getJSONArray("hotels").getJSONObject(0).getJSONObject("hotelPropertyInfo")
         hotelPropertyInfo.remove("checkInPolicies")
-        if(isEmpty) hotelPropertyInfo.put("checkInPolicies", JSONArray())
+        if (isEmpty) hotelPropertyInfo.put("checkInPolicies", JSONArray())
+        return hotelTripJson
+    }
+
+    private fun getHotelNoChangeCancelRules(isEmpty: Boolean = false): JSONObject {
+        val hotelTripJson = getHotelTripJson()
+        val rules = hotelTripJson.getJSONArray("hotels").getJSONObject(0).getJSONObject("rules")
+        rules.remove("cancelChangeRulesIntroduction")
+        rules.remove("cancelChangeRules")
+        if (isEmpty) {
+            rules.put("cancelChangeRulesIntroduction", "")
+            rules.put("cancelChangeRules", JSONArray())
+        }
         return hotelTripJson
     }
 }

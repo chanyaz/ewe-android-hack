@@ -149,6 +149,14 @@ public class TextView extends android.widget.TextView {
 		setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 	}
 
+	public void setCompoundDrawablesTint(@ColorInt int color) {
+		for (Drawable drawable : this.getCompoundDrawables()) {
+			if (drawable != null) {
+				drawable.mutate().setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+			}
+		}
+	}
+
 	// Stroke
 
 	public void setStrokeColor(int color) {
