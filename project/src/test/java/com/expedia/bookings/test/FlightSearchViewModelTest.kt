@@ -1,5 +1,6 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -8,11 +9,13 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.logging.HttpLoggingInterceptor
@@ -450,6 +453,28 @@ class FlightSearchViewModelTest {
         testSubscriber.assertValueCount(1)
     }
 
+    @Test
+    fun testFLightCachedParams() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
+        SettingUtils.save(context, R.string.preference_flight_search_from_cache, true)
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        givenCabinClass("COACH")
+        val testSubscriber = TestSubscriber<FlightSearchParams>()
+        sut.cachedSearchParamsObservable.subscribe(testSubscriber)
+
+        sut.performSearchObserver.onNext(Unit)
+        testSubscriber.assertValueCount(1)
+        val cachedSearchParams = testSubscriber.onNextEvents[0]
+        assertEquals("LHR", cachedSearchParams.destination!!.hierarchyInfo!!.airport!!.airportCode)
+        assertEquals("SFO", cachedSearchParams.origin!!.hierarchyInfo!!.airport!!.airportCode)
+        assertTrue(cachedSearchParams.featureOverride!!.contains(Constants.FEATURE_FLIGHT_CACHE))
+    }
+
     private fun givenByotOutboundSearch() {
         sut.getParamsBuilder()
                 .legNo(0)
@@ -472,6 +497,10 @@ class FlightSearchViewModelTest {
         sut.getParamsBuilder()
                 .startDate(startDate)
                 .endDate(endDate)
+    }
+
+    private fun givenCabinClass(cabinClass: String) {
+        sut.getParamsBuilder().flightCabinClass(cabinClass)
     }
 
     private fun givenParamsHaveOrigin() {

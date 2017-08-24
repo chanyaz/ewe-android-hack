@@ -42,6 +42,7 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
         adapter.create(FlightApi::class.java)
     }
     var searchRequestSubscription: Subscription? = null
+    var cachedSearchRequestSubscription: Subscription? = null
     var createTripRequestSubscription: Subscription? = null
     var checkoutRequestSubscription: Subscription? = null
 
@@ -49,83 +50,95 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
     open fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
                           resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
         searchRequestSubscription?.unsubscribe()
+        searchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable)
+        return searchRequestSubscription as Subscription
+    }
 
-        searchRequestSubscription = flightApi.flightSearch(params.toQueryMap(), params.children, params.flightCabinClass, params.legNo,
+    open fun cachedFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
+                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
+        cachedSearchRequestSubscription?.unsubscribe()
+        cachedSearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable)
+        return cachedSearchRequestSubscription as Subscription
+    }
+
+    private fun doFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
+        val subscription = flightApi.flightSearch(params.toQueryMap(), params.children, params.flightCabinClass, params.legNo,
                 params.selectedOutboundLegId, params.showRefundableFlight, params.nonStopFlight, params.featureOverride)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { resultsResponseReceivedObservable?.onNext(Unit) }
-                .doOnNext { response ->
-                    if (response.hasErrors() || response.legs.isEmpty() || response.offers.isEmpty()) return@doOnNext
-                    response.legs.forEach { leg ->
-                        leg.mayChargeObFees = response.offers.filter { it.legIds.contains(leg.legId) }
-                                .filter { it.mayChargeOBFees == true }
-                                .isNotEmpty()
-                        leg.carrierName = leg.segments.first().airlineName
-                        leg.flightSegments = leg.segments
-                        val departure = leg.flightSegments.first()
-                        val arrival = leg.flightSegments.last()
+                .doOnNext { response -> processSearchResponse(response) }
+                .subscribe(observer)
+        return subscription
+    }
 
-                        val arrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(arrival.arrivalTimeRaw)
-                        val departureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(departure.departureTimeRaw)
+    private fun processSearchResponse(response: FlightSearchResponse) {
+        if (response.hasErrors() || response.legs.isEmpty() || response.offers.isEmpty()) return
+        response.legs.forEach { leg ->
+            leg.mayChargeObFees = response.offers.filter { it.legIds.contains(leg.legId) }
+                    .filter { it.mayChargeOBFees == true }
+                    .isNotEmpty()
+            leg.carrierName = leg.segments.first().airlineName
+            leg.flightSegments = leg.segments
+            val departure = leg.flightSegments.first()
+            val arrival = leg.flightSegments.last()
 
-                        leg.elapsedDays = Days.daysBetween(departureTime.toLocalDate(), arrivalTime.toLocalDate()).days
-                        leg.departureDateTimeISO = departure.departureTimeRaw
-                        leg.arrivalDateTimeISO = arrival.arrivalTimeRaw
-                        leg.destinationAirportCode = arrival.arrivalAirportCode
-                        leg.originAirportCode = departure.departureAirportCode
-                        leg.destinationCity = arrival.arrivalAirportAddress.city
-                        leg.originCity = departure.departureAirportAddress.city
+            val arrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(arrival.arrivalTimeRaw)
+            val departureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(departure.departureTimeRaw)
 
-                        val airlines = ArrayList<Airline>()
-                        var lastSegment: FlightLeg.FlightSegment? = null
-                        var lastArrival: DateTime? = null
-                        leg.stopCount = leg.flightSegments.size - 1
-                        if (leg.stopCount > 0) {
-                            leg.hasLayover = true
-                        }
-                        for (segment in leg.flightSegments) {
-                            segment.carrier = segment.airlineName
-                            segment.airplaneType = segment.equipmentDescription ?: "" // not always returned by API
-                            segment.departureCity = segment.departureAirportLocation
-                            segment.arrivalCity = segment.arrivalAirportLocation
-                            segment.departureDateTimeISO = segment.departureTimeRaw
-                            segment.arrivalDateTimeISO = segment.arrivalTimeRaw
-                            setAirlineLogoUrl(segment)
+            leg.elapsedDays = Days.daysBetween(departureTime.toLocalDate(), arrivalTime.toLocalDate()).days
+            leg.departureDateTimeISO = departure.departureTimeRaw
+            leg.arrivalDateTimeISO = arrival.arrivalTimeRaw
+            leg.destinationAirportCode = arrival.arrivalAirportCode
+            leg.originAirportCode = departure.departureAirportCode
+            leg.destinationCity = arrival.arrivalAirportAddress.city
+            leg.originCity = departure.departureAirportAddress.city
 
-                            val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.arrivalTimeRaw)
-                            val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.departureTimeRaw)
-                            segment.elapsedDays = Days.daysBetween(segmentDepartureTime.toLocalDate(), segmentArrivalTime.toLocalDate()).days
-                            val airline = Airline(segment.airlineName, segment.airlineLogoURL)
-                            airlines.add(airline)
+            val airlines = ArrayList<Airline>()
+            var lastSegment: FlightLeg.FlightSegment? = null
+            var lastArrival: DateTime? = null
+            leg.stopCount = leg.flightSegments.size - 1
+            if (leg.stopCount > 0) {
+                leg.hasLayover = true
+            }
+            for (segment in leg.flightSegments) {
+                segment.carrier = segment.airlineName
+                segment.airplaneType = segment.equipmentDescription ?: "" // not always returned by API
+                segment.departureCity = segment.departureAirportLocation
+                segment.arrivalCity = segment.arrivalAirportLocation
+                segment.departureDateTimeISO = segment.departureTimeRaw
+                segment.arrivalDateTimeISO = segment.arrivalTimeRaw
+                setAirlineLogoUrl(segment)
 
-                            val travelPeriod = Period(segmentDepartureTime, segmentArrivalTime)
-                            segment.durationHours = travelPeriod.hours
-                            segment.durationMinutes = travelPeriod.minutes
-                            leg.durationHour += travelPeriod.hours
-                            leg.durationMinute += travelPeriod.minutes
+                val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.arrivalTimeRaw)
+                val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.departureTimeRaw)
+                segment.elapsedDays = Days.daysBetween(segmentDepartureTime.toLocalDate(), segmentArrivalTime.toLocalDate()).days
+                val airline = Airline(segment.airlineName, segment.airlineLogoURL)
+                airlines.add(airline)
 
-                            if (lastSegment != null) {
-                                val layOverPeriod = Period(lastArrival, segmentDepartureTime);
-                                leg.durationHour += layOverPeriod.hours
-                                leg.durationMinute += layOverPeriod.minutes
-                                lastSegment.layoverDurationHours = layOverPeriod.hours
-                                lastSegment.layoverDurationMinutes = layOverPeriod.minutes
-                            }
-                            lastArrival = segmentArrivalTime;
-                            lastSegment = segment
-                        }
-                        leg.airlines = airlines
-                        if (leg.durationMinute > 59) {
-                            val extraHours: Int = leg.durationMinute / 60
-                            leg.durationHour += extraHours
-                            leg.durationMinute -= (extraHours * 60)
-                        }
-                    }
+                val travelPeriod = Period(segmentDepartureTime, segmentArrivalTime)
+                segment.durationHours = travelPeriod.hours
+                segment.durationMinutes = travelPeriod.minutes
+                leg.durationHour += travelPeriod.hours
+                leg.durationMinute += travelPeriod.minutes
 
-                }.subscribe(observer)
-
-        return searchRequestSubscription as Subscription
+                if (lastSegment != null) {
+                    val layOverPeriod = Period(lastArrival, segmentDepartureTime);
+                    leg.durationHour += layOverPeriod.hours
+                    leg.durationMinute += layOverPeriod.minutes
+                    lastSegment.layoverDurationHours = layOverPeriod.hours
+                    lastSegment.layoverDurationMinutes = layOverPeriod.minutes
+                }
+                lastArrival = segmentArrivalTime;
+                lastSegment = segment
+            }
+            leg.airlines = airlines
+            if (leg.durationMinute > 59) {
+                val extraHours: Int = leg.durationMinute / 60
+                leg.durationHour += extraHours
+                leg.durationMinute -= (extraHours * 60)
+            }
+        }
     }
 
     // open so we can use Mockito to mock FlightServices

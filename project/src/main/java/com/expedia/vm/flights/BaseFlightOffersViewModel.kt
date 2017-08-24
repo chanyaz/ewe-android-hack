@@ -1,6 +1,8 @@
 package com.expedia.vm.flights
 
 import android.content.Context
+import android.widget.Toast
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -14,7 +16,9 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.Ui
 import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
@@ -42,10 +46,14 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
     val cancelOutboundSearchObservable = PublishSubject.create<Unit>()
     val cancelInboundSearchObservable = PublishSubject.create<Unit>()
+    val cancelCachedSearchObservable = PublishSubject.create<Unit>()
+    val isCachedCallCompleted = PublishSubject.create<Boolean>()
     val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
     val flightCabinClassSubject = BehaviorSubject.create<String>()
     val nonStopSearchFilterAppliedSubject = BehaviorSubject.create<Boolean>()
     val refundableFilterAppliedSearchSubject = BehaviorSubject.create<Boolean>()
+    val cachedFlightSearchObservable = PublishSubject.create<FlightSearchParams>()
+    val cachedSearchTrackingString = PublishSubject.create<String>()
     var isOutboundSearch = true
     var totalOutboundResults = 0
     var totalInboundResults = 0
@@ -56,6 +64,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
     protected var flightOutboundSearchSubscription: Subscription? = null
     protected var flightInboundSearchSubscription: Subscription? = null
+    protected var flightCacheSearchSubscription: Subscription? = null
 
     init {
         searchParamsObservable.subscribe { params ->
@@ -68,12 +77,29 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             searchingForFlightDateTime.onNext(Unit)
             flightOutboundSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
         }
+
+        cachedFlightSearchObservable.subscribe { params ->
+            isCachedCallCompleted.onNext(false)
+            flightCacheSearchSubscription = flightServices.cachedFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
+        }
+
         cancelOutboundSearchObservable.subscribe {
             flightOutboundSearchSubscription?.unsubscribe()
         }
+
         cancelInboundSearchObservable.subscribe {
             flightInboundSearchSubscription?.unsubscribe()
         }
+
+        cancelCachedSearchObservable.withLatestFrom(isCachedCallCompleted, { _, cachedCallCompleted -> cachedCallCompleted })
+                .filter { cachedCallCompleted -> !cachedCallCompleted }
+                .subscribe {
+                    // Normal API call returned before cache call.
+                    flightCacheSearchSubscription?.unsubscribe()
+                    cachedSearchTrackingString.onNext("CL")
+                    showDebugToast("Normal api call returned before cached call.")
+                }
+
         isRoundTripSearchSubject.subscribe {
             isRoundTripSearch = it
         }
@@ -174,6 +200,31 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         return object : Observer<FlightSearchResponse> {
 
             override fun onNext(response: FlightSearchResponse) {
+                if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache) ) {
+                    // Check for cached api response
+                    if (response.isResponseCached()) {
+                        isCachedCallCompleted.onNext(true)
+                        if (!response.cachedResultsFound!!) {
+                            // Cache is null
+                            cachedSearchTrackingString.onNext("CN")
+                            showDebugToast("Cached results not found")
+                            return
+                        } else if (response.areCachedResultsBookable()) {
+                            // Bookable cache found
+                            cachedSearchTrackingString.onNext("B")
+                            cancelOutboundSearchObservable.onNext(Unit)
+                            showDebugToast("Showing bookable cached results")
+                        } else if (response.areCachedResultsNonBookable()) {
+                            // Non bookable cache found
+                            cachedSearchTrackingString.onNext("NB")
+                            showDebugToast("Non bookable cached results found but not displayed")
+                            return
+                        }
+                    } else {
+                        cancelCachedSearchObservable.onNext(Unit)
+                    }
+                }
+
                 if (response.hasErrors()) {
                     errorObservable.onNext(response.firstError)
                 } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
@@ -202,6 +253,13 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
             override fun onCompleted() {
             }
+        }
+    }
+
+    // Adding Toast to make it easier for testing cached results on debug builds.
+    fun showDebugToast(message: String) {
+        if (BuildConfig.DEBUG) {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
 

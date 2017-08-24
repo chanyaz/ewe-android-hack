@@ -91,10 +91,11 @@ public class Constants {
 	//Business Region
 	public static final String ASIA_PACIFIC_REGION = "APAC";
 
+	//Flight API feature override constants
 	public static final String FEATURE_SUBPUB = "SubPub";
-
 	public static final String FEATURE_FLEX = "Flex";
-
+	public static final String FEATURE_FLIGHT_CACHE = "FlightSearchCacheGet";
+	
 	//Location Permission Prompt Limit
 	public static final int LOCATION_PROMPT_LIMIT = 3;
 }

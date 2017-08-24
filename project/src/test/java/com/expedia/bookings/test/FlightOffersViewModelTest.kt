@@ -1,17 +1,22 @@
 package com.expedia.bookings.test
 
 import android.content.DialogInterface
+import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
@@ -125,6 +130,78 @@ class FlightOffersViewModelTest {
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
         assertNotNull(testSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testBookableCachedSearchResponse() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
+        SettingUtils.save(context, R.string.preference_flight_search_from_cache, true)
+        val resultsTestSubscriber = TestSubscriber<List<FlightLeg>>()
+        val cachedCallCompleteTestSubscriber = TestSubscriber<Boolean>()
+        val cachedSearchTrackingTestSubscriber = TestSubscriber<String>()
+        val cancelSearchTestSubscriber = TestSubscriber<Unit>()
+
+        sut.outboundResultsObservable.subscribe(resultsTestSubscriber)
+        sut.isCachedCallCompleted.subscribe(cachedCallCompleteTestSubscriber)
+        sut.cachedSearchTrackingString.subscribe(cachedSearchTrackingTestSubscriber)
+        sut.cancelOutboundSearchObservable.subscribe(cancelSearchTestSubscriber)
+
+        performCachedFlightSearch(false, "cached_bookable")
+
+        resultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        resultsTestSubscriber.assertValueCount(1)
+        assertNotNull(resultsTestSubscriber.onNextEvents[0])
+        cachedCallCompleteTestSubscriber.assertValueCount(2)
+        assertEquals("B", cachedSearchTrackingTestSubscriber.onNextEvents[0])
+        cancelSearchTestSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testNonBookableCachedSearchResponse() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
+        SettingUtils.save(context, R.string.preference_flight_search_from_cache, true)
+        val resultsTestSubscriber = TestSubscriber<List<FlightLeg>>()
+        val cachedCallCompleteTestSubscriber = TestSubscriber<Boolean>()
+        val cachedSearchTrackingTestSubscriber = TestSubscriber<String>()
+        val cancelSearchTestSubscriber = TestSubscriber<Unit>()
+
+        sut.outboundResultsObservable.subscribe(resultsTestSubscriber)
+        sut.isCachedCallCompleted.subscribe(cachedCallCompleteTestSubscriber)
+        sut.cachedSearchTrackingString.subscribe(cachedSearchTrackingTestSubscriber)
+        sut.cancelOutboundSearchObservable.subscribe(cancelSearchTestSubscriber)
+
+        performCachedFlightSearch(false, "cached_non_bookable")
+
+        // Non bookable cached search response should not be rendered for now.
+        resultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        resultsTestSubscriber.assertValueCount(0)
+        cachedCallCompleteTestSubscriber.assertValueCount(2)
+        assertEquals("NB", cachedSearchTrackingTestSubscriber.onNextEvents[0])
+        cancelSearchTestSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun testCachedSearchNoResultsResponse() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
+        SettingUtils.save(context, R.string.preference_flight_search_from_cache, true)
+        val resultsTestSubscriber = TestSubscriber<List<FlightLeg>>()
+        val cachedCallCompleteTestSubscriber = TestSubscriber<Boolean>()
+        val cachedSearchTrackingTestSubscriber = TestSubscriber<String>()
+        val cancelSearchTestSubscriber = TestSubscriber<Unit>()
+
+        sut.outboundResultsObservable.subscribe(resultsTestSubscriber)
+        sut.isCachedCallCompleted.subscribe(cachedCallCompleteTestSubscriber)
+        sut.cachedSearchTrackingString.subscribe(cachedSearchTrackingTestSubscriber)
+        sut.cancelOutboundSearchObservable.subscribe(cancelSearchTestSubscriber)
+
+        performCachedFlightSearch(false, "cached_not_found")
+
+        // Cached results were not found.
+        resultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        resultsTestSubscriber.assertValueCount(0)
+        cachedCallCompleteTestSubscriber.assertValueCount(2)
+        assertEquals("CN", cachedSearchTrackingTestSubscriber.onNextEvents[0])
+        cancelSearchTestSubscriber.assertValueCount(0)
     }
 
     @Test
@@ -330,6 +407,11 @@ class FlightOffersViewModelTest {
         sut.searchParamsObservable.onNext(paramsBuilder.build())
     }
 
+    private fun performCachedFlightSearch(roundTrip: Boolean, airportCode: String) {
+        val paramsBuilder = giveCachedSearchParams(roundTrip, airportCode)
+        sut.cachedFlightSearchObservable.onNext(paramsBuilder.build())
+    }
+
     private fun giveSearchParams(roundTrip: Boolean): FlightSearchParams.Builder {
         val origin = getDummySuggestion()
         val destination = getDummySuggestion()
@@ -345,6 +427,14 @@ class FlightOffersViewModelTest {
             paramsBuilder.endDate(endDate)
         }
         return paramsBuilder
+    }
+
+    private fun giveCachedSearchParams(roundTrip: Boolean, airportCode: String): FlightSearchParams.Builder {
+        val origin = getDummySuggestion()
+        origin.hierarchyInfo!!.airport!!.airportCode = airportCode
+        return giveSearchParams(roundTrip)
+                .setFeatureOverride(Constants.FEATURE_FLIGHT_CACHE)
+                .origin(origin) as FlightSearchParams.Builder
     }
 
     private fun makeFlightLegWithOBFees(legId: String): FlightLeg {

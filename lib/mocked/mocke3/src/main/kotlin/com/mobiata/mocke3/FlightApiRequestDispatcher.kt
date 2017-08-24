@@ -1,6 +1,7 @@
 package com.mobiata.mocke3
 
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.utils.Constants
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
 import java.io.BufferedReader
@@ -29,7 +30,10 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
         }
 
         return when {
-            FlightApiRequestMatcher.isSearchRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getSearchResponseFilePath(params), params)
+            FlightApiRequestMatcher.isSearchRequest(urlPath) -> {
+                val isCachedSearch = request.path.contains(Constants.FEATURE_FLIGHT_CACHE)
+                getMockResponse(FlightApiMockResponseGenerator.getSearchResponseFilePath(params, isCachedSearch), params)
+            }
 
             FlightApiRequestMatcher.isCreateTripRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getCreateTripResponseFilePath(params), params)
 
@@ -71,7 +75,11 @@ class FlightApiMockResponseGenerator() {
         PASSPORT_NEEDED("passport_needed"),
         MAY_CHARGE_OB_FEES("may_charge_ob_fees"),
         SEARCH_ERROR("search_error"),
-        EARN("earn");
+        EARN("earn"),
+        CACHED_BOOKABLE("cached_bookable"),
+        CACHED_NON_BOOKABLE("cached_non_bookable"),
+        CACHED_NOT_FOUND("cached_not_found");
+
 
         companion object {
 
@@ -108,16 +116,19 @@ class FlightApiMockResponseGenerator() {
         val INVALID_INPUT = "invalidinput"
         val TRIP_ID = "tripId"
 
-        fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
+        fun getSearchResponseFilePath(params: MutableMap<String, String>, isCached: Boolean = false): String {
             val departureAirport = params["departureAirport"]
-            val suggestionResponseType = SuggestionResponseType.getValueOf(departureAirport!!);
+            val suggestionResponseType = SuggestionResponseType.getValueOf(departureAirport!!)
 
             val isReturnFlightSearch = params.containsKey("returnDate")
             val departureDate = params["departureDate"]
             val legNo = params["ul"]
 
             val fileName =
-                    if (isReturnFlightSearch) {
+                    if (isCached) {
+                        suggestionResponseType.suggestionString
+                    }
+                    else if (isReturnFlightSearch) {
                         if (legNo != null && legNo.equals("0")) {
                             suggestionResponseType.suggestionString + "_outbound"
                         } else if (legNo != null && legNo.equals("1")) {

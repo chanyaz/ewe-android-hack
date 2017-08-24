@@ -240,6 +240,14 @@
             android:key="14769"
             android:summary="%s"
             android:title="Flight rate details from cache (i.e. remove fullscreen progress) - 14769" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14888"
+            android:summary="%s"
+            android:title="Rendering Flight search from cache - 14888" />
     </PreferenceCategory>
 
     <PreferenceCategory

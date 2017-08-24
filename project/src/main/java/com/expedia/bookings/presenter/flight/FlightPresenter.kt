@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
@@ -158,13 +159,19 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             true
         })
         presenter.setupComplete()
-        (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
-            searchTrackingBuilder.markResultsUsable()
-            if (searchTrackingBuilder.isWorkComplete()) {
-                val trackingData = searchTrackingBuilder.build()
-                FlightsV2Tracking.trackResultOutBoundFlights(trackingData, flightOfferViewModel.isSubPub)
+
+        val allViewsLoadedObservable = (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache)) {
+            allViewsLoadedObservable.withLatestFrom(presenter.flightOfferViewModel.cachedSearchTrackingString, { _, trackingString -> trackingString }).subscribe { trackingString ->
+                trackResultsLoaded(trackingString)
             }
         }
+        else {
+            allViewsLoadedObservable.subscribe {
+                trackResultsLoaded()
+            }
+        }
+
         if (isByotEnabled) {
             presenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe {
                 searchTrackingBuilder.markSearchClicked()
@@ -172,6 +179,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
         presenter
+    }
+
+    private fun trackResultsLoaded(cacheString: String = "") {
+        searchTrackingBuilder.markResultsUsable()
+        if (searchTrackingBuilder.isWorkComplete()) {
+            val trackingData = searchTrackingBuilder.build()
+            FlightsV2Tracking.trackResultOutBoundFlights(trackingData,flightOfferViewModel.isSubPub, cacheString)
+        }
     }
 
     val inboundPresenter: FlightInboundPresenter by lazy {
@@ -403,6 +418,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             outBoundPresenter.clearBackStack()
             outBoundPresenter.showResults()
             show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
+        vm.cachedSearchParamsObservable.subscribe { params ->
+            flightOfferViewModel.cachedFlightSearchObservable.onNext(params)
         }
     }
 

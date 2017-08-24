@@ -106,6 +106,82 @@ public class FlightServicesTest {
 	}
 
 	@Test
+	public void testMockBookableCachedSearch() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
+
+		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+
+		SuggestionV4 origin = getDummySuggestion();
+		origin.hierarchyInfo.airport.airportCode = "cached_bookable";
+		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
+			.setFeatureOverride(Constants.FEATURE_FLIGHT_CACHE)
+			.flightCabinClass("COACH")
+			.origin(origin)
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.adults(1)
+			.build();
+
+		service.cachedFlightSearch(params, observer, resultsResponseReceived);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		resultsResponseReceivedTestSubscriber.assertValueCount(1);
+		FlightSearchResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(4, response.getLegs().size());
+		Assert.assertEquals(2, response.getOffers().size());
+		Assert.assertTrue(response.isResponseCached());
+		Assert.assertTrue(response.areCachedResultsBookable());
+		Assert.assertFalse(response.areCachedResultsNonBookable());
+	}
+
+	@Test
+	public void testMockCachedResultsNotFound() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
+
+		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+
+		SuggestionV4 origin = getDummySuggestion();
+		origin.hierarchyInfo.airport.airportCode = "cached_not_found";
+		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
+			.setFeatureOverride(Constants.FEATURE_FLIGHT_CACHE)
+			.flightCabinClass("COACH")
+			.origin(origin)
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.adults(1)
+			.build();
+
+		service.cachedFlightSearch(params, observer, resultsResponseReceived);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		resultsResponseReceivedTestSubscriber.assertValueCount(1);
+		FlightSearchResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(0, response.getLegs().size());
+		Assert.assertEquals(0, response.getOffers().size());
+		Assert.assertTrue(response.isResponseCached());
+		Assert.assertFalse(response.areCachedResultsBookable());
+		Assert.assertTrue(response.areCachedResultsNonBookable());
+	}
+
+	@Test
 	public void testMockOutboundSearchWorksForByot() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);

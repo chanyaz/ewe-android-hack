@@ -3,6 +3,7 @@ package com.expedia.bookings.test.data.flights
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Constants
 import junit.framework.Assert.assertNull
 import org.joda.time.LocalDate
 import org.junit.Assert
@@ -246,12 +247,20 @@ class NewFlightSearchParamsTest {
         Assert.assertEquals("BUSINESS", inboundSearchParams.flightCabinClass)
     }
 
+    @Test
+    fun testCachedSearchParams() {
+        val cachedParams = giveSearchParams().buildParamsForCachedSearch(maxStay, maxRange)
+        assertEquals("SubPub,FlightSearchCacheGet", cachedParams.featureOverride)
+    }
+
     private fun giveSearchParams(): FlightSearchParams {
-        return builder.origin(expectedOrigin)
+        return builder.setFeatureOverride(Constants.FEATURE_SUBPUB)
+                .origin(expectedOrigin)
                 .destination(expectedOrigin)
                 .startDate(tomorrow)
                 .endDate(expectedReturnDate)
-                .adults(expectedNumAdults).build() as FlightSearchParams
+                .adults(expectedNumAdults)
+                .build() as FlightSearchParams
     }
 
     private fun getDummySuggestion(city: String, airport: String): SuggestionV4 {

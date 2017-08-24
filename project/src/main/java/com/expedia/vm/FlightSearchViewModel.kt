@@ -14,6 +14,7 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
@@ -41,6 +42,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
+    val cachedSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     val cachedEndDateObservable = BehaviorSubject.create<Optional<LocalDate>>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
@@ -146,7 +148,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     val performSearchObserver = endlessObserver<Unit> {
-        getParamsBuilder().maxStay = getCalendarRules().getMaxSearchDurationDays()
+        val maxStay = getCalendarRules().getMaxSearchDurationDays()
+        getParamsBuilder().maxStay = maxStay
         if (getParamsBuilder().areRequiredParamsFilled() && !getParamsBuilder().isOriginSameAsDestination()) {
             val flightSearchParams = getParamsBuilder().build()
             travelerValidator.updateForNewSearch(flightSearchParams)
@@ -155,6 +158,11 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             FlightsV2Tracking.trackSearchClick()
             if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
                 SearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
+            }
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache)
+                    && !flightSearchParams.hasAdvanceSearchOption() && flightSearchParams.flightCabinClass.equals(FlightServiceClassType.CabinCode.COACH.name)) {
+                val cachedSearchParams = flightSearchParams.buildParamsForCachedSearch(maxStay, getCalendarRules().getMaxDateRange())
+                cachedSearchParamsObservable.onNext(cachedSearchParams)
             }
         } else {
             if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)) {

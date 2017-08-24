@@ -90,6 +90,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.ProWizardTest.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppSoftPromptLocation.getKey());
 			query.addExperiment(PointOfSale.getPointOfSale().getRailsWebViewABTestID().getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightsSearchResultCaching.getKey());
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
