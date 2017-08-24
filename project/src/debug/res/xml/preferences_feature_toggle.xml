@@ -89,18 +89,7 @@
             android:title="Hide Apac Billing Address Fields" />
 
     </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Itin Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_expandable_hotel_itin_room_details"
-            android:summary="Enable Expandable Hotel Room Details"
-            android:title="Expandable Hotel Room Details" />
-
-    </PreferenceCategory>
-
+    
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="Packages Features">

@@ -554,7 +554,7 @@ class HotelDetailViewModelTest {
 
         vm.hotelOffersSubject.onNext(offer3)
 
-        hotelSoldOutTestSubscriber.assertValues(false, false, true)
+        hotelSoldOutTestSubscriber.assertValues(false, true)
     }
 
     @Test

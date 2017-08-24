@@ -68,7 +68,7 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
 
     fun setUpWidgets() {
         roomDetailsView.setUpWidget(itinCardDataHotel)
-        if (roomDetailsView.isExpandableRoomDetailsOn() && itinCardDataHotel.lastHotelRoom != null) {
+        if (itinCardDataHotel.lastHotelRoom != null) {
             roomDetailsView.expandRoomDetailsView()
             roomDetailsView.showChangeCancelRules(itinCardDataHotel)
         }
