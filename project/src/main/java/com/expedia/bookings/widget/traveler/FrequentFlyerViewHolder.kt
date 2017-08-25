@@ -19,23 +19,24 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
     val frequentFlyerNameTitle: TextView by bindView(R.id.frequent_flyer_program_card_title)
     val frequentFlyerNumberInput: TravelerEditText by bindView(R.id.edit_frequent_flyer_number)
 
-    val frequentFlyerAdapter : FrequentFlyerDialogAdapter by lazy {
-        val adapter = FrequentFlyerDialogAdapter(context, R.layout.material_item, R.layout.simple_spinner_dropdown_item, vm.allFrequentFlyerPlans)
-        adapter.frequentFlyerProgramNames = vm.allAirlineNames
-        adapter.currentPosition = adapter.getPositionFromName(frequentFlyerProgram.text.toString())
+    val frequentFlyerAdapter: FrequentFlyerDialogAdapter by lazy {
+        val adapter = FrequentFlyerDialogAdapter(context, R.layout.material_item,
+                R.layout.frequent_flyer_enrolled_list_item,
+                vm.allFrequentFlyerPlans,
+                vm.enrolledPlans,
+                vm.allAirlineCodes,
+                frequentFlyerProgram.text.toString())
         adapter
     }
 
     val frequentFlyerDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
-//        TODO: set custom layout & add saved airlines above all airlines list
-
-        builder.setTitle(context.resources.getString(R.string.frequent_flyer_my_programs))
+        builder.setTitle(R.string.frequent_flyer_programs)
         builder.setSingleChoiceItems(frequentFlyerAdapter, frequentFlyerAdapter.currentPosition, { dialogInterface, position ->
             val airlineName = frequentFlyerAdapter.getFrequentFlyerProgram(position)
-            val airlineCode = frequentFlyerAdapter.getFrequentFlyerNumber(position)
+            val airlineNummber = frequentFlyerAdapter.getFrequentFlyerNumber(position)
             vm.frequentFlyerProgramObservable.onNext(airlineName)
-            vm.frequentFlyerNumberObservable.onNext(airlineCode)
+            vm.frequentFlyerNumberObservable.onNext(airlineNummber)
             frequentFlyerAdapter.currentPosition = position
             dialogInterface.dismiss()
         })

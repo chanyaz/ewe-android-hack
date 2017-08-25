@@ -11,7 +11,7 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
     private lateinit var frequentFlyerCard: FrequentFlyerCard
     var allFrequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse> = LinkedHashMap()
     var enrolledPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse> = LinkedHashMap()
-    var allAirlineNames: ArrayList<String> = ArrayList()
+    var allAirlineCodes: ArrayList<String> = ArrayList()
 
     val frequentFlyerProgramObservable = PublishSubject.create<String>()
     val frequentFlyerNumberObservable = PublishSubject.create<String>()

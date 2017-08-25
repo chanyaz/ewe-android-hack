@@ -77,6 +77,8 @@
             android:id="@+id/traveler_advanced_options_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
             android:orientation="horizontal">
 
             <com.expedia.bookings.widget.TextView
@@ -104,15 +106,15 @@
             android:id="@+id/traveler_advanced_options_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:paddingTop="12dp"
-            android:paddingBottom="9dp" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/traveler_frequent_flyer_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:visibility="gone">
 
             <com.expedia.bookings.widget.TextView

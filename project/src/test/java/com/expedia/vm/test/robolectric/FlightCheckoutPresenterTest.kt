@@ -20,9 +20,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.FlightTravelerEntryWidget
-import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
-import com.expedia.bookings.widget.traveler.FrequentFlyerViewHolder
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
@@ -115,32 +112,34 @@ class FlightCheckoutPresenterTest {
     }
 
     @Test
-    fun testEnrolledFrequentFlyerProgramsPopulatesCardView() {
+    fun testEnrolledFrequentFlyerPrograms() {
         setupCheckout(true)
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getPassportRequiredCreateTripResponse(false))
         checkout.travelersPresenter.showSelectOrEntryState()
+        val frequentFlyerPlans = (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).frequentFlyerPlans
+
+        assertEquals(1, frequentFlyerPlans?.enrolledFrequentFlyerPlans!!.size)
+        val firstEnrolledPlan = frequentFlyerPlans.enrolledFrequentFlyerPlans!!.first()
+        assertEquals("AA", firstEnrolledPlan.airlineCode)
+        assertEquals("American Airlines", firstEnrolledPlan.frequentFlyerPlanName)
+        assertEquals("123", firstEnrolledPlan.membershipNumber)
+    }
+
+    @Test
+    fun testAllFrequentFlyerPrograms() {
+        setupCheckout(true)
+        val tripResponseWithoutEnrolledFFPlans = getPassportRequiredCreateTripResponse(false)
+        tripResponseWithoutEnrolledFFPlans?.frequentFlyerPlans?.enrolledFrequentFlyerPlans = null
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(tripResponseWithoutEnrolledFFPlans)
+        checkout.travelersPresenter.showSelectOrEntryState()
 
         val frequentFlyerPlans = (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).frequentFlyerPlans
-        assertNotNull(frequentFlyerPlans)
-        val enrolledPlan = frequentFlyerPlans?.enrolledFrequentFlyerPlans!!.first()
-        assertNotNull(enrolledPlan)
 
-        assertEquals("AA", enrolledPlan.airlineCode)
-        assertEquals("123", enrolledPlan.membershipNumber)
-        assertEquals("American Airlines", enrolledPlan.frequentFlyerPlanName)
-
-        val entryWidget = (checkout.travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget)
-        entryWidget.frequentFlyerButton?.performClick()
-        val adapter = (entryWidget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter)
-
-        assertEquals(frequentFlyerPlans.enrolledFrequentFlyerPlans.first(), adapter.frequentFlyerPlans.enrolledFrequentFlyerPlans.first())
-
-        val frequentFlyerView = adapter.onCreateViewHolder(entryWidget.frequentFlyerRecycler!!, 0) as FrequentFlyerViewHolder
-        adapter.onBindViewHolder(frequentFlyerView, 0)
-
-        assertEquals("American Airlines", frequentFlyerView.frequentFlyerNameTitle.text.toString())
-        assertEquals("American Airlines", frequentFlyerView.frequentFlyerProgram.text.toString())
-        assertEquals("123" ,frequentFlyerView.frequentFlyerNumberInput.text.toString())
+        assertEquals(3, frequentFlyerPlans?.allFrequentFlyerPlans!!.size)
+        val firstPlan = frequentFlyerPlans.allFrequentFlyerPlans!!.first()
+        assertEquals("AA", firstPlan.airlineCode)
+        assertEquals("American Airlines", firstPlan.frequentFlyerPlanName)
+        assertEquals(null, firstPlan.membershipNumber)
     }
 
     private fun setupCheckout(isFrequentFlyerEnabled: Boolean = false) {
@@ -170,17 +169,17 @@ class FlightCheckoutPresenterTest {
         flightCreateTripResponse.tealeafTransactionId = ""
 
         flightCreateTripResponse.frequentFlyerPlans = FlightCreateTripResponse.FrequentFlyerPlans()
-        flightCreateTripResponse.frequentFlyerPlans.enrolledFrequentFlyerPlans = listOf(getFrequentFlyerPlans())
-        flightCreateTripResponse.frequentFlyerPlans.allFrequentFlyerPlans = listOf(getFrequentFlyerPlans())
+        flightCreateTripResponse.frequentFlyerPlans.enrolledFrequentFlyerPlans = listOf(getFrequentFlyerPlans(true))
+        flightCreateTripResponse.frequentFlyerPlans.allFrequentFlyerPlans = listOf(getFrequentFlyerPlans(), getFrequentFlyerPlans(), getFrequentFlyerPlans())
 
         return flightCreateTripResponse
     }
 
-    private fun getFrequentFlyerPlans() : FrequentFlyerPlansTripResponse {
+    private fun getFrequentFlyerPlans(hasMembership: Boolean = false) : FrequentFlyerPlansTripResponse {
         val enrolledPlan = FrequentFlyerPlansTripResponse()
         enrolledPlan.airlineCode = "AA"
         enrolledPlan.frequentFlyerPlanName = "American Airlines"
-        enrolledPlan.membershipNumber = "123"
+        enrolledPlan.membershipNumber = if (hasMembership) "123" else null
         return enrolledPlan
     }
 

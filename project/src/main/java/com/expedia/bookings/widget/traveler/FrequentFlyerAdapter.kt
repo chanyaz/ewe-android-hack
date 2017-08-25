@@ -49,10 +49,10 @@ class FrequentFlyerAdapter(val traveler: Traveler) : RecyclerView.Adapter<Recycl
     }
 
     private fun setUpFrequentFlyerPlans (frequentFlyerPlans: FlightCreateTripResponse.FrequentFlyerPlans, vm: FlightTravelerFrequentFlyerItemViewModel) {
-        frequentFlyerPlans.allFrequentFlyerPlans?.forEach {
+        frequentFlyerPlans.allFrequentFlyerPlans?.forEachIndexed { index, it ->
             val formattedAirlineCode = it.airlineCode.replace(" ", "")
             vm.allFrequentFlyerPlans.put(formattedAirlineCode, it)
-            vm.allAirlineNames.add(it.frequentFlyerPlanName)
+            vm.allAirlineCodes.add(index, formattedAirlineCode)
         }
 
         frequentFlyerPlans.enrolledFrequentFlyerPlans?.forEach {

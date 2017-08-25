@@ -1,71 +1,66 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.text.SpannableString
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
+import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
-import com.expedia.bookings.utils.Strings
 import com.mobiata.android.util.Ui
 import java.util.LinkedHashMap
 import java.util.ArrayList
 
-class FrequentFlyerDialogAdapter(context: Context, textViewResId: Int, dropDownViewResId: Int, frequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>) : ArrayAdapter<String>(context, textViewResId) {
-    var frequentFlyerProgramNames: ArrayList<String> = ArrayList()
-    var currentPosition: Int = 0
+class FrequentFlyerDialogAdapter(context: Context, textViewResId: Int, val dropDownViewResId: Int,
+                                 val allFrequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>,
+                                 val enrolledFrequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>,
+                                 val allAirlineCodes: ArrayList<String>,
+                                 startingProgramName: String) : ArrayAdapter<String>(context, textViewResId) {
+    var currentPosition: Int
 
     init {
         setDropDownViewResource(dropDownViewResId)
-        init(frequentFlyerPlans)
-    }
-
-    private fun init(frequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>) {
-        FrequentFlyerPlans = frequentFlyerPlans
+        currentPosition = getPositionFromName(startingProgramName)
     }
 
     override fun getCount(): Int {
-        return FrequentFlyerPlans.size
+        return allFrequentFlyerPlans.size
     }
 
     override fun getItem(position: Int): String? {
         return getFrequentFlyerProgram(position)
     }
 
-    fun getFrequentFlyerProgram(position: Int): String {
-        return frequentFlyerProgramNames!![position]
+    fun getPositionFromName(airlineName: String?): Int {
+        return (0..allFrequentFlyerPlans.size - 1).firstOrNull {
+            getFrequentFlyerProgram(it) == airlineName
+        } ?: -1
     }
 
-    fun getFrequentFlyerNumber(position: Int): String? {
-        return FrequentFlyerPlans[getFrequentFlyerProgram(position)]?.membershipNumber ?: ""
+    fun getFrequentFlyerNumber(position: Int): String {
+        return enrolledFrequentFlyerPlans[allAirlineCodes[position]]?.membershipNumber ?: ""
     }
 
-    fun getPositionFromName(airlineName: String): Int {
-        if (Strings.isEmpty(airlineName)) {
-            return currentPosition
-        }
-
-        for (i in 0..FrequentFlyerPlans.size - 1) {
-            if (getFrequentFlyerProgram(i) == airlineName) {
-                return i
-            }
-        }
-        return currentPosition
+    fun getFrequentFlyerProgram(position: Int) : String {
+        return allFrequentFlyerPlans[allAirlineCodes[position]]?.frequentFlyerPlanName ?: ""
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val retView = super.getView(position, convertView, parent)
-        val tv = Ui.findView<android.widget.TextView>(retView, android.R.id.text1)
-        val item = getItem(position)
-        val stringToSpan = SpannableString(String.format(getItem(position)!!, item))
-        tv.text = stringToSpan
-        TextViewExtensions.setTextColorBasedOnPosition(tv, currentPosition, position)
+        val retView = Ui.inflate<LinearLayout>(dropDownViewResId, parent, false)
+
+        setTextAndColor(retView, R.id.frequent_flyer_program_list_title, getFrequentFlyerProgram(position), position)
+        setTextAndColor(retView, R.id.frequent_flyer_program_list_number, getFrequentFlyerNumber(position), position)
+
+        if (position == enrolledFrequentFlyerPlans.size - 1) {
+            Ui.findView<View>(retView, R.id.ffn_divider).visibility = View.VISIBLE
+        }
 
         return retView
     }
 
-    companion object {
-        private var FrequentFlyerPlans = LinkedHashMap<String, FrequentFlyerPlansTripResponse>()
+    private fun setTextAndColor(parent: LinearLayout, textViewId: Int, text: String, position: Int) {
+        val textView = Ui.findView<TextView>(parent, textViewId)
+        textView.text = text
+        TextViewExtensions.setTextColorBasedOnPosition(textView, currentPosition, position)
     }
-
 }
