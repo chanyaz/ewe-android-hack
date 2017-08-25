@@ -412,7 +412,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     fun doLogout() {
-        User.signOut(activity)
+        userStateManager.signOut()
         scrollContainer.smoothScrollTo(0, 0)
         adjustLoggedInViews()
         toolbarShadow.alpha = 1.0f

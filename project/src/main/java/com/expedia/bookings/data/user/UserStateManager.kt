@@ -2,17 +2,41 @@ package com.expedia.bookings.data.user
 
 import android.accounts.Account
 import android.accounts.AccountManager
-import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
+import android.util.TimingLogger
+import com.expedia.account.AccountService
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.notification.Notification
+import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.utils.UserAccountRefresher
 
 class UserStateManager(val context: Context) {
+    private val SAVED_INFO_FILENAME = "user.dat"
+
+    fun signOutPreservingCookies() {
+        performSignOut(false)
+    }
+
+    fun signOut() {
+        performSignOut(true)
+    }
+
+    private fun performSignOut(clearCookies: Boolean) {
+        val logger = TimingLogger("ExpediaBookings", "User.signOut")
+
+        performSignOutCriticalActions(clearCookies)
+        logger.addSplit("performSignOutCriticalActions")
+
+        performSignOutCleanupActions()
+        logger.addSplit("performSignOutCleanupActions")
+
+        logger.dumpToLog()
+    }
 
     fun isUserAuthenticated(): Boolean {
         return User.isLoggedIn(context)
@@ -21,7 +45,7 @@ class UserStateManager(val context: Context) {
     fun onLoginAccountsChanged() {
         if (User.isLoggedInOnDisk(context) && !User.isLoggedInToAccountManager(context)) {
             // User deleted account from System-level accounts screen, so reflect that change internally
-            User.signOut(context)
+            signOut()
 
             if (!ExpediaBookingApp.isAutomation()) {
                 ItineraryManager.getInstance().startSync(true)
@@ -78,5 +102,79 @@ class UserStateManager(val context: Context) {
                 }
             }
         }
+    }
+
+    fun removeUserFromAccountManager(user: User?) {
+        val accountType = context.getString(R.string.expedia_account_type_identifier)
+        val contentAuthority = context.getString(R.string.authority_account_sync)
+
+        val manager = AccountManager.get(context)
+        val accounts = manager.getAccountsByType(accountType)
+
+        if (accounts.isNotEmpty()) {
+            val account = accounts.first()
+            ContentResolver.setIsSyncable(account, contentAuthority, 0)
+            manager.removeAccount(account, null, null)
+        }
+
+        if (user != null) {
+            manager.invalidateAuthToken(accountType, user.tuidString)
+        }
+    }
+
+    private fun performSignOutCriticalActions(clearCookies: Boolean) {
+        val logger = TimingLogger("ExpediaBookings", "User.performCriticalSignOutActions")
+
+        deleteSavedUserInfo()
+        logger.addSplit("delete()")
+
+        removeUserFromAccountManager(Db.getUser())
+        logger.addSplit("removeUserFromAccountManager()")
+
+        Db.setUser(null)
+        logger.addSplit("Db.setUser(null)")
+
+        if (clearCookies) {
+            ExpediaServices.removeUserLoginCookies(context)
+            logger.addSplit("ExpediaServices.removeUserLoginCookies(context)")
+        }
+
+        AccountService.facebookLogOut()
+        logger.addSplit("Facebook Session Closed")
+
+        logger.dumpToLog()
+    }
+
+    private fun performSignOutCleanupActions() {
+        val logger = TimingLogger("ExpediaBookings", "User.performSignOutCleanupActions")
+
+        if (!ExpediaBookingApp.isRobolectric()) {
+            ItineraryManager.getInstance().clear()
+            logger.addSplit("ItineraryManager.getInstance().clear();")
+
+            Notification.deleteAll(context)
+            logger.addSplit("Notification.deleteAll(context);")
+        }
+
+        Db.getWorkingBillingInfoManager()?.clearWorkingBillingInfo()
+        Db.getWorkingTravelerManager()?.clearWorkingTraveler()
+
+        val tripBucket = Db.getTripBucket()
+
+        if (tripBucket != null && tripBucket.isUserAirAttachQualified) {
+            tripBucket.clearAirAttach()
+            Db.saveTripBucket(context)
+        }
+
+        Db.resetBillingInfo()
+        Db.resetTravelers()
+
+        logger.addSplit("User billing and traveler info deletion.")
+        logger.dumpToLog()
+    }
+
+    private fun deleteSavedUserInfo(): Boolean {
+        val file = context.getFileStreamPath(SAVED_INFO_FILENAME)
+        return file.exists() && file.delete()
     }
 }

@@ -238,7 +238,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
     private fun createLogoutDialog(): AlertDialog {
         val logoutUser = fun() {
-            User.signOut(context)
+            userStateManager.signOut()
             resetTravelers()
             initLoggedInState(false)
         }

@@ -825,7 +825,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	private void logoutUser() {
-		User.signOut(getContext());
+		userStateManager.signOut();
 		showProgress(true);
 		mainContactInfoCardView.onLogout();
 		paymentInfoCardView.getViewmodel().getUserLogin().onNext(false);

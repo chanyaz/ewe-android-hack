@@ -42,7 +42,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
@@ -1550,7 +1549,7 @@ public class ItineraryManager implements JSONable {
 						for (ServerError serverError : response.getErrors()) {
 							ServerError.ErrorCode errorCode = serverError.getErrorCode();
 							if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
-								User.signOut(mContext);
+								userStateManager.signOut();
 								break;
 							}
 						}

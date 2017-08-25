@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -124,7 +125,7 @@ class ItinSignInViewModelTest {
 
     private fun givenCustomerNotAuthenticated() {
         try {
-            User.signOut(activity)
+            UserStateManager(activity).signOut()
         } catch (e: Exception) {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.
