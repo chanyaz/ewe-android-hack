@@ -215,16 +215,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         proWizardSearchBar.updateVisibility(proWizardBucketed)
         proWizardSearchBarShadow.updateVisibility(proWizardBucketed)
 
-        proWizardSearchBarView.setOnClickListener {
-            OmnitureTracking.trackProWizardClick()
-            val activity = context as NewPhoneLaunchActivity
-            val pairs = ActivityTransitionUtil.createPairsWithAndroidComponents(activity,
-                    proWizardSearchCardView, context.getString(R.string.pro_wizard_bar_hero_animation))
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as NewPhoneLaunchActivity, *pairs)
-
-            HotelNavUtils.goToHotelsV2Params(context, null, options.toBundle(), 0)
-        }
-
         proWizardSearchBarView.setText(PointOfSale.getPointOfSale().getProWizardLOBString(context))
 
         if (proWizardBucketed) {
@@ -232,6 +222,14 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             launchListWidget.addItemDecoration(proWizardItemDecorationPadding)
         } else {
             launchListWidget.removeItemDecoration(proWizardItemDecorationPadding)
+        }
+    }
+
+    fun toggleProWizardClickListener(enable: Boolean) {
+        if (enable) {
+            proWizardSearchBarView.setOnClickListener(ProWizardClickListener())
+        } else {
+            proWizardSearchBarView.setOnClickListener(null)
         }
     }
 
@@ -455,7 +453,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return handleBackOrDarkViewClick()
     }
 
-
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
@@ -472,6 +469,18 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
         override fun onSingleTapUp(e: MotionEvent?): Boolean {
             return handleBackOrDarkViewClick()
+        }
+    }
+
+    private inner class ProWizardClickListener() : View.OnClickListener {
+        override fun onClick(v: View?) {
+            OmnitureTracking.trackProWizardClick()
+            val activity = context as NewPhoneLaunchActivity
+            val pairs = ActivityTransitionUtil.createPairsWithAndroidComponents(activity,
+                    proWizardSearchCardView, context.getString(R.string.pro_wizard_bar_hero_animation))
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as NewPhoneLaunchActivity, *pairs)
+
+            HotelNavUtils.goToHotelsV2Params(context, null, options.toBundle(), 0)
         }
     }
 

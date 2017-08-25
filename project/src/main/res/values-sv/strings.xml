@@ -2771,7 +2771,7 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Totalpris (inklusive skatter och avgifter) per person - för hotell och flyg • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Totalpris för tur-och-retur (inklusive skatter och avgifter) per person för hotell och flyg • {totalpriceresultcountheader}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% bokat</string>
@@ -3688,9 +3688,13 @@
     <!-- Used in flight search for specifying infant's sitting -->
     <string name="flight_infant_type_label">Spädbarn under 2:</string>
     <!-- Used in flight search for specifying infant's sitting inLap -->
-    <string name="flight_infant_InLap">I knät</string>
+    <string name="flight_infant_in_lap">I knät</string>
     <!-- Used in flight search for specifying infant's sitting in Seat-->
-    <string name="flight_infant_InSeat">I sittplats</string>
+    <string name="flight_infant_in_seat">Egen sittplats</string>
+    <!-- Used in flight search for describing infant's sitting in Lap -->
+    <string name="flight_infant_desciption_in_lap">Tryck på knappen för att ange att spädbarn sitter i knät</string>
+    <!-- Used in flight search for describing infant's sitting in Seat -->
+    <string name="flight_infant_desciption_in_seat">Tryck på knappen för att ange att spädbarn sitter på egen sittplats</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Områden</string>
@@ -3932,7 +3936,7 @@
     <!-- Description for infant travelers sitting in lap -->
     <string name="in_lap">I knät</string>
     <!-- Description for infant travelers sitting in seat -->
-    <string name="in_seat">I sittplats</string>
+    <string name="in_seat">Egen sittplats</string>
     <!-- Label for flights on checkout overview of Packages -->
     <string name="flight_checkout_overview_TEMPLATE">Flyg - {origin} till {destination}, tur-och-retur</string>
     <!-- Label for hotel on checkout overview of Packages -->
@@ -4699,13 +4703,16 @@
     <string name="title_seek_bar_edit">Ändra sökreglagenivå</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
-    <!--Account Sign Up String Varaint 1-->
-    <string name="signup_variant_1">Bli medlem</string>
-    <!--Account Sign Up String Varaint 2-->
-    <string name="signup_variant_2">Skapa ditt konto gratis</string>
-    <!--Create Your Expedia Account-->
-    <string name="signup_variant_3_TEMPLATE">Skapa ditt {brand}konto</string>
-    <!--Create a new Expedia account-->
-    <string name="signup_variant_control_TEMPLATE">Skapa ett nytt {brand}konto</string>
+    <!--Create Your Expedia Account, example: Create Your Orbitz/Expedia/Travelocity Account-->
+    <string name="account_signup_TEMPLATE">Skapa ditt {brand}-konto</string>
+
+    <!--App shortcut for hotel search-->
+    <string name="get_a_room">Boka rum</string>
+    <!--App shortcut for hotel search long version-->
+    <string name="find_a_hotel_tonight">Hitta ett hotell ikväll</string>
+    <!--App shortcut for sharing flight info-->
+    <string name="share_flight">Dela flyg</string>
+    <!--App shortcut for sharing flight info long version.-->
+    <string name="share_flight_status">Dela flygstatus</string>
 
 </resources>

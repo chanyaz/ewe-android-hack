@@ -2771,7 +2771,7 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Prezzo totale a persona (comprende hotel, voli, tasse e oneri) • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Prezzo totale a persona, per un viaggio di andata e ritorno (comprende voli, hotel, tasse e oneri) • {totalpriceresultcountheader}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% di camere prenotate</string>
@@ -3688,9 +3688,13 @@
     <!-- Used in flight search for specifying infant's sitting -->
     <string name="flight_infant_type_label">Bambini fino a 2 anni:</string>
     <!-- Used in flight search for specifying infant's sitting inLap -->
-    <string name="flight_infant_InLap">In braccio</string>
+    <string name="flight_infant_in_lap">In braccio</string>
     <!-- Used in flight search for specifying infant's sitting in Seat-->
-    <string name="flight_infant_InSeat">Con posto a sedere</string>
+    <string name="flight_infant_in_seat">Con posto a sedere</string>
+    <!-- Used in flight search for describing infant's sitting in Lap -->
+    <string name="flight_infant_desciption_in_lap">Premi sul pulsante per selezionare l\&apos;opzione "In braccio" per i bambini di età inferiore a 2 anni</string>
+    <!-- Used in flight search for describing infant's sitting in Seat -->
+    <string name="flight_infant_desciption_in_seat">Premi sul pulsante per selezionare l\&apos;opzione "Con posto a sedere" per i bambini di età inferiore a 2 anni</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Quartieri</string>
@@ -4699,13 +4703,16 @@
     <string name="title_seek_bar_edit">Modifica il livello del dispositivo di scorrimento</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
-    <!--Account Sign Up String Varaint 1-->
-    <string name="signup_variant_1">Iscriviti</string>
-    <!--Account Sign Up String Varaint 2-->
-    <string name="signup_variant_2">Crea il tuo account gratuito</string>
-    <!--Create Your Expedia Account-->
-    <string name="signup_variant_3_TEMPLATE">Crea il tuo account {brand} gratuito</string>
-    <!--Create a new Expedia account-->
-    <string name="signup_variant_control_TEMPLATE">Crea un nuovo account {brand}</string>
+    <!--Create Your Expedia Account, example: Create Your Orbitz/Expedia/Travelocity Account-->
+    <string name="account_signup_TEMPLATE">Crea il tuo account {brand} gratuito</string>
+
+    <!--App shortcut for hotel search-->
+    <string name="get_a_room">Prenota una camera</string>
+    <!--App shortcut for hotel search long version-->
+    <string name="find_a_hotel_tonight">Trova un hotel per questa sera</string>
+    <!--App shortcut for sharing flight info-->
+    <string name="share_flight">Condividi volo</string>
+    <!--App shortcut for sharing flight info long version.-->
+    <string name="share_flight_status">Condividi lo stato del volo</string>
 
 </resources>

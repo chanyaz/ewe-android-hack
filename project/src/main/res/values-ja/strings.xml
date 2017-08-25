@@ -1528,7 +1528,7 @@
     <!--Hotel itin room request for smoking-->
     <string name="smoking">喫煙</string>
     <!--Hotel itin room details reserved for-->
-    <string name="itin_hotel_room_details_reserved_for_header">予約者 : </string>
+    <string name="itin_hotel_room_details_reserved_for_header">予約者 :</string>
     <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
     <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}、{numofguests}</string>
     <!--Hotel itin room amenity free breakfast-->
@@ -3688,9 +3688,13 @@
     <!-- Used in flight search for specifying infant's sitting -->
     <string name="flight_infant_type_label">2 歳未満の乳幼児 :</string>
     <!-- Used in flight search for specifying infant's sitting inLap -->
-    <string name="flight_infant_InLap">膝抱き</string>
+    <string name="flight_infant_in_lap">膝抱き</string>
     <!-- Used in flight search for specifying infant's sitting in Seat-->
-    <string name="flight_infant_InSeat">座席利用</string>
+    <string name="flight_infant_in_seat">座席利用</string>
+    <!-- Used in flight search for describing infant's sitting in Lap -->
+    <string name="flight_infant_desciption_in_lap">膝抱きの乳幼児を選択するにはこのボタンを押してください</string>
+    <!-- Used in flight search for describing infant's sitting in Seat -->
+    <string name="flight_infant_desciption_in_seat">座席利用の乳幼児を選択するにはこのボタンを押してください</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">周辺</string>
@@ -4237,7 +4241,7 @@
     <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
     <string name="flight_add_infant_in_lap_number_TEMPLATE">膝抱きの乳幼児 {number} の詳細</string>
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
-    <string name="flight_add_infant_in_seat_number_TEMPLATE">座席が必要な乳幼児 {number} の詳細</string>
+    <string name="flight_add_infant_in_seat_number_TEMPLATE">座席利用の乳幼児 {number} の詳細</string>
 
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ ポイント適用済み ! (税およびサービス料別)</string>
@@ -4699,13 +4703,16 @@
     <string name="title_seek_bar_edit">スライダのレベルを編集</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
-    <!--Account Sign Up String Varaint 1-->
-    <string name="signup_variant_1">サインアップ</string>
-    <!--Account Sign Up String Varaint 2-->
-    <string name="signup_variant_2">アカウントを作成 (無料)</string>
-    <!--Create Your Expedia Account-->
-    <string name="signup_variant_3_TEMPLATE">{brand} アカウントを作成</string>
-    <!--Create a new Expedia account-->
-    <string name="signup_variant_control_TEMPLATE">新しい {brand} アカウントを作成</string>
+    <!--Create Your Expedia Account, example: Create Your Orbitz/Expedia/Travelocity Account-->
+    <string name="account_signup_TEMPLATE">{brand}アカウントを作成</string>
+
+    <!--App shortcut for hotel search-->
+    <string name="get_a_room">客室を予約</string>
+    <!--App shortcut for hotel search long version-->
+    <string name="find_a_hotel_tonight">今晩のホテルを検索</string>
+    <!--App shortcut for sharing flight info-->
+    <string name="share_flight">フライトをシェア</string>
+    <!--App shortcut for sharing flight info long version.-->
+    <string name="share_flight_status">フライト状況をシェア</string>
 
 </resources>

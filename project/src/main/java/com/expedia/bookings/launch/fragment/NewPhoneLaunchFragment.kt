@@ -74,6 +74,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     override fun onResume() {
         super.onResume()
         newPhoneLaunchWidget.refreshState()
+        newPhoneLaunchWidget.toggleProWizardClickListener(enable = true)
         Events.register(this)
         Events.post(Events.PhoneLaunchOnResume())
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
@@ -113,6 +114,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         locSubscription?.unsubscribe()
         activity.unregisterReceiver(broadcastReceiver)
         Events.unregister(this)
+        newPhoneLaunchWidget.toggleProWizardClickListener(enable = false)
     }
 
     private val broadcastReceiver = object : BroadcastReceiver() {

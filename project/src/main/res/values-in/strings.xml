@@ -2771,7 +2771,7 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Harga total (termasuk pajak dan biaya), per orang - untuk hotel dan penerbangan • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Harga total pulang-pergi (termasuk pajak dan biaya), per orang - untuk hotel dan penerbangan • {totalpriceresultcountheader}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">terpesan {percentage}%</string>
@@ -3688,9 +3688,13 @@
     <!-- Used in flight search for specifying infant's sitting -->
     <string name="flight_infant_type_label">Bayi di bawah 2 tahun:</string>
     <!-- Used in flight search for specifying infant's sitting inLap -->
-    <string name="flight_infant_InLap">Di Pangkuan</string>
+    <string name="flight_infant_in_lap">Di Pangkuan</string>
     <!-- Used in flight search for specifying infant's sitting in Seat-->
-    <string name="flight_infant_InSeat">Di Kursi</string>
+    <string name="flight_infant_in_seat">Di Kursi</string>
+    <!-- Used in flight search for describing infant's sitting in Lap -->
+    <string name="flight_infant_desciption_in_lap">Tekan tombol untuk memilih preferensi Bayi Di Pangku</string>
+    <!-- Used in flight search for describing infant's sitting in Seat -->
+    <string name="flight_infant_desciption_in_seat">Tekan tombol untuk memilih preferensi Bayi Di Kursi</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Kawasan</string>
@@ -4699,13 +4703,16 @@
     <string name="title_seek_bar_edit">Edit tingkat kontrol pencarian</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
-    <!--Account Sign Up String Varaint 1-->
-    <string name="signup_variant_1">Daftar</string>
-    <!--Account Sign Up String Varaint 2-->
-    <string name="signup_variant_2">Buat Akun Gratis Anda</string>
-    <!--Create Your Expedia Account-->
-    <string name="signup_variant_3_TEMPLATE">Buat Akun {brand} Anda</string>
-    <!--Create a new Expedia account-->
-    <string name="signup_variant_control_TEMPLATE">Buat akun {brand} baru</string>
+    <!--Create Your Expedia Account, example: Create Your Orbitz/Expedia/Travelocity Account-->
+    <string name="account_signup_TEMPLATE">Buat Akun {brand} Anda</string>
+
+    <!--App shortcut for hotel search-->
+    <string name="get_a_room">Dapatkan kamar</string>
+    <!--App shortcut for hotel search long version-->
+    <string name="find_a_hotel_tonight">Temukan hotel malam ini</string>
+    <!--App shortcut for sharing flight info-->
+    <string name="share_flight">Bagi penerbangan</string>
+    <!--App shortcut for sharing flight info long version.-->
+    <string name="share_flight_status">Bagi status penerbangan</string>
 
 </resources>
