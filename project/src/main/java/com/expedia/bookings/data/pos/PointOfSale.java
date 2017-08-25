@@ -752,10 +752,6 @@ public class PointOfSale {
 		return getPosLocale().getLocaleIdentifier();
 	}
 
-	public String getAppSupportUrl() {
-		return getPosLocale().getAppSupportUrl();
-	}
-
 	public String getBookingSupportUrl() {
 		return getPosLocale().getBookingSupportUrl();
 	}

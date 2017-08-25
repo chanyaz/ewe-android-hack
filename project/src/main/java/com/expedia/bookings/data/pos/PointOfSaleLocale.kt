@@ -9,11 +9,6 @@ class PointOfSaleLocale(private val data: JSONObject) {
         data.optString("localeIdentifier", null)
     }
 
-    /** The url leading to the app support website (e.g. mobiata.com/support/expedia/android) */
-    val appSupportUrl by lazy {
-        data.optString("appSupportURL", null)
-    }
-
     /** The url leading to the booking support part of the website (e.g. expedia.com/service) */
     val bookingSupportUrl by lazy {
         data.optString("bookingSupportURL", null)

@@ -48,7 +48,6 @@ public class PointOfSaleLocaleTest {
 		assertEquals("nl_BE", posLocale.getLocaleIdentifier());
 		assertEquals("nl", posLocale.getLanguageCode());
 		assertEquals(1043, posLocale.getLanguageId());
-		assertEquals("nl appSupportURL", posLocale.getAppSupportUrl());
 		assertEquals("nl bookingSupportURL", posLocale.getBookingSupportUrl());
 		assertEquals("nl appInfoURL", posLocale.getAppInfoUrl());
 		assertEquals("nl bestPriceGuaranteePolicyURL", posLocale.getBestPriceGuaranteePolicyUrl());
@@ -71,7 +70,6 @@ public class PointOfSaleLocaleTest {
 		assertEquals("fr_BE", posLocale.getLocaleIdentifier());
 		assertEquals("fr", posLocale.getLanguageCode());
 		assertEquals(1036, posLocale.getLanguageId());
-		assertEquals("fr appSupportURL", posLocale.getAppSupportUrl());
 		assertEquals("fr bookingSupportURL", posLocale.getBookingSupportUrl());
 		assertEquals("fr appInfoURL", posLocale.getAppInfoUrl());
 		assertEquals("fr supportNumber", posLocale.getSupportNumber());

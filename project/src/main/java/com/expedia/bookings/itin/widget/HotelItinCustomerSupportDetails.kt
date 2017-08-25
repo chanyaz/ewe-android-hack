@@ -59,7 +59,7 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
         customerSupportSiteButton.text = Phrase.from(context, R.string.itin_hotel_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         customerSupportSiteButton.contentDescription = Phrase.from(context, R.string.itin_hotel_customer_support_site_button_content_description_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         customerSupportSiteButton.setOnClickListener {
-            context.startActivity(buildWebViewIntent(R.string.itin_hotel_customer_support_site_toolbar_header, PointOfSale.getPointOfSale().appSupportUrl).intent)
+            context.startActivity(buildWebViewIntent(R.string.itin_hotel_customer_support_site_toolbar_header, PointOfSale.getPointOfSale().bookingSupportUrl).intent)
             OmnitureTracking.trackItinHotelOpenSupportWebsite()
         }
     }
