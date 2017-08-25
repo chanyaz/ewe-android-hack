@@ -175,7 +175,13 @@ public class UserAccountRefresher {
 	}
 
 	private void logOut(boolean clearCookies) {
-		User.signOut(context, clearCookies);
+		if (clearCookies) {
+			userStateManager.signOut();
+		}
+		else {
+			userStateManager.signOutPreservingCookies();
+		}
+
 		BackgroundDownloader.getInstance().cancelDownload(keyRefreshUser);
 		mLastRefreshedUserTimeMillis = 0L;
 		Events.post(new Events.SignOut());

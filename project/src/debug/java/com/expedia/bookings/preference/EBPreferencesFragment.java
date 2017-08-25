@@ -18,10 +18,11 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.ChuckShim;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
@@ -30,6 +31,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 public class EBPreferencesFragment extends BasePreferenceFragment {
 
 	private static final String GCM_ID_POPUP_TAG = "GCM_ID_POPUP_TAG";
+	private UserStateManager userStateManager;
 
 	@Override
 	public void onStart() {
@@ -40,6 +42,8 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		userStateManager = Ui.getApplication(getContext()).appComponent().userStateManager();
 
 		if (BuildConfig.DEBUG) {
 			addPreferencesFromResource(R.xml.preferences_dev);
@@ -182,7 +186,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			}
 		}
 		else if ("PREF_FIRST_LAUNCH".equals(key)) {
-			User.signOut(getActivity());
+			userStateManager.signOut();
 		}
 
 		return super.onPreferenceTreeClick(preference);

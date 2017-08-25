@@ -1,18 +1,14 @@
 package com.expedia.bookings.data.user;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import com.expedia.account.AccountService;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.RestrictedProfileActivity;
@@ -24,9 +20,6 @@ import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.StoredPointsCard;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.notification.Notification;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.FileCipher;
@@ -35,7 +28,10 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
-import com.mobiata.android.util.TimingLogger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -199,102 +195,6 @@ public class User implements JSONable {
 	}
 
 	/**
-	 * Log out the current user and clean up user related state
-	 *
-	 * @param context
-	 */
-	public static void signOut(Context context) {
-		signOut(context, true);
-	}
-
-	public static void signOut(Context context, boolean clearCookies) {
-		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.signOut");
-
-		//Do the actual sign out
-		performSignOutCriticalActions(context, clearCookies);
-		logger.addSplit("performSignOutCriticalActions");
-
-		//perform the rest of the clean up.
-		performSignOutCleanupActions(context);
-		logger.addSplit("performSignOutCleanupActions");
-
-		logger.dumpToLog();
-	}
-	
-	/**
-	 * Clear all User state that indicates the user is in some way logged in.
-	 *
-	 * @param context
-	 * @param clearCookies
-	 */
-	private static void performSignOutCriticalActions(Context context, boolean clearCookies) {
-		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.performCriticalSignOutActions");
-
-		// Delete User (after this point User.isSignedIn will return false)
-		delete(context);
-		logger.addSplit("delete()");
-
-		//AccountManager
-		User.removeUserFromAccountManager(context, Db.getUser());
-		logger.addSplit("removeUserFromAccountManager()");
-
-		// Clear User from Db
-		Db.setUser(null);
-		logger.addSplit("Db.setUser(null)");
-
-		if (clearCookies) {
-			//Remove the login cookies
-			ExpediaServices.removeUserLoginCookies(context);
-			logger.addSplit("ExpediaServices.removeUserLoginCookies(context)");
-		}
-
-		//Facebook log out
-		AccountService.facebookLogOut();
-		logger.addSplit("Facebook Session Closed");
-
-		logger.dumpToLog();
-	}
-
-	/**
-	 * Clear all (global) data that depends on the User being logged in.
-	 *
-	 * @param context
-	 */
-	private static void performSignOutCleanupActions(Context context) {
-		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.performSignOutCleanupActions");
-
-		if (!ExpediaBookingApp.isRobolectric()) {
-			//Itinerary Manager
-			ItineraryManager.getInstance().clear();
-			logger.addSplit("ItineraryManager.getInstance().clear();");
-
-			//Delete all Notifications
-			Notification.deleteAll(context);
-			logger.addSplit("Notification.deleteAll(context);");
-		}
-
-		//If the data has already been populated in memory, we should clear that....
-		if (Db.getWorkingBillingInfoManager() != null) {
-			Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
-		}
-
-		if (Db.getWorkingTravelerManager() != null) {
-			Db.getWorkingTravelerManager().clearWorkingTraveler();
-		}
-
-		// Trip Bucket
-		if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
-			Db.getTripBucket().clearAirAttach();
-			Db.saveTripBucket(context);
-		}
-
-		Db.resetBillingInfo();
-		Db.resetTravelers();
-		logger.addSplit("User billing and traveler info deletion.");
-		logger.dumpToLog();
-	}
-
-	/**
 	 * This method signs us into an expedia account. It uses the AccountManager and ensures
 	 * that all of our User data is set up correctly. This will open the login GUI (if need be).
 	 *
@@ -323,30 +223,6 @@ public class User implements JSONable {
 					manager.addAccount(accountType, tokenType, null, options, activityContext, null, null);
 				}
 			}
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Add remove user to account manager.
-
-	/**
-	 * This will remove the Expedia account from AccountManager, and will invalidate the token
-	 * for the supplied user.
-	 *
-	 * @param context
-	 */
-	private static void removeUserFromAccountManager(Context context, User usr) {
-		String accountType = context.getString(R.string.expedia_account_type_identifier);
-		String contentAuthority = context.getString(R.string.authority_account_sync);
-		AccountManager manager = AccountManager.get(context);
-		Account[] accounts = manager.getAccountsByType(accountType);
-		if (accounts.length > 0) {
-			Account account = accounts[0];
-			ContentResolver.setIsSyncable(account, contentAuthority, 0);
-			manager.removeAccount(account, null, null);
-		}
-		if (usr != null) {
-			manager.invalidateAuthToken(accountType, usr.getTuidString());
 		}
 	}
 
@@ -410,17 +286,6 @@ public class User implements JSONable {
 			Log.e("Could not restore saved user info.", e);
 			return false;
 		}
-	}
-
-	/**
-	 * Deletes the saved User file.  Make sure to clear out other references
-	 * to the User after doing this call.
-	 * @param context the context
-	 * @return true if successfully deleted
-	 */
-	private static boolean delete(Context context) {
-		File file = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		return file.exists() && file.delete();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

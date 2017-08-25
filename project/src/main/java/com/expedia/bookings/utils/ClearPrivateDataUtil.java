@@ -7,8 +7,8 @@ import android.webkit.CookieSyncManager;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
@@ -17,9 +17,11 @@ public class ClearPrivateDataUtil {
 	public static void clear(Context context) {
 		Log.i("Clearing all private data!");
 
-		boolean signedIn = Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated();
+		UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+
+		boolean signedIn = userStateManager.isUserAuthenticated();
 		if (signedIn) {
-			User.signOut(context);
+			userStateManager.signOut();
 		}
 
 		ItineraryManager.getInstance().clear();

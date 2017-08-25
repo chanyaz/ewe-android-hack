@@ -465,7 +465,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun logoutUser() {
-        User.signOut(context)
+        userStateManager.signOut()
         updateDbTravelers()
         ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
         initLoggedInState(false)

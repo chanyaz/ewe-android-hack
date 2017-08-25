@@ -1,26 +1,38 @@
 package com.expedia.bookings.data.user
 
 import android.accounts.AccountManager
+import com.expedia.bookings.data.AirAttach
+import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.server.ExpediaServices
+import com.expedia.bookings.services.PersistentCookieManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.UserAccountRefresher
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import okhttp3.Cookie
+import okhttp3.HttpUrl
+import org.json.JSONObject
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class UserStateManagerTests {
+
+    val expediaUrl = HttpUrl.Builder().scheme("https").host("www.expedia.com").build()
 
     @Test
     fun notSignedInUserHasNoLoyaltyTier() {
@@ -174,6 +186,145 @@ class UserStateManagerTests {
         assertEquals(secondUser.primaryTraveler.email, storedUserEmail)
     }
 
+    @Test
+    fun testRemoveUserFromAccountManagerRemovesAccount() {
+        val user = UserLoginTestUtil.mockUser()
+        user.primaryTraveler.email = "test@expedia.com"
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+        val manager = AccountManager.get(RuntimeEnvironment.application)
+
+        userStateManager.addUserToAccountManager(user)
+
+        val storedUserEmail = manager.accounts.first().name
+
+        assertEquals(user.primaryTraveler.email, storedUserEmail)
+
+        userStateManager.removeUserFromAccountManager(user)
+
+        assertTrue(manager.accounts.isEmpty())
+    }
+
+    @Test
+    fun testSignOutPreservingCookiesPreservesCookies() {
+        val manager = UserStateManager(RuntimeEnvironment.application)
+        val cookieManager = populateAndGetCookieManager()
+
+        var cookies = cookieManager.cookieStore.get(expediaUrl.host())
+
+        assertTrue(cookies?.values?.size == 3)
+
+        manager.signOutPreservingCookies()
+
+        cookies = cookieManager.cookieStore.get(expediaUrl.host())
+
+        assertTrue(cookies?.values?.size == 3)
+    }
+
+    @Test
+    fun testSignOutClearsCookies() {
+        val manager = UserStateManager(RuntimeEnvironment.application)
+        val cookieManager = populateAndGetCookieManager()
+
+        var cookies = cookieManager.cookieStore.get(expediaUrl.host())
+
+        assertTrue(cookies?.values?.size == 3)
+
+        manager.signOut()
+
+        cookies = cookieManager.cookieStore.get(expediaUrl.host())
+
+        assertTrue(cookies?.values?.size == 0)
+    }
+
+    @Test
+    fun testSignOutClearsWorkingBillingInfo() {
+        val billingInfo = BillingInfo()
+        billingInfo.email = "test@expedia.com"
+
+        Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(billingInfo)
+
+        assertNotNull(Db.getWorkingBillingInfoManager().workingBillingInfo.email)
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+
+        userStateManager.signOut()
+
+        assertNull(Db.getWorkingBillingInfoManager().workingBillingInfo.email)
+    }
+
+    @Test
+    fun testSignOutClearsWorkingTravelerInfo() {
+        val traveler = Traveler()
+        traveler.email = "test@expedia.com"
+
+        Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler)
+
+        assertNotNull(Db.getWorkingTravelerManager().workingTraveler.email)
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+
+        userStateManager.signOut()
+
+        assertNull(Db.getWorkingTravelerManager().workingTraveler.email)
+    }
+
+    @Test
+    fun testSignOutResetsBillingInfo() {
+        val billingInfo = BillingInfo()
+        billingInfo.email = "test@expedia.com"
+
+        Db.setBillingInfo(billingInfo)
+
+        assertNotNull(Db.getBillingInfo().email)
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+
+        userStateManager.signOut()
+
+        assertNull(Db.getBillingInfo().email)
+    }
+
+    @Test
+    fun testSignOutResetsTravelers() {
+        val traveler = Traveler()
+        traveler.email = "test@expedia.com"
+
+        Db.setTravelers(listOf(traveler))
+
+        assertNotNull(Db.getTravelers().first().email)
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+
+        userStateManager.signOut()
+
+        assertNull(Db.getTravelers().first().email)
+    }
+
+    @Test
+    fun testSignOutClearsAirAttachFromTripBucket() {
+        val jsonObject = JSONObject()
+        jsonObject.put("airAttachQualified", true)
+
+        val expirationTime = JSONObject()
+        expirationTime.put("epochSeconds", (System.currentTimeMillis() / 1000L) + 1000L)
+        expirationTime.put("timeZoneOffsetSeconds", -28800)
+
+        jsonObject.put("offerExpiresTime", expirationTime)
+
+        val airAttach = AirAttach(jsonObject)
+
+        Db.getTripBucket().airAttach = airAttach
+
+        assertNotNull(Db.getTripBucket().airAttach)
+
+        val userStateManager = UserStateManager(RuntimeEnvironment.application)
+
+        userStateManager.signOut()
+
+        assertNull(Db.getTripBucket().airAttach)
+    }
+
     private fun givenSignedInAsUser(user: User) {
         UserLoginTestUtil.setupUserAndMockLogin(user)
     }
@@ -258,6 +409,19 @@ class UserStateManagerTests {
         user.loyaltyMembershipInformation = loyaltyInfo
 
         return user
+    }
+
+    private fun populateAndGetCookieManager(): PersistentCookieManager {
+        val services =  ExpediaServices(RuntimeEnvironment.application)
+        val cookieManager = services.mCookieManager as PersistentCookieManager
+
+        val cookiePairs = hashMapOf(Pair("user", Cookie.parse(expediaUrl, "user=user")),
+                Pair("minfo", Cookie.parse(expediaUrl, "minfo=minfo")),
+                Pair("accttype", Cookie.parse(expediaUrl, "accttype=accttype")))
+
+        cookieManager.cookieStore.put(expediaUrl.host(), cookiePairs)
+
+        return cookieManager
     }
 
 }

@@ -495,7 +495,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 
 		// Sign out user
-		User.signOut(getActivity());
+		userStateManager.signOut();
 
 		syncItinManager(true, false);
 

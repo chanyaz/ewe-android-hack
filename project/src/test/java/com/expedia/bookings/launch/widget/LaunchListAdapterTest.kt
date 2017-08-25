@@ -15,7 +15,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
-import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -602,7 +602,7 @@ class LaunchListAdapterTest {
 
     private fun givenCustomerSignedOut() {
         try {
-            User.signOut(context)
+            UserStateManager(context).signOut()
         } catch (e: Exception) {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.
