@@ -1,10 +1,12 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.design.widget.TextInputLayout
+import android.view.View
+import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget
-import com.expedia.bookings.presenter.trips.ItinSignInPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.itin.AddGuestItinViewModel
 import org.junit.Before
@@ -14,7 +16,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
-import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(sdk = intArrayOf(21))
@@ -31,6 +33,27 @@ class AddGuestItinWidgetTest {
         Mockito.doNothing().`when`(mockItineraryManager).addGuestTrip("malcolmnguyen@gmail.com", "123456789")
         sut = activity.addGuestItinWidget
         sut.viewModel = viewModel
+    }
+
+    @Test
+    fun testWidgetSetup() {
+        val toolBar = sut.toolbar
+        assertEquals(View.VISIBLE, toolBar.visibility)
+        assertEquals("Find guest booked trip", toolBar.title)
+
+        val introText = sut.findViewById(R.id.find_guest_itinerary_intro_text) as TextView
+        assertEquals(View.VISIBLE, introText.visibility)
+        assertEquals("Checked out without signing in? Find your trip by itinerary number. You can find the itinerary number in the confirmation email.", introText.text)
+
+        val emailText = sut.findViewById(R.id.email_edit_text_layout) as TextInputLayout
+        assertEquals(View.VISIBLE, emailText.visibility)
+        assertEquals("Email", emailText.hint)
+
+        val itinNumberText = sut.findViewById(R.id.itin_number_edit_text_layout) as TextInputLayout
+        assertEquals(View.VISIBLE, itinNumberText.visibility)
+        assertEquals("Itinerary number", itinNumberText.hint)
+
+        assertEquals(View.VISIBLE, sut.findItinButton.visibility)
     }
 
     @Test

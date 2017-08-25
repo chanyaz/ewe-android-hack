@@ -12,7 +12,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.model.PointOfSaleStateModel
-import com.expedia.bookings.tracking.ItinPageUsableTrackingData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -83,10 +82,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_cont_desc)
 
         itinNumberEditText.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                (view as EditText).hint = context.getString(R.string.itinerary_number_hint)
-            } else {
-                (view as EditText).hint = ""
+            if (!hasFocus) {
                 validateField(viewModel.itinNumberValidateObservable, itinNumberEditText.text.toString())
             }
         }

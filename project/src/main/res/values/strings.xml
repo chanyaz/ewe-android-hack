@@ -3050,10 +3050,6 @@
     <!-- Support email body -->
     <string name="app_support_message_body">We look forward to replying to you! Below is some information that may help us assist you:</string>
 
-    <!-- App Feedback Activity -->
-    <!-- Hint to type in email address -->
-    <string name="email_address">Email Address</string>
-
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Country</string>
@@ -4631,14 +4627,19 @@
     <string name="passport_validation_error_message">Select a passport country</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">Manually add your guest booked trip</string>
-    <!-- Itinerary number hint -->
-    <string name="itinerary_number_hint">(in your confirmation email)</string>
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">Enter valid itinerary number</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Sign in to access your upcoming trips</string>
     <!-- Find Guest Itinerary Screen Title -->
-    <string name="find_guest_itinerary_title">Find Guest Booked Trip</string>
+    <string name="find_guest_itinerary_title">Find guest booked trip</string>
+    <!-- Introduction text for find guest itinerary screen -->
+    <string name="find_guest_itinerary_intro_text">Checked out without signing in? Find your trip by itinerary number. You can find the itinerary number in the confirmation email.</string>
+    <!-- Hint to type in email address -->
+    <string name="find_guest_add_email_address_hint">Email</string>
+    <!-- Hint to type in itinerary number -->
+    <string name="find_guest_add_itinerary_number_hint">Itinerary number</string>
+
     <!-- Booking successful alert text-->
     <string name="booking_successful">Booking Successful!</string>
     <!-- Check your email for itinerary alert message-->

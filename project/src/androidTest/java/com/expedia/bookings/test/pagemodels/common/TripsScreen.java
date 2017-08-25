@@ -39,6 +39,6 @@ public class TripsScreen {
 	}
 
 	public static ViewInteraction enterItinToolbarText() {
-		return onView(allOf(withText("Find Guest Booked Trip"), isDescendantOfA(withId(R.id.toolbar))));
+		return onView(allOf(withText("Find guest booked trip"), isDescendantOfA(withId(R.id.toolbar))));
 	}
 }
