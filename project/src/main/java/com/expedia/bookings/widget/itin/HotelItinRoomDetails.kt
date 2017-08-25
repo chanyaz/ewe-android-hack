@@ -43,16 +43,14 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_room_details, this)
-        if (isExpandableRoomDetailsOn()) {
-            collapsedRoomDetails.setOnClickListener {
-                if (!isRowClickable) {
-                    return@setOnClickListener
+        collapsedRoomDetails.setOnClickListener {
+            if (!isRowClickable) {
+                return@setOnClickListener
+            } else {
+                if (expandedRoomDetails.visibility == View.GONE) {
+                    expandRoomDetailsView()
                 } else {
-                    if (expandedRoomDetails.visibility == View.GONE) {
-                        expandRoomDetailsView()
-                    } else {
-                        collapseRoomDetailsView()
-                    }
+                    collapseRoomDetailsView()
                 }
             }
         }
@@ -104,13 +102,6 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
     fun collapseRoomDetailsView() {
         expandedRoomDetails.visibility = View.GONE
         AnimUtils.reverseRotate(roomDetailsChevron)
-    }
-
-    fun isExpandableRoomDetailsOn(): Boolean {
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_expandable_hotel_itin_room_details)) {
-            return true
-        }
-        return false
     }
 
     private fun buildRoomRequests(tripHotelRoom: TripHotelRoom): String {

@@ -56,8 +56,6 @@ class HotelItinDetailsActivityTest {
 
     @Test
     fun testRoomDetailsExpansion() {
-        SettingUtils.save(activity, R.string.preference_enable_expandable_hotel_itin_room_details, true)
-
         val itinCardDataHotelMock = Mockito.spy(itinCardDataHotel)
         activity.itinCardDataHotel = itinCardDataHotelMock
         Mockito.`when`(activity.itinCardDataHotel.lastHotelRoom).thenReturn(null)

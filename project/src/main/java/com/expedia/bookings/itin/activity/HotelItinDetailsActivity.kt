@@ -82,7 +82,7 @@ open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
         hotelImageView.setUpWidget(itinCardDataHotel)
         checkinCheckoutView.setUpWidget(itinCardDataHotel)
         roomDetailsView.setUpWidget(itinCardDataHotel)
-        if (roomDetailsView.isExpandableRoomDetailsOn() && itinCardDataHotel.lastHotelRoom != null) {
+        if (itinCardDataHotel.lastHotelRoom != null) {
             roomDetailsView.collapseRoomDetailsView()
             roomDetailsChevron.visibility = View.VISIBLE
             roomDetailsView.isRowClickable = true
