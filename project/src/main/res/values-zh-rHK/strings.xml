@@ -1520,7 +1520,7 @@
     <!--Hotel itin room request for extra adult bed-->
     <string name="itin_hotel_room_request_extra_adult_bed">額外成人床</string>
     <!--Hotel itin room request for extra child bed-->
-    <string name="itin_hotel_room_request_extra_child_bed">額外兒童床</string>
+    <string name="itin_hotel_room_request_extra_child_bed">額外小童床</string>
     <!--Hotel itin room request for extra infant bed-->
     <string name="itin_hotel_room_request_extra_infant_bed">額外嬰兒床</string>
     <!--Hotel itin room request for non-smoking-->
@@ -1530,19 +1530,19 @@
     <!--Hotel itin room details reserved for-->
     <string name="itin_hotel_room_details_reserved_for_header">入住房客：</string>
     <!--Hotel itin card Room details guest info (guest name and number of guests). {guestname}, {numofguests} (e.g., Frank Funston, 1 Adult)-->
-    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}，{numofguests}</string>
+    <string name="itin_hotel_room_details_guest_info_TEMPLATE">{guestname}, {numofguests}</string>
     <!--Hotel itin room amenity free breakfast-->
     <string name="itin_hotel_room_amenity_free_breakfast">包括\n早餐</string>
     <!--Hotel itin room amenity free parking-->
     <string name="itin_hotel_room_amenity_free_parking">免費\n泊車位</string>
     <!--Hotel itin room amenity free wifi-->
-    <string name="itin_hotel_room_amenity_free_wifi">免費\n無線上網</string>
+    <string name="itin_hotel_room_amenity_free_wifi">免費\nWi-Fi</string>
     <!--Hotel itin room amenity free breakfast content description-->
     <string name="itin_hotel_room_amenity_free_breakfast_cont_desc">包括早餐</string>
     <!--Hotel itin room amenity free parking content description-->
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">免費泊車位</string>
     <!--Hotel itin room amenity free wifi content description-->
-    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">免費無線上網</string>
+    <string name="itin_hotel_room_amenity_free_wifi_cont_desc">免費 Wi-Fi</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">入住 - 3 日後</string>
@@ -2142,10 +2142,10 @@
     <string name="expand_advanced_button_cont_desc">展開其他資料 (選填) 的按鈕</string>
     <string name="collapse_advanced_button_cont_desc">收起其他資料 (選填) 的按鈕</string>
     <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
-    <string name="frequent_flyer_optional">飛行常客計劃 (選填)</string>
+    <string name="frequent_flyer_optional">航空公司會員計劃 (選填)</string>
     <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
-    <string name="expand_frequent_flyer_button_cont_desc">展開飛行常客 (選填) 按鈕</string>
-    <string name="collapse_frequent_flyer_button_cont_desc">收合飛行常客 (選填) 按鈕</string>
+    <string name="expand_frequent_flyer_button_cont_desc">展開航空公司會員 (選填) 按鈕</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">收合航空公司會員 (選填) 按鈕</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">更新您 {brand} 帳戶內的旅客資料，下次預訂更快捷方便。</string>
     <!-- Update traveler dialog title-->
@@ -3147,7 +3147,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3688,9 +3688,13 @@
     <!-- Used in flight search for specifying infant's sitting -->
     <string name="flight_infant_type_label">未滿 2 歲嬰幼兒：</string>
     <!-- Used in flight search for specifying infant's sitting inLap -->
-    <string name="flight_infant_InLap">手抱</string>
+    <string name="flight_infant_in_lap">手抱</string>
     <!-- Used in flight search for specifying infant's sitting in Seat-->
-    <string name="flight_infant_InSeat">佔位</string>
+    <string name="flight_infant_in_seat">佔位</string>
+    <!-- Used in flight search for describing infant's sitting in Lap -->
+    <string name="flight_infant_desciption_in_lap">選擇手抱嬰幼兒按鈕</string>
+    <!-- Used in flight search for describing infant's sitting in Seat -->
+    <string name="flight_infant_desciption_in_seat">選擇佔位嬰幼兒按鈕</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">附近地區</string>
@@ -4699,13 +4703,16 @@
     <string name="title_seek_bar_edit">編輯控制介面百分比</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
-    <!--Account Sign Up String Varaint 1-->
-    <string name="signup_variant_1">登記</string>
-    <!--Account Sign Up String Varaint 2-->
-    <string name="signup_variant_2">建立您的免費帳戶</string>
-    <!--Create Your Expedia Account-->
-    <string name="signup_variant_3_TEMPLATE">建立您的 {brand} 帳戶</string>
-    <!--Create a new Expedia account-->
-    <string name="signup_variant_control_TEMPLATE">建立新的 {brand} 帳戶</string>
+    <!--Create Your Expedia Account, example: Create Your Orbitz/Expedia/Travelocity Account-->
+    <string name="account_signup_TEMPLATE">建立您的 {brand}帳戶</string>
+
+    <!--App shortcut for hotel search-->
+    <string name="get_a_room">訂房</string>
+    <!--App shortcut for hotel search long version-->
+    <string name="find_a_hotel_tonight">搜尋今晚的酒店</string>
+    <!--App shortcut for sharing flight info-->
+    <string name="share_flight">分享機票資訊</string>
+    <!--App shortcut for sharing flight info long version.-->
+    <string name="share_flight_status">分享航班狀況</string>
 
 </resources>

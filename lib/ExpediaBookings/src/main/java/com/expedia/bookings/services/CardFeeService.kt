@@ -1,6 +1,7 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.CardFeeResponse
+import com.expedia.bookings.utils.Constants
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -32,7 +33,7 @@ open class CardFeeService(endpoint: String, okHttpClient: OkHttpClient, intercep
     // open so we can mock for tests
     open fun getCardFees(tripId: String, creditCardId: String, isFlexEnabled: Boolean, observer: Observer<CardFeeResponse>): Subscription {
         subscription?.unsubscribe() // cancels any existing calls we're waiting on
-        val subscription = cardFeeApi.cardFee(tripId, creditCardId, isFlexEnabled)
+        val subscription = cardFeeApi.cardFee(tripId, creditCardId, if (isFlexEnabled) Constants.FEATURE_FLEX else null)
                                      .observeOn(observeOn)
                                      .subscribeOn(subscribeOn)
                                      .subscribe(observer)

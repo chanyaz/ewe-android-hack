@@ -421,192 +421,192 @@
     <string name="ticket_type_vehicle">Véhicule</string>
     <!-- LX Ticket type Plurals -->
     <plurals name="ticket_type_traveler_TEMPLATE">
-        <item quantity="one">%1$s Voyageur</item>
-        <item quantity="other">%1$s Voyageurs</item>
+        <item quantity="one">%1$s voyageur</item>
+        <item quantity="other">%1$s voyageurs</item>
     </plurals>
     <plurals name="ticket_type_adult_TEMPLATE">
-        <item quantity="one">%1$s Adulte</item>
-        <item quantity="other">%1$s Adultes</item>
+        <item quantity="one">%1$s adulte</item>
+        <item quantity="other">%1$s adultes</item>
     </plurals>
     <plurals name="ticket_type_child_TEMPLATE">
-        <item quantity="one">%1$s Enfant</item>
-        <item quantity="other">%1$s Enfants</item>
+        <item quantity="one">%1$s enfant</item>
+        <item quantity="other">%1$s enfants</item>
     </plurals>
     <plurals name="ticket_type_infant_TEMPLATE">
-        <item quantity="one">%1$s Jeune enfant</item>
-        <item quantity="other">%1$s Jeunes enfants</item>
+        <item quantity="one">%1$s jeune enfant</item>
+        <item quantity="other">%1$s jeunes enfants</item>
     </plurals>
     <plurals name="ticket_type_youth_TEMPLATE">
-        <item quantity="one">%1$s Adolescent</item>
-        <item quantity="other">%1$s Adolescents</item>
+        <item quantity="one">%1$s adolescent</item>
+        <item quantity="other">%1$s adolescents</item>
     </plurals>
     <plurals name="ticket_type_senior_TEMPLATE">
-        <item quantity="one">%1$s Aîné</item>
-        <item quantity="other">%1$s Aînés</item>
+        <item quantity="one">%1$s aîné</item>
+        <item quantity="other">%1$s aînés</item>
     </plurals>
     <plurals name="ticket_type_group_TEMPLATE">
-        <item quantity="one">%1$s Groupe</item>
-        <item quantity="other">%1$s Groupes</item>
+        <item quantity="one">%1$s groupe</item>
+        <item quantity="other">%1$s groupes</item>
     </plurals>
     <plurals name="ticket_type_couple_TEMPLATE">
-        <item quantity="one">%1$s Couple</item>
-        <item quantity="other">%1$s Couples</item>
+        <item quantity="one">%1$s couple</item>
+        <item quantity="other">%1$s couples</item>
     </plurals>
     <plurals name="ticket_type_two_adults_TEMPLATE">
         <item quantity="one">%1$s groupe de 2 adultes</item>
         <item quantity="other">%1$s groupes de 2 adultes</item>
     </plurals>
     <plurals name="ticket_type_military_TEMPLATE">
-        <item quantity="one">%1$s Militaire</item>
-        <item quantity="other">%1$s Militaires</item>
+        <item quantity="one">%1$s militaire</item>
+        <item quantity="other">%1$s militaires</item>
     </plurals>
     <plurals name="ticket_type_student_TEMPLATE">
-        <item quantity="one">%1$s Étudiant</item>
-        <item quantity="other">%1$s Étudiants</item>
+        <item quantity="one">%1$s étudiant</item>
+        <item quantity="other">%1$s étudiants</item>
     </plurals>
     <plurals name="ticket_type_sedan_TEMPLATE">
-        <item quantity="one">%1$s Berline</item>
-        <item quantity="other">%1$s Berlines</item>
+        <item quantity="one">%1$s berline</item>
+        <item quantity="other">%1$s berlines</item>
     </plurals>
     <plurals name="ticket_type_minivan_TEMPLATE">
-        <item quantity="one">%1$s Fourgonnette</item>
-        <item quantity="other">%1$s Fourgonnettes</item>
+        <item quantity="one">%1$s fourgonnette</item>
+        <item quantity="other">%1$s fourgonnettes</item>
     </plurals>
     <plurals name="ticket_type_water_taxi_TEMPLATE">
-        <item quantity="one">%1$s Taxi sur eau</item>
-        <item quantity="other">%1$s Taxis sur eau</item>
+        <item quantity="one">%1$s taxi sur eau</item>
+        <item quantity="other">%1$s taxis sur eau</item>
     </plurals>
     <plurals name="ticket_type_suv_TEMPLATE">
         <item quantity="one">%1$s VUS</item>
         <item quantity="other">%1$s VUS</item>
     </plurals>
     <plurals name="ticket_type_executive_car_TEMPLATE">
-        <item quantity="one">%1$s Voiture pour cadre</item>
-        <item quantity="other">%1$s Voitures pour cadre</item>
+        <item quantity="one">%1$s voiture pour cadre</item>
+        <item quantity="other">%1$s voitures pour cadre</item>
     </plurals>
     <plurals name="ticket_type_luxury_car_TEMPLATE">
-        <item quantity="one">%1$s Voiture luxueuse</item>
-        <item quantity="other">%1$s Voitures luxueuses</item>
+        <item quantity="one">%1$s voiture luxueuse</item>
+        <item quantity="other">%1$s voitures luxueuses</item>
     </plurals>
     <plurals name="ticket_type_limousine_TEMPLATE">
-        <item quantity="one">%1$s Limousine</item>
-        <item quantity="other">%1$s Limousines</item>
+        <item quantity="one">%1$s limousine</item>
+        <item quantity="other">%1$s limousines</item>
     </plurals>
     <plurals name="ticket_type_towncar_TEMPLATE">
-        <item quantity="one">%1$s Voiture de luxe</item>
-        <item quantity="other">%1$s Voitures de luxe</item>
+        <item quantity="one">%1$s voiture de luxe</item>
+        <item quantity="other">%1$s voitures de luxe</item>
     </plurals>
     <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
-        <item quantity="one">%1$s Place de stationnement</item>
-        <item quantity="other">%1$s Places de stationnement</item>
+        <item quantity="one">%1$s place de stationnement</item>
+        <item quantity="other">%1$s places de stationnement</item>
     </plurals>
     <plurals name="ticket_type_book_TEMPLATE">
-        <item quantity="one">%1$s Livre</item>
-        <item quantity="other">%1$s Livres</item>
+        <item quantity="one">%1$s livre</item>
+        <item quantity="other">%1$s livres</item>
     </plurals>
     <plurals name="ticket_type_guide_TEMPLATE">
-        <item quantity="one">%1$s Guide</item>
-        <item quantity="other">%1$s Guides</item>
+        <item quantity="one">%1$s guide</item>
+        <item quantity="other">%1$s guides</item>
     </plurals>
     <plurals name="ticket_type_travel_card_TEMPLATE">
-        <item quantity="one">%1$s Carte de voyage</item>
-        <item quantity="other">%1$s Cartes de voyage</item>
+        <item quantity="one">%1$s carte de voyage</item>
+        <item quantity="other">%1$s cartes de voyage</item>
     </plurals>
     <plurals name="ticket_type_boat_TEMPLATE">
-        <item quantity="one">%1$s Bateau</item>
-        <item quantity="other">%1$s Bateaux</item>
+        <item quantity="one">%1$s bateau</item>
+        <item quantity="other">%1$s bateaux</item>
     </plurals>
     <plurals name="ticket_type_motorcycle_TEMPLATE">
-        <item quantity="one">%1$s Moto</item>
-        <item quantity="other">%1$s Motos</item>
+        <item quantity="one">%1$s moto</item>
+        <item quantity="other">%1$s motos</item>
     </plurals>
     <plurals name="ticket_type_ceremony_TEMPLATE">
-        <item quantity="one">%1$s Cérémonie</item>
-        <item quantity="other">%1$s Cérémonies</item>
+        <item quantity="one">%1$s cérémonie</item>
+        <item quantity="other">%1$s cérémonies</item>
     </plurals>
     <plurals name="ticket_type_calling_card_TEMPLATE">
-        <item quantity="one">%1$s Carte d\&apos;appel</item>
-        <item quantity="other">%1$s Cartes d\&apos;appel</item>
+        <item quantity="one">%1$s carte d\&apos;appel</item>
+        <item quantity="other">%1$s cartes d\&apos;appel</item>
     </plurals>
     <plurals name="ticket_type_pass_TEMPLATE">
-        <item quantity="one">%1$s Laissez-passer</item>
-        <item quantity="other">%1$s Laissez-passer</item>
+        <item quantity="one">%1$s laissez-passer</item>
+        <item quantity="other">%1$s laissez-passer</item>
     </plurals>
     <plurals name="ticket_type_minibus_TEMPLATE">
-        <item quantity="one">%1$s Minibus</item>
-        <item quantity="other">%1$s Minibus</item>
+        <item quantity="one">%1$s minibus</item>
+        <item quantity="other">%1$s minibus</item>
     </plurals>
     <plurals name="ticket_type_helicopter_TEMPLATE">
-        <item quantity="one">%1$s Hélicoptère</item>
-        <item quantity="other">%1$s Hélicoptères</item>
+        <item quantity="one">%1$s hélicoptère</item>
+        <item quantity="other">%1$s hélicoptères</item>
     </plurals>
     <plurals name="ticket_type_device_TEMPLATE">
-        <item quantity="one">%1$s Appareil</item>
-        <item quantity="other">%1$s Appareils</item>
+        <item quantity="one">%1$s appareil</item>
+        <item quantity="other">%1$s appareils</item>
     </plurals>
     <plurals name="ticket_type_room_TEMPLATE">
-        <item quantity="one">%1$s Chambre</item>
-        <item quantity="other">%1$s Chambres</item>
+        <item quantity="one">%1$s chambre</item>
+        <item quantity="other">%1$s chambres</item>
     </plurals>
     <plurals name="ticket_type_carriage_TEMPLATE">
-        <item quantity="one">%1$s Calèche</item>
-        <item quantity="other">%1$s Calèches</item>
+        <item quantity="one">%1$s calèche</item>
+        <item quantity="other">%1$s calèches</item>
     </plurals>
     <plurals name="ticket_type_buggy_TEMPLATE">
-        <item quantity="one">%1$s Voiturette</item>
-        <item quantity="other">%1$s Voiturettes</item>
+        <item quantity="one">%1$s voiturette</item>
+        <item quantity="other">%1$s voiturettes</item>
     </plurals>
     <plurals name="ticket_type_atv_TEMPLATE">
         <item quantity="one">%1$s VTT</item>
         <item quantity="other">%1$s VTT</item>
     </plurals>
     <plurals name="ticket_type_jet_ski_TEMPLATE">
-        <item quantity="one">%1$s Motomarine</item>
-        <item quantity="other">%1$s Motomarines</item>
+        <item quantity="one">%1$s motomarine</item>
+        <item quantity="other">%1$s motomarines</item>
     </plurals>
     <plurals name="ticket_type_scooter_TEMPLATE">
-        <item quantity="one">%1$s Scooter</item>
-        <item quantity="other">%1$s Scooters</item>
+        <item quantity="one">%1$s scooter</item>
+        <item quantity="other">%1$s scooters</item>
     </plurals>
     <plurals name="ticket_type_scooter_car_TEMPLATE">
-        <item quantity="one">%1$s Voiture Scooter</item>
-        <item quantity="other">%1$s Voitures Scooters</item>
+        <item quantity="one">%1$s voiture Scooter</item>
+        <item quantity="other">%1$s voitures Scooters</item>
     </plurals>
     <plurals name="ticket_type_snowmobile_TEMPLATE">
-        <item quantity="one">%1$s Motoneige</item>
-        <item quantity="other">%1$s Motoneiges</item>
+        <item quantity="one">%1$s motoneige</item>
+        <item quantity="other">%1$s motoneiges</item>
     </plurals>
     <plurals name="ticket_type_day_TEMPLATE">
-        <item quantity="one">%1$s Jour</item>
-        <item quantity="other">%1$s Jours</item>
+        <item quantity="one">%1$s jour</item>
+        <item quantity="other">%1$s jours</item>
     </plurals>
     <plurals name="ticket_type_bike_TEMPLATE">
-        <item quantity="one">%1$s Vélo</item>
-        <item quantity="other">%1$s Vélos</item>
+        <item quantity="one">%1$s vélo</item>
+        <item quantity="other">%1$s vélos</item>
     </plurals>
     <plurals name="ticket_type_week_TEMPLATE">
-        <item quantity="one">%1$s Semaine</item>
-        <item quantity="other">%1$s Semaines</item>
+        <item quantity="one">%1$s semaine</item>
+        <item quantity="other">%1$s semaines</item>
     </plurals>
     <plurals name="ticket_type_subscription_TEMPLATE">
-        <item quantity="one">%1$s Abonnement</item>
-        <item quantity="other">%1$s Abonnements</item>
+        <item quantity="one">%1$s abonnement</item>
+        <item quantity="other">%1$s abonnements</item>
     </plurals>
     <plurals name="ticket_type_electric_bike_TEMPLATE">
-        <item quantity="one">%1$s Vélo électrique</item>
-        <item quantity="other">%1$s Vélos électriques</item>
+        <item quantity="one">%1$s vélo électrique</item>
+        <item quantity="other">%1$s vélos électriques</item>
     </plurals>
     <plurals name="ticket_type_segway_TEMPLATE">
-        <item quantity="one">%1$s Gyropode</item>
-        <item quantity="other">%1$s Gyropodes</item>
+        <item quantity="one">%1$s gyropode</item>
+        <item quantity="other">%1$s gyropodes</item>
     </plurals>
     <plurals name="ticket_type_vehicle_TEMPLATE">
-        <item quantity="one">%1$s Véhicule</item>
-        <item quantity="other">%1$s Véhicules</item>
+        <item quantity="one">%1$s véhicule</item>
+        <item quantity="other">%1$s véhicules</item>
     </plurals>
     <plurals name="rail_changes_TEMPLATE">
-        <item quantity="one">%1$s Correspondance</item>
-        <item quantity="other">%1$s Correspondances</item>
+        <item quantity="one">%1$s correspondance</item>
+        <item quantity="other">%1$s correspondances</item>
     </plurals>
 
     <!-- Activity search results per ticket type -->
@@ -1077,7 +1077,7 @@
     <string name="yesterday">Hier</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">{minutes} minutes</item>
+        <item quantity="zero">{minutes} minute</item>
         <item quantity="one">{minutes} minute</item>
         <item quantity="two">{minutes} minutes</item>
         <item quantity="few">{minutes} minutes</item>
@@ -1086,7 +1086,7 @@
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">{hours} heures</item>
+        <item quantity="zero">{hours} heure</item>
         <item quantity="one">{hours} heure</item>
         <item quantity="two">{hours} heures</item>
         <item quantity="few">{hours} heures</item>
@@ -1095,7 +1095,7 @@
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">{days} jours</item>
+        <item quantity="zero">{days} jour</item>
         <item quantity="one">{days} jour</item>
         <item quantity="two">{days} jours</item>
         <item quantity="few">{days} jours</item>
@@ -2771,7 +2771,7 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Prix total du vol et de l\&apos;hôtel (incluant les taxes et les frais) par personne • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Prix total aller-retour (incluant les taxes et les frais) par personne, pour les hôtels et les vols • {totalpriceresultcountheader}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">Réservé à {percentage} %</string>
@@ -3688,9 +3688,13 @@
     <!-- Used in flight search for specifying infant's sitting -->
     <string name="flight_infant_type_label">Enfants de moins de 2 ans :</string>
     <!-- Used in flight search for specifying infant's sitting inLap -->
-    <string name="flight_infant_InLap">Sur les genoux</string>
+    <string name="flight_infant_in_lap">Sur les genoux</string>
     <!-- Used in flight search for specifying infant's sitting in Seat-->
-    <string name="flight_infant_InSeat">Dans un siège</string>
+    <string name="flight_infant_in_seat">Dans un siège</string>
+    <!-- Used in flight search for describing infant's sitting in Lap -->
+    <string name="flight_infant_desciption_in_lap">Appuyez sur le bouton pour sélectionner l\&apos;option « Sur des genoux » pour le ou les jeunes enfants</string>
+    <!-- Used in flight search for describing infant's sitting in Seat -->
+    <string name="flight_infant_desciption_in_seat">Appuyez sur le bouton pour sélectionner l\&apos;option « Dans un siège » pour le ou les jeunes enfants</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Quartiers</string>
@@ -4699,13 +4703,16 @@
     <string name="title_seek_bar_edit">Modifier le niveau de contrôle du défilement</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
-    <!--Account Sign Up String Varaint 1-->
-    <string name="signup_variant_1">S\&apos;inscrire</string>
-    <!--Account Sign Up String Varaint 2-->
-    <string name="signup_variant_2">Créer un compte gratuitement</string>
-    <!--Create Your Expedia Account-->
-    <string name="signup_variant_3_TEMPLATE">Créer un compte {brand}</string>
-    <!--Create a new Expedia account-->
-    <string name="signup_variant_control_TEMPLATE">Créer un nouveau compte {brand}</string>
+    <!--Create Your Expedia Account, example: Create Your Orbitz/Expedia/Travelocity Account-->
+    <string name="account_signup_TEMPLATE">Créer un compte {brand}</string>
+
+    <!--App shortcut for hotel search-->
+    <string name="get_a_room">Réserver une chambre</string>
+    <!--App shortcut for hotel search long version-->
+    <string name="find_a_hotel_tonight">Trouver un hôtel ce soir</string>
+    <!--App shortcut for sharing flight info-->
+    <string name="share_flight">Partager le vol</string>
+    <!--App shortcut for sharing flight info long version.-->
+    <string name="share_flight_status">Partager le statut du vol</string>
 
 </resources>

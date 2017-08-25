@@ -2764,14 +2764,14 @@
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">검색 결과 없음</item>
-        <item quantity="one">숙박 총합계 • 1개 결과</item>
-        <item quantity="many">숙박 총합계 • %d개 결과</item>
-        <item quantity="other">숙박 총합계 • %d개 결과</item>
+        <item quantity="one">총 숙박 요금 • 1개 결과</item>
+        <item quantity="many">총 숙박 요금 • %d개 결과</item>
+        <item quantity="other">총 숙박 요금 • %d개 결과</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">총 요금(세금 및 수수료 포함) - 1인당, 호텔 및 항공 포함 • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">총 왕복 요금(세금 및 수수료 포함) - 1인당, 호텔 및 항공 • {totalpriceresultcountheader}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 예약됨</string>
@@ -3147,7 +3147,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -3688,9 +3688,13 @@
     <!-- Used in flight search for specifying infant's sitting -->
     <string name="flight_infant_type_label">만 2세 미만 유아:</string>
     <!-- Used in flight search for specifying infant's sitting inLap -->
-    <string name="flight_infant_InLap">무릎에</string>
+    <string name="flight_infant_in_lap">무릎에</string>
     <!-- Used in flight search for specifying infant's sitting in Seat-->
-    <string name="flight_infant_InSeat">좌석에</string>
+    <string name="flight_infant_in_seat">좌석에</string>
+    <!-- Used in flight search for describing infant's sitting in Lap -->
+    <string name="flight_infant_desciption_in_lap">영유아 좌석 선호 사항을 무릎에로 선택하려면 버튼을 누르세요.</string>
+    <!-- Used in flight search for describing infant's sitting in Seat -->
+    <string name="flight_infant_desciption_in_seat">영유아 좌석 선호 사항을 좌석에로 선택하려면 버튼을 누르세요.</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">주변</string>
@@ -4699,13 +4703,16 @@
     <string name="title_seek_bar_edit">찾기 컨트롤 수준 수정</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
-    <!--Account Sign Up String Varaint 1-->
-    <string name="signup_variant_1">회원가입</string>
-    <!--Account Sign Up String Varaint 2-->
-    <string name="signup_variant_2">무료 회원가입</string>
-    <!--Create Your Expedia Account-->
-    <string name="signup_variant_3_TEMPLATE">{brand}에 회원가입</string>
-    <!--Create a new Expedia account-->
-    <string name="signup_variant_control_TEMPLATE">새로 {brand}에 회원가입</string>
+    <!--Create Your Expedia Account, example: Create Your Orbitz/Expedia/Travelocity Account-->
+    <string name="account_signup_TEMPLATE">{brand}에 회원가입</string>
+
+    <!--App shortcut for hotel search-->
+    <string name="get_a_room">객실 예약하기</string>
+    <!--App shortcut for hotel search long version-->
+    <string name="find_a_hotel_tonight">오늘 밤 호텔 찾기</string>
+    <!--App shortcut for sharing flight info-->
+    <string name="share_flight">항공편 공유하기</string>
+    <!--App shortcut for sharing flight info long version.-->
+    <string name="share_flight_status">항공편 상태 공유하기</string>
 
 </resources>
