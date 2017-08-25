@@ -25,7 +25,9 @@ import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner :: class)
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -81,20 +83,22 @@ class FlightCheckoutPresenterTest {
         assertEquals("ABCDEFG", checkoutPresenter.cardFeeWarningTextView.text.toString())
 
         var testSubscriber = TestSubscriber<Spanned>()
-        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(true)
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(100))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         assertEquals("A payment method fee of $100 is included in the trip total.", checkoutPresenter.cardFeeWarningTextView.text.toString())
         assertEquals("Payment method fee: $100", checkoutPresenter.cardProcessingFeeTextView.text.toString())
+        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(true)
+        assertFalse(checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.value)
         assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
 
         testSubscriber = TestSubscriber<Spanned>()
-        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(false)
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(0))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         assertEquals("",checkoutPresenter.cardFeeWarningTextView.text.toString())
+        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(false)
+        assertTrue(checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.value)
         assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
     }
 

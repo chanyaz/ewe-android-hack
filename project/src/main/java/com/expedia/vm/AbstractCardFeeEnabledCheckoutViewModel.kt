@@ -83,6 +83,7 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
                 .subscribe {
                     selectedCardFee ->
                     if (selectedCardFee.isZero) {
+                        showCardFeeWarningText.onNext(false)
                         paymentTypeSelectedHasCardFee.onNext(false)
                         cardFeeTextSubject.onNext(SpannedString(""))
                         cardFeeWarningTextSubject.onNext(SpannedString(""))
@@ -93,6 +94,7 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
                         val cardFeeWarningText = Phrase.from(context, R.string.flights_payment_method_fee_warning_TEMPLATE)
                                 .put("card_fee", selectedCardFee.formattedPrice)
                                 .format().toString()
+                        showCardFeeWarningText.onNext(true)
                         paymentTypeSelectedHasCardFee.onNext(true)
                         cardFeeTextSubject.onNext(HtmlCompat.fromHtml(cardFeeText))
                         cardFeeWarningTextSubject.onNext(HtmlCompat.fromHtml(cardFeeWarningText))
