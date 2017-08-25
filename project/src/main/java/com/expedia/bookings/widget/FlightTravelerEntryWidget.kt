@@ -34,6 +34,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.updateVisibility
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
+import rx.Observable
 
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : AbstractTravelerEntryWidget(context, attrs) {
 
@@ -126,8 +127,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             }
 
             vm.frequentFlyerPlans.subscribe { frequentFlyerPlans ->
-                frequentFlyerAdapter.frequentFlyerPlans = frequentFlyerPlans
+                if (frequentFlyerPlans != null) {
+                    frequentFlyerAdapter.frequentFlyerPlans = frequentFlyerPlans
+                }
             }
+
+            Observable.combineLatest(vm.flightLegsObservable, vm.frequentFlyerPlans, { legs, plans ->
+                        val showFrequentFlyerWidget = legs != null && plans != null
+                        frequentFlyerButton?.updateVisibility(showFrequentFlyerWidget)
+                    }).subscribe()
         }
         vm.passportCountrySubject.subscribe { countryCode ->
             if (materialFormTestEnabled) {

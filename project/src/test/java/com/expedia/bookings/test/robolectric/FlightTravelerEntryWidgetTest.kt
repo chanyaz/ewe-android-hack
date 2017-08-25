@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.support.v4.app.FragmentActivity
+import android.view.View
 import android.view.ViewStub
 import android.widget.Button
 import android.widget.EditText
@@ -54,7 +55,8 @@ class FlightTravelerEntryWidgetTest {
     fun setUp() {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Ui.getApplication(RuntimeEnvironment.application).defaultFlightComponents()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        AbacusTestUtils.resetABTests()
+        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_enable_flights_frequent_flyer_number, false)
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.test_traveler_presenter)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
@@ -369,8 +371,21 @@ class FlightTravelerEntryWidgetTest {
         assertEquals(Traveler().tuid, testTraveler.tuid)
     }
 
-    private fun givenMaterialForm(isMaterialForm: Boolean) {
-        if (isMaterialForm) {
+    @Test
+    fun testFrequentFlyerNumberWidgetHiddenWithoutLegsOrPlans() {
+        givenMaterialForm(true, isFFNEnabled = true)
+        setupViewModel(0, false)
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable.onNext(null)
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans.onNext(null)
+
+        assertEquals(View.GONE, widget.frequentFlyerButton?.visibility)
+    }
+
+    private fun givenMaterialForm(isMaterialForm: Boolean, isFFNEnabled: Boolean = false) {
+        if (isFFNEnabled) {
+            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
+            SettingUtils.save(RuntimeEnvironment.application, R.string.preference_enable_flights_frequent_flyer_number, true)
+        } else if (isMaterialForm) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         }
 

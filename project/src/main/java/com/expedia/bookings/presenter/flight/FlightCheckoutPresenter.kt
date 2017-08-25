@@ -114,8 +114,9 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     private fun updateFlightTravelersViewModel(tripResponse: FlightTripResponse) {
         val flightTravelersViewModel = travelersPresenter.viewModel as FlightTravelersViewModel
         flightTravelersViewModel.flightOfferObservable.onNext(tripResponse.details.offer)
-        flightTravelersViewModel.flightLegs = tripResponse.details.legs
-        flightTravelersViewModel.frequentFlyerPlans = (tripResponse as? FlightCreateTripResponse)?.frequentFlyerPlans
+        val flightTripResponse = (tripResponse as? FlightCreateTripResponse)
+        flightTravelersViewModel.flightLegs = flightTripResponse?.details?.legs
+        flightTravelersViewModel.frequentFlyerPlans = flightTripResponse?.frequentFlyerPlans
     }
 
     override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
