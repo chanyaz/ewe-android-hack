@@ -68,6 +68,9 @@ public class CheckoutViewModel {
 
 	public static void clickPaymentInfo() {
 		paymentInfo().perform(scrollTo(), click());
+		// Need this delay, because it seems the app can't keep up, and any step that
+		// follows it is automatically unstable. Found on a 5.1 device under testAirlineFeeReset
+		Common.delay(1);
 	}
 
 	public static void waitForPaymentInfoDisplayed() {
