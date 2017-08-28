@@ -1,0 +1,14 @@
+{
+  "US": {
+    "pointOfSaleId": 29,
+    "flightsEnabled": false,
+    "carsEnabled": false,
+    "showCarsCrossSellButton": false,
+    "lxEnabled": false,
+    "gtEnabled": false,
+    "packagesEnabled": false,
+    "railsEnabled": false,
+    "supportedLocales": [{}],
+    "automaticallyMappedLocales": []
+  }
+}

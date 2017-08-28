@@ -210,6 +210,9 @@ public class PointOfSale {
 	// Should hide billing address fields for APAC
 	private boolean hideBillingAddressFields;
 
+	// Should show cars cross sell button
+	private boolean showCarsCrossSellButton;
+
 	private String businessRegion;
 
 	private static boolean sIsTablet;
@@ -967,6 +970,10 @@ public class PointOfSale {
 		return hideBillingAddressFields;
 	}
 
+	public Boolean shouldShowCarsCrossSellButton() {
+		return showCarsCrossSellButton;
+	}
+	
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1399,6 +1406,7 @@ public class PointOfSale {
 		pos.businessRegion = data.optString("businessRegion");
 		pos.hideAdvancedSearchOnFlights = data.optBoolean("hideAdvanceSearchOnFlights", false);
 		pos.hideBillingAddressFields = data.optBoolean("hideBillingAddressFields");
+		pos.showCarsCrossSellButton = data.optBoolean("showCarsCrossSellButton");
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
