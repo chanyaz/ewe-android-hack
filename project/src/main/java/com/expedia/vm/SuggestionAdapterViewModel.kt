@@ -42,7 +42,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     // Inputs
     val queryObserver = endlessObserver<String> { query ->
         lastQuery = query
-        if (query.isNotBlank() && query.length >= SuggestionV4Utils.getMinSuggestQueryLength(context) && !query.equals(currentLocationText)) {
+        if (query.isNotBlank() && !query.equals(currentLocationText) && (isSuggestionOnOneCharEnabled() || query.length >= SuggestionV4Utils.getMinSuggestQueryLength(context))) {
             getSuggestionService(query)
         } else {
             if (showSuggestionsAndLabel()) {
@@ -226,6 +226,10 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     }
 
     open fun showSuggestionsAndLabel(): Boolean {
+        return false
+    }
+
+    open fun isSuggestionOnOneCharEnabled(): Boolean {
         return false
     }
 }

@@ -21,6 +21,11 @@
             android:title="Switch between to and from flight locations" />
 
         <CheckBoxPreference
+            android:key="@string/preference_auto_suggest_on_one_character"
+            android:summary="Show auto suggestion when one character is entered"
+            android:title="Show auto suggestion when one character is entered" />
+
+        <CheckBoxPreference
             android:key="preference_flight_traveler_form_revamp"
             android:summary="Flight Traveler Form Revamp"
             android:title="Flight Traveler Form Revamp" />

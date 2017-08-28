@@ -4957,6 +4957,9 @@ public class OmnitureTracking {
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_traveler_form_revamp)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_auto_suggest_on_one_character)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
+		}
 		s.track();
 	}
 

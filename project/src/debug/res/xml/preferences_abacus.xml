@@ -292,6 +292,15 @@
             android:key="14646"
             android:summary="%s"
             android:title="Show Search Suggestion label - 14646" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="15349"
+            android:summary="%s"
+            android:title="Auto Suggest with one character input - 15349" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
