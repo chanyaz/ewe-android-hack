@@ -2072,6 +2072,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards";
 	private static final String ITIN_HOTEL_CHECK_IN_POLICIES = "App.Itinerary.Hotel.Info.Check-in";
 	private static final String ITIN_HOTEL_CHANGE_CANCEL_RULES = "App.Itinerary.Hotel.Manage.Info.Change-Cancel";
+	private static final String ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel";
 	private static final String ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia";
 	private static final String ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP";
 
@@ -2326,6 +2327,11 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelDirections() {
 		internalTrackLink(ITIN_HOTEL_DIRECTIONS);
+	}
+
+	public static void trackItinHotelCallHotel() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL_HOTEL);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	public static void trackItinHotelCallSupport() {

@@ -47,12 +47,11 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
                 val pm = context.packageManager
                 if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
                     SocialUtils.call(context, supportNumber)
-                    OmnitureTracking.trackItinHotelCallSupport()
                 } else {
                     ClipboardUtils.setText(context, supportNumber)
                     Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
                 }
-
+                OmnitureTracking.trackItinHotelCallSupport()
             }
         }
 

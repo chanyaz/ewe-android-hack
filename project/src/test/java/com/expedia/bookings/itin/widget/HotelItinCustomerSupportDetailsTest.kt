@@ -13,6 +13,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
 import org.hamcrest.Matcher
@@ -80,13 +81,14 @@ class HotelItinCustomerSupportDetailsTest {
     }
 
     @Test
-    fun clickCallSupportIsNotTrackedInOmnitureWhenNoPhoneIsAvailable() {
+    fun clickCallSupportIsTrackedInOmnitureWhenNoPhoneIsAvailable() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
         RuntimeEnvironment.getRobolectricPackageManager().setSystemFeature(PackageManager.FEATURE_TELEPHONY, false)
 
         customerSupportWidget.callSupportActionButton.performClick()
-        assertLinkNotTracked(mockAnalyticsProvider)
+        assertEquals(customerSupportWidget.callSupportActionButton.text, ClipboardUtils.getText(activity))
+        assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Manage.Call.Expedia", mockAnalyticsProvider)
     }
 
     @Test
