@@ -1,5 +1,11 @@
 package com.expedia.bookings.server;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.EnumMap;
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -10,12 +16,6 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
 import com.mobiata.android.util.SettingUtils;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.EnumMap;
 
 import okhttp3.HttpUrl;
 
@@ -293,10 +293,8 @@ public class EndpointProvider {
 	}
 
 	public boolean requestRequiresSiteId() {
-		boolean isSiteIdRequired =
-			ProductFlavorFeatureConfiguration.getInstance().shouldSendSiteIdInRequests() || (BuildConfig.DEBUG
-				&& getEndPoint() == EndPoint.PUBLIC_INTEGRATION);
-		return isSiteIdRequired;
+		return ProductFlavorFeatureConfiguration.getInstance().shouldSendSiteIdInRequests() || (BuildConfig.DEBUG
+			&& getEndPoint() == EndPoint.PUBLIC_INTEGRATION);
 	}
 
 }

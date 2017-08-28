@@ -11,7 +11,8 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-open class SatelliteServices(endpoint: String, okHttpClient: OkHttpClient,interceptor:Interceptor, hmacInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+open class SatelliteServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
+                             satelliteInterceptor: Interceptor, hmacInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     private val satelliteApi by lazy {
 
@@ -22,14 +23,16 @@ open class SatelliteServices(endpoint: String, okHttpClient: OkHttpClient,interc
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).addInterceptor(hmacInterceptor).build())
+                .client(okHttpClient.newBuilder()
+                        .addInterceptor(interceptor).addInterceptor(satelliteInterceptor).addInterceptor(hmacInterceptor)
+                        .build())
                 .build()
         adapter.create(SatelliteApi::class.java)
     }
 
-    fun fetchFeatureConfig(observer: Observer<List<String>>, clientId: String): Subscription {
+    fun fetchFeatureConfig(observer: Observer<List<String>>): Subscription {
 
-        val satelliteSubscription = satelliteApi.getFeatureConfigs(clientId)
+        val satelliteSubscription = satelliteApi.getFeatureConfigs()
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)

@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import com.expedia.bookings.data.country.CountryConfig;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
@@ -44,9 +43,11 @@ import com.expedia.bookings.dagger.TravelerComponent;
 import com.expedia.bookings.dagger.TripComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
+import com.expedia.bookings.data.country.CountryConfig;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleConfigHelper;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.featureconfig.FeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -61,6 +62,7 @@ import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.ShortcutUtils;
@@ -312,6 +314,14 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
 			ShortcutUtils.INSTANCE.initialize(getBaseContext());
+		}
+
+		initializeFeatureConfig();
+	}
+
+	private void initializeFeatureConfig() {
+		if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_satellite_config)) {
+			new FeatureConfigManager(this).refreshFeatureConfigIfStale();
 		}
 	}
 

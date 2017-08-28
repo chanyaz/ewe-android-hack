@@ -48,13 +48,11 @@ import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.updateVisibility
-import com.expedia.util.SatelliteViewModel
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -160,10 +158,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
-
-        if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_satellite_config)) {
-            SatelliteViewModel().fetchFeatureConfig()
-        }
     }
 
     override fun onNewIntent(intent: Intent) {

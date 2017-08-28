@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 import android.content.Context;
 
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.featureconfig.SatelliteFeatureConfigViewModel;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
@@ -42,6 +43,8 @@ public interface AppComponent {
 	void inject(AddGuestItinWidget addGuestItinWidget);
 
 	void inject(AccountSettingsFragment accountSettingsFragment);
+
+	void inject(SatelliteFeatureConfigViewModel featureConfigViewModel);
 
 	PointOfSaleStateModel pointOfSaleStateModel();
 

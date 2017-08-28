@@ -25,7 +25,7 @@ class SatelliteResponseTest {
         logger.level = HttpLoggingInterceptor.Level.BODY
         val interceptor = MockInterceptor()
         sat = SatelliteServices("http://localhost:" + server.port, OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, interceptor, interceptor, Schedulers.immediate(), Schedulers.immediate())
 
         val root = File("../mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
@@ -35,7 +35,7 @@ class SatelliteResponseTest {
     @Test
     fun testSatelliteResponse() {
         var searchResponseObserver: TestSubscriber<List<String>> = TestSubscriber()
-        sat.fetchFeatureConfig(searchResponseObserver,"expedia.app.android.phone:6.9.0")
+        sat.fetchFeatureConfig(searchResponseObserver)
         searchResponseObserver.awaitValueCount(1,10, TimeUnit.SECONDS)
         searchResponseObserver.assertValueCount(1)
         val response  = listOf("downloadConfigsOnPOSChange","14731","14732","14484","mocked")

@@ -1,12 +1,14 @@
 package com.expedia.bookings.dagger;
 
-import com.expedia.bookings.utils.HMACUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import android.content.Context;
 
@@ -23,9 +25,11 @@ import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
+import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
+import com.expedia.bookings.utils.HMACUtil;
 import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
@@ -44,8 +48,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -104,7 +106,8 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager, Cache cache, final EndpointProvider endpointProvider) {
+	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager,
+		Cache cache, final EndpointProvider endpointProvider) {
 		return new OKHttpClientFactory(context, cookieManager, cache, endpointProvider);
 	}
 
@@ -154,6 +157,23 @@ public class AppModule {
 
 				clientLog(request, response, context);
 				return response;
+			}
+		};
+	}
+
+	@Provides
+	@Singleton
+	@Named("SatelliteInterceptor")
+	Interceptor provideSatelliteRequestInterceptor(final Context context, final EndpointProvider endpointProvider) {
+		return new Interceptor() {
+			@Override
+			public Response intercept(Interceptor.Chain chain) throws IOException {
+				HttpUrl.Builder url = chain.request().url().newBuilder();
+				Request.Builder request = chain.request().newBuilder();
+				url.setEncodedQueryParameter("siteid", ServicesUtil.generateSiteId());
+				request.url(url.build());
+
+				return chain.proceed(request.build());
 			}
 		};
 	}
@@ -259,7 +279,8 @@ public class AppModule {
 				Request.Builder request = chain.request().newBuilder();
 				String xDate = HMACUtil.getXDate(DateTime.now(DateTimeZone.UTC));
 				String salt = HMACUtil.generateSalt(16);
-				request.addHeader("Authorization", HMACUtil.getAuthorization(context, chain.request().url(), chain.request().method(), xDate, salt));
+				request.addHeader("Authorization",
+					HMACUtil.getAuthorization(context, chain.request().url(), chain.request().method(), xDate, salt));
 				request.addHeader("x-date", xDate);
 				request.addHeader("salt", salt);
 				Response response = chain.proceed(request.build());
@@ -280,5 +301,15 @@ public class AppModule {
 	@Singleton
 	SearchLobToolbarCache provideSearchLobToolbarCache() {
 		return new SearchLobToolbarCache();
+	}
+
+	@Provides
+	@Singleton
+	SatelliteServices provideSatelliteServices(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor,
+		@Named("HmacInterceptor") Interceptor hmacInterceptor) {
+		return new SatelliteServices(endpointProvider.getSatelliteEndpointUrl(), client, interceptor,
+			satelliteInterceptor, hmacInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }
