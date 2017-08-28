@@ -8,9 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.rail.widget.PositionObservableTabLayout
 import com.expedia.bookings.rail.widget.RailOneWayReturnTabs
@@ -18,6 +16,7 @@ import com.expedia.bookings.rail.widget.RailSearchPagerAdapter
 import com.expedia.bookings.rail.widget.RailSearchWidget
 import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -129,7 +128,7 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
+        if (ProWizardBucketCache.isBucketed(context)) {
             tabs.visibility = View.GONE
             oneWayReturnTripTabs.visibility = View.VISIBLE
             initializeProWizardTabs()

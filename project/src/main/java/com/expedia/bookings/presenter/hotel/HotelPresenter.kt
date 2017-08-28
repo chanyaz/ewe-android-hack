@@ -45,9 +45,9 @@ import com.expedia.bookings.tracking.hotel.ClientLogTracker
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -552,7 +552,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
-            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
+            if (!ProWizardBucketCache.isBucketed(context)) {
                 searchPresenter.showSuggestionState(selectOrigin = false)
             }
             searchPresenter.resetSuggestionTracking()

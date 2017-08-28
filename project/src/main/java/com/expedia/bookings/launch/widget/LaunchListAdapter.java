@@ -35,6 +35,7 @@ import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -443,7 +444,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean showProWizard() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest);
+		return ProWizardBucketCache.isBucketed(context);
 	}
 
 	public int getOffset() {

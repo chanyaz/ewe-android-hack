@@ -19,12 +19,14 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.facebook.appevents.AppEventsLogger;
+import com.mobiata.android.util.SettingUtils;
 
 import rx.Observer;
 
@@ -82,6 +84,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 			query.addExperiment(AbacusUtils.EBAndroidAppCarsAATest);
 			query.addExperiment(AbacusUtils.EBAndroidAppLocaleBasedDateFormatting);
+			query.addExperiment(AbacusUtils.ProWizardTest);
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
@@ -98,12 +101,14 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		public void onError(Throwable e) {
 			if (BuildConfig.DEBUG) {
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
+				cacheProWizardBucket(0);
 			}
 			launchScreenSelection();
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
+			cacheProWizardBucket(abacusResponse.variateForTest(AbacusUtils.ProWizardTest));
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
 			launchScreenSelection();
 		}
@@ -200,5 +205,16 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 	private boolean showNewUserOnboarding() {
 		return ExpediaBookingApp.isFirstLaunchEver() && ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled();
+	}
+
+	private void cacheProWizardBucket(int testValue) {
+		if (BuildConfig.DEBUG) {
+			int debugValue = SettingUtils.get(getApplicationContext(),
+					String.valueOf(AbacusUtils.ProWizardTest), AbacusUtils.ABTEST_IGNORE_DEBUG);
+			ProWizardBucketCache.cacheBucket(RouterActivity.this, debugValue);
+		}
+		else {
+			ProWizardBucketCache.cacheBucket(RouterActivity.this, testValue);
+		}
 	}
 }

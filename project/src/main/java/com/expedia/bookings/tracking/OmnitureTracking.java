@@ -1966,6 +1966,20 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Member Deals", null, null);
 	}
 
+	private static void trackProWizardTest(ADMS_Measurement s, int testValue) {
+		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
+			return;
+		}
+		AbacusTest test = Db.getAbacusResponse().testForKey(AbacusUtils.ProWizardTest);
+		if (test == null) {
+			return;
+		}
+		test.value = testValue;
+
+		appendAbacusTest(s, test);
+		logAbacusQuery(test);
+	}
+
 	private static void trackAbacusTest(ADMS_Measurement s, int testKey) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;
@@ -1976,12 +1990,20 @@ public class OmnitureTracking {
 			return;
 		}
 
+		appendAbacusTest(s, test);
+		logAbacusQuery(test);
+	}
+
+	private static void appendAbacusTest(ADMS_Measurement s, AbacusTest test) {
 		// Adds piping for multivariate AB Tests.
 		String analyticsString = AbacusUtils.appendString(s.getProp(34)) + AbacusUtils.getAnalyticsString(test);
 		if (!TextUtils.isEmpty(analyticsString)) {
 			s.setEvar(34, analyticsString);
 			s.setProp(34, analyticsString);
 		}
+	}
+
+	private static void logAbacusQuery(AbacusTest test) {
 		AbacusLogQuery query = new AbacusLogQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 		query.addExperiment(test);
 		Ui.getApplication(sContext).appComponent().abacus().logExperiment(query);
@@ -2850,7 +2872,8 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackPageLoadLaunchScreen() {
+	// todo : https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/5759
+	public static void trackPageLoadLaunchScreen(int proWizardTestValue) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
 		boolean isFirstAppLaunch =
 			ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
@@ -2861,7 +2884,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
 
 
-		trackAbacusTest(s, AbacusUtils.ProWizardTest);
+		trackProWizardTest(s, proWizardTestValue);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLocaleBasedDateFormatting);
 		if (userStateManager.isUserAuthenticated()) {

@@ -36,13 +36,13 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.ClearPrivateDataUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
@@ -357,7 +357,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onStart() {
         super.onStart()
-        accountToolbar.updateVisibility(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest))
+        accountToolbar.updateVisibility(ProWizardBucketCache.isBucketed(context))
     }
 
     override fun onUserAccountRefreshed() {

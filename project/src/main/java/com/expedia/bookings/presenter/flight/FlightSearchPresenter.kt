@@ -24,6 +24,7 @@ import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -261,7 +262,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2 //Not sure why we still have Flights V2 all over the place??
-        showFlightOneWayRoundTripOptions = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)
+        showFlightOneWayRoundTripOptions = !ProWizardBucketCache.isBucketed(context)
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
             swapFlightsLocationsButton.isEnabled = false
@@ -285,7 +286,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
+        if (ProWizardBucketCache.isBucketed(context)) {
             tabs.visibility = View.GONE
             oneWayRoundTripTabs.visibility = View.VISIBLE
             initializeProWizardTabs()

@@ -20,9 +20,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -43,6 +41,7 @@ import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
@@ -296,7 +295,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 when (tab.position) {
                     PAGER_POS_LAUNCH -> {
                         gotoWaterfall()
-                        OmnitureTracking.trackPageLoadLaunchScreen()
+                        OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this@NewPhoneLaunchActivity))
                     }
                     PAGER_POS_ITIN -> {
                         if (tripComponent != null) {
@@ -394,14 +393,14 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onResume() {
         super.onResume()
         when (viewPager.currentItem) {
-            PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen()
+            PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this))
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
     }
 
     override fun onStart() {
         super.onStart()
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
+        if (ProWizardBucketCache.isBucketed(this)) {
             setupBottomNav()
         } else {
             setupTopNav()
@@ -571,7 +570,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     private fun slideNavigationOut() {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
+        if (ProWizardBucketCache.isBucketed(this)) {
             bottomNavShadow.visibility = View.GONE
             val bottomBarSlideOut = TranslateYAnimator(bottomNavTabLayout,
                     startY = 0f, endY = bottomNavTabLayout.height.toFloat(),
@@ -589,7 +588,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     private fun slideNavigationIn() {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
+        if (ProWizardBucketCache.isBucketed(this)) {
             val bottomBarSlideIn = TranslateYAnimator(bottomNavTabLayout,
                     startY = bottomNavTabLayout.height.toFloat(), endY = 0f,
                     duration = TOOLBAR_ANIM_DURATION,

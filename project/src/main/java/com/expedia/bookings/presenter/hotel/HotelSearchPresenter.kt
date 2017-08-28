@@ -22,6 +22,7 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -69,7 +70,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             firstLaunch = false
             updateDestinationText(locationText)
             if (this.visibility == VISIBLE && vm.startDate() == null
-                    && !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
+                    && !ProWizardBucketCache.isBucketed(context)) {
                 calendarWidgetV2.showCalendarDialog()
             }
         }

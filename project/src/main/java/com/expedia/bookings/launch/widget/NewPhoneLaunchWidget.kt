@@ -20,11 +20,9 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.ActivityTransitionUtil
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Property
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
@@ -36,6 +34,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -211,7 +210,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     fun initializeProWizard() {
-        val proWizardBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)
+        val proWizardBucketed = ProWizardBucketCache.isBucketed(context)
         proWizardSearchBar.updateVisibility(proWizardBucketed)
         proWizardSearchBarShadow.updateVisibility(proWizardBucketed)
 
@@ -302,7 +301,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private fun showFabButton() {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
+        if (ProWizardBucketCache.isBucketed(context)) {
             return
         }
 
@@ -316,7 +315,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private fun hideFabButton() {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ProWizardTest)) {
+        if (ProWizardBucketCache.isBucketed(context)) {
             return
         }
 
