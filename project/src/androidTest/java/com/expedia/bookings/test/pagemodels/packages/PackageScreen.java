@@ -40,6 +40,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -193,7 +194,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction flightList() {
-		return onView(withId(R.id.list_view));
+		return listView();
 	}
 
 	public static ViewInteraction flightFilterView() {
@@ -473,5 +474,21 @@ public class PackageScreen {
 		enterCreditCard();
 		completeCardInfo(nameOnCard);
 		clickPaymentDone();
+	}
+
+	public static ViewInteraction moreOptions() {
+		return onView(withContentDescription("More options"));
+	}
+
+	public static ViewInteraction filterIcon() {
+		return onView(withId(R.id.filter_placeholder_icon));
+	}
+
+	public static ViewInteraction title() {
+		return onView(withId(R.id.title));
+	}
+
+	public static ViewInteraction listView() {
+		return onView(withId(R.id.list_view));
 	}
 }

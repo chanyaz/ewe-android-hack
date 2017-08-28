@@ -459,4 +459,19 @@ public class CustomMatchers {
 		};
 	}
 
+	public static Matcher<View> withRecyclerViewSize(final int size) {
+		return new TypeSafeMatcher<View>() {
+			@Override
+			protected boolean matchesSafely(final View item) {
+				final int actualListSize = ((RecyclerView) item).getAdapter().getItemCount();
+				return actualListSize == size;
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("RecyclerView should have " + size + " items");
+			}
+		};
+	}
+
 }

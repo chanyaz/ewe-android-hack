@@ -341,3 +341,35 @@ Feature: Package Search
       | destination         | Flying to        |
       | calendar            | Select dates     |
       | totalTravelers      | 1 traveler       |
+
+  @Packages @PackageSearch @Prod
+  Scenario: Verify that tapping on change hotel should take us to hotel srp
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I make a packages search with following parameters
+      | source              | SFO                            |
+      | destination         | LAS                            |
+      | source_suggest      | SFO - San Francisco Intl.      |
+      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | start_date          | 5                              |
+      | end_date            | 10                             |
+      | adults              | 2                              |
+      | child               | 2                              |
+    And validate HSR screen is displayed with following travel dates and travelers
+      | start_date      |  5 |
+      | end_date        | 10 |
+      | Total_Travelers |  4 |
+    And I select hotel at position 1 on HSR screen
+    And I select first room
+    And validate outbound FSR screen is displayed with following travel date and travelers
+      | travel_date     | 5 |
+      | Total_Travelers | 4 |
+    And I select outbound flight to destination at position 1
+    And validate inbound FSR screen is displayed with following travel date and travelers
+      | travel_date     | 10 |
+      | Total_Travelers |  4 |
+    And I select inbound flight to source at position 1
+    And Close price change Alert dialog if it is visible
+    And I click on edit icon and select "Change hotel"
+    Then Validate that hotel SRP screen is displayed
+    Then Validate that number of results shown and present are equal

@@ -49,6 +49,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static com.expedia.bookings.test.espresso.CustomMatchers.withRecyclerViewSize;
 import static com.expedia.bookings.test.espresso.ViewActions.getString;
 
 
@@ -142,6 +143,13 @@ public class SearchScreenSteps {
 		selectTravelers(parameters);
 		SearchScreen.searchButton().perform(click());
 	}
+
+	@And("^I click on edit icon and select \"(.*?)\"$")
+	public void changePackageComponent(String componentName) {
+		PackageScreen.moreOptions().perform(click());
+		onView(withText(componentName)).perform(click());
+	}
+
 	@Then("^validate hotels loading on package overview screen$")
 	public void validateHotelsLoading() throws Throwable {
 		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.hotels_card_view_text)))
@@ -329,6 +337,12 @@ public class SearchScreenSteps {
 			withId(R.id.hotels_card_view_text)))
 			.check(matches(allOf(withText(containsString(name)))));
 	}
+	private String getResultCount() {
+		final AtomicReference<String> value = new AtomicReference<String>();
+		PackageScreen.resultsHeader().perform(getString(value));
+		String resultCount = value.get();
+		return resultCount;
+	}
 
 	@Then("^Validate the getPackages API request form data for following parameters")
 	public void validateGetPackagesRequestFormData(Map<String, String> expParameters) throws Throwable {
@@ -390,4 +404,17 @@ public class SearchScreenSteps {
 		SearchScreen.origin().perform(click());
 	}
 
+	@Then("^Validate that hotel SRP screen is displayed$")
+	public void validateHotelSRP() {
+		PackageScreen.filterIcon().check(matches(isDisplayed()));
+		PackageScreen.title().check(matches(withText(containsString("Hotels in "))));
+	}
+
+	@Then("^Validate that number of results shown and present are equal$")
+	public void validateResultCount() {
+		String resultString = getResultCount();
+		String resultCountString = resultString.replace(" Results", "");
+		int resultCount = Integer.parseInt(resultCountString);
+		PackageScreen.listView().check(matches(withRecyclerViewSize(resultCount + 3)));
+	}
 }
