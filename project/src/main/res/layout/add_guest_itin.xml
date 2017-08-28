@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="17dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="20dp">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/add_guest_itin_intro_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/itin_list_view_manually_add_guest_trip_intro_text"
+        android:textColor="@color/gray10"
+        android:textSize="16sp"
+        app:textStyle="normal" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/add_guest_itin_text_view"
-        style="?attr/itin_add_guest_itin_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/enter_itinerary_number"
-        android:drawableLeft="?attr/itin_add_guest_itin_left_drawable"
+        android:layout_marginTop="12dp"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/itin_list_view_manually_add_guest_trip_button_content_description"
+        android:drawableLeft="@drawable/ic_plus_icon_android"
         android:drawablePadding="8dp"
-        android:padding="16dp"
-        android:text="@string/enter_a_guest_itinerary_number"
-        android:textAllCaps="false"
-        android:textColor="?attr/itin_add_guest_itin_text_color"
+        android:text="@string/itin_list_view_manually_add_guest_trip_button_text"
+        android:textAllCaps="true"
+        android:textColor="@color/itin_add_guest_text_button_color"
         android:textSize="14sp"
         app:textStyle="medium" />
 

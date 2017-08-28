@@ -185,8 +185,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 		View guestItinView = inflater.inflate(R.layout.add_guest_itin, null);
 		mItinListView.addFooterView(guestItinView);
-		View guestItinTextView = Ui.findView(view, R.id.add_guest_itin_text_view);
+		com.expedia.bookings.widget.TextView guestItinTextView = Ui.findView(view, R.id.add_guest_itin_text_view);
 
+		guestItinTextView.setCompoundDrawablesTint(ContextCompat.getColor(getContext(), R.color.itin_add_guest_text_button_color));
 		guestItinTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

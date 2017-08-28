@@ -97,4 +97,16 @@ public class ItinListFragmentTest {
 		assertEquals(expectedActivityClass.getName(), startedIntent.getComponent().getClassName());
 	}
 
+	@Test
+	public void testManuallyAddGuestItinView() {
+		com.expedia.bookings.widget.TextView addGuestItinIntroText = (com.expedia.bookings.widget.TextView) activity.findViewById(R.id.add_guest_itin_intro_text);
+		assertEquals("Checked out without signing in? Find your trip by itinerary number.", addGuestItinIntroText.getText());
+
+		com.expedia.bookings.widget.TextView addGuestItinButton = (com.expedia.bookings.widget.TextView) activity.findViewById(R.id.add_guest_itin_text_view);
+		assertEquals("Manually add guest booked trip", addGuestItinButton.getText());
+		addGuestItinButton.performClick();
+		Intent startedIntent = Shadows.shadowOf(activity).getNextStartedActivity();
+		assertIntentForActivity(NewAddGuestItinActivity.class, startedIntent);
+	}
+
 }

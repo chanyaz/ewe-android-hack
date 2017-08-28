@@ -221,7 +221,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		final String expectedCruiseTitle = "Cruise Card";
 		assertEquals(expectedCruiseTitle, cruiseTitle);
 
-		assertViewWithContentDescription(TripsScreen.addGuestItinButton(), "Enter a Guest Itinerary Button");
+		assertViewWithContentDescription(TripsScreen.addGuestItinButton(), "Manually add guest booked trip button");
 		TripsScreen.addGuestItinButton().perform(click());
 		TripsScreen.enterItinToolbarText().perform(waitForViewToDisplay());
 	}
