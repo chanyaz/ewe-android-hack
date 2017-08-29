@@ -1,8 +1,10 @@
 package com.expedia.ui
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.support.v4.content.ContextCompat
 import android.transition.ChangeBounds
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
@@ -13,6 +15,7 @@ import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.requestLocationPermission
 import com.google.android.gms.maps.MapView
 
 class HotelActivity : AbstractAppCompatActivity() {
@@ -43,7 +46,13 @@ class HotelActivity : AbstractAppCompatActivity() {
         detailsMapView.onCreate(mapState)
 
         if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
-            handleDeepLink(intent)
+            val locationPermission = ContextCompat.checkSelfPermission(this.baseContext, android.Manifest.permission.ACCESS_FINE_LOCATION)
+            if (locationPermission == PackageManager.PERMISSION_DENIED) {
+                requestLocationPermission(this)
+            }
+            else {
+                handleDeepLink(intent)
+            }
         } else {
             hotelPresenter.setDefaultTransition(Screen.SEARCH)
         }
@@ -123,6 +132,11 @@ class HotelActivity : AbstractAppCompatActivity() {
         resultsMapView.onSaveInstanceState(mapState)
         detailsMapView.onSaveInstanceState(mapState)
         outState!!.putBundle(Constants.HOTELS_MAP_STATE, mapState)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        handleDeepLink(intent)
     }
 
     // Showing different presenter based on deeplink
