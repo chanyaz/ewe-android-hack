@@ -154,7 +154,7 @@ class AbstractCheckoutViewModelTest {
     }
 
     fun getBillingInfo(): BillingInfo {
-        var info = BillingInfo()
+        val info = BillingInfo()
         info.email = "qa-ehcc@mobiata.com"
         info.firstName = "JexperCC"
         info.lastName = "MobiataTestaverde"

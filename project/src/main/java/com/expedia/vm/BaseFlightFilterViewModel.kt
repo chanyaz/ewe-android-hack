@@ -136,7 +136,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val sortObserver = endlessObserver<FlightFilter.Sort> { sort ->
         // if best Flight is filtered out, sort the whole list
         // if there is best flight, should always stay on top
-        var bestFlight = filteredList.find { it.isBestFlight }
+        val bestFlight = filteredList.find { it.isBestFlight }
         var filteredListToSort = if (bestFlight == null) filteredList else filteredList.subList(1, filteredList.size)
         when (sort) {
             FlightFilter.Sort.PRICE -> filteredListToSort = filteredListToSort.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount.toInt() }.toMutableList()
@@ -315,7 +315,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
 
     val selectStop = endlessObserver<Int> { s ->
         if (userFilterChoices.stops.isEmpty() || !userFilterChoices.stops.contains(getStops(s))) {
-            var stops: Stops = getStops(s)
+            val stops: Stops = getStops(s)
             userFilterChoices.stops.add(stops)
             trackFlightFilterStops(stops)
         } else {

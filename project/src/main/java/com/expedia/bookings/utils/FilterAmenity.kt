@@ -19,10 +19,10 @@ enum class FilterAmenity(val preference: Int, val resId: Int, val strId: Int) {
 
     companion object {
         fun amenityFilterToShow(map: Map<String, HotelSearchResponse.AmenityOptions>): Map<FilterAmenity, Int> {
-            var amenityMap = TreeMap<FilterAmenity, Int>(FilterAmenityComparator())
+            val amenityMap = TreeMap<FilterAmenity, Int>(FilterAmenityComparator())
 
             for (filterId in map.keys) {
-                var id = filterId.toInt()
+                val id = filterId.toInt()
                 when (id) {
                     14 -> amenityMap.put(FilterAmenity.FREE_PARKING, id)
                     16 -> amenityMap.put(FilterAmenity.FREE_BREAKFAST, id)

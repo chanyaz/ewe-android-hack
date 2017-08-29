@@ -21,10 +21,10 @@ class HotelReviewsSummaryWidget(context: Context) : LinearLayout(context) {
         View.inflate(context, R.layout.hotel_reviews_summary_widget, this)
         orientation = LinearLayout.VERTICAL
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        var paddingBottom = resources.getDimensionPixelOffset(R.dimen.hotel_reviews_summary_padding_bottom)
+        val paddingBottom = resources.getDimensionPixelOffset(R.dimen.hotel_reviews_summary_padding_bottom)
         var paddingLeft = resources.getDimensionPixelOffset(R.dimen.hotel_reviews_padding_left)
-        var paddingRight = resources.getDimensionPixelOffset(R.dimen.hotel_reviews_padding_right)
-        var paddingTop = resources.getDimensionPixelOffset(R.dimen.hotel_review_row_padding_top)
+        val paddingRight = resources.getDimensionPixelOffset(R.dimen.hotel_reviews_padding_right)
+        val paddingTop = resources.getDimensionPixelOffset(R.dimen.hotel_review_row_padding_top)
         setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
         setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_reviews_summary_background_color))
     }

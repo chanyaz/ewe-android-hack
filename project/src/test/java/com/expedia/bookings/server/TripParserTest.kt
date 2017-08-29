@@ -79,7 +79,7 @@ class TripParserTest {
         val lxTripJsonObj = jsonArray.get(0) as JSONObject
 
         val tripParser = TripParser()
-        var trip: Trip
+        val trip: Trip
         try {
             trip = tripParser.parseTrip(lxTripJsonObj)
         } catch (e: Exception) {
@@ -100,7 +100,7 @@ class TripParserTest {
         val lxTripJsonObj = jsonArray.get(1) as JSONObject
 
         val tripParser = TripParser()
-        var trip: Trip
+        val trip: Trip
         try {
             trip = tripParser.parseTrip(lxTripJsonObj)
         } catch (e: Exception) {
@@ -121,7 +121,7 @@ class TripParserTest {
         val lxTripJsonObj = jsonArray.get(2) as JSONObject
 
         val tripParser = TripParser()
-        var trip: Trip
+        val trip: Trip
         try {
             trip = tripParser.parseTrip(lxTripJsonObj)
         } catch (e: Exception) {

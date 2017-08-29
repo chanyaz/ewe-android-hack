@@ -23,7 +23,7 @@ class RailTicketDeliveryEntryViewModelTest {
         viewModel.ticketDeliveryByPostOptions.subscribe(testSubscriberTicketDeliveryByPostOptions)
         viewModel.deliveryByMailSupported.subscribe(testSubscriberDeliveryByMailSupported)
 
-        var ticketDeliveryOptionsAll = ArrayList<RailTicketDeliveryOption>()
+        val ticketDeliveryOptionsAll = ArrayList<RailTicketDeliveryOption>()
 
         val option1 = RailTicketDeliveryOption()
         option1.ticketDeliveryCountryCodeList = listOf("GB")

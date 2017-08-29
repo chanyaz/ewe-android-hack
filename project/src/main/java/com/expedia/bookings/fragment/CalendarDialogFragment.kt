@@ -159,7 +159,7 @@ open class CalendarDialogFragment() : DialogFragment() {
             dialog.dismiss()
         })
 
-        var dialog: AlertDialog = builder.create()
+        val dialog: AlertDialog = builder.create()
         dialog.setOnShowListener {
             setMaxSelectableDateRange()
             calendar.visibility = CardView.VISIBLE

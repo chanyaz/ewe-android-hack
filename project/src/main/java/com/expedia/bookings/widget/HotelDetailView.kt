@@ -255,7 +255,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun scrollToRoom(animate: Boolean) {
-        var scrollToAmount = contentView.getRoomContainerScrollPosition() - toolbarHeightOffset + detailContainer.scrollY
+        val scrollToAmount = contentView.getRoomContainerScrollPosition() - toolbarHeightOffset + detailContainer.scrollY
         val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.scrollY, scrollToAmount.toInt())
 
         smoothScrollAnimation.duration = if (animate) SELECT_ROOM_ANIMATION else 0
@@ -271,7 +271,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun setViewVisibilities() {
-        var yoffset = detailContainer.scrollY
+        val yoffset = detailContainer.scrollY
 
         hotelDetailsToolbar.toolBarBackground.alpha = AlphaCalculator.fadeInAlpha(startPoint = toolbarHeightOffset,
                 endPoint = toolbarHeightOffset / 2, currentPoint = contentView.getPriceContainerYScreenLocation().toFloat())

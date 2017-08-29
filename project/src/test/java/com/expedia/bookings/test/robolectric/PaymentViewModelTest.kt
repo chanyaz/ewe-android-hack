@@ -245,7 +245,7 @@ class PaymentViewModelTest {
     fun testPaymentTileWithPaymentABTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
 
-        var viewModel: PaymentViewModel = PaymentViewModel(getContext())
+        val viewModel: PaymentViewModel = PaymentViewModel(getContext())
 
         viewModel.cardTitle.subscribe(cardTitleTestSubscriber)
         viewModel.cardSubtitle.subscribe(cardSubtitleTestSubscriber)

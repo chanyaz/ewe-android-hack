@@ -112,7 +112,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
-        var maxScroll = appBarLayout.totalScrollRange
+        val maxScroll = appBarLayout.totalScrollRange
         if (maxScroll != 0) {
             val percentage = Math.abs(offset) / maxScroll.toFloat()
             isFullyExpanded = percentage == 0f

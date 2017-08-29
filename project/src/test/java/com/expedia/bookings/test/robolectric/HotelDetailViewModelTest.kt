@@ -613,7 +613,7 @@ class HotelDetailViewModelTest {
     }
 
     private fun createRoomResponseList() : List<HotelOffersResponse.HotelRoomResponse> {
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
         rooms.add(createRoomResponse("2", 20.toFloat()))
         rooms.add(createRoomResponse("1", 10.toFloat()))
@@ -638,12 +638,12 @@ class HotelDetailViewModelTest {
     }
 
     private fun createRoomResponse(roomTypeCode: String, priceToShowUser: Float) : HotelOffersResponse.HotelRoomResponse {
-        var room = HotelOffersResponse.HotelRoomResponse()
+        val room = HotelOffersResponse.HotelRoomResponse()
         room.roomTypeCode = roomTypeCode
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
 
         rateInfo.chargeableRateInfo.priceToShowUsers = priceToShowUser
@@ -661,17 +661,17 @@ class HotelDetailViewModelTest {
     }
 
     private fun makeHotel(): ArrayList<HotelOffersResponse.HotelRoomResponse> {
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
-        var hotel = HotelOffersResponse.HotelRoomResponse()
-        var valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
-        var valueAdd = HotelOffersResponse.ValueAdds()
+        val hotel = HotelOffersResponse.HotelRoomResponse()
+        val valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
+        val valueAdd = HotelOffersResponse.ValueAdds()
         valueAdd.description = "Value Add"
         valueAdds.add(valueAdd)
         hotel.valueAdds = valueAdds
 
-        var bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
-        var bedType = HotelOffersResponse.BedTypes()
+        val bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
+        val bedType = HotelOffersResponse.BedTypes()
         bedType.id = "1"
         bedType.description = "King Bed"
         bedTypes.add(bedType)
@@ -679,11 +679,11 @@ class HotelDetailViewModelTest {
 
         hotel.currentAllotment = "1"
 
-        var lowRateInfo = HotelRate()
+        val lowRateInfo = HotelRate()
         lowRateInfo.discountPercent = -20f
         lowRateInfo.currencyCode = "USD"
 
-        var rateInfo = HotelOffersResponse.RateInfo()
+        val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees = expectedTotalPriceWithMandatoryFees
         hotel.rateInfo = rateInfo
@@ -701,8 +701,8 @@ class HotelDetailViewModelTest {
         suggestionV4.regionNames = regionNames
         val childList = ArrayList<Int>()
         childList.add(1)
-        var checkIn = LocalDate.now().plusDays(2)
-        var checkOut = LocalDate.now().plusDays(5)
+        val checkIn = LocalDate.now().plusDays(2)
+        val checkOut = LocalDate.now().plusDays(5)
         val numAdults = 2
         return HotelSearchParams.Builder(0, 0)
                 .destination(suggestionV4)

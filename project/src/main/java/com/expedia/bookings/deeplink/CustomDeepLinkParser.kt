@@ -41,7 +41,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
         val hotelDeepLink = HotelDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
 
-        var location = getQueryParameterIfExists(data, queryParameterNames, "location")
+        val location = getQueryParameterIfExists(data, queryParameterNames, "location")
         if (location != null) {
             val matcher = locationId.matcher(location)
             if (matcher.find()) {

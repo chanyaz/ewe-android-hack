@@ -43,7 +43,7 @@ abstract class BaseSummaryViewModel(val context: Context) {
     }
 
     fun isTravelerOneEmpty(): Boolean {
-        var firstTraveler = getFirstTraveler()
+        val firstTraveler = getFirstTraveler()
         return isTravelerEmpty(firstTraveler)
     }
 

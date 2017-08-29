@@ -61,7 +61,7 @@ class TravelerSummaryViewModelTest {
     fun emptyStateDefaultAfterInitWithTravelerInfoAbTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
 
-        var expectedTitle = resources.getString(R.string.enter_traveler_details)
+        val expectedTitle = resources.getString(R.string.enter_traveler_details)
         val summaryVM = TravelerSummaryViewModel(activity)
         assertEquals(expectedTitle, summaryVM.getTitle())
         assertEquals("", summaryVM.getSubtitle())
@@ -70,7 +70,7 @@ class TravelerSummaryViewModelTest {
     @Test
     fun updateToIncompleteOneTravelerNoNameWithTravelerInfoAbTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
-        var expectedEmptyTitle = resources.getString(R.string.enter_traveler_details)
+        val expectedEmptyTitle = resources.getString(R.string.enter_traveler_details)
         val summaryVM = TravelerSummaryViewModel(activity)
 
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())

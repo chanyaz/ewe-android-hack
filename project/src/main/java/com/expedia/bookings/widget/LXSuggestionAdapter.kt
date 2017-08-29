@@ -25,7 +25,7 @@ class LXSuggestionAdapter(val viewmodel: LXSuggestionAdapterViewModel) : Recycle
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.lx_dropdown_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.lx_dropdown_item, parent, false)
         val vm = LXSuggestionViewModel(parent.context)
         vm.suggestionSelected.subscribe(viewmodel.suggestionSelectedSubject)
         return LXSuggestionViewHolder(view as ViewGroup, vm)

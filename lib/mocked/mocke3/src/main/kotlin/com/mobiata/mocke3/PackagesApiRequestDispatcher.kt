@@ -25,7 +25,7 @@ class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(
             }
 
             PackageApiRequestMatcher.isOutboundFlightRequest(urlParams, urlPath) -> {
-                var productKey = urlParams["packagePIID"] ?: return make404()
+                val productKey = urlParams["packagePIID"] ?: return make404()
                 getMockResponse("getpackages/v1/$productKey.json")
             }
 
@@ -40,7 +40,7 @@ class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(
             }
 
             PackageApiRequestMatcher.isCreateTrip(urlPath) -> {
-                var productKey = urlParams["productKey"] ?: return make404()
+                val productKey = urlParams["productKey"] ?: return make404()
                 getMockResponse("api/packages/createtrip/$productKey.json")
             }
 

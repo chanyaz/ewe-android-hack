@@ -17,7 +17,7 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
     init {
         //TO-DO rewrite to stop relying on values of behaviorSubjects in this view model throughout
         hotelCheckoutSummaryViewModel.newDataObservable.subscribe {
-            var breakdowns = arrayListOf<Breakdown>()
+            val breakdowns = arrayListOf<Breakdown>()
             val nightlyRate = Money(BigDecimal(hotelCheckoutSummaryViewModel.nightlyRateTotal.value), hotelCheckoutSummaryViewModel.currencyCode.value)
             breakdowns.add(Breakdown(hotelCheckoutSummaryViewModel.numNights.value, nightlyRate.formattedMoney, BreakdownItem.OTHER))
 

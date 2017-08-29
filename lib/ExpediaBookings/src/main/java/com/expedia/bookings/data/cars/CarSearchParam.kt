@@ -73,7 +73,7 @@ open class CarSearchParam(val originLocation: String?, val startDateTime: DateTi
                 throw IllegalStateException("Incomplete params: Origin and pickupLocationLatLong both cannot be null")
             }
 
-            var params = CarSearchParam(origin, startDateTime!!, endDateTime!!, pickupLocationLatLng, originDescription)
+            val params = CarSearchParam(origin, startDateTime!!, endDateTime!!, pickupLocationLatLng, originDescription)
             return params
         }
 

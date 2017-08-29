@@ -70,7 +70,7 @@ class PackageSearchParamsTest {
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
 
-        var paramsMap = params.toQueryMap()
+        val paramsMap = params.toQueryMap()
         assertEquals("123", paramsMap["originId"])
         assertEquals("123", params.originId)
     }
@@ -90,7 +90,7 @@ class PackageSearchParamsTest {
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
 
-        var paramsMap = params.toQueryMap()
+        val paramsMap = params.toQueryMap()
         assertEquals("1011", paramsMap["originId"])
         assertEquals("1011", params.originId)
     }
@@ -107,7 +107,7 @@ class PackageSearchParamsTest {
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
 
-        var paramsMap = params.toQueryMap()
+        val paramsMap = params.toQueryMap()
         assertEquals("1011", paramsMap["destinationId"])
         assertEquals("1011", params.destinationId)
     }
@@ -126,7 +126,7 @@ class PackageSearchParamsTest {
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
 
-        var paramsMap = params.toQueryMap()
+        val paramsMap = params.toQueryMap()
         assertEquals("456", paramsMap["destinationId"])
         assertEquals("456", params.destinationId)
     }

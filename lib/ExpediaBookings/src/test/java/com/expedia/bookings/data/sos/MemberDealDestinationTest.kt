@@ -11,7 +11,7 @@ class MemberDealDestinationTest {
 
     @Test
     fun testHotelHasLeadingPrice() {
-        var hotel = MemberDealDestination().Hotel()
+        val hotel = MemberDealDestination().Hotel()
         hotel.offerMarkers = arrayListOf("LEADIN_PRICE",
                 "HIGHEST_STAR_RATING")
         assertTrue(hotel.hasLeadingPrice())
@@ -19,7 +19,7 @@ class MemberDealDestinationTest {
 
     @Test
     fun testHotelHasNoLeadingPrice() {
-        var hotel = MemberDealDestination().Hotel()
+        val hotel = MemberDealDestination().Hotel()
         hotel.offerMarkers = arrayListOf("HIGHEST_DISCOUNT",
                 "HIGHEST_STAR_RATING")
         assertFalse(hotel.hasLeadingPrice())
@@ -27,7 +27,7 @@ class MemberDealDestinationTest {
 
     @Test
     fun testDestinationHasLeadingHotel() {
-        var destination = MemberDealDestination()
+        val destination = MemberDealDestination()
         destination.hotels  = getHotelListWithLeadingHotel()
         assertNotEquals(null, destination.getLeadingHotel())
         assertTrue(destination.getLeadingHotel()!!.hasLeadingPrice())
@@ -35,17 +35,17 @@ class MemberDealDestinationTest {
 
     @Test
     fun testDestinationHasNoLeadingHotel() {
-        var destination = MemberDealDestination()
+        val destination = MemberDealDestination()
         destination.hotels  = getHotelListWithoutLeadingHotel()
         assertEquals(null, destination.getLeadingHotel())
     }
 
     fun getHotelListWithLeadingHotel(): List<MemberDealDestination.Hotel> {
-        var hotels = ArrayList<MemberDealDestination.Hotel>()
-        var leadingHotel = MemberDealDestination().Hotel()
+        val hotels = ArrayList<MemberDealDestination.Hotel>()
+        val leadingHotel = MemberDealDestination().Hotel()
         leadingHotel.offerMarkers = arrayListOf("LEADIN_PRICE")
         hotels.add(leadingHotel)
-        var notLeadingHotel = MemberDealDestination().Hotel()
+        val notLeadingHotel = MemberDealDestination().Hotel()
         notLeadingHotel.offerMarkers = arrayListOf("HIGHEST_DISCOUNT")
         hotels.add(notLeadingHotel)
 
@@ -53,11 +53,11 @@ class MemberDealDestinationTest {
     }
 
     fun getHotelListWithoutLeadingHotel(): List<MemberDealDestination.Hotel> {
-        var hotels = ArrayList<MemberDealDestination.Hotel>()
-        var leadingHotel = MemberDealDestination().Hotel()
+        val hotels = ArrayList<MemberDealDestination.Hotel>()
+        val leadingHotel = MemberDealDestination().Hotel()
         leadingHotel.offerMarkers = arrayListOf("HIGHEST_STAR_RATING")
         hotels.add(leadingHotel)
-        var notLeadingHotel = MemberDealDestination().Hotel()
+        val notLeadingHotel = MemberDealDestination().Hotel()
         notLeadingHotel.offerMarkers = arrayListOf("HIGHEST_DISCOUNT")
         hotels.add(notLeadingHotel)
 

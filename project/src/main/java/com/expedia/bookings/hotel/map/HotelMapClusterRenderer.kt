@@ -73,7 +73,7 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         var minPrice = Int.MAX_VALUE
         var minFormattedPrice: Money? = null
         val clusterExcludingSoldOut = cluster.items.filter { !it.hotel.isSoldOut }
-        var isSoldOutCluster = clusterExcludingSoldOut.isEmpty()
+        val isSoldOutCluster = clusterExcludingSoldOut.isEmpty()
         clusterExcludingSoldOut.forEach {
             val formattedPrice = it.price?.getDisplayMoney(false, !it.hotel.isPackage)
             val price = formattedPrice?.amount?.toInt() ?: 0

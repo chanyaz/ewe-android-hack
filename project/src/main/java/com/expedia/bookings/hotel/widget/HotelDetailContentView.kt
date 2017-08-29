@@ -614,7 +614,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     }
 
     private fun addViewToRoomContainer(roomView: View) {
-        var parent = roomView.parent
+        val parent = roomView.parent
         if (parent != null) {
             (parent as ViewGroup).removeView(roomView)
         }
@@ -685,7 +685,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         isHotelDescriptionExpanded = !isHotelDescriptionExpanded
 
         val values = if (hotelDescription.maxLines == HOTEL_DESC_COLLAPSE_LINES) hotelDescription.lineCount else HOTEL_DESC_COLLAPSE_LINES
-        var animation = ObjectAnimator.ofInt(hotelDescription, "maxLines", values)
+        val animation = ObjectAnimator.ofInt(hotelDescription, "maxLines", values)
 
         animation.setDuration(DESCRIPTION_ANIMATION).start()
 
@@ -702,7 +702,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             val start = hotelDescription.layout.getLineStart(0)
             val end = hotelDescription.layout.getLineEnd(HOTEL_DESC_COLLAPSE_LINES - 1)
 
-            var contentDescription = hotelDescription.text.toString().substring(start, end)
+            val contentDescription = hotelDescription.text.toString().substring(start, end)
 
             hotelDescriptionContainer.contentDescription = contentDescription
         } else {

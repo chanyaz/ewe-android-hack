@@ -266,7 +266,7 @@ class PaymentWidgetV2Test {
     }
 
     private fun getCreateTripResponse(hasRedeemablePoints: Boolean): HotelCreateTripResponse {
-        var createTripResponse: HotelCreateTripResponse
+        val createTripResponse: HotelCreateTripResponse
         if (hasRedeemablePoints)
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         else

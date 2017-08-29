@@ -64,7 +64,7 @@ class PackageCheckoutViewModelTest {
     }
 
     fun getBillingInfo(file: String): BillingInfo {
-        var info = BillingInfo()
+        val info = BillingInfo()
         info.email = "qa-ehcc@mobiata.com"
         info.firstName = "JexperCC"
         info.lastName = "asdasd"

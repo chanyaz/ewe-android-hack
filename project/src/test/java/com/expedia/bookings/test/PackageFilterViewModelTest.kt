@@ -103,7 +103,7 @@ class PackageFilterViewModelTest {
 
     @Test
     fun filterAmenity() {
-        var amenityId = 16
+        val amenityId = 16
         vm.originalResponse = fakeFilteredResponse()
         vm.selectAmenity.onNext(amenityId)
         assertEquals(1, vm.filteredResponse.hotelList.size)
@@ -188,7 +188,7 @@ class PackageFilterViewModelTest {
     @Test
     fun filterCount() {
         vm.originalResponse = fakeFilteredResponse()
-        var str = "Hil"
+        val str = "Hil"
         vm.filterHotelNameObserver.onNext(str)
         assertTrue(vm.filterCountObservable.value == 1)
 
@@ -242,8 +242,8 @@ class PackageFilterViewModelTest {
         hotel1.packageOfferModel.price = PackageOfferModel.PackagePrice()
         hotel1.packageOfferModel.price.tripSavings = Money()
         hotel1.packageOfferModel.price.tripSavings.amount = BigDecimal(36.5)
-        var amenities1 = ArrayList<Hotel.HotelAmenity>()
-        var amenity1 = Hotel.HotelAmenity()
+        val amenities1 = ArrayList<Hotel.HotelAmenity>()
+        val amenity1 = Hotel.HotelAmenity()
         amenity1.id = "4"
         amenities1.add(amenity1)
         hotel1.amenities = amenities1
@@ -267,8 +267,8 @@ class PackageFilterViewModelTest {
         hotel2.packageOfferModel.price = PackageOfferModel.PackagePrice()
         hotel2.packageOfferModel.price.tripSavings = Money()
         hotel2.packageOfferModel.price.tripSavings.amount = BigDecimal(46.5)
-        var amenities2 = ArrayList<Hotel.HotelAmenity>()
-        var amenity2 = Hotel.HotelAmenity()
+        val amenities2 = ArrayList<Hotel.HotelAmenity>()
+        val amenity2 = Hotel.HotelAmenity()
         amenity2.id = "1"
         amenities2.add(amenity2)
         hotel2.amenities = amenities2

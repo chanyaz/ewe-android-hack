@@ -58,8 +58,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val inboundDetailsViewModel = RailInboundDetailsViewModel(context)
 
     val amenitiesFareRulesWidget: RailAmenitiesFareRulesWidget by lazy {
-        var viewStub = findViewById(R.id.amenities_stub) as ViewStub
-        var widget = viewStub.inflate() as RailAmenitiesFareRulesWidget
+        val viewStub = findViewById(R.id.amenities_stub) as ViewStub
+        val widget = viewStub.inflate() as RailAmenitiesFareRulesWidget
         widget
     }
 

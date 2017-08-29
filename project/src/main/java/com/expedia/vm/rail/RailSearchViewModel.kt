@@ -63,7 +63,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
             } else if (getParamsBuilder().isRailCardsCountInvalid()) {
                 errorInvalidCardsCountObservable.onNext(context.getString(R.string.error_rail_cards_greater_than_number_travelers))
             } else {
-                var searchParams = getParamsBuilder().build()
+                val searchParams = getParamsBuilder().build()
                 searchParamsObservable.onNext(searchParams)
             }
         } else {

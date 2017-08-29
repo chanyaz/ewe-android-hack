@@ -58,9 +58,9 @@ class RailTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewMode
                     context.resources.getQuantityString(R.plurals.number_of_senior, travelers.seniorAges.size, travelers.seniorAges.size)
             )
 
-            var totalNumberOfTravelersExcludeChildren = travelers.numberOfAdults + travelers.youthAges.size + travelers.seniorAges.size
-            var isTravelerChildOnly = totalNumberOfTravelersExcludeChildren == MIN_RAIL_TRAVELER
-            var isNonChildTravelerGreaterThanOne = totalNumberOfTravelersExcludeChildren > 1
+            val totalNumberOfTravelersExcludeChildren = travelers.numberOfAdults + travelers.youthAges.size + travelers.seniorAges.size
+            val isTravelerChildOnly = totalNumberOfTravelersExcludeChildren == MIN_RAIL_TRAVELER
+            val isNonChildTravelerGreaterThanOne = totalNumberOfTravelersExcludeChildren > 1
 
             adultPlusObservable.onNext(total < MAX_RAIL_TRAVELER)
             adultMinusObservable.onNext(isNonChildTravelerGreaterThanOne && travelers.numberOfAdults > MIN_ADULTS)

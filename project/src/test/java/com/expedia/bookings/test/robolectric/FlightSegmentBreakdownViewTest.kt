@@ -98,7 +98,7 @@ class FlightSegmentBreakdownViewTest {
     private fun getFlightSegmentBreakdownList(seatClass: String, showCollapseIcon: Boolean = false): List<FlightSegmentBreakdown> {
         val flightSegment = createFlightSegment(seatClass);
         val breakdown = FlightSegmentBreakdown(flightSegment, false, true, showCollapseIcon);
-        var list: ArrayList<FlightSegmentBreakdown> = ArrayList()
+        val list: ArrayList<FlightSegmentBreakdown> = ArrayList()
         list.add(breakdown)
         return list.toList()
     }

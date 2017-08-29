@@ -85,7 +85,7 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
         var minPropertyRate = properties[0].lowRateInfo
 
         for (property in properties) {
-            var propertyRate = property.lowRateInfo
+            val propertyRate = property.lowRateInfo
             if (propertyRate == null || minPropertyRate == null)
                 continue
             else if (propertyRate.displayTotalPrice.getAmount() < minPropertyRate.displayTotalPrice.getAmount()) {

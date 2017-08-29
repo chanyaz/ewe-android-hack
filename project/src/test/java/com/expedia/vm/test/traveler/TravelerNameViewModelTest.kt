@@ -95,7 +95,7 @@ class TravelerNameViewModelTest {
     @Test
     fun validateAllNamesTriggersAllErrors() {
         val expectedErrorCount = 3
-        var name = TravelerName()
+        val name = TravelerName()
         name.middleName = "@!$%"
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(name)

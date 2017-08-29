@@ -54,7 +54,7 @@ class PackageErrorViewModelTest {
         subjectUnderTest.paramsSubject.onNext(getPackageSearchParams())
 
         subjectUnderTest.packageSearchApiErrorObserver.onNext(apiError)
-        var expectedErrorMessage = when (apiError) {
+        val expectedErrorMessage = when (apiError) {
             PackageApiError.Code.pkg_destination_resolution_failed -> "Could not resolve a destination for $destinationShortName"
             PackageApiError.Code.pkg_origin_resolution_failed -> "Could not resolve an origin for $originShortName"
             else -> RuntimeEnvironment.application.getString(R.string.error_package_search_message)
