@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Tarkastele tietoja hotellista, jonka hinta on {price}, painike</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">Loppuunmyyty sivustollamme</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Osta</string>
 
@@ -1543,6 +1546,12 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">Ilmainen pysäköinti</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Ilmainen Wi-Fi</string>
+    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
+    <string name="itin_hotel_check_in_policies_button_text">Sisäänkirjautumistiedot</string>
+    <!--Title for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_heading">Sisäänkirjautumiskäytännöt</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">Muutos- ja peruutusehdot</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Sisäänkirjautuminen 3 päivän päästä</string>
@@ -2101,14 +2110,12 @@
     <string name="address_mail_delivery_option_hint">Postin toimitusvaihtoehdot</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postinumero</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">Postinumero</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">Postinumero</string>
     <!--Address Province hint-->
     <string name="address_province_hint">Maakunta</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">Lääni/osavaltio/maakunta</string>
+    <string name="address_county_hint">Lääni/osavaltio/maakunta (valinnainen)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2191,6 +2198,10 @@
     <string name="known_traveler_msg">Tämä on viranomaisten myöntämä numero, jota käytetään TSA PreCheckiin</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">Redress-numero on ainutlaatuinen TSA:n myöntämä numero, joka auttaa TSA:ta poistamaan virheellisesti tunnistetut henkilöt seurantalistalta ja vahvistamaan henkilöllisyytesi.</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">Kanta-asiakasohjelma</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">Kanta-asiakasohjelmani</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">Ohjelman numero</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2461,8 +2472,6 @@
     <string name="nonstop_flight_filter_label">Vain suorat lennot</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">Vain hyvitettävät lennot</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s – %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">Hotellin nimi</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -2997,6 +3006,8 @@
     <string name="copyright_TEMPLATE">© Copyright 2012–{year} {brand}, Inc.\nKaikki oikeudet pidätetään.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Avoimen lähdekoodin ohjelmistolisenssit</string>
+    <!-- String for error message if open source software license page fails to open -->
+    <string name="open_source_software_licenses_error">Virhe sivua ladattaessa.</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Tämä sovellus käyttää seuraavia avoimen lähdekoodin kirjastoja:</string>
 
@@ -4683,6 +4694,11 @@
     <string name="reset_filter">Aseta suodattimet</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">Emme löytäneet suodatinvalintojasi vastaavia majoitusliikkeitä.</string>
+
+    <!-- Nearby results title -->
+    <string name="nearby_results">Lähistön hakutulokset</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">Hakusi ei tuottanut tuloksia. Hae uudelleen eri hakuehdoilla.</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">Ei sisällä {amount} päivittäistä lomakeskusmaksua</string>

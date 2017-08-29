@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">按钮：显示酒店价格 {price}</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">已订完</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">预订</string>
 
@@ -1543,6 +1546,12 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">免费停车</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">免费 WiFi</string>
+    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
+    <string name="itin_hotel_check_in_policies_button_text">入住信息</string>
+    <!--Title for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_heading">入住规定</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">变更和取消规定</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">入住 - 3 天</string>
@@ -2101,14 +2110,12 @@
     <string name="address_mail_delivery_option_hint">邮件递送选项</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">邮政编码</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">邮政编码</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">邮编</string>
     <!--Address Province hint-->
     <string name="address_province_hint">省/市/自治区</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">县</string>
+    <string name="address_county_hint">县（可选）</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2191,6 +2198,10 @@
     <string name="known_traveler_msg">这是政府签发的、用于 TSA 预检的号码。</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">身份纠正识别号是 TSA 发出的唯一编号，目的是帮助 TSA 避免发生观察名单误认并验证您的身份。</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">飞行常客计划</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">我的常客计划</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">计划编号</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2370,7 +2381,7 @@
     <string name="nine">9</string>
     <string name="zero">0</string>
     <!-- The verb "book" as in to make a booking for a hotel room -->
-    <string name="book">本</string>
+    <string name="book">预订</string>
 
     <!-- Highlight view stuff -->
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
@@ -2461,8 +2472,6 @@
     <string name="nonstop_flight_filter_label">只搜不经停航班</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">只搜可退款的航班</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s- %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">酒店名称</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -2807,7 +2816,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">查看客房</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
-    <string name="book_room_button_text">本</string>
+    <string name="book_room_button_text">预订</string>
     <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
     <string name="view_room_button_content_description_TEMPLATE">查看客房，{room}</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
@@ -2997,6 +3006,8 @@
     <string name="copyright_TEMPLATE">© 版权所有 2012-{year} {brand}, Inc.\n保留所有权利。</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">开源软件许可</string>
+    <!-- String for error message if open source software license page fails to open -->
+    <string name="open_source_software_licenses_error">加载页面时出错。</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">此 App 使用以下开源库：</string>
 
@@ -4683,6 +4694,11 @@
     <string name="reset_filter">重置筛选条件</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">我们无法找到符合您筛选条件选项的酒店。</string>
+
+    <!-- Nearby results title -->
+    <string name="nearby_results">重新搜索</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">没有符合要求的搜索结果。请选择其他条件，再搜索一次。</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">不包括 {amount} 每日度假费</string>

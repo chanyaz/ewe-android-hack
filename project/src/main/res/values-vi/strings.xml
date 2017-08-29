@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Hiển thị thông tin khách sạn giá từ {price} trở xuống, Nút</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">Chúng tôi đã hết phòng</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Thanh toán</string>
 
@@ -1543,6 +1546,12 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">Đậu xe miễn phí</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wifi miễn phí</string>
+    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
+    <string name="itin_hotel_check_in_policies_button_text">Thông tin nhận phòng</string>
+    <!--Title for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_heading">Chính sách nhận phòng</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">Quy định thay đổi và hủy</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Nhận phòng trong 3 ngày</string>
@@ -2101,14 +2110,12 @@
     <string name="address_mail_delivery_option_hint">Tùy chọn gửi thư</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Mã bưu chính</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">Mã zip</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">ZIP</string>
     <!--Address Province hint-->
     <string name="address_province_hint">Tỉnh</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">Hạt/Bang/Tỉnh</string>
+    <string name="address_county_hint">Hạt/Bang/Tỉnh (không bắt buộc)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2191,6 +2198,10 @@
     <string name="known_traveler_msg">Đây là số do chính phủ cấp, dùng cho chương trình TSA PreCheck</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">Số redress là số duy nhất do TSA cấp cho cá nhân, giúp TSA xác nhận danh tính và loại trừ trường hợp nhận dạng nhầm trong danh sách cần theo dõi.</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">Chương trình khách bay thường xuyên</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">Chương trình khách hàng thân thiết</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">Mã số chương trình</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2461,8 +2472,6 @@
     <string name="nonstop_flight_filter_label">Chỉ chuyến bay thẳng</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">Chỉ chuyến bay hoàn tiền</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s đến %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">Tên khách sạn</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -2997,6 +3006,8 @@
     <string name="copyright_TEMPLATE">© Bản quyền 2012-{year} {brand}, Inc.\nMọi quyền được bảo lưu.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Bản quyền các phần mềm mã nguồn mở</string>
+    <!-- String for error message if open source software license page fails to open -->
+    <string name="open_source_software_licenses_error">Có lỗi khi tải trang.</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Ứng dụng này sử dụng các thư viện nguồn mở sau:</string>
 
@@ -4683,6 +4694,11 @@
     <string name="reset_filter">Thiết lập lại bộ lọc</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">Không tìm được nơi lưu trú phù hợp bộ lọc của quý vị.</string>
+
+    <!-- Nearby results title -->
+    <string name="nearby_results">Kết quả trong khu vực lân cận</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">Không gồm {amount} phí resort mỗi ngày</string>

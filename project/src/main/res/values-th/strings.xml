@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">ปุ่มแสดงข้อมูลโรงแรมราคา {price} ด้านล่าง</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">เต็มแล้ว</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">ซื้อ</string>
 
@@ -1543,6 +1546,12 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">ที่จอดรถฟรี</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wifi ฟรี</string>
+    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
+    <string name="itin_hotel_check_in_policies_button_text">ข้อมูลเช็คอิน</string>
+    <!--Title for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_heading">นโยบายการเช็คอิน</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">กฎการเปลี่ยนแปลงและยกเลิก</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">เช็คอิน — 3 วัน</string>
@@ -2101,14 +2110,12 @@
     <string name="address_mail_delivery_option_hint">ตัวเลือกส่งทางไปรษณีย์</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">รหัสไปรษณีย์</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">รหัสไปรษณีย์</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">รหัสไปรษณีย์</string>
     <!--Address Province hint-->
     <string name="address_province_hint">จังหวัด</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">มณฑล/รัฐ/จังหวัด</string>
+    <string name="address_county_hint">มณฑล/รัฐ/จังหวัด (ไม่บังคับ)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2191,6 +2198,10 @@
     <string name="known_traveler_msg">นี่เป็นหมายเลขที่ออกโดยรัฐบาลเพื่อใช้สำหรับ TSA PreCheck</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">หมายเลข Redress เป็นหมายเลขเฉพาะที่ออกโดย TSA ซึ่งช่วยให้ TSA ลดการระบุตัวตามรายชื่อเฝ้าระวังผิดพลาดและยืนยันตัวตนของคุณได้ถูกต้อง</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">โปรแกรมสะสมไมล์</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">โปรแกรมสะสมไมล์ของฉัน</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">หมายเลขโปรแกรม</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2461,8 +2472,6 @@
     <string name="nonstop_flight_filter_label">เที่ยวบินแบบไม่แวะพักเท่านั้น</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">เที่ยวบินที่ขอคืนเงินได้เท่านั้น</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s ถึง %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">ชื่อโรงแรม</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -2997,6 +3006,8 @@
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nสงวนลิขสิทธิ์</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">ใบอนุญาตซอฟต์แวร์โอเพนซอร์ซ</string>
+    <!-- String for error message if open source software license page fails to open -->
+    <string name="open_source_software_licenses_error">เกิดข้อผิดพลาดในการโหลด</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">แอพนี้ใช้งานไลบรารีโอเพนซอร์สดังนี้:</string>
 
@@ -4684,6 +4695,11 @@
     <string name="reset_filter">รีเซ็ตตัวกรอง</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">เราไม่พบที่พักที่ตรงกับตัวกรองที่คุณเลือก</string>
+
+    <!-- Nearby results title -->
+    <string name="nearby_results">ดูบริเวณใกล้เคียง</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดปรับเกณฑ์การค้นหาแล้วลองอีกครั้ง</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">ไม่รวมค่าธรรมเนียมรีสอร์ทรายวัน {amount}</string>
