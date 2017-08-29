@@ -1,16 +1,14 @@
 package com.expedia.bookings.test.phone.cars;
 
-import org.junit.Test;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.test.espresso.CarTestCase;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.CarTestCase;
-import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.mobiata.android.util.IoUtils;
@@ -24,14 +22,15 @@ import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDispla
 
 public class CarCreditCardTest extends CarTestCase {
 
-	@Test
-	public void testPaymentInfo() throws Throwable {
-		goToCheckout();
-		screenshot("Car Checkout");
-		verifyInvalidCardMessaging();
-		screenshot("Car Payment Info");
-		verifyCreditCardCleared();
-	}
+	// 29-Aug-2017 : Disabling car UI tests since car is now a webview
+//	@Test
+//	public void testPaymentInfo() throws Throwable {
+//		goToCheckout();
+//		screenshot("Car Checkout");
+//		verifyInvalidCardMessaging();
+//		screenshot("Car Payment Info");
+//		verifyCreditCardCleared();
+//	}
 
 	private void verifyInvalidCardMessaging() throws Throwable {
 		CheckoutViewModel.paymentInfo().perform(waitForViewToDisplay());

@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.happy;
 
-import org.junit.Test;
-
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
@@ -16,12 +14,7 @@ import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationContentDescription;
 
 public class CarPhoneHappyPathTest extends PhoneTestCase {
 
@@ -65,49 +58,50 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		CVVEntryScreen.clickBookButton();
 	}
 
-	@Test
-	public void testCarPhoneHappyPath() throws Throwable {
-		goToCarDetails();
-		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
-		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
-		CheckoutViewModel.enterTravelerInfo();
-		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
-		slideToPurchase();
-		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
-	}
-
-	@Test
-	public void testCarPhoneCCRequiredHappyPath() throws Throwable {
-		goToCarDetails();
-		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
-		CheckoutViewModel.enterTravelerInfo();
-
-		enterPaymentInfoWithScreenshot();
-
-		slideToPurchase();
-		enterCVV("111");
-	}
-
-	@Test
-	public void testCarPhoneLoggedInHappyPath() throws Throwable {
-		goToCarDetails();
-		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
-		doLogin();
-
-		slideToPurchase();
-		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
-	}
-
-	@Test
-	public void testCarPhoneLoggedInCCRequiredHappyPath() throws Throwable {
-		goToCarDetails();
-		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
-		doLogin();
-
-		selectSavedCreditCard();
-		slideToPurchase();
-		enterCVV("6286");
-	}
+	// 29-Aug-2017 : Disabling car UI tests since car is now a webview
+//	@Test
+//	public void testCarPhoneHappyPath() throws Throwable {
+//		goToCarDetails();
+//		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+//		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
+//		CheckoutViewModel.enterTravelerInfo();
+//		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
+//		slideToPurchase();
+//		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
+//	}
+//
+//	@Test
+//	public void testCarPhoneCCRequiredHappyPath() throws Throwable {
+//		goToCarDetails();
+//		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
+//		CheckoutViewModel.enterTravelerInfo();
+//
+//		enterPaymentInfoWithScreenshot();
+//
+//		slideToPurchase();
+//		enterCVV("111");
+//	}
+//
+//	@Test
+//	public void testCarPhoneLoggedInHappyPath() throws Throwable {
+//		goToCarDetails();
+//		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+//		doLogin();
+//
+//		slideToPurchase();
+//		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
+//	}
+//
+//	@Test
+//	public void testCarPhoneLoggedInCCRequiredHappyPath() throws Throwable {
+//		goToCarDetails();
+//		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
+//		doLogin();
+//
+//		selectSavedCreditCard();
+//		slideToPurchase();
+//		enterCVV("6286");
+//	}
 
 	private void selectSavedCreditCard() throws Throwable {
 		CheckoutViewModel.waitForPaymentInfoDisplayed();
@@ -117,39 +111,39 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	}
 
 
-	@Test
-	public void testCarPhoneLoggedInStoredTravelerCC() throws Throwable {
-		goToCarDetails();
-		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
-		doLogin();
-
-		CheckoutViewModel.clickTravelerInfo();
-		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
-		CheckoutViewModel.clickStoredTravelerButton();
-		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
-		CheckoutViewModel.pressClose();
-
-		selectSavedCreditCard();
-		slideToPurchase();
-		enterCVV("6286");
-	}
-
-	@Test
-	public void testCarPhoneSignedInCustomerCanEnterNewTraveler() throws Throwable {
-		goToCarDetails();
-		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
-		doLogin();
-
-		CheckoutViewModel.clickTravelerInfo();
-		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
-		CheckoutViewModel.clickStoredTravelerButton();
-		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
-
-		CheckoutViewModel.clickStoredTravelerButton();
-		CheckoutViewModel.selectStoredTraveler("Add New Traveler");
-
-		CheckoutViewModel.firstName().check(matches(withText("")));
-		CheckoutViewModel.lastName().check(matches(withText("")));
-		CheckoutViewModel.phone().check(matches(withText("")));
-	}
+//	@Test
+//	public void testCarPhoneLoggedInStoredTravelerCC() throws Throwable {
+//		goToCarDetails();
+//		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
+//		doLogin();
+//
+//		CheckoutViewModel.clickTravelerInfo();
+//		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
+//		CheckoutViewModel.clickStoredTravelerButton();
+//		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
+//		CheckoutViewModel.pressClose();
+//
+//		selectSavedCreditCard();
+//		slideToPurchase();
+//		enterCVV("6286");
+//	}
+//
+//	@Test
+//	public void testCarPhoneSignedInCustomerCanEnterNewTraveler() throws Throwable {
+//		goToCarDetails();
+//		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
+//		doLogin();
+//
+//		CheckoutViewModel.clickTravelerInfo();
+//		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
+//		CheckoutViewModel.clickStoredTravelerButton();
+//		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
+//
+//		CheckoutViewModel.clickStoredTravelerButton();
+//		CheckoutViewModel.selectStoredTraveler("Add New Traveler");
+//
+//		CheckoutViewModel.firstName().check(matches(withText("")));
+//		CheckoutViewModel.lastName().check(matches(withText("")));
+//		CheckoutViewModel.phone().check(matches(withText("")));
+//	}
 }
