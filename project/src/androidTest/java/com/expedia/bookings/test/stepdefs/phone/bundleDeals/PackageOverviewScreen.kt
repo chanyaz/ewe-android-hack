@@ -3,10 +3,6 @@ package com.expedia.bookings.test.stepdefs.phone.bundleDeals
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
-import com.expedia.bookings.R
-import com.expedia.bookings.test.espresso.CustomMatchers
-import cucumber.api.java.en.And
-import cucumber.api.java.en.Then
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.hasSibling
@@ -18,21 +14,23 @@ import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibilit
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.support.test.espresso.matcher.ViewMatchers.withText
-
 import android.view.View
 import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.CustomMatchers
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.stepdefs.phone.TestUtil
 import com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEMMMddyyyy
 import com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInMMMdd
+import cucumber.api.java.en.And
+import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
 import org.hamcrest.core.AllOf.allOf
-import org.joda.time.LocalDate
 import java.util.Map
 
 class PackageOverviewScreen {
@@ -41,6 +39,12 @@ class PackageOverviewScreen {
     @Throws(Throwable::class)
     fun performClickOnViewYourBundle() {
         onView(withText(getViewYourBundleText(BuildConfig.brand))).perform(click())
+    }
+
+    @And("^I click to close sliding bundle$")
+    @Throws(Throwable::class)
+    fun performClickOnViewYourBundleToClose() {
+        onView(allOf<View>(withId(R.id.bundle_price_widget), isDescendantOfA(withId(R.id.sliding_bundle_widget)))).perform(click())
     }
 
     @And("^on POS Validate that Package Overview Screen is displayed$")
@@ -67,8 +71,10 @@ class PackageOverviewScreen {
     fun validateToolbarOnPOSInboundFlight(expParameters: Map<String, String>) {
         val startDate = getDateInEEMMMddyyyy(expParameters["start_date"])
         val endDate = getDateInEEMMMddyyyy(expParameters["end_date"])
-        onView(allOf<View>(withId(R.id.destination), isDescendantOfA(withId(R.id.checkout_overview_floating_toolbar))))
-                .check(matches(withText(expParameters["destination"])))
+        if (expParameters["destination"] != null) {
+            onView(allOf<View>(withId(R.id.destination), isDescendantOfA(withId(R.id.checkout_overview_floating_toolbar))))
+                    .check(matches(withText(expParameters["destination"])))
+        }
         onView(allOf<View>(withId(R.id.check_in_out_dates), isDescendantOfA(withId(R.id.checkout_overview_floating_toolbar))))
                 .check(matches(withText(startDate + " - " + endDate)))
         onView(allOf<View>(withId(R.id.travelers), isDescendantOfA(withId(R.id.checkout_overview_floating_toolbar))))

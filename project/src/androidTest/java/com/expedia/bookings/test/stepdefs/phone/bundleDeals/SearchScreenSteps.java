@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.hamcrest.Matchers;
@@ -16,18 +17,19 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
 import com.expedia.bookings.test.stepdefs.phone.utils.StepDefUtils;
 
 import junit.framework.Assert;
 
-import cucumber.api.java.en.When;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -35,32 +37,23 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-
-import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
-
-
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static com.expedia.bookings.test.espresso.CustomMatchers.withRecyclerViewSize;
 import static com.expedia.bookings.test.espresso.ViewActions.getString;
-
-
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
-
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEEMMMdd;
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.validateRequestParams;
-import static org.hamcrest.CoreMatchers.not;
-
 import static com.expedia.bookings.test.stepdefs.phone.flights.DatePickerSteps.pickDates;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 
 
@@ -195,6 +188,14 @@ public class SearchScreenSteps {
 	@Then("^I select (outbound?|inbound) flight to (destination|source) at position (\\d+)$")
 	public void clickFlights(String ignore1, String ignore2, int pos) throws Throwable {
 		PackageScreen.flightList().perform(RecyclerViewActions.actionOnItemAtPosition(pos, click()));
+		clickFlightOnDetails();
+	}
+	@Then("^I select (outbound?|inbound) flight to (destination|source) at position (\\d+) and goto details page$")
+	public void selectFlightOnResultsPage(String ignore1, String ignore2, int pos) throws Throwable {
+		PackageScreen.flightList().perform(RecyclerViewActions.actionOnItemAtPosition(pos, click()));
+	}
+	@Then("^I click select flight on flight details screen$")
+	public void clickFlightOnDetails() throws Throwable {
 		PackageScreen.selectThisFlight().perform(waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 	}
@@ -366,6 +367,11 @@ public class SearchScreenSteps {
 	@Then("^Validate that Package Overview screen is displayed")
 	public void isDisplayedPackageOverviewScreen() throws Throwable {
 		onView(allOf(withId(R.id.step_one_text), isDescendantOfA(withId(R.id.bundle_widget)))).perform(waitForViewToDisplay()).check(matches(isDisplayed()));
+	}
+
+	@And("^Wait for checkout screen to load after createTrip")
+	public void waitForCheckoutToLoadAfterCreateTrip() throws Throwable {
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 10, TimeUnit.SECONDS);
 	}
 
 	@Then("^Validate search form retains details of search for packages")
