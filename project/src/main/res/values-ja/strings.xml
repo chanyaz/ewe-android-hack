@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">タップすると、{price} 以下のホテルの詳細が表示されます</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">完売</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">購入する</string>
 
@@ -903,7 +906,7 @@
     <!-- Packages -->
     <string name="nav_packages">ホテル + 航空券</string>
     <string name="nav_hotel_plus_flight_deals">お得なホテル + 航空券</string>
-    <string name="nav_hotel_plus_flight">ホテル + 航空券</string>
+    <string name="nav_hotel_plus_flight">ホテル+航空券</string>
     <!-- Rail -->
     <string name="nav_rail">鉄道</string>
     <string name="add_rail_card">レイルカードを追加</string>
@@ -1543,6 +1546,12 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">パーキング無料</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">無料 WiFi</string>
+    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
+    <string name="itin_hotel_check_in_policies_button_text">チェックイン情報</string>
+    <!--Title for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_heading">チェックイン ポリシー</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">変更およびキャンセル規則</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">チェックイン — 3 日後</string>
@@ -2101,14 +2110,12 @@
     <string name="address_mail_delivery_option_hint">郵送オプション</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">郵便番号</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">郵便番号</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">郵便番号</string>
     <!--Address Province hint-->
     <string name="address_province_hint">州</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">都道府県</string>
+    <string name="address_county_hint">都道府県 (オプション)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2191,6 +2198,10 @@
     <string name="known_traveler_msg">これは運輸保安局 (TSA) の事前チェックに必要な、政府発行の番号です</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">リドレスナンバーとは、監視対象者リストに登録されている人物と同姓同名の方が誤って識別されてしまうことを防止するために、運輸保安局 (TSA) が発行する番号です。</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">フリークエント フライヤー プログラム</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">利用中のプログラム</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">プログラム番号</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2461,8 +2472,6 @@
     <string name="nonstop_flight_filter_label">直行便のみ</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">返金可能なフライトのみ</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s → %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">ホテル名</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -2997,6 +3006,8 @@
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">オープン ソース ソフトウェアのライセンス</string>
+    <!-- String for error message if open source software license page fails to open -->
+    <string name="open_source_software_licenses_error">ページの読み込み中にエラーが発生しました。</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">このアプリは、以下のオープンソース ライブラリを使用しています :</string>
 
@@ -4683,6 +4694,11 @@
     <string name="reset_filter">絞り込み条件をリセット</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">絞り込み条件と一致する施設は見つかりませんでした。</string>
+
+    <!-- Nearby results title -->
+    <string name="nearby_results">周辺の検索結果</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">検索結果はありません。条件を変更して再検索してください。</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">リゾート料金 {amount} (1 日ごと) 別</string>

@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Tampilkan informasi untuk hotel dengan harga {price} ke bawah, Tombol</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">Kami telah habis terjual</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Beli</string>
 
@@ -1543,6 +1546,12 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">Parkir Gratis</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wi-Fi Gratis</string>
+    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
+    <string name="itin_hotel_check_in_policies_button_text">Informasi check-in</string>
+    <!--Title for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_heading">Kebijakan check-in</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">Aturan perubahan dan pembatalan</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in — 3 hari</string>
@@ -2101,14 +2110,12 @@
     <string name="address_mail_delivery_option_hint">Opsi Pengiriman Surat</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Kode Pos</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">Kode Pos</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">Kode Pos</string>
     <!--Address Province hint-->
     <string name="address_province_hint">Provinsi</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">Negara/Negara Bagian/Provinsi</string>
+    <string name="address_county_hint">Negara/Negara Bagian/Provinsi (opsional)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2191,6 +2198,10 @@
     <string name="known_traveler_msg">Nomor ini dikeluarkan oleh pemerintah dan digunakan untuk PreCheck TSA</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">Nomor redress adalah satu nomor unik yang dikeluarkan TSA yang akan membantu TSA dalam memverifikasi identitas Anda serta mengurangi kesalahan dalam mengidentifikasi daftar orang yang dicari.</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">Program Frequent flyer</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">Program saya</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">Nomor Program</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2461,8 +2472,6 @@
     <string name="nonstop_flight_filter_label">Hanya penerbangan langsung</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">Hanya penerbangan yang dapat dikembalikan uangnya</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s hingga %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">Nama hotel</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -2997,6 +3006,8 @@
     <string name="copyright_TEMPLATE">© Hak cipta 2012-{year} {brand}, Inc.\nSemua hak dilindungi undang-undang.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Lisensi Perangkat Lunak Open Source</string>
+    <!-- String for error message if open source software license page fails to open -->
+    <string name="open_source_software_licenses_error">Kesalahan saat memuat halaman.</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Aplikasi ini menggunakan pustaka open-source berikut ini:</string>
 
@@ -4683,6 +4694,11 @@
     <string name="reset_filter">Reset Filter</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">Kami tidak dapat menemukan properti yang cocok dengan pilihan filter Anda.</string>
+
+    <!-- Nearby results title -->
+    <string name="nearby_results">Hasil Di Sekitar</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">Tidak ditemukan hasil pencarian. Harap coba kembali mencari dengan kriteria yang berbeda.</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">Tidak termasuk {amount} biaya resor harian</string>

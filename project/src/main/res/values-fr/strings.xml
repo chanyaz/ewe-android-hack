@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Affichez les informations de l\&apos;hôtel à {price} ci-dessous, Bouton</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">Complet sur notre site</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Acheter</string>
 
@@ -1543,6 +1546,12 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">Parking gratuit</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wi-Fi gratuit</string>
+    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
+    <string name="itin_hotel_check_in_policies_button_text">Informations liées à l\&apos;arrivée</string>
+    <!--Title for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_heading">Conditions pour l\&apos;arrivée</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">Règles de modification et d\&apos;annulation</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Arrivée dans 3 jours</string>
@@ -2101,14 +2110,12 @@
     <string name="address_mail_delivery_option_hint">Options d\&apos;envoi du courrier</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Code postal</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">Code postal</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">CP</string>
     <!--Address Province hint-->
     <string name="address_province_hint">Province</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">Comté/Région/Province</string>
+    <string name="address_county_hint">Comté/Région/Province (facultatif)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2191,6 +2198,10 @@
     <string name="known_traveler_msg">Il s\&apos;agit du numéro attribué par le gouvernement utilisé pour le TSA PreCheck.</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">Le numéro de recours est un numéro unique délivré par l\&apos;agence TSA, l\&apos;organisation américaine de sécurité dans les transports. Il permet à cette dernière d\&apos;éviter les erreurs d\&apos;identifications et de vérifier votre identité.</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">Programme de fidélité</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">Mes programmes</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">Numéro de programme</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2461,8 +2472,6 @@
     <string name="nonstop_flight_filter_label">Vols directs uniquement</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">Vols remboursables seulement</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s à %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">Nom de l\&apos;hôtel</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -2997,6 +3006,8 @@
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nTous droits réservés.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Licences pour logiciels Open Source</string>
+    <!-- String for error message if open source software license page fails to open -->
+    <string name="open_source_software_licenses_error">Chargement de la page impossible.</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Cette appli utilise les librairies open-source suivantes :</string>
 
@@ -4683,6 +4694,11 @@
     <string name="reset_filter">Réinitialiser les filtres</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">Nous n\&apos;avons aucun établissement correspondant à vos filtres.</string>
+
+    <!-- Nearby results title -->
+    <string name="nearby_results">Résultats à proximité</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">Votre recherche n\&apos;a donné aucun résultat. Veuillez tenter une nouvelle recherche avec des critères différents.</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">Plus {amount} en frais d\&apos;établissement quotidiens</string>

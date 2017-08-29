@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">按此顯示 {price} 或以下酒店的資料</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">我們已訂滿</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">購買</string>
 
@@ -1543,6 +1546,12 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">免費泊車位</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">免費 Wi-Fi</string>
+    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
+    <string name="itin_hotel_check_in_policies_button_text">入住資訊</string>
+    <!--Title for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_heading">入住政策</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">更改及取消規則</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">入住 - 3 日後</string>
@@ -2101,14 +2110,12 @@
     <string name="address_mail_delivery_option_hint">郵遞選項</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">郵遞區號</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">郵遞區號</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">郵遞區號</string>
     <!--Address Province hint-->
     <string name="address_province_hint">省</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">縣/州/省</string>
+    <string name="address_county_hint">縣/州/省 (選填)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2191,6 +2198,10 @@
     <string name="known_traveler_msg">這是用於 TSA PreCheck 的政府發出編號</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">申訴編號是指由 TSA 發出的獨有編號，它有助 TSA 排除將旅客誤認為監察名單人士，並可確認您的身分。</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">航空公司會員計劃</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">我的計劃</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">計劃號碼</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2461,8 +2472,6 @@
     <string name="nonstop_flight_filter_label">只顯示不停站航班</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">只顯示可退款航班</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s 至 %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">酒店名稱</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -2997,6 +3006,8 @@
     <string name="copyright_TEMPLATE">© 版權 2012-{year} {brand}, Inc.\n保留所有權利。</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">開放原碼軟件授權</string>
+    <!-- String for error message if open source software license page fails to open -->
+    <string name="open_source_software_licenses_error">頁面載入錯誤。</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">此應用程式使用以下開放源碼程式庫：</string>
 
@@ -4683,6 +4694,11 @@
     <string name="reset_filter">重設篩選條件</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">找不到符合您篩選條件的住宿。</string>
+
+    <!-- Nearby results title -->
+    <string name="nearby_results">鄰近搜尋結果</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">搜尋沒有結果。請以其他條件再次搜尋。</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">不包括每日 {amount} 休閒設施費</string>

@@ -52,6 +52,9 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">아래에서 금액이 {price}인 호텔에 대한 정보 보기, 버튼</string>
 
+    <!-- Hotel sold out label on the results hotel card -->
+    <string name="hotel_sold_out_label">매진됨</string>
+
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">구매하기</string>
 
@@ -1543,6 +1546,12 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">무료 주차</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">무료 WiFi</string>
+    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
+    <string name="itin_hotel_check_in_policies_button_text">체크인 정보</string>
+    <!--Title for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_heading">체크인 정책</string>
+    <!--Label and dialog heading for change and cancellation rules button and dialog-->
+    <string name="itin_hotel_check_cancel_rules_label">변경 및 취소 규정</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3일 후 체크인</string>
@@ -2101,14 +2110,12 @@
     <string name="address_mail_delivery_option_hint">우편 배달 옵션</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">CVC 번호</string>
-    <!-- Zip Code hint for Packages -->
+    <!-- Zip Code hint -->
     <string name="address_zip_code_hint">CVC 번호</string>
-    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">CVC 번호</string>
     <!--Address Province hint-->
-    <string name="address_province_hint">주</string>
+    <string name="address_province_hint">도</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">도</string>
+    <string name="address_county_hint">도(선택 사항)</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2191,6 +2198,10 @@
     <string name="known_traveler_msg">이는 TSA 프리체크에 사용되는 정부 발행 번호입니다.</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">리드레스 번호는 고유한 TSA 발행 번호로, TSA가 감시 목록 오식별을 없애고 고객님의 신원을 확인하는 데 도움이 됩니다.</string>
+    <!--Frequent flyer program name hint -->
+    <string name="frequent_flyer_program_name">항공 마일리지 프로그램</string>
+    <!--Frequent flyer My Programs for Dialog Box-->
+    <string name="frequent_flyer_my_programs">내 프로그램</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">프로그램 번호</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2461,8 +2472,6 @@
     <string name="nonstop_flight_filter_label">직항 항공편만</string>
     <!-- Title for refundable filter on advance search view -->
     <string name="refundable_flight_filter_label">환불 가능 항공편만</string>
-    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint2">호텔 이름</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -2997,6 +3006,8 @@
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">오픈 소스 소프트웨어 라이센스</string>
+    <!-- String for error message if open source software license page fails to open -->
+    <string name="open_source_software_licenses_error">페이지 로드 오류.</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">이 앱에는 다음의 오픈 소스 라이브러리가 사용되었습니다:</string>
 
@@ -4683,6 +4694,11 @@
     <string name="reset_filter">필터 재설정</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">선택하신 필터와 맞는 숙박 시설을 찾을 수 없습니다.</string>
+
+    <!-- Nearby results title -->
+    <string name="nearby_results">주변 검색 결과</string>
+    <!-- Pinned no result error message -->
+    <string name="error_no_pinned_result_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">일일 리조트 요금 {amount} 불포함</string>
