@@ -43,6 +43,7 @@ class FlightOutboundPresenterTest {
         flightOutboundPresenter.toolbarViewModel.travelers.onNext(1)
         flightOutboundPresenter.toolbarViewModel.date.onNext(LocalDate.now())
         flightOutboundPresenter.toolbarViewModel.city.onNext("Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India")
+        flightOutboundPresenter.toolbarViewModel.country.onNext("India")
         flightOutboundPresenter.toolbarViewModel.airport.onNext("BLR")
         flightOutboundPresenter.toolbarViewModel.lob.onNext(flightOutboundPresenter.getLineOfBusiness())
         assertEquals("Select flight to Bengaluru, India", flightOutboundPresenter.toolbar.title.toString())

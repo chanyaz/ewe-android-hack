@@ -36,26 +36,26 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 		PackageScreen.selectFirstRoom();
 
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit (DTW)")))));
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit, United States of America (DTW)")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 
 		PackageScreen.selectFlight(0);
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit (DTW)")))));
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit, United States of America (DTW)")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
-		checkBaggageFeeToolBarText("Outbound to Detroit (DTW)");
+		checkBaggageFeeToolBarText("Outbound to Detroit, United States of America (DTW)");
 		PackageScreen.selectThisFlight().perform(click());
 
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Inbound to San Francisco (SFO)")))));
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Inbound to San Francisco, United States of America (SFO)")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 
 
 		PackageScreen.selectFlight(0);
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Inbound to San Francisco (SFO)")))));
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Inbound to San Francisco, United States of America (SFO)")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
-		checkBaggageFeeToolBarText("Inbound to San Francisco (SFO)");
+		checkBaggageFeeToolBarText("Inbound to San Francisco, United States of America (SFO)");
 	}
 
 
