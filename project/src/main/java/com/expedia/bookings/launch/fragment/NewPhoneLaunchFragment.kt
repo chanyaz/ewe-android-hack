@@ -21,11 +21,8 @@ import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
-import com.expedia.util.havePermissionToAccessLocation
-import com.expedia.util.requestLocationPermission
 import com.mobiata.android.Log
 import com.mobiata.android.util.NetUtils
 import com.squareup.otto.Subscribe
@@ -35,7 +32,7 @@ import rx.Subscription
 
 class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
-    val newPhoneLaunchWidget: NewPhoneLaunchWidget by bindView(R.id.new_phone_launch_widget)
+    private val newPhoneLaunchWidget: NewPhoneLaunchWidget by bindView(R.id.new_phone_launch_widget)
     private var locSubscription: Subscription? = null
     private var wasOffline = false
 
@@ -61,9 +58,6 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!havePermissionToAccessLocation(activity)) {
-            requestLocationPermission(this)
-        }
     }
 
     override fun onStart() {
@@ -137,19 +131,14 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         }
     }
 
-
     override fun onBackPressed(): Boolean {
         return newPhoneLaunchWidget.onBackPressed()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        when (requestCode) {
-            Constants.PERMISSION_REQUEST_LOCATION -> {
-                newPhoneLaunchWidget.hasInternetConnection.onNext(true)
-                onReactToUserActive()
-                return
-            }
-        }
+    fun onReactToLocationRequest() {
+        newPhoneLaunchWidget.hasInternetConnection.onNext(true)
+        onReactToUserActive()
+        return
     }
 
     // Hotel search in collection location

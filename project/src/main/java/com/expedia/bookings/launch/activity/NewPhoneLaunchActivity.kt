@@ -19,8 +19,10 @@ import android.widget.TextView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.activity.SoftPromptDialogFragment
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -47,10 +49,13 @@ import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
+import com.expedia.util.havePermissionToAccessLocation
+import com.expedia.util.requestLocationPermission
 import com.expedia.util.updateVisibility
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -82,6 +87,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     private var itinListFragment: ItinItemListFragment? = null
     private var accountFragment: AccountSettingsFragment? = null
     private var newPhoneLaunchFragment: NewPhoneLaunchFragment? = null
+    private var softPromptDialogFragment: SoftPromptDialogFragment? = null
 
     private val debugMenu: DebugMenu by lazy {
         DebugMenuFactory.newInstance(this)
@@ -151,6 +157,27 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (!havePermissionToAccessLocation(this) && ExpediaBookingApp.isFirstLaunchEver()) {
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+                softPromptDialogFragment = SoftPromptDialogFragment()
+                softPromptDialogFragment?.show(supportFragmentManager, "fragment_dialog_soft_prompt")
+            } else {
+                requestLocationPermission(this)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            Constants.PERMISSION_REQUEST_LOCATION -> {
+                newPhoneLaunchFragment?.onReactToLocationRequest()
+            }
+        }
+        softPromptDialogFragment?.dismiss()
     }
 
     override fun onNewIntent(intent: Intent) {

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/location_soft_prompt"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="25dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Core.Text.XXXLarge.Medium"
+        android:textStyle="bold"
+        android:textColor="@color/soft_prompt_text_color"
+        android:gravity="center"
+        android:text="@string/location_soft_prompt_title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Core.Text.XLarge"
+        android:textColor="@color/soft_prompt_text_color"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="@string/location_soft_prompt_subtitle" />
+
+    <Button
+        android:id="@+id/soft_prompt_enable_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/soft_prompt_enable_button"
+        android:text="@string/location_soft_prompt_enable"
+        style="@style/Core.Text.XXLarge"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/soft_prompt_disable_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/soft_prompt_button_color"
+        style="@style/Core.Text.XXLarge"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/location_soft_prompt_disable"/>
+
+</LinearLayout>

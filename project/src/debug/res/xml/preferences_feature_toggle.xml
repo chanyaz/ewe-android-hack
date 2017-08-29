@@ -134,4 +134,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Soft Prompt Permission">
+
+        <CheckBoxPreference
+            android:key="@string/preference_soft_prompt_permission"
+            android:summary="Show soft prompt permission request"
+            android:title="Enable Soft Prompt Permission Request" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

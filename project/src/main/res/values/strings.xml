@@ -4751,4 +4751,10 @@
     <!--App shortcut for sharing flight info long version.-->
     <string name="share_flight_status">Share flight status</string>
 
+    <!--Soft Prompt-->
+    <string name="location_soft_prompt_title">Let the journey begin</string>
+    <string name="location_soft_prompt_subtitle">Explore nearby, browse hotels near you, get directions, and more.</string>
+    <string name="location_soft_prompt_enable">Enable Location</string>
+    <string name="location_soft_prompt_disable">Not now</string>
+
 </resources>

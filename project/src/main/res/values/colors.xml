@@ -496,4 +496,8 @@
     <!--New User Onboarding colors-->
     <color name="onboarding_page_background_gradient">@color/exp_brand_blue_65</color>
     <color name="onboarding_circle_color">@color/white_50</color>
+
+    <!--Soft Prompt colors-->
+    <color name="soft_prompt_button_color">@color/exp_launch_secondary</color>
+    <color name="soft_prompt_text_color">@color/gray9</color>
 </resources>

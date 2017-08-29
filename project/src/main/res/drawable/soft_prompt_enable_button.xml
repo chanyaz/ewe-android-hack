@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" android:paddingTop="16dp" android:paddingBottom="16dp"
+    android:paddingLeft="32dp" android:paddingRight="32dp" >
+    <solid android:color="@color/soft_prompt_button_color"/>
+    <corners android:radius="@dimen/cardview_border_radius"/>
+</shape>

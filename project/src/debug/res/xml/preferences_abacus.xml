@@ -698,4 +698,18 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Soft Prompt Permission">
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="15119"
+            android:title="Soft Prompt Permission - 15119"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

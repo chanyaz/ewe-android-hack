@@ -110,6 +110,9 @@ public class AbacusUtils {
 	// Launch
 	public static final int ProWizardTest = 14687;
 
+	// Soft Prompt
+	public static final int EBAndroidAppSoftPromptLocation = 15119;
+
 	public enum DefaultVariant {
 		CONTROL,
 		BUCKETED
@@ -223,6 +226,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightSuggestionOnOneCharacter);
 		testIDs.add(EBAndroidAppFlightRateDetailsFromCache);
 		testIDs.add(TripsHotelScheduledNotificationsV2);
+		testIDs.add(EBAndroidAppSoftPromptLocation);
 		return testIDs;
 	}
 

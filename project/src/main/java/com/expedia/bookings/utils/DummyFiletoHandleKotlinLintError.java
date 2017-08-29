@@ -1229,7 +1229,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.dummy_city,
 		R.string.dummy_state,
 		R.string.dummy_country,
-		R.string.dummy_postal_code
+		R.string.dummy_postal_code,
 		//Please add your string above this line to avoid conflicts
+		R.layout.fragment_dialog_soft_prompt
 	};
 }

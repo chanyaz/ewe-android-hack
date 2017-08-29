@@ -43,6 +43,9 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		//Itin Features
 		initializeFeatureCheck(R.string.preference_trips_hotel_scheduled_notifications);
+
+		// Permission Request
+		initializeFeatureCheck(R.string.preference_soft_prompt_permission);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {
