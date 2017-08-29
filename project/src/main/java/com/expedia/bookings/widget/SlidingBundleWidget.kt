@@ -150,7 +150,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     fun translateBundleOverview(distance: Float) {
         val distanceMax = height.toFloat() - bundlePriceWidgetContainer.height
         val f = (distanceMax - distance) / distanceMax
-        if (distance <= distanceMax && distance >= 0) {
+        if (distance in 0..distanceMax) {
             translationY = distance
             bundlePriceWidget.bundleTitle.visibility = View.VISIBLE
             bundlePriceWidget.bundleSubtitle.visibility = View.VISIBLE

@@ -255,7 +255,7 @@ open class HotelViewModel(private val context: Context) {
     }
 
     private fun getFewRoomsLeftUrgencyMessage(): UrgencyMessage? {
-        if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
+        if (hotel.roomsLeftAtThisRate in 1..ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
             return UrgencyMessage(R.drawable.urgency, R.color.hotel_urgency_message_color,
                     resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate))
         }

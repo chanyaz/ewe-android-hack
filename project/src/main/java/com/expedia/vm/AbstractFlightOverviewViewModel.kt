@@ -62,7 +62,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
         val urgencyMessage = StringBuilder()
         if (selectedFlight.packageOfferModel.urgencyMessage != null) {
             val ticketsLeft = selectedFlight.packageOfferModel.urgencyMessage.ticketsLeft
-            if (ticketsLeft > 0 && ticketsLeft < 6) {
+            if (ticketsLeft in 1..5) {
                 urgencyMessage.append(Phrase.from(context.resources
                         .getQuantityString(R.plurals.package_flight_overview_urgency_message_TEMPLATE, ticketsLeft.toInt()))
                         .put("seats", ticketsLeft)

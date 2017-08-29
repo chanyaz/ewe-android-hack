@@ -77,7 +77,7 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
             themeCount.text = activitySize.toString()
             themeDescription.text  = theme.description
 
-            if (activitySize >= 1 && activitySize <= 9) {
+            if (activitySize in 1..9) {
                 themeCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
             } else  {
                 themeCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
