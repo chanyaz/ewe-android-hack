@@ -68,7 +68,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 	}
 
 	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
-		this.userBucketedForRTRTest = userBucketedForRTRTest;
+		LXResultsListAdapter.userBucketedForRTRTest = userBucketedForRTRTest;
 	}
 
 	public static class RecommendedViewHolder extends ViewHolder implements View.OnClickListener {

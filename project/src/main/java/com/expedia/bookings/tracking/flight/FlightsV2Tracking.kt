@@ -237,7 +237,7 @@ object FlightsV2Tracking {
     }
 
     fun trackFlightCabinClassSelect(cabinClass: String) {
-        OmnitureTracking.trackFlightCabinClassSelect(cabinClass);
+        OmnitureTracking.trackFlightCabinClassSelect(cabinClass)
     }
 
     fun trackAirAttachShown() {

@@ -82,6 +82,6 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     }
 
     open fun appendAccessibilityContentDescription(): String{
-        return context.getString(R.string.accessibility_cont_desc_role_button);
+        return context.getString(R.string.accessibility_cont_desc_role_button)
     }
 }

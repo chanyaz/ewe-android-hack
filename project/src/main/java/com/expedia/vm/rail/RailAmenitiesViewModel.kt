@@ -39,6 +39,6 @@ class RailAmenitiesViewModel {
                 }
             }
         }
-        return amenities;
+        return amenities
     }
 }

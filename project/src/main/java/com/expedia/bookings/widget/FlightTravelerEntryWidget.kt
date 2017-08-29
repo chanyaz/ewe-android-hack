@@ -144,7 +144,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                 if (countryCode.isNullOrBlank()) {
                     passportCountryEditBox.setText(countryCode)
                 } else if (adapter.getPositionByCountryThreeLetterCode(countryCode) == -1) {
-                    passportCountryEditBox.setText(null)
+                    passportCountryEditBox.text = null
                 } else {
                     val countryName = adapter.getItem(adapter.getPositionByCountryThreeLetterCode(countryCode))
                     passportCountryEditBox.setText(countryName)
@@ -300,7 +300,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         frequentFlyerText?.contentDescription = context.getString(R.string.expand_frequent_flyer_button_cont_desc)
     }
 
-    private inner class CountryItemSelectedListener() : AdapterView.OnItemSelectedListener {
+    private inner class CountryItemSelectedListener : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
             //do nothing
         }
@@ -343,7 +343,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
         val position = if (countryCode?.isNullOrEmpty() ?: true) DEFAULT_EMPTY_PASSPORT else adapter.getPositionByCountryThreeLetterCode(countryCode)
         if (position == 0) {
-            adapter.setErrorVisible(false);
+            adapter.setErrorVisible(false)
         }
         passportCountrySpinner.setSelection(position, false)
         passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()

@@ -30,7 +30,7 @@ class RailTravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(cont
         if (traveler == null || travelerStatusObserver.value != TravelerCheckoutStatus.COMPLETE) {
             return resources.getString(R.string.enter_missing_traveler_details)
         } else {
-            return traveler!!.email!!
+            return traveler.email!!
         }
     }
 

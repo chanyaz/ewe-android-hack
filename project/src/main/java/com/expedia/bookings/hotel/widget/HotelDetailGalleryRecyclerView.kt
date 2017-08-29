@@ -72,7 +72,7 @@ class HotelDetailGalleryRecyclerView(context: Context, attrs: AttributeSet?) : R
             if (v == null) {
                 return
             }
-            v!!.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            v.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             offset = layoutManager.getRightDecorationWidth(v)
         } else {
             position = layoutManager.findLastVisibleItemPosition()
@@ -80,7 +80,7 @@ class HotelDetailGalleryRecyclerView(context: Context, attrs: AttributeSet?) : R
             if (v == null) {
                 return
             }
-            v!!.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            v.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             offset = layoutManager.getLeftDecorationWidth(v)
         }
 

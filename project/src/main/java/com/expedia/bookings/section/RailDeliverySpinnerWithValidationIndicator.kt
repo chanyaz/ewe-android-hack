@@ -30,11 +30,11 @@ class RailDeliverySpinnerWithValidationIndicator(context: Context, attrs: Attrib
     }
 
     fun hasItemSelected() : Boolean {
-        val selection = spinner.getSelectedItem() as SpinnerAdapterWithHint.SpinnerItem
+        val selection = spinner.selectedItem as SpinnerAdapterWithHint.SpinnerItem
         return !hint.equals(selection.value)
     }
 
-    private class SpinnerFocusListener() : View.OnFocusChangeListener {
+    private class SpinnerFocusListener : View.OnFocusChangeListener {
         override fun onFocusChange(v: View, hasFocus: Boolean) {
             if (v is Spinner && hasFocus) {
                 v.performClick()

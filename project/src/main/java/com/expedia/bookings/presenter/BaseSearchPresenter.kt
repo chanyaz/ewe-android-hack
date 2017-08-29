@@ -478,7 +478,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         searchLocationEditText?.requestFocus()
         (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).
                 toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                        InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
     var toolbarTitleTop = 0
@@ -530,13 +530,13 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     open fun getToolbarsHeight(): Int {
-        return Ui.toolbarSizeWithStatusBar(context);
+        return Ui.toolbarSizeWithStatusBar(context)
     }
 
     open fun setUpStatusBar() {
-        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
-            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, null, primaryColor)
+            val statusBar = Ui.setUpStatusBar(context, toolbar, null, primaryColor)
             addView(statusBar)
         }
     }

@@ -335,7 +335,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 override fun canDrag(appBarLayout: AppBarLayout): Boolean {
                     return false
                 }
-            });
+            })
         }
     }
 

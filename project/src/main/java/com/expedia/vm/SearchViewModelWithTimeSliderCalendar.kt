@@ -33,7 +33,7 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
         setUpTimeSliderSubject.subscribe { dates ->
             val (start, end) = dates
             if (start != null) {
-                val now = DateTime.now();
+                val now = DateTime.now()
                 if (start.equals(LocalDate.now()) && now.hourOfDay >= 8
                         && getStartDateTimeAsMillis() < now.plusHours(1).millisOfDay) {
                     departTimeSubject.onNext(now.plusHours(1).millisOfDay)
@@ -45,8 +45,8 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
                 validateTimes()
             }
             else{
-                departTimeSubject.onNext(DateTime().withHourOfDay(9).withMinuteOfHour(0).millisOfDay);
-                returnTimeSubject.onNext(DateTime().withHourOfDay(18).withMinuteOfHour(0).millisOfDay);
+                departTimeSubject.onNext(DateTime().withHourOfDay(9).withMinuteOfHour(0).millisOfDay)
+                returnTimeSubject.onNext(DateTime().withHourOfDay(18).withMinuteOfHour(0).millisOfDay)
             }
         }
     }
@@ -56,12 +56,12 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
     }
 
     fun isStartTimeBeforeNow(): Boolean {
-        return isStartDateEqualToToday() && getStartDateTimeAsMillis() < DateTime.now().millisOfDay;
+        return isStartDateEqualToToday() && getStartDateTimeAsMillis() < DateTime.now().millisOfDay
     }
 
     //end time should always be at least 2 hours ahead of start time
     fun isEndTimeBeforeStartTime(): Boolean {
-        return isStartEqualToEnd() && getEndDateTimeAsMillis() < getStartDateTimeAsMillis() + TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS);
+        return isStartEqualToEnd() && getEndDateTimeAsMillis() < getStartDateTimeAsMillis() + TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS)
     }
 
     // Reset times if the start is equal to today and the selected time is before the current time

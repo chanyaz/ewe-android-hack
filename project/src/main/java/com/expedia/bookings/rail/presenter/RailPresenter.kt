@@ -1,4 +1,4 @@
-package com.expedia.bookings.rail.presenter;
+package com.expedia.bookings.rail.presenter
 
 import android.content.Context
 import android.util.AttributeSet

@@ -47,7 +47,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
         return FlightViewModel(context, flightLeg)
     }
 
-    private fun shouldShowCrossSellPackageBanner() = (PointOfSale.getPointOfSale().isCrossSellPackageOnFSR() &&
+    private fun shouldShowCrossSellPackageBanner() = (PointOfSale.getPointOfSale().isCrossSellPackageOnFSR &&
             Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR) &&
             (context as FlightActivity).intent.getStringExtra(Codes.SEARCH_PARAMS)?.isEmpty()?:true)
 

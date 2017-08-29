@@ -140,7 +140,7 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
     private fun filterPriceRange(hotel: Hotel): Boolean {
         if (hotel.isSoldOut) {
             //Check if price filters have not been changed
-            return userFilterChoices.minPrice == 0 && userFilterChoices.maxPrice == 0;
+            return userFilterChoices.minPrice == 0 && userFilterChoices.maxPrice == 0
         }
         val price = hotel.lowRateInfo.priceToShowUsers
         return (userFilterChoices.minPrice == 0 && price < 0) || (userFilterChoices.minPrice <= price &&

@@ -85,7 +85,7 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
 
             var imageURLs = Images.forLxCategory(itemView.context, theme.titleEN, imageCode, itemView.context.resources.getDimension(R.dimen.lx_category_image_width))
 
-            var errorDrawable = LXDataUtils.getErrorDrawableForCategory(itemView.context, theme.titleEN);
+            var errorDrawable = LXDataUtils.getErrorDrawableForCategory(itemView.context, theme.titleEN)
 
             PicassoHelper
                     .Builder(itemView.context)
@@ -103,7 +103,7 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
                 super.onBitmapLoaded(bitmap, from)
                 val palette = Palette.Builder(bitmap).generate()
                 val color = palette.getDarkVibrantColor(R.color.transparent_dark)
-                val overlayColorBuilder = ColorBuilder(color).darkenBy(.5f);
+                val overlayColorBuilder = ColorBuilder(color).darkenBy(.5f)
                 val overlayColor = overlayColorBuilder.setAlpha(154).build()
 
                 val overlayDrawable = ColorDrawable()

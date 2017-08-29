@@ -123,11 +123,11 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             inboundFlightWidget.collapseFlightDetails()
             bundleHotelWidget.collapseSelectedHotel()
         }
-        inboundFlightWidget.viewModel.flightsRowExpanded.subscribe() {
+        inboundFlightWidget.viewModel.flightsRowExpanded.subscribe {
             outboundFlightWidget.collapseFlightDetails()
             bundleHotelWidget.collapseSelectedHotel()
         }
-        bundleHotelWidget.viewModel.hotelRowExpanded.subscribe() {
+        bundleHotelWidget.viewModel.hotelRowExpanded.subscribe {
             outboundFlightWidget.collapseFlightDetails()
             inboundFlightWidget.collapseFlightDetails()
         }

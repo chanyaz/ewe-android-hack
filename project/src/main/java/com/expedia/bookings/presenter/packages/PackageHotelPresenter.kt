@@ -107,7 +107,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         removeView(detailsMapView)
         detailsStub.addView(detailsMapView)
         presenter.hotelMapView.mapView = detailsMapView
-        presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
+        presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView)
 
         val detailsViewModel = PackageHotelDetailViewModel(context)
 

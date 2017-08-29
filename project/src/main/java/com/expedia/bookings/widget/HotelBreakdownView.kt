@@ -67,7 +67,7 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
     }
 
     private fun createLine(): View {
-        val view = View(context, null);
+        val view = View(context, null)
         val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         lp.height = 1
         var paddingTop = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()

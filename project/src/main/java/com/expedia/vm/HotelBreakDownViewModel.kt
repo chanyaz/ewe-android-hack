@@ -21,7 +21,7 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
             val nightlyRate = Money(BigDecimal(hotelCheckoutSummaryViewModel.nightlyRateTotal.value), hotelCheckoutSummaryViewModel.currencyCode.value)
             breakdowns.add(Breakdown(hotelCheckoutSummaryViewModel.numNights.value, nightlyRate.formattedMoney, BreakdownItem.OTHER))
 
-            var count = 0;
+            var count = 0
             val checkIn = DateUtils.yyyyMMddToLocalDate(hotelCheckoutSummaryViewModel.checkInDate.value)
             for (rate in hotelCheckoutSummaryViewModel.nightlyRatesPerRoom.value) {
                 val date = dtf.print(checkIn.plusDays(count))
@@ -93,7 +93,7 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
 
     data class Breakdown(val title: String, val cost: String, val breakdownItem: BreakdownItem)
 
-    enum class BreakdownItem() {
+    enum class BreakdownItem {
         DATE,
         DISCOUNT,
         TRIPTOTAL,

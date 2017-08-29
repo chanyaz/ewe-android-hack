@@ -228,9 +228,9 @@ class OnboardingActivity: AppCompatActivity() {
         LEFT_FLING,
     }
 
-    inner class FixedSpeedScroller : Scroller {
+    inner class FixedSpeedScroller(context: Context, interpolator: Interpolator) : Scroller(context, interpolator) {
         private val mDuration = resources.getInteger(R.integer.onboarding_pager_transition_duration)
-        constructor(context: Context, interpolator: Interpolator) : super(context, interpolator) {}
+
         override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int, duration: Int) {
             super.startScroll(startX, startY, dx, dy, mDuration)
         }

@@ -52,7 +52,7 @@ open class HotelViewModel(private val context: Context) {
 
     val hotelStarRating: Float get() = hotel.hotelStarRating
     val showStarRating: Boolean get() = hotelStarRating > 0
-    val hotelGuestRating: Float get() = hotel.hotelGuestRating ?: 0f
+    val hotelGuestRating: Float get() = hotel.hotelGuestRating
     val isHotelGuestRatingAvailable: Boolean get() = hotelGuestRating > 0
     val showNoGuestRating: Boolean get() = !isHotelGuestRatingAvailable
     val showHotelPreviewRating: Boolean get() = hotelStarRating >= 0.5f
@@ -133,7 +133,7 @@ open class HotelViewModel(private val context: Context) {
     }
 
     fun showVipMessage(): Boolean {
-        return (hotel.isVipAccess ?: false) && PointOfSale.getPointOfSale().supportsVipAccess()
+        return hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
     }
 
     fun showVipLoyaltyMessage(): Boolean {

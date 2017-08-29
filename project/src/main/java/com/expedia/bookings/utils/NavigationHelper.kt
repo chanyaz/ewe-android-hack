@@ -12,13 +12,7 @@ import com.expedia.bookings.utils.navigation.PackageNavUtils
  * The NavigationHelper is just a wrapper around NavUtils that is non-static, allowing
  * it to be easily mocked for testing purposes.
  */
-open class NavigationHelper {
-
-    private var context: Context;
-
-    constructor(context: Context) {
-        this.context = context
-    }
+open class NavigationHelper(private var context: Context) {
 
     open fun goToHotels(animOptions: Bundle?, finishCallingActivity: Boolean = false) {
         if (finishCallingActivity) {

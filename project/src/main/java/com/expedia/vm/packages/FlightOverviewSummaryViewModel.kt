@@ -37,7 +37,7 @@ class FlightOverviewSummaryViewModel(val context: Context) {
                         Phrase.from(context, R.string.flight_overview_header_TEMPLATE)
                                 .put("departureairportcode", arrivalAirport)
                                 .put("arrivalairportcode", departureAirport)
-                                .put("dateoftravelling", DateFormatUtils.formatLocalDateToShortDayAndDate(params?.returnDate?.toString(formatter)))
+                                .put("dateoftravelling", DateFormatUtils.formatLocalDateToShortDayAndDate(params.returnDate?.toString(formatter)))
                                 .format().toString()
                     } else {
                         ""

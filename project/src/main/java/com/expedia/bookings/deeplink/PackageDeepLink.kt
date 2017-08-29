@@ -1,5 +1,3 @@
 package com.expedia.bookings.deeplink
 
-class PackageDeepLink : DeepLink() {
-
-}
+class PackageDeepLink : DeepLink()

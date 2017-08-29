@@ -54,8 +54,8 @@ class HotelActivity : AbstractAppCompatActivity() {
     private fun handleDeepLink(intent: Intent) {
         val searchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(intent.getStringExtra(EXTRA_HOTEL_SEARCH_PARAMS))
         if (intent.hasExtra(Codes.MEMBER_ONLY_DEALS) && searchParams != null) {
-            searchParams?.sortType = HotelSearchParams.SortType.MOBILE_DEALS.sortName
-            searchParams?.shopWithPoints = false
+            searchParams.sortType = HotelSearchParams.SortType.MOBILE_DEALS.sortName
+            searchParams.shopWithPoints = false
         }
         hotelPresenter.handleDeepLink(searchParams)
     }
@@ -119,10 +119,10 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
         super.onSaveInstanceState(outState, outPersistentState)
-        val mapState = Bundle();
+        val mapState = Bundle()
         resultsMapView.onSaveInstanceState(mapState)
         detailsMapView.onSaveInstanceState(mapState)
-        outState!!.putBundle(Constants.HOTELS_MAP_STATE, mapState);
+        outState!!.putBundle(Constants.HOTELS_MAP_STATE, mapState)
     }
 
     // Showing different presenter based on deeplink

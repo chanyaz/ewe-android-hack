@@ -34,7 +34,7 @@ class TicketStubTearView(context: Context, attrs: AttributeSet?) : View(context,
     }
 
     override fun onSizeChanged(newW: Int, newH: Int, odlW: Int, oldH: Int) {
-        super.onSizeChanged(newW, newH, odlW, oldH);
+        super.onSizeChanged(newW, newH, odlW, oldH)
         val widthF = newW.toFloat()
         val heightF = newH.toFloat()
 

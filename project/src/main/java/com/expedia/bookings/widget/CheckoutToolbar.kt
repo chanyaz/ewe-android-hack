@@ -22,7 +22,7 @@ import kotlin.properties.Delegates
 class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs), ToolbarListener {
     var menuItem: MenuItem by Delegates.notNull()
     var currentFocus: View? = null
-    var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
+    var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
 
     var viewModel: CheckoutToolbarViewModel by notNullAndObservable { vm ->
         vm.toolbarTitle.subscribe {

@@ -68,7 +68,7 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val activity = context as Activity
         activity.startActivityForResult(intent, Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE, null)
-        activity.overridePendingTransition(0, 0);
+        activity.overridePendingTransition(0, 0)
     }
 
     fun updateHotelParams(params: PackageSearchParams) {

@@ -87,7 +87,7 @@ public class GooglePlayServicesDialog {
 			// The rest are unrecoverable codes that developer configuration error or what have you
 			//throw new RuntimeException("Google Play Services status code indicates unrecoverable error: " + result);
 			Log.d("Google Play Services: Raising dialog for unrecoverable error " + result);
-			Context context = (Context) mActivity;
+			Context context = mActivity;
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			builder.setMessage(R.string.google_play_services_unrecoverable_error);
 			builder.setNeutralButton(R.string.ok, mGooglePlayServicesOnClickListener);

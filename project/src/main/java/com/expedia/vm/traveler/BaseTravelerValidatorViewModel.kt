@@ -6,7 +6,7 @@ import com.mobiata.android.validation.ValidationError
 import rx.subjects.BehaviorSubject
 import java.util.ArrayList
 
-abstract class BaseTravelerValidatorViewModel(): InvalidCharacterHelper.InvalidCharacterListener {
+abstract class BaseTravelerValidatorViewModel : InvalidCharacterHelper.InvalidCharacterListener {
     abstract fun isValid(): Boolean
 
     val textSubject = BehaviorSubject.create<String>()

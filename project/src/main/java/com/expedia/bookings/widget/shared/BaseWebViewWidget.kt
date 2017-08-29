@@ -56,7 +56,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     }
 
     private fun preventLoadingOfDivClass(className: String) {
-        webView.loadUrl("javascript:(function() { document.getElementsByClassName('$className')[0].style.display=\"none\"; })()");
+        webView.loadUrl("javascript:(function() { document.getElementsByClassName('$className')[0].style.display=\"none\"; })()")
     }
 
     open fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {

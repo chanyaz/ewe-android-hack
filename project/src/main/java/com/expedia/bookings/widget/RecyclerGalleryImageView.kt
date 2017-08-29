@@ -16,7 +16,7 @@ class RecyclerGalleryImageView(context: Context, attrs: AttributeSet) : ImageVie
     override fun setImageBitmap(bitmap: Bitmap?) {
         super.setImageBitmap(bitmap)
         if (bitmap != null) {
-            actualHeight = (bitmap.height * width ) / bitmap.width;
+            actualHeight = (bitmap.height * width ) / bitmap.width
         }
     }
 

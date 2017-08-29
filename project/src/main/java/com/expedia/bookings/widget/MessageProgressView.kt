@@ -38,9 +38,9 @@ class MessageProgressView(context: Context, attrs: AttributeSet?) : View(context
             field = value
             var remainingProgress = value
 
-            drawLine1 = false;
-            drawLine2 = false;
-            drawLine3 = false;
+            drawLine1 = false
+            drawLine2 = false
+            drawLine3 = false
 
             if (remainingProgress <= 0) {
                 invalidate()

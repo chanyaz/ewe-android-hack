@@ -45,7 +45,7 @@ import kotlin.properties.Delegates
 class LXMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
     val MAP_ZOOM_LEVEL = 15f
 
-    var mapView: MapView by Delegates.notNull();
+    var mapView: MapView by Delegates.notNull()
     val selectActivityContainer: View by bindView(R.id.map_view_select_activity_container)
     val selectActivityPrice: TextView by bindView(R.id.map_view_select_activity_price)
 

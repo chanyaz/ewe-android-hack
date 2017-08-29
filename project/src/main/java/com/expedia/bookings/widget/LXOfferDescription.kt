@@ -77,12 +77,12 @@ class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(c
     }
 
     override fun onAttachedToWindow() {
-        super<LinearLayout>.onAttachedToWindow()
+        super.onAttachedToWindow()
         Events.register(this)
     }
 
     override fun onDetachedFromWindow() {
-        super<LinearLayout>.onDetachedFromWindow()
+        super.onDetachedFromWindow()
         Events.unregister(this)
     }
 }

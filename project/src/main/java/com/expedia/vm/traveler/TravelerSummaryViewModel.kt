@@ -42,7 +42,7 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
         if (traveler == null || travelerStatusObserver.value != TravelerCheckoutStatus.COMPLETE) {
             return if (isFeatureEnabledForTravelerInfoTest) "" else resources.getString(R.string.enter_traveler_details)
         } else {
-            return traveler!!.birthDate!!.toString("MM/dd/yyyy")
+            return traveler.birthDate!!.toString("MM/dd/yyyy")
         }
     }
 

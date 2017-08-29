@@ -85,7 +85,7 @@ public class CarCategoryListWidget extends FrameLayout {
 	public void onCarsIsFiltered(Events.CarsIsFiltered event) {
 		recyclerView.setVisibility(View.VISIBLE);
 		adapter.setCategories(event.filteredCarSearch.categories);
-		adapter.loadingState = false;
+		CarCategoriesListAdapter.loadingState = false;
 		adapter.notifyDataSetChanged();
 	}
 
@@ -93,7 +93,7 @@ public class CarCategoryListWidget extends FrameLayout {
 	public void onCarsShowResultsForProductKey(Events.CarsShowResultsForProductKey event) {
 		recyclerView.setVisibility(View.VISIBLE);
 		adapter.setCategories(event.productKeyCarSearch.categories);
-		adapter.loadingState = false;
+		CarCategoriesListAdapter.loadingState = false;
 		adapter.notifyDataSetChanged();
 		Events.post(new Events.CarsShowProductKeyDetails(event.productKeyCarSearch));
 	}
@@ -102,7 +102,7 @@ public class CarCategoryListWidget extends FrameLayout {
 	public void onCarsShowSearchResults(Events.CarsShowSearchResults event) {
 		recyclerView.setVisibility(View.VISIBLE);
 		adapter.setCategories(event.results.categories);
-		adapter.loadingState = false;
+		CarCategoriesListAdapter.loadingState = false;
 		adapter.notifyDataSetChanged();
 		AdTracker.trackCarResult(event.results, mParams);
 	}
@@ -111,7 +111,7 @@ public class CarCategoryListWidget extends FrameLayout {
 	public void onCarShowLoadingAnimation(Events.CarsShowLoadingAnimation event) {
 		recyclerView.setVisibility(View.VISIBLE);
 		List<CategorizedCarOffers> elements = createDummyListForAnimation();
-		adapter.loadingState = true;
+		CarCategoriesListAdapter.loadingState = true;
 		adapter.setCategories(elements);
 		adapter.notifyDataSetChanged();
 	}

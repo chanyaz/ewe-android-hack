@@ -73,7 +73,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(context, primaryColorId))
 
         checkoutOverviewHeaderToolbar.travelers.visibility = View.GONE
-        appBarLayout.addOnOffsetChangedListener(this);
+        appBarLayout.addOnOffsetChangedListener(this)
         val floatingToolbarLayoutParams = checkoutOverviewFloatingToolbar.destinationText.layoutParams as LinearLayout.LayoutParams
         floatingToolbarLayoutParams.gravity = Gravity.CENTER
         toggleOverviewHeader(false)
@@ -137,7 +137,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
                 }
             } else {
                 if (percentage < 1f) {
-                    checkoutOverviewHeaderToolbar.destinationText.visibility = View.INVISIBLE;
+                    checkoutOverviewHeaderToolbar.destinationText.visibility = View.INVISIBLE
                     isHideToolbarView = !isHideToolbarView
                 }
             }

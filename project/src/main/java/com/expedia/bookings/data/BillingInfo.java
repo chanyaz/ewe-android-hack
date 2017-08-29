@@ -257,7 +257,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 			mTelephone = obj.optString("telephone", null);
 		}
 		mEmail = obj.optString("email", null);
-		mLocation = (Location) JSONUtils.getJSONable(obj, "location", Location.class);
+		mLocation = JSONUtils.getJSONable(obj, "location", Location.class);
 		mBrandName = obj.optString("brandName", null);
 		mBrandCode = obj.optString("brandCode", null);
 		mNumber = obj.optString("number", null);

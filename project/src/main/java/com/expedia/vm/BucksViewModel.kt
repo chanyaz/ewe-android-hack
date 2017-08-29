@@ -18,11 +18,11 @@ class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val contex
         if (paymentSplits.payingWithPoints.points != 0f) {
             return Phrase.from(context, R.string.bucks_applied_TEMPLATE)
                     .put("money", paymentSplits.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                    .format().toString();
+                    .format().toString()
         } else {
             return Phrase.from(context, R.string.bucks_available_TEMPLATE)
                     .put("money", tripResponse.getPointDetails()!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
-                    .format().toString();
+                    .format().toString()
         }
     }
 
@@ -44,8 +44,8 @@ class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val contex
 
     override val pointsAppliedMessageColor = paymentModel.paymentSplits.map {
         when (it.payingWithPoints.points != 0f) {
-            true -> ContextCompat.getColor(context, R.color.pay_with_reward_text_color);
-            false -> ContextCompat.getColor(context, R.color.points_available_text_color);
+            true -> ContextCompat.getColor(context, R.color.pay_with_reward_text_color)
+            false -> ContextCompat.getColor(context, R.color.points_available_text_color)
         }
     }
 
@@ -77,7 +77,7 @@ class BucksViewModel<T : TripResponse>(paymentModel: PaymentModel<T>, val contex
         }).doOnNext { programmaticToggle.onNext(false) }.filter { !it.programmaticToggle }.subscribe {
             if (it.bucksOpted) {
                 val newPaymentSplits = it.tripResponses.paymentSplitsWhenMaxPayableWithPoints()
-                val tripTotal = it.tripResponses.getTripTotalExcludingFee().amount;
+                val tripTotal = it.tripResponses.getTripTotalExcludingFee().amount
                 val percentage = NumberUtils.getPercentagePaidWithPointsForOmniture(newPaymentSplits.payingWithPoints.amount.amount, tripTotal)
                 HotelTracking.trackPayWithPointsReEnabled(percentage)
             } else {

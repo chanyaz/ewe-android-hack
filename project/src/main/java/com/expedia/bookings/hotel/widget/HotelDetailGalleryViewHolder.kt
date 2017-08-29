@@ -36,7 +36,7 @@ class HotelDetailGalleryViewHolder(val root: View) : RecyclerView.ViewHolder(roo
         this.totalItemCount = totalItemCount
         this.soldOut = soldOut
         if (media.isPlaceHolder) {
-            media.loadErrorImage(imageView, callback, media.getFallbackImage())
+            media.loadErrorImage(imageView, callback, media.fallbackImage)
         } else {
             media.loadImage(imageView, callback, 0)
         }

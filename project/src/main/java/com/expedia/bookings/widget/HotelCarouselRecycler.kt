@@ -15,7 +15,7 @@ class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerVie
     val mapSubject = PublishSubject.create<Hotel>()
 
     val layoutManager = object: LinearLayoutManager(getContext()) {
-        override protected fun getExtraLayoutSpace(state: RecyclerView.State): Int {
+        override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
             return AndroidUtils.getScreenSize(context).x
         }
     }

@@ -264,7 +264,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
-        viewStub.layoutResource = R.layout.hotel_server_filter_view_stub;
+        viewStub.layoutResource = R.layout.hotel_server_filter_view_stub
         return viewStub.inflate() as HotelServerFilterView
     }
 
@@ -295,8 +295,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         region.shortName = context.getString(R.string.visible_map_area)
         location.regionNames = region
         val coordinate = SuggestionV4.LatLng()
-        coordinate.lat = center?.latitude!!
-        coordinate.lng = center?.longitude!!
+        coordinate.lat = center.latitude
+        coordinate.lng = center.longitude
         location.coordinates = coordinate
         viewModel.locationParamsSubject.onNext(location)
     }
@@ -440,8 +440,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     private fun showMapLoadingOverlay() {
         if (loadingOverlay != null) {
-            loadingOverlay?.animate(true)
-            loadingOverlay?.visibility = View.VISIBLE
+            loadingOverlay.animate(true)
+            loadingOverlay.visibility = View.VISIBLE
         }
     }
 }

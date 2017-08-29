@@ -33,6 +33,6 @@ class HotelItinImage(context: Context, attr: AttributeSet?) : LinearLayout(conte
                     .build()
                     .load(hotelMedia.getBestUrls(Ui.getScreenSize(context).x / 2))
         }
-        hotelNameTextView.setText(itinCardDataHotel.propertyName)
+        hotelNameTextView.text = itinCardDataHotel.propertyName
     }
 }

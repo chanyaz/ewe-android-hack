@@ -56,7 +56,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
     //POINTS APPLIED MESSAGING
     private fun pointsAppliedMessage(paymentSplits: PaymentSplits) = Phrase.from(context.resources.getQuantityString(R.plurals.pwp_points_applied_TEMPLATE, paymentSplits.payingWithPoints.points.toInt()))
             .put("points", NumberFormat.getInstance().format(paymentSplits.payingWithPoints.points))
-            .format().toString();
+            .format().toString()
 
     //INLETS
     override val userEnteredBurnAmount = PublishSubject.create<String>()
@@ -154,8 +154,8 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
 
     override val pointsAppliedMessageColor = pointsAppliedMessage.map {
         when (it.second) {
-            true -> ContextCompat.getColor(context, R.color.hotels_primary_color);
-            false -> ContextCompat.getColor(context, R.color.cvv_error);
+            true -> ContextCompat.getColor(context, R.color.hotels_primary_color)
+            false -> ContextCompat.getColor(context, R.color.cvv_error)
         }
     }
 

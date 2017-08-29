@@ -122,7 +122,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         return Phrase.from(context.getString(R.string.traveler_age_range_TEMPLATE))
                 .put("category", category.getBucketedCategoryString(context))
                 .put("range", category.getBucketedAgeString(context))
-                .format().toString();
+                .format().toString()
     }
 
 }

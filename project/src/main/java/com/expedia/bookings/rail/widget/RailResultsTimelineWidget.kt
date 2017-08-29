@@ -52,14 +52,14 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
                 iconRect.left = iconRect.right + horizontalSpacing
             }
             val relevantDrawable = ContextCompat.getDrawable(context, RailTravelMediumDrawableProvider.findMappedDrawable(segment.travelMedium.travelMediumCode))
-            iconRect.top = 0;
+            iconRect.top = 0
             iconRect.bottom = measuredHeight
             iconRect.right = iconRect.left + ((relevantDrawable.intrinsicWidth.toFloat() / relevantDrawable.intrinsicHeight.toFloat()) * drawableHeight.toFloat()).toInt()
             relevantDrawable.bounds = iconRect
             relevantDrawable.draw(canvas)
 
             iconRect.left = iconRect.right + horizontalSpacing
-            first = false;
+            first = false
         }
     }
 }

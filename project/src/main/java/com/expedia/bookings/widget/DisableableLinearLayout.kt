@@ -13,7 +13,7 @@ class DisableableLinearLayout(context: Context, attrs: AttributeSet) : LinearLay
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         if (!isEnabled) {
-            return true;
+            return true
         }
         return super.onInterceptTouchEvent(ev)
     }

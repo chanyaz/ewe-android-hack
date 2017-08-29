@@ -18,7 +18,7 @@ class FrequentFlyerProgramNumberViewModel(traveler: Traveler, var airlineKey: St
                     traveler.frequentFlyerMemberships.get(airlineKey)!!.membershipNumber = it
                 } else {
                     val frequentFlyerMembership = TravelerFrequentFlyerMembership()
-                    frequentFlyerMembership.airlineCode = airlineKey!!
+                    frequentFlyerMembership.airlineCode = airlineKey
                     frequentFlyerMembership.membershipNumber = it
                     frequentFlyerMembership.planCode = ""
                     traveler.frequentFlyerMemberships.put(airlineKey, frequentFlyerMembership)

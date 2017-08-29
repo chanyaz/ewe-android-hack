@@ -214,7 +214,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         detailsStub.addView(detailsMapView)
 
         presenter.hotelMapView.mapView = detailsMapView
-        presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
+        presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView)
         presenter.hotelDetailView.viewmodel = hotelDetailViewModel
         presenter.hotelDetailView.viewmodel.depositInfoContainerClickObservable.subscribe { pair: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
             presenter.hotelDepositInfoObserver.onNext(pair)
@@ -906,7 +906,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         detailPresenter.hotelDetailView.viewmodel.hotelSelectedObservable.onNext(Unit)
         //If hotel is known to be "Sold Out", simply show the Hotel Details Screen in "Sold Out" state, otherwise fetch Offers and show those as well
-        showDetails(hotel.hotelId, if (hotel.isSoldOut) false else true)
+        showDetails(hotel.hotelId, !hotel.isSoldOut)
         HotelTracking.trackHotelCarouselClick()
     }
 
@@ -1003,9 +1003,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     private fun updateSearchForDeepLink(params: HotelSearchParams) {
         searchPresenter.searchViewModel.destinationLocationObserver.onNext(params.suggestion)
-        searchPresenter.selectTravelers(TravelerParams(params?.adults ?: 1, params?.children ?: emptyList(), emptyList(), emptyList()))
-        searchPresenter.searchViewModel.datesUpdated(params?.checkIn, params?.checkOut)
-        searchPresenter.selectDates(params?.checkIn, params?.checkOut)
+        searchPresenter.selectTravelers(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
+        searchPresenter.searchViewModel.datesUpdated(params.checkIn, params.checkOut)
+        searchPresenter.selectDates(params.checkIn, params.checkOut)
     }
 
     override fun back(): Boolean {

@@ -19,7 +19,7 @@ import com.expedia.bookings.widget.itin.HotelItinLocationDetails
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
 import com.expedia.bookings.widget.itin.HotelItinToolbar
 
-open class HotelItinDetailsActivity() : HotelItinBaseActivity() {
+open class HotelItinDetailsActivity : HotelItinBaseActivity() {
 
     val locationDetailsView: HotelItinLocationDetails by lazy {
         findViewById(R.id.widget_hotel_itin_location_details) as HotelItinLocationDetails

@@ -51,7 +51,7 @@ class CostSummaryBreakDownView(context: Context, attrs: AttributeSet?) : ScrollV
     }
 
     private fun createLine(color: Int?): View {
-        val view = View(context);
+        val view = View(context)
         val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         lp.height = 1
         val paddingTop = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()

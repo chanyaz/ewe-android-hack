@@ -950,7 +950,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 			Rect headerImageVisibleRect = new Rect();
 			if (getLocalVisibleRect(headerImageVisibleRect)) {
-				percent = (float) headerImageVisibleRect.height() / (float) headerImageHeight;
+				percent = (float) headerImageVisibleRect.height() / headerImageHeight;
 			}
 
 			percent = Math.min(1.0f, Math.max(0.5f, percent));

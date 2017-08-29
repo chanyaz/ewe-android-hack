@@ -109,13 +109,13 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
     }
 
     override fun validateTimes() {
-        val now = DateTime.now();
+        val now = DateTime.now()
 
         if (isStartTimeBeforeNow()) {
-            departTimeSubject.onNext(now.plusHours(1).millisOfDay);
+            departTimeSubject.onNext(now.plusHours(1).millisOfDay)
         }
         if (isEndTimeBeforeStartTime()) {
-            returnTimeSubject.onNext(getStartDateTimeAsMillis() + DateTime().withHourOfDay(2).withMinuteOfHour(0).millisOfDay);
+            returnTimeSubject.onNext(getStartDateTimeAsMillis() + DateTime().withHourOfDay(2).withMinuteOfHour(0).millisOfDay)
         }
     }
 
@@ -126,7 +126,7 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
 
     override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
-            return context.getString(R.string.select_pickup_date);
+            return context.getString(R.string.select_pickup_date)
         } else if (end == null) {
             return context.resources.getString(R.string.select_drop_off_date_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(start!!))
         }

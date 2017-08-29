@@ -202,7 +202,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	public View getTitleView(View convertView, ViewGroup container) {
 		TitleViewHolder vh;
 		if (convertView == null) {
-			convertView = (ViewGroup) getLayoutInflater().inflate(R.layout.include_itin_card_title_hotel, container,
+			convertView = getLayoutInflater().inflate(R.layout.include_itin_card_title_hotel, container,
 				false);
 
 			vh = new TitleViewHolder();

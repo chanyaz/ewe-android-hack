@@ -107,7 +107,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 		slideWidget.resetSlider();
 
 		sliderTotalText.setText(Phrase.from(getContext(), R.string.your_card_will_be_charged_template)
-			.put("dueamount", newPrice.getFormattedMoneyFromAmountAndCurrencyCode(
+			.put("dueamount", Money.getFormattedMoneyFromAmountAndCurrencyCode(
 				newPrice.getAmount(), newPrice.getCurrency())).format().toString());
 
 		acceptTermsWidget.getVm().resetAcceptedTerms();

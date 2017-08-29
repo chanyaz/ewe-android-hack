@@ -48,7 +48,7 @@ class StarRatingBar(context: Context, attrs: AttributeSet) : View(context, attrs
     }
 
     private fun drawStar(canvas: Canvas, left: Int) {
-        starDrawable.setBounds(left, 0, left + starDrawable.intrinsicWidth, intrinsicHeight);
+        starDrawable.setBounds(left, 0, left + starDrawable.intrinsicWidth, intrinsicHeight)
         starDrawable.draw(canvas)
     }
 

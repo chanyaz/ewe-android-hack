@@ -49,7 +49,7 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
         }).subscribe()
 
         guests.subscribe { travelers ->
-            val text = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, travelers, travelers);
+            val text = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, travelers, travelers)
             travelersTitle.onNext(text)
         }
 

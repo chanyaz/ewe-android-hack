@@ -62,9 +62,9 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
     }
 
     open fun setupStatusBar() {
-        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
-            val statusBar = Ui.setUpStatusBar(getContext(), standardToolbar, root, ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
+            val statusBar = Ui.setUpStatusBar(context, standardToolbar, root, ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
             addView(statusBar)
         }
     }

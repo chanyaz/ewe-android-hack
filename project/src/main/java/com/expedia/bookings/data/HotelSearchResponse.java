@@ -921,8 +921,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 
-		mProperties = (List<Property>) JSONUtils.getJSONableList(obj, "properties", Property.class);
-		mLocations = (List<Location>) JSONUtils.getJSONableList(obj, "locations", Location.class);
+		mProperties = JSONUtils.getJSONableList(obj, "properties", Property.class);
+		mLocations = JSONUtils.getJSONableList(obj, "locations", Location.class);
 		hasSponsoredListing = obj.optBoolean("hasSponsoredListing", false);
 		mBeaconUrl = obj.optString("pageViewBeaconPixelUrl", null);
 

@@ -5,7 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.text.HtmlCompat
 
-open class HotelSuggestionViewModel() {
+open class HotelSuggestionViewModel {
     private lateinit var suggestion: SuggestionV4
     private var iconDrawableRes: Int = R.drawable.search_type_icon
 

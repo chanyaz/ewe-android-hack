@@ -20,7 +20,7 @@ class CalendarWidgetWithTimeSlider(context: Context, attrs: AttributeSet?) : Car
 
     val dateText: TextView by bindView(R.id.dateLabel)
     var fullHeight = 0
-    var smallHeight = 0;
+    var smallHeight = 0
     val interpolator = AccelerateDecelerateInterpolator()
 
     init {
@@ -53,6 +53,6 @@ class CalendarWidgetWithTimeSlider(context: Context, attrs: AttributeSet?) : Car
     }
 
     fun dismissDialog() {
-        calendarDialog?.dismiss();
+        calendarDialog?.dismiss()
     }
 }

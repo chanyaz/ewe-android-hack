@@ -79,7 +79,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getMaxSearchDurationDays(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_package_stay);
+        return context.resources.getInteger(R.integer.calendar_max_days_package_stay)
     }
 
     override fun getMaxDateRange(): Int {
@@ -116,7 +116,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
-            return context.getString(R.string.select_departure_date);
+            return context.getString(R.string.select_departure_date)
         } else if (end == null) {
             return getNoEndDateText(start, false)
         }

@@ -651,7 +651,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         clusterManager!!.setRenderer(hotelMapClusterRenderer)
         var currentZoom = -1f
 
-        googleMap?.setOnCameraChangeListener() { position ->
+        googleMap?.setOnCameraChangeListener { position ->
             synchronized(currentZoom) {
                 if (Math.abs(currentZoom) != Math.abs(position.zoom)) {
                     val selectedHotels = mapItems.filter { it.isSelected }.map { it.hotel }
@@ -715,7 +715,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     if (firstItem == null) {
                         showWithTracking(ResultsMap())
                     } else {
-                        val firstItemTop = firstItem?.itemView?.top ?: 0
+                        val firstItemTop = firstItem.itemView?.top ?: 0
                         val manager = recyclerView.layoutManager as HotelListRecyclerView.PreCachingLayoutManager
                         val displayingLastItemInList = manager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
 
@@ -749,7 +749,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (shouldBlockTransition() || getCurrentState()?.equals(ResultsMap::class.java.name) ?: false) {
+            if (shouldBlockTransition() || currentState?.equals(ResultsMap::class.java.name) ?: false) {
                 return
             }
 

@@ -6,6 +6,4 @@ import android.view.View
 /**
  * A Viewholder for the list header
  */
-class LaunchHeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-}
+class LaunchHeaderViewHolder(view: View) : RecyclerView.ViewHolder(view)

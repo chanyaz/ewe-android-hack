@@ -11,7 +11,7 @@ import android.widget.ImageButton
 
 object AccessibilityUtil {
     @JvmStatic fun isTalkBackEnabled(context: Context): Boolean {
-        val accessbilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager;
+        val accessbilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         return accessbilityManager.isEnabled && accessbilityManager.isTouchExplorationEnabled
     }
 

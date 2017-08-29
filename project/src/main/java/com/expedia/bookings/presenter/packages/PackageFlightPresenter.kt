@@ -73,7 +73,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     init {
         toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
-            menuFilter.isVisible = if (showMenu) true else false
+            menuFilter.isVisible = showMenu
         }
 
         View.inflate(getContext(), R.layout.package_flight_presenter, this)

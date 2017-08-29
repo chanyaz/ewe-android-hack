@@ -46,7 +46,7 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
         viewModel.navigationSubject.subscribe {
             when (it.first) {
                 LineOfBusiness.HOTELS -> {
-                    val animOptions = AnimUtils.createActivityScaleBundle(it.second);
+                    val animOptions = AnimUtils.createActivityScaleBundle(it.second)
                     nav.goToHotels(animOptions)
                 }
                 LineOfBusiness.FLIGHTS -> {
@@ -79,15 +79,15 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
         val layoutManager = GridLayoutManager(context, 2)
         val itemDecoration = GridLinesItemDecoration(
                 ContextCompat.getColor(context, R.color.new_launch_lob_divider_color),
-                context.resources.getDimension(R.dimen.new_launch_lob_divider_stroke_width));
-        gridRecycler.addItemDecoration(itemDecoration);
+                context.resources.getDimension(R.dimen.new_launch_lob_divider_stroke_width))
+        gridRecycler.addItemDecoration(itemDecoration)
 
-        gridRecycler.layoutManager = layoutManager;
+        gridRecycler.layoutManager = layoutManager
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return adapter.getSpanSize(position);
+                return adapter.getSpanSize(position)
             }
-        };
+        }
 
         adjustBackgroundView()
     }

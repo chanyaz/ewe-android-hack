@@ -225,11 +225,11 @@ public class Db {
 	}
 
 	public static void setAbacusResponse(AbacusResponse abacusResponse) {
-		sDb.mAbacusResponse = abacusResponse;
+		mAbacusResponse = abacusResponse;
 	}
 
 	public static AbacusResponse getAbacusResponse() {
-		return sDb.mAbacusResponse;
+		return mAbacusResponse;
 	}
 
 	public static void setLaunchListHotelData(List<Hotel> launchHotelData) {

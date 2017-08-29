@@ -35,9 +35,9 @@ class HotelListRecyclerView(context: Context, attrs: AttributeSet) : RecyclerVie
         val adapter = adapter as BaseHotelListAdapter
 
         if (adapter.isLoading())
-            return true;
+            return true
 
-        return super.dispatchTouchEvent(ev);
+        return super.dispatchTouchEvent(ev)
     }
 
     class PreCachingLayoutManager(context: Context) : LinearLayoutManager(context) {

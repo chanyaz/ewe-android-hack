@@ -146,7 +146,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
 
         val activity = context as Activity
         activity.startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
-        activity.overridePendingTransition(0, 0);
+        activity.overridePendingTransition(0, 0)
     }
 
     fun expandSelectedHotel() {

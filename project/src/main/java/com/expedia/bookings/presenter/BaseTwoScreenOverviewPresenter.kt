@@ -218,7 +218,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 override fun canDrag(appBarLayout: AppBarLayout): Boolean {
                     return bundleOverviewHeader.isExpandable && currentState == BundleDefault::class.java.name
                 }
-            });
+            })
             AccessibilityUtil.setFocusToToolbarNavigationIcon(bundleOverviewHeader.toolbar)
         }
 

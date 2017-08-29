@@ -96,7 +96,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         viewModel.countryNameObserver.onNext(phoneSpinner.selectedTelephoneCountry)
     }
 
-    private inner class PhoneSpinnerItemSelected() : AdapterView.OnItemSelectedListener {
+    private inner class PhoneSpinnerItemSelected : AdapterView.OnItemSelectedListener {
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
             // do nothing

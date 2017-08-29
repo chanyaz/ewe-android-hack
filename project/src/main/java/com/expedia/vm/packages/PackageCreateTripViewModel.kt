@@ -56,7 +56,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                     createTripResponseObservable.onNext(response)
 
                     //set the hotel check in, check out dates on checkout overview from create trip response
-                    val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+                    val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
                     bundleDatesObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                             .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkInDate)))
                             .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(response.packageDetails.hotel.checkOutDate)))

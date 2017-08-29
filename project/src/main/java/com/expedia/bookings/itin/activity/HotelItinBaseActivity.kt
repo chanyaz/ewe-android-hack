@@ -8,7 +8,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.utils.Constants
 
-abstract class HotelItinBaseActivity() : AppCompatActivity() {
+abstract class HotelItinBaseActivity : AppCompatActivity() {
     val syncListener: ItinSyncListener = ItinSyncListener()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

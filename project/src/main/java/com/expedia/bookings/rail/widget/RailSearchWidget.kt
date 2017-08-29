@@ -20,7 +20,7 @@ class RailSearchWidget(context: Context, attr: AttributeSet?) : FrameLayout(cont
     val travelerWidget: RailTravelerWidgetV2 by bindView(R.id.traveler_card)
     val cardPickerWidget: RailCardsPickerWidget by bindView(R.id.cards_picker)
 
-    var searchViewModel by notNullAndObservable<RailSearchViewModel>() { vm ->
+    var searchViewModel by notNullAndObservable<RailSearchViewModel> { vm ->
         calendarWidget.viewModel = vm
         locationWidget.viewModel = vm
 

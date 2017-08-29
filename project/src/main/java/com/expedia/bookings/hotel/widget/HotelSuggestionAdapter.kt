@@ -12,7 +12,7 @@ import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.vm.HotelSuggestionViewModel
 import rx.subjects.PublishSubject
 
-class HotelSuggestionAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class HotelSuggestionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
     val suggestionClicked = PublishSubject.create<SearchSuggestion>()
 
     private var suggestions: List<SuggestionV4> = emptyList()

@@ -8,9 +8,9 @@ import java.util.ArrayList
 import java.util.HashMap
 
 class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Traveler>, tripId: String, val bedType: String, cvv: String, expectedTotalFare: String, expectedFareCurrencyCode: String, suppressFinalBooking: Boolean) : BaseCheckoutParams(billingInfo, travelers, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking, tripId) {
-    val dtf = DateTimeFormat.forPattern("MM-dd-yyyy");
+    val dtf = DateTimeFormat.forPattern("MM-dd-yyyy")
 
-    class Builder() : BaseCheckoutParams.Builder() {
+    class Builder : BaseCheckoutParams.Builder() {
         private var bedType: String? = null
 
         fun bedType(bedType: String?): PackageCheckoutParams.Builder {

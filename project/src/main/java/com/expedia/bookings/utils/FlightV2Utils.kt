@@ -246,9 +246,9 @@ object FlightV2Utils {
                         .put("seats", seatsLeft)
                         .format().toString()
             else
-                return "";
+                return ""
         } else
-            return "";
+            return ""
     }
 
     @JvmStatic fun getFlightCabinPreferences(context: Context, flightLeg: FlightLeg): String {
@@ -270,7 +270,7 @@ object FlightV2Utils {
             } else if (isAllFlightCabinPreferencesSame(seatClassAndBookingCodeList)) {
                 flightCabinPreferences = context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass))
             } else {
-                flightCabinPreferences = context.resources.getString(R.string.flight_cabin_mixed_classes);
+                flightCabinPreferences = context.resources.getString(R.string.flight_cabin_mixed_classes)
             }
 
             return flightCabinPreferences
