@@ -23,7 +23,7 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
         services?.lxDetails(activityId, activityId, LocalDate.now().plusDays(4),
                 LocalDate.now().plusDays(6), observer)
         observer.awaitTerminalEvent()
-        return observer.onNextEvents.get(0)
+        return observer.onNextEvents[0]
     }
 
     fun getCheckoutError(errorType: String) : ApiError {
@@ -32,7 +32,7 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
         services?.lxCheckout(lxCheckoutParams, observer)
         observer.awaitTerminalEvent()
         observer.assertNotCompleted()
-        return observer.onErrorEvents.get(0) as ApiError
+        return observer.onErrorEvents[0] as ApiError
     }
 
     fun getCheckoutResponseForPriceChange(errorType: String) : LXCheckoutResponse {
@@ -41,7 +41,7 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
         services?.lxCheckout(lxCheckoutParams, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
-        return observer.onNextEvents.get(0)
+        return observer.onNextEvents[0]
     }
 
 

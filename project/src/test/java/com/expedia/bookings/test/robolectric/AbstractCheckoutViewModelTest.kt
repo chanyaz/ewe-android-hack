@@ -77,8 +77,8 @@ class AbstractCheckoutViewModelTest {
         testViewModel.cvvCompleted.onNext("123")
 
         testSubscriber.requestMore(LOTS_MORE)
-        assertEquals("123 street", testSubscriber.onNextEvents[0].toQueryMap().get("streetAddress"))
-        assertEquals("apt 69", testSubscriber.onNextEvents[0].toQueryMap().get("streetAddress2"))
+        assertEquals("123 street", testSubscriber.onNextEvents[0].toQueryMap()["streetAddress"])
+        assertEquals("apt 69", testSubscriber.onNextEvents[0].toQueryMap()["streetAddress2"])
     }
 
     @Test

@@ -85,7 +85,7 @@ class TripParserTest {
         } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
-        val tripActivity = trip.tripComponents.get(0) as TripActivity
+        val tripActivity = trip.tripComponents[0] as TripActivity
         val activity = tripActivity.getActivity()
         assertEquals("200E974C-C7DA-445E-A392-DD12578A96A0_0_358734_358736", activity.id)
         assertEquals("Day Trip to New York by Train with Hop-on Hop-Off Pass: Full-Day Excursion", activity.title)
@@ -106,7 +106,7 @@ class TripParserTest {
         } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
-        val tripActivity = trip.tripComponents.get(0) as TripActivity
+        val tripActivity = trip.tripComponents[0] as TripActivity
         val activity = tripActivity.getActivity()
         assertEquals("8AEE006B-E82D-40C1-A77D-5063EF3D47A9_0_224793_224797", activity.id)
         assertEquals("Shared Shuttle: Detroit International Airport (DTW): Hotels to Airport in Detroit City Center", activity.title)
@@ -127,7 +127,7 @@ class TripParserTest {
         } catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
-        val tripActivity = trip.tripComponents.get(0) as TripActivity
+        val tripActivity = trip.tripComponents[0] as TripActivity
         val activity = tripActivity.getActivity()
         assertEquals("8AEE006B-E82D-40C1-A77D-5063EF3D47A9_0_224793_224797", activity.id)
         assertEquals("Shared Shuttle: Detroit International Airport (DTW): Hotels to Airport in Detroit City Center", activity.title)
