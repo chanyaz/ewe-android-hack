@@ -79,7 +79,7 @@ class FareFamilyItemWidgetTest {
         fareFamilyWidget.viewModel.tripObservable.onNext(flightCreateTripResponse)
         fareFamilyWidget.viewModel.showFareFamilyObservable.onNext(Unit)
         val firstFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(0) as FareFamilyItemWidget
-        val secondFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(1) as FareFamilyItemWidget
+        val thirdFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(2) as FareFamilyItemWidget
 
         var fareFamilyTitle = firstFareFamilyItem.fareFamilyclassTitle
         var fareFamilyCabinClass = firstFareFamilyItem.fareFamilyCabinClass
@@ -95,17 +95,17 @@ class FareFamilyItemWidgetTest {
         assertEquals(View.VISIBLE, fareFamilyRoundTrip.visibility)
         assertEquals("roundtrip", fareFamilyRoundTrip.text)
 
-        fareFamilyTitle = secondFareFamilyItem.fareFamilyclassTitle
-        fareFamilyCabinClass = secondFareFamilyItem.fareFamilyCabinClass
-        fareFamilyDeltaAmount = secondFareFamilyItem.priceDelta
-        fareFamilyRoundTrip = secondFareFamilyItem.roundTrip
+        fareFamilyTitle = thirdFareFamilyItem.fareFamilyclassTitle
+        fareFamilyCabinClass = thirdFareFamilyItem.fareFamilyCabinClass
+        fareFamilyDeltaAmount = thirdFareFamilyItem.priceDelta
+        fareFamilyRoundTrip = thirdFareFamilyItem.roundTrip
 
         assertEquals(View.VISIBLE, fareFamilyTitle.visibility)
-        assertEquals("First Or Business", fareFamilyTitle.text)
+        assertEquals("Economy Flexible", fareFamilyTitle.text)
         assertEquals(View.VISIBLE, fareFamilyCabinClass.visibility)
-        assertEquals("Cabin: First Class", fareFamilyCabinClass.text)
+        assertEquals("Cabin: Economy", fareFamilyCabinClass.text)
         assertEquals(View.VISIBLE, fareFamilyDeltaAmount.visibility)
-        assertEquals("-$830.00", fareFamilyDeltaAmount.text)
+        assertEquals("-$271.00", fareFamilyDeltaAmount.text)
         assertEquals(View.VISIBLE, fareFamilyRoundTrip.visibility)
         assertEquals("roundtrip", fareFamilyRoundTrip.text)
     }

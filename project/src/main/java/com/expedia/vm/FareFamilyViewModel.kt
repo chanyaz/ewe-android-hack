@@ -24,9 +24,9 @@ class FareFamilyViewModel(private val context: Context) {
 
     init {
         tripObservable.subscribe { trip ->
-            widgetVisibilityObservable.onNext(isUserBucketedForFareFamily && trip.fareFamilies?.fareFamilyDetails!=null && trip.fareFamilies!!.fareFamilyDetails.isNotEmpty() && !trip.getOffer().isSplitTicket)
-            if (trip.fareFamilies != null) {
-                val fareFamilyDetails = (trip.fareFamilies as FareFamilies).fareFamilyDetails
+            widgetVisibilityObservable.onNext(isUserBucketedForFareFamily && trip.fareFamilyList?.fareFamilyDetails!=null && trip.fareFamilyList!!.fareFamilyDetails.isNotEmpty() && !trip.getOffer().isSplitTicket)
+            if (trip.fareFamilyList != null) {
+                val fareFamilyDetails = (trip.fareFamilyList as FareFamilies).fareFamilyDetails
                 if (fareFamilyDetails != null && fareFamilyDetails.isNotEmpty()) {
                     deltaPriceObservable.onNext(fareFamilyDetails[0].deltaTotalPrice.formattedPrice)
                     selectedClassObservable.onNext(FlightV2Utils.getSelectedClassesString(context, trip.details))

@@ -69,7 +69,7 @@ class FareFamilyViewModelTest {
                 Money("210.00", "USD"), deltamoney, true, HashMap())
         val fareFamilyProduct = FlightTripResponse.FareFamilies("product-key", arrayOf(fareFamilyDetails))
         val trip = tripResponseWithoutFareFamilyAvailable()
-        trip.fareFamilies = fareFamilyProduct
+        trip.fareFamilyList = fareFamilyProduct
 
         return trip
     }

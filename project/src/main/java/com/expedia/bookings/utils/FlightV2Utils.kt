@@ -366,8 +366,6 @@ object FlightV2Utils {
         val deltaPrice = StringBuilder()
         if (deltaPositive) {
             deltaPrice.append("+")
-        } else {
-            deltaPrice.append("-")
         }
         deltaPrice.append(Money.getFormattedMoneyFromAmountAndCurrencyCode(money.amount, money.currencyCode))
         return deltaPrice.toString()

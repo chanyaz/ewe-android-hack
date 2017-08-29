@@ -3,15 +3,10 @@ package com.expedia.vm.flights
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.FlightTripResponse.FareFamilyDetails
-import com.expedia.bookings.data.flights.Airline
 import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 
 class FlightFareFamilyViewModel(val context: Context) {
     val tripObservable = PublishSubject.create<FlightTripResponse>()
@@ -29,11 +24,11 @@ class FlightFareFamilyViewModel(val context: Context) {
             trip
         }).subscribe { trip ->
             if (!trip.isFareFamilyUpgraded) {
-                val defaultFareFamily = trip.fareFamilies?.fareFamilyDetails?.first()
+                val defaultFareFamily = trip.fareFamilyList?.fareFamilyDetails?.first()
                 selectedFareFamilyObservable.onNext(defaultFareFamily)
                 choosingFareFamilyObservable.onNext(defaultFareFamily)
             }
-            fareFamilyDetailsObservable.onNext(trip.fareFamilies?.fareFamilyDetails)
+            fareFamilyDetailsObservable.onNext(trip.fareFamilyList?.fareFamilyDetails)
             fareFamilyTripLocationObservable.onNext(getFareFamilyTripLocation())
             roundTripObservable.onNext(isRoundTrip())
             airlinesObservable.onNext(getAirlinesString(trip))
@@ -63,7 +58,7 @@ class FlightFareFamilyViewModel(val context: Context) {
     }
 
     fun getAirlinesString(trip: FlightTripResponse) : String {
-        val airlines = trip.details.legs.flatMap { it -> it.segments.map { segment -> segment.airlineName } }.distinct()
+        val airlines = trip.details.getLegs().flatMap { it -> it.segments.map { segment -> segment.airlineName } }.distinct()
         if (airlines.size > 3) {
             return Phrase.from(context, R.string.multiple_carriers_text).format().toString()
         }

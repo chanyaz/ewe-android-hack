@@ -10,7 +10,6 @@ import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -19,11 +18,6 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.flights.FlightFareFamilyViewModel
 import com.mobiata.android.util.SettingUtils
-import com.mobiata.mocke3.ExpediaDispatcher
-import com.mobiata.mocke3.FileSystemOpener
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -32,8 +26,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import java.io.File
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
@@ -185,10 +177,10 @@ class FlightFareFamilyViewModelTest {
     fun testFareFamilyWhenDoneButtonIsClicked() {
         val selectedFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
         sut.selectedFareFamilyObservable.subscribe(selectedFareFamilySubscriber)
-        sut.choosingFareFamilyObservable.onNext(flightCreateTripResponse.fareFamilies!!.fareFamilyDetails.get(1))
+        sut.choosingFareFamilyObservable.onNext(flightCreateTripResponse.fareFamilyList!!.fareFamilyDetails.get(1))
         sut.doneButtonObservable.onNext(Unit)
-        assertEquals(flightCreateTripResponse.fareFamilies!!.fareFamilyDetails.get(1), selectedFareFamilySubscriber.onNextEvents[0])
-        assertEquals(flightCreateTripResponse.fareFamilies!!.fareFamilyDetails.get(1).fareFamilyCode, selectedFareFamilySubscriber.onNextEvents[0].fareFamilyCode)
+        assertEquals(flightCreateTripResponse.fareFamilyList!!.fareFamilyDetails.get(1), selectedFareFamilySubscriber.onNextEvents[0])
+        assertEquals(flightCreateTripResponse.fareFamilyList!!.fareFamilyDetails.get(1).fareFamilyCode, selectedFareFamilySubscriber.onNextEvents[0].fareFamilyCode)
     }
 
     private fun setupFlightSearchParams(adultCount: Int, childCount: Int, isroundTrip: Boolean): FlightSearchParams {

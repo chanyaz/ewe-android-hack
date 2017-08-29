@@ -251,18 +251,18 @@
             "totalFarePriceWithFee": "$696.00"
         }
     ],
-  "fareFamilies": {
-    "productKey": "v5-9bae5f63484edde98f7d10af0bc7451c-1-5-1",
+  "fareFamilyList": {
+    "productKey": "2c2b0cb041a04eede7d5aea22037e503-1-2~0.D~AQoCCAESBwjUBBABGAEgAigCUg_nQgG-QwGATAHWWAG2XgE~AQoeChwIwmwSAzc4ORipUSDMcCjGonYw76N2OFNAAFgBCiAKHgjCbBIEMjAyOBjMcCDEjQEo6u52MILwdjhQQABYARIKCAIQARgCKgJCNhgBIgQIARABKAQoAygBKAIwAg",
     "fareFamilyDetails": [
       {
         "fareFamilyName": "ECONOMY",
         "fareFamilyCode": "ECONOMY",
         "cabinClass": "coach",
         "totalPrice": {
-          "amount": "646.40",
-          "roundedAmount": "646",
-          "formattedPrice": "$646.40",
-          "formattedWholePrice": "$646",
+          "amount": "142.20",
+          "roundedAmount": "142",
+          "formattedPrice": "$142.20",
+          "formattedWholePrice": "$142",
           "currencyCode": "USD"
         },
         "deltaTotalPrice": {
@@ -272,20 +272,20 @@
           "currencyCode": "USD"
         },
         "fareFamilyComponents": {
-          "NotAvailable": {},
-          "Unknown": {},
-          "Included": {
-            "SeatReservation": "Seat Choice",
-            "CarryOnBag": "Carry On Bag",
-            "BonusMiles": "Bonus Miles"
-          },
-          "FeeApplies": {
+          "chargeable": {
             "RefundBeforeDeparture": "Cancellation",
             "Bags": "Checked Bags",
             "ExtraLegroom": "Premium Seat",
             "PriorityBoarding": "Priority Boarding",
             "ChangesBeforeDeparture": "Changes"
-          }
+          },
+          "notoffered": {},
+          "included": {
+            "SeatReservation": "Seat Choice",
+            "CarryOnBag": "Carry On Bag",
+            "BonusMiles": "Bonus Miles"
+          },
+          "unknown": {}
         },
         "deltaPositive": true
       },
@@ -294,68 +294,68 @@
         "fareFamilyCode": "PREMIUM",
         "cabinClass": "first",
         "totalPrice": {
-          "amount": "1476.40",
-          "roundedAmount": "1476",
-          "formattedPrice": "$1,476.40",
-          "formattedWholePrice": "$1,476",
+          "amount": "241.20",
+          "roundedAmount": "241",
+          "formattedPrice": "$241.20",
+          "formattedWholePrice": "$241",
           "currencyCode": "USD"
         },
         "deltaTotalPrice": {
-          "amount": "830.00",
-          "formattedPrice": "+$830.00",
-          "formattedWholePrice": "+$830.00",
+          "amount": "99.00",
+          "formattedPrice": "+$99.00",
+          "formattedWholePrice": "+$99.00",
           "currencyCode": "USD"
         },
         "fareFamilyComponents": {
-          "NotAvailable": {},
-          "Unknown": {},
-          "Included": {
+          "chargeable": {
+            "ChangesBeforeDeparture": "Changes"
+          },
+          "notoffered": {},
+          "included": {
             "SeatReservation": "Seat Choice",
             "PriorityBoarding": "Priority Boarding",
             "CarryOnBag": "Carry On Bag",
             "TwoLuggage": "2 x Free Bags",
             "BonusMiles": "Bonus Miles"
           },
-          "FeeApplies": {
-            "ChangesBeforeDeparture": "Changes"
-          }
+          "unknown": {}
         },
-        "deltaPositive": false
+        "deltaPositive": true
       },
       {
         "fareFamilyName": "ECONOMY FLEXIBLE",
         "fareFamilyCode": "ECOFLEX",
         "cabinClass": "coach",
         "totalPrice": {
-          "amount": "2558.40",
-          "roundedAmount": "2558",
-          "formattedPrice": "$2,558.40",
-          "formattedWholePrice": "$2,558",
+          "amount": "413.20",
+          "roundedAmount": "413",
+          "formattedPrice": "$413.20",
+          "formattedWholePrice": "$413",
           "currencyCode": "USD"
         },
         "deltaTotalPrice": {
-          "amount": "1912.00",
-          "formattedPrice": "+$1,912.00",
-          "formattedWholePrice": "+$1,912.00",
+          "amount": "-271.00",
+          "formattedPrice": "-$271.00",
+          "formattedWholePrice": "-$271.00",
           "currencyCode": "USD"
         },
         "fareFamilyComponents": {
-          "NotAvailable": {},
-          "Unknown": {},
-          "Included": {
+          "chargeable": {
+            "Bags": "Checked Bags",
+            "ExtraLegroom": "Premium Seat",
+            "PriorityBoarding": "Priority Boarding"
+          },
+          "notoffered": {},
+          "included": {
             "SeatReservation": "Seat Choice",
             "RefundBeforeDeparture": "Cancellation",
             "CarryOnBag": "Carry On Bag",
             "ChangesBeforeDeparture": "Changes",
             "BonusMiles": "Bonus Miles"
           },
-          "FeeApplies": {
-            "Bags": "Checked Bags",
-            "ExtraLegroom": "Premium Seat",
-            "PriorityBoarding": "Priority Boarding"
-          }
+          "unknown": {}
         },
-        "deltaPositive": true
+        "deltaPositive": false
       }
     ]
   },

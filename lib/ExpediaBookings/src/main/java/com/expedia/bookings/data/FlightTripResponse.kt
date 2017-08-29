@@ -8,7 +8,7 @@ abstract class FlightTripResponse : TripResponse() {
     open lateinit var details: FlightTripDetails
     var totalPriceIncludingFees: Money? = null
     var selectedCardFees: Money? = null
-    var fareFamilies: FareFamilies? = null
+    var fareFamilyList: FareFamilies? = null
     var createTripStatus: String? = null
     var isFareFamilyUpgraded = false //TODO - This need to be handled
 
