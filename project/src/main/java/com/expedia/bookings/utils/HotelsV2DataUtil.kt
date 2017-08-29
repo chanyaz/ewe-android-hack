@@ -76,8 +76,8 @@ class HotelsV2DataUtil {
             val localCheckInDate = LocalDate(DateTime.parse(lastOutboundSegment?.arrivalTimeRaw))
             var localCheckoutDate = localCheckInDate.plusDays(1)
             if (flightLegs?.size == 2) {
-                val inboundLeg = flightLegs?.last()
-                localCheckoutDate = LocalDate(DateTime.parse(inboundLeg?.segments?.get(0)?.departureTimeRaw))
+                val inboundLeg = flightLegs.last()
+                localCheckoutDate = LocalDate(DateTime.parse(inboundLeg.segments?.get(0)?.departureTimeRaw))
             }
 
             val numFlightTravelers = flightSearchParams.guests

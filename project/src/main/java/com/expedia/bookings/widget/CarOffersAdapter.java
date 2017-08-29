@@ -184,7 +184,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 					mContext.getString(R.string.car_details_TEMPLATE,
 						CarDataUtils.getStringTemplateForRateTerm(mContext, offer.fare.rateTerm),
 						Money.getFormattedMoneyFromAmountAndCurrencyCode(offer.fare.rate.amount,
-							offer.fare.rate.getCurrency(), offer.fare.rate.F_NO_DECIMAL)));
+							offer.fare.rate.getCurrency(), Money.F_NO_DECIMAL)));
 				ratePrice.setVisibility(View.VISIBLE);
 			}
 			totalPrice.setText(

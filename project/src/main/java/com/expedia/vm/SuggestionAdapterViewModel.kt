@@ -36,7 +36,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     private var isCustomerSelectingOrigin: Boolean = false
 
     init {
-        locationObservable?.subscribe(generateLocationServiceCallback());
+        locationObservable?.subscribe(generateLocationServiceCallback())
     }
 
     // Inputs
@@ -222,7 +222,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     }
 
     open fun getLineOfBusiness(): LineOfBusiness {
-        return LineOfBusiness.NONE;
+        return LineOfBusiness.NONE
     }
 
     open fun showSuggestionsAndLabel(): Boolean {

@@ -31,7 +31,7 @@ open class CalendarDialogFragment() : DialogFragment() {
     constructor(vm: BaseSearchViewModel) : this() {
         baseSearchViewModel = vm
     }
-    var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null;
+    var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null
     var userTappedDone = false
 
     companion object {
@@ -160,7 +160,7 @@ open class CalendarDialogFragment() : DialogFragment() {
         })
 
         var dialog: AlertDialog = builder.create()
-        dialog.setOnShowListener() {
+        dialog.setOnShowListener {
             setMaxSelectableDateRange()
             calendar.visibility = CardView.VISIBLE
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = calendar.startDate != null

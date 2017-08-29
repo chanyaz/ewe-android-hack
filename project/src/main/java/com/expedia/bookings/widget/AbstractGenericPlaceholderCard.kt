@@ -23,10 +23,10 @@ abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Conte
         firstLineTextView.text = vm.firstLine
         secondLineTextView.text = vm.secondLine
         button_one.text = vm.buttonOneLabel
-        button_one.contentDescription = (vm.buttonOneLabel + " " + context.getString(R.string.accessibility_cont_desc_role_button));
+        button_one.contentDescription = (vm.buttonOneLabel + " " + context.getString(R.string.accessibility_cont_desc_role_button))
         button_one.visibility = if (vm.buttonOneLabel.isNotBlank()) View.VISIBLE else View.GONE
         button_two.text = vm.buttonTwoLabel
-        button_two.contentDescription = (vm.buttonTwoLabel + " " + context.getString(R.string.accessibility_cont_desc_role_button));
+        button_two.contentDescription = (vm.buttonTwoLabel + " " + context.getString(R.string.accessibility_cont_desc_role_button))
         button_two.visibility = if (vm.buttonTwoLabel.isNotBlank()) View.VISIBLE else View.GONE
 
         if (Build.VERSION.SDK_INT >= 21){

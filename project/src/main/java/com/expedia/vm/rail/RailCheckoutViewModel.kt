@@ -182,7 +182,7 @@ class RailCheckoutViewModel(val context: Context) {
     }
 
     private fun shouldCallCardFee(cardId: String): Boolean {
-        return getTripId().isNotBlank() && currentTicketDeliveryToken.isNotBlank() && cardId.length >= 6;
+        return getTripId().isNotBlank() && currentTicketDeliveryToken.isNotBlank() && cardId.length >= 6
     }
 
     private fun updateCostBreakdownWithFees(cardFee: Money?, totalPriceInclFees: Money?) {

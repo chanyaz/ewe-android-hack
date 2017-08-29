@@ -5,7 +5,7 @@ import com.expedia.bookings.data.ApiError
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-open class BaseCreateTripViewModel() {
+open class BaseCreateTripViewModel {
     val performCreateTrip = PublishSubject.create<Unit>()
     val createTripResponseObservable: BehaviorSubject<TripResponse?> = BehaviorSubject.create<TripResponse?>()
     val bundleDatesObservable = BehaviorSubject.create<String>()

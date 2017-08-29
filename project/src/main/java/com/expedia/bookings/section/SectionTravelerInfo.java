@@ -843,7 +843,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		private void updateData() {
 			if (getData() != null && getField() != null) {
-				TelephoneSpinner spinner = (TelephoneSpinner) getField();
+				TelephoneSpinner spinner = getField();
 				String countryName = spinner.getSelectedTelephoneCountry();
 				String countryCode = "" + spinner.getSelectedTelephoneCountryCode();
 				getData().setPhoneCountryCode(countryCode);
@@ -858,7 +858,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					updateData();
-					TelephoneSpinner spinner = (TelephoneSpinner) getField();
+					TelephoneSpinner spinner = getField();
 					spinner.updateText();
 
 					if (!mSetFieldManually) {

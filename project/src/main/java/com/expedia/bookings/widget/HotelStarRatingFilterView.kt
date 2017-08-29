@@ -54,35 +54,35 @@ class HotelStarRatingFilterView(context: Context, attrs: AttributeSet?) : CardVi
 
     private fun toggleStarOne() {
         filterOne.toggle()
-        starRatings.one = if (!starRatings.one) true else false
+        starRatings.one = !starRatings.one
         starRatingsSubject.onNext(starRatings)
         oneStarSubject.onNext(Unit)
     }
 
     private fun toggleStarTwo() {
         filterTwo.toggle()
-        starRatings.two = if (!starRatings.two) true else false
+        starRatings.two = !starRatings.two
         starRatingsSubject.onNext(starRatings)
         twoStarSubject.onNext(Unit)
     }
 
     private fun toggleStarThree() {
         filterThree.toggle()
-        starRatings.three = if (!starRatings.three) true else false
+        starRatings.three = !starRatings.three
         starRatingsSubject.onNext(starRatings)
         threeStarSubject.onNext(Unit)
     }
 
     private fun toggleStarFour() {
         filterFour.toggle()
-        starRatings.four = if (!starRatings.four) true else false
+        starRatings.four = !starRatings.four
         starRatingsSubject.onNext(starRatings)
         fourStarSubject.onNext(Unit)
     }
 
     private fun toggleStarFive() {
         filterFive.toggle()
-        starRatings.five = if (!starRatings.five) true else false
+        starRatings.five = !starRatings.five
         starRatingsSubject.onNext(starRatings)
         fiveStarSubject.onNext(Unit)
     }

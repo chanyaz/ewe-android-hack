@@ -4,7 +4,7 @@ import com.expedia.bookings.enums.TravelerCheckoutStatus
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class TravelerPickerWidgetViewModel() {
+class TravelerPickerWidgetViewModel {
     
     var passportRequired = BehaviorSubject.create<Boolean>(false)
 

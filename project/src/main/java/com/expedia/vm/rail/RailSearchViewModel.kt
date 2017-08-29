@@ -147,10 +147,10 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         if (isStartTimeBeforeNow()) {
             // Adding min search hours to current time for same day search
             // TODO update this with minimum search out time and handle end of day case
-            departTimeSubject.onNext(now.plusHours(R.integer.calendar_min_search_time_rail).millisOfDay);
+            departTimeSubject.onNext(now.plusHours(R.integer.calendar_min_search_time_rail).millisOfDay)
         }
         if (isEndTimeBeforeStartTime() && isRoundTripSearchObservable.value) {
-            returnTimeSubject.onNext(getStartDateTimeAsMillis() + DateTime().withHourOfDay(2).withMinuteOfHour(0).millisOfDay);
+            returnTimeSubject.onNext(getStartDateTimeAsMillis() + DateTime().withHourOfDay(2).withMinuteOfHour(0).millisOfDay)
         }
 
     }
@@ -222,7 +222,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         }
 
         val dateTimeRange = DateFormatUtils.formatRailDateTimeRange(context, startDate(), startMillis,
-                endDate(), endMillis, isRoundTripSearchObservable.value);
+                endDate(), endMillis, isRoundTripSearchObservable.value)
         if (isContentDescription) {
             return getDateAccessibilityText(getCalendarDateLabel(), dateTimeRange)
         }

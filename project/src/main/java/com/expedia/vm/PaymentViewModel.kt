@@ -128,7 +128,7 @@ open class PaymentViewModel(val context: Context) {
                 setPaymentTileInfo(card.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             }
-            Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+            Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
         }
 
         Observable.combineLatest(travelerFirstName, travelerLastName, { firstName, lastName ->

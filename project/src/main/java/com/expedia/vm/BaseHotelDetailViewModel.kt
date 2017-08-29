@@ -370,7 +370,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
         propertyInfoListObservable.onNext(listHotelInfo)
 
-        renovationObservable.onNext(if (hotelOffersResponse.hotelRenovationText?.content != null) true else false)
+        renovationObservable.onNext(hotelOffersResponse.hotelRenovationText?.content != null)
 
         // common amenities text
         if (CollectionUtils.isNotEmpty(hotelOffersResponse.hotelRoomResponse)) {
@@ -577,7 +577,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     }
 
     private fun getCommonValueAdds(allValueAdds: List<List<String>>): List<String> {
-        if (!allValueAdds?.isEmpty()) {
+        if (!allValueAdds.isEmpty()) {
             return allValueAdds
                     .drop(1)
                     .fold(allValueAdds.first().toMutableList(), { initial, nextValueAdds ->

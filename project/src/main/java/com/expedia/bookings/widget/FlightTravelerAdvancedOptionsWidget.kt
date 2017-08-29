@@ -177,7 +177,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         }
     }
 
-    private inner class SeatPreferenceItemSelectedListener() : AdapterView.OnItemSelectedListener {
+    private inner class SeatPreferenceItemSelectedListener : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
             //do nothing
         }
@@ -188,7 +188,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         }
     }
 
-    private inner class AssistanceTypeSelectedListener() : AdapterView.OnItemSelectedListener {
+    private inner class AssistanceTypeSelectedListener : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
             //do nothing
         }

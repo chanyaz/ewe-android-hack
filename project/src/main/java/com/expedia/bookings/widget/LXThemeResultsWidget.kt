@@ -87,7 +87,7 @@ class LXThemeResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(c
         return themeClickSubject
     }
 
-    public fun updateThemeTitleAndDescription(themes: List<LXTheme>):List<LXTheme> {
+    fun updateThemeTitleAndDescription(themes: List<LXTheme>):List<LXTheme> {
 
         for (theme in themes) {
             when (theme.themeType!!) {

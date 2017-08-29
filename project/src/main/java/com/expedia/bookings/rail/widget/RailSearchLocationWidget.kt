@@ -28,7 +28,7 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
             viewModel.swapLocations()
         }
         swapLocationsButton.isEnabled = false
-        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2));
+        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2))
     }
 
     var viewModel: RailSearchViewModel by notNullAndObservable { vm ->
@@ -50,10 +50,10 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
                 { origin, destination ->
                     if (origin.isNullOrBlank() || destination.isNullOrBlank()) {
                         swapLocationsButton.isEnabled = false
-                        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2));
+                        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2))
                     } else {
                         swapLocationsButton.isEnabled = true
-                        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray7));
+                        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray7))
                     }
                 }).subscribe()
 

@@ -236,12 +236,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         // Communicate
         var communicateFragment: AboutSectionFragment? = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_COMMUNICATE)
         if (communicateFragment == null) {
-            if (ProductFlavorFeatureConfiguration.getInstance().isCommunicateSectionEnabled()) {
+            if (ProductFlavorFeatureConfiguration.getInstance().isCommunicateSectionEnabled) {
                 builder = AboutSectionFragment.Builder(context)
 
                 builder.setTitle(R.string.about_section_communicate)
 
-                if (ProductFlavorFeatureConfiguration.getInstance().isRateOurAppEnabled()) {
+                if (ProductFlavorFeatureConfiguration.getInstance().isRateOurAppEnabled) {
                     builder.addRow(ROW_RATE_APP, R.string.rate_our_app, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.rate_our_app)).format().toString())
                 }
 
@@ -508,7 +508,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                     pendingPointsTextView.visibility = View.GONE
                 }
 
-                if (userLoyaltyInfo?.isAllowedToShopWithPoints ?: false && ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
+                if (userLoyaltyInfo?.isAllowedToShopWithPoints ?: false && ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
                     val loyaltyMonetaryValue = userLoyaltyInfo?.loyaltyMonetaryValue
                     currencyTextView.text = loyaltyMonetaryValue?.currency
                     setupCountryView(secondRowCountry)

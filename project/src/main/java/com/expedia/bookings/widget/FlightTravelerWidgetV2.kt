@@ -24,7 +24,7 @@ class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerW
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this)
         travelerView.viewmodel.showInfantErrorMessage.map { tooManyInfants ->
-            if (Strings.isEmpty(tooManyInfants)) true else false
+            Strings.isEmpty(tooManyInfants)
         }.subscribe { enable ->
             travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = enable
             if (!enable) {

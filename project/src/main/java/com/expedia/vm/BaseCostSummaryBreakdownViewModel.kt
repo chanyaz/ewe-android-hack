@@ -13,7 +13,7 @@ abstract class BaseCostSummaryBreakdownViewModel(val context: Context) {
     abstract fun trackBreakDownClicked()
 
     class CostSummaryBreakdownRow(val title: String?, val cost: String?, @ColorInt val color: Int?, var typeface: FontCache.Font?, val separator: Boolean) {
-        class Builder() {
+        class Builder {
             var title: String? = null
             var cost: String? = null
             @ColorInt var color: Int? = null

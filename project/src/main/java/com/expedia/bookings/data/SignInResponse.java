@@ -69,7 +69,7 @@ public class SignInResponse extends Response implements JSONable {
 		super.fromJson(obj);
 
 		mSuccess = obj.optBoolean("success", false);
-		mUser = (User) JSONUtils.getJSONable(obj, "user", User.class);
+		mUser = JSONUtils.getJSONable(obj, "user", User.class);
 		return true;
 	}
 }

@@ -153,14 +153,14 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
     }
 
     fun showAlertMessage(messageResourceId: Int, confirmButtonResourceId: Int) {
-        val b = AlertDialog.Builder(context);
+        val b = AlertDialog.Builder(context)
         b.setCancelable(false)
                 .setMessage(messageResourceId)
                 .setPositiveButton(confirmButtonResourceId, DialogInterface.OnClickListener { dialog, i ->
-                    dialog.dismiss();
+                    dialog.dismiss()
                     AccessibilityUtil.delayedFocusToView(destinationCardView, 300)
                 }).create()
-                .show();
+                .show()
     }
 
     fun updateSearchViewModel(carSearchParams: CarSearchParam) {

@@ -177,8 +177,8 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     private fun setUpItinResponseSubscription(context: Context) {
         itinDetailsResponseObservable.subscribe { response ->
             val hotel = response.responseData.hotels[0]
-            val checkInLocalDate = hotel.checkInDateTime!!.toLocalDate()
-            val checkOutLocalDate = hotel.checkOutDateTime!!.toLocalDate()
+            val checkInLocalDate = hotel.checkInDateTime.toLocalDate()
+            val checkOutLocalDate = hotel.checkOutDateTime.toLocalDate()
             val itinNumber = response.responseData.tripNumber.toString()
             val hotelPropertyInfo = hotel.hotelPropertyInfo
             val photoThumbnailURL = hotelPropertyInfo.photoThumbnailURL

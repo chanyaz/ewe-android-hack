@@ -63,7 +63,7 @@ open class AddGuestItinViewModel(val context: Context) {
     }
 
 
-    inner class createSyncAdapter() : ItineraryManager.ItinerarySyncAdapter() {
+    inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
         override fun onTripFailedFetchingGuestItinerary() {
             showErrorObservable.onNext(true)
             showErrorMessageObservable.onNext(context.getString(R.string.unable_to_find_guest_itinerary))

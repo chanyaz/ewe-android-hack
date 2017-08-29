@@ -45,7 +45,7 @@ open class CompoundTransition(startState: String? = null, endState: String? = nu
         Presenter.Transition(startState, endState, interpolator, duration) {
 
     // At some point Kotlin had an issue with crashing if both arguments of Throwable were not supplied, so both are explicitly supplied here just in case.
-    class EmptyCompoundTransitionException() : Throwable("CompoundTransition must be instantiated with at least 1 TransitionPortion.", null)
+    class EmptyCompoundTransitionException : Throwable("CompoundTransition must be instantiated with at least 1 TransitionPortion.", null)
 
     private val startOrder: MutableList<TransitionPortion> = ArrayList()
     private val endOrder: MutableList<TransitionPortion> = ArrayList()

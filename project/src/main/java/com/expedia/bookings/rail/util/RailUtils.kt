@@ -64,7 +64,7 @@ object RailUtils {
                     .put("arrivaltime", formattedEnd)
                     .put("elapseddays", elapsedDays).format().toString()
         } else {
-            return context.getString(R.string.date_time_range_TEMPLATE, formattedStart, formattedEnd);
+            return context.getString(R.string.date_time_range_TEMPLATE, formattedStart, formattedEnd)
         }
     }
 

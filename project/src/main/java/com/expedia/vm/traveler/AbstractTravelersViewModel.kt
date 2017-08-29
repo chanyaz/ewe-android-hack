@@ -5,7 +5,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import rx.subjects.BehaviorSubject
 
-abstract class AbstractTravelersViewModel() {
+abstract class AbstractTravelersViewModel {
 
     val allTravelersCompleteSubject = BehaviorSubject.create<List<Traveler>>()
     val invalidTravelersSubject = BehaviorSubject.create<Unit>()

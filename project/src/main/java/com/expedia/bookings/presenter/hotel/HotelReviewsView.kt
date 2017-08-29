@@ -36,7 +36,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
         vm.toolbarSubtitleObservable.subscribe { subtitle ->
             toolbar.subtitle = subtitle
         }
-        vm.hotelReviewsObservable.subscribe() { hotelId ->
+        vm.hotelReviewsObservable.subscribe { hotelId ->
             hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotelId, reviewServices, PointOfSale.getPointOfSale().localeIdentifier)
         }
     }

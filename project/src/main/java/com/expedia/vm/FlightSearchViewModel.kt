@@ -274,7 +274,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
-            return context.getString(R.string.select_departure_date);
+            return context.getString(R.string.select_departure_date)
         } else if (end == null) {
             return getNoEndDateText(start, false)
         }

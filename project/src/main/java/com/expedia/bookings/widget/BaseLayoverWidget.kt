@@ -37,22 +37,22 @@ abstract class BaseLayoverWidget(context: Context, attrs: AttributeSet?) : View(
     lateinit var durationBarPaint: Paint
     lateinit var layoverBorderPaint: Paint
 
-    abstract fun hasItems(): Boolean;
-    abstract fun calculateLocationsAndPaddingWidth(): Float;
-    abstract fun createDrawObjects();
+    abstract fun hasItems(): Boolean
+    abstract fun calculateLocationsAndPaddingWidth(): Float
+    abstract fun createDrawObjects()
 
     init {
         if (attrs != null) {
-            val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.LayoverWidget, 0, 0);
+            val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.LayoverWidget, 0, 0)
             try {
                 locationCodeTextColor = attrSet.getColor(R.styleable.LayoverWidget_location_text_color,
-                        R.color.packages_primary_color);
+                        R.color.packages_primary_color)
                 locationCodeTextSize = attrSet.getDimension(R.styleable.LayoverWidget_location_text_size, 0f)
-                durationBarColor = attrSet.getColor(R.styleable.LayoverWidget_duration_bar_color, R.color.packages_primary_color);
+                durationBarColor = attrSet.getColor(R.styleable.LayoverWidget_duration_bar_color, R.color.packages_primary_color)
                 durationBarPadding = attrSet.getDimension(R.styleable.LayoverWidget_duration_bar_padding, 0f)
                 layoverDrawable = attrSet.getDrawable(R.styleable.LayoverWidget_layover_background) as BitmapDrawable
             } finally {
-                attrSet.recycle();
+                attrSet.recycle()
             }
         }
         initPaints()
@@ -121,6 +121,5 @@ abstract class BaseLayoverWidget(context: Context, attrs: AttributeSet?) : View(
     }
 
     class LayoverDrawObject(val locationCode: String, val locationCodeX: Float, val locationCodeY: Float,
-                            val durationBar: RectF?, val layoverDurationBar: RectF?) {
-    }
+                            val durationBar: RectF?, val layoverDurationBar: RectF?)
 }

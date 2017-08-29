@@ -1,4 +1,4 @@
-package com.expedia.bookings.rail.activity;
+package com.expedia.bookings.rail.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

@@ -115,7 +115,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         viewModel.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate(year, month, day))
     }
 
-    private inner class GenderItemSelectedListener() : AdapterView.OnItemSelectedListener {
+    private inner class GenderItemSelectedListener : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
             //do nothing
         }
@@ -142,7 +142,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
                 newDatePickerFragment = DatePickerDialogFragment.createFragment(dateSetListener, date)
             }
             if (!newDatePickerFragment!!.isAdded) {
-                newDatePickerFragment!!.show(fragmentActivity.supportFragmentManager, TAG_DATE_PICKER)
+                newDatePickerFragment.show(fragmentActivity.supportFragmentManager, TAG_DATE_PICKER)
             }
         }
     }

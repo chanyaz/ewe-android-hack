@@ -49,7 +49,7 @@ class RailDeliveryAddressEntry(context: Context, attrs: AttributeSet?) : FrameLa
     }
 
     fun isValid() : Boolean {
-        return mailDeliverySectionLocation.performValidation();
+        return mailDeliverySectionLocation.performValidation()
     }
 
     fun areFormsFilledIn() : Boolean {

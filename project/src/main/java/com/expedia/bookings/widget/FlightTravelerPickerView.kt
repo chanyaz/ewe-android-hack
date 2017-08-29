@@ -134,9 +134,9 @@ class FlightTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrav
 
         vm.infantInSeatObservable.subscribe { it ->
             if (it) {
-                infantInSeat.setChecked(true)
+                infantInSeat.isChecked = true
             } else {
-                infantInLap.setChecked(true)
+                infantInLap.isChecked = true
             }
         }
 

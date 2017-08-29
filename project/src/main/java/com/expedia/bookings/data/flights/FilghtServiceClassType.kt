@@ -33,7 +33,7 @@ object FlightServiceClassType {
                     .put("booking_code", segment.bookingCode)
                     .format().toString()
         } else {
-            return "";
+            return ""
         }
     }
 

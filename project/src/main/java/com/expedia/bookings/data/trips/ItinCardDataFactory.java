@@ -85,7 +85,7 @@ public class ItinCardDataFactory {
 	// just in case we ever do need to unroll packages more manually.
 	private static List<ItinCardData> generatePackageCardData(TripPackage tc) {
 		List<ItinCardData> data = new ArrayList<ItinCardData>();
-		for (TripComponent subComponent : ((TripPackage) tc).getTripComponents()) {
+		for (TripComponent subComponent : tc.getTripComponents()) {
 			List<ItinCardData> subData = generateCardData(subComponent);
 			if (subData != null) {
 				data.addAll(subData);

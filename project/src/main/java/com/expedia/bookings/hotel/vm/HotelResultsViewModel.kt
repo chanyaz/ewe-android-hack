@@ -58,7 +58,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             val paramBuilder = newParamBuilder(cachedParams?.suggestion, cachedParams)
             addFilterCriteria(paramBuilder, filterParams)
             val newParams = paramBuilder.build()
-            newParams?.clearPinnedHotelId()
+            newParams.clearPinnedHotelId()
             doSearch(newParams, true)
         })
 
@@ -125,8 +125,8 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
                 .startDate(params?.checkIn)
                 .endDate(params?.checkOut)
                 .adults(params?.adults!!)
-                .children(params?.children!!) as HotelSearchParams.Builder
-        return builder.shopWithPoints(params?.shopWithPoints ?: false)
+                .children(params.children) as HotelSearchParams.Builder
+        return builder.shopWithPoints(params.shopWithPoints)
     }
 
     private fun doSearch(params: HotelSearchParams, isFilteredSearch: Boolean = false) {

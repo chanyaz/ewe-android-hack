@@ -9,7 +9,7 @@ import java.util.HashMap
 
 class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Traveler>, cvv: String, expectedTotalFare: String, expectedFareCurrencyCode: String, suppressFinalBooking: Boolean, tripId: String, val tealeafTransactionId: String) : BaseCheckoutParams(billingInfo, travelers, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking, tripId) {
 
-    class Builder() : BaseCheckoutParams.Builder() {
+    class Builder : BaseCheckoutParams.Builder() {
 
         private var tealeafTransactionId: String? = null
 

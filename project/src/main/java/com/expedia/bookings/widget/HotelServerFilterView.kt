@@ -50,7 +50,7 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
     }
 
     override fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {
-        stub.layoutResource = R.layout.server_neighborhood_filter_stub;
+        stub.layoutResource = R.layout.server_neighborhood_filter_stub
         return stub.inflate() as ServerNeighborhoodFilterView
     }
 

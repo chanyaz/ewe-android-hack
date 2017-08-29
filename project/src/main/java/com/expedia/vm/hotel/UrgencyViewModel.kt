@@ -19,7 +19,7 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
     private val urgencyResponseObserver = UrgencyObserver()
     private val scoreThreshold: Int = 30
     private val scoreMaximum: Int = 95
-    private val invalidRegionId = "0";
+    private val invalidRegionId = "0"
 
     init {
         urgencyResponseObserver.urgencyResponseSubject.subscribe { response ->

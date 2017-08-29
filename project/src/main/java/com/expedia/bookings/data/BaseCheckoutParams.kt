@@ -7,7 +7,7 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
                               val cvv: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String,
                               val suppressFinalBooking: Boolean, val tripId: String) {
 
-    open class Builder() {
+    open class Builder {
         protected var billingInfo: BillingInfo? = null
         protected var travelers: ArrayList<Traveler> = ArrayList()
         protected var cvv: String? = null

@@ -1,4 +1,4 @@
-package com.expedia.vm;
+package com.expedia.vm
 
 import android.content.Context
 import android.text.SpannableStringBuilder

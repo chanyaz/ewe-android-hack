@@ -14,7 +14,7 @@ open class MaterialTextInput(context: Context, attrs: AttributeSet?) : TextInput
     init {
         View.inflate(context, R.layout.material_text_input, this)
 
-        val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.MaterialTextInput, 0, 0);
+        val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.MaterialTextInput, 0, 0)
         try {
             editText?.inputType = attrSet.getInteger(R.styleable.MaterialTextInput_android_inputType,
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
@@ -32,7 +32,7 @@ open class MaterialTextInput(context: Context, attrs: AttributeSet?) : TextInput
                 editText?.filters = arrayOfNulls<InputFilter>(0)
             }
         } finally {
-            attrSet.recycle();
+            attrSet.recycle()
         }
     }
 }

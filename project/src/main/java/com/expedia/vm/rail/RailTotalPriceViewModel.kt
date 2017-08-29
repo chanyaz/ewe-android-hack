@@ -8,7 +8,7 @@ import com.squareup.phrase.Phrase
 
 class RailTotalPriceViewModel(val context: Context) : BaseTotalPriceWidgetViewModel(false) {
     override fun getAccessibleContentDescription(isCostBreakdownShown: Boolean, isSlidable: Boolean, isExpanded: Boolean): String {
-        val costSummaryBuilder = StringBuilder();
+        val costSummaryBuilder = StringBuilder()
 
         costSummaryBuilder.append(bundleTextLabelObservable.value)
         costSummaryBuilder.append(", ")

@@ -83,7 +83,7 @@ class PackageConfirmationViewModel(private val context: Context) {
     private fun getHotelSubtitle(): String {
         val hotel = Db.getTripBucket().`package`.mPackageTripResponse.packageDetails.hotel
         val params = Db.getPackageParams()
-        val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
         var subtitle = Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkInDate)))
                 .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkOutDate)))
@@ -94,7 +94,7 @@ class PackageConfirmationViewModel(private val context: Context) {
     }
 
     private fun getFlightSubtitle(selectedFlight: FlightLeg): String {
-        val fmt = ISODateTimeFormat.dateTime();
+        val fmt = ISODateTimeFormat.dateTime()
         val localDate = LocalDate.parse(selectedFlight.departureDateTimeISO, fmt)
 
         return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(localDate),

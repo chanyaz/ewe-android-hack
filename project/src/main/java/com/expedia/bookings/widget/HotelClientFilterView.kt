@@ -18,7 +18,7 @@ class HotelClientFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
     }
 
     override fun inflate() {
-        View.inflate(getContext(), R.layout.hotel_client_filter_view, this)
+        View.inflate(context, R.layout.hotel_client_filter_view, this)
     }
 
     override fun bindViewModel(vm: BaseHotelFilterViewModel) {

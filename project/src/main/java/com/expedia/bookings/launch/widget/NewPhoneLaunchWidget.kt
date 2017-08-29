@@ -101,7 +101,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     private val lobViewContainer: android.widget.FrameLayout by bindView(R.id.lob_view_container)
     private val lobView: NewLaunchLobWidget by lazy {
         val newLaunchLobWidget = LayoutInflater.from(context).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
-        newLaunchLobWidget.viewModel = NewLaunchLobViewModel(context, hasInternetConnection, posChangeSubject);
+        newLaunchLobWidget.viewModel = NewLaunchLobViewModel(context, hasInternetConnection, posChangeSubject)
         newLaunchLobWidget
     }
 
@@ -463,7 +463,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
 
         override fun onDown(e: MotionEvent?): Boolean {
-            return if (darkView.alpha == 0f) false else true
+            return darkView.alpha != 0f
         }
 
         override fun onSingleTapUp(e: MotionEvent?): Boolean {
@@ -471,7 +471,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
     }
 
-    private inner class ProWizardClickListener() : View.OnClickListener {
+    private inner class ProWizardClickListener : View.OnClickListener {
         override fun onClick(v: View?) {
             OmnitureTracking.trackProWizardClick()
             val activity = context as NewPhoneLaunchActivity

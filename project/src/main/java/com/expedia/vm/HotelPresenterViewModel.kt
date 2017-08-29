@@ -25,10 +25,10 @@ class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, che
 
     init {
         Observable.merge(createTripViewModel.errorObservable
-                .map { if (it.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) true else false },
+                .map { it.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE },
                 createTripViewModel.tripResponseObservable.map { false },
                 createTripViewModel.noResponseObservable.map { false },
-                checkoutViewModel?.errorObservable?.map { if (it.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) true else false },
+                checkoutViewModel?.errorObservable?.map { it.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE },
                 checkoutViewModel?.priceChangeResponseObservable?.map { false },
                 checkoutViewModel?.checkoutResponseObservable?.map { false },
                 checkoutViewModel?.noResponseObservable?.map { false }).subscribe(didLastCreateTripOrCheckoutResultInRoomSoldOut)

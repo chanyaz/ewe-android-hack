@@ -70,7 +70,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         val layoutId = ProductFlavorFeatureConfiguration.getInstance().rewardsLayoutId
         if(layoutId != 0){
             rewardWidget.layoutResource = layoutId
-            rewardWidget.inflate();
+            rewardWidget.inflate()
         }
     }
 

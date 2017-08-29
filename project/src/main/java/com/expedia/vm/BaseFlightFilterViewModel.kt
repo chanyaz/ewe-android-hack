@@ -112,11 +112,11 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         val rightStart = DateTime.parse(rhs?.departureDateTimeISO)
 
         if (leftStart.isBefore(rightStart)) {
-            -1;
+            -1
         } else if (leftStart.isAfter(rightStart)) {
-            1;
+            1
         } else {
-            0;
+            0
         }
     }
 
@@ -125,11 +125,11 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         val rightStart = DateTime.parse(rhs?.arrivalDateTimeISO)
 
         if (leftStart.isBefore(rightStart)) {
-            -1;
+            -1
         } else if (leftStart.isAfter(rightStart)) {
-            1;
+            1
         } else {
-            0;
+            0
         }
     }
 

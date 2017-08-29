@@ -32,12 +32,12 @@ object FlightCheckInDialogBuilder {
             if (dialogTitle.text.toString().equals(context.getString(R.string.itin_checkin_failure_dialog_title), ignoreCase = true)) {
                 ClipboardUtils.setText(context, confirmationCode)
             } else {
-                OmnitureTracking.trackItinFlightCheckInSuccess(airlineCode, isSplitTicket, flightLegs);
+                OmnitureTracking.trackItinFlightCheckInSuccess(airlineCode, isSplitTicket, flightLegs)
             }
             alertDialog.dismiss()
         }
         noText.setOnClickListener {
-            OmnitureTracking.trackItinFlightCheckInFailure(airlineCode, isSplitTicket, flightLegs);
+            OmnitureTracking.trackItinFlightCheckInFailure(airlineCode, isSplitTicket, flightLegs)
             val fadeOutAnim = ObjectAnimator.ofFloat(dialogBody, "alpha", 1.0f, 0.0f)
             val fadeInAnim = ObjectAnimator.ofFloat(dialogBody, "alpha", 0.0f, 1.0f)
 

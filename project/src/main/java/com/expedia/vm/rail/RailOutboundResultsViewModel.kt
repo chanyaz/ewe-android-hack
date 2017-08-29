@@ -53,7 +53,7 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
     }
 
     private fun doSearch(params: RailSearchRequest) {
-        railServices?.railSearch(RailApiSearchModel.fromSearchParams(params), object : Observer<RailSearchResponse> {
+        railServices.railSearch(RailApiSearchModel.fromSearchParams(params), object : Observer<RailSearchResponse> {
             override fun onNext(response: RailSearchResponse) {
                 if (response.hasError()) {
                     if (response.responseStatus.statusCategory == RailsApiStatusCodes.STATUS_CATEGORY_NO_PRODUCT) {

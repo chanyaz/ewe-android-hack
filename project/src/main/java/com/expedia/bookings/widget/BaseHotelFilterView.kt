@@ -211,7 +211,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     }
 
     open protected fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {
-        stub.layoutResource = R.layout.client_neighborhood_filter_stub;
+        stub.layoutResource = R.layout.client_neighborhood_filter_stub
         return stub.inflate() as ClientNeighborhoodFilterView
     }
 

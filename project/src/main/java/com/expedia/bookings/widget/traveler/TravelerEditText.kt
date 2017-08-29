@@ -53,7 +53,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
                 Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
         addTextChangedListener(TravelerTextWatcher())
         if(attrs != null){
-            val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.TravelerEditText, 0, 0);
+            val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.TravelerEditText, 0, 0)
             try {
                 errorContDesc = attrSet.getString(R.styleable.TravelerEditText_error_cont_desc) ?: ""
             }
@@ -137,7 +137,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         }
     }
 
-    private inner class TravelerTextWatcher(): TextWatcher {
+    private inner class TravelerTextWatcher : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             viewModel.errorSubject.onNext(false)
         }

@@ -13,7 +13,7 @@ class EntryManager(private val formFields: List<TextView>, private val entryForm
     }
 
     private var formEntrySubscriptions: CompositeSubscription? = null
-    private val formFieldChangedSubscriber = endlessObserver<String>() {
+    private val formFieldChangedSubscriber = endlessObserver<String> {
         entryForm.formFieldChanged()
     }
     private val formFocusListener = View.OnFocusChangeListener { view, boolean ->

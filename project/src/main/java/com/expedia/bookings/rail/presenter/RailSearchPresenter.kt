@@ -167,8 +167,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
         tabs.setupWithViewPager(viewpager)
 
-        tabs.singleToReturnScrollObservable.subscribe() {
-            val view = viewpager.getChildAt(0);
+        tabs.singleToReturnScrollObservable.subscribe {
+            val view = viewpager.getChildAt(0)
             if (view != null) {
                 view.translationX = Math.min(viewpager.scrollX.toFloat(), (view.measuredWidth * 1).toFloat())
             }

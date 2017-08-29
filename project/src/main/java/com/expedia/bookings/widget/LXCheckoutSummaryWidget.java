@@ -103,7 +103,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 		freeCancellationText.setVisibility(lxState.offer.freeCancellation ? VISIBLE : GONE);
 
-		String tripTotal = latestPrice.getFormattedMoneyFromAmountAndCurrencyCode(latestPrice.getAmount(), latestPrice.getCurrency());
+		String tripTotal = Money.getFormattedMoneyFromAmountAndCurrencyCode(latestPrice.getAmount(), latestPrice.getCurrency());
 		tripTotalText.setText(tripTotal);
 		tripTotalText.setContentDescription(Phrase.from(getContext(), R.string.lx_selection_cost_summary_cont_desc_TEMPLATE)
 				.put("trip_total", tripTotal).format().toString());
@@ -149,7 +149,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 			ll.addView(
 				CheckoutSummaryWidgetUtils.addRow(context,
 					LXDataUtils.ticketCountSummary(getContext(), ticket.code, ticket.count),
-					moneyWithoutCurrencyCode
+					Money
 						.getFormattedMoneyFromAmountAndCurrencyCode(moneyWithoutCurrencyCode.getAmount(), currencyCode)));
 		}
 

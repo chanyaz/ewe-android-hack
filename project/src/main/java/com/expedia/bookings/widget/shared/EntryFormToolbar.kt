@@ -16,7 +16,7 @@ import kotlin.properties.Delegates
 
 class EntryFormToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs) {
     var menuItem: MenuItem by Delegates.notNull()
-    var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE);
+    var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
 
     var viewModel: EntryFormToolbarViewModel by notNullAndObservable { vm ->
         vm.formFilledIn.subscribe { isFilledIn ->

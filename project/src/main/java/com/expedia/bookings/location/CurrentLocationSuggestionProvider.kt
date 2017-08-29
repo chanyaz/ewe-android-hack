@@ -1,4 +1,4 @@
-package com.expedia.bookings.location;
+package com.expedia.bookings.location
 
 import android.content.Context
 import android.location.Location

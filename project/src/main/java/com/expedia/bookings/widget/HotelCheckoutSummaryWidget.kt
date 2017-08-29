@@ -141,11 +141,11 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
                 // only apply gradient treatment to hotels with images #5647
                 val palette = Palette.Builder(bitmap).generate()
                 val color = palette.getDarkVibrantColor(R.color.transparent_dark)
-                val fullColorBuilder = ColorBuilder(color).darkenBy(0.25f);
+                val fullColorBuilder = ColorBuilder(color).darkenBy(0.25f)
                 val gradientColor = fullColorBuilder.setAlpha(154).build()
                 val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
                 drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
-                textColor = ContextCompat.getColor(context, R.color.itin_white_text);
+                textColor = ContextCompat.getColor(context, R.color.itin_white_text)
             } else {
                 textColor = ContextCompat.getColor(context, R.color.text_black)
             }

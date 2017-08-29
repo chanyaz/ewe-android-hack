@@ -69,16 +69,16 @@ object SuggestionV4Utils {
     fun convertToSuggestionV4(gaiaSuggestions: List<GaiaSuggestion>): MutableList<SuggestionV4> {
         val suggestionList = ArrayList<SuggestionV4>()
         gaiaSuggestions.forEach { it ->
-            val suggestion = SuggestionV4();
-            suggestion.gaiaId = it.gaiaID;
-            suggestion.type = it.type;
+            val suggestion = SuggestionV4()
+            suggestion.gaiaId = it.gaiaID
+            suggestion.type = it.type
 
             val latlong = SuggestionV4.LatLng()
             latlong.lat = it.latLong.latitude
             latlong.lng = it.latLong.longitude
             suggestion.coordinates = latlong
 
-            val regionName = SuggestionV4.RegionNames();
+            val regionName = SuggestionV4.RegionNames()
             val localizedNames = it.localizedNames.get(0)
             regionName.fullName = localizedNames.fullName
             regionName.displayName = StrUtils.getDisplayNameForGaiaNearby(localizedNames.friendlyName, SuggestionStrUtils.formatAirportName(localizedNames.airportName ?: ""))

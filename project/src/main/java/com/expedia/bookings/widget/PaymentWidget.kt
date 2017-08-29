@@ -449,11 +449,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             return true
         } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
             return true
-        } else if (isCreditCardRequired() && Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount) {
-            return true
-        } else {
-            return false
-        }
+        } else return isCreditCardRequired() && Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount
     }
 
     fun isCreditCardRequired(): Boolean {
@@ -777,7 +773,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     private fun goToFirstInvalidField() {
-        val firstInvalidField = sectionBillingInfo.getFirstInvalidField()
+        val firstInvalidField = sectionBillingInfo.firstInvalidField
         if (firstInvalidField != null) {
             firstInvalidField.requestFocus()
             sectionBillingInfo.resetValidation(firstInvalidField.id, false)

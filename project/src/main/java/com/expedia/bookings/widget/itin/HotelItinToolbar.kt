@@ -55,8 +55,8 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
 
     private fun toolbarSubtitle(itinCardDataHotel: ItinCardDataHotel) {
         val formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MMM d")
-        val tripStartDate = itinCardDataHotel?.startDate.toString(formatPattern)
-        val tripEndDate = itinCardDataHotel?.endDate.toString(formatPattern)
+        val tripStartDate = itinCardDataHotel.startDate.toString(formatPattern)
+        val tripEndDate = itinCardDataHotel.endDate.toString(formatPattern)
         val tripDateString = Phrase.from(this, R.string.calendar_instructions_date_range_TEMPLATE)
                 .put("startdate", tripStartDate)
                 .put("enddate", tripEndDate)

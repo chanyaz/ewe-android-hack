@@ -20,7 +20,7 @@ open class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
     init {
         Observable.zip(originalPrice, newPrice, { originalPrice, newPrice ->
             if (originalPrice != null) {
-                if (newPrice.amount > originalPrice?.amount) {
+                if (newPrice.amount > originalPrice.amount) {
                     priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.warning_triangle_icon))
                     priceChangeText.onNext(context.getString(R.string.price_changed_from_TEMPLATE,
                             originalPrice.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)))

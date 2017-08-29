@@ -74,7 +74,7 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
     abstract fun setUpViewModel(vm: AbstractUniversalCKOTravelerEntryWidgetViewModel)
 
     var compositeSubscription: CompositeSubscription? = null
-    val formFilledSubscriber = endlessObserver<String>() {
+    val formFilledSubscriber = endlessObserver<String> {
         filledIn.onNext(isCompletelyFilled())
     }
 

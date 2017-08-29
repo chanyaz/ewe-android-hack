@@ -44,6 +44,6 @@ class HotelReviewRowViewModel(val context: Context) {
         } else if (hasName && !hasLocation) {
             nameAndLocationText = name
         }
-        return nameAndLocationText;
+        return nameAndLocationText
     }
 }
