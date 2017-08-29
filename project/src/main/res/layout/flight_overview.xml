@@ -54,4 +54,11 @@
         android:inflatedId="@+id/flight_baggage_fee_summary_info"
         android:layout="@layout/flight_baggage_fee_stub" />
 
+    <ViewStub
+        android:id="@+id/fare_family_details_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/fare_family_details"
+        android:layout="@layout/fare_family_details_stub" />
+
 </merge>

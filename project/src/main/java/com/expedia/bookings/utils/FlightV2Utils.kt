@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightServiceClassType
@@ -359,5 +360,17 @@ object FlightV2Utils {
             }
         }
         return true
+    }
+
+    fun getDeltaPricing (money: Money, deltaPositive: Boolean): String {
+        val deltaPrice = StringBuilder()
+        if (deltaPositive) {
+            deltaPrice.append("+")
+        } else {
+            deltaPrice.append("-")
+        }
+        deltaPrice.append(Money.getFormattedMoneyFromAmountAndCurrencyCode(money.amount, money.currencyCode))
+        return deltaPrice.toString()
+
     }
 }

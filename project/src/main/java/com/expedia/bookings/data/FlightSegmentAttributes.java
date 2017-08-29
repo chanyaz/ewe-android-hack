@@ -13,7 +13,8 @@ public class FlightSegmentAttributes implements JSONable {
 		COACH(R.string.cabin_code_coach),
 		PREMIUM_COACH(R.string.cabin_code_premium_coach),
 		BUSINESS(R.string.cabin_code_business),
-		FIRST(R.string.cabin_code_first);
+		FIRST(R.string.cabin_code_first),
+		MIXED(R.string.cabin_code_mixed);
 
 		private int mResId;
 
