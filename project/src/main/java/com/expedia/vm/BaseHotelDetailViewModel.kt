@@ -601,7 +601,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         val roomsLeft = roomOffer.currentAllotment.toInt()
         return if (hasMemberDeal(roomOffer)) {
             context.resources.getString(R.string.member_pricing)
-        } else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+        } else if (roomsLeft in 1..ROOMS_LEFT_CUTOFF) {
             context.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
         } else if (roomOffer.isSameDayDRR) {
             context.resources.getString(R.string.tonight_only)

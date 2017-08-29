@@ -189,7 +189,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     private fun createRoomLeftString(): String? {
         try {
             val roomLeft = hotelRoomResponse.currentAllotment.toInt()
-            if (roomLeft > 0 && roomLeft <= ROOMS_LEFT_CUTOFF) {
+            if (roomLeft in 1..ROOMS_LEFT_CUTOFF) {
                 return context.resources.getQuantityString(R.plurals.num_rooms_left, roomLeft, roomLeft)
             }
         } catch (e: NumberFormatException) {
