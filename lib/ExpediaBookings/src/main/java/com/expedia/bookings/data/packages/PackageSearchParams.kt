@@ -119,7 +119,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
     private fun makeChildrenAgesParams(params: HashMap<String, Any?>, keyString: String, valueList: List<Int>, startIndex: Int) {
         for (i in startIndex..valueList.size) {
-            var key = StringBuilder(keyString)
+            val key = StringBuilder(keyString)
             key.append("[").append(i).append("]")
             val childAge = valueList[i-1]
             params.put(key.toString(), childAge)

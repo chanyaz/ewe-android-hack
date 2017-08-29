@@ -83,9 +83,9 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
                 themeCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
             }
 
-            var imageURLs = Images.forLxCategory(itemView.context, theme.titleEN, imageCode, itemView.context.resources.getDimension(R.dimen.lx_category_image_width))
+            val imageURLs = Images.forLxCategory(itemView.context, theme.titleEN, imageCode, itemView.context.resources.getDimension(R.dimen.lx_category_image_width))
 
-            var errorDrawable = LXDataUtils.getErrorDrawableForCategory(itemView.context, theme.titleEN)
+            val errorDrawable = LXDataUtils.getErrorDrawableForCategory(itemView.context, theme.titleEN)
 
             PicassoHelper
                     .Builder(itemView.context)

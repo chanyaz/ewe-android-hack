@@ -237,7 +237,7 @@ class UniversalDeepLinkParserTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun sharedItineraryDeepLinkParsing() {
-        var data = Uri.parse("https://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j")
+        val data = Uri.parse("https://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j")
         var output = parser.parseDeepLink(data)
         Assert.assertTrue(output is SharedItineraryDeepLink)
 
@@ -258,8 +258,8 @@ class UniversalDeepLinkParserTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun pointOfSaleDateFormatParsing() {
-        var data = Uri.parse("https://www.expedia.co.kr/mobile/deeplink/Hotel-Search?hotelId=12539&startDate=2017.05.24&endDate=2017.05.31")
-        var parsed = parser.parseUniversalDeepLink(data) as HotelDeepLink
+        val data = Uri.parse("https://www.expedia.co.kr/mobile/deeplink/Hotel-Search?hotelId=12539&startDate=2017.05.24&endDate=2017.05.31")
+        val parsed = parser.parseUniversalDeepLink(data) as HotelDeepLink
         Assert.assertEquals(LocalDate(2017,5,24), parsed.checkInDate)
         Assert.assertEquals(LocalDate(2017,5,31), parsed.checkOutDate)
     }

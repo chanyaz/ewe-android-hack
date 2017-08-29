@@ -37,7 +37,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             return filterOptions?.userSort!!
         }
 
-        var sort: SortType? = getSortTypeFromString(sortType)
+        val sort: SortType? = getSortTypeFromString(sortType)
 
         if (sort != null) {
             return sort
@@ -137,7 +137,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             if (destinationLocation?.gaiaId == null && destinationLocation?.coordinates == null) throw IllegalArgumentException()
             val checkInDate = startDate ?: throw IllegalArgumentException()
             val checkOutDate = endDate ?: throw IllegalArgumentException()
-            var params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints, filterUnavailable)
+            val params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints, filterUnavailable)
             params.forPackage = isPackage
             params.filterOptions = buildFilterOptions()
             return params

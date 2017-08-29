@@ -32,13 +32,13 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
     }
 
     override fun getSubtitle(): String {
-        var numberOfTravelers = Db.getTravelers().size
+        val numberOfTravelers = Db.getTravelers().size
         if (numberOfTravelers > 1) {
             return Phrase.from(resources.getQuantityString(R.plurals.checkout_more_travelers_TEMPLATE, numberOfTravelers - 1))
                     .put("travelercount", numberOfTravelers - 1).format().toString()
         }
 
-        var traveler = getFirstTraveler()
+        val traveler = getFirstTraveler()
         if (traveler == null || travelerStatusObserver.value != TravelerCheckoutStatus.COMPLETE) {
             return if (isFeatureEnabledForTravelerInfoTest) "" else resources.getString(R.string.enter_traveler_details)
         } else {

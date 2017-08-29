@@ -38,7 +38,7 @@ class HotelRoomResponseTest {
     @Test
     fun testFormattedBedNames() {
         assertEquals("", roomResponse.formattedBedNames)
-        var beds = ArrayList<HotelOffersResponse.BedTypes>()
+        val beds = ArrayList<HotelOffersResponse.BedTypes>()
         val bed1 = HotelOffersResponse.BedTypes()
         bed1.id = "1"
         bed1.description = "1"

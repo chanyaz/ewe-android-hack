@@ -80,7 +80,7 @@ class RailTicketDeliveryEntryWidgetTest {
         testMailDeliveryContainerSelectionSubscriber.assertValueCount(2)
         assertEquals(TicketDeliverySelectionStatus.SELECTED, testMailDeliveryContainerSelectionSubscriber.onNextEvents[1])
 
-        var ticketDeliveryOptionsAll = ArrayList<RailTicketDeliveryOption>()
+        val ticketDeliveryOptionsAll = ArrayList<RailTicketDeliveryOption>()
         val option1 = RailTicketDeliveryOption()
         option1.ticketDeliveryCountryCodeList = listOf("GB")
         option1.ticketDeliveryDescription = "Delivery by post"

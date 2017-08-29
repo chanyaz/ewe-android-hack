@@ -352,8 +352,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
 
     val reviewsView: HotelReviewsView by lazy {
-        var viewStub = findViewById(R.id.reviews_stub) as ViewStub
-        var presenter = viewStub.inflate() as HotelReviewsView
+        val viewStub = findViewById(R.id.reviews_stub) as ViewStub
+        val presenter = viewStub.inflate() as HotelReviewsView
         presenter.hotelReviewsTabbar.slidingTabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }

@@ -51,7 +51,7 @@ open class FlightLayoverWidget(context: Context, attrs: AttributeSet?) : BaseLay
         for (flightSegment in flightSegmentList) {
 
             var layoverBar: RectF? = null
-            var durationBar = createDurationBar(flightSegment.durationHours, flightSegment.durationMinutes,
+            val durationBar = createDurationBar(flightSegment.durationHours, flightSegment.durationMinutes,
                     durationBarX, durationBarTopY, durationBarBottomY)
 
             airportCodeX = durationBar.right + durationBarPadding
@@ -63,7 +63,7 @@ open class FlightLayoverWidget(context: Context, attrs: AttributeSet?) : BaseLay
                         durationBarX, durationBarTopY, durationBarBottomY)
                 durationBarX = layoverBar.right + durationBarPadding
             }
-            var flightObject = LayoverDrawObject(flightSegment.arrivalAirportCode, airportCodeX, airportCodeY,
+            val flightObject = LayoverDrawObject(flightSegment.arrivalAirportCode, airportCodeX, airportCodeY,
                     durationBar, layoverBar)
             drawObjects.add(flightObject)
         }

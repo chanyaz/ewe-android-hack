@@ -250,7 +250,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         val view = recyclerView.findViewHolderForAdapterPosition(1)
         if (view != null) {
-            var distance = view.itemView.top - mapListSplitAnchor
+            val distance = view.itemView.top - mapListSplitAnchor
             recyclerView.smoothScrollBy(0, distance)
         } else {
             recyclerView.layoutManager.scrollToPositionWithOffset(1, mapListSplitAnchor)
@@ -1171,7 +1171,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     fun animationUpdate(f: Float, forward: Boolean) {
         setupToolbarMeasurements()
-        var factor = if (forward) f else Math.abs(1 - f)
+        val factor = if (forward) f else Math.abs(1 - f)
         navIcon.parameter = factor
     }
 

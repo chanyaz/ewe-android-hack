@@ -530,7 +530,7 @@ class LaunchListAdapterTest {
 
     private fun givenWeHaveALoadingState() {
         val headerTitle = "Loading..."
-        var dataItems = ArrayList<LaunchDataItem>()
+        val dataItems = ArrayList<LaunchDataItem>()
         for (i in 1..5) {
             dataItems.add(LaunchDataItem(LaunchDataItem.LOADING_VIEW))
         }
@@ -543,7 +543,7 @@ class LaunchListAdapterTest {
 
     private fun givenWeHaveStaffPicks(numberOfStaffPicks: Int = 5) {
         val headerTitle = "Staff picks"
-        var dataItems = ArrayList<LaunchDataItem>()
+        val dataItems = ArrayList<LaunchDataItem>()
         for (i in 0..numberOfStaffPicks - 1) {
             dataItems.add(LaunchCollectionDataItem(CollectionLocation()))
         }
@@ -553,7 +553,7 @@ class LaunchListAdapterTest {
     private fun givenWeHaveCurrentLocationAndHotels(numberOfHotels: Int = 5) {
         // show hotels
         val headerTitle = "Recommended Hotels"
-        var dataItems = ArrayList<LaunchDataItem>()
+        val dataItems = ArrayList<LaunchDataItem>()
         for (i in 0..numberOfHotels - 1) {
             dataItems.add(LaunchHotelDataItem(createMockHotel()))
         }

@@ -48,7 +48,7 @@ class RailSegmentAmenitiesViewModel(val context: Context) {
     }
 
     private fun formatAmenitiesString(amenityList: List<PassengerSegmentFare.Amenity>): String {
-        var sb = StringBuffer()
+        val sb = StringBuffer()
         for (amenity in amenityList) {
             sb.append(context.getString(R.string.bullet_point))
                     .append(" ")

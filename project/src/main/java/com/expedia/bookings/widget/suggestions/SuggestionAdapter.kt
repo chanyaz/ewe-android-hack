@@ -18,9 +18,9 @@ open class SuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : Recycl
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.package_dropdown_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.package_dropdown_item, parent, false)
         if (!viewmodel.getCustomerSelectingOrigin()) {
-            var titleTextview = view.findViewById(R.id.title_textview)
+            val titleTextview = view.findViewById(R.id.title_textview)
             val params = titleTextview.layoutParams as ViewGroup.MarginLayoutParams
             params.setMargins(0, marginTop, 0, marginBottom)
         }

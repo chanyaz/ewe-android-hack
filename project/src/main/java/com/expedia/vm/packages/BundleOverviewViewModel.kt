@@ -79,7 +79,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
 
         createTripObservable.subscribe { trip ->
-            var hotel = trip.packageDetails.hotel
+            val hotel = trip.packageDetails.hotel
             val stepOne = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE, hotel.numberOfNights.toInt()))
                     .put("number", hotel.numberOfNights)
                     .put("city", hotel.hotelCity)

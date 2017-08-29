@@ -34,7 +34,7 @@ class SatelliteResponseTest {
 
     @Test
     fun testSatelliteResponse() {
-        var searchResponseObserver: TestSubscriber<List<String>> = TestSubscriber()
+        val searchResponseObserver: TestSubscriber<List<String>> = TestSubscriber()
         sat.fetchFeatureConfig(searchResponseObserver)
         searchResponseObserver.awaitValueCount(1,10, TimeUnit.SECONDS)
         searchResponseObserver.assertValueCount(1)

@@ -192,15 +192,15 @@ class CustomDeepLinkParserTest {
 
     @Test
     fun packagesDeepLinkParsing() {
-        var data = Uri.parse("expda://packageSearch")
-        var output = parser.parseDeepLink(data)
+        val data = Uri.parse("expda://packageSearch")
+        val output = parser.parseDeepLink(data)
         Assert.assertTrue(output is PackageDeepLink)
     }
 
     @Test
     fun railsDeepLinkParsing() {
-        var data = Uri.parse("expda://railSearch")
-        var output = parser.parseDeepLink(data)
+        val data = Uri.parse("expda://railSearch")
+        val output = parser.parseDeepLink(data)
         Assert.assertTrue(output is RailDeepLink)
     }
 
@@ -288,8 +288,8 @@ class CustomDeepLinkParserTest {
 
     @Test
     fun flightShareDeepLinkParsing() {
-        var data = Uri.parse("expda://flightShare")
-        var output = parser.parseDeepLink(data)
+        val data = Uri.parse("expda://flightShare")
+        val output = parser.parseDeepLink(data)
         Assert.assertTrue(output is FlightShareDeepLink)
     }
 

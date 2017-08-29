@@ -12,7 +12,7 @@ class GoogleMapsUtilsTest {
 
     @Test
     fun testGetMapsLocationIntent() {
-        var location = Location()
+        val location = Location()
         location.latitude = 111.0
         location.longitude = 666.0
 

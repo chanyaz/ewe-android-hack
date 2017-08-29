@@ -188,7 +188,7 @@ class FlightConfirmationPresenterTest {
     fun testItinNumberContentDescription() {
         setupPresenter()
         givenCheckoutResponse()
-        var itinNumber = presenter.itinNumber
+        val itinNumber = presenter.itinNumber
         assertEquals("Confirmation Number: 12345", itinNumber.contentDescription)
     }
 
@@ -314,7 +314,7 @@ class FlightConfirmationPresenterTest {
         val flights = ArrayList<FlightItinDetailsResponse.Flight>()
         flights.add(flight)
 
-        var response = FlightItinDetailsResponse()
+        val response = FlightItinDetailsResponse()
         response.responseData = FlightItinDetailsResponse.FlightResponseData()
         response.responseData.flights = flights
         return response

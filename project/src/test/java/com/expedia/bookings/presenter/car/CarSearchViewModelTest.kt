@@ -96,10 +96,10 @@ class CarSearchViewModelTest {
         vm.datesUpdated(dates.first, dates.second)
         vm.onTimesChanged(Pair(36000, 4800000))
 
-        var expectedDateText = dateFormatter(dateNow, dateNow.plusDays(3), Pair(36000, 4800000), false )
+        val expectedDateText = dateFormatter(dateNow, dateNow.plusDays(3), Pair(36000, 4800000), false )
         assertEquals(expectedDateText, dateTextTestSubscriber.onNextEvents[1].toString());
 
-        var expectedDateTextAccessbility = dateFormatter(dateNow, dateNow.plusDays(3), Pair(36000, 4800000), true )
+        val expectedDateTextAccessbility = dateFormatter(dateNow, dateNow.plusDays(3), Pair(36000, 4800000), true )
         assertEquals("Select pick-up and drop-off dates Button. Opens dialog. " + expectedDateTextAccessbility,
                 dateAccessibilityTestSubscriber.onNextEvents[1].toString())
 
@@ -141,7 +141,7 @@ class CarSearchViewModelTest {
 
     private fun dateFormatter(startDateTime: LocalDate, endDateTime: LocalDate, times: Pair<Int, Int>, isContentDescription: Boolean): String{
         val (startMillis, endMillis) = times
-        var formattedString = DateFormatUtils.formatStartEndDateTimeRange(activity, DateUtils.localDateAndMillisToDateTime(startDateTime, startMillis),
+        val formattedString = DateFormatUtils.formatStartEndDateTimeRange(activity, DateUtils.localDateAndMillisToDateTime(startDateTime, startMillis),
                 DateUtils.localDateAndMillisToDateTime(endDateTime, endMillis), isContentDescription)
         return formattedString
     }

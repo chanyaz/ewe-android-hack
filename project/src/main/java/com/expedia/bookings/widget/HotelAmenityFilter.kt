@@ -31,7 +31,7 @@ class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(c
         this.amenityId = id
         amenityTextView.text = context.getString(amenity.strId)
         amenityTextView.setTextColor(R.color.hotelsv2_checkout_text_color)
-        var drawable = ContextCompat.getDrawable(context, amenity.resId)
+        val drawable = ContextCompat.getDrawable(context, amenity.resId)
         DrawableCompat.setTint(drawable, R.color.hotelsv2_checkout_text_color)
         amenityIconView.setImageDrawable(drawable)
     }

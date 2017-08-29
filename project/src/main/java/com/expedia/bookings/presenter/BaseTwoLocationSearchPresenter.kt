@@ -43,7 +43,7 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
     }
 
     override fun requestA11yFocus(isOrigin: Boolean) {
-        var a11yFocusView: View = if(isOrigin) originCardView else destinationCardView
+        val a11yFocusView: View = if(isOrigin) originCardView else destinationCardView
         a11yFocusView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
     }
 }

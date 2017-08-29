@@ -91,7 +91,7 @@ class HotelDetailViewModelValueAddsTest {
 
         val offerResponse = observer.onNextEvents[0]
         vm.hotelOffersSubject.onNext(offerResponse)
-        var uniqueAmenityForEachRoom = vm.getValueAdd(offerResponse.hotelRoomResponse)
+        val uniqueAmenityForEachRoom = vm.getValueAdd(offerResponse.hotelRoomResponse)
         assertEquals("Includes free parking", uniqueAmenityForEachRoom[0])
         assertEquals("Includes continental breakfast", uniqueAmenityForEachRoom[1])
 

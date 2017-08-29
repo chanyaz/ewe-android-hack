@@ -38,7 +38,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotelReviewsViewHolder {
-            var view: View
+            val view: View
             when (viewType) {
                 VIEW_TYPE_HEADER -> view = HotelReviewsSummaryWidget(parent.context)
                 VIEW_TYPE_LOADING -> view = HotelReviewsLoadingWidget(parent.context)
@@ -50,12 +50,12 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         override fun onBindViewHolder(holder: HotelReviewsViewHolder, position: Int) {
             when (holder.itemView) {
                 is HotelReviewsSummaryWidget -> {
-                    var hotelReviewsSummaryViewModel = HotelReviewsSummaryViewModel(holder.itemView.context)
+                    val hotelReviewsSummaryViewModel = HotelReviewsSummaryViewModel(holder.itemView.context)
                     hotelReviewsSummaryViewModel.reviewsSummaryObserver.onNext(reviewsSummary)
                     holder.itemView.bindData(hotelReviewsSummaryViewModel)
                 }
                 is HotelReviewRowView -> {
-                    var hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context)
+                    val hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context)
                     hotelReviewRowViewModel.reviewObserver.onNext(reviews[position - 1])
                     holder.itemView.bindData(hotelReviewRowViewModel)
                 }

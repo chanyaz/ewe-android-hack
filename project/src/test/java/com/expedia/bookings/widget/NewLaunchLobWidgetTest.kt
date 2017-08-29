@@ -154,7 +154,7 @@ class NewLaunchLobWidgetTest {
 
     private fun validateFlightNotAvialable() {
         setUp()
-        var allLobsRecycler = newLaunchLobWidget.findViewById(R.id.lob_grid_recycler) as android.support.v7.widget.RecyclerView
+        val allLobsRecycler = newLaunchLobWidget.findViewById(R.id.lob_grid_recycler) as android.support.v7.widget.RecyclerView
         // workaround robolectric recyclerView issue
         allLobsRecycler.measure(0, 0)
         allLobsRecycler.layout(0, 0, 100, 1000)

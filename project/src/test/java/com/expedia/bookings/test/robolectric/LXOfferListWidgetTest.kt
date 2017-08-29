@@ -117,8 +117,8 @@ class LXOfferListWidgetTest {
 
     @Test
     fun testOffersSortedByPrice() {
-        var offerList = setActivityOfferList()
-        var availableOffers = ArrayList<Offer>()
+        val offerList = setActivityOfferList()
+        val availableOffers = ArrayList<Offer>()
 
         for (offer in offerList) {
             if (offer.updateAvailabilityInfoOfSelectedDate(org.joda.time.LocalDate("2015-02-24")) != null) {
@@ -126,7 +126,7 @@ class LXOfferListWidgetTest {
             }
         }
 
-        var expectedOffers = widget.sortTicketByPriorityAndOfferByPrice(availableOffers) as ArrayList<Offer>
+        val expectedOffers = widget.sortTicketByPriorityAndOfferByPrice(availableOffers) as ArrayList<Offer>
         assertEquals(3, expectedOffers.size)
         assertEquals(LXTicketType.Adult, expectedOffers[0].availabilityInfoOfSelectedDate.tickets[0].code)
 

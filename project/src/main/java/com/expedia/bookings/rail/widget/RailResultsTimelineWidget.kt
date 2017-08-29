@@ -37,7 +37,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
         drawableHeight = measuredHeight
         caretPadding = (measuredHeight.toFloat() / 5.0f).toInt()
 
-        var iconRect = Rect(0, 0, 0, drawableHeight)
+        val iconRect = Rect(0, 0, 0, drawableHeight)
         var first = true
 
 

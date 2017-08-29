@@ -17,7 +17,7 @@ class RailTravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(cont
     }
 
     override fun getTitle(): String {
-        var traveler = getFirstTraveler()
+        val traveler = getFirstTraveler()
         if (traveler?.fullName.isNullOrEmpty()) {
             return resources.getString(R.string.checkout_enter_traveler_details)
         } else {
@@ -26,7 +26,7 @@ class RailTravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(cont
     }
 
     override fun getSubtitle(): String {
-        var traveler = getFirstTraveler()
+        val traveler = getFirstTraveler()
         if (traveler == null || travelerStatusObserver.value != TravelerCheckoutStatus.COMPLETE) {
             return resources.getString(R.string.enter_missing_traveler_details)
         } else {

@@ -51,7 +51,7 @@ class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : Relative
     }
 
     private fun refreshContentDescription() {
-        var contentDesc = StringBuilder(neighborhoodName.text)
+        val contentDesc = StringBuilder(neighborhoodName.text)
         contentDesc.append(". ")
         if (neighborhoodCheckBox.isChecked) {
             contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_checked))
