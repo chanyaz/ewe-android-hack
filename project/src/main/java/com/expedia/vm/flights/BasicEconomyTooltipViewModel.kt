@@ -9,6 +9,6 @@ import rx.subjects.PublishSubject
 
 class BasicEconomyTooltipViewModel {
     val basicEconomyTooltipInfo = PublishSubject.create<List<FlightLeg.BasicEconomyTooltipInfo>>()
-    val basicEconomyTooltipFareRules = basicEconomyTooltipInfo.map { it.get(0).fareRules }
-    val basicEconomyTooltipTitle = basicEconomyTooltipInfo.map { it.get(0).fareRulesTitle }
+    val basicEconomyTooltipFareRules = basicEconomyTooltipInfo.map { it[0].fareRules }
+    val basicEconomyTooltipTitle = basicEconomyTooltipInfo.map { it[0].fareRulesTitle }
 }

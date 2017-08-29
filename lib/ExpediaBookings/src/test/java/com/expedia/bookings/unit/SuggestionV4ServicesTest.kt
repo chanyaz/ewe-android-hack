@@ -83,7 +83,7 @@ class SuggestionV4ServicesTest {
         testObserver.assertCompleted()
         testObserver.assertValueCount(1)
         val essSuggestions = testObserver.onNextEvents[0]
-        assertEquals(essSuggestions.get(0).regionNames.fullName, "San Francisco, CA, United States (SFO-San Francisco Intl.)")
+        assertEquals(essSuggestions[0].regionNames.fullName, "San Francisco, CA, United States (SFO-San Francisco Intl.)")
     }
 
     @Test

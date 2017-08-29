@@ -20,7 +20,7 @@ class SuggestionAndLabelAdapter(viewmodel: AirportSuggestionViewModel) : Suggest
     }
 
     override fun getItemViewType(position: Int): Int {
-        when (viewmodel.suggestionsAndLabel.get(position)) {
+        when (viewmodel.suggestionsAndLabel[position]) {
             is SuggestionType.SUGGESTIONV4 -> return TYPE_SUGGESTIONV4
             is SuggestionType.SUGGESTIONLABEL -> return TYPE_SUGGESTION_LABEL
         }

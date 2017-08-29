@@ -153,8 +153,8 @@ class FlightTravelerFrequentFlyerWidgetTest {
         if (size != null) {
             for (i in 0 until size!!) {
                 flight.segments.add(FlightSegment())
-                flight.segments.get(i).airlineName = airlineNames.get(i)
-                flight.segments.get(i).airlineCode = "AA"
+                flight.segments[i].airlineName = airlineNames[i]
+                flight.segments[i].airlineCode = "AA"
             }
         }
     }

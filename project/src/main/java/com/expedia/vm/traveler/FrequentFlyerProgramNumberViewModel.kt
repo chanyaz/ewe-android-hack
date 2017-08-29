@@ -15,7 +15,7 @@ class FrequentFlyerProgramNumberViewModel(traveler: Traveler, var airlineKey: St
         textSubject.subscribe {
             if (!airlineKey.isNullOrBlank()) {
                 if (traveler.frequentFlyerMemberships.containsKey(airlineKey)) {
-                    traveler.frequentFlyerMemberships.get(airlineKey)!!.membershipNumber = it
+                    traveler.frequentFlyerMemberships[airlineKey]!!.membershipNumber = it
                 } else {
                     val frequentFlyerMembership = TravelerFrequentFlyerMembership()
                     frequentFlyerMembership.airlineCode = airlineKey

@@ -36,7 +36,7 @@ class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScr
             val createTripResponse = response as LXCreateTripResponseV2
             val tripTotalPrice = if (createTripResponse.hasPriceChange()) createTripResponse.newTotalPrice else (checkoutPresenter.getCreateTripViewModel() as LXCreateTripViewModel).lxState.latestTotalPrice()
             checkoutPresenter.travelersPresenter.viewModel.refresh()
-            lxSummaryWidget.bind(createTripResponse.originalPrice, tripTotalPrice, createTripResponse.lxProduct.lxBookableItems.get(0))
+            lxSummaryWidget.bind(createTripResponse.originalPrice, tripTotalPrice, createTripResponse.lxProduct.lxBookableItems[0])
         }
     }
 
