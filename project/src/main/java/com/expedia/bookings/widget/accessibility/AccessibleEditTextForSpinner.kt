@@ -14,19 +14,17 @@ class AccessibleEditTextForSpinner(context: Context, attributeSet: AttributeSet)
 
     override fun onInitializeAccessibilityNodeInfo(info: AccessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(info)
-        if (!valid) {
-            val hint = (this.parent as? TextInputLayout)?.hint ?: this.hint?.toString() ?: ""
-            val error = (this.parent as? TextInputLayout)?.error ?: errorMessage
-            val openDialogHint = context.resources.getString(R.string.accessibility_cont_desc_opens_dialog)
-            info.text = "$hint, $openDialogHint, $defaultErrorString, $error"
-        } else {
-            val text = this.text.toString()
-            val hint = (this.parent as? TextInputLayout)?.hint ?: this.hint?.toString() ?: ""
-            if (text.isEmpty()) {
-                info.text = " $hint" + ", " + context.resources.getString(R.string.accessibility_cont_desc_opens_dialog)
-            } else {
-                info.text = " $hint, $text" + ", " + context.resources.getString(R.string.accessibility_cont_desc_opens_dialog)
-            }
+        val text = this.text.toString()
+        val hint = (this.parent as? TextInputLayout)?.hint ?: this.hint?.toString() ?: ""
+        val error = (this.parent as? TextInputLayout)?.error ?: errorMessage
+        val openDialogHint = context.resources.getString(R.string.accessibility_cont_desc_opens_dialog)
+        val sb: StringBuilder = StringBuilder("$hint")
+        if (!text.isEmpty()) {
+            sb.append(", $text, $openDialogHint")
         }
+        if (!valid) {
+            sb.append(", $openDialogHint, $defaultErrorString, $error")
+        }
+        info.text = sb.toString()
     }
 }

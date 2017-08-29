@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.Strings
 
 open class AccessibleEditText(context: Context, attributeSet: AttributeSet?) : EditText(context, attributeSet) {
     var valid: Boolean = true
@@ -26,8 +27,22 @@ open class AccessibleEditText(context: Context, attributeSet: AttributeSet?) : E
         return sb.toString()
     }
 
-    override fun onInitializeAccessibilityNodeInfo(info: AccessibilityNodeInfo) {
-        super.onInitializeAccessibilityNodeInfo(info)
-        info.text = getAccessibilityNodeInfo()
+//    override fun onInitializeAccessibilityNodeInfo(info: AccessibilityNodeInfo) {
+//        super.onInitializeAccessibilityNodeInfo(info)
+//        info.text = getAccessibilityNodeInfo()
+//    }
+
+    override fun onInitializeAccessibilityNodeInfo(nodeInfo: AccessibilityNodeInfo) {
+        super.onInitializeAccessibilityNodeInfo(nodeInfo)
+        val text = this.text?.toString()
+        var hint = this.hint?.toString()
+        val error = (this.parent as? TextInputLayout)?.error ?: errorMessage
+        if (Strings.isEmpty(hint)) {
+            hint = (this.parentForAccessibility as? TextInputLayout)?.hint.toString()
+        }
+        val conDescription = if (Strings.isNotEmpty(this.contentDescription)) {
+            this.contentDescription.toString()
+        } else ""
+        nodeInfo.text = if (!valid) " $hint, $text, $defaultErrorString, $error, $conDescription" else " $hint, $text, $conDescription"
     }
 }

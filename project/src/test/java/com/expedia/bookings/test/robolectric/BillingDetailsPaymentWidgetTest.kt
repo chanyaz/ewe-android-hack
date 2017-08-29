@@ -29,7 +29,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.accessibility.AccessiblePasswordEditText
+import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
@@ -82,20 +82,48 @@ class BillingDetailsPaymentWidgetTest {
     fun testAccessibilityOnPaymentDetailScreen() {
         givenPackageTripWithVisaValidFormOfPayment()
         givenMaterialPaymentBillingWidget()
-        val expirationDate = billingDetailsPaymentWidget.findViewById(billingDetailsPaymentWidget.creditCardNumber.getNextFocusForwardId())
+
+        val creditCardNumber = billingDetailsPaymentWidget.creditCardNumber
+        assertEquals(activity.getString(R.string.credit_debit_card_hint), creditCardNumber.hint)
+
+        val maskedCreditCardNumber = billingDetailsPaymentWidget.maskedCreditCard
+        assertEquals(activity.getString(R.string.credit_card_hint), maskedCreditCardNumber.hint)
+
+        val expirationDate = billingDetailsPaymentWidget.findViewById(creditCardNumber.getNextFocusForwardId()) as AccessibleEditTextForSpinner
         assertEquals(expirationDate, billingDetailsPaymentWidget.expirationDate)
-        val cvvView = billingDetailsPaymentWidget.findViewById(expirationDate.getNextFocusForwardId())
+        assertEquals(activity.getString(R.string.expiration_date), expirationDate.hint)
+
+        val cvvView = billingDetailsPaymentWidget.findViewById(expirationDate.getNextFocusForwardId()) as AccessibleEditText
         assertEquals(cvvView, billingDetailsPaymentWidget.creditCardCvv)
-        val cardholderName = billingDetailsPaymentWidget.findViewById(cvvView.getNextFocusForwardId())
+        assertEquals(activity.getString(R.string.cvv_enter_security_code_v2), cvvView.hint)
+
+        val cardholderName = billingDetailsPaymentWidget.findViewById(cvvView.getNextFocusForwardId()) as AccessibleEditText
         assertEquals(cardholderName, billingDetailsPaymentWidget.creditCardName)
-        val addressLine1 = billingDetailsPaymentWidget.findViewById(cardholderName.getNextFocusForwardId())
+        assertEquals(activity.getString(R.string.cardholder_name_hint), cardholderName.hint)
+
+        val addressLine1 = billingDetailsPaymentWidget.findViewById(cardholderName.getNextFocusForwardId()) as AccessibleEditText
         assertEquals(addressLine1, billingDetailsPaymentWidget.addressLineOne)
-        val city = billingDetailsPaymentWidget.findViewById(addressLine1.getNextFocusForwardId())
+        assertEquals(activity.getString(R.string.address_line_one_hint), addressLine1.hint)
+
+        val addressLine2 = billingDetailsPaymentWidget.findViewById(addressLine1.getNextFocusForwardId()) as AccessibleEditText
+        assertEquals(addressLine2, billingDetailsPaymentWidget.addressLineTwo)
+        assertEquals(activity.getString(R.string.address_line_two_hint), addressLine2.hint)
+
+        val city = billingDetailsPaymentWidget.findViewById(addressLine2.getNextFocusForwardId()) as AccessibleEditText
         assertEquals(city, billingDetailsPaymentWidget.addressCity)
-        val state = billingDetailsPaymentWidget.findViewById(city.getNextFocusForwardId())
+        assertEquals(activity.getString(R.string.address_city_hint), city.hint)
+
+        val state = billingDetailsPaymentWidget.findViewById(city.getNextFocusForwardId()) as AccessibleEditText
         assertEquals(state, billingDetailsPaymentWidget.addressState)
-        val zip = billingDetailsPaymentWidget.findViewById(state.getNextFocusForwardId())
+        assertEquals(activity.getString(R.string.address_state_hint), state.hint)
+
+        val country = billingDetailsPaymentWidget.findViewById(state.getNextFocusForwardId()) as AccessibleEditText
+        assertEquals(country, billingDetailsPaymentWidget.editCountryEditText)
+        assertEquals(activity.getString(R.string.country), country.hint)
+
+        val zip = billingDetailsPaymentWidget.findViewById(country.getNextFocusForwardId()) as AccessibleEditText
         assertEquals(zip, billingDetailsPaymentWidget.creditCardPostalCode)
+        assertEquals(activity.getString(R.string.address_zip_code_hint), zip.hint)
     }
 
     @Test
