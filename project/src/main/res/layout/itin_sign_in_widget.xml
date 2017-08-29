@@ -19,6 +19,8 @@
         android:layout_below="@+id/sign_in_toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/xlarge_margin"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
         android:layout_marginBottom="64dp"
         android:gravity="center"
         android:orientation="horizontal">
