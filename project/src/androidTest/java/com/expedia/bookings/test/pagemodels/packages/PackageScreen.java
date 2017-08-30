@@ -44,6 +44,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.swipeDown;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
@@ -346,8 +347,8 @@ public class PackageScreen {
 
 	public static void clickLegalInformation() {
 		onView(withId(R.id.bottom_container)).perform(waitForViewToDisplay());
-		onView(withId(R.id.legal_information_text_view)).perform(scrollTo());
-		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), scrollTo(), click());
+		onView(withId(R.id.scrollView)).perform(swipeDown());
+		onView(withId(R.id.legal_information_text_view)).perform(scrollTo(), click());
 	}
 
 	public static void clickPaymentDone() {
