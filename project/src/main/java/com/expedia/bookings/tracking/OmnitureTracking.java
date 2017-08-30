@@ -46,6 +46,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightItineraryType;
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
@@ -483,6 +484,10 @@ public class OmnitureTracking {
 		if (searchTrackingData.getSwpEnabled()) {
 			events += ",event118";
 		}
+
+		String products = getSearchResultsHotelProductStrings(searchTrackingData.getHotels());
+		s.setProducts(products);
+
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), events);
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
@@ -1231,6 +1236,45 @@ public class OmnitureTracking {
 			+ hotelId;
 
 		products += ";" + numNights + ";" + totalCost;
+		return products;
+	}
+
+	public static String getSearchResultsHotelProductStrings(List<Hotel> hotels) {
+		String products = "";
+		int i = 1;
+
+		for (Hotel hotel : hotels) {
+			String hotelId = hotel.hotelId;
+			String listPosition = Integer.toString(i);
+			String airAttachedCode = hotel.lowRateInfo.airAttached ? "-MIP" : "";
+			String sponsoredCode = hotel.isSponsoredListing ? "-AD" : "";
+			String memberDealCode = hotel.isMemberDeal ? "-MOD" : "";
+
+			String strikeThroughPriceString = "";
+			float strikeThroughPriceFloat = hotel.lowRateInfo.strikethroughPriceToShowUsers;
+
+			if (strikeThroughPriceFloat > 0) {
+				BigDecimal strikeThroughBd = new BigDecimal(Float.toString(strikeThroughPriceFloat));
+				strikeThroughBd = strikeThroughBd.setScale(0, BigDecimal.ROUND_HALF_UP);
+
+				strikeThroughPriceString = strikeThroughBd.toString() + "-";
+			}
+
+			float priceToShowUsersFloat = hotel.lowRateInfo.priceToShowUsers < 0 ? 0 : hotel.lowRateInfo.priceToShowUsers;
+			BigDecimal priceToShowUsers = new BigDecimal(Float.toString(priceToShowUsersFloat));
+			priceToShowUsers = priceToShowUsers.setScale(0, BigDecimal.ROUND_HALF_UP);
+
+			String priceToShowUsersString = priceToShowUsers.toString();
+
+			String product = (i == 1) ? ";Hotel:" : ",;Hotel:";
+
+			product += hotelId + ";;;;eVar39=" + listPosition + airAttachedCode + sponsoredCode + memberDealCode +
+				"|eVar30=" + strikeThroughPriceString + priceToShowUsersString;
+
+			products += product;
+			i++;
+		}
+
 		return products;
 	}
 

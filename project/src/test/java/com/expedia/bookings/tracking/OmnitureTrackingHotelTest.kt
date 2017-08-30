@@ -2,7 +2,9 @@ package com.expedia.bookings.tracking
 
 import android.content.Context
 import com.expedia.bookings.ADMS_Measurement
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -16,6 +18,52 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class OmnitureTrackingHotelTest {
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testGetSearchResultsHotelProductStrings() {
+        var hotels = ArrayList<Hotel>(0)
+        val hotel0 = Hotel()
+        hotel0.hotelId = "0"
+        val hotel0LowRateInfo = HotelRate()
+        hotel0LowRateInfo.airAttached = false
+        hotel0LowRateInfo.strikethroughPriceToShowUsers = 100.0.toFloat()
+        hotel0LowRateInfo.priceToShowUsers = 50.0.toFloat()
+        hotel0.lowRateInfo = hotel0LowRateInfo
+        hotel0.isSponsoredListing = false
+        hotel0.isMemberDeal = false
+        val hotel0ExpectedString = ";Hotel:0;;;;eVar39=1|eVar30=100-50"
+
+        val hotel1 = Hotel()
+        hotel1.hotelId = "1"
+        val hotel1LowRateInfo = HotelRate()
+        hotel1LowRateInfo.airAttached = true
+        hotel1LowRateInfo.strikethroughPriceToShowUsers = 0.5.toFloat()
+        hotel1LowRateInfo.priceToShowUsers = 2.49.toFloat()
+        hotel1.lowRateInfo = hotel1LowRateInfo
+        hotel1.isSponsoredListing = true
+        hotel1.isMemberDeal = true
+        val hotel1ExpectedString = ",;Hotel:1;;;;eVar39=2-MIP-AD-MOD|eVar30=1-2"
+
+        val hotel2 = Hotel()
+        hotel2.hotelId = "2"
+        val hotel2LowRateInfo = HotelRate()
+        hotel2LowRateInfo.airAttached = true
+        hotel2LowRateInfo.strikethroughPriceToShowUsers = 0.0.toFloat()
+        hotel2LowRateInfo.priceToShowUsers = -1.5.toFloat()
+        hotel2.lowRateInfo = hotel2LowRateInfo
+        hotel2.isSponsoredListing = false
+        hotel2.isMemberDeal = false
+        val hotel2ExpectedString = ",;Hotel:2;;;;eVar39=3-MIP|eVar30=0"
+
+        hotels.add(hotel0)
+        hotels.add(hotel1)
+        hotels.add(hotel2)
+
+        val productString = OmnitureTracking.getSearchResultsHotelProductStrings(hotels)
+
+        assertEquals(hotel0ExpectedString + hotel1ExpectedString + hotel2ExpectedString, productString)
+    }
 
     // TODO reenable these tests with the new Omniture SDK architecture
 //    private lateinit var context: Context
