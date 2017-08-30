@@ -128,8 +128,10 @@ public class SearchResultsScreenSteps {
 		return stringBuilder.toString();
 	}
 
+
 	@Then("^Validate that XSell Package Banner is not displayed$")
 	public void validateXSellPackageNotDisplayed() throws Throwable {
 		xSellPackageBanner().check(doesNotExist());
 	}
+
 }
