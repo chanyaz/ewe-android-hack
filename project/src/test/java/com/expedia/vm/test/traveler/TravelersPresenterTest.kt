@@ -44,26 +44,12 @@ class TravelersPresenterTest {
     }
 
     @Test
-    fun testChangedMoreTravelersDoesntCrash() {
+    fun testChangedTravelersDoesntCrash() {
         Db.setTravelers(getMockTravelers(1))
         travelersPresenter.resetTravelers()
         travelersPresenter.updateAllTravelerStatuses()
         Db.setTravelers(getMockTravelers(2))
         travelersPresenter.resetTravelers()
         travelersPresenter.updateAllTravelerStatuses()
-    }
-
-    @Test
-    fun testChangedLessTravelersDoesntCrash() {
-        Db.setTravelers(getMockTravelers(2))
-        travelersPresenter.travelerPickerWidget.refresh(getMockTravelers(2))
-        travelersPresenter.resetTravelers()
-        travelersPresenter.updateAllTravelerStatuses()
-
-        Db.setTravelers(getMockTravelers(1))
-        travelersPresenter.travelerPickerWidget.refresh(getMockTravelers(1))
-        travelersPresenter.resetTravelers()
-        travelersPresenter.updateAllTravelerStatuses()
-        travelersPresenter.viewModel.passportRequired.onNext(true)
     }
 }
