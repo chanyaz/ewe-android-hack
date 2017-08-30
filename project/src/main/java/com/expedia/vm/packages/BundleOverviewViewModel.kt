@@ -4,20 +4,22 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
+import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
+import retrofit2.HttpException
 import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
@@ -154,9 +156,13 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 Log.i("package completed")
             }
 
-            override fun onError(e: Throwable?) {
-                Log.i("package error: " + e?.message)
-                if (RetrofitUtils.isNetworkError(e)) {
+            override fun onError(throwable: Throwable?) {
+                Log.i("package error: " + throwable?.message)
+                if (throwable is HttpException) {
+                    val response = throwable.response().errorBody()
+                    val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
+                    errorObservable.onNext(midError.firstError)
+                } else if (RetrofitUtils.isNetworkError(throwable)) {
                     val retryFun = fun() {
                         if (type.equals(PackageSearchType.HOTEL)) {
                             hotelParamsObservable.onNext(Db.getPackageParams())

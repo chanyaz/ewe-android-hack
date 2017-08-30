@@ -23,6 +23,9 @@ data class MultiItemApiSearchResponse(
     private var currentSelectedOffer: PackageOfferModel? = null
 
     fun setup(): BundleSearchResponse {
+        if (hasErrors()) {
+            return this
+        }
         sortedHotels = ArrayList()
         sortedFlights = ArrayList()
 
@@ -100,30 +103,45 @@ data class MultiItemApiSearchResponse(
     }
 
     override fun hasErrors(): Boolean {
-        return false
+        return errors?.isNotEmpty() ?: false
     }
 
     override val firstError: PackageApiError.Code
         get() {
-            throw RuntimeException("No errors to get!")
+            if (errors == null || errors.isEmpty()) {
+                throw RuntimeException("No errors to get!")
+            }
+            return when (errors.first().key) {
+                //TODO to be handled
+                else -> PackageApiError.Code.pkg_unknown_error
+            }
         }
 
     // MARK :- Hotel Room Response
     override fun getBundleRoomResponse(): List<HotelOffersResponse.HotelRoomResponse> {
         hotelRooms = ArrayList()
+        if (hasRoomResponseErrors()) {
+            return hotelRooms
+        }
         offers.map { offer ->
             hotelRooms += HotelOffersResponse.convertMidHotelRoomResponse(hotels[(offer.searchedOffer).productKey], offer)
         }
         return hotelRooms
     }
 
-    //ToDo MS: Error handling to be done seperately
     override fun hasRoomResponseErrors(): Boolean {
-        return false
+        return errors?.isNotEmpty() ?: false
     }
 
-    //ToDo MS: Error handling to be done seperately
     override val roomResponseFirstError: ApiError
-        get() = throw RuntimeException("No errors to get!")
+        get() {
+            if (errors == null || errors.isEmpty()) {
+                throw RuntimeException("No errors to get!")
+            }
+            return when (errors.first().key) {
+                //TODO to be handled
+                else -> ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
+            }
+        }
 
 }

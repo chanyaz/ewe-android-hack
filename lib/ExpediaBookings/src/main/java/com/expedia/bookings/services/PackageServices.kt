@@ -76,7 +76,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 adults = params.adults)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map { it.setup() }
+                .doOnNext { it.setup() }
+                .map { it }
     }
 
     fun multiItemRoomSearch(params: PackageSearchParams): Observable<MultiItemApiSearchResponse> {
@@ -112,11 +113,11 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 legIndex = 0)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map {
+                .doOnNext {
                     it.setup()
                     it.setCurrentOfferModel(it.getHotels().first().packageOfferModel)//TODO PUK
-                    it
                 }
+                .map { it }
     }
 
     private fun multiItemInboundFlightsSearch(params: PackageSearchParams): Observable<BundleSearchResponse> {
@@ -137,11 +138,11 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 outboundLegId = params.selectedLegId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map {
+                .doOnNext {
                     it.setup()
                     it.setCurrentOfferModel(it.getHotels().first().packageOfferModel)//TODO PUK
-                    it
                 }
+                .map { it }
     }
 
     //PSS API

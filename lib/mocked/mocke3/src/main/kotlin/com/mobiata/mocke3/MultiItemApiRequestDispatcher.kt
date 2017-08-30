@@ -16,19 +16,19 @@ class MultiItemApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
         return when {
             MultiItemApiRequestMatcher.isHotelSearchRequest(urlPath) -> {
                 val productKey = urlParams["origin"] ?: return make404()
-                getMockResponse("api/multiitem/v1/$productKey.json")
+                getMockResponse("api/multiitem/v1/$productKey.json", null, if (productKey.contains("error")) 400 else 200)
             }
             MultiItemApiRequestMatcher.isRoomsSearchRequest(urlPath) -> {
                 val productKey = urlParams["hotelId"] ?: return make404()
-                getMockResponse("api/multiitem/v1/$productKey.json")
+                getMockResponse("api/multiitem/v1/$productKey.json", null, if (productKey.contains("error")) 400 else 200)
             }
             MultiItemApiRequestMatcher.isFlightOutboundSearchRequest(urlPath) -> {
                 val productKey = urlParams["ratePlanCode"] ?: return make404()
-                getMockResponse("api/multiitem/v1/$productKey.json")
+                getMockResponse("api/multiitem/v1/$productKey.json", null, if (productKey.contains("error")) 400 else 200)
             }
             MultiItemApiRequestMatcher.isFlightInboundSearchRequest(urlPath) -> {
                 val productKey = urlParams["legId[0]"] ?: return make404()
-                getMockResponse("api/multiitem/v1/$productKey.json")
+                getMockResponse("api/multiitem/v1/$productKey.json", null, if (productKey.contains("error")) 400 else 200)
             }
             else -> make404()
         }

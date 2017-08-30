@@ -1,10 +1,14 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
 import org.joda.time.LocalDate
@@ -48,6 +52,21 @@ class BundleOverviewViewModelTests {
     }
 
     @Test
+    fun testHotelsError() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+        val errorSubscriber = TestSubscriber<PackageApiError.Code>()
+        sut.errorObservable.subscribe(errorSubscriber)
+
+        sut.hotelParamsObservable.onNext(setUpParams("error"))
+
+        errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        errorSubscriber.assertNoTerminalEvent()
+        errorSubscriber.assertNoErrors()
+
+        assertEquals(PackageApiError.Code.pkg_unknown_error, errorSubscriber.onNextEvents[0])
+    }
+
+    @Test
     fun testFlightsInbound() {
         val resultsSubscriber = TestSubscriber<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
@@ -60,6 +79,24 @@ class BundleOverviewViewModelTests {
         resultsSubscriber.assertValueCount(1)
 
         assertEquals(PackageSearchType.INBOUND_FLIGHT, resultsSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testFlightsInboundError() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+
+        val errorSubscriber = TestSubscriber<PackageApiError.Code>()
+        sut.errorObservable.subscribe(errorSubscriber)
+
+        val params = setUpParams()
+        params.selectedLegId = "error"
+        sut.flightParamsObservable.onNext(params)
+
+        errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        errorSubscriber.assertNoTerminalEvent()
+        errorSubscriber.assertNoErrors()
+
+        assertEquals(PackageApiError.Code.pkg_unknown_error, errorSubscriber.onNextEvents[0])
     }
 
     @Test
@@ -79,9 +116,27 @@ class BundleOverviewViewModelTests {
         assertEquals(PackageSearchType.OUTBOUND_FLIGHT, resultsSubscriber.onNextEvents[0])
     }
 
-    private fun setUpParams(): PackageSearchParams {
+    @Test
+    fun testFlightsOutboundError() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+
+        val errorSubscriber = TestSubscriber<PackageApiError.Code>()
+        sut.errorObservable.subscribe(errorSubscriber)
+
+        val params = setUpParams()
+        params.ratePlanCode = "error"
+        sut.flightParamsObservable.onNext(params)
+
+        errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        errorSubscriber.assertNoTerminalEvent()
+        errorSubscriber.assertNoErrors()
+
+        assertEquals(PackageApiError.Code.pkg_unknown_error, errorSubscriber.onNextEvents[0])
+    }
+
+    private fun setUpParams(originAirportCode: String = ""): PackageSearchParams {
         val packageParams = PackageSearchParams.Builder(26, 329)
-                .origin(getDummySuggestion())
+                .origin(getDummySuggestion(originAirportCode))
                 .destination(getDummySuggestion())
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
@@ -90,7 +145,7 @@ class BundleOverviewViewModelTests {
         return packageParams
     }
 
-    private fun getDummySuggestion(): SuggestionV4 {
+    private fun getDummySuggestion(airportCode: String = ""): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         suggestion.regionNames = SuggestionV4.RegionNames()
@@ -99,7 +154,7 @@ class BundleOverviewViewModelTests {
         suggestion.regionNames.shortName = ""
         suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
         suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = ""
+        suggestion.hierarchyInfo!!.airport!!.airportCode = airportCode
         suggestion.hierarchyInfo!!.airport!!.multicity = "happy"
         return suggestion
     }

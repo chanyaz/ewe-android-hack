@@ -14,11 +14,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse;
+import com.expedia.bookings.data.packages.PackageApiError;
 import com.expedia.bookings.data.packages.PackageCreateTripParams;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
@@ -26,14 +28,17 @@ import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ProductSearchType;
 import com.expedia.bookings.utils.Constants;
+import com.google.gson.Gson;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import retrofit2.HttpException;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -143,6 +148,41 @@ public class PackageServicesTest {
 	}
 
 	@Test
+	public void testMockMIDHotelSearchError() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+
+		SuggestionV4 originSuggestion = getDummySuggestion();
+		originSuggestion.hierarchyInfo.airport.airportCode = "error";
+
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(originSuggestion)
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+		service.packageSearch(params, ProductSearchType.MultiItemHotels).subscribe(observer);
+
+		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
+
+		Throwable throwable = observer.getOnErrorEvents().get(0);
+		if (throwable instanceof HttpException) {
+			ResponseBody response = ((HttpException) throwable).response().errorBody();
+			Assert.assertNotNull(response);
+			MultiItemApiSearchResponse midError = new Gson()
+				.fromJson(response.charStream(), MultiItemApiSearchResponse.class);
+			Assert.assertNotNull(midError);
+			Assert.assertEquals(PackageApiError.Code.pkg_unknown_error, midError.getFirstError());
+		}
+		else {
+			Assert.fail("Error should be of type HttpException");
+		}
+	}
+
+	@Test
 	public void testMockMIDFlightOutboundSearchWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
@@ -184,6 +224,42 @@ public class PackageServicesTest {
 		}
 		Assert.assertEquals(50, uniqueOutboundFlightLegs.size());
 		Assert.assertEquals(18, uniqueInboundFlightLegs.size());
+	}
+
+	@Test
+	public void testMockMIDFlightOutboundSearchError() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+		params.setHotelId("hotelID");
+		params.setRatePlanCode("error");
+		params.setRoomTypeCode("flight_outbound_happy");
+
+		service.packageSearch(params, ProductSearchType.MultiItemOutboundFlights).subscribe(observer);
+
+		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
+
+		Throwable throwable = observer.getOnErrorEvents().get(0);
+		if (throwable instanceof HttpException) {
+			ResponseBody response = ((HttpException) throwable).response().errorBody();
+			Assert.assertNotNull(response);
+			MultiItemApiSearchResponse midError = new Gson()
+				.fromJson(response.charStream(), MultiItemApiSearchResponse.class);
+			Assert.assertNotNull(midError);
+			Assert.assertEquals(PackageApiError.Code.pkg_unknown_error, midError.getFirstError());
+		}
+		else {
+			Assert.fail("Error should be of type HttpException");
+		}
 	}
 
 	@Test
@@ -232,6 +308,43 @@ public class PackageServicesTest {
 	}
 
 	@Test
+	public void testMockMIDFlightInboundSearchError() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+		params.setHotelId("hotelID");
+		params.setRatePlanCode("flight_outbound_happy");
+		params.setRoomTypeCode("flight_outbound_happy");
+		params.setSelectedLegId("error");
+
+		service.packageSearch(params, ProductSearchType.MultiItemInboundFlights).subscribe(observer);
+
+		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
+
+		Throwable throwable = observer.getOnErrorEvents().get(0);
+		if (throwable instanceof HttpException) {
+			ResponseBody response = ((HttpException) throwable).response().errorBody();
+			Assert.assertNotNull(response);
+			MultiItemApiSearchResponse midError = new Gson()
+				.fromJson(response.charStream(), MultiItemApiSearchResponse.class);
+			Assert.assertNotNull(midError);
+			Assert.assertEquals(PackageApiError.Code.pkg_unknown_error, midError.getFirstError());
+		}
+		else {
+			Assert.fail("Error should be of type HttpException");
+		}
+	}
+
+	@Test
 	public void testMockMIDRoomSearchWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
@@ -256,6 +369,41 @@ public class PackageServicesTest {
 		MultiItemApiSearchResponse response = observer.getOnNextEvents().get(0);
 
 		Assert.assertEquals("255.00", response.getOffers().get(0).getPrice().getBasePrice().getAmount().toString());
+	}
+
+	@Test
+	public void testMockMIDRoomSearchError() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
+
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+		params.setHotelId("error");
+
+		service.multiItemRoomSearch(params).subscribe(observer);
+
+		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
+
+		Throwable throwable = observer.getOnErrorEvents().get(0);
+		if (throwable instanceof HttpException) {
+			ResponseBody response = ((HttpException) throwable).response().errorBody();
+			Assert.assertNotNull(response);
+			MultiItemApiSearchResponse midError = new Gson()
+				.fromJson(response.charStream(), MultiItemApiSearchResponse.class);
+			Assert.assertNotNull(midError);
+			Assert.assertNotNull(midError.getRoomResponseFirstError());
+			Assert.assertEquals(ApiError.Code.PACKAGE_SEARCH_ERROR, midError.getRoomResponseFirstError().errorCode);
+		}
+		else {
+			Assert.fail("Error should be of type HttpException");
+		}
 	}
 
 	@Test

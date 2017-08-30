@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.AnimationListenerAdapter
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -23,6 +24,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.multiitem.BundleHotelRoomResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
+import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
@@ -38,7 +40,16 @@ import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.PackageResponseUtils
+import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.SlidingBundleWidget
@@ -49,6 +60,8 @@ import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
+import com.google.gson.Gson
+import retrofit2.HttpException
 import rx.Observable
 import rx.Observer
 import rx.Subscriber
@@ -287,11 +300,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         Observable.zip(packageHotelOffers.doOnError {}, info.doOnError {},
                 { packageHotelOffers, info ->
                     if (packageHotelOffers.hasRoomResponseErrors()) {
-                        val activity = (context as AppCompatActivity)
-                        val resultIntent = Intent()
-                        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, packageHotelOffers.roomResponseFirstError.errorCode.name)
-                        activity.setResult(Activity.RESULT_OK, resultIntent)
-                        activity.finish()
+                        handleRoomResponseErrors(packageHotelOffers.roomResponseFirstError.errorCode)
                         return@zip
                     }
                     val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers.getBundleRoomResponse(), packageHotelOffers.getHotelCheckInDate(), packageHotelOffers.getHotelCheckOutDate())
@@ -306,10 +315,24 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         ).subscribe(makeErrorSubscriber(true))
     }
 
+    private fun handleRoomResponseErrors(errorCode: ApiError.Code) {
+        val activity = (context as AppCompatActivity)
+        val resultIntent = Intent()
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, errorCode.name)
+        activity.setResult(Activity.RESULT_OK, resultIntent)
+        activity.finish()
+    }
+
     private fun makeErrorSubscriber(showErrorDialog: Boolean): Subscriber<Any> {
         return object : Subscriber<Any>() {
-            override fun onError(e: Throwable) {
-                if (showErrorDialog) handleError(e)
+            override fun onError(throwable: Throwable) {
+                if (throwable is HttpException) {
+                    val response = throwable.response().errorBody()
+                    val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
+                    handleRoomResponseErrors(midError.roomResponseFirstError.errorCode)
+                } else if (showErrorDialog) {
+                    handleError(throwable)
+                }
             }
 
             override fun onNext(t: Any?) {
