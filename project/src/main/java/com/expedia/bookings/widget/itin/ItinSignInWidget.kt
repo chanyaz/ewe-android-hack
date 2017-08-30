@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.trips
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
@@ -45,6 +46,7 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
         signInText.text = viewModel.getSignInText()
         signInContainer.subscribeOnClick(viewModel.signInClickSubject)
         addGuestItinTextButton.subscribeOnClick(viewModel.addGuestItinClickSubject)
+        addGuestItinTextButton.setCompoundDrawablesTint(ContextCompat.getColor(getContext(), R.color.itin_add_guest_text_button_color));
 
         viewModel.statusTextColorSubject.subscribeTextColor(statusText)
         viewModel.statusImageVisibilitySubject.subscribeVisibility(statusImage)

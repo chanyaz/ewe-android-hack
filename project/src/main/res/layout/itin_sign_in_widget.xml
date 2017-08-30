@@ -121,18 +121,42 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:background="@color/gray9" />
+            android:background="@color/gray9"
+            android:padding="20dp"/>
     </LinearLayout>
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/add_guest_itin_text_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/hint_container"
-        android:layout_centerHorizontal="true"
-        android:background="?attr/selectableItemBackground"
-        android:padding="20dp"
-        android:text="@string/itin_sign_in_add_guest_trip_message"
-        android:textColor="@color/gray9"
-        android:textSize="16sp" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/add_guest_itin_intro_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/itin_list_view_manually_add_guest_trip_intro_text"
+            android:textColor="@color/gray10"
+            android:textSize="16sp"
+            app:textStyle="normal" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/add_guest_itin_text_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:drawableLeft="@drawable/ic_plus_icon_android"
+            android:drawablePadding="8dp"
+            android:layout_marginTop="18dp"
+            android:text="@string/itin_sign_in_add_guest_trip_button_text"
+            android:textAllCaps="true"
+            android:textColor="@color/itin_add_guest_text_button_color"
+            android:textSize="14sp"
+            app:textStyle="medium" />
+</LinearLayout>
 </merge>
