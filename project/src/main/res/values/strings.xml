@@ -4668,8 +4668,8 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">Select a gender</string>
     <string name="passport_validation_error_message">Select a passport country</string>
-    <!-- Itin screen message for adding a guest trip-->
-    <string name="itin_sign_in_add_guest_trip_message">Manually add your guest booked trip</string>
+    <!-- Itin screen message for adding a guest trip button-->
+    <string name="itin_sign_in_add_guest_trip_button_text">Manually add guest booked trip</string>
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">Enter valid itinerary number</string>
     <!-- Itin screen message for signing in-->
