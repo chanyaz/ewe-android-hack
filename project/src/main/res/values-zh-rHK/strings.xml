@@ -2233,7 +2233,7 @@
     <!-- No assistance type -->
     <string name="no_assistance">無需特別協助</string>
     <!-- Blind with seeing eye dog -->
-    <string name="blind_with_seeing_eye_dog">攜導盲犬的視障人士</string>
+    <string name="blind_with_guide_dog">攜導盲犬的視障人士</string>
     <!-- Deaf with hearing dog -->
     <string name="deaf_with_hearing_dog">攜助聽犬的聽障人士</string>
     <!-- Wheelchair needed -->

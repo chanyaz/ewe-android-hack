@@ -191,8 +191,8 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 			.getString(R.string.wheelchair_no_stairs)));
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.DEAF_WITH_HEARING_DOG, res
 			.getString(R.string.deaf_with_hearing_dog)));
-		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.BLIND_WITH_SEEING_EYE_DOG, res
-			.getString(R.string.blind_with_seeing_eye_dog)));
+		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.BLIND_WITH_GUIDE_DOG, res
+			.getString(R.string.blind_with_guide_dog)));
 
 	}
 

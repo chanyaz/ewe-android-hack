@@ -2233,7 +2233,7 @@
     <!-- No assistance type -->
     <string name="no_assistance">Keine besondere Betreuung erforderlich</string>
     <!-- Blind with seeing eye dog -->
-    <string name="blind_with_seeing_eye_dog">Blind mit Blindenhund</string>
+    <string name="blind_with_guide_dog">Blind mit Blindenhund</string>
     <!-- Deaf with hearing dog -->
     <string name="deaf_with_hearing_dog">Gehörlos mit Signalhund</string>
     <!-- Wheelchair needed -->

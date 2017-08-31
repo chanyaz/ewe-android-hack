@@ -2233,7 +2233,7 @@
     <!-- No assistance type -->
     <string name="no_assistance">Tidak Perlu Bantuan Khusus</string>
     <!-- Blind with seeing eye dog -->
-    <string name="blind_with_seeing_eye_dog">Tuna netra dengan anjing penuntun</string>
+    <string name="blind_with_guide_dog">Tuna netra dengan anjing penuntun</string>
     <!-- Deaf with hearing dog -->
     <string name="deaf_with_hearing_dog">Tuna rungu dengan anjing pengawas</string>
     <!-- Wheelchair needed -->

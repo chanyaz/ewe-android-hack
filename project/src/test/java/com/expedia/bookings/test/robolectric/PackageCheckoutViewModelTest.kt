@@ -98,7 +98,7 @@ class PackageCheckoutViewModelTest {
         traveler.passengerCategory = PassengerCategory.ADULT
         traveler.birthDate = LocalDate.now().minusYears(18)
         traveler.primaryPassportCountry = "usa"
-        traveler.assistance = Traveler.AssistanceType.BLIND_WITH_SEEING_EYE_DOG
+        traveler.assistance = Traveler.AssistanceType.BLIND_WITH_GUIDE_DOG
 
         return traveler
     }
