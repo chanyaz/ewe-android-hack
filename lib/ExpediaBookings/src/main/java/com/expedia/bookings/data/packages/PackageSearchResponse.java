@@ -14,7 +14,7 @@ public class PackageSearchResponse extends PackageBaseApiResponse implements Bun
 	@SerializedName("packagePageInput")
 	public PackageInfo packageInfo;
 	public PackageResult packageResult;
-	public UniversalDataObject universalDataObject;
+//	public UniversalDataObject universalDataObject;
 
 	@Override
 	public String getHotelCheckInDate() {
@@ -28,12 +28,14 @@ public class PackageSearchResponse extends PackageBaseApiResponse implements Bun
 
 	@Override
 	public int getHotelResultsCount() {
-		return universalDataObject.entity.packageFHSearch.packageFHSearchResults.resultsCount;
+//		return universalDataObject.entity.packageFHSearch.packageFHSearchResults.resultsCount;
+		return 0;
 	}
 
 	@Override
 	public boolean hasSponsoredHotelListing() {
-		return universalDataObject.entity.packageFHSearch.packageFHSearchResults.sponsoredListingsSize > 0;
+//		return universalDataObject.entity.packageFHSearch.packageFHSearchResults.sponsoredListingsSize > 0;
+		return false;
 	}
 
 	@Override

@@ -193,7 +193,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
 
         Observable.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, trackEvent -> packageSearchResponse }).subscribe {
-            trackSearchResult(it)
+//            trackSearchResult(it)
         }
     }
 
