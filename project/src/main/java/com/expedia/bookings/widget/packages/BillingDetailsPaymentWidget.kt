@@ -70,9 +70,12 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         }
         paymentViewModel.updateBillingCountryFields.subscribe { country ->
             val hideFieldsRequirements = getBillingAddressCountryConfig(country)
-            val showState = hideFieldsRequirements.stateRequired != CountryConfig.StateRequired.NOT_REQUIRED
-            postalCodeLayout?.updateVisibility(hideFieldsRequirements.postalCodeRequired)
-            addressStateLayout?.updateVisibility(showState)
+            val showStateField = hideFieldsRequirements.stateRequired != CountryConfig.StateRequired.NOT_REQUIRED
+            val showPostalField = hideFieldsRequirements.postalCodeRequired
+            addressStateLayout?.updateVisibility(showStateField)
+            postalCodeLayout?.updateVisibility(showPostalField)
+            if (!showStateField) addressState.setText("")
+            if (!hideFieldsRequirements.postalCodeRequired) creditCardPostalCode.setText("")
             postalCodeLayout?.clearFocus()
             addressStateLayout?.clearFocus()
         }

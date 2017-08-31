@@ -760,6 +760,17 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
+    fun testMaterialBillingHiddenFieldsCleared() {
+        givenMaterialPaymentBillingWidget()
+
+        billingDetailsPaymentWidget.addressState.setText("CA")
+        billingDetailsPaymentWidget.creditCardPostalCode.setText("12345")
+        billingDetailsPaymentWidget.viewmodel.updateBillingCountryFields.onNext("AL")
+        assertTrue(billingDetailsPaymentWidget.addressState.text.isEmpty())
+        assertFalse(billingDetailsPaymentWidget.creditCardPostalCode.text.isEmpty())
+    }
+
+    @Test
     fun testShouldHideBillingAddressFields() {
         givenMaterialPaymentBillingWidget()
         billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(true)
