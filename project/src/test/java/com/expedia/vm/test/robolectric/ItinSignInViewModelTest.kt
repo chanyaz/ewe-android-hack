@@ -7,7 +7,7 @@ import com.expedia.bookings.data.user.User
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.tracking.ItinPageUsableTrackingData
+import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.itin.ItinSignInViewModel
 import org.junit.Before
@@ -24,7 +24,7 @@ class ItinSignInViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: ItinSignInViewModel
     lateinit private var testItinSignInViewModel: TestItinSignInViewModel
-    lateinit private var mockItinPageUsablePerformanceModel: ItinPageUsableTrackingData
+    lateinit private var mockItinPageUsablePerformanceModel: ItinPageUsableTracking
 
     val statusTextTestSubscriber = TestSubscriber<String>()
     val buttonTextTestSubscriber = TestSubscriber<String>()
@@ -118,7 +118,7 @@ class ItinSignInViewModelTest {
 
     private fun setUpItinLogin() {
         testItinSignInViewModel = TestItinSignInViewModel(activity)
-        mockItinPageUsablePerformanceModel = Mockito.mock(ItinPageUsableTrackingData::class.java)
+        mockItinPageUsablePerformanceModel = Mockito.mock(ItinPageUsableTracking::class.java)
         testItinSignInViewModel.itinPageUsablePerformanceModel = mockItinPageUsablePerformanceModel
     }
 

@@ -62,13 +62,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
         , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
 
-    private val TOOLBAR_ANIM_DURATION = 200L
-
-    val NUMBER_OF_TABS = 3
-    val PAGER_POS_LAUNCH = 0
-    val PAGER_POS_ITIN = 1
-    val PAGER_POS_ACCOUNT = 2
-    var PAGER_SELECTED_POS = PAGER_POS_LAUNCH
+    private var pagerSelectedPosition = PAGER_POS_LAUNCH
 
     lateinit var appStartupTimeLogger: AppStartupTimeLogger
         @Inject set
@@ -273,20 +267,20 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         override fun onTabSelected(tab: TabLayout.Tab) {
             val tripComponent = Ui.getApplication(this@NewPhoneLaunchActivity).tripComponent()
-            if (tab.position != PAGER_SELECTED_POS) {
-                PAGER_SELECTED_POS = tab.position
+            if (tab.position != pagerSelectedPosition) {
+                pagerSelectedPosition = tab.position
             } else {
                 // if we are in shops or account tab scroll to top
-                if (PAGER_SELECTED_POS == PAGER_POS_ACCOUNT) {
+                if (pagerSelectedPosition == PAGER_POS_ACCOUNT) {
                     accountFragment?.smoothScrollToTop()
-                } else if (PAGER_SELECTED_POS == PAGER_POS_LAUNCH) {
+                } else if (pagerSelectedPosition == PAGER_POS_LAUNCH) {
                     newPhoneLaunchFragment?.smoothScrollToTop()
                 }
             }
 
             if (tab.position != PAGER_POS_ITIN) {
                 if (tripComponent != null) {
-                    val itinPageUsablePerformanceModel = tripComponent.itinPageUsablePerformanceModel()
+                    val itinPageUsablePerformanceModel = tripComponent.itinPageUsableTracking()
                     itinPageUsablePerformanceModel.resetStartTime()
                 }
             }
@@ -299,7 +293,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                     }
                     PAGER_POS_ITIN -> {
                         if (tripComponent != null) {
-                            val itinPageUsablePerformanceModel = tripComponent.itinPageUsablePerformanceModel()
+                            val itinPageUsablePerformanceModel = tripComponent.itinPageUsableTracking()
                             itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
                         }
                         gotoItineraries()
@@ -610,6 +604,13 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     companion object {
+        private const val TOOLBAR_ANIM_DURATION = 200L
+
+        private const val NUMBER_OF_TABS = 3
+        private const val PAGER_POS_LAUNCH = 0
+        private const val PAGER_POS_ITIN = 1
+        private const val PAGER_POS_ACCOUNT = 2
+
         @JvmField val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
         @JvmField val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
         @JvmField val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"

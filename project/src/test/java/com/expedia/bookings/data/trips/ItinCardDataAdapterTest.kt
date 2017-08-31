@@ -1,35 +1,47 @@
 package com.expedia.bookings.data.trips
 
 import android.content.Context
+import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.AirAttach
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.tracking.ItinPageUsableTrackingData
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers
 import org.mockito.Mockito
+import org.mockito.stubbing.Answer
 import org.robolectric.RuntimeEnvironment
 import java.util.HashSet
+import org.mockito.Mockito.`when` as whenever
 
 @RunWith(RobolectricRunner::class)
 class ItinCardDataAdapterTest {
 
     val context = RuntimeEnvironment.application
 
-    lateinit private var sut: ItinCardDataAdapter
-    lateinit private var mockedPageUsableTrackingDataModel: ItinPageUsableTrackingData
+    private lateinit var sut: ItinCardDataAdapter
+    private lateinit var mockedPageUsableTrackingDataModel: ItinPageUsableTracking
+    private lateinit var mockedItineraryManager: ItineraryManager
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
         Db.getTripBucket().clearAirAttach()
-        // make mock itinerary manager
-        val mockItineraryManager = createMockItinManager()
-        mockedPageUsableTrackingDataModel = Mockito.mock(ItinPageUsableTrackingData::class.java)
-        sut = TestItinCardDataAdapter(context, mockItineraryManager, mockedPageUsableTrackingDataModel)
+        mockedItineraryManager = createMockItinManager()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        mockedPageUsableTrackingDataModel = Mockito.spy(ItinPageUsableTracking())
+        Mockito.doAnswer(Answer<String?> {
+            if (it.callRealMethod() != null) {
+                return@Answer "0.10"
+            } else {
+                return@Answer null
+            }
+        }).`when`(mockedPageUsableTrackingDataModel).getLoadTimeInSeconds()
+        sut = TestItinCardDataAdapter(context, mockedItineraryManager, mockedPageUsableTrackingDataModel)
         // setup air attach bucket
         enableAirAttach()
     }
@@ -49,8 +61,17 @@ class ItinCardDataAdapterTest {
         givenPageUsableTrackingDataModelHasStartTime()
         sut.trackItinLoginPageUsable()
 
-        Mockito.verify(mockedPageUsableTrackingDataModel, Mockito.times(1)).hasStartTime()
-        Mockito.verify(mockedPageUsableTrackingDataModel, Mockito.times(1)).markTripResultsUsable(Matchers.anyLong())
+        assertPageUsableTracked()
+    }
+
+    @Test
+    fun trackItinLoginPageUsableWithNoData() {
+        givenPageUsableTrackingDataModelHasStartTime()
+        givenNoItinDataAvailable()
+
+        sut.trackItinLoginPageUsable()
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
     }
 
     @Test
@@ -58,47 +79,56 @@ class ItinCardDataAdapterTest {
         givenPageUsableTrackingDataModelNoStartTime()
         sut.trackItinLoginPageUsable()
 
-        Mockito.verify(mockedPageUsableTrackingDataModel, Mockito.times(1)).hasStartTime()
-        Mockito.verify(mockedPageUsableTrackingDataModel, Mockito.never()).markTripResultsUsable(Matchers.anyLong())
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    }
+
+    @Test
+    fun trackItinLoginPageUsableTwiceOnlyActuallyTracksOnce() {
+        givenPageUsableTrackingDataModelHasStartTime()
+
+        sut.trackItinLoginPageUsable()
+        sut.trackItinLoginPageUsable()
+
+        assertPageUsableTracked()
     }
 
     private fun givenPageUsableTrackingDataModelNoStartTime() {
-        Mockito.`when`(mockedPageUsableTrackingDataModel.hasStartTime()).thenReturn(false)
+        mockedPageUsableTrackingDataModel.resetStartTime()
     }
 
     private fun givenPageUsableTrackingDataModelHasStartTime() {
-        Mockito.`when`(mockedPageUsableTrackingDataModel.hasStartTime()).thenReturn(true)
+        mockedPageUsableTrackingDataModel.markSuccessfulStartTime(System.currentTimeMillis())
+    }
+
+    private fun givenNoItinDataAvailable() {
+        whenever(mockedItineraryManager.itinCardData).thenReturn(emptyList())
     }
 
     private fun createMockItinManager(): ItineraryManager {
         val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
         val itinCardData = ItinCardDataFlightBuilder().build(airAttachEnabled = true)
-        Mockito.`when`(mockItineraryManager.itinCardData).thenReturn(listOf(itinCardData))
+        whenever(mockItineraryManager.itinCardData).thenReturn(listOf(itinCardData))
         return mockItineraryManager
     }
 
     private fun enableAirAttach() {
         val airAttach = Mockito.mock(AirAttach::class.java)
-        Mockito.`when`(airAttach.isAirAttachQualified).thenReturn(true)
+        whenever(airAttach.isAirAttachQualified).thenReturn(true)
         Db.getTripBucket().setAirAttach(airAttach)
     }
 
-    class TestItinCardDataAdapter(context: Context, val mockedItineraryManager: ItineraryManager, val mockedPageUsableTrackingDataModel: ItinPageUsableTrackingData?) : ItinCardDataAdapter(context) {
+    private fun assertPageUsableTracked() {
+        OmnitureTestUtils.assertStateTrackedWithEvents("App.Itinerary", "event63,event220,event221=0.10", mockAnalyticsProvider)
+    }
 
-        override fun getItineraryManagerInstance(): ItineraryManager {
-            return mockedItineraryManager
-        }
+    class TestItinCardDataAdapter(context: Context, private val itinManager: ItineraryManager, private val putDataModel: ItinPageUsableTracking?) : ItinCardDataAdapter(context) {
 
-        override fun getDismissedHotelAndFlightButtons(): HashSet<String> {
-            return HashSet()
-        }
+        override fun getItineraryManager(): ItineraryManager = itinManager
 
-        override fun getDismissedLXAttachButtons(): HashSet<String> {
-            return HashSet()
-        }
+        override fun getDismissedHotelAndFlightButtons(): HashSet<String> = HashSet()
 
-        override fun getItinPageUsableTrackingDataModel(): ItinPageUsableTrackingData? {
-            return mockedPageUsableTrackingDataModel
-        }
+        override fun getDismissedLXAttachButtons(): HashSet<String> = HashSet()
+
+        override fun getItinPageUsableTracking(): ItinPageUsableTracking? = putDataModel
     }
 }

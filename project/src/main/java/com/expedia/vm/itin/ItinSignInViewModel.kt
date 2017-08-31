@@ -15,7 +15,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.User
-import com.expedia.bookings.tracking.ItinPageUsableTrackingData
+import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender
@@ -29,7 +29,7 @@ import javax.inject.Inject
 // Open for testing
 open class ItinSignInViewModel(val context: Context) {
 
-    lateinit var itinPageUsablePerformanceModel: ItinPageUsableTrackingData
+    lateinit var itinPageUsablePerformanceModel: ItinPageUsableTracking
         @Inject set
 
     var addGuestItinClickSubject = PublishSubject.create<Unit>()

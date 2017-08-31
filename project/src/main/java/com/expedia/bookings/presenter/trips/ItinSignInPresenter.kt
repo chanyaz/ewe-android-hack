@@ -10,7 +10,7 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
-import com.expedia.bookings.tracking.ItinPageUsableTrackingData
+import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -21,7 +21,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
     val itinFetchProgressWidget: ItinFetchProgressWidget by bindView(R.id.itin_fetch_progress_widget)
     val syncListenerAdapter = createSyncAdapter()
 
-    lateinit var itinPageUsablePerformanceModel: ItinPageUsableTrackingData
+    lateinit var itinPageUsablePerformanceModel: ItinPageUsableTracking
         @Inject set
 
     private val defaultTransition = object : Presenter.DefaultTransition(ItinSignInWidget::class.java.name) {

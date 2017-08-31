@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Collection;
+import java.util.List;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -9,7 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.support.annotation.VisibleForTesting;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -27,6 +31,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.Db;
@@ -39,6 +44,7 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.itin.ItinPageUsableTracking;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -51,7 +57,7 @@ import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
-import java.util.Collection;
+
 import kotlin.Unit;
 import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
@@ -76,7 +82,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ItinListView mItinListView;
 	private View mOrEnterNumberTv;
 	private UserReviewRatingDialog ratingDialog;
-	private ItineraryManager mItinManager;
 	private ViewGroup mEmptyListLoadingContainer;
 	private ViewGroup mEmptyListContent;
 	private Button mStatusRefreshButton;
@@ -93,6 +98,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private boolean mIsLoading = false;
 	private String mJumpToItinId = null;
 	private UserStateManager userStateManager;
+	private boolean isAttached = false;
 
 	//Have we tracked this itin list view yet?
 	private boolean mItinListTracked = false;
@@ -115,9 +121,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	/**
 	 * Creates a new fragment that will open right away to the passed uniqueId.
-	 *
-	 * @param uniqueId
-	 * @return
 	 */
 	public static ItinItemListFragment newInstance(String uniqueId, boolean newLaunchScreen) {
 		ItinItemListFragment frag = new ItinItemListFragment();
@@ -132,18 +135,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		return new ItinItemListFragment();
 	}
 
-	@VisibleForTesting
-	protected ItinListView getItinListView() {
-		return mItinListView;
-	}
-
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 
-		mItinManager = ItineraryManager.getInstance();
-		mItinManager.addSyncListener(this);
+		isAttached = true;
+		getItineraryManager().addSyncListener(this);
 
 		// Not a strict requirement
 		if (context instanceof ItinItemListFragmentListener) {
@@ -264,7 +262,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		if (mSignInPresenter == null) {
 			ViewStub viewStub = Ui.findView(rootView, R.id.sign_in_presenter_stub);
 			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
-			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
+			getItineraryManager().addSyncListener(mSignInPresenter.getSyncListenerAdapter());
 			mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
 				new Action1<Unit>() {
 					@Override
@@ -313,8 +311,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public void onDetach() {
 		super.onDetach();
 
-		mItinManager.removeSyncListener(this);
-		mItinManager = null;
+		getItineraryManager().removeSyncListener(this);
+		isAttached = false;
 	}
 
 	public int getItinCardCount() {
@@ -351,7 +349,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 		// ItinListView will take care of executing these in order.
 		mItinListView.hideDetails(false);
-		String itinId = mItinManager.getItinIdByTripNumber(id);
+		String itinId = getItineraryManager().getItinIdByTripNumber(id);
 		if (itinId == null) {
 			itinId = id;
 		}
@@ -365,8 +363,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public void syncItinManager(boolean forceRefresh, boolean showLoading) {
-		if (mAllowLoadItins && mItinListView != null && mItinManager != null) {
-			boolean syncing = mItinManager.startSync(forceRefresh);
+		if (mAllowLoadItins && mItinListView != null && isAttached) {
+			boolean syncing = getItineraryManager().startSync(forceRefresh);
 			setIsLoading(syncing);
 			if (syncing && (showLoading || getItinCardCount() <= 0)) {
 				setIsLoading(true);
@@ -419,6 +417,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public synchronized void startLoginActivity() {
 		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
 		User.signIn(getActivity(), args);
+	}
+
+	@NonNull
+	protected ItineraryManager getItineraryManager() {
+		return ItineraryManager.getInstance();
 	}
 
 	private void updateLoginState() {
@@ -771,6 +774,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		super.setUserVisibleHint(visible);
 		if (visible) {
 			showUserReview();
+			if (isResumed()) {
+				trackItinPageUsable();
+			}
 		}
 	}
 
@@ -786,5 +792,27 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void showDeepRefreshLoadingView(boolean show) {
 		mDeepRefreshLoadingView.setVisibility(show ? View.VISIBLE : View.GONE);
+	}
+
+	private void trackItinPageUsable() {
+		ItinPageUsableTracking pageUsableTracking = getItinPageUsableTracking();
+		if (pageUsableTracking != null) {
+			List<ItinCardData> dataList = getItineraryManager().getItinCardData();
+			if (dataList != null && dataList.size() > 0) {
+				pageUsableTracking.markTripResultsUsable(System.currentTimeMillis());
+				pageUsableTracking.trackIfReady(getItineraryManager().getItinCardData());
+			}
+		}
+	}
+
+	@Nullable
+	protected ItinPageUsableTracking getItinPageUsableTracking() {
+		com.expedia.bookings.dagger.TripComponent tripComponent = Ui.getApplication(getContext()).tripComponent();
+		if (tripComponent != null) {
+			return tripComponent.itinPageUsableTracking();
+		}
+		else {
+			return null;
+		}
 	}
 }

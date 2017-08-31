@@ -1,12 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-
-import com.expedia.bookings.itin.data.ItinCardDataHotel;
-import com.expedia.bookings.tracking.ItinPageUsableTrackingData;
-import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Ui;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +8,8 @@ import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Pair;
@@ -27,8 +22,11 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.itin.ItinPageUsableTracking;
+import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.itin.FlightItinCard;
 import com.expedia.bookings.widget.itin.HotelItinCard;
 import com.expedia.bookings.widget.itin.ItinAirAttachCard;
@@ -248,7 +246,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	 */
 	public synchronized void syncWithManager() {
 		// Add Items
-		mItinCardDatasSync.addAll(getItineraryManagerInstance().getItinCardData());
+		mItinCardDatasSync.addAll(getItineraryManager().getItinCardData());
 
 		// Add air attach and hotel attach cards where applicable
 		addAttachData(mItinCardDatasSync);
@@ -275,10 +273,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	@Nullable
-	protected ItinPageUsableTrackingData getItinPageUsableTrackingDataModel() {
+	protected ItinPageUsableTracking getItinPageUsableTracking() {
 		com.expedia.bookings.dagger.TripComponent tripComponent = Ui.getApplication(mContext).tripComponent();
 		if (tripComponent != null) {
-			return tripComponent.itinPageUsablePerformanceModel();
+			return tripComponent.itinPageUsableTracking();
 		}
 		else {
 			return null;
@@ -287,14 +285,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	@VisibleForTesting
 	public void trackItinLoginPageUsable() {
-		ItinPageUsableTrackingData itinPageUsablePerformanceModel = getItinPageUsableTrackingDataModel();
-		if (itinPageUsablePerformanceModel != null) {
-			if ((getItineraryManagerInstance().getItinCardData() != null
-				&& getItineraryManagerInstance().getItinCardData().size() > 0)) {
-				if (itinPageUsablePerformanceModel.hasStartTime()) {
-					itinPageUsablePerformanceModel.markTripResultsUsable(System.currentTimeMillis());
-					OmnitureTracking.trackItin(itinPageUsablePerformanceModel.getTripLoadPageUsableData());
-				}
+		ItinPageUsableTracking itinPageUsableTracking = getItinPageUsableTracking();
+		if (itinPageUsableTracking != null) {
+			List<ItinCardData> dataList = getItineraryManager().getItinCardData();
+			if (dataList != null && dataList.size() > 0) {
+				itinPageUsableTracking.markTripResultsUsable(System.currentTimeMillis());
+				itinPageUsableTracking.trackIfReady(getItineraryManager().getItinCardData());
 			}
 		}
 	}
@@ -353,7 +349,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	protected ItineraryManager getItineraryManagerInstance() {
+	protected ItineraryManager getItineraryManager() {
 		return ItineraryManager.getInstance();
 	}
 

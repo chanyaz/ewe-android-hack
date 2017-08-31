@@ -63,7 +63,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         View.inflate(context, R.layout.add_guest_itin_widget, this)
         com.expedia.bookings.utils.Ui.getApplication(context).appComponent().inject(this)
         val tripComponent = com.expedia.bookings.utils.Ui.getApplication(context).tripComponent()
-        val itinPageUsablePerformanceModel = tripComponent.itinPageUsablePerformanceModel()
+        val itinPageUsablePerformanceModel = tripComponent.itinPageUsableTracking()
         orientation = VERTICAL
         viewModel = AddGuestItinViewModel(context)
         viewModel.addItinSyncListener()
