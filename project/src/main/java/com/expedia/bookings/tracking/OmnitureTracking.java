@@ -2141,6 +2141,31 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel";
 	private static final String ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia";
 	private static final String ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP";
+	private static final String ITIN_TRIP_REFRESH_CALL_MADE = "App.Itinerary.Call.Made";
+	private static final String ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success";
+	private static final String ITIN_TRIP_REFRESH_CALL_FAILURE = "App.Itinerary.Call.Failure";
+
+	public static void trackItinTripRefreshCallMade() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_MADE);
+		s.setEvents("event286");
+		s.trackLink(null, "o", "Trips Call", null, null);
+	}
+
+	public static void trackItinTripRefreshCallSuccess(boolean tripHasHotel) {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS);
+		s.setEvents("event287");
+		if (tripHasHotel && FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_trips_hotel_scheduled_notifications)) {
+			trackAbacusTest(s, AbacusUtils.TripsHotelScheduledNotificationsV2);
+		}
+		s.trackLink(null, "o", "Trips Call", null, null);
+	}
+
+	public static void trackItinTripRefreshCallFailure(String error) {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_FAILURE);
+		s.setEvents("event288");
+		s.setProp(36, error);
+		s.trackLink(null, "o", "Trips Call", null, null);
+	}
 
 	public static void trackItinEmpty() {
 		internalTrackPageLoadEventStandard(ITIN_EMPTY);

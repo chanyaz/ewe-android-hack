@@ -493,7 +493,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15315"
             android:summary="%s"
-            android:title="Trips Hotel Scheduled Notifications - 15315" />
+            android:title="Trips Hotel Scheduled Notifications V2 - 15315" />
 
         <ListPreference
             android:entries="@array/abacus_itin_share_button_choices"
