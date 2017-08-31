@@ -801,6 +801,16 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
+    fun testShouldNotCreateFakeAddress() {
+        givenMaterialPaymentBillingWidget()
+        val testCreateFakeAddressSubscriber = TestSubscriber.create<Unit>()
+        billingDetailsPaymentWidget.viewmodel.createFakeAddressObservable.subscribe(testCreateFakeAddressSubscriber)
+        billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(false)
+
+        assertEquals(0, testCreateFakeAddressSubscriber.onNextEvents.size)
+    }
+
+    @Test
     fun testIsCompletelyFilledHiddenBillingAddress() {
         givenMaterialPaymentBillingWidget()
         billingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(true)

@@ -82,7 +82,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         paymentViewModel.removeBillingAddressForApac.subscribe { shouldHide ->
             billingAddressTitle.updateVisibility(!shouldHide)
             sectionLocation.updateVisibility(!shouldHide)
-            viewmodel.createFakeAddressObservable.onNext(Unit)
+            if (shouldHide) viewmodel.createFakeAddressObservable.onNext(Unit)
         }
         paymentViewModel.populateFakeBillingAddress.subscribe { location ->
             sectionLocation.bind(location)
