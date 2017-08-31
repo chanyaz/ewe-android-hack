@@ -244,6 +244,43 @@ public class PointOfSaleTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA})
+	public void shouldShowCarCrossSellButton() {
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.ARGENTINA.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.AUSTRIA.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.AUSTRALIA.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.BELGIUM.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.BRAZIL.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.CANADA.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.GERMANY.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.DENMARK.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.SPAIN.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.FRANCE.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.UNITED_KINGDOM.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.HONG_KONG.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.INDONESIA.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.IRELAND.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.INDIA.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.ITALY.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.JAPAN.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.SOUTH_KOREA.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.MEXICO.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.MALAYSIA.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.NETHERLANDS.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.NORWAY.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.NEW_ZEALND.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.PHILIPPINES.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.SWEDEN.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.SINGAPORE.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.THAILAND.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.TAIWAN.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.UNITED_STATES.getId(), true);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.VIETNAM.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.SWITZERLAND.getId(), false);
+		assertShouldShowCarsCrossSellButton(PointOfSaleId.FINLAND.getId(), true);
+	}
+
+	@Test
 	public void proWizardHotelOnlyPOS() {
 		String expectedText = context.getString(R.string.search_hotels);
 		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_hotel_lob_only.json", false);
@@ -286,5 +323,11 @@ public class PointOfSaleTest {
 		PointOfSaleTestConfiguration.configurePOS(context, expediaSharedFilePath, Integer.toString(posKey), false);
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		assertEquals(enabled, pos.shouldHideBillingAddressFields());
+	}
+
+	private void assertShouldShowCarsCrossSellButton(int posKey, boolean enabled) {
+		PointOfSaleTestConfiguration.configurePOS(context, expediaSharedFilePath, Integer.toString(posKey), false);
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		assertEquals(enabled, pos.shouldShowCarsCrossSellButton());
 	}
 }
