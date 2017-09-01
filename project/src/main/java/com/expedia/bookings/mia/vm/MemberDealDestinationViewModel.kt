@@ -7,11 +7,11 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.sos.MemberDealDestination
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.mobiata.android.text.StrikethroughTagHandler
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 
 class MemberDealDestinationViewModel(val context: Context, val leadingHotel: MemberDealDestination.Hotel, val currency: String?) {
 
@@ -20,8 +20,6 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
     }
     var backgroundFallback: Int = R.color.gray600
     var backgroundPlaceHolder: Int = R.drawable.results_list_placeholder
-
-    private val formatter = DateTimeFormat.forPattern("EEE, MMM dd")
 
     val cityName: String? = leadingHotel.destination?.shortName
 
@@ -36,7 +34,7 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
     }
 
     val dateRangeText: String by lazy {
-        getDateRangeText(leadingHotel.offerDateRange?.travelStartDate, leadingHotel.offerDateRange?.travelEndDate)
+        getDateRangeText(startDate, endDate)
     }
 
     val percentSavingsText: String by lazy {
@@ -69,15 +67,16 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
         return Constants.MOD_DESTINATION_IMAGE_BASE_URL.replace("{regionId}", leadingHotel.destination?.regionID!!)
     }
 
-    fun getDateRangeText(startDate: List<Int>?, endDate: List<Int>?): String {
+    fun getDateRangeText(startDate: LocalDate?, endDate: LocalDate?): String {
         if (startDate == null || endDate == null) {
             return ""
         }
-        val dateRange = StringBuilder()
-        val startDateStr = formatter.print(LocalDate(startDate[0], startDate[1], startDate[2]))
-        val endDateStr = formatter.print(LocalDate(endDate[0], endDate[1], endDate[2]))
+        val startDateStr = LocaleBasedDateFormatUtils.localDateToEEEMMMd(startDate)
+        val endDateStr = LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate)
 
-        return dateRange.append(startDateStr).append(" - ").append(endDateStr).toString()
+        return Phrase.from(context, R.string.start_dash_end_date_range_TEMPLATE)
+                .put("startdate", startDateStr).put("enddate", endDateStr)
+                .format().toString()
     }
 
     fun getDateInLocalDateFormat(intDate: List<Int>?) : LocalDate {

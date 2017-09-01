@@ -41,7 +41,7 @@ class MemberDealDestinationViewModelTest {
         setupSystemUnderTest()
         assertEquals("https://a.travel-assets.com/dynamic_images/800103.jpg", vm.backgroundUrl)
         assertEquals("Paris", vm.cityName)
-        assertEquals("Mon, May 08 - Tue, May 09", vm.dateRangeText)
+        assertEquals("Mon, May 8 - Tue, May 9", vm.dateRangeText)
         assertEquals("-50%", vm.percentSavingsText)
         assertEquals("$130", vm.priceText.toString())
         assertEquals("$260", vm.strikeOutPriceText.toString())
