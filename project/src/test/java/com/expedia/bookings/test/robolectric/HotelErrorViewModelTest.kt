@@ -35,6 +35,23 @@ class HotelErrorViewModelTest {
     }
 
     @Test fun observableSearchInvalidInputError() {
+        subjectUnderTest.hasPinnedHotel = false
+
+        validateImageErrorMessageButtonTextForError(R.drawable.error_search,
+                RuntimeEnvironment.application.getString(R.string.error_no_result_message),
+                RuntimeEnvironment.application.getString(R.string.edit_search),
+                ApiError.Code.INVALID_INPUT)
+
+        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
+
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
+        defaultErrorObservableTestSubscriber.assertValues(Unit)
+    }
+
+    @Test fun pinnedHotelObservableSearchInvalidInputError() {
+        subjectUnderTest.hasPinnedHotel = true
+
         validateImageErrorMessageButtonTextForError(R.drawable.error_search,
                 RuntimeEnvironment.application.getString(R.string.error_no_result_message),
                 RuntimeEnvironment.application.getString(R.string.edit_search),

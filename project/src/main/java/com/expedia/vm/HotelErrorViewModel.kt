@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -19,6 +20,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     // Inputs
     val apiErrorObserver = PublishSubject.create<ApiError>()
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
+    var hasPinnedHotel = false
     var error: ApiError by Delegates.notNull()
 
     // Outputs
@@ -90,7 +92,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
-                    if (paramsSubject.value != null && paramsSubject.value.isPinnedSearch()) {
+                    if (hasPinnedHotel) {
                         HotelTracking.trackHotelsNoPinnedResult("Invalid input")
                     } else {
                         HotelTracking.trackHotelsInvalidInput()

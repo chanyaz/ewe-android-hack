@@ -66,7 +66,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
 
     init {
         resultsSubject.subscribe { response ->
-            pinnedSearch = response.isPinnedSearch
+            pinnedSearch = response.hasPinnedHotel()
             loading = false
             hotels = ArrayList(response.hotelList)
             hotelListItemsMetadata.clear()

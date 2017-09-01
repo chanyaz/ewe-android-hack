@@ -185,6 +185,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchTrackingBuilder.markResultsProcessed()
             searchTrackingBuilder.searchParams(hotelSearchParams)
             searchTrackingBuilder.searchResponse(hotelSearchResponse)
+            errorPresenter.getViewModel().hasPinnedHotel = hotelSearchResponse.hasPinnedHotel()
         }
         presenter.viewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
             searchTrackingBuilder.markApiResponseReceived()

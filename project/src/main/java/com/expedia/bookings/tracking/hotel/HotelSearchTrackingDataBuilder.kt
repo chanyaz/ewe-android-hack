@@ -64,6 +64,9 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
             val hotelList: List<Hotel> = searchResponse.hotelList
             trackingData.hotels = hotelList
             trackingData.lowestHotelTotalPrice = calculateLowestTotalPrice(hotelList)
+
+            trackingData.hasPinnedHotel = searchResponse.hasPinnedHotel()
+            trackingData.pinnedHotelSoldOut = searchResponse.hotelList[0].isSoldOut
         }
     }
 

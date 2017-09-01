@@ -219,6 +219,43 @@ class HotelResultsViewModelTest {
         assertEquals(ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS), testSubscriber.onNextEvents[0])
     }
 
+    @Test
+    fun pinnedSearchSuccessPinnedSearch() {
+        val testErrorSubscriber = TestSubscriber<ApiError>()
+        val testResultsSubscriber = TestSubscriber<HotelSearchResponse>()
+
+        sut.errorObservable.subscribe(testErrorSubscriber)
+        sut.hotelResultsObservable.subscribe(testResultsSubscriber)
+
+        val pinnedResponse = getHotelSearchResponse("src/test/resources/raw/hotel/hotel_happy_search_response_pinned.json")
+        mockSearchProvider.successSubject.onNext(pinnedResponse)
+
+        testResultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        testResultsSubscriber.assertValueCount(1)
+        assertEquals(pinnedResponse, testResultsSubscriber.onNextEvents[0])
+
+        testErrorSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun pinnedSearchSuccessPinnedSearchNotFound() {
+        val testErrorSubscriber = TestSubscriber<ApiError>()
+        val testResultsSubscriber = TestSubscriber<HotelSearchResponse>()
+
+        sut.errorObservable.subscribe(testErrorSubscriber)
+        sut.hotelResultsObservable.subscribe(testResultsSubscriber)
+
+        val noPinnedResponse = getHotelSearchResponse("src/test/resources/raw/hotel/hotel_happy_search_response_no_pinned.json")
+        mockSearchProvider.successSubject.onNext(noPinnedResponse)
+
+        testResultsSubscriber.assertValueCount(0)
+
+        testErrorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        testErrorSubscriber.assertValueCount(1)
+        assertEquals(ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND), testErrorSubscriber.onNextEvents[0])
+
+    }
+
     private fun makeHappyParams(): HotelSearchParams {
         return makeParams("", "")
     }

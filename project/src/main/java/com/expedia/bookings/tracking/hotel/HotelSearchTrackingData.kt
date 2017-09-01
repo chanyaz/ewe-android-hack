@@ -32,6 +32,9 @@ class HotelSearchTrackingData : AbstractSearchTrackingData(){
 
     var swpEnabled = false
 
+    var hasPinnedHotel = false
+    var pinnedHotelSoldOut = false
+
     fun hasResponse() : Boolean {
         return resultsReturned
     }

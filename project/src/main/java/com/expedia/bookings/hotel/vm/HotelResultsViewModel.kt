@@ -64,17 +64,10 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
         hotelSearchManager.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable)
         hotelSearchManager.successSubject.subscribe { response ->
-            val bucketedToPinnedSearch = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)
-            if (bucketedToPinnedSearch && cachedParams?.isPinnedSearch() ?: false) {
-                if (verifyPinnedHotelResponse(response)) {
-                    response.isPinnedSearch = true
-                    onSearchResponseSuccess(response)
-                } else {
-                    response.isPinnedSearch = false
-                    val error = ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND)
-                    errorObservable.onNext(error)
-                    cachedResponse = response
-                }
+            if (response.isPinnedSearch && !response.hasPinnedHotel()) {
+                val error = ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND)
+                errorObservable.onNext(error)
+                cachedResponse = response
             } else {
                 onSearchResponseSuccess(response)
             }
@@ -182,7 +175,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
             mapResultsObservable.onNext(hotelSearchResponse)
         } else {
-            hotelSearchResponse.isPinnedSearch = cachedParams?.isPinnedSearch() ?: false
             hotelResultsObservable.onNext(hotelSearchResponse)
         }
     }
@@ -195,13 +187,5 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
                 .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut))
                 .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format())
-    }
-
-    private fun verifyPinnedHotelResponse(response: HotelSearchResponse): Boolean {
-        val hotelId = cachedParams?.suggestion?.hotelId
-        if (hotelId != null && CollectionUtils.isNotEmpty(response.hotelList)) {
-            return response.hotelList[0].hotelId == hotelId
-        }
-        return false
     }
 }

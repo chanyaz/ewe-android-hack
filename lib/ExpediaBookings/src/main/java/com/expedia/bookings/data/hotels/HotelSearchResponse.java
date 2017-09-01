@@ -18,11 +18,11 @@ public class HotelSearchResponse extends BaseApiResponse {
 	public String searchRegionId = "";
 	public List<PriceOption> priceOptions = new ArrayList<>();
 	public boolean hasLoyaltyInformation;
+	private Boolean hasPinnedHotel;
 
 	public transient Map<String, Neighborhood> neighborhoodsMap = new HashMap<>();
 	public transient HotelRate.UserPriceType userPriceType = HotelRate.UserPriceType.UNKNOWN;
 	public transient boolean isFilteredResponse;
-	public transient boolean isPinnedSearch;
 
 	public static class Neighborhood {
 		public String name;
@@ -84,5 +84,13 @@ public class HotelSearchResponse extends BaseApiResponse {
 			}
 		}
 		hasLoyaltyInformation = false;
+	}
+
+	public boolean isPinnedSearch() {
+		return hasPinnedHotel != null;
+	}
+
+	public boolean hasPinnedHotel() {
+		return isPinnedSearch() && hasPinnedHotel;
 	}
 }
