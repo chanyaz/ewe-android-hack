@@ -11,8 +11,6 @@ import android.support.annotation.VisibleForTesting;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.abacus.AbacusResponse;
@@ -39,6 +37,7 @@ import com.expedia.bookings.deeplink.ShortUrlDeepLink;
 import com.expedia.bookings.deeplink.SignInDeepLink;
 import com.expedia.bookings.deeplink.SupportEmailDeepLink;
 import com.expedia.bookings.deeplink.TripDeepLink;
+import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -274,61 +273,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private boolean handleHotelSearch(HotelDeepLink deepLink) {
-
-		// Fill HotelSearchParams with query data
-		HotelSearchParams hotelSearchParams = new HotelSearchParams();
-		if (deepLink.getCheckInDate() != null) {
-			hotelSearchParams.setCheckInDate(deepLink.getCheckInDate());
-		}
-		if (deepLink.getCheckOutDate() != null) {
-			hotelSearchParams.setCheckOutDate(deepLink.getCheckOutDate());
-		}
-		if (deepLink.getNumAdults() != 0) {
-			hotelSearchParams.setNumAdults(deepLink.getNumAdults());
-		}
-		if (deepLink.getChildren() != null) {
-			hotelSearchParams.setChildren(deepLink.getChildren());
-		}
-		if (deepLink.getMctc() != null) {
-			hotelSearchParams.setMctc(deepLink.getMctc());
-		}
-		// Determine the search location.  Defaults to "current location" if none supplied
-		// or the supplied variables could not be parsed.
-		if (deepLink.getHotelId() != null) {
-			hotelSearchParams.setSearchType(SearchType.HOTEL);
-			String hotelId = deepLink.getHotelId();
-			hotelSearchParams.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
-			hotelSearchParams.hotelId = hotelId;
-			hotelSearchParams.setRegionId(hotelId);
-
-			Log.d(TAG, "Setting hotel search id: " + hotelSearchParams.getRegionId());
-		}
-		else if (deepLink.getRegionId() != null) {
-			hotelSearchParams.setSearchType(SearchType.CITY);
-			hotelSearchParams.setRegionId(deepLink.getRegionId());
-			hotelSearchParams.setQuery("", false);
-
-			Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getRegionId());
-		}
-		else if (deepLink.getLocation() != null) {
-			hotelSearchParams.setSearchType(SearchType.CITY);
-			hotelSearchParams.setQuery(deepLink.getLocation());
-
-			Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getQuery());
-		}
-
-		if (deepLink.getSortType() != null) {
-			hotelSearchParams.setSortType(deepLink.getSortType());
-			Log.d(TAG, "Setting hotel sort type: " + hotelSearchParams.getSortType());
-		}
-
-		if (deepLink.getMemberOnlyDealSearch()) {
-			HotelNavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH);
-		}
-		else {
-			HotelNavUtils.goToHotels(DeepLinkRouterActivity.this, hotelSearchParams, null, NavUtils.FLAG_DEEPLINK);
-		}
-
+		Intent hotelIntent = new HotelIntentBuilder().from(this, deepLink).build(this);
+		HotelNavUtils.goToHotels(this, hotelIntent);
 		finish();
 		return false;
 	}

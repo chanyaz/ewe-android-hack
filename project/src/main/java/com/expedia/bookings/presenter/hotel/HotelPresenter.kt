@@ -32,6 +32,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
+import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.hotel.util.HotelSuggestionManager
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
@@ -133,7 +134,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.searchViewModel = searchViewModel
 
         searchViewModel.genericSearchSubject.subscribe { params -> handleGenericSearch(params) }
-        searchViewModel.hotelIdSearchSubject.subscribe { params -> handleHotelIdSearch(params) }
+        searchViewModel.hotelIdSearchSubject.subscribe { params ->
+            HotelTracking.trackPinnedSearch()
+            handleHotelIdSearch(params, goToResults = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch))
+        }
         searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
 
         presenter
@@ -450,8 +454,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    fun handleDeepLink(params: HotelSearchParams?) {
-        deepLinkHandler.handleNavigationViaDeepLink(params)
+    fun handleDeepLink(params: HotelSearchParams?, landingPage: HotelLandingPage?) {
+        deepLinkHandler.handleNavigationViaDeepLink(params, landingPage)
     }
 
     override fun onFinishInflate() {
@@ -921,15 +925,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsPresenter.viewModel.paramsSubject.onNext(params)
     }
 
-    private fun handleHotelIdSearch(params: HotelSearchParams, fromDeepLink: Boolean = false) {
+    private fun handleHotelIdSearch(params: HotelSearchParams, goToResults: Boolean = false) {
         updateSearchParams(params)
 
-        HotelTracking.trackPinnedSearch()
-        if (!fromDeepLink && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)) {
+        if (goToResults) {
+            setDefaultTransition(Screen.RESULTS)
             resultsPresenter.resetListOffset()
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
             resultsPresenter.viewModel.paramsSubject.onNext(params)
         } else {
+            setDefaultTransition(Screen.DETAILS)
             showDetails(params.suggestion.hotelId, true)
         }
     }
@@ -990,10 +995,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             setDefaultTransition(Screen.RESULTS)
             handleGenericSearch(params)
         }
-        handler.hotelIdDeepLinkSubject.subscribe { params ->
+        handler.hotelIdToResultsSubject.subscribe { params ->
             updateSearchForDeepLink(params)
-            setDefaultTransition(Screen.DETAILS)
-            handleHotelIdSearch(params, true)
+            handleHotelIdSearch(params, goToResults = true)
+        }
+
+        handler.hotelIdToDetailsSubject.subscribe { params ->
+            updateSearchForDeepLink(params)
+            handleHotelIdSearch(params, goToResults = false)
         }
 
         handler.deepLinkInvalidSubject.subscribe {

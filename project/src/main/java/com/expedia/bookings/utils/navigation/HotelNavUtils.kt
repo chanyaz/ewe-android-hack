@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.HotelActivity
 
@@ -57,7 +58,7 @@ class HotelNavUtils : NavUtils() {
             val routingTarget = HotelActivity::class.java
             if (params != null) {
                 val gson = HotelsV2DataUtil.generateGson()
-                intent.putExtra(HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(params))
+                intent.putExtra(HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(params))
                 intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
             }
 
@@ -65,6 +66,10 @@ class HotelNavUtils : NavUtils() {
             intent.setClass(context, routingTarget)
             startActivity(context, intent, animOptions)
             finishIfFlagged(context, expediaFlags)
+        }
+
+        @JvmStatic fun goToHotels(context: Context, intent: Intent) {
+            startActivity(context, intent, null)
         }
     }
 }

@@ -8,6 +8,7 @@ import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.deeplink.TripDeepLink
+import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -44,7 +45,7 @@ class DeepLinkRouterActivityTest {
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
         assertIntentForActivity(HotelActivity::class.java, startedIntent)
         assertBooleanExtraEquals(true, Codes.FROM_DEEPLINK, startedIntent)
-        assertStringExtraEquals(gson.toJson(v2params), HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, startedIntent)
+        assertStringExtraEquals(gson.toJson(v2params), HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS, startedIntent)
         assertBooleanExtraEquals(true, Codes.TAG_EXTERNAL_SEARCH_PARAMS, startedIntent)
     }
 

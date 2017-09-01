@@ -6,6 +6,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchParams.SearchType
 import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
+import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.hotel.util.HotelSuggestionManager
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.testutils.builder.TestSuggestionV4Builder
@@ -22,7 +23,8 @@ import kotlin.test.assertNotNull
 @RunWith(RobolectricRunner::class)
 class HotelDeepLinkHandlerTest {
     val testGenericSearchSubscriber = TestSubscriber.create<HotelSearchParams>()
-    val testHotelIdSearchSubscriber = TestSubscriber.create<HotelSearchParams>()
+    val testHotelIdToDetailsSubscriber = TestSubscriber.create<HotelSearchParams>()
+    val testHotelIdToResultsSubscriber = TestSubscriber.create<HotelSearchParams>()
     val testErrorSearchSubscriber = TestSubscriber.create<Unit>()
 
     lateinit var handlerUnderTest: HotelDeepLinkHandler
@@ -33,7 +35,8 @@ class HotelDeepLinkHandlerTest {
     @Before fun setup() {
         handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testSuggestionManager)
         handlerUnderTest.hotelSearchDeepLinkSubject.subscribe(testGenericSearchSubscriber)
-        handlerUnderTest.hotelIdDeepLinkSubject.subscribe(testHotelIdSearchSubscriber)
+        handlerUnderTest.hotelIdToDetailsSubject.subscribe(testHotelIdToDetailsSubscriber)
+        handlerUnderTest.hotelIdToResultsSubject.subscribe(testHotelIdToResultsSubscriber)
         handlerUnderTest.deepLinkInvalidSubject.subscribe(testErrorSearchSubscriber)
     }
 
@@ -42,7 +45,7 @@ class HotelDeepLinkHandlerTest {
                 .coordinates(42.0, -81.0).build()
 
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
-        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
+        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams, null)
 
 
         assertNotNull(testGenericSearchSubscriber.onNextEvents[0])
@@ -51,22 +54,38 @@ class HotelDeepLinkHandlerTest {
         assertEquals(expectedCurrentLocationText, returnedSuggestion.regionNames.displayName)
         assertEquals(expectedCurrentLocationText, returnedSuggestion.regionNames.shortName)
 
-        assertEquals(0, testHotelIdSearchSubscriber.onNextEvents.size)
-        assertEquals(0, testErrorSearchSubscriber.onNextEvents.size)
+        testHotelIdToDetailsSubscriber.assertNoValues()
+        testErrorSearchSubscriber.assertNoValues()
     }
 
-	@Test fun handleSpecificHotelDeepLink() {
+	@Test fun handleSpecificHotelDeepLink_NoLandingPage() {
         val suggestion = TestSuggestionV4Builder().type(SearchType.HOTEL.name)
                 .hotelId("1234").gaiaId("1234")
                 .regionDisplayName("Hotel 1234").regionShortName("Hotel 1234").build()
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
 
-        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
+        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams, null)
 
-        assertEquals(0, testGenericSearchSubscriber.onNextEvents.size)
-        assertEquals(0, testErrorSearchSubscriber.onNextEvents.size)
-        testHotelIdSearchSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
+        testGenericSearchSubscriber.assertNoValues()
+        testErrorSearchSubscriber.assertNoValues()
+        testHotelIdToResultsSubscriber.assertNoValues()
+        testHotelIdToDetailsSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
 	}
+
+    @Test fun handleSpecificHotelDeepLink_ResultsLandingPage() {
+        val suggestion = TestSuggestionV4Builder().type(SearchType.HOTEL.name)
+                .hotelId("1234").gaiaId("1234")
+                .regionDisplayName("Hotel 1234").regionShortName("Hotel 1234").build()
+        val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
+
+        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams, HotelLandingPage.RESULTS)
+
+        testGenericSearchSubscriber.assertNoValues()
+        testErrorSearchSubscriber.assertNoValues()
+        testHotelIdToDetailsSubscriber.assertNoValues()
+
+        testHotelIdToResultsSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
+    }
 
 	@Test fun handleLocationDeepLink() {
         val suggestion = TestSuggestionV4Builder().type(SearchType.CITY.name)
@@ -75,11 +94,11 @@ class HotelDeepLinkHandlerTest {
 
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
 
-        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
+        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams, null)
         testSuggestionManager.suggestionReturnSubject.onNext(suggestion)
 
-        assertEquals(1, testGenericSearchSubscriber.onNextEvents.size)
-        assertEquals(0, testHotelIdSearchSubscriber.onNextEvents.size)
+        testGenericSearchSubscriber.assertValueCount(1)
+        testHotelIdToDetailsSubscriber.assertNoValues()
 	}
 
 	@Test fun handleLatLonDeepLink() {
@@ -90,9 +109,9 @@ class HotelDeepLinkHandlerTest {
 
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
 
-        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
+        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams, null)
 
-        assertEquals(0, testHotelIdSearchSubscriber.onNextEvents.size)
+        testHotelIdToDetailsSubscriber.assertNoValues()
         testGenericSearchSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
 	}
 
@@ -102,10 +121,10 @@ class HotelDeepLinkHandlerTest {
                 .gaiaId("5678").build()
 
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
-        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
+        handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams, null)
         testSuggestionManager.suggestionReturnSubject.onNext(suggestion)
 
-        assertEquals(0, testHotelIdSearchSubscriber.onNextEvents.size)
+        testHotelIdToDetailsSubscriber.assertNoValues()
         testGenericSearchSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
 	}
 

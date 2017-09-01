@@ -11,6 +11,8 @@ import com.expedia.bookings.dagger.HotelComponentInjector
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.hotel.deeplink.HotelExtras
+import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.Constants
@@ -20,11 +22,6 @@ import com.expedia.util.requestLocationPermission
 import com.google.android.gms.maps.MapView
 
 class HotelActivity : AbstractAppCompatActivity() {
-
-    companion object {
-        const val EXTRA_HOTEL_SEARCH_PARAMS = "hotelSearchParams"
-    }
-
     val hotelPresenter: HotelPresenter by lazy {
         findViewById(R.id.hotel_presenter) as HotelPresenter
     }
@@ -64,12 +61,13 @@ class HotelActivity : AbstractAppCompatActivity() {
     }
 
     private fun handleDeepLink(intent: Intent) {
-        val searchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(intent.getStringExtra(EXTRA_HOTEL_SEARCH_PARAMS))
+        val searchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(intent.getStringExtra(HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS))
         if (intent.hasExtra(Codes.MEMBER_ONLY_DEALS) && searchParams != null) {
             searchParams.sortType = HotelSearchParams.SortType.MOBILE_DEALS.sortName
             searchParams.shopWithPoints = false
         }
-        hotelPresenter.handleDeepLink(searchParams)
+        val landingPage = intent.getStringExtra(HotelExtras.LANDING_PAGE)
+        hotelPresenter.handleDeepLink(searchParams, HotelLandingPage.fromId(landingPage))
     }
 
     override fun onBackPressed() {
