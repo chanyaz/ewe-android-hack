@@ -4,10 +4,13 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BottomCheckoutContainer
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,6 +18,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -61,5 +65,23 @@ class BottomCheckoutContainerTest {
         bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.OTHER, false)
         assertTrue(bottomContainer.checkoutButtonContainer.visibility == View.GONE)
         assertTrue(bottomContainer.slideToPurchase.visibility == View.GONE)
+    }
+
+    @Test
+    fun testBottomContainerState() {
+        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_flight_rate_detail_from_cache, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)
+        val testSubscriber = TestSubscriber.create<Boolean>()
+        bottomContainer.viewModel.checkoutButtonEnableObservable.subscribe(testSubscriber)
+        bottomContainer.viewModel.resetPriceWidgetObservable.onNext(Unit)
+        testSubscriber.assertValueCount(1)
+        assertFalse(bottomContainer.checkoutButton.isEnabled)
+        bottomContainer.viewModel.checkoutButtonEnableObservable.onNext(true)
+        assertTrue(bottomContainer.checkoutButton.isEnabled)
+
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)
+        bottomContainer.viewModel.resetPriceWidgetObservable.onNext(Unit)
+        testSubscriber.assertValueCount(2)
+        assertTrue(bottomContainer.checkoutButton.isEnabled)
     }
 }

@@ -17,4 +17,5 @@ class BottomCheckoutContainerViewModel(context: Context) {
     val setSTPLayoutVisibilityObservable = PublishSubject.create<Boolean>()
     val toggleBundleTotalDrawableObservable = PublishSubject.create<Boolean>()
     val resetPriceWidgetObservable = PublishSubject.create<Unit>()
+    val checkoutButtonEnableObservable = PublishSubject.create<Boolean>()
 }

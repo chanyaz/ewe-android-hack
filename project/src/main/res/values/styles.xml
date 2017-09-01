@@ -243,6 +243,13 @@
         <item name="android:maxHeight">76dp</item>
     </style>
 
+   <style name="MaterialProgressBar.Medium" parent="@android:style/Widget.Material.ProgressBar">
+        <item name="android:minWidth">30dp</item>
+        <item name="android:maxWidth">30dp</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:maxHeight">30dp</item>
+    </style>
+
     <style name="ProgressBar.CandyCane" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:indeterminateDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="android:indeterminateOnly">true</item>

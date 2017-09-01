@@ -15,6 +15,7 @@ import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.AcceptTermsWidget
@@ -26,6 +27,7 @@ import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.safeSubscribe
+import com.expedia.util.subscribeEnabled
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
@@ -103,7 +105,11 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
         }
         vm.resetPriceWidgetObservable.subscribe {
             totalPriceWidget.resetPriceWidget()
+            if (totalPriceViewModel.shouldShowTotalPriceLoadingProgress() && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
+                vm.checkoutButtonEnableObservable.onNext(false)
+            }
         }
+        vm.checkoutButtonEnableObservable.subscribeEnabled(checkoutButton)
     }
 
     val acceptTermsWidget: AcceptTermsWidget by lazy {
