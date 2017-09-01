@@ -123,11 +123,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             }
         }
 
-        flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(
-                flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, {
-            unit, fareFamilyDetail ->
-            fareFamilyDetail
-        }).subscribe(fareFamilyCardView.viewModel.selectedFareFamilyObservable)
+        if (isUserBucketedForFareFamily) {
+            flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(
+                    flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, {
+                unit, fareFamilyDetail ->
+                fareFamilyDetail
+            }).subscribe(fareFamilyCardView.viewModel.selectedFareFamilyObservable)
+        }
 
         fareFamilyCardView.viewModel.fareFamilyCardClickObserver.withLatestFrom(
                 fareFamilyCardView.viewModel.tripObservable, {

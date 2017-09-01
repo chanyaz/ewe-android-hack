@@ -110,7 +110,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
 
     private fun assertCostSummaryDialogShowsFees() {
         val cardFee = "$2.50"
-        onView(withId(R.id.bundle_total_text)).perform(click())
+        onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_text))).perform(click())
         onView(withText("Payment Method Fee")).check(ViewAssertions.matches(isDisplayed()))
         onView(withText(cardFee)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(android.R.id.button1)).perform(click())

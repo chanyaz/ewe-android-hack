@@ -257,7 +257,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		String totalDueToday = "$696.00";
 		String adultOneTotal = "$689.00";
 		String taxesAndFees = "$68.54";
-		onView(withId(R.id.bundle_total_text)).perform(click());
+		onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_text))).perform(click());
 		onView(withText("Adult 1 details")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 		onView(withText(adultOneTotal)).check(matches(isDisplayed()));
 		onView(withText("Flight")).check(matches(isDisplayed()));
@@ -395,7 +395,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.showPriceBreakdown();
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(matches(isDisplayed()));
 		Espresso.pressBack();
-		onView(withId(R.id.bundle_total_price)).check(matches(withText("$715")));
+		onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_price))).check(matches(withText("$715")));
 		onView(allOf(withId(R.id.insurance_title), isDisplayed())).check(matches(
 			withText("Your trip is protected for $19/person")));
 	}
@@ -404,7 +404,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.showPriceBreakdown();
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(doesNotExist());
 		Espresso.pressBack();
-		onView(withId(R.id.bundle_total_price)).check(matches(withText("$696")));
+		onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_price))).check(matches(withText("$696")));
 		onView(allOf(withId(R.id.insurance_title), isDisplayed())).check(matches(
 			withText("Add protection for $19/person")));
 	}

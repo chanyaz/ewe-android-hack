@@ -457,7 +457,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction showPriceBreakdown() {
-		return onView(withId(R.id.bundle_total_text)).perform(click());
+		return onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_text))).perform(click());
 	}
 
 	public static ViewInteraction toggleInsuranceSwitch() {

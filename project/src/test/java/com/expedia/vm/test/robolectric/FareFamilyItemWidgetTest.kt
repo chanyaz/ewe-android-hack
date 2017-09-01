@@ -136,6 +136,30 @@ class FareFamilyItemWidgetTest {
         }
     }
 
+    @Test
+    fun testFareFamilyTripTotalWidget() {
+        Db.setFlightSearchParams(setupFlightSearchParams(2, 2, true))
+        fareFamilyWidget.viewModel.tripObservable.onNext(flightCreateTripResponse)
+        fareFamilyWidget.viewModel.showFareFamilyObservable.onNext(Unit)
+        val thirdFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(2) as FareFamilyItemWidget
+        val tripTotalTextView = fareFamilyWidget.totalPriceWidget.bundleTotalText
+        val includesTaxesTextView = fareFamilyWidget.totalPriceWidget.bundleTotalIncludes
+        val totalPriceTextView = fareFamilyWidget.totalPriceWidget.bundleTotalPrice
+
+        assertEquals(View.VISIBLE, fareFamilyWidget.totalPriceWidget.visibility)
+        assertEquals(View.VISIBLE, tripTotalTextView.visibility)
+        assertEquals(View.VISIBLE, includesTaxesTextView.visibility)
+        assertEquals(View.VISIBLE, totalPriceTextView.visibility)
+
+        assertEquals("$142.20", totalPriceTextView.text)
+        assertEquals("Trip Total for Economy", tripTotalTextView.text)
+        thirdFareFamilyItem.fareFamilyRadioButton.performClick()
+        assertEquals("$413.20", totalPriceTextView.text)
+        assertEquals(View.VISIBLE, totalPriceTextView.visibility)
+        assertEquals("Trip Total for Economy Flexible", tripTotalTextView.text)
+    }
+
+
     private fun setupFlightSearchParams(adultCount: Int, childCount: Int, isroundTrip: Boolean): FlightSearchParams {
         val departureSuggestion = SuggestionV4()
         departureSuggestion.gaiaId = "1234"

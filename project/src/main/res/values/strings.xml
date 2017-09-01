@@ -887,6 +887,8 @@
     <string name="total_with_tax">Total with Tax</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Trip Total</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">Trip Total for {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Trip total</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -4471,6 +4473,8 @@
     <string name="flight_overview_price_widget_TEMPLATE">Trip total is {totalprice}. Includes taxes and fees. {savings}</string>
     <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Trip total is {totalprice}. Includes taxes and fees. {savings}. Cost Breakdown dialog. Button.</string>
+    <!--Content description for Fare Family total widget. Example: Trip total for Basic Economy is $153.20. Includes taxes and fees.-->
+    <string name="flight_fare_family_total_price_widget_cont_desc_TEMPLATE">Trip total for {farefamily} is {totalprice}. Includes taxes and fees.</string>
     <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
     <string name="flight_overview_price_widget_button_open_TEMPLATE">Trip price is {price_per_person} per person. Includes taxes and fees. Button to view flights.</string>
 

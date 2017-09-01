@@ -14,13 +14,18 @@ import android.widget.Button
 import android.widget.RadioGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.flights.FareFamilyItemViewModel
+import com.expedia.vm.flights.FareFamilyTotalPriceViewModel
 import com.expedia.vm.flights.FlightFareFamilyViewModel
+import com.squareup.phrase.Phrase
+import java.util.Locale
 
 class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
@@ -29,6 +34,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
     val fareFamilyRadioGroup: RadioGroup by bindView(R.id.flight_fare_family_radio_group)
     val fareFamilyTripLocation: TextView by bindView(R.id.fare_family_location)
     val fareFamilyTripAirlines: TextView by bindView(R.id.fare_family_airlines)
+    val totalPriceWidget: TotalPriceWidget by bindView(R.id.upsell_total_price_widget)
     val inflater = LayoutInflater.from(context)
 
     val doneButton: Button by lazy {
@@ -70,8 +76,10 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
             }
 
         }
-        vm.choosingFareFamilyObservable.subscribe {
+        vm.choosingFareFamilyObservable.subscribe { fareFamilyDetails ->
             clearChecks()
+            totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(createTripTotalText(fareFamilyDetails.fareFamilyName))
+            totalPriceWidget.viewModel.total.onNext(fareFamilyDetails.totalPrice)
         }
 
     }
@@ -88,7 +96,8 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
 
     init {
         View.inflate(getContext(), R.layout.widget_flight_fare_family_details, this)
-
+        totalPriceWidget.visibility = View.VISIBLE
+        totalPriceWidget.viewModel = FareFamilyTotalPriceViewModel(context)
         toolbar.inflateMenu(R.menu.action_mode_done)
         toolbar.title = resources.getString(R.string.cabin_class)
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
@@ -96,6 +105,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         toolbar.setBackgroundColor(ContextCompat.getColor(this.context, R.color.packages_flight_filter_background_color))
 
+        totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
 
     }
 
@@ -104,6 +114,12 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
             val v = fareFamilyRadioGroup.getChildAt(i) as FareFamilyItemWidget
             v.fareFamilyRadioButton.isChecked = false
         }
+    }
+
+    fun createTripTotalText(fareFamilyName: String): String {
+        return (Phrase.from(context, R.string.trip_total_upsell_TEMPLATE)
+                .put("farefamily", Strings.capitalize(fareFamilyName, Locale.US))
+                .format().toString())
     }
 
 }

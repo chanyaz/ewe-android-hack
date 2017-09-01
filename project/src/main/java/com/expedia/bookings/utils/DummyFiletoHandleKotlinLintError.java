@@ -1240,6 +1240,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.plurals.hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE,
 		R.string.total_including_taxes_fees,
 		R.string.excluding_taxes_fees,
+		R.string.trip_total_upsell_TEMPLATE,
+		R.string.flight_fare_family_total_price_widget_cont_desc_TEMPLATE,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt
 	};
