@@ -14,11 +14,13 @@ class HotelDeepLinkHandler(private val context: Context,
                            private val suggestionManager: HotelSuggestionManager) {
 
     val hotelSearchDeepLinkSubject = PublishSubject.create<HotelSearchParams>()
-    val hotelIdDeepLinkSubject = PublishSubject.create<HotelSearchParams>()
+    val hotelIdToDetailsSubject = PublishSubject.create<HotelSearchParams>()
+    val hotelIdToResultsSubject = PublishSubject.create<HotelSearchParams>()
 
     val deepLinkInvalidSubject = PublishSubject.create<Unit>()
 
-    fun handleNavigationViaDeepLink(hotelSearchParams: HotelSearchParams?) {
+    fun handleNavigationViaDeepLink(hotelSearchParams: HotelSearchParams?,
+                                    landingPage: HotelLandingPage?) {
         if (hotelSearchParams != null) {
             val lat = hotelSearchParams.suggestion.coordinates?.lat ?: 0.0
             val lon = hotelSearchParams.suggestion.coordinates?.lng ?: 0.0
@@ -35,13 +37,21 @@ class HotelDeepLinkHandler(private val context: Context,
                 }
             } else {
                 if (hotelSearchParams.suggestion.hotelId != null) {
-                    hotelIdDeepLinkSubject.onNext(hotelSearchParams)
+                    handleHotelIdDeepLink(hotelSearchParams, landingPage)
                 } else if (hotelSearchParams.suggestion.gaiaId != null || lat != 0.0 || lon != 0.0) {
                     hotelSearchDeepLinkSubject.onNext(hotelSearchParams)
                 } else {
                     handleSuggestionLookup(hotelSearchParams)
                 }
             }
+        }
+    }
+
+    private fun handleHotelIdDeepLink(params: HotelSearchParams, landingPage: HotelLandingPage?) {
+        if (landingPage == HotelLandingPage.RESULTS) {
+            hotelIdToResultsSubject.onNext(params)
+        } else {
+            hotelIdToDetailsSubject.onNext(params)
         }
     }
 

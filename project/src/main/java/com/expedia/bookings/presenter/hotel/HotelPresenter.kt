@@ -32,6 +32,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
+import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.hotel.util.HotelSuggestionManager
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
@@ -451,8 +452,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    fun handleDeepLink(params: HotelSearchParams?) {
-        deepLinkHandler.handleNavigationViaDeepLink(params)
+    fun handleDeepLink(params: HotelSearchParams?, landingPage: HotelLandingPage?) {
+        deepLinkHandler.handleNavigationViaDeepLink(params, landingPage)
     }
 
     override fun onFinishInflate() {
@@ -992,9 +993,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             setDefaultTransition(Screen.RESULTS)
             handleGenericSearch(params)
         }
-        handler.hotelIdDeepLinkSubject.subscribe { params ->
+        handler.hotelIdToResultsSubject.subscribe { params ->
             updateSearchForDeepLink(params)
-            handleHotelIdSearch(params, goToResults = params.forcePinnedSearch)
+            handleHotelIdSearch(params, goToResults = true)
+        }
+
+        handler.hotelIdToDetailsSubject.subscribe { params ->
+            updateSearchForDeepLink(params)
+            handleHotelIdSearch(params, goToResults = false)
         }
 
         handler.deepLinkInvalidSubject.subscribe {
