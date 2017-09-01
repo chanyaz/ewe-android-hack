@@ -91,6 +91,7 @@ class PackagesTracking {
     fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData, packageParams: PackageSearchParams) {
         OmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
         CarnivalUtils.getInstance().trackPackagesConfirmation(packageParams)
+        TuneUtils.trackPackageConfirmation(response, packageParams)
     }
 
     fun trackFlightRoundTripLoad(isOutBound: Boolean, packageParams: PackageSearchParams, pageUsableData: PageUsableData) {

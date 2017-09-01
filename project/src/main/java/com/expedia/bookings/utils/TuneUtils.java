@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.TripDetails;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightLeg;
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
+import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -202,7 +204,6 @@ public class TuneUtils {
 		}
 	}
 
-
 	public static void trackHotelV2Confirmation(HotelCheckoutResponse hotelCheckoutResponse) {
 		if (trackingProvider != null) {
 			TuneEvent event = new TuneEvent("hotel_confirmation");
@@ -235,7 +236,6 @@ public class TuneUtils {
 			trackingProvider.trackEvent(event);
 		}
 	}
-
 
 	public static void trackFlightV2RateDetailOverview(
 		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
@@ -312,88 +312,6 @@ public class TuneUtils {
 			trackingProvider.trackEvent(event);
 		}
 
-	}
-
-	public static void trackPackageOutBoundResults(PackageSearchParams searchTrackingData) {
-		if (trackingProvider != null) {
-			TuneEvent event = new TuneEvent("package_outbound_search_results");
-			TuneEventItem eventItem = new TuneEventItem("package_outbound_search_item");
-			eventItem.withAttribute2(searchTrackingData.getOrigin().hierarchyInfo.airport.airportCode)
-					.withAttribute3(searchTrackingData.getDestination().hierarchyInfo.airport.airportCode);
-
-			if (searchTrackingData.getFlightLegList() != null && !searchTrackingData.getFlightLegList().isEmpty()) {
-				int propertiesCount = searchTrackingData.getFlightLegList().size();
-				StringBuilder sb = new StringBuilder();
-				int lastIndex = getLastIndex(propertiesCount);
-
-				for (int i = 0; i <= lastIndex; i++) {
-					FlightLeg flightLeg = searchTrackingData.getFlightLegList().get(i);
-					String carrier = flightLeg.carrierCode;
-					String currency = flightLeg.packageOfferModel.price.packageTotalPrice.currencyCode;
-					String price = flightLeg.packageOfferModel.price.packageTotalPrice.amount.toString();
-					String routeType = "RT";
-					String route = String.format("%s-%s", searchTrackingData.getOrigin().gaiaId, searchTrackingData.getDestination().gaiaId);
-					sb.append(String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-					if (i != lastIndex) {
-						sb.append(":");
-					}
-				}
-				eventItem.withAttribute5(sb.toString());
-			}
-			Date departureDate = searchTrackingData.getStartDate().toDate();
-			if (searchTrackingData.getEndDate() != null) {
-				Date returnDate = searchTrackingData.getEndDate().toDate();
-				event.withDate2(returnDate);
-			}
-			withTuidAndMembership(event)
-					.withAttribute2(trackingProvider.isUserLoggedInValue())
-					.withEventItems(Collections.singletonList(eventItem))
-					.withSearchString("flight")
-					.withDate1(departureDate);
-
-			trackingProvider.trackEvent(event);
-		}
-	}
-
-	public static void trackPackageInBoundResults(PackageSearchParams searchTrackingData) {
-		if (trackingProvider != null) {
-			TuneEvent event = new TuneEvent("package_inbound_search_results");
-			TuneEventItem eventItem = new TuneEventItem("package_inbound_search_item");
-			eventItem.withAttribute2(searchTrackingData.getOrigin().hierarchyInfo.airport.airportCode)
-					.withAttribute3(searchTrackingData.getDestination().hierarchyInfo.airport.airportCode);
-
-			if (searchTrackingData.getFlightLegList() != null && !searchTrackingData.getFlightLegList().isEmpty()) {
-				int propertiesCount = searchTrackingData.getFlightLegList().size();
-				StringBuilder sb = new StringBuilder();
-				int lastIndex = getLastIndex(propertiesCount);
-
-				for (int i = 0; i <= lastIndex; i++) {
-					FlightLeg flightLeg = searchTrackingData.getFlightLegList().get(i);
-					String carrier = flightLeg.carrierCode;
-					String currency = flightLeg.packageOfferModel.price.packageTotalPrice.currencyCode;
-					String price = flightLeg.packageOfferModel.price.packageTotalPrice.amount.toString();
-					String routeType = "RT";
-					String route = String.format("%s-%s", searchTrackingData.getOrigin().gaiaId, searchTrackingData.getDestination().gaiaId);
-					sb.append(String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-					if (i != lastIndex) {
-						sb.append(":");
-					}
-				}
-				eventItem.withAttribute5(sb.toString());
-			}
-			Date departureDate = searchTrackingData.getStartDate().toDate();
-			if (searchTrackingData.getEndDate() != null) {
-				Date returnDate = searchTrackingData.getEndDate().toDate();
-				event.withDate2(returnDate);
-			}
-			withTuidAndMembership(event)
-					.withAttribute2(trackingProvider.isUserLoggedInValue())
-					.withEventItems(Collections.singletonList(eventItem))
-					.withSearchString("flight")
-					.withDate1(departureDate);
-
-			trackingProvider.trackEvent(event);
-		}
 	}
 
 	public static void trackFlightV2InBoundResults(FlightSearchTrackingData trackingData) {
@@ -529,6 +447,127 @@ public class TuneUtils {
 					.withEventItems(Collections.singletonList(eventItem))
 					.withSearchString("hotel")
 					.withLevel(1);
+
+			trackingProvider.trackEvent(event);
+		}
+	}
+
+	public static void trackPackageOutBoundResults(PackageSearchParams searchTrackingData) {
+		if (trackingProvider != null) {
+			TuneEvent event = new TuneEvent("package_outbound_search_results");
+			TuneEventItem eventItem = new TuneEventItem("package_outbound_search_item");
+			eventItem.withAttribute2(searchTrackingData.getOrigin().hierarchyInfo.airport.airportCode)
+					.withAttribute3(searchTrackingData.getDestination().hierarchyInfo.airport.airportCode);
+
+			if (searchTrackingData.getFlightLegList() != null && !searchTrackingData.getFlightLegList().isEmpty()) {
+				int propertiesCount = searchTrackingData.getFlightLegList().size();
+				StringBuilder sb = new StringBuilder();
+				int lastIndex = getLastIndex(propertiesCount);
+
+				for (int i = 0; i <= lastIndex; i++) {
+					FlightLeg flightLeg = searchTrackingData.getFlightLegList().get(i);
+					String carrier = flightLeg.carrierCode;
+					String currency = flightLeg.packageOfferModel.price.packageTotalPrice.currencyCode;
+					String price = flightLeg.packageOfferModel.price.packageTotalPrice.amount.toString();
+					String routeType = "RT";
+					String route = String.format("%s-%s", searchTrackingData.getOrigin().gaiaId, searchTrackingData.getDestination().gaiaId);
+					sb.append(String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
+					if (i != lastIndex) {
+						sb.append(":");
+					}
+				}
+				eventItem.withAttribute5(sb.toString());
+			}
+			Date departureDate = searchTrackingData.getStartDate().toDate();
+			if (searchTrackingData.getEndDate() != null) {
+				Date returnDate = searchTrackingData.getEndDate().toDate();
+				event.withDate2(returnDate);
+			}
+			withTuidAndMembership(event)
+					.withAttribute2(trackingProvider.isUserLoggedInValue())
+					.withEventItems(Collections.singletonList(eventItem))
+					.withSearchString("flight")
+					.withDate1(departureDate);
+
+			trackingProvider.trackEvent(event);
+		}
+	}
+
+	public static void trackPackageInBoundResults(PackageSearchParams searchTrackingData) {
+		if (trackingProvider != null) {
+			TuneEvent event = new TuneEvent("package_inbound_search_results");
+			TuneEventItem eventItem = new TuneEventItem("package_inbound_search_item");
+			eventItem.withAttribute2(searchTrackingData.getOrigin().hierarchyInfo.airport.airportCode)
+					.withAttribute3(searchTrackingData.getDestination().hierarchyInfo.airport.airportCode);
+
+			if (searchTrackingData.getFlightLegList() != null && !searchTrackingData.getFlightLegList().isEmpty()) {
+				int propertiesCount = searchTrackingData.getFlightLegList().size();
+				StringBuilder sb = new StringBuilder();
+				int lastIndex = getLastIndex(propertiesCount);
+
+				for (int i = 0; i <= lastIndex; i++) {
+					FlightLeg flightLeg = searchTrackingData.getFlightLegList().get(i);
+					String carrier = flightLeg.carrierCode;
+					String currency = flightLeg.packageOfferModel.price.packageTotalPrice.currencyCode;
+					String price = flightLeg.packageOfferModel.price.packageTotalPrice.amount.toString();
+					String routeType = "RT";
+					String route = String.format("%s-%s", searchTrackingData.getOrigin().gaiaId, searchTrackingData.getDestination().gaiaId);
+					sb.append(String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
+					if (i != lastIndex) {
+						sb.append(":");
+					}
+				}
+				eventItem.withAttribute5(sb.toString());
+			}
+			Date departureDate = searchTrackingData.getStartDate().toDate();
+			if (searchTrackingData.getEndDate() != null) {
+				Date returnDate = searchTrackingData.getEndDate().toDate();
+				event.withDate2(returnDate);
+			}
+			withTuidAndMembership(event)
+					.withAttribute2(trackingProvider.isUserLoggedInValue())
+					.withEventItems(Collections.singletonList(eventItem))
+					.withSearchString("flight")
+					.withDate1(departureDate);
+
+			trackingProvider.trackEvent(event);
+		}
+	}
+
+	public static void trackPackageConfirmation(PackageCheckoutResponse packageCheckoutResponse, PackageSearchParams packageSearchParams) {
+		if (trackingProvider != null) {
+			TuneEvent event = new TuneEvent("package_confirmation");
+			TuneEventItem eventItem = new TuneEventItem("package_confirmation_item");
+
+			LocalDate checkInDate = new LocalDate(packageCheckoutResponse.packageDetails.hotel.checkInDate);
+			LocalDate checkOutDate = new LocalDate(packageCheckoutResponse.packageDetails.hotel.checkOutDate);
+			int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
+			double revenue = packageCheckoutResponse.packageDetails.pricing.packageTotal.amount.doubleValue();
+			float nightlyRate = packageCheckoutResponse.packageDetails.hotel.hotelRoomResponse.rateInfo.chargeableRateInfo.averageRate;
+			TripDetails trip = packageCheckoutResponse.getNewTrip() == null ? new TripDetails() : packageCheckoutResponse.getNewTrip();
+			String flightNumber = "";
+
+			if (packageSearchParams.getFlightLegList() != null) {
+				flightNumber = packageSearchParams.getFlightLegList().get(0).flightSegments.get(0).flightNumber;
+			}
+
+			eventItem.withQuantity(stayDuration)
+					.withAttribute1(packageCheckoutResponse.packageDetails.hotel.hotelCity)
+					.withAttribute2(flightNumber)
+					.withUnitPrice(nightlyRate)
+					.withRevenue(revenue);
+
+			withTuidAndMembership(event)
+					.withAttribute2(trackingProvider.isUserLoggedInValue())
+					.withRevenue(revenue)
+					.withCurrencyCode(packageCheckoutResponse.packageDetails.pricing.packageTotal.currencyCode)
+					.withAdvertiserRefId(getAdvertiserRefId(trip.getTravelRecordLocator()))
+					.withQuantity(stayDuration)
+					.withContentType(packageCheckoutResponse.packageDetails.hotel.getHotelName())
+					.withContentId(packageCheckoutResponse.packageDetails.hotel.hotelId)
+					.withEventItems(Collections.singletonList(eventItem))
+					.withDate1(checkInDate.toDate())
+					.withDate2(checkOutDate.toDate());
 
 			trackingProvider.trackEvent(event);
 		}
