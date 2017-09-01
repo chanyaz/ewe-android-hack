@@ -22,8 +22,10 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.LXState;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.ActivityImages;
 import com.expedia.bookings.data.lx.LXTicketType;
@@ -305,12 +307,17 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 				knowBeforeYouBookContent, 0);
 			knowBeforeYouBook.setVisibility(View.VISIBLE);
 		}
-
 		String cancellationPolicyText = LXDataUtils
-			.getCancelationPolicyDisplayText(getContext(), activityDetailsResponse.freeCancellationMinHours);
+				.getCancelationPolicyDisplayText(getContext(), activityDetailsResponse.freeCancellationMinHours);
 		cancellation.bindData(getResources().getString(R.string.cancellation_policy),
-			cancellationPolicyText, 0);
-		cancellation.setVisibility(View.VISIBLE);
+				cancellationPolicyText, 0);
+
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXOfferLevelCancellationPolicySupport)) {
+			cancellation.setVisibility(View.GONE);
+		}
+		else {
+			cancellation.setVisibility(View.VISIBLE);
+		}
 
 		int datesScrollerDrawable =
 			CollectionUtils.isNotEmpty(activityDetailsResponse.highlights) ? R.drawable.lx_dates_container_background

@@ -13,6 +13,7 @@ public class Offer {
 	public boolean freeCancellation;
 	public String duration;
 	public String description;
+	public int freeCancellationMinHours;
 
 	// This is not coming from server, its for client side manipulation
 	public boolean isToggled;

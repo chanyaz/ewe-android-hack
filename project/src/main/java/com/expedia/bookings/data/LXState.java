@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXOfferSelected;
@@ -63,6 +64,9 @@ public class LXState {
 		this.selectedTickets = event.selectedTickets;
 		this.originalTotalPrice = LXUtils.getTotalAmount(selectedTickets);
 		this.latestTotalPrice = LXUtils.getTotalAmount(selectedTickets);
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXOfferLevelCancellationPolicySupport)) {
+			activity.freeCancellationMinHours = event.offer.freeCancellationMinHours;
+		}
 	}
 
 	@Subscribe
