@@ -166,7 +166,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         super.onFinishInflate()
         removeView(flightSummary)
         bundleOverviewHeader.nestedScrollView.addView(flightSummary)
-        viewModel.showFreeCancellationObservable.subscribeVisibility(flightSummary.freeCancellationLabelTextView)
+        viewModel.showFreeCancellationObservable.subscribeVisibility(flightSummary.freeCancellationInfoContainer)
         viewModel.showSplitTicketMessagingObservable.subscribeVisibility(flightSummary.splitTicketInfoContainer)
         viewModel.splitTicketBaggageFeesLinksObservable.subscribeText(flightSummary.splitTicketBaggageFeesTextView)
         viewModel.showAirlineFeeWarningObservable.subscribeVisibility(flightSummary.airlineFeeWarningTextView)

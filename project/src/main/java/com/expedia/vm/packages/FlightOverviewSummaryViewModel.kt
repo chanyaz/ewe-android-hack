@@ -3,8 +3,6 @@ package com.expedia.vm.packages
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightTripResponse
-import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.utils.DateFormatUtils
@@ -20,8 +18,14 @@ class FlightOverviewSummaryViewModel(val context: Context) {
     val tripResponse = PublishSubject.create<FlightTripResponse>()
     val outboundBundleWidgetClassObservable = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
     val inboundBundleWidgetClassObservable = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
+    val freeCancellationInfoClickSubject = PublishSubject.create<Unit>()
+    val freeCancellationInfoSubject = PublishSubject.create<Boolean>()
 
     init {
+        freeCancellationInfoClickSubject
+                .withLatestFrom(freeCancellationInfoSubject, { _, visibility -> !visibility })
+                .subscribe(freeCancellationInfoSubject)
+        freeCancellationInfoSubject.onNext(false)
         params.subscribe { params ->
             val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
             val departureAirport = params.departureAirport.hierarchyInfo!!.airport!!.airportCode

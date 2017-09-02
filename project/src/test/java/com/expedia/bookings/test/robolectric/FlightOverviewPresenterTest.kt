@@ -119,7 +119,7 @@ class FlightOverviewPresenterTest {
         assertEquals(View.GONE, widget.cvv.visibility)
         assertEquals(View.GONE, widget.paymentFeeInfoWebView.visibility)
 
-        val freeCancellationText = widget.flightSummary.freeCancellationLabelTextView
+        val freeCancellationInfoContainer = widget.flightSummary.freeCancellationInfoContainer
         val splitTicketBaggageFeeLinkContainer = widget.flightSummary.splitTicketInfoContainer
         val airlineFeeWarningText = widget.flightSummary.airlineFeeWarningTextView
         val basicEconomyMessaging = widget.flightSummary.basicEconomyMessageTextView
@@ -130,7 +130,7 @@ class FlightOverviewPresenterTest {
         widget.viewModel.showAirlineFeeWarningObservable.onNext(true)
         widget.viewModel.showBasicEconomyMessageObservable.onNext(true)
         assertEquals("There may be an additional fee based on your payment method.", airlineFeeWarningText.text)
-        assertEquals(View.VISIBLE, freeCancellationText.visibility)
+        assertEquals(View.VISIBLE, freeCancellationInfoContainer.visibility)
         assertEquals(View.VISIBLE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.VISIBLE, airlineFeeWarningText.visibility)
         assertEquals(View.VISIBLE, basicEconomyMessaging.visibility)
@@ -141,7 +141,7 @@ class FlightOverviewPresenterTest {
         widget.viewModel.showAirlineFeeWarningObservable.onNext(false)
         widget.viewModel.showBasicEconomyMessageObservable.onNext(false)
         assertEquals("There may be an additional fee based on your payment method.", airlineFeeWarningText.text)
-        assertEquals(View.GONE, freeCancellationText.visibility)
+        assertEquals(View.GONE, freeCancellationInfoContainer.visibility)
         assertEquals(View.GONE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.GONE, airlineFeeWarningText.visibility)
         assertEquals(View.GONE, basicEconomyMessaging.visibility)
@@ -289,6 +289,21 @@ class FlightOverviewPresenterTest {
         flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(true))
         assertEquals(View.VISIBLE, flightSummaryWidget.outboundFlightTitle.visibility)
         assertEquals(View.VISIBLE, flightSummaryWidget.inboundFlightTitle.visibility)
+    }
+
+    @Test
+    fun testFreeCancellationInfo() {
+        var flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
+        widget.viewModel.showFreeCancellationObservable.onNext(true)
+        flightSummaryWidget.viewmodel = FlightOverviewSummaryViewModel(context)
+        flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(false))
+        assertEquals(View.VISIBLE, flightSummaryWidget.freeCancellationInfoContainer.visibility)
+        assertEquals(View.GONE, flightSummaryWidget.freeCancellationInfoTextView.visibility)
+        flightSummaryWidget.freeCancellationInfoContainer.performClick()
+        assertEquals(View.VISIBLE, flightSummaryWidget.freeCancellationInfoTextView.visibility)
+        assertEquals("After 24 hours, standard flight rules apply.", flightSummaryWidget.freeCancellationInfoTextView.text)
+        flightSummaryWidget.freeCancellationInfoContainer.performClick()
+        assertEquals(View.GONE, flightSummaryWidget.freeCancellationInfoTextView.visibility)
     }
 
     @Test

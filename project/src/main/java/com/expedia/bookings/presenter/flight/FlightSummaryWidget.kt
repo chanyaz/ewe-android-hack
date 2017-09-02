@@ -11,13 +11,13 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.InboundFlightWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
-import com.expedia.util.subscribeOnClick
-import com.expedia.vm.packages.BundleFlightViewModel
-import rx.subjects.PublishSubject
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
+import rx.subjects.PublishSubject
 
 class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -25,7 +25,9 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     val inboundFlightTitle: TextView by bindView(R.id.inbound_flight_title)
     val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
-    val freeCancellationLabelTextView: TextView by bindView(R.id.free_cancellation_text)
+    val freeCancellationInfoTextView: TextView by bindView(R.id.free_cancellation_info)
+    val freeCancellationMoreInfoIcon: android.widget.ImageView by bindView(R.id.free_cancellation_more_info_icon)
+    val freeCancellationInfoContainer: LinearLayout by bindView(R.id.free_cancellation_layout)
     val splitTicketBaggageFeesTextView: android.widget.TextView by bindView(R.id.split_ticket_baggage_fee_links)
     val splitTicketInfoContainer: View by bindView(R.id.split_ticket_info_container)
     val scrollSpaceView: View by bindView(R.id.scroll_space_flight)
@@ -50,6 +52,11 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         vm.inboundFlightTitle.subscribeTextAndVisibility(inboundFlightTitle)
         vm.outboundBundleWidgetClassObservable.subscribe(outboundFlightWidget.viewModel.updateUpsellClassPreference)
         vm.inboundBundleWidgetClassObservable.subscribe(inboundFlightWidget.viewModel.updateUpsellClassPreference)
+        freeCancellationInfoContainer.subscribeOnClick(vm.freeCancellationInfoClickSubject)
+        vm.freeCancellationInfoSubject.subscribe {
+            freeCancellationInfoTextView.visibility = if (it)  View.VISIBLE else View.GONE
+            freeCancellationMoreInfoIcon.animate().rotationBy(180f)
+        }
     }
 
     override fun onFinishInflate() {
