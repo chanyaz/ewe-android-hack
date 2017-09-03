@@ -44,7 +44,6 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
             }
 
-            toggleMenuObservable.onNext(false)
             viewModel.searchParamsChangeObservable.onNext(Unit)
         }
         vm.hotelResultsObservable.subscribe {
@@ -75,7 +74,6 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 }
                 inboundFlightWidget.showLoading()
             }
-            toggleMenuObservable.onNext(false)
             viewModel.searchParamsChangeObservable.onNext(Unit)
         }
         vm.flightResultsObservable.subscribe { searchType ->
