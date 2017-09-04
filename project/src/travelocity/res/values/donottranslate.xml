@@ -13,4 +13,9 @@
     <string name="tune_sdk_app_advertiser_id">188386</string>
     <string name="tune_sdk_app_conversion_key">e4e4b8b0d86f58e4c65c8945506ae756</string>
 
+    <!-- Deeplink URLs for app shortcuts -->
+    <string name="deeplink_trips">tvly://trips</string>
+    <string name="deeplink_hotel_search">tvly://hotelSearch</string>
+    <string name="deeplink_flight_share">tvly://flightShare</string>
+
 </resources>

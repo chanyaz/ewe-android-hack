@@ -16,4 +16,8 @@
     <string name="lastminute_au">lastminute.com.au</string>
     <string name="lastminute_nz">lastminute.co.nz</string>
 
+    <!-- Deeplink URLs for app shortcuts -->
+    <string name="deeplink_trips">ltmn://trips</string>
+    <string name="deeplink_hotel_search">ltmn://hotelSearch</string>
+    <string name="deeplink_flight_share">ltmn://flightShare</string>
 </resources>

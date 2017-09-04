@@ -13,4 +13,8 @@
     <string name="tune_sdk_app_advertiser_id">190169</string>
     <string name="tune_sdk_app_conversion_key">b36282b87552015465546ff0a43572de</string>
 
+    <!-- Deeplink URLs for app shortcuts -->
+    <string name="deeplink_trips">aago://trips</string>
+    <string name="deeplink_hotel_search">aago://hotelSearch</string>
+    <string name="deeplink_flight_share">aago://flightShare</string>
 </resources>

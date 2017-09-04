@@ -14,6 +14,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.data.trips.TripFlight
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.mobiata.android.util.SettingUtils
@@ -39,21 +40,21 @@ object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
                 .setShortLabel(mainContext.resources.getString(R.string.trips))
                 .setLongLabel(mainContext.resources.getString(R.string.my_trips))
                 .setIcon(Icon.createWithResource(mainContext, R.drawable.ic_itin_ready))
-                .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("expda://trips")))
+                .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse(mainContext.getString(R.string.deeplink_trips))))
                 .build()
 
         val hotelShortcut = ShortcutInfo.Builder(mainContext, "hotel")
                 .setShortLabel(mainContext.resources.getString(R.string.get_a_room))
                 .setLongLabel(mainContext.resources.getString(R.string.find_a_hotel_tonight))
                 .setIcon(Icon.createWithResource(mainContext, R.drawable.ic_stat_hotel))
-                .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("expda://hotelSearch")))
+                .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse(mainContext.getString(R.string.deeplink_hotel_search))))
                 .build()
 
         val shareFlightShortcut = ShortcutInfo.Builder(mainContext, "flight")
                 .setShortLabel(mainContext.resources.getString(R.string.share_flight))
                 .setLongLabel(mainContext.resources.getString(R.string.share_flight_status))
                 .setIcon(Icon.createWithResource(mainContext, R.drawable.ic_stat_flight))
-                .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("expda://flightShare")))
+                .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse(mainContext.getString(R.string.deeplink_flight_share))))
                 .build()
 
         allShortcuts = listOf(tripsShortcut, hotelShortcut, shareFlightShortcut)
@@ -109,7 +110,7 @@ object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
                 }
             }
 
-            when (hasFlights) {
+            when (hasFlights && ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
                 true -> shortcutManager?.dynamicShortcuts = allShortcuts
                 false -> shortcutManager?.dynamicShortcuts = noFlightShortcuts
             }

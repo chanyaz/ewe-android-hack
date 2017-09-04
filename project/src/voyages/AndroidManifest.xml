@@ -32,6 +32,7 @@
                 <data android:host="activitySearch"/>
                 <data android:host="signIn"/>
                 <data android:host="supportEmail"/>
+                <data android:host="flightshare"/>
 
             </intent-filter>
             <intent-filter>

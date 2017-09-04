@@ -19,4 +19,7 @@
     <!-- Brand reward currency -->
     <string name="brand_reward_currency">CheapCash</string>
 
+    <!-- Deeplink URLs for app shortcuts -->
+    <string name="deeplink_trips">hptk://trips</string>
+    <string name="deeplink_hotel_search">hptk://hotelSearch</string>
 </resources>

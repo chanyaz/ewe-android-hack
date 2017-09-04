@@ -367,7 +367,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean shouldShowItinShare() {
-		return false;
+		return false; // TODO : Add "flightshare" deeplink & shortcut when itin share is enabled
 	}
 
 	@Override

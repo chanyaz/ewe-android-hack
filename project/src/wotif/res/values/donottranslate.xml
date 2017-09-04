@@ -13,4 +13,8 @@
     <string name="tune_sdk_app_advertiser_id">188640</string>
     <string name="tune_sdk_app_conversion_key">5906feacf85426428e9b508640b6bb69</string>
 
+    <!-- Deeplink URLs for app shortcuts -->
+    <string name="deeplink_trips">wotf://trips</string>
+    <string name="deeplink_hotel_search">wotf://hotelSearch</string>
+    <string name="deeplink_flight_share">wotf://flightShare</string>
 </resources>

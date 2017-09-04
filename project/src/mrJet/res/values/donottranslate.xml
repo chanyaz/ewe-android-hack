@@ -18,5 +18,8 @@
 
     <!-- Brand reward currency -->
     <string name="brand_reward_currency">MrJet Rewards</string>
-
+    
+    <!-- Deeplink URLs for app shortcuts -->
+    <string name="deeplink_trips">mret://trips</string>
+    <string name="deeplink_hotel_search">mret://hotelSearch</string>
 </resources>

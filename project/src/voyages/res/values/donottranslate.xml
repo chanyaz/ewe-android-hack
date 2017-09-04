@@ -22,4 +22,9 @@
 
     <!-- Email addresses -->
     <string name="email_app_support">serviceclient@serviceclient.voyages-sncf.com</string>
+
+    <!-- Deeplink URLs for app shortcuts -->
+    <string name="deeplink_trips">vygs://trips</string>
+    <string name="deeplink_hotel_search">vygs://hotelSearch</string>
+    <string name="deeplink_flight_share">vygs://flightShare</string>
 </resources>

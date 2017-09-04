@@ -22,5 +22,8 @@
     <!-- Brand reward currency -->
     <string name="brand_reward_currency">Orbucks</string>
 
-
+    <!-- Deeplink URLs for app shortcuts -->
+    <string name="deeplink_trips">obtz://trips</string>
+    <string name="deeplink_hotel_search">obtz://hotelSearch</string>
+    <string name="deeplink_flight_share">obtz://flightShare</string>
 </resources>
