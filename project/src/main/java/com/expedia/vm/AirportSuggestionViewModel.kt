@@ -52,7 +52,7 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
     }
 
     override fun isSuggestionOnOneCharEnabled(): Boolean {
-        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter, R.string.preference_auto_suggest_on_one_character)
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter)
     }
 
 }
