@@ -13,3 +13,6 @@
 [submodule "lib/bug-reporter"]
 	path = lib/bug-reporter
 	url = git@github.com:/ExpediaInc/ewe-android-bug-reporter.git
+[submodule "lib/android-utils"]
+	path = lib/android-utils
+	url = git@github.com:/ExpediaInc/ewe-android-utils.git

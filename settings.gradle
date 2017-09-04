@@ -1,6 +1,7 @@
 // Main projects
 include ':lib:ExpediaBookings'
 include ':lib:bug-reporter:bugshaker'
+include ':lib:android-utils'
 include ':project'
 
 // libraries, order does not matter
