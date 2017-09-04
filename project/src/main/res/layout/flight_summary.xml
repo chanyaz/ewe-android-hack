@@ -53,6 +53,17 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:minHeight="64dp" />
 
+    <com.expedia.bookings.widget.FareFamilyCardView
+        android:id="@+id/fare_family_widget"
+        style="@style/MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginRight="@dimen/card_view_container_margin"
+        android:gravity="center_vertical"
+        app:cardUseCompatPadding="true"
+        android:visibility="gone"/>
+
     <com.expedia.bookings.widget.TextView
         android:id="@+id/free_cancellation_text"
         style="@style/HeaderTextAboveCardviews"
@@ -66,17 +77,6 @@
         android:textSize="12sp"
         android:textColor="@color/defaultTextColor"
         android:text="@string/flights_free_cancellation" />
-
-    <com.expedia.bookings.widget.FareFamilyCardView
-        android:id="@+id/fare_family_widget"
-        style="@style/MaterialCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/card_view_container_margin"
-        android:layout_marginRight="@dimen/card_view_container_margin"
-        android:gravity="center_vertical"
-        app:cardUseCompatPadding="true"
-        android:visibility="gone"/>
 
     <com.expedia.bookings.widget.InsuranceWidget
         android:id="@+id/insurance_widget"

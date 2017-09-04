@@ -16,6 +16,7 @@ import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -68,6 +69,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         @Inject set
 
     lateinit var travelerManager: TravelerManager
+    lateinit var createTripBuilder: FlightCreateTripParams.Builder
 
     val isByotEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
@@ -225,7 +227,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
             presenter.flightSummary.setPadding(0, 0, 0, 0)
         }
-
+        presenter.fareFamilyCardView.viewModel.updateTripObserver.subscribe {
+            createTripBuilder.productKey(it.first)
+            createTripBuilder.fareFamilyCode(it.second.fareFamilyCode)
+            createTripBuilder.fareFamilyTotalPrice(it.second.totalPrice.amount)
+            flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
+        }
         Observable.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
                 { outbound, inbound ->
@@ -297,6 +304,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
+
         }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
@@ -330,13 +338,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         viewModel.flightProductId.subscribe { productKey ->
             flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
-            val createTripParams = FlightCreateTripParams(productKey)
-            createTripParams.flexEnabled = isFlexEnabled()
-
+            createTripBuilder = FlightCreateTripParams.Builder()
+            createTripBuilder.productKey(productKey)
+            createTripBuilder.setFlexEnabled(isFlexEnabled())
             if(EBAndroidAppFlightSubpubChange){
-                createTripParams.setFeatureOverride()
+                createTripBuilder.enableSubPubFeature()
             }
-            flightCreateTripViewModel.tripParams.onNext(createTripParams)
+            flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
             show(flightOverviewPresenter)
             flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
@@ -448,6 +456,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         else {
             flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
+        }
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFareFamilyFlightSummary,
+                R.string.preference_fare_family_flight_summary)) {
+            flightOverviewPresenter.fareFamilyCardView.visibility = View.GONE
         }
     }
 

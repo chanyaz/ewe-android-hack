@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.subscribeText
 import com.expedia.vm.AbstractFlightViewModel
 import com.mobiata.android.Log
 
@@ -30,6 +31,7 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
     val urgencyMessageTextView: TextView by bindView(R.id.urgency_message)
     val urgencyMessageContainer: LinearLayout by bindView(R.id.urgency_message_layout)
     val flightToggleIcon: ImageView by bindView(R.id.flight_overview_expand_icon)
+    lateinit var viewModel : AbstractFlightViewModel
 
     init {
         View.inflate(context, R.layout.flight_cell, this)
@@ -39,6 +41,7 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
     }
 
     fun bind(viewModel: AbstractFlightViewModel, maxFlightDuration: Int) {
+        this.viewModel = viewModel
         flightTimeTextView.text = viewModel.flightTime
         priceTextView.text = viewModel.price()
         flightDurationTextView.text = viewModel.duration
@@ -53,11 +56,13 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
         }
         flightAirlineWidget.update(viewModel.airline, viewModel.isEarnMessageVisible(viewModel.earnMessage))
-        if (viewModel.getFlightCabinPreferenceVisibility() && Strings.isNotEmpty(viewModel.flightCabinPreferences)) {
-            flightCabinCodeTextView.visibility = View.VISIBLE
-            flightCabinCodeTextView.text = viewModel.flightCabinPreferences
-        } else {
-            flightCabinCodeTextView.visibility = View.GONE
+        viewModel.updateflightCabinPreferenceObservable.subscribe {
+            if (viewModel.getFlightCabinPreferenceVisibility()) {
+                flightCabinCodeTextView.visibility = View.VISIBLE
+                flightCabinCodeTextView.text = it
+            } else {
+                flightCabinCodeTextView.visibility = View.GONE
+            }
         }
         if (viewModel.getUrgencyMessageVisibility(viewModel.seatsLeftUrgencyMessage)) {
             urgencyMessageContainer.visibility = View.VISIBLE

@@ -46,6 +46,7 @@ class FlightCreateTripViewModelTest {
     lateinit private var flightServices: FlightServices
     lateinit private var selectedCardFeeSubject: PublishSubject<ValidFormOfPayment?>
     lateinit private var params: FlightCreateTripParams
+    lateinit private var builder: FlightCreateTripParams.Builder
 
     @Before
     fun setup() {
@@ -55,6 +56,7 @@ class FlightCreateTripViewModelTest {
         Ui.getApplication(context).defaultFlightComponents()
         sut = FlightCreateTripViewModel(context)
         sut.flightServices = flightServices
+        builder = FlightCreateTripParams.Builder()
     }
 
     @Test
@@ -141,17 +143,12 @@ class FlightCreateTripViewModelTest {
 
     private fun givenCreateTripResponseError() {
         val productKey = "INVALID_INPUT"
-        params = FlightCreateTripParams(productKey)
-    }
-
-    private fun givenCreateTripPriceChange() {
-        val productKey = "create_trip_price_change"
-        params = FlightCreateTripParams(productKey)
+        params =  builder.productKey(productKey).build()
     }
 
     private fun givenGoodCreateTripParams() {
         val productKey = "happy_round_trip"
-        params = FlightCreateTripParams(productKey)
+        params =  builder.productKey(productKey).build()
     }
 
     private fun createMockFlightServices() {

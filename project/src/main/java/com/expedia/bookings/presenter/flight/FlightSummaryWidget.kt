@@ -48,6 +48,8 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     var viewmodel: FlightOverviewSummaryViewModel by notNullAndObservable { vm ->
         vm.outboundFlightTitle.subscribeText(outboundFlightTitle)
         vm.inboundFlightTitle.subscribeTextAndVisibility(inboundFlightTitle)
+        vm.outboundBundleWidgetClassObservable.subscribe(outboundFlightWidget.viewModel.updateUpsellClassPreference)
+        vm.inboundBundleWidgetClassObservable.subscribe(inboundFlightWidget.viewModel.updateUpsellClassPreference)
     }
 
     override fun onFinishInflate() {

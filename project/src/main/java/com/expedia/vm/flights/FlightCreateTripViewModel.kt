@@ -3,6 +3,7 @@ package com.expedia.vm.flights
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -11,6 +12,7 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observable
@@ -51,9 +53,9 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
                 }
                 else {
                     Db.getTripBucket().clearFlight()
+                    response.isFareFamilyUpgraded = (Strings.isNotEmpty(tripParams.value.fareFamilyCode) && response.createTripStatus != FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE)
                     Db.getTripBucket().add(TripBucketItemFlightV2(response))
                     createTripResponseObservable.onNext(response)
-                    
                 }
             }
 

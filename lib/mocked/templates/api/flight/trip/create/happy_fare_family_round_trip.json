@@ -27,7 +27,7 @@
             {
                 "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
                 "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
-                "isBasicEconomy": true,
+                "isBasicEconomy": false,
                 "segments": [
                     {
                         "airlineCode": "AA",
@@ -157,7 +157,7 @@
                 [
                     {
                         "bookingCode": "V",
-                        "cabinCode": "coach"
+                        "cabinCode": "business"
                     }
                 ]
             ],
@@ -252,7 +252,7 @@
         }
     ],
   "fareFamilyList": {
-    "productKey": "2c2b0cb041a04eede7d5aea22037e503-1-2~0.D~AQoCCAESBwjUBBABGAEgAigCUg_nQgG-QwGATAHWWAG2XgE~AQoeChwIwmwSAzc4ORipUSDMcCjGonYw76N2OFNAAFgBCiAKHgjCbBIEMjAyOBjMcCDEjQEo6u52MILwdjhQQABYARIKCAIQARgCKgJCNhgBIgQIARABKAQoAygBKAIwAg",
+    "productKey": "happy_fare_family_round_trip",
     "fareFamilyDetails": [
       {
         "fareFamilyName": "ECONOMY",

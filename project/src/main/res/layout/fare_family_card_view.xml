@@ -38,6 +38,7 @@
             android:paddingLeft="10dp" />
 
         <com.expedia.bookings.widget.TextView
+            android:id="@+id/fare_family_from_label"
             style="@style/Core.Text.Default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

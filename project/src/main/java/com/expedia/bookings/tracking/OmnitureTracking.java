@@ -4641,6 +4641,8 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
 	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.Details.";
+	private static final String FLIGHTS_V2_FARE_FAMILY_UPGRADE_FLIGHT = "App.Flight.RD.UpgradeFlights";
+	private static final String FLIGHTS_V2_FARE_FAMILY_CHANGE_CLASS = "App.Flight.RD.ChangeClass";
 	private static final String FLIGHTS_V2_COST_SUMMARY = "App.Flight.RD.TotalCost";
 	private static final String FLIGHTS_V2_RATE_DETAILS_PRICE_CHANGE = "App.Flight.RD.PriceChange";
 	private static final String FLIGHTS_V2_CHECKOUT_PRICE_CHANGE = "App.Flight.CKO.PriceChange";
@@ -5118,7 +5120,7 @@ public class OmnitureTracking {
 
 	public static void trackShowFlightOverView(
 		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
-		PageUsableData overviewPageUsableData, kotlin.Pair outboundSelectedAndTotalLegRank, kotlin.Pair inboundSelectedAndTotalLegRank) {
+		PageUsableData overviewPageUsableData, kotlin.Pair outboundSelectedAndTotalLegRank, kotlin.Pair inboundSelectedAndTotalLegRank, boolean isFareFamilySelected) {
 		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_RATE_DETAILS + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_RATE_DETAILS);
@@ -5158,6 +5160,13 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview);
 
 		StringBuilder eventStringBuilder = new StringBuilder(s.getEvents());
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_fare_family_flight_summary)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFareFamilyFlightSummary);
+			//This tracking should be done only when user is bucketed for Fare Family AB test
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)) {
+				eventStringBuilder.append(isFareFamilySelected ? ",275" : ",274");
+			}
+		}
 		appendPageLoadTimeEvents(eventStringBuilder, overviewPageUsableData.getLoadTimeInSeconds());
 
 		if (eventStringBuilder.length() > 0) {
@@ -5165,6 +5174,16 @@ public class OmnitureTracking {
 		}
 
 		s.track();
+	}
+
+	public static void trackFareFamilyCardViewClick(boolean isUpgradingFlight) {
+		String upgradeString =
+			isUpgradingFlight ? FLIGHTS_V2_FARE_FAMILY_CHANGE_CLASS : FLIGHTS_V2_FARE_FAMILY_UPGRADE_FLIGHT;
+		Log.d(TAG, "Tracking \"" + upgradeString + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, upgradeString);
+		s.setProp(16, upgradeString);
+		s.trackLink(null, "o", "Rate Details View", null, null);
 	}
 
 	private static String getRankEvent(kotlin.Pair outboundSelectedAndTotalLegRank,

@@ -42,7 +42,7 @@ class FareFamilyItemWidgetTest {
     private val context = RuntimeEnvironment.application
     lateinit private var sut: FareFamilyItemWidget
     lateinit private var fareFamilyWidget: FlightFareFamilyWidget
-    val params = FlightCreateTripParams("happy_fare_family_round_trip")
+    val params = FlightCreateTripParams.Builder().productKey("happy_fare_family_round_trip").build()
     lateinit var flightCreateTripResponse: FlightCreateTripResponse
     lateinit private var activity: Activity
 

@@ -21,7 +21,7 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFli
     }
 
     override fun getFlightCabinPreferenceVisibility(): Boolean {
-        return Strings.isNotEmpty(flightCabinPreferences)
+        return Strings.isNotEmpty(updateflightCabinPreferenceObservable.value)
     }
 
     override fun isEarnMessageVisible(earnMessage: String): Boolean {

@@ -28,6 +28,7 @@ import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightSegmentBreakdown
@@ -160,7 +161,14 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             }
 
             if (vm.showRowContainerWithMoreInfo.value) {
-                (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight), 0)
+                val flightOverviewRowViewModel = FlightOverviewRowViewModel(context, selectedFlight)
+                val flightCellWidget = rowContainer.getChildAt(0) as FlightCellWidget
+                flightCellWidget.bind(flightOverviewRowViewModel, 0)
+                viewModel.updateUpsellClassPreference.map {
+                    selectedFlight.isBasicEconomy = it.second
+                    selectedFlight.packageOfferModel.segmentsSeatClassAndBookingCode = it.first
+                    FlightV2Utils.getFlightCabinPreferences(context, selectedFlight)
+                }.subscribe(flightCellWidget.viewModel.updateflightCabinPreferenceObservable)
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
             }
             this.selectedCardObservable.onNext(Unit)

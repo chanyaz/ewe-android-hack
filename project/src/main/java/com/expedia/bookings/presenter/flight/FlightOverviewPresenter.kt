@@ -73,6 +73,16 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         flightFareFamilyView
     }
 
+    val fareFamilyCardView: FareFamilyCardView by lazy {
+        val widget = findViewById(R.id.fare_family_widget) as FareFamilyCardView
+        widget.viewModel = FareFamilyViewModel(context)
+        widget.viewModel.fareFamilyCardClickObserver.subscribe {
+            flightFareFamilyDetailsWidget.viewModel.showFareFamilyObservable.onNext(Unit)
+            show(flightFareFamilyDetailsWidget)
+        }
+        widget
+    }
+
     init {
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
@@ -105,16 +115,19 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         Observable.merge(flightSummary.outboundFlightWidget.viewModel.paymentFeeInfoClickSubject, flightSummary.inboundFlightWidget.viewModel.paymentFeeInfoClickSubject).subscribe {
             show(paymentFeeInfoWebView)
         }
-    }
 
-    val fareFamilyCardView: FareFamilyCardView by lazy {
-        val widget = findViewById(R.id.fare_family_widget) as FareFamilyCardView
-        widget.viewModel = FareFamilyViewModel(context)
-        widget.viewModel.fareFamilyCardClickObserver.subscribe {
-            flightFareFamilyDetailsWidget.viewModel.showFareFamilyObservable.onNext(Unit)
-            show(flightFareFamilyDetailsWidget)
+        flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(
+                flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, {
+            unit, fareFamilyDetail ->
+            fareFamilyDetail
+        }).subscribe(fareFamilyCardView.viewModel.selectedFareFamilyObservable)
+
+        fareFamilyCardView.viewModel.fareFamilyCardClickObserver.withLatestFrom(
+                fareFamilyCardView.viewModel.tripObservable, {
+            unit, trip -> trip
+        }).subscribe {
+            FlightsV2Tracking.trackFareFamilyCardViewClick(it.isFareFamilyUpgraded)
         }
-        widget
     }
 
     val insuranceWidget: InsuranceWidget by lazy {
@@ -245,6 +258,10 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         if (isUserBucketedForFareFamily) {
             fareFamilyCardView.viewModel.tripObservable.onNext(tripResponse)
             flightFareFamilyDetailsWidget.viewModel.tripObservable.onNext(tripResponse)
+            if (tripResponse.isFareFamilyUpgraded) {
+                trackShowBundleOverview()
+            }
+            flightSummary.viewmodel.tripResponse.onNext(tripResponse)
         }
         viewModel.showBasicEconomyMessageObservable.onNext(shouldShowBasicEconomyMessage(tripResponse))
         basicEconomyInfoWebView.loadData(tripResponse.details.basicEconomyFareRules)
@@ -255,7 +272,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         createTripResponse as FlightCreateTripResponse
         val flightSearchParams = Db.getFlightSearchParams()
         FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, createTripResponse, overviewPageUsableData,
-                viewModel.outboundSelectedAndTotalLegRank, viewModel.inboundSelectedAndTotalLegRank)
+                viewModel.outboundSelectedAndTotalLegRank, viewModel.inboundSelectedAndTotalLegRank, createTripResponse.isFareFamilyUpgraded)
     }
 
     override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {

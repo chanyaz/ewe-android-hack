@@ -38,7 +38,7 @@ class FlightFareFamilyViewModelTest {
 
     private val context = RuntimeEnvironment.application
     lateinit private var sut: FlightFareFamilyViewModel
-    val params = FlightCreateTripParams("happy_fare_family_round_trip")
+    val params = FlightCreateTripParams.Builder().productKey("happy_fare_family_round_trip").build()
     lateinit var flightCreateTripResponse: FlightCreateTripResponse
 
     @Before
