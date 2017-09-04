@@ -9,6 +9,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightV2Utils
@@ -47,6 +48,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
     val showRowContainerWithMoreInfo = BehaviorSubject.create<Boolean>(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
             && (lob == LineOfBusiness.FLIGHTS_V2))
+    val updateUpsellClassPreference = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
 
     val showPaymentInfoLinkObservable = PublishSubject.create<Boolean>()
     val baggageInfoUrlSubject = PublishSubject.create<String>()

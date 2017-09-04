@@ -9,8 +9,8 @@ abstract class FlightTripResponse : TripResponse() {
     var totalPriceIncludingFees: Money? = null
     var selectedCardFees: Money? = null
     var fareFamilyList: FareFamilies? = null
-    var createTripStatus: String? = null
-    var isFareFamilyUpgraded = false //TODO - This need to be handled
+    val createTripStatus = CreateTripError.NULL
+    var isFareFamilyUpgraded = false
 
     fun getSelectedInsuranceProduct() : InsuranceProduct? = getOffer().selectedInsuranceProduct
 
@@ -37,4 +37,12 @@ abstract class FlightTripResponse : TripResponse() {
             val deltaTotalPrice: Money,
             val deltaPositive: Boolean = false,
             val fareFamilyComponents: HashMap<String, HashMap<String, String>>)
+
+    enum class CreateTripError {
+        FARE_FAMILY_PRICE_CHANGE,
+        SUCCESS,
+        PRICE_CHANGE,
+        FARE_FAMILY_UNAVAILABLE,
+        NULL
+    }
 }

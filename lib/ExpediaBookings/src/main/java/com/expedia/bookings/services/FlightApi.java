@@ -1,5 +1,6 @@
 package com.expedia.bookings.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,9 @@ public interface FlightApi {
 	Observable<FlightCreateTripResponse> createTrip(
 		@Query("mobileFlexEnabled") boolean flexEnabled,
 		@FieldMap Map<String, Object> queryParams,
-		@Query("featureOverride") String featureOverride);
+		@Query("featureOverride") String featureOverride,
+		@Query("fareFamilyCode") String fareFamilyCode,
+		@Query("fareFamilyTotalPrice") BigDecimal fareFamilyTotalPrice);
 
 	@FormUrlEncoded
 	@POST("/api/flight/checkout")

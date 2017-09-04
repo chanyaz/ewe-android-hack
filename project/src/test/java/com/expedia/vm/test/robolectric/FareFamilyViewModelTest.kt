@@ -9,6 +9,8 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.FareFamilyViewModel
@@ -39,17 +41,42 @@ class FareFamilyViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyCardViewStringsForFreshCreateTrip(){
         val deltaPriceSubscriber = TestSubscriber<String>()
-        val selectedClassSubscriber = TestSubscriber<CharSequence>()
+        val selectedClassSubscriber = TestSubscriber<String>()
+        val fareFamilyTitleSubscriber = TestSubscriber<String>()
+        val fromLabelVisibilitySubscriber = TestSubscriber<Boolean>()
 
         sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
+        sut.fromLabelVisibility.subscribe(fromLabelVisibilitySubscriber)
+        sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
         sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable())
-        assertEquals("$42.00",deltaPriceSubscriber.onNextEvents[0])
-        assertEquals("Selected: Economy",selectedClassSubscriber.onNextEvents[0].toString())
-
+        assertEquals("+$42.00",deltaPriceSubscriber.onNextEvents[0])
+        assertEquals("Economy",selectedClassSubscriber.onNextEvents[0])
+        assertEquals("Upgrade your flights",fareFamilyTitleSubscriber.onNextEvents[0])
+        assertTrue(fromLabelVisibilitySubscriber.onNextEvents[0])
     }
+
+    @Test
+    fun testFareFamilyCardViewStringsAfterSelectingFareFamily(){
+        val deltaPriceSubscriber = TestSubscriber<String>()
+        val selectedClassSubscriber = TestSubscriber<String>()
+        val fareFamilyTitleSubscriber = TestSubscriber<String>()
+        val fromLabelVisibilitySubscriber = TestSubscriber<Boolean>()
+
+        sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
+        sut.selectedClassObservable.subscribe(selectedClassSubscriber)
+        sut.fromLabelVisibility.subscribe(fromLabelVisibilitySubscriber)
+        sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
+        sut.tripObservable.onNext(tripResponseWithFareFamilySelected())
+        assertEquals("",deltaPriceSubscriber.onNextEvents[0])
+        assertEquals("Economy",selectedClassSubscriber.onNextEvents[0])
+        assertEquals("Change your cabin class",fareFamilyTitleSubscriber.onNextEvents[0])
+        assertFalse(fromLabelVisibilitySubscriber.onNextEvents[0])
+    }
+
     @Test
     fun fareFamilyWidgetVisiblility() {
         val widgetVisibilitySubscriber = TestSubscriber<Boolean>()
@@ -62,6 +89,12 @@ class FareFamilyViewModelTest {
         assertTrue(widgetVisibilitySubscriber.onNextEvents[1])
     }
 
+    private fun tripResponseWithFareFamilySelected(): FlightCreateTripResponse {
+        val trip = tripResponseWithFareFamilyAvailable()
+        trip.isFareFamilyUpgraded = true
+        return trip
+    }
+
     private fun tripResponseWithFareFamilyAvailable(): FlightCreateTripResponse {
         val deltamoney = Money("42.00", "USD")
         deltamoney.formattedPrice = "$42.00"
@@ -70,7 +103,6 @@ class FareFamilyViewModelTest {
         val fareFamilyProduct = FlightTripResponse.FareFamilies("product-key", arrayOf(fareFamilyDetails))
         val trip = tripResponseWithoutFareFamilyAvailable()
         trip.fareFamilyList = fareFamilyProduct
-
         return trip
     }
 
@@ -87,6 +119,7 @@ class FareFamilyViewModelTest {
         val trip = FlightCreateTripResponse()
         trip.newTrip = TripDetails(null, null, tripId = "")
         trip.details = details
+        trip.fareFamilyList  = FlightTripResponse.FareFamilies("product-key", emptyArray())
         return trip
     }
 }

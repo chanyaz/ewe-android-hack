@@ -132,7 +132,7 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
     open fun createTrip(params: FlightCreateTripParams, observer: Observer<FlightCreateTripResponse>): Subscription {
         createTripRequestSubscription?.unsubscribe()
 
-        createTripRequestSubscription = flightApi.createTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride)
+        createTripRequestSubscription = flightApi.createTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)

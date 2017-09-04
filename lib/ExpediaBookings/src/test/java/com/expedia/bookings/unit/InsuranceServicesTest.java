@@ -105,7 +105,8 @@ public class InsuranceServicesTest {
 
 	private TestSubscriber<FlightCreateTripResponse> createTrip(String productKey) throws Throwable {
 		TestSubscriber<FlightCreateTripResponse> tripObserver = new TestSubscriber<>();
-		flightServices.createTrip(new FlightCreateTripParams(productKey), tripObserver);
+		flightServices.createTrip(new FlightCreateTripParams.
+			Builder().productKey(productKey).build(), tripObserver);
 		tripObserver.awaitTerminalEvent();
 		tripObserver.assertNoErrors();
 		return tripObserver;

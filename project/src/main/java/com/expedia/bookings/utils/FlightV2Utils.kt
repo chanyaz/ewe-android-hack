@@ -309,20 +309,25 @@ object FlightV2Utils {
         else return null
     }
 
-    @JvmStatic fun getSelectedClassesString(context: Context, flightTripDetails: FlightTripDetails): CharSequence {
-        var selectedSeatClassList : List<String> = emptyList()
+    @JvmStatic fun getSelectedClassesString(context: Context, flightTripDetails: FlightTripDetails): String {
+        var selectedSeatClassList: MutableList<String> = ArrayList()
         val basicEconomyAvailableAndCorrespondingLeg: Pair<Boolean, Int> = getBasicEconomyLeg(flightTripDetails.legs)
-        flightTripDetails.offer.offersSeatClassAndBookingCode.forEach { seatList ->
-            selectedSeatClassList = seatList.distinctBy { it.seatClass }.map { it.seatClass }
+
+        flightTripDetails.offer.offersSeatClassAndBookingCode.forEachIndexed { index, seatClass ->
+            if (flightTripDetails.legs[index].isBasicEconomy) {
+                selectedSeatClassList.add(context.resources.getString(R.string.cabin_code_basic_economy))
+            } else {
+                selectedSeatClassList.addAll(seatClass.map { seatClass -> context.getString(FlightServiceClassType.getCabinCodeResourceId(seatClass.seatClass)) })
+            }
         }
+        selectedSeatClassList = selectedSeatClassList.distinct().toMutableList()
+
         var selectedClassText = ""
         if (selectedSeatClassList.size == 1) {
-            selectedClassText = Phrase.from(context.getString(R.string.flight_selected_classes_one_class_TEMPLATE))
-                    .put("class", context.getString(FlightServiceClassType.getCabinCodeResourceId(selectedSeatClassList[0]))).format().toString()
+            selectedClassText = selectedSeatClassList[0]
         } else if (selectedSeatClassList.size == 2) {
             selectedClassText = Phrase.from(context.getString(R.string.flight_selected_classes_two_class_TEMPLATE))
-                    .put("class_one", context.getString(FlightServiceClassType.getCabinCodeResourceId(selectedSeatClassList[0])))
-                    .put("class_two", context.getString(FlightServiceClassType.getCabinCodeResourceId(selectedSeatClassList[1])))
+                    .put("class_one", selectedSeatClassList[0]).put("class_two", selectedSeatClassList[1])
                     .format().toString()
         } else if (basicEconomyAvailableAndCorrespondingLeg.first) {
             if (basicEconomyAvailableAndCorrespondingLeg.second == 0) {
@@ -337,9 +342,9 @@ object FlightV2Utils {
                         .format().toString()
             }
         } else {
-            selectedClassText = context.getString(R.string.flight_selected_classes_mixed_classes)
+            selectedClassText = context.getString(R.string.flight_cabin_mixed_classes)
         }
-        return HtmlCompat.fromHtml(selectedClassText)
+        return selectedClassText
     }
 
     private fun getBasicEconomyLeg(flightLegs: List<FlightLeg>): Pair<Boolean, Int> {
