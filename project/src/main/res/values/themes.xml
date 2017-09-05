@@ -88,7 +88,6 @@
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
         <item name="skin_hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
-        <item name="skin_hotelListingFilterGroupStyle">@style/Widget.SegmentedControlGroup.DarkFilterControls</item>
         <item name="skin_hotelListingFilterToggleButtonStyle">@style/Widget.Button.DarkFilterControls</item>
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>

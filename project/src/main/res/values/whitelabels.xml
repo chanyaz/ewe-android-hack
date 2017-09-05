@@ -46,9 +46,6 @@
     <!-- Hotel filters Background -->
     <attr name="skin_hotelFilterBackground" format="reference|color" />
 
-    <!-- Hotel filters button style, for SegmentedControlGroups -->
-    <attr name="skin_hotelListingFilterGroupStyle" format="reference" />
-
     <!-- Hotel filters button style for VIP Toggle Button -->
     <attr name="skin_hotelListingFilterToggleButtonStyle" format="reference" />
 

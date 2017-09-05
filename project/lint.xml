@@ -135,7 +135,6 @@
     <issue id="GradleIdeError" severity="error" />
     <issue id="GradleOverrides" severity="error" />
     <issue id="GradlePath" severity="error" />
-    <issue id="GridLayout" severity="error" />
     <issue id="InOrMmUsage" severity="error" />
     <issue id="NewerVersionAvailable" severity="error" />
     <issue id="RequiredSize" severity="error" />

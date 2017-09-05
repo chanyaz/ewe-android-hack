@@ -330,15 +330,6 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="Widget.SegmentedControlGroup" parent="@android:style/Widget" />
-
-    <style name="Widget.SegmentedControlGroup.UserReviews">
-        <item name="centerButton">@drawable/btn_user_review_segmented_control_center</item>
-        <item name="leftButton">@drawable/btn_user_review_segmented_control_left</item>
-        <item name="rightButton">@drawable/btn_user_review_segmented_control_right</item>
-        <item name="textColor">@color/segmented_button_user_review_text</item>
-    </style>
-
     <style name="Widget.Spinner" parent="@android:style/Widget.Spinner">
         <item name="android:background">@drawable/btn_dropdown</item>
     </style>
@@ -561,13 +552,6 @@
     </style>
     <!-- If we ever want to use the Switch elsewhere, we may need to move some things into here -->
     <style name="Widget.CompoundButton.Switch.TabletFilterControls" />
-
-    <style name="Widget.SegmentedControlGroup.DarkFilterControls">
-        <item name="centerButton">@drawable/dark_segmented_center</item>
-        <item name="leftButton">@drawable/dark_segmented_left</item>
-        <item name="rightButton">@drawable/dark_segmented_right</item>
-        <item name="textColor">@color/actionbar_text</item>
-    </style>
 
     <style name="Widget.Button.DarkFilterControls">
         <item name="android:background">@drawable/toggle_dark</item>
