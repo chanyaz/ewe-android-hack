@@ -132,7 +132,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 				mockViewModel.getTravelersCompletenessStatus().onNext(TravelerCheckoutStatus.CLEAN);
 				Common.delay(1);
 
-				assertEquals("Traveler Details Button", testTravelerDefault.getContentDescription().toString());
+				assertEquals("Enter traveler details Button", testTravelerDefault.getContentDescription().toString());
 
 				mockViewModel = getMockViewModelIncompleteTravelers(1);
 				mockViewModel.getTravelersCompletenessStatus().onNext(TravelerCheckoutStatus.DIRTY);

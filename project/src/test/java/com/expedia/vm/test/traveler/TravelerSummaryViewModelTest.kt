@@ -45,7 +45,7 @@ class TravelerSummaryViewModelTest {
     fun setUp() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         resources = activity.resources
-        expectedEmptyTitle = resources.getString(R.string.checkout_enter_traveler_details)
+        expectedEmptyTitle = resources.getString(R.string.enter_traveler_details)
         expectedEmptySubTitle = resources.getString(R.string.enter_traveler_details)
 
         expectedSubTitleErrorMessage = "Enter missing traveler details"
@@ -53,14 +53,10 @@ class TravelerSummaryViewModelTest {
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
         Ui.getApplication(activity).defaultTravelerComponent()
         summaryVM = TravelerSummaryViewModel(activity)
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
-
     }
 
     @Test
     fun emptyStateDefaultAfterInitWithTravelerInfoAbTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
-
         val expectedTitle = resources.getString(R.string.enter_traveler_details)
         val summaryVM = TravelerSummaryViewModel(activity)
         assertEquals(expectedTitle, summaryVM.getTitle())
@@ -69,7 +65,6 @@ class TravelerSummaryViewModelTest {
 
     @Test
     fun updateToIncompleteOneTravelerNoNameWithTravelerInfoAbTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
         val expectedEmptyTitle = resources.getString(R.string.enter_traveler_details)
         val summaryVM = TravelerSummaryViewModel(activity)
 
@@ -84,7 +79,6 @@ class TravelerSummaryViewModelTest {
     @Test
     fun emptyStateDefaultAfterInit() {
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
-        assertEquals(expectedEmptySubTitle, summaryVM.subtitleObservable.value)
         assertEquals(expectedEmptyIconStatus, summaryVM.iconStatusObservable.value)
     }
 
@@ -93,7 +87,6 @@ class TravelerSummaryViewModelTest {
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.CLEAN)
 
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
-        assertEquals(expectedEmptySubTitle, summaryVM.subtitleObservable.value)
         assertEquals(expectedEmptyIconStatus, summaryVM.iconStatusObservable.value)
     }
 

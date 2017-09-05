@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context) {
 
-    val isFeatureEnabledForTravelerInfoTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
@@ -24,8 +23,7 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
     override fun getTitle(): String {
         val traveler = getFirstTraveler()
         if (traveler?.fullName.isNullOrEmpty()) {
-            return resources.getString(if (isFeatureEnabledForTravelerInfoTest) R.string.enter_traveler_details
-                                        else R.string.checkout_enter_traveler_details)
+            return resources.getString(R.string.enter_traveler_details)
         } else {
             return traveler?.fullNameBasedOnPos ?: ""
         }
@@ -40,7 +38,7 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
 
         val traveler = getFirstTraveler()
         if (traveler == null || travelerStatusObserver.value != TravelerCheckoutStatus.COMPLETE) {
-            return if (isFeatureEnabledForTravelerInfoTest) "" else resources.getString(R.string.enter_traveler_details)
+            return ""
         } else {
             return traveler.birthDate!!.toString("MM/dd/yyyy")
         }

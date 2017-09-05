@@ -243,8 +243,6 @@ class PaymentViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPaymentTileWithPaymentABTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
-
         val viewModel: PaymentViewModel = PaymentViewModel(getContext())
 
         viewModel.cardTitle.subscribe(cardTitleTestSubscriber)

@@ -80,7 +80,6 @@ open class PaymentViewModel(val context: Context) {
     val onStoredCardChosen = PublishSubject.create<Unit>()
     val onTemporarySavedCreditCardChosen = PublishSubject.create<Unit>()
     val ccFeeDisclaimer = PublishSubject.create<String>()
-    val isFeatureEnabledForPaymentInfoTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
     val updateBillingCountryFields = PublishSubject.create<String>()
     val removeBillingAddressForApac = PublishSubject.create<Boolean>()
     val populateFakeBillingAddress = PublishSubject.create<Location>()
@@ -216,7 +215,7 @@ open class PaymentViewModel(val context: Context) {
         val isUniversalCheckout = LineOfBusinessExtensions.isUniversalCheckout(lineOfBusiness.value, context)
         val title: String
         val subTitle: String
-        if (isUniversalCheckout && isFeatureEnabledForPaymentInfoTest) {
+        if (isUniversalCheckout) {
             title = resources.getString(R.string.enter_payment_information)
             if (billingInfoAndStatusUpdate.value.second == ContactDetailsCompletenessStatus.DEFAULT) {
                 subTitle = ""

@@ -18,16 +18,10 @@ import com.squareup.phrase.Phrase
 
 class TravelerSummaryCard(context: Context, attrs: AttributeSet?) : TravelerDetailsCard(context, attrs) {
 
-    val isFeatureEnabledForTravelerInfoTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
-
     var viewModel: BaseSummaryViewModel by notNullAndObservable { vm ->
 
         vm.titleObservable.subscribeText(detailsText)
-        if (isFeatureEnabledForTravelerInfoTest) {
-            vm.subtitleObservable.subscribeTextAndVisibility(secondaryText)
-        } else {
-            vm.subtitleObservable.subscribeText(secondaryText)
-        }
+        vm.subtitleObservable.subscribeTextAndVisibility(secondaryText)
         vm.subtitleColorObservable.subscribeTextColor(secondaryText)
         vm.iconStatusObservable.subscribe {
             travelerStatusIcon.status = it

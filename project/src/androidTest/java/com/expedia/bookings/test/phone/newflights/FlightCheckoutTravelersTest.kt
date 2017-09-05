@@ -40,7 +40,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         flightSearchAndGoToCheckout(2)
         EspressoUtils.waitForViewNotYetInLayoutToDisplay((withId(R.id.traveler_default_state)), 10, TimeUnit.SECONDS)
         onView(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
-                matches(withText("Traveler Details")))
+                matches(withText("Enter traveler details")))
         onView(allOf(withId(R.id.secondary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
                 matches(withText("+ 1 additional traveler")))
         onView(allOf(withImageDrawable(R.drawable.invalid),
@@ -141,9 +141,9 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
 
         Common.pressBack();
         onView(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
-                matches(withText("Traveler Details")))
-        onView(allOf(withId(R.id.secondary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
                 matches(withText("Enter traveler details")))
+        onView(allOf(withId(R.id.secondary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
+                matches(withText("")))
     }
 
     @Test
