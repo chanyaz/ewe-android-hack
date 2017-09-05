@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
@@ -20,6 +21,8 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.traveler.TravelerSelectItem
+import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
@@ -59,6 +62,32 @@ class FlightCheckoutPresenterTest {
         (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).passportRequired.subscribe(passportRequiredSubscriber)
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getPassportRequiredCreateTripResponse(true))
         passportRequiredSubscriber.assertValues(false, true)
+    }
+
+    @Test
+    fun testPassportRequiredObservables() {
+        setupCheckout()
+        Db.setTravelers(listOf(Traveler(), Traveler()))
+        checkout.travelersPresenter.resetTravelers()
+        val travelerPickerWidget = checkout.travelersPresenter.travelerPickerWidget
+        val passportRequiredSubscriber = TestSubscriber<Boolean>()
+        val travelerPickerPassportSubscriber = TestSubscriber<Boolean>()
+        (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).passportRequired.subscribe(passportRequiredSubscriber)
+        (travelerPickerWidget.viewModel).passportRequired.subscribe(travelerPickerPassportSubscriber)
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getPassportRequiredCreateTripResponse(true))
+
+        passportRequiredSubscriber.assertValues(false, true)
+        travelerPickerPassportSubscriber.assertValues(false, true)
+
+        travelerPickerWidget.show()
+        ((travelerPickerWidget.findViewById(R.id.main_traveler_container) as LinearLayout)
+                .getChildAt(0) as TravelerSelectItem)
+                .performClick()
+        val selectedTraveler = travelerPickerWidget.viewModel.selectedTravelerSubject.value
+
+        assertTrue(selectedTraveler.passportRequired.value)
+        assertFalse(selectedTraveler.travelerValidator.isValidForFlightBooking(selectedTraveler.getTraveler(), 0, selectedTraveler.passportRequired.value))
+        assertTrue((checkout.travelersPresenter.travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel).showPassportCountryObservable.value)
     }
 
     @Test

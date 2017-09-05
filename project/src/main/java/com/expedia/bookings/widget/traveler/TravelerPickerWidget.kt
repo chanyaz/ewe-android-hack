@@ -33,9 +33,11 @@ class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         travelerList.forEachIndexed { i, traveler ->
             val travelerCategory = traveler.passengerCategory ?: PassengerCategory.ADULT
             val travelerSelectItemViewModel = TravelerSelectItemViewModel(context, i, traveler.searchedAge, travelerCategory)
-            viewModel.passportRequired.subscribe(travelerSelectItemViewModel.passportRequired)
+            val passportSubscription = viewModel.passportRequired.subscribe(travelerSelectItemViewModel.passportRequired)
             val subscription = viewModel.refreshStatusObservable.subscribe(travelerSelectItemViewModel.refreshStatusObservable)
+            travelerSelectItemViewModel.passportRequired.onNext(viewModel.passportRequired.value)
             travelerSelectItemRefreshSubscription.add(subscription)
+            travelerSelectItemRefreshSubscription.add(passportSubscription)
             travelerSelectItemViewModel.currentStatusObservable.subscribe(viewModel.currentlySelectedTravelerStatusObservable)
             val travelerSelectItem = TravelerSelectItem(context, travelerSelectItemViewModel)
             travelerSelectItem.setOnClickListener {

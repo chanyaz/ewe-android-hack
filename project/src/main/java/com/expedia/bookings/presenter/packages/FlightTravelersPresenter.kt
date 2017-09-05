@@ -34,7 +34,12 @@ class FlightTravelersPresenter(context: Context, attrs: AttributeSet) : Abstract
     }
 
     override fun setUpTravelersViewModel(vm: TravelersViewModel) {
-        vm.passportRequired.subscribe(travelerPickerWidget.viewModel.passportRequired)
+        vm.passportRequired.subscribe { isRequired ->
+            travelerPickerWidget.viewModel.passportRequired.onNext(isRequired)
+            if (viewModel.requiresMultipleTravelers()) {
+                travelerPickerWidget.refresh(viewModel.getTravelers())
+            }
+        }
     }
 
     override fun inflateTravelersView() {

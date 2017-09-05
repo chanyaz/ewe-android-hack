@@ -67,7 +67,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
     init {
         inflateTravelersView()
         travelerPickerWidget.viewModel.selectedTravelerSubject.subscribe { travelerSelectItemViewModel ->
-            travelerEntryWidget.viewModel = viewModel.createNewTravelerEntryWidgetModel(context, travelerSelectItemViewModel.index, travelerSelectItemViewModel.passportRequired, travelerSelectItemViewModel.currentStatusObservable.value)
+            travelerEntryWidget.viewModel = viewModel.createNewTravelerEntryWidgetModel(context, travelerSelectItemViewModel.index, viewModel.passportRequired, travelerSelectItemViewModel.currentStatusObservable.value)
             show(travelerEntryWidget)
             toolbarTitleSubject.onNext(travelerSelectItemViewModel.emptyText)
             if (viewModel.isTravelerEmpty(viewModel.getTraveler(travelerSelectItemViewModel.index))) {
