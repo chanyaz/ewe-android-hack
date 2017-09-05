@@ -1,6 +1,8 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -25,7 +27,7 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     abstract fun shouldShowTotalPriceLoadingProgress(): Boolean
     init {
         total.subscribe { total ->
-            totalPriceObservable.onNext(total.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+            totalPriceObservable.onNext(total.getFormattedMoneyFromAmountAndCurrencyCode(getMoneyFormatFlagForInteger()))
             contentDescriptionObservable.onNext(getAccessibleContentDescription(false, isSlidable))
         }
     }
@@ -34,4 +36,17 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
         total.onNext(totalPrice)
         savings.onNext(tripSavings)
     }
+
+    fun getMoneyFormatFlag(): Int {
+
+        return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) Money.F_NO_DECIMAL
+        else Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL
+    }
+
+    fun getMoneyFormatFlagForInteger(): Int {
+
+        return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) Money.F_NO_DECIMAL
+        else Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL
+    }
+
 }
