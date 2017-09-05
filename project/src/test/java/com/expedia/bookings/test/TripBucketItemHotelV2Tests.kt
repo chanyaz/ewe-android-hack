@@ -22,9 +22,9 @@ class TripBucketItemHotelV2Tests {
 
     @Test
     fun updateHotelProductsWithoutCheckoutUserPreferences() {
-        var createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+        val createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
-        var checkoutPriceChangeResponse = mockHotelServiceTestRule.getPriceChangeCheckoutResponse()
+        val checkoutPriceChangeResponse = mockHotelServiceTestRule.getPriceChangeCheckoutResponse()
         Db.getTripBucket().hotelV2.updateAfterCheckoutPriceChange(checkoutPriceChangeResponse)
         assertNull(createTripResponse.pointsDetails)
         assertNull(createTripResponse.userPreferencePoints)
@@ -32,9 +32,9 @@ class TripBucketItemHotelV2Tests {
 
     @Test
     fun updateHotelProductsWithCheckoutUserPreferences() {
-        var createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+        val createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
-        var checkoutPriceChangeResponse = mockHotelServiceTestRule.getPriceChangeWithUserPreferencesCheckoutResponse()
+        val checkoutPriceChangeResponse = mockHotelServiceTestRule.getPriceChangeWithUserPreferencesCheckoutResponse()
         Db.getTripBucket().hotelV2.updateAfterCheckoutPriceChange(checkoutPriceChangeResponse)
         assertNotNull(createTripResponse.pointsDetails)
         assertNotNull(createTripResponse.userPreferencePoints)

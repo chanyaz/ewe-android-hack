@@ -55,7 +55,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.widget_new_phone_launch, null)
+        val view = inflater.inflate(R.layout.widget_new_phone_launch, null)
         return view
     }
 

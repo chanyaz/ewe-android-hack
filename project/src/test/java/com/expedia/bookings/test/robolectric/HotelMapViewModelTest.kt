@@ -105,7 +105,7 @@ class HotelMapViewModelTest {
     fun testViewModelOutputsForViewWhenHotelStarRatingIsZero() {
         givenHotelOffersResponseWhenHotelStarRatingIsZero()
 
-        var subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELS)
+        val subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELS)
         subjectUnderTest.offersObserver.onNext(hotelOffersResponse)
 
         assertEquals("zero_star_rating", subjectUnderTest.hotelName.value)
@@ -128,7 +128,7 @@ class HotelMapViewModelTest {
         givenHotelOffersResponseWhenRoomOffersAreNotAvailable()
 
         val hotelSoldOut = PublishSubject.create<Boolean>()
-        var subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, hotelSoldOut, LineOfBusiness.HOTELS)
+        val subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, hotelSoldOut, LineOfBusiness.HOTELS)
         subjectUnderTest.offersObserver.onNext(hotelOffersResponse)
         hotelSoldOut.onNext(true)
 

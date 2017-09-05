@@ -70,8 +70,8 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
         val view = View(context, null)
         val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         lp.height = 1
-        var paddingTop = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
-        var paddingSide = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt()
+        val paddingTop = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+        val paddingSide = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt()
         lp.setMargins(paddingSide, paddingTop, paddingSide, paddingTop)
         view.layoutParams = lp
         view.setBackgroundColor(Color.parseColor("#979797"))

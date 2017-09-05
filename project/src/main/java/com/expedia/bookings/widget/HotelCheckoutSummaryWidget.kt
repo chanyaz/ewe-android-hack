@@ -136,7 +136,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
             drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
             drawable.setBitmap(bitmap)
 
-            var textColor: Int
+            val textColor: Int
             if (!mIsFallbackImage) {
                 // only apply gradient treatment to hotels with images #5647
                 val palette = Palette.Builder(bitmap).generate()

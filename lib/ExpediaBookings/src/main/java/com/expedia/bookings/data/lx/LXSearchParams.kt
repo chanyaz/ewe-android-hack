@@ -50,7 +50,7 @@ open class LxSearchParams(val location: String, val activityStartDate: LocalDate
             val location = if (Strings.isNotEmpty(location)) location else destinationLocation?.regionNames?.fullName ?: throw IllegalArgumentException()
             val activityStartDate = startDate ?: throw IllegalArgumentException()
             val activityEndDate = endDate ?: throw IllegalArgumentException()
-            var params = LxSearchParams(location, activityStartDate, activityEndDate, searchType, filters, activityId, imageCode)
+            val params = LxSearchParams(location, activityStartDate, activityEndDate, searchType, filters, activityId, imageCode)
             return params
         }
 

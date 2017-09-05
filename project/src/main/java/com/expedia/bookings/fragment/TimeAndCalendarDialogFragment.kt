@@ -54,7 +54,7 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
         val timeStub = calendarDialogView.findViewById(R.id.timesStub) as ViewStub
         timeStub.inflate()
 
-        var params = calendar.layoutParams
+        val params = calendar.layoutParams
         params.height = resources.getDimension(R.dimen.calendar_height_with_time_slider).toInt()
         calendar.layoutParams = params
 

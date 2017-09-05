@@ -37,7 +37,7 @@ class TravelerPhoneViewModelTest {
 
     @Test
     fun countryCodeUpdate() {
-        var phone = Phone()
+        val phone = Phone()
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
@@ -48,7 +48,7 @@ class TravelerPhoneViewModelTest {
 
     @Test
     fun countryNameUpdate() {
-        var phone = Phone()
+        val phone = Phone()
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
@@ -58,7 +58,7 @@ class TravelerPhoneViewModelTest {
 
     @Test
     fun phoneNumberUpdated() {
-        var phone = Phone()
+        val phone = Phone()
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
@@ -68,7 +68,7 @@ class TravelerPhoneViewModelTest {
 
     @Test
     fun travelerWithPhone() {
-        var phone = Phone()
+        val phone = Phone()
         phone.number = TEST_NUMBER
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
@@ -82,7 +82,7 @@ class TravelerPhoneViewModelTest {
 
     @Test
     fun invalidPhone() {
-        var phone = Phone()
+        val phone = Phone()
         phone.number = "12"
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
@@ -110,7 +110,7 @@ class TravelerPhoneViewModelTest {
 
     @Test
     fun validPhone() {
-        var phone = Phone()
+        val phone = Phone()
         phone.number = TEST_NUMBER
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)

@@ -61,7 +61,7 @@ class HotelCheckoutMainViewModelTest {
     }
 
     private fun getCreateTripResponse(): HotelCreateTripResponse {
-        var createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
+        val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         createTripResponse.tripId = "happy"
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
 

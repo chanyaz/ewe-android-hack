@@ -183,8 +183,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         vm.dailyPricePerNightObservable.subscribeTextAndVisibility(dailyPricePerNight)
         vm.roomInfoVisibilityObservable.subscribeVisibility(roomInfoContainer)
         vm.roomInfoVisibilityObservable.subscribeVisibility(roomInfoDivider)
-        var isShopWithPoints = LoyaltyUtil.isShopWithPoints(viewModel.hotelRate)
-        var isAirAttached = vm.hotelRate.isShowAirAttached()
+        val isShopWithPoints = LoyaltyUtil.isShopWithPoints(viewModel.hotelRate)
+        val isAirAttached = vm.hotelRate.isShowAirAttached()
         if (isShopWithPoints || !isAirAttached && !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
             vm.strikeThroughPriceObservable.subscribeTextAndVisibility(strikeThroughPrice)
         }

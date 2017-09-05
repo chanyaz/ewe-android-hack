@@ -202,7 +202,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
     }
 
     private fun getHotelOffersResponse(responseFileName: String): HotelOffersResponse {
-        var observer = TestSubscriber<HotelOffersResponse>()
+        val observer = TestSubscriber<HotelOffersResponse>()
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()
         val hotelSearchParams = HotelSearchParams.Builder(0, 0)

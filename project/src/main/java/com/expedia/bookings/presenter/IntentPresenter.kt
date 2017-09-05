@@ -12,7 +12,7 @@ import com.expedia.bookings.utils.Constants
 open class IntentPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     override fun handleNewState(newState: Any, flags: Int) {
-        var newStateToShow = newState
+        val newStateToShow = newState
         if (newStateToShow is Intent) {
             val newStateId = newStateToShow.component.className
             if (flags and Presenter.FLAG_CLEAR_TOP == Presenter.FLAG_CLEAR_TOP) {

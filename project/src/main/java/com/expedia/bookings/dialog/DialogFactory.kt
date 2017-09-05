@@ -30,7 +30,7 @@ class DialogFactory {
 
         fun createLogoutDialog(context: Context, logoutFun: () -> Unit): AlertDialog {
             val builder = AlertDialog.Builder(context)
-            var messageText = Phrase.from(context, R.string.sign_out_confirmation_TEMPLATE)
+            val messageText = Phrase.from(context, R.string.sign_out_confirmation_TEMPLATE)
                     .put("brand", BuildConfig.brand)
                     .format().toString()
             builder.setMessage(messageText)

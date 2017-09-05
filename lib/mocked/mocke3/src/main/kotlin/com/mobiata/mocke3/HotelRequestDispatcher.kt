@@ -104,7 +104,7 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
     }
 
     private fun injectDates(params: MutableMap<String, String> ) {
-        var dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
         val checkIn = DateTime.now()
         val checkOut = checkIn.plusDays(2)
         params.put("checkInDate", dtf.print(checkIn))

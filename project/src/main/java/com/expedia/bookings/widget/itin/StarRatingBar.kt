@@ -88,7 +88,7 @@ class StarRatingBar(context: Context, attrs: AttributeSet) : View(context, attrs
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var width = starDrawable.intrinsicWidth
-        var canvasWidth = rating * width + (Math.ceil(rating.toDouble()).toInt() - 1) * starSpacing
+        val canvasWidth = rating * width + (Math.ceil(rating.toDouble()).toInt() - 1) * starSpacing
         if (View.MeasureSpec.UNSPECIFIED != View.MeasureSpec.getMode(widthMeasureSpec)) {
             width = Math.min(canvasWidth.toInt(), View.MeasureSpec.getSize(widthMeasureSpec))
         }

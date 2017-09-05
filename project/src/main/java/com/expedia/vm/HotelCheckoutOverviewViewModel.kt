@@ -45,7 +45,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                 val roomResponse = newRateObserver.hotelRoomResponse
             }
         }).subscribe {
-            var tripTotal : String
+            val tripTotal : String
             if (it.isExpediaRewardsRedeemable) {
                 priceAboveSlider.onNext(getPayWithPointsAndOrCardMessaging(it.paymentSplitsType, it.payingWithPoints, it.payingWithCards))
                 tripTotal = it.tripTotalPayableInclundingFee.formattedMoneyFromAmountAndCurrencyCode

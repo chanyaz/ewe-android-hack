@@ -6,6 +6,8 @@ import com.expedia.bookings.data.Traveler
 import org.joda.time.format.ISODateTimeFormat
 import java.util.ArrayList
 import java.util.HashMap
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.Db
 
 class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Traveler>, cvv: String, expectedTotalFare: String, expectedFareCurrencyCode: String, suppressFinalBooking: Boolean, tripId: String, val tealeafTransactionId: String) : BaseCheckoutParams(billingInfo, travelers, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking, tripId) {
 
@@ -31,7 +33,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             return this
         }
     }
-    
+
     override fun toQueryMap(): Map<String, Any> {
         val params = HashMap(super.toQueryMap())
         val dtf = ISODateTimeFormat.date()
@@ -73,10 +75,23 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             if (traveler.hasTuid()) {
                 params.put(prefix + "tuid", traveler.tuid.toString())
             }
+
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)) {
+                //TODO made the code work with Sausanna VX account for the frequent flyer program
+                if (traveler.frequentFlyerMemberships.isNotEmpty()) {
+                    var virginAirlinesFrequentFlyerMembership = traveler.frequentFlyerMemberships.get("VX")
+                    val frequentFlyerPrefix = if (isPrimaryTraveler) "mainFlightPassenger.frequentFlyerDetails[0]." else "associatedFlightPassengers[" + (i - 1) + "].frequentFlyerDetails[0]."
+                    params.put(frequentFlyerPrefix + "flightAirlineCode", virginAirlinesFrequentFlyerMembership?.airlineCode)
+                    params.put(frequentFlyerPrefix + "membershipNumber", virginAirlinesFrequentFlyerMembership?.membershipNumber)
+                    params.put(frequentFlyerPrefix + "frequentFlyerPlanCode", "VX-0")
+                    params.put(frequentFlyerPrefix + "frequentFlyerPlanAirlineCode", "VX-0")
+                }
+            }
         }
 
         return params
     }
+
 
     override fun toValidParamsMap(): Map<String, Any> {
         val params = HashMap(super.toValidParamsMap())
@@ -100,6 +115,16 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
                 params.put(prefix + "seatPreference", !travelers[i].seatPreference.name.isNullOrBlank())
                 params.put(prefix + "TSARedressNumber", !traveler.redressNumber.isNullOrBlank())
                 params.put(prefix + "knownTravelerNumber", !traveler.knownTravelerNumber.isNullOrBlank())
+                if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)) {
+                    if (traveler.frequentFlyerMemberships.isNotEmpty()) {
+                        var virginAirlinesFrequentFlyerMembership = traveler.frequentFlyerMemberships.get("VX")
+                        val frequentFlyerPrefix = if (isPrimaryTraveler) "mainFlightPassenger.frequentFlyerMemberships[0]." else "associatedFlightPassengers[" + (i - 1) + "].frequentFlyerMemberships[0]."
+                        params.put(frequentFlyerPrefix + "flightAirlineCode", virginAirlinesFrequentFlyerMembership?.airlineCode.isNullOrBlank())
+                        params.put(frequentFlyerPrefix + "membershipNumber", virginAirlinesFrequentFlyerMembership?.membershipNumber.isNullOrBlank())
+                        params.put(frequentFlyerPrefix + "frequentFlyerPlanCode", "VX-0")
+                        params.put(frequentFlyerPrefix + "frequentFlyerPlanAirlineCode", "VX-0")
+                    }
+                }
             }
 
         return params

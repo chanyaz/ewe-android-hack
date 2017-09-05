@@ -20,7 +20,7 @@ class SuggestionV4UtilsTest {
     fun testGaiaToSuggestionV4WhenAirportCodeIsEmpty() {
         val gaiaSuggestion = ArrayList<GaiaSuggestion>()
         gaiaSuggestion.add(getDummyGaiaSuggestion())
-        var actualSuggestion = SuggestionV4Utils.convertToSuggestionV4(gaiaSuggestion).first()
+        val actualSuggestion = SuggestionV4Utils.convertToSuggestionV4(gaiaSuggestion).first()
         val hierarcyInfo = actualSuggestion.hierarchyInfo
 
         assertEquals("180000", actualSuggestion.gaiaId)
@@ -53,7 +53,7 @@ class SuggestionV4UtilsTest {
 
         val gaiaSuggestions = ArrayList<GaiaSuggestion>()
         gaiaSuggestions.add(gaiaSuggestion)
-        var actualSuggestion = SuggestionV4Utils.convertToSuggestionV4(gaiaSuggestions).first()
+        val actualSuggestion = SuggestionV4Utils.convertToSuggestionV4(gaiaSuggestions).first()
         val file = SuggestionV4Utils.RECENT_AIRPORT_SUGGESTIONS_FILE
         IoUtils.writeStringToFile(file, "[{\"coordinates\": {\"lat\": 28.635308,\"long\": -80.84296},\"gaiaId\": \"178247\",\"hierarchyInfo\": {\"airport\": {\"airportCode\": \"CLT\",\"multicity\": \"178247\"},\"country\": {\"name\": \"United States of America\"},\"rails\": {},\"isChild\": false},\"iconType\": \"HISTORY_ICON\",\"regionNames\": {\"displayName\": \"\u003cB\u003eCharl\u003c/B\u003eotte, NC (CLT - \u003cB\u003eCharl\u003c/B\u003eotte-Douglas Intl.)\",\"fullName\": \"Charlotte (and vicinity), North Carolina, United States of America\",\"shortName\": \"Charlotte (and vicinity)\"},\"type\": \"MULTICITY\",\"isMinorAirport\": false,\"isSearchThisArea\": false}]", RuntimeEnvironment.application)
         SuggestionV4Utils.saveSuggestionHistory(RuntimeEnvironment.application, actualSuggestion, file, true)

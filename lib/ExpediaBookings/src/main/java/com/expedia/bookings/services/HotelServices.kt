@@ -57,7 +57,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
 
         val lat = getLatitude(params.suggestion)
         val long = getLongitude(params.suggestion)
-        var regionId = getRegionId(params)
+        val regionId = getRegionId(params)
         if (params.suggestion.hotelId != null) {
             params.enableSponsoredListings = false
         }

@@ -127,7 +127,7 @@ object FlightV2Utils {
     @JvmStatic fun getFlightDepartureArrivalTimeAndDays(context: Context, departureTime: String, arrivalTime: String, elapsedDays: Int): String {
 
         if (elapsedDays != 0) {
-            var displayStringTemplate: Int
+            val displayStringTemplate: Int
             if (elapsedDays < 0) {
                 displayStringTemplate = R.string.flight_departure_arrival_time_negative_days_TEMPLATE
             } else {
@@ -146,7 +146,7 @@ object FlightV2Utils {
         val arrivalTime = formatTimeShort(context, flight.arrivalDateTimeISO)
         val elapsedDays = flight.elapsedDays
         if (elapsedDays != 0) {
-            var displayStringTemplate: Int
+            val displayStringTemplate: Int
             if (elapsedDays < 0) {
                 displayStringTemplate = R.string.flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE
             } else {
@@ -223,7 +223,7 @@ object FlightV2Utils {
     }
 
     @JvmStatic fun getAirlinesList(airlines: List<Airline>): String {
-        var airlineList = StringBuilder()
+        val airlineList = StringBuilder()
         for (i in 0..airlines.size - 1) {
             airlineList.append(airlines[i].airlineName)
         }
@@ -241,7 +241,7 @@ object FlightV2Utils {
     @JvmStatic fun getSeatsLeftUrgencyMessage(context: Context, flightLeg: FlightLeg): String {
         if (flightLeg.packageOfferModel.urgencyMessage != null) {
             val seatsLeft = flightLeg.packageOfferModel.urgencyMessage.ticketsLeft
-            if (seatsLeft > 0 && seatsLeft <= TICKETS_LEFT_CUTOFF_FOR_DECIDING_URGENCY)
+            if (seatsLeft in 1..TICKETS_LEFT_CUTOFF_FOR_DECIDING_URGENCY)
                 return Phrase.from(context.resources.getQuantityString(R.plurals.flight_seats_left_urgency_message_TEMPLATE, seatsLeft))
                         .put("seats", seatsLeft)
                         .format().toString()

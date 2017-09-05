@@ -237,7 +237,7 @@ class FlightConfirmationViewModelTest {
 
     private fun setUpInsuranceProductInResponse(checkoutResponse: FlightCheckoutResponse) {
         val flightAggregatedResponse = FlightCheckoutResponse.FlightAggregatedResponse()
-        var list = ArrayList<FlightTripDetails>()
+        val list = ArrayList<FlightTripDetails>()
         val flightOffer = FlightTripDetails.FlightOffer()
         flightOffer.selectedInsuranceProduct = InsuranceProduct()
         val tripDetail = FlightTripDetails()

@@ -4634,23 +4634,15 @@
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Upgrade Available</string>
     <!-- Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title">How was your experience?</string>
-    <!-- Alt. Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title_alt">Love Our App?</string>
+    <string name="dialog_app_rating_title">Love Our App?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">If you love using our app, please let us know with a review in the Play Store.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button">Review</string>
-    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button_alt">Rate App</string>
+    <string name="dialog_app_rating_review_button">Rate App</string>
     <!-- Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button">Send Feedback</string>
-    <!-- Alt. Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button_alt">Email App Support</string>
+    <string name="dialog_app_rating_feedback_button">Email App Support</string>
     <!-- Button for App Rating Dialog to decline review -->
-    <string name="dialog_app_rating_no_button">No, thanks</string>
-    <!-- Alt. Button for App Rating Dialog to decline review -->
-    <string name="dialog_app_rating_no_button_alt">No Thanks</string>
+    <string name="dialog_app_rating_no_button">No Thanks</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Enter a valid email address</string>
     <!-- Checkout validation error message for first name -->

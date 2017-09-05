@@ -35,8 +35,8 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
         }).subscribe()
 
         Observable.combineLatest(checkIn, checkOut, { checkIn, checkOut ->
-            var text: String
-            var contDesc: String
+            val text: String
+            val contDesc: String
             if (checkIn != null && checkOut != null) {
                 text = DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
                 contDesc = DateFormatUtils.formatPackageDateRangeContDesc(context, checkIn, checkOut)

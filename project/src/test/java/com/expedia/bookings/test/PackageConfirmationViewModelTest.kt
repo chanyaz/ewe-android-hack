@@ -106,7 +106,7 @@ class PackageConfirmationViewModelTest {
         val destination = Mockito.mock(SuggestionV4::class.java)
         val checkInDate = LocalDate()
         val checkOutDate = LocalDate()
-        var vm = PackageConfirmationViewModel(activity)
+        val vm = PackageConfirmationViewModel(activity)
         val params = PackageSearchParams(origin, destination, checkInDate, checkOutDate, 1, ArrayList<Int>(), false)
         Db.setPackageParams(params)
 

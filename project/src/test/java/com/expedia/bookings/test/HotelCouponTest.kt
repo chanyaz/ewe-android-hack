@@ -55,7 +55,7 @@ class HotelCouponTest {
         vm.errorObservable.subscribe(testSubscriber)
         vm.createTripDownloadsObservable.subscribe(s)
 
-        var couponParamsBuilder = HotelApplyCouponParameters.Builder()
+        val couponParamsBuilder = HotelApplyCouponParameters.Builder()
                 .tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
                 .isFromNotSignedInToSignedIn(false)
                 .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0f, PointsType.BURN, Money()))))
@@ -109,7 +109,7 @@ class HotelCouponTest {
 
     @Test
     fun removeCouponWorks() {
-        var tripId = "hotel_coupon_remove_success"
+        val tripId = "hotel_coupon_remove_success"
 
         val testSubscriber = TestSubscriber<HotelCreateTripResponse>()
         vm.couponObservable.subscribe(testSubscriber)
@@ -119,7 +119,7 @@ class HotelCouponTest {
         testSubscriber.awaitTerminalEvent(2, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
 
-        var tripResponseWithoutCoupon = testSubscriber.onNextEvents[0]
+        val tripResponseWithoutCoupon = testSubscriber.onNextEvents[0]
         assertNull(tripResponseWithoutCoupon.coupon)
         assertFalse(vm.removeObservable.value)
         assertFalse(vm.hasDiscountObservable.value)
@@ -151,7 +151,7 @@ class HotelCouponTest {
         testSubscriberCouponObservable.awaitTerminalEvent(2, TimeUnit.SECONDS)
         testSubscriberCouponObservable.assertValueCount(1)
 
-        var tripResponseWithoutCoupon = testSubscriberCouponObservable.onNextEvents[0]
+        val tripResponseWithoutCoupon = testSubscriberCouponObservable.onNextEvents[0]
         assertNull(tripResponseWithoutCoupon.coupon)
         assertFalse(vm.hasDiscountObservable.value)
     }
@@ -172,7 +172,7 @@ class HotelCouponTest {
     }
 
     fun makeErrorInfo(code : ApiError.Code, message : String): ApiError {
-        var error = ApiError()
+        val error = ApiError()
         error.errorCode = code
         error.errorInfo = ApiError.ErrorInfo()
         error.errorInfo.couponErrorType = message

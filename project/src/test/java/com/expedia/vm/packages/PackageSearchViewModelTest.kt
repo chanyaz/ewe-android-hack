@@ -64,9 +64,9 @@ class PackageSearchViewModelTest {
         Locale.setDefault(Locale.US)
         val startDate = LocalDate(2017, 7, 17)
         val endDate = LocalDate(2017, 7, 25)
-        var expectedStartDate = "Mon, Jul 17"
-        var expectedEndDate = "Tue, Jul 25"
-        var expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
+        val expectedStartDate = "Mon, Jul 17"
+        val expectedEndDate = "Tue, Jul 25"
+        val expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
 
         sut.datesUpdated(startDate, endDate)
         assertEquals("$expectedStartDate  -  $expectedEndDate ($expectedNumberOfNights nights)", sut.dateTextObservable.value)
@@ -93,8 +93,8 @@ class PackageSearchViewModelTest {
         Locale.setDefault(Locale.KOREAN)
         val startDate = LocalDate(2017, 7, 17)
         val endDate = LocalDate(2017, 7, 25)
-        var expectedStartDate = "월, 7월 17"
-        var expectedEndDate = "화, 7월 25"
+        val expectedStartDate = "월, 7월 17"
+        val expectedEndDate = "화, 7월 25"
 
         sut.datesUpdated(startDate, endDate)
         assertEquals("$expectedStartDate  -  $expectedEndDate (8박)", sut.dateTextObservable.value)
@@ -111,9 +111,9 @@ class PackageSearchViewModelTest {
         Locale.setDefault(Locale.JAPAN)
         val startDate = LocalDate(2017, 7, 17)
         val endDate = LocalDate(2017, 7, 25)
-        var expectedStartDate = "月, 7 17"
-        var expectedEndDate = "火, 7 25"
-        var expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
+        val expectedStartDate = "月, 7 17"
+        val expectedEndDate = "火, 7 25"
+        val expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
 
         sut.datesUpdated(startDate, endDate)
         assertEquals("$expectedStartDate ～ $expectedEndDate ($expectedNumberOfNights 泊)", sut.dateTextObservable.value)

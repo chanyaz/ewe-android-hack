@@ -76,7 +76,7 @@ class RailCostSummaryBreakdownViewModelTest {
         response.totalPriceIncludingFees = Money(BigDecimal(0), "$")
         response.totalPriceIncludingFees?.formattedPrice = "$120.00"
 
-        var offer = RailTripOffer()
+        val offer = RailTripOffer()
         offer.totalPrice = Money()
         offer.totalPrice.formattedPrice = "$120.00"
         offer.priceBreakdown = ArrayList<BaseRailOffer.PriceBreakdown>()
@@ -95,7 +95,7 @@ class RailCostSummaryBreakdownViewModelTest {
         response.totalPriceIncludingFees = Money(BigDecimal(131), "$")
         response.totalPriceIncludingFees?.formattedPrice = "$131.00"
 
-        var offer = RailTripOffer()
+        val offer = RailTripOffer()
         offer.totalPrice = Money()
         offer.totalPrice.formattedPrice = "$120.00"
         offer.priceBreakdown = ArrayList<BaseRailOffer.PriceBreakdown>()

@@ -79,7 +79,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
 
         fun amenitiesToShow(list: List<HotelOffersResponse.HotelAmenities>): List<Amenity> {
 
-            var amenityTreeSet = TreeSet<Amenity>(AmenityComparator())
+            val amenityTreeSet = TreeSet<Amenity>(AmenityComparator())
 
             for (i in 0..list.size - 1) {
 

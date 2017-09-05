@@ -184,14 +184,14 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val reviewsClickedSubject = PublishSubject.create<Unit>()
 
     val renovationContainerClickObserver: Observer<Unit> = endlessObserver {
-        var renovationInfo = Pair<String, String>(context.resources.getString(R.string.renovation_notice),
+        val renovationInfo = Pair<String, String>(context.resources.getString(R.string.renovation_notice),
                 hotelOffersResponse.hotelRenovationText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
         trackHotelRenovationInfoClick()
     }
 
     val resortFeeContainerClickObserver: Observer<Unit> = endlessObserver {
-        var renovationInfo = Pair<String, String>(context.resources.getString(R.string.additional_fees),
+        val renovationInfo = Pair<String, String>(context.resources.getString(R.string.additional_fees),
                 hotelOffersResponse.hotelMandatoryFeesText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
         trackHotelResortFeeInfoClick()
@@ -345,7 +345,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             roomResponseListObservable.onNext(Pair(hotelOffersResponse.hotelRoomResponse, uniqueValueAddForRooms))
         }
 
-        var listHotelInfo = ArrayList<HotelOffersResponse.HotelText>()
+        val listHotelInfo = ArrayList<HotelOffersResponse.HotelText>()
         //Set up entire text for hotel info
         if (hotelOffersResponse.hotelOverviewText != null && hotelOffersResponse.hotelOverviewText.size > 1) {
             for (index in 1..hotelOffersResponse.hotelOverviewText.size - 1) {
@@ -443,7 +443,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             return emptyList()
         }
         val commonValueAdds = getCommonValueAdds(hotelOffersResponse)
-        var list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
+        val list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
         for (iRoom in 0..hotelRooms.size - 1) {
             val rate = hotelOffersResponse.hotelRoomResponse[iRoom]
             if (rate.valueAdds != null) {
@@ -507,7 +507,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         val chargeableRateInfo = offerResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
         val packageLoyaltyInformation = offerResponse.hotelRoomResponse?.firstOrNull()?.packageLoyaltyInformation
         val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
-        var discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
+        val discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
         discountPercentageObservable.onNext(Pair(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
                 .put("discount", discountPercentage ?: 0).format().toString(),
                 Phrase.from(context, R.string.hotel_discount_cont_desc_TEMPLATE)
@@ -601,7 +601,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         val roomsLeft = roomOffer.currentAllotment.toInt()
         return if (hasMemberDeal(roomOffer)) {
             context.resources.getString(R.string.member_pricing)
-        } else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+        } else if (roomsLeft in 1..ROOMS_LEFT_CUTOFF) {
             context.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
         } else if (roomOffer.isSameDayDRR) {
             context.resources.getString(R.string.tonight_only)

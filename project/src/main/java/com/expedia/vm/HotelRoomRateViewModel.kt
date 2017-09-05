@@ -183,7 +183,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         val bedTypes = (hotelRoomResponse.bedTypes ?: emptyList()).map { it.description }.joinToString(context.resources.getString(R.string.delimiter_multiple_bed))
         collapsedBedTypeObservable.onNext(bedTypes)
         expandedBedTypeObservable.onNext(bedTypes)
-        var expandedPair: Pair<String, Int>
+        val expandedPair: Pair<String, Int>
         if (hotelRoomResponse.hasFreeCancellation) {
             expandedPair = Pair(context.resources.getString(R.string.free_cancellation), R.drawable.room_checkmark)
         } else {

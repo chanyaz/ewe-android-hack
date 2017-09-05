@@ -304,7 +304,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
-            var lp = filterContainer.layoutParams as android.widget.FrameLayout.LayoutParams
+            val lp = filterContainer.layoutParams as android.widget.FrameLayout.LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
         }
     }

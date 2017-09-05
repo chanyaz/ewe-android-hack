@@ -62,7 +62,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     }
 
     private fun suggestionsListWithNearbyAndLabels(): List<SuggestionType> {
-        var suggestions = ArrayList<SuggestionType>()
+        val suggestions = ArrayList<SuggestionType>()
         if (nearby.size > 0) {
             suggestions.add(SuggestionType.SUGGESTIONLABEL(getCurrentLocationLabel()))
             nearby.forEach {

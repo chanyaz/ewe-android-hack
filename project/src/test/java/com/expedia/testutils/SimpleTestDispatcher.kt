@@ -13,7 +13,7 @@ class SimpleTestDispatcher(val path: String) : Dispatcher() {
     override fun dispatch(request: RecordedRequest?): MockResponse? {
         val resp = MockResponse()
         try {
-            var body = getResponse(path)
+            val body = getResponse(path)
             resp.setBody(body)
             resp.setHeader("Content-Type", "application/json")
             resp.setResponseCode(200)

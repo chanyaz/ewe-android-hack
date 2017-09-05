@@ -33,7 +33,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
     private val SIGN_IN = Pattern.compile(".+(?=\\/signin/?$).+")
 
      fun parseUniversalDeepLink(data: Uri): DeepLink {
-         var routingDestination = getRoutingDestination(data)
+         val routingDestination = getRoutingDestination(data)
          val dateFormat = getDateFormatForPOS(data)
 
         when(routingDestination) {
@@ -84,7 +84,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
     private fun parseHotelInfoSiteUniversalDeepLink(data: Uri, dateFormat: String): HotelDeepLink {
         val hotelDeepLink = HotelDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
-        var matcher = HOTEL_INFO_SITE.matcher(data.path.toLowerCase())
+        val matcher = HOTEL_INFO_SITE.matcher(data.path.toLowerCase())
         if (matcher.find()) {
             hotelDeepLink.hotelId = matcher.group(1)
         }
@@ -203,8 +203,8 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
 
         if (queryParameterNames.contains(dateParamName) && queryParameterNames.contains(timeParamName)) {
             try {
-                var dateStr = data.getQueryParameter(dateParamName)
-                var date = LocalDate.parse(URLDecoder.decode(dateStr, "UTF-8"), dateTimeFormatter)
+                val dateStr = data.getQueryParameter(dateParamName)
+                val date = LocalDate.parse(URLDecoder.decode(dateStr, "UTF-8"), dateTimeFormatter)
 
                 val timeMatcher = TIME.matcher(data.getQueryParameter(timeParamName))
                 if (timeMatcher.find()) {

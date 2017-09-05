@@ -325,8 +325,8 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 val lxCategoryMetadata = filterCategory.value
                 val lxCategoryMetadataKey = filterCategory.key
                 if (lxCategoryMetadata.checked) {
-                    if (unfilteredActivities.get(i).categories.contains(lxCategoryMetadataKey)) {
-                        filteredSet.add(unfilteredActivities.get(i))
+                    if (unfilteredActivities[i].categories.contains(lxCategoryMetadataKey)) {
+                        filteredSet.add(unfilteredActivities[i])
                     }
                 }
             }
@@ -425,8 +425,8 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 val lxCategoryMetadata = filterCategory.value
                 val lxCategoryMetadataKey = filterCategory.key
                 if (lxCategoryMetadata.checked) {
-                    if (unfilteredActivities.get(i).categories.contains(lxCategoryMetadataKey)) {
-                        filteredSet.add(unfilteredActivities.get(i))
+                    if (unfilteredActivities[i].categories.contains(lxCategoryMetadataKey)) {
+                        filteredSet.add(unfilteredActivities[i])
                     }
                 }
             }
@@ -468,8 +468,8 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                     val lxCategoryMetadata = filterCategory.value
                     val lxCategoryMetadataKey = filterCategory.key
                     if (lxCategoryMetadata.checked) {
-                        if (activities.get(i).categories.contains(lxCategoryMetadataKey)) {
-                            filteredSet.add(activities.get(i))
+                        if (activities[i].categories.contains(lxCategoryMetadataKey)) {
+                            filteredSet.add(activities[i])
                 }
                     }
                 }

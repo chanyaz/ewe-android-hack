@@ -41,7 +41,7 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
         //TRAVELERS
         params.put("flight.mainFlightPassenger.email", travelers[0].email)
         travelers.forEachIndexed { i, traveler ->
-            var key = if (i == 0) {
+            val key = if (i == 0) {
                 "flight.mainFlightPassenger."
             } else {
                 "flight.associatedFlightPassengers[" + (i - 1) + "]."

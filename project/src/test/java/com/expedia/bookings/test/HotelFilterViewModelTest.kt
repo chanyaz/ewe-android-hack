@@ -69,7 +69,7 @@ class HotelFilterViewModelTest {
         vm.userFilterChoices.minPrice = 20
         vm.userFilterChoices.maxPrice = 50
 
-        var neighborhood = HotelSearchResponse.Neighborhood()
+        val neighborhood = HotelSearchResponse.Neighborhood()
         neighborhood.name = "Civic Center"
         vm.selectNeighborhood.onNext(neighborhood)
 
@@ -95,7 +95,7 @@ class HotelFilterViewModelTest {
         vm.userFilterChoices.minPrice = 20
         vm.userFilterChoices.maxPrice = 50
 
-        var neighborhood = HotelSearchResponse.Neighborhood()
+        val neighborhood = HotelSearchResponse.Neighborhood()
         neighborhood.name = "Civic Center"
         vm.selectNeighborhood.onNext(neighborhood)
 

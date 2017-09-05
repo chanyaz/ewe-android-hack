@@ -27,7 +27,7 @@ class RailCostSummaryBreakdownViewModel(context: Context, val isCheckout: Boolea
             // Adding divider line
             breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
 
-            var title = context.getString(R.string.total)
+            val title = context.getString(R.string.total)
             breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(response.totalPayablePrice.formattedPrice).build())
 
             addRows.onNext(breakdowns)
@@ -61,7 +61,7 @@ class RailCostSummaryBreakdownViewModel(context: Context, val isCheckout: Boolea
     }
 
     private fun addPassengerPriceBreakdown(breakdowns: ArrayList<CostSummaryBreakdownRow>, totalTicketsPriceWithoutFees: Money ) {
-        var title: String = context.getString(R.string.rail_price_breakdown_journey)
+        val title: String = context.getString(R.string.rail_price_breakdown_journey)
         breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(totalTicketsPriceWithoutFees.formattedPrice).build())
     }
 

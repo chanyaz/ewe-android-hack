@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
@@ -17,7 +16,6 @@ import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
@@ -90,24 +88,8 @@ class ItinItemListFragmentTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.AIRASIAGO, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS, MultiBrand.CHEAPTICKETS, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.TRAVELOCITY))
-    fun reviewPromptTextIsCorrectV1() {
+    fun reviewPromptTextIsCorrect() {
         SettingUtils.save(activity, R.string.preference_user_has_booked_hotel_or_flight, true)
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
-        sut.showUserReview()
-
-        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        assertEquals(true, alertDialog.isShowing)
-        assertEquals("How was your experience?", getDialogText(alertDialog, R.id.title_text))
-        assertEquals("Review", getDialogText(alertDialog, R.id.review_btn))
-        assertEquals("Send Feedback", getDialogText(alertDialog, R.id.feedback_btn))
-        assertEquals("No, thanks", getDialogText(alertDialog, R.id.no_btn))
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.AIRASIAGO, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS, MultiBrand.CHEAPTICKETS, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.TRAVELOCITY))
-    fun reviewPromptTextIsCorrectV2() {
-        SettingUtils.save(activity, R.string.preference_user_has_booked_hotel_or_flight, true)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
         sut.showUserReview()
 
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
@@ -121,6 +103,30 @@ class ItinItemListFragmentTest {
     @Test
     fun testShowCorrectAddGuestItinActivity() {
         sut.showAddGuestItinScreen()
+        val startedIntent = Shadows.shadowOf(activity).nextStartedActivity
+        assertIntentForActivity(NewAddGuestItinActivity::class.java, startedIntent)
+    }
+
+    @Test
+    fun testManuallyAddGuestItinView() {
+        val addGuestItinIntroText = activity.findViewById(R.id.add_guest_itin_intro_text) as com.expedia.bookings.widget.TextView
+        assertEquals("Checked out without signing in? Find your trip by itinerary number.", addGuestItinIntroText.text)
+
+        val addGuestItinButton = activity.findViewById(R.id.add_guest_itin_text_view) as com.expedia.bookings.widget.TextView
+        assertEquals("Manually add guest booked trip", addGuestItinButton.text)
+        addGuestItinButton.performClick()
+        val startedIntent = Shadows.shadowOf(activity).nextStartedActivity
+        assertIntentForActivity(NewAddGuestItinActivity::class.java, startedIntent)
+    }
+
+    @Test
+    fun testManuallyAddGuestSignedOffItinView() {
+        val addGuestItinIntroText = activity.findViewById(R.id.add_guest_itin_intro_text_view) as com.expedia.bookings.widget.TextView
+        assertEquals("Checked out without signing in? Find your trip by itinerary number.", addGuestItinIntroText.text)
+
+        val addGuestItinButton = activity.findViewById(R.id.add_guest_itin_text_button) as com.expedia.bookings.widget.TextView
+        assertEquals("Manually add guest booked trip", addGuestItinButton.text)
+        addGuestItinButton.performClick()
         val startedIntent = Shadows.shadowOf(activity).nextStartedActivity
         assertIntentForActivity(NewAddGuestItinActivity::class.java, startedIntent)
     }

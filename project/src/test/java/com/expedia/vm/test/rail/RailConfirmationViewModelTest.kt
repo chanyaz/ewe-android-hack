@@ -81,7 +81,7 @@ class RailConfirmationViewModelTest {
     }
 
     private fun getMockOneWayOffer() : RailTripOffer {
-        var mockTripOffer = Mockito.mock(RailTripOffer::class.java)
+        val mockTripOffer = Mockito.mock(RailTripOffer::class.java)
         Mockito.`when`(mockTripOffer.isRoundTrip).thenReturn(false)
         Mockito.`when`(mockTripOffer.isOpenReturn).thenReturn(false)
         Mockito.`when`(mockTripOffer.outboundLegOption).thenReturn(testLegOption)
@@ -90,7 +90,7 @@ class RailConfirmationViewModelTest {
     }
 
     private fun getMockRoundTripOffer() : RailTripOffer {
-        var mockTripOffer = Mockito.mock(RailTripOffer::class.java)
+        val mockTripOffer = Mockito.mock(RailTripOffer::class.java)
         Mockito.`when`(mockTripOffer.isRoundTrip).thenReturn(true)
         Mockito.`when`(mockTripOffer.isOpenReturn).thenReturn(false)
         Mockito.`when`(mockTripOffer.outboundLegOption).thenReturn(testLegOption)
@@ -100,7 +100,7 @@ class RailConfirmationViewModelTest {
     }
 
     private fun getMockOpenReturnOffer() : RailTripOffer {
-        var mockTripOffer = Mockito.mock(RailTripOffer::class.java)
+        val mockTripOffer = Mockito.mock(RailTripOffer::class.java)
         Mockito.`when`(mockTripOffer.isRoundTrip).thenReturn(false)
         Mockito.`when`(mockTripOffer.isOpenReturn).thenReturn(true)
         Mockito.`when`(mockTripOffer.outboundLegOption).thenReturn(testLegOption)

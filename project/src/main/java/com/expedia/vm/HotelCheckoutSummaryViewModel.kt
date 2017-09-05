@@ -174,8 +174,8 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                 dueNowAmount.onNext(it.newHotelProductResponse.dueNowAmount.formattedMoney)
                 isShoppingWithPoints.onNext(false)
             }
-            var amountDueTodayText: String
-            var accessibilityCostSummaryContentDescription = StringBuilder()
+            val amountDueTodayText: String
+            val accessibilityCostSummaryContentDescription = StringBuilder()
             accessibilityCostSummaryContentDescription.append(context.getString(R.string.total_with_tax)).append(" ").append(tripTotalPrice.value).append(" ")
 
             if (isDepositV2.value) {

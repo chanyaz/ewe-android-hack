@@ -46,7 +46,7 @@ abstract class TripResponse : BaseApiResponse() {
         }
 
         val rewardsPointsDetails = getPointDetails()
-        return if (rewardsPointsDetails != null) rewardsPointsDetails.isAllowedToRedeem else false
+        return rewardsPointsDetails?.isAllowedToRedeem ?: false
     }
 
     fun rewardsUserAccountDetails(): PointsDetails {

@@ -67,7 +67,7 @@ class RailsItinContentGenerator(context: Context, val railItinCardData: ItinCard
     }
 
     override fun getSummaryView(convertView: View?, container: ViewGroup?): View {
-        var view: TextView
+        val view: TextView
         if (convertView != null) {
             view = convertView as TextView
         }

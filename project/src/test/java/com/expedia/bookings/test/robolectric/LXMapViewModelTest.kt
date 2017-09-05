@@ -77,10 +77,10 @@ class LXMapViewModelTest {
         activityPriceTestSubscriber.assertValueCount(1)
 
         activityNameTestSubscriber.assertValue("New York Pass: Visit up to 80 Attractions, Museums & Tours")
-        compareLocationLatLng(eventLatLngTestSubscriber.onNextEvents.get(0)
+        compareLocationLatLng(eventLatLngTestSubscriber.onNextEvents[0]
                 , ActivityDetailsResponse.LXLocation.getLocation(activityOffersResponse.eventLocation.latLng))
         redemptionLocationsLatLngTestSubscriber.assertValue(emptyList())
-        assertEquals("From $130", activityPriceTestSubscriber.onNextEvents.get(0).toString())
+        assertEquals("From $130", activityPriceTestSubscriber.onNextEvents[0].toString())
 
     }
 

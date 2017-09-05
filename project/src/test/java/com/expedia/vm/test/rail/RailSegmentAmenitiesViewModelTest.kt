@@ -57,11 +57,11 @@ class RailSegmentAmenitiesViewModelTest {
     }
 
     private fun createSegmentWithNoAmenities(): Pair<RailSegment, PassengerSegmentFare?> {
-        var segment = RailSegment()
+        val segment = RailSegment()
         segment.departureStation = RailStation("ABC", "London", "", "")
         segment.arrivalStation = RailStation("ABC", "Manchester", "", "")
 
-        var segmentFare = PassengerSegmentFare()
+        val segmentFare = PassengerSegmentFare()
         segmentFare.carrierServiceClassDisplayName = "Greatest class ever"
         segmentFare.carrierFareClassDisplayName = "go anytime"
 
@@ -69,15 +69,15 @@ class RailSegmentAmenitiesViewModelTest {
     }
 
     private fun createSegmentWithAmenities(): Pair<RailSegment, PassengerSegmentFare?> {
-        var pair = createSegmentWithNoAmenities()
-        var amenity1 = PassengerSegmentFare.Amenity()
+        val pair = createSegmentWithNoAmenities()
+        val amenity1 = PassengerSegmentFare.Amenity()
         amenity1.displayName = "Your own seat"
 
-        var amenity2 = PassengerSegmentFare.Amenity()
+        val amenity2 = PassengerSegmentFare.Amenity()
         amenity2.displayName = "WC"
 
 
-        var amenities = ArrayList<PassengerSegmentFare.Amenity>()
+        val amenities = ArrayList<PassengerSegmentFare.Amenity>()
         amenities.add(amenity1)
         amenities.add(amenity2)
         pair.second?.amenityList = amenities

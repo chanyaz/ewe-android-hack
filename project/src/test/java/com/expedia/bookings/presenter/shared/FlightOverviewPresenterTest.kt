@@ -134,8 +134,8 @@ class FlightOverviewPresenterTest {
         createBasicEconomyTooltipInfo()
         sut.vm.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals(2, toolTipRulesTestSubscriber.onNextEvents[0].size)
-        assertEquals("1 personal item only, no access to overhead bin", toolTipRulesTestSubscriber.onNextEvents[0].get(0))
-        assertEquals("Seats assigned at check-in.", toolTipRulesTestSubscriber.onNextEvents[0].get(1))
+        assertEquals("1 personal item only, no access to overhead bin", toolTipRulesTestSubscriber.onNextEvents[0][0])
+        assertEquals("Seats assigned at check-in.", toolTipRulesTestSubscriber.onNextEvents[0][1])
         assertEquals("United Airlines Basic Economy Fare", toolTipTitleTestSubscriber.onNextEvents[0])
     }
 
