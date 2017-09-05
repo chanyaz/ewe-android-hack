@@ -24,7 +24,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppBringUniversalCheckoutToLX = 12630;
 	public static final int EBAndroidAppLXFilterSearch = 12689;
 	public static final int EBAndroidAppLXDisablePOISearch = 13050;
-	public static final int EBAndroidAppTripsUserReviews = 13257;
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppFlightsConfirmationItinSharing = 14137;
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
@@ -34,7 +33,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelUpgrade = 13196;
 	public static final int EBAndroidCheckoutPaymentTravelerInfo = 13280;
 	public static final int EBAndroidAppItinHotelRedesign = 14741;
-	public static final int EBAndroidAppUserOnboarding = 13548;
 	public static final int EBAndroidLXVoucherRedemption = 14380;
 	public static final int EBAndroidAppTripsDetailRemoveCalendar = 14201;
 	public static final int EBAndroidAppFreeCancellationTooltip = 14513;
@@ -158,7 +156,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXFilterSearch);
 		testIDs.add(EBAndroidAppCheckoutButtonText);
 		testIDs.add(EBAndroidAppLXDisablePOISearch);
-		testIDs.add(EBAndroidAppTripsUserReviews);
 		testIDs.add(EBAndroidAppFlightsSeatClassAndBookingCode);
 		testIDs.add(EBAndroidAppUniversalCheckoutMaterialForms);
 		testIDs.add(EBAndroidAppFreeCancellationTooltip);

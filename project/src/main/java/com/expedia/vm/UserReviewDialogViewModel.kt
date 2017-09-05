@@ -5,8 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.mobiata.android.util.SettingUtils
@@ -22,11 +20,6 @@ class UserReviewDialogViewModel(val context: Context) {
     val feedbackLinkSubject = PublishSubject.create<String>()
     val noSubject = PublishSubject.create<Unit>()
     val closeSubject = PublishSubject.create<Unit>()
-
-    val titleTextSubject = PublishSubject.create<String>()
-    val reviewTextSubject = PublishSubject.create<String>()
-    val feedbackTextSubject = PublishSubject.create<String>()
-    val closeTextSubject = PublishSubject.create<String>()
 
     init {
         reviewSubject.subscribe {
@@ -54,20 +47,6 @@ class UserReviewDialogViewModel(val context: Context) {
         rx.Observable.merge(reviewSubject, feedbackSubject, noSubject).subscribe(closeSubject)
     }
 
-    fun bindText() {
-        if (isBucketedForTest()) {
-            titleTextSubject.onNext(context.getString(R.string.dialog_app_rating_title_alt))
-            reviewTextSubject.onNext(context.getString(R.string.dialog_app_rating_review_button_alt))
-            feedbackTextSubject.onNext(context.getString(R.string.dialog_app_rating_feedback_button_alt))
-            closeTextSubject.onNext(context.getString(R.string.dialog_app_rating_no_button_alt))
-        } else {
-            titleTextSubject.onNext(context.getString(R.string.dialog_app_rating_title))
-            reviewTextSubject.onNext(context.getString(R.string.dialog_app_rating_review_button))
-            feedbackTextSubject.onNext(context.getString(R.string.dialog_app_rating_feedback_button))
-            closeTextSubject.onNext(context.getString(R.string.dialog_app_rating_no_button))
-        }
-    }
-
     private fun startIntent(link: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(link)
@@ -90,9 +69,5 @@ class UserReviewDialogViewModel(val context: Context) {
             }
             return false
         }
-    }
-
-    private fun isBucketedForTest() : Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsUserReviews)
     }
 }

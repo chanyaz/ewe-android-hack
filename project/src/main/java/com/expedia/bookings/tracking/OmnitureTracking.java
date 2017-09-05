@@ -1,5 +1,18 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -98,19 +111,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 
 import kotlin.NotImplementedError;
 
@@ -5692,7 +5692,6 @@ public class OmnitureTracking {
 	public static void trackItinUserRating() {
 		String pageName = ITIN_RATE_APP;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsUserReviews);
 		s.track();
 	}
 
