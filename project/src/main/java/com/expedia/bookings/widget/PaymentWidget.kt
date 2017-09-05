@@ -94,7 +94,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val focusedView = PublishSubject.create<View>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
     val populateCardholderNameTestEnabled = isPopulateCardholderNameEnabled(context)
-    val hideApacBillingFieldsEnabled = isHideApacBillingFieldsEnabled(context)
+    val hideApacBillingFieldsEnabled = isHideApacBillingFieldsEnabled()
 
     private val userStateManager: UserStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
