@@ -12,7 +12,6 @@ import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.TuneUtils
-import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
 
@@ -170,7 +169,7 @@ object FlightsV2Tracking {
 
     fun trackSlideToPurchase(cardType: PaymentType, flexStatus: String) {
         val cardName = cardType.omnitureTrackingCode
-        OmnitureTracking.trackSlideToPurchase(cardName, flexStatus)
+        OmnitureTracking.trackFlightSlideToPurchase(cardName, flexStatus)
     }
 
     fun trackCheckoutPaymentCID() {
