@@ -211,7 +211,7 @@ if (("$devicesCount" == 0)) ; then
 fi
 
 #Building Debug and Android Test Debug
-build
+#build
 #Distribute tags over devices to run in parallel
 distributingTagsOverDevices ${tags} ${devicesCount}
 for (( i=0; i<${#tagsForEachDeviceArr[@]}; i++ )) ; do
