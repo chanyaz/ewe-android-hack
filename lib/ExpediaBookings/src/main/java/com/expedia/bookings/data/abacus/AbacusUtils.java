@@ -109,7 +109,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppAccountSinglePageSignUp = 13923;
 
 	// Launch
-	public static final int ProWizardTest = 14687;
+	public static final int ProWizardTest = 15420;
 
 	public enum DefaultVariant {
 		CONTROL,
