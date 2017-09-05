@@ -91,7 +91,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             showCollapseIcon = it
         }
 
-        vm.showPaymentInfoLinkObservable.subscribeVisibility(paymentFeesButton)
         vm.flightTextObservable.subscribeText(flightCardText)
         vm.flightTextColorObservable.subscribeTextColor(flightCardText)
         vm.flightTravelInfoColorObservable.subscribeTextColor(travelInfoText)
@@ -115,7 +114,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         paymentFeesButton.subscribeOnClick(vm.paymentFeeInfoClickSubject)
         vm.showInfoFeatureFlagBasedObservable.subscribeVisibility(baggagePaymentDivider)
         vm.showInfoFeatureFlagBasedObservable.subscribeVisibility(baggageFeesButton)
-        vm.showInfoFeatureFlagBasedObservable.subscribeVisibility(paymentFeesButton)
+        vm.showPaymentInfoLinkObservable.subscribeVisibility(paymentFeesButton)
 
         vm.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)

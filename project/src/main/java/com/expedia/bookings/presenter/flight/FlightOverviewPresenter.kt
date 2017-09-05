@@ -31,6 +31,7 @@ import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
 import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.FareFamilyViewModel
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.InsuranceViewModel
@@ -113,7 +114,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         }
 
         Observable.merge(flightSummary.outboundFlightWidget.viewModel.paymentFeeInfoClickSubject, flightSummary.inboundFlightWidget.viewModel.paymentFeeInfoClickSubject).subscribe {
-            show(paymentFeeInfoWebView)
+            if (!getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.value.isNullOrBlank()) {
+                show(paymentFeeInfoWebView)
+            }
         }
 
         flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(

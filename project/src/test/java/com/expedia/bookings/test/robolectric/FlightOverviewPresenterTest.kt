@@ -29,6 +29,7 @@ import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.FlightCellWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
+import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
@@ -336,6 +337,7 @@ class FlightOverviewPresenterTest {
         SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("http://www.expedia.com/p/regulatory/obfees?langid=2057")
         outboundFlightWidget.paymentFeesButton.performClick()
         assertEquals(View.VISIBLE, widget.paymentFeeInfoWebView.visibility)
     }
@@ -345,8 +347,29 @@ class FlightOverviewPresenterTest {
         SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
+        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("http://www.expedia.com/p/regulatory/obfees?langid=2057")
         inboundFlightWidget.paymentFeesButton.performClick()
         assertEquals(View.VISIBLE, widget.paymentFeeInfoWebView.visibility)
+    }
+
+    @Test
+    fun testOutboundWidgetPaymentInfoClickWithNoURL() {
+        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
+        createExpectedFlightLeg()
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("")
+        outboundFlightWidget.paymentFeesButton.performClick()
+        assertEquals(View.GONE, widget.paymentFeeInfoWebView.visibility)
+    }
+
+    @Test
+    fun testInboundWidgetPaymentInfoClickWithNoURL() {
+        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
+        createExpectedFlightLeg()
+        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
+        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("")
+        inboundFlightWidget.paymentFeesButton.performClick()
+        assertEquals(View.GONE, widget.paymentFeeInfoWebView.visibility)
     }
 
     private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {

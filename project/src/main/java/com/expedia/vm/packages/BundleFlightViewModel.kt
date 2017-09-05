@@ -10,6 +10,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightV2Utils
@@ -121,7 +122,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             }
 
             if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_baggage_info_payment_info_overview)) {
-                showPaymentInfoLinkObservable.onNext(flight.airlineMessageModel?.hasAirlineWithCCfee ?: false || flight.mayChargeObFees)
+                showPaymentInfoLinkObservable.onNext(flight.mayChargeObFees || PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage())
             }
 
             showInfoFeatureFlagBasedObservable.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_baggage_info_payment_info_overview))
