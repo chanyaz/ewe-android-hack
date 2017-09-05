@@ -230,3 +230,14 @@ echo "Done"
 runOnDevicesStr=$(echo ${runOnDevicesStr} | sed 's/ /,/g')
 tags=$(echo ${tags} | sed 's/ /,/g')
 python jenkins/generate_cucumber_report.py $tags
+
+# If errorRecordFile is present, output the error and mark the build fail
+if [ -f project/build/outputs/errorRecordFile.txt ]
+    then
+        cat project/build/outputs/errorRecordFile.txt
+        rm -fr project/build/outputs/mapping
+        rm -fr project/build/outputs/apk
+        exit 1
+    else
+        echo "All test cases passed." > project/build/outputs/errorRecordFile.txt
+fi

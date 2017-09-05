@@ -1,9 +1,19 @@
 #!/usr/bin/python
 import json
-import sys
 import os.path
+import sys
 
-def generateTestcasesHTML(featureTestcasesJson, failedTestcaseImageDirectoryPath):
+
+def write_to_error_file(string_to_write):
+    """Writes to the errorRecordFile in append mode.
+    Takes argument of string to be written in file.
+    Don't pass newline character in the string."""
+    error_record_file = open('project/build/outputs/errorRecordFile.txt', 'a')
+    error_record_file.write(string_to_write + '<br>')
+    error_record_file.close()
+
+
+def generateTestcasesHTML(featureTestcasesJson, failedTestcaseImageDirectoryPath, failed_test_case_count):
     testCaseReport = []
     for testcase in featureTestcasesJson:
         testcaseId = testcase['id']
@@ -15,15 +25,18 @@ def generateTestcasesHTML(featureTestcasesJson, failedTestcaseImageDirectoryPath
         testcaseStepsJson = testcase['steps']
         print testcaseName
         print "---------------------"
-        testCaseStepsBeforeHTML, testCaseStepsAfterHTML, testCaseStepsHTML, testExecutionTime, testcaseStatus = generateTestcaseStepsHTML(testcaseStepsJson, testcaseBefore, testcaseAfter, testcaseTags)
-        testExecutionTime = testExecutionTime/1e9
+        testCaseStepsBeforeHTML, testCaseStepsAfterHTML, testCaseStepsHTML, testExecutionTime, testcaseStatus = generateTestcaseStepsHTML(
+            testcaseStepsJson, testcaseBefore, testcaseAfter, testcaseTags)
+        testExecutionTime = testExecutionTime / 1e9
         print "Total time for execution in seconds - {testExecutionTime}".format(testExecutionTime=testExecutionTime)
         print "Test case status - {testcaseStatus}".format(testcaseStatus=testcaseStatus)
         print "---------------------"
-        if testcaseStatus=="failed":
-            testcaseStatusFormatted='<a target="_blank" href="' + failedTestcaseImageDirectoryPath + '/' + testcaseId + '.png">failed</a>'
+        if testcaseStatus == "failed":
+            write_to_error_file("\t*" + testcaseName)
+            failed_test_case_count = failed_test_case_count + 1
+            testcaseStatusFormatted = '<a target="_blank" href="' + failedTestcaseImageDirectoryPath + '/' + testcaseId + '.png">failed</a>'
         else:
-            testcaseStatusFormatted=testcaseStatus
+            testcaseStatusFormatted = testcaseStatus
         testCaseReport.append("""\n
                 <div class="test" style="width:100%;"">
                     <div class="rTableRow {testcaseStatus} testcase" id="{testcaseId}">
@@ -55,10 +68,14 @@ def generateTestcasesHTML(featureTestcasesJson, failedTestcaseImageDirectoryPath
                         </div>
                     </div>
                 </div>
-			""".format(testcaseId=testcaseId, testcaseStatus=testcaseStatus,testcaseName=testcaseName, testExecutionTime=testExecutionTime, testCaseStepsBeforeHTML=testCaseStepsBeforeHTML, testCaseStepsAfterHTML=testCaseStepsAfterHTML, testCaseStepsHTML=testCaseStepsHTML, testcaseStatusFormatted=testcaseStatusFormatted))
+			""".format(testcaseId=testcaseId, testcaseStatus=testcaseStatus, testcaseName=testcaseName,
+                       testExecutionTime=testExecutionTime, testCaseStepsBeforeHTML=testCaseStepsBeforeHTML,
+                       testCaseStepsAfterHTML=testCaseStepsAfterHTML, testCaseStepsHTML=testCaseStepsHTML,
+                       testcaseStatusFormatted=testcaseStatusFormatted))
 
-    testCaseHTML=''.join(testCaseReport)
-    return testCaseHTML
+    testCaseHTML = ''.join(testCaseReport)
+    return testCaseHTML, failed_test_case_count
+
 
 def generateTestcaseStepsHTML(testcaseStepsJson, testcaseBeforeJson, testcaseAfterJson, testcaseTags):
     testcaseStatus = "noresult"
@@ -67,9 +84,13 @@ def generateTestcaseStepsHTML(testcaseStepsJson, testcaseBeforeJson, testcaseAft
     testCaseStepsBeforeHTML = []
     testCaseStepsAfterHTML = []
 
-    testCaseStepsBeforeHTML, testExecutionTime, testcaseStatus=generateStepsHTML(testcaseBeforeJson, testExecutionTime, testcaseStatus, True)
-    testCaseStepsAfterHTML, testExecutionTime, testcaseStatus=generateStepsHTML(testcaseAfterJson, testExecutionTime, testcaseStatus, True)
-    testCaseStepsHTML, testExecutionTime, testcaseStatus=generateStepsHTML(testcaseStepsJson, testExecutionTime, testcaseStatus, False)
+    testCaseStepsBeforeHTML, testExecutionTime, testcaseStatus = generateStepsHTML(testcaseBeforeJson,
+                                                                                   testExecutionTime, testcaseStatus,
+                                                                                   True)
+    testCaseStepsAfterHTML, testExecutionTime, testcaseStatus = generateStepsHTML(testcaseAfterJson, testExecutionTime,
+                                                                                  testcaseStatus, True)
+    testCaseStepsHTML, testExecutionTime, testcaseStatus = generateStepsHTML(testcaseStepsJson, testExecutionTime,
+                                                                             testcaseStatus, False)
 
     return testCaseStepsBeforeHTML, testCaseStepsAfterHTML, testCaseStepsHTML, testExecutionTime, testcaseStatus
 
@@ -79,33 +100,33 @@ def generateStepsHTML(testcaseStepsJson, testExecutionTime, testcaseStatus, isAf
 
     for testcaseStep in testcaseStepsJson:
         if isAfterBeforeStep:
-            stepName=testcaseStep['match']['location']
+            stepName = testcaseStep['match']['location']
         else:
             stepName = testcaseStep['name']
-        stepKeyword=""
+        stepKeyword = ""
         if not isAfterBeforeStep:
             stepKeyword = testcaseStep['keyword']
 
         errorMessage = ""
         stepDuration = 0
-        stepDataHTML=""
+        stepDataHTML = ""
         if 'rows' in testcaseStep:
             step_rows_json = testcaseStep['rows']
-            stepDataHTML=generateStepDataHTML(step_rows_json)
+            stepDataHTML = generateStepDataHTML(step_rows_json)
         stepResult = testcaseStep['result']
         stepStatus = stepResult['status']
-        if stepStatus=="failed":
+        if stepStatus == "failed":
             testcaseStatus = "failed"
             errorMessage = stepResult['error_message']
-        if stepStatus=="skipped":
-            if testcaseStatus!="failed":
-                testcaseStatus="skipped"
-        if stepStatus=="undefined":
+        if stepStatus == "skipped":
+            if testcaseStatus != "failed":
+                testcaseStatus = "skipped"
+        if stepStatus == "undefined":
             testcaseStatus = "failed"
             errorMessage = "Missing or Ambiguous step definition"
-        if stepStatus=="passed":
-            if testcaseStatus!="failed" and testcaseStatus!="skipped":
-                testcaseStatus="passed"
+        if stepStatus == "passed":
+            if testcaseStatus != "failed" and testcaseStatus != "skipped":
+                testcaseStatus = "passed"
 
         if 'duration' in stepResult:
             stepDuration = stepResult['duration']
@@ -118,27 +139,31 @@ def generateStepsHTML(testcaseStepsJson, testExecutionTime, testcaseStatus, isAf
                         <div class="rTableCell width-10">{stepStatus}</div>
                         <div class="rTableCell width-20">{errorMessage}</div>
                     </div>
-			""".format(stepStatus=stepStatus,stepKeyword=stepKeyword,stepDataHTML=stepDataHTML.encode('utf-8'), stepName=stepName.encode('utf-8'), stepDuration=stepDuration/1e9, errorMessage=errorMessage.encode('utf-8')))
+			""".format(stepStatus=stepStatus, stepKeyword=stepKeyword, stepDataHTML=stepDataHTML.encode('utf-8'),
+                       stepName=stepName.encode('utf-8'), stepDuration=stepDuration / 1e9,
+                       errorMessage=errorMessage.encode('utf-8')))
 
-    testCaseStepsGeneratedHTML=''.join(testCaseStepsGenerated)
+    testCaseStepsGeneratedHTML = ''.join(testCaseStepsGenerated)
     return testCaseStepsGeneratedHTML, testExecutionTime, testcaseStatus
 
+
 def generateStepDataHTML(step_rows_json):
-    stepRowData=[]
+    stepRowData = []
     for step_row in step_rows_json:
         cell_json = step_row['cells']
         singleRow = ""
         for row in cell_json:
-            singleRow = singleRow + " - " +row
+            singleRow = singleRow + " - " + row
         print "{singleRow}".format(singleRow=singleRow)
         stepRowData.append("""\n
                     <br>{singleRow}</b>
 			""".format(singleRow=singleRow))
-    stepRowDataHTML=''.join(stepRowData)
+    stepRowDataHTML = ''.join(stepRowData)
     return stepRowDataHTML
 
+
 def generateCompleteReportHTML(allFeatureTestCases):
-    allFeatureTestCasesHTML=''.join(allFeatureTestCases)
+    allFeatureTestCasesHTML = ''.join(allFeatureTestCases)
     with open('project/build/outputs/UITestReport.html', 'w') as automationTestReport:
         automationTestReport.write("""<!DOCTYPE html>
             <html>
@@ -276,11 +301,15 @@ def generateCompleteReportHTML(allFeatureTestCases):
                 </body>
             </html>""".format(allFeatureTestCasesHTML=allFeatureTestCasesHTML))
 
+
 def main():
     allConnectedDevicesStr = sys.argv[1].strip()
     allFeatureResults = []
+    failed_test_case_count = 0
+    if os.path.exists('project/build/outputs/errorRecordFile.html'):  # sanity check to create fresh file on new test run
+        os.remove('project/build/outputs/errorRecordFile.html')
     for deviceIdentifier in allConnectedDevicesStr.split(','):
-        testCasesReportJsonFilePath='project/build/outputs/' + deviceIdentifier + '/cucumber-htmlreport/cucumber.json'
+        testCasesReportJsonFilePath = 'project/build/outputs/' + deviceIdentifier + '/cucumber-htmlreport/cucumber.json'
         failedTestcaseImageDirectoryPath = deviceIdentifier + '/cucumber-images'
         if os.path.exists(testCasesReportJsonFilePath):
             try:
@@ -292,8 +321,11 @@ def main():
                     allTestCases = []
                     print featureName
                     print "*************"
-                    allTestCases.append(generateTestcasesHTML(feature_testcases_json, failedTestcaseImageDirectoryPath))
-                    allTestCasesHTML=''.join(allTestCases)
+                    test_case_html, failed_test_case_count = generateTestcasesHTML(feature_testcases_json,
+                                                                                   failedTestcaseImageDirectoryPath,
+                                                                                   failed_test_case_count)
+                    allTestCases.append(test_case_html)
+                    allTestCasesHTML = ''.join(allTestCases)
                     allFeatureResults.append("""\n<div class="cucumber-feature">
                             <div class="feature-title feature-title-background"><span>Feature:{featureName} run with Tag: {deviceIdentifier}</span></div>
                                 <div class="testcases">
@@ -315,20 +347,27 @@ def main():
                                     </div>
                                 </div>
                         </div>
-                        """.format(deviceIdentifier=deviceIdentifier, featureName=featureName, allTestCasesHTML=allTestCasesHTML ))
+                        """.format(deviceIdentifier=deviceIdentifier, featureName=featureName,
+                                   allTestCasesHTML=allTestCasesHTML))
             except Exception, e:
                 allFeatureResults.append("""\n
                     <div class="cucumber-feature">
                         <div class="feature-title failed"><span>Something went wrong for tag : {deviceIdentifier}</span></div>
                     </div>
-                    """.format(deviceIdentifier=deviceIdentifier ))
+                    """.format(deviceIdentifier=deviceIdentifier))
+                write_to_error_file('Something went wrong for tag : ' + deviceIdentifier)
         else:
             allFeatureResults.append("""\n
                     <div class="cucumber-feature">
                         <div class="feature-title failed"><span>Something went wrong!! Could not find cucumber.json file for tag : {deviceIdentifier}</span></div>
                     </div>
-                    """.format(deviceIdentifier=deviceIdentifier ))
+                    """.format(deviceIdentifier=deviceIdentifier))
+            write_to_error_file(
+                'Something went wrong!! Could not find cucumber.json file for tag : ' + deviceIdentifier)
     generateCompleteReportHTML(allFeatureResults)
+    if os.path.exists('project/build/outputs/errorRecordFile.txt'):
+        write_to_error_file("<br><br>Number of failed test cases : " + str(failed_test_case_count))
+
 
 if __name__ == "__main__":
     main()
