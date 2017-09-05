@@ -138,7 +138,7 @@ class ItinItemListFragmentTest {
         mockPageUsableTracking.markSuccessfulStartTime(System.currentTimeMillis())
         sut.userVisibleHint = true
 
-        OmnitureTestUtils.assertStateTrackedWithEvents("App.Itinerary", "event63,event220,event221=0.10", mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTrackedWithEventsAndEvars(mockAnalyticsProvider, "App.Itinerary", "event63,event220,event221=0.10")
     }
 
     @Test

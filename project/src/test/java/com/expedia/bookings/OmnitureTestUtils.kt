@@ -40,9 +40,16 @@ class OmnitureTestUtils : ADMS_Measurement() {
         }
 
         @JvmStatic
-        fun assertStateTrackedWithEvents(appState: String, events: String, mockAnalyticsProvider: AnalyticsProvider) {
-            val expectedData = mapOf("&&events" to events)
-
+        fun assertStateTrackedWithEventsAndEvars(mockAnalyticsProvider: AnalyticsProvider, appState: String, events: String?, evarsMap: Map<Int, String>? = null) {
+            val expectedData = HashMap<String, String>()
+            if (events != null) {
+                expectedData.put("&&events", events)
+            }
+            if (evarsMap != null) {
+                for (entry in evarsMap.entries) {
+                    expectedData.put("&&v" + entry.key, entry.value)
+                }
+            }
             Mockito.verify(mockAnalyticsProvider).trackState(Mockito.eq(appState), mapThat(hasEntries(expectedData)))
         }
     }

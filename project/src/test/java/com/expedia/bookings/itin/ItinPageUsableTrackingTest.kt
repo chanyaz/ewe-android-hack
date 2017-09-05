@@ -26,7 +26,7 @@ class ItinPageUsableTrackingTest {
         sut.markTripResultsUsable(100)
         sut.trackIfReady(listOfCardData())
 
-        OmnitureTestUtils.assertStateTrackedWithEvents("App.Itinerary", "event63,event220,event221=0.10", mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTrackedWithEventsAndEvars(mockAnalyticsProvider, "App.Itinerary", "event63,event220,event221=0.10")
     }
 
     @Test

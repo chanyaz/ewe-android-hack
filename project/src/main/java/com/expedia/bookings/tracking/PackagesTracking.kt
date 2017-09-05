@@ -1,11 +1,14 @@
 package com.expedia.bookings.tracking
 
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 
 class PackagesTracking {
@@ -250,8 +253,9 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesCheckoutEditTraveler()
     }
 
-    fun trackCheckoutSlideToPurchase(flexStatus: String) {
-        OmnitureTracking.trackPackagesCheckoutSlideToPurchase(flexStatus)
+    fun trackCheckoutSlideToPurchase(paymentType: PaymentType, flexStatus: String) {
+        val cardType = paymentType.omnitureTrackingCode
+        OmnitureTracking.trackPackagesCheckoutSlideToPurchase(flexStatus, cardType)
     }
 
     fun trackCheckoutPaymentCID() {

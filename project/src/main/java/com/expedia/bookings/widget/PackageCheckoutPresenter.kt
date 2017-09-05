@@ -4,11 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
@@ -70,9 +72,8 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
 
     override fun trackShowSlideToPurchase() {
         val flexStatus = if (!getCheckoutViewModel().cardFeeFlexStatus.value.isNullOrEmpty()) "${getCheckoutViewModel().cardFeeFlexStatus.value}" else ""
-        PackagesTracking().trackCheckoutSlideToPurchase(flexStatus)
+        PackagesTracking().trackCheckoutSlideToPurchase(getPaymentType(), flexStatus)
     }
-
 
     override fun makeCheckoutViewModel(): PackageCheckoutViewModel {
         return PackageCheckoutViewModel(context, Ui.getApplication(context).packageComponent().packageServices())
@@ -98,4 +99,17 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
     override fun createTravelersViewModel(): TravelersViewModel {
         return FlightTravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
     }
+
+    private fun getPaymentType(): PaymentType {
+        val billingInfo = Db.getBillingInfo()
+        val scc = billingInfo.storedCard
+        val type: PaymentType? = if (scc != null) {
+            scc.type
+        } else {
+            CurrencyUtils.detectCreditCardBrand(billingInfo.number)
+        }
+
+        return type ?: PaymentType.UNKNOWN
+    }
+
 }
