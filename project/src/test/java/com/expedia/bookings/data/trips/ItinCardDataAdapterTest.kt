@@ -118,7 +118,7 @@ class ItinCardDataAdapterTest {
     }
 
     private fun assertPageUsableTracked() {
-        OmnitureTestUtils.assertStateTrackedWithEvents("App.Itinerary", "event63,event220,event221=0.10", mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTrackedWithEventsAndEvars(mockAnalyticsProvider, "App.Itinerary", "event63,event220,event221=0.10")
     }
 
     class TestItinCardDataAdapter(context: Context, private val itinManager: ItineraryManager, private val putDataModel: ItinPageUsableTracking?) : ItinCardDataAdapter(context) {

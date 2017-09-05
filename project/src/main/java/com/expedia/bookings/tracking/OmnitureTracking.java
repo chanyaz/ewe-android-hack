@@ -244,7 +244,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CHECKOUT_TRAVELER_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
 	private static final String HOTELSV2_CHECKOUT_SELECT_STORED_CARD = "App.Hotels.CKO.Payment.StoredCard";
 	private static final String HOTELSV2_CHECKOUT_EDIT_PAYMENT = "App.Hotels.Checkout.Payment.Edit.Card";
-	private static final String APP_CHECKOUT_SLIDE_TO_PURCHASE_PAGE_NAME= "App.Checkout.SlideToPurchase";
+	private static final String APP_CHECKOUT_SLIDE_TO_PURCHASE_PAGE_NAME = "App.Checkout.SlideToPurchase";
 	private static final String HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
 	private static final String HOTELSV2_CHECKOUT_ERROR = "App.Hotels.Checkout.Error";
 	private static final String HOTELSV2_PURCHASE_CONFIRMATION = "App.Hotels.Checkout.Confirmation";
@@ -4599,9 +4599,9 @@ public class OmnitureTracking {
 		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_EDIT_TRAVELER).track();
 	}
 
-	public static void trackPackagesCheckoutSlideToPurchase(String flexStatus) {
+	public static void trackPackagesCheckoutSlideToPurchase(String flexStatus, String cardType) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE + "\" load...");
-		trackSlidetoPurchase(PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE, getPaymentType(), flexStatus);
+		trackSlidetoPurchase(PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE, cardType, flexStatus);
 	}
 
 	public static void trackPackagesCheckoutPaymentCID() {
@@ -5295,8 +5295,8 @@ public class OmnitureTracking {
 
 	private static void trackSlidetoPurchase(String lobPageName, String cardType, String flexStatus) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		s.setAppState(lobPageName);
-		s.setEvar(18, FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setAppState(APP_CHECKOUT_SLIDE_TO_PURCHASE_PAGE_NAME);
+		s.setEvar(18, lobPageName);
 		s.setEvar(37, cardType);
 		if (Strings.isNotEmpty(flexStatus)) {
 			s.setEvar(44, flexStatus);
