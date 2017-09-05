@@ -50,6 +50,7 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 	@Before
 	public void setUp() throws Exception {
 		Settings.setMockModeEndPoint();
+		Settings.setOnboardingScreenVisibility(false);
 		super.setUp();
 		mActivity = getActivity();
 		assertNotNull(mActivity);

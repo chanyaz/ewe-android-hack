@@ -48,6 +48,12 @@ public class Settings {
 		SettingUtils.save(c, getString(R.string.preference_fake_current_location), lat + "," + lng);
 	}
 
+	public static void setOnboardingScreenVisibility(boolean visibility) {
+		Instrumentation inst = InstrumentationRegistry.getInstrumentation();
+		Context c = inst.getTargetContext();
+		SettingUtils.save(c, "PREF_FIRST_LAUNCH", visibility);
+	}
+
 	private static String getString(int id) {
 		Instrumentation inst = InstrumentationRegistry.getInstrumentation();
 		Context context = inst.getTargetContext();
