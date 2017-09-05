@@ -1539,13 +1539,16 @@ public class ItineraryManager implements JSONable {
 					+ getCachedDetails);
 
 				TripResponse response = mServices.getTrips(getCachedDetails);
+				OmnitureTracking.trackItinTripRefreshCallMade();
 
 				if (isCancelled()) {
 					return;
 				}
 
 				if (response == null || response.hasErrors()) {
+					String errorMessage = "Trip details response is null";
 					if (response != null && response.hasErrors()) {
+						errorMessage = response.gatherErrorMessage(mContext);
 						for (ServerError serverError : response.getErrors()) {
 							ServerError.ErrorCode errorCode = serverError.getErrorCode();
 							if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
@@ -1556,10 +1559,12 @@ public class ItineraryManager implements JSONable {
 						Log.w(LOGGING_TAG, "Error updating trips: " + response.gatherErrorMessage(mContext));
 					}
 					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
+					OmnitureTracking.trackItinTripRefreshCallFailure(errorMessage);
 				}
 				else {
 					Set<String> currentTrips = new HashSet<>(mTrips.keySet());
 
+					boolean tripHasHotel = false;
 					for (Trip trip : response.getTrips()) {
 						if (BookingStatus.filterOut(trip.getBookingStatus())) {
 							continue;
@@ -1593,6 +1598,9 @@ public class ItineraryManager implements JSONable {
 						}
 
 						currentTrips.remove(tripKey);
+						if (trip.hasHotel()) {
+							tripHasHotel = true;
+						}
 					}
 
 					// Remove all trips that were not returned by the server (not including guest trips or imported shared trips)
@@ -1604,6 +1612,7 @@ public class ItineraryManager implements JSONable {
 							mTripsRemoved++;
 						}
 					}
+					OmnitureTracking.trackItinTripRefreshCallSuccess(tripHasHotel);
 				}
 			}
 		}

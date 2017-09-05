@@ -103,6 +103,17 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
+        android:title="Itin Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_trips_hotel_scheduled_notifications"
+            android:summary="Trips Hotel Scheduled Notifications V2"
+            android:title="Trips Hotel Scheduled Notifications V2" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
         android:title="Packages Features">
 
         <CheckBoxPreference

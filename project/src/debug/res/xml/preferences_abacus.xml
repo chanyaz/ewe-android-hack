@@ -488,6 +488,14 @@
             android:title="Hotel Itin Details Redesign - 14741" />
 
         <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="15315"
+            android:summary="%s"
+            android:title="Trips Hotel Scheduled Notifications V2 - 15315" />
+
+        <ListPreference
             android:entries="@array/abacus_itin_share_button_choices"
             android:entryValues="@array/abacus_itin_share_button_choice_values"
             android:defaultValue="@string/preference_abacus_default"

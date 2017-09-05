@@ -33,6 +33,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelUpgrade = 13196;
 	public static final int EBAndroidCheckoutPaymentTravelerInfo = 13280;
 	public static final int EBAndroidAppItinHotelRedesign = 14741;
+	public static final int TripsHotelScheduledNotificationsV2 = 15315;
 	public static final int EBAndroidLXVoucherRedemption = 14380;
 	public static final int EBAndroidAppTripsDetailRemoveCalendar = 14201;
 	public static final int EBAndroidAppFreeCancellationTooltip = 14513;
@@ -221,6 +222,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHideApacBillingAddressFields);
 		testIDs.add(EBAndroidAppFlightSuggestionOnOneCharacter);
 		testIDs.add(EBAndroidAppFlightRateDetailsFromCache);
+		testIDs.add(TripsHotelScheduledNotificationsV2);
 		return testIDs;
 	}
 
