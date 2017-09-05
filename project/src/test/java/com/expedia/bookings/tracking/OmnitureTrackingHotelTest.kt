@@ -47,22 +47,28 @@ class OmnitureTrackingHotelTest {
 
         val hotel2 = Hotel()
         hotel2.hotelId = "2"
-        val hotel2LowRateInfo = HotelRate()
-        hotel2LowRateInfo.airAttached = true
-        hotel2LowRateInfo.strikethroughPriceToShowUsers = 0.0.toFloat()
-        hotel2LowRateInfo.priceToShowUsers = -1.5.toFloat()
-        hotel2.lowRateInfo = hotel2LowRateInfo
-        hotel2.isSponsoredListing = false
-        hotel2.isMemberDeal = false
-        val hotel2ExpectedString = ",;Hotel:2;;;;eVar39=3-MIP|eVar30=0"
+        val hotel2ExpectedString = ""
+
+        val hotel3 = Hotel()
+        hotel3.hotelId = "3"
+        val hotel3LowRateInfo = HotelRate()
+        hotel3LowRateInfo.airAttached = true
+        hotel3LowRateInfo.strikethroughPriceToShowUsers = 0.0.toFloat()
+        hotel3LowRateInfo.priceToShowUsers = -1.5.toFloat()
+        hotel3.lowRateInfo = hotel3LowRateInfo
+        hotel3.isSponsoredListing = false
+        hotel3.isMemberDeal = false
+        val hotel3ExpectedString = ",;Hotel:3;;;;eVar39=4-MIP|eVar30=0"
 
         hotels.add(hotel0)
         hotels.add(hotel1)
         hotels.add(hotel2)
+        hotels.add(hotel3)
 
         val productString = OmnitureTracking.getSearchResultsHotelProductStrings(hotels)
+        val expectedString = hotel0ExpectedString + hotel1ExpectedString + hotel2ExpectedString + hotel3ExpectedString
 
-        assertEquals(hotel0ExpectedString + hotel1ExpectedString + hotel2ExpectedString, productString)
+        assertEquals(expectedString, productString)
     }
 
     // TODO reenable these tests with the new Omniture SDK architecture

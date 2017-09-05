@@ -1253,6 +1253,10 @@ public class OmnitureTracking {
 		int i = 1;
 
 		for (Hotel hotel : hotels) {
+			if (hotel.lowRateInfo == null) {
+				i++;
+				continue;
+			}
 			String hotelId = hotel.hotelId;
 			String listPosition = Integer.toString(i);
 			String airAttachedCode = hotel.lowRateInfo.airAttached ? "-MIP" : "";
