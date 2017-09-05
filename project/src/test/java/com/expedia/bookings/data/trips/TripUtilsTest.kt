@@ -508,9 +508,7 @@ class TripUtilsTest {
     private fun getUserWithOneTrip() : Collection<Trip> {
         val packageTrip = Trip()
         packageTrip.addTripComponent(TripPackage())
-        packageTrip.addTripComponent(TripHotel())
-        packageTrip.addTripComponent(TripCar())
-        packageTrip.addTripComponent(TripFlight())
+        packageTrip.addTripComponents(listOf(TripHotel(), TripFlight(), TripCar()))
         packageTrip.startDate = DateTime.now().plusDays(3)
         packageTrip.endDate = DateTime.now().plusDays(10)
 

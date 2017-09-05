@@ -284,7 +284,7 @@ public class TripUtils {
 				for (TripComponent component : trip.getTripComponents()) {
 					if (component != null) {
 						if (component.getType() == TripComponent.Type.PACKAGE) {
-							for (TripComponent packageComponents : trip.getTripComponents()) {
+							for (TripComponent packageComponents : trip.getTripComponents(true)) {
 								usersTripComponentTypeHashSet.add(packageComponents.getType());
 							}
 						}
