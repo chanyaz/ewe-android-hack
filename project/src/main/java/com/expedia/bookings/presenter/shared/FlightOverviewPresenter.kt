@@ -106,15 +106,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
                     baggageFeeShowSubject.onNext(e3EndpointUrl + selectedFlight.baggageFeesUrl)
                 }
             }
-            paymentFeesMayApplyTextView.setOnClickListener {
-                val hasFeeLink = !selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()
-                if (hasFeeLink || selectedFlight.mayChargeObFees) {
-                    showPaymentFeesObservable.onNext(true)
-                } else {
-                    paymentFeesMayApplyTextView.background = null
-                    showPaymentFeesObservable.onNext(false)
-                }
-            }
             basicEconomyTooltip.setOnClickListener {
                 dialog.show()
             }

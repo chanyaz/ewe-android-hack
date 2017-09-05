@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.shared
 
 import android.view.View
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -9,7 +8,6 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.flights.FlightOverviewViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,30 +29,6 @@ class FlightOverviewPresenterTest {
     fun setup() {
         sut = FlightOverviewPresenter(context, null)
         sut.vm = FlightOverviewViewModel(context)
-    }
-
-    @Test
-    fun showPaymentFees() {
-        createSelectedFlightLeg(true)
-        val testSubscriber = TestSubscriber<Boolean>()
-        sut.showPaymentFeesObservable.subscribe(testSubscriber)
-
-        sut.paymentFeesMayApplyTextView.performClick()
-
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue(true)
-    }
-
-    @Test
-    fun showTextPaymentFees() {
-        createSelectedFlightLeg(false)
-        val testSubscriber = TestSubscriber<Boolean>()
-        sut.showPaymentFeesObservable.subscribe(testSubscriber)
-
-        sut.paymentFeesMayApplyTextView.performClick()
-
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue(false)
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

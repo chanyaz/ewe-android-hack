@@ -8,6 +8,7 @@ import com.expedia.vm.packages.FlightOverviewViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -23,7 +24,7 @@ class PackagesFlightOverviewViewModelTest {
         sut = FlightOverviewViewModel(context)
     }
 
-    private fun setupFlightLeg() {
+    private fun setupFlightLeg(mayChargeObFees: Boolean = true) {
         flightLeg = FlightLeg()
         flightLeg.packageOfferModel = PackageOfferModel()
         flightLeg.packageOfferModel.urgencyMessage = PackageOfferModel.UrgencyMessage()
@@ -32,6 +33,18 @@ class PackagesFlightOverviewViewModelTest {
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "$646.00"
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money()
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket.formattedPrice = "$646.00"
+        flightLeg.mayChargeObFees = mayChargeObFees
+    }
+
+    private fun setupFlightLegWithAirlineMessageModel(mayChargeObFees: Boolean = true,
+                                                      hasAirlineWithCCfee: Boolean = true,
+                                                      airlineFeeLink: String = "/p/regulatory/obfees") {
+        setupFlightLeg(mayChargeObFees)
+        val airlineMessageModel = FlightLeg.AirlineMessageModel()
+        airlineMessageModel.airlineFeeLink = airlineFeeLink
+        airlineMessageModel.hasAirlineWithCCfee = hasAirlineWithCCfee
+        airlineMessageModel.airlineName = "United"
+        flightLeg.airlineMessageModel = airlineMessageModel
     }
 
     @Test
@@ -106,4 +119,51 @@ class PackagesFlightOverviewViewModelTest {
         assertEquals("$646.00/person", sut.bundlePriceSubject.value)
     }
 
+    @Test
+    fun testUpdateOBFeesHasAirlineFeeLink() {
+        setupSystemUnderTest()
+        setupFlightLegWithAirlineMessageModel()
+
+        val paymentInfoTestSubscriber = TestSubscriber<String>()
+        sut.chargesObFeesTextSubject.subscribe(paymentInfoTestSubscriber)
+        val obFeeDetailsUrlTestSubscriber = TestSubscriber<String>()
+        sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
+
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+
+        paymentInfoTestSubscriber.assertValue("Payment fees may apply")
+        obFeeDetailsUrlTestSubscriber.assertValue(sut.e3EndpointUrl + "/p/regulatory/obfees")
+    }
+
+    @Test
+    fun testUpdateOBFeesNoAirlineFeeLink() {
+        setupSystemUnderTest()
+        setupFlightLegWithAirlineMessageModel(airlineFeeLink = "")
+
+        val paymentInfoTestSubscriber = TestSubscriber<String>()
+        sut.chargesObFeesTextSubject.subscribe(paymentInfoTestSubscriber)
+        val obFeeDetailsUrlTestSubscriber = TestSubscriber<String>()
+        sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
+
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+
+        paymentInfoTestSubscriber.assertValue("Payment fees may apply")
+        obFeeDetailsUrlTestSubscriber.assertValue("")
+    }
+
+    @Test
+    fun testUpdateOBFeesNoShowAirlineFeeLink() {
+        setupSystemUnderTest()
+        setupFlightLegWithAirlineMessageModel(mayChargeObFees = false, hasAirlineWithCCfee = false)
+
+        val paymentInfoTestSubscriber = TestSubscriber<String>()
+        sut.chargesObFeesTextSubject.subscribe(paymentInfoTestSubscriber)
+        val obFeeDetailsUrlTestSubscriber = TestSubscriber<String>()
+        sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
+
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+
+        paymentInfoTestSubscriber.assertValue("")
+        obFeeDetailsUrlTestSubscriber.assertValue("")
+    }
 }

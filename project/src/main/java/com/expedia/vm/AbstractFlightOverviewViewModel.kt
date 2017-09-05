@@ -38,7 +38,6 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     init {
         selectedFlightLegSubject.subscribe { selectedFlight ->
             updateUrgencyMessage(selectedFlight)
-            updateOBFees(selectedFlight)
 
             totalDurationSubject.onNext(FlightV2Utils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
             totalDurationContDescSubject.onNext(FlightV2Utils.getFlightLegDurationContentDescription(context, selectedFlight))
@@ -86,23 +85,6 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
             urgencyMessage.append(pricePerPersonMessage)
         }
         urgencyMessagingSubject.onNext(urgencyMessage.toString())
-    }
-
-    fun updateOBFees(selectedFlight: FlightLeg){
-        if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
-            val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
-            chargesObFeesTextSubject.onNext(paymentFeeText)
-            val hasAirlineFeeLink = !selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()
-            if (hasAirlineFeeLink){
-                obFeeDetailsUrlObservable.onNext(e3EndpointUrl + selectedFlight.airlineMessageModel.airlineFeeLink)
-            } else {
-                obFeeDetailsUrlObservable.onNext("")
-            }
-        }
-        else{
-            chargesObFeesTextSubject.onNext("")
-            obFeeDetailsUrlObservable.onNext("")
-        }
     }
 
     val selectFlightClickObserver: Observer<Unit> = endlessObserver {

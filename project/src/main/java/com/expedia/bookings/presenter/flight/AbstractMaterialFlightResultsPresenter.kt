@@ -12,7 +12,6 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
 import com.expedia.vm.flights.FlightOverviewViewModel
-import rx.Subscription
 
 abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: AttributeSet?) : BaseFlightPresenter(context, attrs) {
 
@@ -44,6 +43,14 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         }
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
+        overviewPresenter.paymentFeesMayApplyTextView.setOnClickListener {
+            if (!flightOfferViewModel.obFeeDetailsUrlObservable.value.isNullOrBlank()) {
+                overviewPresenter.showPaymentFeesObservable.onNext(true)
+            } else {
+                overviewPresenter.paymentFeesMayApplyTextView.background = null
+                overviewPresenter.showPaymentFeesObservable.onNext(false)
+            }
+        }
         overviewPresenter.showPaymentFeesObservable.subscribe {
             paymentFeeInfoWebView.viewModel.webViewURLObservable.onNext(flightOfferViewModel.obFeeDetailsUrlObservable.value)
         }

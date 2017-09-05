@@ -106,6 +106,16 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             resultsPresenter.outboundFlightSelectedSubject.onNext(Db.getPackageSelectedOutboundFlight())
         }
         val numTravelers = Db.getPackageParams().guests
+        overviewPresenter.vm.selectedFlightLegSubject.subscribe { selectedFlight ->
+            overviewPresenter.paymentFeesMayApplyTextView.setOnClickListener {
+                if (!selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()) {
+                    overviewPresenter.showPaymentFeesObservable.onNext(true)
+                } else {
+                    overviewPresenter.paymentFeesMayApplyTextView.background = null
+                    overviewPresenter.showPaymentFeesObservable.onNext(false)
+                }
+            }
+        }
         overviewPresenter.vm.numberOfTravelers.onNext(numTravelers)
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
         val cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.displayName as String else Db.getPackageParams().origin?.regionNames?.displayName as String

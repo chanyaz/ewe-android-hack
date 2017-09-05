@@ -187,6 +187,32 @@ class AbstractMaterialFlightResultsPresenterTest {
         assertFalse(sut.toolbarViewModel.isOutboundSearch.value)
     }
 
+    @Test
+    fun showPaymentFees() {
+        createSystemUnderTest(true)
+        setupFlightLeg()
+        val testSubscriber = TestSubscriber<Boolean>()
+        sut.overviewPresenter.showPaymentFeesObservable.subscribe(testSubscriber)
+
+        sut.overviewPresenter.paymentFeesMayApplyTextView.performClick()
+
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue(true)
+    }
+
+    @Test
+    fun showTextPaymentFees() {
+        createSystemUnderTest(true)
+        setupFlightLeg(false)
+        val testSubscriber = TestSubscriber<Boolean>()
+        sut.overviewPresenter.showPaymentFeesObservable.subscribe(testSubscriber)
+        sut.flightOfferViewModel.obFeeDetailsUrlObservable.onNext("")
+        sut.overviewPresenter.paymentFeesMayApplyTextView.performClick()
+
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue(false)
+    }
+
     private fun createSystemUnderTest(isOutboundPresenter: Boolean) {
         val activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
@@ -228,7 +254,7 @@ class AbstractMaterialFlightResultsPresenterTest {
         return suggestion
     }
 
-    private fun setupFlightLeg(): FlightLeg {
+    private fun setupFlightLeg(hasObFees: Boolean = true): FlightLeg {
         val flightLeg = FlightLeg()
         flightLeg.flightSegments = arrayListOf<FlightLeg.FlightSegment>()
         flightLeg.legId = "leg-id"
@@ -239,6 +265,7 @@ class AbstractMaterialFlightResultsPresenterTest {
         flightLeg.packageOfferModel.price.differentialPriceFormatted = "$646.00"
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "$646.00"
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("646.00", "USD")
+        flightLeg.mayChargeObFees = hasObFees
         return flightLeg
     }
 
