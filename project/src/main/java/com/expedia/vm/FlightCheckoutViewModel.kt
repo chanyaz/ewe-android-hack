@@ -39,6 +39,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
 
         createTripResponseObservable.safeSubscribe { createTripResponse ->
             createTripResponse as FlightCreateTripResponse
+            builder.flightLeg(createTripResponse.details.legs)
             builder.tripId(createTripResponse.newTrip!!.tripId)
             builder.expectedTotalFare(createTripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
             builder.expectedFareCurrencyCode(createTripResponse.details.offer.totalPrice.currency)

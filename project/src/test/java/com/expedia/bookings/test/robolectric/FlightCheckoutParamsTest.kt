@@ -13,8 +13,8 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightLeg
 
 
 @RunWith(RobolectricRunner::class)
@@ -32,10 +32,9 @@ class FlightCheckoutParamsTest {
     }
 
     @Test
-    fun testFrequentFlyerMemberships() {
-
-        // test with main and additional passenger
+    fun testFrequentFlyerMembershipsWithMainAndAssociatePassenger() {
         val listOfTravelers = listOf(getTravelerWithFrequentFlyerMemberships(), getTravelerWithFrequentFlyerMemberships(), getTravelerWithFrequentFlyerMemberships())
+        builder.flightLeg(listOf(createFlightLeg("Virgin Airlines", "VX")))
         var params = builder.travelers(listOfTravelers).build()
         var mapFrequentFlyerParams = params.toQueryMap()
         var appendString = constructFrequentFlyerAppendString(0, true, 0)
@@ -49,11 +48,27 @@ class FlightCheckoutParamsTest {
     @Test
     fun testCheckoutParamsWithNoFrequentFlyerPlan() {
         var traveler = getTraveler()
+        builder.flightLeg(emptyList())
         var params = builder.travelers(listOf(traveler)).build()
         var mapFrequentFlyerParams = params.toQueryMap()
         var appendString = constructFrequentFlyerAppendString(0, true, 0)
         assertTravelerDetails(mapFrequentFlyerParams, appendString)
     }
+
+
+    @Test
+    fun testMultipleFrequentFlyerMembershipWithMainPassenger() {
+        val listOfTravelers = listOf(getTravelerWithFrequentFlyerMemberships())
+        builder.flightLeg(listOf(createFlightLeg("Virgin Airlines", "VX"), createFlightLeg("American Airlines", "AA")))
+        var params = builder.travelers(listOfTravelers).build()
+        var mapFrequentFlyerParams = params.toQueryMap()
+        var appendString = constructFrequentFlyerAppendString(0, true, 0)
+        assertTravelerDetails(mapFrequentFlyerParams, appendString, "VX", "VX-0", "VX-0", "123")
+        appendString = constructFrequentFlyerAppendString(1, true, 0)
+        assertTravelerDetails(mapFrequentFlyerParams, appendString, "AA", "ADO", "ADO", "123")
+    }
+
+
 
     private fun assertTravelerDetails(mapFrequentFlyerParams: Map<String, Any>, appendString: String,
                                       flightAirlineCode: String? = null,
@@ -94,15 +109,26 @@ class FlightCheckoutParamsTest {
 
     private fun  getTravelerWithFrequentFlyerMemberships(): Traveler {
         val traveler = getTraveler()
-        traveler.addFrequentFlyerMembership(getTravelerFrequentFlyerMembership())
+        traveler.addFrequentFlyerMembership(getTravelerFrequentFlyerMembership("VX", "VX-0"))
+        traveler.addFrequentFlyerMembership(getTravelerFrequentFlyerMembership("AA", "ADO"))
         return traveler
     }
 
-    private fun getTravelerFrequentFlyerMembership() : TravelerFrequentFlyerMembership {
+    private fun getTravelerFrequentFlyerMembership(airlineCode: String, planCode: String) : TravelerFrequentFlyerMembership {
         val membership = TravelerFrequentFlyerMembership()
-        membership.airlineCode = "VX"
+        membership.airlineCode = airlineCode
         membership.membershipNumber = "123"
-        membership.planCode = "123"
+        membership.planCode = planCode
         return membership
     }
+
+    private fun createFlightLeg(airlineName: String, airlineCode: String): FlightLeg {
+        var flightLeg = FlightLeg()
+        var segment = FlightLeg.FlightSegment()
+        segment.airlineName = airlineName
+        segment.airlineCode = airlineCode
+        flightLeg.segments = listOf(segment)
+        return flightLeg
+    }
+
 }

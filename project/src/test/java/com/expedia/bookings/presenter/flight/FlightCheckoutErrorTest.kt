@@ -136,6 +136,7 @@ class FlightCheckoutErrorTest {
     private fun createCheckoutParams(transactionId: String, tripId: String, billingInfo: String) {
         checkoutParams = FlightCheckoutParams.Builder()
                 .tealeafTransactionId(transactionId)
+                .flightLeg(emptyList())
                 .travelers(listOf(makeTraveler()))
                 .billingInfo(makeBillingInfo(billingInfo))
                 .expectedFareCurrencyCode("USD")

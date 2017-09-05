@@ -140,6 +140,7 @@ class FlightCheckoutViewModelTest {
 
         val flightCheckoutParams = sut.builder.build()
         assertEquals(newTripResponse.tealeafTransactionId, flightCheckoutParams.tealeafTransactionId)
+        assertEquals(newTripResponse.details.legs, flightCheckoutParams.flightLegs)
         val offerTotalPrice = newTripResponse.details.offer.totalPrice
         assertEquals(offerTotalPrice.currencyCode, flightCheckoutParams.expectedFareCurrencyCode)
         assertEquals(offerTotalPrice.amount.toString(), flightCheckoutParams.expectedTotalFare)
@@ -470,6 +471,7 @@ class FlightCheckoutViewModelTest {
         details.offer.totalPrice = totalPrice
         newTripResponse.details = details
         newTripResponse.tealeafTransactionId = tealeafTransactionId
+        newTripResponse.details.legs = emptyList()
     }
 
     private fun makeBillingInfo(firstName: String = "JexperCC"): BillingInfo {
@@ -501,6 +503,7 @@ class FlightCheckoutViewModelTest {
         val traveler = makeTraveler()
         params = FlightCheckoutParams.Builder()
                         .tealeafTransactionId("tealeafFlight:happy_round_trip")
+                        .flightLeg(emptyList())
                         .travelers(listOf(traveler))
                         .billingInfo(billingInfo)
                         .expectedFareCurrencyCode("USD")
@@ -515,6 +518,7 @@ class FlightCheckoutViewModelTest {
         val traveler = makeTraveler()
         params = FlightCheckoutParams.Builder()
                 .tealeafTransactionId("tealeafFlight:checkout_price_change")
+                .flightLeg(emptyList())
                 .travelers(listOf(traveler))
                 .billingInfo(billingInfo)
                 .expectedFareCurrencyCode("USD")
@@ -527,6 +531,7 @@ class FlightCheckoutViewModelTest {
     private fun givenUnknownErrorCheckoutParams() {
         params = FlightCheckoutParams.Builder()
                 .tealeafTransactionId("tealeafFlight:UNKNOWN_ERROR")
+                .flightLeg(emptyList())
                 .travelers(listOf(makeTraveler()))
                 .billingInfo(makeBillingInfo("unknownerror"))
                 .expectedFareCurrencyCode("USD")
