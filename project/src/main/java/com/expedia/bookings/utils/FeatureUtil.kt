@@ -38,7 +38,6 @@ fun isMidAPIEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
 }
 
-fun isHideApacBillingFieldsEnabled(context: Context): Boolean {
-    return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hide_apac_billing_address_fields)
-            && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHideApacBillingAddressFields)
+fun isHideApacBillingFieldsEnabled(): Boolean {
+    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHideApacBillingAddressFields)
 }
