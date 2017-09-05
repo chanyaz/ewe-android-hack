@@ -219,6 +219,25 @@ class FlightTravelerEntryWidgetTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMultipleTravelerEntryPersists() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        traveler = getIncompleteTraveler()
+        widget.onTravelerChosen(traveler)
+        widget.viewModel.validate()
+        assertCorrectFieldsForIncompleteTraveler()
+
+        widget.onAddNewTravelerSelected()
+        widget.viewModel.validate()
+        assertCorrectFieldsForEmptyTraveler()
+
+        widget.onTravelerChosen(traveler)
+        assertCorrectFieldsForIncompleteTraveler()
+    }
+
+    @Test
     fun testAdvancedOptionsContentDescription() {
         givenMaterialForm(true)
         val expandAdvancedOptionsContDesc = widget.context.resources.getString(R.string.expand_advanced_button_cont_desc)
@@ -423,5 +442,37 @@ class FlightTravelerEntryWidgetTest {
         name.middleName = traveler.middleName
         name.lastName = traveler.lastName
         return name
+    }
+
+    private fun getIncompleteTraveler() : Traveler {
+        val traveler = Traveler()
+        traveler.firstName = "test"
+        traveler.lastName = "testing"
+        traveler.email = "test@testing.com"
+        traveler.fullName = "test testing"
+        traveler.phoneCountryCode = widget.viewModel.getTraveler().phoneCountryCode
+        traveler.phoneNumber = "1234567890"
+        traveler.passengerCategory = widget.viewModel.getTraveler().passengerCategory
+        return traveler
+    }
+
+    private fun assertCorrectFieldsForIncompleteTraveler() {
+        assertEquals("test", widget.nameEntryView.firstName.text.toString())
+        assertEquals("testing", widget.nameEntryView.lastName.text.toString())
+        assertEquals("test@testing.com", widget.emailEntryView.emailAddress.text.toString())
+        assertEquals("1-234-567-890", widget.phoneEntryView.phoneNumber.text.toString())
+        assertEquals("", widget.tsaEntryView.dateOfBirth.text.toString())
+        assertEquals("", widget.tsaEntryView.genderEditText?.text?.toString())
+        assertEquals(2, widget.getNumberOfInvalidFields())
+    }
+
+    private fun assertCorrectFieldsForEmptyTraveler() {
+        assertEquals("", widget.nameEntryView.firstName.text.toString())
+        assertEquals("", widget.nameEntryView.lastName.text.toString())
+        assertEquals("", widget.emailEntryView.emailAddress.text.toString())
+        assertEquals("", widget.phoneEntryView.phoneNumber.text.toString())
+        assertEquals("", widget.tsaEntryView.dateOfBirth.text.toString())
+        assertEquals("", widget.tsaEntryView.genderEditText?.text?.toString())
+        assertEquals(6, widget.getNumberOfInvalidFields())
     }
 }

@@ -97,22 +97,6 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewWithTextIsDisplayed(expectedAdditionalText);
 	}
 
-// Disabled on April 28, 2017 for repeated flakiness - ScottW
-//	@Test
-//	public void testMultipleTravelerEntryPersists() throws Throwable {
-//		setTravelerViewModelForEmptyTravelers(2);
-//
-//		EspressoUser.clickOnView(R.id.traveler_default_state);
-//		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-//		EspressoUser.clickOnText(expectedTravelerOneText);
-//		Espresso.closeSoftKeyboard();
-//		enterValidTraveler(true);
-//		onView(allOf(withText(testName.getFullName()), isDescendantOfA(withId(R.id.traveler_picker_widget)))).check(matches(isDisplayed()));
-//		onView(allOf(withText(testName.getFullName()), isDescendantOfA(withId(R.id.traveler_picker_widget)))).perform(click());
-//
-//		assertValidTravelerFields();
-//	}
-
 	@Test
 	public void testAllTravelersValidEntryToDefault() throws Throwable {
 		setTravelerViewModelForEmptyTravelers(2);
