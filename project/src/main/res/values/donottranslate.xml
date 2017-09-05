@@ -420,4 +420,18 @@
 
     <!-- Transition strings -->
     <string name="pro_wizard_bar_hero_animation">pro_wizard_bar_hero_animation</string>
+
+    <!-- Dummy billing address fields -->
+    <!-- Dummy address line 1 -->
+    <string name="dummy_address_line_one">Any street1</string>
+    <!-- Dummy address line 2 -->
+    <string name="dummy_address_line_two">Any street2</string>
+    <!-- Dummy city -->
+    <string name="dummy_city">Any city</string>
+    <!-- Dummy state -->
+    <string name="dummy_state">MA</string>
+    <!-- Dummy country -->
+    <string name="dummy_country">USA</string>
+    <!-- Dummy postal code -->
+    <string name="dummy_postal_code">12345</string>
 </resources>
