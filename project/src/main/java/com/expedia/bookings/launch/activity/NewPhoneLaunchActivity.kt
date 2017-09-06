@@ -56,7 +56,6 @@ import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.requestLocationPermission
-import com.expedia.util.updateVisibility
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -202,7 +201,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onBackPressed() {
         if (viewPager.currentItem == PAGER_POS_ITIN) {
             if ((itinListFragment?.mSignInPresenter?.back() ?: false)) {
-                showHideToolBar(true)
                 return
             }
             if (itinListFragment?.isInDetailMode ?: false) {
@@ -481,16 +479,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             itinListFragment?.showItinCard(jumpToItinId, false)
             jumpToItinId = null
         }
-        itinListFragment?.toolBarVisibilitySubject?.subscribe { show ->
-            showHideToolBar(show)
-            Ui.hideKeyboard(this)
-        }
     }
-
-    fun showHideToolBar(show: Boolean) {
-        toolbar.updateVisibility(show)
-    }
-
 
     override fun onItinCardClicked(data: ItinCardData?) {
         // Do nothing (let fragment handle it)

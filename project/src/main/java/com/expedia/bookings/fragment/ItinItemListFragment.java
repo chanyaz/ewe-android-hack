@@ -59,7 +59,6 @@ import com.mobiata.android.app.SimpleDialogFragment;
 
 import kotlin.Unit;
 import rx.functions.Action1;
-import rx.subjects.BehaviorSubject;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
 	ItinerarySyncListener {
@@ -113,8 +112,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		FAILURE,
 		NONE
 	}
-
-	public BehaviorSubject<Boolean> toolBarVisibilitySubject = BehaviorSubject.create();
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
