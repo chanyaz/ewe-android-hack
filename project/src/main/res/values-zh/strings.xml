@@ -504,8 +504,8 @@
         <item quantity="other">%1$s 个停车位</item>
     </plurals>
     <plurals name="ticket_type_book_TEMPLATE">
-        <item quantity="one">%1$s 本书</item>
-        <item quantity="other">%1$s 本书</item>
+        <item quantity="one">%1$s 本</item>
+        <item quantity="other">%1$s 本</item>
     </plurals>
     <plurals name="ticket_type_guide_TEMPLATE">
         <item quantity="one">%1$s 本指南</item>
@@ -633,7 +633,7 @@
     <string name="per_ticket_type_limousine">每辆豪华轿车</string>
     <string name="per_ticket_type_towncar">每辆城市型车</string>
     <string name="per_ticket_type_vehicle_parking_spot">每个停车位</string>
-    <string name="per_ticket_type_book">每本书</string>
+    <string name="per_ticket_type_book">每本</string>
     <string name="per_ticket_type_guide">每份指南</string>
     <string name="per_ticket_type_travel_card">每张旅游卡</string>
     <string name="per_ticket_type_boat">每艘船</string>
@@ -789,6 +789,24 @@
     <string name="sort_and_filter_cont_desc">筛选和排序按钮</string>
     <!-- "Done" list header label -->
     <string name="Done">完成</string>
+
+    <!-- Cabin Class label -->
+    <string name="cabin_class">客舱等级</string>
+
+    <!-- Cabin: Economy -->
+    <string name="cabin_code_TEMPLATE">客舱：{cabincode}</string>
+
+    <!-- Flights Roundtrip label -->
+    <string name="roundtrip">往返</string>
+
+    <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
+    <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
+
+    <!-- Flight fare family departure arrival code for one way trip. for example: DEL - SFO -->
+    <string name="flight_departure_arrival_code_one_way_TEMPLATE">{departure_code} - {arrival_code}</string>
+
+    <!-- Flight airling names -->
+    <string name="flight_airline_names_delimiter">,\u0020</string>
 
     <!-- Label indicating the direction of the rails is outbond-->
     <string name="select_outbound">选择去程航班</string>
@@ -1058,6 +1076,12 @@
     <string name="enter_itinerary_number">按钮：输入访客的行程编号</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">输入访客的行程编号</string>
+    <!-- Itin list view manually add guest trip intro text -->
+    <string name="itin_list_view_manually_add_guest_trip_intro_text">在未登录帐户时已结账？按行程编号查找旅行。</string>
+    <!-- Itin list view manually add guest trip button text -->
+    <string name="itin_list_view_manually_add_guest_trip_button_text">手动添加以访客身份预订的行程</string>
+    <!-- Itin list view manually add guest trip button content description -->
+    <string name="itin_list_view_manually_add_guest_trip_button_content_description">手动添加以访客身份预订的行程按钮</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">正在获取您的行程…</string>
     <!-- Sign in for your trips -->
@@ -1889,6 +1913,9 @@
     <string name="cabin_code_business">商务舱</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">头等舱</string>
+
+    <!-- Label for "mixed" cabin code -->
+    <string name="cabin_code_mixed">不同舱</string>
     <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
     <string name="flight_cabin_mixed_classes">不同舱位</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
@@ -2293,6 +2320,8 @@
     <string name="air_attach_variant1_string">由于您预订了机票，</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">由于您预订了机票，您可享酒店优惠</string>
+    <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
+    <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}.{title}.{content}.按钮</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">到达</string>
     <!-- Accessibility label for departing icon on itin  -->
@@ -3049,10 +3078,6 @@
     <string name="email_us">给我们发邮件</string>
     <!-- Support email body -->
     <string name="app_support_message_body">欢迎您给我们发邮件！提供以下信息能够帮助我们更好地为您服务：</string>
-
-    <!-- App Feedback Activity -->
-    <!-- Hint to type in email address -->
-    <string name="email_address">邮箱</string>
 
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
@@ -3926,8 +3951,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">显示飞往{city}的去程航班</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">选择飞往%1$s的航班</string>
-    <!-- Outbound to template. -->
-    <string name="outbound_to_TEMPLATE">飞往{cityname}（{airportcode}）</string>
+    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
+    <string name="package_outbound_flight_toolbar_title_TEMPLATE">飞往{cityname}，{country}（{airportcode}）</string>
     <!-- Flight to template -->
     <string name="flight_to">飞往%1$s的航班</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3938,8 +3963,8 @@
     <string name="select_return_flight">选择回程航班</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">飞往%1$s的航班</string>
-    <!-- Inbound to template. -->
-    <string name="inbound_to_TEMPLATE">返回{cityname}（{airportcode}）</string>
+    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
+    <string name="package_inbound_flight_toolbar_title_TEMPLATE">返回{cityname}，{country}（{airportcode}）</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}，{travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4629,16 +4654,21 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">选择性别</string>
     <string name="passport_validation_error_message">选择护照国家/地区</string>
-    <!-- Itin screen message for adding a guest trip-->
-    <string name="itin_sign_in_add_guest_trip_message">手动添加您使用访客帐户预订的行程</string>
-    <!-- Itinerary number hint -->
-    <string name="itinerary_number_hint">（参见您的确认邮件）</string>
+    <!-- Itin screen message for adding a guest trip button-->
+    <string name="itin_sign_in_add_guest_trip_button_text">手动添加以访客身份预订的行程</string>
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">请输入有效的行程编号</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">登录帐户，查看近期行程</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">查找使用访客帐户预订的行程</string>
+    <!-- Introduction text for find guest itinerary screen -->
+    <string name="find_guest_itinerary_intro_text">在未登录帐户时已结账？按行程编号查找旅行。您可以在确认邮件中找到行程编号。</string>
+    <!-- Hint to type in email address -->
+    <string name="find_guest_add_email_address_hint">电子邮件</string>
+    <!-- Hint to type in itinerary number -->
+    <string name="find_guest_add_itinerary_number_hint">行程编号</string>
+
     <!-- Booking successful alert text-->
     <string name="booking_successful">预订成功！</string>
     <!-- Check your email for itinerary alert message-->

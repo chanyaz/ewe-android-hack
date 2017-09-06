@@ -790,6 +790,24 @@
     <!-- "Done" list header label -->
     <string name="Done">완료</string>
 
+    <!-- Cabin Class label -->
+    <string name="cabin_class">좌석 등급</string>
+
+    <!-- Cabin: Economy -->
+    <string name="cabin_code_TEMPLATE">좌석: {cabincode}</string>
+
+    <!-- Flights Roundtrip label -->
+    <string name="roundtrip">왕복</string>
+
+    <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
+    <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
+
+    <!-- Flight fare family departure arrival code for one way trip. for example: DEL - SFO -->
+    <string name="flight_departure_arrival_code_one_way_TEMPLATE">{departure_code} - {arrival_code}</string>
+
+    <!-- Flight airling names -->
+    <string name="flight_airline_names_delimiter">,\u0020</string>
+
     <!-- Label indicating the direction of the rails is outbond-->
     <string name="select_outbound">가는 항공편 선택</string>
     <!-- Label indicating the direction of the rails is inbond-->
@@ -1058,6 +1076,12 @@
     <string name="enter_itinerary_number">비회원 일정 입력 버튼</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">비회원 일정 입력</string>
+    <!-- Itin list view manually add guest trip intro text -->
+    <string name="itin_list_view_manually_add_guest_trip_intro_text">로그인하지 않고 예약하셨나요? 일정 번호로 예약을 찾으세요.</string>
+    <!-- Itin list view manually add guest trip button text -->
+    <string name="itin_list_view_manually_add_guest_trip_button_text">비회원 예약 직접 추가하기</string>
+    <!-- Itin list view manually add guest trip button content description -->
+    <string name="itin_list_view_manually_add_guest_trip_button_content_description">비회원 예약 직접 추가하는 버튼</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중…</string>
     <!-- Sign in for your trips -->
@@ -1889,6 +1913,9 @@
     <string name="cabin_code_business">비즈니스석</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">일등석</string>
+
+    <!-- Label for "mixed" cabin code -->
+    <string name="cabin_code_mixed">혼합됨</string>
     <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
     <string name="flight_cabin_mixed_classes">혼합 좌석 등급</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
@@ -2293,6 +2320,8 @@
     <string name="air_attach_variant1_string">항공을 예약하신 고객님께 드리는 혜택</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">항공을 예약하신 고객님께는 호텔을 할인해 드립니다.</string>
+    <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
+    <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. 버튼</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">도착 공항</string>
     <!-- Accessibility label for departing icon on itin  -->
@@ -3049,10 +3078,6 @@
     <string name="email_us">이메일로 문의</string>
     <!-- Support email body -->
     <string name="app_support_message_body">최대한 빨리 답장을 드리겠습니다! 아래의 몇 가지 정보는 더욱 신속한 해결에 큰 도움이 됩니다.</string>
-
-    <!-- App Feedback Activity -->
-    <!-- Hint to type in email address -->
-    <string name="email_address">이메일 주소</string>
 
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
@@ -3926,8 +3951,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">{city}행 가는 항공편 표시 중입니다.</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$s행 항공편 선택</string>
-    <!-- Outbound to template. -->
-    <string name="outbound_to_TEMPLATE">{cityname}({airportcode})행 가는편</string>
+    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
+    <string name="package_outbound_flight_toolbar_title_TEMPLATE">{country} {cityname}({airportcode})행 가는 항공편</string>
     <!-- Flight to template -->
     <string name="flight_to">%1$s행 항공편</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3938,8 +3963,8 @@
     <string name="select_return_flight">오는 항공편 선택</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">%1$s행 항공편</string>
-    <!-- Inbound to template. -->
-    <string name="inbound_to_TEMPLATE">{cityname}({airportcode})행 오는편</string>
+    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
+    <string name="package_inbound_flight_toolbar_title_TEMPLATE">{country} {cityname}({airportcode})행 오는 항공편</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4629,16 +4654,21 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">성별을 선택해 주세요.</string>
     <string name="passport_validation_error_message">여권 국가를 선택해 주세요.</string>
-    <!-- Itin screen message for adding a guest trip-->
-    <string name="itin_sign_in_add_guest_trip_message">비회원으로 예약한 여행을 직접 추가하세요.</string>
-    <!-- Itinerary number hint -->
-    <string name="itinerary_number_hint">(확인 이메일에 있음)</string>
+    <!-- Itin screen message for adding a guest trip button-->
+    <string name="itin_sign_in_add_guest_trip_button_text">비회원 예약 직접 추가하기</string>
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">유효한 일정 번호를 입력해 주세요.</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">로그인하여 예정된 여행에 액세스하세요.</string>
     <!-- Find Guest Itinerary Screen Title -->
-    <string name="find_guest_itinerary_title">비회원 예약 여행 찾기</string>
+    <string name="find_guest_itinerary_title">비회원으로 예약한 여행 찾기</string>
+    <!-- Introduction text for find guest itinerary screen -->
+    <string name="find_guest_itinerary_intro_text">로그인하지 않고 예약하셨나요? 일정 번호로 예약을 찾으세요. 일정 번호는 확인 이메일에 나와 있습니다.</string>
+    <!-- Hint to type in email address -->
+    <string name="find_guest_add_email_address_hint">이메일</string>
+    <!-- Hint to type in itinerary number -->
+    <string name="find_guest_add_itinerary_number_hint">일정 번호</string>
+
     <!-- Booking successful alert text-->
     <string name="booking_successful">예약 성공!</string>
     <!-- Check your email for itinerary alert message-->

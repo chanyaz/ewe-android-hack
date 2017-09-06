@@ -790,6 +790,24 @@
     <!-- "Done" list header label -->
     <string name="Done">Hoàn tất</string>
 
+    <!-- Cabin Class label -->
+    <string name="cabin_class">Hạng cabin</string>
+
+    <!-- Cabin: Economy -->
+    <string name="cabin_code_TEMPLATE">Cabin: {cabincode}</string>
+
+    <!-- Flights Roundtrip label -->
+    <string name="roundtrip">khứ hồi</string>
+
+    <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
+    <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
+
+    <!-- Flight fare family departure arrival code for one way trip. for example: DEL - SFO -->
+    <string name="flight_departure_arrival_code_one_way_TEMPLATE">{departure_code} - {arrival_code}</string>
+
+    <!-- Flight airling names -->
+    <string name="flight_airline_names_delimiter">,\u0020</string>
+
     <!-- Label indicating the direction of the rails is outbond-->
     <string name="select_outbound">Chọn c.bay đi</string>
     <!-- Label indicating the direction of the rails is inbond-->
@@ -1058,6 +1076,12 @@
     <string name="enter_itinerary_number">Nút nhập lịch trình của khách</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Nhập lịch trình của khách</string>
+    <!-- Itin list view manually add guest trip intro text -->
+    <string name="itin_list_view_manually_add_guest_trip_intro_text">Thanh toán mà không đăng nhập? Tìm chuyến đi bằng số lịch trình.</string>
+    <!-- Itin list view manually add guest trip button text -->
+    <string name="itin_list_view_manually_add_guest_trip_button_text">Thêm chuyến đi đã đặt của khách</string>
+    <!-- Itin list view manually add guest trip button content description -->
+    <string name="itin_list_view_manually_add_guest_trip_button_content_description">Nút thêm chuyến đi đã đặt của khách</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Đang tải lịch trình của quý vị…</string>
     <!-- Sign in for your trips -->
@@ -1889,6 +1913,9 @@
     <string name="cabin_code_business">Hạng Thương gia</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">Hạng Nhất</string>
+
+    <!-- Label for "mixed" cabin code -->
+    <string name="cabin_code_mixed">Nhiều</string>
     <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
     <string name="flight_cabin_mixed_classes">Nhiều hạng</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
@@ -2293,6 +2320,8 @@
     <string name="air_attach_variant1_string">Vì quý vị đã đặt chuyến bay</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">Ưu đãi giá phòng khách sạn vì quý vị đã đặt chuyến bay</string>
+    <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
+    <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Nút</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Đến</string>
     <!-- Accessibility label for departing icon on itin  -->
@@ -3049,10 +3078,6 @@
     <string name="email_us">Gửi email cho chúng tôi</string>
     <!-- Support email body -->
     <string name="app_support_message_body">Chúng tôi rất mong được hồi âm cùng quý vị! Dưới đây là một số thông tin có thể giúp chúng tôi hỗ trợ quý vị tốt hơn:</string>
-
-    <!-- App Feedback Activity -->
-    <!-- Hint to type in email address -->
-    <string name="email_address">Địa chỉ email</string>
 
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
@@ -3926,8 +3951,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Hiển thị chuyến bay đi đến {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Chọn chuyến bay đến %1$s</string>
-    <!-- Outbound to template. -->
-    <string name="outbound_to_TEMPLATE">Bay đi đến {cityname} ({airportcode})</string>
+    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
+    <string name="package_outbound_flight_toolbar_title_TEMPLATE">Bay đi {cityname}, {country} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Bay đến %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3938,8 +3963,8 @@
     <string name="select_return_flight">Chọn chuyến bay về</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Bay đến %1$s</string>
-    <!-- Inbound to template. -->
-    <string name="inbound_to_TEMPLATE">Bay về {cityname} ({airportcode})</string>
+    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
+    <string name="package_inbound_flight_toolbar_title_TEMPLATE">Bay về {cityname}, {country} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4629,16 +4654,21 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">Chọn giới tính</string>
     <string name="passport_validation_error_message">Chọn quốc gia cấp hộ chiếu</string>
-    <!-- Itin screen message for adding a guest trip-->
-    <string name="itin_sign_in_add_guest_trip_message">Thêm chuyến đi đã đặt bằng tài khoản khách</string>
-    <!-- Itinerary number hint -->
-    <string name="itinerary_number_hint">(trong email xác nhận)</string>
+    <!-- Itin screen message for adding a guest trip button-->
+    <string name="itin_sign_in_add_guest_trip_button_text">Thêm chuyến đi đã đặt của khách</string>
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">Nhập số lịch trình hợp lệ</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Đăng nhập để xem thông tin các chuyến đi sắp tới</string>
     <!-- Find Guest Itinerary Screen Title -->
-    <string name="find_guest_itinerary_title">Tìm chuyến đi đặt bằng tài khoản khách</string>
+    <string name="find_guest_itinerary_title">Tìm chuyến đi đã đặt</string>
+    <!-- Introduction text for find guest itinerary screen -->
+    <string name="find_guest_itinerary_intro_text">Thanh toán mà không đăng nhập? Tìm chuyến đi bằng số lịch trình. Số lịch trình có trong email xác nhận.</string>
+    <!-- Hint to type in email address -->
+    <string name="find_guest_add_email_address_hint">Email</string>
+    <!-- Hint to type in itinerary number -->
+    <string name="find_guest_add_itinerary_number_hint">Số lịch trình</string>
+
     <!-- Booking successful alert text-->
     <string name="booking_successful">Đã đặt thành công!</string>
     <!-- Check your email for itinerary alert message-->
