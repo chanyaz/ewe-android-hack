@@ -41,3 +41,8 @@ fun isMidAPIEnabled(context: Context): Boolean {
 fun isHideApacBillingFieldsEnabled(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHideApacBillingAddressFields)
 }
+
+fun isAllowUnknownCardTypesEnabled(context: Context): Boolean {
+    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
+            && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_allow_unknown_card_types)
+}

@@ -93,6 +93,11 @@
             android:summary="Hide Form Fields Based on Billing Country Address"
             android:title="Hide Form Fields Based on Billing Country Address" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_allow_unknown_card_types"
+            android:summary="Allow Unknown Card Types"
+            android:title="Allow Unknown Card Types" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

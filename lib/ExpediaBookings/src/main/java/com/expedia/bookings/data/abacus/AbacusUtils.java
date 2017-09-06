@@ -42,6 +42,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLocaleBasedDateFormatting = 15316;
 	public static final int EBAndroidAppHideApacBillingAddressFields = 12622;
 	public static final int EBAndroidAppLXOfferLevelCancellationPolicySupport = 15246;
+	public static final int EBAndroidAppAllowUnknownCardTypes = 15457;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Rail tests
@@ -226,6 +227,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSoftPromptLocation);
 		testIDs.add(EBAndroidAppHotelPriceDescriptorProminence);
 		testIDs.add(EBAndroidAppLXOfferLevelCancellationPolicySupport);
+		testIDs.add(EBAndroidAppAllowUnknownCardTypes);
 		return testIDs;
 	}
 

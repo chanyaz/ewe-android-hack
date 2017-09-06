@@ -31,9 +31,12 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.isAllowUnknownCardTypesEnabled
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -43,6 +46,8 @@ import rx.Scheduler
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import kotlin.properties.Delegates
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 
 @RunWith(RobolectricRunner::class)
@@ -316,6 +321,18 @@ class PaymentViewModelTest {
         testMenuVisibilitySubscriber.assertValues(true, false)
     }
 
+    @Test
+    fun testToggleOnAllowUnknownCardTypes() {
+        toggleAllowUnknownCardTypesABTestAndFF(true)
+        assertTrue(isAllowUnknownCardTypesEnabled(getContext()))
+    }
+
+    @Test
+    fun testToggleOffAllowUnknownCardTypes() {
+        toggleAllowUnknownCardTypesABTestAndFF(false)
+        assertFalse(isAllowUnknownCardTypesEnabled(getContext()))
+    }
+
     private fun givenTransportTrip() {
         val createTripResponse = LXCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemTransport(createTripResponse))
@@ -371,6 +388,16 @@ class PaymentViewModelTest {
             info.storedCard = card
         }
         return info
+    }
+
+    private fun toggleAllowUnknownCardTypesABTestAndFF(toggleOn: Boolean) {
+        if (toggleOn) {
+            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
+        }
+        else {
+            AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
+        }
+        SettingUtils.save(getContext().applicationContext, R.string.preference_allow_unknown_card_types, toggleOn)
     }
 
     class TestPaymentViewModelClass(context: Context): PaymentViewModel(context) {
