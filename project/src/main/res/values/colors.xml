@@ -203,11 +203,8 @@
     <!-- AboutSectionFragment -->
     <color name="about_row_bg_normal">#0000</color>
     <color name="about_row_bg_pressed">#7caae5</color>
-    <color name="AboutSectionBackground">#333</color>
     <color name="AboutSectionTextColor">#232323</color>
-    <color name="AboutSectionTitleTextColor">#dcdcdc</color>
     <color name="AboutSectionAppsTextColor">#454545</color>
-    <color name="AboutSectionTextSelectedStateColor">#d79100</color>
 
     <!-- Price change colors -->
     <color name="price_change_air_attach">#fd8126</color>

@@ -3,7 +3,6 @@ package com.expedia.bookings.data.trips;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearch;
@@ -24,7 +23,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 	Rate mCouponRate;
 	boolean mIsCouponApplied;
 
-	CreateTripResponse mCreateTripResponse;
 	HotelBookingResponse mBookingResponse;
 
 	public TripBucketItemHotel() {
@@ -105,13 +103,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 		return mCouponRate;
 	}
 
-	public void setCreateTripResponse(CreateTripResponse response) {
-		mCreateTripResponse = response;
-	}
-
-	public CreateTripResponse getCreateTripResponse() {
-		return mCreateTripResponse;
-	}
 
 	public HotelBookingResponse getBookingResponse() {
 		return mBookingResponse;
@@ -122,7 +113,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 	}
 
 	public void clearCheckoutData() {
-		mCreateTripResponse = null;
 		mCouponRate = null;
 		mIsCouponApplied = false;
 		mBookingResponse = null;
@@ -142,7 +132,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 			obj.put("couponApplied", mIsCouponApplied);
 			JSONUtils.putJSONable(obj, "couponRate", mCouponRate);
 			JSONUtils.putJSONable(obj, "availability", mAvailability);
-			JSONUtils.putJSONable(obj, "createTripResponse", mCreateTripResponse);
 			JSONUtils.putJSONable(obj, "bookingResponse", mBookingResponse);
 			return obj;
 		}
@@ -161,7 +150,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 		mIsCouponApplied = obj.optBoolean("couponApplied");
 		mCouponRate = JSONUtils.getJSONable(obj, "couponRate", Rate.class);
 		mAvailability = JSONUtils.getJSONable(obj, "availability", HotelAvailability.class);
-		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 		mBookingResponse = JSONUtils.getJSONable(obj, "bookingResponse", HotelBookingResponse.class);
 		return true;
 	}
