@@ -78,26 +78,6 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
-    fun testAccessibilityOnPaymentDetailScreen() {
-        givenPackageTripWithVisaValidFormOfPayment()
-        givenMaterialPaymentBillingWidget()
-        val expirationDate = billingDetailsPaymentWidget.findViewById(billingDetailsPaymentWidget.creditCardNumber.getNextFocusForwardId())
-        assertEquals(expirationDate, billingDetailsPaymentWidget.expirationDate)
-        val cvvView = billingDetailsPaymentWidget.findViewById(expirationDate.getNextFocusForwardId())
-        assertEquals(cvvView, billingDetailsPaymentWidget.creditCardCvv)
-        val cardholderName = billingDetailsPaymentWidget.findViewById(cvvView.getNextFocusForwardId())
-        assertEquals(cardholderName, billingDetailsPaymentWidget.creditCardName)
-        val addressLine1 = billingDetailsPaymentWidget.findViewById(cardholderName.getNextFocusForwardId())
-        assertEquals(addressLine1, billingDetailsPaymentWidget.addressLineOne)
-        val city = billingDetailsPaymentWidget.findViewById(addressLine1.getNextFocusForwardId())
-        assertEquals(city, billingDetailsPaymentWidget.addressCity)
-        val state = billingDetailsPaymentWidget.findViewById(city.getNextFocusForwardId())
-        assertEquals(state, billingDetailsPaymentWidget.addressState)
-        val zip = billingDetailsPaymentWidget.findViewById(state.getNextFocusForwardId())
-        assertEquals(zip, billingDetailsPaymentWidget.creditCardPostalCode)
-    }
-
-    @Test
     fun testNoTripValidator() {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
