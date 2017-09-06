@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.AlertDialog
+import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -17,13 +18,16 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
+import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
@@ -38,11 +42,13 @@ import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.ArrayList
@@ -56,10 +62,13 @@ class FlightOverviewPresenterTest {
     private lateinit var widget: FlightOverviewPresenter
 
     lateinit var flightLeg: FlightLeg
+    lateinit var activity: FragmentActivity
+    val flightServiceRule = ServicesRule(FlightServices::class.java)
+        @Rule get
 
     @Before
     fun setup() {
-        val activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().get()
+        activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(context).defaultTravelerComponent()
         Ui.getApplication(context).defaultFlightComponents()
@@ -68,6 +77,38 @@ class FlightOverviewPresenterTest {
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         widget.viewModel.outboundSelectedAndTotalLegRank = Pair(0, 0)
         widget.viewModel
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFareFamilyWidgetVisibility() {
+        SettingUtils.save(context, R.string.preference_fare_family_flight_summary, true)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
+        widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()
+        val params = FlightCreateTripParams.Builder().productKey("happy_fare_family_round_trip").build()
+        flightServiceRule.services!!.createTrip(params, testSubscriber)
+        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        assertEquals(View.VISIBLE, widget.fareFamilyCardView.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFareFamilyUnavailableError() {
+        SettingUtils.save(context, R.string.preference_fare_family_flight_summary, true)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
+        widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()
+        val params = FlightCreateTripParams.Builder().productKey("fare_family_unavailable_error").build()
+        flightServiceRule.services!!.createTrip(params, testSubscriber)
+        widget.flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable.onNext(testSubscriber.onNextEvents[0].fareFamilyList!!.fareFamilyDetails.first())
+        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val okButton = alertDialog.findViewById(android.R.id.button1) as Button
+        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        assertEquals(true, alertDialog.isShowing)
+        assert(errorMessage.text.contains("Sorry, Economy is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection."))
+        assertEquals("OK", okButton.text)
     }
 
     @Test

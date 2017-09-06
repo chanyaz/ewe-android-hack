@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter.flight
 
+import android.app.AlertDialog
 import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -14,11 +15,13 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
 import com.expedia.bookings.services.InsuranceServices
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -42,6 +45,7 @@ import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import rx.Observable
+import com.squareup.phrase.Phrase
 import javax.inject.Inject
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
@@ -130,6 +134,16 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             unit, trip -> trip
         }).subscribe {
             FlightsV2Tracking.trackFareFamilyCardViewClick(it.isFareFamilyUpgraded)
+        }
+
+        fareFamilyCardView.viewModel.tripObservable.withLatestFrom(
+                flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, { tripResponse, selectedFareFamily ->
+            object {
+                val tripResponse = tripResponse
+                val selectedFareFamily = selectedFareFamily
+            }
+        }).filter { it.tripResponse.createTripStatus == FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE }.subscribe {
+            showFareFamilyUnavailableAlertDialog(it.selectedFareFamily.cabinClass)
         }
     }
 
@@ -287,5 +301,19 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             return tripResponse.details.legs?.filter { it.isBasicEconomy }?.any() ?: false
         }
         return false
+    }
+
+    private fun showFareFamilyUnavailableAlertDialog(selectedClass: String) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.flight_fare_family_upgrade_unavailable_error_title))
+        builder.setMessage(HtmlCompat.fromHtml(
+                Phrase.from(this, R.string.flight_fare_family_upgrade_unavailable_error_message_TEMPLATE)
+                        .put("selected_upgrade", context.getString(FlightServiceClassType.getCabinCodeResourceId(selectedClass)))
+                        .format().toString()))
+        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 }

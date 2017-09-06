@@ -1214,6 +1214,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.share_flight_status,
 		R.color.flight_cabin_class_text,
 		R.layout.flight_fare_family_item_layout,
+		R.string.flight_fare_family_upgrade_unavailable_error_title,
+		R.string.flight_fare_family_upgrade_unavailable_error_message_TEMPLATE,
 		R.string.cabin_class,
 		R.string.cabin_code_TEMPLATE,
 		R.string.flight_departure_arrival_code_round_trip_TEMPLATE,
