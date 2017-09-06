@@ -111,9 +111,9 @@ public class Hotel {
 
 	private static HotelRate getLowRateInfo(MultiItemOffer offer) {
 		HotelRate lowRateInfo = new HotelRate();
-		lowRateInfo.strikethroughPriceToShowUsers = offer.getPrice().strikeThroughPrice().getAmount().floatValue();
-		lowRateInfo.priceToShowUsers = offer.getPrice().priceToShowUsers().getAmount().floatValue();
-		lowRateInfo.currencyCode = offer.getPrice().priceToShowUsers().getCurrency();
+		lowRateInfo.strikethroughPriceToShowUsers = offer.getPrice().strikeThroughPricePerPerson().getAmount().floatValue();
+		lowRateInfo.priceToShowUsers = offer.getPrice().pricePerPerson().getAmount().floatValue();
+		lowRateInfo.currencyCode = offer.getPrice().pricePerPerson().getCurrency();
 		return lowRateInfo;
 	}
 }

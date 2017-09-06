@@ -26,8 +26,8 @@ class FlightLegTest {
         assertEquals(flightLeg.packageOfferModel.price.packageTotalPrice, Money("2387.61", "USD"))
         assertEquals(flightLeg.packageOfferModel.price.tripSavings, Money("237.48", "USD"))
         assertEquals(flightLeg.packageOfferModel.price.differentialPriceFormatted, "$0")
-        assertEquals(flightLeg.packageOfferModel.price.pricePerPerson, Money("22", "USD"))
-        assertEquals(flightLeg.packageOfferModel.price.pricePerPersonFormatted, "$230")
+        assertEquals(flightLeg.packageOfferModel.price.pricePerPerson, Money("2387.61", "USD"))
+        assertEquals(flightLeg.packageOfferModel.price.pricePerPersonFormatted, "$2,387.61")
 
         assertEquals(flightLeg.packageOfferModel.urgencyMessage.ticketsLeft, 7)
 
@@ -193,6 +193,14 @@ class FlightLegTest {
             },
             "totalPrice": {
               "amount": 2387.61,
+              "currency": "USD"
+            },
+            "avgPricePerPerson": {
+              "amount": 2387.61,
+              "currency": "USD"
+            },
+            "avgReferencePricePerPerson": {
+              "amount": 2625.09,
               "currency": "USD"
             }
           },

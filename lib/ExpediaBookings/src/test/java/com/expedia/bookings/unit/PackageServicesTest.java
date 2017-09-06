@@ -223,7 +223,7 @@ public class PackageServicesTest {
 			uniqueInboundFlightLegs.add(flightLegs.get(index));
 		}
 		Assert.assertEquals(50, uniqueOutboundFlightLegs.size());
-		Assert.assertEquals(18, uniqueInboundFlightLegs.size());
+		Assert.assertEquals(24, uniqueInboundFlightLegs.size());
 	}
 
 	@Test
@@ -368,7 +368,7 @@ public class PackageServicesTest {
 
 		MultiItemApiSearchResponse response = observer.getOnNextEvents().get(0);
 
-		Assert.assertEquals("255.00", response.getOffers().get(0).getPrice().getBasePrice().getAmount().toString());
+		Assert.assertEquals("3052.42", response.getOffers().get(0).getPrice().getBasePrice().getAmount().toString());
 	}
 
 	@Test

@@ -27,11 +27,11 @@ public class PackageOfferModel {
 		loyaltyInfo = multiItemOffer.getLoyaltyInfo();
 
 		price = new PackagePrice();
-		price.packageTotalPrice = multiItemOffer.getPrice().priceToShowUsers();
+		price.packageTotalPrice = multiItemOffer.getPrice().packageTotalPrice();
 		price.tripSavings = multiItemOffer.getPrice().packageSavings();
 		price.differentialPriceFormatted = "$0";//TODO PUK
-		price.pricePerPerson = new Money("22", "USD");//TODO PUK
-		price.pricePerPersonFormatted = "$230";//TODO PUK
+		price.pricePerPerson = multiItemOffer.getPrice().pricePerPerson();
+		price.pricePerPersonFormatted = multiItemOffer.getPrice().pricePerPerson().getFormattedMoneyFromAmountAndCurrencyCode();
 
 		PackageDeal packageDeal = multiItemOffer.getPackageDeal();
 		if (packageDeal != null && packageDeal.getDeal() != null) {

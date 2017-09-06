@@ -64,10 +64,10 @@ class HotelTest {
         val room = convertMidHotelRoomResponse(hotelOffer, multiItemOffer)
 
         assertEquals(room.productKey, null)
-        assertEquals(room.packageHotelDeltaPrice, multiItemOffer.price.totalPrice.toMoney())
-        assertEquals(room.rateInfo.chargeableRateInfo.priceToShowUsers, multiItemOffer.price.totalPrice.amount.toFloat())
-        assertEquals(room.rateInfo.chargeableRateInfo.currencyCode, multiItemOffer.price.totalPrice.currency)
-        assertEquals(room.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers, multiItemOffer.price.referenceTotalPrice.amount.toFloat())
+        assertEquals(room.packageHotelDeltaPrice, multiItemOffer.price.deltaPricePerPerson())
+        assertEquals(room.rateInfo.chargeableRateInfo.priceToShowUsers, multiItemOffer.price.deltaPricePerPerson().amount.toFloat())
+        assertEquals(room.rateInfo.chargeableRateInfo.currencyCode, multiItemOffer.price.deltaPricePerPerson().currency)
+        assertEquals(room.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers, 0f)
         assertEquals(room.rateInfo.chargeableRateInfo.userPriceType, Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE)
         assertEquals(room.rateInfo.chargeableRateInfo.averageRate, 10f)
         assertEquals(room.rateInfo.chargeableRateInfo.taxStatusType, "None")
@@ -81,9 +81,9 @@ class HotelTest {
         assertEquals(room.rateInfo.chargeableRateInfo.currencyCode, multiItemOffer.price.totalPrice.currency)
         assertEquals(room.rateInfo.chargeableRateInfo.showResortFeeMessage, true)
         assertEquals(room.rateInfo.chargeableRateInfo.resortFeeInclusion, true)
-        assertEquals(room.rateInfo.chargeableRateInfo.packagePricePerPerson, multiItemOffer.price.priceToShowUsers())
+        assertEquals(room.rateInfo.chargeableRateInfo.packagePricePerPerson, multiItemOffer.price.pricePerPerson())
         assertEquals(room.rateInfo.chargeableRateInfo.packageSavings, multiItemOffer.price.packageSavings())
-        assertEquals(room.rateInfo.chargeableRateInfo.packageTotalPrice, multiItemOffer.price.priceToShowUsers())
+        assertEquals(room.rateInfo.chargeableRateInfo.packageTotalPrice, multiItemOffer.price.pricePerPerson())
 
         assertEquals(room.isPayLater, false)
         assertEquals(room.hasFreeCancellation, multiItemOffer.cancellationPolicy.isFreeCancellationAvailable)
@@ -132,6 +132,18 @@ class HotelTest {
                 "savings": {
                     "amount": 899.39,
                     "currency": "USD"
+                },
+                "avgPricePerPerson": {
+                  "amount": 3434.48,
+                  "currency": "USD"
+                },
+                "avgReferencePricePerPerson": {
+                  "amount": 4333.87,
+                  "currency": "USD"
+                },
+                "deltaAvgPricePerPerson": {
+                  "amount": 0.00,
+                  "currency": "USD"
                 }
             },
             "searchedOffer": {
@@ -344,62 +356,75 @@ class HotelTest {
     private fun dummyMultiItemRoomOffer(): MultiItemOffer {
         val hotelRoomMultiItemOfferJson = """
         {
-            "price": {
+          "price": {
             "basePrice": {
-            "amount": 255.00,
-            "currency": "USD"
-        },
+              "amount": 255.00,
+              "currency": "USD"
+            },
             "taxesAndFees": {
-            "amount": 57.06,
-            "currency": "USD"
-        },
+              "amount": 57.06,
+              "currency": "USD"
+            },
             "totalPrice": {
-            "amount": 312.06,
-            "currency": "USD"
-        },
+              "amount": 312.06,
+              "currency": "USD"
+            },
             "referenceBasePrice": {
-            "amount": 255.00,
-            "currency": "USD"
-        },
+              "amount": 255.00,
+              "currency": "USD"
+            },
             "referenceTaxesAndFees": {
-            "amount": 57.06,
-            "currency": "USD"
-        },
+              "amount": 57.06,
+              "currency": "USD"
+            },
             "referenceTotalPrice": {
-            "amount": 312.06,
-            "currency": "USD"
-        },
+              "amount": 312.06,
+              "currency": "USD"
+            },
             "savings": {
-            "amount": 0.00,
-            "currency": "USD"
-        }
-        },
-            "searchedOffer": {
+              "amount": 0.00,
+              "currency": "USD"
+            },
+            "avgPricePerPerson": {
+              "amount": 312.06,
+              "currency": "USD"
+            },
+            "avgReferencePricePerPerson": {
+              "amount": 312.06,
+              "currency": "USD"
+            },
+            "deltaAvgPricePerPerson": {
+              "amount": 0.00,
+              "currency": "USD"
+            }
+          },
+          "searchedOffer": {
             "productType": "Hotel",
             "productKey": "hotel-0"
-        },
-            "packagedOffers": [
+          },
+          "packagedOffers": [
             {
-                "productType": "Air",
-                "productKey": "flight-0"
+              "productType": "Air",
+              "productKey": "flight-0"
             }
-            ],
-            "loyaltyInfo": {
+          ],
+          "loyaltyInfo": {
             "earn": {
-            "points": {
-            "base": 624,
-            "bonus": 624,
-            "total": 1248
+              "points": {
+                "base": 624,
+                "bonus": 624,
+                "total": 1248
+              }
+            }
+          },
+          "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=208290304&roomTypeCode=201660950&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
+          "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+          "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=201660950208290304&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
+          "cancellationPolicy": {
+            "freeCancellationAvailable": false
+          }
         }
-        }
-        },
-       "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:LAS%7CL2:BWI&acty=L1:BWI%7CL2:LAS&ddte=L1:2017-09-06%7CL2:2017-09-08&destinationId=178235&hotelId=26432&ratePlanCode=208290304&roomTypeCode=201660950&inventoryType=1&checkInDate=2017-09-07&checkOutDate=2017-09-08&tokens=AQogCh4IzpYBEgM2OTYYi5ABIMFFKLuedjDNoHY4VUAAWAEKIAoeCM6WARIDNjk1GMFFIIuQASjHsXYwgrR2OFJAAFgBEgoIAhABGAIqAk5LGAEiBAgBEAEoBCgDKAEoAjAC&price=312.06&ccyc=USD",
-      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
-      "changeRoomUrl": "/hotel.h26432.Hotel-Information?packageType=fh&langid=1033&originId=6139100&ftla=LAS&destinationId=178235&ttla=BWI&fromDate=2017-09-06&toDate=2017-09-08&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=26432&action=changeRoom&hotelId=26432&currentRatePlan=201660950208290304&flightPIID=v5-a696232f4ee05b20474d5d87f967586c-0-0-2&hotelPIID=26432,208290304,201660950&adjustedCheckin=2017-09-07&hotelInventoryType=MERCHANT",
-      "cancellationPolicy": {
-        "freeCancellationAvailable": false
-      }
-     }"""
+        """
         return Gson().fromJson(hotelRoomMultiItemOfferJson, MultiItemOffer::class.java)
     }
 }

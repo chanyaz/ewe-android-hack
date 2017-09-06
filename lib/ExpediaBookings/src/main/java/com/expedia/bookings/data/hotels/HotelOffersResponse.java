@@ -227,17 +227,17 @@ public class HotelOffersResponse extends BaseApiResponse {
 		hotelRoomResponse.rateInfo.chargeableRateInfo = new HotelRate();
 
 		hotelRoomResponse.productKey = null; //won't be available
-		hotelRoomResponse.packageHotelDeltaPrice = room.getPrice().priceToShowUsers(); //ToDo MS: Edit when value available
-		hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = room.getPrice().getTotalPrice().getAmount().floatValue();
-		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().getTotalPrice().getCurrency();
-		hotelRoomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = room.getPrice().getReferenceTotalPrice().getAmount().floatValue();
+		hotelRoomResponse.packageHotelDeltaPrice = room.getPrice().deltaPricePerPerson();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = room.getPrice().deltaPricePerPerson().getAmount().floatValue();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().deltaPricePerPerson().getCurrency();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0;
 		hotelRoomResponse.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
 		hotelRoomResponse.rateInfo.chargeableRateInfo.averageRate = 10f; //ToDo MS:hard-coded as it is not available in MID as of now
 		hotelRoomResponse.rateInfo.chargeableRateInfo.taxStatusType = "None"; //ToDo MS: hard-coded as it is not available in MID as of now
 		hotelRoomResponse.rateInfo.chargeableRateInfo.surchargeTotal = 10f; //ToDo MS: hard-coded as it is not available in MID as of now
 		hotelRoomResponse.rateInfo.chargeableRateInfo.surchargeTotalForEntireStay =  10f; //ToDo MS: hard-coded as it is not available in MID as of now
 		hotelRoomResponse.rateInfo.chargeableRateInfo.discountPercent = room.getPrice().getSavings().getAmount().floatValue();
-		hotelRoomResponse.rateInfo.chargeableRateInfo.total = room.getPrice().getTotalPrice().getAmount().floatValue(); //ToDo MS: Being used at hotel checkout, should not be a problem
+		hotelRoomResponse.rateInfo.chargeableRateInfo.total = room.getPrice().getTotalPrice().getAmount().floatValue();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.surchargesWithoutPropertyFeeForEntireStay = 10f; //ToDo MS: hard-coded as it is not available in MID as of now(CKO)
 		//ToDo MS: hotelRoomResponse.rateInfo.chargeableRateInfo.nightlyRatesPerRoom = missing
 		//ToDo MS: hotelRoomResponse.rateInfo.chargeableRateInfo.priceAdjustments = missing (though we only get empty array in response)
@@ -258,9 +258,9 @@ public class HotelOffersResponse extends BaseApiResponse {
 				.floatValue(); //ToDo MS: hard-coded as it is not available in MID as of now
 		}
 		hotelRoomResponse.rateInfo.chargeableRateInfo.resortFeeInclusion = true; //ToDo MS: hard-coded as it is not available in MID as of now
-		hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = room.getPrice().priceToShowUsers();  //ToDo MS: to be updated, MID agreed to provide it
+		hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = room.getPrice().pricePerPerson();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = room.getPrice().packageSavings();
-		hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = room.getPrice().priceToShowUsers(); //ToDo MS: to be checked
+		hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = room.getPrice().packageTotalPrice();
 
 		hotelRoomResponse.isPayLater = false;
 		hotelRoomResponse.hasFreeCancellation = room.getCancellationPolicy().isFreeCancellationAvailable();

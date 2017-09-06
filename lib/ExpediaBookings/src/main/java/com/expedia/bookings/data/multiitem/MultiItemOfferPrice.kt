@@ -9,17 +9,28 @@ data class MultiItemOfferPrice(
         val referenceBasePrice: Price,
         val referenceTaxesAndFees: Price,
         val referenceTotalPrice: Price,
-        val savings: Price
+        val savings: Price,
+        val avgPricePerPerson: Price,
+        val avgReferencePricePerPerson: Price,
+        val deltaAvgPricePerPerson: Price
 ) {
-    fun priceToShowUsers(): Money {
+    fun packageTotalPrice(): Money {
         return totalPrice.toMoney()
     }
 
-    fun strikeThroughPrice(): Money {
-        return referenceTotalPrice.toMoney()
+    fun pricePerPerson(): Money {
+        return avgPricePerPerson.toMoney()
     }
 
-    fun packageSavings() : Money {
+    fun strikeThroughPricePerPerson(): Money {
+        return avgReferencePricePerPerson.toMoney()
+    }
+
+    fun packageSavings(): Money {
         return savings.toMoney()
+    }
+
+    fun deltaPricePerPerson(): Money {
+        return deltaAvgPricePerPerson.toMoney()
     }
 }
