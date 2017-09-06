@@ -196,7 +196,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
             }
         })
         animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener { anim ->
-            bundlePriceWidget.animateBundleWidget((translationY / distanceMax), if (isFirstLaunch) open else !open)
+            bundlePriceWidget.animateBundleWidget((translationY / distanceMax), open)
         })
         animator.start()
     }
