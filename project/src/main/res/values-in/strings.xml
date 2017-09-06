@@ -790,6 +790,24 @@
     <!-- "Done" list header label -->
     <string name="Done">Selesai</string>
 
+    <!-- Cabin Class label -->
+    <string name="cabin_class">Kelas Kabin</string>
+
+    <!-- Cabin: Economy -->
+    <string name="cabin_code_TEMPLATE">Kabin: {cabincode}</string>
+
+    <!-- Flights Roundtrip label -->
+    <string name="roundtrip">pulang-pergi</string>
+
+    <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
+    <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
+
+    <!-- Flight fare family departure arrival code for one way trip. for example: DEL - SFO -->
+    <string name="flight_departure_arrival_code_one_way_TEMPLATE">{departure_code} - {arrival_code}</string>
+
+    <!-- Flight airling names -->
+    <string name="flight_airline_names_delimiter">,\u0020</string>
+
     <!-- Label indicating the direction of the rails is outbond-->
     <string name="select_outbound">Pilih berangkat</string>
     <!-- Label indicating the direction of the rails is inbond-->
@@ -1058,6 +1076,12 @@
     <string name="enter_itinerary_number">Tombol Masukkan Itinerary Tamu</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Masukkan Nomor Itinerary</string>
+    <!-- Itin list view manually add guest trip intro text -->
+    <string name="itin_list_view_manually_add_guest_trip_intro_text">Check-out tanpa login? Temukan perjalanan Anda berdasarkan nomor itinerary.</string>
+    <!-- Itin list view manually add guest trip button text -->
+    <string name="itin_list_view_manually_add_guest_trip_button_text">Tambahkan perjalanan yang dipesan tamu secara manual</string>
+    <!-- Itin list view manually add guest trip button content description -->
+    <string name="itin_list_view_manually_add_guest_trip_button_content_description">Tambahkan tombol perjalanan yang dipesan tamu secara manual</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Mengakses itinerary Anda…</string>
     <!-- Sign in for your trips -->
@@ -1889,6 +1913,9 @@
     <string name="cabin_code_business">Bisnis</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">Kelas Satu</string>
+
+    <!-- Label for "mixed" cabin code -->
+    <string name="cabin_code_mixed">Campuran</string>
     <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
     <string name="flight_cabin_mixed_classes">Kelas campuran</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
@@ -2244,7 +2271,7 @@
     <!-- No assistance type -->
     <string name="no_assistance">Tidak Perlu Bantuan Khusus</string>
     <!-- Blind with seeing eye dog -->
-    <string name="blind_with_guide_dog">Tuna netra dengan anjing penuntun</string>
+    <string name="blind_with_guide_dog">Tunanetra dengan anjing pemandu</string>
     <!-- Deaf with hearing dog -->
     <string name="deaf_with_hearing_dog">Tuna rungu dengan anjing pengawas</string>
     <!-- Wheelchair needed -->
@@ -2293,6 +2320,8 @@
     <string name="air_attach_variant1_string">Karena Anda Memesan Penerbangan</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">Hemat harga hotel karena Anda memesan penerbangan</string>
+    <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
+    <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Tombol</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Kedatangan</string>
     <!-- Accessibility label for departing icon on itin  -->
@@ -3049,10 +3078,6 @@
     <string name="email_us">Email Kami</string>
     <!-- Support email body -->
     <string name="app_support_message_body">Kami akan segera membalas pesan Anda! Di bawah ini beberapa informasi yang kami perlukan untuk membantu Anda:</string>
-
-    <!-- App Feedback Activity -->
-    <!-- Hint to type in email address -->
-    <string name="email_address">Alamat Email</string>
 
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
@@ -3926,8 +3951,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Menampilkan penerbangan keluar ke {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Pilih penerbangan ke %1$s</string>
-    <!-- Outbound to template. -->
-    <string name="outbound_to_TEMPLATE">Pergi ke {cityname} ({airportcode})</string>
+    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
+    <string name="package_outbound_flight_toolbar_title_TEMPLATE">Pergi ke {cityname}, {country} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Penerbangan ke %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3938,8 +3963,8 @@
     <string name="select_return_flight">Pilih penerbangan kembali</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Penerbangan ke %1$s</string>
-    <!-- Inbound to template. -->
-    <string name="inbound_to_TEMPLATE">Datang ke {cityname} ({airportcode})</string>
+    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
+    <string name="package_inbound_flight_toolbar_title_TEMPLATE">Datang ke {cityname}, {country} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4629,16 +4654,21 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">Pilih jenis kelamin</string>
     <string name="passport_validation_error_message">Pilih negara sesuai paspor</string>
-    <!-- Itin screen message for adding a guest trip-->
-    <string name="itin_sign_in_add_guest_trip_message">Tambahkan perjalanan pesanan tamu Anda secara manual</string>
-    <!-- Itinerary number hint -->
-    <string name="itinerary_number_hint">(di email konfirmasi Anda)</string>
+    <!-- Itin screen message for adding a guest trip button-->
+    <string name="itin_sign_in_add_guest_trip_button_text">Tambahkan perjalanan yang dipesan tamu secara manual</string>
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">Masukkan nomor itinerary yang valid</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Login untuk mengakses perjalanan Anda yang akan datang</string>
     <!-- Find Guest Itinerary Screen Title -->
-    <string name="find_guest_itinerary_title">Cari Perjalanan yang Dipesan Tamu</string>
+    <string name="find_guest_itinerary_title">Temukan perjalanan yang dipesan tamu</string>
+    <!-- Introduction text for find guest itinerary screen -->
+    <string name="find_guest_itinerary_intro_text">Check-out tanpa login? Temukan perjalanan Anda berdasarkan nomor itinerary. Anda dapat menemukan nomor itinerary di email konfirmasi.</string>
+    <!-- Hint to type in email address -->
+    <string name="find_guest_add_email_address_hint">Email</string>
+    <!-- Hint to type in itinerary number -->
+    <string name="find_guest_add_itinerary_number_hint">Nomor itinerary</string>
+
     <!-- Booking successful alert text-->
     <string name="booking_successful">Pemesanan Berhasil!</string>
     <!-- Check your email for itinerary alert message-->

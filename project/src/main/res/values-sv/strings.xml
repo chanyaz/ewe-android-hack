@@ -790,6 +790,24 @@
     <!-- "Done" list header label -->
     <string name="Done">Klar</string>
 
+    <!-- Cabin Class label -->
+    <string name="cabin_class">Kabinklass</string>
+
+    <!-- Cabin: Economy -->
+    <string name="cabin_code_TEMPLATE">Kabin: {cabincode}</string>
+
+    <!-- Flights Roundtrip label -->
+    <string name="roundtrip">retur</string>
+
+    <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
+    <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
+
+    <!-- Flight fare family departure arrival code for one way trip. for example: DEL - SFO -->
+    <string name="flight_departure_arrival_code_one_way_TEMPLATE">{departure_code} - {arrival_code}</string>
+
+    <!-- Flight airling names -->
+    <string name="flight_airline_names_delimiter">,\u0020</string>
+
     <!-- Label indicating the direction of the rails is outbond-->
     <string name="select_outbound">Välj avresa</string>
     <!-- Label indicating the direction of the rails is inbond-->
@@ -1058,6 +1076,12 @@
     <string name="enter_itinerary_number">Knapp för att ange gästresplan</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Ange en gästresplan</string>
+    <!-- Itin list view manually add guest trip intro text -->
+    <string name="itin_list_view_manually_add_guest_trip_intro_text">Har du bokat utan att logga in? Leta upp din resa med resplansnumret.</string>
+    <!-- Itin list view manually add guest trip button text -->
+    <string name="itin_list_view_manually_add_guest_trip_button_text">Lägg manuellt till en resa du bokat som gäst</string>
+    <!-- Itin list view manually add guest trip button content description -->
+    <string name="itin_list_view_manually_add_guest_trip_button_content_description">Knapp för att manuellt lägga till en resa du bokat som gäst</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Hämtar dina resplaner…</string>
     <!-- Sign in for your trips -->
@@ -1889,6 +1913,9 @@
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">First Class</string>
+
+    <!-- Label for "mixed" cabin code -->
+    <string name="cabin_code_mixed">Blandade</string>
     <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
     <string name="flight_cabin_mixed_classes">Blandade klasser</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
@@ -2293,6 +2320,8 @@
     <string name="air_attach_variant1_string">Eftersom du bokat ett flyg</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">Spara på hotell eftersom du har bokat ett flyg</string>
+    <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
+    <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}. {title}. {content}. Knapp</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Ankomst</string>
     <!-- Accessibility label for departing icon on itin  -->
@@ -3049,10 +3078,6 @@
     <string name="email_us">Kontakta oss via e-post</string>
     <!-- Support email body -->
     <string name="app_support_message_body">Vi ser fram emot att svara dig! Nedan hittar du mer information som kan vara till hjälp:</string>
-
-    <!-- App Feedback Activity -->
-    <!-- Hint to type in email address -->
-    <string name="email_address">E-postadress</string>
 
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
@@ -3926,8 +3951,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Visar avreseflyg till {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Välj flyg till %1$s</string>
-    <!-- Outbound to template. -->
-    <string name="outbound_to_TEMPLATE">Avresa till {cityname} ({airportcode})</string>
+    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
+    <string name="package_outbound_flight_toolbar_title_TEMPLATE">Avresa till {cityname}, {country} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Flyg till %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3938,8 +3963,8 @@
     <string name="select_return_flight">Välj returflyg</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Flyg till %1$s</string>
-    <!-- Inbound to template. -->
-    <string name="inbound_to_TEMPLATE">Återresa till {cityname} ({airportcode})</string>
+    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
+    <string name="package_inbound_flight_toolbar_title_TEMPLATE">Återresa till {cityname}, {country} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4629,16 +4654,21 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">Ange kön</string>
     <string name="passport_validation_error_message">Ange passutfärdande land</string>
-    <!-- Itin screen message for adding a guest trip-->
-    <string name="itin_sign_in_add_guest_trip_message">Lägg manuellt till en resa du bokat som gäst</string>
-    <!-- Itinerary number hint -->
-    <string name="itinerary_number_hint">(i din e-postbekräftelse)</string>
+    <!-- Itin screen message for adding a guest trip button-->
+    <string name="itin_sign_in_add_guest_trip_button_text">Lägg manuellt till en resa du bokat som gäst</string>
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">Ange giltigt resplansnummer</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Logga in för att se dina kommande resor</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Hitta resa bokad som gäst</string>
+    <!-- Introduction text for find guest itinerary screen -->
+    <string name="find_guest_itinerary_intro_text">Har du bokat utan att logga in? Leta upp din resa med resplansnumret. Du hittar resplansnumret i e-postbekräftelsen.</string>
+    <!-- Hint to type in email address -->
+    <string name="find_guest_add_email_address_hint">E-post</string>
+    <!-- Hint to type in itinerary number -->
+    <string name="find_guest_add_itinerary_number_hint">Resplansnummer</string>
+
     <!-- Booking successful alert text-->
     <string name="booking_successful">Bokning genomförd!</string>
     <!-- Check your email for itinerary alert message-->

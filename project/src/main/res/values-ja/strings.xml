@@ -790,6 +790,24 @@
     <!-- "Done" list header label -->
     <string name="Done">完了</string>
 
+    <!-- Cabin Class label -->
+    <string name="cabin_class">キャビンクラス</string>
+
+    <!-- Cabin: Economy -->
+    <string name="cabin_code_TEMPLATE">キャビン : {cabincode}</string>
+
+    <!-- Flights Roundtrip label -->
+    <string name="roundtrip">往復</string>
+
+    <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
+    <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
+
+    <!-- Flight fare family departure arrival code for one way trip. for example: DEL - SFO -->
+    <string name="flight_departure_arrival_code_one_way_TEMPLATE">{departure_code} - {arrival_code}</string>
+
+    <!-- Flight airling names -->
+    <string name="flight_airline_names_delimiter">,\u0020</string>
+
     <!-- Label indicating the direction of the rails is outbond-->
     <string name="select_outbound">行きの便を選択する</string>
     <!-- Label indicating the direction of the rails is inbond-->
@@ -1058,6 +1076,12 @@
     <string name="enter_itinerary_number">旅程番号を入力してくださいボタン</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">旅程番号を入力してください</string>
+    <!-- Itin list view manually add guest trip intro text -->
+    <string name="itin_list_view_manually_add_guest_trip_intro_text">ログインせずにゲストとして予約した場合は、旅程番号で旅行を検索してください。</string>
+    <!-- Itin list view manually add guest trip button text -->
+    <string name="itin_list_view_manually_add_guest_trip_button_text">ゲストとして予約した旅行を手動で追加</string>
+    <!-- Itin list view manually add guest trip button content description -->
+    <string name="itin_list_view_manually_add_guest_trip_button_content_description">ゲストとして予約した旅行を手動で追加するボタン</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">お客様の旅程を取得しています…</string>
     <!-- Sign in for your trips -->
@@ -1889,6 +1913,9 @@
     <string name="cabin_code_business">ビジネス</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">ファーストクラス</string>
+
+    <!-- Label for "mixed" cabin code -->
+    <string name="cabin_code_mixed">混合</string>
     <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
     <string name="flight_cabin_mixed_classes">複数のクラス</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
@@ -2244,7 +2271,7 @@
     <!-- No assistance type -->
     <string name="no_assistance">サポート不要</string>
     <!-- Blind with seeing eye dog -->
-    <string name="blind_with_guide_dog">盲導犬をお連れの視覚障害者の方</string>
+    <string name="blind_with_guide_dog">視覚障害 (盲導犬の補助あり)</string>
     <!-- Deaf with hearing dog -->
     <string name="deaf_with_hearing_dog">聴導犬をお連れの聴覚障害者の方</string>
     <!-- Wheelchair needed -->
@@ -2293,6 +2320,8 @@
     <string name="air_attach_variant1_string">航空券を予約した人限定</string>
     <!-- Air attach messaging variant2 string2 -->
     <string name="air_attach_variant2_string2">航空券を予約した人限定のホテル割引</string>
+    <!-- Air attach card content description; describes the entire content on the air attach card; e.g. Offer expires soon. Save on a hotel because you booked a flight. Up to 55% off Chicago Hotels. Button -->
+    <string name="air_attach_card_cont_desc_TEMPLATE">{expiry}。{title}。{content}。ボタン</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">到着空港</string>
     <!-- Accessibility label for departing icon on itin  -->
@@ -3049,10 +3078,6 @@
     <string name="email_us">Eメールで問い合わせ</string>
     <!-- Support email body -->
     <string name="app_support_message_body">お気軽にお問い合わせください ! お問い合わせ時に以下の情報をお知らせください :</string>
-
-    <!-- App Feedback Activity -->
-    <!-- Hint to type in email address -->
-    <string name="email_address">Eメールアドレス</string>
 
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
@@ -3926,8 +3951,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">{city}への行きの便を表示中</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$sへのフライトを選択</string>
-    <!-- Outbound to template. -->
-    <string name="outbound_to_TEMPLATE">行きの目的地 : {cityname} ({airportcode})</string>
+    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
+    <string name="package_outbound_flight_toolbar_title_TEMPLATE">行きの目的地 : {cityname}, {country} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">%1$sへのフライト</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3938,8 +3963,8 @@
     <string name="select_return_flight">帰りの便を選択</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">%1$sへのフライト</string>
-    <!-- Inbound to template. -->
-    <string name="inbound_to_TEMPLATE">帰りの到着地 : {cityname} ({airportcode})</string>
+    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
+    <string name="package_inbound_flight_toolbar_title_TEMPLATE">帰りの到着地 : {cityname}, {country} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}、{travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -3994,7 +4019,7 @@
     <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
     <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name}設定バー {value}</string>
     <!-- Content description for slider role. Example: Arrival Time Start Range Slider 12:00am, use back-and-forth gesture or local context menu to adjust -->
-    <string name="accessibility_slider_cont_desc_name_role_value_TEMPLATE">レンジスライダ、{name}{value}。左右に動かすか、ローカルコンテキストメニューを使用して調節してください</string>
+    <string name="accessibility_slider_cont_desc_name_role_value_TEMPLATE">{name}範囲設定{value}。左右に動かすか、ローカルコンテキストメニューを使用して調節してください</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">ホテルを変更する</string>
@@ -4629,16 +4654,21 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">性別を選択してください</string>
     <string name="passport_validation_error_message">パスポートの発行国を選択してください</string>
-    <!-- Itin screen message for adding a guest trip-->
-    <string name="itin_sign_in_add_guest_trip_message">ゲストとして予約した旅行を手動で追加する</string>
-    <!-- Itinerary number hint -->
-    <string name="itinerary_number_hint">(確認メールに記載)</string>
+    <!-- Itin screen message for adding a guest trip button-->
+    <string name="itin_sign_in_add_guest_trip_button_text">ゲストとして予約した旅行を手動で追加</string>
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">有効な旅程番号を入力してください</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">サインインして今後の旅行予定にアクセスする</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">ゲストとして予約した旅行を検索</string>
+    <!-- Introduction text for find guest itinerary screen -->
+    <string name="find_guest_itinerary_intro_text">ログインせずにゲストとして予約した場合は、旅程番号で旅行を検索してください。旅程番号は予約確認通知に記載されています。</string>
+    <!-- Hint to type in email address -->
+    <string name="find_guest_add_email_address_hint">Eメール</string>
+    <!-- Hint to type in itinerary number -->
+    <string name="find_guest_add_itinerary_number_hint">旅程番号</string>
+
     <!-- Booking successful alert text-->
     <string name="booking_successful">予約完了 !</string>
     <!-- Check your email for itinerary alert message-->
