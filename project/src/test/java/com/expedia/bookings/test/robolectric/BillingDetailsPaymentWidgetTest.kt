@@ -253,12 +253,6 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
-    fun testSecureCheckoutDisabled() {
-        assertFalse("All Hotel A/B tests must be disabled for packages",
-                billingDetailsPaymentWidget.isSecureToolbarBucketed())
-    }
-
-    @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testIsAtLeastPartiallyFilled() {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)

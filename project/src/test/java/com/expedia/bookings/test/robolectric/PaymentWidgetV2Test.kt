@@ -149,20 +149,6 @@ class PaymentWidgetV2Test {
     }
 
     @Test
-    fun testSecureCheckoutBucketed() {
-        updateABTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging,
-                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
-        assertTrue(sut.isSecureToolbarBucketed())
-    }
-
-    @Test
-    fun testSecureCheckoutControl() {
-        updateABTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging,
-                AbacusUtils.DefaultVariant.CONTROL.ordinal)
-        assertFalse(sut.isSecureToolbarBucketed())
-    }
-
-    @Test
     fun testEmptyPopulateCardholderName() {
         setupCardholderNameSubscriptions()
 

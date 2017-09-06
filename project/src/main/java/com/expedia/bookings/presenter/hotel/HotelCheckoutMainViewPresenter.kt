@@ -122,8 +122,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     }
 
     override fun getToolbarTitle(): String {
-        return getCheckoutToolbarTitle(resources,
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging))
+        return getCheckoutToolbarTitle(resources)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {

@@ -998,8 +998,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging);
-
 		StringBuilder events = new StringBuilder("event70");
 		if (trip.isRewardsRedeemable()) {
 			events.append(",");

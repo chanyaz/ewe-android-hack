@@ -4,12 +4,8 @@ import android.content.res.Resources
 import com.expedia.bookings.R
 import com.squareup.phrase.Phrase
 
-fun getCheckoutToolbarTitle(res: Resources, isSecureToolbarTestBucketed: Boolean): String {
-    if (isSecureToolbarTestBucketed) {
-        return res.getString(R.string.secure_checkout)
-    } else {
-        return res.getString(R.string.checkout_text)
-    }
+fun getCheckoutToolbarTitle(res: Resources): String {
+    return res.getString(R.string.checkout_text)
 }
 
 fun getMainTravelerToolbarTitle(res: Resources): String {

@@ -447,7 +447,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun setToolbarTitle() {
-        travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
+        travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources))
     }
 
     /** User account refresher **/
@@ -578,7 +578,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 travelersPresenter.viewModel.updateCompletionStatus()
                 setToolbarTitle()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
-                travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
+                travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources))
             } else {
                 decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
             }

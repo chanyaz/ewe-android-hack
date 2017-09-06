@@ -531,7 +531,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     private val defaultTransition = object : Presenter.DefaultTransition(PaymentDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
             viewmodel.menuVisibility.onNext(false)
-            toolbarTitle.onNext(getCheckoutToolbarTitle(resources, isSecureToolbarBucketed()))
+            toolbarTitle.onNext(getCheckoutToolbarTitle(resources))
             cardInfoContainer.visibility = View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility = View.GONE
@@ -551,7 +551,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     if (forward) {
                         resources.getString(R.string.checkout_enter_payment_details)
                     } else {
-                        getCheckoutToolbarTitle(resources, isSecureToolbarBucketed())
+                        getCheckoutToolbarTitle(resources)
                     })
             storedCreditCardList.bind()
             if (!forward) validateAndBind()
@@ -589,7 +589,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             PaymentDetails::class.java) {
         override fun endTransition(forward: Boolean) {
             viewmodel.menuVisibility.onNext(forward)
-            setToolbarTitleForPaymentDetailsView(forward, getCheckoutToolbarTitle(resources, isSecureToolbarBucketed()))
+            setToolbarTitleForPaymentDetailsView(forward, getCheckoutToolbarTitle(resources))
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE
@@ -686,10 +686,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         return (userStateManager.isUserAuthenticated() && Db.getUser().storedCreditCards.isNotEmpty()
                 && getLineOfBusiness() != LineOfBusiness.RAILS)
                 || Db.getTemporarilySavedCard() != null
-    }
-
-    open fun isSecureToolbarBucketed(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)
     }
 
     private fun temporarilySavedCardIsSelected(isSelected: Boolean, info: BillingInfo?) {

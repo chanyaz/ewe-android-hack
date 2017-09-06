@@ -149,10 +149,6 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
                 && (!isStateRequired() || addressState.text.toString().isNotEmpty())) || hasStoredCard()
     }
 
-    override fun isSecureToolbarBucketed(): Boolean {
-        return false
-    }
-
     override fun close() {
         clearBackStack()
         val activity = context as Activity
