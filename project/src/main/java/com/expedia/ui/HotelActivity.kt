@@ -86,6 +86,9 @@ class HotelActivity : AbstractAppCompatActivity() {
             clearCCNumber()
             clearStoredCard()
         }
+        else {
+            Ui.hideKeyboard(this)
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

@@ -193,6 +193,9 @@ class PackageActivity : AbstractAppCompatActivity() {
             clearCCNumber()
             clearStoredCard()
         }
+        else {
+            Ui.hideKeyboard(this)
+        }
     }
 
     override fun onDestroy() {

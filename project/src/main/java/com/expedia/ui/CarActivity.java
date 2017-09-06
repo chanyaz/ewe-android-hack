@@ -68,6 +68,9 @@ public class CarActivity extends AbstractAppCompatActivity {
 			clearCCNumber();
 			clearStoredCard();
 		}
+		else {
+			Ui.hideKeyboard(this);
+		}
 	}
 
 	@Subscribe

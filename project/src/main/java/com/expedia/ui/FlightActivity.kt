@@ -39,6 +39,9 @@ class FlightActivity : AbstractAppCompatActivity() {
             clearCCNumber()
             clearStoredCard()
         }
+        else {
+            Ui.hideKeyboard(this)
+        }
     }
 
     private fun handleDeeplink() {

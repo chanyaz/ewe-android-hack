@@ -206,6 +206,9 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 			clearCCNumber();
 			clearStoredCard();
 		}
+		else {
+			Ui.hideKeyboard(this);
+		}
 	}
 
 	@Override
