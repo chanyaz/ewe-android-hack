@@ -5,17 +5,21 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripComponent
+import com.expedia.bookings.test.CustomMatchers
+import com.expedia.bookings.test.NullSafeMockitoHamcrest
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.OmnitureTracking
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.never
-import org.mockito.verification.VerificationMode
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import kotlin.test.assertEquals
@@ -125,6 +129,59 @@ class NotificationReceiverTest {
         Mockito.verify(mockItineraryManager, never()).addSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
         Mockito.verify(mockItineraryManager, never()).startSync(false)
         assertEquals(1, allNotifications.size)
+    }
+
+    @Test
+    fun testNotificationShownOmnitureTracking() {
+        val context = Robolectric.buildActivity(Activity::class.java).create().get()
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val shadowNotificationManager = shadowOf(notificationManager)
+
+        val listOfNotificationTypes = listOf(
+                Notification.NotificationType.ACTIVITY_START,
+                Notification.NotificationType.CAR_DROP_OFF,
+                Notification.NotificationType.CAR_PICK_UP,
+                Notification.NotificationType.FLIGHT_CHECK_IN,
+                Notification.NotificationType.FLIGHT_SHARE,
+                Notification.NotificationType.FLIGHT_CANCELLED,
+                Notification.NotificationType.FLIGHT_GATE_TIME_CHANGE,
+                Notification.NotificationType.FLIGHT_GATE_NUMBER_CHANGE,
+                Notification.NotificationType.FLIGHT_BAGGAGE_CLAIM,
+                Notification.NotificationType.HOTEL_CHECK_IN,
+                Notification.NotificationType.HOTEL_CHECK_OUT,
+                Notification.NotificationType.FLIGHT_DEPARTURE_REMINDER,
+                Notification.NotificationType.DESKTOP_BOOKING
+        )
+
+        for (notificationType in listOfNotificationTypes) {
+            shadowNotificationManager.cancelAll()
+            makeNotificationAndShow(context, notificationType, notificationType.name)
+            val allNotifications = shadowNotificationManager.allNotifications
+            assertEquals(1, allNotifications.size)
+            val trackingLink: String = OmnitureTracking.setItinNotificationLink(makeNotification(notificationType.name, notificationType))
+            assertLinkTrackedWhenNotificationShown(trackingLink, trackingLink, "event208", mockAnalyticsProvider)
+        }
+    }
+
+    private fun makeNotificationAndShow(context: Context, notificationType: Notification.NotificationType, id: String) {
+        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
+        val notificationReceiver = TestNotificationReceiver(mockItineraryManager, null)
+
+        val listener = notificationReceiver.makeValidTripSyncListener(context, makeNotification(id, notificationType), mockItineraryManager)
+        listener.onSyncFinished(makeTrip(id))
+    }
+
+    private fun assertLinkTrackedWhenNotificationShown(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {
+        val expectedData = mapOf(
+                "&&linkType" to "o",
+                "&&linkName" to linkName,
+                "&&v28" to rfrrId,
+                "&&c16" to rfrrId,
+                "&&events" to event
+        )
+
+        Mockito.verify(mockAnalyticsProvider).trackAction(Mockito.eq(linkName), NullSafeMockitoHamcrest.mapThat(CustomMatchers.hasEntries(expectedData)))
     }
 
     private fun makeNotification(uniqueId: String, type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED): Notification {
