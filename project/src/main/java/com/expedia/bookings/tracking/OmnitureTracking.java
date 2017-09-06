@@ -2601,6 +2601,24 @@ public class OmnitureTracking {
 	private static final String NOTIFICATION_DESKTOP_BOOKING_CONFIRMATION = "Itinerary.Purchase.Confirmation";
 
 	public static void trackNotificationClick(Notification notification) {
+		String link = setItinNotificationLink(notification);
+		Log.d(TAG, "Tracking \"" + link + "\" click");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(11, link);
+		s.setEvents("event212");
+		s.trackLink(null, "o", link, null, null);
+	}
+
+	public static void trackNotificationShown(Notification notification) {
+		String link = setItinNotificationLink(notification);
+		ADMS_Measurement s = createTrackLinkEvent(link);
+		s.setEvents("event208");
+		s.trackLink(null, "o", link, null, null);
+	}
+
+	@VisibleForTesting
+	public static String setItinNotificationLink(Notification notification) {
 		NotificationType type = notification.getNotificationType();
 		String link = null;
 		switch (type) {
@@ -2648,16 +2666,7 @@ public class OmnitureTracking {
 			Log.w(TAG, "Unknown Notification Type \"" + type.name() + "\". Taking a guess.");
 			break;
 		}
-
-		Log.d(TAG, "Tracking \"" + link + "\" click");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setEvar(11, link);
-		s.setEvents("event212");
-
-		s.trackLink(null, "o", link, null, null);
+		return link;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

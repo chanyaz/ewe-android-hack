@@ -37,6 +37,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
@@ -440,6 +441,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			android.app.Notification notif = builder.build();
 			NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 			nm.notify(mNotification.getUniqueId(), 0, notif);
+			OmnitureTracking.trackNotificationShown(mNotification);
 		}
 	}
 }
