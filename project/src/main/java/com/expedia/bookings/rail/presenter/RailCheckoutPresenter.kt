@@ -16,7 +16,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.otto.Events
@@ -158,7 +157,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
     override fun accountLoginClicked() {
         val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.RAILS, CheckoutLoginExtender())
-        User.signIn(context as Activity, args)
+        userStateManager.signIn(context as Activity, args)
     }
 
     override fun accountLogoutClicked() {

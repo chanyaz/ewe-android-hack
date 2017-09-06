@@ -40,7 +40,6 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
@@ -412,7 +411,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public synchronized void startLoginActivity() {
 		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
-		User.signIn(getActivity(), args);
+		userStateManager.signIn(getActivity(), args);
 	}
 
 	@NonNull

@@ -28,7 +28,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.TextViewDialog
@@ -305,7 +304,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
         signInButton.setOnClickListener {
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.SignIn, null)
-            User.signIn(activity, args)
+            userStateManager.signIn(activity, args)
         }
 
         signOutButton.setOnClickListener {
@@ -315,7 +314,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
         facebookSignInButton.setOnClickListener {
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.FacebookSignIn, null)
-            User.signIn(activity, args)
+            userStateManager.signIn(activity, args)
         }
 
         createAccountButton.setOnClickListener {

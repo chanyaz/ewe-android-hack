@@ -29,7 +29,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -837,7 +836,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@Override
 	public void accountLoginClicked() {
 		Bundle args = AccountLibActivity.createArgumentsBundle(getLineOfBusiness(), new CheckoutLoginExtender());
-		User.signIn((Activity) getContext(), args);
+		userStateManager.signIn((Activity) getContext(), args);
 	}
 
 	@Override

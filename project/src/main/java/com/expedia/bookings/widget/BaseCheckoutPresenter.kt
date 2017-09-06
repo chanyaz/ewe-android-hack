@@ -24,7 +24,6 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TwoScreenOverviewState
@@ -457,7 +456,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     override fun accountLoginClicked() {
         val args = AccountLibActivity.createArgumentsBundle(getLineOfBusiness(), CheckoutLoginExtender())
-        User.signIn(context as Activity, args)
+        userStateManager.signIn(context as Activity, args)
     }
 
     override fun accountLogoutClicked() {

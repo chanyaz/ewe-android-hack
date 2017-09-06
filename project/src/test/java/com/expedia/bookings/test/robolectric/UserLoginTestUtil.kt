@@ -9,6 +9,8 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
+import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.utils.Ui
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 
@@ -32,7 +34,7 @@ class UserLoginTestUtil {
             val shadowAccountManager = shadowOf(manager)
             shadowAccountManager.addAccount(account)
 
-            User.signIn(activity, null)
+            Ui.getApplication(activity).appComponent().userStateManager().signIn(activity)
         }
 
         @JvmStatic

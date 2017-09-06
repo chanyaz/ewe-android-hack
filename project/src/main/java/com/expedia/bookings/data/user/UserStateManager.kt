@@ -2,12 +2,15 @@ package com.expedia.bookings.data.user
 
 import android.accounts.Account
 import android.accounts.AccountManager
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
+import android.os.Bundle
 import android.util.TimingLogger
 import com.expedia.account.AccountService
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.activity.RestrictedProfileActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -18,6 +21,30 @@ import com.expedia.model.UserLoginStateChangedModel
 
 class UserStateManager(private val context: Context, private val userLoginStateChangedModel: UserLoginStateChangedModel, private val notificationManager: NotificationManager) {
     private val SAVED_INFO_FILENAME = "user.dat"
+
+    @JvmOverloads
+    fun signIn(activity: Activity, options: Bundle? = null, restrictedProfileSource: RestrictedProfileSource? = null, loginProvider: AccountLoginProvider? = null) {
+        performSignIn(activity, options, restrictedProfileSource ?: RestrictedProfileSource(activity), loginProvider ?: AccountLoginProvider(AccountManager.get(context)))
+    }
+
+    private fun performSignIn(activity: Activity, options: Bundle?, restrictedProfileSource: RestrictedProfileSource, loginProvider: AccountLoginProvider) {
+        if (restrictedProfileSource.isRestrictedProfile()) {
+            val restrictedProfileIntent = RestrictedProfileActivity.createIntent(context)
+            activity.startActivity(restrictedProfileIntent)
+        }
+        else {
+            val accountType = activity.getString(R.string.expedia_account_type_identifier)
+            val tokenType = activity.getString(R.string.expedia_account_token_type_tuid_identifier)
+
+            val activeAccount = loginProvider.getAccountsByType(accountType)?.firstOrNull()
+
+            if (activeAccount != null) {
+                loginProvider.getAuthToken(activeAccount, accountType, options, activity, null, null)
+            } else {
+                loginProvider.addAccount(accountType, tokenType, null, options, activity, null, null)
+            }
+        }
+    }
 
     fun signOutPreservingCookies() {
         performSignOut(false)
@@ -41,9 +68,7 @@ class UserStateManager(private val context: Context, private val userLoginStateC
         userLoginStateChangedModel.userLoginStateChanged.onNext(false)
     }
 
-    fun isUserAuthenticated(): Boolean {
-        return User.isLoggedIn(context)
-    }
+    fun isUserAuthenticated(): Boolean = User.isLoggedIn(context)
 
     fun onLoginAccountsChanged() {
         if (User.isLoggedInOnDisk(context) && !User.isLoggedInToAccountManager(context)) {
@@ -86,7 +111,7 @@ class UserStateManager(private val context: Context, private val userLoginStateC
 
             val accounts = manager.getAccountsByType(accountType)
 
-            if (accounts.isNotEmpty()) {
+            if (accounts?.isNotEmpty() == true) {
                 accounts.forEach {
                     if (it.name == user.primaryTraveler.email) accountExists = true
                     else manager.removeAccount(it, null, null)
@@ -114,7 +139,7 @@ class UserStateManager(private val context: Context, private val userLoginStateC
         val manager = AccountManager.get(context)
         val accounts = manager.getAccountsByType(accountType)
 
-        if (accounts.isNotEmpty()) {
+        if (accounts?.isNotEmpty() == true) {
             val account = accounts.first()
             ContentResolver.setIsSyncable(account, contentAuthority, 0)
             manager.removeAccount(account, null, null)
