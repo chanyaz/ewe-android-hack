@@ -93,12 +93,6 @@
             android:summary="Hide Form Fields Based on Billing Country Address"
             android:title="Hide Form Fields Based on Billing Country Address" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_hide_apac_billing_address_fields"
-            android:layout="@layout/preference"
-            android:summary="Hide Apac Billing Address Fields"
-            android:title="Hide Apac Billing Address Fields" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
