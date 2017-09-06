@@ -18,6 +18,10 @@ import com.expedia.bookings.widget.LocationMapImageView
 import com.expedia.bookings.widget.TextView
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
+import android.content.Intent
+import android.net.Uri
+import java.util.Locale
+
 
 class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
     val locationMapImageView: LocationMapImageView by bindView(R.id.widget_hotel_itin_map)
@@ -33,6 +37,25 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
     fun setupWidget(itinCardDataHotel: ItinCardDataHotel) {
         if (itinCardDataHotel.propertyLocation != null) {
             locationMapImageView.setLocation(LatLong(itinCardDataHotel.propertyLocation.latitude, itinCardDataHotel.propertyLocation.longitude))
+            locationMapImageView.setOnClickListener {
+                val propertyName = itinCardDataHotel.propertyName
+                val propertyLat = itinCardDataHotel.propertyLocation.latitude
+                val propertyLong = itinCardDataHotel.propertyLocation.longitude
+
+                //specific intent for turn by turn
+                val gmmIntentUri = String.format(Locale.getDefault(), "google.navigation:q=") + android.net.Uri.encode(String.format("%s@%f,%f", propertyName, propertyLat, propertyLong), "UTF-8")
+                val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(gmmIntentUri))
+                context.startActivity(mapIntent)
+
+
+                //general intent
+//                val uri = String.format(Locale.getDefault(), "geo:0,0?q=") + android.net.Uri.encode(String.format("%s@%f,%f", propertyName, propertyLat, propertyLong), "UTF-8");
+//                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+//                intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT
+//                intent.flags = Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
+//                intent.data = Uri.parse(uri)
+//                context.startActivity(intent)
+            }
         }
         addressLine1.text = itinCardDataHotel.propertyLocation.streetAddressString
         addressLine2.text = itinCardDataHotel.propertyLocation.toTwoLineAddressFormattedString()
