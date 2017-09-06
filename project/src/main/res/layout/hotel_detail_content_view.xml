@@ -150,7 +150,7 @@
                 android:gravity="center_vertical" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/per_night"
+                android:id="@+id/price_per_descriptor"
                 style="@style/Core.Text.XLarge.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -162,12 +162,20 @@
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
+            android:id="@+id/tax_fee_descriptor"
+            style="@style/Core.Text.Small.LightColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/hotel_price_container" />
+
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/earn_message"
             style="@style/Core.Text.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/hotel_price_container"
+            android:layout_below="@+id/tax_fee_descriptor"
             android:layout_marginTop="4dp"
             android:drawableLeft="@drawable/earn_message_icon"
             android:drawablePadding="@dimen/earn_message_icon_dimen"

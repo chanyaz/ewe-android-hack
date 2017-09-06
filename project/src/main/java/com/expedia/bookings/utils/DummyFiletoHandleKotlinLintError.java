@@ -1230,6 +1230,11 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.dummy_state,
 		R.string.dummy_country,
 		R.string.dummy_postal_code,
+		R.string.total_stay,
+		R.plurals.hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE,
+		R.plurals.hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE,
+		R.string.total_including_taxes_fees,
+		R.string.excluding_taxes_fees,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt
 	};

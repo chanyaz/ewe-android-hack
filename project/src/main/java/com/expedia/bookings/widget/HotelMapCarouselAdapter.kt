@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.setInverseVisibility
+import com.expedia.util.setTextAndVisibility
 import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import com.mobiata.android.text.StrikethroughTagHandler
@@ -146,8 +147,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         }
 
         private fun updatePricing(viewModel: HotelViewModel) {
-            hotelStrikeThroughPrice.text = viewModel.hotelStrikeThroughPriceFormatted
-            hotelStrikeThroughPrice.updateVisibility(viewModel.shouldShowStrikeThroughPrice())
+            hotelStrikeThroughPrice.setTextAndVisibility(viewModel.hotelStrikeThroughPriceFormatted)
             hotelPricePerNight.text = viewModel.hotelPriceFormatted
             hotelPricePerNight.setTextColor(viewModel.pricePerNightColor)
             hotelPricePerNight.setInverseVisibility(viewModel.isHotelSoldOut)

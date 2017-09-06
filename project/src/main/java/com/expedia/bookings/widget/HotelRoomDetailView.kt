@@ -38,7 +38,8 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
     private val depositTermsTextView: TextView by bindView(R.id.deposit_terms_text_view)
     private val strikeThroughTextView: TextView by bindView(R.id.strike_through_price_text_view)
     private val pricePerNightTextView: TextView by bindView(R.id.price_per_night_text_view)
-    private val perNightTextView: TextView by bindView(R.id.per_night_text_view)
+    private val pricePerDescriptorTextView: TextView by bindView(R.id.price_per_descriptor_text_view)
+    private val taxFeeDescriptorTextView: TextView by bindView(R.id.tax_fee_descriptor)
     private val hotelRoomRowButton: HotelRoomRateActionButton by bindView(R.id.hotel_room_row_button)
     private val roomLeftContainer: LinearLayout by bindView(R.id.room_left_container)
     private val urgencyIcon: ImageView by bindView(R.id.urgency_icon)
@@ -60,7 +61,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         strikeThroughTextView.paintFlags = strikeThroughTextView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
         pricePerNightTextView.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
-        perNightTextView.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
+        pricePerDescriptorTextView.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
 
         val urgencyIconDrawable = ContextCompat.getDrawable(context, R.drawable.urgency).mutate()
         urgencyIconDrawable.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_message_color), PorterDuff.Mode.SRC_IN)
@@ -101,8 +102,10 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         }
 
         pricePerNightTextView.setTextAndVisibility(viewModel.pricePerNightString)
-        perNightTextView.updateVisibility(viewModel.showPerNight)
+        pricePerDescriptorTextView.setTextAndVisibility(viewModel.pricePerDescriptorString)
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
+
+        taxFeeDescriptorTextView.setTextAndVisibility(viewModel.taxFeeDescriptorString)
 
         hotelRoomRowButton.bookButtonClickedSubject.subscribe(hotelRoomRowClickedSubject)
 

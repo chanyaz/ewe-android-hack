@@ -144,13 +144,19 @@
                 android:textColor="@color/hotel_cell_disabled_text" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/per_night_text_view"
+                android:id="@+id/price_per_descriptor_text_view"
                 style="@style/Core.Text.Default.LightColor"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/per_night" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/tax_fee_descriptor"
+            style="@style/Core.Text.Small.LightColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp" />
 
         <com.expedia.bookings.widget.HotelRoomRateActionButton
             android:id="@+id/hotel_room_row_button"

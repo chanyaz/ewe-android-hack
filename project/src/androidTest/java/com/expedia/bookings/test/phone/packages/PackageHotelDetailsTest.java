@@ -38,9 +38,9 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 
 		HotelScreen.selectRoomButton().perform(click());
 		onView(allOf(withId(R.id.daily_price_per_night), withText("+$0"))).perform(waitForViewToDisplay());
-		onView(allOf(withId(R.id.per_night),
+		onView(allOf(withId(R.id.price_per_descriptor),
 			hasSibling(allOf(withId(R.id.daily_price_per_night), withText("+$0"))))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.per_night),
+		onView(allOf(withId(R.id.price_per_descriptor),
 			hasSibling(allOf(withId(R.id.daily_price_per_night), withText("-$3.21"))))).check(
 			matches(isDisplayed()));
 	}
@@ -55,7 +55,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
-		onView(allOf(withId(R.id.per_night), withText(" per person")));
+		onView(allOf(withId(R.id.price_per_descriptor), withText(" per person")));
 		onView(withId(R.id.hotel_search_info)).check(matches(withText("Feb 3 - Feb 4, 3 guests")));
 	}
 

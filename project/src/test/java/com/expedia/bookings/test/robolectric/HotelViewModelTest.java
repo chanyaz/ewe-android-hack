@@ -88,7 +88,6 @@ public class HotelViewModelTest {
 
 		setupSystemUnderTest();
 
-		assertTrue(vm.shouldShowStrikeThroughPrice());
 		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().toString());
 		assertEquals("Test Hotel with 2 stars of 5 rating.\u0020Earn 320 points Regularly $12, now $10.\u0020Button",
 			vm.getHotelContentDesc().toString());
@@ -167,7 +166,6 @@ public class HotelViewModelTest {
 
 		HotelViewModel vm = new HotelViewModel(getContext());
 		vm.bindHotelData(firstHotel);
-		assertTrue(vm.shouldShowStrikeThroughPrice());
 		assertEquals("$538", vm.getHotelStrikeThroughPriceFormatted().toString());
 	}
 
@@ -189,8 +187,8 @@ public class HotelViewModelTest {
 		Hotel firstHotel = response.getHotels().get(1);
 
 		HotelViewModel vm = new HotelViewModel(getContext());
-		vm.bindHotelData(hotel);
-		assertFalse(vm.shouldShowStrikeThroughPrice());
+		vm.bindHotelData(firstHotel);
+		assertNull(vm.getHotelStrikeThroughPriceFormatted());
 	}
 
 	private SuggestionV4 getDummySuggestion() {
@@ -213,8 +211,7 @@ public class HotelViewModelTest {
 
 		setupSystemUnderTest();
 
-		assertFalse(vm.shouldShowStrikeThroughPrice());
-		assertEquals("", vm.getHotelStrikeThroughPriceFormatted());
+		assertNull(vm.getHotelStrikeThroughPriceFormatted());
 	}
 
 	@Test
@@ -224,8 +221,7 @@ public class HotelViewModelTest {
 
 		setupSystemUnderTest();
 
-		assertFalse(vm.shouldShowStrikeThroughPrice());
-		assertEquals("", vm.getHotelStrikeThroughPriceFormatted());
+		assertNull(vm.getHotelStrikeThroughPriceFormatted());
 	}
 
 	@Test
@@ -235,7 +231,7 @@ public class HotelViewModelTest {
 		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
 		setupSystemUnderTest();
 
-		assertTrue(vm.shouldShowStrikeThroughPrice());
+		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().toString());
 		assertEquals("$0", vm.getHotelPriceFormatted());
 	}
 

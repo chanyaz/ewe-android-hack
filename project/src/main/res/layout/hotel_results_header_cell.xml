@@ -14,9 +14,9 @@
         android:id="@+id/results_description_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="9dp"
+        android:background="@color/gray1"
         android:paddingBottom="8dp"
-        android:background="@color/gray1">
+        android:paddingTop="9dp">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/results_description_header"
@@ -30,24 +30,24 @@
             android:id="@+id/results_header_info_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/results_description_header"
             android:layout_marginLeft="8dp"
-            android:visibility="gone"
-            android:src="@drawable/details_info"
-            android:contentDescription="@string/how_we_determine_sort_order"
             android:layout_toRightOf="@+id/results_description_header"
-            android:layout_alignBottom="@id/results_description_header" />
+            android:contentDescription="@string/how_we_determine_sort_order"
+            android:src="@drawable/details_info"
+            android:visibility="gone" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/loyalty_points_applied_message"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_below="@+id/results_description_header"
+            android:layout_centerHorizontal="true"
             android:paddingTop="2dp"
             android:text="@string/loyalty_applied_excluding_taxes_and_fees_message"
             android:textColor="@color/hotels_primary_color"
             android:textSize="@dimen/temporary_font_size_small"
-            android:visibility="gone"
-            android:layout_below="@+id/results_description_header"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

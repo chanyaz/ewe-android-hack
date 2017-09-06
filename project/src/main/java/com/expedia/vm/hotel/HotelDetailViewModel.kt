@@ -2,8 +2,10 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -32,6 +34,15 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
     }
 
     override fun pricePerDescriptor(): String {
+        val firstHotelRoomResponse = hotelOffersResponse.hotelRoomResponse?.firstOrNull()
+        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        if (firstHotelRoomResponse != null && bucketedToShowPriceDescriptorProminence) {
+            val priceType = firstHotelRoomResponse?.rateInfo?.chargeableRateInfo?.getUserPriceType()
+            return when (priceType) {
+                HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_stay)
+                else -> context.getString(R.string.per_night)
+            }
+        }
         return context.getString(R.string.per_night)
     }
 

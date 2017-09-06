@@ -11,6 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
@@ -204,7 +205,9 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                 shadow.visibility = View.GONE
             }
 
-            vm.resultsDescriptionHeaderObservable.subscribeText(resultsDescriptionHeader)
+            vm.resultsDescriptionHeaderObservable.subscribe { resultsDescription ->
+                resultsDescriptionHeader.text = HtmlCompat.fromHtml(resultsDescription)
+            }
             vm.loyaltyAvailableObservable.subscribeVisibility(loyaltyPointsAppliedHeader)
 
             vm.sortFaqLinkAvailableObservable.subscribe { faqLinkAvailable ->

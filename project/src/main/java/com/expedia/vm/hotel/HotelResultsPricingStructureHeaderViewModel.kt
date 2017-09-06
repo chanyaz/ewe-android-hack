@@ -1,7 +1,9 @@
 package com.expedia.vm.hotel
 
 import android.content.res.Resources
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
@@ -31,22 +33,32 @@ class HotelResultsPricingStructureHeaderViewModel(private val resources: Resourc
             val priceType = response.userPriceType
             val doesSearchResultsHaveLoyaltyInformation = response.hasLoyaltyInformation
             val hotelResultsCount = list.size
-            val totalPriceAndResultsCountHeader =
-                    when (priceType) {
+            val priceDescriptorAndResultsCountHeader: String
+
+            if (shouldShowPackageIncludesTaxesMessage) {
+                val hotelResultsCount = resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                priceDescriptorAndResultsCountHeader = Phrase.from(resources, R.string.package_hotel_results_includes_header_TEMPLATE)
+                        .put("totalpriceresultcountheader", hotelResultsCount)
+                        .format()
+                        .toString()
+            } else {
+                val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+                if (bucketedToShowPriceDescriptorProminence) {
+                    priceDescriptorAndResultsCountHeader = when (priceType) {
+                        HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> resources.getQuantityString(R.plurals.hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                        HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> resources.getQuantityString(R.plurals.hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                        else -> resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                    }
+                } else {
+                    priceDescriptorAndResultsCountHeader = when (priceType) {
                         HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
                         HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE, hotelResultsCount, hotelResultsCount)
                         else -> resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
                     }
-
-            if (shouldShowPackageIncludesTaxesMessage) {
-                val headerWithTaxesAndFees = Phrase.from(resources, R.string.package_hotel_results_includes_header_TEMPLATE)
-                        .put("totalpriceresultcountheader", totalPriceAndResultsCountHeader)
-                        .format()
-                        .toString()
-                resultsDescriptionHeaderObservable.onNext(headerWithTaxesAndFees)
-            } else {
-                resultsDescriptionHeaderObservable.onNext(totalPriceAndResultsCountHeader)
+                }
             }
+
+            resultsDescriptionHeaderObservable.onNext(priceDescriptorAndResultsCountHeader)
 
             loyaltyAvailableObservable.onNext(doesSearchResultsHaveLoyaltyInformation)
 

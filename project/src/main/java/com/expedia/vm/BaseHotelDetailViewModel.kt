@@ -144,6 +144,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val promoImageObservable = BehaviorSubject.create<Int>(0)
     val earnMessageObservable = BehaviorSubject.create<String>()
     val earnMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val taxFeeDescriptorObservable = BehaviorSubject.create<String>()
+    val taxFeeDescriptorVisibilityObservable = BehaviorSubject.create<Boolean>()
 
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
@@ -207,7 +209,16 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         (strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut) && (shopWithPointsObservable || (!showAirAttachedObservable && !isBucketForHideStrikeThroughPrice))
     }
 
-    val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut -> onlyShowTotalPrice || hotelSoldOut }
+    val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut ->
+        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        if (bucketedToShowPriceDescriptorProminence) {
+            !hotelSoldOut
+        } else {
+            !(onlyShowTotalPrice || hotelSoldOut)
+        }
+    }
+
+    val pricePerDescriptorObservable = BehaviorSubject.create<String>()
 
     val payByPhoneContainerVisibility = Observable.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
@@ -525,6 +536,17 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         val earnMessageVisibility = LoyaltyUtil.shouldShowEarnMessage(earnMessage, offerResponse.isPackage)
         earnMessageObservable.onNext(earnMessage)
         earnMessageVisibilityObservable.onNext(earnMessageVisibility)
+        val priceDescriptor: String
+        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        if (bucketedToShowPriceDescriptorProminence) {
+            val priceType = firstHotelRoomResponse?.rateInfo?.chargeableRateInfo?.getUserPriceType()
+            priceDescriptor = priceDescriptorForPriceType(priceType) ?: ""
+        } else {
+            priceDescriptor = ""
+        }
+        val priceDescriptorVisibility = priceDescriptor.isNotBlank()
+        taxFeeDescriptorObservable.onNext(priceDescriptor)
+        taxFeeDescriptorVisibilityObservable.onNext(priceDescriptorVisibility)
 
         val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
         val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
@@ -547,6 +569,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
 
         hotelLatLngObservable.onNext(doubleArrayOf(offerResponse.latitude, offerResponse.longitude))
+
+        pricePerDescriptorObservable.onNext( pricePerDescriptor() )
     }
 
     private fun getGalleryUrls(): ArrayList<HotelMedia> {
@@ -637,6 +661,14 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
                     .toString()
         } else {
             priceToShowCustomerObservable.value + context.getString(R.string.per_night)
+        }
+    }
+
+    protected fun priceDescriptorForPriceType(priceType: HotelRate.UserPriceType?): String? {
+        return when (priceType) {
+            HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_including_taxes_fees)
+            HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.getString(R.string.excluding_taxes_fees)
+            else -> null
         }
     }
 }

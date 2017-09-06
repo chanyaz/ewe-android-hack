@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -39,11 +40,12 @@ open class HotelViewModel(private val context: Context) {
     val hotelId: String get() = hotel.hotelId
     val hotelName: String get() = hotel.localizedName
     val hotelPriceFormatted: CharSequence get() = priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)
-    val hotelStrikeThroughPriceFormatted: CharSequence get() = priceFormatter(resources, hotel.lowRateInfo, true, !hotel.isPackage)
+    val hotelStrikeThroughPriceFormatted: CharSequence? get() = getStrikeThroughPriceToShowUsers()
     val strikeThroughPriceToShowUsers: Float get() = hotel.lowRateInfo?.strikethroughPriceToShowUsers ?: -1f
     val priceToShowUsers: Float get() = hotel.lowRateInfo?.priceToShowUsers ?: -1f
     val pricePerNight: CharSequence get() = priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)
     val pricePerNightColor: Int get() = ContextCompat.getColor(context, getPricePerNightTextColor())
+    val pricePerDescriptor: String? get() = getPricePerDescriptorString()
 
     val topAmenityTitle: String get() = getTopAmenityTitle(resources)
     val loyaltyAvailable: Boolean get() = hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false
@@ -105,22 +107,11 @@ open class HotelViewModel(private val context: Context) {
         } else return ""
     }
 
-    fun shouldShowStrikeThroughPrice(): Boolean {
-        if (isHotelSoldOut) {
-            return false
-        }
-
-        if (hotel.isPackage) {
-            val showPackageTripSavings = hotel.packageOfferModel?.price?.showTripSavings ?: false
-
-            return showPackageTripSavings
-        } else if (LoyaltyUtil.isShopWithPoints(hotel.lowRateInfo)) {
-            return true
-        } else if (!hotel.lowRateInfo.airAttached &&
-                !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
-            return priceToShowUsers < strikeThroughPriceToShowUsers
+    fun getStrikeThroughPriceToShowUsers(): CharSequence? {
+        if (shouldShowStrikeThroughPrice()) {
+            return priceFormatter(resources, hotel.lowRateInfo, true, !hotel.isPackage)
         } else {
-            return false
+            return null
         }
     }
 
@@ -227,7 +218,7 @@ open class HotelViewModel(private val context: Context) {
 
         result.append(earnMessage + " ")
 
-        if (shouldShowStrikeThroughPrice()) {
+        if (hotelStrikeThroughPriceFormatted != null) {
             result.append(Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
                     .put("strikethroughprice", hotelStrikeThroughPriceFormatted)
                     .put("price", pricePerNight)
@@ -245,11 +236,29 @@ open class HotelViewModel(private val context: Context) {
         return result.build()
     }
 
+    private fun shouldShowStrikeThroughPrice(): Boolean {
+        if (isHotelSoldOut) {
+            return false
+        }
+
+        if (hotel.isPackage) {
+            val showPackageTripSavings = hotel.packageOfferModel?.price?.showTripSavings ?: false
+
+            return showPackageTripSavings
+        } else if (LoyaltyUtil.isShopWithPoints(hotel.lowRateInfo)) {
+            return true
+        } else if (!hotel.lowRateInfo.airAttached &&
+                !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
+            return priceToShowUsers < strikeThroughPriceToShowUsers
+        } else {
+            return false
+        }
+    }
+
     private fun getMemberDealUrgencyMessage(): UrgencyMessage? {
         if (hasMemberDeal(hotel)) {
             return UrgencyMessage(R.drawable.ic_hotel_member, R.color.hotel_member_pricing_bg_color,
                     resources.getString(R.string.member_pricing), R.color.hotel_member_pricing_text_color)
-
         }
         return null
     }
@@ -281,6 +290,20 @@ open class HotelViewModel(private val context: Context) {
             }
         }
         return null
+    }
+
+    private fun getPricePerDescriptorString(): String? {
+        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val priceType = hotel.lowRateInfo.getUserPriceType()
+        if (bucketedToShowPriceDescriptorProminence) {
+            return when (priceType) {
+                HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_stay)
+                HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.getString(R.string.per_night)
+                else -> null
+            }
+        } else {
+            return null
+        }
     }
 
     private fun getTopAmenityTitle(resources: Resources): String {

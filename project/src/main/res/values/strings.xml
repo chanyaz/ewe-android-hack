@@ -692,9 +692,11 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">We couldn\&apos;t determine your current location to find activities around you.</string> 
+    <string name="error_lx_current_location_search_message">We couldn\&apos;t determine your current location to find activities around you.</string>
+
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">We couldn\&apos;t determine your current location to find transportation around you.</string> 
+    <string name="error_gt_current_location_search_message">We couldn\&apos;t determine your current location to find transportation around you.</string>
+
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Error</string>
     <!-- Text for error toolbar-->
@@ -2593,6 +2595,8 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/night</string>
+    <!-- The label for total price for the stay - "$120 total stay", for example -->
+    <string name="total_stay">&#160;total stay</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Not Rated</string>
 
@@ -2792,6 +2796,14 @@
         <item quantity="other">Prices average per night • %d Results</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">No Results</item>
+        <item quantity="one">&lt;b&gt;Prices average per night&lt;/b&gt; • 1 Result</item>
+        <item quantity="many">&lt;b&gt;Prices average per night&lt;/b&gt; • %d Results</item>
+        <item quantity="other">&lt;b&gt;Prices average per night&lt;/b&gt; • %d Results</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">No Results</item>
@@ -2805,6 +2817,14 @@
         <item quantity="one">Total price for stay • 1 Result</item>
         <item quantity="many">Total price for stay • %d Results</item>
         <item quantity="other">Total price for stay • %d Results</item>
+    </plurals>
+
+    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">No Results</item>
+        <item quantity="one">&lt;b&gt;Total price for stay&lt;/b&gt; • 1 Result</item>
+        <item quantity="many">&lt;b&gt;Total price for stay&lt;/b&gt; • %d Results</item>
+        <item quantity="other">&lt;b&gt;Total price for stay&lt;/b&gt; • %d Results</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -4756,5 +4776,9 @@
     <string name="location_soft_prompt_subtitle">Explore nearby, browse hotels near you, get directions, and more.</string>
     <string name="location_soft_prompt_enable">Enable Location</string>
     <string name="location_soft_prompt_disable">Not now</string>
+
+    <!--price descriptor for different hotel rate type-->
+    <string name="total_including_taxes_fees">Total including taxes and fees</string>
+    <string name="excluding_taxes_fees">Excluding taxes and fees</string>
 
 </resources>

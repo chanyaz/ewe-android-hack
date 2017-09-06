@@ -85,10 +85,11 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     private val hotelPriceContainer: View by bindView(R.id.hotel_price_container)
     @VisibleForTesting val price: TextView by bindView(R.id.price)
-    private val perDescriptor: TextView by bindView(R.id.per_night)
+    private val pricePerDescriptor: TextView by bindView(R.id.price_per_descriptor)
     @VisibleForTesting val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     @VisibleForTesting val searchInfo: TextView by bindView(R.id.hotel_search_info)
     private val earnMessage: TextView by bindView(R.id.earn_message)
+    private val taxFeeDescriptor: TextView by bindView(R.id.tax_fee_descriptor)
 
     private val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     private val noGuestRating: TextView by bindView(R.id.no_guest_rating)
@@ -231,8 +232,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.priceToShowCustomerObservable.subscribeText(price)
         vm.roomPriceToShowCustomer.subscribeText(price)
         vm.searchInfoObservable.subscribeText(searchInfo)
-        vm.perNightVisibility.subscribeInverseVisibility(perDescriptor)
-        perDescriptor.text = vm.pricePerDescriptor()
+        vm.perNightVisibility.subscribeVisibility(pricePerDescriptor)
+        vm.pricePerDescriptorObservable.subscribeText(pricePerDescriptor)
 
         vm.hotelPriceContentDesc.subscribeContentDescription(hotelPriceContainer)
 
@@ -264,11 +265,13 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.hasRegularLoyaltyPointsAppliedObservable.subscribeVisibility(regularLoyaltyMessage)
         vm.promoMessageObservable.subscribeText(promoMessage)
         vm.earnMessageObservable.subscribeText(earnMessage)
+        vm.earnMessageVisibilityObservable.subscribeVisibility(earnMessage)
+        vm.taxFeeDescriptorObservable.subscribeText(taxFeeDescriptor)
+        vm.taxFeeDescriptorVisibilityObservable.subscribeVisibility(taxFeeDescriptor)
+
         vm.promoImageObservable.subscribe { promoImage ->
             promoMessage.setCompoundDrawablesWithIntrinsicBounds(promoImage, 0, 0, 0)
         }
-
-        vm.earnMessageVisibilityObservable.subscribeVisibility(earnMessage)
 
         vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
 
@@ -640,7 +643,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     }
 
     private fun priceViewAlpha(ratio: Float) {
-        perDescriptor.alpha = ratio
+        pricePerDescriptor.alpha = ratio
         price.alpha = ratio
         searchInfo.alpha = ratio
         strikeThroughPrice.alpha = ratio

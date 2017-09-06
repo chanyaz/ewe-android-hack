@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.setInverseVisibility
+import com.expedia.util.setTextAndVisibility
 import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 
@@ -16,6 +17,7 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
     val priceContainer: LinearLayout by bindView(R.id.price_container)
     val strikeThroughPriceTextView: TextView by bindView(R.id.strike_through_price)
     val pricePerNightTextView: TextView by bindView(R.id.price_per_night)
+    val pricePerDescriptorTextView: TextView by bindView(R.id.price_per_descriptor)
     val topAmenityTextView: TextView by bindView(R.id.top_amenity)
     val soldOutTextView: TextView by bindView(R.id.sold_out_text)
 
@@ -35,14 +37,15 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
         if (viewModel.isHotelSoldOut) {
             topAmenityTextView.visibility = View.GONE
         } else {
-            strikeThroughPriceTextView.visibility = if (viewModel.shouldShowStrikeThroughPrice()) View.VISIBLE else View.GONE
-            strikeThroughPriceTextView.text = viewModel.hotelStrikeThroughPriceFormatted
+            strikeThroughPriceTextView.setTextAndVisibility(viewModel.hotelStrikeThroughPriceFormatted)
 
             pricePerNightTextView.text = viewModel.pricePerNight
             pricePerNightTextView.setTextColor(viewModel.pricePerNightColor)
 
-            topAmenityTextView.visibility = if (viewModel.topAmenityTitle.isNotBlank()) View.VISIBLE else View.GONE
-            topAmenityTextView.text = viewModel.topAmenityTitle
+            pricePerDescriptorTextView.setTextAndVisibility(viewModel.pricePerDescriptor)
+            pricePerDescriptorTextView.setTextColor(viewModel.pricePerNightColor)
+
+            topAmenityTextView.setTextAndVisibility(viewModel.topAmenityTitle)
         }
     }
 }

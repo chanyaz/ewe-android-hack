@@ -38,7 +38,7 @@ class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
                 .format()
                 .toString())
 
-        if (shouldShowStrikeThroughPrice()) {
+        if (hotelStrikeThroughPriceFormatted != null) {
             result.append(Phrase.from(context, R.string.hotel_price_cont_desc_TEMPLATE)
                     .put("strikethroughprice", hotelStrikeThroughPriceFormatted)
                     .format()

@@ -86,7 +86,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
 
     private val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     private val dailyPricePerNight: TextView by bindView(R.id.daily_price_per_night)
-    private val perNight: TextView by bindView(R.id.per_night)
+    private val pricePerDescriptor: TextView by bindView(R.id.price_per_descriptor)
 
     private val roomDiscountPercentage: TextView by bindView(R.id.discount_percentage)
     private val roomInfoContainer: RelativeLayout by bindView(R.id.room_info_container)
@@ -168,7 +168,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         vm.shouldShowDiscountPercentage.subscribeVisibility(roomDiscountPercentage)
         vm.collapsedBedTypeObservable.subscribeText(collapsedBedType)
         vm.expandedBedTypeObservable.subscribeText(expandedBedType)
-        vm.perNightPriceVisibleObservable.map { it && !vm.onlyShowTotalPrice.value }.subscribeVisibility(perNight)
+        vm.perNightPriceVisibleObservable.map { it && !vm.onlyShowTotalPrice.value }.subscribeVisibility(pricePerDescriptor)
         vm.expandedAmenityObservable.subscribe { text ->
             expandedAmenity.setTextAndVisibility(text)
         }
@@ -330,8 +330,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             collapsedContainer.setBackgroundColor(Color.WHITE)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
             dailyPricePerNight.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
-            perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
-            perNight.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
+            pricePerDescriptor.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+            pricePerDescriptor.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
 
             (row.background as TransitionDrawable).startTransition(animationDuration.toInt())
 
@@ -373,8 +373,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             roomInfoContainer.setPadding(0, 0, 0, 0)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             dailyPricePerNight.setTextColor(ContextCompat.getColor(context, R.color.hotel_cell_disabled_text))
-            perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-            perNight.setTextColor(ContextCompat.getColor(context, R.color.hotel_cell_disabled_text))
+            pricePerDescriptor.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            pricePerDescriptor.setTextColor(ContextCompat.getColor(context, R.color.hotel_cell_disabled_text))
 
             (row.background as TransitionDrawable).reverseTransition(animationDuration.toInt())
 
