@@ -7,6 +7,7 @@ import android.os.PersistableBundle
 import android.support.v4.content.ContextCompat
 import android.transition.ChangeBounds
 import com.expedia.bookings.R
+import com.expedia.bookings.dagger.HotelComponentInjector
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -36,9 +37,11 @@ class HotelActivity : AbstractAppCompatActivity() {
         hotelPresenter.findViewById(R.id.details_map_view) as MapView
     }
 
+    val hotelComponentInjector = HotelComponentInjector()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Ui.getApplication(this).defaultHotelComponents()
+        hotelComponentInjector.inject(this)
         setContentView(R.layout.activity_hotel)
         Ui.showTransparentStatusBar(this)
         val mapState = savedInstanceState?.getBundle(Constants.HOTELS_MAP_STATE)
@@ -116,7 +119,7 @@ class HotelActivity : AbstractAppCompatActivity() {
         hotelPresenter.searchPresenter.shopWithPointsWidget.shopWithPointsViewModel.subscription.unsubscribe()
         resultsMapView.onDestroy()
         detailsMapView.onDestroy()
-        Ui.getApplication(this).setHotelComponent(null)
+        hotelComponentInjector.clear(this)
         super.onDestroy()
     }
 
