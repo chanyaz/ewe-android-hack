@@ -56,7 +56,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	public SectionTravelerInfo sectionTravelerInfo;
 
 	@InjectView(R.id.enter_details_text)
-	TextView enterDetailsText;
+	public TextView enterDetailsText;
 
 	@InjectView(R.id.traveler_phone_text)
 	TextView travelerPhoneText;
@@ -257,7 +257,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
 			if (lineOfBusiness == LineOfBusiness.HOTELS) {
 				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
-				enterDetailsText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1));
+				enterDetailsText.setText(getResources().getString(R.string.enter_traveler_details));
 				travelerPhoneText.setVisibility(VISIBLE);
 				travelerPhoneText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line2));
 			}
