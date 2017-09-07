@@ -6,7 +6,6 @@ import android.webkit.CookieSyncManager;
 
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.model.DismissedItinButton;
@@ -43,9 +42,6 @@ public class ClearPrivateDataUtil {
 
 		// Clear suggestions from tablet search
 		SuggestionProvider.clearRecents(context);
-
-		// Tablet launch tile stuff
-		Sp.clear(context);
 
 		// Clear anything else out that might remain
 		Db.clear();

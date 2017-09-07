@@ -8,22 +8,11 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.squareup.phrase.Phrase;
 
 public class HotelUtils {
-
-
-	/*
-	 * Helper method to check if it's valid to start the hotel search.
-	 */
-	public static boolean dateRangeSupportsHotelSearch(Context context) {
-		// TODO should we be referring to Db.getHotelSearch() or Sp.toHotelSearch() ??
-		return Sp.getParams().toHotelSearchParams().getStayDuration() <= context.getResources()
-			.getInteger(R.integer.calendar_max_days_hotel_stay);
-	}
 
 	// Distance formatting
 	public static boolean isDistanceUnitInMiles() {
