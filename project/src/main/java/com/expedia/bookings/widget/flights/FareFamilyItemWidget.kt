@@ -11,6 +11,7 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.flights.FareFamilyItemViewModel
 import rx.Observer
@@ -24,6 +25,7 @@ class FareFamilyItemWidget (context: Context, attrs: AttributeSet): LinearLayout
     val priceDelta: TextView by bindView(R.id.fare_family_class_price_delta)
     val fareFamilyCabinClass: TextView by bindView(R.id.fare_family_class_subtitle)
     val roundTrip: TextView by bindView(R.id.fare_family_class_roundtrip_text)
+    val travellerTextView: TextView by bindView(R.id.fare_family_traveller_text)
     var viewModel: FareFamilyItemViewModel? = null
 
     val clickObserver: Observer<Unit> = endlessObserver {
@@ -37,6 +39,8 @@ class FareFamilyItemWidget (context: Context, attrs: AttributeSet): LinearLayout
         fareFamilyCabinClass.text = viewModel.cabinClass
         priceDelta.text = viewModel.fareDeltaAmount
         viewModel.roundTripObservable.subscribeVisibility(roundTrip)
+        travellerTextView.text = viewModel.travellerText
+        travellerTextView.visibility = viewModel.travellerTextVisibility
         fareFamilyRadioButton.isChecked = viewModel.defaultChecked
         fareFamilyRadioButton.subscribeOnClick(clickObserver)
         fareFamilyClassHeader.subscribeOnClick(clickObserver)
