@@ -30,10 +30,6 @@ fun isFrequentFlyerNumberForFlightsEnabled(context: Context): Boolean {
             && isMaterialFormsEnabled()
 }
 
-fun isHideFormFieldsEnabled(context: Context): Boolean {
-    return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hide_form_fields_based_on_billing_country_address)
-}
-
 fun isMidAPIEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
 }

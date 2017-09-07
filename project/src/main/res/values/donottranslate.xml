@@ -123,7 +123,6 @@
     <string name="preference_show_baggage_info_payment_info_overview">preference_show_baggage_info_payment_info_overview</string>
     <string name="preference_enable_flights_frequent_flyer_number">preference_enable_flights_frequent_flyer_number</string>
     <string name="preference_satellite_config">preference_satellite_config</string>
-    <string name="preference_hide_form_fields_based_on_billing_country_address">preference_hide_form_fields_based_on_billing_country_address</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
     <string name="preference_trips_hotel_scheduled_notifications">preference_trips_hotel_scheduled_notifications</string>
     <string name="preference_soft_prompt_permission">preference_soft_prompt_permission</string>

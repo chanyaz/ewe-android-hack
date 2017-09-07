@@ -22,7 +22,6 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isHideFormFieldsEnabled
 import com.expedia.bookings.widget.updatePaddingForOldApi
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeMaterialFormsError
@@ -213,11 +212,9 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             editCountryEditText?.setText(countryName)
             sectionLocation.location.countryCode = billingCountry
 
-            if (isHideFormFieldsEnabled(context)) {
-                val twoLetterCountryCode = sectionLocation.materialCountryAdapter
-                        .getItemValue(countryPosition, CountrySpinnerAdapter.CountryDisplayType.TWO_LETTER)
-                viewmodel.updateBillingCountryFields.onNext(twoLetterCountryCode)
-            }
+            val twoLetterCountryCode = sectionLocation.materialCountryAdapter
+                    .getItemValue(countryPosition, CountrySpinnerAdapter.CountryDisplayType.TWO_LETTER)
+            viewmodel.updateBillingCountryFields.onNext(twoLetterCountryCode)
         }
 
         sectionLocation.validateBillingCountrySubject.subscribe {
