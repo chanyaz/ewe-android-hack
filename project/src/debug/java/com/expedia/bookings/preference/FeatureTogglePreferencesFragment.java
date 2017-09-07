@@ -35,7 +35,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_populate_cardholder_name);
 		initializeFeatureCheck(R.string.preference_enable_secure_icon);
 		initializeFeatureCheck(R.string.preference_enable_flights_frequent_flyer_number);
-		initializeFeatureCheck(R.string.preference_hide_form_fields_based_on_billing_country_address);
 		initializeFeatureCheck(R.string.preference_allow_unknown_card_types);
 
 		//Flight Features
