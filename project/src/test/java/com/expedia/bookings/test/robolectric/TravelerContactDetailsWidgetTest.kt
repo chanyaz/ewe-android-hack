@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import org.joda.time.LocalDate
@@ -53,6 +54,24 @@ class TravelerContactDetailsWidgetTest {
         travelerWidget.sectionTravelerInfo.bind(null)
 
         assertEquals(Db.getTravelers()[0].tuid, 0)
+    }
+
+    @Test
+    fun testEnterDetailsTextForHotelsLob() {
+        travelerWidget.setLineOfBusiness(LineOfBusiness.HOTELS)
+        travelerWidget.sectionTravelerInfo.bind(null)
+        travelerWidget.bind()
+
+        assertEquals("Enter traveler details", travelerWidget.enterDetailsText.text.toString())
+    }
+
+    @Test
+    fun testEnterDetailsTextForLxLob() {
+        travelerWidget.setLineOfBusiness(LineOfBusiness.LX)
+        travelerWidget.sectionTravelerInfo.bind(null)
+        travelerWidget.bind()
+
+        assertEquals("Guest Details", travelerWidget.enterDetailsText.text.toString())
     }
 
     private fun getCompletedTraveler() : Traveler{
