@@ -1,12 +1,12 @@
 package com.expedia.vm.flights
 
+import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightTripResponse
-import com.squareup.phrase.Phrase
-import android.content.Context
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.FlightV2Utils.getDeltaPricing
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 class FareFamilyItemViewModel(val context: Context,
@@ -21,6 +21,7 @@ class FareFamilyItemViewModel(val context: Context,
     val fareFamilyCode = fareFamilyDetail.fareFamilyCode
     val fareDeltaAmount = getDeltaPricing(fareFamilyDetail.deltaTotalPrice, fareFamilyDetail.deltaPositive)
     val cabinClass = createCabinClass()
+    val travelerTextObservable = PublishSubject.create<String>()
 
     private fun createCabinClass(): String {
         return Phrase.from(context, R.string.cabin_code_TEMPLATE).put("cabincode",

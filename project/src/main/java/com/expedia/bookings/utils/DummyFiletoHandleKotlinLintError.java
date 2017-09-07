@@ -1184,6 +1184,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.save,
 		R.layout.widget_flight_traveler_picker,
 		R.layout.widget_flight_traveler_search,
+		R.string.flight_fare_family_upgrade_flight_roundtrip_label,
+		R.string.flight_fare_family_upgrade_flight_oneway_label,
 		R.plurals.number_of_infant,
 		R.string.flight_add_youth_number_TEMPLATE,
 		R.string.cost_summary_breakdown_discount_TEMPLATE,

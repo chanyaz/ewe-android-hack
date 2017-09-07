@@ -4421,8 +4421,6 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Preferred class {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">Upgrade your flights</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">Change unsuccessful</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
     <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Sorry, &lt;b&gt;{selected_upgrade}&lt;/b&gt; is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.</string>
@@ -4430,6 +4428,10 @@
     <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Sorry, &lt;b&gt;{selected_upgrade}&lt;/b&gt; is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">Change your cabin class</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Upgrade your flights</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">Upgrade your flight</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">From</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->

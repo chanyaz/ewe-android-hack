@@ -20,12 +20,14 @@ class FareFamilyCardView(context: Context, attrs: AttributeSet) : CardView(conte
     val deltaPriceView: TextView by bindView(R.id.upgrade_delta_price)
     val fareFamilyTitle: TextView by bindView(R.id.fare_family_title)
     val fromLabel: TextView by bindView(R.id.fare_family_from_label)
+    val travellerTextView: TextView by bindView(R.id.traveller)
 
     var viewModel: FareFamilyViewModel by notNullAndObservable { vm ->
         vm.selectedClassObservable.subscribeText(selectedClassTextView)
         vm.deltaPriceObservable.subscribeTextAndVisibility(deltaPriceView)
         vm.fromLabelVisibility.subscribeVisibility(fromLabel)
         vm.fareFamilyTitleObservable.subscribeText(fareFamilyTitle)
+        vm.travellerObservable.subscribeTextAndVisibility(travellerTextView)
         vm.widgetVisibilityObservable.subscribeVisibility(this)
         subscribeOnClick(vm.fareFamilyCardClickObserver)
     }

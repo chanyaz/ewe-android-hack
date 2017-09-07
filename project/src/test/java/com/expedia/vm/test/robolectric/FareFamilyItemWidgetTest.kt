@@ -124,6 +124,25 @@ class FareFamilyItemWidgetTest {
     }
 
     @Test
+    fun testTravelerTextForMoreThanOneTraveller() {
+        Db.setFlightSearchParams(setupFlightSearchParams(2, 2, false))
+        fareFamilyWidget.viewModel.tripObservable.onNext(flightCreateTripResponse)
+        fareFamilyWidget.viewModel.showFareFamilyObservable.onNext(Unit)
+        var firstFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(0) as FareFamilyItemWidget
+        assertEquals("4 travelers" , firstFareFamilyItem.travelerTextView.text)
+        assertEquals(View.VISIBLE , firstFareFamilyItem.travelerTextView.visibility)
+    }
+
+    @Test
+    fun testTravelerTextForOneTraveller() {
+        Db.setFlightSearchParams(setupFlightSearchParams(1, 0, false))
+        fareFamilyWidget.viewModel.tripObservable.onNext(flightCreateTripResponse)
+        fareFamilyWidget.viewModel.showFareFamilyObservable.onNext(Unit)
+        val firstFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(0) as FareFamilyItemWidget
+        assertEquals(View.GONE , firstFareFamilyItem.travelerTextView.visibility)
+    }
+
+    @Test
     fun testRoundTripMessageVisibility() {
         Db.setFlightSearchParams(setupFlightSearchParams(2, 2, false))
         fareFamilyWidget.viewModel.tripObservable.onNext(flightCreateTripResponse)

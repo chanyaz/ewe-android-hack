@@ -1,59 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="15dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:minHeight="84dp"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:paddingTop="15dp">
+        android:paddingTop="10dp"
+        android:weightSum="1">
 
         <com.expedia.bookings.widget.RoundImageView
             android:id="@+id/fare_family_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:src="@drawable/flight_overview_upsell_seat" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/fare_family_title"
-            style="@style/Core.Text.XLarge.Medium"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/fare_family_icon"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:text="@string/flight_fare_family_upgrade_flight_label" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/selected_classes"
-            style="@style/Core.Text.Default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fare_family_title"
-            android:layout_toRightOf="@id/fare_family_icon"
-            android:paddingLeft="10dp" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/fare_family_title"
+                style="@style/Core.Text.XLarge.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/fare_family_from_label"
-            style="@style/Core.Text.Default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/fare_family_title"
-            android:layout_gravity="end"
-            android:text="@string/flight_fare_family_from_label"
-            android:textSize="12sp" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/selected_classes"
+                style="@style/Core.Text.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="Selected Basic Economy" />
+        </LinearLayout>
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/upgrade_delta_price"
-            style="@style/Core.Text.XXLarge"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/selected_classes"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/fare_family_from_label"
+                style="@style/Core.Text.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flight_fare_family_from_label"
+                android:textSize="12sp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/upgrade_delta_price"
+                style="@style/Core.Text.XXLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/traveller"
+                android:text="$0.00" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/traveller"
+                style="@style/Core.Text.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
 </merge>

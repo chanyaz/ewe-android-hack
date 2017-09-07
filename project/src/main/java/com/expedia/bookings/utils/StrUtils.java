@@ -779,6 +779,16 @@ public class StrUtils {
 			numOfTravelers);
 	}
 
+	public static String formatMultipleTravelerString(Context context, int numOfTravelers) {
+		if (numOfTravelers > 1) {
+			return context.getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numOfTravelers,
+				numOfTravelers);
+		}
+		else {
+			return "";
+		}
+	}
+
 	public static String formatRoomString(Context context, int roomsCount) {
 		return Phrase.from(context.getResources().getQuantityString(R.plurals.number_of_room_TEMPLATE, roomsCount))
 			.put("room", roomsCount)

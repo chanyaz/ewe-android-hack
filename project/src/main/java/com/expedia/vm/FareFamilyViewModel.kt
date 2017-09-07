@@ -2,10 +2,12 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightV2Utils
+import com.expedia.bookings.utils.StrUtils
 import rx.subjects.PublishSubject
 
 class FareFamilyViewModel(private val context: Context) {
@@ -20,6 +22,7 @@ class FareFamilyViewModel(private val context: Context) {
     val deltaPriceObservable = PublishSubject.create<String>()
     val fareFamilyCardClickObserver = PublishSubject.create<Unit>()
     val fromLabelVisibility = PublishSubject.create<Boolean>()
+    val travellerObservable = PublishSubject.create<String>()
     val updateTripObserver = PublishSubject.create<Pair<String, FlightTripResponse.FareFamilyDetails>>()
     val isUserBucketedForFareFamily = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFareFamilyFlightSummary,
             R.string.preference_fare_family_flight_summary)
@@ -33,9 +36,16 @@ class FareFamilyViewModel(private val context: Context) {
                 if (!trip.isFareFamilyUpgraded) {
                     deltaPriceObservable.onNext(FlightV2Utils.getDeltaPricing(fareFamilyDetail.deltaTotalPrice, fareFamilyDetail.deltaPositive))
                     fromLabelVisibility.onNext(true)
-                    fareFamilyTitleObservable.onNext(context.getString(R.string.flight_fare_family_upgrade_flight_label))
+                    travellerObservable.onNext(StrUtils.formatMultipleTravelerString(context, Db.getFlightSearchParams().guests))
+                    fareFamilyTitleObservable.onNext(
+                            if (Db.getFlightSearchParams().isRoundTrip()) {
+                                context.getString(R.string.flight_fare_family_upgrade_flight_roundtrip_label)
+                            } else {
+                                context.getString(R.string.flight_fare_family_upgrade_flight_oneway_label)
+                            })
                 } else {
                     deltaPriceObservable.onNext("")
+                    travellerObservable.onNext("")
                     fromLabelVisibility.onNext(false)
                     fareFamilyTitleObservable.onNext(context.getString(R.string.flight_fare_family_change_class_label))
                 }

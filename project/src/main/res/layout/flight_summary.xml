@@ -60,8 +60,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/card_view_container_margin"
         android:layout_marginRight="@dimen/card_view_container_margin"
+        android:layout_marginBottom="10dp"
+        android:animateLayoutChanges="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
-        app:cardUseCompatPadding="true"
         android:visibility="gone"/>
 
     <LinearLayout

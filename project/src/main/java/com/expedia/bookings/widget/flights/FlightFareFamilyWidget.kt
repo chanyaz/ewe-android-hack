@@ -14,7 +14,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -74,6 +76,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
 
                 val fareFamilyItem = inflater.inflate(R.layout.flight_fare_family_item_layout, fareFamilyRadioGroup, false) as FareFamilyItemWidget
                 fareFamilyItem.bindViewModel(fareFamilyItemViewModel)
+                fareFamilyItemViewModel.travelerTextObservable.onNext(StrUtils.formatMultipleTravelerString(context, Db.getFlightSearchParams().guests))
                 vm.airlinesObservable.subscribe(fareFamilyItem.fareFamilyAmenitiesDialogView.viewModel.airlineNameSubject)
                 fareFamilyRadioGroup.addView(fareFamilyItem)
                 if (defaultChecked) {
