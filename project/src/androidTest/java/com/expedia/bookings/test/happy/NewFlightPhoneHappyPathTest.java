@@ -20,6 +20,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.SaveTravelerPrompt;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
@@ -205,6 +206,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(withId(R.id.traveler_number)).check(matches(withText("TN123456789")));
 		onView(withId(R.id.redress_number)).check(matches(withText("1234567")));
 		TravelerDetails.clickDone();
+
+		//This is needed for 6.0+ devices. So far we don't know why this happens only under automated test run,
+		// and it's a low enough priority where additional time might not be spent to fix this.
+		SaveTravelerPrompt.ifPresentClickSave();
 
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");

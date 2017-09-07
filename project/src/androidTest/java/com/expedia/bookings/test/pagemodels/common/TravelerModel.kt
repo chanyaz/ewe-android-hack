@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.pagemodels.common
 
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.closeSoftKeyboard
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
@@ -10,6 +11,8 @@ import android.support.test.espresso.contrib.PickerActions
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.uiautomator.UiDevice
+import android.support.test.uiautomator.UiSelector
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import org.hamcrest.Matchers.allOf
@@ -101,6 +104,22 @@ object TravelerModel {
 
         @JvmStatic fun btnSave(): ViewInteraction {
             return onView(withText("Save"))
+        }
+
+        @JvmStatic fun ifPresentClickSave(){
+            var device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+            var saveButton = device.findObject(UiSelector().text("Save"))
+            if (saveButton.exists()){
+                btnSave().perform(click())
+            }
+        }
+
+        @JvmStatic fun ifPresentClickNoThanks(){
+            var device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+            var saveButton = device.findObject(UiSelector().text("Save"))
+            if (saveButton.exists()){
+                btnNoThanks().perform(click())
+            }
         }
     }
 }
