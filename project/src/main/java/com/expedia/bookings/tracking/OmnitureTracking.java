@@ -2425,6 +2425,7 @@ public class OmnitureTracking {
 		s.setEvents("event63");
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppItinHotelRedesign);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUpgrade);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		s.track();
 	}
 
@@ -2483,6 +2484,7 @@ public class OmnitureTracking {
 	public static void trackItinFlight(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		s.setEvents("event63");
 		s.track();
 	}
@@ -2544,6 +2546,7 @@ public class OmnitureTracking {
 	public static void trackItinCar(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_CAR + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_CAR);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		s.setEvents("event63");
 		s.track();
 	}
@@ -2563,6 +2566,7 @@ public class OmnitureTracking {
 	public static void trackItinActivity(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_ACTIVITY + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_ACTIVITY);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		s.setEvents("event63");
 		s.track();
 	}
