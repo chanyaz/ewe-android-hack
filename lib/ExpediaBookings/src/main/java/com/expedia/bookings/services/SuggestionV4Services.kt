@@ -1,7 +1,6 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.SuggestionResultType
-import com.expedia.bookings.data.cars.SuggestionResponse
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.GaiaSuggestion
 import com.google.gson.GsonBuilder
@@ -20,7 +19,7 @@ import java.util.Collections
 open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, gaiaInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val suggestApi: SuggestApi by lazy {
-        val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
+        val gson = GsonBuilder().create()
 
         val adapter = Retrofit.Builder()
                 .baseUrl(essEndpoint)

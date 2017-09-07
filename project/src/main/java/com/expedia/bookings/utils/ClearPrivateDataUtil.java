@@ -4,7 +4,6 @@ import android.content.Context;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
-import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
@@ -40,14 +39,9 @@ public class ClearPrivateDataUtil {
 		// AirAsia Flight routes
 		Db.deleteCachedFlightRoutes(context);
 
-		// Clear suggestions from tablet search
-		SuggestionProvider.clearRecents(context);
-
 		// Clear anything else out that might remain
 		Db.clear();
 
-		// Clear LX and cars suggestions history
-		SuggestionUtils.deleteCachedSuggestions(context);
 		// Clear new hotels suggestions history
 		SuggestionV4Utils.deleteCachedSuggestions(context);
 

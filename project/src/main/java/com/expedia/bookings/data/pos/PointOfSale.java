@@ -28,7 +28,6 @@ import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -1227,9 +1226,6 @@ public class PointOfSale {
 
 		// clear all data
 		Db.clear();
-
-		// Clear suggestions from tablet search
-		SuggestionProvider.clearRecents(context);
 
 		// Download new flight route data for new POS (if applicable)
 		if (getPointOfSale().displayFlightDropDownRoutes()) {

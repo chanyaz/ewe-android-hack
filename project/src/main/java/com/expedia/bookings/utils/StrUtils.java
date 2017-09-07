@@ -36,8 +36,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.SuggestionResponse;
-import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.flights.FlightLeg;
@@ -380,17 +378,6 @@ public class StrUtils {
 		return SuggestionStrUtils.formatCityName(HtmlCompat.stripHtml(suggestion.regionNames.displayName));
 	}
 
-	public static String formatCity(SuggestionV2 suggestion) {
-		String city = null;
-		if (suggestion.getLocation() != null) {
-			city = suggestion.getLocation().getCity();
-		}
-		if (TextUtils.isEmpty(city)) {
-			city = HtmlCompat.stripHtml(suggestion.getDisplayName());
-		}
-		return SuggestionStrUtils.formatCityName(city);
-	}
-
 	public static String formatCityStateCountryName(String suggestion) {
 		String displayName = suggestion;
 		Matcher displayNameMatcher = DISPLAY_NAME_PATTERN.matcher(displayName);
@@ -463,22 +450,6 @@ public class StrUtils {
 			.put("airport_code", flightLeg.destinationAirportCode)
 			.put("airport_localname", flightLeg.destinationAirportLocalName)
 			.format().toString();
-	}
-
-	public static String formatDisplayName(SuggestionResponse suggestionResponse) {
-		String displayName = suggestionResponse.getSuggestions().get(0).getDisplayName();
-		if (displayName.indexOf(",") != displayName.lastIndexOf(",")
-			&& suggestionResponse.getSuggestions().size() > 1) {
-			for (int i = 1; i < suggestionResponse.getSuggestions().size(); i++) {
-				if (suggestionResponse.getSuggestions().get(i).getDisplayName().indexOf(",") == suggestionResponse
-					.getSuggestions()
-					.get(i).getDisplayName().lastIndexOf(",")) {
-					displayName = suggestionResponse.getSuggestions().get(i).getDisplayName();
-					break;
-				}
-			}
-		}
-		return displayName;
 	}
 
 	public static SpannableStringBuilder generateBaggageFeesTextWithClickableLinks(Context context, String outboundBaggageFeeUrl, String inboundBaggageFeeUrl) {

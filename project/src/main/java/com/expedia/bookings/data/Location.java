@@ -183,11 +183,6 @@ public class Location implements JSONable, Parcelable {
 		mRegionType = regionType;
 	}
 
-	public boolean isMetroCode() {
-		return "METROCODE".equals(mSearchType)
-			|| SuggestionV2.RegionType.METROCODE.name().equals(mRegionType);
-	}
-
 	// Update this Location's fields with data from another, without blowing
 	// away any data currently stored here (if there's no new value)
 	public void updateFrom(Location other) {

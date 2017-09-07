@@ -563,7 +563,6 @@ android.applicationVariants.all { variant ->
 
     variant.resValue "string", "authority_autocomplete_hotel", "${variant.applicationId}.autocomplete.hotel"
     variant.resValue "string", "authority_autocomplete_airport", "${variant.applicationId}.autocomplete.airport"
-    variant.resValue "string", "authority_autocomplete_suggestions", "${variant.applicationId}.suggestions"
     variant.resValue "string", "authority_account_sync", "${variant.applicationId}.account.sync"
 
     def launcherName = GradleUtil.getAppName(project, variant)

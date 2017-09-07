@@ -11,7 +11,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.zip.GZIPInputStream;
 
@@ -42,7 +41,6 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.GsonResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
@@ -55,9 +53,7 @@ import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
-import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionResultType;
-import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
@@ -70,7 +66,6 @@ import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.launch.data.LaunchDestinationCollections;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
@@ -265,75 +260,6 @@ public class ExpediaServices implements DownloadListener {
 		Log.d(TAG_REQUEST, "Autosuggest request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(get, responseHandler, 0);
-	}
-
-	public SuggestionResponse suggestions(String query) {
-		if (query == null || query.length() < getMinSuggestQueryLength()) {
-			return null;
-		}
-
-		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.AUTOCOMPLETE) + query);
-
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		int regionType =
-			SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.POINT_OF_INTEREST
-				| SuggestionResultType.FLIGHT;
-		params.add(new BasicNameValuePair("regiontype", "" + regionType));
-		params.add(new BasicNameValuePair("features", "ta_hierarchy"));
-		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
-		params.add(new BasicNameValuePair("client", ServicesUtil.generateClient(mContext)));
-
-		return doSuggestionRequest(url, params, false);
-	}
-
-	public SuggestionResponse suggestionsAirportsNearby(double latitude, double longitude, SuggestionSort sort) {
-		return suggestionsGaiaNearby(latitude, longitude, sort, "flights");
-	}
-
-	private SuggestionResponse suggestionsGaiaNearby(double latitude, double longitude, SuggestionSort sort,
-		String lob) {
-		String url = NetUtils.formatUrl(getGaiaNearbySuggestUrl());
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		String sortCriteria = (sort == SuggestionSort.DISTANCE) ? "distance" : "popularity";
-		params.add(new BasicNameValuePair("lat", "" + latitude));
-		params.add(new BasicNameValuePair("lng", "" + longitude));
-		params.add(new BasicNameValuePair("limit", "2"));
-		params.add(new BasicNameValuePair("lob", lob));
-		params.add(new BasicNameValuePair("sortBy", sortCriteria));
-		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
-		params.add(new BasicNameValuePair("site", "" + PointOfSale.getPointOfSale().getSiteId()));
-
-		return doSuggestionRequest(url, params, true);
-	}
-
-	public SuggestionResponse suggestionsHotelId(String hotelId) {
-		String url = NetUtils.formatUrl(getSuggestUrl(2, SuggestType.HID));
-
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(params);
-
-		params.add(new BasicNameValuePair("id", hotelId));
-
-		return doSuggestionRequest(url, params, false);
-	}
-
-	private SuggestionResponse doSuggestionRequest(String url, List<BasicNameValuePair> params, boolean isGaiaNearby) {
-		Request.Builder get = createHttpGet(url, params);
-
-		// Make sure the response comes back as JSON
-		get.addHeader("Accept", "application/json");
-
-		// Some logging before passing the request along
-		Log.d(TAG_REQUEST, "Suggestion request: " + url + "?" + NetUtils.getParamsForLogging(params));
-
-		if (isGaiaNearby) {
-			get.addHeader("key", ServicesUtil.getGaiaApiKey(mContext));
-			return doRequest(get, new GaiaSuggestionResponseHandler(), 0);
-		}
-		else {
-			return doRequest(get, new SuggestionResponseHandler(), 0);
-		}
 	}
 
 	/**
@@ -1051,24 +977,6 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Launch data
-
-	private String getLaunchEndpointUrl() {
-		return mEndpointProvider.getE3EndpointUrl() + "/static/mobile/LaunchDestinations";
-	}
-
-	public LaunchDestinationCollections getLaunchCollections(String localeString) {
-		String lowerPos = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase(Locale.US);
-		String url = getLaunchEndpointUrl() + "/" + lowerPos + "/collections_" + localeString + ".json";
-		GsonResponse<LaunchDestinationCollections> result = doLaunchDataRequest(url, null,
-			LaunchDestinationCollections.class);
-		if (result == null) {
-			return null;
-		}
-		return result.get();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Request code
 
 	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
@@ -1134,14 +1042,6 @@ public class ExpediaServices implements DownloadListener {
 		Log.d(TAG_REQUEST, "User reviews request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(get, responseHandler, F_IGNORE_COOKIES);
-	}
-
-	private <T> GsonResponse<T> doLaunchDataRequest(String url, List<BasicNameValuePair> params, Class<T> clazz) {
-		Request.Builder get = createHttpGet(url, params);
-
-		Log.d(TAG_REQUEST, "Launch destination data request: " + url + "?" + NetUtils.getParamsForLogging(params));
-
-		return (GsonResponse) doRequest(get, new AutoJsonResponseHandler(clazz), F_IGNORE_COOKIES);
 	}
 
 	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
