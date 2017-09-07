@@ -5,10 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.CarServices
 import com.expedia.bookings.tracking.CarWebViewTracking
 import com.expedia.ui.CarActivity
@@ -21,10 +21,10 @@ class CarNavUtils : NavUtils() {
             sendKillActivityBroadcast(context)
             CarWebViewTracking().trackAppCarAAtest()
             CarWebViewTracking().trackAppCarWebViewABTest()
-            if (PointOfSale.getPointOfSale().supportsCarsWebView() && Db.getAbacusResponse().isUserBucketedForTest(PointOfSale.getPointOfSale().carsWebViewABTestID)) {
+            if (PointOfSale.getPointOfSale().supportsCarsWebView() && AbacusFeatureConfigManager.isUserBucketedForTest(PointOfSale.getPointOfSale().carsWebViewABTestID)) {
                 val builder = LOBWebViewActivity.IntentBuilder(context)
                 CarWebViewTracking().trackAppCarFlexViewABTest()
-                if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsFlexView)) {
+                if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsFlexView)) {
                     builder.setUrl("https://www." + PointOfSale.getPointOfSale().url + "/carshomepage?mcicid=App.Cars.WebView")
                 } else {
                     builder.setUrl(PointOfSale.getPointOfSale().carsTabWebViewURL)

@@ -33,7 +33,7 @@ class RailTrackingTest {
 
         sut.trackRailSearchInit()
 
-        assertStateTracked("App.Rail.Dest-Search", withAbacusTestControl(AbacusUtils.EBAndroidAppAPIMAuth), mockAnalyticsProvider)
+        assertStateTracked("App.Rail.Dest-Search", withAbacusTestControl(AbacusUtils.EBAndroidAppAPIMAuth.key), mockAnalyticsProvider)
     }
 
     @Test
@@ -42,6 +42,6 @@ class RailTrackingTest {
 
         sut.trackRailSearchInit()
 
-        assertStateTracked("App.Rail.Dest-Search", withAbacusTestBucketed(AbacusUtils.EBAndroidAppAPIMAuth), mockAnalyticsProvider)
+        assertStateTracked("App.Rail.Dest-Search", withAbacusTestBucketed(AbacusUtils.EBAndroidAppAPIMAuth.key), mockAnalyticsProvider)
     }
 }

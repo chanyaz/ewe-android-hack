@@ -3,12 +3,12 @@ package com.expedia.bookings.data.flights
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.utils.FlightV2Utils
 import org.joda.time.format.ISODateTimeFormat
 import java.util.ArrayList
 import java.util.HashMap
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.utils.FlightV2Utils
 
 class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Traveler>, cvv: String, expectedTotalFare: String, expectedFareCurrencyCode: String, suppressFinalBooking: Boolean, tripId: String, val tealeafTransactionId: String, val flightLegs: List<FlightLeg>) : BaseCheckoutParams(billingInfo, travelers, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking, tripId) {
 
@@ -84,7 +84,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
                 params.put(prefix + "tuid", traveler.tuid.toString())
             }
 
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber) && flightLegs.isNotEmpty()) {
+            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber) && flightLegs.isNotEmpty()) {
                 val frequentFlyerCards = FlightV2Utils.getAirlineNames(flightLegs)
                 frequentFlyerCards.forEachIndexed { index, frequentFlyerCard ->
                     val flyerMembership = traveler.frequentFlyerMemberships[frequentFlyerCard.airlineCode]
@@ -129,7 +129,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             params.put(prefix + "seatPreference", !travelers[i].seatPreference.name.isNullOrBlank())
             params.put(prefix + "TSARedressNumber", !traveler.redressNumber.isNullOrBlank())
             params.put(prefix + "knownTravelerNumber", !traveler.knownTravelerNumber.isNullOrBlank())
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber) && flightLegs.isNotEmpty()) {
+            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber) && flightLegs.isNotEmpty()) {
                 val frequentFlyerCards = FlightV2Utils.getAirlineNames(flightLegs)
                 frequentFlyerCards.forEachIndexed { index, frequentFlyerCard ->
                     val flyerMembership = traveler.frequentFlyerMemberships[frequentFlyerCard.airlineCode]

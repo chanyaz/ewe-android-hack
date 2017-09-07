@@ -159,7 +159,7 @@ public class HotelConfirmationViewModelTest {
 		givenCheckOutDate();
 
 		TestSubscriber testSubscriber = new TestSubscriber<>();
-		Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest,
+		Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest.getKey(),
 			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		vm.getAddLXBtn().subscribe(testSubscriber);
 		vm.getAddLXBtn().onNext(getContext().getResources().getString(R.string.add_lx_TEMPLATE, hotelCity));

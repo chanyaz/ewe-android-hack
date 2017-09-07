@@ -10,7 +10,7 @@ public class AbacusTest {
 		return value != 0 && value != AbacusUtils.ABTEST_IGNORE_DEBUG;
 	}
 
-	public int getBucketVariate() {
+	int getBucketVariate() {
 		return value;
 	}
 
@@ -18,7 +18,7 @@ public class AbacusTest {
 	 * This method copies all AbacusTest properties but defaults the bucket to IGNORE
 	 * Retains the analytics key to report to Omniture dev instance.
 	 */
-	public AbacusTest copyForDebug() {
+	AbacusTest copyForDebug() {
 		AbacusTest test = new AbacusTest();
 		test.id = id;
 		test.value = AbacusUtils.ABTEST_IGNORE_DEBUG;

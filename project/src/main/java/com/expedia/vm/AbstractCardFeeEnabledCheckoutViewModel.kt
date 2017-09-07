@@ -56,7 +56,7 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
         if (tripId.isNotBlank() && cardId.length >= 6) {
             val lastFetchedTripId = lastFetchedCardFeeKeyPair?.first
             val lastFetchedCardId = lastFetchedCardFeeKeyPair?.second
-            val fetchFreshCardFee = !(tripId.equals(lastFetchedTripId) && cardId.equals(lastFetchedCardId))
+            val fetchFreshCardFee = !(tripId == lastFetchedTripId && cardId == lastFetchedCardId)
             if (fetchFreshCardFee) {
                 lastFetchedCardFeeKeyPair = Pair(tripId, cardId)
                 cardFeeService?.getCardFees(tripId, cardId, isFlexEnabled(), getCardFeesCallback())

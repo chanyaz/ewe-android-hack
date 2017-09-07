@@ -13,6 +13,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -248,7 +249,7 @@ open class HotelViewModel(private val context: Context) {
         } else if (LoyaltyUtil.isShopWithPoints(hotel.lowRateInfo)) {
             return true
         } else if (!hotel.lowRateInfo.airAttached &&
-                !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
+                !AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)) {
             return priceToShowUsers < strikeThroughPriceToShowUsers
         } else {
             return false
@@ -293,7 +294,7 @@ open class HotelViewModel(private val context: Context) {
     }
 
     private fun getPricePerDescriptorString(): String? {
-        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
         val priceType = hotel.lowRateInfo.getUserPriceType()
         if (bucketedToShowPriceDescriptorProminence) {
             return when (priceType) {

@@ -18,9 +18,7 @@ import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.RewardDetails
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
-
-import com.expedia.bookings.widget.FreeCancellationWidget
-import com.expedia.vm.FreeCancellationViewModel
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.text.HtmlCompat
@@ -30,6 +28,7 @@ import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
+import com.expedia.bookings.widget.FreeCancellationWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelCheckoutViewModel
@@ -43,7 +42,7 @@ import kotlin.properties.Delegates
 class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
     val isFreeCancellationTooltipEnabled by lazy {
-        Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
+        AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
     }
 
     private val hotelCheckoutWidgetHeight by lazy {

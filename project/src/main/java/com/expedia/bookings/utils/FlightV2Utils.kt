@@ -22,9 +22,9 @@ import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import java.util.Locale
 import java.util.ArrayList
 import java.util.HashMap
+import java.util.Locale
 
 object FlightV2Utils {
     val TICKETS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
@@ -260,8 +260,7 @@ object FlightV2Utils {
     @JvmStatic fun getFlightCabinPreferences(context: Context, flightLeg: FlightLeg): String {
         if (flightLeg.isBasicEconomy) {
             return context.resources.getString(R.string.cabin_code_basic_economy)
-        }
-        else if (flightLeg.packageOfferModel?.segmentsSeatClassAndBookingCode != null &&
+        } else if (flightLeg.packageOfferModel?.segmentsSeatClassAndBookingCode != null &&
                 flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode.size > 0) {
             var flightCabinPreferences = ""
             val seatClassAndBookingCodeList = flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode
@@ -285,16 +284,16 @@ object FlightV2Utils {
         }
     }
 
-    @JvmStatic fun getAirlineUrl(flightLeg: FlightLeg) : String? {
-            return when {
-                flightLeg.airlines.size == 1 -> flightLeg.airlines.first().airlineLogoUrl
-                flightLeg.airlines.size > 1 && getDistinctiveAirline(flightLeg.airlines).size == 1 ->
-                    getDistinctiveAirline(flightLeg.airlines).first().airlineLogoUrl
-                else -> null
-            }
+    @JvmStatic fun getAirlineUrl(flightLeg: FlightLeg): String? {
+        return when {
+            flightLeg.airlines.size == 1 -> flightLeg.airlines.first().airlineLogoUrl
+            flightLeg.airlines.size > 1 && getDistinctiveAirline(flightLeg.airlines).size == 1 ->
+                getDistinctiveAirline(flightLeg.airlines).first().airlineLogoUrl
+            else -> null
         }
+    }
 
-    @JvmStatic fun getDepartureOnDateString(context: Context, flightLeg: FlightLeg) : String {
+    @JvmStatic fun getDepartureOnDateString(context: Context, flightLeg: FlightLeg): String {
         val date = LocaleBasedDateFormatUtils.localDateToMMMd(DateTime.parse(flightLeg.segments.first().departureTimeRaw).toLocalDate())
         return " " + Phrase.from(context.getString(R.string.flight_confirmation_crystal_title_on_date_TEMPLATE))
                 .put("date", date)
@@ -311,7 +310,7 @@ object FlightV2Utils {
             headerText.append(context.getString(R.string.flight_refundable_search_header))
         }
         if (headerText.isNotEmpty())
-            return  HtmlCompat.fromHtml(headerText.append(priceHeaderText).toString())
+            return HtmlCompat.fromHtml(headerText.append(priceHeaderText).toString())
         else return null
     }
 
@@ -373,7 +372,7 @@ object FlightV2Utils {
         return true
     }
 
-    @JvmStatic fun getDeltaPricing (money: Money, deltaPositive: Boolean): String {
+    @JvmStatic fun getDeltaPricing(money: Money, deltaPositive: Boolean): String {
         val deltaPrice = StringBuilder()
         if (deltaPositive) {
             deltaPrice.append("+")

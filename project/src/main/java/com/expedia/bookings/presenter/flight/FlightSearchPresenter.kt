@@ -14,20 +14,20 @@ import android.view.ViewStub
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -77,10 +77,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
 
     val isFlightAdvanceSearchTestEnabled = !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
-            Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
+            AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
     val swapFlightsLocationsButton: ImageView by bindView(R.id.swapFlightsLocationsButton)
     val flightsSearchDivider: View by bindView(R.id.flight_search_divider)
-    val isSwitchToAndFromFieldsFeatureEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSwitchFields)
+    val isSwitchToAndFromFieldsFeatureEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSwitchFields)
 
     val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
     override val travelerWidgetV2 by lazy {
@@ -128,7 +128,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     put("travelers", noOfTravelers).format().toString()
         }
 
-        val isUserBucketedInSearchFormValidation = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)
+        val isUserBucketedInSearchFormValidation = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)
         vm.errorNoDestinationObservable.subscribe {
             AnimUtils.doTheHarlemShake(destinationCardView)
             if (isUserBucketedInSearchFormValidation) {

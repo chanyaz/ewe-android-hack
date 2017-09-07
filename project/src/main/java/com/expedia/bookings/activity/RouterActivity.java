@@ -19,9 +19,9 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
@@ -73,23 +73,23 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), pos.getTpid(), 0);
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			query.addExperiment(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
-			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
-			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID());
-			query.addExperiment(AbacusUtils.EBAndroidAppFlightAdvanceSearch);
-			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest);
-			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
-			query.addExperiment(AbacusUtils.EBAndroidAppPackagesTitleChange);
-			query.addExperiment(AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
-			query.addExperiment(AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
-			query.addExperiment(AbacusUtils.EBAndroidAppAPIMAuth);
-			query.addExperiment(AbacusUtils.EBAndroidAppFlightSubpubChange);
-			query.addExperiment(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
-			query.addExperiment(AbacusUtils.EBAndroidAppCarsAATest);
-			query.addExperiment(AbacusUtils.EBAndroidAppLocaleBasedDateFormatting);
-			query.addExperiment(AbacusUtils.ProWizardTest);
-			query.addExperiment(AbacusUtils.EBAndroidAppSoftPromptLocation);
-			query.addExperiment(PointOfSale.getPointOfSale().getRailsWebViewABTestID());
+			query.addExperiment(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());
+			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID().getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightAdvanceSearch.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppPackagesTitleChange.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppAPIMAuth.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightSubpubChange.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppCarsAATest.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppLocaleBasedDateFormatting.getKey());
+			query.addExperiment(AbacusUtils.ProWizardTest.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppSoftPromptLocation.getKey());
+			query.addExperiment(PointOfSale.getPointOfSale().getRailsWebViewABTestID().getKey());
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
@@ -215,7 +215,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	private void cacheProWizardBucket(int testValue) {
 		if (BuildConfig.DEBUG) {
 			int debugValue = SettingUtils.get(getApplicationContext(),
-					String.valueOf(AbacusUtils.ProWizardTest), AbacusUtils.ABTEST_IGNORE_DEBUG);
+					String.valueOf(AbacusUtils.ProWizardTest.getKey()), AbacusUtils.ABTEST_IGNORE_DEBUG);
 			ProWizardBucketCache.cacheBucket(RouterActivity.this, debugValue);
 		}
 		else {

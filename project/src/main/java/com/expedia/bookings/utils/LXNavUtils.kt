@@ -5,10 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.SearchType
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -48,7 +48,7 @@ class LXNavUtils : NavUtils() {
                     intent.putExtra("activityId", searchParams.activityId)
                     intent.putExtra(Codes.FROM_DEEPLINK_TO_DETAILS, true)
                 } else {
-                    if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP) || !searchParams.filters.isEmpty()) {
+                    if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP) || !searchParams.filters.isEmpty()) {
                         intent.putExtra("filters", searchParams.filters)
                         intent.putExtra(Codes.FROM_DEEPLINK, true)
                     } else {

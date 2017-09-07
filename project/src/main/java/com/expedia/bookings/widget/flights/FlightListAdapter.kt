@@ -3,11 +3,11 @@ package com.expedia.bookings.widget.flights
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.vm.flights.FlightViewModel
@@ -48,7 +48,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     }
 
     private fun shouldShowCrossSellPackageBanner() = (PointOfSale.getPointOfSale().isCrossSellPackageOnFSR &&
-            Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR) &&
+            AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR) &&
             (context as FlightActivity).intent.getStringExtra(Codes.SEARCH_PARAMS)?.isEmpty()?:true)
 
     private fun showCrossSellPackageBannerCell(): Boolean {
@@ -58,7 +58,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
 
     override fun showAdvanceSearchFilterHeader(): Boolean {
         return !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
+                AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
     }
 
     override fun isShowOnlyNonStopSearch(): Boolean {

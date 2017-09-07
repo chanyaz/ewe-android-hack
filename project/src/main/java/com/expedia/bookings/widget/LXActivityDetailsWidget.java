@@ -22,7 +22,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -32,6 +31,7 @@ import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -312,7 +312,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		cancellation.bindData(getResources().getString(R.string.cancellation_policy),
 				cancellationPolicyText, 0);
 
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXOfferLevelCancellationPolicySupport)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXOfferLevelCancellationPolicySupport)) {
 			cancellation.setVisibility(View.GONE);
 		}
 		else {

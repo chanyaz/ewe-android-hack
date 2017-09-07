@@ -14,12 +14,13 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.flights.FlightConfirmationShareBroadcastReceiver
 import com.expedia.vm.ConfirmationToolbarViewModel
 import com.mobiata.android.util.SettingUtils
@@ -46,7 +47,7 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
     val progressDialog = ProgressDialog(context)
 
     init {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {
             inflateMenu(R.menu.confirmation_menu)
             menuItem.setOnMenuItemClickListener {
                 progressDialog.setCancelable(true)

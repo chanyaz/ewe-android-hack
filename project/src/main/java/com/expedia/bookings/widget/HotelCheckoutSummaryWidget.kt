@@ -13,9 +13,9 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -32,7 +32,7 @@ import com.squareup.picasso.Picasso
 class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
 
     val isFreeCancellationTooltipEnabled by lazy {
-        Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
+        AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
     }
 
     val PICASSO_HOTEL_IMAGE = "HOTEL_CHECKOUT_IMAGE"

@@ -8,15 +8,15 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
-import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
 import com.expedia.util.Optional
@@ -44,7 +44,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val flightsSourceObservable = PublishSubject.create<SuggestionV4>()
     val flightsDestinationObservable = PublishSubject.create<SuggestionV4>()
     val swapToFromFieldsObservable = PublishSubject.create<Unit>()
-    val showDaywithDate = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
+    val showDaywithDate = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
     val searchTravelerParamsObservable = PublishSubject.create<com.expedia.bookings.data.FlightSearchParams>()
 
@@ -57,7 +57,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val flightCabinClassObserver = endlessObserver<FlightServiceClassType.CabinCode> { cabinCode ->
         getParamsBuilder().flightCabinClass(cabinCode.name)
     }
-    val EBAndroidAppFlightSubpubChange = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
+    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
 
     var toAndFromFlightFieldsSwitched = false
     val advanceSearchObserver = endlessObserver<AdvanceSearchFilter> {
@@ -89,7 +89,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
             getParamsBuilder().roundTrip(isRoundTripSearch)
             getParamsBuilder().maxStay = getMaxSearchDurationDays()
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
+            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
                 getParamsBuilder().legNo(if (isRoundTripSearch) 0 else null)
             }
             if (selectedDates.first != null) {
@@ -103,12 +103,12 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             } else {
                 dateTextObservable.onNext(context.resources.getString(if (isRoundTripSearch) R.string.select_dates else R.string.select_departure_date))
             }
-            searchTravelerParamsObservable.subscribe{ searchParam ->
+            searchTravelerParamsObservable.subscribe { searchParam ->
                 performDeepLinkFlightSearch(searchParam)
             }
         }
 
-        if(EBAndroidAppFlightSubpubChange){
+        if (EBAndroidAppFlightSubpubChange) {
             flightParamsBuilder.setFeatureOverride(Constants.FEATURE_SUBPUB)
         }
 
@@ -144,14 +144,13 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             Db.setFlightSearchParams(flightSearchParams)
             searchParamsObservable.onNext(flightSearchParams)
             FlightsV2Tracking.trackSearchClick()
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
+            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
                 SearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
         } else {
-            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)) {
+            if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)) {
                 stepByStepSearchFormValidation()
-            }
-            else {
+            } else {
                 concurrentSearchFormValidation()
             }
         }
@@ -188,6 +187,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
         }
     }
+
     fun performDeepLinkFlightSearch(searchParams: com.expedia.bookings.data.FlightSearchParams) {
         //Setup the viewmodel according to the provided params
         val oneWay = searchParams.departureDate != null && searchParams.returnDate == null
@@ -229,7 +229,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    override  fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
+    override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         var (start, end) = dates
 
         dateTextObservable.onNext(getCalendarCardDateText(start, end, false))
@@ -323,8 +323,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
         if (showDaywithDate) {
             return getStartDashEndDateWithDayString(start, end)
-        }
-        else {
+        } else {
             return getStartDashEndDateString(start, end)
         }
     }

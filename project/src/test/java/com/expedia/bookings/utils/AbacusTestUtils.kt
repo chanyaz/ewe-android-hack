@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import android.content.Context
 import android.support.annotation.StringRes
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.mobiata.android.util.SettingUtils
@@ -13,36 +14,36 @@ object AbacusTestUtils {
         Db.setAbacusResponse(AbacusResponse())
     }
 
-    @JvmStatic fun updateABTest(key: Int, value: Int) {
+    @JvmStatic fun updateABTest(test: ABTest, value: Int) {
         val abacusResponse = Db.getAbacusResponse()
-        abacusResponse.updateABTestForDebug(key, value)
+        abacusResponse.updateABTestForDebug(test.key, value)
     }
 
-    @JvmStatic fun bucketTests(vararg tests: Int) {
+    @JvmStatic fun bucketTests(vararg tests: ABTest) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+            abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         }
         Db.setAbacusResponse(abacusResponse)
     }
 
-    @JvmStatic fun bucketTestAndEnableFeature(context: Context, abacusTestKey: Int, @StringRes featureKey: Int) {
+    @JvmStatic fun bucketTestAndEnableFeature(context: Context, abacusTest: ABTest, @StringRes featureKey: Int) {
         val abacusResponse = AbacusResponse()
-        abacusResponse.updateABTestForDebug(abacusTestKey, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        abacusResponse.updateABTestForDebug(abacusTest.key, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         Db.setAbacusResponse(abacusResponse)
         SettingUtils.save(context, featureKey, true)
     }
 
-    @JvmStatic fun bucketTestWithVariant(test: Int, variant: Int) {
+    @JvmStatic fun bucketTestWithVariant(test: ABTest, variant: Int) {
         val abacusResponse = AbacusResponse()
-        abacusResponse.updateABTestForDebug(test, variant)
+        abacusResponse.updateABTestForDebug(test.key, variant)
         Db.setAbacusResponse(abacusResponse)
     }
 
-    @JvmStatic fun unbucketTests(vararg tests: Int) {
+    @JvmStatic fun unbucketTests(vararg tests: ABTest) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.CONTROL.ordinal)
+            abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.CONTROL.ordinal)
         }
         Db.setAbacusResponse(abacusResponse)
     }

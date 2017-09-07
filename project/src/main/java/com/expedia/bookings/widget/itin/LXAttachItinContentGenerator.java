@@ -5,16 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LXNavUtils;
-import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.navigation.NavUtils;
 
 public class LXAttachItinContentGenerator extends ItinButtonContentGenerator<ItinCardDataLXAttach> {
 
@@ -32,7 +32,7 @@ public class LXAttachItinContentGenerator extends ItinButtonContentGenerator<Iti
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP)) {
+				if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP)) {
 					LXNavUtils.goToActivities(v.getContext(), null, getItinCardData().getLxSearchParams(v.getContext()),
 							NavUtils.FLAG_OPEN_RESULTS);
 				}

@@ -7,8 +7,8 @@ import javax.inject.Named;
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.RailScope;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.RailCardFeeServiceProvider;
 import com.expedia.bookings.services.RailServices;
@@ -32,7 +32,7 @@ public final class RailModule {
 	@RailScope
 	RailServices provideRailServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor,
 		@Named("RailInterceptor") Interceptor railRequestInterceptor, @Named("HmacInterceptor") Interceptor hmacInterceptor) {
-		boolean isUserBucketedInAPIMAuth = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAPIMAuth);
+		boolean isUserBucketedInAPIMAuth = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAPIMAuth);
 		return new RailServices(endpointProvider.getRailEndpointUrl(), client, interceptor, railRequestInterceptor, hmacInterceptor, isUserBucketedInAPIMAuth,
 				AndroidSchedulers.mainThread(), Schedulers.io());
 	}

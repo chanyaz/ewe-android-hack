@@ -8,11 +8,11 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
 import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
@@ -22,9 +22,9 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -176,7 +176,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
         advancedOptionsViewModel.searchOptionsSummarySubject.subscribeText(advancedOptionsView)
 
-        val showAdvancedOptions = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)
+        val showAdvancedOptions = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)
         advancedOptionsContainerCard.updateVisibility(showAdvancedOptions)
     }
 
@@ -222,13 +222,13 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     fun resetSearchOptions() {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
             advancedOptionsViewModel.resetSearchOptionsObservable.onNext(Unit)
         }
     }
 
     private fun updateSearchOptions(suggestion: SuggestionV4) {
-        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
+        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
             return
         }
 

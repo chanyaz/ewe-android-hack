@@ -10,32 +10,16 @@ public class AbacusResponse {
 	private Map<Integer, AbacusTest> abacusTestMap = new HashMap<>();
 	private Map<Integer, AbacusTest> abacusTestDebugMap = new HashMap<>();
 
-	public void setAbacusTestMap(Map<Integer, AbacusTest> map) {
-		abacusTestMap = map;
-		abacusTestDebugMap = new HashMap<>();
-		for (Map.Entry<Integer, AbacusTest> entry : map.entrySet()) {
-			abacusTestDebugMap.put(entry.getKey(), entry.getValue().copyForDebug());
-		}
-	}
-
-	public boolean isUserBucketedForTest(int key) {
-		AbacusTest test = testForKey(key);
-		if (test != null) {
-			return test.isUserInBucket();
-		}
-		return false;
-	}
-
-	public int variateForTest(int key) {
-		AbacusTest test = testForKey(key);
+	public int variateForTest(ABTest abTest) {
+		AbacusTest test = testForKey(abTest);
 		if (test != null) {
 			return test.getBucketVariate();
 		}
 		return AbacusUtils.DefaultVariant.CONTROL.ordinal();
 	}
 
-	public String getAnalyticsString(int key) {
-		AbacusTest test = testForKey(key);
+	public String getAnalyticsString(ABTest abTest) {
+		AbacusTest test = testForKey(abTest);
 		return AbacusUtils.getAnalyticsString(test);
 	}
 
@@ -60,7 +44,7 @@ public class AbacusResponse {
 	 * Utility method to force update {@link AbacusTest} object through deeplinks
 	 * when we test the release builds.
 	 */
-	public void updateABTest(int key, int value) {
+	public void forceUpdateABTest(int key, int value) {
 		AbacusTest test = abacusTestMap.get(key);
 		if (test == null) {
 			test = new AbacusTest();
@@ -73,12 +57,13 @@ public class AbacusResponse {
 		test.value = value;
 	}
 
-	public AbacusTest testForKey(int key) {
-		if (abacusTestDebugMap.get(key) != null && abacusTestDebugMap.get(key).getBucketVariate() != AbacusUtils.ABTEST_IGNORE_DEBUG) {
-			return abacusTestDebugMap.get(key);
+	public AbacusTest testForKey(ABTest abTest) {
+		if (abacusTestDebugMap.get(abTest.getKey()) != null
+			&& abacusTestDebugMap.get(abTest.getKey()).getBucketVariate() != AbacusUtils.ABTEST_IGNORE_DEBUG) {
+			return abacusTestDebugMap.get(abTest.getKey());
 		}
 		else {
-			return abacusTestMap.get(key);
+			return abacusTestMap.get(abTest.getKey());
 		}
 	}
 
@@ -100,5 +85,13 @@ public class AbacusResponse {
 	@Override
 	public String toString() {
 		return Strings.toPrettyString(this);
+	}
+
+	void setAbacusTestMap(Map<Integer, AbacusTest> map) {
+		abacusTestMap = map;
+		abacusTestDebugMap = new HashMap<>();
+		for (Map.Entry<Integer, AbacusTest> entry : map.entrySet()) {
+			abacusTestDebugMap.put(entry.getKey(), entry.getValue().copyForDebug());
+		}
 	}
 }

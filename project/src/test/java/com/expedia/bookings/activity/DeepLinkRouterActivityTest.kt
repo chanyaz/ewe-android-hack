@@ -89,7 +89,7 @@ class DeepLinkRouterActivityTest {
     fun forceBucketDeepLink() {
         val forceBucketUrl = "expda://forceBucket?key=1111&value=0"
         getDeepLinkRouterActivity(forceBucketUrl)
-        assertEquals(0, ForceBucketPref.getForceBucketedTestValue(context, "1111", -1))
+        assertEquals(0, ForceBucketPref.getForceBucketedTestValue(context, 1111, -1))
     }
 
     @Test

@@ -2,11 +2,11 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightViewModel
 
@@ -33,7 +33,7 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFli
     }
 
     override fun isUserBucketedInHideFSRInfographicTest(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightHideFSRInfographic)
+        return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightHideFSRInfographic)
     }
 }
 

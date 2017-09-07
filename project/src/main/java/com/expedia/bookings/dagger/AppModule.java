@@ -13,10 +13,10 @@ import org.joda.time.DateTimeZone;
 import android.content.Context;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
@@ -198,8 +198,7 @@ public class AppModule {
 
 	private String getPageName(Request request) {
 		String pageName = request.url().encodedPath().replaceAll("/", "_");
-		if (pageName.contains("flight_search") && Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
+		if (pageName.contains("flight_search") && AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			FormBody body = (FormBody) request.body();
 
 			for (int index = body.size(); index > 0; index--) {

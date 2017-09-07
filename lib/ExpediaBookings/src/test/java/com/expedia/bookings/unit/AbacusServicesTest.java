@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
@@ -26,7 +27,7 @@ import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
@@ -89,13 +90,19 @@ public class AbacusServicesTest {
 
 		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
 		assertEquals(5, responseV2.numberOfTests());
-		assertFalse(responseV2.isUserBucketedForTest(9000));
-		assertTrue(responseV2.isUserBucketedForTest(3243));
-		assertEquals("3243.17887.1", responseV2.getAnalyticsString(3243));
-		assertEquals(1, responseV2.variateForTest(3243));
-		assertEquals("", responseV2.getAnalyticsString(9999));
-		assertNull(responseV2.testForKey(9999));
-		assertEquals(AbacusUtils.DefaultVariant.CONTROL.ordinal(), responseV2.variateForTest(9999));
+
+		assertNull(responseV2.testForKey(new ABTest(9000)));
+
+		ABTest test = new ABTest(3243);
+		assertNotNull(responseV2.testForKey(test));
+		assertTrue(responseV2.testForKey(test).isUserInBucket());
+		assertEquals("3243.17887.1", responseV2.getAnalyticsString(test));
+		assertEquals(1, responseV2.variateForTest(test));
+
+		test = new ABTest(9999);
+		assertEquals("", responseV2.getAnalyticsString(test));
+		assertNull(responseV2.testForKey(test));
+		assertEquals(AbacusUtils.DefaultVariant.CONTROL.ordinal(), responseV2.variateForTest(test));
 	}
 
 	@Test
@@ -118,11 +125,13 @@ public class AbacusServicesTest {
 
 		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
 		assertEquals(5, responseV2.numberOfTests());
-		assertEquals(1, responseV2.variateForTest(3243));
+
+		ABTest test = new ABTest(3243);
+		assertEquals(1, responseV2.variateForTest(test));
 
 		//force update the test map
-		responseV2.updateABTest(3243, 0);
-		assertEquals(0, responseV2.variateForTest(3243));
+		responseV2.forceUpdateABTest(3243, 0);
+		assertEquals(0, responseV2.variateForTest(test));
 	}
 
 	@Test
@@ -131,14 +140,15 @@ public class AbacusServicesTest {
 
 		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
 		assertEquals(5, responseV2.numberOfTestsDebugMap());
-		assertEquals(1, responseV2.variateForTest(3243));
+		ABTest test = new ABTest(3243);
+		assertEquals(1, responseV2.variateForTest(test));
 
 		responseV2.updateABTestForDebug(3243, 0);
-		assertEquals(0, responseV2.variateForTest(3243));
+		assertEquals(0, responseV2.variateForTest(test));
 
 		//for a test key not present in the map
 		responseV2.updateABTestForDebug(5555, 1);
-		assertEquals(1, responseV2.variateForTest(5555));
+		assertEquals(1, responseV2.variateForTest(new ABTest(5555)));
 	}
 
 	private TestSubscriber<AbacusResponse> getAbacusResponseTestSubscriber() throws IOException {

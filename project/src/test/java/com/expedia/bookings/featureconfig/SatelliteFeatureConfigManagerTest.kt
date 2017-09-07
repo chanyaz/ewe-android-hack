@@ -4,30 +4,21 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.text.format.DateUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-class FeatureConfigManagerTest {
-    var featureConfigMgr: FeatureConfigManager by Delegates.notNull()
+class SatelliteFeatureConfigManagerTest {
     val context = RuntimeEnvironment.application
-
-    @Before
-    fun before() {
-        featureConfigMgr = FeatureConfigManager(context)
-    }
 
     @Test
     fun testEmptyResponse() {
-        featureConfigMgr.cacheFeatureConfig(emptyList())
-
+        SatelliteFeatureConfigManager.cacheFeatureConfig(context, emptyList())
         val supportedFeatures = getConfigFromPrefs()
         assertNotNull(supportedFeatures)
         assertEquals(0, supportedFeatures!!.size)
@@ -36,7 +27,7 @@ class FeatureConfigManagerTest {
     @Test
     fun testOneElementResponse() {
         val testList = listOf("downloadConfigsOnPOSChange")
-        featureConfigMgr.cacheFeatureConfig(testList)
+        SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
 
         val supportedFeatures = getConfigFromPrefs()
         assertNotNull(supportedFeatures)
@@ -46,7 +37,7 @@ class FeatureConfigManagerTest {
     @Test
     fun testCacheResponse() {
         val testList = listOf("downloadConfigsOnPOSChange", "14731", "14732", "14484")
-        featureConfigMgr.cacheFeatureConfig(testList)
+        SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
 
         val supportedFeatures = getConfigFromPrefs()
         assertNotNull(supportedFeatures)
@@ -56,7 +47,7 @@ class FeatureConfigManagerTest {
     @Test
     fun testDupsAreNotCached() {
         val testList = listOf("downloadConfigsOnPOSChange", "14731", "14732", "14484", "14732")
-        featureConfigMgr.cacheFeatureConfig(testList)
+        SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
 
         val supportedFeatures = getConfigFromPrefs()
         assertNotNull(supportedFeatures)
@@ -66,24 +57,47 @@ class FeatureConfigManagerTest {
     @Test
     fun testShouldNotRefreshConfigIfRecent() {
         updateTimestamp(System.currentTimeMillis())
-        assertFalse(featureConfigMgr.shouldUpdateConfig())
+        assertFalse(SatelliteFeatureConfigManager.shouldUpdateConfig(context))
+    }
+
+    @Test
+    fun testConfigInvalid() {
+        updateTimestamp(DateUtils.DAY_IN_MILLIS + 60)
+        assertFalse(SatelliteFeatureConfigManager.configValid(context))
+    }
+
+    @Test
+    fun testConfigStillValid() {
+        updateTimestamp(System.currentTimeMillis())
+        assertTrue(SatelliteFeatureConfigManager.configValid(context))
     }
 
     @Test
     fun testShouldRefreshConfigIfStale() {
         updateTimestamp(DateUtils.DAY_IN_MILLIS + 60)
-        assertTrue(featureConfigMgr.shouldUpdateConfig())
+        assertTrue(SatelliteFeatureConfigManager.shouldUpdateConfig(context))
+    }
+
+    @Test
+    fun testAbacusTestEnabled() {
+        assertFalse(SatelliteFeatureConfigManager.testEnabled(context, 14731))
+
+        val testList = listOf("downloadConfigsOnPOSChange", "14731", "14732", "14484", "14732")
+        SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
+
+        assertTrue(SatelliteFeatureConfigManager.testEnabled(context, 14731))
+        assertFalse(SatelliteFeatureConfigManager.testEnabled(context, 123))
     }
 
     private fun updateTimestamp(timestamp: Long) {
         val editor = getSharedPrefs().edit()
-        editor.putLong("lastUpdated", timestamp)
+        editor.putLong(SatelliteFeatureConfigManager.PREFS_FEATURE_CONFIG_LAST_UPDATED, timestamp)
         editor.apply()
     }
 
     private fun getConfigFromPrefs(): Set<String>? {
         val prefs = getSharedPrefs()
-        val supportedFeatures = prefs.getStringSet("supportedFeatures", null)
+        val supportedFeatures = prefs.getStringSet(SatelliteFeatureConfigManager.PREFS_SUPPORTED_FEATURE_SET, null)
         return supportedFeatures
     }
 

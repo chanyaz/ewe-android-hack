@@ -3,16 +3,12 @@ package com.expedia.bookings.hotel.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.hotel.util.HotelSearchManager
-import com.expedia.bookings.utils.CollectionUtils
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver

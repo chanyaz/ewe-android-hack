@@ -7,12 +7,12 @@ import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
@@ -36,7 +36,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     val fromPriceVisibility = fromPrice.map { it != null && !it.equals("") }
     var isShopWithPoints = PublishSubject.create<Boolean>()
     var isAirAttached = PublishSubject.create<Boolean>()
-    var isBucketForHideStrikeThough = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
+    var isBucketForHideStrikeThough = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
     val strikethroughPriceVisibility = Observable.combineLatest(fromPriceVisibility, strikethroughPrice, isShopWithPoints, isAirAttached)
                                         {fromPriceVisible, strikethroughPrice, isShopWithPoints, isAirAttached ->
                                             ((fromPriceVisible && strikethroughPrice.isNotEmpty()) && (isShopWithPoints ||

@@ -13,10 +13,10 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
@@ -92,7 +92,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         val presenter = viewStub.inflate() as FlightResultsListViewPresenter
         presenter.resultsViewModel = FlightResultsViewModel()
         toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
-        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSimplifyFlightShopping) || getLineOfBusiness().equals(LineOfBusiness.PACKAGES)) {
+        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppSimplifyFlightShopping) || getLineOfBusiness() == LineOfBusiness.PACKAGES) {
             presenter.flightSelectedSubject.subscribe(selectedFlightResults)
         }
         presenter.showSortAndFilterViewSubject.subscribe {

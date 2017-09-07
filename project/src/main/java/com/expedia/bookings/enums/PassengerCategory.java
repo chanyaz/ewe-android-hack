@@ -7,9 +7,9 @@ import android.content.Context;
 import android.util.Pair;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 
 public enum PassengerCategory {
@@ -66,7 +66,7 @@ public enum PassengerCategory {
 	}
 
 	public String getErrorString(Context context) {
-		boolean isBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
+		boolean isBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		int errorString = isBucketed ? bucketedErrorString : controlErrorString;
 		return context.getString(errorString);
 	}
