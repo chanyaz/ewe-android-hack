@@ -12,6 +12,8 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ExpediaDispatcherTests {
+    private val socket = Socket("expedia.com", 80)
+
     @Test(expected = UnsupportedOperationException::class)
     fun testRequestWithoutValidUserAgentThrowsException() {
         val request = RecordedRequest(null, Headers.of("test", "value"), null, 0, null, 0, null)
@@ -351,16 +353,12 @@ class ExpediaDispatcherTests {
     fun testNumOfTravelAdRequestsEquality() {
         val dispatcher = defaultDispatcher
         dispatcher.dispatch(requestWithPath("TravelAdsService/v3/Hotels/TravelAdImpression"))
-        dispatcher.dispatch(requestWithPath("TravelAdsService/v3/Hotels/TravelAdImpression"))
-        dispatcher.dispatch(requestWithPath("TravelAdsService/v3/Hotels/TravelAdImpression"))
         dispatcher.dispatch(requestWithPath("TravelAdsService/v3/Hotels/TravelAdClick"))
-        dispatcher.dispatch(requestWithPath("TravelAdsService/v3/Hotels/TravelAdClick"))
-        dispatcher.dispatch(requestWithPath("travel"))
 
 
-        assertEquals(3, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdImpression"))
-        assertEquals(2, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdClick"))
-        assertEquals(1, dispatcher.numOfTravelAdRequests("/travel"))
+        assertEquals(1, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdImpression"))
+        assertEquals(1, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdClick"))
+        assertEquals(0, dispatcher.numOfTravelAdRequests("/travel"))
     }
 
     private fun assertEmptyResponseForPath(path: String) {
@@ -390,7 +388,6 @@ class ExpediaDispatcherTests {
     }
 
     private fun requestWithPath(path: String): RecordedRequest {
-        val socket = Socket("expedia.com", 80)
         val headers = Headers.of("user-agent", "ExpediaBookings/0.0.0 (EHad; Mobiata)")
 
         return RecordedRequest("GET /$path HTTP/1.1", headers, null, 0, okio.Buffer(), 0, socket)
