@@ -101,6 +101,7 @@
     <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
     <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
     <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_packages_lob_color">@color/new_launch_lob_color</color>
     <color name="launch_tab_indicator">#FFED18</color>
     <color name="launch_screen_active_itin_bg">@color/app_primary</color>
     <color name="placeholder_card_background_color">@color/app_primary</color>
