@@ -84,6 +84,8 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelHideStrikethroughPrice = 14863;
 	public static final int EBAndroidAppHotelsWebCheckout = 14761;
 	public static final int EBAndroidAppHotelPriceDescriptorProminence = 15137;
+	public static final int EBAndroidAppHotelCheckinCheckoutDatesInline = 15344;
+
 
 	// Cars Web View Tests
 	public static final int EBAndroidAppCarsWebViewUK = 12913;
@@ -228,6 +230,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelPriceDescriptorProminence);
 		testIDs.add(EBAndroidAppLXOfferLevelCancellationPolicySupport);
 		testIDs.add(EBAndroidAppAllowUnknownCardTypes);
+		testIDs.add(EBAndroidAppHotelCheckinCheckoutDatesInline);
 		return testIDs;
 	}
 

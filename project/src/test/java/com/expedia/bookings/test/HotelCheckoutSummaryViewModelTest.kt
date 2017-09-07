@@ -3,6 +3,7 @@ package com.expedia.bookings.test
 import android.app.Application
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
@@ -10,8 +11,9 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.isAllowCheckinCheckoutDatesInlineEnabled
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
@@ -55,7 +57,6 @@ class HotelCheckoutSummaryViewModelTest {
     fun happy() {
         givenHappyHotelProductResponse()
         setup()
-        
         val testTextSubscriber = TestSubscriber<String>()
         sut.freeCancellationText.subscribe(testTextSubscriber)
 
@@ -115,6 +116,18 @@ class HotelCheckoutSummaryViewModelTest {
         val surchargeActualValue = sut.surchargeTotalForEntireStay.value
         val surchargeExpectedValue = Money(BigDecimal(329.32), "USD")
         assertEquals(surchargeActualValue.formattedMoney, surchargeExpectedValue.formattedMoney)
+    }
+
+    @Test
+    fun testToggleOnCheckinCheckoutDatesInline() {
+        toggleABTestCheckinCheckoutDatesInline(true)
+        assertTrue(isAllowCheckinCheckoutDatesInlineEnabled())
+    }
+
+    @Test
+    fun testToggleOffCheckinCheckoutDatesInline() {
+        toggleABTestCheckinCheckoutDatesInline(false)
+        assertFalse(isAllowCheckinCheckoutDatesInlineEnabled())
     }
 
     @Test
@@ -304,5 +317,14 @@ class HotelCheckoutSummaryViewModelTest {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         sut = HotelCheckoutSummaryViewModel(context, paymentModel)
         createTripResponseObservable.subscribe(sut.createTripResponseObservable)
+    }
+
+    private fun toggleABTestCheckinCheckoutDatesInline(toggleOn: Boolean) {
+        if (toggleOn) {
+            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
+        }
+        else {
+            AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
+        }
     }
 }
