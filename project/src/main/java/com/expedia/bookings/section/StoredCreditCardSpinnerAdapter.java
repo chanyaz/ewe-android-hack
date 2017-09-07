@@ -114,7 +114,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		case ITEM_VIEW_TYPE_TEMP_CREDITCARD:
 			retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
 			BillingInfo info = Db.getTemporarilySavedCard();
-			PaymentType cardType = info.getPaymentType();
+			PaymentType cardType = info.getPaymentType(getContext());
 			retView = bindStoredCardTile(retView, cardType, getUserSavedTemporaryCardText(cardType, info.getNumber()), info.getSaveCardToExpediaAccount());
 			retView.setEnabled(!Db.getTemporarilySavedCard().getSaveCardToExpediaAccount());
 			break;
@@ -134,7 +134,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		// Show a special icon for an invalid credit card (can happen in flights mode)
 		int imgRes = R.drawable.unsupported_card;
 		if (mTripBucketItem != null) {
-			boolean isValidCard = mTripBucketItem.isPaymentTypeSupported(cardType);
+			boolean isValidCard = mTripBucketItem.isPaymentTypeSupported(cardType, getContext());
 			if (isValidCard) {
 				if (rStatus.getVisibility() == View.GONE) {
 					rStatus.setVisibility(View.VISIBLE);

@@ -155,10 +155,10 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		}
 		else if (Db.getBillingInfo().getNumber() != null) {
 			String ccNumber = Db.getBillingInfo().getNumber();
-			return CurrencyUtils.detectCreditCardBrand(ccNumber);
+			return CurrencyUtils.detectCreditCardBrand(ccNumber, getContext());
 		}
 		else {
-			return PaymentType.UNKNOWN;
+			return PaymentType.CARD_UNKNOWN;
 		}
 	}
 

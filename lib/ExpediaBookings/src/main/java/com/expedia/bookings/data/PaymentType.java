@@ -21,7 +21,7 @@ public enum PaymentType {
 	WALLET_GOOGLE("GOOG", "GoogleWallet"),
 	
 	POINTS_REWARDS("ER", "Rewards"),
-	UNKNOWN("?", "no card required");
+	CARD_UNKNOWN("?", "Unknown");
 
 	private String mCode;
 	private String mOmnitureTrackingCode;

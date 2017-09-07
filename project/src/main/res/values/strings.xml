@@ -3535,6 +3535,8 @@
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
+    <!-- Unknown Card -->
+    <string name="unknown_card">Unknown Card</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->

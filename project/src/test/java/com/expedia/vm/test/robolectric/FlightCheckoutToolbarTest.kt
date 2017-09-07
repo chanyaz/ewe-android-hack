@@ -189,7 +189,7 @@ class FlightCheckoutToolbarTest {
 
     private fun setupTempCardToShowPaymentOptions() {
         val info = BillingInfo()
-        info.setNumberAndDetectType("345104799171123")
+        info.setNumberAndDetectType("345104799171123", context)
         info.nameOnCard = "Expedia Chicago"
         info.expirationDate = LocalDate(2017, 1, 1)
         info.securityCode = "123"

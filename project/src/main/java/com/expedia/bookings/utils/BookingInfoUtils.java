@@ -123,6 +123,7 @@ public class BookingInfoUtils {
 			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_mastercard_colorful);
 			put(PaymentType.CARD_VISA, R.drawable.ic_visa_colorful);
 			put(PaymentType.POINTS_REWARDS, R.drawable.pwp_icon);
+			put(PaymentType.CARD_UNKNOWN, R.drawable.ic_unknown_card_colorful);
 		}
 	};
 }

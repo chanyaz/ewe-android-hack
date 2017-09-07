@@ -4,6 +4,8 @@ import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
@@ -132,10 +134,10 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		this.mNumber = number;
 	}
 
-	public void setNumberAndDetectType(String number) {
+	public void setNumberAndDetectType(String number, Context context) {
 		setNumber(number);
 
-		PaymentType type = CurrencyUtils.detectCreditCardBrand(getNumber());
+		PaymentType type = CurrencyUtils.detectCreditCardBrand(getNumber(), context);
 		setBrandCode(type.getCode());
 		setBrandName(type.name());
 	}
@@ -204,7 +206,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 	 *
 	 * @return the PaymentType this billingInfo encapsulates (or null if it cannot be determined)
 	 */
-	public PaymentType getPaymentType() {
+	public PaymentType getPaymentType(Context context) {
 		PaymentType selectedPaymentType = null;
 		StoredCreditCard scc = getStoredCard();
 
@@ -213,7 +215,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		}
 		else {
 			String number = getNumber();
-			selectedPaymentType = CurrencyUtils.detectCreditCardBrand(number);
+			selectedPaymentType = CurrencyUtils.detectCreditCardBrand(number, context);
 		}
 		return selectedPaymentType;
 	}

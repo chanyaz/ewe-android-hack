@@ -86,8 +86,8 @@ class ValidFormOfUtilsTest {
 
     @Test
     fun testValidCardNumber() {
-        val invalidCardNumber = "378282246310005"
-        assertTrue(CreditCardLuhnCheckUtil.cardNumberIsValid(invalidCardNumber))
+        val validCardNumber = "378282246310005"
+        assertTrue(CreditCardLuhnCheckUtil.cardNumberIsValid(validCardNumber))
     }
 
     fun getValidFormOfPayment(fee: String? = "3.50"): ValidFormOfPayment {

@@ -30,6 +30,7 @@ import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.data.utils.CreditCardLuhnCheckUtil;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -259,10 +260,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				PaymentType cardType = PaymentType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					if (mLineOfBusiness == LineOfBusiness.FLIGHTS || mLineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
-						if (!hasValidPaymentType(mLineOfBusiness, getData())) {
+						if (!hasValidPaymentType(mLineOfBusiness, getData(), getContext())) {
 							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
 							if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-								String errorMessage = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(getContext(), getData().getPaymentType(), mLineOfBusiness);
+								String errorMessage = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(getContext(), getData().getPaymentType(getContext()), mLineOfBusiness);
 								mValidCCNum.setErrorString(errorMessage);
 								mValidMaskedCCNum.setErrorString(errorMessage);
 							}
@@ -377,7 +378,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode
 							//We don't want to get rid of the brand code until the user has started to enter new data...
 							if (!TextUtils.isEmpty(getData().getNumber())) {
-								PaymentType type = CurrencyUtils.detectCreditCardBrand(getData().getNumber());
+								PaymentType type = CurrencyUtils.detectCreditCardBrand(getData().getNumber(), getContext());
 								if (type == null) {
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
@@ -430,15 +431,17 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						return ValidationError.ERROR_DATA_MISSING;
 					}
 					else {
-						PaymentType type = CurrencyUtils.detectCreditCardBrand(obj.getText().toString().trim());
+						String cardNumber = obj.getText().toString().trim();
+						PaymentType type = CurrencyUtils.detectCreditCardBrand(cardNumber, getContext());
 						if (type == null) {
 							return ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
-							if (!hasValidPaymentType(mLineOfBusiness, getData())) {
-								return ValidationError.ERROR_DATA_INVALID;
+							if (hasValidPaymentType(mLineOfBusiness, getData(), getContext()) &&
+								CreditCardLuhnCheckUtil.INSTANCE.cardNumberIsValid(cardNumber)) {
+								return ValidationError.NO_ERROR;
 							}
-							return ValidationError.NO_ERROR;
+							return ValidationError.ERROR_DATA_INVALID;
 						}
 					}
 				}
@@ -754,7 +757,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					}
 					else {
 						String text = obj.getText().toString();
-						boolean amex = getData() != null && getData().getPaymentType() == PaymentType.CARD_AMERICAN_EXPRESS;
+						boolean amex = getData() != null && getData().getPaymentType(getContext()) == PaymentType.CARD_AMERICAN_EXPRESS;
 						if (text.length() != (amex ? 4 : 3)) {
 							return ValidationError.ERROR_DATA_INVALID;
 						}
@@ -1060,8 +1063,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	public static boolean hasValidPaymentType(LineOfBusiness lob, BillingInfo info) {
-		if (info == null || info.getPaymentType() == null) {
+	public static boolean hasValidPaymentType(LineOfBusiness lob, BillingInfo info, Context context) {
+		if (info == null || info.getPaymentType(context) == null) {
 			return false;
 		}
 
@@ -1077,7 +1080,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		else {
 			bucketItem = Db.getTripBucket().getItem(lob);
 		}
-		return bucketItem != null && bucketItem.isPaymentTypeSupported(info.getPaymentType());
+		return bucketItem != null && bucketItem.isPaymentTypeSupported(info.getPaymentType(context), context);
 	}
 }
 

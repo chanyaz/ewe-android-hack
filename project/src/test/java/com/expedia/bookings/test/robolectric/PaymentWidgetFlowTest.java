@@ -7,9 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -62,12 +64,14 @@ import static org.junit.Assert.assertTrue;
 @RunWith(RobolectricRunner.class)
 @Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class })
 public class PaymentWidgetFlowTest {
+	private Context context;
 	private BillingInfo storedCardBillingInfo;
 	private BillingInfo tempSavedCardBillingInfo;
 	private BillingInfo tempNotSavedCardBillingInfo;
 
 	@Before
 	public void before() {
+		context = RuntimeEnvironment.application;
 		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		StoredCreditCard storedCreditCard = new StoredCreditCard();
 		storedCreditCard.setCardNumber("4111111111111111");
@@ -89,7 +93,7 @@ public class PaymentWidgetFlowTest {
 		billingInfo.setFirstName("JexperCC");
 		billingInfo.setLastName("MobiataTestaverde");
 		billingInfo.setNameOnCard("JexperCC MobiataTestaverde");
-		billingInfo.setNumberAndDetectType("4111111111111111");
+		billingInfo.setNumberAndDetectType("4111111111111111", context);
 		billingInfo.setExpirationDate(LocalDate.now().plusYears(1));
 		billingInfo.setSecurityCode("111");
 		billingInfo.setTelephone("4155555555");
@@ -102,7 +106,7 @@ public class PaymentWidgetFlowTest {
 		tempSavedCardBillingInfo = new BillingInfo(billingInfo);
 
 		tempNotSavedCardBillingInfo = new BillingInfo(billingInfo);
-		tempNotSavedCardBillingInfo.setNumberAndDetectType("6011111111111111");
+		tempNotSavedCardBillingInfo.setNumberAndDetectType("6011111111111117", context);
 
 		ArrayList<ValidFormOfPayment> validFormsOfPayment = new ArrayList<>();
 		ValidFormOfPayment validPayment = new ValidFormOfPayment();

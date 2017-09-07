@@ -207,7 +207,7 @@ class PackageCheckoutTest {
         createTrip()
 
         val testUser = User()
-        val testInvalidCard = setUpCreditCards("1234567890123456", "testInvalid", PaymentType.UNKNOWN, "1")
+        val testInvalidCard = setUpCreditCards("1234567890123456", "testInvalid", PaymentType.CARD_UNKNOWN, "1")
         val testCard1 = setUpCreditCards("4111111111111111", "testVisa", PaymentType.CARD_VISA, "2")
         val testCard2 = setUpCreditCards("6111111111111111", "testDiscover", PaymentType.CARD_DISCOVER, "3")
 
@@ -232,7 +232,7 @@ class PackageCheckoutTest {
         createTrip()
 
         val testUser = User()
-        val testFirstInvalidCard = setUpCreditCards("1234567890123456", "testInvalid", PaymentType.UNKNOWN, "1")
+        val testFirstInvalidCard = setUpCreditCards("1234567890123456", "testInvalid", PaymentType.CARD_UNKNOWN, "1")
         val testSecondInvalidCard = setUpCreditCards("6543210987654321", "testInvalidOther", PaymentType.CARD_CHINA_UNION_PAY, "2")
         val testThirdInvalidCard = setUpCreditCards("0000000000000000", "testInvalidLast", PaymentType.CARD_CARTE_BLEUE, "3")
         testUser.addStoredCreditCard(testFirstInvalidCard)
@@ -409,7 +409,7 @@ class PackageCheckoutTest {
         info.firstName = "JexperCC"
         info.lastName = "MobiataTestaverde"
         info.nameOnCard = info.firstName + " " + info.lastName
-        info.setNumberAndDetectType("4111111111111111")
+        info.setNumberAndDetectType("4111111111111111", activity)
         info.securityCode = "111"
         info.telephone = "4155555555"
         info.telephoneCountryCode = "1"

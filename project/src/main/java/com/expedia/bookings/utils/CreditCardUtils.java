@@ -53,6 +53,8 @@ public class CreditCardUtils {
 			return context.getString(R.string.cc_carte_bleue);
 		case CARD_CARTA_SI:
 			return context.getString(R.string.cc_carta_si);
+		case CARD_UNKNOWN:
+			return context.getString(R.string.unknown_card);
 		default:
 			// If all else fails, just return the enum
 			return cardType.toString();

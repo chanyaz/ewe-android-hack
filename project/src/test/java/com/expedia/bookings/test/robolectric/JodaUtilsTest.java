@@ -68,7 +68,7 @@ public class JodaUtilsTest {
 			mBillingInfo.setLastName("MobiataTestaverde");
 			mBillingInfo.setNameOnCard(mBillingInfo.getFirstName() + " " + mBillingInfo.getLastName());
 			mBillingInfo.setLocation(mLocation);
-			mBillingInfo.setNumberAndDetectType("4111111111111111");
+			mBillingInfo.setNumberAndDetectType("4111111111111111", getContext());
 			mBillingInfo.setSecurityCode("111");
 			mBillingInfo.setTelephone("4155555555");
 			mBillingInfo.setTelephoneCountryCode("1");

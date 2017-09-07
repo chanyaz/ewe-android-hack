@@ -67,7 +67,7 @@ public class StoredCreditCardList extends LinearLayout {
 				else if (card != null && card.isSelectable()) {
 					// Don't allow selection of invalid card types.
 					boolean isValidCard = Db.getTripBucket().getItem(lineOfBusiness)
-						.isPaymentTypeSupported(card.getType());
+						.isPaymentTypeSupported(card.getType(), getContext());
 
 					if (!isValidCard) {
 						return;

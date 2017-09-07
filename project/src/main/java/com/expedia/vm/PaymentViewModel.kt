@@ -12,7 +12,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.extensions.LineOfBusinessExtensions
 import com.expedia.bookings.data.extensions.isUniversalCheckout
 import com.expedia.bookings.data.payment.PaymentSplitsType
@@ -20,6 +19,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
+import com.expedia.bookings.utils.isAllowUnknownCardTypesEnabled
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
@@ -109,9 +109,9 @@ open class PaymentViewModel(val context: Context) {
                 tempCard.onNext(Pair("", getCardIcon(null)))
                 setPaymentTileInfo(null, titleSubtitlePair.first, titleSubtitlePair.second, it.splitsType, it.status)
             } else if (it.info.isTempCard && it.info.saveCardToExpediaAccount) {
-                val title = getCardTypeAndLast4Digits(it.info.paymentType, it.info.number)
-                tempCard.onNext(Pair("", getCardIcon(it.info.paymentType)))
-                setPaymentTileInfo(it.info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
+                val title = getCardTypeAndLast4Digits(it.info.getPaymentType(context), it.info.number)
+                tempCard.onNext(Pair("", getCardIcon(it.info.getPaymentType(context))))
+                setPaymentTileInfo(it.info.getPaymentType(context), title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             } else if (it.info.hasStoredCard()) {
                 val card = it.info.storedCard
@@ -121,11 +121,11 @@ open class PaymentViewModel(val context: Context) {
             } else {
                 val card = it.info
                 val cardNumber = card.number
-                val title = getCardTypeAndLast4Digits(card.paymentType, cardNumber)
+                val title = getCardTypeAndLast4Digits(card.getPaymentType(context), cardNumber)
                 if (card.isTempCard && !card.saveCardToExpediaAccount) {
-                    tempCard.onNext(Pair(title, getCardIcon(card.paymentType)))
+                    tempCard.onNext(Pair(title, getCardIcon(card.getPaymentType(context))))
                 }
-                setPaymentTileInfo(card.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
+                setPaymentTileInfo(card.getPaymentType(context), title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             }
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
@@ -165,7 +165,7 @@ open class PaymentViewModel(val context: Context) {
                     val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
                     val showingPaymentFeeWarning = tripItem?.hasPaymentFee(cardType) ?: false
                     var invalidPaymentWarningMsg = ""
-                    if (tripItem != null && cardType != null && !tripItem.isPaymentTypeSupported(cardType)) {
+                    if (tripItem != null && cardType != null && !tripItem.isPaymentTypeSupported(cardType, context)) {
                         invalidPaymentWarningMsg = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(context, cardType, lineOfBusiness.value)
                     }
                     val showLabel = !paymentTypeWarningHandledByCkoView.value || !showingPaymentFeeWarning && invalidPaymentWarningMsg.isBlank()

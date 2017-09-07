@@ -366,10 +366,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     fun selectFirstAvailableCard() {
         val tripItem = Db.getTripBucket().getItem(getLineOfBusiness())
         if (tripItem != null) {
-            if ((hasStoredCard() && !tripItem.isPaymentTypeSupported(getCardType())) || !hasStoredCard()) {
+            if ((hasStoredCard() && !tripItem.isPaymentTypeSupported(getCardType(), context)) || !hasStoredCard()) {
                 val storedUserCreditCards = Db.getUser().storedCreditCards
                 for (storedCard in storedUserCreditCards) {
-                    if (tripItem.isPaymentTypeSupported(storedCard.type)) {
+                    if (tripItem.isPaymentTypeSupported(storedCard.type, context)) {
                         sectionBillingInfo.bind(Db.getBillingInfo())
                         Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
                         val currentCC = Db.getBillingInfo().storedCard
@@ -474,7 +474,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     private val billingInfoChangedListener: ISectionEditable.SectionChangeListener = ISectionEditable.SectionChangeListener {
-        val cardType = sectionBillingInfo.billingInfo?.paymentType
+        val cardType = sectionBillingInfo.billingInfo?.getPaymentType(context)
         viewmodel.cardTypeSubject.onNext(cardType)
         val cardNumber = sectionBillingInfo.billingInfo?.number
         if (cardNumber != null) {
@@ -675,12 +675,12 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         if (isCreditCardRequired() && hasStoredCard()) {
             return sectionBillingInfo.billingInfo.storedCard.type
         } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
-            return sectionBillingInfo.billingInfo.paymentType
+            return sectionBillingInfo.billingInfo.getPaymentType(context)
         } else if (hasTempCard()) {
-            return Db.getTemporarilySavedCard().paymentType
+            return Db.getTemporarilySavedCard().getPaymentType(context)
         }
 
-        return PaymentType.UNKNOWN
+        return PaymentType.CARD_UNKNOWN
     }
 
     open fun shouldShowPaymentOptions(): Boolean {

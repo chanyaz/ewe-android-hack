@@ -69,7 +69,7 @@ class PackageCheckoutViewModelTest {
         info.firstName = "JexperCC"
         info.lastName = "asdasd"
         info.nameOnCard = info.firstName + " " + info.lastName
-        info.setNumberAndDetectType("4111111111111111")
+        info.setNumberAndDetectType("4111111111111111", activity)
         info.securityCode = "111"
         info.telephone = "4155555555"
         info.telephoneCountryCode = "1"

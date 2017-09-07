@@ -52,6 +52,6 @@ public class PaymentTypeTest {
 		Assert.assertEquals("Maestro", PaymentType.CARD_MAESTRO.getOmnitureTrackingCode());
 		Assert.assertEquals("Mastercard", PaymentType.CARD_MASTERCARD.getOmnitureTrackingCode());
 		Assert.assertEquals("Visa", PaymentType.CARD_VISA.getOmnitureTrackingCode());
-		Assert.assertEquals("no card required", PaymentType.UNKNOWN.getOmnitureTrackingCode());
+		Assert.assertEquals("Unknown", PaymentType.CARD_UNKNOWN.getOmnitureTrackingCode());
 	}
 }

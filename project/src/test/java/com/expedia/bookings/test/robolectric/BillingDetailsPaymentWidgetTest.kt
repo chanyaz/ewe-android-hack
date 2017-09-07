@@ -32,6 +32,7 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -105,7 +106,7 @@ class BillingDetailsPaymentWidgetTest {
         Db.getTripBucket().clear(LineOfBusiness.PACKAGES)
 
         val info = BillingInfo()
-        info.setNumberAndDetectType("345104799171123")
+        info.setNumberAndDetectType("345104799171123", activity)
         info.nameOnCard = "Expedia Chicago"
         info.expirationDate = cardExpiry
         info.securityCode = "1234"
@@ -168,7 +169,7 @@ class BillingDetailsPaymentWidgetTest {
         givenTripResponse("AmericanExpress")
 
         val info = BillingInfo()
-        info.setNumberAndDetectType("345104799171123")
+        info.setNumberAndDetectType("345104799171123", activity)
         info.nameOnCard = "Expedia Chicago"
         info.expirationDate = cardExpiry
         info.securityCode = "123"
@@ -189,7 +190,7 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
 
         val info = BillingInfo()
-        info.setNumberAndDetectType("4111111111111111")
+        info.setNumberAndDetectType("4111111111111111", activity)
         info.nameOnCard = "Test CArd"
         info.expirationDate = cardExpiry
         info.securityCode = "123"
@@ -237,7 +238,7 @@ class BillingDetailsPaymentWidgetTest {
         givenTripResponse("Visa")
 
         val info = BillingInfo()
-        info.setNumberAndDetectType("4284306858654528")
+        info.setNumberAndDetectType("4284306858654528", activity)
         info.nameOnCard = "Expedia Chicago"
         info.expirationDate = cardExpiry
         info.securityCode = "1234"
@@ -263,7 +264,7 @@ class BillingDetailsPaymentWidgetTest {
 
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertFalse(billingDetailsPaymentWidget.isAtLeastPartiallyFilled())
-        info.setNumberAndDetectType("345104799171123")
+        info.setNumberAndDetectType("345104799171123", activity)
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertTrue(billingDetailsPaymentWidget.isAtLeastPartiallyFilled())
 
@@ -333,7 +334,7 @@ class BillingDetailsPaymentWidgetTest {
         val info = BillingInfo()
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
-        info.setNumberAndDetectType("345104799171123")
+        info.setNumberAndDetectType("345104799171123", activity)
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
 
@@ -376,7 +377,7 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
 
-        info.setNumberAndDetectType("345104799171123")
+        info.setNumberAndDetectType("345104799171123", activity)
         info.nameOnCard = "Expedia Chicago"
         info.expirationDate = cardExpiry
         info.securityCode = "1234"
@@ -839,6 +840,54 @@ class BillingDetailsPaymentWidgetTest {
         assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
     }
 
+    @Test
+    fun testAllowUnknownCardWithValidNumberValidation() {
+        toggleAllowUnknownCardTypesABTestAndFF(true)
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        givenTripResponse("AmericanExpress")
+        val completeBillingInfo = getIncompleteCCBillingInfo()
+        // Set to an unknown card type with a valid number
+        completeBillingInfo.setNumber("1234567812345670")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(completeBillingInfo)
+        billingDetailsPaymentWidget.sectionLocation.bind(completeBillingInfo.location)
+
+        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+    }
+
+    @Test
+    fun testDontAllowUnknownCardWithInvalidNumberValidation() {
+        toggleAllowUnknownCardTypesABTestAndFF(true)
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        givenTripResponse("AmericanExpress")
+        val completeBillingInfo = getIncompleteCCBillingInfo()
+        // Set to an unknown card type with an invalid number
+        completeBillingInfo.setNumber("1111111111111111")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(completeBillingInfo)
+        billingDetailsPaymentWidget.sectionLocation.bind(completeBillingInfo.location)
+
+        assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+    }
+
+    @Test
+    fun testDontAllowUnknownCardValidation() {
+        toggleAllowUnknownCardTypesABTestAndFF(false)
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        givenTripResponse("AmericanExpress")
+        val completeBillingInfo = getIncompleteCCBillingInfo()
+        // Set to an unknown card type with a valid number
+        completeBillingInfo.setNumber("1234567812345670")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(completeBillingInfo)
+        billingDetailsPaymentWidget.sectionLocation.bind(completeBillingInfo.location)
+
+        assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+    }
+
     private fun getUserWithStoredCard(): User {
         val user = User()
         user.addStoredCreditCard(getNewCard())
@@ -914,7 +963,7 @@ class BillingDetailsPaymentWidgetTest {
 
     private fun getCompleteBillingInfo(): BillingInfo {
         val billingInfo = getIncompleteCCBillingInfo()
-        billingInfo.setNumberAndDetectType("4111111111111111")
+        billingInfo.setNumberAndDetectType("4111111111111111", activity)
         return billingInfo
     }
 
@@ -979,5 +1028,15 @@ class BillingDetailsPaymentWidgetTest {
         assertEquals("Any city", fakeAddress.city)
         assertEquals("MA", fakeAddress.stateCode)
         assertEquals("12345", fakeAddress.postalCode)
+    }
+
+    private fun toggleAllowUnknownCardTypesABTestAndFF(toggleOn: Boolean) {
+        if (toggleOn) {
+            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
+        }
+        else {
+            AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
+        }
+        SettingUtils.save(activity.applicationContext, R.string.preference_allow_unknown_card_types, toggleOn)
     }
 }

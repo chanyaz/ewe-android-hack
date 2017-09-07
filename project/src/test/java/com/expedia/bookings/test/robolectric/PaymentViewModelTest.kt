@@ -31,7 +31,6 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.isAllowUnknownCardTypesEnabled
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
@@ -333,6 +332,35 @@ class PaymentViewModelTest {
         assertFalse(isAllowUnknownCardTypesEnabled(getContext()))
     }
 
+
+    @Test
+    fun testAllowUnknownCardTypesNoPaymentTypeWarning() {
+        toggleAllowUnknownCardTypesABTestAndFF(true)
+        val invalidPaymentTypeWarningTestSubscriber = TestSubscriber<String>()
+        givenFlightsTrip()
+
+        viewModel.invalidPaymentTypeWarning.subscribe(invalidPaymentTypeWarningTestSubscriber)
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
+        viewModel.cardTypeSubject.onNext(PaymentType.CARD_UNKNOWN)
+
+        invalidPaymentTypeWarningTestSubscriber.assertValueCount(1)
+        invalidPaymentTypeWarningTestSubscriber.assertValue("")
+    }
+
+    @Test
+    fun testDontAllowUnknownCardTypesNoPaymentTypeWarning() {
+        toggleAllowUnknownCardTypesABTestAndFF(false)
+        val invalidPaymentTypeWarningTestSubscriber = TestSubscriber<String>()
+        givenFlightsTrip()
+
+        viewModel.invalidPaymentTypeWarning.subscribe(invalidPaymentTypeWarningTestSubscriber)
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
+        viewModel.cardTypeSubject.onNext(PaymentType.CARD_UNKNOWN)
+
+        invalidPaymentTypeWarningTestSubscriber.assertValueCount(1)
+        invalidPaymentTypeWarningTestSubscriber.assertValue("Airline does not accept Unknown Card")
+    }
+
     private fun givenTransportTrip() {
         val createTripResponse = LXCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemTransport(createTripResponse))
@@ -375,7 +403,7 @@ class PaymentViewModelTest {
         info.firstName = "JexperCC"
         info.lastName = "MobiataTestaverde"
         info.nameOnCard = info.firstName + " " + info.lastName
-        info.setNumberAndDetectType("4111111111111111")
+        info.setNumberAndDetectType("4111111111111111", getContext())
         info.securityCode = "111"
         info.telephone = "4155555555"
         info.telephoneCountryCode = "1"

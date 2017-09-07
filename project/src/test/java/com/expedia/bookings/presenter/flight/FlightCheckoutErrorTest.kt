@@ -166,7 +166,7 @@ class FlightCheckoutErrorTest {
         billingInfo.firstName = firstName
         billingInfo.lastName = "MobiataTestaverde"
         billingInfo.nameOnCard = billingInfo.firstName + " " + billingInfo.lastName
-        billingInfo.setNumberAndDetectType("4111111111111111")
+        billingInfo.setNumberAndDetectType("4111111111111111", context)
         billingInfo.securityCode = "111"
         billingInfo.telephone = "4155555555"
         billingInfo.telephoneCountryCode = "1"

@@ -39,7 +39,7 @@ public class CurrencyUtils {
 	 * @param cardNumber the number of the card (as entered so far)
 	 * @return the credit card brand if detected, null if not detected
 	 */
-	public static PaymentType detectCreditCardBrand(String cardNumber) {
+	public static PaymentType detectCreditCardBrand(String cardNumber, Context context) {
 		//If we dont have any input, we dont get any output
 		if (Strings.isEmpty(cardNumber)) {
 			return null;
@@ -104,6 +104,11 @@ public class CurrencyUtils {
 			return PaymentType.CARD_VISA;
 		}
 
+		if (FeatureUtilKt.isAllowUnknownCardTypesEnabled(context)) {
+			// Didn't find a valid card type, return unknown card
+			return PaymentType.CARD_UNKNOWN;
+		}
+
 		// Didn't find a valid card type, return null
 		return null;
 	}
@@ -149,7 +154,7 @@ public class CurrencyUtils {
 		}
 		else {
 			Log.w("Tried to parse an unknown credit card type, name=" + type);
-			return PaymentType.UNKNOWN;
+			return PaymentType.CARD_UNKNOWN;
 		}
 	}
 

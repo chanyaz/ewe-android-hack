@@ -6,6 +6,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
@@ -14,6 +16,7 @@ import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.flights.ValidFormOfPayment;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -125,7 +128,10 @@ public abstract class TripBucketItem implements JSONable {
 	 * @param paymentType
 	 * @return true if this FlightTrip supports the card type, false otherswise.
 	 */
-	public boolean isPaymentTypeSupported(PaymentType paymentType) {
+	public boolean isPaymentTypeSupported(PaymentType paymentType, Context context) {
+		if (FeatureUtilKt.isAllowUnknownCardTypesEnabled(context) && paymentType == PaymentType.CARD_UNKNOWN) {
+			return true;
+		}
 		return ValidPayment.isPaymentTypeSupported(mValidPayments, paymentType);
 	}
 
@@ -136,11 +142,11 @@ public abstract class TripBucketItem implements JSONable {
 	 * @param billingInfo
 	 * @return cardFee as Money or null if no card fee
 	 */
-	public Money getPaymentFee(BillingInfo billingInfo) {
-		if (billingInfo == null || billingInfo.getPaymentType() == null) {
+	public Money getPaymentFee(BillingInfo billingInfo, Context context) {
+		if (billingInfo == null || billingInfo.getPaymentType(context) == null) {
 			return null;
 		}
-		return getPaymentFee(billingInfo.getPaymentType());
+		return getPaymentFee(billingInfo.getPaymentType(context));
 	}
 
 	public Money getPaymentFee(PaymentType paymentType) {

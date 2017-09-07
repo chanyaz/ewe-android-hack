@@ -1079,6 +1079,9 @@ public class OmnitureTracking {
 		s.setAppState(HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		trackAbacusTest(s, AbacusUtils.EBAndroidPopulateCardholderName);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_allow_unknown_card_types)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
+		}
 		s.track();
 	}
 
@@ -1538,6 +1541,9 @@ public class OmnitureTracking {
 
 		if (isMaterialFormsEnabled()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHideApacBillingAddressFields);
+		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_allow_unknown_card_types)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
 		}
 
 		s.track();
@@ -3660,7 +3666,7 @@ public class OmnitureTracking {
 			type = scc.getType();
 		}
 		else {
-			type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
+			type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber(), sContext);
 		}
 
 		if (type != null) {
@@ -3687,7 +3693,7 @@ public class OmnitureTracking {
 				return "CarteBleue";
 			case CARD_CARTA_SI:
 				return "CartaSi";
-			case UNKNOWN:
+			case CARD_UNKNOWN:
 				return "Unknown";
 			}
 		}

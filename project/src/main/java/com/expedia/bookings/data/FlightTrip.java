@@ -184,9 +184,9 @@ public class FlightTrip implements JSONable {
 		mPriceChangeAmount = priceChangeAmount;
 	}
 
-	public Money getTotalFareWithCardFee(BillingInfo billingInfo, TripBucketItem item) {
+	public Money getTotalFareWithCardFee(BillingInfo billingInfo, TripBucketItem item, Context context) {
 		Money base = new Money(mTotalPrice);
-		Money cardFee = item.getPaymentFee(billingInfo);
+		Money cardFee = item.getPaymentFee(billingInfo.getPaymentType(context));
 
 		if (cardFee != null) {
 			base.add(cardFee);

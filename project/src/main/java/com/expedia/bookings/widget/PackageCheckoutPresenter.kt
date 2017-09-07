@@ -107,10 +107,10 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         val type: PaymentType? = if (scc != null) {
             scc.type
         } else {
-            CurrencyUtils.detectCreditCardBrand(billingInfo.number)
+            CurrencyUtils.detectCreditCardBrand(billingInfo.number, context)
         }
 
-        return type ?: PaymentType.UNKNOWN
+        return type ?: PaymentType.CARD_UNKNOWN
     }
 
 }

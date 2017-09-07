@@ -250,7 +250,7 @@ class LxCheckoutErrorTests {
         billingInfo.lastName = "User"
         billingInfo.nameOnCard = "Test User"
         billingInfo.email = "qa-ehcc@mobiata.com"
-        billingInfo.setNumberAndDetectType("4444444444444448")
+        billingInfo.setNumberAndDetectType("4444444444444448", activity)
         billingInfo.expirationDate = LocalDate.now().plusYears(1)
         billingInfo.securityCode = "111"
         billingInfo.telephone = "4155555555"
