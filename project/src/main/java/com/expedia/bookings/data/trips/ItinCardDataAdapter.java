@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -97,9 +98,20 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	@Override
 	public synchronized ItinCardData getItem(int position) {
 		if (mItinCardDatas != null && position < mItinCardDatas.size()) {
-			return mItinCardDatas.get(position);
+			ItinCardData data = mItinCardDatas.get(position);
+			if (data == null) {
+				Throwable e = new Throwable("ItinCardData is null; position=" + position + "; size=" + mItinCardDatas.size());
+				Crashlytics.logException(e);
+			}
+			return data;
 		}
 
+		String size = "null";
+		if (mItinCardDatas != null) {
+			size = "" + mItinCardDatas.size();
+		}
+		Throwable e = new Throwable("could not get ItinCardData; position=" + position + "; size=" + size);
+		Crashlytics.logException(e);
 		return null;
 	}
 

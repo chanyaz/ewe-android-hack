@@ -787,32 +787,35 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
-		Boolean isItinCardDetailFeatureOn = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinHotelRedesign);
-		if (view instanceof ItinButtonCard) {
-			// Do nothing
-		}
-		else if (view instanceof ItinAirAttachCard) {
-			return;
-		}
-		else if (data instanceof ItinCardDataRails) {
-			openItinInWebView(data.getDetailsUrl());
-		}
-		else if (data.getTripComponentType() == TripComponent.Type.HOTEL && isItinCardDetailFeatureOn) {
-			getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()),
-				ActivityOptionsCompat
-					.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
-					.toBundle());
-			OmnitureTracking.trackItinHotel(getContext());
-		}
-		else if (data.hasDetailData()) {
-			showDetails(position, true);
-		}
-		else if (!TextUtils.isEmpty(data.getDetailsUrl())) {
-			openItinInWebView(data.getDetailsUrl());
-		}
+		Boolean isItinCardDetailFeatureOn = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppItinHotelRedesign);
+		if (data != null) {
+			if (view instanceof ItinButtonCard) {
+				// Do nothing
+			}
+			else if (view instanceof ItinAirAttachCard) {
+				return;
+			}
+			else if (data instanceof ItinCardDataRails) {
+				openItinInWebView(data.getDetailsUrl());
+			}
+			else if (data.getTripComponentType() == TripComponent.Type.HOTEL && isItinCardDetailFeatureOn) {
+				getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()),
+					ActivityOptionsCompat
+						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
+						.toBundle());
+				OmnitureTracking.trackItinHotel(getContext());
+			}
+			else if (data.hasDetailData()) {
+				showDetails(position, true);
+			}
+			else if (!TextUtils.isEmpty(data.getDetailsUrl())) {
+				openItinInWebView(data.getDetailsUrl());
+			}
 
-		if (mOnItemClickListener != null) {
-			mOnItemClickListener.onItemClick(parent, view, position, id);
+			if (mOnItemClickListener != null) {
+				mOnItemClickListener.onItemClick(parent, view, position, id);
+			}
 		}
 	}
 
