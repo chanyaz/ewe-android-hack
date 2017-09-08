@@ -12,8 +12,8 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
     val city = PublishSubject.create<String>()
     val country = PublishSubject.create<String>()
 
-    val checkIn = PublishSubject.create<String>()
-    val checkOut = PublishSubject.create<String?>()
+    val checkInAndCheckOutDate = PublishSubject.create<Pair<String, String>>()
+    val checkInWithoutCheckoutDate = PublishSubject.create<String>()
     val guests = PublishSubject.create<Int>()
 
     val cityTitle = BehaviorSubject.create<String>()
@@ -34,19 +34,16 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
             cityTitle.onNext(text)
         }).subscribe()
 
-        Observable.combineLatest(checkIn, checkOut, { checkIn, checkOut ->
-            val text: String
-            val contDesc: String
-            if (checkIn != null && checkOut != null) {
-                text = DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
-                contDesc = DateFormatUtils.formatPackageDateRangeContDesc(context, checkIn, checkOut)
-            } else {
-                text = DateFormatUtils.formatLocalDateToShortDayAndDate(checkIn)
-                contDesc = text
-            }
+        checkInAndCheckOutDate.subscribe { (checkIn, checkOut) ->
+            datesTitle.onNext(DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut))
+            datesTitleContDesc.onNext(DateFormatUtils.formatPackageDateRangeContDesc(context, checkIn, checkOut))
+        }
+
+        checkInWithoutCheckoutDate.subscribe { checkIn ->
+            val text = DateFormatUtils.formatLocalDateToShortDayAndDate(checkIn)
             datesTitle.onNext(text)
-            datesTitleContDesc.onNext(contDesc)
-        }).subscribe()
+            datesTitleContDesc.onNext(text)
+        }
 
         guests.subscribe { travelers ->
             val text = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, travelers, travelers)

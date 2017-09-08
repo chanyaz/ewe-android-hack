@@ -20,8 +20,11 @@ class PackageCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewV
             city.onNext(hotel.hotelCity)
             val shouldShowCountryName = !hotel.hotelCountry.equals("USA") || hotel.hotelStateProvince.isNullOrEmpty()
             country.onNext(if (shouldShowCountryName) Db.getPackageParams().destination?.hierarchyInfo?.country?.name?: "" else hotel.hotelStateProvince)
-            checkIn.onNext(hotel.checkInDate)
-            checkOut.onNext(hotel.checkOutDate)
+            if (hotel.checkOutDate != null) {
+                checkInAndCheckOutDate.onNext(Pair(hotel.checkInDate, hotel.checkOutDate))
+            } else {
+                checkInWithoutCheckoutDate.onNext(hotel.checkInDate)
+            }
             guests.onNext(Db.getPackageParams().guests)
 
             if (url.value != links) url.onNext(links)

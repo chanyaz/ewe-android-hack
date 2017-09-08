@@ -16,8 +16,16 @@ class RailCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewView
             val city = searchParams.destination?.regionNames?.shortName
 
             cityTitle.onNext(city)
-            checkIn.onNext(searchParams?.departDate?.toString(formatter))
-            checkOut.onNext(searchParams?.returnDate?.toString(formatter))
+
+            val startDateFormatted = searchParams.departDate.toString(formatter)
+            val endDateFormatted = searchParams.returnDate?.toString(formatter)
+
+            if (endDateFormatted != null) {
+                checkInAndCheckOutDate.onNext(Pair(startDateFormatted, endDateFormatted))
+            } else {
+                checkInWithoutCheckoutDate.onNext(startDateFormatted)
+            }
+
             guests.onNext(searchParams.guests)
             placeHolderDrawable.onNext(R.drawable.scratchpad_intro_placeholder)
         }

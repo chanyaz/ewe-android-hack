@@ -26,8 +26,16 @@ class FlightCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewVi
             val links = listOf<String>(link)
 
             cityTitle.onNext(city)
-            checkIn.onNext(params?.departureDate?.toString(formatter))
-            checkOut.onNext(params?.returnDate?.toString(formatter))
+            if (params != null) {
+                val startDateFormatted = params.departureDate.toString(formatter)
+                val endDateFormatted = params.returnDate?.toString(formatter)
+
+                if (endDateFormatted != null) {
+                    checkInAndCheckOutDate.onNext(Pair(startDateFormatted, endDateFormatted))
+                } else {
+                    checkInWithoutCheckoutDate.onNext(startDateFormatted)
+                }
+            }
             guests.onNext(params.guests)
             url.onNext(links)
         }
