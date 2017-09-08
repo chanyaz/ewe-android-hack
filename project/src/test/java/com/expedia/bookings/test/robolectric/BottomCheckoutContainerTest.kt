@@ -49,6 +49,15 @@ class BottomCheckoutContainerTest {
     }
 
     @Test
+    fun testSliderPurchaseNullText() {
+        bottomContainer.viewModel.sliderPurchaseTotalText.onNext("")
+        bottomContainer.toggleSlideToPurchaseText(true)
+
+        assertEquals(View.VISIBLE, bottomContainer.slideToPurchaseSpace.visibility)
+        assertEquals(View.GONE, bottomContainer.slideTotalText.visibility)
+    }
+
+    @Test
     fun testToggleBottomContainerViews() {
         bottomContainer.toggleBottomContainerViews(TwoScreenOverviewState.BUNDLE, false)
         assertTrue(bottomContainer.checkoutButtonContainer.visibility == View.VISIBLE)

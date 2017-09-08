@@ -25,9 +25,9 @@ import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.safeSubscribe
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
-import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
+import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
@@ -114,7 +114,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             params.searchProduct = null
             bundleWidget.viewModel.hotelParamsObservable.onNext(params)
-            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext(null)
+            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
             PackagesTracking().trackBundleEditItemClick("Hotel")
             true
         })
@@ -192,7 +192,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         builder.setPositiveButton(context.getString(R.string.start_over)) { dialog, which ->
             checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.resetTravelers()
-            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext(null)
+            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
             bundleWidget.viewModel.showSearchObservable.onNext(Unit)
         }
         val dialog = builder.create()
