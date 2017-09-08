@@ -62,10 +62,11 @@ import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.google.gson.Gson
-import retrofit2.HttpException
+import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
+import retrofit2.HttpException
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates

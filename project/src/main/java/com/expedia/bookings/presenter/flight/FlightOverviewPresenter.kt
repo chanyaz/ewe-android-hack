@@ -33,6 +33,7 @@ import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
 import com.expedia.util.Optional
 import com.expedia.util.safeSubscribeOptional
+import com.expedia.bookings.withLatestFrom
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FareFamilyViewModel
@@ -45,8 +46,8 @@ import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
 import java.util.Locale
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {

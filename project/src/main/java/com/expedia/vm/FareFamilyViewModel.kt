@@ -9,7 +9,8 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
-import rx.subjects.PublishSubject
+import com.expedia.bookings.withLatestFrom
+import io.reactivex.subjects.PublishSubject
 
 class FareFamilyViewModel(private val context: Context) {
     // inputs

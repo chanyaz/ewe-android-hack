@@ -10,7 +10,7 @@ import android.support.v7.preference.PreferenceGroup;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import rx.Observer;
+import io.reactivex.observers.DisposableObserver;
 
 public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
 
@@ -23,9 +23,9 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
 		setDividerHeight(2);
 
 		if (getActivity() instanceof ExpediaBookingPreferenceActivity) {
-			((ExpediaBookingPreferenceActivity) getActivity()).searchQueryChangeSubject.subscribe(new Observer<String>() {
+			((ExpediaBookingPreferenceActivity) getActivity()).searchQueryChangeSubject.subscribe(new DisposableObserver<String>() {
 				@Override
-				public void onCompleted() {
+				public void onComplete() {
 				}
 				@Override
 				public void onError(Throwable e) {

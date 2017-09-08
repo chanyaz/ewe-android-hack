@@ -6,9 +6,10 @@ import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.withLatestFrom
 import com.squareup.phrase.Phrase
-import org.joda.time.format.DateTimeFormat
 import io.reactivex.subjects.PublishSubject
+import org.joda.time.format.DateTimeFormat
 
 class FlightOverviewSummaryViewModel(val context: Context) {
 

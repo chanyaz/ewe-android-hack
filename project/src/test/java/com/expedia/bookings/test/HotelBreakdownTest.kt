@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 <<<<<<< HEAD
 import rx.observers.TestSubscriber
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 =======
 import com.expedia.bookings.services.TestObserver
 >>>>>>> 5abc89409b... WIP
@@ -201,7 +201,7 @@ class HotelBreakdownTest {
         runBeforeComplete?.run()
 
         assertTrue(latch.await(10, TimeUnit.SECONDS))
-        vm.addRows.onCompleted()
+        vm.addRows.onComplete()
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
     }
 

@@ -152,7 +152,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getFormFilledIn());
 		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 
@@ -243,7 +243,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		toolbar.getViewModel().getNextClicked().subscribe(new Observer<Unit>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 
@@ -263,7 +263,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		toolbar.getViewModel().getExpanded().subscribe(new Observer<ExpandableCardView>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 			}
 
 			@Override
@@ -282,7 +282,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		toolbar.getViewModel().getClosed().subscribe(new Observer<Unit>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 
@@ -437,7 +437,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				.getVm().getAcceptedTermsObservable().getValue()) {
 				acceptTermsWidget.getVm().getAcceptedTermsObservable().subscribe(new Observer<Boolean>() {
 					@Override
-					public void onCompleted() {
+					public void onComplete() {
 					}
 
 					@Override
@@ -858,7 +858,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public Observer<Boolean> expandPaymentObserver = new Observer<Boolean>() {
 
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override

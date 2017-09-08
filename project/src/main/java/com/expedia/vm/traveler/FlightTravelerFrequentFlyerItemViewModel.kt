@@ -4,7 +4,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
 import com.expedia.bookings.utils.Strings
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.LinkedHashMap
 

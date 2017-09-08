@@ -129,7 +129,7 @@ public class BaseTravelerPresenterTestHelper {
 
 		testTravelersPresenter.getCloseSubject().subscribe(new Observer<Unit>() {
 			@Override
-			public void onCompleted() {
+			public void onComplete() {
 
 			}
 

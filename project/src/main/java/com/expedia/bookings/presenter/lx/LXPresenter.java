@@ -126,7 +126,7 @@ public class LXPresenter extends Presenter {
 
 	private Observer<LxSearchParams> lxSearchParamsObserver = new Observer<LxSearchParams>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override

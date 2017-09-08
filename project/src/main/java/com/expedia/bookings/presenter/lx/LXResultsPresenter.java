@@ -247,7 +247,7 @@ public class LXResultsPresenter extends Presenter {
 
 	private Observer<LXTheme> lxThemeSearchObserver = new Observer<LXTheme>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			//ignore
 		}
 
@@ -309,7 +309,7 @@ public class LXResultsPresenter extends Presenter {
 		public View widget;
 
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			cleanup();
 		}
 
@@ -381,7 +381,7 @@ public class LXResultsPresenter extends Presenter {
 	private class ThemeResultSortObserver implements Observer<LXTheme> {
 
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			// ignore
 		}
 

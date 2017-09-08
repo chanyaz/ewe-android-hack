@@ -65,6 +65,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
 import io.reactivex.Observer;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -81,10 +82,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private DeepLinkParser deepLinkParser = null;
 	private boolean supportsRails = PointOfSale.getPointOfSale().supports(LineOfBusiness.RAILS);
 
-	Observer<AbacusResponse> evaluateAbTests = new Observer<AbacusResponse>() {
+	Observer<AbacusResponse> evaluateAbTests = new DisposableObserver<AbacusResponse>() {
 
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			handleDeeplink();
 		}
 

@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.unsubscribeOnClick
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class PayNowPayLaterTabs(context: Context, attrs: AttributeSet?) : TwoTabCardView(context, attrs) {
     val payNowClickedSubject = PublishSubject.create<Unit>()

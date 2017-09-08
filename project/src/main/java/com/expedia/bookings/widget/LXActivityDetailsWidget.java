@@ -468,7 +468,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	private Observer<Offer> lxOfferObserever = new Observer<Offer>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override

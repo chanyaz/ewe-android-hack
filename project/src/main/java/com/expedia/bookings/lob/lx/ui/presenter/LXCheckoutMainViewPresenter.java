@@ -180,7 +180,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 
 	private Observer<LXCreateTripResponse> createTripObserver = new Observer<LXCreateTripResponse>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			cleanup();
 		}
 

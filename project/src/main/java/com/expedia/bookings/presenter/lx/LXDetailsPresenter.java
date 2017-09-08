@@ -143,7 +143,7 @@ public class LXDetailsPresenter extends Presenter {
 
 	private Observer<ActivityDetailsResponse> detailsObserver = new Observer<ActivityDetailsResponse>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 			// ignore
 		}
 

@@ -16,13 +16,12 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeInverseVisibilityInvisible
 import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.flights.FareFamilyItemViewModel
 import com.expedia.vm.flights.FareFamilyPrimaryAmenitiesWidgetViewModel
 import com.expedia.vm.flights.FlightFareFamilyAmenityDialogViewModel
-import rx.Observer
+import io.reactivex.Observer
 import java.util.Locale
 
 class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {

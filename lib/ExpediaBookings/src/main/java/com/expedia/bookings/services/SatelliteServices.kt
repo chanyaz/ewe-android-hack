@@ -1,15 +1,15 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.subscribeObserver
 import com.google.gson.GsonBuilder
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-
-import rx.Observer
-import rx.Scheduler
-import rx.Subscription
 
 open class SatelliteServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
                              satelliteInterceptor: Interceptor, hmacInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
@@ -22,7 +22,7 @@ open class SatelliteServices(endpoint: String, okHttpClient: OkHttpClient, inter
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder()
                         .addInterceptor(interceptor).addInterceptor(satelliteInterceptor).addInterceptor(hmacInterceptor)
                         .build())
@@ -30,12 +30,12 @@ open class SatelliteServices(endpoint: String, okHttpClient: OkHttpClient, inter
         adapter.create(SatelliteApi::class.java)
     }
 
-    fun fetchFeatureConfig(observer: Observer<List<String>>): Subscription {
+    fun fetchFeatureConfig(observer: DisposableObserver<List<String>>): Disposable {
 
         val satelliteSubscription = satelliteApi.getFeatureConfigs()
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
         return satelliteSubscription
     }
 }

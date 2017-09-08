@@ -139,7 +139,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	private Observer activityFilterSubscriber = new Observer() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override

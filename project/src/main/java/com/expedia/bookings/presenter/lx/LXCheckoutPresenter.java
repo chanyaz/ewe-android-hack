@@ -116,7 +116,7 @@ public class LXCheckoutPresenter extends Presenter {
 
 	private Observer<LXCheckoutResponse> checkoutObserver = new Observer<LXCheckoutResponse>() {
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override

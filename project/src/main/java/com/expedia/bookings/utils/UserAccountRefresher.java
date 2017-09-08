@@ -192,7 +192,7 @@ public class UserAccountRefresher {
 			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new DisposableObserver<FacebookLinkResponse>() {
 				@Override
-				public void onCompleted() {
+				public void onComplete() {
 					// unused
 				}
 

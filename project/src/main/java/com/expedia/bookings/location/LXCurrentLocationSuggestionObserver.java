@@ -29,7 +29,7 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 	}
 
 	@Override
-	public void onCompleted() {
+	public void onComplete() {
 	}
 
 	@Override

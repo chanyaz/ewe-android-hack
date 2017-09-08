@@ -188,7 +188,7 @@ class LXResultsPresenterTest {
         assertEquals(View.GONE, errorScreen.visibility)
         assertEquals(View.GONE, themeResultsWidget.visibility)
         assertEquals(View.VISIBLE, filterIcon.visibility)
-        searResultObserver.onCompleted()
+        searResultObserver.onComplete()
         assertEquals(true, lxResultsPresenter.searchSubscription.isDisposed)
 
     }

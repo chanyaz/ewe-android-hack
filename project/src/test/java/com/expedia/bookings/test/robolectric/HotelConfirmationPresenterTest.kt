@@ -33,7 +33,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import com.expedia.bookings.services.TestObserver
 import io.reactivex.schedulers.Schedulers
-import rx.subjects.TestSubject
+import io.reactivex.subjects.TestSubject
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

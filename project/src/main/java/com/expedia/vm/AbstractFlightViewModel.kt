@@ -7,8 +7,7 @@ import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 
 abstract class AbstractFlightViewModel(protected val context: Context, protected val flightLeg: FlightLeg) {
     val resources = context.resources
@@ -20,7 +19,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     var flightSegments = flightLeg.flightSegments
     val earnMessage = flightLeg.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context, false) ?: ""
     var seatsLeftUrgencyMessage = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
-    val updateflightCabinPreferenceObservable = BehaviorSubject.create<String>(FlightV2Utils.getFlightCabinPreferences(context, flightLeg))
+    val updateflightCabinPreferenceObservable = BehaviorSubject.createDefault<String>(FlightV2Utils.getFlightCabinPreferences(context, flightLeg))
 
     abstract fun price(): String
     abstract fun getUrgencyMessageVisibility(seatsLeft: String): Boolean

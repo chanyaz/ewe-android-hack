@@ -232,7 +232,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
 
     fun getAddLXBtnObserver(context: Context): Observer<Unit> {
         return object : DisposableObserver<Unit>() {
-            override fun onNext(t: Unit?) {
+            override fun onNext(t: Unit) {
                 LXNavUtils.goToActivities(context, null, LXDataUtils.fromHotelParams(context, checkInDate.value, checkOutDate.value, hotelLocation.value),
                         NavUtils.FLAG_OPEN_RESULTS)
                 HotelTracking.trackHotelCrossSellLX()

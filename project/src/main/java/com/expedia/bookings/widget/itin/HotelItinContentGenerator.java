@@ -96,7 +96,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	private Observer<HotelOffersResponse> observer = new Observer<HotelOffersResponse>() {
 
 		@Override
-		public void onCompleted() {
+		public void onComplete() {
 		}
 
 		@Override

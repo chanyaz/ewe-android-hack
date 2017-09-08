@@ -11,6 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.Strings
 import com.expedia.util.subscribeText
 import com.expedia.vm.FlightTravelerPickerViewModel
+import io.reactivex.subjects.BehaviorSubject
 
 class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerWidgetV2(context, attrs) {
 
