@@ -80,10 +80,11 @@ class FareFamilyViewModelTest {
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
         sut.fromLabelVisibility.subscribe(fromLabelVisibilitySubscriber)
         sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
+
         sut.tripObservable.onNext(tripResponseWithFareFamilySelected(2))
-        assertEquals("", deltaPriceSubscriber.onNextEvents[0])
-        assertEquals("Economy", selectedClassSubscriber.onNextEvents[0])
-        assertEquals("Change your cabin class", fareFamilyTitleSubscriber.onNextEvents[0])
+        assertEquals("",deltaPriceSubscriber.onNextEvents[0])
+        assertEquals("Economy",selectedClassSubscriber.onNextEvents[0])
+        assertEquals("Change your fare",fareFamilyTitleSubscriber.onNextEvents[0])
         assertFalse(fromLabelVisibilitySubscriber.onNextEvents[0])
     }
 

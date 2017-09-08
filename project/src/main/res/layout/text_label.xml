@@ -3,6 +3,7 @@
     style="@style/FareFamilyHeaderSubtitle"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingBottom="8dp"
+    android:paddingBottom="5dp"
     android:paddingTop="20dp"
+    android:textSize="14sp"
     tools:text="Text Label" />

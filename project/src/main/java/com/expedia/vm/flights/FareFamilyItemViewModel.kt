@@ -22,6 +22,7 @@ class FareFamilyItemViewModel(val context: Context,
     val fareDeltaAmount = getDeltaPricing(fareFamilyDetail.deltaTotalPrice, fareFamilyDetail.deltaPositive)
     val cabinClass = createCabinClass()
     val travelerTextObservable = PublishSubject.create<String>()
+    val dividerVisibilitySubject = PublishSubject.create<Boolean>()
 
     private fun createCabinClass(): String {
         return Phrase.from(context, R.string.cabin_code_TEMPLATE).put("cabincode",

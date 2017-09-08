@@ -77,6 +77,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
                 val fareFamilyItem = inflater.inflate(R.layout.flight_fare_family_item_layout, fareFamilyRadioGroup, false) as FareFamilyItemWidget
                 fareFamilyItem.bindViewModel(fareFamilyItemViewModel)
                 fareFamilyItemViewModel.travelerTextObservable.onNext(StrUtils.formatMultipleTravelerString(context, Db.getFlightSearchParams().guests))
+                fareFamilyItemViewModel.dividerVisibilitySubject.onNext((index == (fareDetailsAndSelectedFareFamily.fareDetails.size - 1)))
                 vm.airlinesObservable.subscribe(fareFamilyItem.fareFamilyAmenitiesDialogView.viewModel.airlineNameSubject)
                 fareFamilyRadioGroup.addView(fareFamilyItem)
                 if (defaultChecked) {

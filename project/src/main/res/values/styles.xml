@@ -243,7 +243,7 @@
         <item name="android:maxHeight">76dp</item>
     </style>
 
-   <style name="MaterialProgressBar.Medium" parent="@android:style/Widget.Material.ProgressBar">
+    <style name="MaterialProgressBar.Medium" parent="@android:style/Widget.Material.ProgressBar">
         <item name="android:minWidth">30dp</item>
         <item name="android:maxWidth">30dp</item>
         <item name="android:minHeight">30dp</item>
@@ -1293,22 +1293,26 @@
         <item name="android:ellipsize">end</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="FlightFareFamilyAmenityText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/gray7</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="FareFamilyHeader" parent="FlightFareFamilyTextStyle">
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="FareFamilyHeaderSubtitle" parent="FlightFareFamilyTextStyle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="FareFamilyTitle" parent="FlightFareFamilyTextStyle">
         <item name="android:textSize">12sp</item>
     </style>
 

@@ -60,7 +60,7 @@ class FareFamilyAmenityDialogTest {
         val secondPrimaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(1) as FareFamilyAmenityItemWidget).getChildAt(0) as LinearLayout
         assertEquals("Cancellation", (secondPrimaryAmenity.getChildAt(1) as TextView).text.toString())
         val thirdPrimaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(2) as FareFamilyAmenityItemWidget).getChildAt(0) as LinearLayout
-        assertEquals("Seat Selection", (thirdPrimaryAmenity.getChildAt(1) as TextView).text.toString())
+        assertEquals("Seat Choice", (thirdPrimaryAmenity.getChildAt(1) as TextView).text.toString())
     }
 
     @Test

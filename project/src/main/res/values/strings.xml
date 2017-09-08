@@ -4424,8 +4424,8 @@
     <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Sorry, &lt;b&gt;{selected_upgrade}&lt;/b&gt; is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
     <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Sorry, &lt;b&gt;{selected_upgrade}&lt;/b&gt; is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.</string>
-    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
-    <string name="flight_fare_family_change_class_label">Change your cabin class</string>
+    <!-- Label for fare family upgrade option. Example. Change your fare -->
+    <string name="flight_fare_family_fare_label">Change your fare</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Upgrade your flights</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
@@ -4798,7 +4798,7 @@
     <!-- Amenities String -->
     <string name="amenity_checked_bags">Checked Bags</string>
     <string name="amenity_cancellation">Cancellation</string>
-    <string name="amenity_seat_selection">Seat Selection</string>
+    <string name="amenity_seat_choice">Seat Choice</string>
 
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">show more</string>
@@ -4806,7 +4806,7 @@
     <!-- Fare Family Component Names -->
     <string name="fare_family_included">Included</string>
     <string name="fare_family_fee_applies">Fee Applies</string>
-    <string name="fare_family_not_available">Not Available</string>
+    <string name="fare_family_not_available">Not Included</string>
     <string name="fare_family_unknown">Unknown</string>
 
 </resources>

@@ -27,14 +27,14 @@ class FareFamilyPrimaryAmenitiesWidget(context: Context, attrs: AttributeSet): L
 
     fun displayPrimaryAmenities() {
         addPrimaryAmenityView(FareFamilyAmenityItemViewModel(
-                FlightV2Utils.getBagsAmenityResource(context, viewModel.fareFamilyComponents, viewModel.currencyCode),
+                FlightV2Utils.getBagsAmenityResource(context, viewModel.fareFamilyComponents),
                 context.resources.getString(R.string.amenity_checked_bags)))
         addPrimaryAmenityView(FareFamilyAmenityItemViewModel(
-                FlightV2Utils.getCancellationAmenityResource(context, viewModel.fareFamilyComponents, viewModel.currencyCode),
+                FlightV2Utils.getCancellationAmenityResource(context, viewModel.fareFamilyComponents),
                 context.resources.getString(R.string.amenity_cancellation)))
         addPrimaryAmenityView(FareFamilyAmenityItemViewModel(
-                FlightV2Utils.getSeatSelectionAmenityResource(context, viewModel.fareFamilyComponents, viewModel.currencyCode),
-                context.resources.getString(R.string.amenity_seat_selection)))
+                FlightV2Utils.getSeatSelectionAmenityResource(context, viewModel.fareFamilyComponents),
+                context.resources.getString(R.string.amenity_seat_choice)))
     }
 
     fun addPrimaryAmenityView(viewModel: FareFamilyAmenityItemViewModel) {

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="16dp">
 
     <RadioButton
         android:id="@+id/fare_family_radio_button"
@@ -41,86 +42,80 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="+ $100" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/fare_family_class_subtitle"
                     style="@style/FareFamilyHeaderSubtitle"
-                    android:fontFamily="sans-serif-medium"
                     android:text="@string/cabin_class"
                     android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:layout_gravity="end"
-                    android:gravity="end"
+                    android:gravity="right"
                     android:orientation="vertical">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/fare_family_class_roundtrip_text"
-                        style="@style/FareFamilyHeaderSubtitle"
-                        android:layout_marginRight="5dp"
-                        android:gravity="right"
+                        style="@style/FareFamilyTitle"
                         android:text="@string/roundtrip"
                         android:textSize="10sp" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/fare_family_traveler_text"
-                        style="@style/FareFamilyHeaderSubtitle"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:gravity="right"
+                        style="@style/FareFamilyTitle"
                         android:textSize="10sp" />
                 </LinearLayout>
-
             </LinearLayout>
-        </LinearLayout>
 
-        <com.expedia.bookings.widget.FareFamilyPrimaryAmenitiesWidget
-            android:id="@+id/fare_family_primary_amenities_widget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp" />
+            <com.expedia.bookings.widget.FareFamilyPrimaryAmenitiesWidget
+                android:id="@+id/fare_family_primary_amenities_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/fare_family_show_more_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="26.5dp"
+            android:layout_marginLeft="30.5dp"
             android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
 
             <com.expedia.bookings.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
+                android:layout_gravity="center_vertical"
                 android:text="@string/amenity_show_more"
                 android:textColor="@color/app_primary"
-                android:textSize="10sp" />
+                android:textSize="11sp" />
 
             <ImageView
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/right"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/flight_upsell_chevron_icon"
                 android:tint="@color/gray7" />
         </LinearLayout>
 
         <View
+            android:id="@+id/fare_family_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:background="@color/gray2" />
     </LinearLayout>
 

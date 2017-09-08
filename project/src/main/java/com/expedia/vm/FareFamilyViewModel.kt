@@ -48,7 +48,7 @@ class FareFamilyViewModel(private val context: Context) {
                     deltaPriceObservable.onNext("")
                     travellerObservable.onNext("")
                     fromLabelVisibility.onNext(false)
-                    fareFamilyTitleObservable.onNext(context.getString(R.string.flight_fare_family_change_class_label))
+                    fareFamilyTitleObservable.onNext(context.getString(R.string.flight_fare_family_fare_label))
                 }
             } else {
                 widgetVisibilityObservable.onNext(false)

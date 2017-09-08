@@ -14,8 +14,10 @@ import com.expedia.bookings.widget.FareFamilyAmenitiesDialog
 import com.expedia.bookings.widget.FareFamilyPrimaryAmenitiesWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.flights.FareFamilyItemViewModel
 import com.expedia.vm.flights.FareFamilyPrimaryAmenitiesWidgetViewModel
@@ -32,6 +34,7 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
     val fareFamilyCabinClass: TextView by bindView(R.id.fare_family_class_subtitle)
     val fareFamilyPrimaryAmenitiesWidget: FareFamilyPrimaryAmenitiesWidget by bindView(R.id.fare_family_primary_amenities_widget)
     val showMoreContainer: View by bindView(R.id.fare_family_show_more_container)
+    val fareFamilyDivider: View by bindView(R.id.fare_family_divider)
 
     val roundTrip: TextView by bindView(R.id.fare_family_class_roundtrip_text)
     val travelerTextView: TextView by bindView(R.id.fare_family_traveler_text)
@@ -72,12 +75,12 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
         fareFamilyCabinClass.text = viewModel.cabinClass
         priceDelta.text = viewModel.fareDeltaAmount
         viewModel.roundTripObservable.subscribeVisibility(roundTrip)
-        viewModel.travelerTextObservable.subscribeTextAndVisibility(travelerTextView)
+        viewModel.travelerTextObservable.subscribeTextAndVisibilityInvisible(travelerTextView)
+        viewModel.dividerVisibilitySubject.subscribeInverseVisibility(fareFamilyDivider)
         fareFamilyRadioButton.isChecked = viewModel.defaultChecked
         fareFamilyRadioButton.subscribeOnClick(clickObserver)
         fareFamilyClassHeader.subscribeOnClick(clickObserver)
-        fareFamilyPrimaryAmenitiesWidget.viewModel = FareFamilyPrimaryAmenitiesWidgetViewModel(context,
-                viewModel.fareFamilyDetail.fareFamilyComponents, viewModel.fareFamilyDetail.totalPrice.currencyCode)
+        fareFamilyPrimaryAmenitiesWidget.viewModel = FareFamilyPrimaryAmenitiesWidgetViewModel(context, viewModel.fareFamilyDetail.fareFamilyComponents)
         viewModel.showMoreVisibilitySubject.subscribeVisibility(showMoreContainer)
         viewModel.setShowMoreVisibility()
         showMoreContainer.subscribeOnClick(showMoreClickObserver)

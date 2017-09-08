@@ -394,7 +394,7 @@ object FlightV2Utils {
         return hasMoreAmenities
     }
 
-    @JvmStatic fun getBagsAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>, currencyCode: String): AmenityResourceType {
+    @JvmStatic fun getBagsAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
         val bagAmenities = FlightBagAmenity.values()
@@ -402,8 +402,7 @@ object FlightV2Utils {
             val amenityCategory = getAmenityCategory(context.resources.getString(bagAmenity.key), fareFamilyComponents)
             if (amenityCategory != null) {
                 if (amenityCategory == FlightAmenityCategory.CHARGEABLE) {
-                    val moneyCurrency = Money(0, currencyCode)
-                    dispVal = moneyCurrency.getCurrencySymbol()
+                    dispVal = context.resources.getString(R.string.filter_price_cheap)
                 } else if (amenityCategory == FlightAmenityCategory.INCLUDED) {
                     dispVal = getBagsAmenityCount(context, bagAmenity)
                     if (dispVal.isNullOrBlank()) {
@@ -418,14 +417,14 @@ object FlightV2Utils {
         return AmenityResourceType(resourceId, dispVal)
     }
 
-    @JvmStatic fun getCancellationAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>, currencyCode: String): AmenityResourceType {
+    @JvmStatic fun getCancellationAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
         val cancellationAmenities = FlightCancellationAmenity.values()
         for (cancelAmenity in cancellationAmenities) {
             val amenityCategory = getAmenityCategory(context.resources.getString(cancelAmenity.key), fareFamilyComponents)
             if (amenityCategory != null) {
-                val resourceType = getAmenityDrawable(amenityCategory, currencyCode)
+                val resourceType = getAmenityDrawable(context, amenityCategory)
                 resourceId = resourceType.resourceId
                 dispVal = resourceType.dispVal
                 break
@@ -434,14 +433,14 @@ object FlightV2Utils {
         return AmenityResourceType(resourceId, dispVal)
     }
 
-    @JvmStatic fun getSeatSelectionAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>, currencyCode: String): AmenityResourceType {
+    @JvmStatic fun getSeatSelectionAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
         val seatSelectionAmenities = FlightSeatReservationAmenity.values()
         for (seatSelectionAmenity in seatSelectionAmenities) {
             val amenityCategory = getAmenityCategory(context.resources.getString(seatSelectionAmenity.key), fareFamilyComponents)
             if (amenityCategory != null) {
-                val resourceType = getAmenityDrawable(amenityCategory, currencyCode)
+                val resourceType = getAmenityDrawable(context, amenityCategory)
                 resourceId = resourceType.resourceId
                 dispVal = resourceType.dispVal
                 break
@@ -450,12 +449,12 @@ object FlightV2Utils {
         return AmenityResourceType(resourceId, dispVal)
     }
 
-    @JvmStatic fun getAmenityDrawable(amenityKey: String, fareFamilyComponents: HashMap<String, HashMap<String, String>>, currencyCode: String): AmenityResourceType {
+    @JvmStatic fun getAmenityDrawable(context: Context, amenityKey: String, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
         var resourceId = R.drawable.flight_upsell_cross_icon
         var dispVal = ""
         val amenityCategory = getAmenityCategory(amenityKey, fareFamilyComponents)
         if (amenityCategory != null) {
-            val resourceType = getAmenityDrawable(amenityCategory, currencyCode)
+            val resourceType = getAmenityDrawable(context, amenityCategory)
             resourceId = resourceType.resourceId
             dispVal = resourceType.dispVal
         }
@@ -472,12 +471,11 @@ object FlightV2Utils {
         }
     }
 
-    private fun getAmenityDrawable(amenityCategory: FlightAmenityCategory, currencyCode: String): AmenityResourceType {
+    private fun getAmenityDrawable(context: Context, amenityCategory: FlightAmenityCategory): AmenityResourceType {
         var resourceId = 0
         var strVal = ""
         if (amenityCategory == FlightAmenityCategory.CHARGEABLE) {
-            val moneyCurrency = Money(0, currencyCode)
-            strVal = moneyCurrency.getCurrencySymbol()
+            strVal = context.resources.getString(R.string.filter_price_cheap)
         } else {
             resourceId = when (amenityCategory) {
                 FlightAmenityCategory.INCLUDED -> R.drawable.flight_upsell_tick_icon

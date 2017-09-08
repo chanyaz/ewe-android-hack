@@ -27,7 +27,7 @@ class FareFamilyAmenitiesDialog(context: Context, attrs: AttributeSet) : LinearL
         vm.fareFamilyNameSubject.subscribeTextAndVisibility(fareFamilyNameText)
         vm.airlineNameSubject.subscribeTextAndVisibility(airlineNameText)
         vm.fareFamilyCabinClassNameSubject.subscribeTextAndVisibility(fareFamilyCabinClassNameText)
-        fareFamilyPrimaryAmenitiesWidget.viewModel = FareFamilyPrimaryAmenitiesWidgetViewModel(context, vm.fareFamilyComponents, vm.currencyCode)
+        fareFamilyPrimaryAmenitiesWidget.viewModel = FareFamilyPrimaryAmenitiesWidgetViewModel(context, vm.fareFamilyComponents)
     }
 
     init {
@@ -46,7 +46,7 @@ class FareFamilyAmenitiesDialog(context: Context, attrs: AttributeSet) : LinearL
 
                 for (amenity in amenityMap) {
                     amenitiesList.addView(getPrimaryAmenityView(FareFamilyAmenityItemViewModel(
-                            FlightV2Utils.getAmenityDrawable(amenity.key, viewModel.fareFamilyComponents, viewModel.currencyCode), amenity.value)))
+                            FlightV2Utils.getAmenityDrawable(context, amenity.key, viewModel.fareFamilyComponents), amenity.value)))
                 }
             }
         }

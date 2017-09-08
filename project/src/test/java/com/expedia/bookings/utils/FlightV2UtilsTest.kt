@@ -305,76 +305,76 @@ class FlightV2UtilsTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBagsAmenityResource() {
-        var amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", FARE_FAMILY_INCLUDED_CATEGORY), "USD")
+        var amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", FARE_FAMILY_INCLUDED_CATEGORY))
         assertEquals(R.drawable.flight_upsell_tick_icon, amenityResourceType.resourceId)
 
-        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", FARE_FAMILY_CHARGEABLE_CATEGORY), "USD")
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", FARE_FAMILY_CHARGEABLE_CATEGORY))
         assertEquals("$", amenityResourceType.dispVal)
 
-        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", FARE_FAMILY_NOT_OFFERED_CATEGORY), "USD")
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", FARE_FAMILY_NOT_OFFERED_CATEGORY))
         assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
 
-        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", ""), "USD") //Empty Fare Family Component
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", "")) //Empty Fare Family Component
         assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
 
-        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("ExtraLegroom", "Premium Seat", ""), "USD") //No Bags Amenity
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("ExtraLegroom", "Premium Seat", "")) //No Bags Amenity
         assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBagLuggageAmenityResource() {
-        var amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(1), "USD")
+        var amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(1))
         assertEquals(resources.getString(R.string.one), amenityResourceType.dispVal)
 
-        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(2), "USD")
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(2))
         assertEquals(resources.getString(R.string.two), amenityResourceType.dispVal)
 
-        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(3), "USD")
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(3))
         assertEquals(resources.getString(R.string.three), amenityResourceType.dispVal)
 
-        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(4), "USD")
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(4))
         assertEquals(resources.getString(R.string.four), amenityResourceType.dispVal)
 
-        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(5), "USD")
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(5))
         assertEquals("", amenityResourceType.dispVal)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCancellationAmenityResource() {
-        var amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", FARE_FAMILY_INCLUDED_CATEGORY), "USD")
+        var amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", FARE_FAMILY_INCLUDED_CATEGORY))
         assertEquals(R.drawable.flight_upsell_tick_icon, amenityResourceType.resourceId)
 
-        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", FARE_FAMILY_CHARGEABLE_CATEGORY), "USD")
+        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", FARE_FAMILY_CHARGEABLE_CATEGORY))
         assertEquals("$", amenityResourceType.dispVal)
 
-        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", FARE_FAMILY_NOT_OFFERED_CATEGORY), "USD")
+        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", FARE_FAMILY_NOT_OFFERED_CATEGORY))
         assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
 
-        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", ""), "USD") //Empty Fare Family Component
+        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", "")) //Empty Fare Family Component
         assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
 
-        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", ""), "USD") //No Cancellation Amenity
+        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", "")) //No Cancellation Amenity
         assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testSeatSelectionAmenityResource() {
-        var amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Selection", FARE_FAMILY_INCLUDED_CATEGORY), "USD")
+        var amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Choice", FARE_FAMILY_INCLUDED_CATEGORY))
         assertEquals(R.drawable.flight_upsell_tick_icon, amenityResourceType.resourceId)
 
-        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Selection", FARE_FAMILY_CHARGEABLE_CATEGORY), "USD")
+        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Choice", FARE_FAMILY_CHARGEABLE_CATEGORY))
         assertEquals("$", amenityResourceType.dispVal)
 
-        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Selection", FARE_FAMILY_NOT_OFFERED_CATEGORY), "USD")
+        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Choice", FARE_FAMILY_NOT_OFFERED_CATEGORY))
         assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
 
-        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Selection", ""), "USD") //Empty Fare Family Component
+        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Choice", "")) //Empty Fare Family Component
         assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
 
-        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", ""), "USD") //No Cancellation Amenity
+        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", "")) //No Cancellation Amenity
         assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
     }
 

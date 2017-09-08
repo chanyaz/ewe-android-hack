@@ -139,7 +139,7 @@ class FareFamilyItemWidgetTest {
         fareFamilyWidget.viewModel.tripObservable.onNext(flightCreateTripResponse)
         fareFamilyWidget.viewModel.showFareFamilyObservable.onNext(Unit)
         val firstFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(0) as FareFamilyItemWidget
-        assertEquals(View.GONE , firstFareFamilyItem.travelerTextView.visibility)
+        assertEquals(View.INVISIBLE , firstFareFamilyItem.travelerTextView.visibility)
     }
 
     @Test
