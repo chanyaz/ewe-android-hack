@@ -138,7 +138,7 @@
                 style="@style/HotelCheckoutSummaryCommon.Common"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:text="@string/itin_hotel_details_checkin_text"/>
+                android:text="@string/hotel_summary_checkin_text"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/checkin_date"
@@ -157,7 +157,7 @@
                 style="@style/HotelCheckoutSummaryCommon.Common"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:text="@string/itin_hotel_details_checkout_text" />
+                android:text="@string/hotel_summary_checkout_text" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/checkout_date"
