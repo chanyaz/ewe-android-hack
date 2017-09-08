@@ -35,7 +35,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
-    val cachedEndDateObservable = BehaviorSubject.create<LocalDate?>()
+    val cachedEndDateObservable = BehaviorSubject.create<LocalDate>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
@@ -93,10 +93,13 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             }
             if (selectedDates.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value
-                if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
+                if (isRoundTripSearch && startDate()?.isBefore(cachedEndDate) ?: false) {
                     datesUpdated(startDate(), cachedEndDate)
                 } else {
-                    cachedEndDateObservable.onNext(endDate())
+                    val endDate = endDate()
+                    if (endDate != null) {
+                        cachedEndDateObservable.onNext(endDate)
+                    }
                     datesUpdated(startDate(), null)
                 }
             } else {

@@ -71,7 +71,10 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
     }
 
     fun updateHotelParams(params: PackageSearchParams) {
-        viewModel.suggestion.onNext(params.destination)
+        val destination = params.destination
+        if (destination != null) {
+            viewModel.suggestion.onNext(destination)
+        }
         viewModel.date.onNext(params.startDate)
         viewModel.guests.onNext(params.guests)
         viewModel.searchParams.onNext(params)

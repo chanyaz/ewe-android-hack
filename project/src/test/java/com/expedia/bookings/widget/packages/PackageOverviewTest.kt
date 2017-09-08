@@ -39,6 +39,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -100,6 +101,31 @@ class PackageOverviewTest {
 
         checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
         assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.checkoutButton.visibility)
+    }
+
+    @Test
+    fun testUpdateHotelParamsForOutboundWidget() {
+        val originTestSubscriber = TestSubscriber<SuggestionV4>()
+        bundleWidget.outboundFlightWidget.viewModel.suggestion.subscribe(originTestSubscriber)
+        bundleWidget.outboundFlightWidget.updateHotelParams(getPackageParamsWithOriginAndEndDateNull())
+        originTestSubscriber.assertNoValues()
+        bundleWidget.outboundFlightWidget.updateHotelParams(Db.getPackageParams())
+        originTestSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testUpdateHotelParamsForInboundWidget() {
+        val originTestSubscriber = TestSubscriber<SuggestionV4>()
+        val endDateTestSubscriber = TestSubscriber<LocalDate>()
+        bundleWidget.inboundFlightWidget.viewModel.suggestion.subscribe(originTestSubscriber)
+        bundleWidget.inboundFlightWidget.viewModel.date.subscribe(endDateTestSubscriber)
+
+        bundleWidget.inboundFlightWidget.updateHotelParams(getPackageParamsWithOriginAndEndDateNull())
+        originTestSubscriber.assertNoValues()
+        endDateTestSubscriber.assertNoValues()
+        bundleWidget.inboundFlightWidget.updateHotelParams(Db.getPackageParams())
+        originTestSubscriber.assertValueCount(1)
+        endDateTestSubscriber.assertValueCount(1)
     }
 
     @Test
@@ -195,5 +221,9 @@ class PackageOverviewTest {
         val searchParams = Db.getPackageParams()
         searchParams.packagePIID = "123"
         return searchParams
+    }
+
+    private fun getPackageParamsWithOriginAndEndDateNull(): PackageSearchParams {
+        return PackageSearchParams(null, null, LocalDate.now(), null, 1, emptyList(), false)
     }
 }

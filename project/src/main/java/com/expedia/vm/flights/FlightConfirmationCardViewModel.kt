@@ -9,15 +9,15 @@ import rx.subjects.BehaviorSubject
 
 class FlightConfirmationCardViewModel (private val context: Context, flightLeg: FlightLeg, numberOfGuests: Int) {
     val titleSubject = BehaviorSubject.create<String>()
-    val subtitleSubject = BehaviorSubject.create<String>()
+    val subtitleSubject = BehaviorSubject.create<String>()//TODO
     val urlSubject = BehaviorSubject.create<String>()
     val secondaryTitleSubject = BehaviorSubject.create<String>()
 
     init {
         secondaryTitleSubject.onNext(FlightV2Utils.getDepartureOnDateString(context, flightLeg))
-        urlSubject.onNext(FlightV2Utils.getAirlineUrl(flightLeg))
+        urlSubject.onNext(FlightV2Utils.getAirlineUrl(flightLeg) ?: "")
         titleSubject.onNext(getFlightTitle(flightLeg))
-        subtitleSubject.onNext(getFlightSubtitle(flightLeg, numberOfGuests))
+        subtitleSubject.onNext(getFlightSubtitle(flightLeg, numberOfGuests)?:"")
     }
 
     private fun getFlightTitle(flightLeg: FlightLeg) : String {

@@ -89,7 +89,7 @@ class FlightConfirmationViewModelTest {
         crossSellWidgetView.assertValue(false)
     }
 
-    fun getCheckoutResponse(dateOfExpiration: String) : FlightCheckoutResponse {
+    fun getCheckoutResponse(dateOfExpiration: String, setTotalPrice: Boolean = true) : FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
@@ -111,7 +111,7 @@ class FlightConfirmationViewModelTest {
         boolField.set(qualifierObject, true)
         timeRemainingField.set(qualifierObject, offerTimeField )
 
-        val totalPrice = Money("100", "USD")
+        val totalPrice = if (setTotalPrice) { Money("100", "USD") } else { null }
         val priceField = response.javaClass.getDeclaredField("totalChargesPrice")
         priceField.isAccessible = true
         priceField.set(response, totalPrice)
@@ -204,8 +204,10 @@ class FlightConfirmationViewModelTest {
         val priceString = TestSubscriber<String>()
         vm = FlightConfirmationViewModel(activity)
         vm.tripTotalPriceSubject.subscribe(priceString)
-        vm.confirmationObservable.onNext(Pair(getCheckoutResponse(DateTime.now().toString()), customerEmail))
+        vm.confirmationObservable.onNext(Pair(getCheckoutResponse(DateTime.now().toString(), false), customerEmail))
+        priceString.assertNoValues()
 
+        vm.confirmationObservable.onNext(Pair(getCheckoutResponse(DateTime.now().toString()), customerEmail))
         priceString.assertValue("$100")
     }
 

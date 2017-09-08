@@ -61,9 +61,12 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     init {
         searchParamsObservable.subscribe { params ->
             isRoundTripSearchSubject.onNext(params.isRoundTrip())
-            flightCabinClassSubject.onNext(params.flightCabinClass)
+            val cabinClass = params.flightCabinClass
+            if (cabinClass != null) {
+                flightCabinClassSubject.onNext(cabinClass)
+            }
             refundableFilterAppliedSearchSubject.onNext(params.showRefundableFlight ?: false)
-            nonStopSearchFilterAppliedSubject.onNext(params.nonStopFlight)
+            nonStopSearchFilterAppliedSubject.onNext(params.nonStopFlight?: false)
             searchingForFlightDateTime.onNext(Unit)
             flightOutboundSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
         }

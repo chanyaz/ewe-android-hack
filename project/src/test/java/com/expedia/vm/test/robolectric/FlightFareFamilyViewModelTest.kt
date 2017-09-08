@@ -174,6 +174,33 @@ class FlightFareFamilyViewModelTest {
     }
 
     @Test
+    fun testWhenFareFamilyIsNull() {
+        Db.setFlightSearchParams(setupFlightSearchParams(2, 2, true))
+        val fareFamilyDetailsSubscriber = TestSubscriber<String>()
+        val selectedFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
+        val choosingFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
+        val fareFamilyTripLocationSubscriber = TestSubscriber<String>()
+        val roundTripSubscriber = TestSubscriber<Boolean>()
+        val airlinesSubscriber = TestSubscriber<String>()
+
+        sut.fareFamilyTripLocationObservable.subscribe(fareFamilyDetailsSubscriber)
+        sut.selectedFareFamilyObservable.subscribe(selectedFareFamilySubscriber)
+        sut.choosingFareFamilyObservable.subscribe(choosingFareFamilySubscriber)
+        sut.fareFamilyTripLocationObservable.subscribe(fareFamilyTripLocationSubscriber)
+        sut.roundTripObservable.subscribe(roundTripSubscriber)
+        sut.airlinesObservable.subscribe(airlinesSubscriber)
+        flightCreateTripResponse.fareFamilyList = null
+        sut.tripObservable.onNext(flightCreateTripResponse)
+        sut.showFareFamilyObservable.onNext(Unit)
+
+        fareFamilyDetailsSubscriber.assertNoValues()
+        selectedFareFamilySubscriber.assertNoValues()
+        choosingFareFamilySubscriber.assertNoValues()
+        fareFamilyTripLocationSubscriber.assertNoValues()
+        roundTripSubscriber.assertNoValues()
+        airlinesSubscriber.assertNoValues()
+    }
+    @Test
     fun testFareFamilyWhenDoneButtonIsClicked() {
         val selectedFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
         sut.selectedFareFamilyObservable.subscribe(selectedFareFamilySubscriber)

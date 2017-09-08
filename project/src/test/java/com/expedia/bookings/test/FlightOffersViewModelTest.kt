@@ -157,6 +157,14 @@ class FlightOffersViewModelTest {
     }
 
     @Test
+    fun testForNoCabinClass() {
+        val testSubscriber = TestSubscriber<String>()
+        sut.flightCabinClassSubject.subscribe(testSubscriber)
+        performFlightSearch(false)
+        testSubscriber.assertNoValues()
+    }
+
+    @Test
     fun testFlightChargesObFeesText() {
         configurePointOfSaleAirlinesChargeAdditionalFees()
 

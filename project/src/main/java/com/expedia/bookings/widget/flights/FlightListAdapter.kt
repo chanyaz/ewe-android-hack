@@ -53,7 +53,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
 
     private fun showCrossSellPackageBannerCell(): Boolean {
         return (shouldShowCrossSellPackageBanner() && isRoundTripSearchSubject.value && isOutboundSearch &&
-                (flightCabinClassSubject.value == null || flightCabinClassSubject.value == FlightServiceClassType.CabinCode.COACH.name))
+                flightCabinClassSubject.value == FlightServiceClassType.CabinCode.COACH.name)
     }
 
     override fun showAdvanceSearchFilterHeader(): Boolean {
@@ -73,8 +73,9 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
         super.onBindViewHolder(holder, position)
         if (holder is FlightViewHolder && shouldTrackScrollDepth()) {
             val scrolledPosition = position - adjustPosition()
-            if (scrollDepthMap.contains(scrolledPosition)) {
-                trackScrollDepthSubject.onNext(scrollDepthMap[scrolledPosition])
+            val scrolledPercentage = scrollDepthMap[scrolledPosition]
+            if (scrolledPercentage != null) {
+                trackScrollDepthSubject.onNext(scrolledPercentage)
                 scrollDepthMap.remove(scrolledPosition)
             }
         }

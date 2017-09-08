@@ -11,12 +11,12 @@ import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.Observer
 
-class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
+class LabeledCheckableFilter<T: Any>(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
     val stopsLabel: TextView by bindView(R.id.label)
     val resultsLabel: TextView by bindView(R.id.results_label)
     val checkBox: CheckBox by bindView(R.id.check_box)
     var observer: Observer<T> ? = null
-    var value: T? = null
+    lateinit var value: T
 
     val checkObserver: Observer<Unit> = endlessObserver {
         checkBox.isChecked = !checkBox.isChecked

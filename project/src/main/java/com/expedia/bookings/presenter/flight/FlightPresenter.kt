@@ -53,6 +53,7 @@ import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import rx.Observable
 import java.util.Date
 import javax.inject.Inject
@@ -138,8 +139,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.toolbarViewModel.city.onNext(HtmlCompat.stripHtml(params.arrivalAirport.regionNames.displayName))
-            presenter.toolbarViewModel.country.onNext(params.arrivalAirport.hierarchyInfo?.country?.name)
-            presenter.toolbarViewModel.airport.onNext(params.arrivalAirport.hierarchyInfo?.airport?.airportCode as String)
+            val countryName = params.arrivalAirport.hierarchyInfo?.country?.name
+            val airportCode = params.arrivalAirport.hierarchyInfo?.airport?.airportCode
+            if (countryName != null) {
+                presenter.toolbarViewModel.country.onNext(countryName)
+            }
+            if (airportCode != null) {
+                presenter.toolbarViewModel.airport.onNext(airportCode)
+            }
             presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             presenter.toolbarViewModel.date.onNext(params.departureDate)
@@ -176,12 +183,18 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.toolbarViewModel.city.onNext(HtmlCompat.stripHtml(params.departureAirport.regionNames.displayName))
-            presenter.toolbarViewModel.country.onNext(params.departureAirport.hierarchyInfo?.country?.name)
-            presenter.toolbarViewModel.airport.onNext(params.departureAirport.hierarchyInfo?.airport?.airportCode as String)
+            val countryName = params.arrivalAirport.hierarchyInfo?.country?.name
+            val airportCode = params.arrivalAirport.hierarchyInfo?.airport?.airportCode
+            if (countryName != null) {
+                presenter.toolbarViewModel.country.onNext(countryName)
+            }
+            if (airportCode != null) {
+                presenter.toolbarViewModel.airport.onNext(airportCode)
+            }
             presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             if (params.returnDate != null) {
-                presenter.toolbarViewModel.date.onNext(params.returnDate)
+                presenter.toolbarViewModel.date.onNext(params.returnDate as LocalDate)
             }
         }
         presenter.menuSearch.setOnMenuItemClickListener({
@@ -303,7 +316,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         createTripViewModel.createTripResponseObservable.safeSubscribe { trip ->
             trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
-            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
+            if (expediaRewards != null) {
+                confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
+            }
 
         }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
