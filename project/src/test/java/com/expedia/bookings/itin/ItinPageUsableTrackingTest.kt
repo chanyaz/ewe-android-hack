@@ -1,9 +1,11 @@
 package com.expedia.bookings.itin
 
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.TripComponent
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +28,7 @@ class ItinPageUsableTrackingTest {
         sut.markTripResultsUsable(100)
         sut.trackIfReady(listOfCardData())
 
-        OmnitureTestUtils.assertStateTrackedWithEventsAndEvars(mockAnalyticsProvider, "App.Itinerary", "event63,event220,event221=0.10")
+        assertStateTracked("App.Itinerary", withEventsString("event63,event220,event221=0.10"), mockAnalyticsProvider)
     }
 
     @Test

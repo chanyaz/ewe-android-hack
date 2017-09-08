@@ -2,10 +2,12 @@ package com.expedia.bookings.data.trips
 
 import android.content.Context
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.AirAttach
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.itin.ItinPageUsableTracking
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Assert.assertEquals
@@ -118,7 +120,7 @@ class ItinCardDataAdapterTest {
     }
 
     private fun assertPageUsableTracked() {
-        OmnitureTestUtils.assertStateTrackedWithEventsAndEvars(mockAnalyticsProvider, "App.Itinerary", "event63,event220,event221=0.10")
+        assertStateTracked("App.Itinerary", withEventsString("event63,event220,event221=0.10"), mockAnalyticsProvider)
     }
 
     class TestItinCardDataAdapter(context: Context, private val itinManager: ItineraryManager, private val putDataModel: ItinPageUsableTracking?) : ItinCardDataAdapter(context) {

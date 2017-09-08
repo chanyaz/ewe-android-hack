@@ -2,168 +2,165 @@ package com.expedia.bookings.test
 
 import android.content.Intent
 import android.net.Uri
-import com.expedia.bookings.ADMS_Measurement
+import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.activity.DeepLinkRouterActivity
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withoutEvars
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
+import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.util.ActivityController
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 
 @RunWith(RobolectricRunner::class)
 class OmnitureDeeplinkTest {
 
+    lateinit var mockAnalyticsProvider: AnalyticsProvider
     lateinit var deepLinkRouterActivityController: ActivityController<DeepLinkRouterActivity>
-    lateinit var adms: ADMS_Measurement
-
 
     @Before
     fun setup() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         deepLinkRouterActivityController = createSystemUnderTest()
-        val context = RuntimeEnvironment.application
-        adms = ADMS_Measurement.sharedInstance(context)
     }
 
     @Test
-    fun emlcid() {
+    fun emlcidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&emlcid=TEST_BRAD_MDPCID_UNIVERSAL_LINK")
-        assertEquals("EML.TEST_BRAD_MDPCID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("EML.TEST_BRAD_MDPCID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun caseInsensitive() {
+    fun emlcidKeyIsCaseInsensitive() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&EmlcId=TEST_BRAD_MDPCID_UNIVERSAL_LINK")
-        assertEquals("EML.TEST_BRAD_MDPCID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("EML.TEST_BRAD_MDPCID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun valuePreserveCase() {
+    fun emlcidValueCaseIsPreserved() {
         // Lettercase of value should match url parameter
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&emlcid=mIxEd_cAsE")
-        assertEquals("EML.mIxEd_cAsE", adms.getEvar(22))
+        assertEvar22TrackedAs("EML.mIxEd_cAsE")
     }
 
     @Test
-    fun semcid() {
+    fun semcidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&semcid=TEST_BRAD_SEMCID_UNIVERSAL_LINK")
-        assertEquals("SEM.TEST_BRAD_SEMCID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("SEM.TEST_BRAD_SEMCID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun brandcid() {
+    fun brandcidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&brandcid=TEST_BRAD_BRANDCID_UNIVERSAL_LINK")
-        assertEquals("Brand.TEST_BRAD_BRANDCID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("Brand.TEST_BRAD_BRANDCID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun seocid() {
+    fun seocidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&seocid=TEST_BRAD_SEOCID_UNIVERSAL_LINK")
-        assertEquals("SEO.TEST_BRAD_SEOCID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("SEO.TEST_BRAD_SEOCID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun kword() {
+    fun kwordTrackedInEvar15AndEvar22Empty() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?kword=Brads_Super_Duper_Test_App_Links")
-        assertEquals("Brads_Super_Duper_Test_App_Links", adms.getEvar(15))
-        assertNull(adms.getEvar(22))
+        assertEvar22NotTrackedAndEvar15TrackedAs("Brads_Super_Duper_Test_App_Links")
     }
 
     @Test
-    fun semcidAndKword() {
+    fun semcidTrackedInEvar22AndKwordTrackedInEvar15() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?semcid=TEST_BRAD_KWORDPARAMETER_APP_LINKS&kword=Brads_Super_Duper_Test_App_Links")
-        assertEquals("Brads_Super_Duper_Test_App_Links", adms.getEvar(15))
-        assertEquals("SEM.TEST_BRAD_KWORDPARAMETER_APP_LINKS", adms.getEvar(22))
+        assertEvar15And22TrackedAs("Brads_Super_Duper_Test_App_Links", "SEM.TEST_BRAD_KWORDPARAMETER_APP_LINKS")
     }
 
     @Test
-    fun mdpcid() {
+    fun mdpcidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&mdpcid=TEST_BRAD_MDPCID_UNIVERSAL_LINK")
-        assertEquals("MDP.TEST_BRAD_MDPCID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("MDP.TEST_BRAD_MDPCID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun mdpcidAndMdpdtl() {
+    fun mdpcidAndMdpdtlTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&mdpcid=TEST_BRAD_MDPCID_UNIVERSAL_LINK&mdpdtl=TEST_BRAD_MDPDTL_UNIVERSAL_LINK")
-        assertEquals("MDP.TEST_BRAD_MDPCID_UNIVERSAL_LINK&MDPDTL=TEST_BRAD_MDPDTL_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("MDP.TEST_BRAD_MDPCID_UNIVERSAL_LINK&MDPDTL=TEST_BRAD_MDPDTL_UNIVERSAL_LINK")
     }
 
     @Test
-    fun mdpdtlWithoutmdpcid() {
+    fun mdpdtlWithoutmdpcidTrackedWithoutEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033mdpdtl=TEST_BRAD_MDPDTL_UNIVERSAL_LINK")
-        assertNull(adms.getEvar(22))
+        assertEvar22NotTracked()
     }
 
     @Test
-    fun olacid() {
+    fun olacidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&olacid=TEST_BRAD_OLACID_UNIVERSAL_LINK")
-        assertEquals("OLA.TEST_BRAD_OLACID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("OLA.TEST_BRAD_OLACID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun olacidAndOladtl() {
+    fun olacidAndOladtlTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&olacid=TEST_BRAD_OLACID_UNIVERSAL_LINK&oladtl=TEST_BRAD_OLADTL_UNIVERSAL_LINK")
-        assertEquals("OLA.TEST_BRAD_OLACID_UNIVERSAL_LINK&OLADTL=TEST_BRAD_OLADTL_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("OLA.TEST_BRAD_OLACID_UNIVERSAL_LINK&OLADTL=TEST_BRAD_OLADTL_UNIVERSAL_LINK")
     }
 
     @Test
-    fun oladtlWithoutOlacid() {
+    fun oladtlWithoutOlacidTrackedWithoutEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&oladtl=TEST_BRAD_OLADTL_UNIVERSAL_LINK")
-        assertNull(adms.getEvar(22))
+        assertEvar22NotTracked()
     }
 
     @Test
-    fun affcid() {
+    fun affcidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&affcid=TEST_BRAD_AFFCID_UNIVERSAL_LINK")
-        assertEquals("AFF.TEST_BRAD_AFFCID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("AFF.TEST_BRAD_AFFCID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun affcidAndafflid() {
+    fun affcidAndafflidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&affcid=TEST_BRAD_AFFCID_UNIVERSAL_LINK&afflid=TEST_BRAD_AFFLID_UNIVERSAL_LINK")
-        assertEquals("AFF.TEST_BRAD_AFFCID_UNIVERSAL_LINK&AFFLID=TEST_BRAD_AFFLID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("AFF.TEST_BRAD_AFFCID_UNIVERSAL_LINK&AFFLID=TEST_BRAD_AFFLID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun afflidWithoutAffcid() {
+    fun afflidWithoutAffcidTrackedWithoutEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&afflid=TEST_BRAD_AFFLID_UNIVERSAL_LINK")
-        assertNull(adms.getEvar(22))
+        assertEvar22NotTracked()
     }
 
     @Test
-    fun icmcid() {
+    fun icmcidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&icmcid=TEST_BRAD_ICMCID_UNIVERSAL_LINK")
-        assertEquals("ICM.TEST_BRAD_ICMCID_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("ICM.TEST_BRAD_ICMCID_UNIVERSAL_LINK")
     }
 
     @Test
-    fun icmcidAndIcmdtl() {
+    fun icmcidAndIcmdtlTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&icmcid=TEST_BRAD_ICMCID_UNIVERSAL_LINK&icmdtl=TEST_BRAD_ICMDTL_UNIVERSAL_LINK")
-        assertEquals("ICM.TEST_BRAD_ICMCID_UNIVERSAL_LINK&ICMDTL=TEST_BRAD_ICMDTL_UNIVERSAL_LINK", adms.getEvar(22))
+        assertEvar22TrackedAs("ICM.TEST_BRAD_ICMCID_UNIVERSAL_LINK&ICMDTL=TEST_BRAD_ICMDTL_UNIVERSAL_LINK")
     }
 
     @Test
-    fun icmdtlWithoutIcmcid() {
+    fun icmdtlWithoutIcmcidTrackedWithoutEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&icmdtl=TEST_BRAD_ICMDTL_UNIVERSAL_LINK")
-        assertNull(adms.getEvar(22))
+        assertEvar22NotTracked()
     }
 
     @Test
-    fun gclid() {
+    fun gclidTrackedInEvar26() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&gclid=SEMGCLID_KRABI_TEST_GCLID")
-        assertEquals("SEMGCLID_KRABI_TEST_GCLID", adms.getEvar(26))
+        assertEvar26TrackedAs("SEMGCLID_KRABI_TEST_GCLID")
     }
 
     @Test
-    fun gclidAndSemcid() {
+    fun gclidTrackedInEvar26AndSemcidTrackedInEvar22() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&semcid=SEM_KRABI_TEST_GCLID&gclid=SEMGCLID_KRABI_TEST_GCLID")
-        assertEquals("SEMGCLID_KRABI_TEST_GCLID", adms.getEvar(26))
-        assertEquals("SEM.SEM_KRABI_TEST_GCLID", adms.getEvar(22))
+        assertEvar22And26TrackedAs("SEM.SEM_KRABI_TEST_GCLID", "SEMGCLID_KRABI_TEST_GCLID")
     }
 
     private fun trackDeepLink(url :String) {
@@ -186,4 +183,30 @@ class OmnitureDeeplinkTest {
         deepLinkRouterActivityController.withIntent(intent)
     }
 
+    private fun assertEvar22NotTracked() {
+        assertStateTracked(withoutEvars(22), mockAnalyticsProvider)
+    }
+
+    private fun assertEvar22TrackedAs(expectedValue: String) {
+        assertStateTracked(withEvars(mapOf(22 to expectedValue)), mockAnalyticsProvider)
+    }
+
+    private fun assertEvar26TrackedAs(expectedValue: String) {
+        assertStateTracked(withEvars(mapOf(26 to expectedValue)), mockAnalyticsProvider)
+    }
+
+    private fun assertEvar22And26TrackedAs(expectedValue22: String, expectedValue26: String) {
+        assertStateTracked(withEvars(mapOf(22 to expectedValue22, 26 to expectedValue26)), mockAnalyticsProvider)
+    }
+
+    private fun assertEvar15And22TrackedAs(expectedValue15: String, expectedValue22: String) {
+        assertStateTracked(withEvars(mapOf(15 to expectedValue15, 22 to expectedValue22)), mockAnalyticsProvider)
+    }
+
+    private fun assertEvar22NotTrackedAndEvar15TrackedAs(expectedValue15: String) {
+        assertStateTracked(
+                allOf(withEvars(mapOf(15 to expectedValue15)),
+                        withoutEvars(22)),
+                mockAnalyticsProvider)
+    }
 }

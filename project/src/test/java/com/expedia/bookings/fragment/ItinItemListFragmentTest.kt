@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -14,6 +15,7 @@ import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.FrameLayout
@@ -138,7 +140,7 @@ class ItinItemListFragmentTest {
         mockPageUsableTracking.markSuccessfulStartTime(System.currentTimeMillis())
         sut.userVisibleHint = true
 
-        OmnitureTestUtils.assertStateTrackedWithEventsAndEvars(mockAnalyticsProvider, "App.Itinerary", "event63,event220,event221=0.10")
+        assertStateTracked("App.Itinerary", withEventsString("event63,event220,event221=0.10"), mockAnalyticsProvider)
     }
 
     @Test

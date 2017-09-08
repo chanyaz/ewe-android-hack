@@ -3,6 +3,7 @@ package com.expedia.bookings
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
 import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
+import org.hamcrest.Matcher
 import org.mockito.Mockito
 
 class OmnitureTestUtils : ADMS_Measurement() {
@@ -40,17 +41,13 @@ class OmnitureTestUtils : ADMS_Measurement() {
         }
 
         @JvmStatic
-        fun assertStateTrackedWithEventsAndEvars(mockAnalyticsProvider: AnalyticsProvider, appState: String, events: String?, evarsMap: Map<Int, String>? = null) {
-            val expectedData = HashMap<String, String>()
-            if (events != null) {
-                expectedData.put("&&events", events)
-            }
-            if (evarsMap != null) {
-                for (entry in evarsMap.entries) {
-                    expectedData.put("&&v" + entry.key, entry.value)
-                }
-            }
-            Mockito.verify(mockAnalyticsProvider).trackState(Mockito.eq(appState), mapThat(hasEntries(expectedData)))
+        fun assertStateTracked(matcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider) {
+            Mockito.verify(mockAnalyticsProvider).trackState(Mockito.anyString(), mapThat(matcher))
+        }
+
+        @JvmStatic
+        fun assertStateTracked(appState: String, dataMatcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider) {
+            Mockito.verify(mockAnalyticsProvider).trackState(Mockito.eq(appState), mapThat(dataMatcher))
         }
     }
 }
