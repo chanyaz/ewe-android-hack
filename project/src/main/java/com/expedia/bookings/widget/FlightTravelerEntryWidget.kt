@@ -132,6 +132,11 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                 }
             }
 
+            vm.updateFrequentFlyerTraveler.subscribe {
+                frequentFlyerAdapter.vm.updateTraveler(vm.getTraveler())
+                frequentFlyerAdapter.notifyDataSetChanged()
+            }
+
             Observable.combineLatest(vm.flightLegsObservable, vm.frequentFlyerPlans, { legs, plans ->
                         val showFrequentFlyerWidget = legs != null && plans != null
                         frequentFlyerButton?.updateVisibility(showFrequentFlyerWidget)

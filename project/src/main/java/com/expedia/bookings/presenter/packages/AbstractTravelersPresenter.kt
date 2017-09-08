@@ -9,8 +9,6 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.user.User
-import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.OmnitureTracking

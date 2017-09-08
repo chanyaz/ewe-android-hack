@@ -34,9 +34,9 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
         builder.setTitle(R.string.frequent_flyer_programs)
         builder.setSingleChoiceItems(frequentFlyerAdapter, frequentFlyerAdapter.currentPosition, { dialogInterface, position ->
             val airlineName = frequentFlyerAdapter.getFrequentFlyerProgram(position)
-            val airlineNummber = frequentFlyerAdapter.getFrequentFlyerNumber(position)
+            val airlineNumber = frequentFlyerAdapter.getFrequentFlyerNumber(position)
             vm.frequentFlyerProgramObservable.onNext(airlineName)
-            vm.frequentFlyerNumberObservable.onNext(airlineNummber)
+            vm.frequentFlyerNumberObservable.onNext(airlineNumber)
             frequentFlyerAdapter.currentPosition = position
             dialogInterface.dismiss()
         })
@@ -50,14 +50,18 @@ class FrequentFlyerViewHolder(val root: ViewGroup, private val vm: FlightTravele
         frequentFlyerProgram.setOnClickListener {
             frequentFlyerDialog.show()
         }
+        vm.enrolledFrequentFlyerPlansObservable.subscribe { enrolledPlans ->
+            frequentFlyerAdapter.enrolledFrequentFlyerPlans = enrolledPlans
+            frequentFlyerAdapter.notifyDataSetChanged()
+        }
         vm.frequentFlyerProgramObservable.subscribeText(frequentFlyerProgram)
         vm.frequentFlyerNumberObservable.subscribeText(frequentFlyerNumberInput)
         frequentFlyerProgram.setOnFocusChangeListener { v, hasFocus ->
-                if (hasFocus) {
-                    v.performClick()
-                    Ui.hideKeyboard(v)
-                }
+            if (hasFocus) {
+                v.performClick()
+                Ui.hideKeyboard(v)
             }
+        }
         frequentFlyerNumberInput.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 v.performClick()

@@ -14,6 +14,7 @@ class FrequentFlyerAdapter(val traveler: Traveler) : RecyclerView.Adapter<Recycl
 
     private var frequentFlyerCards: List<FrequentFlyerCard> = emptyList()
     lateinit var frequentFlyerPlans: FlightCreateTripResponse.FrequentFlyerPlans
+    val vm = FlightTravelerFrequentFlyerItemViewModel(traveler)
 
     fun setFrequentFlyerCards(frequentFlyerCard: List<FrequentFlyerCard>) {
         this.frequentFlyerCards = frequentFlyerCard
@@ -26,7 +27,6 @@ class FrequentFlyerAdapter(val traveler: Traveler) : RecyclerView.Adapter<Recycl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.frequent_flyer_program_card_layout, parent, false)
-        val vm = FlightTravelerFrequentFlyerItemViewModel(traveler)
         setUpFrequentFlyerPlans(frequentFlyerPlans, vm)
         return FrequentFlyerViewHolder(view as ViewGroup, vm, parent.context)
     }

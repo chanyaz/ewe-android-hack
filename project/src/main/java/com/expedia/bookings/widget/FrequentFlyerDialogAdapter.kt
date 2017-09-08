@@ -13,7 +13,7 @@ import java.util.ArrayList
 
 class FrequentFlyerDialogAdapter(context: Context, textViewResId: Int, val dropDownViewResId: Int,
                                  val allFrequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>,
-                                 val enrolledFrequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>,
+                                 var enrolledFrequentFlyerPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>,
                                  val allAirlineCodes: ArrayList<String>,
                                  startingProgramName: String) : ArrayAdapter<String>(context, textViewResId) {
     var currentPosition: Int

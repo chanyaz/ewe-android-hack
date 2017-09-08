@@ -9,6 +9,7 @@ import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
+import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -21,6 +22,7 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
     val additionalNumberOfInvalidFields = PublishSubject.create<Int>()
     val flightLegsObservable = PublishSubject.create<List<FlightLeg>>()
     val frequentFlyerPlans = PublishSubject.create<FlightCreateTripResponse.FrequentFlyerPlans>()
+    val updateFrequentFlyerTraveler = PublishSubject.create<Unit>()
 
     init {
         updateTraveler(getTraveler())
@@ -67,5 +69,8 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
         tsaViewModel.updateTraveler(traveler)
         advancedOptionsViewModel.updateTraveler(traveler)
         passportCountrySubject.onNext(traveler.primaryPassportCountry)
+        if (isFrequentFlyerNumberForFlightsEnabled(context)) {
+            updateFrequentFlyerTraveler.onNext(Unit)
+        }
     }
 }
