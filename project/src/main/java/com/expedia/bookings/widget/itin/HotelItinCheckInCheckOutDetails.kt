@@ -34,8 +34,11 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
     fun setUpWidget(itinCardDataHotel: ItinCardDataHotel) {
 
         val formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEE, MMM d")
+        val contDescFormatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEE, MMM d")
         checkInDateView.text = itinCardDataHotel.startDate.toString(formatPattern)
+        checkInDateView.contentDescription = itinCardDataHotel.startDate.toString(contDescFormatPattern)
         checkOutDateView.text = itinCardDataHotel.endDate.toString(formatPattern)
+        checkOutDateView.contentDescription = itinCardDataHotel.endDate.toString(contDescFormatPattern)
         checkInTimeView.text = itinCardDataHotel.checkInTime?.toLowerCase()
         checkOutTimeView.text = itinCardDataHotel.checkOutTime?.toLowerCase()
         if (!itinCardDataHotel.property.checkInPolicies.isEmpty()) {

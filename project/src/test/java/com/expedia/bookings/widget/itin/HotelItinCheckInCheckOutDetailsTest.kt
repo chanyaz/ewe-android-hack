@@ -34,11 +34,16 @@ class HotelItinCheckInCheckOutDetailsTest {
         hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
 
         val formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEE, MMM d")
+        val contDescFormatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEE, MMM d")
         val checkInDate = itinCardDataHotel.startDate.toString(formatPattern)
         val checkOutDate = itinCardDataHotel.endDate.toString(formatPattern)
+        val checkInContDesc = itinCardDataHotel.startDate.toString(contDescFormatPattern)
+        val checkOutContDesc = itinCardDataHotel.endDate.toString(contDescFormatPattern)
 
         assertEquals(checkInDate, hotelItinCheckinCheckOutWidget.checkInDateView.text)
+        assertEquals(checkInContDesc, hotelItinCheckinCheckOutWidget.checkInDateView.contentDescription)
         assertEquals(checkOutDate, hotelItinCheckinCheckOutWidget.checkOutDateView.text)
+        assertEquals(checkOutContDesc, hotelItinCheckinCheckOutWidget.checkOutDateView.contentDescription)
         assertEquals(itinCardDataHotel.checkInTime?.toLowerCase(), hotelItinCheckinCheckOutWidget.checkInTimeView.text)
         assertEquals(itinCardDataHotel.checkOutTime?.toLowerCase(), hotelItinCheckinCheckOutWidget.checkOutTimeView.text)
     }
