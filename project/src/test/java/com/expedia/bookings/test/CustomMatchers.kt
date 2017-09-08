@@ -9,23 +9,18 @@ import org.hamcrest.Matchers
 class CustomMatchers {
     companion object {
         @JvmStatic
-        fun matchesPattern(regex: String): RegexMatcher {
-            return RegexMatcher(regex)
-        }
+        fun matchesPattern(regex: String): RegexMatcher = RegexMatcher(regex)
 
         @JvmStatic
-        fun hasEntries(data: Map<String, Any>): Matcher<Map<String, Any>> =
+        fun <K, V> hasEntries(data: Map<K, V>): Matcher<Map<K, V>> =
                 Matchers.allOf(data.map { Matchers.hasEntry(it.key, it.value) })
     }
 
     class RegexMatcher(private val regex: String) : BaseMatcher<String>() {
-        override fun matches(o: Any): Boolean {
-            return (o as String).matches(regex.toRegex())
-
-        }
+        override fun matches(o: Any): Boolean = (o as String).matches(regex.toRegex())
 
         override fun describeTo(description: Description) {
-            description.appendText("matches regex /" + regex + "/")
+            description.appendText("matches regex /$regex/")
         }
     }
 }

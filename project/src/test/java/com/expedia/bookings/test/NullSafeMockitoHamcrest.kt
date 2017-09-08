@@ -9,7 +9,7 @@ import org.mockito.hamcrest.MockitoHamcrest
  * order to get around this problem.
  */
 object NullSafeMockitoHamcrest {
-    fun mapThat(matcher: Matcher<Map<String, Any>>): Map<String, Any> {
+    fun <K, V> mapThat(matcher: Matcher<Map<K, V>>): Map<K, V> {
         MockitoHamcrest.argThat(matcher)
         return emptyMap()
     }
