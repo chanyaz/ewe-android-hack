@@ -59,6 +59,9 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     val costSummary: LinearLayout by bindView(R.id.cost_summary)
     val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
     val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
+    val checkinCheckoutDateContainer: LinearLayout by bindView(R.id.checkin_checkout_date_holder)
+    val checkinDate: android.widget.TextView by bindView(R.id.checkin_date)
+    val checkoutDate: android.widget.TextView by bindView(R.id.checkout_date)
 
     val breakdown = HotelBreakDownView(context, null)
     val dialog: AlertDialog by lazy {
@@ -83,11 +86,19 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         viewModel.address.subscribeText(address)
         viewModel.city.subscribeText(cityState)
 
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+            date.visibility = View.GONE
+            checkinCheckoutDateContainer.visibility = View.VISIBLE
+        } else {
+            date.visibility = View.VISIBLE
+            checkinCheckoutDateContainer.visibility = View.GONE
+        }
         setUpFreeCancellationSubscription()
-
         viewModel.valueAddsListObservable.safeSubscribe(valueAddsContainer.valueAddsSubject)
         viewModel.roomDescriptions.subscribeText(selectedRoom)
         viewModel.bedDescriptions.subscribeText(selectedBed)
+        viewModel.checkinDateFormattedByEEEMMDD.subscribeText(checkinDate)
+        viewModel.checkoutDateFormattedByEEEMMDD.subscribeText(checkoutDate)
         viewModel.numNights.subscribeText(numberNights)
         viewModel.numGuests.subscribeText(numberGuests)
         viewModel.dueNowAmount.subscribeText(totalPriceWithTaxAndFees)

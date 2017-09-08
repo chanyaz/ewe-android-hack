@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="13dp"
+        android:paddingBottom="6dp"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
         android:paddingTop="9dp">
@@ -109,6 +109,62 @@
             android:drawableLeft="@drawable/ic_hotel_check"
             android:drawablePadding="8dp"
             android:text="@string/price_guarantee" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/hotelsv2_checkout_divider_color" />
+
+    <LinearLayout
+        android:id="@+id/checkin_checkout_date_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/checkin_date_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/checkin_date_text"
+                style="@style/HotelCheckoutSummaryCommon.Common"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/itin_hotel_details_checkin_text"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/checkin_date"
+                style="@style/HotelCheckoutSummaryCommon.Common"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/checkout_date_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/checkout_date_text"
+                style="@style/HotelCheckoutSummaryCommon.Common"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/itin_hotel_details_checkout_text" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/checkout_date"
+                style="@style/HotelCheckoutSummaryCommon.Common"
+                android:layout_width="wrap_content"
+                android:textColor="@color/gray8"/>
+        </LinearLayout>
     </LinearLayout>
 
     <View
