@@ -95,4 +95,6 @@ public class Constants {
 
 	public static final String FEATURE_FLEX = "Flex";
 
+	//Location Permission Prompt Limit
+	public static final int LOCATION_PROMPT_LIMIT = 3;
 }

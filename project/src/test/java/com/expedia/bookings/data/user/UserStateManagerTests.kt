@@ -15,9 +15,11 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.UserAccountRefresher
+import com.expedia.model.UserLoginStateChangedModel
 import okhttp3.Cookie
 import okhttp3.HttpUrl
 import org.json.JSONObject
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -33,10 +35,15 @@ import kotlin.test.assertNull
 class UserStateManagerTests {
 
     val expediaUrl = HttpUrl.Builder().scheme("https").host("www.expedia.com").build()
+    private lateinit var userStateManager: UserStateManager
+
+    @Before
+    fun setup() {
+        userStateManager = UserStateManager(RuntimeEnvironment.application, UserLoginStateChangedModel())
+    }
 
     @Test
     fun notSignedInUserHasNoLoyaltyTier() {
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
         val expectedTier = LoyaltyMembershipTier.NONE
 
         assertFalse(userStateManager.isUserAuthenticated())
@@ -45,7 +52,6 @@ class UserStateManagerTests {
 
     @Test
     fun userWithNoLoyaltyInfoHasNoLoyaltyTier() {
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
         val expectedTier = LoyaltyMembershipTier.NONE
 
         givenSignedInAsUser(getNonRewardsMember())
@@ -56,8 +62,6 @@ class UserStateManagerTests {
 
     @Test
     fun userWithLoyaltyInfoHasCorrectLoyaltyTier() {
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
-
         givenSignedInAsUser(getBaseTierRewardsMember())
         assertTrue(userStateManager.isUserAuthenticated())
         assertEquals(LoyaltyMembershipTier.BASE, userStateManager.getCurrentUserLoyaltyTier())
@@ -73,7 +77,6 @@ class UserStateManagerTests {
 
     @Test
     fun testUserStateSanityCallsOnUserAccountRefreshedWhenUserLoggedIn() {
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
         var onUserAccountRefreshCalled = false
 
         class TestListener: UserAccountRefresher.IUserAccountRefreshListener {
@@ -90,8 +93,6 @@ class UserStateManagerTests {
 
     @Test
     fun testUserDeletedAtSystemLevelSignedOutWhenLoggedInAccountChanges() {
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
-
         givenSignedInAsDiskOnlyUser(getBaseTierRewardsMember())
         assertTrue(User.isLoggedInOnDisk(RuntimeEnvironment.application))
 
@@ -102,7 +103,6 @@ class UserStateManagerTests {
 
     @Test
     fun testAddUserToAccountManagerWithNullUserDoesNothing() {
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
         val manager = AccountManager.get(RuntimeEnvironment.application)
 
         userStateManager.addUserToAccountManager(null)
@@ -114,7 +114,6 @@ class UserStateManagerTests {
     fun testAddUserToAccountManagerWithInvalidUserDoesNothing() {
         val user = UserLoginTestUtil.mockUser()
 
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
         val manager = AccountManager.get(RuntimeEnvironment.application)
 
         userStateManager.addUserToAccountManager(user)
@@ -127,7 +126,6 @@ class UserStateManagerTests {
         val user = UserLoginTestUtil.mockUser()
         user.primaryTraveler.email = "test@expedia.com"
 
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
         val manager = AccountManager.get(RuntimeEnvironment.application)
 
         userStateManager.addUserToAccountManager(user)
@@ -142,7 +140,6 @@ class UserStateManagerTests {
         val user = UserLoginTestUtil.mockUser()
         user.primaryTraveler.email = "test@expedia.com"
 
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
         val manager = AccountManager.get(RuntimeEnvironment.application)
 
         userStateManager.addUserToAccountManager(user)
@@ -168,7 +165,6 @@ class UserStateManagerTests {
         val secondUser = UserLoginTestUtil.mockUser()
         secondUser.primaryTraveler.email = "anotherTest@expedia.com"
 
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
         val manager = AccountManager.get(RuntimeEnvironment.application)
 
         userStateManager.addUserToAccountManager(firstUser)
@@ -191,7 +187,6 @@ class UserStateManagerTests {
         val user = UserLoginTestUtil.mockUser()
         user.primaryTraveler.email = "test@expedia.com"
 
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
         val manager = AccountManager.get(RuntimeEnvironment.application)
 
         userStateManager.addUserToAccountManager(user)
@@ -207,14 +202,13 @@ class UserStateManagerTests {
 
     @Test
     fun testSignOutPreservingCookiesPreservesCookies() {
-        val manager = UserStateManager(RuntimeEnvironment.application)
         val cookieManager = populateAndGetCookieManager()
 
         var cookies = cookieManager.cookieStore.get(expediaUrl.host())
 
         assertTrue(cookies?.values?.size == 3)
 
-        manager.signOutPreservingCookies()
+        userStateManager.signOutPreservingCookies()
 
         cookies = cookieManager.cookieStore.get(expediaUrl.host())
 
@@ -223,14 +217,13 @@ class UserStateManagerTests {
 
     @Test
     fun testSignOutClearsCookies() {
-        val manager = UserStateManager(RuntimeEnvironment.application)
         val cookieManager = populateAndGetCookieManager()
 
         var cookies = cookieManager.cookieStore.get(expediaUrl.host())
 
         assertTrue(cookies?.values?.size == 3)
 
-        manager.signOut()
+        userStateManager.signOut()
 
         cookies = cookieManager.cookieStore.get(expediaUrl.host())
 
@@ -246,8 +239,6 @@ class UserStateManagerTests {
 
         assertNotNull(Db.getWorkingBillingInfoManager().workingBillingInfo.email)
 
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
-
         userStateManager.signOut()
 
         assertNull(Db.getWorkingBillingInfoManager().workingBillingInfo.email)
@@ -261,8 +252,6 @@ class UserStateManagerTests {
         Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler)
 
         assertNotNull(Db.getWorkingTravelerManager().workingTraveler.email)
-
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
 
         userStateManager.signOut()
 
@@ -278,8 +267,6 @@ class UserStateManagerTests {
 
         assertNotNull(Db.getBillingInfo().email)
 
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
-
         userStateManager.signOut()
 
         assertNull(Db.getBillingInfo().email)
@@ -293,8 +280,6 @@ class UserStateManagerTests {
         Db.setTravelers(listOf(traveler))
 
         assertNotNull(Db.getTravelers().first().email)
-
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
 
         userStateManager.signOut()
 
@@ -317,8 +302,6 @@ class UserStateManagerTests {
         Db.getTripBucket().airAttach = airAttach
 
         assertNotNull(Db.getTripBucket().airAttach)
-
-        val userStateManager = UserStateManager(RuntimeEnvironment.application)
 
         userStateManager.signOut()
 

@@ -9,8 +9,10 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.util.LoyaltyUtil
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -59,7 +61,7 @@ class LoyaltyUtilTest {
     }
 
     private fun givenUserIsNotSignedIn() {
-        userStateManager = UserStateManager(context)
+        userStateManager = UserStateManager(context, UserLoginStateChangedModel())
     }
 
     private fun givenUserIsSignedInAndAllowedToSWP() {
@@ -76,6 +78,6 @@ class LoyaltyUtilTest {
         val user = UserLoginTestUtil.mockUser()
         user.setLoyaltyMembershipInformation(loyaltyInfo)
         UserLoginTestUtil.setupUserAndMockLogin(user)
-        userStateManager = UserStateManager(context)
+        userStateManager = UserStateManager(context, UserLoginStateChangedModel())
     }
 }

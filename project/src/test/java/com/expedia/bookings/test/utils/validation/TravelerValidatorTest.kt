@@ -12,6 +12,7 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.validation.TravelerValidator
+import com.expedia.model.UserLoginStateChangedModel
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,7 +36,7 @@ class TravelerValidatorTest {
     val TOMORROW = LocalDate.now().plusDays(1)
     val TODAY = LocalDate.now()
 
-    val travelerValidator = TravelerValidator(UserStateManager(RuntimeEnvironment.application))
+    val travelerValidator = TravelerValidator(UserStateManager(RuntimeEnvironment.application, UserLoginStateChangedModel()))
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application

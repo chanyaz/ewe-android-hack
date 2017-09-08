@@ -12,6 +12,7 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import org.joda.time.LocalDate
 import org.junit.Assert
@@ -26,7 +27,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class TravelerManagerTest {
-    val travelerManager = TravelerManager(UserStateManager(RuntimeEnvironment.application))
+    val travelerManager = TravelerManager(UserStateManager(RuntimeEnvironment.application, UserLoginStateChangedModel()))
     val mockTravelerProvider = MockTravelerProvider()
 
 

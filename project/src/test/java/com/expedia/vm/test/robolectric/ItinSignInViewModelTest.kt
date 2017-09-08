@@ -10,6 +10,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.utils.Ui
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.itin.ItinSignInViewModel
 import org.junit.Before
 import org.junit.Test
@@ -125,7 +126,7 @@ class ItinSignInViewModelTest {
 
     private fun givenCustomerNotAuthenticated() {
         try {
-            UserStateManager(activity).signOut()
+            UserStateManager(activity, UserLoginStateChangedModel()).signOut()
         } catch (e: Exception) {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.

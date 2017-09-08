@@ -43,16 +43,17 @@ import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.requestLocationPermission
@@ -60,6 +61,7 @@ import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
+import rx.Subscription
 import javax.inject.Inject
 
 class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
@@ -87,6 +89,12 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     private var accountFragment: AccountSettingsFragment? = null
     private var newPhoneLaunchFragment: NewPhoneLaunchFragment? = null
     private var softPromptDialogFragment: SoftPromptDialogFragment? = null
+
+    private val userLoginStateChangedModel: UserLoginStateChangedModel by lazy {
+        Ui.getApplication(this).appComponent().userLoginStateChangedModel()
+    }
+
+    private var loginStateSubsciption: Subscription? = null
 
     private val debugMenu: DebugMenu by lazy {
         DebugMenuFactory.newInstance(this)
@@ -128,6 +136,16 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             jumpToItinId = intent.getStringExtra(ARG_ITIN_NUM)
         }
 
+        if (savedInstanceState != null) {
+            softPromptDialogFragment = supportFragmentManager.findFragmentByTag("fragment_dialog_soft_prompt") as? SoftPromptDialogFragment
+        }
+
+        loginStateSubsciption = userLoginStateChangedModel.userLoginStateChanged.distinctUntilChanged().filter{ isSignIn -> isSignIn == true }.subscribe {
+            if (!havePermissionToAccessLocation(this)) {
+                SettingUtils.save(this, PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT, true)
+            }
+        }
+
         val lineOfBusiness = intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED) as LineOfBusiness?
         if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
             // No need to do anything special, waterfall is the default behavior anyway
@@ -158,16 +176,18 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (!havePermissionToAccessLocation(this) && ExpediaBookingApp.isFirstLaunchEver()) {
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+    private fun showLocationPermissionPrompt() {
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+            if (softPromptDialogFragment == null) {
                 softPromptDialogFragment = SoftPromptDialogFragment()
-                softPromptDialogFragment?.show(supportFragmentManager, "fragment_dialog_soft_prompt")
-            } else {
-                requestLocationPermission(this)
             }
+            if (softPromptDialogFragment?.dialog?.isShowing?.not() ?: true) {
+                softPromptDialogFragment?.show(supportFragmentManager, "fragment_dialog_soft_prompt")
+            }
+        } else {
+            requestLocationPermission(this)
         }
+        updateLocationPermissionPromptPreference()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -176,7 +196,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 newPhoneLaunchFragment?.onReactToLocationRequest()
             }
         }
-        softPromptDialogFragment?.dismiss()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -415,6 +434,19 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this))
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
+        if (shouldShowLocationPermissionPrompt()) {
+            showLocationPermissionPrompt()
+        }
+    }
+
+    private fun shouldShowLocationPermissionPrompt() : Boolean {
+        return !havePermissionToAccessLocation(this) && SettingUtils.get(this, PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT, true)
+        && SettingUtils.get(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0) < Constants.LOCATION_PROMPT_LIMIT
+    }
+
+    private fun updateLocationPermissionPromptPreference() {
+        SettingUtils.save(this, PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT, false)
+        SettingUtils.save(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, SettingUtils.get(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0) + 1)
     }
 
     override fun onStart() {
@@ -424,6 +456,11 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         } else {
             setupTopNav()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        loginStateSubsciption?.unsubscribe()
     }
 
     inner class PagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
@@ -632,6 +669,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         @JvmField val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
         @JvmField val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
         @JvmField val ARG_ITIN_NUM = "ARG_ITIN_NUM"
+
+        @JvmField val PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT = "PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT"
+        @JvmField val PREF_LOCATION_PERMISSION_PROMPT_TIMES = "PREF_SOFT_PROMPT_LAUNCH_TIMES"
 
         /** Create intent to open this activity and jump straight to a particular itin item.
          */

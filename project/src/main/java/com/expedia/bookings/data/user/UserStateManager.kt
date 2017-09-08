@@ -13,9 +13,11 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.server.ExpediaServices
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
+import com.expedia.model.UserLoginStateChangedModel
 
-class UserStateManager(val context: Context) {
+class UserStateManager(private val context: Context, private val userLoginStateChangedModel: UserLoginStateChangedModel) {
     private val SAVED_INFO_FILENAME = "user.dat"
 
     fun signOutPreservingCookies() {
@@ -36,6 +38,8 @@ class UserStateManager(val context: Context) {
         logger.addSplit("performSignOutCleanupActions")
 
         logger.dumpToLog()
+
+        userLoginStateChangedModel.userLoginStateChanged.onNext(false)
     }
 
     fun isUserAuthenticated(): Boolean {

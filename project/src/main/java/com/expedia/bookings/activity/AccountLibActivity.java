@@ -27,11 +27,11 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LoginExtender;
-import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.TextView;
 import com.squareup.phrase.Phrase;
 

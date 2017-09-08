@@ -18,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.ChuckShim;
 import com.expedia.bookings.utils.Ui;
@@ -159,6 +160,8 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		}
 		else if ("PREF_FIRST_LAUNCH".equals(key)) {
 			userStateManager.signOut();
+			SettingUtils.save(getContext(), NewPhoneLaunchActivity.PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT, true);
+			SettingUtils.save(getContext(), NewPhoneLaunchActivity.PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0);
 		}
 
 		return super.onPreferenceTreeClick(preference);

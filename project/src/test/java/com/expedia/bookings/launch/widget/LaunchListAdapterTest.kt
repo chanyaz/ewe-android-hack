@@ -24,6 +24,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.FrameLayout
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
 import com.squareup.phrase.Phrase
 import org.junit.After
@@ -602,7 +603,7 @@ class LaunchListAdapterTest {
 
     private fun givenCustomerSignedOut() {
         try {
-            UserStateManager(context).signOut()
+            UserStateManager(context, UserLoginStateChangedModel()).signOut()
         } catch (e: Exception) {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.

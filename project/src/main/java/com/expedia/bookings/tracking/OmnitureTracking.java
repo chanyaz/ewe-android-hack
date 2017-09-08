@@ -2926,12 +2926,12 @@ public class OmnitureTracking {
 		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
-
-
 		trackProWizardTest(s, proWizardTestValue);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLocaleBasedDateFormatting);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountSinglePageSignUp);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSoftPromptLocation);
+
 		if (userStateManager.isUserAuthenticated()) {
 			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
 			if (!usersTripComponentTypeEventString.isEmpty()) {
