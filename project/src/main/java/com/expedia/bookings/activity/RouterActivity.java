@@ -22,6 +22,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
@@ -62,6 +63,8 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	}
 
 	private void launchOpeningView() {
+		TrackingUtils.initializeTracking(this.getApplication());
+
 		boolean isUsersFirstLaunchOfApp = ExpediaBookingApp.isFirstLaunchEver();
 		boolean isNewVersionOfApp = ExpediaBookingApp.isFirstLaunchOfAppVersion();
 		boolean userNotLoggedIn = !userStateManager.isUserAuthenticated();
