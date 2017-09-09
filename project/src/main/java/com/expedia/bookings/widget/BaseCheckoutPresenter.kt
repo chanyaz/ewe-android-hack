@@ -225,7 +225,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             paymentWidget.clearPaymentInfo()
             paymentWidget.removeStoredCard()
         }
-        vm.priceChangeAlertPriceObservable.map { response ->
+        vm.priceChangeAlertPriceObservable.map { optionalResponse ->
+            val response = optionalResponse.value
             Pair(response?.getOldPrice()?.formattedMoneyFromAmountAndCurrencyCode, response?.newPrice()?.formattedMoneyFromAmountAndCurrencyCode) }
                 .distinctUntilChanged().map { it.first != null && it.second != null }
                 .subscribe(vm.showPriceChangeAlertObservable)
@@ -254,7 +255,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             if (oldPrice != null) {
                 trackCreateTripPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
                 if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, oldPrice.amount)) {
-                    vm.priceChangeAlertPriceObservable.onNext(response)
+                    vm.priceChangeAlertPriceObservable.onNext(Optional(response))
                     return@safeSubscribeOptional
                 }
             }

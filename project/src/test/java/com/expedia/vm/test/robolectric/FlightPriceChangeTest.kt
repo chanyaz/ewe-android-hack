@@ -68,7 +68,7 @@ class FlightPriceChangeTest {
         Db.getTripBucket().add(flightTripItem)
 
         overview.resetAndShowTotalPriceWidget()
-        checkout.flightCreateTripViewModel.priceChangeAlertPriceObservable.subscribe(priceChangeAlertSubscriber)
+        checkout.flightCreateTripViewModel.priceChangeAlertPriceObservable.map { it.value }.subscribe(priceChangeAlertSubscriber)
         checkout.flightCreateTripViewModel.showPriceChangeAlertObservable.subscribe(showPriceChangeAlertSubscriber)
 
         //Verify multiple createTripResponses just lead to one alert
@@ -95,7 +95,7 @@ class FlightPriceChangeTest {
         val flightTripItem = TripBucketItemFlightV2(dummyFlightCreateTripResponse)
         Db.getTripBucket().add(flightTripItem)
 
-        checkout.flightCreateTripViewModel.priceChangeAlertPriceObservable.subscribe(priceChangeAlertSubscriber)
+        checkout.flightCreateTripViewModel.priceChangeAlertPriceObservable.map { it.value }.subscribe(priceChangeAlertSubscriber)
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(dummyFlightCreateTripResponse))
         priceChangeAlertSubscriber.assertValueCount(0)
     }

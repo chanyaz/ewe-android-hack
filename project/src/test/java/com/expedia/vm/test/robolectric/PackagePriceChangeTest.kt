@@ -83,7 +83,7 @@ class PackagePriceChangeTest {
         overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
         overview.bundleWidget.viewModel.hotelParamsObservable.onNext(getPackageSearchParams(1, emptyList(), false))
         overview.resetAndShowTotalPriceWidget()
-        checkout.getCreateTripViewModel().priceChangeAlertPriceObservable.subscribe(priceChangeAlertSubscriber)
+        checkout.getCreateTripViewModel().priceChangeAlertPriceObservable.map { it.value }.subscribe(priceChangeAlertSubscriber)
         checkout.getCreateTripViewModel().showPriceChangeAlertObservable.subscribe(showPriceChangeAlertSubscriber)
     }
 

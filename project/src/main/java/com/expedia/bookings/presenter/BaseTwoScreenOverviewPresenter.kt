@@ -25,6 +25,7 @@ import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
+import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.util.safeSubscribe
 import com.expedia.util.safeSubscribeOptional
@@ -345,7 +346,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     fun resetPriceChange() {
-        checkoutPresenter.getCreateTripViewModel().priceChangeAlertPriceObservable.onNext(null)
+        checkoutPresenter.getCreateTripViewModel().priceChangeAlertPriceObservable.onNext(Optional(null))
     }
 
     fun resetAndShowTotalPriceWidget() {
