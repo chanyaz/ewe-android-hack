@@ -14,7 +14,6 @@ import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
-import com.expedia.bookings.rail.widget.RailLegOptionViewModel
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
@@ -30,7 +29,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
     val legOptionsAndCompareToPriceSubject = BehaviorSubject.create<Pair<List<RailLegOption>, Money?>>()
-    val outboundOfferSubject = BehaviorSubject.create<RailOffer?>()
+    val outboundOfferSubject = BehaviorSubject.create<Optional<RailOffer>>()
 
     val directionHeaderSubject = BehaviorSubject.create<CharSequence>()
     val priceHeaderSubject = BehaviorSubject.create<CharSequence>()
@@ -51,7 +50,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
             loading = false
             legOptions = pair.first
             cheapestCompareToPrice = pair.second
-            selectedOutboundOffer = offer
+            selectedOutboundOffer = offer.value
             notifyDataSetChanged()
         }).subscribe()
 

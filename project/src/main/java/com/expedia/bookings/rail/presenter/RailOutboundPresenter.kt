@@ -9,9 +9,10 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.rail.widget.RailResultsAdapter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.rail.widget.RailResultsAdapter
+import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
@@ -31,7 +32,7 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val legalBannerClicked = PublishSubject.create<Unit>()
 
     var viewmodel: RailOutboundResultsViewModel by notNullAndObservable { vm ->
-        adapter.outboundOfferSubject.onNext(null)
+        adapter.outboundOfferSubject.onNext(Optional(null))
         vm.legOptionsAndCheapestPriceSubject.subscribe(adapter.legOptionsAndCompareToPriceSubject)
         vm.showChildrenWarningObservable.subscribeVisibility(childWarning)
 
