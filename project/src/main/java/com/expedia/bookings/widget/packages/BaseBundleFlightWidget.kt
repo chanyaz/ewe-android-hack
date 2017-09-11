@@ -71,7 +71,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         vm.showRowContainerWithMoreInfo.subscribe {
             when (it) {
                 true -> {
-                    rowContainer = this.findViewById(R.id.detailed_row_container) as ViewGroup
+                    rowContainer = this.findViewById<ViewGroup>(R.id.detailed_row_container)
                     rowContainer.visibility = VISIBLE
                     val flightCell = FlightCellWidget(context, false)
                     rowContainer.addView(flightCell)
@@ -80,12 +80,12 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                             collapseFlightDetails(true)
                         }
                     }
-                    flightDetailsIcon = rowContainer.findViewById(R.id.flight_overview_expand_icon) as ImageView
+                    flightDetailsIcon = rowContainer.findViewById<ImageView>(R.id.flight_overview_expand_icon)
                 }
                 false -> {
-                    rowContainer = this.findViewById(R.id.row_container) as ViewGroup
+                    rowContainer = this.findViewById<ViewGroup>(R.id.row_container)
                     rowContainer.visibility = VISIBLE
-                    flightDetailsIcon = this.findViewById(R.id.package_flight_details_icon) as ImageView
+                    flightDetailsIcon = this.findViewById<ImageView>(R.id.package_flight_details_icon)
                 }
             }
             showCollapseIcon = it
@@ -168,7 +168,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                     selectedFlight.packageOfferModel.segmentsSeatClassAndBookingCode = it.first
                     FlightV2Utils.getFlightCabinPreferences(context, selectedFlight)
                 }.subscribe(flightCellWidget.viewModel.updateflightCabinPreferenceObservable)
-                flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
+                flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById<ImageView>(R.id.flight_overview_collapse_icon)
             }
             this.selectedCardObservable.onNext(Unit)
         }

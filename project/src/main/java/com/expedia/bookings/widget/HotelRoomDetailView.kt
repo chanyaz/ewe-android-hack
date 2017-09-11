@@ -128,8 +128,8 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
 
     private fun createValueAddTextView(valueAdd: HotelValueAdd, filter: ColorFilter, viewGroup: ViewGroup) {
         val valueAddLayout = Ui.inflate<LinearLayout>(R.layout.room_value_add_row, viewGroup, false)
-        val valueAddTextView = valueAddLayout.findViewById(R.id.value_add_label) as android.widget.TextView
-        val valueAddIconView = valueAddLayout.findViewById(R.id.value_add_icon) as ImageView
+        val valueAddTextView = valueAddLayout.findViewById<android.widget.TextView>(R.id.value_add_label)
+        val valueAddIconView = valueAddLayout.findViewById<ImageView>(R.id.value_add_icon)
 
         val icon = ContextCompat.getDrawable(context, valueAdd.iconId)
         icon.colorFilter = filter

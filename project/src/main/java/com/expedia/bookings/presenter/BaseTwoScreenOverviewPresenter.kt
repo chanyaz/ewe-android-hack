@@ -52,7 +52,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     val ANIMATION_DURATION = 400
 
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
-    protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
+    protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById<BaseCheckoutPresenter>(R.id.checkout_presenter) }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
 
@@ -63,7 +63,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private var trackShowingCkoOverviewSubscription: Subscription? = null
 
     val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
-        val viewStub = findViewById(R.id.payment_fee_info_webview_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.payment_fee_info_webview_stub)
         val airlineFeeWebview = viewStub.inflate() as PaymentFeeInfoWebView
         airlineFeeWebview.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         airlineFeeWebview.viewModel = WebViewViewModel()
@@ -72,7 +72,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     val baggageFeeInfoWebView: BaggageFeeInfoWebView by lazy {
-        val viewStub = findViewById(R.id.baggage_fee_summary_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.baggage_fee_summary_stub)
         val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWebView
         baggageFeeView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         baggageFeeView.viewModel = WebViewViewModel()

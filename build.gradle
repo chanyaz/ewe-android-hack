@@ -43,7 +43,7 @@ apply plugin: 'com.github.ben-manes.versions'
 ext.supportLibVersion = "25.3.1"
 ext.googlePlayServicesVersion = "11.0.2"
 
-ext.compileSdkVersion = 25
+ext.compileSdkVersion = 26
 ext.buildToolsVersion = "25.0.3"
 
 ext.preDexLibs = !project.hasProperty('disablePreDex')

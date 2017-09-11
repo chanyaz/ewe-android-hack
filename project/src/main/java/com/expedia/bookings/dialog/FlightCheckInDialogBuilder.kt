@@ -17,11 +17,11 @@ object FlightCheckInDialogBuilder {
     @JvmStatic
     fun onCreateDialog(context: Context, airlineName: String, airlineCode: String, confirmationCode: String, isSplitTicket: Boolean, flightLegs: Int): AlertDialog {
         val dialogLayout = (context as Activity).layoutInflater.inflate(R.layout.itin_check_in_dialog, null)
-        val noText = dialogLayout.findViewById(R.id.itin_checkin_no) as TextView
-        val dialogMsg = dialogLayout.findViewById(R.id.itin_checkin_msg) as TextView
-        val dialogTitle = dialogLayout.findViewById(R.id.dialog_title) as TextView
-        val dialogBody = dialogLayout.findViewById(R.id.dialog_body) as ViewGroup
-        val yesText = dialogLayout.findViewById(R.id.itin_checkin_yes) as TextView
+        val noText = dialogLayout.findViewById<TextView>(R.id.itin_checkin_no) 
+        val dialogMsg = dialogLayout.findViewById<TextView>(R.id.itin_checkin_msg) 
+        val dialogTitle = dialogLayout.findViewById<TextView>(R.id.dialog_title) 
+        val dialogBody = dialogLayout.findViewById<ViewGroup>(R.id.dialog_body) 
+        val yesText = dialogLayout.findViewById<TextView>(R.id.itin_checkin_yes) 
         dialogMsg.text = context.getString(R.string.itin_checkin_dialog_message, airlineName)
         val builder = AlertDialog.Builder(context)
         builder.setCancelable(false)

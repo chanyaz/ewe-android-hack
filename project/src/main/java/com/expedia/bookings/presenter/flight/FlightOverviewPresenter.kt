@@ -65,21 +65,21 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
 
     private val basicEconomyInfoWebView: BasicEconomyInfoWebView by lazy {
-        val viewStub = findViewById(R.id.basic_economy_info_web_view) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.basic_economy_info_web_view)
         val basicEconomyInfoView = viewStub.inflate() as BasicEconomyInfoWebView
         basicEconomyInfoView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         basicEconomyInfoView
     }
 
     val flightFareFamilyDetailsWidget: FlightFareFamilyWidget by lazy {
-        val viewStub = findViewById(R.id.fare_family_details_view) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.fare_family_details_view)
         val flightFareFamilyView = viewStub.inflate() as FlightFareFamilyWidget
         flightFareFamilyView.viewModel = FlightFareFamilyViewModel(context)
         flightFareFamilyView
     }
 
     val fareFamilyCardView: FareFamilyCardView by lazy {
-        val widget = findViewById(R.id.fare_family_widget) as FareFamilyCardView
+        val widget = findViewById<FareFamilyCardView>(R.id.fare_family_widget)
         widget.viewModel = FareFamilyViewModel(context)
         widget.viewModel.fareFamilyCardClickObserver.subscribe {
             flightFareFamilyDetailsWidget.viewModel.showFareFamilyObservable.onNext(Unit)
@@ -150,7 +150,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     }
 
     val insuranceWidget: InsuranceWidget by lazy {
-        val widget = findViewById(R.id.insurance_widget) as InsuranceWidget
+        val widget = findViewById<InsuranceWidget>(R.id.insurance_widget)
         widget.viewModel = InsuranceViewModel(context, insuranceServices)
         widget.viewModel.updatedTripObservable.subscribe(checkoutPresenter.getCreateTripViewModel().createTripResponseObservable)
         widget

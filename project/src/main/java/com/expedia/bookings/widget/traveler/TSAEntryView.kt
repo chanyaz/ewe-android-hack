@@ -79,14 +79,14 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     init {
         if (materialFormTestEnabled) {
             View.inflate(context, R.layout.material_tsa_entry_view, this)
-            genderEditText = this.findViewById(R.id.edit_gender_btn) as TravelerEditText
+            genderEditText = this.findViewById<TravelerEditText>(R.id.edit_gender_btn)
             genderEditText?.setOnClickListener {
                 showGenderAlertDialog()
             }
         } else {
             View.inflate(context, R.layout.tsa_entry_view, this)
             gravity = Gravity.BOTTOM
-            genderSpinner = this.findViewById(R.id.edit_gender_spinner) as TravelerSpinner
+            genderSpinner = this.findViewById<TravelerSpinner>(R.id.edit_gender_spinner)
             val genderAdapter = GenderSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_dropdown_item)
             genderSpinner?.adapter = genderAdapter
             genderSpinner?.errorMessage = context.getString(R.string.gender_validation_error_message)

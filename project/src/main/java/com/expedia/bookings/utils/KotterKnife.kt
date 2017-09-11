@@ -60,7 +60,7 @@ private fun <T : View> findView(thisRef: Any, id: Int): T? {
 		is View -> thisRef.findViewById(id)
 		is Dialog -> thisRef.findViewById(id)
 		is Fragment -> thisRef.view.findViewById(id)
-		is SupportFragment -> thisRef.view?.findViewById(id)
+		is SupportFragment -> thisRef.view?.findViewById<View?>(id)
 		is ViewHolder -> thisRef.itemView.findViewById(id)
 		else -> throw IllegalStateException("Unable to find views on type.")
 	} as T?

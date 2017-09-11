@@ -18,16 +18,16 @@ import com.mobiata.android.util.AndroidUtils
 
 class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
     val gallery: RecyclerGallery by lazy {
-        findViewById(R.id.images_gallery) as RecyclerGallery
+        findViewById<RecyclerGallery>(R.id.images_gallery)
     }
     val galleryIndicator: View by lazy {
-        findViewById(R.id.hotel_gallery_indicator)
+        findViewById<View>(R.id.hotel_gallery_indicator)
     }
     val galleryDescription: TextView by lazy {
-        findViewById(R.id.hotel_gallery_description) as TextView
+        findViewById<TextView>(R.id.hotel_gallery_description)
     }
     val toolbar: HotelDetailsToolbar by lazy {
-        findViewById(R.id.hotel_details_toolbar) as HotelDetailsToolbar
+        findViewById<HotelDetailsToolbar>(R.id.hotel_details_toolbar)
     }
 
     var mediaList = emptyList<HotelMedia>()

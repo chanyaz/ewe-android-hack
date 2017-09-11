@@ -31,7 +31,7 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
     }
 
     open val traveler: BaseTravelerPickerView by lazy {
-        val travelerView = travelerDialogView.findViewById(R.id.traveler_view) as TravelerPickerView
+        val travelerView = travelerDialogView.findViewById<TravelerPickerView>(R.id.traveler_view)
         travelerView.viewmodel = TravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this)

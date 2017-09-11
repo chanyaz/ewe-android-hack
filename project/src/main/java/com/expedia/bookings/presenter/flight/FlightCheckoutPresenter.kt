@@ -79,7 +79,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     }
 
     val insuranceWidget: InsuranceWidget by lazy {
-        val widget = findViewById(R.id.insurance_widget) as InsuranceWidget
+        val widget = findViewById<InsuranceWidget>(R.id.insurance_widget)
         widget.viewModel = InsuranceViewModel(context, insuranceServices)
         widget.viewModel.updatedTripObservable.subscribe(tripViewModel.createTripResponseObservable)
         widget

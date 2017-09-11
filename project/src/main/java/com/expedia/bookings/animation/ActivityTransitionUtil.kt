@@ -29,8 +29,8 @@ class ActivityTransitionUtil {
             val pairs = ArrayList<android.support.v4.util.Pair<View, String>>()
             val decorView = activity.window.decorView
 
-            val statusBar = decorView.findViewById(android.R.id.statusBarBackground)
-            val navBar = decorView.findViewById(android.R.id.navigationBarBackground)
+            val statusBar = decorView.findViewById<View>(android.R.id.statusBarBackground)
+            val navBar = decorView.findViewById<View>(android.R.id.navigationBarBackground)
 
             if (statusBar != null) {
                 pairs.add(android.support.v4.util.Pair.create<View, String>(statusBar,

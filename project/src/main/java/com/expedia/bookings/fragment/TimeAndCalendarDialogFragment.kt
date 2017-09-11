@@ -51,23 +51,23 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        val timeStub = calendarDialogView.findViewById(R.id.timesStub) as ViewStub
+        val timeStub = calendarDialogView.findViewById<ViewStub>(R.id.timesStub)
         timeStub.inflate()
 
         val params = calendar.layoutParams
         params.height = resources.getDimension(R.dimen.calendar_height_with_time_slider).toInt()
         calendar.layoutParams = params
 
-        sliderContainer = calendarDialogView.findViewById(R.id.slider_container) as ViewGroup
-        departTimeSlider = calendarDialogView.findViewById(R.id.depart_time_slider) as TimeSlider
-        returnTimeSlider = calendarDialogView.findViewById(R.id.return_time_slider) as TimeSlider
-        val returnSliderContainer = calendarDialogView.findViewById(R.id.return_slider_container) as ViewGroup
+        sliderContainer = calendarDialogView.findViewById<ViewGroup>(R.id.slider_container)
+        departTimeSlider = calendarDialogView.findViewById<TimeSlider>(R.id.depart_time_slider)
+        returnTimeSlider = calendarDialogView.findViewById<TimeSlider>(R.id.return_time_slider)
+        val returnSliderContainer = calendarDialogView.findViewById<ViewGroup>(R.id.return_slider_container)
 
-        pickupTimePopupContainer = calendarDialogView.findViewById(R.id.pickup_time_popup_container) as LinearLayout
-        pickupTimePopupContainerText = calendarDialogView.findViewById(R.id.pickup_time_popup_text_container) as LinearLayout
-        pickupTimePopupTail = calendarDialogView.findViewById(R.id.pickup_time_popup_tail) as ImageView
-        pickupTimePopup = calendarDialogView.findViewById(R.id.pickup_time_popup) as TextView
-        popupLabel = calendarDialogView.findViewById(R.id.pop_up_label) as TextView
+        pickupTimePopupContainer = calendarDialogView.findViewById<LinearLayout>(R.id.pickup_time_popup_container)
+        pickupTimePopupContainerText = calendarDialogView.findViewById<LinearLayout>(R.id.pickup_time_popup_text_container)
+        pickupTimePopupTail = calendarDialogView.findViewById<ImageView>(R.id.pickup_time_popup_tail)
+        pickupTimePopup = calendarDialogView.findViewById<TextView>(R.id.pickup_time_popup)
+        popupLabel = calendarDialogView.findViewById<TextView>(R.id.pop_up_label)
 
         departTimeSlider.addOnSeekBarChangeListener(sliderListener)
         returnTimeSlider.addOnSeekBarChangeListener(sliderListener)

@@ -27,7 +27,7 @@ class ScrollableContentDialogFragment : DialogFragment() {
         val alertDialogBuilder = AlertDialog.Builder(activity)
         val layoutInflater = activity.layoutInflater
         val view = layoutInflater.inflate(R.layout.fragment_dialog_scrollable_content, null)
-        val contentText = view.findViewById(R.id.fragment_dialog_scrollable_text_content) as TextView
+        val contentText = view.findViewById<TextView>(R.id.fragment_dialog_scrollable_text_content)
 
         alertDialogBuilder.setTitle(arguments.getString(TITLE_KEY) ?: "")
         alertDialogBuilder.setView(view)

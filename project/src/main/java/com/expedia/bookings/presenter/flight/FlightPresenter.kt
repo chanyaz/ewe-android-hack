@@ -78,7 +78,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
 
     val errorPresenter: FlightErrorPresenter by lazy {
-        val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.error_presenter_stub)
         val presenter = viewStub.inflate() as FlightErrorPresenter
         presenter.viewmodel = FlightErrorViewModel(context)
         presenter.getViewModel().defaultErrorObservable.subscribe {
@@ -124,16 +124,16 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     val searchPresenter: FlightSearchPresenter by lazy {
         if (displayFlightDropDownRoutes()) {
-            val viewStub = findViewById(R.id.search_restricted_airport_dropdown_presenter) as ViewStub
+            val viewStub = findViewById<ViewStub>(R.id.search_restricted_airport_dropdown_presenter)
             viewStub.inflate() as FlightSearchAirportDropdownPresenter
         } else {
-            val viewStub = findViewById(R.id.search_presenter) as ViewStub
+            val viewStub = findViewById<ViewStub>(R.id.search_presenter)
             viewStub.inflate() as FlightSearchPresenter
         }
     }
 
     val outBoundPresenter: FlightOutboundPresenter by lazy {
-        val viewStub = findViewById(R.id.outbound_presenter) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.outbound_presenter)
         val presenter = viewStub.inflate() as FlightOutboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
@@ -171,7 +171,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     val inboundPresenter: FlightInboundPresenter by lazy {
-        val viewStub = findViewById(R.id.inbound_presenter) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.inbound_presenter)
         val presenter = viewStub.inflate() as FlightInboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
@@ -208,7 +208,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     val flightOverviewPresenter: FlightOverviewPresenter by lazy {
-        val viewStub = findViewById(R.id.overview_presenter) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.overview_presenter)
         val presenter = viewStub.inflate() as FlightOverviewPresenter
         presenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
         presenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
@@ -319,7 +319,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     val confirmationPresenter: FlightConfirmationPresenter by lazy {
-        val viewStub = findViewById(R.id.confirmation_presenter) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.confirmation_presenter)
         val presenter = viewStub.inflate() as FlightConfirmationPresenter
         presenter.viewModel = FlightConfirmationViewModel(context)
 

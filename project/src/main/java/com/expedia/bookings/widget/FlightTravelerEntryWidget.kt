@@ -192,10 +192,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             setOnFocusChangeListenerForView(advancedOptionsWidget.seatPreferenceEditBox)
             setOnFocusChangeListenerForView(advancedOptionsWidget.assistancePreferenceEditBox)
             if (frequentflyerTestEnabled) {
-                frequentFlyerButton = findViewById(R.id.traveler_frequent_flyer_button) as LinearLayout
-                frequentFlyerRecycler = findViewById(R.id.frequent_flyer_recycler_view) as RecyclerView
-                frequentFlyerIcon = findViewById(R.id.traveler_frequent_flyer_program_icon) as ImageView
-                frequentFlyerText = findViewById(R.id.frequent_flyer_program_text) as TextView
+                frequentFlyerButton = findViewById<LinearLayout>(R.id.traveler_frequent_flyer_button)
+                frequentFlyerRecycler = findViewById<RecyclerView>(R.id.frequent_flyer_recycler_view)
+                frequentFlyerIcon = findViewById<ImageView>(R.id.traveler_frequent_flyer_program_icon)
+                frequentFlyerText = findViewById<TextView>(R.id.frequent_flyer_program_text)
                 frequentFlyerButton!!.updateVisibility(frequentflyerTestEnabled)
                 setUpFrequentFlyerRecyclerView(context)
             }

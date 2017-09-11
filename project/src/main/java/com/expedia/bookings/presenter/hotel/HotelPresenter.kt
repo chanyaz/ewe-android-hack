@@ -170,7 +170,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
         val presenter = resultsStub.inflate() as HotelResultsPresenter
-        val resultsStub = presenter.findViewById(R.id.stub_map) as FrameLayout
+        val resultsStub = presenter.findViewById<FrameLayout>(R.id.stub_map)
         resultsMapView.visibility = View.VISIBLE
         removeView(resultsMapView)
         resultsStub.addView(resultsMapView)
@@ -209,7 +209,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val detailsStub: ViewStub by bindView(R.id.details_stub)
     val detailPresenter: HotelDetailPresenter by lazy {
         val presenter = detailsStub.inflate() as HotelDetailPresenter
-        val detailsStub = presenter.hotelMapView.findViewById(R.id.stub_map) as FrameLayout
+        val detailsStub = presenter.hotelMapView.findViewById<FrameLayout>(R.id.stub_map)
         detailsMapView.visibility = View.VISIBLE
         removeView(detailsMapView)
         detailsStub.addView(detailsMapView)
@@ -353,7 +353,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
 
     val reviewsView: HotelReviewsView by lazy {
-        val viewStub = findViewById(R.id.reviews_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.reviews_stub)
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.hotelReviewsTabbar.slidingTabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {

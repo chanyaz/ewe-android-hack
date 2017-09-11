@@ -55,7 +55,7 @@ class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewMod
     class LobViewHolder(itemView: View, val viewModel: NewLaunchLobViewModel) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         val lobText by lazy {
-            itemView.findViewById(R.id.lob_cell_text) as TextView
+            itemView.findViewById<TextView>(R.id.lob_cell_text)
         }
 
         lateinit var lobInfo: LobInfo

@@ -64,8 +64,8 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
             for (index in 0..amenityList.size - 1) {
 
                 val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.new_amenity_row, viewGroup, false)
-                val amenityTextView = amenityLayout.findViewById(R.id.amenity_label) as android.widget.TextView
-                val amenityIconView = amenityLayout.findViewById(R.id.amenity_icon) as ImageView
+                val amenityTextView = amenityLayout.findViewById<android.widget.TextView>(R.id.amenity_label)
+                val amenityIconView = amenityLayout.findViewById<ImageView>(R.id.amenity_icon)
                 amenityIconView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
                 val amenityStr = viewGroup.context.getString(amenityList[index].strId)
 

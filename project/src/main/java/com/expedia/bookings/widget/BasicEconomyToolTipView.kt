@@ -31,7 +31,7 @@ class BasicEconomyToolTipView(context: Context, attrs: AttributeSet?) : LinearLa
 
     private fun createRow(fareRule: String): View {
         val row = LayoutInflater.from(context).inflate(R.layout.basic_economy_rules_tv, null)
-        val fareRuleTextView = row.findViewById(R.id.basic_economy_rules_tv)  as TextView
+        val fareRuleTextView = row.findViewById<TextView>(R.id.basic_economy_rules_tv)
         fareRuleTextView.text = fareRule
         return row
     }

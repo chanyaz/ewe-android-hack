@@ -103,7 +103,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val scrollContainer: ScrollView by bindView(R.id.scroll_container)
     val openSourceCredits: TextView by bindView(R.id.open_source_credits_textview)
     val logo: ImageView by lazy {
-        activity.findViewById(com.mobiata.android.R.id.logo) as ImageView
+        activity.findViewById<ImageView>(com.mobiata.android.R.id.logo)
     }
 
     val accountToolbar: Toolbar by bindView(R.id.account_launch_toolbar)
@@ -154,7 +154,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         alertDialog.setView(convertView)
         alertDialog.setIcon(R.drawable.ic_launcher)
         alertDialog.setTitle(R.string.debug_screens_sub_menu)
-        val activityList = convertView.findViewById(R.id.listView) as ListView
+        val activityList = convertView.findViewById<ListView>(R.id.listView)
         val activityInfoList = debugMenu.debugActivityInfoList
         val names = activityInfoList.map(DebugMenu.DebugActivityInfo::displayName)
         val adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, names)
@@ -555,8 +555,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     private fun setupCountryView(countryView: View) {
-        val countryTextView = countryView.findViewById(R.id.country) as TextView
-        val flagIconView = countryView.findViewById(R.id.flagView) as ImageView
+        val countryTextView = countryView.findViewById<TextView>(R.id.country)
+        val flagIconView = countryView.findViewById<ImageView>(R.id.flagView)
         val pos = PointOfSale.getPointOfSale()
         countryTextView.text = pos.threeLetterCountryCode
         flagIconView.setImageResource(pos.countryFlagResId)

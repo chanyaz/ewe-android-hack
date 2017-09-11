@@ -15,11 +15,11 @@ import com.squareup.otto.Subscribe
 class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), View.OnClickListener {
 
     val offerDescription: TextView by lazy {
-        findViewById(R.id.description) as TextView
+        findViewById<TextView>(R.id.description)
     }
 
     val readMore : ImageButton by lazy {
-        findViewById(R.id.read_more) as ImageButton
+        findViewById<ImageButton>(R.id.read_more)
     }
 
     val maxLineCount : Int = 2

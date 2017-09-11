@@ -83,7 +83,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     var navIcon: ArrowXDrawable
     open val destinationCardView: SearchInputTextView by bindView(R.id.destination_card)
     open val travelerWidgetV2 by lazy {
-        travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
+        travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
     }
 
     val searchButton: Button by bindView(R.id.search_btn)
@@ -94,7 +94,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val mRootWindow by lazy { (context as Activity).window }
-    val mRootView by lazy { mRootWindow.decorView.findViewById(android.R.id.content) }
+    val mRootView by lazy { mRootWindow.decorView.findViewById<View>(android.R.id.content) }
     val primaryColor by lazy {
         val typedValue = TypedValue()
         val theme = context.theme
@@ -253,7 +253,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             }
         }
 
-        searchLocationEditText = findViewById(R.id.toolbar_searchView) as SearchView?
+        searchLocationEditText = findViewById<SearchView?>(R.id.toolbar_searchView)
         searchLocationEditText?.setIconifiedByDefault(false)
         searchLocationEditText?.visibility = GONE
         searchLocationEditText?.alpha = 0f
@@ -266,7 +266,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     //TODO try to style search view in xml
     fun styleSearchView() {
         if (searchLocationEditText != null) {
-            val searchEditText = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText?
+            val searchEditText = searchLocationEditText?.findViewById<EditText?>(android.support.v7.appcompat.R.id.search_src_text)
             searchEditText?.setTextColor(ContextCompat.getColor(context, R.color.search_suggestion_v2))
             searchEditText?.setHintTextColor(ContextCompat.getColor(context, R.color.search_suggestion_hint_v2))
             searchEditText?.setAccessibilityDelegate(object : AccessibilityDelegate() {
@@ -276,13 +276,13 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 }
             })
 
-            val searchPlate = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_plate)
+            val searchPlate = searchLocationEditText?.findViewById<View>(android.support.v7.appcompat.R.id.search_plate)
             searchPlate?.setBackgroundColor(android.R.color.transparent)
 
-            val imgViewSearchView = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_mag_icon) as ImageView?
+            val imgViewSearchView = searchLocationEditText?.findViewById<ImageView?>(android.support.v7.appcompat.R.id.search_mag_icon)
             imgViewSearchView?.setImageResource(0)
 
-            val close = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_close_btn) as ImageView?
+            val close = searchLocationEditText?.findViewById<ImageView?>(android.support.v7.appcompat.R.id.search_close_btn)
             val drawable = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp).mutate()
             drawable.setColorFilter(primaryColor, PorterDuff.Mode.SRC_IN)
             close?.setImageDrawable(drawable)

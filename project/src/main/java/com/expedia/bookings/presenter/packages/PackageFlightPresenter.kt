@@ -128,10 +128,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     private fun setupMenuFilter() {
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
-        val filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
-        val filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
-        val filterButtonText = toolbarFilterItemActionView.findViewById(R.id.filter_text) as TextView
-        val filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
+        val filterCountText = toolbarFilterItemActionView.findViewById<TextView>(R.id.filter_count_text)
+        val filterPlaceholderImageView = toolbarFilterItemActionView.findViewById<ImageView>(R.id.filter_placeholder_icon)
+        val filterButtonText = toolbarFilterItemActionView.findViewById<TextView>(R.id.filter_text)
+        val filterBtn = toolbarFilterItemActionView.findViewById<LinearLayout>(R.id.filter_btn)
         toolbarFilterItemActionView.setOnLongClickListener {
             val size = Point()
             display.getSize(size)

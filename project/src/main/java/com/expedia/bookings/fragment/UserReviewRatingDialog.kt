@@ -30,9 +30,9 @@ class UserReviewRatingDialog(context: Context) {
 
     val ratingDialogView: View by lazy {
         val view = LayoutInflater.from(context).inflate(R.layout.widget_rating_dialog, null)
-        val reviewBtn = view.findViewById(R.id.review_btn) as Button
-        val feedbackBtn = view.findViewById(R.id.feedback_btn) as Button
-        val noThanksBtn = view.findViewById(R.id.no_btn) as Button
+        val reviewBtn = view.findViewById<Button>(R.id.review_btn)
+        val feedbackBtn = view.findViewById<Button>(R.id.feedback_btn)
+        val noThanksBtn = view.findViewById<Button>(R.id.no_btn)
 
         reviewBtn.subscribeOnClick(viewModel.reviewSubject)
         feedbackBtn.subscribeOnClick(viewModel.feedbackSubject)

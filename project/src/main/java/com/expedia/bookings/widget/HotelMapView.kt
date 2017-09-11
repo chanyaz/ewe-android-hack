@@ -56,9 +56,9 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         View.inflate(context, R.layout.widget_hotel_map, this)
 
         if (shouldShowCircleForRatings()) {
-            toolBarRating = findViewById(R.id.hotel_map_circle_rating_bar) as StarRatingBar
+            toolBarRating = findViewById<StarRatingBar>(R.id.hotel_map_circle_rating_bar)
         } else {
-            toolBarRating = findViewById(R.id.hotel_map_star_rating_bar) as StarRatingBar
+            toolBarRating = findViewById<StarRatingBar>(R.id.hotel_map_star_rating_bar)
         }
         toolBarRating.visibility = View.VISIBLE
 

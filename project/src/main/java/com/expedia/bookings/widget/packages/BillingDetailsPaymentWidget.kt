@@ -177,11 +177,11 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     private fun setupMaterialForm() {
         sectionLocation.removeNonMaterialFields()
         sectionLocation.materialCountryAdapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME, R.layout.material_item)
-        defaultCreditCardNumberLayout = findViewById(R.id.material_edit_credit_card_number) as TextInputLayout
-        editCountryEditText = findViewById(R.id.material_edit_country) as AccessibleEditText
-        maskedCreditLayout = findViewById(R.id.material_edit_masked_creditcard_number) as TextInputLayout
-        addressStateLayout = findViewById(R.id.material_edit_address_state) as TextInputLayout
-        postalCodeLayout = findViewById(R.id.material_edit_address_postal_code) as TextInputLayout
+        defaultCreditCardNumberLayout = findViewById<TextInputLayout>(R.id.material_edit_credit_card_number)
+        editCountryEditText = findViewById<AccessibleEditText>(R.id.material_edit_country)
+        maskedCreditLayout = findViewById<TextInputLayout>(R.id.material_edit_masked_creditcard_number)
+        addressStateLayout = findViewById<TextInputLayout>(R.id.material_edit_address_state)
+        postalCodeLayout = findViewById<TextInputLayout>(R.id.material_edit_address_postal_code)
 
         editCountryEditText?.setOnClickListener{
             showCountryDialog()

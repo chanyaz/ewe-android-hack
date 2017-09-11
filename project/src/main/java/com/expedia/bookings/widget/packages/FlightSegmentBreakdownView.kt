@@ -39,13 +39,13 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
 
     private fun createSegmentRow(breakdown: FlightSegmentBreakdown): View {
         val row = LayoutInflater.from(context).inflate(R.layout.flight_segment_row, null)
-        val departureArrivalTime = row.findViewById(R.id.departure_arrival_time) as TextView
-        val airlineAirplaneType = row.findViewById(R.id.airline_airplane_type) as TextView
-        val departureArrivalAirports = row.findViewById(R.id.departure_arrival_airport) as TextView
-        val operatedBy = row.findViewById(R.id.operating_airline_name) as TextView
-        val seatClassAndBookingCode = row.findViewById(R.id.flight_seat_class_booking_code) as TextView
-        val segmentDuration = row.findViewById(R.id.flight_duration) as TextView
-        val rowCollapseIcon = row.findViewById(R.id.flight_overview_collapse_icon) as ImageView
+        val departureArrivalTime = row.findViewById<TextView>(R.id.departure_arrival_time)
+        val airlineAirplaneType = row.findViewById<TextView>(R.id.airline_airplane_type)
+        val departureArrivalAirports = row.findViewById<TextView>(R.id.departure_arrival_airport)
+        val operatedBy = row.findViewById<TextView>(R.id.operating_airline_name)
+        val seatClassAndBookingCode = row.findViewById<TextView>(R.id.flight_seat_class_booking_code)
+        val segmentDuration = row.findViewById<TextView>(R.id.flight_duration)
+        val rowCollapseIcon = row.findViewById<ImageView>(R.id.flight_overview_collapse_icon)
         departureArrivalTime.text = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(context,
                 breakdown.segment.departureDateTimeISO, breakdown.segment.arrivalDateTimeISO, breakdown.segment.elapsedDays)
         airlineAirplaneType.text = FlightV2Utils.getFlightAirlineAndAirplaneType(context, breakdown.segment)
@@ -72,8 +72,8 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
 
     private fun createLayoverRow(breakdown: FlightSegmentBreakdown): View {
         val row = LayoutInflater.from(context).inflate(R.layout.flight_segment_layover_row, null)
-        val layoverIn = row.findViewById(R.id.flight_segment_layover_in) as TextView
-        val layoverDuration = row.findViewById(R.id.flight_segment_layover_duration) as TextView
+        val layoverIn = row.findViewById<TextView>(R.id.flight_segment_layover_in)
+        val layoverDuration = row.findViewById<TextView>(R.id.flight_segment_layover_duration)
         layoverIn.text = Phrase.from(context.resources.getString(R.string.package_flight_overview_layover_in_TEMPLATE))
                     .put("city", breakdown.segment.arrivalCity)
                     .put("airportcode", breakdown.segment.arrivalAirportCode)

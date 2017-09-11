@@ -116,7 +116,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val filterViewStub: ViewStub by bindView(R.id.hotel_filter_view_stub)
 
     private val sortFaqWebView: HotelResultsSortFaqWebView by lazy {
-        val webView = findViewById(R.id.sort_faq_web_view) as HotelResultsSortFaqWebView
+        val webView = findViewById<HotelResultsSortFaqWebView>(R.id.sort_faq_web_view)
         webView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         webView
     }
@@ -553,10 +553,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     private fun inflateAndSetupToolbarMenu() {
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
-        filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
-        filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
+        filterCountText = toolbarFilterItemActionView.findViewById<TextView>(R.id.filter_count_text)
+        filterPlaceholderImageView = toolbarFilterItemActionView.findViewById<ImageView>(R.id.filter_placeholder_icon)
         filterPlaceholderImageView.setColorFilter(ContextCompat.getColor(context, R.color.toolbar_icon))
-        filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
+        filterBtn = toolbarFilterItemActionView.findViewById<LinearLayout>(R.id.filter_btn)
         filterMenuItem.actionView = toolbarFilterItemActionView
         toolbarFilterItemActionView.setOnLongClickListener {
             val size = Point()
@@ -574,7 +574,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterView.viewModel.sortContainerVisibilityObservable.onNext(isResults)
             filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
         }
-        filterButtonText = filterMenuItem.actionView.findViewById(R.id.filter_text) as TextView
+        filterButtonText = filterMenuItem.actionView.findViewById<TextView>(R.id.filter_text)
         filterButtonText.visibility = GONE
     }
 

@@ -32,8 +32,8 @@ class CreditCardFeesView(context: Context, attrs: AttributeSet?) : ScrollView(co
 
     private fun addCardFeeRow(cardFeeRow: RailCreditCardFeesViewModel.CardFeesRow): View {
         val row = LayoutInflater.from(context).inflate(R.layout.card_fee_row, null)
-        val cardName = row.findViewById(R.id.card_type_text_view) as TextView
-        val cardFee = row.findViewById(R.id.card_fee_text_view) as TextView
+        val cardName = row.findViewById<TextView>(R.id.card_type_text_view)
+        val cardFee = row.findViewById<TextView>(R.id.card_fee_text_view)
         cardName.text = cardFeeRow.cardName
         cardFee.text = cardFeeRow.fee
 

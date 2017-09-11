@@ -73,7 +73,7 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     }
 
     override val travelerWidgetV2 by lazy {
-        findViewById(R.id.traveler_card) as RailTravelerWidgetV2
+        findViewById<RailTravelerWidgetV2>(R.id.traveler_card)
     }
     override val originCardView: SearchInputTextView by lazy {
         searchWidget.locationWidget.originLocationText

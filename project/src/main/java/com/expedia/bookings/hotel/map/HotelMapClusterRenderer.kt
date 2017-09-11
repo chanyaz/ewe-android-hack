@@ -28,8 +28,8 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         val multiHotel = LayoutInflater.from(context).inflate(R.layout.map_multi_hotel, null)
         clusterIconGenerator.setContentView(multiHotel)
         clusterIconGenerator.setTextAppearance(R.style.MarkerTextAppearance)
-        clusterCountText = multiHotel.findViewById(R.id.hotel_count) as TextView
-        clusterRangeText = multiHotel.findViewById(R.id.price_range) as TextView
+        clusterCountText = multiHotel.findViewById<TextView>(R.id.hotel_count)
+        clusterRangeText = multiHotel.findViewById<TextView>(R.id.price_range)
     }
 
     override fun onBeforeClusterItemRendered(mapItem: MapItem, markerOptions: MarkerOptions?) {

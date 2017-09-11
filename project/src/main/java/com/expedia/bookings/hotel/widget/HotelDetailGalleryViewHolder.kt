@@ -16,8 +16,8 @@ import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
 class HotelDetailGalleryViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
-    private val progressBar by lazy { root.findViewById(R.id.gallery_item_progress_bar) as ProgressBar }
-    private val imageView by lazy {root.findViewById(R.id.gallery_item_image_view) as ImageView }
+    private val progressBar by lazy { root.findViewById<ProgressBar>(R.id.gallery_item_progress_bar) }
+    private val imageView by lazy {root.findViewById<ImageView>(R.id.gallery_item_image_view) }
 
     private lateinit var mediaItem: HotelMedia
     private var soldOut: Boolean = false

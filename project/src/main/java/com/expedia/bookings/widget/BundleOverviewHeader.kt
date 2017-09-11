@@ -60,7 +60,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         checkoutOverviewFloatingToolbar.destinationText.maxLines = 2
         if (isSecureIconActive) {
             LayoutUtils.setSVG(secureIcon, R.raw.lock_icon)
-            customTitle = findViewById(R.id.checkout_custom_title) as TextView
+            customTitle = findViewById<TextView>(R.id.checkout_custom_title)
             toolbar.viewModel.toolbarCustomTitle.subscribeText(customTitle)
         }
     }

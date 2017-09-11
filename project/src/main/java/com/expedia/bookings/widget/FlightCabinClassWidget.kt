@@ -26,7 +26,7 @@ class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInp
     }
 
     val flightCabinClassView: FlightCabinClassPickerView by lazy {
-        val flightClassView = flightCabinClassDialogView.findViewById(R.id.flight_class_view) as FlightCabinClassPickerView
+        val flightClassView = flightCabinClassDialogView.findViewById<FlightCabinClassPickerView>(R.id.flight_class_view)
         flightClassView.viewmodel.flightCabinClassObservable.subscribe { cabinClass ->
             val cabinClassName = context.resources.getString(cabinClass.resId)
             this.contentDescription = Phrase.from(context.resources.getString(R.string.select_preferred_flight_class_cont_desc_TEMPLATE)).

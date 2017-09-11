@@ -42,7 +42,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             menuItem.isVisible = it
         }
         vm.enableMenuItem.subscribe { enable ->
-            val view = findViewById(R.id.menu_done) as? ActionMenuItemView
+            val view = findViewById<ActionMenuItemView?>(R.id.menu_done)
             if (view != null) {
                 view.alpha = if (enable) 1f else 0.15f
             }

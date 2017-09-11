@@ -12,7 +12,7 @@ import com.expedia.vm.RailTravelerPickerViewModel
 class RailTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerWidgetV2(context, attrs) {
 
     override val traveler: RailTravelerPickerView by lazy {
-        val travelerView = travelerDialogView.findViewById(R.id.rail_traveler_view) as RailTravelerPickerView
+        val travelerView = travelerDialogView.findViewById<RailTravelerPickerView>(R.id.rail_traveler_view)
         travelerView.viewModel = RailTravelerPickerViewModel(context)
         travelerView.viewModel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewModel.guestsTextObservable.subscribeText(this)

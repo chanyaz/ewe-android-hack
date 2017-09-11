@@ -20,7 +20,7 @@ import com.expedia.util.safeSubscribe
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
     val ANIMATION_DURATION = 400
-    protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
+    protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById<BaseCheckoutPresenter>(R.id.checkout_presenter) }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
 
     var scrollSpaceView: View? = null
@@ -28,12 +28,12 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     /*Need to re-do this work if we get back to implementing this presenter for Universal checkout*/
     val slideToPurchaseLayout by lazy {
-        findViewById(R.id.slide_to_purchase_layout) as LinearLayout
+        findViewById<LinearLayout>(R.id.slide_to_purchase_layout)
     }
 
     /*Need to re-do this work if we get back to implementing this presenter for Universal checkout*/
     val slideToPurchase by lazy {
-        findViewById(R.id.slide_to_purchase_widget) as SlideToWidgetLL
+        findViewById<SlideToWidgetLL>(R.id.slide_to_purchase_widget)
     }
 
     init {

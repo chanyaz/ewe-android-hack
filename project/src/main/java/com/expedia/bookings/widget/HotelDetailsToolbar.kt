@@ -39,9 +39,9 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
 
         if (!isInEditMode) {
             if (shouldShowCircleForRatings()) {
-                toolBarRating = findViewById(R.id.hotel_circle_rating_bar) as StarRatingBar
+                toolBarRating = findViewById<StarRatingBar>(R.id.hotel_circle_rating_bar)
             } else {
-                toolBarRating = findViewById(R.id.hotel_star_rating_bar) as StarRatingBar
+                toolBarRating = findViewById<StarRatingBar>(R.id.hotel_star_rating_bar)
             }
             toolBarRating.visibility = View.VISIBLE
         }

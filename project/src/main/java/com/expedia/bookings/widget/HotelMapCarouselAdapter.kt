@@ -68,7 +68,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_marker_preview_cell, parent, false)
         val screen = Ui.getScreenSize(parent.context)
-        val lp = view.findViewById(R.id.root).layoutParams
+        val lp = view.findViewById<View>(R.id.root).layoutParams
         lp.width = screen.x
         return HotelViewHolder(view as ViewGroup)
     }
@@ -110,7 +110,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         var hotelPreviewRating: StarRatingBar by Delegates.notNull()
 
         init {
-            hotelPreviewRating = root.findViewById(if (shouldShowCircleForRatings()) R.id.hotel_preview_circle_rating else R.id.hotel_preview_star_rating) as StarRatingBar
+            hotelPreviewRating = root.findViewById<StarRatingBar>(if (shouldShowCircleForRatings()) R.id.hotel_preview_circle_rating else R.id.hotel_preview_star_rating)
             hotelPreviewRating.visibility = View.VISIBLE
         }
 

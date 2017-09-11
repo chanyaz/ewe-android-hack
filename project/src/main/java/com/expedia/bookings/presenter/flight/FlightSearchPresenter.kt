@@ -57,7 +57,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     }
     val flightCabinClassStub: ViewStub by bindView(R.id.flight_cabin_class_stub)
     val flightCabinClassWidget by lazy {
-        flightCabinClassStub.inflate().findViewById(R.id.flight_cabin_class_widget) as FlightCabinClassWidget
+        flightCabinClassStub.inflate().findViewById<FlightCabinClassWidget>(R.id.flight_cabin_class_widget)
     }
     val widgetTravelerAndCabinClassStub: ViewStub by bindView(R.id.widget_traveler_and_cabin_clas_stub)
 
@@ -65,7 +65,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val flightAdvanceSearchView: CardView by bindView(R.id.flight_advanced_search_card_view)
 
     val flightAdvanceSearchWidget by lazy {
-        flightAdvanceSearchStub.inflate().findViewById(R.id.flight_advanced_search_widget) as FlightAdvanceSearchWidget
+        flightAdvanceSearchStub.inflate().findViewById<FlightAdvanceSearchWidget>(R.id.flight_advanced_search_widget)
     }
 
     val oneWayRoundTripTabs: FlightOneWayRoundTripTabs by bindView(R.id.one_way_round_trip_tabs)
@@ -86,9 +86,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     override val travelerWidgetV2 by lazy {
         if(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
                 AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp))
-            travelerFlightCardViewStub.inflate().findViewById(R.id.traveler_card) as FlightTravelerWidgetV2
+            travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
         else
-            travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
+            travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
     }
     val isShowSuggestionLabelTestEnabled: Boolean = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
             AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel,

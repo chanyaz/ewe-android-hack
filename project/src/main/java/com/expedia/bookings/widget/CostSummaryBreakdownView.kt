@@ -35,8 +35,8 @@ class CostSummaryBreakDownView(context: Context, attrs: AttributeSet?) : ScrollV
 
     private fun createRow(breakdownRow: BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow): View {
         val row = LayoutInflater.from(context).inflate(R.layout.material_cost_summary_row, null)
-        val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
-        val priceValue = row.findViewById(R.id.price_text_view) as TextView
+        val priceDescription = row.findViewById<TextView>(R.id.price_type_text_view)
+        val priceValue = row.findViewById<TextView>(R.id.price_text_view)
         priceDescription.text = breakdownRow.title
         priceValue.text = breakdownRow.cost
         if (breakdownRow.color != null) {

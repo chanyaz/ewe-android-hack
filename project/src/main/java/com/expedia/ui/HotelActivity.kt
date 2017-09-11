@@ -30,11 +30,11 @@ class HotelActivity : AbstractAppCompatActivity() {
     }
 
     val resultsMapView: MapView by lazy {
-        hotelPresenter.findViewById(R.id.map_view) as MapView
+        hotelPresenter.findViewById<MapView>(R.id.map_view)
     }
 
     val detailsMapView: MapView by lazy {
-        hotelPresenter.findViewById(R.id.details_map_view) as MapView
+        hotelPresenter.findViewById<MapView>(R.id.details_map_view)
     }
 
     val hotelComponentInjector = HotelComponentInjector()

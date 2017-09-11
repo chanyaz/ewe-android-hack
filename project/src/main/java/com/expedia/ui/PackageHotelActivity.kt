@@ -20,11 +20,11 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
     }
 
     val resultsMapView: MapView by lazy {
-        hotelsPresenter.findViewById(R.id.map_view) as MapView
+        hotelsPresenter.findViewById<MapView>(R.id.map_view)
     }
 
     val detailsMapView: MapView by lazy {
-        hotelsPresenter.findViewById(R.id.details_map_view) as MapView
+        hotelsPresenter.findViewById<MapView>(R.id.details_map_view)
     }
     var restorePackageActivityForNullParams = false
 

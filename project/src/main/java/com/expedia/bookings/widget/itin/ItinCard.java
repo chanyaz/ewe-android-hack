@@ -236,8 +236,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		return false;
 	}
 
-	//@Override
-	public boolean hasExplicitFocusable(){ return false; }
+	@Override
+	public boolean hasExplicitFocusable() {
+		return false;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////

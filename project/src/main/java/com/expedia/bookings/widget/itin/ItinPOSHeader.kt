@@ -27,10 +27,10 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
 
     val pointOfSaleChangeButton: LinearLayout by bindView(R.id.country_selection_view)
     val imageView: ImageView by lazy {
-        pointOfSaleChangeButton.findViewById(R.id.country_selected_imageview) as ImageView
+        pointOfSaleChangeButton.findViewById<ImageView>(R.id.country_selected_imageview)
     }
     val textView: TextView by lazy {
-        pointOfSaleChangeButton.findViewById(R.id.country_selected_textview) as TextView
+        pointOfSaleChangeButton.findViewById<TextView>(R.id.country_selected_textview)
     }
     val pointOfSaleUrlTextView: TextView by bindView(R.id.pos_trips_signin)
 

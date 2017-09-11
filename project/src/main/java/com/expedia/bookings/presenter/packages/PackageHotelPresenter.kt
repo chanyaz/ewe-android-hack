@@ -98,9 +98,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val slideUpAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
 
     val resultsPresenter: PackageHotelResultsPresenter by lazy {
-        val viewStub = findViewById(R.id.results_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.results_stub)
         val presenter = viewStub.inflate() as PackageHotelResultsPresenter
-        val resultsStub = presenter.findViewById(R.id.stub_map) as FrameLayout
+        val resultsStub = presenter.findViewById<FrameLayout>(R.id.stub_map)
         resultsMapView.visibility = View.VISIBLE
         removeView(resultsMapView)
         resultsStub.addView(resultsMapView)
@@ -113,9 +113,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val detailPresenter: HotelDetailPresenter by lazy {
-        val viewStub = findViewById(R.id.details_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.details_stub)
         val presenter = viewStub.inflate() as HotelDetailPresenter
-        val detailsStub = presenter.hotelMapView.findViewById(R.id.stub_map) as FrameLayout
+        val detailsStub = presenter.hotelMapView.findViewById<FrameLayout>(R.id.stub_map)
         detailsMapView.visibility = View.VISIBLE
         removeView(detailsMapView)
         detailsStub.addView(detailsMapView)
@@ -146,7 +146,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val reviewsView: HotelReviewsView by lazy {
-        val viewStub = findViewById(R.id.reviews_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.reviews_stub)
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.reviewServices = reviewServices
         presenter.hotelReviewsTabbar.slidingTabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

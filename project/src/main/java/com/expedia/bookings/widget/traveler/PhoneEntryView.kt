@@ -83,7 +83,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     init {
         if (materialFormTestEnabled) {
             View.inflate(context, R.layout.material_phone_entry_view, this)
-            phoneEditBox = findViewById(R.id.material_edit_phone_number_country_code) as AccessibleEditTextForSpinner
+            phoneEditBox = findViewById<AccessibleEditTextForSpinner>(R.id.material_edit_phone_number_country_code)
         } else {
             View.inflate(context, R.layout.phone_entry_view, this)
             gravity = Gravity.BOTTOM

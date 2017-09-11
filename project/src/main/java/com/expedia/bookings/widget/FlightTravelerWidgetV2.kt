@@ -19,7 +19,7 @@ class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerW
     var oldInfantPreferenceInLap :Boolean = true
 
     override val traveler: FlightTravelerPickerView by lazy {
-        val travelerView = travelerDialogView.findViewById(R.id.flight_traveler_view) as FlightTravelerPickerView
+        val travelerView = travelerDialogView.findViewById<FlightTravelerPickerView>(R.id.flight_traveler_view)
         travelerView.viewmodel = FlightTravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this)

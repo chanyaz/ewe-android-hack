@@ -44,7 +44,7 @@ class SpinnerAdapterWithHint(val context: Context, val hint: String, val itemLay
             view = LayoutInflater.from(context).inflate(layoutId, parent, false)
         }
         if (dropDownTextResourceId != null) {
-            (view?.findViewById(dropDownTextResourceId) as TextView).text = getItem(position).value
+            (view?.findViewById<TextView>(dropDownTextResourceId))?.text = getItem(position).value
         } else {
             (view as TextView).text = getItem(position).value
         }

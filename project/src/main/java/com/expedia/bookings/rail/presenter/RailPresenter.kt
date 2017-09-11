@@ -58,7 +58,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val inboundDetailsViewModel = RailInboundDetailsViewModel(context)
 
     val amenitiesFareRulesWidget: RailAmenitiesFareRulesWidget by lazy {
-        val viewStub = findViewById(R.id.amenities_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.amenities_stub)
         val widget = viewStub.inflate() as RailAmenitiesFareRulesWidget
         widget
     }
@@ -105,7 +105,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     }
 
     val legalInfoWebView: RailSearchLegalInfoWebView by lazy {
-        val viewStub = findViewById(R.id.search_legal_info_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.search_legal_info_stub)
         val legalInfoView = viewStub.inflate() as RailSearchLegalInfoWebView
         legalInfoView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         legalInfoView.loadUrl()

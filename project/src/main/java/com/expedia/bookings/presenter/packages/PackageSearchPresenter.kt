@@ -131,7 +131,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
 
     override fun inflate() {
         val view = View.inflate(context, R.layout.widget_base_flight_search, this)
-        val packageTitleText = view.findViewById(R.id.title) as TextView
+        val packageTitleText = view.findViewById<TextView>(R.id.title)
         packageTitleText.text = resources.getString(getPackageTitleChange())
     }
 

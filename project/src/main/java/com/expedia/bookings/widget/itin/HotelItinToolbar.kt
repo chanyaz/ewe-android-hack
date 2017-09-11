@@ -26,10 +26,10 @@ import java.util.Locale
 class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr) {
 
     val toolbarTitleTextView: TextView by lazy {
-        findViewById(R.id.itin_toolbar_title) as TextView
+        findViewById<TextView>(R.id.itin_toolbar_title)
     }
     val toolbarSubtitleTextView: TextView by lazy {
-        findViewById(R.id.itin_toolbar_subtitle) as TextView
+        findViewById<TextView>(R.id.itin_toolbar_subtitle)
     }
     private var mItinContentGenerator: ItinContentGenerator<out ItinCardData>? = null
 
@@ -46,7 +46,7 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
     }
 
     fun showShare() {
-        val shareTextView = findViewById(R.id.itin_share_button) as TextView
+        val shareTextView = findViewById<TextView>(R.id.itin_share_button)
         shareTextView.visibility = View.VISIBLE
         shareTextView.setTintedDrawable(context.getDrawable(R.drawable.ic_itin_share), ContextCompat.getColor(context, R.color.itin_toolbar_text))
         Ui.setOnClickListener(this, R.id.itin_share_button, mOnClickListener)

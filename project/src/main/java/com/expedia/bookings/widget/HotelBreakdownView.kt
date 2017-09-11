@@ -44,8 +44,8 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
 
     private fun createRow(breakdown: HotelBreakDownViewModel.Breakdown, isDiscount: Boolean): View {
         val row = LayoutInflater.from(context).inflate(R.layout.hotel_cost_summary_row, null)
-        val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
-        val priceValue = row.findViewById(R.id.price_text_view) as TextView
+        val priceDescription = row.findViewById<TextView>(R.id.price_type_text_view)
+        val priceValue = row.findViewById<TextView>(R.id.price_text_view)
         priceDescription.text = breakdown.title
         if (isDiscount) {
             priceValue.text = "(" + breakdown.cost + ")"
@@ -59,8 +59,8 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
 
     private fun createDateRow(breakdown: HotelBreakDownViewModel.Breakdown): View {
         val row = LayoutInflater.from(context).inflate(R.layout.hotel_cost_summary_date_row, null)
-        val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
-        val priceValue = row.findViewById(R.id.price_text_view) as TextView
+        val priceDescription = row.findViewById<TextView>(R.id.price_type_text_view)
+        val priceValue = row.findViewById<TextView>(R.id.price_text_view)
         priceDescription.text = breakdown.title
         priceValue.text = breakdown.cost
         return row

@@ -118,7 +118,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
 
     val rootWindow: Window by lazy { (context as Activity).window }
-    val decorView: View by lazy { rootWindow.decorView.findViewById(android.R.id.content) }
+    val decorView: View by lazy { rootWindow.decorView.findViewById<View>(android.R.id.content) }
     var paymentLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
@@ -157,7 +157,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     val travelerSummaryCard: TravelerSummaryCard by lazy {
-        val view = findViewById(R.id.traveler_default_state) as TravelerSummaryCard
+        val view = findViewById<TravelerSummaryCard>(R.id.traveler_default_state)
         view.viewModel = TravelerSummaryViewModel(context)
         view.setOnClickListener {
             openTravelerPresenter()
@@ -240,7 +240,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                     createTripDialog.show()
                     createTripDialog.setContentView(R.layout.process_dialog_layout)
                     AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.progress_dialog_container), 0)
-                    createTripDialog.findViewById(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
+                    createTripDialog.findViewById<View>(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
                     announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
                 }
             } else {

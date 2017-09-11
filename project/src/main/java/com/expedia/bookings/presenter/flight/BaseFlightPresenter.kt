@@ -57,7 +57,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     val baggageFeeInfoWebView: BaggageFeeInfoWebView by lazy {
-        val viewStub = findViewById(R.id.baggage_fee_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.baggage_fee_stub)
         val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWebView
         baggageFeeView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         baggageFeeView.viewModel = WebViewViewModel()
@@ -65,7 +65,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
-        val viewStub = findViewById(R.id.payment_fee_info_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.payment_fee_info_stub)
         val paymentFeeInfoWidget = viewStub.inflate() as PaymentFeeInfoWebView
         paymentFeeInfoWidget.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         paymentFeeInfoWidget.viewModel = WebViewViewModel()
@@ -73,7 +73,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     val filter: BaseFlightFilterWidget by lazy {
-        val viewStub = findViewById(R.id.filter_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.filter_stub)
         val filterView = viewStub.inflate() as BaseFlightFilterWidget
         filterView.viewModelBase = BaseFlightFilterViewModel(context, getLineOfBusiness())
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
@@ -89,7 +89,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     val resultsPresenter: FlightResultsListViewPresenter by lazy {
-        val viewStub = findViewById(R.id.results_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.results_stub)
         val presenter = viewStub.inflate() as FlightResultsListViewPresenter
         presenter.resultsViewModel = FlightResultsViewModel()
         toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
@@ -102,7 +102,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     val overviewPresenter: FlightOverviewPresenter by lazy {
-        val viewStub = findViewById(R.id.overview_stub) as ViewStub
+        val viewStub = findViewById<ViewStub>(R.id.overview_stub)
         val presenter = viewStub.inflate() as FlightOverviewPresenter
         presenter.vm = makeFlightOverviewModel()
         presenter.baggageFeeShowSubject.subscribe { url ->

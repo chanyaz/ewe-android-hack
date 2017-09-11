@@ -27,7 +27,7 @@ class CarSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : Recycler
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.car_dropdown_item, parent, false)
         if (!viewmodel.getCustomerSelectingOrigin()) {
-            val titleTextview = view.findViewById(R.id.title_textview)
+            val titleTextview = view.findViewById<TextView>(R.id.title_textview)
             val params = titleTextview.layoutParams as ViewGroup.MarginLayoutParams
             params.setMargins(0, marginTop, 0, marginBottom)
         }
