@@ -60,6 +60,8 @@ class HotelCheckoutSummaryViewModelTest {
         val testTextSubscriber = TestSubscriber<String>()
         sut.freeCancellationText.subscribe(testTextSubscriber)
 
+        val checkinFormattedDateSubscriber = TestSubscriber<String>()
+        sut.checkinDateFormattedByEEEMMDD.subscribe(checkinFormattedDateSubscriber)
 
         val testNewDataSubscriber = TestSubscriber<Unit>()
         sut.newDataObservable.subscribe(testNewDataSubscriber)
@@ -80,6 +82,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(expectedHotelName, sut.hotelName.value)
         assertEquals(hotelProductResponse.checkInDate, sut.checkInDate.value)
         assertEquals("Mar 22, 2013 - Mar 23, 2013", sut.checkInOutDatesFormatted.value)
+        assertEquals(checkinFormattedDateSubscriber.onNextEvents.size, 0)
         assertEquals(hotelProductResponse.hotelAddress, sut.address.value)
         assertEquals("San Francisco, CA", sut.city.value)
         assertEquals(hotelRoomResponse.roomTypeDescription, sut.roomDescriptions.value)
@@ -97,7 +100,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertFalse(sut.showFeesPaidAtHotel.value)
         assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
         assertTrue(sut.isBestPriceGuarantee.value)
-        assertEquals(testNewDataSubscriber.onNextEvents.size , 1)
+        assertEquals(testNewDataSubscriber.onNextEvents.size, 1)
         assertEquals("Free cancellation", testTextSubscriber.onNextEvents[0])
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)
         assertEquals(hotelRoomResponse.valueAdds, sut.valueAddsListObservable.value)
@@ -128,6 +131,50 @@ class HotelCheckoutSummaryViewModelTest {
     fun testToggleOffCheckinCheckoutDatesInline() {
         toggleABTestCheckinCheckoutDatesInline(false)
         assertFalse(isAllowCheckinCheckoutDatesInlineEnabled())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    fun testDateValuesInHotelCheckoutSummaryWithABTestCheckinCheckoutDatesInlineTurnedOn() {
+        toggleABTestCheckinCheckoutDatesInline(true)
+        givenHappyHotelProductResponse()
+        setup()
+        createTripResponseObservable.onNext(createTripResponse)
+        val checkinFormattedDateSubscriber = TestSubscriber<String>()
+        sut.checkinDateFormattedByEEEMMDD.subscribe(checkinFormattedDateSubscriber)
+        val checkoutFormattedDateSubscriber = TestSubscriber<String>()
+        sut.checkoutDateFormattedByEEEMMDD.subscribe(checkoutFormattedDateSubscriber)
+        toggleABTestCheckinCheckoutDatesInline(true)
+        givenHappyHotelProductResponse()
+        setup()
+        createTripResponseObservable.onNext(createTripResponse)
+
+        assertEquals(1, checkinFormattedDateSubscriber.onNextEvents.size)
+        checkinFormattedDateSubscriber.assertValue("Fri, Mar 22")
+        assertEquals(1, checkoutFormattedDateSubscriber.onNextEvents.size)
+        checkoutFormattedDateSubscriber.assertValue("Sat, Mar 23")
+        assertNull(sut.checkInOutDatesFormatted.value)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    fun testDateValuesInHotelCheckoutSummaryWithABTestCheckinCheckoutDatesInlineTurnedOff() {
+        toggleABTestCheckinCheckoutDatesInline(false)
+        givenHappyHotelProductResponse()
+        setup()
+        createTripResponseObservable.onNext(createTripResponse)
+        val checkinFormattedDateSubscriber = TestSubscriber<String>()
+        sut.checkinDateFormattedByEEEMMDD.subscribe(checkinFormattedDateSubscriber)
+        val checkoutFormattedDateSubscriber = TestSubscriber<String>()
+        sut.checkoutDateFormattedByEEEMMDD.subscribe(checkoutFormattedDateSubscriber)
+        toggleABTestCheckinCheckoutDatesInline(false)
+        givenHappyHotelProductResponse()
+        setup()
+        createTripResponseObservable.onNext(createTripResponse)
+
+        assertEquals(0, checkinFormattedDateSubscriber.onNextEvents.size)
+        assertEquals(0, checkoutFormattedDateSubscriber.onNextEvents.size)
+        assertEquals("Mar 22, 2013 - Mar 23, 2013", sut.checkInOutDatesFormatted.value)
     }
 
     @Test
