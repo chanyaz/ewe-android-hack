@@ -72,8 +72,12 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
     }
 
     fun updateHotelParams(params: PackageSearchParams) {
-        viewModel.suggestion.onNext(params.origin)
-        viewModel.date.onNext(params.endDate)
+        params.origin?.let {
+            viewModel.suggestion.onNext(it)
+        }
+        params.endDate?.let {
+            viewModel.date.onNext(it)
+        }
         viewModel.guests.onNext(params.guests)
         viewModel.searchParams.onNext(params)
         toggleFlightWidget(opacity, false)

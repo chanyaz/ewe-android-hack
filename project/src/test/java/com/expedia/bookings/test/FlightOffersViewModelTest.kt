@@ -39,6 +39,7 @@ import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
@@ -79,6 +80,22 @@ class FlightOffersViewModelTest {
         assertEquals("", shadowOfNoInternetDialog.title)
         assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
         testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testForNoCabinClass() {
+        val testSubscriber = TestSubscriber<String>()
+        sut.flightCabinClassSubject.subscribe(testSubscriber)
+        performFlightSearch(false)
+        testSubscriber.assertNoValues()
+    }
+
+    @Test
+    fun testWhenNonStopFilterIsNull() {
+        val testSubscriber = TestSubscriber<Boolean>()
+        sut.nonStopSearchFilterAppliedSubject.subscribe(testSubscriber)
+        performFlightSearch(false)
+        assertFalse(testSubscriber.onNextEvents[0])
     }
 
     @Test

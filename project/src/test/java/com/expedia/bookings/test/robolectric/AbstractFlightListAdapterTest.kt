@@ -72,6 +72,7 @@ class AbstractFlightListAdapterTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
         isRoundTripSubject.onNext(true)
+        flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
         sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         sut.adjustPosition()
         createFlightLegWithThreeAirlines()
