@@ -6,6 +6,7 @@ import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.util.Optional
 import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,7 +34,7 @@ class RailFareOptionViewModelTest {
         railFareOptionViewModel.railCardAppliedObservable.subscribe(testRailCardAppliedSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
-        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(null)
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(null))
         assertEquals("$10", testPriceSubscriber.onNextEvents[0])
         assertEquals("Standard Fare class", testFareTitleSubscriber.onNextEvents[0])
         assertEquals("Fare Description", testFareDescriptionSubscriber.onNextEvents[0])
@@ -49,7 +50,7 @@ class RailFareOptionViewModelTest {
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
-        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("15", "USD"))
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("15", "USD")))
         assertEquals("$25", testPriceSubscriber.onNextEvents[0])
     }
 
@@ -61,7 +62,7 @@ class RailFareOptionViewModelTest {
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer(true))
-        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("15", "USD"))
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("15", "USD")))
         assertEquals("$10", testPriceSubscriber.onNextEvents[0])
     }
 
@@ -74,7 +75,7 @@ class RailFareOptionViewModelTest {
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer(true))
-        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("15", "USD"))
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("15", "USD")))
         assertEquals("+$0", testPriceSubscriber.onNextEvents[0])
     }
 
@@ -87,7 +88,7 @@ class RailFareOptionViewModelTest {
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
-        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("5", "USD"))
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("5", "USD")))
         assertEquals("+$5", testPriceSubscriber.onNextEvents[0])
     }
 

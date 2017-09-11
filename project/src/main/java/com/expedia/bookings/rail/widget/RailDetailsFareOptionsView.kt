@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailOffer
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailFareOptionViewModel
 import com.expedia.vm.rail.RailFareOptionsViewModel
@@ -30,7 +30,7 @@ class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : Linear
             fareOptionViewModel.fareDetailsSelectedObservable.subscribe(viewModel.showFareRulesSubject)
             fareOptionViewModel.offerSelectedObservable.subscribe(viewModel.offerSelectedSubject)
             fareOptionViewModel.offerFareSubject.onNext(offerForLeg)
-            fareOptionViewModel.inboundLegCheapestPriceSubject.onNext(inboundLegCheapestPrice)
+            fareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(inboundLegCheapestPrice))
             addView(fareOptionView)
         }
     }

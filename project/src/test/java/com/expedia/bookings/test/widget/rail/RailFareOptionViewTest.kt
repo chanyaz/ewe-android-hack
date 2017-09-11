@@ -6,11 +6,11 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.rail.widget.RailFareOptionView
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.util.Optional
 import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +34,7 @@ class RailFareOptionViewTest {
         railFareOptionView.viewModel = railFareOptionViewModel
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
-        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(null)
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(null))
 
         assertEquals("$10", railFareOptionView.priceView.text)
         assertEquals(expectedFareTitle, railFareOptionView.fareTitle.text)
@@ -51,7 +51,7 @@ class RailFareOptionViewTest {
         railFareOptionView.viewModel = railFareOptionViewModel
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
-        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("15", "USD"))
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("15", "USD")))
 
         assertEquals("$25", railFareOptionView.priceView.text)
         assertEquals(expectedFareTitle, railFareOptionView.fareTitle.text)
@@ -67,7 +67,7 @@ class RailFareOptionViewTest {
         railFareOptionView.viewModel = railFareOptionViewModel
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
-        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("5", "USD"))
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("5", "USD")))
 
         assertEquals("+$5", railFareOptionView.priceView.text)
         assertEquals(expectedFareTitle, railFareOptionView.fareTitle.text)

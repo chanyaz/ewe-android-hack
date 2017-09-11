@@ -5,18 +5,19 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.rail.util.RailUtils
+import com.expedia.util.Optional
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 class RailFareOptionViewModel(val context: Context, val showDeltaPricing: Boolean) {
     val offerFareSubject = PublishSubject.create<RailOffer>()
-    val inboundLegCheapestPriceSubject = PublishSubject.create<Money?>()
+    val inboundLegCheapestPriceSubject = PublishSubject.create<Optional<Money>>()
 
     val showAmenitiesForFareClicked = PublishSubject.create<Unit>()
     val showFareRulesForFareClicked = PublishSubject.create<Unit>()
     val offerSelectButtonClicked = PublishSubject.create<Unit>()
     val priceObservable = offerFareSubject.zipWith(inboundLegCheapestPriceSubject, { offer, cheapestPrice ->
-        calculatePrice(offer, cheapestPrice)
+        calculatePrice(offer, cheapestPrice.value)
     })
     val amenitiesSelectedObservable = showAmenitiesForFareClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
     val fareDetailsSelectedObservable = showFareRulesForFareClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
