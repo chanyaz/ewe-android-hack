@@ -32,6 +32,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutSummaryViewModelTest {
 
@@ -80,6 +81,8 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(expectedHotelName, sut.hotelName.value)
         assertEquals(hotelProductResponse.checkInDate, sut.checkInDate.value)
         assertEquals("Mar 22, 2013 - Mar 23, 2013", sut.checkInOutDatesFormatted.value)
+        assertEquals("Fri, Mar 22", sut.checkinDateFormattedByEEEMMDD.value)
+        assertEquals("Sat, Mar 23", sut.checkoutDateFormattedByEEEMMDD.value)
         assertEquals(hotelProductResponse.hotelAddress, sut.address.value)
         assertEquals("San Francisco, CA", sut.city.value)
         assertEquals(hotelRoomResponse.roomTypeDescription, sut.roomDescriptions.value)
@@ -122,7 +125,10 @@ class HotelCheckoutSummaryViewModelTest {
     fun testToggleOnCheckinCheckoutDatesInline() {
         toggleABTestCheckinCheckoutDatesInline(true)
         assertTrue(isAllowCheckinCheckoutDatesInlineEnabled())
-    }
+        givenHappyHotelProductResponse()
+        setup()
+        createTripResponseObservable.onNext(createTripResponse)
+}
 
     @Test
     fun testToggleOffCheckinCheckoutDatesInline() {
