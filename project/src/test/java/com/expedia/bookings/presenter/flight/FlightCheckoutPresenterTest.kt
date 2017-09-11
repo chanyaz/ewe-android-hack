@@ -13,6 +13,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.testutils.Assert.assertViewIsNotVisible
 import com.expedia.testutils.Assert.assertViewIsVisible
 import com.expedia.vm.test.traveler.MockTravelerProvider
@@ -71,7 +72,7 @@ class FlightCheckoutPresenterTest {
     @Test
     fun shouldShowTravlerEntryWidget(){
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
-        checkoutPresenter.travelerSummaryCardView.findViewById(R.id.traveler_default_state).performClick()
+        checkoutPresenter.travelerSummaryCardView.findViewById<TravelerSummaryCard>(R.id.traveler_default_state).performClick()
         assertEquals(FlightTravelersPresenter::class.java.name, checkoutPresenter.currentState)
     }
 

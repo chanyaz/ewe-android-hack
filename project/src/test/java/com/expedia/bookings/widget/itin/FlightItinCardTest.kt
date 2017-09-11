@@ -118,28 +118,28 @@ class FlightItinCardTest {
     fun imageViewContDescFlightDetailsView() {
         createSystemUnderTest()
         sut.expand(false)
-        val imageView = sut.findViewById(R.id.header_image_container)
+        val imageView = sut.findViewById<View>(R.id.header_image_container)
 
         assertEquals("Image gallery", imageView.contentDescription)
     }
 
     private fun getShareButtonText(): TextView {
-        val shareButtonText = sut.findViewById(R.id.itin_share_button) as TextView
+        val shareButtonText = sut.findViewById<View>(R.id.itin_share_button) as TextView
         return shareButtonText
     }
 
     private fun getShareButtonOverflow(): ImageButton {
-        val shareButtonOverflow = sut.findViewById(R.id.itin_overflow_image_button) as ImageButton
+        val shareButtonOverflow = sut.findViewById<View>(R.id.itin_overflow_image_button) as ImageButton
         return shareButtonOverflow
     }
 
     private fun getActionButtonLayout(): LinearLayout {
-        val actionButtonLayout = sut.findViewById(R.id.action_button_layout) as LinearLayout
+        val actionButtonLayout = sut.findViewById<View>(R.id.action_button_layout) as LinearLayout
         return actionButtonLayout
     }
 
     private fun getFlightDurationTextView(): TextView {
-        val actionButtonLayout = sut.findViewById(R.id.flight_duration) as TextView
+        val actionButtonLayout = sut.findViewById<View>(R.id.flight_duration) as TextView
         return actionButtonLayout
     }
 
@@ -164,12 +164,12 @@ class FlightItinCardTest {
     }
 
     private fun getUpgradeTextView(): TextView {
-        val upgradeText = sut.findViewById(R.id.room_upgrade_available_banner) as TextView
+        val upgradeText = sut.findViewById<View>(R.id.room_upgrade_available_banner) as TextView
         return upgradeText
     }
 
     private fun getCheckInTextView(): TextView {
-        val checkInTextView = sut.findViewById(R.id.checkin_text_view) as TextView
+        val checkInTextView = sut.findViewById<View>(R.id.checkin_text_view) as TextView
         return checkInTextView
     }
 

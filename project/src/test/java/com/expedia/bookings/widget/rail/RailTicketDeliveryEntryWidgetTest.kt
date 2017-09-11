@@ -92,10 +92,10 @@ class RailTicketDeliveryEntryWidgetTest {
         widget.toolbarViewModel.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(0)
 
-        val deliveryOptionView = widget.deliveryAddressEntry.findViewById(R.id.edit_delivery_option_spinner) as RailDeliverySpinnerWithValidationIndicator
-        val addressLineOne = widget.deliveryAddressEntry.findViewById(R.id.edit_address_line_one) as TextView
-        val city = widget.deliveryAddressEntry.findViewById(R.id.edit_address_city) as TextView
-        val postalCode = widget.deliveryAddressEntry.findViewById(R.id.edit_address_postal_code) as TextView
+        val deliveryOptionView = widget.deliveryAddressEntry.findViewById<View>(R.id.edit_delivery_option_spinner) as RailDeliverySpinnerWithValidationIndicator
+        val addressLineOne = widget.deliveryAddressEntry.findViewById<View>(R.id.edit_address_line_one) as TextView
+        val city = widget.deliveryAddressEntry.findViewById<View>(R.id.edit_address_city) as TextView
+        val postalCode = widget.deliveryAddressEntry.findViewById<View>(R.id.edit_address_postal_code) as TextView
 
         // Required field in mailing address not filled
         widget.toolbarViewModel.doneClicked.onNext(Unit)

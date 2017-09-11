@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.hotel
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.expedia.bookings.R
@@ -95,8 +96,8 @@ class HotelConfirmationPresenterTest {
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val shadowOfAlertDialog = Shadows.shadowOf(alertDialog)
 
-        val message = alertDialog.findViewById(android.R.id.message) as TextView
-        val okButton = alertDialog.findViewById(android.R.id.button1) as Button
+        val message = alertDialog.findViewById<View>(android.R.id.message) as TextView
+        val okButton = alertDialog.findViewById<View>(android.R.id.button1) as Button
 
         assertEquals(true, alertDialog.isShowing)
         assertEquals("Booking Successful!", shadowOfAlertDialog.title)

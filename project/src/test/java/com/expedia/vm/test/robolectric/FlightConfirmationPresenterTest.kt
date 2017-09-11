@@ -2,6 +2,7 @@ package com.expedia.vm.test.robolectric
 
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.expedia.bookings.R
@@ -82,7 +83,7 @@ class FlightConfirmationPresenterTest {
     fun testFlightConfirmationVisibility() {
         setupPresenter()
         givenCheckoutResponse()
-        val tripTotalText = presenter.flightSummary?.findViewById(R.id.trip_total_text) as TextView
+        val tripTotalText = presenter.flightSummary?.findViewById<View>(R.id.trip_total_text) as TextView
 
         assertEquals(VISIBLE, presenter.outboundFlightCard.visibility)
         assertEquals(VISIBLE, presenter.inboundFlightCard.visibility)
@@ -195,8 +196,8 @@ class FlightConfirmationPresenterTest {
     private fun setupPresenter() {
         presenter = LayoutInflater.from(activity).inflate(R.layout.flight_confirmation_stub, null) as FlightConfirmationPresenter
         presenter.viewModel = FlightConfirmationViewModel(activity)
-        inboundSupplementaryText = presenter.inboundFlightCard.findViewById(R.id.confirmation_title_supplement) as TextView
-        outboundSupplementaryText = presenter.outboundFlightCard.findViewById(R.id.confirmation_title_supplement) as TextView
+        inboundSupplementaryText = presenter.inboundFlightCard.findViewById<View>(R.id.confirmation_title_supplement) as TextView
+        outboundSupplementaryText = presenter.outboundFlightCard.findViewById<View>(R.id.confirmation_title_supplement) as TextView
     }
 
     private fun givenCheckoutResponse(isRoundTrip: Boolean = true, numberOfTravelers: Int = 1) {

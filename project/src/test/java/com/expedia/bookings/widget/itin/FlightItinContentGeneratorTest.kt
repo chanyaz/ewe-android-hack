@@ -51,7 +51,7 @@ class FlightItinContentGeneratorTest {
         createSystemUnderTest()
         givenGoodFlightItinDetailView()
 
-        val textView = flightDetailView.findViewById(R.id.insurance_name) as TextView
+        val textView = flightDetailView.findViewById<View>(R.id.insurance_name) as TextView
         assertEquals(View.VISIBLE, textView.visibility)
         assertEquals("Travel Protection - Total Protection Plan", textView.text)
     }
@@ -73,7 +73,7 @@ class FlightItinContentGeneratorTest {
         createSystemUnderTest()
         givenGoodFlightItinDetailView()
 
-        val textView = flightDetailView.findViewById(R.id.flight_duration) as TextView
+        val textView = flightDetailView.findViewById<View>(R.id.flight_duration) as TextView
 
         assertEquals(View.VISIBLE, textView.visibility)
         assertEquals("Total Duration: 4h 32m", textView.text)
@@ -88,10 +88,10 @@ class FlightItinContentGeneratorTest {
         val expectedLabel = getContext().resources.getString(R.string.flight_itin_airline_support_number_label)
         val expectedPhoneNumber = Db.getAirline(tripFlight.flightTrip.legs[0].firstAirlineCode).mAirlinePhone
 
-        val itinContainer = flightDetailView.findViewById(R.id.itin_shared_info_container) as LinearLayout
+        val itinContainer = flightDetailView.findViewById<View>(R.id.itin_shared_info_container) as LinearLayout
         val airlinePhoneView = itinContainer.getChildAt(1)
-        val labelTextView = airlinePhoneView.findViewById(R.id.item_label) as TextView
-        val phoneNumberTextView = airlinePhoneView.findViewById(R.id.item_text) as TextView
+        val labelTextView = airlinePhoneView.findViewById<View>(R.id.item_label) as TextView
+        val phoneNumberTextView = airlinePhoneView.findViewById<View>(R.id.item_text) as TextView
 
         assertEquals(expectedLabel, labelTextView.text)
         assertEquals(expectedPhoneNumber, phoneNumberTextView.text)
@@ -118,7 +118,7 @@ class FlightItinContentGeneratorTest {
 
         itinCardData = ItinCardDataFlight(tripFlight, 0)
         sut = FlightItinContentGenerator(getContext(), itinCardData)
-        val textView = flightDetailView.findViewById(R.id.item_text) as TextView
+        val textView = flightDetailView.findViewById<View>(R.id.item_text) as TextView
 
         assertEquals("Booking Confirmed. Ticketing in progress.", textView.text)
     }

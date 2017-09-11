@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.view.View
 import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
@@ -32,7 +33,7 @@ class HotelBillingInfoTest {
         Ui.getApplication(activity).defaultHotelComponents()
         val paymentWidget = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         paymentWidget.viewmodel = PaymentViewModel(activity)
-        sectionBillingInfo = paymentWidget.findViewById(R.id.section_billing_info) as SectionBillingInfo
+        sectionBillingInfo = paymentWidget.findViewById<View>(R.id.section_billing_info) as SectionBillingInfo
         sectionBillingInfo.setLineOfBusiness(LineOfBusiness.HOTELS)
 
         cardNumbFieldEditable = sectionBillingInfo.mEditCreditCardNumber

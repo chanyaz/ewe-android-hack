@@ -28,8 +28,8 @@ class NewLaunchScreenTest {
 
     @Test
     fun testInternetConnection() {
-        val launchError = newPhoneLaunchWidget.findViewById(R.id.launch_error)
-        val lobCard = newPhoneLaunchWidget.findViewById(R.id.lob_grid_recycler)
+        val launchError = newPhoneLaunchWidget.findViewById<View>(R.id.launch_error)
+        val lobCard = newPhoneLaunchWidget.findViewById<View>(R.id.lob_grid_recycler)
         newPhoneLaunchWidget.hasInternetConnection.onNext(false)
         Assert.assertEquals(launchError.visibility, View.VISIBLE)
         Assert.assertEquals(lobCard.visibility, View.VISIBLE)

@@ -42,19 +42,19 @@ class LXActivityDetailsWidgetTest {
 
     @Test
     fun testActivityDetailsViews() {
-        val activityGallery = details.findViewById(R.id.activity_gallery)
-        val description = details.findViewById(R.id.description)
-        val location = details.findViewById(R.id.location)
-        val highlights = details.findViewById(R.id.highlights)
-        val offers = details.findViewById(R.id.offers)
-        val offerDatesContainer = details.findViewById(R.id.offer_dates_container)
-        val inclusions = details.findViewById(R.id.inclusions)
-        val exclusions = details.findViewById(R.id.exclusions)
-        val knowBeforeYouBook = details.findViewById(R.id.know_before_you_book)
-        val cancellation = details.findViewById(R.id.cancellation)
-        val eventLocation = details.findViewById(R.id.event_location)
-        val redemptionLocation = details.findViewById(R.id.redemption_location)
-        val infositeMap = details.findViewById(R.id.map_click_container)
+        val activityGallery = details.findViewById<View>(R.id.activity_gallery)
+        val description = details.findViewById<View>(R.id.description)
+        val location = details.findViewById<View>(R.id.location)
+        val highlights = details.findViewById<View>(R.id.highlights)
+        val offers = details.findViewById<View>(R.id.offers)
+        val offerDatesContainer = details.findViewById<View>(R.id.offer_dates_container)
+        val inclusions = details.findViewById<View>(R.id.inclusions)
+        val exclusions = details.findViewById<View>(R.id.exclusions)
+        val knowBeforeYouBook = details.findViewById<View>(R.id.know_before_you_book)
+        val cancellation = details.findViewById<View>(R.id.cancellation)
+        val eventLocation = details.findViewById<View>(R.id.event_location)
+        val redemptionLocation = details.findViewById<View>(R.id.redemption_location)
+        val infositeMap = details.findViewById<View>(R.id.map_click_container)
 
         assertNotNull(activityGallery)
         assertNotNull(description)
@@ -77,7 +77,7 @@ class LXActivityDetailsWidgetTest {
         val now = LocalDate(2016, 7, 17)
 
         details.buildOfferDatesSelector(getOfferDetails().offersDetail, now)
-        val container = details.findViewById(R.id.offer_dates_container) as LinearLayout
+        val container = details.findViewById<View>(R.id.offer_dates_container) as LinearLayout
 
         val count = container.childCount
         val range = activity.baseContext.resources.getInteger(R.integer.lx_default_search_range) + 1
@@ -96,7 +96,7 @@ class LXActivityDetailsWidgetTest {
         val now = LocalDate(2016, 7, 17)
 
         details.buildOfferDatesSelector(getOfferDetails().offersDetail, now)
-        val container = details.findViewById(R.id.offer_dates_container) as LinearLayout
+        val container = details.findViewById<View>(R.id.offer_dates_container) as LinearLayout
 
         val count = container.childCount
         val range = activity.baseContext.resources.getInteger(R.integer.lx_default_search_range) + 1
@@ -125,20 +125,20 @@ class LXActivityDetailsWidgetTest {
         details.activityDetails = getOfferDetails()
         details.buildOffersSection(now)
 
-        val container = details.findViewById(R.id.offers_container) as LinearLayout
+        val container = details.findViewById<View>(R.id.offers_container) as LinearLayout
 
         val offerOne = container.getChildAt(0)
         val offerTwo = container.getChildAt(1)
 
         val count = container.childCount
 
-        val offerTitleOne = offerOne.findViewById(R.id.offer_title) as TextView
-        val offerPriceSummaryOne = offerOne.findViewById(R.id.price_summary) as TextView
+        val offerTitleOne = offerOne.findViewById<View>(R.id.offer_title) as TextView
+        val offerPriceSummaryOne = offerOne.findViewById<View>(R.id.price_summary) as TextView
 
-        val offerTitleTwo = offerTwo.findViewById(R.id.offer_title) as TextView
-        val offerPriceSummaryTwo = offerTwo.findViewById(R.id.price_summary) as TextView
-        val offerSelectTicketTwo = offerTwo.findViewById(R.id.select_tickets) as Button
-        val offerRowTwo = offerTwo.findViewById(R.id.offer_row) as LinearLayout
+        val offerTitleTwo = offerTwo.findViewById<View>(R.id.offer_title) as TextView
+        val offerPriceSummaryTwo = offerTwo.findViewById<View>(R.id.price_summary) as TextView
+        val offerSelectTicketTwo = offerTwo.findViewById<View>(R.id.select_tickets) as Button
+        val offerRowTwo = offerTwo.findViewById<View>(R.id.offer_row) as LinearLayout
 
         assertNotNull(container)
         assertEquals(3, count)
@@ -162,19 +162,19 @@ class LXActivityDetailsWidgetTest {
         details.activityDetails = getOfferDetails()
         details.buildOffersSection(now)
 
-        val container = details.findViewById(R.id.offers_container) as LinearLayout
+        val container = details.findViewById<View>(R.id.offers_container) as LinearLayout
 
         val offerOne = container.getChildAt(0)
         val offerTwo = container.getChildAt(1)
 
 
-        val offerOneSelectTicket= offerOne.findViewById(R.id.select_tickets) as Button
-        val offerOneRow = offerOne.findViewById(R.id.offer_row) as LinearLayout
-        val offerOneTicketsPicker= offerOne.findViewById(R.id.offer_tickets_picker) as LinearLayout
+        val offerOneSelectTicket= offerOne.findViewById<View>(R.id.select_tickets) as Button
+        val offerOneRow = offerOne.findViewById<View>(R.id.offer_row) as LinearLayout
+        val offerOneTicketsPicker= offerOne.findViewById<View>(R.id.offer_tickets_picker) as LinearLayout
 
-        val offerSelectTicketTwo = offerTwo.findViewById(R.id.select_tickets) as Button
-        val offerRowTwo = offerTwo.findViewById(R.id.offer_row) as LinearLayout
-        val offerTwoTicketsPicker= offerTwo.findViewById(R.id.offer_tickets_picker) as LinearLayout
+        val offerSelectTicketTwo = offerTwo.findViewById<View>(R.id.select_tickets) as Button
+        val offerRowTwo = offerTwo.findViewById<View>(R.id.offer_row) as LinearLayout
+        val offerTwoTicketsPicker= offerTwo.findViewById<View>(R.id.offer_tickets_picker) as LinearLayout
 
 
         assertEquals(offerOneRow.visibility, View.VISIBLE)

@@ -163,7 +163,7 @@ class HotelItinRoomDetailsTest {
 
         roomWidget.changeCancelRulesContainer.performClick()
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val rulesText = alertDialog.findViewById(R.id.fragment_dialog_scrollable_text_content) as TextView
+        val rulesText = alertDialog.findViewById<View>(R.id.fragment_dialog_scrollable_text_content) as TextView
         assertEquals(true, alertDialog.isShowing)
         assertEquals("We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Adante Hotel, a C-Two Hotel charges the following cancellation and change fees.\n" +
                 "Cancellations or changes made after 3:00PM (Pacific Daylight Time (US & Canada); Tijuana) on Oct 17, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.\n" +

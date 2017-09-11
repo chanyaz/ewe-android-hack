@@ -2,6 +2,7 @@ package com.expedia.vm.test.robolectric
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -69,7 +70,7 @@ class PayWithPointsViewModelTest {
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
         val paymentWidget = LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
-        val pwpWidget = paymentWidget.findViewById(R.id.pwp_widget) as PayWithPointsWidget
+        val pwpWidget = paymentWidget.findViewById<View>(R.id.pwp_widget) as PayWithPointsWidget
 
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())

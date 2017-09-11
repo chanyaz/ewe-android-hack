@@ -60,12 +60,12 @@ class LxCheckoutErrorTests {
         Ui.getApplication(activity).defaultLXComponents()
 
         checkoutPresenter = LayoutInflater.from(activity).inflate(R.layout.test_lx_checkout_presenter, null) as LXCheckoutPresenter
-        errorWidget = checkoutPresenter.findViewById(R.id.lx_checkout_error_widget) as LXErrorWidget
-        errorText = errorWidget.findViewById(R.id.error_text) as android.widget.TextView
-        errorImage = errorWidget.findViewById(R.id.error_image) as ImageView
-        errorButton = errorWidget.findViewById(R.id.error_action_button) as Button
-        errorToolbar = errorWidget.findViewById(R.id.error_toolbar) as android.support.v7.widget.Toolbar
-        checkoutToolbar = checkoutPresenter.findViewById(R.id.checkout_toolbar) as ViewGroup
+        errorWidget = checkoutPresenter.findViewById<View>(R.id.lx_checkout_error_widget) as LXErrorWidget
+        errorText = errorWidget.findViewById<View>(R.id.error_text) as android.widget.TextView
+        errorImage = errorWidget.findViewById<View>(R.id.error_image) as ImageView
+        errorButton = errorWidget.findViewById<View>(R.id.error_action_button) as Button
+        errorToolbar = errorWidget.findViewById<View>(R.id.error_toolbar) as android.support.v7.widget.Toolbar
+        checkoutToolbar = checkoutPresenter.findViewById<View>(R.id.checkout_toolbar) as ViewGroup
         Events.register(checkoutPresenter)
 
     }
@@ -87,8 +87,8 @@ class LxCheckoutErrorTests {
 
         errorButton.performClick()
 
-        val editbox = checkoutPresenter.findViewById(R.id.edit_creditcard_number)
-        val sectionBillingInfo =  checkoutPresenter.findViewById(R.id.section_billing_info)
+        val editbox = checkoutPresenter.findViewById<View>(R.id.edit_creditcard_number)
+        val sectionBillingInfo =  checkoutPresenter.findViewById<View>(R.id.section_billing_info)
         assertEquals(View.VISIBLE, sectionBillingInfo.visibility)
         assertEquals(View.VISIBLE, editbox.visibility)
 
@@ -122,7 +122,7 @@ class LxCheckoutErrorTests {
 
         //Assert that Traveller details screen is displayed
         val checkoutToolbarTitle = checkoutToolbar.getChildAt(2) as android.widget.TextView
-        val mainContactInfoCardView =  checkoutPresenter.findViewById(R.id.main_contact_info_card_view) as android.widget.FrameLayout
+        val mainContactInfoCardView =  checkoutPresenter.findViewById<View>(R.id.main_contact_info_card_view) as android.widget.FrameLayout
         assertEquals("Traveler details", checkoutToolbarTitle.text.toString())
         assertEquals(View.VISIBLE, mainContactInfoCardView.visibility)
     }
@@ -174,8 +174,8 @@ class LxCheckoutErrorTests {
         val originalPrice = checkoutResponseForPriceChange.originalPrice
         val latestPrice = checkoutResponseForPriceChange.newTotalPrice
         checkoutSummaryWidget.bind(originalPrice, latestPrice, null)
-        val priceChangeContainer = checkoutSummaryWidget.findViewById(R.id.price_change_container)
-        val priceChangeText = priceChangeContainer.findViewById(R.id.price_change_text) as TextView
+        val priceChangeContainer = checkoutSummaryWidget.findViewById<View>(R.id.price_change_container)
+        val priceChangeText = priceChangeContainer.findViewById<View>(R.id.price_change_text) as TextView
         val expectedPriceChangeString = activity.getResources().getString(R.string.price_changed_from_TEMPLATE, originalPrice.formattedMoney)
 
         assertEquals(View.VISIBLE, priceChangeContainer.visibility)
@@ -188,12 +188,12 @@ class LxCheckoutErrorTests {
     fun testCVVScreen() {
         val billingInfo = getBillingInfo()
         Events.post(Events.ShowCVV(billingInfo))
-        val promptText = checkoutPresenter.findViewById(R.id.cvv_prompt_text_view) as com.mobiata.android.widget.AutoResizeTextView
-        val cvvToolbarCheckout = checkoutPresenter.findViewById(R.id.cvv_toolbar) as ViewGroup
+        val promptText = checkoutPresenter.findViewById<View>(R.id.cvv_prompt_text_view) as com.mobiata.android.widget.AutoResizeTextView
+        val cvvToolbarCheckout = checkoutPresenter.findViewById<View>(R.id.cvv_toolbar) as ViewGroup
         val toolBarTitle = cvvToolbarCheckout.getChildAt(1) as android.widget.TextView
-        val bookButton = checkoutPresenter.findViewById(R.id.book_button)
-        val authorizedSignature = checkoutPresenter.findViewById(R.id.authorized_signature_text) as android.widget.TextView
-        val signatureTextView = checkoutPresenter.findViewById(R.id.signature_text_view) as android.widget.TextView
+        val bookButton = checkoutPresenter.findViewById<View>(R.id.book_button)
+        val authorizedSignature = checkoutPresenter.findViewById<View>(R.id.authorized_signature_text) as android.widget.TextView
+        val signatureTextView = checkoutPresenter.findViewById<View>(R.id.signature_text_view) as android.widget.TextView
         assertEquals("Finish Booking", toolBarTitle.text)
         assertEquals("Security code for card ending in 4448", promptText.text.toString())
         assertEquals(" T. User", signatureTextView.text.toString())
@@ -207,8 +207,8 @@ class LxCheckoutErrorTests {
         val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityServiceTestRule.getCheckoutParams())
         checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val okButton = alertDialog.findViewById(android.R.id.button3) as Button
-        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        val okButton = alertDialog.findViewById<View>(android.R.id.button3) as Button
+        val errorMessage = alertDialog.findViewById<View>(android.R.id.message) as android.widget.TextView
         assertEquals(true, alertDialog.isShowing)
         assertEquals("Missing checkout params.", errorMessage.text)
         assertEquals("OK", okButton.text )
@@ -220,9 +220,9 @@ class LxCheckoutErrorTests {
     @Test
     fun testShowLXRules() {
         val checkoutSummaryWidget = LayoutInflater.from(activity).inflate(R.layout.lx_checkout_summary_widget, null) as LXCheckoutSummaryWidget
-        val lxRulesToolbar = checkoutPresenter.findViewById(R.id.lx_rules_toolbar) as ViewGroup
+        val lxRulesToolbar = checkoutPresenter.findViewById<View>(R.id.lx_rules_toolbar) as ViewGroup
         val lxRulesToolbarTitle = lxRulesToolbar.getChildAt(1) as android.widget.TextView
-        val freeCancellationPolicyText = checkoutPresenter.findViewById(R.id.cancellation_policy_header_text_view) as android.widget.TextView
+        val freeCancellationPolicyText = checkoutPresenter.findViewById<View>(R.id.cancellation_policy_header_text_view) as android.widget.TextView
         checkoutSummaryWidget.showLxRules()
 
         assertEquals("Legal Information", lxRulesToolbarTitle.text.toString())

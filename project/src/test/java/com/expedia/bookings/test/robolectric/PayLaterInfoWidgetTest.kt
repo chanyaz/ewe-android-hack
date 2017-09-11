@@ -32,8 +32,8 @@ class PayLaterInfoWidgetTest {
 
     @Test
     fun testWidgetEarnField() {
-        val earnText = widget.findViewById(R.id.etp_earn_text) as TextView
-        val earnLayout = widget.findViewById(R.id.earn_text_layout) as LinearLayout
+        val earnText = widget.findViewById<View>(R.id.etp_earn_text) as TextView
+        val earnLayout = widget.findViewById<View>(R.id.earn_text_layout) as LinearLayout
         assertEquals(View.GONE, earnLayout.visibility)//
         assertEquals("", earnText.text)
         assertEquals("Close", widget.toolbar.navigationContentDescription)

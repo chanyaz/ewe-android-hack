@@ -60,8 +60,8 @@ class LXOfferListWidgetTest {
         setActivityOfferList()
 
         val offerContainer = widget.offerContainer
-        val offerTicketPicker = offerContainer.findViewById(R.id.offer_tickets_picker)
-        val offerRow = offerContainer.findViewById(R.id.offer_row)
+        val offerTicketPicker = offerContainer.findViewById<View>(R.id.offer_tickets_picker)
+        val offerRow = offerContainer.findViewById<View>(R.id.offer_row)
 
         assertNotNull(offerContainer)
         assertNotNull(offerTicketPicker)
@@ -76,8 +76,8 @@ class LXOfferListWidgetTest {
         setActivityOfferList()
 
         val offerContainer = widget.offerContainer
-        val offerTicketPicker = offerContainer.findViewById(R.id.offer_tickets_picker)
-        val offerRow = offerContainer.findViewById(R.id.offer_row)
+        val offerTicketPicker = offerContainer.findViewById<View>(R.id.offer_tickets_picker)
+        val offerRow = offerContainer.findViewById<View>(R.id.offer_row)
 
         assertNotNull(offerContainer)
         assertNotNull(offerTicketPicker)

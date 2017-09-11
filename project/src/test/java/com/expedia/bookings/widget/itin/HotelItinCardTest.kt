@@ -229,17 +229,17 @@ class HotelItinCardTest {
     }
 
     private fun getVipLabelTextView(): TextView {
-        val vipLabelTextView = sut.findViewById(R.id.vip_label_text_view) as TextView
+        val vipLabelTextView = sut.findViewById<View>(R.id.vip_label_text_view) as TextView
         return vipLabelTextView
     }
 
     private fun getUpgradeBannerTextView(): TextView {
-        val upgradeBanner = sut.findViewById(R.id.room_upgrade_available_banner) as TextView
+        val upgradeBanner = sut.findViewById<View>(R.id.room_upgrade_available_banner) as TextView
         return upgradeBanner
     }
 
     private fun getUpgradeButton(): TextView {
-        val upgradeBanner = sut.findViewById(R.id.room_upgrade_button) as TextView
+        val upgradeBanner = sut.findViewById<View>(R.id.room_upgrade_button) as TextView
         return upgradeBanner
     }
 

@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
+import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
@@ -76,7 +77,7 @@ class PackagePriceChangeTest {
         setUpPackageDb()
         travelerValidator.updateForNewSearch(Db.getPackageParams())
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
-        overview = activity.findViewById(R.id.package_overview_presenter) as PackageOverviewPresenter
+        overview = activity.findViewById<View>(R.id.package_overview_presenter) as PackageOverviewPresenter
         checkout = overview.getCheckoutPresenter()
         overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
         overview.bundleWidget.viewModel.hotelParamsObservable.onNext(getPackageSearchParams(1, emptyList(), false))
@@ -181,8 +182,8 @@ class PackagePriceChangeTest {
 
     private fun assertPriceChangeWidgetIsCorrect(newPrice: Money, oldPrice: Money) {
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val okButton = alertDialog.findViewById(android.R.id.button1) as Button
-        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        val okButton = alertDialog.findViewById<View>(android.R.id.button1) as Button
+        val errorMessage = alertDialog.findViewById<View>(android.R.id.message) as android.widget.TextView
         assertEquals(true, alertDialog.isShowing)
         assertTrue(errorMessage.text.contains("The price of your trip has changed from " + oldPrice.formattedMoneyFromAmountAndCurrencyCode + " to " +
                 newPrice.formattedMoneyFromAmountAndCurrencyCode + ". Rates can change frequently. Book now to lock in this price."))

@@ -100,11 +100,11 @@ class PaymentWidgetV2Test {
         val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.applicationContext)
         sut.paymentWidgetViewModel = PaymentWidgetViewModel(activity.application, paymentModel, payWithPointsViewModel)
 
-        paymentTileInfo = sut.findViewById(R.id.card_info_name) as TextView
-        paymentTileOption = sut.findViewById(R.id.card_info_expiration) as TextView
-        paymentTileIcon = sut.findViewById(R.id.card_info_icon) as ImageView
-        pwpSmallIcon = sut.findViewById(R.id.pwp_small_icon) as ImageView
-        storedCardList = sut.findViewById(R.id.stored_creditcard_list) as StoredCreditCardList
+        paymentTileInfo = sut.findViewById<View>(R.id.card_info_name) as TextView
+        paymentTileOption = sut.findViewById<View>(R.id.card_info_expiration) as TextView
+        paymentTileIcon = sut.findViewById<View>(R.id.card_info_icon) as ImageView
+        pwpSmallIcon = sut.findViewById<View>(R.id.pwp_small_icon) as ImageView
+        storedCardList = sut.findViewById<View>(R.id.stored_creditcard_list) as StoredCreditCardList
     }
 
     @Test
@@ -137,11 +137,11 @@ class PaymentWidgetV2Test {
         setUserWithStoredCard()
         sut.storedCreditCardList.bind()
 
-        val listView = sut.storedCreditCardList.findViewById(R.id.stored_card_list) as ListView
+        val listView = sut.storedCreditCardList.findViewById<View>(R.id.stored_card_list) as ListView
         assertNull(Db.getBillingInfo().storedCard)
         testPaymentTileInfo("Payment Method", "Enter credit card", ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon), View.GONE)
         assertEquals(1, listView.adapter.count)
-        val tv = listView.adapter.getView(0, null, sut).findViewById(R.id.text1) as TextView
+        val tv = listView.adapter.getView(0, null, sut).findViewById<View>(R.id.text1) as TextView
         assertCardImageEquals(R.drawable.unsupported_card, tv)
         val errorMessage = "Hotel does not accept American Express"
         assertEquals(errorMessage, tv.text)

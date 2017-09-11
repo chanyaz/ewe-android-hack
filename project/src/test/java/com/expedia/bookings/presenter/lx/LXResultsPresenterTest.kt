@@ -84,9 +84,9 @@ class LXResultsPresenterTest {
         for (index in 0..(itemCount - 1)) {
             val viewHolder = searchAdapter.createViewHolder(recyclerView, searchAdapter.getItemViewType(index)) as LXResultsListAdapter.ViewHolder
             searchAdapter.onBindViewHolder(viewHolder, index)
-            assertEquals("New York Pass: Visit up to 80 Attractions, Museums & Tours" + index, (viewHolder.itemView.findViewById(R.id.activity_title) as TextView).text)
-            assertEquals(lxActivities[index].originalPrice.getFormattedMoney(Money.F_NO_DECIMAL), (viewHolder.itemView.findViewById(R.id.activity_original_price) as TextView).text.toString())
-            assertEquals("2d+", (viewHolder.itemView.findViewById(R.id.activity_duration) as TextView).text.toString())
+            assertEquals("New York Pass: Visit up to 80 Attractions, Museums & Tours" + index, (viewHolder.itemView.findViewById<TextView>(R.id.activity_title))?.text)
+            assertEquals(lxActivities[index].originalPrice.getFormattedMoney(Money.F_NO_DECIMAL), (viewHolder.itemView.findViewById<TextView>(R.id.activity_original_price))?.text.toString())
+            assertEquals("2d+", (viewHolder.itemView.findViewById<TextView>(R.id.activity_duration))?.text.toString())
         }
     }
 
@@ -95,25 +95,25 @@ class LXResultsPresenterTest {
         Events.register(lxResultsPresenter)
         Events.register(lxResultsPresenter.searchResultsWidget)
 
-        val errorWidget = lxResultsPresenter.findViewById(R.id.lx_search_error_widget) as LXErrorWidget
+        val errorWidget = lxResultsPresenter.findViewById<LXErrorWidget>(R.id.lx_search_error_widget)
         val searResultObserver = lxResultsPresenter.SearchResultObserver()
         searResultObserver.widget = lxResultsPresenter.searchResultsWidget
         searResultObserver.searchType = SearchType.EXPLICIT_SEARCH
         searResultObserver.onError(ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS))
         assertEquals(View.VISIBLE, errorWidget.visibility)
-        assertEquals("Your search returned no results. Please retry your search with different criteria.", (errorWidget.findViewById(R.id.error_text) as TextView).text)
+        assertEquals("Your search returned no results. Please retry your search with different criteria.", (errorWidget.findViewById<TextView>(R.id.error_text))?.text)
     }
 
     @Test
     fun testisUserBucketedForCategoriesTest() {
-        val themeResultsWidget = lxResultsPresenter.findViewById(R.id.lx_theme_results_widget) as LXThemeResultsWidget
-        val searchResultsWidget = lxResultsPresenter.findViewById(R.id.lx_search_results_widget) as LXSearchResultsWidget
-        val toolbarDetailText =  lxResultsPresenter.findViewById(R.id.toolbar_detail_text) as TextView
-        val toolbarSubtitleText =  lxResultsPresenter.findViewById(R.id.toolbar_subtitle_text) as TextView
-        val lxThemeList = lxResultsPresenter.findViewById(R.id.lx_theme_list) as android.support.v7.widget.RecyclerView
-        val toolbarSortFilter = lxResultsPresenter.findViewById(R.id.toolbar_sort_filter) as ViewGroup
+        val themeResultsWidget = lxResultsPresenter.findViewById<LXThemeResultsWidget>(R.id.lx_theme_results_widget)
+        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
+        val toolbarDetailText =  lxResultsPresenter.findViewById<TextView>(R.id.toolbar_detail_text)
+        val toolbarSubtitleText =  lxResultsPresenter.findViewById<TextView>(R.id.toolbar_subtitle_text)
+        val lxThemeList = lxResultsPresenter.findViewById<android.support.v7.widget.RecyclerView>(R.id.lx_theme_list)
+        val toolbarSortFilter = lxResultsPresenter.findViewById<ViewGroup>(R.id.toolbar_sort_filter)
         val sortText = toolbarSortFilter.getChildAt(0) as TextView
-        val filterText = lxResultsPresenter.findViewById(R.id.filter_text) as TextView
+        val filterText = lxResultsPresenter.findViewById<TextView>(R.id.filter_text)
 
         lxCategoriesABTest(AbacusUtils.DefaultVariant.BUCKETED)
         buildSearchParams()
@@ -137,16 +137,16 @@ class LXResultsPresenterTest {
     fun testWhenNoInternetConnected() {
 
         val searchResultObserver = lxResultsPresenter.SearchResultObserver()
-        val lxSearchResultWidget = lxResultsPresenter.findViewById(R.id.lx_search_results_widget) as LXSearchResultsWidget
+        val lxSearchResultWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
 
         searchResultObserver.widget = lxResultsPresenter.searchResultsWidget
         searchResultObserver.searchType = SearchType.EXPLICIT_SEARCH
         searchResultObserver.onError(IOException())
 
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val errorMessage = alertDialog.findViewById(android.R.id.message) as TextView
-        val cancelButton = alertDialog.findViewById(android.R.id.button2) as Button
-        val retryButton = alertDialog.findViewById(android.R.id.button1) as Button
+        val errorMessage = alertDialog.findViewById<TextView>(android.R.id.message)
+        val cancelButton = alertDialog.findViewById<Button>(android.R.id.button2)
+        val retryButton = alertDialog.findViewById<Button>(android.R.id.button1)
 
         assertEquals(true ,alertDialog.isShowing)
         assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", errorMessage.text)
@@ -170,17 +170,17 @@ class LXResultsPresenterTest {
         buildSearchParams()
         val searResultObserver = lxResultsPresenter.SearchResultObserver()
         searResultObserver.onNext(lxSearchResponse)
-        val sortFilterButton = lxResultsPresenter.findViewById(R.id.sort_filter_button_container) as FilterButtonWithCountWidget
-        val filterIcon = lxResultsPresenter.findViewById(R.id.filter_icon) as View
-        val searchResultsWidget = lxResultsPresenter.findViewById(R.id.lx_search_results_widget) as LXSearchResultsWidget
-        val recyclerView = searchResultsWidget.findViewById(R.id.lx_search_results_list) as RecyclerView
-        val errorScreen = searchResultsWidget.findViewById(R.id.lx_search_error_widget) as LXErrorWidget
-        val themeResultsWidget = lxResultsPresenter.findViewById(R.id.lx_theme_results_widget) as LXThemeResultsWidget
+        val sortFilterButton = lxResultsPresenter.findViewById<FilterButtonWithCountWidget>(R.id.sort_filter_button_container)
+        val filterIcon = lxResultsPresenter.findViewById<View>(R.id.filter_icon)
+        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
+        val recyclerView = searchResultsWidget.findViewById<RecyclerView>(R.id.lx_search_results_list)
+        val errorScreen = searchResultsWidget.findViewById<LXErrorWidget>(R.id.lx_search_error_widget)
+        val themeResultsWidget = lxResultsPresenter.findViewById<LXThemeResultsWidget>(R.id.lx_theme_results_widget)
         val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView,1) as LXResultsListAdapter.ViewHolder
 
         searchResultsWidget.recyclerView.adapter.bindViewHolder(holder,0)
         assertNotNull(searchResultsWidget)
-        val actualActivityTitle = holder.itemView.findViewById(R.id.activity_title) as TextView
+        val actualActivityTitle = holder.itemView.findViewById<TextView>(R.id.activity_title)
         assertEquals(3, searchResultsWidget.recyclerView.adapter.itemCount)
         assertEquals("New York Pass: Visit up to 80 Attractions, Museums & Tours0", actualActivityTitle.text)
         assertEquals(View.VISIBLE, sortFilterButton.visibility)
@@ -197,8 +197,8 @@ class LXResultsPresenterTest {
     fun testOnLXSearchError() {
         Events.register(lxResultsPresenter)
         Events.post(Events.LXShowSearchError(ApiError(ApiError.Code.LX_DETAILS_FETCH_ERROR),SearchType.DEFAULT_SEARCH))
-        val toolBarDetailText = lxResultsPresenter.findViewById(R.id.toolbar_detail_text) as TextView
-        val toolBarSubtitleText = lxResultsPresenter.findViewById(R.id.toolbar_subtitle_text) as TextView
+        val toolBarDetailText = lxResultsPresenter.findViewById<TextView>(R.id.toolbar_detail_text)
+        val toolBarSubtitleText = lxResultsPresenter.findViewById<TextView>(R.id.toolbar_subtitle_text)
         assertEquals("Please try again", toolBarDetailText.text)
         assertEquals(View.GONE, toolBarSubtitleText.visibility)
 
@@ -206,8 +206,8 @@ class LXResultsPresenterTest {
     @Test
     fun testOnLXShowLoadingAnimation() {
         Events.register(lxResultsPresenter)
-        val themeResultsWidget = lxResultsPresenter.findViewById(R.id.lx_theme_results_widget) as LXThemeResultsWidget
-        val searchResultsWidget = lxResultsPresenter.findViewById(R.id.lx_search_results_widget) as LXSearchResultsWidget
+        val themeResultsWidget = lxResultsPresenter.findViewById<LXThemeResultsWidget>(R.id.lx_theme_results_widget)
+        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
         Events.post(Events.LXShowLoadingAnimation())
         assertEquals(View.GONE, themeResultsWidget.visibility)
         assertEquals(View.VISIBLE, searchResultsWidget.visibility)

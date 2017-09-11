@@ -129,10 +129,10 @@ class AbstractFlightListAdapterTest {
         assertTrue(packageBannerHeaderViewHolder is AbstractFlightListAdapter.PackageBannerHeaderViewHolder)
         assertEquals(View.VISIBLE, packageBannerHeaderViewHolder.packageBannerWidget.visibility)
 
-        val packageBannerTitle = packageBannerHeaderViewHolder.packageBannerWidget.findViewById(R.id.package_flight_banner_title) as TextView
+        val packageBannerTitle = packageBannerHeaderViewHolder.packageBannerWidget.findViewById<TextView>(R.id.package_flight_banner_title)
         assertEquals("Hotel + Flight", packageBannerTitle.text)
 
-        val packageBannerDescription = packageBannerHeaderViewHolder.packageBannerWidget.findViewById(R.id.package_flight_banner_description) as TextView
+        val packageBannerDescription = packageBannerHeaderViewHolder.packageBannerWidget.findViewById<TextView>(R.id.package_flight_banner_description)
         assertEquals("Save when you book your flights and hotels together", packageBannerDescription.text)
     }
 

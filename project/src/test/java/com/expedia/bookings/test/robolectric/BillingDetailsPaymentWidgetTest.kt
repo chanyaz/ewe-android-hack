@@ -70,7 +70,7 @@ class BillingDetailsPaymentWidgetTest {
     fun testCreditCardSecurityCodeWidget() {
         assertNotNull(billingDetailsPaymentWidget)
         ButterKnife.inject(activity)
-        val securityCodeInput = billingDetailsPaymentWidget.findViewById(R.id.edit_creditcard_cvv) as AccessibleEditText
+        val securityCodeInput = billingDetailsPaymentWidget.findViewById<AccessibleEditText>(R.id.edit_creditcard_cvv)
         //test for accessibility content description
         securityCodeInput.getAccessibilityNodeInfo()
         assertEquals(securityCodeInput.contentDescription, "CVV")
@@ -81,19 +81,19 @@ class BillingDetailsPaymentWidgetTest {
     fun testAccessibilityOnPaymentDetailScreen() {
         givenPackageTripWithVisaValidFormOfPayment()
         givenMaterialPaymentBillingWidget()
-        val expirationDate = billingDetailsPaymentWidget.findViewById(billingDetailsPaymentWidget.creditCardNumber.getNextFocusForwardId())
+        val expirationDate = billingDetailsPaymentWidget.findViewById<View>(billingDetailsPaymentWidget.creditCardNumber.getNextFocusForwardId())
         assertEquals(expirationDate, billingDetailsPaymentWidget.expirationDate)
-        val cvvView = billingDetailsPaymentWidget.findViewById(expirationDate.getNextFocusForwardId())
+        val cvvView = billingDetailsPaymentWidget.findViewById<View>(expirationDate.getNextFocusForwardId())
         assertEquals(cvvView, billingDetailsPaymentWidget.creditCardCvv)
-        val cardholderName = billingDetailsPaymentWidget.findViewById(cvvView.getNextFocusForwardId())
+        val cardholderName = billingDetailsPaymentWidget.findViewById<View>(cvvView.getNextFocusForwardId())
         assertEquals(cardholderName, billingDetailsPaymentWidget.creditCardName)
-        val addressLine1 = billingDetailsPaymentWidget.findViewById(cardholderName.getNextFocusForwardId())
+        val addressLine1 = billingDetailsPaymentWidget.findViewById<View>(cardholderName.getNextFocusForwardId())
         assertEquals(addressLine1, billingDetailsPaymentWidget.addressLineOne)
-        val city = billingDetailsPaymentWidget.findViewById(addressLine1.getNextFocusForwardId())
+        val city = billingDetailsPaymentWidget.findViewById<View>(addressLine1.getNextFocusForwardId())
         assertEquals(city, billingDetailsPaymentWidget.addressCity)
-        val state = billingDetailsPaymentWidget.findViewById(city.getNextFocusForwardId())
+        val state = billingDetailsPaymentWidget.findViewById<View>(city.getNextFocusForwardId())
         assertEquals(state, billingDetailsPaymentWidget.addressState)
-        val zip = billingDetailsPaymentWidget.findViewById(state.getNextFocusForwardId())
+        val zip = billingDetailsPaymentWidget.findViewById<View>(state.getNextFocusForwardId())
         assertEquals(zip, billingDetailsPaymentWidget.creditCardPostalCode)
     }
 

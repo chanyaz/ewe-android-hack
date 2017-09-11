@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTrip
@@ -297,7 +298,7 @@ class AccountButtonTest {
         Mockito.`when`(context.getResources().getBoolean(R.bool.tablet)).thenReturn(false)
         Db.getTripBucket().clear()
         accountButton.bind(false, false, null, LineOfBusiness.HOTELS)
-        val loginContainer = accountButton.findViewById(R.id.account_login_container);
+        val loginContainer = accountButton.findViewById<View>(R.id.account_login_container);
         val shadowDrawable = Shadows.shadowOf(loginContainer.background);
         assertEquals(R.drawable.material_cko_acct_btn_bg, shadowDrawable.createdFromResId)
     }

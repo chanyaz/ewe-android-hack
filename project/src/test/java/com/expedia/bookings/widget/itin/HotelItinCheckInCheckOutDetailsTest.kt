@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin
 
 import android.text.format.DateFormat
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -55,7 +56,7 @@ class HotelItinCheckInCheckOutDetailsTest {
 
         hotelItinCheckinCheckOutWidget.checkInOutPoliciesContainer.performClick()
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val checkInPolicesText = alertDialog.findViewById(R.id.fragment_dialog_scrollable_text_content) as TextView
+        val checkInPolicesText = alertDialog.findViewById<View>(R.id.fragment_dialog_scrollable_text_content) as TextView
         assertEquals(true, alertDialog.isShowing)
         assertEquals("Minimum check-in age is 18\nCheck-in time starts at 3 PM", checkInPolicesText.text.toString())
     }

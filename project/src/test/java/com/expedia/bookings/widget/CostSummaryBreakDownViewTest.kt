@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.FontCache
@@ -39,8 +40,8 @@ class CostSummaryBreakDownViewTest {
 
         assertEquals(1, costSummaryBreakDownView.linearLayout.childCount)
 
-        val priceDescription = costSummaryBreakDownView.linearLayout.getChildAt(0).findViewById(R.id.price_type_text_view) as TextView
-        val priceValue = costSummaryBreakDownView.linearLayout.getChildAt(0).findViewById(R.id.price_text_view) as TextView
+        val priceDescription = costSummaryBreakDownView.linearLayout.getChildAt(0).findViewById<View>(R.id.price_type_text_view) as TextView
+        val priceValue = costSummaryBreakDownView.linearLayout.getChildAt(0).findViewById<View>(R.id.price_text_view) as TextView
 
         assertEquals("Hotel + Flights", priceDescription.text.toString())
         assertEquals("$230", priceValue.text.toString())

@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -94,14 +95,14 @@ class NewLaunchLobWidgetTest {
     private fun checkLOBsAvailable() {
         var isHotelsLOBDisplayed = false
         var isFlightsLOBDisplayed = false
-        val recyclerView = newLaunchLobWidget.findViewById(R.id.lob_grid_recycler) as RecyclerView
+        val recyclerView = newLaunchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as RecyclerView
         recyclerView.measure(0, 0)
         recyclerView.layout(0, 0, 100, 10000)
         val itemCount = recyclerView.layoutManager.itemCount
         val lobInfoLabelMap = getLOBInfoLabelMap()
         for (position in 0..itemCount - 1) {
             val childAt = recyclerView.layoutManager.findViewByPosition(position)
-            val textView = childAt.findViewById(R.id.lob_cell_text) as TextView
+            val textView = childAt.findViewById<View>(R.id.lob_cell_text) as TextView
             val lobText = textView.text
             val lobInfo = lobInfoLabelMap[lobText]
             assertNotNull(lobInfo)
@@ -120,14 +121,14 @@ class NewLaunchLobWidgetTest {
     }
 
     private fun packagesTitleChange(titleVariant: Int) {
-        val recyclerView = newLaunchLobWidget.findViewById(R.id.lob_grid_recycler) as RecyclerView
+        val recyclerView = newLaunchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as RecyclerView
         recyclerView.measure(0, 0)
         recyclerView.layout(0, 0, 100, 10000)
         val itemCount = recyclerView.layoutManager.itemCount
         val lobInfoLabelMap = getLOBInfoLabelMap()
         for (position in 0..itemCount - 1) {
             val childAt = recyclerView.layoutManager.findViewByPosition(position)
-            val textView = childAt.findViewById(R.id.lob_cell_text) as TextView
+            val textView = childAt.findViewById<View>(R.id.lob_cell_text) as TextView
             val lobText = textView.text
             val lobInfo = lobInfoLabelMap[lobText]
             assertNotNull(lobInfo)
@@ -154,13 +155,13 @@ class NewLaunchLobWidgetTest {
 
     private fun validateFlightNotAvialable() {
         setUp()
-        val allLobsRecycler = newLaunchLobWidget.findViewById(R.id.lob_grid_recycler) as android.support.v7.widget.RecyclerView
+        val allLobsRecycler = newLaunchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as android.support.v7.widget.RecyclerView
         // workaround robolectric recyclerView issue
         allLobsRecycler.measure(0, 0)
         allLobsRecycler.layout(0, 0, 100, 1000)
         allLobsRecycler.findViewHolderForAdapterPosition(1).itemView.performClick()
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        val errorMessage = alertDialog.findViewById<View>(android.R.id.message) as android.widget.TextView
         assertEquals("Sorry, but mobile flight booking is not yet available in your location.", errorMessage.text.toString())
     }
 

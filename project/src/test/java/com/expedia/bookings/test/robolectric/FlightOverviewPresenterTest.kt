@@ -104,8 +104,8 @@ class FlightOverviewPresenterTest {
         widget.flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable.onNext(testSubscriber.onNextEvents[0].fareFamilyList!!.fareFamilyDetails.first())
         widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val okButton = alertDialog.findViewById(android.R.id.button1) as Button
-        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        val okButton = alertDialog.findViewById<View>(android.R.id.button1) as Button
+        val errorMessage = alertDialog.findViewById<View>(android.R.id.message) as android.widget.TextView
         assertEquals(true, alertDialog.isShowing)
         assert(errorMessage.text.contains("Sorry, Economy is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection."))
         assertEquals("OK", okButton.text)
@@ -280,7 +280,7 @@ class FlightOverviewPresenterTest {
     @Test
     fun testFlightSummaryWidgets() {
         setShowMoreInfoTest()
-        val flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
+        val flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
         flightSummaryWidget.viewmodel = FlightOverviewSummaryViewModel(context)
         flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(false))
         assertEquals(View.VISIBLE, flightSummaryWidget.outboundFlightTitle.visibility)
@@ -293,7 +293,7 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testFreeCancellationInfo() {
-        var flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
+        var flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
         widget.viewModel.showFreeCancellationObservable.onNext(true)
         flightSummaryWidget.viewmodel = FlightOverviewSummaryViewModel(context)
         flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(false))
@@ -309,8 +309,8 @@ class FlightOverviewPresenterTest {
     @Test
     fun testRowContainerWidgetsWhenBucketedForMoreInfoTest() {
         setShowMoreInfoTest()
-        val flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
-        val outboundFlightWidget = flightSummaryWidget.findViewById(R.id.package_bundle_outbound_flight_widget) as OutboundFlightWidget
+        val flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
+        val outboundFlightWidget = flightSummaryWidget.findViewById<View>(R.id.package_bundle_outbound_flight_widget) as OutboundFlightWidget
         outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
         outboundFlightWidget.viewModel.searchParams.onNext(setupFlightSearchParams())
         outboundFlightWidget.viewModel.travelInfoTextObservable.onNext("")

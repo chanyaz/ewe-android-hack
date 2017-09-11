@@ -41,15 +41,15 @@ class AddGuestItinWidgetTest {
         assertEquals(View.VISIBLE, toolBar.visibility)
         assertEquals("Find guest booked trip", toolBar.title)
 
-        val introText = sut.findViewById(R.id.find_guest_itinerary_intro_text) as TextView
+        val introText = sut.findViewById<View>(R.id.find_guest_itinerary_intro_text) as TextView
         assertEquals(View.VISIBLE, introText.visibility)
         assertEquals("Checked out without signing in? Find your trip by itinerary number. You can find the itinerary number in the confirmation email.", introText.text)
 
-        val emailText = sut.findViewById(R.id.email_edit_text_layout) as TextInputLayout
+        val emailText = sut.findViewById<View>(R.id.email_edit_text_layout) as TextInputLayout
         assertEquals(View.VISIBLE, emailText.visibility)
         assertEquals("Email", emailText.hint)
 
-        val itinNumberText = sut.findViewById(R.id.itin_number_edit_text_layout) as TextInputLayout
+        val itinNumberText = sut.findViewById<View>(R.id.itin_number_edit_text_layout) as TextInputLayout
         assertEquals(View.VISIBLE, itinNumberText.visibility)
         assertEquals("Itinerary number", itinNumberText.hint)
 

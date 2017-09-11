@@ -88,7 +88,7 @@ class PackageCheckoutTest {
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
-        overview = activity.findViewById(R.id.package_overview_presenter) as PackageOverviewPresenter
+        overview = activity.findViewById<View>(R.id.package_overview_presenter) as PackageOverviewPresenter
 
         setUpCheckout()
     }
@@ -508,7 +508,7 @@ class PackageCheckoutTest {
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
         val mockTravelerProvider = MockTravelerProvider()
         mockTravelerProvider.updateDBWithMockTravelers(numOfTravelers, testUser.primaryTraveler)
-        checkout.travelerSummaryCardView.findViewById(R.id.traveler_default_state).performClick()
+        checkout.travelerSummaryCardView.findViewById<View>(R.id.traveler_default_state).performClick()
         checkout.travelersPresenter.travelerPickerWidget.viewModel.selectedTravelerSubject
                 .onNext(TravelerSelectItemViewModel(activity, if (numOfTravelers > 1) 1 else 0, 18, PassengerCategory.ADULT))
         checkout.travelersPresenter.show(checkout.travelersPresenter.travelerEntryWidget)

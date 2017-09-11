@@ -111,10 +111,10 @@ class ItinItemListFragmentTest {
 
     @Test
     fun testManuallyAddGuestItinView() {
-        val addGuestItinIntroText = activity.findViewById(R.id.add_guest_itin_intro_text) as com.expedia.bookings.widget.TextView
+        val addGuestItinIntroText = activity.findViewById<com.expedia.bookings.widget.TextView>(R.id.add_guest_itin_intro_text)
         assertEquals("Checked out without signing in? Find your trip by itinerary number.", addGuestItinIntroText.text)
 
-        val addGuestItinButton = activity.findViewById(R.id.add_guest_itin_text_view) as com.expedia.bookings.widget.TextView
+        val addGuestItinButton = activity.findViewById<com.expedia.bookings.widget.TextView>(R.id.add_guest_itin_text_view)
         assertEquals("Manually add guest booked trip", addGuestItinButton.text)
         addGuestItinButton.performClick()
         val startedIntent = Shadows.shadowOf(activity).nextStartedActivity
@@ -123,10 +123,10 @@ class ItinItemListFragmentTest {
 
     @Test
     fun testManuallyAddGuestSignedOffItinView() {
-        val addGuestItinIntroText = activity.findViewById(R.id.add_guest_itin_intro_text_view) as com.expedia.bookings.widget.TextView
+        val addGuestItinIntroText = activity.findViewById<com.expedia.bookings.widget.TextView>(R.id.add_guest_itin_intro_text_view)
         assertEquals("Checked out without signing in? Find your trip by itinerary number.", addGuestItinIntroText.text)
 
-        val addGuestItinButton = activity.findViewById(R.id.add_guest_itin_text_button) as com.expedia.bookings.widget.TextView
+        val addGuestItinButton = activity.findViewById<com.expedia.bookings.widget.TextView>(R.id.add_guest_itin_text_button)
         assertEquals("Manually add guest booked trip", addGuestItinButton.text)
         addGuestItinButton.performClick()
         val startedIntent = Shadows.shadowOf(activity).nextStartedActivity
@@ -184,18 +184,18 @@ class ItinItemListFragmentTest {
     }
 
     private fun assertLoadingViewVisible(visible: Boolean = true) {
-        assertEquals(getLoadingView().visibility, if (visible) View.VISIBLE else View.GONE)
+        assertEquals(getLoadingView()?.visibility, if (visible) View.VISIBLE else View.GONE)
     }
 
     private fun assertIntentForActivity(expectedActivityClass: Class<*>, startedIntent: Intent) {
         assertEquals(expectedActivityClass.name, startedIntent.component.className)
     }
 
-    private fun getLoadingView(): FrameLayout =
-            sut.view?.findViewById(R.id.deep_refresh_loading_layout) as FrameLayout
+    private fun getLoadingView(): FrameLayout? =
+            sut.view?.findViewById<FrameLayout>(R.id.deep_refresh_loading_layout)
 
     private fun getDialogText(alertDialog: AlertDialog, id: Int): String =
-            (alertDialog.findViewById(id) as TextView).text.toString()
+            (alertDialog.findViewById<TextView>(id))?.text.toString()
 
     @SuppressLint("ValidFragment")
     class TestableItinItemListFragment(val mockItinManager: ItineraryManager, val mockPageUsableTracking: ItinPageUsableTracking) : ItinItemListFragment() {

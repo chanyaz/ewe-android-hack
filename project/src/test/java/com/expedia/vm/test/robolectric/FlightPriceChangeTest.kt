@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
+import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
@@ -51,7 +52,7 @@ class FlightPriceChangeTest {
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
-        overview = activity.findViewById(R.id.flight_overview_presenter) as FlightOverviewPresenter
+        overview = activity.findViewById<View>(R.id.flight_overview_presenter) as FlightOverviewPresenter
         overview.viewModel.outboundSelectedAndTotalLegRank = Pair(0, 0)
         checkout = overview.getCheckoutPresenter()
         addFlightSearchParams()
@@ -79,8 +80,8 @@ class FlightPriceChangeTest {
         showPriceChangeAlertSubscriber.assertValue(true)
 
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val okButton = alertDialog.findViewById(android.R.id.button1) as Button
-        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        val okButton = alertDialog.findViewById<View>(android.R.id.button1) as Button
+        val errorMessage = alertDialog.findViewById<View>(android.R.id.message) as android.widget.TextView
         assertEquals(true, alertDialog.isShowing)
         assert(errorMessage.text.contains("The price of your trip has changed from $10.01 to $9.01. Rates can change frequently. Book now to lock in this price."))
         assertEquals("OK", okButton.text )

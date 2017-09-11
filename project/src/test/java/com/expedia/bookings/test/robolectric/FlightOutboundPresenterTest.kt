@@ -32,7 +32,7 @@ class FlightOutboundPresenterTest {
 
     @Test
     fun widgetVisibilityTest() {
-        val toolbar = flightOutboundPresenter.findViewById(R.id.flights_toolbar) as Toolbar
+        val toolbar = flightOutboundPresenter.findViewById<View>(R.id.flights_toolbar) as Toolbar
         assertEquals(toolbar.visibility, View.VISIBLE)
     }
 

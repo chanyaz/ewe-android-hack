@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
+import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
@@ -80,7 +81,7 @@ class FlightCheckoutPresenterTest {
         travelerPickerPassportSubscriber.assertValues(false, true)
 
         travelerPickerWidget.show()
-        ((travelerPickerWidget.findViewById(R.id.main_traveler_container) as LinearLayout)
+        ((travelerPickerWidget.findViewById<View>(R.id.main_traveler_container) as LinearLayout)
                 .getChildAt(0) as TravelerSelectItem)
                 .performClick()
         val selectedTraveler = travelerPickerWidget.viewModel.selectedTravelerSubject.value
@@ -179,7 +180,7 @@ class FlightCheckoutPresenterTest {
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_checkout_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
-        checkout = activity.findViewById(R.id.flight_checkout_presenter) as FlightCheckoutPresenter
+        checkout = activity.findViewById<View>(R.id.flight_checkout_presenter) as FlightCheckoutPresenter
     }
 
     private fun getPassportRequiredCreateTripResponse(passportRequired: Boolean): FlightCreateTripResponse? {

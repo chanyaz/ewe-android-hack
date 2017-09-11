@@ -50,7 +50,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
     fun testAssistancePreferenceForMaterialForms() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
-        val editBoxForDialog = widget.findViewById(R.id.edit_assistance_preference_button) as EditText
+        val editBoxForDialog = widget.findViewById<View>(R.id.edit_assistance_preference_button) as EditText
         widget.viewModel = setupViewModel()
         val assistancePreference = widget.viewModel.assistancePreferenceSubject.value
 
@@ -78,7 +78,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
     fun testSeatPreferenceForMaterialForms() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
-        val editBoxForDialog = widget.findViewById(R.id.edit_seat_preference_button) as EditText
+        val editBoxForDialog = widget.findViewById<View>(R.id.edit_seat_preference_button) as EditText
         widget.viewModel = setupViewModel()
         val seatPreference = widget.viewModel.seatPreferenceSubject.value
 
@@ -107,7 +107,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
     fun testContactAirlineMessageForMaterialForms() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
-        val contactAirlineMessage = widget.findViewById(R.id.contact_airline_text) as TextView
+        val contactAirlineMessage = widget.findViewById<View>(R.id.contact_airline_text) as TextView
         assertEquals(View.VISIBLE, contactAirlineMessage.visibility)
         assertEquals("Please contact airline to confirm requests", contactAirlineMessage.text)
     }

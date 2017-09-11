@@ -70,7 +70,7 @@ class FlightInboundPresenterTest {
 
     @Test
     fun widgetVisibilityTest() {
-        val toolbar = flightInboundPresenter.findViewById(R.id.flights_toolbar) as Toolbar
+        val toolbar = flightInboundPresenter.findViewById<View>(R.id.flights_toolbar) as Toolbar
         assertEquals(toolbar.visibility, View.VISIBLE)
     }
 
@@ -132,8 +132,8 @@ class FlightInboundPresenterTest {
 
     @Test
     fun testFilterCountObserver() {
-        val filterNoText = flightInboundPresenter.resultsPresenter.filterButton.findViewById(R.id.filter_number_text) as TextView
-        val filterIcon = flightInboundPresenter.resultsPresenter.filterButton.findViewById(R.id.filter_icon)
+        val filterNoText = flightInboundPresenter.resultsPresenter.filterButton.findViewById<View>(R.id.filter_number_text) as TextView
+        val filterIcon = flightInboundPresenter.resultsPresenter.filterButton.findViewById<View>(R.id.filter_icon)
         flightInboundPresenter.filterCountObserver.onNext(2)
 
         assertEquals("2", filterNoText.text)
@@ -196,7 +196,7 @@ class FlightInboundPresenterTest {
         val flightLeg = setupFlightLeg()
 
         flightInboundPresenter.overviewPresenter.urgencyMessagingText
-        val urgencyTextView = flightInboundPresenter.overviewPresenter.findViewById(R.id.flight_overview_urgency_messaging)
+        val urgencyTextView = flightInboundPresenter.overviewPresenter.findViewById<View>(R.id.flight_overview_urgency_messaging)
         flightInboundPresenter.overviewPresenter.vm.numberOfTravelers.onNext(1)
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 1
         flightLeg.flightSegments = ArrayList<FlightLeg.FlightSegment>()

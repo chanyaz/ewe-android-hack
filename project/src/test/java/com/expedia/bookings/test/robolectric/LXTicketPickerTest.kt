@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import com.expedia.bookings.R
@@ -36,10 +37,10 @@ class LXTicketPickerTest {
     @Test fun testTicketPicker() {
         picker.bind(buildTicket(), "", 1, false)
 
-        val ticketCount = picker.findViewById(R.id.ticket_count) as TextView
-        val ticketAdd = picker.findViewById(R.id.ticket_add) as ImageButton
-        val ticketRemove = picker.findViewById(R.id.ticket_remove) as ImageButton
-        val ticketDetails = picker.findViewById(R.id.ticket_details) as TextView
+        val ticketCount = picker.findViewById<View>(R.id.ticket_count) as TextView
+        val ticketAdd = picker.findViewById<View>(R.id.ticket_add) as ImageButton
+        val ticketRemove = picker.findViewById<View>(R.id.ticket_remove) as ImageButton
+        val ticketDetails = picker.findViewById<View>(R.id.ticket_details) as TextView
 
         assertNotNull(ticketCount)
         assertNotNull(ticketAdd)

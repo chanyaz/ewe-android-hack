@@ -60,7 +60,7 @@ class PhoneEntryViewTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val editBoxForDialog = widget.findViewById(R.id.material_edit_phone_number_country_code) as EditText
+        val editBoxForDialog = widget.findViewById<View>(R.id.material_edit_phone_number_country_code) as EditText
         widget.viewModel = setupViewModelWithPhone()
 
         assertWidgetIsCorrect(editBoxForDialog, testCodeString)
@@ -83,7 +83,7 @@ class PhoneEntryViewTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val editBoxForDialog = widget.findViewById(R.id.material_edit_phone_number_country_code) as EditText
+        val editBoxForDialog = widget.findViewById<View>(R.id.material_edit_phone_number_country_code) as EditText
         widget.viewModel = setupViewModelWithPhone()
         widget.viewModel.updatePhone(Phone())
 
@@ -96,7 +96,7 @@ class PhoneEntryViewTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val phoneNumberField = widget.findViewById(R.id.edit_phone_number) as TravelerEditText
+        val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
         newPhone.number = null
@@ -110,7 +110,7 @@ class PhoneEntryViewTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val phoneNumberField = widget.findViewById(R.id.edit_phone_number) as TravelerEditText
+        val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
 
@@ -141,7 +141,7 @@ class PhoneEntryViewTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val phoneNumberField = widget.findViewById(R.id.edit_phone_number) as TravelerEditText
+        val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
 
@@ -176,7 +176,7 @@ class PhoneEntryViewTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val phoneNumberField = widget.findViewById(R.id.edit_phone_number) as TravelerEditText
+        val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
 
@@ -207,7 +207,7 @@ class PhoneEntryViewTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val phoneNumberField = widget.findViewById(R.id.edit_phone_number) as TravelerEditText
+        val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
         val newPhone = Phone()
 
@@ -241,7 +241,7 @@ class PhoneEntryViewTest {
         PointOfSale.onPointOfSaleChanged(appContext)
 
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val phoneNumberField = widget.findViewById(R.id.edit_phone_number) as TravelerEditText
+        val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
 
         assertEquals("0987654321", phoneNumberField.text.toString())
@@ -251,7 +251,7 @@ class PhoneEntryViewTest {
     fun testPhoneNumberNotFormattedIfNotMaterial() {
 
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val phoneNumberField = widget.findViewById(R.id.edit_phone_number) as TravelerEditText
+        val phoneNumberField = widget.findViewById<View>(R.id.edit_phone_number) as TravelerEditText
         widget.viewModel = setupViewModelWithPhone()
 
         assertEquals("0987654321", phoneNumberField.text.toString())

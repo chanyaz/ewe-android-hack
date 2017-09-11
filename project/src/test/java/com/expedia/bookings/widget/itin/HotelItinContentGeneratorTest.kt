@@ -46,7 +46,7 @@ class HotelItinContentGeneratorTest {
         val container = FrameLayout(activity)
         val detailsView = hotelItinGenerator.getDetailsView(null, container)
 
-        val editRoomInfoButton = detailsView.findViewById(R.id.edit_hotel_room_info)
+        val editRoomInfoButton = detailsView.findViewById<View>(R.id.edit_hotel_room_info)
         editRoomInfoButton.performClick()
 
         val shadowActivity = shadowOf(activity)
@@ -81,7 +81,7 @@ class HotelItinContentGeneratorTest {
         val container = FrameLayout(activity)
         val detailsView = hotelItinGenerator.getDetailsView(null, container)
 
-        val roomUpgradeButton = detailsView.findViewById(R.id.room_upgrade_button)
+        val roomUpgradeButton = detailsView.findViewById<View>(R.id.room_upgrade_button)
         roomUpgradeButton.performClick()
 
         val shadowActivity = shadowOf(activity)
@@ -110,7 +110,7 @@ class HotelItinContentGeneratorTest {
         val container = FrameLayout(activity)
         val detailsView = hotelItinGenerator.getDetailsView(null, container)
 
-        assertEquals(View.VISIBLE, detailsView.findViewById(R.id.edit_hotel_room_info).visibility)
+        assertEquals(View.VISIBLE, detailsView.findViewById<View>(R.id.edit_hotel_room_info).visibility)
     }
 
     @Test
@@ -121,7 +121,7 @@ class HotelItinContentGeneratorTest {
         val container = FrameLayout(activity)
         val detailsView = hotelItinGenerator.getDetailsView(null, container)
 
-        assertEquals(View.GONE, detailsView.findViewById(R.id.edit_hotel_room_info).visibility)
+        assertEquals(View.GONE, detailsView.findViewById<View>(R.id.edit_hotel_room_info).visibility)
     }
 
     @Test
@@ -135,7 +135,7 @@ class HotelItinContentGeneratorTest {
         val container = FrameLayout(activity)
         val detailsView = hotelItinGenerator.getDetailsView(null, container)
 
-        assertEquals(View.VISIBLE, detailsView.findViewById(R.id.room_upgrade_button).visibility)
+        assertEquals(View.VISIBLE, detailsView.findViewById<View>(R.id.room_upgrade_button).visibility)
     }
 
     @Test
@@ -147,7 +147,7 @@ class HotelItinContentGeneratorTest {
         val container = FrameLayout(activity)
         val detailsView = hotelItinGenerator.getDetailsView(null, container)
 
-        assertEquals(View.GONE, detailsView.findViewById(R.id.room_upgrade_button).visibility)
+        assertEquals(View.GONE, detailsView.findViewById<View>(R.id.room_upgrade_button).visibility)
     }
 
     @Test
@@ -159,7 +159,7 @@ class HotelItinContentGeneratorTest {
         val container = FrameLayout(activity)
         val detailsView = hotelItinGenerator.getDetailsView(null, container)
 
-        assertEquals(View.GONE, detailsView.findViewById(R.id.room_upgrade_button).visibility)
+        assertEquals(View.GONE, detailsView.findViewById<View>(R.id.room_upgrade_button).visibility)
     }
 
     @Test

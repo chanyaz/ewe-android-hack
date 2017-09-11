@@ -67,7 +67,7 @@ class FlightTravelerEntryWidgetTest {
         givenMaterialForm(true)
         setupViewModel(0, true)
 
-        val editBoxForDialog = widget.findViewById(R.id.passport_country_btn) as EditText
+        val editBoxForDialog = widget.findViewById<View>(R.id.passport_country_btn) as EditText
         editBoxForDialog.performClick()
         val testAlert = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
         testAlert.clickOnItem(1)
@@ -357,7 +357,7 @@ class FlightTravelerEntryWidgetTest {
         setupViewModel(0, false)
         widget.resetStoredTravelerSelection()
 
-        val travelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById(R.id.select_traveler_button) as Button
+        val travelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<View>(R.id.select_traveler_button) as Button
         assertEquals(traveler.reversedFullName, travelerButton.text.toString())
     }
 
@@ -369,7 +369,7 @@ class FlightTravelerEntryWidgetTest {
         setupViewModel(0, false)
         widget.resetStoredTravelerSelection()
 
-        val travelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById(R.id.select_traveler_button) as Button
+        val travelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById<View>(R.id.select_traveler_button) as Button
         assertEquals(traveler.fullName, travelerButton.text.toString())
     }
 
@@ -408,7 +408,7 @@ class FlightTravelerEntryWidgetTest {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         }
 
-        val viewStub = activity.findViewById(R.id.traveler_presenter_stub) as ViewStub
+        val viewStub = activity.findViewById<View>(R.id.traveler_presenter_stub) as ViewStub
         travelerPresenter = viewStub.inflate() as FlightTravelersPresenter
         widget = travelerPresenter.travelerEntryWidget as FlightTravelerEntryWidget
         traveler = Traveler()

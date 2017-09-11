@@ -8,6 +8,7 @@ import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -55,7 +56,7 @@ class TSAEntryViewTest {
                     .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
 
             assertTrue(tsaEntryView.materialFormTestEnabled)
-            val textInputLayout = tsaEntryView.findViewById(R.id.edit_birth_date_text_layout_btn) as TextInputLayout
+            val textInputLayout = tsaEntryView.findViewById<View>(R.id.edit_birth_date_text_layout_btn)
             assertNotNull(textInputLayout)
 
         }
@@ -72,7 +73,7 @@ class TSAEntryViewTest {
 
             assertTrue(tsaEntryView.materialFormTestEnabled)
 
-            val genderEditText = tsaEntryView.findViewById(R.id.edit_gender_btn) as TravelerEditText
+            val genderEditText = tsaEntryView.findViewById<View>(R.id.edit_gender_btn) as TravelerEditText
             assertNotNull(genderEditText)
 
             val tsaVM = TravelerTSAViewModel(Traveler(), activityTestRule.activity)

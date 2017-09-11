@@ -36,9 +36,9 @@ class FlightSegmentBreakdownViewTest {
     fun testVisibiltyOfCollapseIcon() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
         sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true))
-        assertEquals(View.VISIBLE, sut.linearLayout.findViewById(R.id.flight_overview_collapse_icon).visibility)
+        assertEquals(View.VISIBLE, sut.linearLayout.findViewById<View>(R.id.flight_overview_collapse_icon).visibility)
         sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", false))
-        assertEquals(View.GONE, sut.linearLayout.findViewById(R.id.flight_overview_collapse_icon).visibility)
+        assertEquals(View.GONE, sut.linearLayout.findViewById<View>(R.id.flight_overview_collapse_icon).visibility)
     }
 
     @Test
@@ -92,7 +92,7 @@ class FlightSegmentBreakdownViewTest {
 
     private fun getTextViewForSeatClassAndBookingCode(seatClass: String): TextView {
         sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList(seatClass))
-        return sut.linearLayout.findViewById(R.id.flight_seat_class_booking_code) as TextView
+        return sut.linearLayout.findViewById<View>(R.id.flight_seat_class_booking_code) as TextView
     }
 
     private fun getFlightSegmentBreakdownList(seatClass: String, showCollapseIcon: Boolean = false): List<FlightSegmentBreakdown> {

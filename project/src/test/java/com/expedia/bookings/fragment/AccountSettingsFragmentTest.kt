@@ -191,7 +191,7 @@ class AccountSettingsFragmentTest {
         clickViewWithTextInSection("Open Source Software Licenses", R.id.section_legal)
         assertIntentFiredToViewOSSLicenses()
 
-        fragment.view?.findViewById(R.id.logo)?.performClick()
+        fragment.view?.findViewById<View>(R.id.logo)?.performClick()
         assertIntentFiredToViewUri(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(activity))
     }
 
@@ -205,20 +205,20 @@ class AccountSettingsFragmentTest {
                 .put("year", Calendar.getInstance().get(Calendar.YEAR))
                 .format()
                 .toString()
-        val copyrightView = fragment.view?.findViewById(R.id.copyright_info) as TextView
-        assertEquals(expected, copyrightView.text)
+        val copyrightView = fragment.view?.findViewById<TextView>(R.id.copyright_info)
+        assertEquals(expected, copyrightView?.text)
 
         expected = activity.getString(R.string.this_app_makes_use_of_the_following) + " " +
                 activity.getString(R.string.open_source_names)
-        val ossView = fragment.view?.findViewById(R.id.open_source_credits_textview) as TextView
-        assertEquals(expected, ossView.text)
+        val ossView = fragment.view?.findViewById<TextView>(R.id.open_source_credits_textview)
+        assertEquals(expected, ossView?.text)
     }
 
     @Test
     fun appSupportEmailUs() {
         val webViewActivity = Robolectric.buildActivity(AboutWebViewActivity::class.java).create().get()
         val webView = LayoutInflater.from(webViewActivity).inflate(R.layout.web_view_toolbar, null) as FrameLayout
-        val toolbarView = webView.findViewById(R.id.toolbar) as android.support.v7.widget.Toolbar
+        val toolbarView = webView.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
 
         assertFalse(toolbarView.isOverflowMenuShowing)
     }
@@ -246,10 +246,10 @@ class AccountSettingsFragmentTest {
         RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
         givenFragmentSetup()
         givenSignedInAsUser(getMiddleTierRewardsMember())
-        val pendingPoints = fragment.view?.findViewById(R.id.pending_points) as TextView
-        pendingPoints.performClick()
+        val pendingPoints = fragment.view?.findViewById<TextView>(R.id.pending_points)
+        pendingPoints?.performClick()
         val dialog = ShadowAlertDialog.getLatestAlertDialog()
-        val stringToTest = dialog.findViewById(R.id.packages_pp) as TextView
+        val stringToTest = dialog.findViewById<TextView>(R.id.packages_pp)
         assertEquals("Hotel + Flight", stringToTest.text.toString())
     }
 
@@ -259,10 +259,10 @@ class AccountSettingsFragmentTest {
         RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
         givenFragmentSetup()
         givenSignedInAsUser(getMiddleTierRewardsMember())
-        val pendingPoints = fragment.view?.findViewById(R.id.pending_points) as TextView
-        pendingPoints.performClick()
+        val pendingPoints = fragment.view?.findViewById<TextView>(R.id.pending_points)
+        pendingPoints?.performClick()
         val dialog = ShadowAlertDialog.getLatestAlertDialog()
-        val stringToTest = dialog.findViewById(R.id.packages_pp) as TextView
+        val stringToTest = dialog.findViewById<TextView>(R.id.packages_pp)
         assertEquals("Hotel + Flight Deals", stringToTest.text.toString())
     }
 
@@ -372,7 +372,7 @@ class AccountSettingsFragmentTest {
     }
 
     private fun clickViewWithTextInSection(expectedText: String, @IdRes sectionId: Int) {
-        val sectionView = fragment.view?.findViewById(sectionId) as ViewGroup
+        val sectionView = fragment.view?.findViewById<View>(sectionId) as ViewGroup
 
         clickChildViewWithText(expectedText, sectionView)
     }
@@ -395,29 +395,29 @@ class AccountSettingsFragmentTest {
 
     private fun assertTextIsDisplayedInTextView(expectedString: String, @IdRes viewId: Int) {
         assertViewIsEffectivelyVisibile(viewId)
-        assertEquals(expectedString, (fragment.view?.findViewById(viewId) as TextView).text)
+        assertEquals(expectedString, (fragment.view?.findViewById<TextView>(viewId))?.text)
     }
 
     private fun assertTextIsDisplayedInTextView(@StringRes expectedStringId: Int, @IdRes viewId: Int) {
-        assertEquals(fragment.view?.context?.getString(expectedStringId), (fragment.view?.findViewById(viewId) as TextView).text)
+        assertEquals(fragment.view?.context?.getString(expectedStringId), (fragment.view?.findViewById<TextView>(viewId))?.text)
     }
 
     private fun assertCountryViewDisplayed(expectedCountryCode: String, @DrawableRes expectedFlagResId: Int, @IdRes viewId: Int) {
         assertViewIsEffectivelyVisibile(viewId)
-        val countryView = fragment.view?.findViewById(viewId)
-        assertEquals(expectedCountryCode, (countryView?.findViewById(R.id.country) as TextView).text)
-        assertEquals(expectedFlagResId, Shadows.shadowOf(countryView?.findViewById(R.id.flagView) as ImageView).imageResourceId)
+        val countryView = fragment.view?.findViewById<View>(viewId)
+        assertEquals(expectedCountryCode, (countryView?.findViewById<TextView>(R.id.country))?.text)
+        assertEquals(expectedFlagResId, Shadows.shadowOf(countryView?.findViewById<ImageView>(R.id.flagView))?.imageResourceId)
     }
 
     private fun assertTermsLinkVisibility(visibility: Int) {
         val ROW_TERMS_AND_CONDITIONS = 5
         val termsFragment = Ui.findSupportFragment<AboutSectionFragment>(fragment, "TAG_LEGAL")
-        val termsAndConditionsView = termsFragment.view?.findViewWithTag(ROW_TERMS_AND_CONDITIONS)
+        val termsAndConditionsView = termsFragment.view?.findViewWithTag<View>(ROW_TERMS_AND_CONDITIONS)
         assertEquals(visibility, termsAndConditionsView?.visibility)
     }
 
     private fun assertViewIsEffectivelyGone(@IdRes viewId: Int) {
-        val view = fragment.view?.findViewById(viewId)
+        val view = fragment.view?.findViewById<View>(viewId)
         if (view != null && view.visibility != View.GONE) {
             var parent = view.parent
             while (parent != null && parent is View) {
@@ -431,7 +431,7 @@ class AccountSettingsFragmentTest {
     }
 
     private fun assertViewIsEffectivelyVisibile(@IdRes viewId: Int) {
-        val view = fragment.view?.findViewById(viewId)
+        val view = fragment.view?.findViewById<View>(viewId)
         assertEquals(View.VISIBLE, view?.visibility)
         var parent = view?.parent
         while (parent != null && parent is View) {

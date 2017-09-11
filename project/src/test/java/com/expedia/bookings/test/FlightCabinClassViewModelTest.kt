@@ -44,7 +44,7 @@ class FlightCabinClassViewModelTest {
         flightCabinClassWidget.performClick()
         val view = flightCabinClassWidget.flightCabinClassDialogView
 
-        val flightCabinClassPickerView = view.findViewById(R.id.flight_class_view) as FlightCabinClassPickerView
+        val flightCabinClassPickerView = view.findViewById<FlightCabinClassPickerView>(R.id.flight_class_view)
         flightCabinClassPickerView.businessClassRadioButton.performClick()
         flightCabinClassWidget.dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick()
 
