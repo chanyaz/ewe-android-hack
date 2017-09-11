@@ -111,10 +111,10 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
     }
 
     override fun setActionBarTitle(title: String?) {
-        viewModel.toolbarTitle.onNext(title)
+        viewModel.toolbarTitle.onNext(title ?: "")
     }
 
-    override fun onWidgetExpanded(cardView: ExpandableCardView?) {
+    override fun onWidgetExpanded(cardView: ExpandableCardView) {
         viewModel.expanded.onNext(cardView)
     }
 
@@ -127,7 +127,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
     }
 
     override fun setMenuLabel(title: String?) {
-        viewModel.menuTitle.onNext(title)
+        viewModel.menuTitle.onNext(title ?: "")
     }
 
     override fun showRightActionButton(enabled: Boolean) {
