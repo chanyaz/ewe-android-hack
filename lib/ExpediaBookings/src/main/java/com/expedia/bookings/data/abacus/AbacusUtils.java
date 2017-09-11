@@ -48,6 +48,7 @@ public class AbacusUtils {
 
 	// Rail tests
 	public static final int EBAndroidRailHybridAppForDEEnabled = 15102;
+	public static final int EBAndroidRailHybridAppForUKEnabled = 15413;
 
 	// Flight tests
 	public static final int EBAndroidAppOfferInsuranceInFlightSummary = 12268;
@@ -219,6 +220,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightSwitchFields);
 		testIDs.add(EBAndroidAppFlightTravelerFormRevamp);
 		testIDs.add(EBAndroidRailHybridAppForDEEnabled);
+		testIDs.add(EBAndroidRailHybridAppForUKEnabled);
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel);
 		testIDs.add(EBAndroidAppPackagesEnableJapanPOS);
 		testIDs.add(EBAndroidAppCarsAATest);

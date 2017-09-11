@@ -147,6 +147,12 @@ public class PointOfSale {
 	// Whether to show Rails WebView on this POS
 	private boolean mSupportsRailsWebView;
 
+	// URL infix for rail url ex - bahn,trains
+	private String mRailUrlInfix;
+
+	//AB Test ID for Rails Web View
+	private int mRailsWebViewABTestID;
+
 	// AB test ID for Cars Web View
 	private int mCarsWebViewABTestID;
 
@@ -716,6 +722,14 @@ public class PointOfSale {
 
 	public boolean supportsRailsWebView() {
 		return mSupportsRailsWebView;
+	}
+
+	public String getRailUrlInfix() {
+		return mRailUrlInfix;
+	}
+
+	public int getRailsWebViewABTestID() {
+		return mRailsWebViewABTestID;
 	}
 
 	public int getCarsWebViewABTestID() {
@@ -1364,7 +1378,9 @@ public class PointOfSale {
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
 		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
 		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
-		pos.mSupportsRailsWebView = data.optBoolean("railsWebViewEnabled", false);
+		pos.mSupportsRailsWebView = data.optBoolean("android.webViewEnabledForRails", false);
+		pos.mRailUrlInfix = data.optString("railsWebViewPageUrl","trains");
+		pos.mRailsWebViewABTestID = data.optInt("android.webViewABTestIDForRails");
 		pos.mCarsWebViewABTestID = data.optInt("carsWebViewABTestID");
 		pos.mSupportPropertyFee = data.optBoolean("propertyFeeEnabledInHotelCostSummary", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");

@@ -19,7 +19,6 @@ import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
@@ -151,13 +150,14 @@ public class NavUtils {
 		finishIfFlagged(context, expediaFlags);
 	}
 
-	public static void goToRail(Context context, Bundle animOptions, int expediaFlags) {
+ 	public static void goToRail(Context context, Bundle animOptions, int expediaFlags) {
 		sendKillActivityBroadcast(context);
 		RailWebViewTracking.trackAppRailWebViewABTest();
-		if (PointOfSale.getPointOfSale().supportsRailsWebView() && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidRailHybridAppForDEEnabled)) {
+		boolean isAbTestEnabled = Db.getAbacusResponse().isUserBucketedForTest(PointOfSale.getPointOfSale().getRailsWebViewABTestID());
+		if (PointOfSale.getPointOfSale().supportsRailsWebView() && isAbTestEnabled) {
 			RailWebViewActivity.IntentBuilder builder = new RailWebViewActivity.IntentBuilder(context);
 			EndpointProvider endpointProvider = Ui.getApplication(context).appComponent().endpointProvider();
-			builder.setUrl(endpointProvider.getRailWebViewEndpointUrlForDE());
+			builder.setUrl(endpointProvider.getRailWebViewEndpointUrl());
 			builder.setInjectExpediaCookies(true);
 			builder.setAllowMobileRedirects(true);
 			builder.setLoginEnabled(true);
