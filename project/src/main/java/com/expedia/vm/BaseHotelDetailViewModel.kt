@@ -105,7 +105,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val hotelRoomRateViewModelsObservable = BehaviorSubject.create<ArrayList<HotelRoomRateViewModel>>()
     val hotelRoomDetailViewModelsObservable = BehaviorSubject.create<ArrayList<HotelRoomDetailViewModel>>()
 
-    val hotelResortFeeObservable = BehaviorSubject.create<String>(null as String?)
+    val hotelResortFeeObservable = BehaviorSubject.create<String>("")
     val hotelResortFeeIncludedTextObservable = BehaviorSubject.create<String>()
     val hotelNameObservable = BehaviorSubject.create<String>()
     val hotelRatingObservable = BehaviorSubject.create<Float>()
@@ -392,8 +392,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             val includedNotIncludedStrId = if (rate.resortFeeInclusion) R.string.included_in_the_price else R.string.not_included_in_the_price
             hotelResortFeeIncludedTextObservable.onNext(context.resources.getString(includedNotIncludedStrId))
         } else {
-            hotelResortFeeObservable.onNext(null)
-            hotelResortFeeIncludedTextObservable.onNext(null)
+            hotelResortFeeObservable.onNext("")
+            hotelResortFeeIncludedTextObservable.onNext("")
         }
 
         showBookByPhoneObservable.onNext(shouldShowBookByPhone())

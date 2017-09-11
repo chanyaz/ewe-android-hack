@@ -241,7 +241,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun shouldShowResortView(): Boolean {
-        return viewmodel.hotelResortFeeObservable.value != null
+        return viewmodel.hotelResortFeeObservable.value.isNotEmpty()
                 && contentView.isRoomContainerInBounds((screenSize.y / 2).toFloat(), toolbarHeightOffset)
     }
 
