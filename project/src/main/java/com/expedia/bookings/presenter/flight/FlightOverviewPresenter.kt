@@ -309,8 +309,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     private fun showFareFamilyUnavailableAlertDialog(selectedClass: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(context.getString(R.string.flight_fare_family_upgrade_unavailable_error_title))
+        val errorString = if (Db.getFlightSearchParams().isRoundTrip()) {
+            R.string.flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE
+        } else {
+            R.string.flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE
+        }
         builder.setMessage(HtmlCompat.fromHtml(
-                Phrase.from(this, R.string.flight_fare_family_upgrade_unavailable_error_message_TEMPLATE)
+                Phrase.from(this, errorString)
                         .put("selected_upgrade", context.getString(FlightServiceClassType.getCabinCodeResourceId(selectedClass)))
                         .format().toString()))
         builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
