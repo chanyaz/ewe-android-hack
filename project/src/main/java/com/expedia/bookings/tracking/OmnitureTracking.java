@@ -614,10 +614,7 @@ public class OmnitureTracking {
 
 	public static void trackHotelV2SortBy(String type) {
 		String pageName = HOTELSV2_SORT + type;
-		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
-
-		ADMS_Measurement s = createTrackLinkEvent(pageName);
-		s.trackLink(null, "o", "Search Results Sort", null, null);
+		createAndtrackLinkEvent(pageName, "Search Results Sort");
 	}
 
 	public static void trackHotelV2PriceSlider() {
@@ -5147,6 +5144,7 @@ public class OmnitureTracking {
 		s.setProp(2, "Flight");
 		s.track();
 	}
+
 	public static void trackFlightSortBy(String sortedBy) {
 		createAndtrackLinkEvent(FLIGHTS_V2_SORTBY_TEMPLATE + sortedBy, "Search Results Sort");
 	}

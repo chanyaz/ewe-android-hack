@@ -37,9 +37,6 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
                 DisplaySort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
             }
             setFilteredHotelListAndRetainLoyaltyInformation(hotels)
-
-            val sortByString: String = Strings.capitalizeFirstLetter(sort.toString())
-            trackHotelSortBy(sortByString)
         }
 
         if (filteredResponse.hotelList != null && filteredResponse.hotelList.isNotEmpty()) {

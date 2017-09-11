@@ -223,16 +223,16 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         searchedLocationId = regionId
     }
 
+    fun trackHotelSortBy(sortBy: String) {
+        filterTracker.trackHotelSortBy(sortBy)
+    }
+
     open protected fun handleFiltering() {
         //nothing by default
     }
 
     protected fun defaultFilterOptions(): Boolean {
         return userFilterChoices.filterCount() == 0 && userFilterChoices.userSort == getDefaultSort()
-    }
-
-    protected fun trackHotelSortBy(sortBy: String) {
-        filterTracker.trackHotelSortBy(sortBy)
     }
 
     protected open fun getDefaultSort(): DisplaySort {

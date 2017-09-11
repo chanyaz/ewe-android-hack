@@ -20,6 +20,7 @@ import com.expedia.bookings.hotel.widget.HotelFilterVipView
 import com.expedia.bookings.hotel.widget.HotelNameFilterView
 import com.expedia.bookings.hotel.widget.HotelPriceFilterView
 import com.expedia.bookings.hotel.widget.HotelSortOptionsView
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
@@ -163,6 +164,9 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
         hotelSortOptionsView.sortSelectedSubject.subscribe { selectedSort ->
             vm.userFilterChoices.userSort = selectedSort
+
+            val sortByString = Strings.capitalizeFirstLetter(selectedSort.toString())
+            vm.trackHotelSortBy(sortByString)
         }
 
         hotelSortOptionsView.downEventSubject.subscribe {
