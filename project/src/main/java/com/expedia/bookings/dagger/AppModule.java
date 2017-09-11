@@ -19,6 +19,7 @@ import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.model.PointOfSaleStateModel;
+import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
 import com.expedia.bookings.services.AbacusServices;
@@ -311,5 +312,11 @@ public class AppModule {
 		return new SatelliteServices(endpointProvider.getSatelliteEndpointUrl(), client, interceptor,
 			satelliteInterceptor, hmacInterceptor,
 			AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	NotificationManager provideNotificationManager(Context context) {
+		return new NotificationManager(context);
 	}
 }

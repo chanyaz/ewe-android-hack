@@ -175,6 +175,7 @@ public class PushNotificationUtils {
 					else {
 						String uniqueId = sanitizeUniqueId(fhid + "_" + formattedMessage);
 
+						NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 						Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
 						notification.setItinId(itinId);
 						notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
@@ -203,7 +204,7 @@ public class PushNotificationUtils {
 						notification.setTicker(formattedMessage);
 
 						notification.save();
-						notification.scheduleNotification(context);
+						notificationManager.scheduleNotification(notification);
 					}
 				}
 			}
@@ -228,6 +229,7 @@ public class PushNotificationUtils {
 			String itinId = "";
 			long triggerTimeMillis = System.currentTimeMillis();
 
+			NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 			Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
 			notification.setItinId(itinId);
 			notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
@@ -240,7 +242,7 @@ public class PushNotificationUtils {
 			notification.setTicker(formattedMessage);
 
 			notification.save();
-			notification.scheduleNotification(context);
+			notificationManager.scheduleNotification(notification);
 		}
 	}
 

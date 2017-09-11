@@ -11,6 +11,7 @@ import com.expedia.bookings.fragment.AccountSettingsFragment;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
+import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
@@ -75,4 +76,6 @@ public interface AppComponent {
 	UserStateManager userStateManager();
 
 	SearchLobToolbarCache searchLobToolbarCache();
+
+	NotificationManager notificationManager();
 }

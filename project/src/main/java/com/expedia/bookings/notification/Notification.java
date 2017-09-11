@@ -1,29 +1,22 @@
 package com.expedia.bookings.notification;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlarmManager;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
 import com.expedia.bookings.R;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Table(name = "Notifications")
 public class Notification extends Model implements JSONable {
@@ -349,38 +342,6 @@ public class Notification extends Model implements JSONable {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// public methods
-
-	/**
-	 * Schedule this notification with the OS AlarmManager. Multiple calls to this method
-	 * will not result in multiple notifications, as long as the ItinId*NotificationType remains the same.
-	 *
-	 * @param context
-	 */
-	public void scheduleNotification(Context context) {
-		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, this);
-		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		mgr.set(AlarmManager.RTC_WAKEUP, mTriggerTimeMillis, pendingIntent);
-	}
-
-	/**
-	 * Cancel a previously scheduled notification with the OS AlarmManager.
-	 *
-	 * @param context
-	 */
-	public void cancelNotification(Context context) {
-		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, this);
-
-		// Cancel if in the future
-		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		mgr.cancel(pendingIntent);
-
-		// Dismiss a possibly displayed notification
-		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		nm.cancel(getUniqueId(), 0);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
 	@Override
@@ -446,126 +407,6 @@ public class Notification extends Model implements JSONable {
 		}
 
 		return notification;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Database type operations
-
-	/**
-	 * Returns a Notification, if found, from the table whose UniqueId*NotificationType matches the
-	 * data in the passed notification object.
-	 * @param notification
-	 * @return
-	 */
-	public static Notification findExisting(Notification notification) {
-		List<Notification> notifications = new Select().from(Notification.class)
-			.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
-			.limit("1").execute();
-		if (notifications == null || notifications.size() == 0) {
-			return null;
-		}
-		return notifications.get(0);
-	}
-
-	public static boolean hasExisting(Notification notification) {
-		return findExisting(notification) != null;
-	}
-
-	/**
-	* Dismiss notifications matching the UniqueId and NotificationType of the passed Notification
-	* object. There may be more than one row sharing the same UniqueId and NotificationType
-	* (even though that's not intended).
-	* @param notification
-	*/
-	public static void dismissExisting(Notification notification) {
-		List<Notification> notifications = new Select().from(Notification.class)
-			.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
-			.execute();
-		for (Notification n : notifications) {
-			n.setStatus(StatusType.DISMISSED);
-			n.save();
-		}
-
-		// TODO: this would be slightly more efficient, but doesn't seem to work. ActiveAndroid bug?
-		//new Update(Notification.class).set("Status=?", StatusType.DISMISSED.toString())
-		//		.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
-		//		.execute();
-	}
-
-	/**
-	 * Schedules all new or notified notifications.
-	 * @param context
-	 */
-	public static void scheduleAll(Context context) {
-		List<Notification> notifications = new Select()
-			.from(Notification.class)
-			.where("Status IN (?,?)",
-				StatusType.NEW.name(),
-				StatusType.NOTIFIED.name())
-			.orderBy("TriggerTimeMillis").execute();
-
-		for (Notification notification : notifications) {
-			notification.scheduleNotification(context);
-		}
-	}
-
-	/**
-	 * Cancels all new or notified notifications, and removes them
-	 * from the notification bar if they've already been notified.
-	 * @param context
-	 */
-	public static void cancelAllExpired(Context context) {
-		List<Notification> notifications = new Select()
-			.from(Notification.class)
-			.where("Status IN (?,?) AND ExpirationTimeMillis<?",
-				StatusType.NEW.name(),
-				StatusType.NOTIFIED.name(),
-				System.currentTimeMillis())
-			.execute();
-
-		// Set all to expired at once
-		ActiveAndroid.beginTransaction();
-		for (Notification notification : notifications) {
-			notification.setStatus(StatusType.EXPIRED);
-			notification.save();
-		}
-		ActiveAndroid.endTransaction();
-
-		// Cancel all newly expired notifications
-		for (Notification notification : notifications) {
-			notification.cancelNotification(context);
-		}
-	}
-
-	/**
-	 * Cancels and removes _all_ notifications from the database.
-	 * @param context
-	 */
-	public static void deleteAll(Context context) {
-		List<Notification> notifications = new Select().from(Notification.class).execute();
-
-		for (Notification notification : notifications) {
-			notification.cancelNotification(context);
-		}
-
-		// Delete all here instead of individually in the loop, for efficiency.
-		new Delete().from(Notification.class).execute();
-	}
-
-	/**
-	 * Cancels and deletes all notifications related to the passed itinId.
-	 * @param context
-	 * @param itinId
-	 */
-	public static void deleteAll(Context context, String itinId) {
-		List<Notification> notifications = new Select().from(Notification.class).where("ItinId=?", itinId).execute();
-
-		for (Notification notification : notifications) {
-			notification.cancelNotification(context);
-		}
-
-		// Delete all here instead of individually in the loop, for efficiency.
-		new Delete().from(Notification.class).where("ItinId=?", itinId).execute();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

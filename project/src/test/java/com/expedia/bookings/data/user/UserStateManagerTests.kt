@@ -1,12 +1,14 @@
 package com.expedia.bookings.data.user
 
 import android.accounts.AccountManager
+import android.content.Context
 import com.expedia.bookings.data.AirAttach
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.services.PersistentCookieManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -35,11 +37,15 @@ import kotlin.test.assertNull
 class UserStateManagerTests {
 
     val expediaUrl = HttpUrl.Builder().scheme("https").host("www.expedia.com").build()
-    private lateinit var userStateManager: UserStateManager
+
+    lateinit private var notificationManager: NotificationManager
+    lateinit private var userStateManager: UserStateManager
 
     @Before
     fun setup() {
-        userStateManager = UserStateManager(RuntimeEnvironment.application, UserLoginStateChangedModel())
+        val context: Context = RuntimeEnvironment.application
+        notificationManager = NotificationManager(context)
+        userStateManager = UserStateManager(context, UserLoginStateChangedModel(), notificationManager)
     }
 
     @Test

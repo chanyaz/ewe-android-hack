@@ -11,13 +11,12 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.notification.Notification
+import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.server.ExpediaServices
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.model.UserLoginStateChangedModel
 
-class UserStateManager(private val context: Context, private val userLoginStateChangedModel: UserLoginStateChangedModel) {
+class UserStateManager(private val context: Context, private val userLoginStateChangedModel: UserLoginStateChangedModel, private val notificationManager: NotificationManager) {
     private val SAVED_INFO_FILENAME = "user.dat"
 
     fun signOutPreservingCookies() {
@@ -156,8 +155,8 @@ class UserStateManager(private val context: Context, private val userLoginStateC
             ItineraryManager.getInstance().clear()
             logger.addSplit("ItineraryManager.getInstance().clear();")
 
-            Notification.deleteAll(context)
-            logger.addSplit("Notification.deleteAll(context);")
+            notificationManager.deleteAll()
+            logger.addSplit("notificationManager.deleteAll();")
         }
 
         Db.getWorkingBillingInfoManager()?.clearWorkingBillingInfo()

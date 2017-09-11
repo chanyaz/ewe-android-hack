@@ -3,12 +3,12 @@ package com.expedia.vm.test.robolectric
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.itin.ItinPageUsableTracking
+import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.itin.ItinSignInViewModel
@@ -27,6 +27,7 @@ class ItinSignInViewModelTest {
     lateinit private var sut: ItinSignInViewModel
     lateinit private var testItinSignInViewModel: TestItinSignInViewModel
     lateinit private var mockItinPageUsablePerformanceModel: ItinPageUsableTracking
+    lateinit private var notificationManager: NotificationManager
 
     val statusTextTestSubscriber = TestSubscriber<String>()
     val buttonTextTestSubscriber = TestSubscriber<String>()
@@ -38,6 +39,7 @@ class ItinSignInViewModelTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         Ui.getApplication(activity).defaultTripComponents()
         sut = ItinSignInViewModel(activity)
+        notificationManager = NotificationManager(activity)
     }
 
     @Test
@@ -126,7 +128,7 @@ class ItinSignInViewModelTest {
 
     private fun givenCustomerNotAuthenticated() {
         try {
-            UserStateManager(activity, UserLoginStateChangedModel()).signOut()
+            UserStateManager(activity, UserLoginStateChangedModel(), notificationManager).signOut()
         } catch (e: Exception) {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.

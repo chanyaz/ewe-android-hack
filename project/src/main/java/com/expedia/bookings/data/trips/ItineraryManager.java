@@ -45,6 +45,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
@@ -103,6 +104,7 @@ public class ItineraryManager implements JSONable {
 	// Should be initialized from the Application so that this does not leak a component
 	private Context mContext;
 	private UserStateManager userStateManager;
+	private NotificationManager notificationManager;
 
 	// Don't try refreshing too often
 	private long mLastUpdateTime;
@@ -340,7 +342,7 @@ public class ItineraryManager implements JSONable {
 			onTripRemoved(trip);
 		}
 
-		Notification.deleteAll(mContext);
+		notificationManager.deleteAll();
 
 		mTrips.clear();
 
@@ -368,6 +370,7 @@ public class ItineraryManager implements JSONable {
 
 		mContext = context;
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 
 		loadStartAndEndTimes();
 
@@ -1892,7 +1895,7 @@ public class ItineraryManager implements JSONable {
 	// Local Notifications
 
 	private void deleteScheduledNotifications() {
-		Notification.deleteAll(mContext);
+		notificationManager.deleteAll();
 	}
 
 	private void scheduleLocalNotifications() {
@@ -1912,7 +1915,7 @@ public class ItineraryManager implements JSONable {
 
 				for (Notification notification : notifications) {
 					// If we already have this notification, don't notify again.
-					Notification existing = Notification.findExisting(notification);
+					Notification existing = notificationManager.findExisting(notification);
 					if (existing != null) {
 						// These things could possibly change on a new build.
 						existing.setItinId(notification.getItinId());
@@ -1947,8 +1950,8 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 
-		Notification.scheduleAll(mContext);
-		Notification.cancelAllExpired(mContext);
+		notificationManager.scheduleAll();
+		notificationManager.cancelAllExpired();
 	}
 
 	private void deletePendingNotification(Trip trip) {
@@ -1958,7 +1961,7 @@ public class ItineraryManager implements JSONable {
 		}
 		for (TripComponent tc : components) {
 			String itinId = tc.getUniqueId();
-			Notification.deleteAll(mContext, itinId);
+			notificationManager.deleteAll(itinId);
 		}
 	}
 

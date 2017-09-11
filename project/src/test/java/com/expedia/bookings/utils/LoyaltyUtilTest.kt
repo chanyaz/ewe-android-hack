@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -23,6 +24,12 @@ import org.robolectric.annotation.Config
 class LoyaltyUtilTest {
     val context = RuntimeEnvironment.application
     private lateinit var userStateManager: UserStateManager
+    private lateinit var notificationManager: NotificationManager
+
+    @Before
+    fun setup() {
+        notificationManager = NotificationManager(context)
+    }
 
     @Test
     fun testSWPDisabledNotSignedIn() {
@@ -61,7 +68,7 @@ class LoyaltyUtilTest {
     }
 
     private fun givenUserIsNotSignedIn() {
-        userStateManager = UserStateManager(context, UserLoginStateChangedModel())
+        userStateManager = UserStateManager(context, UserLoginStateChangedModel(), notificationManager)
     }
 
     private fun givenUserIsSignedInAndAllowedToSWP() {
@@ -78,6 +85,6 @@ class LoyaltyUtilTest {
         val user = UserLoginTestUtil.mockUser()
         user.setLoyaltyMembershipInformation(loyaltyInfo)
         UserLoginTestUtil.setupUserAndMockLogin(user)
-        userStateManager = UserStateManager(context, UserLoginStateChangedModel())
+        userStateManager = UserStateManager(context, UserLoginStateChangedModel(), notificationManager)
     }
 }

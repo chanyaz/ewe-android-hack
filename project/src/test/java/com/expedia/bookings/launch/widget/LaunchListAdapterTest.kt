@@ -17,6 +17,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
+import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -44,6 +45,7 @@ import kotlin.test.assertTrue
 class LaunchListAdapterTest {
 
     lateinit private var sut: TestLaunchListAdapter
+    lateinit private var notificationManager: NotificationManager
 
     lateinit private var context: Context
     lateinit private var parentView: ViewGroup
@@ -56,6 +58,7 @@ class LaunchListAdapterTest {
         context = Robolectric.buildActivity(NewPhoneLaunchActivity::class.java).create().get()
         headerView = LayoutInflater.from(context).inflate(R.layout.snippet_launch_list_header, null)
         parentView = FrameLayout(context)
+        notificationManager = NotificationManager(context)
         givenCustomerSignedOut()
     }
 
@@ -603,7 +606,7 @@ class LaunchListAdapterTest {
 
     private fun givenCustomerSignedOut() {
         try {
-            UserStateManager(context, UserLoginStateChangedModel()).signOut()
+            UserStateManager(context, UserLoginStateChangedModel(), notificationManager).signOut()
         } catch (e: Exception) {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.

@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils
 
+import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
@@ -7,6 +8,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
+import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -27,9 +29,10 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class TravelerManagerTest {
-    val travelerManager = TravelerManager(UserStateManager(RuntimeEnvironment.application, UserLoginStateChangedModel()))
-    val mockTravelerProvider = MockTravelerProvider()
-
+    val context: Context = RuntimeEnvironment.application
+    private val notificationManager: NotificationManager = NotificationManager(context)
+    private val travelerManager = TravelerManager(UserStateManager(context, UserLoginStateChangedModel(), notificationManager))
+    private val mockTravelerProvider = MockTravelerProvider()
 
     @Test
     fun testGetChildPassengerCategoryInfant() {

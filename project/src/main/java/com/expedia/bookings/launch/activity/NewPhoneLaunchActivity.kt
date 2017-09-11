@@ -39,6 +39,7 @@ import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.launch.widget.ProWizardLaunchTabView
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
+import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
@@ -80,6 +81,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         @Inject set
 
     lateinit var userStateManager: UserStateManager
+        @Inject set
+
+    lateinit var notificationManager: NotificationManager
         @Inject set
 
     var jumpToItinId: String? = null
@@ -288,7 +292,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         val jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION)
         val notification = Notification.getInstanceFromJsonString(jsonNotification)
 
-        if (!Notification.hasExisting(notification)) {
+        if (!notificationManager.hasExisting(notification)) {
             return
         }
 
@@ -297,7 +301,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         // There's no need to dismiss with the notification manager, since it was set to
         // auto dismiss when clicked.
-        Notification.dismissExisting(notification)
+        notificationManager.dismissExisting(notification)
     }
 
     private val pageChangeListener = object : TabLayout.OnTabSelectedListener {

@@ -41,6 +41,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.Log;
@@ -85,12 +86,13 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(final Context context, Intent intent) {
+		com.expedia.bookings.notification.NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 		Notification notification = null;
 		try {
 			Notification deserialized = makeNotification();
 			String jsonString = intent.getStringExtra(EXTRA_NOTIFICATION);
 			deserialized.fromJson(new JSONObject(jsonString));
-			notification = findExistingNotification(deserialized);
+			notification = findExistingNotification(notificationManager, deserialized);
 		}
 		catch (JSONException e) {
 			Log.w("JSONException, unable to create notification. Ignoring", e);
@@ -108,7 +110,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			notification.save();
 
 			// Just in case it's still showing up
-			notification.cancelNotification(context);
+			notificationManager.cancelNotification(notification);
 			return;
 		}
 
@@ -120,7 +122,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			notification.save();
 
 			// Just in case it's still showing up
-			notification.cancelNotification(context);
+			notificationManager.cancelNotification(notification);
 			return;
 		}
 
@@ -142,8 +144,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 		return new Notification();
 	}
 
-	protected Notification findExistingNotification(Notification deserialized) {
-		return Notification.findExisting(deserialized);
+	protected Notification findExistingNotification(com.expedia.bookings.notification.NotificationManager notificationManager, Notification deserialized) {
+		return notificationManager.findExisting(deserialized);
 	}
 
 	@VisibleForTesting
@@ -179,11 +181,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 			@Override
 			public void onSyncFinished(Collection<Trip> trips) {
 				// Show notification only if trip exists
+				com.expedia.bookings.notification.NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 
 				itineraryManager.removeSyncListener(this);
 				boolean validTripForScheduledNotification = isValidTripForScheduledNotification(trips);
 				if (!validTripForScheduledNotification) {
-					finalNotification.cancelNotification(context);
+					notificationManager.cancelNotification(finalNotification);
 				}
 				else {
 					showNotification(finalNotification, context);

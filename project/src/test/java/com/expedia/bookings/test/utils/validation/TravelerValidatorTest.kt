@@ -7,6 +7,7 @@ import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
+import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -36,11 +37,10 @@ class TravelerValidatorTest {
     val TOMORROW = LocalDate.now().plusDays(1)
     val TODAY = LocalDate.now()
 
-    val travelerValidator = TravelerValidator(UserStateManager(RuntimeEnvironment.application, UserLoginStateChangedModel()))
+    private val notificationManager: NotificationManager = NotificationManager(getContext())
+    val travelerValidator = TravelerValidator(UserStateManager(getContext(),  UserLoginStateChangedModel(), notificationManager))
 
-    private fun getContext(): Context {
-        return RuntimeEnvironment.application
-    }
+    private fun getContext(): Context = RuntimeEnvironment.application
 
     @Test
     fun testInvalidChar() {

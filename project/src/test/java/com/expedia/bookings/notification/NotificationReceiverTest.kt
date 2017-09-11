@@ -208,7 +208,7 @@ class NotificationReceiverTest {
             return mockItineraryManager
         }
 
-        override fun findExistingNotification(deserialized: Notification): Notification {
+        override fun findExistingNotification(notificationManager: com.expedia.bookings.notification.NotificationManager, deserialized: Notification): Notification {
             return ourNotification ?: Notification()
         }
 
