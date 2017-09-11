@@ -31,7 +31,6 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 public class LXBaseActivity extends AbstractAppCompatActivity {
 
@@ -42,7 +41,6 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 	MapView detailsMapView;
 
 	private LXCurrentLocationSuggestionObserver currentLocationSuggestionObserver;
-	private Disposable currentLocationSuggestionSubscription;
 
 	public static final String EXTRA_IS_GROUND_TRANSPORT = "IS_GROUND_TRANSPORT";
 	private boolean isGroundTransport;
@@ -94,8 +92,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 			Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();
 		currentLocationSuggestionObserver = new LXCurrentLocationSuggestionObserver(this, currentLocationSearchParams,
 			isGroundTransport);
-		currentLocationSuggestionSubscription =
-			currentLocationSuggestionObservable.subscribe(currentLocationSuggestionObserver);
+		currentLocationSuggestionObservable.subscribe(currentLocationSuggestionObserver);
 	}
 
 	private void handleNavigationViaDeepLink() {
@@ -214,8 +211,8 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if (currentLocationSuggestionSubscription != null) {
-			currentLocationSuggestionSubscription.dispose();
+		if (currentLocationSuggestionObserver.disposable != null) {
+			currentLocationSuggestionObserver.disposable.dispose();
 		}
 	}
 

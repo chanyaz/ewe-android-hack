@@ -40,6 +40,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 public class LXSortFilterWidget extends LinearLayout {
 
@@ -144,6 +146,11 @@ public class LXSortFilterWidget extends LinearLayout {
 
 		@Override
 		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
+
 		}
 
 		@Override

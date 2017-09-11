@@ -50,7 +50,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import io.reactivex.Scheduler
-import rx.android.schedulers.AndroidSchedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
 import com.expedia.bookings.services.TestObserver
 import io.reactivex.schedulers.Schedulers
 import java.io.File

@@ -14,12 +14,15 @@ import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 
 import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV4> {
 
 	private Context context;
 	private LxSearchParams currentLocationSearchParams = null;
 	private boolean isGroundTransport;
+	public Disposable disposable;
 
 	public LXCurrentLocationSuggestionObserver(Context context, LxSearchParams currentLocationSearchParams,
 		boolean isGroundTransport) {
@@ -40,6 +43,11 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 		else {
 			LXNavUtils.handleLXSearchFailure(e, SearchType.DEFAULT_SEARCH, isGroundTransport);
 		}
+	}
+
+	@Override
+	public void onSubscribe(@NonNull Disposable disposable) {
+		this.disposable = disposable;
 	}
 
 	@Override

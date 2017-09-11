@@ -8,7 +8,7 @@ import dagger.Provides;
 import dagger.Reusable;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 @Module

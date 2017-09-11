@@ -42,6 +42,7 @@ import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
@@ -197,6 +198,11 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 			else {
 				Events.post(new Events.LXError(null));
 			}
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
+			// ignore
 		}
 
 		@Override

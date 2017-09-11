@@ -1,5 +1,7 @@
 package com.expedia.bookings.presenter.lx;
 
+import javax.inject.Inject;
+
 import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.DecelerateInterpolator;
-import butterknife.InjectView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.LXState;
@@ -22,8 +24,8 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.AccessibilityUtil;
+import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.LXConfirmationWidget;
@@ -31,8 +33,11 @@ import com.expedia.bookings.widget.LoadingOverlayWidget;
 import com.expedia.vm.LXMapViewModel;
 import com.google.android.gms.maps.MapView;
 import com.squareup.otto.Subscribe;
-import javax.inject.Inject;
+
+import butterknife.InjectView;
 import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 public class LXPresenter extends Presenter {
 
@@ -131,6 +136,10 @@ public class LXPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
 		}
 
 		@Override

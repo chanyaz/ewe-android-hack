@@ -45,6 +45,8 @@ import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import kotlin.Unit;
 import io.reactivex.Observer;
 
@@ -162,6 +164,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 
 			@Override
+			public void onSubscribe(@NonNull Disposable d) {
+
+			}
+
+			@Override
 			public void onNext(Unit unit) {
 				if (currentExpandedCard != null) {
 					currentExpandedCard.onMenuButtonPressed();
@@ -253,6 +260,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 
 			@Override
+			public void onSubscribe(@NonNull Disposable d) {
+
+			}
+
+			@Override
 			public void onNext(Unit unit) {
 				if (getLineOfBusiness() == LineOfBusiness.HOTELS && listenToScroll) {
 					scrollToEnterDetails();
@@ -268,6 +280,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			@Override
 			public void onError(Throwable e) {
+			}
+
+			@Override
+			public void onSubscribe(@NonNull Disposable d) {
+
 			}
 
 			@Override
@@ -288,6 +305,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			@Override
 			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onSubscribe(@NonNull Disposable d) {
 
 			}
 
@@ -442,6 +464,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 					@Override
 					public void onError(Throwable e) {
+					}
+
+					@Override
+					public void onSubscribe(@NonNull Disposable d) {
+
 					}
 
 					@Override
@@ -863,6 +890,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		@Override
 		public void onError(Throwable e) {
+
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
 
 		}
 

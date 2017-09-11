@@ -59,6 +59,7 @@ import com.mobiata.android.SocialUtils;
 import com.squareup.phrase.Phrase;
 
 import io.reactivex.Observer;
+import io.reactivex.observers.DisposableObserver;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 
@@ -93,7 +94,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		data.getProperty().addMedia(placeholder);
 	}
 
-	private Observer<HotelOffersResponse> observer = new Observer<HotelOffersResponse>() {
+	private Observer<HotelOffersResponse> observer = new DisposableObserver<HotelOffersResponse>() {
 
 		@Override
 		public void onComplete() {

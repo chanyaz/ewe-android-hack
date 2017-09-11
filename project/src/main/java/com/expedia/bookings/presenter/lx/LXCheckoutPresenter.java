@@ -36,6 +36,7 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 public class LXCheckoutPresenter extends Presenter {
@@ -133,6 +134,11 @@ public class LXCheckoutPresenter extends Presenter {
 			else {
 				showErrorScreen(null);
 			}
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
+			// ignore
 		}
 
 		@Override

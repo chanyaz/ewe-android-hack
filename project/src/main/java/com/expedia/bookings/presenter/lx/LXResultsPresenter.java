@@ -55,7 +55,9 @@ import com.squareup.otto.Subscribe;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class LXResultsPresenter extends Presenter {
 
@@ -245,7 +247,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 	}
 
-	private Observer<LXTheme> lxThemeSearchObserver = new Observer<LXTheme>() {
+	private Observer<LXTheme> lxThemeSearchObserver = new DisposableObserver<LXTheme>() {
 		@Override
 		public void onComplete() {
 			//ignore
@@ -330,6 +332,11 @@ public class LXResultsPresenter extends Presenter {
 		}
 
 		@Override
+		public void onSubscribe(@NonNull Disposable d) {
+
+		}
+
+		@Override
 		public void onNext(LXSearchResponse lxSearchResponse) {
 			searchResponse = lxSearchResponse;
 			// Search Results Omniture Tracking on load of search screen.
@@ -387,6 +394,11 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void onError(Throwable e) {
+			// ignore
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
 			// ignore
 		}
 

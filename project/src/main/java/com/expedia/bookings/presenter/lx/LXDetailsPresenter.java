@@ -39,6 +39,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
 import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import kotlin.Unit;
 import io.reactivex.disposables.Disposable;
@@ -156,6 +157,11 @@ public class LXDetailsPresenter extends Presenter {
 				//Bucket all other errors as Activity Details Fetch Error
 				showActivityFetchErrorDialog(R.string.lx_error_details);
 			}
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
+			// ignore
 		}
 
 		@Override

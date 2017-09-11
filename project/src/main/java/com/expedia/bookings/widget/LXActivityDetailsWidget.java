@@ -49,6 +49,8 @@ import com.squareup.phrase.Phrase;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import kotlin.Unit;
 import io.reactivex.Observer;
 import io.reactivex.subjects.PublishSubject;
@@ -473,6 +475,11 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 		@Override
 		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onSubscribe(@NonNull Disposable d) {
+			// ignore
 		}
 
 		@Override
