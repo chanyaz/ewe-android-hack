@@ -6,6 +6,7 @@ import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
+import android.view.ViewTreeObserver
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -17,6 +18,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.ScrollView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.util.notNullAndObservable
@@ -35,7 +37,9 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
     val fareFamilyTripLocation: TextView by bindView(R.id.fare_family_location)
     val fareFamilyTripAirlines: TextView by bindView(R.id.fare_family_airlines)
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.upsell_total_price_widget)
+    val scrollViewContainer: ScrollView by bindView(R.id.fareFamilyDetailContainer)
     val inflater = LayoutInflater.from(context)
+    var selectedFareFamilyIndex = 0
 
     val doneButton: Button by lazy {
         val button = inflater.inflate(R.layout.toolbar_checkmark_item, null) as Button
@@ -65,15 +69,25 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
             }
         }).subscribe { fareDetailsAndSelectedFareFamily ->
             fareFamilyRadioGroup.removeAllViews()
-            fareDetailsAndSelectedFareFamily.fareDetails.forEach {
-                val defaultChecked = fareDetailsAndSelectedFareFamily.selectedFareFamily.fareFamilyCode == it.fareFamilyCode
-                val fareFamilyItemViewModel = FareFamilyItemViewModel(context, it, defaultChecked, vm.roundTripObservable)
+            fareDetailsAndSelectedFareFamily.fareDetails.forEachIndexed { index, fareFamilyDetails ->
+                val defaultChecked = fareDetailsAndSelectedFareFamily.selectedFareFamily.fareFamilyCode == fareFamilyDetails.fareFamilyCode
+                val fareFamilyItemViewModel = FareFamilyItemViewModel(context, fareFamilyDetails, defaultChecked, vm.roundTripObservable)
                 fareFamilyItemViewModel.choosingFareFamilyObservable.subscribe(vm.choosingFareFamilyObservable)
 
                 val fareFamilyItem = inflater.inflate(R.layout.flight_fare_family_item_layout, fareFamilyRadioGroup, false) as FareFamilyItemWidget
                 fareFamilyItem.bindViewModel(fareFamilyItemViewModel)
                 fareFamilyRadioGroup.addView(fareFamilyItem)
+                if (defaultChecked) {
+                    selectedFareFamilyIndex = index
+                }
             }
+            fareFamilyRadioGroup.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    fareFamilyRadioGroup.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    val yCoordinate = fareFamilyRadioGroup.getChildAt(selectedFareFamilyIndex).y
+                    scrollViewContainer.smoothScrollTo(0, yCoordinate.toInt())
+                }
+            })
 
         }
         vm.choosingFareFamilyObservable.subscribe { fareFamilyDetails ->

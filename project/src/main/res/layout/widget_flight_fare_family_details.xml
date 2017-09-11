@@ -17,6 +17,38 @@
         app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
+    <LinearLayout
+        android:id="@+id/fare_family_location_airline_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingBottom="5dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/fare_family_location"
+            style="@style/Core.Text.Default.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/fare_family_airlines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/toolbar_dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_dropshadow_height"
+        android:background="@drawable/tb_shadow" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,39 +57,15 @@
             android:id="@+id/fareFamilyDetailContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:paddingLeft="16dp">
 
-            <LinearLayout
-                android:id="@+id/fare_family_location_airline_container"
+            <RadioGroup
+                android:id="@+id/flight_fare_family_radio_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:orientation="vertical"
-                android:paddingLeft="16dp">
+                android:layout_marginTop="15dp"
+                android:orientation="vertical" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/fare_family_location"
-                    style="@style/Core.Text.Default.Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"/>
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/fare_family_airlines"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:textSize="12sp" />
-
-                <RadioGroup
-                    android:id="@+id/flight_fare_family_radio_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="27dp"
-                    android:orientation="vertical" />
-
-            </LinearLayout>
         </com.expedia.bookings.widget.ScrollView>
 
         <LinearLayout
