@@ -885,11 +885,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private val hotelDetailsListener: Observer<HotelDetailsRequestMetadata> = endlessObserver {
-        if (it.isOffersRequest) {
-            loadingOverlay.animate(false)
-        }
-
         if (it.hotelOffersResponse.hasErrors() && it.hotelOffersResponse.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE && it.isOffersRequest) {
+            loadingOverlay.animate(false)
             //Just show the Hotel Details Screen in "Sold Out" state, fields being fetched from "/info/" API
             showDetails(it.hotelId, false)
         } else if (!it.hotelOffersResponse.hasErrors()) {
@@ -903,6 +900,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
             detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(it.hotelOffersResponse)
             detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(it.hotelOffersResponse)
+            if (it.isOffersRequest) {
+                loadingOverlay.animate(false)
+            }
             show(detailPresenter)
             detailPresenter.showDefault()
         }
