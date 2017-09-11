@@ -31,6 +31,10 @@
     <string name="tune_sdk_app_advertiser_id">159126</string>
     <string name="tune_sdk_app_conversion_key">3670b78dab0046d263b4fb15329d5129</string>
 
+    <!--Carnival SDK Key-->
+    <!--<string name="carnival_sdk_key">d8f3ab6e39c645b0bd2fbb192e6158e6042233c0</string>-->
+    <string name="carnival_sdk_debug_key">813a3ca4a2bdd97c7a3fd967417d37e006d96dec</string>
+
     <!-- MapsV2 -->
     <!-- Maps v2 key configured to work with many application package names -->
     <string name="mapsv2_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
@@ -126,6 +130,7 @@
     <string name="preference_display_eligible_cards_on_payment_form">preference_display_eligible_cards_on_payment_form</string>
     <string name="preference_flight_search_from_cache">preference_flight_search_from_cache</string>
     <string name="preference_packages_search_airport_dropdown">preference_packages_search_airport_dropdown</string>
+    <string name="preference_new_carnival_notifications">preference_new_carnival_notifications</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

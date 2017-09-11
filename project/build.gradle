@@ -22,6 +22,7 @@ repositories {
             secretKey AWS_SECRET_KEY
         }
     }
+    maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
 }
 
 dependencies {
@@ -77,6 +78,13 @@ dependencies {
     compile "io.reactivex:rxjava:${rxjava_version}"
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.16.1'
+    compile("com.carnival.sdk:carnival:4.1.2") {
+        exclude group: 'com.android.support'
+        exclude group: 'com.google.android.gms'
+        exclude group: 'com.squareup.okhttp3'
+        exclude group: 'com.squareup.okio'
+        exclude group: 'com.intellij'
+    }
     compile "com.google.firebase:firebase-core:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.firebase:firebase-invites:${rootProject.ext.googlePlayServicesVersion}"
 
