@@ -5,12 +5,13 @@ import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
-import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.rail.util.RailUtils
 import com.expedia.bookings.rail.widget.RailLegOptionViewModel
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
+import com.expedia.util.Optional
 import com.mobiata.flightlib.utils.DateTimeUtils
 import org.joda.time.DateTime
 import org.junit.Test
@@ -83,8 +84,8 @@ class RailLegOptionViewModelTest {
         val testSub = TestSubscriber<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
-        testViewModel.cheapestLegPriceObservable.onNext(null)
-        testViewModel.offerSubject.onNext(null)
+        testViewModel.cheapestLegPriceObservable.onNext(Optional(null))
+        testViewModel.offerSubject.onNext(Optional(null))
 
         assertEquals(testFormattedPrice, testSub.onNextEvents[0])
     }
@@ -98,8 +99,8 @@ class RailLegOptionViewModelTest {
         val testSub = TestSubscriber<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
-        testViewModel.cheapestLegPriceObservable.onNext(Money("10", "USD"))
-        testViewModel.offerSubject.onNext(null)
+        testViewModel.cheapestLegPriceObservable.onNext(Optional(Money("10", "USD")))
+        testViewModel.offerSubject.onNext(Optional(null))
 
         assertEquals(testRoundTripOutboundFormattedPrice, testSub.onNextEvents[0])
     }
@@ -113,8 +114,8 @@ class RailLegOptionViewModelTest {
         val testSub = TestSubscriber<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
-        testViewModel.cheapestLegPriceObservable.onNext(Money("5", "USD"))
-        testViewModel.offerSubject.onNext(getRailOffer(false))
+        testViewModel.cheapestLegPriceObservable.onNext(Optional(Money("5", "USD")))
+        testViewModel.offerSubject.onNext(Optional(getRailOffer(false)))
 
         assertEquals(testRoundTripInboundFormattedPrice, testSub.onNextEvents[0])
     }
@@ -128,8 +129,8 @@ class RailLegOptionViewModelTest {
         val testSub = TestSubscriber<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
-        testViewModel.cheapestLegPriceObservable.onNext(Money("5", "USD"))
-        testViewModel.offerSubject.onNext(getRailOffer(true))
+        testViewModel.cheapestLegPriceObservable.onNext(Optional(Money("5", "USD")))
+        testViewModel.offerSubject.onNext(Optional(getRailOffer(true)))
 
         assertEquals(testOpenReturnFormattedPrice, testSub.onNextEvents[0])
     }

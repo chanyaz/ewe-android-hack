@@ -16,6 +16,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.rail.widget.RailLegOptionViewModel
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
@@ -155,8 +156,8 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
 
         fun bind(legOption: RailLegOption) {
             viewModel.legOptionObservable.onNext(legOption)
-            viewModel.cheapestLegPriceObservable.onNext(cheapestCompareToPrice)
-            viewModel.offerSubject.onNext(selectedOutboundOffer)
+            viewModel.cheapestLegPriceObservable.onNext(Optional(cheapestCompareToPrice))
+            viewModel.offerSubject.onNext(Optional(selectedOutboundOffer))
         }
 
         override fun onClick(v: View?) {

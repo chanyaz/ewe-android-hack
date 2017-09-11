@@ -10,10 +10,11 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.rail.widget.RailOutboundHeaderView
 import com.expedia.bookings.rail.widget.RailResultsAdapter
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TextView
+import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
@@ -38,11 +39,11 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
 
         vm.legOptionsAndCheapestPriceSubject.subscribe { pair ->
             adapter.legOptionsAndCompareToPriceSubject.onNext(pair)
-            outboundHeaderViewModel.cheapestLegPriceObservable.onNext(pair.second)
+            outboundHeaderViewModel.cheapestLegPriceObservable.onNext(Optional(pair.second))
         }
 
         vm.outboundLegOptionSubject.subscribe(outboundHeaderViewModel.legOptionObservable)
-        vm.outboundOfferSubject.subscribe(outboundHeaderViewModel.offerSubject)
+        vm.outboundOfferSubject.map { Optional(it) }.subscribe(outboundHeaderViewModel.offerSubject)
         outboundHeaderView.setViewModel(outboundHeaderViewModel)
 
         vm.openReturnSubject.subscribeVisibility(openReturnHeaderView)

@@ -6,6 +6,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.rail.util.RailUtils
+import com.expedia.util.Optional
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -15,8 +16,8 @@ open class RailLegOptionViewModel(val context: Context, val inbound: Boolean) {
 
     //Inputs
     val legOptionObservable = PublishSubject.create<RailLegOption>()
-    val cheapestLegPriceObservable = PublishSubject.create<Money?>()
-    val offerSubject = PublishSubject.create<RailOffer>()
+    val cheapestLegPriceObservable = PublishSubject.create<Optional<Money>>()
+    val offerSubject = PublishSubject.create<Optional<RailOffer>>()
 
     //Outputs
     val formattedStopsAndDurationObservable = legOptionObservable.map { legOption ->
@@ -30,7 +31,7 @@ open class RailLegOptionViewModel(val context: Context, val inbound: Boolean) {
     val aggregatedOperatingCarrierSubject = legOptionObservable.map { legOption -> legOption.aggregatedOperatingCarrier }
     val railCardAppliedObservable = legOptionObservable.map { legOption -> legOption.doesAnyOfferHasFareQualifier }
     val priceObservable = Observable.combineLatest(legOptionObservable, cheapestLegPriceObservable, offerSubject, { legOption, cheapestPrice, offer ->
-        calculatePrice(legOption, cheapestPrice, offer)
+        calculatePrice(legOption, cheapestPrice.value, offer.value)
     })
 
     val contentDescriptionObservable = Observable.combineLatest(legOptionObservable, priceObservable, formattedStopsAndDurationObservable, { legOption, price, stopsAndDuration ->

@@ -12,7 +12,7 @@ import rx.Observable
 class RailOutboundHeaderViewModel(context: Context) : RailLegOptionViewModel(context, false) {
     //output
     val offerPriceObservable = Observable.combineLatest(offerSubject, cheapestLegPriceObservable,
-            { offer, cheapestPrice -> calculatePrice(offer, cheapestPrice) })
+            { offer, cheapestPrice -> calculatePrice(offer.value, cheapestPrice.value) })
 
     override fun getContentDescription(legOption: RailLegOption, price: String, stopsAndDuration: String): String {
         val result = StringBuffer(context.getString(R.string.rail_selected_outbound_cont_desc))
@@ -20,7 +20,10 @@ class RailOutboundHeaderViewModel(context: Context) : RailLegOptionViewModel(con
         return result.toString()
     }
 
-    private fun calculatePrice(offer: RailOffer, cheapestPrice: Money?): String {
+    private fun calculatePrice(offer: RailOffer?, cheapestPrice: Money?): String {
+        if (offer == null) {
+            throw RuntimeException("RailOffer should not be null")
+        }
         if (cheapestPrice == null || offer.isOpenReturn) {
             return offer.totalPrice.formattedPrice
         }
