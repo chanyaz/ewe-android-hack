@@ -59,6 +59,10 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     val costSummary: LinearLayout by bindView(R.id.cost_summary)
     val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
     val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
+    val checkinCheckoutDateContainer: LinearLayout by bindView(R.id.checkin_checkout_date_holder)
+    val checkinDate: android.widget.TextView by bindView(R.id.checkin_date)
+    val checkoutDate: android.widget.TextView by bindView(R.id.checkout_date)
+    val hotelBookingSummaryContainer: android.widget.LinearLayout by bindView(R.id.hotel_booking_summary)
 
     val breakdown = HotelBreakDownView(context, null)
     val dialog: AlertDialog by lazy {
@@ -79,15 +83,30 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         }
 
         viewModel.hotelName.subscribeText(hotelName)
-        viewModel.checkInOutDatesFormatted.subscribeText(date)
         viewModel.address.subscribeText(address)
         viewModel.city.subscribeText(cityState)
+
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+            date.visibility = View.GONE
+            checkinCheckoutDateContainer.visibility = View.VISIBLE
+            hotelBookingSummaryContainer.setPadding(hotelBookingSummaryContainer.paddingLeft, hotelBookingSummaryContainer.paddingTop, hotelBookingSummaryContainer.paddingRight, 6)
+        } else {
+            date.visibility = View.VISIBLE
+            checkinCheckoutDateContainer.visibility = View.GONE
+            hotelBookingSummaryContainer.setPadding(hotelBookingSummaryContainer.paddingLeft, hotelBookingSummaryContainer.paddingTop, hotelBookingSummaryContainer.paddingRight, 13)
+        }
 
         setUpFreeCancellationSubscription()
 
         viewModel.valueAddsListObservable.safeSubscribe(valueAddsContainer.valueAddsSubject)
         viewModel.roomDescriptions.subscribeText(selectedRoom)
         viewModel.bedDescriptions.subscribeText(selectedBed)
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+            viewModel.checkinDateFormattedByEEEMMDD.subscribeText(checkinDate)
+            viewModel.checkoutDateFormattedByEEEMMDD.subscribeText(checkoutDate)
+        } else {
+            viewModel.checkInOutDatesFormatted.subscribeText(date)
+        }
         viewModel.numNights.subscribeText(numberNights)
         viewModel.numGuests.subscribeText(numberGuests)
         viewModel.dueNowAmount.subscribeText(totalPriceWithTaxAndFees)
