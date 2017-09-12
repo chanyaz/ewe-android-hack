@@ -23,15 +23,17 @@ class FlightFareFamilyViewModel(val context: Context) {
         showFareFamilyObservable.withLatestFrom(tripObservable, { showFareFamily, trip ->
             trip
         }).subscribe { trip ->
-            if (!trip.isFareFamilyUpgraded) {
-                val defaultFareFamily = trip.fareFamilyList?.fareFamilyDetails?.first()
-                selectedFareFamilyObservable.onNext(defaultFareFamily)
-                choosingFareFamilyObservable.onNext(defaultFareFamily)
+            trip.fareFamilyList?.fareFamilyDetails?.let {
+                val defaultFareFamily = it.firstOrNull()
+                if (!trip.isFareFamilyUpgraded && defaultFareFamily != null) {
+                    selectedFareFamilyObservable.onNext(defaultFareFamily)
+                    choosingFareFamilyObservable.onNext(defaultFareFamily)
+                }
+                fareFamilyDetailsObservable.onNext(it)
+                fareFamilyTripLocationObservable.onNext(getFareFamilyTripLocation())
+                roundTripObservable.onNext(isRoundTrip())
+                airlinesObservable.onNext(getAirlinesString(trip))
             }
-            fareFamilyDetailsObservable.onNext(trip.fareFamilyList?.fareFamilyDetails)
-            fareFamilyTripLocationObservable.onNext(getFareFamilyTripLocation())
-            roundTripObservable.onNext(isRoundTrip())
-            airlinesObservable.onNext(getAirlinesString(trip))
         }
         doneButtonObservable.withLatestFrom(choosingFareFamilyObservable, {click, chosenFareFamily -> chosenFareFamily}).subscribe {
             selectedFareFamilyObservable.onNext(it)
