@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -63,6 +64,8 @@ class TravelerContactDetailsWidgetTest {
         travelerWidget.bind()
 
         assertEquals("Enter traveler details", travelerWidget.enterDetailsText.text.toString())
+        assertEquals("", travelerWidget.travelerPhoneText.text.toString())
+        assertEquals(View.GONE, travelerWidget.travelerPhoneText.visibility)
     }
 
     @Test
@@ -72,6 +75,8 @@ class TravelerContactDetailsWidgetTest {
         travelerWidget.bind()
 
         assertEquals("Guest Details", travelerWidget.enterDetailsText.text.toString())
+        assertEquals("", travelerWidget.travelerPhoneText.text.toString())
+        assertEquals(View.GONE, travelerWidget.travelerPhoneText.visibility)
     }
 
     private fun getCompletedTraveler() : Traveler{

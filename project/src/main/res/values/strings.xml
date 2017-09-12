@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Enter new Debit/Credit Card</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Guest Details</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">Enter your information</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">Payment Method</string>
     <!-- Text for enter payment details line 2 -->

@@ -59,7 +59,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	public TextView enterDetailsText;
 
 	@InjectView(R.id.traveler_phone_text)
-	TextView travelerPhoneText;
+	public TextView travelerPhoneText;
 
 	@InjectView(R.id.edit_first_name)
 	public AccessibleEditText firstName;
@@ -255,17 +255,15 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
+			travelerPhoneText.setVisibility(GONE);
+			travelerPhoneText.setText("");
 			if (lineOfBusiness == LineOfBusiness.HOTELS) {
 				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
 				enterDetailsText.setText(getResources().getString(R.string.enter_traveler_details));
-				travelerPhoneText.setVisibility(VISIBLE);
-				travelerPhoneText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line2));
 			}
 			else {
 				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_REGULAR);
 				enterDetailsText.setText(Ui.obtainThemeResID(getContext(), R.attr.traveler_details_text));
-				travelerPhoneText.setText("");
-				travelerPhoneText.setVisibility(GONE);
 			}
 
 			driverCheckoutStatusLeftImageView.setTraveler(null);
