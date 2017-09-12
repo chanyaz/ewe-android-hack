@@ -4346,11 +4346,13 @@ public class OmnitureTracking {
 				1R = num of rooms booked, since we don't support multi-room booking on the app yet hard coding it.
 				RT = Round Trip package
 		 	*/
+
 			StringBuilder evar47String = new StringBuilder("PKG|1R|RT|");
 			evar47String.append("A" + Db.getPackageParams().getAdults() + "|");
-			evar47String.append("C" + Db.getPackageParams().getChildren().size() + "|");
-			evar47String.append(
-				"L" + (Db.getPackageParams().getChildren().size() - Db.getPackageParams().getNumberOfSeatedChildren()));
+			evar47String.append("C" + getChildCount(Db.getPackageParams().getChildren()) + "|");
+			evar47String.append("YTH" + getYouthCount(Db.getPackageParams().getChildren()) + "|");
+			evar47String.append("IL" + getInfantInLap(Db.getPackageParams().getChildren(), Db.getPackageParams().getInfantSeatingInLap()) + "|");
+			evar47String.append("IS" + getInfantInSeat(Db.getPackageParams().getChildren(), Db.getPackageParams().getInfantSeatingInLap()));
 			s.setEvar(47, evar47String.toString());
 
 			// Freeform location
@@ -5348,28 +5350,11 @@ public class OmnitureTracking {
 			str += "OW|A";
 		}
 
-		int childrenInLap = 0;
-		if (searchTrackingData.getInfantSeatingInLap()) {
-			for (int age : searchTrackingData.getChildren()) {
-				if (age < 2) {
-					++childrenInLap;
-				}
-			}
-		}
-		int youthCount = 0;
+		int childrenInLap = getInfantInLap(searchTrackingData.getChildren(), searchTrackingData.getInfantSeatingInLap());
+		int youthCount = getYouthCount(searchTrackingData.getChildren());
 		str += searchTrackingData.getAdults();
-
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
-			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
-			R.string.preference_flight_traveler_form_revamp)) {
-			for (int age : searchTrackingData.getChildren()) {
-				if (age > 11 && age < 18) {
-					++youthCount;
-				}
-			}
-			str += "|YTH";
-			str += youthCount;
-		}
+		str += "|YTH";
+		str += youthCount;
 
 		int childrenInSeat = searchTrackingData.getChildren().size() - childrenInLap - youthCount;
 
@@ -5391,6 +5376,59 @@ public class OmnitureTracking {
 		}
 		return str;
 	}
+
+	private static int getInfantInLap(List<Integer> children, boolean infantSeatingInLap) {
+		int infantInLap = 0;
+		if (infantSeatingInLap) {
+			for (int age : children) {
+				if (age < 2) {
+					++infantInLap;
+				}
+			}
+		}
+		return infantInLap;
+	}
+
+	private static int getInfantInSeat(List<Integer> children, boolean infantSeatingInLap) {
+		int infantInLap = 0;
+		if (!infantSeatingInLap) {
+			for (int age : children) {
+				if (age < 2) {
+					++infantInLap;
+				}
+			}
+		}
+		return infantInLap;
+	}
+
+	private static int getYouthCount(List<Integer> children) {
+		int youthCount = 0;
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
+			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
+			R.string.preference_flight_traveler_form_revamp)) {
+			for (int age : children) {
+				if (age > 11 && age < 18) {
+					++youthCount;
+				}
+			}
+		}
+	return youthCount;
+	}
+
+	private static int getChildCount(List<Integer> children) {
+		int childCount = 0;
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
+			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
+			R.string.preference_flight_traveler_form_revamp)) {
+			for (int age : children) {
+				if (age > 2 && age < 13) {
+					++childCount;
+				}
+			}
+		}
+		return childCount;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Rail Tracking
