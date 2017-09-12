@@ -73,7 +73,9 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 destinationId = params.destinationId,
                 fromDate = params.startDate.toString(),
                 toDate = params.endDate.toString(),
-                adults = params.adults)
+                adults = params.adults,
+                childAges = params.childAges,
+                infantsInSeats = params.infantsInSeats)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { it.setup() }
@@ -91,6 +93,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 fromDate = params.startDate.toString(),
                 toDate = params.endDate.toString(),
                 adults = params.adults,
+                childAges = params.childAges,
+                infantsInSeats = params.infantsInSeats,
                 hotelId = params.hotelId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
@@ -107,6 +111,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 fromDate = params.startDate.toString(),
                 toDate = params.endDate.toString(),
                 adults = params.adults,
+                childAges = params.childAges,
+                infantsInSeats = params.infantsInSeats,
                 hotelId = params.hotelId,
                 ratePlanCode = params.ratePlanCode,
                 roomTypeCode = params.roomTypeCode,
@@ -131,6 +137,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 fromDate = params.startDate.toString(),
                 toDate = params.endDate.toString(),
                 adults = params.adults,
+                childAges = params.childAges,
+                infantsInSeats = params.infantsInSeats,
                 hotelId = params.hotelId,
                 ratePlanCode = params.ratePlanCode,
                 roomTypeCode = params.roomTypeCode,

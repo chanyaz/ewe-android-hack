@@ -14,6 +14,9 @@ import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class PackageSearchParamsTest {
@@ -56,6 +59,41 @@ class PackageSearchParamsTest {
                 .build() as PackageSearchParams
 
         assertEquals("1,10,2", params.guestString)
+    }
+
+    @Test
+    fun testChildAgesString() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .infantSeatingInLap(false)
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals("10,2", params.childAges)
+        assertNull(params.infantsInSeats)
+    }
+
+    @Test
+    fun testInfantInSeats() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .infantSeatingInLap(false)
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10,1))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals("10,1", params.childAges)
+        assertNotNull(params.infantsInSeats)
+        assertTrue(params.infantsInSeats!!)
     }
 
     @Test

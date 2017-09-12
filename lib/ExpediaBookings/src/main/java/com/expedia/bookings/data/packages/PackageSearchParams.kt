@@ -48,6 +48,22 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
             }
         }
 
+    val childAges: String?
+        get() {
+            if (children.isEmpty()) {
+                return null
+            }
+            return children.joinToString(separator = ",")
+        }
+
+    val infantsInSeats: Boolean?
+        get() {
+            if (!children.any { it < 2 }) {
+                return null
+            }
+            return !infantSeatingInLap
+        }
+
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
 
         override fun build(): PackageSearchParams {

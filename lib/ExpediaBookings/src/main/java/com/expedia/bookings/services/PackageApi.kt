@@ -65,6 +65,8 @@ interface PackageApi {
             @Query("fromDate") fromDate: String,
             @Query("toDate") toDate: String,
             @Query("adults") adults: Int,
+            @Query("childAges") childAges: String?,
+            @Query("infantsInSeats") infantsInSeats: Boolean?,
             @Query("hotelId") hotelId: String? = null,
             @Query("ratePlanCode") ratePlanCode: String? = null,
             @Query("roomTypeCode") roomTypeCode: String? = null,
