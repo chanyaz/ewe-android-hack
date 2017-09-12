@@ -10,6 +10,3 @@
 [submodule "lib/AndroidTime"]
 	path = lib/AndroidTime
 	url = git@github.com:/ExpediaInc/ewe-android-time.git
-[submodule "lib/bug-reporter"]
-	path = lib/bug-reporter
-	url = git@github.com:/ExpediaInc/ewe-android-bug-reporter.git
