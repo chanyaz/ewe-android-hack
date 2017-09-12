@@ -168,11 +168,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.completePaymentForm();
 		assertInsuranceIsNotVisible();
 		PackageScreen.clickPaymentDone();
-//		TODO Reenable this flaky part of the test
-// 		PackageScreen.clickLegalInformation();
-//
-//		assertLegalInformation();
-//		Common.pressBack();
+		PackageScreen.clickLegalInformation();
+
+		assertLegalInformation();
+		Common.pressBack();
 
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
 	}
@@ -272,6 +271,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(withId(R.id.rules_and_restrictions)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.terms_and_conditions)).check(matches(isDisplayed()));
 		onView(withId(R.id.privacy_policy)).check(matches(isDisplayed()));
+		onView(withId(R.id.liabilities_link_text_view)).perform(scrollTo());
 		onView(withId(R.id.liabilities_link_text_view)).check(matches(isDisplayed()));
 	}
 
