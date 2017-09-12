@@ -18,6 +18,7 @@ import rx.schedulers.Schedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
+import com.expedia.util.Optional
 import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -35,7 +36,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val clearTravelers = BehaviorSubject.create<Unit>()
     val paymentCompleted = BehaviorSubject.create<BillingInfo?>()
     val cvvCompleted = BehaviorSubject.create<String>()
-    val createTripResponseObservable = BehaviorSubject.create<TripResponse?>()
+    val createTripResponseObservable = BehaviorSubject.create<Optional<TripResponse>>()
     val checkoutParams = BehaviorSubject.create<BaseCheckoutParams>()
     val bookingSuccessResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
 

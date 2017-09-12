@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
-import com.expedia.util.safeSubscribe
+import com.expedia.util.safeSubscribeOptional
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
@@ -61,7 +61,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(bundleWidget)
-        getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
+        getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
             trip as PackageCreateTripResponse
             bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)

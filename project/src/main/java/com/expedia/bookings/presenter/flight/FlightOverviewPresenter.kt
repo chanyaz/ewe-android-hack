@@ -14,8 +14,8 @@ import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
@@ -31,10 +31,10 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FareFamilyCardView
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
-import com.expedia.util.safeSubscribe
+import com.expedia.util.Optional
+import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.FareFamilyViewModel
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.InsuranceViewModel
@@ -42,10 +42,10 @@ import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightFareFamilyViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
-import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
-import rx.Observable
+import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.squareup.phrase.Phrase
+import rx.Observable
 import javax.inject.Inject
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
@@ -94,7 +94,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.trip_total))
         totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
         getCheckoutPresenter().getCheckoutViewModel().showDebitCardsNotAcceptedSubject.subscribe(getCheckoutPresenter().paymentWidget.viewmodel.showDebitCardsNotAcceptedSubject)
-        getCheckoutPresenter().getCheckoutViewModel().createTripResponseObservable.safeSubscribe(flightCostSummaryObservable)
+        getCheckoutPresenter().getCheckoutViewModel().createTripResponseObservable.safeSubscribeOptional(flightCostSummaryObservable)
         scrollSpaceView = flightSummary.scrollSpaceView
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.visibility = View.INVISIBLE
         bundleOverviewHeader.isExpandable = !showCollapsedToolbar
@@ -152,7 +152,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     val insuranceWidget: InsuranceWidget by lazy {
         val widget = findViewById<InsuranceWidget>(R.id.insurance_widget)
         widget.viewModel = InsuranceViewModel(context, insuranceServices)
-        widget.viewModel.updatedTripObservable.subscribe(checkoutPresenter.getCreateTripViewModel().createTripResponseObservable)
+        widget.viewModel.updatedTripObservable.map { Optional(it as? TripResponse) }.subscribe(checkoutPresenter.getCreateTripViewModel().createTripResponseObservable)
         widget
     }
 

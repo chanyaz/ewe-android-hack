@@ -9,6 +9,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.LxServices
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observer
 import javax.inject.Inject
@@ -55,7 +56,7 @@ class LXCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
             override fun onNext(response: LXCreateTripResponseV2) {
                 Db.getTripBucket().clearLX()
                 showCreateTripDialogObservable.onNext(false)
-                createTripResponseObservable.onNext(response)
+                createTripResponseObservable.onNext(Optional(response))
             }
         }
 

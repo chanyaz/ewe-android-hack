@@ -32,7 +32,7 @@ class AbstractCheckoutViewModelTest {
                 paymentViewModel = PaymentViewModel(activity)
             }
             override fun getTripId(): String {
-                return createTripResponseObservable.value!!.tripId
+                return createTripResponseObservable.value.value!!.tripId
             }
         }
         testViewModel.builder.tripId("4321")

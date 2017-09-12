@@ -38,7 +38,7 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.ui.PackageActivity
-import com.expedia.util.safeSubscribe
+import com.expedia.util.safeSubscribeOptional
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
@@ -97,7 +97,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                     packagePrice.packageTotalPrice.currencyCode))
             presenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
         }
-        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
             trip!!
             expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
         }

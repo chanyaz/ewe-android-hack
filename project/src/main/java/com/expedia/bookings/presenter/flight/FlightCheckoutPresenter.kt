@@ -25,6 +25,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.InsuranceViewModel
@@ -81,7 +82,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     val insuranceWidget: InsuranceWidget by lazy {
         val widget = findViewById<InsuranceWidget>(R.id.insurance_widget)
         widget.viewModel = InsuranceViewModel(context, insuranceServices)
-        widget.viewModel.updatedTripObservable.subscribe(tripViewModel.createTripResponseObservable)
+        widget.viewModel.updatedTripObservable.map { Optional(it as? TripResponse) }.subscribe(tripViewModel.createTripResponseObservable)
         widget
     }
 

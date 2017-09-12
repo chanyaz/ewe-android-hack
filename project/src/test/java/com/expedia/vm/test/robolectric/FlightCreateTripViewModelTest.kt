@@ -66,7 +66,7 @@ class FlightCreateTripViewModelTest {
 
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
-        sut.createTripResponseObservable.subscribe(tripResponseSubscriber)
+        sut.createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
         sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
 
         sut.tripParams.onNext(params)
@@ -85,7 +85,7 @@ class FlightCreateTripViewModelTest {
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
         val errorSubscriber = TestSubscriber<ApiError>()
-        sut.createTripResponseObservable.subscribe(tripResponseSubscriber)
+        sut.createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
         sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
         sut.createTripErrorObservable.subscribe(errorSubscriber)
 

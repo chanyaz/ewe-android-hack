@@ -15,7 +15,7 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.util.endlessObserver
-import com.expedia.util.safeSubscribe
+import com.expedia.util.safeSubscribeOptional
 
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
@@ -38,7 +38,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     init {
         inflate()
-        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
             resetCheckoutState()
         }
         checkoutPresenter.getCheckoutViewModel().checkoutPriceChangeObservable.subscribe {

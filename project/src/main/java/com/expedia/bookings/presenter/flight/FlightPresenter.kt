@@ -14,9 +14,8 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.FlightTripResponse
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -42,6 +41,7 @@ import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
+import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
@@ -300,7 +300,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
-        createTripViewModel.createTripResponseObservable.safeSubscribe { trip ->
+        createTripViewModel.createTripResponseObservable.safeSubscribeOptional { trip ->
             trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)

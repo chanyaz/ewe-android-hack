@@ -4,16 +4,15 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
-import android.widget.RadioGroup
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
@@ -101,9 +100,34 @@ fun <T : Any?> Observable<T>.safeSubscribe(observer: Observer<T>): Subscription 
     })
 }
 
+fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(observer: Observer<T>): Subscription {
+    return this.subscribe(object : Observer<Optional<T>> {
+        override fun onNext(t: Optional<T>) {
+            if (t.value != null) {
+                observer.onNext(t.value)
+            }
+        }
+
+        override fun onCompleted() {
+            observer.onCompleted()
+        }
+
+        override fun onError(e: Throwable?) {
+            observer.onError(e)
+        }
+    })
+}
 // Only emits non-null data
 fun <T : Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Subscription {
     return this.subscribe {
+        if (it != null) {
+            onNextFunc.invoke(it as T)
+        }
+    }
+}
+
+fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(onNextFunc: (T) -> Unit): Subscription {
+    return this.map { it.value }.subscribe {
         if (it != null) {
             onNextFunc.invoke(it as T)
         }

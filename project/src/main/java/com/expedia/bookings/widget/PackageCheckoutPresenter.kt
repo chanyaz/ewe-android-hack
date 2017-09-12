@@ -12,6 +12,7 @@ import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
@@ -53,7 +54,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
-        getCheckoutViewModel().checkoutPriceChangeObservable.subscribe(getCreateTripViewModel().createTripResponseObservable)
+        getCheckoutViewModel().checkoutPriceChangeObservable.map { Optional(it) }.subscribe(getCreateTripViewModel().createTripResponseObservable)
     }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {

@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observable
 import rx.Observer
@@ -55,7 +56,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
                     Db.getTripBucket().clearFlight()
                     response.isFareFamilyUpgraded = (Strings.isNotEmpty(tripParams.value.fareFamilyCode) && response.createTripStatus != FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE)
                     Db.getTripBucket().add(TripBucketItemFlightV2(response))
-                    createTripResponseObservable.onNext(response)
+                    createTripResponseObservable.onNext(Optional(response))
                 }
             }
 

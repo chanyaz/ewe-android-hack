@@ -33,6 +33,7 @@ import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.FlightCellWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
+import com.expedia.util.Optional
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
@@ -208,7 +209,7 @@ class FlightOverviewPresenterTest {
         Db.setFlightSearchParams(setupFlightSearchParams())
         val createTripResponse = getFlightCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
-        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
+        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(Optional(createTripResponse))
         val checkoutBtn = widget.bottomCheckoutContainer.checkoutButton
         assertEquals(true, checkoutBtn.isEnabled)
         assertEquals(View.VISIBLE, checkoutBtn.visibility)
@@ -224,12 +225,12 @@ class FlightOverviewPresenterTest {
 
         val flightCheckoutPresenter = widget.getCheckoutPresenter()
         val flightSummary = widget.flightSummary
-        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
+        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(Optional(createTripResponse))
 
         assertEquals(View.GONE, flightSummary.basicEconomyMessageTextView.visibility)
 
         createTripResponse.details.legs[0].isBasicEconomy = true
-        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
+        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(Optional(createTripResponse))
 
         assertEquals(View.VISIBLE, flightSummary.basicEconomyMessageTextView.visibility)
     }

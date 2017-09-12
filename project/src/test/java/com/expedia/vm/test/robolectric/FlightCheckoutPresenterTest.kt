@@ -12,10 +12,10 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
-import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
-import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
+import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -23,6 +23,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.traveler.TravelerSelectItem
+import com.expedia.util.Optional
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.mobiata.android.util.SettingUtils
@@ -37,9 +38,9 @@ import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlin.test.assertFalse
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -61,7 +62,7 @@ class FlightCheckoutPresenterTest {
         setupCheckout()
         val passportRequiredSubscriber = TestSubscriber<Boolean>()
         (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).passportRequired.subscribe(passportRequiredSubscriber)
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getPassportRequiredCreateTripResponse(true))
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(getPassportRequiredCreateTripResponse(true)))
         passportRequiredSubscriber.assertValues(false, true)
     }
 
@@ -75,7 +76,7 @@ class FlightCheckoutPresenterTest {
         val travelerPickerPassportSubscriber = TestSubscriber<Boolean>()
         (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).passportRequired.subscribe(passportRequiredSubscriber)
         (travelerPickerWidget.viewModel).passportRequired.subscribe(travelerPickerPassportSubscriber)
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getPassportRequiredCreateTripResponse(true))
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(getPassportRequiredCreateTripResponse(true)))
 
         passportRequiredSubscriber.assertValues(false, true)
         travelerPickerPassportSubscriber.assertValues(false, true)
@@ -96,7 +97,7 @@ class FlightCheckoutPresenterTest {
         setupCheckout()
         val passportRequiredSubscriber = TestSubscriber<Boolean>()
         (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).passportRequired.subscribe(passportRequiredSubscriber)
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getPassportRequiredCreateTripResponse(false))
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(getPassportRequiredCreateTripResponse(false)))
         passportRequiredSubscriber.assertValues(false, false)
     }
 
@@ -144,7 +145,7 @@ class FlightCheckoutPresenterTest {
     @Test
     fun testEnrolledFrequentFlyerPrograms() {
         setupCheckout(true)
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getPassportRequiredCreateTripResponse(false))
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(getPassportRequiredCreateTripResponse(false)))
         checkout.travelersPresenter.showSelectOrEntryState()
         val frequentFlyerPlans = (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).frequentFlyerPlans
 
@@ -160,7 +161,7 @@ class FlightCheckoutPresenterTest {
         setupCheckout(true)
         val tripResponseWithoutEnrolledFFPlans = getPassportRequiredCreateTripResponse(false)
         tripResponseWithoutEnrolledFFPlans?.frequentFlyerPlans?.enrolledFrequentFlyerPlans = null
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(tripResponseWithoutEnrolledFFPlans)
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(tripResponseWithoutEnrolledFFPlans))
         checkout.travelersPresenter.showSelectOrEntryState()
 
         val frequentFlyerPlans = (checkout.travelersPresenter.viewModel as FlightTravelersViewModel).frequentFlyerPlans

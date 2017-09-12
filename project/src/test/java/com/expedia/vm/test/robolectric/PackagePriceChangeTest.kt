@@ -28,6 +28,7 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.PackageCheckoutPresenter
+import com.expedia.util.Optional
 import com.expedia.vm.packages.BundleOverviewViewModel
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
@@ -90,7 +91,7 @@ class PackagePriceChangeTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCreateTripPriceChangeWithBundleTotalsPriceDecreased() {
         checkout.getCreateTripViewModel().createTripResponseObservable
-                .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal, lowBundleTotal, highBundleTotal))
+                .onNext(Optional(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal, lowBundleTotal, highBundleTotal)))
 
         priceChangeAlertSubscriber.assertValueCount(1)
         showPriceChangeAlertSubscriber.assertValue(true)
@@ -106,7 +107,7 @@ class PackagePriceChangeTest {
         val oldPackageTotal = Money(850, "USD")
 
         checkout.getCreateTripViewModel().createTripResponseObservable
-                .onNext(getDummyPackageCreateTripPriceChangeResponse(newPackageTotal, oldPackageTotal, newBundleTotal, oldBundleTotal, false))
+                .onNext(Optional(getDummyPackageCreateTripPriceChangeResponse(newPackageTotal, oldPackageTotal, newBundleTotal, oldBundleTotal, false)))
 
         priceChangeAlertSubscriber.assertValueCount(1)
         showPriceChangeAlertSubscriber.assertValue(true)
@@ -122,7 +123,7 @@ class PackagePriceChangeTest {
         val oldPackageTotal = Money(1000, "USD")
 
         checkout.getCreateTripViewModel().createTripResponseObservable
-                .onNext(getDummyPackageCreateTripPriceChangeResponse(newPackageTotal, oldPackageTotal, newBundleTotal, oldBundleTotal, false))
+                .onNext(Optional(getDummyPackageCreateTripPriceChangeResponse(newPackageTotal, oldPackageTotal, newBundleTotal, oldBundleTotal, false)))
 
         priceChangeAlertSubscriber.assertValueCount(1)
         showPriceChangeAlertSubscriber.assertValue(true)
@@ -133,7 +134,7 @@ class PackagePriceChangeTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCreateTripPriceChangeWithoutBundleTotalsPriceIncreased() {
         checkout.getCreateTripViewModel().createTripResponseObservable
-                .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal))
+                .onNext(Optional(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal)))
 
         priceChangeAlertSubscriber.assertValueCount(1)
         showPriceChangeAlertSubscriber.assertValue(true)

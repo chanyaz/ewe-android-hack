@@ -23,6 +23,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -71,9 +72,9 @@ class FlightPriceChangeTest {
         checkout.flightCreateTripViewModel.showPriceChangeAlertObservable.subscribe(showPriceChangeAlertSubscriber)
 
         //Verify multiple createTripResponses just lead to one alert
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(dummyFlightTripResponse)
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(dummyFlightTripResponse)
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(dummyFlightTripResponse)
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(dummyFlightTripResponse))
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(dummyFlightTripResponse))
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(dummyFlightTripResponse))
 
         priceChangeAlertSubscriber.assertValueCount(3)
         showPriceChangeAlertSubscriber.assertValueCount(1)
@@ -95,7 +96,7 @@ class FlightPriceChangeTest {
         Db.getTripBucket().add(flightTripItem)
 
         checkout.flightCreateTripViewModel.priceChangeAlertPriceObservable.subscribe(priceChangeAlertSubscriber)
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(dummyFlightCreateTripResponse)
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(Optional(dummyFlightCreateTripResponse))
         priceChangeAlertSubscriber.assertValueCount(0)
     }
 

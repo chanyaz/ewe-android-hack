@@ -31,6 +31,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.expedia.vm.FlightCheckoutViewModel
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -98,7 +99,7 @@ class FlightCheckoutViewModelTest {
         val legalTextTestSubscriber = TestSubscriber<SpannableStringBuilder>()
         sut.legalText.subscribe(legalTextTestSubscriber)
 
-        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
 
         legalTextTestSubscriber.assertValueCount(1)
         assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information.", legalTextTestSubscriber.onNextEvents[0].toString())
@@ -113,7 +114,7 @@ class FlightCheckoutViewModelTest {
         val selectedCardFeeSubscriber = TestSubscriber<Money>()
         sut.selectedCardFeeObservable.subscribe(selectedCardFeeSubscriber)
 
-        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
         sut.paymentViewModel.cardBIN.onNext("654321")
 
         selectedCardFeeSubscriber.assertValueCount(1)
@@ -133,7 +134,7 @@ class FlightCheckoutViewModelTest {
         sut.legalText.subscribe(legalTextTestSubscriber)
         //sut.purchaseTotalText.subscribe(purchaseTotalTextTestSubscriber)
 
-        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
 
         // populate builder with required data not set on receipt of a createTrip response (just for this unit test)
         sut.builder.billingInfo(makeBillingInfo()).travelers(listOf(Traveler())).cvv("")
@@ -236,7 +237,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
         sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
 
-        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
         sut.paymentViewModel.resetCardFees.onNext(Unit)
 
         hasCardFeeTestSubscriber.assertValue(false)
@@ -270,7 +271,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeWarningTextSubscriber)
         sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestSubscriber)
 
-        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
         sut.paymentViewModel.cardBIN.onNext("654321")
 
         cardFeeTextSubscriber.assertValueCount(1)
@@ -305,7 +306,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeWarningTextSubscriber)
         sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestSubscriber)
 
-        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
         sut.paymentViewModel.cardBIN.onNext("6011111111111111")
 
         cardFeeTextSubscriber.assertValueCount(1)
@@ -340,7 +341,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeWarningTextSubscriber)
         sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestSubscriber)
 
-        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
         sut.paymentViewModel.cardBIN.onNext("000000")
 
         cardFeeTextSubscriber.assertValueCount(1)
@@ -372,7 +373,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
         sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
 
-        sut.createTripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
         sut.paymentViewModel.cardBIN.onNext("654321")
         sut.paymentViewModel.resetCardFees.onNext(Unit)
 
@@ -587,7 +588,7 @@ class FlightCheckoutViewModelTest {
         Ui.getApplication(context).defaultFlightComponents()
         sut = TestFlightCheckoutViewModelClass(context)
         sut.email = "qa-ehcc@mobiata.com"
-        sut.cardFeeTripResponse.subscribe(sut.createTripResponseObservable)
+        sut.cardFeeTripResponse.map { Optional(it) }.subscribe(sut.createTripResponseObservable)
         sut.flightServices = flightServices
         sut.cardFeeService = cardFeeService
     }

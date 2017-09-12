@@ -1,13 +1,14 @@
 package com.expedia.vm
 
-import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.TripResponse
+import com.expedia.util.Optional
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 open class BaseCreateTripViewModel {
     val performCreateTrip = PublishSubject.create<Unit>()
-    val createTripResponseObservable: BehaviorSubject<TripResponse?> = BehaviorSubject.create<TripResponse?>()
+    val createTripResponseObservable = BehaviorSubject.create<Optional<TripResponse>>()
     val bundleDatesObservable = BehaviorSubject.create<String>()
     val showCreateTripDialogObservable = PublishSubject.create<Boolean>()
     val createTripErrorObservable = PublishSubject.create<ApiError>()
@@ -17,7 +18,7 @@ open class BaseCreateTripViewModel {
     val updateOverviewUiObservable = PublishSubject.create<TripResponse>()
 
     fun reset() {
-        createTripResponseObservable.onNext(null)
+        createTripResponseObservable.onNext(Optional(null))
     }
 
 }

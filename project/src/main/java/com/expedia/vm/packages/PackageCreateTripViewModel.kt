@@ -10,10 +10,10 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
@@ -53,7 +53,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                 } else {
                     Db.getTripBucket().clearPackages()
                     Db.getTripBucket().add(TripBucketItemPackages(response))
-                    createTripResponseObservable.onNext(response)
+                    createTripResponseObservable.onNext(Optional(response))
 
                     //set the hotel check in, check out dates on checkout overview from create trip response
                     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")

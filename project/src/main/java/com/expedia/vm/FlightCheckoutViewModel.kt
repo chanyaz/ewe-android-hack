@@ -16,7 +16,7 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.util.safeSubscribe
+import com.expedia.util.safeSubscribeOptional
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -37,7 +37,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
 
         legalText.onNext(SpannableStringBuilder(pointOfSale.getColorizedFlightBookingStatement(ContextCompat.getColor(context, R.color.flight_primary_color))))
 
-        createTripResponseObservable.safeSubscribe { createTripResponse ->
+        createTripResponseObservable.safeSubscribeOptional { createTripResponse ->
             createTripResponse as FlightCreateTripResponse
             builder.flightLeg(createTripResponse.details.legs)
             builder.tripId(createTripResponse.newTrip!!.tripId)
@@ -75,7 +75,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
                     val cardFee = cardFeeResponse.feePrice
                     val totalPriceInclFees = cardFeeResponse.tripTotalPrice
                     cardFeeFlexStatus.onNext(cardFeeResponse.flexStatus)
-                    val response = createTripResponseObservable.value
+                    val response = createTripResponseObservable.value?.value
                     if (response != null) {
                         val newTripResponse = response as FlightCreateTripResponse
                         newTripResponse.selectedCardFees = cardFee
@@ -95,7 +95,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
     }
 
     override fun resetCardFees() {
-        val response = createTripResponseObservable.value
+        val response = createTripResponseObservable.value?.value
         if (response != null) {
             val newTripResponse = response as FlightCreateTripResponse
             newTripResponse.selectedCardFees = null
@@ -105,8 +105,8 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
     }
 
     override fun getTripId(): String {
-        if (createTripResponseObservable.value != null) {
-            val flightCreateTripResponse = createTripResponseObservable.value as FlightCreateTripResponse
+        if (createTripResponseObservable.value?.value != null) {
+            val flightCreateTripResponse = createTripResponseObservable.value.value as FlightCreateTripResponse
             val tripId = flightCreateTripResponse.newTrip!!.tripId!!
             return tripId
         }

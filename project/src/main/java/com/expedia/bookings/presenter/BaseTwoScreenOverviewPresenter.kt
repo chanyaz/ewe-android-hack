@@ -14,11 +14,11 @@ import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.bookings.widget.BaggageFeeInfoWebView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
@@ -27,6 +27,7 @@ import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.safeSubscribe
+import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.setInverseVisibility
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
@@ -370,11 +371,11 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     fun trackShowBundleOverview() {
         trackShowingCkoOverviewSubscription?.unsubscribe()
-        val createTripResponse = checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.value
+        val createTripResponse = checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.value?.value
         if (createTripResponse != null) {
             fireCheckoutOverviewTracking(createTripResponse)
         } else {
-            trackShowingCkoOverviewSubscription = checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { tripResponse ->
+            trackShowingCkoOverviewSubscription = checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { tripResponse ->
                 // Un-subscribe:- as we only want to track the initial load of cko overview
                 trackShowingCkoOverviewSubscription?.unsubscribe()
                 fireCheckoutOverviewTracking(tripResponse!!)
@@ -465,7 +466,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setupCreateTripViewModelSubscriptions() {
-        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
             resetCheckoutState()
         }
     }

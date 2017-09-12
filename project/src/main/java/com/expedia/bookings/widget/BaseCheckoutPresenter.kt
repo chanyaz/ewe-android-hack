@@ -23,7 +23,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
@@ -42,9 +41,10 @@ import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
+import com.expedia.util.Optional
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.safeSubscribe
+import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
@@ -231,7 +231,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 .subscribe(vm.showPriceChangeAlertObservable)
         vm.showPriceChangeAlertObservable.subscribe { show ->
             if (show && currentState != BillingDetailsPaymentWidget::class.java.name) {
-                showAlertDialogForPriceChange(vm.createTripResponseObservable.value!!)
+                showAlertDialogForPriceChange(vm.createTripResponseObservable.value.value!!)
             }
         }
         vm.showCreateTripDialogObservable.subscribe { show ->
@@ -249,13 +249,13 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 }
             }
         }
-        vm.createTripResponseObservable.safeSubscribe { response ->
+        vm.createTripResponseObservable.safeSubscribeOptional { response ->
             val oldPrice = response!!.getOldPrice()
             if (oldPrice != null) {
                 trackCreateTripPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
                 if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, oldPrice.amount)) {
                     vm.priceChangeAlertPriceObservable.onNext(response)
-                    return@safeSubscribe
+                    return@safeSubscribeOptional
                 }
             }
             onCreateTripResponse(response)
@@ -294,8 +294,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     private fun setUpViewModels() {
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
-        getCreateTripViewModel().createTripResponseObservable.safeSubscribe(getCheckoutViewModel().createTripResponseObservable)
-        getCheckoutViewModel().cardFeeTripResponse.safeSubscribe(getCreateTripViewModel().createTripResponseObservable)
+        getCreateTripViewModel().createTripResponseObservable.filter { it.value != null }.subscribe(getCheckoutViewModel().createTripResponseObservable)
+        getCheckoutViewModel().cardFeeTripResponse.filter { it != null }.map { Optional(it) }.subscribe(getCreateTripViewModel().createTripResponseObservable)
         getCheckoutViewModel().clearCvvObservable.subscribe {
             paymentWidget.clearCVV()
         }
