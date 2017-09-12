@@ -64,8 +64,10 @@
                 android:textColor="@color/white"
                 android:background="@drawable/exp_blue_button_round_corners"
                 android:gravity="center"
+                android:contentDescription="@string/itin_hotel_manage_booking_cancel_change_header"
                 app:cardElevation="1dp"
-                app:useCompatPadding="true" />
+                app:useCompatPadding="true"
+                android:textAllCaps="true"/>
 
             <com.expedia.bookings.widget.itin.HotelItinManageBookingHelp
                 android:id="@+id/widget_hotel_itin_manage_booking_help"
