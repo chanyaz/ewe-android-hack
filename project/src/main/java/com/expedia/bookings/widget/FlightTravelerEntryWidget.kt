@@ -118,24 +118,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
         if (frequentflyerTestEnabled) {
-            frequentFlyerRecycler!!.adapter = FrequentFlyerAdapter(vm.getTraveler())
-            val frequentFlyerAdapter = frequentFlyerRecycler!!.adapter as FrequentFlyerAdapter
-            vm.flightLegsObservable.subscribe { flightLegs ->
-                if (flightLegs != null) {
-                    frequentFlyerAdapter.setFrequentFlyerCards(getAirlineNames(flightLegs))
-                }
-            }
-
-            vm.frequentFlyerPlans.subscribe { frequentFlyerPlans ->
-                if (frequentFlyerPlans != null) {
-                    frequentFlyerAdapter.frequentFlyerPlans = frequentFlyerPlans
-                }
-            }
-
-            vm.updateFrequentFlyerTraveler.subscribe {
-                frequentFlyerAdapter.vm.updateTraveler(vm.getTraveler())
-                frequentFlyerAdapter.notifyDataSetChanged()
-            }
+            frequentFlyerRecycler!!.adapter = FrequentFlyerAdapter(vm.frequentFlyerAdapterViewModel!!)
 
             Observable.combineLatest(vm.flightLegsObservable, vm.frequentFlyerPlans, { legs, plans ->
                         val showFrequentFlyerWidget = legs != null && plans != null
