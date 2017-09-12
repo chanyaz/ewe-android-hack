@@ -1,6 +1,5 @@
 // Main projects
 include ':lib:ExpediaBookings'
-include ':lib:bug-reporter:bugshaker'
 include ':project'
 
 // libraries, order does not matter

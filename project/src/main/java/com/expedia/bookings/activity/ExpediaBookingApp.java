@@ -58,7 +58,6 @@ import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
-import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -309,9 +308,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		startupTimer.addSplit("Currency Utils init");
 		startupTimer.dumpToLog();
 
-		if (BugShakerShim.isBugShakerEnabled(this)) {
-			BugShakerShim.startNewBugShaker(this);
-		}
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
 			ShortcutUtils.INSTANCE.initialize(getBaseContext());
 		}

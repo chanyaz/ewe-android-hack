@@ -12,14 +12,6 @@ fun requestLocationPermission(activity: Activity) {
     ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), Constants.PERMISSION_REQUEST_LOCATION)
 }
 
-fun requestWriteToExternalStoragePermission(activity: Activity) {
-    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), Constants.PERMISSION_WRITE_EXTERNAL_STORAGE_BUGSHAKER)
-}
-
-fun hasPermissionToWriteToExternalStorage(context: Context): Boolean {
-    return isPermissionEnabled(Manifest.permission.WRITE_EXTERNAL_STORAGE, context)
-}
-
 fun havePermissionToAccessLocation(context: Context): Boolean {
     return isPermissionEnabled(Manifest.permission.ACCESS_FINE_LOCATION, context)
 }

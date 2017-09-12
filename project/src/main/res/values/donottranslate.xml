@@ -23,9 +23,6 @@
     <string name="debug_screens_sub_menu">Test Screens</string>
     <string name="debug_install_shortcuts">>Install Shortcuts</string>
 
-    <!-- Headline for email sent by bugshaker-->
-    <string name="bugshaker_report_headline">Android dogfood - Reporting a bug</string>
-    
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
     <string name="open_source_names">ActiveAndroid, ButterKnife, Dagger, FlowLayout, Gson, JodaTime, joda-time-android, OkHttp, Okio, Otto, Phrase, Picasso, Retrofit, RxAndroid, RxJava, ShareEverywhere, svg-android</string>
@@ -86,7 +83,6 @@
     <string name="preference_push_notification_gcm_id">preference_push_notification_gcm_id</string>
     <string name="preference_clear_user_cookies">preference_clear_user_cookies</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
-    <string name="preference_enable_bugshaker">preference_enable_bugshaker</string>
     <string name="preference_disable_modern_https_security">preference_disable_modern_https_security</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
     <string name="preference_swp_flights_earn_messaging">preference_swp_flights_earn_messaging</string>

@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -20,10 +19,8 @@ import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.ChuckShim;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -75,31 +72,6 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 					boolean isLoggingEnabled = Boolean.valueOf(newValue.toString());
 					new PicassoHelper.Builder(getActivity()).build()
 						.setLoggingEnabled(isLoggingEnabled);
-					return true;
-				}
-			});
-
-			String bugShakerKey = getString(R.string.preference_enable_bugshaker);
-			final CheckBoxPreference bugShakerPreference = (CheckBoxPreference) findPreference(bugShakerKey);
-
-			bugShakerPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-				@Override
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					boolean isBugshakerEnabled = Boolean.valueOf(newValue.toString());
-					if (isBugshakerEnabled) {
-						boolean permissionForExternalStorage = PermissionsHelperKt
-							.hasPermissionToWriteToExternalStorage(getActivity());
-						if (!permissionForExternalStorage) {
-							PermissionsHelperKt.requestWriteToExternalStoragePermission(getActivity());
-						}
-						else {
-							BugShakerShim.startNewBugShaker(getActivity().getApplication());
-						}
-					}
-					else {
-						BugShakerShim.turnOff();
-					}
 					return true;
 				}
 			});

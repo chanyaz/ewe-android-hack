@@ -30,7 +30,6 @@ dependencies {
             'adobeMobileLibrary-4.13.5.jar',
     ])
     compile project(':lib:AndroidTime')
-    debugCompile project(':lib:bug-reporter:bugshaker')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
     compile (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'

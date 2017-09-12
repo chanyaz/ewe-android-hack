@@ -2,7 +2,6 @@ package com.expedia.bookings.preference;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -10,10 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
+
 import rx.subjects.PublishSubject;
 
 public class ExpediaBookingPreferenceActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -21,17 +19,6 @@ public class ExpediaBookingPreferenceActivity extends AppCompatActivity implemen
 	private SearchView searchView;
 
 	public PublishSubject<String> searchQueryChangeSubject = PublishSubject.create();
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-		@NonNull int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == Constants.PERMISSION_WRITE_EXTERNAL_STORAGE_BUGSHAKER) {
-			if (PermissionsHelperKt.hasPermissionToWriteToExternalStorage(getBaseContext())) {
-				BugShakerShim.startNewBugShaker(getApplication());
-			}
-		}
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
