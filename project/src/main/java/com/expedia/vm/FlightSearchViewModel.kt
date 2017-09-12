@@ -19,6 +19,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
+import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.vm.flights.AdvanceSearchFilter
 import com.squareup.phrase.Phrase
@@ -35,7 +36,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
-    val cachedEndDateObservable = BehaviorSubject.create<LocalDate?>()
+    val cachedEndDateObservable = BehaviorSubject.create<Optional<LocalDate?>>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
@@ -92,11 +93,11 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 getParamsBuilder().legNo(if (isRoundTripSearch) 0 else null)
             }
             if (selectedDates.first != null) {
-                val cachedEndDate = cachedEndDateObservable.value
+                val cachedEndDate = cachedEndDateObservable.value.value
                 if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
                     datesUpdated(startDate(), cachedEndDate)
                 } else {
-                    cachedEndDateObservable.onNext(endDate())
+                    cachedEndDateObservable.onNext(Optional(endDate()))
                     datesUpdated(startDate(), null)
                 }
             } else {

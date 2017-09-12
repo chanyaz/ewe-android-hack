@@ -74,18 +74,19 @@
             android:id="@+id/free_cancellation_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="8dp">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/free_cancellation_text"
-                style="@style/HeaderTextAboveCardviews"
+                app:textStyle="medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="0dp"
-                android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/check"
                 android:drawablePadding="8dp"
                 android:text="@string/flights_free_cancellation"
@@ -97,7 +98,6 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_marginLeft="2dp"
-                android:layout_marginTop="3dp"
                 android:src="@drawable/read_more" />
 
         </LinearLayout>
@@ -108,11 +108,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginLeft="45dp"
-            android:layout_marginTop="-8dp"
             android:text="@string/flights_free_cancellation_information"
             android:textColor="@color/gray6"
-            android:textSize="10sp"
-            android:visibility="gone" />
+            android:textSize="10sp" />
 
     </LinearLayout>
 
