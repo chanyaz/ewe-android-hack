@@ -39,7 +39,7 @@ class FlightConfirmationCardViewModelTest {
         titleSubscriber.assertValue("SEA to OAX")
         secondaryHeaderText.assertValue(" on $formattedDate")
         subtitleSubscriber.assertValue("$flightTime - $arrivalTime · Nonstop")
-        urlSubscriber.assertValue(null)
+        urlSubscriber.assertValue("")
     }
 
     fun formatDate(ISODate: String) : String {

@@ -15,7 +15,7 @@ class FlightConfirmationCardViewModel (private val context: Context, flightLeg: 
 
     init {
         secondaryTitleSubject.onNext(FlightV2Utils.getDepartureOnDateString(context, flightLeg))
-        urlSubject.onNext(FlightV2Utils.getAirlineUrl(flightLeg))
+        urlSubject.onNext(FlightV2Utils.getAirlineUrl(flightLeg)?: "")
         titleSubject.onNext(getFlightTitle(flightLeg))
         subtitleSubject.onNext(getFlightSubtitle(flightLeg, numberOfGuests))
     }
@@ -26,7 +26,7 @@ class FlightConfirmationCardViewModel (private val context: Context, flightLeg: 
         return context.getString(R.string.SharedItin_Title_Flight_TEMPLATE, departureAirportCode, arrivalAirportCode)
     }
 
-    private fun getFlightSubtitle(flightLeg: FlightLeg, guests: Int): String? {
+    private fun getFlightSubtitle(flightLeg: FlightLeg, guests: Int): String {
         val departureDateTime = flightLeg.segments.first().departureTimeRaw
         val departureTime = FlightV2Utils.formatTimeShort(context, departureDateTime ?: "")
         val arrivalTime = FlightV2Utils.formatTimeShort(context, flightLeg.segments.last().arrivalTimeRaw ?: "")
