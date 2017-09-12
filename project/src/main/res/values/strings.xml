@@ -4792,5 +4792,4 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Total including taxes and fees</string>
     <string name="excluding_taxes_fees">Excluding taxes and fees</string>
-
 </resources>

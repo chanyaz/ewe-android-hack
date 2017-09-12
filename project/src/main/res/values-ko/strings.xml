@@ -354,7 +354,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s, %2$s(%3$s)</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s, %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">지금 예약: %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
@@ -692,9 +692,11 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">주변 즐길거리 검색에 필요한 고객님의 현재 위치를 확인할 수 없습니다.</string> 
+    <string name="error_lx_current_location_search_message">주변 즐길거리 검색에 필요한 고객님의 현재 위치를 확인할 수 없습니다.</string>
+
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">주변 교통편 검색에 필요한 고객님의 현재 위치를 확인할 수 없습니다.</string> 
+    <string name="error_gt_current_location_search_message">주변 교통편 검색에 필요한 고객님의 현재 위치를 확인할 수 없습니다.</string>
+
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">오류</string>
     <!-- Text for error toolbar-->
@@ -724,7 +726,7 @@
     <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
     <string name="checkout_traveler_title_TEMPLATE">여행객 {travelernumber} ({passengerycategory})</string>
     <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
-    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <string name="traveler_age_range_TEMPLATE">{category}, {range}</string>
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">만 18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
@@ -885,6 +887,8 @@
     <string name="total_with_tax">세금 포함 총계</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">총 금액</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">{farefamily} 선택 시 총 금액</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">총 금액</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1761,6 +1765,8 @@
     <string name="flights_title">항공</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">결제 요금 정보</string>
+    <!-- Flights Free Cancellation More Information -->
+    <string name="flights_free_cancellation_information">24시간이 지나면 표준 항공 규정이 적용됩니다.</string>
     <!-- Flights Free Cancellation messaging -->
     <string name="flights_free_cancellation">예약 후 24시간 이내 무료 취소</string>
     <!-- Card fee warning text on checkout overview.
@@ -2227,8 +2233,8 @@
     <string name="redress_number_msg">리드레스 번호는 고유한 TSA 발행 번호로, TSA가 감시 목록 오식별을 없애고 고객님의 신원을 확인하는 데 도움이 됩니다.</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">항공 마일리지 프로그램</string>
-    <!--Frequent flyer My Programs for Dialog Box-->
-    <string name="frequent_flyer_my_programs">내 프로그램</string>
+    <!--Frequent flyer Programs title for Alert Dialog Box-->
+    <string name="frequent_flyer_programs">프로그램</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">프로그램 번호</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2593,6 +2599,8 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/1박</string>
+    <!-- The label for total price for the stay - "$120 total stay", for example -->
+    <string name="total_stay">총 숙박 요금</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">평점 없음</string>
 
@@ -2792,6 +2800,14 @@
         <item quantity="other">1박 평균 요금 • %d개 결과</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">검색 결과 없음</item>
+        <item quantity="one">&lt;b&gt;1박 평균 요금&lt;/b&gt; • 1개 결과</item>
+        <item quantity="many">&lt;b&gt;1박 평균 요금&lt;/b&gt; • %d개 결과</item>
+        <item quantity="other">&lt;b&gt;1박 평균 요금&lt;/b&gt; • %d개 결과</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">검색 결과 없음</item>
@@ -2805,6 +2821,14 @@
         <item quantity="one">총 숙박 요금 • 1개 결과</item>
         <item quantity="many">총 숙박 요금 • %d개 결과</item>
         <item quantity="other">총 숙박 요금 • %d개 결과</item>
+    </plurals>
+
+    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">검색 결과 없음</item>
+        <item quantity="one">&lt;b&gt;총 숙박 요금&lt;/b&gt; • 1개 결과</item>
+        <item quantity="many">&lt;b&gt;총 숙박 요금&lt;/b&gt; • %d개 결과</item>
+        <item quantity="other">&lt;b&gt;총 숙박 요금&lt;/b&gt; • %d개 결과</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -4396,14 +4420,16 @@
     <string name="flight_detail_cabin_class_desc_TEMPLATE">선호 등급 {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_label">항공편 업그레이드</string>
+    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
+    <string name="flight_fare_family_upgrade_unavailable_error_title">업그레이드 실패</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">죄송합니다, &lt;b&gt;{selected_upgrade}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 업그레이드해 주세요. 처음 선택하신 요금으로 돌아가겠습니다.</string>
+    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
+    <string name="flight_fare_family_change_class_label">좌석 등급 변경</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">최저</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">&lt;b&gt;현재 좌석 등급:&lt;/b&gt; {class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">&lt;b&gt;현재 좌석 등급:&lt;/b&gt; {class_one}, {class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">&lt;b&gt;현재 좌석 등급:&lt;/b&gt; 혼합된 좌석 등급</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} ~ {enddate}</string>
@@ -4447,6 +4473,8 @@
     <string name="flight_overview_price_widget_TEMPLATE">총 금액은 {totalprice}입니다. 세금 및 수수료 포함. {savings}</string>
     <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">총 금액은 {totalprice}입니다. 세금 및 수수료 포함. {savings}. 요금 내역 대화상자. 버튼.</string>
+    <!--Content description for Fare Family total widget. Example: Trip total for Basic Economy is $153.20. Includes taxes and fees.-->
+    <string name="flight_fare_family_total_price_widget_cont_desc_TEMPLATE">{farefamily} 선택 시 총 요금은 {totalprice}입니다. 세금 및 수수료 포함입니다.</string>
     <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
     <string name="flight_overview_price_widget_button_open_TEMPLATE">총 금액은 1인당 {price_per_person}입니다. 세금 및 수수료 포함. 항공편을 보려면 버튼을 탭하세요.</string>
 
@@ -4622,23 +4650,15 @@
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">업그레이드 이용 가능</string>
     <!-- Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title">이용한 경험이 어떠셨나요?</string>
-    <!-- Alt. Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title_alt">저희 앱이 마음에 드세요?</string>
+    <string name="dialog_app_rating_title">저희 앱이 마음에 드세요?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">저희 앱이 마음에 드시면 Play Store에 이용 후기를 남겨주세요.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button">이용 후기</string>
-    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button_alt">앱 평가</string>
+    <string name="dialog_app_rating_review_button">앱 평가</string>
     <!-- Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button">의견 보내기</string>
-    <!-- Alt. Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button_alt">이메일 앱 지원</string>
+    <string name="dialog_app_rating_feedback_button">이메일 앱 지원</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">나중에 하기</string>
-    <!-- Alt. Button for App Rating Dialog to decline review -->
-    <string name="dialog_app_rating_no_button_alt">나중에 하기</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">유효한 이메일 주소를 입력해 주세요.</string>
     <!-- Checkout validation error message for first name -->
@@ -4760,5 +4780,15 @@
     <string name="share_flight">항공편 공유하기</string>
     <!--App shortcut for sharing flight info long version.-->
     <string name="share_flight_status">항공편 상태 공유하기</string>
+
+    <!--Soft Prompt-->
+    <string name="location_soft_prompt_title">여행을 떠나볼까요?</string>
+    <string name="location_soft_prompt_subtitle">주변 탐색, 현재 위치에서 가까운 호텔 검색, 길찾기 등 다양한 기능을 이용해 보세요.</string>
+    <string name="location_soft_prompt_enable">위치 설정 켜기</string>
+    <string name="location_soft_prompt_disable">나중에 하기</string>
+
+    <!--price descriptor for different hotel rate type-->
+    <string name="total_including_taxes_fees">세금 및 수수료를 포함한 총액</string>
+    <string name="excluding_taxes_fees">세금 및 수수료 제외</string>
 
 </resources>

@@ -692,9 +692,11 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Ei hakutuloksia. Hae uudelleen eri hakuehdoilla.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Emme pystyneet päättelemään tämänhetkistä sijaintiasi löytääksemme läheisiä aktiviteetteja.</string> 
+    <string name="error_lx_current_location_search_message">Emme pystyneet päättelemään tämänhetkistä sijaintiasi löytääksemme läheisiä aktiviteetteja.</string>
+
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">Emme pystyneet päättelemään tämänhetkistä sijaintiasi löytääksemme läheisiä kuljetusvaihtoehtoja.</string> 
+    <string name="error_gt_current_location_search_message">Emme pystyneet päättelemään tämänhetkistä sijaintiasi löytääksemme läheisiä kuljetusvaihtoehtoja.</string>
+
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Virhe</string>
     <!-- Text for error toolbar-->
@@ -885,6 +887,8 @@
     <string name="total_with_tax">Lopullinen hinta veroineen</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Matkan loppusumma</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">Matkan loppusumma luokassa {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Matkan loppusumma</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1761,6 +1765,8 @@
     <string name="flights_title">Lennot</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">Maksutiedot</string>
+    <!-- Flights Free Cancellation More Information -->
+    <string name="flights_free_cancellation_information">24 tunnin jälkeen sovelletaan normaaleja lentoehtoja.</string>
     <!-- Flights Free Cancellation messaging -->
     <string name="flights_free_cancellation">Ilmainen peruutusoikeus 24 tunnin sisällä</string>
     <!-- Card fee warning text on checkout overview.
@@ -2227,8 +2233,8 @@
     <string name="redress_number_msg">Redress-numero on ainutlaatuinen TSA:n myöntämä numero, joka auttaa TSA:ta poistamaan virheellisesti tunnistetut henkilöt seurantalistalta ja vahvistamaan henkilöllisyytesi.</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">Kanta-asiakasohjelma</string>
-    <!--Frequent flyer My Programs for Dialog Box-->
-    <string name="frequent_flyer_my_programs">Kanta-asiakasohjelmani</string>
+    <!--Frequent flyer Programs title for Alert Dialog Box-->
+    <string name="frequent_flyer_programs">Ohjelmat</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">Ohjelman numero</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2593,6 +2599,8 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/ yö</string>
+    <!-- The label for total price for the stay - "$120 total stay", for example -->
+    <string name="total_stay">kokonaishinta</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ei arvosteltu</string>
 
@@ -2792,6 +2800,14 @@
         <item quantity="other">Hinnat keskimäärin per yö • %d tulosta</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Ei tuloksia</item>
+        <item quantity="one">&lt;b&gt;Hinnat keskimäärin per yö&lt;/b&gt; • 1 tulos</item>
+        <item quantity="many">&lt;b&gt;Hinnat keskimäärin per yö&lt;/b&gt; • %d tulosta</item>
+        <item quantity="other">&lt;b&gt;Hinnat keskimäärin per yö&lt;/b&gt; • %d tulosta</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">Ei tuloksia</item>
@@ -2804,7 +2820,15 @@
         <item quantity="zero">Ei tuloksia</item>
         <item quantity="one">Yöpymisen hinta • 1 tulos</item>
         <item quantity="many">Yöpymisen hinta • %d tulosta</item>
-        <item quantity="other">Yöpymisen hinta • %d tulosta</item>
+        <item quantity="other">Yöpymisen kokonaishinta • %d tulosta</item>
+    </plurals>
+
+    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Ei tuloksia</item>
+        <item quantity="one">&lt;b&gt;Yöpymisen kokonaishinta&lt;/b&gt; • 1 tulos</item>
+        <item quantity="many">&lt;b&gt;Yöpymisen kokonaishinta&lt;/b&gt; • %d tulosta</item>
+        <item quantity="other">&lt;b&gt;Yöpymisen kokonaishinta&lt;/b&gt; • %d tulosta</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -4396,14 +4420,16 @@
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Haluttu lentoluokka {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_label">Korota lentoluokkaasi</string>
+    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Lentoluokan korotus epäonnistui</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">Pahoittelut, &lt;b&gt;{selected_upgrade}&lt;/b&gt; on loppuunmyyty. Yritä uudelleen eri lentoluokalla. Lentosi palautetaan alkuperäiseen lentoluokkaan.</string>
+    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
+    <string name="flight_fare_family_change_class_label">Vaihda lentoluokkaasi</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Alkaen</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">&lt;b&gt;Valittu:&lt;/b&gt;{class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">&lt;b&gt;Valittu:&lt;/b&gt; {class_one}, {class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">&lt;b&gt;Valittu:&lt;/b&gt; Sekalaiset lentoluokat</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} –&gt; {enddate}</string>
@@ -4447,6 +4473,8 @@
     <string name="flight_overview_price_widget_TEMPLATE">Matkan loppusumma on {totalprice}. Sisältää verot ja maksut. {savings}</string>
     <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Matkan loppusumma on {totalprice}. Sisältää verot ja maksut. {savings}. Hintaerittelyn dialogi. Painike.</string>
+    <!--Content description for Fare Family total widget. Example: Trip total for Basic Economy is $153.20. Includes taxes and fees.-->
+    <string name="flight_fare_family_total_price_widget_cont_desc_TEMPLATE">Matkan loppusumma luokassa {farefamily} on {totalprice}. Sisältää verot ja maksut.</string>
     <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
     <string name="flight_overview_price_widget_button_open_TEMPLATE">Matkan hinta on {price_per_person} per henkilö. Sisältää verot ja maksut. Lentojen tarkastelu -painike.</string>
 
@@ -4622,23 +4650,15 @@
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Huoneluokan korotus saatavilla</string>
     <!-- Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title">Millainen kokemuksesi oli?</string>
-    <!-- Alt. Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title_alt">Pidätkö sovelluksestamme?</string>
+    <string name="dialog_app_rating_title">Pidätkö sovelluksestamme?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">Jos pidät sovelluksestamme, kerro meille siitä jättämällä arvostelu Play Storessa.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button">Arvostele</string>
-    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button_alt">Arvostele sovellus</string>
+    <string name="dialog_app_rating_review_button">Arvostele sovellus</string>
     <!-- Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button">Lähetä palautetta</string>
-    <!-- Alt. Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button_alt">Lähetä sähköpostia sovelluksen tukeen</string>
+    <string name="dialog_app_rating_feedback_button">Lähetä sähköpostia sovelluksen tukeen</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Ei kiitos</string>
-    <!-- Alt. Button for App Rating Dialog to decline review -->
-    <string name="dialog_app_rating_no_button_alt">Ei kiitos</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Anna oikea sähköpostiosoite</string>
     <!-- Checkout validation error message for first name -->
@@ -4760,5 +4780,15 @@
     <string name="share_flight">Jaa lentosi</string>
     <!--App shortcut for sharing flight info long version.-->
     <string name="share_flight_status">Jaa lentosi tila</string>
+
+    <!--Soft Prompt-->
+    <string name="location_soft_prompt_title">Matka alkaa tästä</string>
+    <string name="location_soft_prompt_subtitle">Tutustu lähellä oleviin mielenkiintoisiin kohteisiin ja hotelleihin, katso reittiohjeet ja paljon muuta.</string>
+    <string name="location_soft_prompt_enable">Salli sijainnin käyttö</string>
+    <string name="location_soft_prompt_disable">Ei nyt</string>
+
+    <!--price descriptor for different hotel rate type-->
+    <string name="total_including_taxes_fees">Lopullinen hinta sisältäen verot ja maksut</string>
+    <string name="excluding_taxes_fees">Ei sisällä veroja ja maksuja</string>
 
 </resources>
