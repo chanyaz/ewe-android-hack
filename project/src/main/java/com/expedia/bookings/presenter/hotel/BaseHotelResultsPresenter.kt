@@ -632,7 +632,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     @CallSuper
     open fun showLoading() {
         adapter.showLoading()
-        recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
     }
 
     private val mapViewLayoutReadyListener = object : ViewTreeObserver.OnGlobalLayoutListener {

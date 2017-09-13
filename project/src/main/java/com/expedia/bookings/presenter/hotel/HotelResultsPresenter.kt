@@ -157,8 +157,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         vm.filterParamsSubject.subscribe {
             if (previousWasList) {
-                showLoading()
+                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
                 resetListOffset()
+                showLoading()
             } else {
                 show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
                 fab.isEnabled = false
@@ -238,7 +239,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         searchThisArea.setOnClickListener({ view ->
             fab.isEnabled = false
             animateMapCarouselOut()
-            clearMarkers()
             hideSearchThisArea()
             doAreaSearch()
             trackMapSearchAreaClick()
@@ -405,7 +405,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     private fun resetForNewSearch() {
         showLoading()
-        show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
+        clearMarkers()
     }
 
     private class UrgencyAnimation(urgencyContainer: LinearLayout, toolbarShadow: View) {
