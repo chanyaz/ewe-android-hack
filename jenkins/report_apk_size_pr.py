@@ -1,6 +1,11 @@
 import os
+import textwrap
 from github3 import login
 import sys
+
+BETTER_COLOR="00b700"
+WORSE_COLOR="d30000"
+NEUTRAL_COLOR="c0c0c0"
 
 brand = sys.argv[1]
 github_access_token = os.environ['GITHUB_ACCESS_TOKEN']
@@ -22,9 +27,17 @@ pr = repo.pull_request(pull_request_id)
 
 if old_apk_size != 0:
     difference = new_apk_size - old_apk_size
+    color = NEUTRAL_COLOR
+    if (difference > 0):
+        color = WORSE_COLOR
+    elif (difference < 0):
+        color = BETTER_COLOR
 
-    pr.create_comment(
-        "New APK size = {newSize} MB\nOld APK size = {oldSize} MB\nDifference = {difference} MB\n**These are for debug app".format(
-            newSize=new_apk_size, oldSize=old_apk_size, difference=difference))
+    pr.create_comment(textwrap.dedent("""
+        New APK size = {newSize} MB
+        Old APK size = {oldSize} MB
+        Difference = {difference} MB ![{color}](https://placehold.it/15/{color}/000000?text=+)
+        **These are for debug app""").format(
+            newSize=new_apk_size, oldSize=old_apk_size, difference=difference, color=color))
 else:
     pr.create_comment("APK size analysis not available.")
