@@ -277,10 +277,11 @@ Feature: Flights Checkout
     And I press back
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    And Close price change Alert dialog if it is visible
     When I click on checkout button
     And I wait for checkout screen to load
-    And Validate that Main traveller "Traveler Details" is selected by default
-    And Validate that Credit card "Payment Method" is selected by default
+    And Validate that Main traveller "Enter traveler details" is selected by default
+    And Validate that Credit card "Enter payment details" is selected by default
 
   @Flights @FlightsCheckout @Prod
   Scenario: Verify that traveler details and card details are erased on each create trip from checkout page for one-way trip flights.
@@ -322,10 +323,11 @@ Feature: Flights Checkout
     And I press back
     And I press back
     And I select outbound flight at position 2 and reach inbound FSR
+    And Close price change Alert dialog if it is visible
     When I click on checkout button
     And I wait for checkout screen to load
-    And Validate that Main traveller "Traveler Details" is selected by default
-    And Validate that Credit card "Payment Method" is selected by default
+    And Validate that Main traveller "Enter traveler details" is selected by default
+    And Validate that Credit card "Enter payment details" is selected by default
 
   @Flights @FlightsCheckout
     Scenario: Verify that error message should be displayed if card is not accepted by certain flight on payment screen.

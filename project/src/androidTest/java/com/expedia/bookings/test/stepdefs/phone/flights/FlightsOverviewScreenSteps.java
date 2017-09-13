@@ -60,12 +60,12 @@ public class FlightsOverviewScreenSteps {
 
 	@And("^Check if Trip Total is \"(.*?)\" on Price Change$")
 	public void validateTripTotalOnPriceChange(String finalPrice) throws Throwable {
-		onView(Matchers.allOf(withId(R.id.bundle_total_price), withText(finalPrice))).check(matches(isDisplayed()));
+		onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_price), withText(finalPrice))).check(matches(isDisplayed()));
 	}
 
 	@And("^Check if Cost Summary Dialog Box has \"(.*?)\" as Final Price$")
 	public void validateCostSummaryPriceChange(String finalPrice) throws Throwable {
-		onView(withId(R.id.bundle_total_text)).perform(click());
+		onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_text))).perform(click());
 		onView(Matchers.allOf(withId(R.id.price_type_text_view), withText("Total Due Today"), hasSibling(withText(finalPrice)))).check(matches(isDisplayed()));
 		closeAlertDialog();
 	}
@@ -149,11 +149,11 @@ public class FlightsOverviewScreenSteps {
 	}
 	@Then("^validate total price of the trip is \"([^\"]*)\"$")
 	public void validateTotalPrice(String price) throws Throwable {
-		onView(withId(R.id.bundle_total_price)).check(matches(withText(price)));
+		onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_price))).check(matches(withText(price)));
 	}
 	@Then("^I click on trip total link$")
 	public void clickTripTotal() throws Throwable {
-		onView(withId(R.id.bundle_total_text)).perform(click());
+		onView(allOf(isDescendantOfA(withId(R.id.total_price_widget)), withId(R.id.bundle_total_text))).perform(click());
 	}
 	@Then("^validate following detailed information is present on cost summary screen$")
 	public void validateCostSummaryPopup(Map<String, String> params) throws Throwable {
