@@ -97,7 +97,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		CheckoutViewModel.pressDoLogin();
 		Common.delay(1);
 		CheckoutViewModel.paymentInfo().perform(scrollTo());
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Payment Method");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Enter payment details");
 		CheckoutViewModel.clickPaymentInfo();
 		Common.delay(1);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");

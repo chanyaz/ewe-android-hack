@@ -219,8 +219,8 @@ class PaymentViewModelTest {
 
         paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
                 ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon))
-        cardTitleTestSubscriber.assertValues("Visa …1111", "Visa 4111", "Payment Method")
-        cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "Enter credit card")
+        cardTitleTestSubscriber.assertValues("Visa …1111", "Visa 4111", "Enter payment details")
+        cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "")
         pwpSmallIconTestSubscriber.assertValues(false, false, false)
     }
 
@@ -240,8 +240,8 @@ class PaymentViewModelTest {
 
         paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(),R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
                 ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon))
-        cardTitleTestSubscriber.assertValues("Visa …1111", "Paying with Points & Visa …1111", "Payment Method")
-        cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "Credit card, pay with points")
+        cardTitleTestSubscriber.assertValues("Visa …1111", "Paying with Points & Visa …1111", "Enter payment details")
+        cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "")
         pwpSmallIconTestSubscriber.assertValues(false, true, false)
     }
 
@@ -282,8 +282,8 @@ class PaymentViewModelTest {
 
         paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.pwp_icon),
                 ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful))
-        cardTitleTestSubscriber.assertValues("Payment Method", "Paying with Points", "Payment Method")
-        cardSubtitleTestSubscriber.assertValues("Credit card, pay with points", "Tap to edit", "Enter credit card")
+        cardTitleTestSubscriber.assertValues("Enter payment details", "Paying with Points", "Enter payment details")
+        cardSubtitleTestSubscriber.assertValues("", "Tap to edit", "")
         pwpSmallIconTestSubscriber.assertValues(false, false, false)
 
     }

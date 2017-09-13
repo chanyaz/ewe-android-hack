@@ -212,10 +212,11 @@ open class PaymentViewModel(val context: Context) {
     }
 
     fun getTitleAndSubtitleNoInfo(isRedeemable: Boolean): Pair<String, String> {
-        val isUniversalCheckout = LineOfBusinessExtensions.isUniversalCheckout(lineOfBusiness.value, context)
+        val doesNotRequireSubtitle = LineOfBusinessExtensions.isUniversalCheckout(lineOfBusiness.value, context)
+                || lineOfBusiness.value == LineOfBusiness.HOTELS
         val title: String
         val subTitle: String
-        if (isUniversalCheckout) {
+        if (doesNotRequireSubtitle) {
             title = resources.getString(R.string.enter_payment_information)
             if (billingInfoAndStatusUpdate.value.second == ContactDetailsCompletenessStatus.DEFAULT) {
                 subTitle = ""
