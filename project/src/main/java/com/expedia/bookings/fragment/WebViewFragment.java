@@ -234,7 +234,6 @@ public class WebViewFragment extends DialogFragment {
 		super.onSaveInstanceState(out);
 		if (mWebView != null) {
 			out.putBoolean(INSTANCE_LOADED, this.mWebViewLoaded);
-			mWebView.saveState(out);
 		}
 	}
 
@@ -276,26 +275,20 @@ public class WebViewFragment extends DialogFragment {
 	private void actOnState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			mWebViewLoaded = savedInstanceState.getBoolean(INSTANCE_LOADED, false);
-			mWebView.restoreState(savedInstanceState);
 		}
 
-		if (!mWebViewLoaded) {
+		if (TextUtils.isEmpty(mHtmlData)) {
 			if (mListener != null) {
 				mListener.setLoading(true);
 			}
-			if (TextUtils.isEmpty(mHtmlData)) {
-				mWebView.loadUrl(mUrl);
-			}
+			mWebView.loadUrl(mUrl);
 		}
 		else {
 			if (mListener != null) {
-				mListener.setLoading(false);
+				mListener.setLoading(!mWebViewLoaded);
 			}
-		}
-
-		if (!TextUtils.isEmpty(mHtmlData)) {
-			//Using .loadData() sometimes fails with unescaped html. loadDataWithBaseUrl() doesnt
-			// .loadDataWithBaseURL() does not seem to save the data across configuration changes, so must alwasy reload
+			// Using .loadData() sometimes fails with unescaped html.
+			// .loadDataWithBaseURL() does not seem to save the data across configuration changes, so must always reload
 			mWebView.loadDataWithBaseURL(null, mHtmlData, "text/html", "UTF-8", null);
 		}
 	}
