@@ -123,6 +123,7 @@
     <string name="preference_trips_hotel_scheduled_notifications">preference_trips_hotel_scheduled_notifications</string>
     <string name="preference_soft_prompt_permission">preference_soft_prompt_permission</string>
     <string name="preference_allow_unknown_card_types">preference_allow_unknown_card_types</string>
+    <string name="preference_show_flights_checkout_webview">preference_show_flights_checkout_webview</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

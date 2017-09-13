@@ -46,3 +46,8 @@ fun isAllowUnknownCardTypesEnabled(context: Context): Boolean {
 fun isAllowCheckinCheckoutDatesInlineEnabled(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
 }
+
+fun isShowFlightsCheckoutWebview(context: Context): Boolean {
+    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
+            && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_flights_checkout_webview)
+}

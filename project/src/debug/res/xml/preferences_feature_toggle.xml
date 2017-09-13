@@ -93,6 +93,11 @@
             android:summary="Allow Unknown Card Types"
             android:title="Allow Unknown Card Types" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_show_flights_checkout_webview"
+            android:summary="Show Flights Checkout Webview"
+            android:title="Show Flights Checkout Webview" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
