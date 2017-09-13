@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import android.app.Activity
 import android.content.res.Resources
+import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -16,7 +17,9 @@ import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowDateFormat::class))
@@ -24,6 +27,9 @@ class FlightV2UtilsTest {
     val testDepartTime = "2014-07-05T12:30:00.000-05:00"
     val testArrivalTime = "2014-07-05T16:40:00.000-05:00"
     val testFlightLeg = buildTestFlightLeg()
+    private val FARE_FAMILY_INCLUDED_CATEGORY = "included"
+    private val FARE_FAMILY_CHARGEABLE_CATEGORY = "chargeable"
+    private val FARE_FAMILY_NOT_OFFERED_CATEGORY = "notoffered"
 
     var activity: Activity by Delegates.notNull()
     var resources: Resources by Delegates.notNull()
@@ -283,5 +289,133 @@ class FlightV2UtilsTest {
         val seatClassAndBookingCode = FlightTripDetails().SeatClassAndBookingCode()
         seatClassAndBookingCode.seatClass = seatClass
         return seatClassAndBookingCode
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHasMoreAmenities() {
+        val fareFamilyComponents = getFareFamilyComponents()
+        assertTrue(FlightV2Utils.hasMoreAmenities(fareFamilyComponents))
+
+        fareFamilyComponents.remove("included")
+        fareFamilyComponents.remove("chargeable")
+        assertFalse(FlightV2Utils.hasMoreAmenities(fareFamilyComponents))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBagsAmenityResource() {
+        var amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", FARE_FAMILY_INCLUDED_CATEGORY), "USD")
+        assertEquals(R.drawable.flight_upsell_tick_icon, amenityResourceType.resourceId)
+
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", FARE_FAMILY_CHARGEABLE_CATEGORY), "USD")
+        assertEquals("$", amenityResourceType.dispVal)
+
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", FARE_FAMILY_NOT_OFFERED_CATEGORY), "USD")
+        assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
+
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", ""), "USD") //Empty Fare Family Component
+        assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
+
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getFareFamilyComponents("ExtraLegroom", "Premium Seat", ""), "USD") //No Bags Amenity
+        assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBagLuggageAmenityResource() {
+        var amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(1), "USD")
+        assertEquals(resources.getString(R.string.one), amenityResourceType.dispVal)
+
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(2), "USD")
+        assertEquals(resources.getString(R.string.two), amenityResourceType.dispVal)
+
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(3), "USD")
+        assertEquals(resources.getString(R.string.three), amenityResourceType.dispVal)
+
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(4), "USD")
+        assertEquals(resources.getString(R.string.four), amenityResourceType.dispVal)
+
+        amenityResourceType = FlightV2Utils.getBagsAmenityResource(activity, getBagLuggageFareFamilyComponents(5), "USD")
+        assertEquals("", amenityResourceType.dispVal)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCancellationAmenityResource() {
+        var amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", FARE_FAMILY_INCLUDED_CATEGORY), "USD")
+        assertEquals(R.drawable.flight_upsell_tick_icon, amenityResourceType.resourceId)
+
+        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", FARE_FAMILY_CHARGEABLE_CATEGORY), "USD")
+        assertEquals("$", amenityResourceType.dispVal)
+
+        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", FARE_FAMILY_NOT_OFFERED_CATEGORY), "USD")
+        assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
+
+        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("RefundBeforeDeparture", "Cancellation", ""), "USD") //Empty Fare Family Component
+        assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
+
+        amenityResourceType = FlightV2Utils.getCancellationAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", ""), "USD") //No Cancellation Amenity
+        assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testSeatSelectionAmenityResource() {
+        var amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Selection", FARE_FAMILY_INCLUDED_CATEGORY), "USD")
+        assertEquals(R.drawable.flight_upsell_tick_icon, amenityResourceType.resourceId)
+
+        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Selection", FARE_FAMILY_CHARGEABLE_CATEGORY), "USD")
+        assertEquals("$", amenityResourceType.dispVal)
+
+        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Selection", FARE_FAMILY_NOT_OFFERED_CATEGORY), "USD")
+        assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
+
+        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("SeatReservation", "Seat Selection", ""), "USD") //Empty Fare Family Component
+        assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
+
+        amenityResourceType = FlightV2Utils.getSeatSelectionAmenityResource(activity, getFareFamilyComponents("Bags", "Checked Bags", ""), "USD") //No Cancellation Amenity
+        assertEquals(R.drawable.flight_upsell_cross_icon, amenityResourceType.resourceId)
+    }
+
+    private fun getFareFamilyComponents(): HashMap<String, HashMap<String, String>> {
+        val fareFamilyComponentMap = HashMap<String, HashMap<String, String>>()
+        fareFamilyComponentMap.put("notoffered", HashMap<String, String>())
+        fareFamilyComponentMap.put("unknown", HashMap<String, String>())
+        var amenityMap = HashMap<String, String>()
+        amenityMap.put("SeatReservation", "Seat Choice")
+        amenityMap.put("RefundBeforeDeparture", "Cancellation")
+        fareFamilyComponentMap.put("included", amenityMap)
+        amenityMap = HashMap<String, String>()
+        amenityMap.put("Bags", "Checked Bags")
+        amenityMap.put("ExtraLegroom", "Premium Seat")
+        amenityMap.put("PriorityBoarding", "Priority Boarding")
+        fareFamilyComponentMap.put("chargeable", amenityMap)
+        return fareFamilyComponentMap
+    }
+
+    private fun getFareFamilyComponents(amenityKey:String, amenityDispValue: String, amenityCategory: String): HashMap<String, HashMap<String, String>> {
+        val fareFamilyComponentMap = HashMap<String, HashMap<String, String>>()
+        val amenityMap = HashMap<String, String>()
+        amenityMap.put(amenityKey, amenityDispValue)
+        when(amenityCategory) {
+            FARE_FAMILY_INCLUDED_CATEGORY -> fareFamilyComponentMap.put("included", amenityMap)
+            FARE_FAMILY_CHARGEABLE_CATEGORY -> fareFamilyComponentMap.put("chargeable", amenityMap)
+            FARE_FAMILY_NOT_OFFERED_CATEGORY -> fareFamilyComponentMap.put("notoffered", amenityMap)
+        }
+        return fareFamilyComponentMap
+    }
+
+    private fun getBagLuggageFareFamilyComponents(bagCount: Int): HashMap<String, HashMap<String, String>> {
+        val fareFamilyComponentMap = HashMap<String, HashMap<String, String>>()
+        val amenityMap = HashMap<String, String>()
+        when(bagCount) {
+            1 -> amenityMap.put("OneLuggage", "1 x Free Luggage")
+            2 -> amenityMap.put("TwoLuggage", "2 x Free Luggage")
+            3 -> amenityMap.put("ThreeLuggage", "3 x Free Luggage")
+            4 -> amenityMap.put("FourLuggage", "4 x Free Luggage")
+        }
+        fareFamilyComponentMap.put("included", amenityMap)
+        return fareFamilyComponentMap
     }
 }
