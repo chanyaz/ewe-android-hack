@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.InboundFlightWidget
@@ -54,8 +55,13 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         vm.inboundBundleWidgetClassObservable.subscribe(inboundFlightWidget.viewModel.updateUpsellClassPreference)
         freeCancellationInfoContainer.subscribeOnClick(vm.freeCancellationInfoClickSubject)
         vm.freeCancellationInfoSubject.subscribe {
-            freeCancellationInfoTextView.visibility = if (it)  View.VISIBLE else View.GONE
-            freeCancellationMoreInfoIcon.animate().rotationBy(180f)
+            if (it){
+                freeCancellationInfoTextView.visibility = View.VISIBLE
+                AnimUtils.rotate(freeCancellationMoreInfoIcon)
+            } else {
+                freeCancellationInfoTextView.visibility = View.GONE
+                AnimUtils.reverseRotate(freeCancellationMoreInfoIcon)
+            }
         }
     }
 
