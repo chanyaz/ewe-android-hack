@@ -45,10 +45,13 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
     }
 
     private var hasAddGuestItinErrors = false
-    private val syncListenerAdapter = createSyncAdapter()
+    @VisibleForTesting
+    var isSyncCalledFromHere = false
+    @VisibleForTesting
+    val syncListenerAdapter = createSyncAdapter()
 
     private val guestItinToProgressTransition by lazy {
-        object: VisibilityTransition(presenter, AddGuestItinWidget::class.java, ItinFetchProgressWidget::class.java) {}
+        object : VisibilityTransition(presenter, AddGuestItinWidget::class.java, ItinFetchProgressWidget::class.java) {}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +67,7 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
 
         addGuestItinWidget.viewModel.showItinFetchProgressObservable.subscribe {
             hasAddGuestItinErrors = false
+            isSyncCalledFromHere = true
             presenter.show(guestItinProgressWidget)
         }
     }
@@ -106,9 +110,10 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
         dialog.show(supportFragmentManager, "dialog_from_about_utils")
     }
 
-    private inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
+    @VisibleForTesting
+    inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
-            if (!hasAddGuestItinErrors) {
+            if (!hasAddGuestItinErrors && isSyncCalledFromHere) {
                 finish()
             }
         }
