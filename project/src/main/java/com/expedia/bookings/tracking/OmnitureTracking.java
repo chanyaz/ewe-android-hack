@@ -4314,6 +4314,9 @@ public class OmnitureTracking {
 		if (isMidAPIEnabled(sContext)) {
 			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesMidApi);
 		}
+		else {
+			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH);
+		}
 	}
 
 	public static void trackPackagesHSRMapInit() {
