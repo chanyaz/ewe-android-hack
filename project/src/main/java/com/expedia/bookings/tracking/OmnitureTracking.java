@@ -5426,11 +5426,9 @@ public class OmnitureTracking {
 	}
 
 	public static void trackRailSearchInit() {
-		trackRailPageLoadEventStandard(RAIL_SEARCH_BOX);
-	}
-
-	private static void trackRailPageLoadEventStandard(String pageName) {
-		createTrackRailPageLoadEventBase(pageName).track();
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(RAIL_SEARCH_BOX);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppAPIMAuth);
+		s.track();
 	}
 
 	public static void trackRailSearchTravelerPickerChooser(String text) {

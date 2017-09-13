@@ -16,5 +16,19 @@ class OmnitureMatchers {
         @JvmStatic
         fun withEventsString(events: String): Matcher<Map<String, Any>> =
                 Matchers.hasEntry("&&events", events) as Matcher<Map<String, Any>>
+
+        @JvmStatic
+        fun withAbacusTestControl(testId: Int): Matcher<Map<String, Any>> =
+                withAbacusTestVariant(testId, 0)
+
+        @JvmStatic
+        fun withAbacusTestBucketed(testId: Int): Matcher<Map<String, Any>> =
+                withAbacusTestVariant(testId, 1)
+
+        @JvmStatic
+        fun withAbacusTestVariant(testId: Int, variant: Int): Matcher<Map<String, Any>> {
+            val expectedTestString = "$testId.0.$variant"
+            return Matchers.hasEntry(Matchers.equalTo("&&v34"), Matchers.containsString(expectedTestString)) as Matcher<Map<String, Any>>
+        }
     }
 }
