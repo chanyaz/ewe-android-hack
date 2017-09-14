@@ -108,6 +108,7 @@ import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.util.PackageUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -3488,6 +3489,16 @@ public class OmnitureTracking {
 		if (mc1Guid != null) {
 			s.setProp(23, mc1Guid.replace("GUID=", ""));
 		}
+
+		// Google Play Services Version
+		int gpsVersion;
+		try {
+			gpsVersion = sContext.getPackageManager().getPackageInfo(GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE, 0).versionCode;
+		}
+		catch (PackageManager.NameNotFoundException e) {
+			gpsVersion = 0;
+		}
+		s.setProp(27, Integer.toString(gpsVersion));
 	}
 
 	private static void internalTrackPageLoadEventStandard(String pageName) {

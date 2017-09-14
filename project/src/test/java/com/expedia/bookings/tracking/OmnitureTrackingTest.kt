@@ -1,9 +1,12 @@
 package com.expedia.bookings.tracking
 
 import android.content.Context
-import com.expedia.bookings.ADMS_Measurement
-import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
+import android.content.pm.PackageInfo
+import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withProps
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -11,50 +14,71 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.DebugInfoUtils
+import com.google.android.gms.common.GoogleApiAvailability
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import kotlin.test.assertEquals
 
 // TODO re-enable these tests when implementing methods in the new Omniture SDK implementation
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class OmnitureTrackingTest {
 
-//    private val USER_EMAIL = "testuser@expedia.com"
-//    private val USER_EMAIL_HASH = "1941c6bff303b2fb1af6801a7eb809e657bc611e8e2d76c44961b90aec193f5a"
-//
-//    private lateinit var context: Context;
-//    private lateinit var adms: ADMS_Measurement;
-//
+    private val USER_EMAIL = "testuser@expedia.com"
+    private val USER_EMAIL_HASH = "1941c6bff303b2fb1af6801a7eb809e657bc611e8e2d76c44961b90aec193f5a"
+
+    private val context: Context by lazy {
+        RuntimeEnvironment.application
+    }
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
+
 //    private val suggestionBehaviorLinkDefaults = "HTL.UpdateSearch.H.en_US.1"
-//
-//    @Before
-//    fun setup() {
-//        context = RuntimeEnvironment.application
-//        adms = ADMS_Measurement.sharedInstance(context)
-//    }
-//
-//    @Test
-//    fun guidSentInProp23() {
-//        OmnitureTracking.trackAccountPageLoad()
-//
-//        val expectedGuid = DebugInfoUtils.getMC1CookieStr(context).replace("GUID=", "")
-//        assertEquals(expectedGuid, adms.getProp(23))
-//    }
-//
-//    @Test
-//    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-//    fun emailHashedWithSHA256() {
-//        givenUserIsSignedIn()
-//
-//        OmnitureTracking.trackAccountPageLoad()
-//
-//        assertEquals(USER_EMAIL_HASH, adms.getProp(11))
-//    }
-//
+
+    @Before
+    fun setup() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+    }
+
+    @Test
+    fun guidSentInProp23() {
+        OmnitureTracking.trackAccountPageLoad()
+
+        val expectedGuid = DebugInfoUtils.getMC1CookieStr(context).replace("GUID=", "")
+        assertStateTracked(withProps(mapOf(23 to expectedGuid)), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun emailHashedWithSHA256() {
+        givenUserIsSignedIn()
+
+        OmnitureTracking.trackAccountPageLoad()
+
+        assertStateTracked(withProps(mapOf(11 to USER_EMAIL_HASH)), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun playServicesVersionIs0WhenNotInstalled() {
+        OmnitureTracking.trackAccountPageLoad()
+
+        assertStateTracked(withProps(mapOf(27 to "0")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun playServicesVersionIsValidWhenInstalled() {
+        val gmsPackageInfo = PackageInfo()
+        gmsPackageInfo.packageName = GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE
+        gmsPackageInfo.versionCode = 11000001
+        RuntimeEnvironment.getRobolectricPackageManager().addPackage(gmsPackageInfo)
+
+        OmnitureTracking.trackAccountPageLoad()
+
+        assertStateTracked(withProps(mapOf(27 to "11000001")), mockAnalyticsProvider)
+
+    }
+
 //    @Test
 //    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 //    fun testHotelSuggestionEvar48Prop73_withChild() {
@@ -306,13 +330,13 @@ class OmnitureTrackingTest {
 //        assertEquals(noParentText, adms.getProp(16), "FAILURE: If an item is from user history it can't be a parent")
 //        assertEquals(noParentText, adms.getEvar(28), "FAILURE: If an item is from user history it can't be a parent")
 //    }
-//
-//    private fun givenUserIsSignedIn() {
-//        val user = UserLoginTestUtil.mockUser()
-//        user.primaryTraveler.email = USER_EMAIL
-//        UserLoginTestUtil.setupUserAndMockLogin(user)
-//    }
-//
+
+    private fun givenUserIsSignedIn() {
+        val user = UserLoginTestUtil.mockUser()
+        user.primaryTraveler.email = USER_EMAIL
+        UserLoginTestUtil.setupUserAndMockLogin(user)
+    }
+
 //    private class TestTrackingDataBuilder {
 //        private val data = SuggestionTrackingData()
 //
