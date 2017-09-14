@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.robolectric
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
@@ -36,7 +35,6 @@ import rx.subjects.BehaviorSubject
 import kotlin.test.assertEquals
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
-import rx.subjects.TestSubject
 import java.util.LinkedHashMap
 import java.util.ArrayList
 import kotlin.test.assertNotNull
@@ -172,6 +170,21 @@ class FlightTravelerFrequentFlyerWidgetTest {
         assertFrequentFlyerViewHolderData(updatedViewHolder, "Alaska Airlines", "Alaska Airlines", "", 0)
         val newEnrolledPlans = updatedViewHolder.frequentFlyerDialogAdapter.enrolledFrequentFlyerPlans
         assertEnrolledPlans(newEnrolledPlans, 0, null, null, null)
+    }
+
+    @Test
+    fun testViewHolderViewModelsMatch() {
+        givenLegsAndFrequentFlyerPlans(false)
+        val viewHolderViewModels = (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.viewHolderViewModels
+        assertEquals(2, viewHolderViewModels?.size)
+
+        val firstVm = viewHolderViewModels?.first()
+        val firstViewHolder = widget.frequentFlyerRecycler?.findViewHolderForAdapterPosition(0) as FrequentFlyerViewHolder
+        assertEquals(firstViewHolder.viewModel, firstVm)
+
+        val secondVm = viewHolderViewModels?.get(1)
+        val secondViewHolder = widget.frequentFlyerRecycler?.findViewHolderForAdapterPosition(1) as FrequentFlyerViewHolder
+        assertEquals(secondViewHolder.viewModel, secondVm)
     }
 
     private fun givenLegsAndFrequentFlyerPlans(hasEnrolledPlans: Boolean) {

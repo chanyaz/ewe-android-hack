@@ -19,7 +19,6 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FlightV2Utils.getAirlineNames
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
 import com.expedia.bookings.utils.isMaterialFormsEnabled
@@ -49,10 +48,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
     val advancedOptionsText: TextView by bindView(R.id.advanced_options_text)
-    var frequentFlyerButton: LinearLayout ?= null
-    var frequentFlyerRecycler: RecyclerView ?= null
-    var frequentFlyerIcon: ImageView ?= null
-    var frequentFlyerText: TextView ?= null
+    var frequentFlyerButton: LinearLayout? = null
+    var frequentFlyerRecycler: RecyclerView? = null
+    var frequentFlyerIcon: ImageView? = null
+    var frequentFlyerText: TextView? = null
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
@@ -118,7 +117,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
         if (frequentflyerTestEnabled) {
-            frequentFlyerRecycler!!.adapter = FrequentFlyerAdapter(vm.frequentFlyerAdapterViewModel!!)
+            vm.frequentFlyerAdapterViewModel?.let { viewModel ->
+                frequentFlyerRecycler?.adapter = FrequentFlyerAdapter(viewModel)
+            }
 
             Observable.combineLatest(vm.flightLegsObservable, vm.frequentFlyerPlans, { legs, plans ->
                         val showFrequentFlyerWidget = legs != null && plans != null

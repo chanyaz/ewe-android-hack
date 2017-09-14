@@ -1,8 +1,8 @@
 package com.expedia.vm.traveler
 
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
-import com.expedia.bookings.widget.traveler.FrequentFlyerCard
 import rx.subjects.PublishSubject
 import java.util.LinkedHashMap
 import java.util.ArrayList

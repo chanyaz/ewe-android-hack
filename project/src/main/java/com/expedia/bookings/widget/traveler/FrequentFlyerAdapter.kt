@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import com.expedia.bookings.R
+import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.vm.traveler.FrequentFlyerAdapterViewModel
 
 class FrequentFlyerAdapter(val viewModel: FrequentFlyerAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
@@ -32,7 +33,8 @@ class FrequentFlyerAdapter(val viewModel: FrequentFlyerAdapterViewModel) : Recyc
         when (holder) {
             is FrequentFlyerViewHolder -> {
                 val frequentFlyerCard = frequentFlyerCards[position]
-                holder.setViewHolderViewModel(viewModel.viewHolderViewModels[position])
+                val viewModel = viewModel.viewHolderViewModels[position]
+                holder.setViewHolderViewModel(viewModel)
                 holder.bind(frequentFlyerCard)
             }
         }
@@ -45,10 +47,4 @@ class FrequentFlyerAdapter(val viewModel: FrequentFlyerAdapterViewModel) : Recyc
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
-
-}
-
-class FrequentFlyerCard(airlineName: String, airlineCode: String) {
-    val airlineName = airlineName
-    val airlineCode = airlineCode
 }

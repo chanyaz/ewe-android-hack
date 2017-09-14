@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.view.ViewGroup
 import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrequentFlyerDialogAdapter

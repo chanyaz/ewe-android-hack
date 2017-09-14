@@ -3,8 +3,8 @@ package com.expedia.vm.traveler
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.utils.FlightV2Utils
-import com.expedia.bookings.widget.traveler.FrequentFlyerCard
 import rx.Observable
 import rx.subjects.PublishSubject
 import java.util.ArrayList

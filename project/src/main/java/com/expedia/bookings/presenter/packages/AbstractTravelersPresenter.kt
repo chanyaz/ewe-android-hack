@@ -268,7 +268,11 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
     private fun updateFlightTravelerEntryWidgetViewModel() {
         val flightTravelerEntryWidgetViewModel = travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel
         val flightTravelersViewModel = viewModel as FlightTravelersViewModel
-        flightTravelerEntryWidgetViewModel.flightLegsObservable.onNext(flightTravelersViewModel.flightLegs)
-        flightTravelerEntryWidgetViewModel.frequentFlyerPlans.onNext(flightTravelersViewModel.frequentFlyerPlans)
+        flightTravelersViewModel.flightLegs?.let { legs ->
+            flightTravelerEntryWidgetViewModel.flightLegsObservable.onNext(legs)
+        }
+        flightTravelersViewModel.frequentFlyerPlans?.let { plans ->
+            flightTravelerEntryWidgetViewModel.frequentFlyerPlans.onNext(plans)
+        }
     }
 }
