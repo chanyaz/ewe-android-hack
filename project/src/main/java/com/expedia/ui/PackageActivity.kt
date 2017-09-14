@@ -83,7 +83,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                 return
             }
             Constants.PACKAGE_API_ERROR_RESULT_CODE -> {
-                val errorCode = data?.extras?.getSerializable(Constants.PACKAGE_API_ERROR) as? PackageApiError.Code
+                val errorCode = (data?.extras?.getSerializable(Constants.PACKAGE_API_ERROR) as? PackageApiError.Code) ?: PackageApiError.Code.pkg_error_code_not_mapped
                 packagePresenter.bundlePresenter.bundleWidget.viewModel.errorObservable.onNext(errorCode)
             }
         }

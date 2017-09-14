@@ -68,7 +68,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             }
         }).subscribe {
             error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
-            if (it.errorCode != null) {
+            if (it.errorCode != PackageApiError.Code.pkg_error_code_not_mapped) {
                 PackagesTracking().trackSearchError(it.errorCode.toString())
             }
             else {
