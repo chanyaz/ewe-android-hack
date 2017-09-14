@@ -98,104 +98,22 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/price_widget"
+    <com.expedia.bookings.hotel.widget.HotelDetailPriceView
+        android:id="@+id/detail_price_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/promo_messaging_container"
         android:background="@color/white"
-        android:clipToPadding="false"
         android:paddingBottom="16dp"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"
-        android:paddingTop="13dp">
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/details_sold_out"
-            style="@style/Core.Text.XXLarge.Medium.LightColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:text="@string/trip_bucket_sold_out"
-            android:visibility="gone" />
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/strike_through_price"
-            style="@style/Core.Text.Large.Gray3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:focusable="false"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/hotel_price_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/strike_through_price"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal">
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/price"
-                style="@style/Core.Text.XXLarge.Medium.LightColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:gravity="center_vertical" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/price_per_descriptor"
-                style="@style/Core.Text.XLarge.LightColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/price"
-                android:focusable="false"
-                android:paddingRight="10dp"
-                android:text="@string/per_night" />
-
-        </LinearLayout>
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/tax_fee_descriptor"
-            style="@style/Core.Text.Small.LightColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/hotel_price_container" />
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/earn_message"
-            style="@style/Core.Text.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/tax_fee_descriptor"
-            android:layout_marginTop="4dp"
-            android:drawableLeft="@drawable/earn_message_icon"
-            android:drawablePadding="@dimen/earn_message_icon_dimen"
-            android:textColor="@color/hotel_detail_earn_message_text_color" />
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_search_info"
-            style="@style/Core.Text.Large.Medium.LightColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true" />
-
-    </RelativeLayout>
+        android:paddingTop="13dp" />
 
     <LinearLayout
         android:id="@+id/rating_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/price_widget"
+        android:layout_below="@+id/detail_price_view"
         android:orientation="horizontal"
         android:paddingBottom="22dp"
         android:paddingLeft="18dp"

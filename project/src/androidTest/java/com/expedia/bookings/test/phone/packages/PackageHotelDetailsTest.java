@@ -34,7 +34,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		Common.delay(3);
 
 		EspressoUtils.assertViewWithSiblingIsNotDisplayed(R.id.discount_percentage, R.id.air_attach_swp_image_details);
-		EspressoUtils.assertViewIsDisplayed(R.id.hotel_price_container);
+		EspressoUtils.assertViewIsDisplayed(R.id.price_per_container);
 
 		HotelScreen.selectRoomButton().perform(click());
 		onView(allOf(withId(R.id.daily_price_per_night), withText("+$0"))).perform(waitForViewToDisplay());
@@ -56,7 +56,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
 		onView(allOf(withId(R.id.price_per_descriptor), withText(" per person")));
-		onView(withId(R.id.hotel_search_info)).check(matches(withText("Feb 3 - Feb 4, 3 guests")));
+		onView(withId(R.id.search_info_text_view)).check(matches(withText("Feb 3 - Feb 4, 3 guests")));
 	}
 
 	@Test
