@@ -119,10 +119,12 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         overviewPresenter.vm.numberOfTravelers.onNext(numTravelers)
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
         val cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.displayName as String else Db.getPackageParams().origin?.regionNames?.displayName as String
+        val state: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin?.regionNames?.shortName as String
         val airportCode: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.hierarchyInfo?.airport?.airportCode as String else Db.getPackageParams().origin?.hierarchyInfo?.airport?.airportCode as String
         val country: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.hierarchyInfo?.country?.name as String else Db.getPackageParams().origin?.hierarchyInfo?.country?.name as String
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         toolbarViewModel.city.onNext(cityBound)
+        toolbarViewModel.state.onNext(state)
         toolbarViewModel.country.onNext(country)
         toolbarViewModel.airport.onNext(airportCode)
         toolbarViewModel.travelers.onNext(numTravelers)

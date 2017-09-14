@@ -61,6 +61,8 @@ public class StrUtils {
 	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
 	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
 	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^((.+)(?= \\(.*\\)))");
+	// e.g. Seattle, WA (SEA-Seattle - Tacoma Intl.) -> WA
+	private static final Pattern STATE_CODE_PATTERN = Pattern.compile("\\, (.*?)\\ ");
 	private static final String HTML_TAGS_REGEX = "<[^>]*>";
 	private static final Pattern CITY_STATE_PATTERN_PACKAGE = Pattern.compile("^[^\\(]+");
 	/**
@@ -440,6 +442,15 @@ public class StrUtils {
 			city = cityMatcher.group(1);
 		}
 		return city;
+	}
+
+	public static String formatStateName(String suggestion) {
+		String state = null;
+		Matcher stateMatcher = STATE_CODE_PATTERN.matcher(suggestion);
+		if (stateMatcher.find()) {
+			state = stateMatcher.group(1);
+		}
+		return state;
 	}
 
 	public static String formatAirportCodeCityName(SuggestionV4 suggestion) {

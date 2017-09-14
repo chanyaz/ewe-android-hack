@@ -42,7 +42,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		Common.pressBack();
 		onView(withId(R.id.all_flights_header)).perform(waitForViewToDisplay());
 		PackageScreen.flightsToolbar()
-			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Inbound to San Francisco, United States of America (SFO)")))));
+			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Inbound to San Francisco, CA (SFO)")))));
 		PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 		assertInboundFlightResultBundlePrice("$2,105.95");
@@ -54,7 +54,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		Common.pressBack();
 		assertOutboundFlightBundlePrice("$1,932");
 		PackageScreen.flightsToolbar()
-			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit, United States of America (DTW)")))));
+			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit, MI (DTW)")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(false);
 
 
@@ -62,7 +62,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		Common.pressBack();
 		onView(withId(R.id.all_flights_header)).perform(waitForViewToDisplay());
 		PackageScreen.flightsToolbar()
-			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit, United States of America (DTW)")))));
+			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit, MI (DTW)")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
 		assertOutboundFlightResultBundlePrice("$1,931.69");
 
