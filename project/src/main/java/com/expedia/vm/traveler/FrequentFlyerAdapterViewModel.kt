@@ -31,11 +31,13 @@ class FrequentFlyerAdapterViewModel(var traveler: Traveler) {
         }
 
         Observable.combineLatest(frequentFlyerCardsObservable, frequentFlyerPlans, { cards, plans ->
-            viewHolderViewModels.clear()
-            cards.forEach {
-                val viewModel = FlightTravelerFrequentFlyerItemViewModel(traveler)
-                setUpFrequentFlyerPlans(plans, viewModel)
-                viewHolderViewModels.add(viewModel)
+            if (cards != null && plans != null) {
+                viewHolderViewModels.clear()
+                cards.forEach {
+                    val viewModel = FlightTravelerFrequentFlyerItemViewModel(traveler)
+                    setUpFrequentFlyerPlans(plans, viewModel)
+                    viewHolderViewModels.add(viewModel)
+                }
             }
         }).subscribe()
     }
