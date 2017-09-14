@@ -692,9 +692,11 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Votre recherche n\&apos;a donné aucun résultat. Veuillez tenter une nouvelle recherche avec des critères différents.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Nous n\&apos;avons pas été en mesure de déterminer votre emplacement actuel afin de trouver des activités autour de vous.</string> 
+    <string name="error_lx_current_location_search_message">Nous n\&apos;avons pas été en mesure de déterminer votre emplacement actuel afin de trouver des activités autour de vous.</string>
+
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">Nous n\&apos;avons pas été en mesure de déterminer votre emplacement actuel afin de trouver des moyens de transport près de vous.</string> 
+    <string name="error_gt_current_location_search_message">Nous n\&apos;avons pas été en mesure de déterminer votre emplacement actuel afin de trouver des moyens de transport près de vous.</string>
+
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Erreur</string>
     <!-- Text for error toolbar-->
@@ -885,6 +887,8 @@
     <string name="total_with_tax">Total TTC</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Montant total du voyage</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">Total du voyage ({farefamily})</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Total du voyage</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1761,6 +1765,8 @@
     <string name="flights_title">Vols</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">Informations sur les frais de paiement</string>
+    <!-- Flights Free Cancellation More Information -->
+    <string name="flights_free_cancellation_information">Après 24 heures, les conditions standard du vol s\&apos;appliquent.</string>
     <!-- Flights Free Cancellation messaging -->
     <string name="flights_free_cancellation">Annulation gratuite dans les 24 heures suivant la réservation</string>
     <!-- Card fee warning text on checkout overview.
@@ -2227,8 +2233,8 @@
     <string name="redress_number_msg">Le numéro de recours est un numéro unique délivré par l\&apos;agence TSA, l\&apos;organisation américaine de sécurité dans les transports. Il permet à cette dernière d\&apos;éviter les erreurs d\&apos;identifications et de vérifier votre identité.</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">Programme de fidélité</string>
-    <!--Frequent flyer My Programs for Dialog Box-->
-    <string name="frequent_flyer_my_programs">Mes programmes</string>
+    <!--Frequent flyer Programs title for Alert Dialog Box-->
+    <string name="frequent_flyer_programs">Programmes</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">Numéro de programme</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2593,6 +2599,8 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/nuit</string>
+    <!-- The label for total price for the stay - "$120 total stay", for example -->
+    <string name="total_stay">(séjour total)</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Aucun avis</string>
 
@@ -2792,6 +2800,14 @@
         <item quantity="other">Prix moyen par nuit • %d résultats</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Aucun résultat</item>
+        <item quantity="one">&lt;b&gt;Prix moyens par nuit&lt;/b&gt; • 1 résultat</item>
+        <item quantity="many">&lt;b&gt;Prix moyens par nuit&lt;/b&gt; • %d résultats</item>
+        <item quantity="other">&lt;b&gt;Prix moyens par nuit&lt;/b&gt; • %d résultats</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">Aucun résultat</item>
@@ -2805,6 +2821,14 @@
         <item quantity="one">Prix total du séjour • 1 résultat</item>
         <item quantity="many">Prix total du séjour • %d résultats</item>
         <item quantity="other">Prix total du séjour • %d résultats</item>
+    </plurals>
+
+    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Aucun résultat</item>
+        <item quantity="one">&lt;b&gt;Prix total du séjour&lt;/b&gt; • 1 résultat</item>
+        <item quantity="many">&lt;b&gt;Prix total du séjour&lt;/b&gt; • %d résultats</item>
+        <item quantity="other">&lt;b&gt;Prix total du séjour&lt;/b&gt; • %d résultats</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -4396,14 +4420,16 @@
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Classe souhaitée : {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_label">Surclassez votre vol</string>
+    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Surclassement impossible</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">Désolés, la classe demandée (&lt;b&gt;{selected_upgrade}&lt;/b&gt;) n\&apos;est plus disponible sur notre site. Veuillez réessayer avec un tarif différent. Les tarifs correspondant à votre choix de classe initial seront affichés à nouveau.</string>
+    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
+    <string name="flight_fare_family_change_class_label">Changer votre classe de cabine</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">À partir de</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">&lt;b&gt;Classe choisie :&lt;/b&gt; {class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">&lt;b&gt;Classes choisies :&lt;/b&gt; {class_one}, {class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">&lt;b&gt;Classes choisies :&lt;/b&gt; Mixtes</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">Du {startdate} au {enddate}</string>
@@ -4447,6 +4473,8 @@
     <string name="flight_overview_price_widget_TEMPLATE">Le montant total du voyage est de {totalprice}. Taxes et frais inclus. {savings}</string>
     <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Le montant total du voyage est de {totalprice}. Taxes et frais inclus. {savings}. Boîte de dialogue pour le détail du prix. Bouton.</string>
+    <!--Content description for Fare Family total widget. Example: Trip total for Basic Economy is $153.20. Includes taxes and fees.-->
+    <string name="flight_fare_family_total_price_widget_cont_desc_TEMPLATE">Le prix total du voyage en {farefamily} est de {totalprice}. Taxes et frais inclus.</string>
     <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
     <string name="flight_overview_price_widget_button_open_TEMPLATE">Le prix du voyage est de {price_per_person} par personne. Taxes et frais inclus. Bouton pour consulter les vols.</string>
 
@@ -4622,23 +4650,15 @@
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Surclassement disponible</string>
     <!-- Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title">Comment avez-vous trouvé votre expérience ?</string>
-    <!-- Alt. Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title_alt">Notre appli vous a plu ?</string>
+    <string name="dialog_app_rating_title">Notre appli vous a plu ?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">Si notre appli vous a plu, faites-le nous savoir en publiant un avis dans le Play Store.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button">Avis</string>
-    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button_alt">Noter l\&apos;appli</string>
+    <string name="dialog_app_rating_review_button">Noter l\&apos;appli</string>
     <!-- Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button">Envoyer</string>
-    <!-- Alt. Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button_alt">Assistance appli par e-mail</string>
+    <string name="dialog_app_rating_feedback_button">Assistance appli par e-mail</string>
     <!-- Button for App Rating Dialog to decline review -->
-    <string name="dialog_app_rating_no_button">Non merci</string>
-    <!-- Alt. Button for App Rating Dialog to decline review -->
-    <string name="dialog_app_rating_no_button_alt">Non, merci</string>
+    <string name="dialog_app_rating_no_button">Non, merci</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Saisissez une adresse e-mail valide.</string>
     <!-- Checkout validation error message for first name -->
@@ -4760,5 +4780,15 @@
     <string name="share_flight">Partager vol</string>
     <!--App shortcut for sharing flight info long version.-->
     <string name="share_flight_status">Partager le statut du vol</string>
+
+    <!--Soft Prompt-->
+    <string name="location_soft_prompt_title">Que le voyage commence !</string>
+    <string name="location_soft_prompt_subtitle">Explorez les alentours, consultez les hôtels à proximité, obtenez des directions et bien plus encore.</string>
+    <string name="location_soft_prompt_enable">Autoriser la localisation</string>
+    <string name="location_soft_prompt_disable">Pas maintenant</string>
+
+    <!--price descriptor for different hotel rate type-->
+    <string name="total_including_taxes_fees">Total taxes et frais inclus</string>
+    <string name="excluding_taxes_fees">Taxes et frais non compris</string>
 
 </resources>

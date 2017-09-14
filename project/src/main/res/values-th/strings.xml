@@ -692,9 +692,11 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">เราไม่สามารถระบุตำแหน่งของคุณเพื่อค้นหากิจกรรมใกล้ตัวคุณได้</string> 
+    <string name="error_lx_current_location_search_message">เราไม่สามารถระบุตำแหน่งของคุณเพื่อค้นหากิจกรรมใกล้ตัวคุณได้</string>
+
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">เราไม่สามารถระบุตำแหน่งปัจจุบันของคุณเพื่อค้นหายานพาหนะใกล้ตัวคุณได้</string> 
+    <string name="error_gt_current_location_search_message">เราไม่สามารถระบุตำแหน่งปัจจุบันของคุณเพื่อค้นหายานพาหนะใกล้ตัวคุณได้</string>
+
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">เกิดข้อผิดพลาด</string>
     <!-- Text for error toolbar-->
@@ -885,6 +887,8 @@
     <string name="total_with_tax">ราคารวมภาษี</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">ราคารวม</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">ราคารวมสำหรับ {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">ยอดรวมทริป</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1761,6 +1765,8 @@
     <string name="flights_title">เที่ยวบิน</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">ข้อมูลค่าธรรมเนียมการชำระเงิน</string>
+    <!-- Flights Free Cancellation More Information -->
+    <string name="flights_free_cancellation_information">หลังจาก 24 ชั่วโมง กฎมาตรฐานของสายการบินจะมีผลบังคับใช้</string>
     <!-- Flights Free Cancellation messaging -->
     <string name="flights_free_cancellation">ยกเลิกฟรีภายใน 24 ชั่วโมงหลังการจอง</string>
     <!-- Card fee warning text on checkout overview.
@@ -2227,8 +2233,8 @@
     <string name="redress_number_msg">หมายเลข Redress เป็นหมายเลขเฉพาะที่ออกโดย TSA ซึ่งช่วยให้ TSA ลดการระบุตัวตามรายชื่อเฝ้าระวังผิดพลาดและยืนยันตัวตนของคุณได้ถูกต้อง</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">โปรแกรมสะสมไมล์</string>
-    <!--Frequent flyer My Programs for Dialog Box-->
-    <string name="frequent_flyer_my_programs">โปรแกรมสะสมไมล์ของฉัน</string>
+    <!--Frequent flyer Programs title for Alert Dialog Box-->
+    <string name="frequent_flyer_programs">โปรแกรมสะสมไมล์</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">หมายเลขโปรแกรม</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2593,6 +2599,8 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/คืน</string>
+    <!-- The label for total price for the stay - "$120 total stay", for example -->
+    <string name="total_stay">ทุกคืนเข้าพัก</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">ยังไม่มีคะแนน</string>
 
@@ -2792,6 +2800,14 @@
         <item quantity="other">ราคาเฉลี่ยต่อคืน • %d รายการ</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">ไม่พบผลลัพธ์</item>
+        <item quantity="one">&lt;b&gt;ราคาเฉลี่ยต่อคืน&lt;/b&gt; • 1 รายการ</item>
+        <item quantity="many">&lt;b&gt;ราคาเฉลี่ยต่อคืน&lt;/b&gt; • %d รายการ</item>
+        <item quantity="other">&lt;b&gt;ราคาเฉลี่ยต่อคืน&lt;/b&gt; • %d รายการ</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">ไม่พบผลลัพธ์</item>
@@ -2805,6 +2821,14 @@
         <item quantity="one">ราคารวมสำหรับการเข้าพัก • 1 รายการ</item>
         <item quantity="many">ราคารวมสำหรับการเข้าพัก • %d รายการ</item>
         <item quantity="other">ราคารวมสำหรับการเข้าพัก • %d รายการ</item>
+    </plurals>
+
+    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">ไม่พบผลลัพธ์</item>
+        <item quantity="one">&lt;b&gt;ราคารวมสำหรับการเข้าพัก&lt;/b&gt; • 1 รายการ</item>
+        <item quantity="many">&lt;b&gt;ราคารวมสำหรับการเข้าพัก&lt;/b&gt; • %d รายการ</item>
+        <item quantity="other">&lt;b&gt;ราคารวมสำหรับการเข้าพัก&lt;/b&gt; • %d รายการ</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -4396,15 +4420,16 @@
     <string name="flight_detail_cabin_class_desc_TEMPLATE">ระดับชั้นโดยสารที่ต้องการ {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_label">อัพเกรดเที่ยวบินของคุณ</string>
+    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
+    <string name="flight_fare_family_upgrade_unavailable_error_title">ไม่สามารถอัพเกรด</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">ขออภัย &lt;b&gt;{selected_upgrade}&lt;/b&gt; ขายหมดแล้วตอนนี้ โปรดเลือกตัวเลือกค่าโดยสารอื่น แล้วลองอีกครั้ง เราจะย้อนกลับไปยังการเลือกตั้งต้นของคุณ</string>
+    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
+    <string name="flight_fare_family_change_class_label">เปลี่ยนชั้นโดยสาร</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">เริ่มที่</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">&lt;b&gt;ชั้นโดยสารที่เลือก:&lt;/b&gt; {class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">&lt;b&gt;ชั้นโดยสารที่เลือก:&lt;/b&gt; {class_one}, {class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">&lt;b&gt;ชั้นโดยสารที่เลือก:&lt;/b&gt; ชั้นโดยสารผสม
-</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} ถึง {enddate}</string>
@@ -4448,6 +4473,8 @@
     <string name="flight_overview_price_widget_TEMPLATE">ยอดรวมทริปอยู่ที่ {totalprice} รวมภาษีและค่าธรรมเนียม {savings}</string>
     <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">ยอดรวมทริปอยู่ที่ {totalprice} รวมภาษีและค่าธรรมเนียม {savings}. กล่องโต้ตอบแจกแจงราคา ปุ่ม</string>
+    <!--Content description for Fare Family total widget. Example: Trip total for Basic Economy is $153.20. Includes taxes and fees.-->
+    <string name="flight_fare_family_total_price_widget_cont_desc_TEMPLATE">ราคารวมสำหรับ {farefamily} คือ {totalprice} รวมภาษีและค่าธรรมเนียม</string>
     <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
     <string name="flight_overview_price_widget_button_open_TEMPLATE">ค่าใช้จ่ายทริปอยู่ที่ {price_per_person} ต่อคน รวมภาษีและค่าธรรมเนียม ปุ่มเพื่อดูรายละเอียดเที่ยวบิน</string>
 
@@ -4623,23 +4650,15 @@
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">มีห้องพักพร้อมให้อัพเกรด</string>
     <!-- Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title">การใช้งานแอพของเราเป็นอย่างไร</string>
-    <!-- Alt. Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title_alt">ชอบแอพของเรา?</string>
+    <string name="dialog_app_rating_title">ชอบแอพของเรา?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">หากคุณชอบใช้แอพของเราแล้วละก็ เขียนรีวิวบอกเราได้ที่ Play Store</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button">ความคิดเห็น</string>
-    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button_alt">ให้คะแนนแอพ</string>
+    <string name="dialog_app_rating_review_button">ให้คะแนนแอพ</string>
     <!-- Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button">ส่งความคิดเห็น</string>
-    <!-- Alt. Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button_alt">ส่งอีเมลถึงฝ่ายสนับสนุนแอพ</string>
+    <string name="dialog_app_rating_feedback_button">ส่งอีเมลถึงฝ่ายสนับสนุนแอพ</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">ไม่ ขอบคุณ</string>
-    <!-- Alt. Button for App Rating Dialog to decline review -->
-    <string name="dialog_app_rating_no_button_alt">ไม่ ขอบคุณ</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">ป้อนอีเมลที่ติดต่อได้</string>
     <!-- Checkout validation error message for first name -->
@@ -4761,5 +4780,15 @@
     <string name="share_flight">แชร์เที่ยวบิน</string>
     <!--App shortcut for sharing flight info long version.-->
     <string name="share_flight_status">แชร์สถานะเที่ยวบิน</string>
+
+    <!--Soft Prompt-->
+    <string name="location_soft_prompt_title">ออกเดินทางกันเถอะ</string>
+    <string name="location_soft_prompt_subtitle">ดูว่ามีสถานที่น่าสนใจอะไรอยู่ใกล้ๆ หรือโรงแรมน่าพัก ดูที่พัก และอื่นๆ อีกมากมาย</string>
+    <string name="location_soft_prompt_enable">เปิดใช้ตำแหน่งที่ตั้ง</string>
+    <string name="location_soft_prompt_disable">ไว้ก่อน</string>
+
+    <!--price descriptor for different hotel rate type-->
+    <string name="total_including_taxes_fees">รวมภาษีและค่าธรรมเนียม</string>
+    <string name="excluding_taxes_fees">ไม่รวมภาษีและค่าธรรมเนียม</string>
 
 </resources>

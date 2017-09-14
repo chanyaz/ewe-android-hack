@@ -692,9 +692,11 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Din sökning gav inga resultat. Prova att söka igen med andra kriterier.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Vi kunde inte avgöra din nuvarande plats för att hitta aktiviteter nära dig.</string> 
+    <string name="error_lx_current_location_search_message">Vi kunde inte avgöra din nuvarande plats för att hitta aktiviteter nära dig.</string>
+
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">Vi kunde inte avgöra din nuvarande plats för att hitta transport nära dig.</string> 
+    <string name="error_gt_current_location_search_message">Vi kunde inte avgöra din nuvarande plats för att hitta transport nära dig.</string>
+
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Det uppstod ett fel</string>
     <!-- Text for error toolbar-->
@@ -885,6 +887,8 @@
     <string name="total_with_tax">Totalt med skatter</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Totalbelopp för resan</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">Totalbelopp för resa i {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Totalbelopp för resan</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1761,6 +1765,8 @@
     <string name="flights_title">Flyg</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">Info om betalningsavgifter</string>
+    <!-- Flights Free Cancellation More Information -->
+    <string name="flights_free_cancellation_information">Efter 24 timmar gäller standardregler för flyg.</string>
     <!-- Flights Free Cancellation messaging -->
     <string name="flights_free_cancellation">Gratis avbokning inom 24 timmar</string>
     <!-- Card fee warning text on checkout overview.
@@ -2227,8 +2233,8 @@
     <string name="redress_number_msg">Redressnummer är ett unikt nummer, utfärdat av TSA, vilket hjälper TSA att utesluta felidentifieringar på bevakningslistor samt att styrka din identitet.</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">Frequent flyer-program</string>
-    <!--Frequent flyer My Programs for Dialog Box-->
-    <string name="frequent_flyer_my_programs">Mina program</string>
+    <!--Frequent flyer Programs title for Alert Dialog Box-->
+    <string name="frequent_flyer_programs">Program</string>
     <!--Frequent flyer program number hint -->
     <string name="frequent_flyer_program_number">Programnummer</string>
     <!-- Saving traveler info spinner dialog -->
@@ -2593,6 +2599,8 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/natt</string>
+    <!-- The label for total price for the stay - "$120 total stay", for example -->
+    <string name="total_stay">totalt</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ej betygsatt</string>
 
@@ -2792,6 +2800,14 @@
         <item quantity="other">Snittpriser per natt • %d resultat</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Inga resultat</item>
+        <item quantity="one">&lt;b&gt;Snittpriser per natt&lt;/b&gt; • 1 resultat</item>
+        <item quantity="many">&lt;b&gt;Snittpriser per natt&lt;/b&gt; • %d resultat</item>
+        <item quantity="other">&lt;b&gt;Snittpriser per natt&lt;/b&gt; • %d resultat</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">Inga resultat</item>
@@ -2805,6 +2821,14 @@
         <item quantity="one">Totalpris för vistelsen • 1 resultat</item>
         <item quantity="many">Totalpris för vistelsen • %d resultat</item>
         <item quantity="other">Totalpris för vistelsen • %d resultat</item>
+    </plurals>
+
+    <!-- Hotel Results Pricing Header - Prominent Total Price For Stay along with the Number of Search Results -->
+    <plurals name="hotel_results_prominent_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Inga resultat</item>
+        <item quantity="one">&lt;b&gt;Totalpris för vistelsen&lt;/b&gt; • 1 resultat</item>
+        <item quantity="many">&lt;b&gt;Totalpris för vistelsen&lt;/b&gt; • %d resultat</item>
+        <item quantity="other">&lt;b&gt;Totalpris för vistelsen&lt;/b&gt; • %d resultat</item>
     </plurals>
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
@@ -4396,14 +4420,16 @@
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Förerdrar klass {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_label">Uppgradera dina flyg</string>
+    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Uppgardering utfördes inte</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">&lt;b&gt;{selected_upgrade}&lt;/b&gt; är tyvärr slutsålt. Försök igen med en annan prisklass. Dina flyg ställs om till ursprungligt prisklassval.</string>
+    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
+    <string name="flight_fare_family_change_class_label">Ändra kabinklass</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Från</string>
-    <!-- Label for Selected Cabin Class for one class. Example. Selected Basic Economy -->
-    <string name="flight_selected_classes_one_class_TEMPLATE">&lt;b&gt;Valt:&lt;/b&gt; {class}</string>
-    <!-- Label for Selected Cabin Class for two classes. Example. Selected Basic Economy, Economy -->
-    <string name="flight_selected_classes_two_class_TEMPLATE">&lt;b&gt;Valt:&lt;/b&gt; {class_one}, {class_two}</string>
-    <!-- Label for Selected Cabin Class for multiple classes. Example. Selected Mixed Classes -->
-    <string name="flight_selected_classes_mixed_classes">&lt;b&gt;Valt:&lt;/b&gt; blandade klasser</string>
+    <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
+    <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}, {class_two}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} till {enddate}</string>
@@ -4447,6 +4473,8 @@
     <string name="flight_overview_price_widget_TEMPLATE">Totalbelopp för resan är {totalprice}. Skatter och avgifter ingår. {savings}</string>
     <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Totalbelopp för resan är {totalprice}. Skatter och avgifter ingår. {savings}. Dialogruta för prisinformation. Knapp.</string>
+    <!--Content description for Fare Family total widget. Example: Trip total for Basic Economy is $153.20. Includes taxes and fees.-->
+    <string name="flight_fare_family_total_price_widget_cont_desc_TEMPLATE">Totalpriset för resa i {farefamily} är {totalprice}. Skatter och avgifter ingår.</string>
     <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
     <string name="flight_overview_price_widget_button_open_TEMPLATE">Resans pris är {price_per_person} per person. Skatter och avgifter ingår. Knapp för att se flyg.</string>
 
@@ -4622,23 +4650,15 @@
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Uppgradering tillgänglig</string>
     <!-- Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title">Hur var din upplevelse?</string>
-    <!-- Alt. Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title_alt">Gillar du vår app?</string>
+    <string name="dialog_app_rating_title">Gillar du vår app?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">Glöm inte att lämna en recension i Play Butik om du gillar vår app.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button">Recension</string>
-    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button_alt">Betygsätt appen</string>
+    <string name="dialog_app_rating_review_button">Betygsätt appen</string>
     <!-- Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button">Skicka feedback</string>
-    <!-- Alt. Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button_alt">Appsupport via e-post</string>
+    <string name="dialog_app_rating_feedback_button">Appsupport via e-post</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Nej tack</string>
-    <!-- Alt. Button for App Rating Dialog to decline review -->
-    <string name="dialog_app_rating_no_button_alt">Nej tack</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Ange en giltig e-postadress</string>
     <!-- Checkout validation error message for first name -->
@@ -4760,5 +4780,15 @@
     <string name="share_flight">Dela flyg</string>
     <!--App shortcut for sharing flight info long version.-->
     <string name="share_flight_status">Dela flygstatus</string>
+
+    <!--Soft Prompt-->
+    <string name="location_soft_prompt_title">Låt resan börja</string>
+    <string name="location_soft_prompt_subtitle">Utforska omgivningarna, se hotell i närheten, få vägbeskrivningar och ännu mer.</string>
+    <string name="location_soft_prompt_enable">Aktivera platsinformation</string>
+    <string name="location_soft_prompt_disable">Inte nu</string>
+
+    <!--price descriptor for different hotel rate type-->
+    <string name="total_including_taxes_fees">Totalpris, inklusive skatter och avgifter</string>
+    <string name="excluding_taxes_fees">Exklusive skatter och avgifter</string>
 
 </resources>
