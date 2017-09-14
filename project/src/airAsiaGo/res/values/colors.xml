@@ -90,6 +90,7 @@
     <!-- Checkout Colors -->
     <color name="login_text_aag">#333333</color>
     <color name="old_checkout_account_button_text_color">@color/login_text_aag</color>
+    <color name="checkout_screen_error_message_color">#b80000</color>
 
     <!-- New Launch Screen colors -->
     <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>

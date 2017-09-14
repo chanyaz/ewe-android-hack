@@ -250,6 +250,7 @@
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
     <color name="checkout_traveler_birth_color">#919191</color>
     <color name="checkout_main_traveler_message">@color/gray7</color>
+    <color name="checkout_screen_error_message_color">#D96565</color>
 
     <!-- Old Launch Screen colors -->
     <color name="launch_toolbar_background_color">@color/exp_old_launch</color>

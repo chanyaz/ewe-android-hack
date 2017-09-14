@@ -124,6 +124,7 @@
 
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
+    <color name="checkout_screen_error_message_color">#b80000</color>
 
     <!--Account Screen-->
     <color name="account_toolbar_text_color">@android:color/white</color>

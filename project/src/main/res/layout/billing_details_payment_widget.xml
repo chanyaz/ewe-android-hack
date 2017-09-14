@@ -292,7 +292,7 @@
                     android:id="@+id/invalid_payment_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#D96565"
+                    android:background="@color/checkout_screen_error_message_color"
                     android:orientation="vertical"
                     android:visibility="gone">
 

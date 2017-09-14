@@ -67,6 +67,7 @@
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#0099CC</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
+    <color name="checkout_screen_error_message_color">#b80000</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_book_button_text_color">@android:color/white</color>

@@ -109,6 +109,7 @@
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
+    <color name="checkout_screen_error_message_color">#b80000</color>
 
     <!-- Rewards -->
     <color name="reward_base_tier_color">#668193</color>
