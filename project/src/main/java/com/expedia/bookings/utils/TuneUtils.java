@@ -43,6 +43,7 @@ import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
+import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
@@ -66,6 +67,8 @@ public class TuneUtils {
 	private static boolean initialized = false;
 	private static Context context;
 	private static UserStateManager userStateManager;
+	private static int top5 = 5;
+	private static int lastIndexOfTop5 = 4;
 
 	public static void init(Application app) {
 		initialized = true;
@@ -289,7 +292,7 @@ public class TuneUtils {
 			StringBuilder sb = new StringBuilder();
 			int propertiesCount = Db.getHotelSearch().getSearchResponse().getPropertiesCount();
 			if (Db.getHotelSearch().getSearchResponse() != null && propertiesCount >= 0) {
-				for (int i = 0; (i < 5 && i < propertiesCount); i++) {
+				for (int i = 0; (i < top5 && i < propertiesCount); i++) {
 					Property property = Db.getHotelSearch().getSearchResponse().getProperties().get(i);
 					topFiveHotelIdsBuilder.append(property.getPropertyId());
 					String hotelId = property.getPropertyId();
@@ -306,7 +309,7 @@ public class TuneUtils {
 						.toString(property.getDistanceFromUser().getDistance()) : "0";
 					sb.append(
 						String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, currency, price, starRating, miles));
-					if (i != 4) {
+					if (i != lastIndexOfTop5) {
 						sb.append(":");
 						topFiveHotelIdsBuilder.append(",");
 					}
@@ -346,7 +349,7 @@ public class TuneUtils {
 
 			int hotelsCount = hotels.size();
 			if (hotels != null && hotelsCount >= 0) {
-				for (int i = 0; (i < 5 && i < hotelsCount); i++) {
+				for (int i = 0; (i < top5 && i < hotelsCount); i++) {
 					Hotel hotel = hotels.get(i);
 					topFiveHotelIdsBuilder.append(hotel.hotelId);
 					String hotelId = hotel.hotelId;
@@ -365,7 +368,7 @@ public class TuneUtils {
 						.toString(hotel.proximityDistanceInMiles) : "0";
 					sb.append(
 						String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, currency, price, starRating, miles));
-					if (i != 4) {
+					if (i != lastIndexOfTop5) {
 						sb.append(":");
 						topFiveHotelIdsBuilder.append(",");
 					}
@@ -535,7 +538,7 @@ public class TuneUtils {
 				int propertiesCount = response.getTripCount();
 				StringBuilder sb = new StringBuilder();
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
+					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
 						FlightTrip trip = response.getTrips().get(i);
 						String carrier = trip.getLegs().get(0).getFirstAirlineCode();
 						String currency = trip.getTotalPrice().getCurrency();
@@ -546,7 +549,7 @@ public class TuneUtils {
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-						if (i != 4) {
+						if (i != lastIndexOfTop5) {
 							sb.append(":");
 						}
 					}
@@ -580,7 +583,7 @@ public class TuneUtils {
 				int propertiesCount = searchTrackingData.getFlightLegList().size();
 				StringBuilder sb = new StringBuilder();
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
+					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
 						FlightLeg flightLeg = searchTrackingData.getFlightLegList().get(i);
 						String carrier = flightLeg.segments.get(0).airlineCode;
 						String currency = flightLeg.packageOfferModel.price.packageTotalPrice.currencyCode;
@@ -592,7 +595,7 @@ public class TuneUtils {
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-						if (i != 4) {
+						if (i != lastIndexOfTop5) {
 							sb.append(":");
 						}
 					}
@@ -628,7 +631,7 @@ public class TuneUtils {
 				int propertiesCount = response.getTripCount();
 				StringBuilder sb = new StringBuilder();
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
+					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
 						FlightTrip trip = response.getTrips().get(i);
 						String carrier = trip.getLegs().get(1).getFirstAirlineCode();
 						String currency = trip.getTotalPrice().getCurrency();
@@ -639,7 +642,7 @@ public class TuneUtils {
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-						if (i != 4) {
+						if (i != lastIndexOfTop5) {
 							sb.append(":");
 						}
 					}
@@ -672,7 +675,7 @@ public class TuneUtils {
 				int propertiesCount = flightLegList.size();
 				StringBuilder sb = new StringBuilder();
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
+					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
 						String carrier = flightLegList.get(i).segments.get(0).airlineCode;
 						String currency = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.currencyCode;
 						String price = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.amount.toString();
@@ -682,7 +685,7 @@ public class TuneUtils {
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-						if (i != 4) {
+						if (i != lastIndexOfTop5) {
 							sb.append(":");
 						}
 					}
@@ -773,6 +776,61 @@ public class TuneUtils {
 
 	}
 
+	public static void trackPackageHotelSearchResults(BundleSearchResponse packageTrackingData) {
+		if (initialized) {
+			TuneEvent event = new TuneEvent("package_search_results");
+			TuneEventItem eventItem = new TuneEventItem("package_search_result_item");
+
+			Date checkInDate = LocalDate.parse(packageTrackingData.getHotelCheckInDate()).toDate();
+			Date checkOutDate = LocalDate.parse(packageTrackingData.getHotelCheckOutDate()).toDate();
+
+			StringBuilder topFiveHotelIdsBuilder = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
+
+			List<Hotel> hotels = packageTrackingData.getHotels();
+			int hotelsCount = hotels.size();
+
+			for (int i = 0; (i < top5 && i < hotelsCount); i++) {
+				Hotel hotel = hotels.get(i);
+				topFiveHotelIdsBuilder.append(hotel.hotelId);
+				String hotelId = hotel.hotelId;
+				String hotelName = hotel.localizedName;
+				String price = "";
+				String currency = "";
+
+				if (hotel.lowRateInfo != null) {
+					price = hotel.lowRateInfo.total + "";
+					currency = hotel.lowRateInfo.currencyCode;
+				}
+
+				String starRating = Double.toString(hotel.hotelStarRating);
+
+				String miles = hotel.proximityDistanceInMiles != 0 ? Double.toString(hotel.proximityDistanceInMiles) : "0";
+				sb.append(String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, currency, price, starRating, miles));
+				if (i != lastIndexOfTop5) {
+					sb.append(":");
+					topFiveHotelIdsBuilder.append(",");
+				}
+			}
+
+			if (hotelsCount > 0) {
+				eventItem.withAttribute1(hotels.get(0).city);
+			}
+			eventItem.withAttribute4(topFiveHotelIdsBuilder.toString());
+			eventItem.withAttribute5(sb.toString());
+
+			withTuidAndMembership(event)
+					.withAttribute2(isUserLoggedIn())
+					.withDate1(checkInDate)
+					.withDate2(checkOutDate)
+					.withEventItems(Arrays.asList(eventItem))
+					.withSearchString("hotel")
+					.withLevel(1);
+
+			trackEvent(event);
+		}
+	}
+
 	public static void trackCarSearch(CarSearch search, CarSearchParam params) {
 		if (initialized) {
 			TuneEvent event = new TuneEvent("car_result");
@@ -785,14 +843,14 @@ public class TuneUtils {
 				StringBuilder sb = new StringBuilder();
 				StringBuilder carTopFiveClass = new StringBuilder();
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
+					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
 						CategorizedCarOffers carOffer = search.categories.get(i);
 						String carClass = carOffer.carCategoryDisplayLabel;
 						String currency = carOffer.getLowestTotalPriceOffer().fare.total.getCurrency();
 						String price = carOffer.getLowestTotalPriceOffer().fare.total.amount.toString();
 						carTopFiveClass.append(carClass);
 						sb.append(String.format("%s|%s|%s", carClass, currency, price));
-						if (i != 4) {
+						if (i != lastIndexOfTop5) {
 							sb.append(":");
 							carTopFiveClass.append(",");
 						}
@@ -876,14 +934,14 @@ public class TuneUtils {
 				StringBuilder sb = new StringBuilder();
 				StringBuilder topFiveActivities = new StringBuilder();
 				if (activitiesCount >= 0) {
-					for (int i = 0; (i < 5 && i < activitiesCount); i++) {
+					for (int i = 0; (i < top5 && i < activitiesCount); i++) {
 						LXActivity activity = searchResponse.activities.get(i);
 						String title = activity.title;
 						String currency = activity.price.currencyCode;
 						double price = activity.price.amount.doubleValue();
 						topFiveActivities.append(title);
 						sb.append(String.format(Locale.getDefault(), "%s|%s|%f", title, currency, price));
-						if (i != 4) {
+						if (i != lastIndexOfTop5) {
 							sb.append(":");
 							topFiveActivities.append(",");
 						}

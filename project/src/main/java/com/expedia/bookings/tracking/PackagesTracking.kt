@@ -9,6 +9,7 @@ import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 
 class PackagesTracking {
@@ -23,6 +24,7 @@ class PackagesTracking {
 
     fun trackHotelSearchResultLoad(response: BundleSearchResponse) {
         OmnitureTracking.trackPackagesHSRLoad(response)
+        TuneUtils.trackPackageHotelSearchResults(response)
     }
 
     fun trackHotelMapLoad() {
