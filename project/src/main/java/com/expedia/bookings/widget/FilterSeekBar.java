@@ -26,7 +26,7 @@ public class FilterSeekBar extends CustomSeekBarView {
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				setMaxValue(progress);
 				if (listener != null) {
-					listener.onProgressChanged(FilterSeekBar.this, getMaxValue(), true);
+					listener.onProgressChanged(FilterSeekBar.this, getMaxValue(), fromUser);
 				}
 			}
 

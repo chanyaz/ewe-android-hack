@@ -4716,6 +4716,9 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME = "Package Xsell Banner";
 	private static final String FLIGHTS_V2_SORTBY_TEMPLATE = "App.Flight.Search.Sort.";
 	private static final String FLIGHTS_V2_FILTER_STOPS_TEMPLATE = "App.Flight.Search.Filter.";
+	private static final String FLIGHTS_V2_FLIGHT_FILTER_ZERO_RESULTS = "App.Flight.Search.Filter.ZeroResult";
+	private static final String FLIGHTS_V2_FLIGHT_FILTER_DURATION = "App.Flight.Search.Filter.Duration";
+	private static final String FLIGHTS_V2_FLIGHT_FILTER_TIME = "App.Flight.Search.Filter.Time";
 	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
 	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.Details.";
@@ -5193,6 +5196,27 @@ public class OmnitureTracking {
 
 	public static void trackFlightFilterAirlines() {
 		createAndtrackLinkEvent(FLIGHTS_V2_FLIGHT_AIRLINES, "Search Results Filter");
+	}
+
+	public static void trackFlightFilterZeroResults() {
+		ADMS_Measurement s = createTrackLinkEvent(FLIGHTS_V2_FLIGHT_FILTER_ZERO_RESULTS);
+		s.setEvents("event273");
+		s.trackLink(null, "o", "Zero results", null, null);
+	}
+
+	public static void trackFlightFilterDuration() {
+		createAndtrackLinkEvent(FLIGHTS_V2_FLIGHT_FILTER_DURATION, "Search Results Filter");
+	}
+
+	public static void trackFlightFilterArrivalDeparture(boolean isDeparture) {
+		StringBuilder link = new StringBuilder(FLIGHTS_V2_FLIGHT_FILTER_TIME);
+		if (isDeparture) {
+			link.append(".Departure");
+		}
+		else {
+			link.append(".Arrival");
+		}
+		createAndtrackLinkEvent(link.toString(), "Search Results Filter");
 	}
 
 	public static void trackShowFlightOverView(

@@ -95,7 +95,10 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSimplifyFlightShopping) || getLineOfBusiness().equals(LineOfBusiness.PACKAGES)) {
             presenter.flightSelectedSubject.subscribe(selectedFlightResults)
         }
-        presenter.showSortAndFilterViewSubject.subscribe { show(filter) }
+        presenter.showSortAndFilterViewSubject.subscribe {
+            show(filter)
+            filter.viewModelBase.resetFilterTracking.onNext(Unit)
+        }
         alignViewWithStatusBar(presenter)
         presenter
     }
