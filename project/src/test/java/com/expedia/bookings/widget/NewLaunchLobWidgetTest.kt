@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -28,7 +27,8 @@ import java.util.HashMap
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
 @RunWith(RobolectricRunner::class)
 class NewLaunchLobWidgetTest {
@@ -45,7 +45,9 @@ class NewLaunchLobWidgetTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun pointOfSaleDeterminesLobsAvailable() {
+        setPOS(PointOfSaleId.INDIA)
         setUp()
         checkLOBsAvailable()
         for (pos in PointOfSale.getAllPointsOfSale(getContext())) {
@@ -77,19 +79,13 @@ class NewLaunchLobWidgetTest {
     }
 
     @Test
-    fun checkTitleChangeStringVariant1() {
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageLOBTitleStringUSVariant1() {
+        setPOS(PointOfSaleId.UNITED_STATES)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
         RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
         setUp()
-        packagesTitleChange(1)
-    }
-
-    @Test
-    fun checkTitleChangeStringVariant2() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
-        setUp()
-        packagesTitleChange(2)
+        packagesTitleChange("Hotel + Flight")
     }
 
     private fun checkLOBsAvailable() {
@@ -120,35 +116,27 @@ class NewLaunchLobWidgetTest {
         assert(isHotelsLOBDisplayed && isFlightsLOBDisplayed)
     }
 
-    private fun packagesTitleChange(titleVariant: Int) {
+    private fun packagesTitleChange(expectedTitle: String) {
         val recyclerView = newLaunchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as RecyclerView
         recyclerView.measure(0, 0)
         recyclerView.layout(0, 0, 100, 10000)
         val itemCount = recyclerView.layoutManager.itemCount
-        val lobInfoLabelMap = getLOBInfoLabelMap()
         for (position in 0..itemCount - 1) {
             val childAt = recyclerView.layoutManager.findViewByPosition(position)
-            val textView = childAt.findViewById<View>(R.id.lob_cell_text) as TextView
+            val textView = childAt.findViewById<TextView>(R.id.lob_cell_text)
             val lobText = textView.text
-            val lobInfo = lobInfoLabelMap[lobText]
-            assertNotNull(lobInfo)
-            val lineOfBusiness = lobInfo?.lineOfBusiness
-            if (lineOfBusiness == LineOfBusiness.PACKAGES && titleVariant == 1) {
-                assertEquals("Hotel + Flight", lobText)
-            } else if (lineOfBusiness == LineOfBusiness.PACKAGES && titleVariant == 2) {
-                assertEquals("Hotel + Flight Deals", lobText)
+            if (lobText == expectedTitle) {
+                assertTrue(true)
+                return
             }
         }
+        fail("Package title should be present")
     }
 
     private fun getLOBInfoLabelMap(): HashMap<String, LobInfo> {
         val lobLabelInfoMap = HashMap<String, LobInfo>()
         for (lobInfo in LobInfo.values()) {
             lobLabelInfoMap.put(getContext().getString(lobInfo.labelRes), lobInfo)
-        }
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)) {
-            lobLabelInfoMap.put("Hotel + Flight", LobInfo.PACKAGES)
-            lobLabelInfoMap.put("Hotel + Flight Deals", LobInfo.PACKAGES)
         }
         return lobLabelInfoMap
     }

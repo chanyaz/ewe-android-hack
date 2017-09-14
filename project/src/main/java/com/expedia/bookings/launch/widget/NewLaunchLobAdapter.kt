@@ -10,13 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LobInfo
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.PackageUtil
 import java.util.ArrayList
 
 class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewModel) : RecyclerView.Adapter<NewLaunchLobAdapter.LobViewHolder>() {
@@ -65,22 +63,11 @@ class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewMod
             itemView.setOnClickListener(this)
         }
 
-        private fun getPackageTitleChange(): Int {
-            val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)
-            if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
-                return R.string.nav_hotel_plus_flight
-            } else if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
-                return R.string.nav_hotel_plus_flight_deals
-            }
-            return R.string.nav_packages
-        }
-
         fun bind(info: LobInfo, spansMultipleColumns: Boolean, context: Context, lobEnabled: Boolean) {
             lobInfo = info
             isLobEnabled = lobEnabled
-            val showChangedTitle = info == LobInfo.PACKAGES && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesTitleChange)
-            if (showChangedTitle) {
-                lobText.setText(getPackageTitleChange())
+            if (info == LobInfo.PACKAGES) {
+                lobText.setText(PackageUtil.packageTitle)
             } else {
                 lobText.setText(info.labelRes)
             }

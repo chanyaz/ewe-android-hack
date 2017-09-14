@@ -105,6 +105,7 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.util.PackageUtil;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -2925,7 +2926,10 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
+		if (PackageUtil.INSTANCE.isPackagesLobTitleABTestEnabled()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
+		}
+
 		trackProWizardTest(s, proWizardTestValue);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLocaleBasedDateFormatting);
