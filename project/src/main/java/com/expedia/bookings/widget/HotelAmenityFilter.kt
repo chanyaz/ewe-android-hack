@@ -43,7 +43,9 @@ class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(c
         } else {
             changeColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
         }
-        hotelFilterViewModel.selectAmenity.onNext(amenityId)
+        amenityId?.let {
+            hotelFilterViewModel.selectAmenity.onNext(it)
+        }
     }
 
     fun changeColor(color: Int){
