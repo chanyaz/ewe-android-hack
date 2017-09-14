@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
@@ -19,6 +20,8 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.PackageUtil
 import com.expedia.util.notNullAndObservable
@@ -33,6 +36,16 @@ import kotlin.properties.Delegates
 class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
+    }
+
+    val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
+    override val travelerWidgetV2: TravelerWidgetV2 by lazy {
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+                AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp)) {
+            travelerFlightCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
+        } else {
+            travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
+        }
     }
 
     private var originSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
