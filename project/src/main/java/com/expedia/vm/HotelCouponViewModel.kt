@@ -11,8 +11,10 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.util.endlessObserver
+import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observable
+import rx.Observer
+import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -33,6 +35,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
 
     val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
     private val createTripObservable = Observable.concat(createTripDownloadsObservable)
+    val networkErrorAlertDialogObservable = PublishSubject.create<Unit>()
 
     init {
         couponParamsObservable.subscribe { params ->
@@ -54,7 +57,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             }
         }
 
-        createTripObservable.subscribe(endlessObserver { trip ->
+        createTripObservable.subscribe(couponEndlessObserver { trip ->
             enableSubmitButtonObservable.onNext(true)
             if (trip.hasErrors()) {
                 val errorType = trip.firstError.errorInfo.couponErrorType
@@ -112,4 +115,26 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             "CampaignIsNotConfigured" to R.string.coupon_error_unknown,
             "PackageProductMissing" to R.string.coupon_error_invalid_booking
     )
+
+    fun <T> couponEndlessObserver(body: (T) -> Unit): Observer<T> {
+        return object : Observer<T> {
+            override fun onNext(t: T) {
+                body(t)
+            }
+
+            override fun onCompleted() {
+                throw OnErrorNotImplementedException(RuntimeException("Cannot call completed on endless observer " + body.javaClass))
+            }
+
+            override fun onError(e: Throwable?) {
+                raiseAlertDialog(e)
+            }
+        }
+    }
+
+     fun raiseAlertDialog(e: Throwable?) {
+        if (RetrofitUtils.isNetworkError(e)) {
+            networkErrorAlertDialogObservable.onNext(Unit)
+        }
+    }
 }

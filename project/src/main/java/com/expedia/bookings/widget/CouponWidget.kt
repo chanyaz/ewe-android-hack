@@ -32,6 +32,7 @@ import com.mobiata.android.util.Ui
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
+import com.expedia.bookings.dialog.DialogFactory
 
 class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(context, attrs) {
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
@@ -75,6 +76,17 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
         }
         viewmodel.enableSubmitButtonObservable.subscribe { showButton ->
             mToolbarListener.enableRightActionButton(showButton)
+        }
+
+        viewmodel.networkErrorAlertDialogObservable.subscribe {
+            val retryFun = fun() {
+                onCouponSubmitClicked.onNext(Unit)
+            }
+            val cancelFun = fun() {
+                showProgress(false)
+                viewmodel.enableSubmitButtonObservable.onNext(true)
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
     }
 
@@ -140,6 +152,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
         if (expand) {
             couponCode.addTextChangedListener(textWatcher)
             background = null
+            showProgress(false)
             expanded.visibility = View.VISIBLE
             unexpanded.visibility = View.GONE
             applied.visibility = View.GONE

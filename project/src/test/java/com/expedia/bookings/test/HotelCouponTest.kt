@@ -1,5 +1,8 @@
 package com.expedia.bookings.test
 
+import android.app.Activity
+import android.view.LayoutInflater
+import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
@@ -13,21 +16,29 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.CouponWidget
 import com.expedia.vm.HotelCouponViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
+import org.robolectric.shadows.ShadowAlertDialog
 import rx.Observable
 import rx.observers.TestSubscriber
+import java.io.IOException
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import kotlin.test.assertNotNull
+import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertFalse
+
 
 @RunWith(RobolectricRunner::class)
 class HotelCouponTest {
@@ -155,6 +166,30 @@ class HotelCouponTest {
         assertNull(tripResponseWithoutCoupon.coupon)
         assertFalse(vm.hasDiscountObservable.value)
     }
+
+    @Test
+    fun testNetworkErrorIsHandled() {
+        val testSubscriber = TestSubscriber<Unit>()
+        vm.networkErrorAlertDialogObservable.subscribe(testSubscriber)
+        vm.raiseAlertDialog(IOException())
+
+        assertTrue(testSubscriber.valueCount == 1)
+    }
+
+    @Test
+    fun testAlertDialogWhenErrorInApplyingCoupon() {
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Hotels_Default)
+        Ui.getApplication(activity).defaultHotelComponents()
+        val couponWidget = LayoutInflater.from(activity).inflate(R.layout.coupon_widget_stub, null) as CouponWidget
+        couponWidget.viewmodel = vm
+        vm.raiseAlertDialog(IOException())
+        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+
+        assertNotNull(alertDialog)
+        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", alertDialog.message)
+    }
+
 
     private fun checkCouponFailure(tripId: String, expectedErrorCode: ApiError.Code) {
         val testSubscriberCouponRemoveErrorDialog = TestSubscriber<ApiError>()

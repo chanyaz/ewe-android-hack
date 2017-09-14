@@ -16,6 +16,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_cabin_mixed_classes,
 		R.string.flight_cabin_class_for_two_segment_TEMPLATE,
 		R.drawable.hotel_suggest,
+		R.layout.coupon_widget_stub,
 		R.drawable.airport_suggest,
 		R.drawable.room_fallback,
 		R.layout.hotel_dropdown_item,
