@@ -47,7 +47,7 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
             }
 
             // property service fee
-            val propertyServiceCharge = hotelCheckoutSummaryViewModel.propertyServiceSurcharge.value
+            val propertyServiceCharge = hotelCheckoutSummaryViewModel.propertyServiceSurcharge.value?.value
             if (propertyServiceCharge != null) {
                 breakdowns.add(Breakdown(context.resources.getString(R.string.property_fee), propertyServiceCharge.formattedMoney, BreakdownItem.OTHER))
             }

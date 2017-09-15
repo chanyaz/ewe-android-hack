@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.util.Optional
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observable
@@ -49,7 +50,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val tripTotalPrice = BehaviorSubject.create<String>()
     val priceAdjustments = BehaviorSubject.create<Money>()
     val surchargeTotalForEntireStay = BehaviorSubject.create<Money>()
-    val propertyServiceSurcharge = BehaviorSubject.create<Money?>()
+    val propertyServiceSurcharge = BehaviorSubject.create<Optional<Money>>()
     val taxStatusType = BehaviorSubject.create<String>()
     val extraGuestFees = BehaviorSubject.create<Money>()
     val isBestPriceGuarantee = BehaviorSubject.create<Boolean>(false)
@@ -111,10 +112,10 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                 val propertyServiceFee = rate.propertyServiceFees
                 val surchargeTotalPrice = if (propertyServiceFee == null) rate.surchargeTotalForEntireStay.toString() else rate.surchargesWithoutPropertyFeeForEntireStay.toString()
                 surchargeTotalForEntireStay.onNext(Money(BigDecimal(surchargeTotalPrice), rate.currencyCode))
-                propertyServiceSurcharge.onNext(propertyServiceFee)
+                propertyServiceSurcharge.onNext(Optional(propertyServiceFee))
             } else {
                 surchargeTotalForEntireStay.onNext(Money(BigDecimal(rate.surchargeTotalForEntireStay.toString()), rate.currencyCode))
-                propertyServiceSurcharge.onNext(null)
+                propertyServiceSurcharge.onNext(Optional(null))
             }
             taxStatusType.onNext(rate.taxStatusType)
             extraGuestFees.onNext(rate.extraGuestFees)

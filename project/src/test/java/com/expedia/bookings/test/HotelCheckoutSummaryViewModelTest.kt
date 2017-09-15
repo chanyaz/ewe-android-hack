@@ -113,7 +113,7 @@ class HotelCheckoutSummaryViewModelTest {
         setup()
 
         createTripResponseObservable.onNext(createTripResponse)
-        val actualValue = sut.propertyServiceSurcharge.value
+        val actualValue = sut.propertyServiceSurcharge.value?.value
         val expectedValue = Money(BigDecimal(7.56), "USD")
         assertEquals(expectedValue.formattedMoney, actualValue?.formattedMoney)
         val surchargeActualValue = sut.surchargeTotalForEntireStay.value
@@ -185,7 +185,7 @@ class HotelCheckoutSummaryViewModelTest {
         setup()
 
         createTripResponseObservable.onNext(createTripResponse)
-        val actualValue = sut.propertyServiceSurcharge.value
+        val actualValue = sut.propertyServiceSurcharge.value?.value
         assertNull(actualValue)
     }
 
