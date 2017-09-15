@@ -16,14 +16,15 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSeatReservationAmenity
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.widget.traveler.FrequentFlyerCard
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import java.util.Locale
 import java.util.ArrayList
+import java.util.HashMap
 
 object FlightV2Utils {
     val TICKETS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5

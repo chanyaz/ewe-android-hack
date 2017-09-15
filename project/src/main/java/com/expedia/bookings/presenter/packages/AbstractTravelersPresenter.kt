@@ -17,6 +17,7 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
 import com.expedia.bookings.widget.AbstractTravelerEntryWidget
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.traveler.TravelerPickerWidget
@@ -40,6 +41,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
     val closeSubject = PublishSubject.create<Unit>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
+    val isFrequentFlyerEnabled = isFrequentFlyerNumberForFlightsEnabled(context)
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
@@ -74,7 +76,9 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             } else {
                 travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
             }
-            updateFlightTravelerEntryWidgetViewModel()
+            if (isFrequentFlyerEnabled) {
+                updateFlightTravelerEntryWidgetViewModel()
+            }
         }
 
         doneClicked.subscribe {
@@ -170,7 +174,9 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         else if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.CLEAN) {
             travelerEntryWidget.resetErrorState()
         }
-        updateFlightTravelerEntryWidgetViewModel()
+        if (isFrequentFlyerEnabled) {
+            updateFlightTravelerEntryWidgetViewModel()
+        }
     }
 
     private fun showPickerWidget() {
@@ -262,7 +268,11 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
     private fun updateFlightTravelerEntryWidgetViewModel() {
         val flightTravelerEntryWidgetViewModel = travelerEntryWidget.viewModel as FlightTravelerEntryWidgetViewModel
         val flightTravelersViewModel = viewModel as FlightTravelersViewModel
-        flightTravelerEntryWidgetViewModel.flightLegsObservable.onNext(flightTravelersViewModel.flightLegs)
-        flightTravelerEntryWidgetViewModel.frequentFlyerPlans.onNext(flightTravelersViewModel.frequentFlyerPlans)
+        flightTravelersViewModel.flightLegs?.let { legs ->
+            flightTravelerEntryWidgetViewModel.flightLegsObservable.onNext(legs)
+        }
+        flightTravelersViewModel.frequentFlyerPlans?.let { plans ->
+            flightTravelerEntryWidgetViewModel.frequentFlyerPlans.onNext(plans)
+        }
     }
 }

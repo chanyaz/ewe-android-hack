@@ -19,7 +19,6 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FlightV2Utils.getAirlineNames
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
 import com.expedia.bookings.utils.isMaterialFormsEnabled
@@ -34,7 +33,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.updateVisibility
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
-import rx.Observable
 
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : AbstractTravelerEntryWidget(context, attrs) {
 
@@ -49,10 +47,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
     val advancedOptionsText: TextView by bindView(R.id.advanced_options_text)
-    var frequentFlyerButton: LinearLayout ?= null
-    var frequentFlyerRecycler: RecyclerView ?= null
-    var frequentFlyerIcon: ImageView ?= null
-    var frequentFlyerText: TextView ?= null
+    var frequentFlyerButton: LinearLayout? = null
+    var frequentFlyerRecycler: RecyclerView? = null
+    var frequentFlyerIcon: ImageView? = null
+    var frequentFlyerText: TextView? = null
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
@@ -118,29 +116,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
         if (frequentflyerTestEnabled) {
-            frequentFlyerRecycler!!.adapter = FrequentFlyerAdapter(vm.getTraveler())
-            val frequentFlyerAdapter = frequentFlyerRecycler!!.adapter as FrequentFlyerAdapter
-            vm.flightLegsObservable.subscribe { flightLegs ->
-                if (flightLegs != null) {
-                    frequentFlyerAdapter.setFrequentFlyerCards(getAirlineNames(flightLegs))
-                }
+            vm.frequentFlyerAdapterViewModel?.let { viewModel ->
+                frequentFlyerRecycler?.adapter = FrequentFlyerAdapter(viewModel)
             }
-
-            vm.frequentFlyerPlans.subscribe { frequentFlyerPlans ->
-                if (frequentFlyerPlans != null) {
-                    frequentFlyerAdapter.frequentFlyerPlans = frequentFlyerPlans
-                }
-            }
-
-            vm.updateFrequentFlyerTraveler.subscribe {
-                frequentFlyerAdapter.vm.updateTraveler(vm.getTraveler())
-                frequentFlyerAdapter.notifyDataSetChanged()
-            }
-
-            Observable.combineLatest(vm.flightLegsObservable, vm.frequentFlyerPlans, { legs, plans ->
-                        val showFrequentFlyerWidget = legs != null && plans != null
-                        frequentFlyerButton?.updateVisibility(showFrequentFlyerWidget)
-                    }).subscribe()
         }
         vm.passportCountrySubject.subscribe { countryCode ->
             if (materialFormTestEnabled) {

@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.robolectric
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
@@ -35,6 +34,7 @@ import org.robolectric.annotation.Config
 import rx.subjects.BehaviorSubject
 import kotlin.test.assertEquals
 import org.robolectric.shadows.ShadowAlertDialog
+import rx.observers.TestSubscriber
 import java.util.LinkedHashMap
 import java.util.ArrayList
 import kotlin.test.assertNotNull
@@ -62,7 +62,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
         SettingUtils.save(activity, R.string.preference_enable_flights_frequent_flyer_number, true)
         widget = LayoutInflater.from(activity).inflate(R.layout.test_flight_entry_widget, null) as FlightTravelerEntryWidget
-
+        Db.clear()
         Db.getTravelers().add(traveler)
         widget.viewModel = FlightTravelerEntryWidgetViewModel(activity, 0, BehaviorSubject.create(false), TravelerCheckoutStatus.CLEAN)
     }
@@ -94,15 +94,17 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFFNDialogNoEnrolledPrograms() {
-        givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = false)
+        val frequentFlyerPlansSubscriber = TestSubscriber.create<FlightCreateTripResponse.FrequentFlyerPlans>()
         val ffnAdapter = widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter
-        assertNull(ffnAdapter.frequentFlyerPlans.enrolledFrequentFlyerPlans)
+        ffnAdapter.viewModel.frequentFlyerPlans.subscribe(frequentFlyerPlansSubscriber)
+        givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = false)
+        assertNull(frequentFlyerPlansSubscriber.onNextEvents[0].enrolledFrequentFlyerPlans)
 
-        val frequentFlyerViewHolder = getViewHolderAndOpen(ffnAdapter)
+        val frequentFlyerViewHolder = getViewHolderAndOpen()
         assertFrequentFlyerViewHolderData(frequentFlyerViewHolder, "Alaska Airlines", "Alaska Airlines", "", 0)
 
         val testDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
-        assertFrequentFlyerDialog(testDialog, frequentFlyerViewHolder.frequentFlyerAdapter)
+        assertFrequentFlyerDialog(testDialog, frequentFlyerViewHolder.frequentFlyerDialogAdapter)
 
         testDialog.clickOnItem(1)
         assertFrequentFlyerViewHolderData(frequentFlyerViewHolder, "Delta Airlines", "Alaska Airlines", "", 1)
@@ -110,49 +112,91 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testFFNDialogEnrolledPrograms() {
+        val frequentFlyerPlansSubscriber = TestSubscriber.create<FlightCreateTripResponse.FrequentFlyerPlans>()
+        val ffnAdapter = widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter
+        ffnAdapter.viewModel.frequentFlyerPlans.subscribe(frequentFlyerPlansSubscriber)
         Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA"))
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = true)
-        val ffnAdapter = widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter
-        assertEquals(1, ffnAdapter.frequentFlyerPlans.enrolledFrequentFlyerPlans.size)
 
-        val frequentFlyerViewHolder = getViewHolderAndOpen(ffnAdapter)
+        frequentFlyerPlansSubscriber.assertValueCount(1)
+        val plans = frequentFlyerPlansSubscriber.onNextEvents[0]
+        assertEquals(1, plans.enrolledFrequentFlyerPlans.size)
+
+        val frequentFlyerViewHolder = getViewHolderAndOpen()
         assertFrequentFlyerViewHolderData(frequentFlyerViewHolder, "Alaska Airlines", "Alaska Airlines", "12345", 0)
 
         val testDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
-        assertFrequentFlyerDialog(testDialog, frequentFlyerViewHolder.frequentFlyerAdapter)
+        assertFrequentFlyerDialog(testDialog, frequentFlyerViewHolder.frequentFlyerDialogAdapter)
 
         testDialog.clickOnItem(1)
         assertFrequentFlyerViewHolderData(frequentFlyerViewHolder, "Delta Airlines", "Alaska Airlines", "", 1)
     }
 
     @Test
-    fun testNewTravelerUpdatesEnrolledPrograms() {
+    fun testDifferentTravelerUpdatesEnrolledPrograms() {
         Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA"))
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = true)
-        val ffnAdapter = widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter
-        val frequentFlyerViewHolder = getViewHolderAndOpen(ffnAdapter)
+        val frequentFlyerViewHolder = getViewHolderAndOpen()
         Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog()).dismiss()
-        val oldEnrolledPlans = frequentFlyerViewHolder.frequentFlyerAdapter.enrolledFrequentFlyerPlans
+        val oldEnrolledPlans = frequentFlyerViewHolder.frequentFlyerDialogAdapter.enrolledFrequentFlyerPlans
 
         assertEnrolledPlans(oldEnrolledPlans, 1, "AA", "12345", "AA")
 
         val newTraveler = Traveler()
         newTraveler.addFrequentFlyerMembership(getNewFrequentFlyerMembership("UA", "98765", "UA"))
-        ffnAdapter.vm.updateTraveler(newTraveler)
+        frequentFlyerViewHolder.viewModel.updateTraveler(newTraveler)
 
-        val newEnrolledPlans = frequentFlyerViewHolder.frequentFlyerAdapter.enrolledFrequentFlyerPlans
+        val newEnrolledPlans = frequentFlyerViewHolder.frequentFlyerDialogAdapter.enrolledFrequentFlyerPlans
         assertEnrolledPlans(newEnrolledPlans, 1, "UA", "98765", "UA")
+    }
+
+    @Test
+    fun testNewSelectedTravelerClearsFFN() {
+        val updateTravelerSubscriber = TestSubscriber.create<Traveler>()
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.updateTravelerObservable?.subscribe(updateTravelerSubscriber)
+        Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA"))
+        givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = true)
+        updateTravelerSubscriber.assertValueCount(0)
+
+        val frequentFlyerViewHolder = getViewHolderAndOpen()
+        Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog()).dismiss()
+        assertFrequentFlyerViewHolderData(frequentFlyerViewHolder, "Alaska Airlines", "Alaska Airlines", "12345", 0)
+
+        widget.onAddNewTravelerSelected()
+        updateTravelerSubscriber.assertValueCount(1)
+
+        val updatedViewHolder = widget.frequentFlyerRecycler?.findViewHolderForAdapterPosition(0) as FrequentFlyerViewHolder
+
+        assertFrequentFlyerViewHolderData(updatedViewHolder, "Alaska Airlines", "Alaska Airlines", "", 0)
+        val newEnrolledPlans = updatedViewHolder.frequentFlyerDialogAdapter.enrolledFrequentFlyerPlans
+        assertEnrolledPlans(newEnrolledPlans, 0, null, null, null)
+    }
+
+    @Test
+    fun testViewHolderViewModelsMatch() {
+        givenLegsAndFrequentFlyerPlans(false)
+        val viewHolderViewModels = (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.viewHolderViewModels
+        assertEquals(2, viewHolderViewModels?.size)
+
+        val firstVm = viewHolderViewModels?.first()
+        val firstViewHolder = widget.frequentFlyerRecycler?.findViewHolderForAdapterPosition(0) as FrequentFlyerViewHolder
+        assertEquals(firstViewHolder.viewModel, firstVm)
+
+        val secondVm = viewHolderViewModels?.get(1)
+        val secondViewHolder = widget.frequentFlyerRecycler?.findViewHolderForAdapterPosition(1) as FrequentFlyerViewHolder
+        assertEquals(secondViewHolder.viewModel, secondVm)
     }
 
     private fun givenLegsAndFrequentFlyerPlans(hasEnrolledPlans: Boolean) {
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable.onNext(listOf(buildMockFlight(3)))
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans.onNext(getFrequentFlyerPlans(hasEnrolledPlans))
         widget.frequentFlyerButton?.performClick()
+        widget.frequentFlyerRecycler?.measure(0, 0);
+        widget.frequentFlyerRecycler?.layout(0, 0, 100, 10000);
     }
 
-    private fun getViewHolderAndOpen(ffnAdapter: FrequentFlyerAdapter): FrequentFlyerViewHolder {
-        val frequentFlyerViewHolder = ffnAdapter.onCreateViewHolder(widget.frequentFlyerRecycler as RecyclerView, 0) as FrequentFlyerViewHolder
-        ffnAdapter.onBindViewHolder(frequentFlyerViewHolder, 0)
+    private fun getViewHolderAndOpen(): FrequentFlyerViewHolder {
+        val frequentFlyerViewHolder = widget.frequentFlyerRecycler?.findViewHolderForAdapterPosition(0) as FrequentFlyerViewHolder
         frequentFlyerViewHolder.frequentFlyerProgram.performClick()
         return frequentFlyerViewHolder
     }
@@ -223,17 +267,17 @@ class FlightTravelerFrequentFlyerWidgetTest {
         assertEquals(programNumber, frequentFlyerViewHolder.frequentFlyerNumberInput.text.toString())
         assertEquals(programName, frequentFlyerViewHolder.frequentFlyerProgram.text.toString())
         assertEquals(programTitle, frequentFlyerViewHolder.frequentFlyerNameTitle.text.toString())
-        assertEquals(currentPosition, frequentFlyerViewHolder.frequentFlyerAdapter.currentPosition)
+        assertEquals(currentPosition, frequentFlyerViewHolder.frequentFlyerDialogAdapter.currentPosition)
     }
 
     private fun assertEnrolledPlans(oldEnrolledPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>,
                                     size: Int,
-                                    key: String,
-                                    number: String,
-                                    airlineCode: String) {
+                                    key: String?,
+                                    number: String?,
+                                    airlineCode: String?) {
         assertEquals(size, oldEnrolledPlans.size)
-        assertEquals(key, oldEnrolledPlans.keys.first())
-        assertEquals(number, oldEnrolledPlans.values.first().membershipNumber)
-        assertEquals(airlineCode, oldEnrolledPlans.values.first().airlineCode)
+        assertEquals(key, oldEnrolledPlans.keys.firstOrNull())
+        assertEquals(number, oldEnrolledPlans.values.firstOrNull()?.membershipNumber)
+        assertEquals(airlineCode, oldEnrolledPlans.values.firstOrNull()?.airlineCode)
     }
 }

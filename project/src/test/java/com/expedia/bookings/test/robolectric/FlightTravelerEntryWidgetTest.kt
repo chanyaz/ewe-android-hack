@@ -390,16 +390,6 @@ class FlightTravelerEntryWidgetTest {
         assertEquals(Traveler().tuid, testTraveler.tuid)
     }
 
-    @Test
-    fun testFrequentFlyerNumberWidgetHiddenWithoutLegsOrPlans() {
-        givenMaterialForm(true, isFFNEnabled = true)
-        setupViewModel(0, false)
-        (widget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable.onNext(null)
-        (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans.onNext(null)
-
-        assertEquals(View.GONE, widget.frequentFlyerButton?.visibility)
-    }
-
     private fun givenMaterialForm(isMaterialForm: Boolean, isFFNEnabled: Boolean = false) {
         if (isFFNEnabled) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
