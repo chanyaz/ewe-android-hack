@@ -3,6 +3,7 @@ package com.expedia.vm.test.robolectric
 import android.app.Activity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightTripResponse
+import com.expedia.bookings.data.FlightTripResponse.FareFamilyDetails
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.Db
@@ -48,7 +49,7 @@ class FareFamilyViewModelTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testFareFamilyCardViewStringsForFreshCreateTrip(){
+    fun testFareFamilyCardViewStringsForFreshCreateTrip() {
         val deltaPriceSubscriber = TestSubscriber<String>()
         val selectedClassSubscriber = TestSubscriber<String>()
         val fareFamilyTitleSubscriber = TestSubscriber<String>()
@@ -60,16 +61,16 @@ class FareFamilyViewModelTest {
         sut.fromLabelVisibility.subscribe(fromLabelVisibilitySubscriber)
         sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
         sut.travellerObservable.subscribe(travellerTextSubscriber)
-        sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable())
-        assertEquals("+$42.00",deltaPriceSubscriber.onNextEvents[0])
-        assertEquals("Economy",selectedClassSubscriber.onNextEvents[0])
-        assertEquals("Upgrade your flights",fareFamilyTitleSubscriber.onNextEvents[0])
+        sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(2))
+        assertEquals("+$2", deltaPriceSubscriber.onNextEvents[0])
+        assertEquals("Economy", selectedClassSubscriber.onNextEvents[0])
+        assertEquals("Upgrade your flights", fareFamilyTitleSubscriber.onNextEvents[0])
         assertEquals("4 travelers", travellerTextSubscriber.onNextEvents[0])
         assertTrue(fromLabelVisibilitySubscriber.onNextEvents[0])
     }
 
     @Test
-    fun testFareFamilyCardViewStringsAfterSelectingFareFamily(){
+    fun testFareFamilyCardViewStringsAfterSelectingFareFamily() {
         val deltaPriceSubscriber = TestSubscriber<String>()
         val selectedClassSubscriber = TestSubscriber<String>()
         val fareFamilyTitleSubscriber = TestSubscriber<String>()
@@ -79,10 +80,10 @@ class FareFamilyViewModelTest {
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
         sut.fromLabelVisibility.subscribe(fromLabelVisibilitySubscriber)
         sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
-        sut.tripObservable.onNext(tripResponseWithFareFamilySelected())
-        assertEquals("",deltaPriceSubscriber.onNextEvents[0])
-        assertEquals("Economy",selectedClassSubscriber.onNextEvents[0])
-        assertEquals("Change your cabin class",fareFamilyTitleSubscriber.onNextEvents[0])
+        sut.tripObservable.onNext(tripResponseWithFareFamilySelected(2))
+        assertEquals("", deltaPriceSubscriber.onNextEvents[0])
+        assertEquals("Economy", selectedClassSubscriber.onNextEvents[0])
+        assertEquals("Change your cabin class", fareFamilyTitleSubscriber.onNextEvents[0])
         assertFalse(fromLabelVisibilitySubscriber.onNextEvents[0])
     }
 
@@ -94,25 +95,52 @@ class FareFamilyViewModelTest {
         sut.tripObservable.onNext(tripResponseWithoutFareFamilyAvailable())
         assertFalse(widgetVisibilitySubscriber.onNextEvents[0])
 
-        sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable())
+        sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(2))
         assertTrue(widgetVisibilitySubscriber.onNextEvents[1])
     }
 
-    private fun tripResponseWithFareFamilySelected(): FlightCreateTripResponse {
-        val trip = tripResponseWithFareFamilyAvailable()
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun fareFamilyDeltaPricing() {
+        val deltaPriceSubscriber = TestSubscriber<String>()
+        sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
+
+        sut.tripObservable.onNext(tripResponseWithoutFareFamilyAvailable())
+        deltaPriceSubscriber.assertNoValues()
+
+        sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(1))
+        assertEquals("+$1", deltaPriceSubscriber.onNextEvents[0])
+
+        sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(2))
+        assertEquals("+$2", deltaPriceSubscriber.onNextEvents[1])
+    }
+
+    private fun tripResponseWithFareFamilySelected(numberOfObjects: Int): FlightCreateTripResponse {
+        val trip = tripResponseWithFareFamilyAvailable(numberOfObjects)
         trip.isFareFamilyUpgraded = true
         return trip
     }
 
-    private fun tripResponseWithFareFamilyAvailable(): FlightCreateTripResponse {
-        val deltamoney = Money("42.00", "USD")
-        deltamoney.formattedPrice = "$42.00"
-        val fareFamilyDetails = FlightTripResponse.FareFamilyDetails("Economy", "Economy", "Economy",
-                Money("210.00", "USD"), deltamoney, true, HashMap())
-        val fareFamilyProduct = FlightTripResponse.FareFamilies("product-key", arrayOf(fareFamilyDetails))
+    private fun tripResponseWithFareFamilyAvailable(numberOfObjects: Int): FlightCreateTripResponse {
+        val fareFamilyProduct = FlightTripResponse.FareFamilies("product-key", getFareFamilyDetail(numberOfObjects))
         val trip = tripResponseWithoutFareFamilyAvailable()
         trip.fareFamilyList = fareFamilyProduct
         return trip
+    }
+
+    private fun getFareFamilyDetail(size: Int): Array<FlightTripResponse.FareFamilyDetails> {
+        val fareFamilyDetails = arrayListOf<FareFamilyDetails>()
+        when (size) {
+            1 -> fareFamilyDetails.add(FlightTripResponse.FareFamilyDetails("Economy", "Economy", "Economy",
+                    Money("210.00", "USD"), Money(size, "USD"), true, HashMap()))
+            2 -> {
+                fareFamilyDetails.add(FlightTripResponse.FareFamilyDetails("Economy", "Economy", "Economy",
+                        Money("210.00", "USD"), Money(size, "USD"), true, HashMap()))
+                fareFamilyDetails.add(FlightTripResponse.FareFamilyDetails("Economy", "Economy", "Economy",
+                        Money("210.00", "USD"), Money(size, "USD"), true, HashMap()))
+            }
+        }
+        return fareFamilyDetails.toTypedArray()
     }
 
     private fun tripResponseWithoutFareFamilyAvailable(): FlightCreateTripResponse {
@@ -128,7 +156,7 @@ class FareFamilyViewModelTest {
         val trip = FlightCreateTripResponse()
         trip.newTrip = TripDetails(null, null, tripId = "")
         trip.details = details
-        trip.fareFamilyList  = FlightTripResponse.FareFamilies("product-key", emptyArray())
+        trip.fareFamilyList = FlightTripResponse.FareFamilies("product-key", emptyArray())
         return trip
     }
 
@@ -174,7 +202,6 @@ class FareFamilyViewModelTest {
         val checkIn = LocalDate().plusDays(2)
         val checkOut = if (isRoundTrip) LocalDate().plusDays(3) else null
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null,null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null, null)
     }
-
 }

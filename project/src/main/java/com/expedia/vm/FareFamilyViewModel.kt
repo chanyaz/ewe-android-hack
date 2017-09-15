@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
+import com.expedia.bookings.data.FlightTripResponse.FareFamilyDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightV2Utils
@@ -29,7 +30,7 @@ class FareFamilyViewModel(private val context: Context) {
 
     init {
         tripObservable.subscribe { trip ->
-            val fareFamilyDetail = trip.fareFamilyList?.fareFamilyDetails?.firstOrNull()
+            val fareFamilyDetail = getDeltaPricingFareFamily(trip.fareFamilyList?.fareFamilyDetails)
             if (fareFamilyDetail != null) {
                 widgetVisibilityObservable.onNext(isUserBucketedForFareFamily && !trip.getOffer().isSplitTicket)
                 selectedClassObservable.onNext(FlightV2Utils.getSelectedClassesString(context, trip.details))
@@ -62,5 +63,16 @@ class FareFamilyViewModel(private val context: Context) {
                 .filter { it.productKey != null }
                 .map { Pair(it.productKey!!, it.fareDetails) }
                 .subscribe(updateTripObserver)
+    }
+
+    private fun getDeltaPricingFareFamily(fareFamilyDetails: Array<FareFamilyDetails>?): FareFamilyDetails? {
+        if (fareFamilyDetails != null) {
+            if (fareFamilyDetails.size > 1) {
+                return fareFamilyDetails[1]
+            } else if (fareFamilyDetails.size == 1) {
+                return fareFamilyDetails[0]
+            }
+        }
+        return null
     }
 }
