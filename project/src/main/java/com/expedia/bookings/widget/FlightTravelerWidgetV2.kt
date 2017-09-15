@@ -8,11 +8,9 @@ import android.view.View
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
-import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.Strings
 import com.expedia.util.subscribeText
 import com.expedia.vm.FlightTravelerPickerViewModel
-import rx.subjects.BehaviorSubject
 
 class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerWidgetV2(context, attrs) {
 
@@ -54,9 +52,9 @@ class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerW
             dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }
         dialog.setOnDismissListener {
-            if (oldTravelerData != null) {
+            oldTravelerData?.let {
                 //if it's not null, the user dismissed the dialog, otherwise we clear it on Done
-                traveler.getViewModel().travelerParamsObservable.onNext(oldTravelerData)
+                traveler.getViewModel().travelerParamsObservable.onNext(it)
                 traveler.getViewModel().infantInSeatObservable.onNext(!oldInfantPreferenceInLap)
                 oldTravelerData = null
             }
