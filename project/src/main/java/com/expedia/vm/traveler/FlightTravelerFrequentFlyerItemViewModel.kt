@@ -4,8 +4,8 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
 import rx.subjects.PublishSubject
-import java.util.LinkedHashMap
 import java.util.ArrayList
+import java.util.LinkedHashMap
 
 class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
     private lateinit var frequentFlyerCard: FrequentFlyerCard
@@ -32,7 +32,7 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
         this.traveler = traveler
         frequentFlyerProgramNumberViewModel.traveler = traveler
         val frequentFlyerProgramNumber = traveler.frequentFlyerMemberships[frequentFlyerCard.airlineCode]?.membershipNumber ?: ""
-        val frequentFlyerProgramName = allFrequentFlyerPlans[frequentFlyerCard.airlineCode]?.frequentFlyerPlanName
+        val frequentFlyerProgramName = allFrequentFlyerPlans[frequentFlyerCard.airlineCode]?.frequentFlyerPlanName ?: ""
         frequentFlyerNumberObservable.onNext(frequentFlyerProgramNumber)
         frequentFlyerProgramObservable.onNext(frequentFlyerProgramName)
         enrolledPlans = createEnrolledPlansFromTraveler()
