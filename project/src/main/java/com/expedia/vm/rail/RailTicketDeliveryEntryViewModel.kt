@@ -4,8 +4,8 @@ import android.content.Context
 import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption
-import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.rail.widget.TicketDeliveryMethod
+import com.expedia.bookings.utils.CollectionUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -31,7 +31,8 @@ class RailTicketDeliveryEntryViewModel(val context: Context) {
             if (!supported) {
                 ticketDeliveryObservable.onNext(TicketDeliveryMethod.PICKUP_AT_STATION)
                 ticketDeliveryMethodSelected.onNext(TicketDeliveryMethod.PICKUP_AT_STATION)
-                ticketDeliveryOption = TicketDeliveryOption(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
+                val ticketDeliveryOption = TicketDeliveryOption(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
+                this.ticketDeliveryOption = ticketDeliveryOption
                 ticketDeliveryOptionSubject.onNext(ticketDeliveryOption)
             }
         }

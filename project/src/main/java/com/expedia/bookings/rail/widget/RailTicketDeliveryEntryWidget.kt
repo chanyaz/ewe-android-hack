@@ -8,8 +8,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.RailLocation
 import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.SpinnerAdapterWithHint
 import com.expedia.bookings.widget.TicketDeliverySelectionStatus
 import com.expedia.bookings.widget.shared.EntryFormToolbar
@@ -62,14 +62,16 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Lin
         }
 
         vm.ticketDeliveryMethodSelected.subscribe { selected ->
+            val ticketDeliveryOption: TicketDeliveryOption
             if (selected == TicketDeliveryMethod.PICKUP_AT_STATION) {
-                vm.ticketDeliveryOption = TicketDeliveryOption(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
+                ticketDeliveryOption = TicketDeliveryOption(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
             } else {
                 val railLocation = deliveryAddressEntry.getLocation()
                 val ticketDeliveryOptionToken = railLocation.ticketDeliveryOptionSelected!!.ticketDeliveryOptionToken
-                vm.ticketDeliveryOption = TicketDeliveryOption(ticketDeliveryOptionToken, railLocation)
+                ticketDeliveryOption = TicketDeliveryOption(ticketDeliveryOptionToken, railLocation)
             }
-            vm.ticketDeliveryOptionSubject.onNext(vm.ticketDeliveryOption)
+            vm.ticketDeliveryOption = ticketDeliveryOption
+            vm.ticketDeliveryOptionSubject.onNext(ticketDeliveryOption)
         }
     }
 
