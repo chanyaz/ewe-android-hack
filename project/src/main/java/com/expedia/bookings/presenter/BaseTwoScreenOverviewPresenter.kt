@@ -27,7 +27,6 @@ import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
-import com.expedia.util.safeSubscribe
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.setInverseVisibility
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
@@ -306,7 +305,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     override fun onBook(cvv: String?) {
-        checkoutPresenter.getCheckoutViewModel().cvvCompleted.onNext(cvv)
+        cvv?.let {
+            checkoutPresenter.getCheckoutViewModel().cvvCompleted.onNext(it)
+        }
     }
 
     override fun back(): Boolean {

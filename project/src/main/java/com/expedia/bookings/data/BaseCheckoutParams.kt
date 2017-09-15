@@ -62,7 +62,10 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             val travelers = if (travelers.isEmpty()) throw IllegalArgumentException() else {
                 travelers
             }
-            val cvv = cvv ?: throw IllegalArgumentException()
+            val cvv = cvv
+            if (cvv == null || cvv.isEmpty()) {
+                throw IllegalArgumentException()
+            }
             val tripId = tripId ?: throw IllegalArgumentException()
             val expectedTotalFare = expectedTotalFare ?: throw IllegalArgumentException()
             val expectedFareCurrencyCode = expectedFareCurrencyCode ?: throw IllegalArgumentException()

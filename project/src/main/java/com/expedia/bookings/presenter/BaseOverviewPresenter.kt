@@ -148,7 +148,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     override fun onBook(cvv: String?) {
-        checkoutPresenter.getCheckoutViewModel().cvvCompleted.onNext(cvv)
+        cvv?.let {
+            checkoutPresenter.getCheckoutViewModel().cvvCompleted.onNext(it)
+        }
     }
 
     class BundleDefault
