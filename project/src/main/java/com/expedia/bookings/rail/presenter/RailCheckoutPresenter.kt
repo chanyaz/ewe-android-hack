@@ -368,7 +368,9 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
         initializeTicketDelivery()
         setupCardFeesModal()
-        ticketDeliveryEntryViewModel.ticketDeliveryOptions.onNext(response.railDomainProduct?.railOffer?.ticketDeliveryOptionList)
+        response.railDomainProduct?.railOffer?.ticketDeliveryOptionList?.let {
+            ticketDeliveryEntryViewModel.ticketDeliveryOptions.onNext(it)
+        }
 
         updatePricing(response)
         showLegalInformationText(response)
