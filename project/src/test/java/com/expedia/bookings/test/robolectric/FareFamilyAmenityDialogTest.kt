@@ -56,7 +56,7 @@ class FareFamilyAmenityDialogTest {
     fun testPrimaryAmenitiesDetails() {
         assertEquals(3, widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.childCount)
         val firstPrimaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(0) as FareFamilyAmenityItemWidget).getChildAt(0) as LinearLayout
-        assertEquals("Bags", (firstPrimaryAmenity.getChildAt(1) as TextView).text.toString())
+        assertEquals("Checked Bags", (firstPrimaryAmenity.getChildAt(1) as TextView).text.toString())
         val secondPrimaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(1) as FareFamilyAmenityItemWidget).getChildAt(0) as LinearLayout
         assertEquals("Cancellation", (secondPrimaryAmenity.getChildAt(1) as TextView).text.toString())
         val thirdPrimaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(2) as FareFamilyAmenityItemWidget).getChildAt(0) as LinearLayout

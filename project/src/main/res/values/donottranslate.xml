@@ -440,7 +440,6 @@
 
     <!-- Amenities Keys -->
     <string name="amenity_key_bags">Bags</string>
-    <string name="amenity_key_carry_on_bag">CarryOnBag</string>
     <string name="amenity_key_one_luggage">OneLuggage</string>
     <string name="amenity_key_two_luggage">TwoLuggage</string>
     <string name="amenity_key_three_luggage">ThreeLuggage</string>

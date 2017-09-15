@@ -4796,7 +4796,7 @@
     <string name="excluding_taxes_fees">Excluding taxes and fees</string>
 
     <!-- Amenities String -->
-    <string name="amenity_bags">Bags</string>
+    <string name="amenity_checked_bags">Checked Bags</string>
     <string name="amenity_cancellation">Cancellation</string>
     <string name="amenity_seat_selection">Seat Selection</string>
 

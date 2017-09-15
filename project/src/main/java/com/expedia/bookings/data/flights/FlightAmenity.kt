@@ -7,8 +7,7 @@ enum class FlightBagAmenity(val key: Int) {
     TWO_LUGGAGE(R.string.amenity_key_two_luggage),
     THREE_LUGGAGE(R.string.amenity_key_three_luggage),
     FOUR_LUGGAGE(R.string.amenity_key_four_luggage),
-    BAGS(R.string.amenity_key_bags),
-    CARRY_ON_BAG(R.string.amenity_key_carry_on_bag)
+    BAGS(R.string.amenity_key_bags)
 }
 
 enum class FlightCancellationAmenity(val key: Int) {
