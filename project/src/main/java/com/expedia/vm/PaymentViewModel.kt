@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.util.Optional
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -39,7 +40,7 @@ open class PaymentViewModel(val context: Context) {
     val isRedeemable = BehaviorSubject.create<Boolean>(false)
     val billingInfoAndStatusUpdate = BehaviorSubject.create<Pair<BillingInfo?, ContactDetailsCompletenessStatus>>()
     val emptyBillingInfo = PublishSubject.create<Unit>()
-    val storedCardRemoved = PublishSubject.create<StoredCreditCard?>()
+    val storedCardRemoved = PublishSubject.create<Optional<StoredCreditCard>>()
     val showingPaymentForm = PublishSubject.create<Boolean>()
     val newCheckoutIsEnabled = BehaviorSubject.create<Boolean>(false)
     val enableMenuItem = PublishSubject.create<Boolean>()
@@ -146,7 +147,7 @@ open class PaymentViewModel(val context: Context) {
             icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
             billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
             emptyBillingInfo.onNext(Unit)
-            BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, card)
+            BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, card.value)
             Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = null
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
             resetCardFees.onNext(Unit)
@@ -154,7 +155,7 @@ open class PaymentViewModel(val context: Context) {
 
         userLogin.subscribe { isLoggedIn ->
             if (!isLoggedIn) {
-                storedCardRemoved.onNext(null)
+                storedCardRemoved.onNext(Optional(null))
             }
         }
 

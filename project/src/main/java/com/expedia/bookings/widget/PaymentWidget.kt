@@ -47,6 +47,7 @@ import com.expedia.bookings.utils.isPopulateCardholderNameEnabled
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
+import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -652,7 +653,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     fun removeStoredCard() {
         if (Db.getBillingInfo().hasStoredCard()) {
             val card = Db.getBillingInfo().storedCard
-            viewmodel.storedCardRemoved.onNext(card)
+            viewmodel.storedCardRemoved.onNext(Optional(card))
             if (populateCardholderNameTestEnabled) {
                 populateCardholderName()
             }
