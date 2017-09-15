@@ -57,7 +57,7 @@ class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseT
         }
 
         val category = traveler.passengerCategory
-        val errorString = category?.getErrorString(context)
+        val errorString = category?.getErrorString(context) ?: ""
         birthErrorTextSubject.onNext(errorString)
         errorSubject.onNext(true)
     }

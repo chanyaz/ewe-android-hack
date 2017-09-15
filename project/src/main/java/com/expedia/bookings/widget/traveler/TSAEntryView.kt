@@ -150,7 +150,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     private fun showBirthdateErrorDialog(message: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.traveler_age_title)
-        builder.setMessage(message)
+        builder.setMessage(if (message.isNotEmpty()) message else null)
         builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface, which: Int) {
                 dialog.dismiss()
