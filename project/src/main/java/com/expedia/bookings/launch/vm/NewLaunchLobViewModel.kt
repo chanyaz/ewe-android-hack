@@ -9,6 +9,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.util.PackageUtil
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -37,8 +38,8 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
         lobs.add(LobInfo.HOTELS)
         lobs.add(LobInfo.FLIGHTS)
 
-        val packagesPOSABTest = PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN || Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesEnableJapanPOS)
-        if (pos.supports(LineOfBusiness.PACKAGES) && packagesPOSABTest) {
+        val packagesPOSABTestEnabled = !PackageUtil.isPackageLOBUnderABTest || Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesEnablePOS)
+        if (pos.supports(LineOfBusiness.PACKAGES) && packagesPOSABTestEnabled) {
             lobs.add(LobInfo.PACKAGES)
         }
 

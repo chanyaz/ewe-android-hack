@@ -106,7 +106,7 @@ public class AbacusUtils {
 	// Packages Tests
 	public static final int EBAndroidAppPackagesMidApi = 14856;
 	public static final int EBAndroidAppPackagesTitleChange = 14953;
-	public static final int EBAndroidAppPackagesEnableJapanPOS = 14900;
+	public static final int EBAndroidAppPackagesEnablePOS = 15452;
 
 	// Account
 	public static final int EBAndroidAppAccountSinglePageSignUp = 13923;
@@ -222,7 +222,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidRailHybridAppForDEEnabled);
 		testIDs.add(EBAndroidRailHybridAppForUKEnabled);
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel);
-		testIDs.add(EBAndroidAppPackagesEnableJapanPOS);
+		testIDs.add(EBAndroidAppPackagesEnablePOS);
 		testIDs.add(EBAndroidAppCarsAATest);
 		testIDs.add(EBAndroidAppLocaleBasedDateFormatting);
 		testIDs.add(EBAndroidAppHideApacBillingAddressFields);

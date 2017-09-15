@@ -657,8 +657,8 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="14900"
-            android:title="Packages Japan Launch" />
+            android:key="15452"
+            android:title="Packages New POS Launch" />
 
     </PreferenceCategory>
 

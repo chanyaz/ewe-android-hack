@@ -10,6 +10,8 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class PackageUtilTest {
@@ -114,6 +116,41 @@ class PackageUtilTest {
         assertPackageTitle(posId = PointOfSaleId.FINLAND,
                 expectedPackagesLobTitleABTestEnabled = false,
                 expectedPackageTitle = "Bundle Deals")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageSINGAPORELOBEnabled() {
+        RoboTestHelper.setPOS(PointOfSaleId.SINGAPORE)
+        assertTrue(PackageUtil.isPackageLOBUnderABTest)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageMALAYSIALOBEnabled() {
+        RoboTestHelper.setPOS(PointOfSaleId.MALAYSIA)
+        assertTrue(PackageUtil.isPackageLOBUnderABTest)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageAUSTRALIALOBEnabled() {
+        RoboTestHelper.setPOS(PointOfSaleId.AUSTRALIA)
+        assertTrue(PackageUtil.isPackageLOBUnderABTest)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageNEW_ZEALNDLOBEnabled() {
+        RoboTestHelper.setPOS(PointOfSaleId.NEW_ZEALND)
+        assertTrue(PackageUtil.isPackageLOBUnderABTest)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageUNITED_STATESLOBDisabled() {
+        RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
+        assertFalse(PackageUtil.isPackageLOBUnderABTest)
     }
 
     private fun updateABTestVariant(value: Int) {

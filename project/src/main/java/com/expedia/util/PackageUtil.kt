@@ -7,6 +7,16 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 
 object PackageUtil {
+
+    val isPackageLOBUnderABTest: Boolean
+        get() {
+            val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId
+            return pointOfSaleId == PointOfSaleId.SINGAPORE ||
+                    pointOfSaleId == PointOfSaleId.MALAYSIA ||
+                    pointOfSaleId == PointOfSaleId.AUSTRALIA ||
+                    pointOfSaleId == PointOfSaleId.NEW_ZEALND
+        }
+
     val isPackagesLobTitleABTestEnabled: Boolean
         get() {
             val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId

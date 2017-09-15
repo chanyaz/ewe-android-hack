@@ -2930,6 +2930,10 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
 		}
 
+		if (PackageUtil.INSTANCE.isPackageLOBUnderABTest()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesEnablePOS);
+		}
+
 		trackProWizardTest(s, proWizardTestValue);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLocaleBasedDateFormatting);
