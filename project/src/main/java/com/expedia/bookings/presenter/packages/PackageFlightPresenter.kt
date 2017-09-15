@@ -38,6 +38,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.packages.FlightOverviewViewModel
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 
 class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
 
@@ -124,7 +125,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         val cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin?.regionNames?.shortName as String
         toolbarViewModel.city.onNext(cityBound)
         toolbarViewModel.travelers.onNext(numTravelers)
-        toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate)
+        toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate as LocalDate)
         if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView()) {
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
             bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))

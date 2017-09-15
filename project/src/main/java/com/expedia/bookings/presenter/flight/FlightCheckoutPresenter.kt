@@ -107,9 +107,10 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     }
 
     private fun onTripResponse(tripResponse: TripResponse?) {
+        tripResponse as FlightTripResponse
         getCreateTripViewModel().updateOverviewUiObservable.onNext(tripResponse)
         loginWidget.updateRewardsText(getLineOfBusiness())
-        insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
+        insuranceWidget.viewModel.tripObservable.onNext(tripResponse)
         updateFlightTravelersViewModel(tripResponse)
     }
 

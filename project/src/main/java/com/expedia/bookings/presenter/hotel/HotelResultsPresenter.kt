@@ -358,8 +358,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     fun showCachedResults() {
-        if (viewModel.cachedResponse != null) {
-            viewModel.hotelResultsObservable.onNext(viewModel.cachedResponse)
+        viewModel.cachedResponse?.let {
+            viewModel.hotelResultsObservable.onNext(it)
         }
     }
 
@@ -374,8 +374,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             filterView.viewModel.setSearchLocationId(params.suggestion.gaiaId)
         }
         filterView.viewModel.sortSpinnerObservable.onNext(DisplaySort.fromServerSort(params.getSortOrder()))
-        if (params.filterOptions != null) {
-            filterView.viewModel.newSearchOptionsObservable.onNext(params.filterOptions)
+        params.filterOptions?.let {
+            filterView.viewModel.newSearchOptionsObservable.onNext(it)
         }
 
         swpEnabled = params.shopWithPoints
