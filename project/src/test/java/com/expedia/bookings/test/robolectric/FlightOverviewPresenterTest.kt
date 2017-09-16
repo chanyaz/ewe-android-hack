@@ -34,7 +34,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.FlightCellWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.Optional
-import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
@@ -331,7 +330,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testOutboundWidgetBaggageInfoPaymentInfoButtonVisibility() {
-        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
         prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
@@ -347,7 +345,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testInboundWidgetBaggageInfoPaymentInfoButtonVisibility() {
-        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
         prepareBundleWidgetViewModel(inboundFlightWidget.viewModel)
@@ -363,7 +360,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testOutboundWidgetBaggageInfoClick() {
-        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
         val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
@@ -377,7 +373,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testInboundWidgetBaggageInfoClick() {
-        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
         val inboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
@@ -391,7 +386,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testOutboundWidgetPaymentInfoClick() {
-        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
         widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("http://www.expedia.com/p/regulatory/obfees?langid=2057")
@@ -402,7 +396,6 @@ class FlightOverviewPresenterTest {
 //   TODO https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/6024
 //    @Test
 //    fun testInboundWidgetPaymentInfoClick() {
-//        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
 //        createExpectedFlightLeg()
 //        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
 //        widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("http://www.expedia.com/p/regulatory/obfees?langid=2057")
@@ -412,7 +405,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testOutboundWidgetPaymentInfoClickWithNoURL() {
-        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
         widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("")
@@ -422,7 +414,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testInboundWidgetPaymentInfoClickWithNoURL() {
-        SettingUtils.save(context, R.string.preference_show_baggage_info_payment_info_overview, true)
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
         widget.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("")

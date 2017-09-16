@@ -112,8 +112,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
         baggageFeesButton.subscribeOnClick(vm.baggageInfoClickSubject)
         paymentFeesButton.subscribeOnClick(vm.paymentFeeInfoClickSubject)
-        vm.showInfoFeatureFlagBasedObservable.subscribeVisibility(baggagePaymentDivider)
-        vm.showInfoFeatureFlagBasedObservable.subscribeVisibility(baggageFeesButton)
         vm.showPaymentInfoLinkObservable.subscribeVisibility(paymentFeesButton)
 
         vm.showLoadingStateObservable.subscribe { showLoading ->

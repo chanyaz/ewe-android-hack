@@ -35,11 +35,6 @@
             android:summary="Flight rate details from cache"
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_show_baggage_info_payment_info_overview"
-            android:summary="Show Baggage Info and Payment Info on Overview Screen"
-            android:title="Baggage and Payment Info" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

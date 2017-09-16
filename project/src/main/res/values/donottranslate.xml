@@ -120,7 +120,6 @@
     <string name="preference_flight_traveler_form_revamp">preference_flight_traveler_form_revamp</string>
     <string name="preference_flight_enable_search_suggestion_label">preference_flight_enable_search_suggestion_label</string>
     <string name="preference_fare_family_flight_summary">preference_fare_family_flight_summary</string>
-    <string name="preference_show_baggage_info_payment_info_overview">preference_show_baggage_info_payment_info_overview</string>
     <string name="preference_enable_flights_frequent_flyer_number">preference_enable_flights_frequent_flyer_number</string>
     <string name="preference_satellite_config">preference_satellite_config</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>

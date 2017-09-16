@@ -12,7 +12,6 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
@@ -55,7 +54,6 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val baggageInfoUrlSubject = PublishSubject.create<String>()
     val baggageInfoClickSubject = PublishSubject.create<Unit>()
     val paymentFeeInfoClickSubject = PublishSubject.create<Unit>()
-    val showInfoFeatureFlagBasedObservable = PublishSubject.create<Boolean>()
 
     init {
         Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
@@ -121,11 +119,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 FlightV2Utils.getFlightLegDurationContentDescription(context, flight)
             }
 
-            if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_baggage_info_payment_info_overview)) {
-                showPaymentInfoLinkObservable.onNext(flight.mayChargeObFees || PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage())
-            }
-
-            showInfoFeatureFlagBasedObservable.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_baggage_info_payment_info_overview))
+            showPaymentInfoLinkObservable.onNext(flight.mayChargeObFees || PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage())
 
             val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
             baggageInfoClickSubject.subscribe {
