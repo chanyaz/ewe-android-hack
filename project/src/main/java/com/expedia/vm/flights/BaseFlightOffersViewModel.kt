@@ -98,6 +98,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 }
                 val paymentFeeText = context.getString(stringID)
                 offerSelectedChargesObFeesSubject.onNext(paymentFeeText)
+            } else {
+                offerSelectedChargesObFeesSubject.onNext("")
             }
         }
         outboundResultsObservable.subscribe { totalOutboundResults = it.size }
