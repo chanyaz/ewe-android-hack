@@ -271,6 +271,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
             presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable)
             presenter.viewModel.outboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalOutboundResults)
+            presenter.viewModel.inboundSelectedAndTotalLegRank = null
         }
         flightOfferViewModel.confirmedInboundFlightSelection.subscribe {
             presenter.viewModel.inboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalInboundResults)
