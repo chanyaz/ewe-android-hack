@@ -86,7 +86,7 @@ class HotelTest {
         assertEquals(room.rateInfo.chargeableRateInfo.packageTotalPrice, multiItemOffer.price.pricePerPerson())
 
         assertEquals(room.isPayLater, false)
-        assertEquals(room.hasFreeCancellation, multiItemOffer.cancellationPolicy.isFreeCancellationAvailable)
+        assertEquals(room.hasFreeCancellation, multiItemOffer.cancellationPolicy.freeCancellationAvailable)
         assertEquals(room.packageLoyaltyInformation, multiItemOffer.loyaltyInfo)
         assertEquals(room.currentAllotment, hotelOffer.roomsLeft.toString())
         assertEquals(room.isSameDayDRR, hotelOffer.sameDayDRR)

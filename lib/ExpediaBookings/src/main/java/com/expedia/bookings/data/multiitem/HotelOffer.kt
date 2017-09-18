@@ -32,7 +32,7 @@ data class HotelOffer(
         val rateRuleId: Long,
         val promotion: Promotion?,
         val inventoryType: String,
-        val mandatoryFees: MandatoryFees,
+        val mandatoryFees: MandatoryFees?,
         val memberDeal: Boolean,
         val sourceTypeRestricted: Boolean,
         val sameDayDRR: Boolean

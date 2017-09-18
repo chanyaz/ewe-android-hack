@@ -246,16 +246,18 @@ public class HotelOffersResponse extends BaseApiResponse {
 
 		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().getTotalPrice().getCurrency();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = true;
-		if (roomOffer.getMandatoryFees().getDisplayType() == MandatoryFees.DisplayType.DAILY) {
-			hotelRoomResponse.rateInfo.chargeableRateInfo.dailyMandatoryFee = roomOffer.getMandatoryFees()
-				.getDailyResortFeePOSCurrency().getAmount().floatValue();
-		}
-		else if (roomOffer.getMandatoryFees().getDisplayType() == MandatoryFees.DisplayType.TOTAL) {
-			hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
-				.getTotalMandatoryFeesSupplyCurrency().getAmount().floatValue();
-			hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees = roomOffer.getMandatoryFees()
-				.getTotalMandatoryFeesSupplyCurrency().getAmount()
-				.floatValue(); //ToDo MS: hard-coded as it is not available in MID as of now
+		if (roomOffer.getMandatoryFees() != null) {
+			if (roomOffer.getMandatoryFees().getDisplayType() == MandatoryFees.DisplayType.DAILY) {
+				hotelRoomResponse.rateInfo.chargeableRateInfo.dailyMandatoryFee = roomOffer.getMandatoryFees()
+					.getDailyResortFeePOSCurrency().getAmount().floatValue();
+			}
+			else if (roomOffer.getMandatoryFees().getDisplayType() == MandatoryFees.DisplayType.TOTAL) {
+				hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
+					.getTotalMandatoryFeesSupplyCurrency().getAmount().floatValue();
+				hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees = roomOffer.getMandatoryFees()
+					.getTotalMandatoryFeesSupplyCurrency().getAmount()
+					.floatValue(); //ToDo MS: hard-coded as it is not available in MID as of now
+			}
 		}
 		hotelRoomResponse.rateInfo.chargeableRateInfo.resortFeeInclusion = true; //ToDo MS: hard-coded as it is not available in MID as of now
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = room.getPrice().pricePerPerson();
@@ -263,7 +265,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = room.getPrice().packageTotalPrice();
 
 		hotelRoomResponse.isPayLater = false;
-		hotelRoomResponse.hasFreeCancellation = room.getCancellationPolicy().isFreeCancellationAvailable();
+		hotelRoomResponse.hasFreeCancellation = room.getCancellationPolicy().getFreeCancellationAvailable();
 		hotelRoomResponse.packageLoyaltyInformation = room.getLoyaltyInfo();
 		hotelRoomResponse.bedTypes = convertMultiItemBedType(roomOffer.getBedTypes());
 		hotelRoomResponse.currentAllotment = String.valueOf(roomOffer.getRoomsLeft());
