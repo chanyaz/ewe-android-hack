@@ -14,7 +14,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
@@ -126,7 +125,7 @@ open class ItinSignInViewModel(val context: Context) {
     @VisibleForTesting
     protected open fun doItinSignIn() {
         val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, ItineraryLoaderLoginExtender())
-        User.signIn(context as Activity, args)
+        userStateManager.signIn(context as Activity, args)
     }
 
     private fun updateMessageAndButton(messageText: String, buttonText: String, imageResId: Int) {

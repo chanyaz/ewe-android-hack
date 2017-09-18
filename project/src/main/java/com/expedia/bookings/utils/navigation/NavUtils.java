@@ -20,7 +20,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
@@ -108,7 +108,8 @@ public class NavUtils {
 		Bundle args = AccountLibActivity
 			.createArgumentsBundle(LineOfBusiness.PROFILE, initialState,
 				new ItinerarySyncLoginExtender());
-		User.signIn(activity, args);
+
+		getUserStateManager(activity).signIn(activity, args);
 	}
 
 	public static void goToMemberPricing(Context context) {
@@ -139,7 +140,7 @@ public class NavUtils {
 			bundle.putBoolean(Codes.MEMBER_ONLY_DEALS, true);
 		}
 
-		User.signIn((Activity) context, bundle);
+		getUserStateManager(context).signIn((Activity) context, bundle);
 	}
 
 	public static void goToTransport(Context context, Bundle animOptions, int expediaFlags) {
@@ -245,5 +246,9 @@ public class NavUtils {
 						"Can't finish() a non AppCompatActivity context");
 			}
 		}
+	}
+
+	private static UserStateManager getUserStateManager(Context context) {
+		return Ui.getApplication(context).appComponent().userStateManager();
 	}
 }

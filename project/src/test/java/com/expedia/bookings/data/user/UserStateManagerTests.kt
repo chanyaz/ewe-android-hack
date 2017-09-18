@@ -1,7 +1,11 @@
 package com.expedia.bookings.data.user
 
+import android.accounts.Account
 import android.accounts.AccountManager
+import android.app.Activity
 import android.content.Context
+import com.expedia.bookings.R
+import com.expedia.bookings.activity.RestrictedProfileActivity
 import com.expedia.bookings.data.AirAttach
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
@@ -24,7 +28,10 @@ import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -35,8 +42,7 @@ import kotlin.test.assertNull
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class UserStateManagerTests {
-
-    val expediaUrl = HttpUrl.Builder().scheme("https").host("www.expedia.com").build()
+    private val expediaUrl = HttpUrl.Builder().scheme("https").host("www.expedia.com").build()
 
     lateinit private var notificationManager: NotificationManager
     lateinit private var userStateManager: UserStateManager
@@ -46,6 +52,46 @@ class UserStateManagerTests {
         val context: Context = RuntimeEnvironment.application
         notificationManager = NotificationManager(context)
         userStateManager = UserStateManager(context, UserLoginStateChangedModel(), notificationManager)
+    }
+
+    @Test
+    fun testRestrictedProfileStartsRestrictedProfileActivity() {
+        val testActivity = Robolectric.buildActivity(Activity::class.java).create().get()
+
+        userStateManager.signIn(testActivity, null, TestRestrictedProfileSource())
+
+        val intent = Shadows.shadowOf(testActivity).nextStartedActivity
+
+        assertNotNull(intent)
+        assertEquals(RestrictedProfileActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    fun testSignInAddsAccountToManager() {
+        val testActivity = Robolectric.buildActivity(Activity::class.java).create().get()
+        val testLoginProvider = Mockito.mock(AccountLoginProvider::class.java)
+
+        userStateManager.signIn(testActivity, null, null, testLoginProvider)
+
+        val accountType = testActivity.getString(R.string.expedia_account_type_identifier)
+        val tokenType = testActivity.getString(R.string.expedia_account_token_type_tuid_identifier)
+
+        Mockito.verify(testLoginProvider).addAccount(accountType, tokenType, null, null, testActivity, null, null)
+    }
+
+    @Test
+    fun testSignInWithActiveAccountRequestsAuthToken() {
+        val testActivity = Robolectric.buildActivity(Activity::class.java).create().get()
+        val testLoginProvider = Mockito.mock(AccountLoginProvider::class.java)
+
+        val accountType = testActivity.getString(R.string.expedia_account_type_identifier)
+        val testAccount = Account("Test", "Test")
+
+        Mockito.`when`(testLoginProvider.getAccountsByType(accountType)).thenReturn(arrayOf(testAccount))
+
+        userStateManager.signIn(testActivity, null, null, testLoginProvider)
+
+        Mockito.verify(testLoginProvider).getAuthToken(testAccount, accountType, null, testActivity, null, null)
     }
 
     @Test
@@ -413,4 +459,7 @@ class UserStateManagerTests {
         return cookieManager
     }
 
+    private class TestRestrictedProfileSource: RestrictedProfileSource(Activity()) {
+        override fun isRestrictedProfile(): Boolean = true
+    }
 }
