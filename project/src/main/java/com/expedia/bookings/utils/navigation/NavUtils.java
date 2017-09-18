@@ -29,7 +29,7 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.tracking.RailWebViewTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinerarySyncLoginExtender;
-import com.expedia.ui.RailWebViewActivity;
+import com.expedia.ui.LOBWebViewActivity;
 
 /**
  * Utilities for navigating the app (between Activities)
@@ -155,7 +155,7 @@ public class NavUtils {
 		RailWebViewTracking.trackAppRailWebViewABTest();
 		boolean isAbTestEnabled = Db.getAbacusResponse().isUserBucketedForTest(PointOfSale.getPointOfSale().getRailsWebViewABTestID());
 		if (PointOfSale.getPointOfSale().supportsRailsWebView() && isAbTestEnabled) {
-			RailWebViewActivity.IntentBuilder builder = new RailWebViewActivity.IntentBuilder(context);
+			LOBWebViewActivity.IntentBuilder builder = new LOBWebViewActivity.IntentBuilder(context);
 			EndpointProvider endpointProvider = Ui.getApplication(context).appComponent().endpointProvider();
 			builder.setUrl(endpointProvider.getRailWebViewEndpointUrl());
 			builder.setInjectExpediaCookies(true);

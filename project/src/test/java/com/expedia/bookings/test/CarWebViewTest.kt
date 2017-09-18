@@ -12,7 +12,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.navigation.CarNavUtils
 import com.expedia.ui.CarActivity
-import com.expedia.ui.CarWebViewActivity
+import com.expedia.ui.LOBWebViewActivity
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
@@ -243,7 +243,7 @@ class CarWebViewTest {
         goToCars()
         val intent = shadowApplication!!.nextStartedActivity
         val intentUrl = intent.getStringExtra("ARG_URL")
-        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(LOBWebViewActivity::class.java.name, intent.component.className)
         assertTrue(intentUrl.startsWith(PointOfSale.getPointOfSale().carsTabWebViewURL))
         assertTrue(intentUrl.contains("&adobe_mc="))
     }
@@ -258,7 +258,7 @@ class CarWebViewTest {
         goToCars()
         val intent = shadowApplication!!.nextStartedActivity
         val intentUrl = intent.getStringExtra("ARG_URL")
-        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(LOBWebViewActivity::class.java.name, intent.component.className)
 
         assertTrue(intentUrl.startsWith("https://www." + PointOfSale.getPointOfSale().getUrl() + "/carshomepage?mcicid=App.Cars.WebView"))
         assertTrue(intentUrl.contains("&adobe_mc="))

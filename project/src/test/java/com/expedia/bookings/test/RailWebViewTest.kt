@@ -19,7 +19,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import com.expedia.bookings.R
 import com.expedia.bookings.rail.activity.RailActivity
-import com.expedia.ui.RailWebViewActivity
+import com.expedia.ui.LOBWebViewActivity
 import kotlin.test.assertTrue
 
 /**
@@ -70,7 +70,7 @@ class RailWebViewTest {
         val intent = shadowApplication!!.nextStartedActivity
         val intentUrl = intent.getStringExtra("ARG_URL")
 
-        assertEquals(RailWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(LOBWebViewActivity::class.java.name, intent.component.className)
         assertTrue(intentUrl.startsWith(RAILS_TAB_WEB_VIEW_URL))
         assertTrue(intentUrl.contains("&adobe_mc="))
     }
