@@ -24,6 +24,7 @@
             <enum name="thin" value="128" />
         </attr>
         <attr name="drawableTintColor" format="reference"/>
+        <attr name="wrapText" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="Gallery">

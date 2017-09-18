@@ -101,7 +101,8 @@
                     android:text="@string/flights_free_cancellation"
                     android:textColor="@color/gray900"
                     android:textSize="12sp"
-                    app:textStyle="medium" />
+                    app:textStyle="medium"
+                    app:wrapText="true"/>
 
                 <ImageView
                     android:id="@+id/free_cancellation_more_info_icon"

@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
+import android.text.Layout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
@@ -30,6 +31,9 @@ public class TextView extends android.widget.TextView {
 	private int mStrokeWidth;
 	private TextPaint mStrokePaint;
 
+	//attributes
+	private boolean wrapText = false;
+
 	public TextView(Context context) {
 		super(context);
 		init(context, null, 0);
@@ -49,6 +53,7 @@ public class TextView extends android.widget.TextView {
 		final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextView, defStyle, 0);
 		final int textStyle = a.getInt(R.styleable.TextView_textStyle, 0);
 		final int color = a.getColor(R.styleable.TextView_drawableTintColor, 0);
+		wrapText = a.getBoolean(R.styleable.TextView_wrapText, false);
 		a.recycle();
 
 		if (textStyle > 0) {
@@ -161,7 +166,6 @@ public class TextView extends android.widget.TextView {
 		return mStrokeWidth;
 	}
 
-
 	@Override
 	protected void onDraw(Canvas canvas) {
 		// Only if we've set a stroke value should we do this.
@@ -190,4 +194,27 @@ public class TextView extends android.widget.TextView {
 		super.onDraw(canvas);
 	}
 
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		if (wrapText) {
+			Layout layout = getLayout();
+			if (layout != null) {
+				int width = (int)(Math.ceil(getMaxLineWidth(layout))) + getCompoundPaddingLeft() + getCompoundPaddingRight();
+				int height = getMeasuredHeight();
+				setMeasuredDimension(width, height);
+			}
+		}
+	}
+
+	private float getMaxLineWidth(Layout layout) {
+		float maximumWidth = 0f;
+		int lines = layout.getLineCount();
+		for (int i = 0; i < lines; i++) {
+			if (layout.getLineWidth(i) > maximumWidth) {
+				maximumWidth = layout.getLineWidth(i);
+			}
+		}
+		return maximumWidth;
+	}
 }
