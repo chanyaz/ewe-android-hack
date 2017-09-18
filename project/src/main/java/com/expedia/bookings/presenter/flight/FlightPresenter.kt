@@ -37,6 +37,7 @@ import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
@@ -53,6 +54,7 @@ import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import rx.Observable
 import java.util.Date
 import javax.inject.Inject
@@ -174,8 +176,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.toolbarViewModel.city.onNext(HtmlCompat.stripHtml(params.departureAirport.regionNames.displayName))
             presenter.toolbarViewModel.travelers.onNext(params.guests)
-            if (params.returnDate != null) {
-                presenter.toolbarViewModel.date.onNext(params.returnDate)
+            params.returnDate?.let {
+                presenter.toolbarViewModel.date.onNext(it)
             }
         }
         presenter.menuSearch.setOnMenuItemClickListener({
@@ -298,8 +300,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         createTripViewModel.createTripResponseObservable.safeSubscribeOptional { trip ->
             trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
-            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
-
+            confirmationPresenter.viewModel.setRewardsPoints.onNext(Optional(expediaRewards))
         }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }

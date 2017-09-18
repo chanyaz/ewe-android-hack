@@ -29,6 +29,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
@@ -203,7 +204,7 @@ class FlightConfirmationPresenterTest {
     private fun givenCheckoutResponse(isRoundTrip: Boolean = true, numberOfTravelers: Int = 1) {
         val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = isRoundTrip, numberOfTravelers = numberOfTravelers)
         presenter.viewModel.inboundCardVisibility.onNext(true)
-        presenter.viewModel.setRewardsPoints.onNext(rewardPoints)
+        presenter.viewModel.setRewardsPoints.onNext(Optional(rewardPoints))
         presenter.showConfirmationInfo(checkoutResponse, "test@mail.com")
     }
 
