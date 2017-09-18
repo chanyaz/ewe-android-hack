@@ -1052,6 +1052,11 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Your %s ticket can be redeemed starting tomorrow.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Itinerary ready</string>
+    <!-- Notification title text for get ready for your trip -->
+    <string name="get_ready_for_trip">Get ready for your trip</string>
+    <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
+    <string name="get_ready_for_trip_body_TEMPLATE">Hey {firstname}, your hotel booking for {hotel} starts on {startday}. View your booking for hotel address, phone number and other details.</string>
+
 
 
     <!-- Itineraries -->

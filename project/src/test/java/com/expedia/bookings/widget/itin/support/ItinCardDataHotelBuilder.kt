@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.itin.support
 
+import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.server.TripParser
@@ -22,6 +23,7 @@ class ItinCardDataHotelBuilder {
     private var adultCount = 1
     private var childCount = 0
     private var infantCount = 0
+    private var guestCount = 1
 
     fun build(): ItinCardDataHotel {
         val itinCardDataHotel = makeHotel()
@@ -34,9 +36,10 @@ class ItinCardDataHotelBuilder {
         itinCardDataHotel.property.roomUpgradeWebViewUrl = roomUpgradeWebUrl
         parentTrip.setIsShared(isSharedItin)
 
-        val tripHotel = itinCardDataHotel.tripComponent
+        val tripHotel = itinCardDataHotel.tripComponent as TripHotel
         tripHotel.startDate = checkInDate
         tripHotel.endDate = checkOutDate
+        tripHotel.guests = adultCount
 
         if (bookingChangeUrl.isNotEmpty()) {
             itinCardDataHotel.property.bookingChangeWebUrl = bookingChangeUrl

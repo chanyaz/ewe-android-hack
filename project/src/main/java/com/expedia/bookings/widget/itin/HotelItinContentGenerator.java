@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,6 +53,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
+import com.squareup.phrase.Phrase;
 
 import rx.Observer;
 
@@ -606,9 +608,12 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public List<Notification> generateNotifications() {
-		ArrayList<Notification> notifications = new ArrayList<Notification>(2);
+		ArrayList<Notification> notifications = new ArrayList<Notification>();
 		notifications.add(generateCheckinNotification());
 		notifications.add(generateCheckoutNotification());
+		if (getItinCardData().getGuestCount() > 2 || isDurationLongerThenInput(3)) {
+			notifications.add(generateGetReadyNotification());
+		}
 		return notifications;
 	}
 
@@ -690,6 +695,46 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		return notification;
 	}
+	@VisibleForTesting
+	public Notification generateGetReadyNotification() {
+		ItinCardDataHotel data = getItinCardData();
+
+		String itinId = data.getId();
+
+		TripHotel hotel = (TripHotel) getItinCardData().getTripComponent();
+
+
+		MutableDateTime trigger = data.getStartDate().minusDays(3).toMutableDateTime();
+		trigger.setZoneRetainFields(DateTimeZone.getDefault());
+		trigger.setRounding(trigger.getChronology().minuteOfHour());
+		trigger.setHourOfDay(11);
+		long triggerTimeMillis = trigger.getMillis();
+
+		trigger.setHourOfDay(23);
+		trigger.setMinuteOfHour(59);
+		long expirationTimeMillis = trigger.getMillis();
+
+		Notification notification = new Notification(itinId + "_getready", itinId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.HOTEL_PRE_TRIP);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
+		notification.setIconResId(R.drawable.ic_stat_hotel);
+
+		String title = getContext().getString(R.string.get_ready_for_trip);
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = Phrase.from(getContext(), R.string.get_ready_for_trip_body_TEMPLATE)
+			.put("firstname", hotel.getPrimaryTraveler().getFirstName())
+			.put("hotel", hotel.getProperty().getName())
+			.put("startday", data.getFormattedDetailsCheckInDate(getContext()))
+			.format().toString();
+		notification.setBody(body);
+
+		notification.setImageUrls(data.getHeaderImageUrls());
+
+		return notification;
+	}
 
 	@Override
 	public String getSharableImageURL() {
@@ -709,4 +754,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		return sharableImgURL;
 	}
+
+	public boolean isDurationLongerThenInput(int day) {
+		return getItinCardData().getEndDate().isAfter(data.getStartDate().plusDays(day).minusSeconds(10));
+
+	}
+
 }

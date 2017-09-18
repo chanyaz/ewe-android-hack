@@ -11,15 +11,21 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
+import com.google.common.base.Verify
 import org.joda.time.DateTime
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.spy
+import org.mockito.Mockito.never
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 @RunWith(RobolectricRunner::class)
 class HotelItinContentGeneratorTest {
@@ -280,6 +286,72 @@ class HotelItinContentGeneratorTest {
         Assert.assertEquals(summaryText, text)
     }
 
+    @Test
+    fun testIsDurationLongerThenInputsIsLonger() {
+        val checkInTime = mTodayAtNoon.plusDays(4)
+        val checkOutTime = mTodayAtNoon.plusDays(10)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        assertTrue(hotelItinGenerator.isDurationLongerThenInput(3))
+
+    }
+
+    @Test
+    fun testIsDurationLongerThenInputIsShorter() {
+        val checkInTime = mTodayAtNoon.plusDays(4)
+        val checkOutTime = mTodayAtNoon.plusDays(5)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        assertFalse { hotelItinGenerator.isDurationLongerThenInput(3) }
+
+    }
+
+
+    @Test
+    fun getReadyNotificationDoesNotShowTripsLessThanThreeDays() {
+        val checkInTime = mTodayAtNoon.plusDays(7)
+        val checkOutTime = mTodayAtNoon.plusDays(8)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(2, notifications.size)
+        verify(hotelItinGenerator, never()).generateGetReadyNotification()
+
+    }
+
+    @Test
+    fun getReadyNotificationDoesShowTripsThreeDaysOrMore() {
+        val checkInTime = mTodayAtNoon.plusDays(1)
+        val checkOutTime = mTodayAtNoon.plusDays(4)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(3, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(1)).generateGetReadyNotification()
+
+    }
+
+    @Test
+    fun getReadyNotificationDoesNotShowTripsWithTwoOrLessTravelers() {
+        val itinCardDataHotel = givenHappyItinCardDataHotel(2)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(2, notifications.size)
+        verify(hotelItinGenerator, never()).generateGetReadyNotification()
+
+    }
+
+    @Test
+    fun getReadyNotificationDoesShowTripsWithMoreThanTwoTravelers() {
+        val itinCardDataHotel = givenHappyItinCardDataHotel(3)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(3, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(1)).generateGetReadyNotification()
+
+    }
+
+
     private fun getBookingChangeUrl(): String {
         return "https://www.expedia.com/trips/547796b5-7839-49d4-a10f-d860966a1396/" +
                 "ordernumber/8098107084358/" +
@@ -300,6 +372,15 @@ class HotelItinContentGeneratorTest {
         val itinCardDataHotel = ItinCardDataHotelBuilder()
                                 .withCheckInDate(checkIn)
                                 .withCheckOutDate(checkOut).build()
+        return itinCardDataHotel
+    }
+    private fun givenHappyItinCardDataHotel(traveler: Int): ItinCardDataHotel {
+        val checkInTime = mTodayAtNoon.plusDays(4)
+        val checkOutTime = mTodayAtNoon.plusDays(5)
+        val itinCardDataHotel = ItinCardDataHotelBuilder()
+                .withAdultCount(traveler)
+                .withCheckInDate(checkInTime)
+                .withCheckOutDate(checkOutTime).build()
         return itinCardDataHotel
     }
 
