@@ -39,10 +39,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.safeSubscribe
-import com.expedia.util.safeSubscribeOptional
-import com.expedia.util.subscribeVisibility
+import com.expedia.util.*
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
@@ -53,6 +50,7 @@ import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import rx.Observable
 import java.util.Date
 import javax.inject.Inject
@@ -181,7 +179,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             if (params.returnDate != null) {
-                presenter.toolbarViewModel.date.onNext(params.returnDate)
+                presenter.toolbarViewModel.date.onNext(params.returnDate) as LocalDate
             }
         }
         presenter.menuSearch.setOnMenuItemClickListener({
@@ -303,8 +301,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         createTripViewModel.createTripResponseObservable.safeSubscribeOptional { trip ->
             trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
-            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
-
+            confirmationPresenter.viewModel.setRewardsPoints.onNext(Optional(expediaRewards))
         }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }

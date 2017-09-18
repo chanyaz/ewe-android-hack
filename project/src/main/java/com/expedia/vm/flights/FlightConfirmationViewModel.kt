@@ -10,6 +10,7 @@ import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -18,7 +19,7 @@ import rx.subjects.PublishSubject
 class FlightConfirmationViewModel(val context: Context) {
 
     val confirmationObservable = PublishSubject.create<Pair<FlightCheckoutResponse, String>>()
-    val setRewardsPoints = PublishSubject.create<String>()
+    val setRewardsPoints = PublishSubject.create<Optional<String>>()
     val itinNumberMessageObservable = BehaviorSubject.create<String>()
     val rewardPointsObservable = BehaviorSubject.create<String>()
     val destinationObservable = BehaviorSubject.create<String>()
@@ -65,9 +66,9 @@ class FlightConfirmationViewModel(val context: Context) {
         }
 
         setRewardsPoints.subscribe { points ->
-            if (points != null)
+            if (points.value != null)
                 if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
-                    val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance(), isFlights = true)
+                    val rewardPointText = RewardsUtil.buildRewardText(context, points.value, ProductFlavorFeatureConfiguration.getInstance(), isFlights = true)
                     if (Strings.isNotEmpty(rewardPointText)) {
                         rewardPointsObservable.onNext(rewardPointText)
                     }

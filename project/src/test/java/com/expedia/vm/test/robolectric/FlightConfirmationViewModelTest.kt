@@ -17,6 +17,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import org.joda.time.DateTime
 import org.junit.Before
@@ -67,7 +68,7 @@ class FlightConfirmationViewModelTest {
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
         vm.crossSellWidgetVisibility.subscribe(crossSellWidgetView)
         vm.destinationObservable.onNext(destination)
-        vm.setRewardsPoints.onNext(userPoints)
+        vm.setRewardsPoints.onNext(Optional(userPoints))
         vm.confirmationObservable.onNext(Pair(response, customerEmail))
 
         destinationTestSubscriber.assertValue(destination)
@@ -144,7 +145,7 @@ class FlightConfirmationViewModelTest {
 
         vm = FlightConfirmationViewModel(activity)
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
-        vm.setRewardsPoints.onNext(userPoints)
+        vm.setRewardsPoints.onNext(Optional(userPoints))
 
         expediaPointsSubscriber.assertValueCount(0)
     }
@@ -157,7 +158,7 @@ class FlightConfirmationViewModelTest {
 
         vm = FlightConfirmationViewModel(activity)
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
-        vm.setRewardsPoints.onNext(userPoints)
+        vm.setRewardsPoints.onNext(Optional(userPoints))
 
         expediaPointsSubscriber.assertValueCount(0)
     }
@@ -171,7 +172,7 @@ class FlightConfirmationViewModelTest {
         //adding test POS configuration without rewards enabled
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_show_rewards_false.json", false)
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
-        vm.setRewardsPoints.onNext(userPoints)
+        vm.setRewardsPoints.onNext(Optional(userPoints))
 
         expediaPointsSubscriber.assertValueCount(0)
     }
@@ -183,7 +184,7 @@ class FlightConfirmationViewModelTest {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
         vm.rewardPointsObservable.subscribe(rewardsString)
 
-        vm.setRewardsPoints.onNext("100")
+        vm.setRewardsPoints.onNext(Optional("100"))
         rewardsString.assertValue("100 points earned")
     }
 
