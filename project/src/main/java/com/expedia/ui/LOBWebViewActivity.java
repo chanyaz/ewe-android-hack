@@ -9,9 +9,11 @@ import android.widget.ProgressBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.tracking.RailWebViewTracking;
+import com.expedia.bookings.fragment.WebViewFragment;
+import com.expedia.bookings.interfaces.LOBWebViewConfigurator;
+import com.expedia.bookings.interfaces.helpers.CarWebViewConfiguration;
+import com.expedia.bookings.interfaces.helpers.RailWebViewConfiguration;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 
@@ -19,23 +21,25 @@ import com.expedia.bookings.utils.UserAccountRefresher;
  * Created by dkumarpanjabi on 6/29/17.
  */
 
-public class RailWebViewActivity extends WebViewActivity implements UserAccountRefresher.IUserAccountRefreshListener {
+public class LOBWebViewActivity extends WebViewActivity implements UserAccountRefresher.IUserAccountRefreshListener {
 
 	private UserAccountRefresher userAccountRefresher;
 	private ProgressBar mProgressBar;
 	private UserStateManager userStateManager;
+	private LOBWebViewConfigurator mLOBWebViewConfigurator;
 
 	public static class IntentBuilder extends WebViewActivity.IntentBuilder {
 		public IntentBuilder(Context context) {
 			super(context);
-			getIntent().setClass(context, RailWebViewActivity.class);
+			getIntent().setClass(context, LOBWebViewActivity.class);
 		}
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		userAccountRefresher = new UserAccountRefresher(this, LineOfBusiness.RAILS, this);
+		mLOBWebViewConfigurator = getIntent().getExtras().get(WebViewActivity.ARG_TRACKING_NAME).equals(WebViewFragment.TrackingName.RailWebView) ? new RailWebViewConfiguration() : new CarWebViewConfiguration();
+		userAccountRefresher = new UserAccountRefresher(this, mLOBWebViewConfigurator.getLineOfBusiness(), this);
 		mProgressBar = (ProgressBar) findViewById(R.id.webview_progress_view);
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 	}
@@ -50,7 +54,7 @@ public class RailWebViewActivity extends WebViewActivity implements UserAccountR
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home: {
-				RailWebViewTracking.trackAppRailWebViewClose();
+				mLOBWebViewConfigurator.trackAppWebViewClose();
 				finish();
 				return true;
 			}
@@ -60,7 +64,7 @@ public class RailWebViewActivity extends WebViewActivity implements UserAccountR
 
 	@Override
 	public void onBackPressed() {
-		RailWebViewTracking.trackAppRailWebViewBack();
+		mLOBWebViewConfigurator.trackAppWebViewBack();
 		super.onBackPressed();
 	}
 

@@ -25,7 +25,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	private static final String ARG_TITLE = "ARG_TITLE";
 	private static final String ARG_ENABLE_LOGIN = "ARG_ENABLE_LOG_IN";
 	private static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
-	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
+	protected static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
 	private static final String ARG_ITIN_CHECKIN = "ARG_ITIN_CHECKIN";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";

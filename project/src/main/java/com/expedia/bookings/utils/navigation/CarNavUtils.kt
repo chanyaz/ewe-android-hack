@@ -12,7 +12,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.CarServices
 import com.expedia.bookings.tracking.CarWebViewTracking
 import com.expedia.ui.CarActivity
-import com.expedia.ui.CarWebViewActivity
+import com.expedia.ui.LOBWebViewActivity
 
 class CarNavUtils : NavUtils() {
     companion object {
@@ -22,7 +22,7 @@ class CarNavUtils : NavUtils() {
             CarWebViewTracking().trackAppCarAAtest()
             CarWebViewTracking().trackAppCarWebViewABTest()
             if (PointOfSale.getPointOfSale().supportsCarsWebView() && Db.getAbacusResponse().isUserBucketedForTest(PointOfSale.getPointOfSale().carsWebViewABTestID)) {
-                val builder = CarWebViewActivity.IntentBuilder(context)
+                val builder = LOBWebViewActivity.IntentBuilder(context)
                 CarWebViewTracking().trackAppCarFlexViewABTest()
                 if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsFlexView)) {
                     builder.setUrl("https://www." + PointOfSale.getPointOfSale().url + "/carshomepage?mcicid=App.Cars.WebView")
