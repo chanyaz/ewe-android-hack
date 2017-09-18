@@ -125,10 +125,16 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
         if (isUserBucketedForFareFamily) {
             flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(
-                    flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, {
-                unit, fareFamilyDetail ->
-                fareFamilyDetail
-            }).subscribe(fareFamilyCardView.viewModel.selectedFareFamilyObservable)
+                    flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, flightFareFamilyDetailsWidget.viewModel.choosingFareFamilyObservable, {
+                unit, selectedFareFamily, choosingFareFamily ->
+                object {
+                    val selectedFareFamily = selectedFareFamily
+                    val choosingFareFamily = choosingFareFamily
+                }
+            }).filter { it.selectedFareFamily.fareFamilyCode != it.choosingFareFamily.fareFamilyCode }.subscribe {
+                flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable.onNext(it.choosingFareFamily)
+                fareFamilyCardView.viewModel.selectedFareFamilyObservable.onNext(it.choosingFareFamily)
+            }
         }
 
         fareFamilyCardView.viewModel.fareFamilyCardClickObserver.withLatestFrom(

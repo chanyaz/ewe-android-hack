@@ -35,9 +35,6 @@ class FlightFareFamilyViewModel(val context: Context) {
                 airlinesObservable.onNext(getAirlinesString(trip))
             }
         }
-        doneButtonObservable.withLatestFrom(choosingFareFamilyObservable, {click, chosenFareFamily -> chosenFareFamily}).subscribe {
-            selectedFareFamilyObservable.onNext(it)
-        }
     }
 
     fun getFareFamilyTripLocation() : String {
