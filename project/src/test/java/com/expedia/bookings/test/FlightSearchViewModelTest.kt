@@ -61,7 +61,7 @@ class FlightSearchViewModelTest {
         assertEquals("$expectedStartDate - $expectedEndDate", sut.dateTextObservable.value)
 
         sut.isRoundTripSearchObservable.onNext(false)
-        assertEquals(endDate, sut.cachedEndDateObservable.value)
+        assertEquals(endDate, sut.cachedEndDateObservable.value.value)
         assertEquals("$expectedStartDate (One Way)", sut.dateTextObservable.value)
 
         val newStartDate = LocalDate.now().plusDays(20)
@@ -69,7 +69,7 @@ class FlightSearchViewModelTest {
 
         sut.datesUpdated(newStartDate, null)
         sut.isRoundTripSearchObservable.onNext(true)
-        assertEquals(null, sut.cachedEndDateObservable.value)
+        assertEquals(null, sut.cachedEndDateObservable.value.value)
         assertEquals("$expectedNewStartDate – Select return date", sut.dateTextObservable.value)
 
         sut.datesUpdated(null, null)
@@ -98,7 +98,7 @@ class FlightSearchViewModelTest {
         assertEquals("$expectedStartDate  -  $expectedEndDate", sut.dateTextObservable.value)
 
         sut.isRoundTripSearchObservable.onNext(false)
-        assertEquals(endDate, sut.cachedEndDateObservable.value)
+        assertEquals(endDate, sut.cachedEndDateObservable.value.value)
         assertEquals("$expectedStartDate (One Way)", sut.dateTextObservable.value)
 
         val newStartDate = startDate.plusDays(20)
@@ -106,7 +106,7 @@ class FlightSearchViewModelTest {
 
         sut.datesUpdated(newStartDate, null)
         sut.isRoundTripSearchObservable.onNext(true)
-        assertEquals(null, sut.cachedEndDateObservable.value)
+        assertEquals(null, sut.cachedEndDateObservable.value.value)
         assertEquals("$expectedNewStartDate – Select return date", sut.dateTextObservable.value)
 
         sut.datesUpdated(null, null)
@@ -119,7 +119,7 @@ class FlightSearchViewModelTest {
         // For KR and JP, show date first.
         Locale.setDefault(Locale.KOREAN)
         sut.datesUpdated(startDate, endDate)
-        assertEquals(null, sut.cachedEndDateObservable.value)
+        assertEquals(null, sut.cachedEndDateObservable.value.value)
         // This is not actual expected date due to known robolectric issue
         // https://github.com/robolectric/robolectric/pull/2513. Will update when this gets fixed.
         expectedStartDate = "월, 7월 17"
@@ -130,7 +130,7 @@ class FlightSearchViewModelTest {
         sut.datesUpdated(startDate, endDate)
         expectedStartDate = "月, 7 17"
         expectedEndDate = "火, 7 25"
-        assertEquals(null, sut.cachedEndDateObservable.value)
+        assertEquals(null, sut.cachedEndDateObservable.value.value)
         assertEquals("$expectedStartDate  -  $expectedEndDate", sut.dateTextObservable.value)
         // Reset it back
         Locale.setDefault(currentLocale)
