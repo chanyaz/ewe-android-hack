@@ -870,6 +870,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.activity_infosite_map,
 		R.drawable.ticket_delivery_cko_mail,
 		R.drawable.ticket_delivery_cko_station,
+		R.string.expedia_account_token_type_tuid_identifier,
 		R.layout.ticket_delivery_entry_widget,
 		R.layout.ticket_delivery_overview_widget,
 		R.layout.ticket_delivery_option_widget,

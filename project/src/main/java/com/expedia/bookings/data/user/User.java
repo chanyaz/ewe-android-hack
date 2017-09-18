@@ -1,14 +1,9 @@
 package com.expedia.bookings.data.user;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.PaymentType;
@@ -137,56 +132,6 @@ public class User implements JSONable {
 	@Nullable
 	public UserLoyaltyMembershipInformation getLoyaltyMembershipInformation() {
 		return loyaltyMembershipInformation;
-	}
-	//////////////////////////////////////////////////////////////////////////
-	// Logging in/out
-
-	/**
-	 * Do we have a currently logged in user?
-	 * @return true if a user is logged in, false otherwise.
-	 */
-	static boolean isLoggedIn(Context context) {
-		boolean isLoggedIn = isLoggedInOnDisk(context) && isLoggedInToAccountManager(context);
-		if (isLoggedIn) {
-			if (Db.getUser() == null) {
-				Db.loadUser(context);
-			}
-		}
-		return isLoggedIn;
-	}
-
-	/**
-	 * Does the app think we are logged in (regardless of AccountManager state)?
-	 *
-	 * NOTE: This is not for general use, please use User.isLoggedIn();
-	 *
-	 * @param context
-	 * @return
-	 */
-	static boolean isLoggedInOnDisk(Context context) {
-		File file = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		return file != null && file.exists();
-	}
-
-	/**
-	 * Does the account manager think we are logged in (regardless of App state)?
-	 *
-	 * NOTE: This is not for general use, please use User.isLoggedIn();
-	 *
-	 * @param context
-	 * @return
-	 */
-	static boolean isLoggedInToAccountManager(Context context) {
-		boolean isLoggedIn = false;
-		String accountType = context.getString(R.string.expedia_account_type_identifier);
-		String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
-		AccountManager manager = AccountManager.get(context);
-		Account[] accounts = manager.getAccountsByType(accountType);
-		if (accounts != null && accounts.length >= 1) {
-			String token = manager.peekAuthToken(accounts[0], tokenType);
-			isLoggedIn = !TextUtils.isEmpty(token);
-		}
-		return isLoggedIn;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

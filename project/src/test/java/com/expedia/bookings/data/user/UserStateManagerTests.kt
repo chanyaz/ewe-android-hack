@@ -128,6 +128,46 @@ class UserStateManagerTests {
     }
 
     @Test
+    fun testUserIsLoadedIfNotInMemoryWhenIsUserAuthenticatedIsCalled() {
+        class TestUserSource: UserSource(RuntimeEnvironment.application) {
+            var didCallLoadUser = false
+                private set
+            override var user: User?
+                get() {
+                    return null
+                }
+                set(value) = Db.setUser(value)
+
+            override fun loadUser() {
+                didCallLoadUser = true
+            }
+        }
+
+        val testManager = Mockito.mock(AccountManager::class.java)
+        val accountType = RuntimeEnvironment.application.getString(R.string.expedia_account_type_identifier)
+        val tokenType = RuntimeEnvironment.application.getString(R.string.expedia_account_token_type_tuid_identifier)
+
+        val testAccount = Account("Test", "Test")
+
+        Mockito.`when`(testManager.getAccountsByType(accountType)).thenReturn(arrayOf(testAccount))
+        Mockito.`when`(testManager.peekAuthToken(testAccount, tokenType)).thenReturn("AuthToken")
+
+        val testUserSource = TestUserSource()
+
+        val testUserStateManager = UserStateManager(
+                RuntimeEnvironment.application,
+                UserLoginStateChangedModel(),
+                notificationManager,
+                testManager,
+                testUserSource)
+
+        givenSignedInAsUser(getBaseTierRewardsMember())
+        testUserStateManager.isUserAuthenticated()
+
+        assertTrue(testUserSource.didCallLoadUser)
+    }
+
+    @Test
     fun testUserStateSanityCallsOnUserAccountRefreshedWhenUserLoggedIn() {
         var onUserAccountRefreshCalled = false
 
@@ -146,11 +186,11 @@ class UserStateManagerTests {
     @Test
     fun testUserDeletedAtSystemLevelSignedOutWhenLoggedInAccountChanges() {
         givenSignedInAsDiskOnlyUser(getBaseTierRewardsMember())
-        assertTrue(User.isLoggedInOnDisk(RuntimeEnvironment.application))
+        assertTrue(userStateManager.isUserLoggedInOnDisk())
 
         userStateManager.onLoginAccountsChanged()
 
-        assertFalse(User.isLoggedInOnDisk(RuntimeEnvironment.application))
+        assertFalse(userStateManager.isUserLoggedInOnDisk())
     }
 
     @Test
@@ -358,6 +398,63 @@ class UserStateManagerTests {
         userStateManager.signOut()
 
         assertNull(Db.getTripBucket().airAttach)
+    }
+
+    @Test
+    fun testIsUserLoggedInOnDiskReturnsFalseForNoSavedUserData() {
+        val userData = RuntimeEnvironment.application.getFileStreamPath("user.dat")
+
+        assertFalse(userData.exists())
+        assertFalse(userStateManager.isUserLoggedInOnDisk())
+    }
+
+    @Test
+    fun testIsUserLoggedInOnDiskReturnsTrueForSavedUserData() {
+        givenSignedInAsDiskOnlyUser(getBaseTierRewardsMember())
+
+        val userData = RuntimeEnvironment.application.getFileStreamPath("user.dat")
+
+        assertTrue(userData.exists())
+        assertTrue(userStateManager.isUserLoggedInOnDisk())
+    }
+
+    @Test
+    fun testIsUserLoggedInToAccountManagerReturnsFalseWhenNoUsersPresent() {
+        assertFalse(userStateManager.isUserLoggedInToAccountManager())
+    }
+
+    @Test
+    fun testIsUserLoggedInToAccountManagerReturnsFalseWhenAuthTokenIsNull() {
+        val testManager = Mockito.mock(AccountManager::class.java)
+        val accountType = RuntimeEnvironment.application.getString(R.string.expedia_account_type_identifier)
+        val tokenType = RuntimeEnvironment.application.getString(R.string.expedia_account_token_type_tuid_identifier)
+
+        val testAccount = Account("Test", "Test")
+
+        Mockito.`when`(testManager.getAccountsByType(accountType)).thenReturn(arrayOf(testAccount))
+        Mockito.`when`(testManager.peekAuthToken(testAccount, tokenType)).thenReturn(null)
+
+        assertFalse(userStateManager.isUserLoggedInToAccountManager())
+    }
+
+    @Test
+    fun testIsUserLoggedInToAccountManagerReturnsTrueWhenUserIsPresent() {
+        val testManager = Mockito.mock(AccountManager::class.java)
+        val accountType = RuntimeEnvironment.application.getString(R.string.expedia_account_type_identifier)
+        val tokenType = RuntimeEnvironment.application.getString(R.string.expedia_account_token_type_tuid_identifier)
+
+        val testAccount = Account("Test", "Test")
+
+        Mockito.`when`(testManager.getAccountsByType(accountType)).thenReturn(arrayOf(testAccount))
+        Mockito.`when`(testManager.peekAuthToken(testAccount, tokenType)).thenReturn("AuthToken")
+
+        val testUserStateManager = UserStateManager(
+                RuntimeEnvironment.application,
+                UserLoginStateChangedModel(),
+                notificationManager,
+                testManager)
+
+        assertTrue(testUserStateManager.isUserLoggedInToAccountManager())
     }
 
     private fun givenSignedInAsUser(user: User) {
