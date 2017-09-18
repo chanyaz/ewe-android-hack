@@ -278,7 +278,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         if (isUserBucketedForFareFamily) {
             fareFamilyCardView.viewModel.tripObservable.onNext(tripResponse)
             flightFareFamilyDetailsWidget.viewModel.tripObservable.onNext(tripResponse)
-            if (tripResponse.isFareFamilyUpgraded) {
+            if (tripResponse.isFareFamilyUpgraded || tripResponse.createTripStatus == FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE) {
                 trackShowBundleOverview()
             }
             flightSummary.viewmodel.tripResponse.onNext(tripResponse)
@@ -291,8 +291,10 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
         createTripResponse as FlightCreateTripResponse
         val flightSearchParams = Db.getFlightSearchParams()
+        val fareFamilyDetails = createTripResponse.fareFamilyList?.fareFamilyDetails
         FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, createTripResponse, overviewPageUsableData,
-                viewModel.outboundSelectedAndTotalLegRank, viewModel.inboundSelectedAndTotalLegRank, createTripResponse.isFareFamilyUpgraded)
+                viewModel.outboundSelectedAndTotalLegRank, viewModel.inboundSelectedAndTotalLegRank,
+                (!createTripResponse.getOffer().isSplitTicket && fareFamilyDetails?.firstOrNull() != null), createTripResponse.isFareFamilyUpgraded)
     }
 
     override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {

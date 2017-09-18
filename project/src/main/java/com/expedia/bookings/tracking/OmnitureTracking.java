@@ -5170,7 +5170,8 @@ public class OmnitureTracking {
 
 	public static void trackShowFlightOverView(
 		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
-		PageUsableData overviewPageUsableData, kotlin.Pair outboundSelectedAndTotalLegRank, kotlin.Pair inboundSelectedAndTotalLegRank, boolean isFareFamilySelected) {
+		PageUsableData overviewPageUsableData, kotlin.Pair outboundSelectedAndTotalLegRank,
+		kotlin.Pair inboundSelectedAndTotalLegRank, boolean isFareFamilyAvailable, boolean isFareFamilySelected) {
 		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_RATE_DETAILS + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_RATE_DETAILS);
@@ -5196,12 +5197,9 @@ public class OmnitureTracking {
 		LocalDate returnDate = flightSearchParams.getReturnDate();
 
 		setDateValues(s, departureDate, returnDate);
-
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCheckoutButtonText);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_fare_family_flight_summary)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFareFamilyFlightSummary);
-		}
+
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_rate_detail_from_cache)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);
 		}
@@ -5216,7 +5214,8 @@ public class OmnitureTracking {
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_fare_family_flight_summary)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFareFamilyFlightSummary);
 			//This tracking should be done only when user is bucketed for Fare Family AB test
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)) {
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
+				&& isFareFamilyAvailable) {
 				eventStringBuilder.append(isFareFamilySelected ? ",275" : ",274");
 			}
 		}

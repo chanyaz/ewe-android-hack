@@ -97,8 +97,9 @@ object FlightsV2Tracking {
 
     fun trackShowFlightOverView(flightSearchParams: FlightSearchParams, flightCreateTripResponse: FlightCreateTripResponse,
                                 overviewPageUsableData: PageUsableData, outboundSelectedAndTotalLegRank: Pair<Int, Int>?, inboundSelectedAndTotalLegRank: Pair<Int, Int>?,
-                                isFareFamilySelected: Boolean) {
-        OmnitureTracking.trackShowFlightOverView(flightSearchParams, overviewPageUsableData, outboundSelectedAndTotalLegRank, inboundSelectedAndTotalLegRank, isFareFamilySelected)
+                                isFareFamilyAvailable: Boolean, isFareFamilySelected: Boolean) {
+        OmnitureTracking.trackShowFlightOverView(flightSearchParams, overviewPageUsableData, outboundSelectedAndTotalLegRank, inboundSelectedAndTotalLegRank,
+                isFareFamilyAvailable, isFareFamilySelected)
         TuneUtils.trackFlightV2RateDetailOverview(flightSearchParams)
         FacebookEvents().trackFlightV2Detail(flightSearchParams, flightCreateTripResponse)
     }
