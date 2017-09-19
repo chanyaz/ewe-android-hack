@@ -96,7 +96,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
                         }
                         params.put(frequentFlyerPrefix + "flightAirlineCode", flyerMembership.airlineCode)
                         params.put(frequentFlyerPrefix + "membershipNumber", flyerMembership.membershipNumber)
-                        params.put(frequentFlyerPrefix + "frequentFlyerPlanCode", flyerMembership.planCode)
+                        params.put(frequentFlyerPrefix + "frequentFlyerPlanCode", flyerMembership.frequentFlyerPlanID)
                         params.put(frequentFlyerPrefix + "frequentFlyerPlanAirlineCode", flyerMembership.planCode)
                     }
                 }
@@ -141,7 +141,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
                         }
                         params.put(frequentFlyerPrefix + "flightAirlineCode", flyerMembership.airlineCode.isNullOrBlank())
                         params.put(frequentFlyerPrefix + "membershipNumber", flyerMembership.membershipNumber.isNullOrBlank())
-                        params.put(frequentFlyerPrefix + "frequentFlyerPlanCode", flyerMembership.planCode.isNullOrBlank())
+                        params.put(frequentFlyerPrefix + "frequentFlyerPlanCode", flyerMembership.frequentFlyerPlanID.isNullOrBlank())
                         params.put(frequentFlyerPrefix + "frequentFlyerPlanAirlineCode", flyerMembership.planCode.isNullOrBlank())
                     }
                 }

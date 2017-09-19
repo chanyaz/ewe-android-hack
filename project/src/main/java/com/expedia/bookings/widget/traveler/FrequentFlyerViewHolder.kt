@@ -45,15 +45,19 @@ class FrequentFlyerViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(roo
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.frequent_flyer_programs)
         builder.setSingleChoiceItems(frequentFlyerDialogAdapter, frequentFlyerDialogAdapter.currentPosition, { dialogInterface, position ->
-            val airlineName = frequentFlyerDialogAdapter.getFrequentFlyerProgram(position)
-            val airlineNumber = frequentFlyerDialogAdapter.getFrequentFlyerNumber(position)
-            viewModel.frequentFlyerProgramObservable.onNext(airlineName)
-            viewModel.frequentFlyerNumberObservable.onNext(airlineNumber)
+            updateViewModelFromSelectedPosition(position)
             frequentFlyerDialogAdapter.currentPosition = position
             dialogInterface.dismiss()
         })
 
         builder.create()
+    }
+
+    private fun updateViewModelFromSelectedPosition(position: Int) {
+        viewModel.frequentFlyerAirlineKeyObservable.onNext(frequentFlyerDialogAdapter.getFrequentFlyerProgramCode(position))
+        viewModel.frequentFlyerAirlineIdObservable.onNext(frequentFlyerDialogAdapter.getFrequentFlyerFlyerProgramId(position))
+        viewModel.frequentFlyerProgramObservable.onNext(frequentFlyerDialogAdapter.getFrequentFlyerProgram(position))
+        viewModel.frequentFlyerNumberObservable.onNext(frequentFlyerDialogAdapter.getFrequentFlyerNumber(position))
     }
 
     init {
@@ -82,7 +86,6 @@ class FrequentFlyerViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(roo
 
     fun bind(frequentFlyerCard: FrequentFlyerCard) {
         viewModel.bind(frequentFlyerCard)
-        frequentFlyerNumberInput.viewModel = viewModel.frequentFlyerProgramNumberViewModel
         frequentFlyerNameTitle.text = viewModel.getTitle()
     }
 }

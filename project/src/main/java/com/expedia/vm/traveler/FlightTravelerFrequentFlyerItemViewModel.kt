@@ -15,12 +15,26 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
 
     val frequentFlyerProgramObservable = PublishSubject.create<String>()
     val frequentFlyerNumberObservable = PublishSubject.create<String>()
+    val frequentFlyerAirlineIdObservable = PublishSubject.create<String>()
+    val frequentFlyerAirlineKeyObservable = PublishSubject.create<String>()
     val frequentFlyerProgramNumberViewModel = FrequentFlyerProgramNumberViewModel(traveler, "")
     val enrolledFrequentFlyerPlansObservable = PublishSubject.create<LinkedHashMap<String, FrequentFlyerPlansTripResponse>>()
 
+    init {
+        frequentFlyerAirlineKeyObservable.subscribe { key ->
+            frequentFlyerProgramNumberViewModel.airlineKey = key
+            frequentFlyerProgramNumberViewModel.planCode = allFrequentFlyerPlans[key]?.frequentFlyerPlanCode ?: ""
+        }
+
+        frequentFlyerAirlineIdObservable.subscribe { airlineId ->
+            frequentFlyerProgramNumberViewModel.airlineId = airlineId
+        }
+    }
+
     fun bind(frequentFlyerCard: FrequentFlyerCard) {
         this.frequentFlyerCard = frequentFlyerCard
-        frequentFlyerProgramNumberViewModel.airlineKey = frequentFlyerCard.airlineCode
+        frequentFlyerAirlineKeyObservable.onNext(frequentFlyerCard.airlineCode)
+        frequentFlyerAirlineIdObservable.onNext(allFrequentFlyerPlans[frequentFlyerCard.airlineCode]?.frequentFlyerPlanID)
         updateTraveler(traveler)
     }
 
@@ -47,6 +61,8 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
             tripResponse.airlineCode = airlineCode
             tripResponse.frequentFlyerPlanName = allFrequentFlyerPlans[airlineCode]?.frequentFlyerPlanName ?: ""
             tripResponse.membershipNumber = plan.value.membershipNumber
+            tripResponse.frequentFlyerPlanID = allFrequentFlyerPlans[airlineCode]?.frequentFlyerPlanID ?: ""
+            tripResponse.frequentFlyerPlanCode = allFrequentFlyerPlans[airlineCode]?.frequentFlyerPlanCode ?: ""
             enrolledPlans.put(airlineCode, tripResponse)
         }
         return enrolledPlans

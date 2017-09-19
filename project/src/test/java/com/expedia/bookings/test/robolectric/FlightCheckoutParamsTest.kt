@@ -38,11 +38,11 @@ class FlightCheckoutParamsTest {
         var params = builder.travelers(listOfTravelers).build()
         var mapFrequentFlyerParams = params.toQueryMap()
         var appendString = constructFrequentFlyerAppendString(0, true, 0)
-        assertTravelerDetails(mapFrequentFlyerParams, appendString, "VX", "VX-0", "VX-0", "123")
+        assertTravelerDetails(mapFrequentFlyerParams, appendString, "VX", "VX", "VX-0", "123")
         appendString = constructFrequentFlyerAppendString(0, false, 0)
-        assertTravelerDetails(mapFrequentFlyerParams, appendString, "VX", "VX-0", "VX-0", "123")
+        assertTravelerDetails(mapFrequentFlyerParams, appendString, "VX", "VX", "VX-0", "123")
         appendString = constructFrequentFlyerAppendString(0, false, 1)
-        assertTravelerDetails(mapFrequentFlyerParams, appendString, "VX", "VX-0", "VX-0", "123")
+        assertTravelerDetails(mapFrequentFlyerParams, appendString, "VX", "VX", "VX-0", "123")
     }
 
     @Test
@@ -63,9 +63,9 @@ class FlightCheckoutParamsTest {
         var params = builder.travelers(listOfTravelers).build()
         var mapFrequentFlyerParams = params.toQueryMap()
         var appendString = constructFrequentFlyerAppendString(0, true, 0)
-        assertTravelerDetails(mapFrequentFlyerParams, appendString, "VX", "VX-0", "VX-0", "123")
+        assertTravelerDetails(mapFrequentFlyerParams, appendString, "VX", "VX", "VX-0", "123")
         appendString = constructFrequentFlyerAppendString(1, true, 0)
-        assertTravelerDetails(mapFrequentFlyerParams, appendString, "AA", "ADO", "ADO", "123")
+        assertTravelerDetails(mapFrequentFlyerParams, appendString, "AA", "AA", "AD0", "123")
     }
 
 
@@ -109,16 +109,17 @@ class FlightCheckoutParamsTest {
 
     private fun  getTravelerWithFrequentFlyerMemberships(): Traveler {
         val traveler = getTraveler()
-        traveler.addFrequentFlyerMembership(getTravelerFrequentFlyerMembership("VX", "VX-0"))
-        traveler.addFrequentFlyerMembership(getTravelerFrequentFlyerMembership("AA", "ADO"))
+        traveler.addFrequentFlyerMembership(getTravelerFrequentFlyerMembership("VX", "VX", "VX-0"))
+        traveler.addFrequentFlyerMembership(getTravelerFrequentFlyerMembership("AA", "AA", "AD0"))
         return traveler
     }
 
-    private fun getTravelerFrequentFlyerMembership(airlineCode: String, planCode: String) : TravelerFrequentFlyerMembership {
+    private fun getTravelerFrequentFlyerMembership(airlineCode: String, planCode: String, planID: String) : TravelerFrequentFlyerMembership {
         val membership = TravelerFrequentFlyerMembership()
         membership.airlineCode = airlineCode
         membership.membershipNumber = "123"
         membership.planCode = planCode
+        membership.frequentFlyerPlanID = planID
         return membership
     }
 
