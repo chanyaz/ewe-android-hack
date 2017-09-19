@@ -24,6 +24,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
@@ -496,6 +497,23 @@ class LaunchListAdapterTest {
 
         assertEquals(View.GONE, viewHolder.button_one.visibility)
         assertEquals(View.GONE, viewHolder.button_two.visibility)
+    }
+
+    // https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/6330
+    @Test
+    fun testDelayedCardsNoInternet() {
+        ProWizardBucketCache.cacheBucket(context, 1)
+        createSystemUnderTest()
+        sut.onHasInternetConnectionChange(false)
+        sut.setListData(ArrayList<LaunchDataItem>(), "")
+
+        val list = ArrayList<LaunchDataItem>()
+        list.add(LaunchDataItem(LaunchDataItem.ITIN_VIEW))
+        assertEquals(0, sut.itemCount, "FAILURE: adapter list must be empty to simulate crash scenario")
+
+        sut.addDelayedStaticCards(list)
+        assertEquals(1, sut.itemCount)
+        ProWizardBucketCache.cacheBucket(context, ProWizardBucketCache.NO_BUCKET_VALUE)
     }
 
     private fun makeSignInPlaceholderViewModel(): SignInPlaceHolderViewModel {

@@ -60,6 +60,8 @@ import rx.subjects.PublishSubject;
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
 
+	private final int contentStartPosition;
+
 	public static boolean isStaticCard(int itemViewKey) {
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
 			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
@@ -88,6 +90,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public LaunchListAdapter(Context context, View header) {
 		this.context = context;
+		if (showProWizard()) {
+			contentStartPosition = 0;
+		}
+		else {
+			contentStartPosition = 1;
+		}
 		headerView = header;
 		if (header == null) {
 			throw new IllegalArgumentException("Don't pass a null View into LaunchListAdapter");
@@ -308,10 +316,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		notifyDataSetChanged();
 	}
 
-	private void addDelayedStaticCards(final ArrayList<LaunchDataItem> cards) {
+	@VisibleForTesting
+	protected void addDelayedStaticCards(final ArrayList<LaunchDataItem> cards) {
 		staticCards.addAll(cards);
-		listData.addAll(1, cards);
-		notifyItemRangeInserted(1, cards.size());
+		listData.addAll(contentStartPosition, cards);
+		notifyItemRangeInserted(contentStartPosition, cards.size());
 	}
 
 	private void setSeeAllButtonVisibility(List<LaunchDataItem> listData, String headerTitle) {

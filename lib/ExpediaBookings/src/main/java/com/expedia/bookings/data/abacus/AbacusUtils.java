@@ -114,7 +114,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
 
 	// Launch
-	public static final ABTest ProWizardTest = new ABTest(15420);
+	public static final ABTest ProWizardTest = new ABTest(15594);
 
 	// Soft Prompt
 	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);
