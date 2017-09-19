@@ -387,6 +387,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun newParams(params: HotelSearchParams) {
+        filterView.viewModel.resetPriceSliderFilterTracking()
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
         setMapToInitialState(params.suggestion)
         filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
