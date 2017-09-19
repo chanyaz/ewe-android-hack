@@ -507,16 +507,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
             show(checkoutPresenter, FLAG_CLEAR_TOP)
-            checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
-            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
+            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
         }
 
         errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe {
             show(checkoutPresenter, FLAG_CLEAR_TOP)
-            checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
-            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
+            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
         }
 
         errorPresenter.viewmodel.checkoutAlreadyBookedObservable.subscribe {

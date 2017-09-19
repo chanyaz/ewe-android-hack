@@ -7,15 +7,14 @@ import android.widget.Button
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil.Companion.getDummyHotelSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -24,7 +23,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.util.SettingUtils
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -58,20 +56,10 @@ class HotelConfirmationPresenterTest {
         Ui.getApplication(activity).defaultHotelComponents()
         setPOSWithWebCheckoutEnabled(true)
         hotelPresenter = LayoutInflater.from(activity).inflate(R.layout.activity_hotel, null) as HotelPresenter
-        hotelPresenter.hotelSearchParams = getDummyHotelSearchParams()
+        hotelPresenter.hotelSearchParams = getDummyHotelSearchParams(activity)
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         hotelPresenter.show(hotelPresenter.detailPresenter)
         selectHotelRoom()
-    }
-
-    private fun getDummyHotelSearchParams(): HotelSearchParams {
-        return HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only))
-                .destination(getDummySuggestion())
-                .adults(2)
-                .children(listOf(10, 10, 10))
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams
     }
 
     @Test
@@ -139,16 +127,6 @@ class HotelConfirmationPresenterTest {
         PointOfSale.onPointOfSaleChanged(activity)
     }
 
-    private fun getDummySuggestion(): SuggestionV4 {
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = ""
-        suggestion.regionNames.fullName = ""
-        suggestion.regionNames.shortName = ""
-        return suggestion
-    }
-
     private fun getDummyHotelCheckoutResponse(): HotelCheckoutResponse {
         val hotelCheckoutResponse = HotelCheckoutResponse()
         hotelCheckoutResponse.checkoutResponse = HotelCheckoutResponse.CheckoutResponse()
@@ -175,5 +153,4 @@ class HotelConfirmationPresenterTest {
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.totalAppliedRewardCurrencyObservable.onNext("0")
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.couponCodeObservable.onNext("4")
     }
-
 }
