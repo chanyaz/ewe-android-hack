@@ -38,7 +38,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     val DEFAULT_EMPTY_PASSPORT = 0
     val materialFormTestEnabled = isMaterialFormsEnabled()
-    val frequentflyerTestEnabled = isFrequentFlyerNumberForFlightsEnabled(context)
+    val frequentflyerTestEnabled = isFrequentFlyerNumberForFlightsEnabled()
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: AccessibleSpinner by bindView(R.id.passport_country_spinner)
     val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)

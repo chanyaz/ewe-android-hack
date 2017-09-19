@@ -177,7 +177,6 @@ class FlightCheckoutPresenterTest {
         if (isFrequentFlyerEnabled) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         }
-        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_enable_flights_frequent_flyer_number, isFrequentFlyerEnabled)
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_checkout_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()

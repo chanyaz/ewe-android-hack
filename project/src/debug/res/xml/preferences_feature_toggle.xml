@@ -74,11 +74,6 @@
             android:title="Enable secure icon for Flight and Bundle Checkout pages" />
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_flights_frequent_flyer_number"
-            android:summary="Enable Frequent Flyer Number for Flights"
-            android:title="Enable Frequent Flyer Number for Flights" />
-
-        <CheckBoxPreference
             android:key="@string/preference_allow_unknown_card_types"
             android:summary="Allow Unknown Card Types"
             android:title="Allow Unknown Card Types" />

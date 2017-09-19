@@ -276,6 +276,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
     }
 
     private fun shouldShowFrequentFlyerWidget() : Boolean {
-        return isFrequentFlyerNumberForFlightsEnabled(context) && viewModel.lob == LineOfBusiness.FLIGHTS_V2
+        return isFrequentFlyerNumberForFlightsEnabled() && viewModel.lob == LineOfBusiness.FLIGHTS_V2
     }
 }

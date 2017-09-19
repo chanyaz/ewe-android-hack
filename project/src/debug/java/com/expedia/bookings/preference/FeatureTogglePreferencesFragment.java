@@ -34,7 +34,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
 		initializeFeatureCheck(R.string.preference_populate_cardholder_name);
 		initializeFeatureCheck(R.string.preference_enable_secure_icon);
-		initializeFeatureCheck(R.string.preference_enable_flights_frequent_flyer_number);
 		initializeFeatureCheck(R.string.preference_allow_unknown_card_types);
 		initializeFeatureCheck(R.string.preference_show_flights_checkout_webview);
 

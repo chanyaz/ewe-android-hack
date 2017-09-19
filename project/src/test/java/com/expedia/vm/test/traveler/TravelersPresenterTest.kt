@@ -74,7 +74,6 @@ class TravelersPresenterTest {
     @Test
     fun testFrequentFlyerWidgetHiddenForPackages() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
-        SettingUtils.save(activity, R.string.preference_enable_flights_frequent_flyer_number, true)
         Db.setTravelers(getMockTravelers(0))
         setupPresenterAndViewModel(LineOfBusiness.PACKAGES)
         resetAndUpdateTravelers()

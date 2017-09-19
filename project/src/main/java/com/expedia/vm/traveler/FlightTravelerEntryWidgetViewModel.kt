@@ -24,6 +24,7 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
     val flightLegsObservable = PublishSubject.create<List<FlightLeg>>()
     val frequentFlyerPlans = PublishSubject.create<FlightCreateTripResponse.FrequentFlyerPlans>()
     var frequentFlyerAdapterViewModel: FrequentFlyerAdapterViewModel? = null
+    val isFrequentFlyerEnabled = isFrequentFlyerNumberForFlightsEnabled()
 
     init {
         updateTraveler(getTraveler())
@@ -38,7 +39,7 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
             numberOfInvalidFields.onNext(numberOfInvalidFields.value + newNumberOfInvalidFields)
         }
 
-        if (isFrequentFlyerNumberForFlightsEnabled(context)) {
+        if (isFrequentFlyerEnabled) {
             frequentFlyerAdapterViewModel = FrequentFlyerAdapterViewModel(getTraveler())
             flightLegsObservable.subscribe(frequentFlyerAdapterViewModel?.flightLegsObservable)
             frequentFlyerPlans.subscribe(frequentFlyerAdapterViewModel?.frequentFlyerPlans)
@@ -76,7 +77,7 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
         tsaViewModel.updateTraveler(traveler)
         advancedOptionsViewModel.updateTraveler(traveler)
         passportCountrySubject.onNext(traveler.primaryPassportCountry)
-        if (isFrequentFlyerNumberForFlightsEnabled(context)) {
+        if (isFrequentFlyerEnabled) {
             frequentFlyerAdapterViewModel?.updateTravelerObservable?.onNext(traveler)
         }
     }
