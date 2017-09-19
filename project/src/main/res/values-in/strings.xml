@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Masukkan kartu debit/kredit baru</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Rincian Tamu</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">Masukkan informasi Anda</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">Metode Pembayaran</string>
     <!-- Text for enter payment details line 2 -->
@@ -1513,7 +1511,7 @@
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Ke</string>
     <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">UBAH ATAU BATALKAN KAMAR</string>
+    <string name="itin_hotel_manage_booking_cancel_change_header">Ubah atau batalkan kamar</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Ubah Atau Batalkan Kamar</string>
     <!--Hotel itin manage booking room details header-->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">Apakah yang Anda maksud…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">SELESAI</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">OK</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Peta</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Kelas pilihan {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">Upgrade penerbangan Anda</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">Upgrade gagal</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Perubahan gagal</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Maaf, &lt;b&gt;{selected_upgrade}&lt;/b&gt; sudah habis terjual. Harap coba lagi dengan pilihan harga berbeda. Mengembalikan penerbangan ke pilihan harga awal Anda.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">Maaf, &lt;b&gt;{selected_upgrade}&lt;/b&gt; sudah habis terjual. Harap coba lagi dengan pilihan harga berbeda. Mengembalikan penerbangan ke pilihan harga awal Anda.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Maaf, &lt;b&gt;{selected_upgrade}&lt;/b&gt; sudah habis terjual. Harap coba lagi dengan pilihan harga berbeda. Mengembalikan penerbangan ke pilihan harga awal Anda.</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">Ganti kelas kabin Anda</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Upgrade penerbangan Anda</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">Upgrade penerbangan Anda</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Dari</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Harga total termasuk pajak dan biaya</string>
     <string name="excluding_taxes_fees">Tidak termasuk pajak dan biaya</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">Bagasi</string>
+    <string name="amenity_cancellation">Pembatalan</string>
+    <string name="amenity_seat_selection">Pilihan Kursi</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">tampilkan lainnya</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">Termasuk</string>
+    <string name="fare_family_fee_applies">Biaya Berlaku</string>
+    <string name="fare_family_not_available">Tidak Tersedia</string>
+    <string name="fare_family_unknown">Tidak Diketahui</string>
 
 </resources>

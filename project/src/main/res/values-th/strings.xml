@@ -119,7 +119,7 @@
     <!-- Car doors text-->
     <string name="car_doors_text">ประตู</string>
     <!-- Car bags text-->
-    <string name="car_bags_text">กระเป๋า</string>
+    <string name="car_bags_text">สัมภาระ</string>
     <!-- Car automatic transmission text-->
     <string name="car_auto_tran_text">เกียร์อัตโนมัติ</string>
     <!-- Car manual transmission text-->
@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">ป้อนบัตรเครดิต/เดบิตใบใหม่</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">รายละเอียดผู้เข้าพัก</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">ป้อนข้อมูลของคุณ</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">วิธีการชำระเงิน</string>
     <!-- Text for enter payment details line 2 -->
@@ -769,7 +767,7 @@
     <string name="gt_error_current_location_no_results">เราไม่พบยานพาหนะใกล้ตัวคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string>
 
     <!-- Ground Transport bags text-->
-    <string name="lx_ground_transport_bags_text">กระเป๋า %1$s ใบ</string>
+    <string name="lx_ground_transport_bags_text">สัมภาระ %1$s ใบ</string>
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">ผู้โดยสาร %1$s คน</string>
     <!-- Incorrect date search for LX -->
@@ -1210,7 +1208,7 @@
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">อาคารผู้โดยสารระหว่างประเทศ</string>
     <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">รับกระเป๋า %1$s</string>
+    <string name="Baggage_Claim_X_TEMPLATE">รับสัมภาระ %1$s</string>
     <!-- Itin flight terminal only template -->
     <string name="Arrive_Terminal_X_TEMPLATE">อาคารผู้โดยสารขาเข้า %1$s</string>
     <!-- Itin flight international terminal only -->
@@ -1513,7 +1511,7 @@
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">ถึง</string>
     <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">เปลี่ยนแปลงหรือยกเลิกห้องพัก</string>
+    <string name="itin_hotel_manage_booking_cancel_change_header">เปลี่ยนหรือยกเลิกห้องพัก</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">เปลี่ยนแปลงหรือยกเลิกห้องพัก</string>
     <!--Hotel itin manage booking room details header-->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">หรือคุณหมายถึง…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">เสร็จ</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">ตกลง</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">แผนที่</string>
     <!-- Label for sort hotels in hotel list -->
@@ -3620,7 +3620,7 @@
     <!-- Your flight to _ now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_gate_GATE">ขณะนี้เที่ยวบินไป %1$s ของคุณกำลังออกจากประตู %2$s</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">กระเป๋าของคุณจะอยู่บริเวณจุดรับกระเป๋า %1$s</string>
+    <string name="S_Push_baggage_BAGGAGE">สัมภาระของคุณจะอยู่บริเวณจุดรับสัมภาระ %1$s</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s การจองของคุณได้รับการยืนยันแล้ว! ดูการจองในแอพ</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -3657,7 +3657,7 @@
     <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
     <string name="cars_passenger_count_cont_desc_TEMPLATE">ผู้โดยสาร {passengercount} คน</string>
     <!-- Content description for car result bags count e.g. Bags 2-4 -->
-    <string name="cars_bags_count_cont_desc_TEMPLATE">กระเป๋า {bagscount} ใบ</string>
+    <string name="cars_bags_count_cont_desc_TEMPLATE">สัมภาระ {bagscount} ใบ</string>
     <!-- Content description for hotel star rating e.g. 3 stars -->
     <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
         <item quantity="one">{rating} ดาว</item>
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">ระดับชั้นโดยสารที่ต้องการ {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">อัพเกรดเที่ยวบินของคุณ</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">ไม่สามารถอัพเกรด</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">ไม่สามารถเปลี่ยนได้</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">ขออภัย &lt;b&gt;{selected_upgrade}&lt;/b&gt; ขายหมดแล้วตอนนี้ โปรดเลือกตัวเลือกค่าโดยสารอื่น แล้วลองอีกครั้ง เราจะย้อนกลับไปยังการเลือกตั้งต้นของคุณ</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">ขออภัย &lt;b&gt;{selected_upgrade}&lt;/b&gt; ขายหมดแล้วตอนนี้ โปรดเลือกตัวเลือกค่าโดยสารอื่น แล้วลองอีกครั้ง เราจะย้อนกลับไปยังการเลือกตั้งต้นของคุณ</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">ขออภัย &lt;b&gt;{selected_upgrade}&lt;/b&gt; ขายหมดแล้วตอนนี้ โปรดเลือกตัวเลือกค่าโดยสารอื่น แล้วลองอีกครั้ง เราจะย้อนกลับไปยังการเลือกตั้งต้นของคุณ</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">เปลี่ยนชั้นโดยสาร</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">อัพเกรดเที่ยวบินของคุณ</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">อัพเกรดเที่ยวบินของคุณ</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">เริ่มที่</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">รวมภาษีและค่าธรรมเนียม</string>
     <string name="excluding_taxes_fees">ไม่รวมภาษีและค่าธรรมเนียม</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">สัมภาระ</string>
+    <string name="amenity_cancellation">ยกเลิก</string>
+    <string name="amenity_seat_selection">เลือกที่นั่ง</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">แสดงเพิ่มเติม</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">รวม</string>
+    <string name="fare_family_fee_applies">มีค่าธรรมเนียม</string>
+    <string name="fare_family_not_available">ไม่พร้อมให้บริการ</string>
+    <string name="fare_family_unknown">ไม่มีข้อมูล</string>
 
 </resources>

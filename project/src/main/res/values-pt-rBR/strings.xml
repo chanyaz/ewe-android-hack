@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Insira o novo cartão de crédito/débito</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Detalhes do hóspede</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">Insira suas informações</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">Forma de pagamento</string>
     <!-- Text for enter payment details line 2 -->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">Você quis dizer…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">PRONTO</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">OK</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Mapa</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Classe preferida {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">Faça um upgrade de seus voos</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">Upgrade indisponível</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Alteração não disponível</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">A categoria &lt;b&gt;{selected_upgrade}&lt;/b&gt; agora está esgotada em nosso site. Tente novamente com outra opção de tarifa. Seu voo será revertido para a tarifa original do bilhete.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">A categoria &lt;b&gt;{selected_upgrade}&lt;/b&gt; agora está esgotada em nosso site. Tente novamente com outra opção de tarifa. Seus voos serão revertidos para a tarifa original do bilhete.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">A categoria &lt;b&gt;{selected_upgrade}&lt;/b&gt; agora está esgotada em nosso site. Tente novamente com outra opção de tarifa. Seus voos serão revertidos para a tarifa original do bilhete.</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">Altere sua classe de cabine</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Faça um upgrade de seus voos</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">Faça um upgrade de seu voo</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">A partir de</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Total incluindo impostos e taxas</string>
     <string name="excluding_taxes_fees">Sem impostos e taxas</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">Bagagens</string>
+    <string name="amenity_cancellation">Cancelamento</string>
+    <string name="amenity_seat_selection">Seleção de assentos</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">mostrar mais</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">Incluído</string>
+    <string name="fare_family_fee_applies">Sujeito a taxas</string>
+    <string name="fare_family_not_available">Não disponível</string>
+    <string name="fare_family_unknown">Desconhecido</string>
 
 </resources>
