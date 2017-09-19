@@ -627,9 +627,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		String itinId = data.getId();
 
 		MutableDateTime trigger = data.getStartDate().toMutableDateTime();
-		trigger.setZoneRetainFields(DateTimeZone.getDefault());
-		trigger.setRounding(trigger.getChronology().minuteOfHour());
-		trigger.setHourOfDay(10);
+		trigger.addDays(-1);
 		long triggerTimeMillis = trigger.getMillis();
 
 		trigger.setHourOfDay(23);
@@ -642,13 +640,15 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
-		String title = getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
-			data.getFallbackCheckInTime(getContext()));
+		String title = getContext().getString(R.string.check_in_notification_title);
 
 		notification.setTicker(title);
 		notification.setTitle(title);
 
-		String body = data.getPropertyName();
+		String body = Phrase.from(getContext(), R.string.check_in_notification_body_TEMPLATE)
+			.put("hotel", data.getPropertyName())
+			.put("checkin", data.getCheckInTime())
+			.format().toString();
 		notification.setBody(body);
 
 		notification.setImageUrls(data.getHeaderImageUrls());
@@ -667,9 +667,12 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		String itinId = data.getId();
 
 		MutableDateTime trigger = data.getEndDate().toMutableDateTime();
-		trigger.setZoneRetainFields(DateTimeZone.getDefault());
-		trigger.setRounding(trigger.getChronology().minuteOfHour());
-		trigger.setHourOfDay(10);
+		if (isDurationLongerThenInput(2)) {
+			trigger.addDays(-1);
+		}
+		else {
+			trigger.addHours(-12);
+		}
 		long triggerTimeMillis = trigger.getMillis();
 
 		trigger.setHourOfDay(23);
@@ -682,13 +685,17 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
-		String title = getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
-			data.getFallbackCheckOutTime(getContext()));
+		String title = Phrase.from(getContext(), R.string.check_out_notification_title_TEMPLATE)
+			.put("checkout", data.getCheckOutTime())
+			.format().toString();
 
 		notification.setTicker(title);
 		notification.setTitle(title);
 
-		String body = data.getPropertyName();
+		String body = Phrase.from(getContext(), R.string.check_out_notification_body_TEMPLATE)
+			.put("hotel", data.getPropertyName())
+			.put("checkout", data.getCheckOutTime())
+			.format().toString();
 		notification.setBody(body);
 
 		notification.setImageUrls(data.getHeaderImageUrls());
@@ -756,7 +763,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	public boolean isDurationLongerThenInput(int day) {
-		return getItinCardData().getEndDate().isAfter(data.getStartDate().plusDays(day).minusSeconds(10));
+		return getItinCardData().getEndDate().isAfter(data.getStartDate().plusDays(day));
 
 	}
 
