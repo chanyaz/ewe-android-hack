@@ -2119,6 +2119,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
 	private static final String ITIN_HOTEL_UPGRADE = "App.Itinerary.Hotel.Upgrade";
 	private static final String ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotels.Directions";
+	private static final String ITIN_NEW_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions";
 	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
 	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
 	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Share.";
@@ -2437,6 +2438,16 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelDirections() {
 		internalTrackLink(ITIN_HOTEL_DIRECTIONS);
+	}
+
+	public static void trackRedesignItinHotelDirections() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_HOTEL_DIRECTIONS);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinHotelExpandMap() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_OPEN);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	public static void trackItinHotelCallHotel() {

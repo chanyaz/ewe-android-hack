@@ -7,9 +7,12 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.GoogleMapsUtil
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.bindView
@@ -32,7 +35,14 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
 
     fun setupWidget(itinCardDataHotel: ItinCardDataHotel) {
         if (itinCardDataHotel.propertyLocation != null) {
+            locationMapImageView.setZoom(14)
             locationMapImageView.setLocation(LatLong(itinCardDataHotel.propertyLocation.latitude, itinCardDataHotel.propertyLocation.longitude))
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.TripsHotelMap, R.string.preference_trips_hotel_maps)) {
+                locationMapImageView.setOnClickListener {
+                    //click to expand map
+                    OmnitureTracking.trackItinHotelExpandMap()
+                }
+            }
         }
         addressLine1.text = itinCardDataHotel.propertyLocation.streetAddressString
         addressLine2.text = itinCardDataHotel.propertyLocation.toTwoLineAddressFormattedString()
@@ -53,6 +63,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
             val intent = GoogleMapsUtil.getDirectionsIntent(itinCardDataHotel.property.location.toLongFormattedString())
             if (intent != null) {
                 NavUtils.startActivitySafe(context, intent)
+                OmnitureTracking.trackRedesignItinHotelDirections()
             }
         })
         if (phoneNumber.isEmpty()) actionButtons.bind(null, directionsButton) else actionButtons.bind(callButton, directionsButton)

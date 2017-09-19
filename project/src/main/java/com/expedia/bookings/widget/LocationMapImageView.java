@@ -56,7 +56,11 @@ public class LocationMapImageView extends ImageView {
 		}
 	}
 
-	public void setLocation(LatLong location) {
+	public void setZoom(int zoom) {
+		sZoom = zoom;
+	}
+
+	public void setLocation(LatLong location ) {
 		mLocation = location;
 		regenerateUri();
 	}
