@@ -11,7 +11,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
-import com.google.common.base.Verify
 import org.joda.time.DateTime
 import org.junit.Assert
 import org.junit.Assert.assertTrue
@@ -322,7 +321,7 @@ class HotelItinContentGeneratorTest {
     @Test
     fun getReadyNotificationDoesShowTripsThreeDaysOrMore() {
         val checkInTime = mTodayAtNoon.plusDays(1)
-        val checkOutTime = mTodayAtNoon.plusDays(4)
+        val checkOutTime = mTodayAtNoon.plusDays(5)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
         val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
         val notifications = hotelItinGenerator.generateNotifications()
@@ -351,6 +350,40 @@ class HotelItinContentGeneratorTest {
 
     }
 
+    @Test
+    fun testCheckinNotification() {
+        val checkInTime = mTodayAtNoon.minusDays(3)
+        val checkOutTime = mTodayAtNoon.minusDays(1)
+        val happyItinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val notification = makeHotelItinGenerator(happyItinCardDataHotel).generateNotifications().get(0)
+        assertEquals(notification.title, "Hotel check in reminder")
+        assertTrue(notification.body.contains(" tomorrow. View your booking for details."))
+        assertTrue(notification.triggerTimeMillis.equals(checkInTime.minusDays(1).millis))
+    }
+
+    @Test
+    fun testCheckoutMorethan2dNotification() {
+        val checkInTime = mTodayAtNoon.minusDays(4)
+        val checkOutTime = mTodayAtNoon.minusDays(1)
+        val happyItinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val notification = makeHotelItinGenerator(happyItinCardDataHotel).generateNotifications().get(1)
+        assertTrue(notification.title.contains("Check out at"))
+        assertTrue(notification.body.contains("Check out time your hotel booking for " + happyItinCardDataHotel.propertyName))
+        assertTrue(notification.triggerTimeMillis.equals(checkOutTime.minusDays(1).millis))
+
+    }
+
+    @Test
+    fun testCheckout2dOrLessNotification() {
+        val checkInTime = mTodayAtNoon.minusDays(2)
+        val checkOutTime = mTodayAtNoon.minusDays(1)
+        val happyItinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val notification = makeHotelItinGenerator(happyItinCardDataHotel).generateNotifications().get(1)
+        assertTrue(notification.title.contains("Check out at"))
+        assertTrue(notification.body.contains("Check out time your hotel booking for " + happyItinCardDataHotel.propertyName))
+        assertTrue(notification.triggerTimeMillis.equals(checkOutTime.minusHours(12).millis))
+
+    }
 
     private fun getBookingChangeUrl(): String {
         return "https://www.expedia.com/trips/547796b5-7839-49d4-a10f-d860966a1396/" +
