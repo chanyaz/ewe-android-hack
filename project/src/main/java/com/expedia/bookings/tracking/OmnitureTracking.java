@@ -5243,7 +5243,7 @@ public class OmnitureTracking {
 			//This tracking should be done only when user is bucketed for Fare Family AB test
 			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
 				&& isFareFamilyAvailable) {
-				eventStringBuilder.append(isFareFamilySelected ? ",275" : ",274");
+				eventStringBuilder.append(isFareFamilySelected ? ",event275" : ",event274");
 			}
 		}
 		appendPageLoadTimeEvents(eventStringBuilder, overviewPageUsableData.getLoadTimeInSeconds());
