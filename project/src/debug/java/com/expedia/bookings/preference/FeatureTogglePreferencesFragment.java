@@ -46,9 +46,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		// Permission Request
 		initializeFeatureCheck(R.string.preference_soft_prompt_permission);
-
-		// Carnival Notifications
-		initializeFeatureCheck(R.string.preference_new_carnival_notifications);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {
