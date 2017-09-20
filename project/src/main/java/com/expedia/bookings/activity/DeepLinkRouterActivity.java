@@ -121,7 +121,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	protected void handleDeeplink() {
 		TrackingUtils.initializeTracking(this.getApplication());
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isFirebaseEnabled()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isFirebaseEnabled() && !ExpediaBookingApp.isAutomation()) {
 			handleDeeplinkFromFirebase();
 		}
 		else {
