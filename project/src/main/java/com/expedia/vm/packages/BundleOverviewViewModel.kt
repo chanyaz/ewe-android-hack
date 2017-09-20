@@ -8,6 +8,7 @@ import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
@@ -45,6 +46,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val stepOneContentDescriptionObservable = BehaviorSubject.create<String>()
     val stepTwoTextObservable = BehaviorSubject.create<String>()
     val cancelSearchSubject = BehaviorSubject.create<Unit>()
+    val airlineFeePackagesWarningTextObservable = PublishSubject.create<String>()
 
     var searchPackageSubscriber: Subscription? = null
 
@@ -100,6 +102,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("destination", Db.getPackageParams().destination?.hierarchyInfo?.airport?.airportCode)
                     .format().toString()
             stepTwoTextObservable.onNext(stepTwo)
+            setAirlineFeeTextOnBundleOverview()
         }
 
         cancelSearchObservable.subscribe {
@@ -181,6 +184,15 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }
             }
+        }
+    }
+
+    fun setAirlineFeeTextOnBundleOverview(){
+        if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+            airlineFeePackagesWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
+        } else {
+            airlineFeePackagesWarningTextObservable.onNext("")
+
         }
     }
 }

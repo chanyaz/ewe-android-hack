@@ -14,6 +14,8 @@ import com.expedia.bookings.widget.packages.InboundFlightWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.BundleHotelViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -27,6 +29,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_hotel_widget)
     val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
+    val packageAirlineFeeWarningTextView: TextView by bindView(R.id.package_airline_fee_warning_text)
     val opacity: Float = 0.25f
     val scrollSpaceView: View by bindView(R.id.scroll_space_bundle)
 
@@ -86,6 +89,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         vm.stepOneTextObservable.subscribeText(stepOneText)
         vm.stepOneContentDescriptionObservable.subscribe { stepOneText.contentDescription = it }
         vm.stepTwoTextObservable.subscribeText(stepTwoText)
+        vm.airlineFeePackagesWarningTextObservable.subscribeTextAndVisibility(packageAirlineFeeWarningTextView)
 
         vm.cancelSearchSubject.subscribe {
             bundleHotelWidget.cancel()

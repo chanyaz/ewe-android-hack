@@ -58,6 +58,20 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:minHeight="64dp" />
 
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/package_airline_fee_warning_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="@dimen/card_view_container_margin"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="@color/defaultTextColor"
+        android:textSize="10sp"
+        android:visibility="gone" />
+
     <Space
         android:id="@+id/scroll_space_bundle"
         android:layout_width="wrap_content"

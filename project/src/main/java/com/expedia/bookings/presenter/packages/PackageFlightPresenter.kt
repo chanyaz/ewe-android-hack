@@ -101,7 +101,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
         val flightListAdapter = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject, Db.getPackageParams().isChangePackageSearch())
         resultsPresenter.setAdapter(flightListAdapter)
+
+        toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         resultsPresenter.resultsViewModel.flightResultsObservable.onNext(allFlights)
+
         if (!isOutboundResultsPresenter() && Db.getPackageSelectedOutboundFlight() != null) {
             resultsPresenter.outboundFlightSelectedSubject.onNext(Db.getPackageSelectedOutboundFlight())
         }
@@ -119,7 +122,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         overviewPresenter.vm.numberOfTravelers.onNext(numTravelers)
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
         val cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin?.regionNames?.shortName as String
-        toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         toolbarViewModel.city.onNext(cityBound)
         toolbarViewModel.travelers.onNext(numTravelers)
         toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate)

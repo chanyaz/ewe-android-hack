@@ -12,12 +12,15 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -44,7 +47,6 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
-@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 class PackageOverviewTest {
 
     val server = MockWebServer()
@@ -68,6 +70,7 @@ class PackageOverviewTest {
         setUpCheckout()
     }
 
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     @Test
     fun testOvervviewRowsContentDescrition() {
         createTrip()
@@ -90,6 +93,25 @@ class PackageOverviewTest {
         assertEquals(getExpectedFlightRowContDescription("Button to expand"), bundleWidget.outboundFlightWidget.rowContainer.contentDescription)
     }
 
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    fun testAirlineFeeTextOnBundleOverview() {
+        RoboTestHelper.setPOS(PointOfSaleId.AUSTRALIA)
+        createTrip()
+        assertEquals(bundleWidget.packageAirlineFeeWarningTextView.text, "There may be an additional fee based on your payment method.")
+        assertEquals(bundleWidget.packageAirlineFeeWarningTextView.visibility, View.VISIBLE)
+    }
+
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    fun testAirlineFeeTextNotShownOnBundleOverview() {
+        RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
+        createTrip()
+        assertEquals(bundleWidget.packageAirlineFeeWarningTextView.text, "")
+        assertEquals(bundleWidget.packageAirlineFeeWarningTextView.visibility, View.GONE)
+    }
+
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     @Test
     fun testFromPackageSearchParamsUsesMultiCityForPOIDestinationType() {
         val packageSearchParams = givenPackageSearchParamsWithPiid()
@@ -102,6 +124,7 @@ class PackageOverviewTest {
         assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.checkoutButton.visibility)
     }
 
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     @Test
     fun testFromPackageSearchParamsUsesGaiaIdDefault() {
         val packageSearchParams = givenPackageSearchParamsWithPiid()

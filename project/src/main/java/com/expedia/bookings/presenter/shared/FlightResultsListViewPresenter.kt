@@ -65,8 +65,8 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         return super.back()
     }
 
-    private fun setPaymentLegalMessage(showLegalPaymentMessage: Boolean, lineOfBusiness: LineOfBusiness) {
-        if (showLegalPaymentMessage && lineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
+    private fun setPaymentLegalMessage(showLegalPaymentMessage: Boolean) {
+        if (showLegalPaymentMessage) {
             airlineChargesFeesTextView.text = context.getString(R.string.airline_additional_fee_notice)
             airlineChargesFeesTextView.visibility = View.VISIBLE
         } else {
@@ -90,14 +90,8 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightShadow)
 
-        Observable.combineLatest(resultsViewModel.airlineChargesFeesSubject, lineOfBusinessSubject) {
-            showAirlineChargesFees, lineOfBusiness ->
-            object {
-                val showAirlineChargesFees = showAirlineChargesFees
-                val lineOfBusiness = lineOfBusiness
-            }
-        }.subscribe {
-            setPaymentLegalMessage(it.showAirlineChargesFees, it.lineOfBusiness)
+        vm.airlineChargesFeesSubject.subscribe { showAirlineChargesFees ->
+            setPaymentLegalMessage(showAirlineChargesFees)
         }
     }
 
