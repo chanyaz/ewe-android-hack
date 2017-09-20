@@ -158,9 +158,11 @@
     <Button
         android:id="@+id/basic_economy_info"
         style="@style/Widget.InfoIconButton"
-        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="9dp"
+        android:drawablePadding="12dp"
+        android:gravity="left"
         android:text="@string/flight_checkout_overview_basic_economy_message"
-        android:visibility="gone"
         app:textStyle="medium" />
 
     <Space

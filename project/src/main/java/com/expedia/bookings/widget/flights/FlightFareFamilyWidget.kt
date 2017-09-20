@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.flights
 import android.app.Activity
 import android.content.Context
 import android.graphics.PorterDuff
+import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -33,6 +34,7 @@ import java.util.Locale
 
 class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
+    val appbar: AppBarLayout by bindView(R.id.fare_family_appbar_layout)
     val toolbar: Toolbar by bindView(R.id.fareFamily_toolbar)
     val fareFamilyContainer: ViewGroup by bindView(R.id.fareFamily_container)
     val fareFamilyRadioGroup: RadioGroup by bindView(R.id.flight_fare_family_radio_group)
@@ -98,6 +100,17 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(createTripTotalText(fareFamilyDetails.fareFamilyName))
             totalPriceWidget.viewModel.total.onNext(fareFamilyDetails.totalPrice)
         }
+
+        val initialY = scrollViewContainer.y.toInt()
+        scrollViewContainer.addOnScrollListener(object: ScrollView.OnScrollListener {
+            override fun onScrollChanged(scrollView: ScrollView?, x: Int, y: Int, oldx: Int, oldy: Int) {
+                if (y == initialY) {
+                    appbar.elevation = 0.0f
+                } else {
+                    appbar.elevation = context.resources.getDimension(R.dimen.small_margin)
+                }
+            }
+        })
     }
 
     override fun onFinishInflate() {

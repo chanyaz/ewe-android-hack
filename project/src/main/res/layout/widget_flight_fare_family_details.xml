@@ -9,9 +9,12 @@
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/fare_family_appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/packages_flight_filter_background_color">
+        android:background="@color/packages_flight_filter_background_color"
+        app:contentInsetStartWithNavigation="0dp"
+        app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/fareFamily_toolbar"
