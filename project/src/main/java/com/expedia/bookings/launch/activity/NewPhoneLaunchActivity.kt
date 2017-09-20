@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
@@ -19,7 +20,7 @@ import android.widget.TextView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.activity.SoftPromptDialogFragment
+import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -207,6 +208,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         when (requestCode) {
             Constants.PERMISSION_REQUEST_LOCATION -> {
                 newPhoneLaunchFragment?.onReactToLocationRequest()
+                OmnitureTracking.trackLocationNativePrompt(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             }
         }
     }

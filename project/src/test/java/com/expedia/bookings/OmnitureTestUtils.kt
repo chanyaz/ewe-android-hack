@@ -4,6 +4,7 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
 import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers.allOf
 import org.mockito.Mockito
 
 class OmnitureTestUtils : ADMS_Measurement() {
@@ -38,6 +39,17 @@ class OmnitureTestUtils : ADMS_Measurement() {
             )
 
             Mockito.verify(mockAnalyticsProvider).trackAction(Mockito.eq(linkName), mapThat(hasEntries(expectedData)))
+        }
+
+        @JvmStatic
+        fun assertLinkTracked(linkName: String, rfrrId: String, matcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider) {
+            val expectedData = mapOf(
+                    "&&linkType" to "o",
+                    "&&linkName" to linkName,
+                    "&&v28" to rfrrId,
+                    "&&c16" to rfrrId
+            )
+            Mockito.verify(mockAnalyticsProvider).trackAction(Mockito.eq(linkName), mapThat(allOf(hasEntries(expectedData), matcher)))
         }
 
         @JvmStatic

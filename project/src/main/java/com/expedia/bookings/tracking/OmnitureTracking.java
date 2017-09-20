@@ -2754,6 +2754,10 @@ public class OmnitureTracking {
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
 	private static final String LAUNCH_SCREEN_GLOBAL_NAVIGATION = "App.Global";
 	private static final String LAUNCH_SCREEN_EXPANDED_LOB = "App.LS.Srch.ExpandSrch";
+	private static final String LAUNCH_SCREEN_LOCATION_SOFT_PROMPT_ACCEPT = "App.LS.LocPermSP.Accept";
+	private static final String LAUNCH_SCREEN_LOCATION_SOFT_PROMPT_CANCEL = "App.LS.LocPermSP.Cancel";
+	private static final String LAUNCH_SCREEN_LOCATION_NATIVE_PROMPT_ACCEPT = "App.DeviceLocation.Ok";
+	private static final String LAUNCH_SCREEN_LOCATION_NATIVE_PROMPT_CANCEL = "App.DeviceLocation.Opt-Out";
 	private static final String LOGIN_SCREEN = "App.Account.SignIn";
 	private static final String LOGIN_SUCCESS = "App.Account.Login.Success";
 	private static final String LOGOUT_SELECT = "App.Account.Logout.Select";
@@ -2869,6 +2873,30 @@ public class OmnitureTracking {
 			useExisting ? LOGIN_EMAIL_PROMPT_EXISTING : LOGIN_EMAIL_PROMPT_NEW);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackLocationSoftPrompt(boolean accept) {
+		ADMS_Measurement s;
+		if (accept) {
+			s = createTrackLinkEvent(LAUNCH_SCREEN_LOCATION_SOFT_PROMPT_ACCEPT);
+		}
+		else {
+			s = createTrackLinkEvent(LAUNCH_SCREEN_LOCATION_SOFT_PROMPT_CANCEL);
+		}
+		s.trackLink(null, "o", "Soft Prompt", null, null);
+	}
+
+	public static void trackLocationNativePrompt(boolean accept) {
+		ADMS_Measurement s;
+		if (accept) {
+			s = createTrackLinkEvent(LAUNCH_SCREEN_LOCATION_NATIVE_PROMPT_ACCEPT);
+			s.setEvents("event41");
+		}
+		else {
+			s = createTrackLinkEvent(LAUNCH_SCREEN_LOCATION_NATIVE_PROMPT_CANCEL);
+			s.setEvents("event40");
+		}
+		s.trackLink(null, "o", "App Message", null, null);
 	}
 
 	public static void trackLoginCreateUsername() {

@@ -1,4 +1,4 @@
-package com.expedia.bookings.activity
+package com.expedia.bookings.fragment
 
 
 import android.app.AlertDialog
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.widget.Button
 import com.expedia.bookings.R
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.requestLocationPermission
 
 class SoftPromptDialogFragment: DialogFragment() {
@@ -18,10 +19,14 @@ class SoftPromptDialogFragment: DialogFragment() {
 
         enableButton.setOnClickListener {
             requestLocationPermission(activity)
+            OmnitureTracking.trackLocationSoftPrompt(true)
             dismiss()
         }
         val dismissButton = view.findViewById<Button>(R.id.soft_prompt_disable_text)
-        dismissButton.setOnClickListener { dismiss() }
+        dismissButton.setOnClickListener {
+            OmnitureTracking.trackLocationSoftPrompt(false)
+            dismiss()
+        }
 
         alertDialogBuilder.setView(view)
         val dialog =  alertDialogBuilder.create()
