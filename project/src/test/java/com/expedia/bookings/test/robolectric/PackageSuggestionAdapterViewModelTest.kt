@@ -15,7 +15,7 @@ class PackageSuggestionAdapterViewModelTest {
 
     @Test
     fun packagesShouldShowOnlyAirportInNearbySuggestions() {
-        val suggestionV4Service = SuggestionV4Services("http://localhost:", "http://localhost:", OkHttpClient(), MockInterceptor(), MockInterceptor(), Schedulers.immediate(), Schedulers.immediate())
+        val suggestionV4Service = SuggestionV4Services("http://localhost:", "http://localhost:", OkHttpClient(), MockInterceptor(), MockInterceptor(), MockInterceptor(), Schedulers.immediate(), Schedulers.immediate())
         val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, suggestionV4Service, true, null)
         assertTrue(viewModel.shouldShowOnlyAirportNearbySuggestions())
     }

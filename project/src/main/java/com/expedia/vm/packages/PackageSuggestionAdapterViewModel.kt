@@ -11,20 +11,14 @@ import rx.Observable
 
 class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
     override fun getSuggestionService(query: String) {
-        suggestionsService.suggestPackagesV4(query, PointOfSale.getPointOfSale().siteId, ServicesUtil.generateClient(context), isDest, generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier())
+        suggestionsService.suggestPackagesV4(query, isDest, generateSuggestionServiceCallback())
     }
 
-    override fun getSuggestionHistoryFile(): String {
-        return SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE
-    }
+    override fun getSuggestionHistoryFile(): String = SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE
 
     override fun shouldShowOnlyAirportNearbySuggestions(): Boolean = true
 
-    override fun getLineOfBusinessForGaia(): String {
-        return "packages"
-    }
+    override fun getLineOfBusinessForGaia(): String = "packages"
 
-    override fun getNearbySortTypeForGaia(): String {
-        return "popularity"
-    }
+    override fun getNearbySortTypeForGaia(): String = "popularity"
 }

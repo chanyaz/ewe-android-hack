@@ -29,12 +29,12 @@ public class LXModule {
 	@Provides
 	@LXScope
 	SuggestionV4Services provideLXSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor, @Named("GaiaInterceptor") Interceptor gaiaRequestInterceptor) {
+		Interceptor interceptor, @Named("ESSInterceptor") Interceptor essRequestInterceptor, @Named("GaiaInterceptor") Interceptor gaiaRequestInterceptor) {
 		final String essEndpoint = endpointProvider.getEssEndpointUrl();
 		final String gaiaEndpoint = endpointProvider.getGaiaEndpointUrl();
-		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client, interceptor, gaiaRequestInterceptor,
-			AndroidSchedulers.mainThread(),
-			Schedulers.io());
+		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client,
+			interceptor, essRequestInterceptor, gaiaRequestInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

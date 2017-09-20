@@ -165,13 +165,33 @@ public class AppModule {
 	@Provides
 	@Singleton
 	@Named("SatelliteInterceptor")
-	Interceptor provideSatelliteRequestInterceptor(final Context context, final EndpointProvider endpointProvider) {
+	Interceptor provideSatelliteRequestInterceptor() {
 		return new Interceptor() {
 			@Override
 			public Response intercept(Interceptor.Chain chain) throws IOException {
 				HttpUrl.Builder url = chain.request().url().newBuilder();
 				Request.Builder request = chain.request().newBuilder();
 				url.setEncodedQueryParameter("siteid", ServicesUtil.generateSiteId());
+				request.url(url.build());
+
+				return chain.proceed(request.build());
+			}
+		};
+	}
+
+	@Provides
+	@Singleton
+	@Named("ESSInterceptor")
+	Interceptor provideESSInterceptor(final Context context) {
+		return new Interceptor() {
+			@Override
+			public Response intercept(Interceptor.Chain chain) throws IOException {
+				HttpUrl.Builder url = chain.request().url().newBuilder();
+				Request.Builder request = chain.request().newBuilder();
+				url.setEncodedQueryParameter("device", ServicesUtil.getDeviceType(context).getEssDeviceString());
+				url.setEncodedQueryParameter("locale", PointOfSale.getSuggestLocaleIdentifier());
+				url.setEncodedQueryParameter("siteid", ServicesUtil.generateSiteId());
+				url.setEncodedQueryParameter("client", ServicesUtil.generateClient(context));
 				request.url(url.build());
 
 				return chain.proceed(request.build());

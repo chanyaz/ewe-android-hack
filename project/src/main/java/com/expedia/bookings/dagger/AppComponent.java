@@ -61,6 +61,9 @@ public interface AppComponent {
 	@Named("HmacInterceptor")
 	Interceptor provideHmacInterceptor();
 
+	@Named("ESSInterceptor")
+	Interceptor essRequestInterceptor();
+
 	AbacusServices abacus();
 
 	ClientLogServices clientLog();

@@ -12,13 +12,12 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import rx.Observer
-import rx.observers.TestObserver
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class SuggestionV4ServicesTest {
 
@@ -26,58 +25,72 @@ class SuggestionV4ServicesTest {
         @Rule get
 
     private var service: SuggestionV4Services? = null
+    private lateinit var mockInterceptor: MockInterceptor
+    private lateinit var essMockInterceptor: MockInterceptor
+    private lateinit var gaiaMockInterceptor: MockInterceptor
 
     @Before
     fun before() {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
-        val interceptor = MockInterceptor()
+        mockInterceptor = MockInterceptor()
+        essMockInterceptor = MockInterceptor()
+        gaiaMockInterceptor = MockInterceptor()
         service = SuggestionV4Services("http://localhost:" + server.port,
                 "http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, interceptor, Schedulers.immediate(), Schedulers.immediate())
+                mockInterceptor, essMockInterceptor, gaiaMockInterceptor, Schedulers.immediate(), Schedulers.immediate())
 
         givenExpediaDispatcherPrepared()
     }
 
     @Test
     fun testGaiaNearbySuggestions() {
-        val suggestions = getGaiaNearbySuggestion(3.0);
+        val suggestions = getGaiaNearbySuggestion(3.0)
         assertEquals(2, suggestions.size)
         assertSuggestionsEqual(getGaiaSuggestion(), suggestions.first())
     }
 
     @Test
     fun testGaiaNearbySuggestionsForLessThanThreeResults() {
-        val suggestions = getGaiaNearbySuggestion(1.0);
+        val suggestions = getGaiaNearbySuggestion(1.0)
         assertEquals(1, suggestions.size)
         assertSuggestionsEqual(getGaiaSuggestion(), suggestions.first())
     }
 
     @Test
     fun testGaiaNearbySuggestionsForZeroResults() {
-        val suggestions = getGaiaNearbySuggestion(0.0);
+        val suggestions = getGaiaNearbySuggestion(0.0)
         assertEquals(0, suggestions.size)
     }
 
     @Test
     fun testGaiaNearbySuggestionsLXEnglish() {
-        val suggestions = getGaiaNearbySuggestionLXEnglish(3.0);
+        val suggestions = getGaiaNearbySuggestionLXEnglish(3.0)
         assertEquals(2, suggestions.size)
         assertSuggestionsEqual(getLXGaiaSuggestionEnglish(), suggestions.first())
     }
 
     @Test
     fun testGaiaNearbySuggestionsForLessThanThreeResultsLXFrench() {
-        val suggestions = getGaiaNearbySuggestionLXFrench(1.0);
+        val suggestions = getGaiaNearbySuggestionLXFrench(1.0)
         assertEquals(1, suggestions.size)
         assertSuggestionsEqual(getLXGaiaSuggestionFrench(), suggestions.first())
     }
 
     @Test
+    fun gaiaCallUsesCorrectInterceptors() {
+        getGaiaNearbySuggestion(3.0)
+
+        assertTrue(mockInterceptor.wasCalled())
+        assertFalse(essMockInterceptor.wasCalled())
+        assertTrue(gaiaMockInterceptor.wasCalled())
+    }
+
+    @Test
     fun testGetLxSuggestionsV4() {
         val testObserver = TestSubscriber<List<SuggestionV4>>()
-        service?.getLxSuggestionsV4("lon","expedia.app.android.phone", testObserver, "en_US", true)
+        service?.getLxSuggestionsV4("lon", testObserver, true)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertCompleted()
@@ -88,15 +101,93 @@ class SuggestionV4ServicesTest {
 
     @Test
     fun testGaiaNearbySuggestionsForLessThanThreeResultsLXEnglish() {
-        val suggestions = getGaiaNearbySuggestionLXEnglish(1.0);
+        val suggestions = getGaiaNearbySuggestionLXEnglish(1.0)
         assertEquals(1, suggestions.size)
         assertSuggestionsEqual(getLXGaiaSuggestionEnglish(), suggestions.first())
     }
 
     @Test
     fun testGaiaNearbySuggestionsForZeroResultsLX() {
-        val suggestions = getGaiaNearbySuggestionLXEnglish(0.0);
+        val suggestions = getGaiaNearbySuggestionLXEnglish(0.0)
         assertEquals(0, suggestions.size)
+    }
+
+    @Test
+    fun hotelSuggestionsUsesCorrectInterceptors() {
+        val testObserver = TestSubscriber<List<SuggestionV4>>()
+
+        service?.getHotelSuggestionsV4("chicago", testObserver, true, "guid")
+        testObserver.awaitTerminalEvent()
+        testObserver.assertCompleted()
+
+        assertTrue(mockInterceptor.wasCalled())
+        assertTrue(essMockInterceptor.wasCalled())
+        assertFalse(gaiaMockInterceptor.wasCalled())
+    }
+
+    @Test
+    fun airportSuggestionsUsesCorrectInterceptors() {
+        val testObserver = TestSubscriber<List<SuggestionV4>>()
+
+        service?.getAirports("chicago", true, testObserver, "guid")
+        testObserver.awaitTerminalEvent()
+        testObserver.assertCompleted()
+
+        assertTrue(mockInterceptor.wasCalled())
+        assertTrue(essMockInterceptor.wasCalled())
+        assertFalse(gaiaMockInterceptor.wasCalled())
+    }
+
+    @Test
+    fun packagesSuggestionsUsesCorrectInterceptors() {
+        val testObserver = TestSubscriber<List<SuggestionV4>>()
+
+        service?.suggestPackagesV4("chicago", true, testObserver)
+        testObserver.awaitTerminalEvent()
+        testObserver.assertCompleted()
+
+        assertTrue(mockInterceptor.wasCalled())
+        assertTrue(essMockInterceptor.wasCalled())
+        assertFalse(gaiaMockInterceptor.wasCalled())
+    }
+
+    @Test
+    fun railSuggestionsUsesCorrectInterceptors() {
+        val testObserver = TestSubscriber<List<SuggestionV4>>()
+
+        service?.suggestRailsV4("chicago", true, testObserver)
+        testObserver.awaitTerminalEvent()
+        testObserver.assertCompleted()
+
+        assertTrue(mockInterceptor.wasCalled())
+        assertTrue(essMockInterceptor.wasCalled())
+        assertFalse(gaiaMockInterceptor.wasCalled())
+    }
+
+    @Test
+    fun lxSuggestionsUsesCorrectInterceptors() {
+        val testObserver = TestSubscriber<List<SuggestionV4>>()
+
+        service?.getLxSuggestionsV4("chicago", testObserver, false)
+        testObserver.awaitTerminalEvent()
+        testObserver.assertCompleted()
+
+        assertTrue(mockInterceptor.wasCalled())
+        assertTrue(essMockInterceptor.wasCalled())
+        assertFalse(gaiaMockInterceptor.wasCalled())
+    }
+
+    @Test
+    fun carSuggestionsUsesCorrectInterceptors() {
+        val testObserver = TestSubscriber<List<SuggestionV4>>()
+
+        service?.getCarSuggestionsV4("chicago", testObserver)
+        testObserver.awaitTerminalEvent()
+        testObserver.assertCompleted()
+
+        assertTrue(mockInterceptor.wasCalled())
+        assertTrue(essMockInterceptor.wasCalled())
+        assertFalse(gaiaMockInterceptor.wasCalled())
     }
 
     private fun getGaiaSuggestion(): GaiaSuggestion {

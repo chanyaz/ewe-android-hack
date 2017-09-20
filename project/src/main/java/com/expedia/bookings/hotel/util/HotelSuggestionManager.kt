@@ -21,8 +21,7 @@ open class HotelSuggestionManager(private val service: SuggestionV4Services) {
         val sameAsWeb = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelAutoSuggestSameAsWeb)
         val guid: String? = if (sameAsWeb) Db.getAbacusGuid() else null
 
-        service.getHotelSuggestionsV4(regionName, ServicesUtil.generateClient(context),
-                getSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier(), sameAsWeb, guid)
+        service.getHotelSuggestionsV4(regionName, getSuggestionServiceCallback(), sameAsWeb, guid)
     }
 
     fun getSuggestionServiceCallback() : Observer<List<SuggestionV4>> {

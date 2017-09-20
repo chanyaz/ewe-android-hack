@@ -11,7 +11,7 @@ import rx.Observable
 
 class CarSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean, rawQueryEnabled: Boolean) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation, rawQueryEnabled) {
     override fun getSuggestionService(query: String) {
-        suggestionsService.getCarSuggestionsV4(query, ServicesUtil.generateClient(context), generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier())
+        suggestionsService.getCarSuggestionsV4(query, generateSuggestionServiceCallback())
     }
 
     override fun getSuggestionHistoryFile(): String {

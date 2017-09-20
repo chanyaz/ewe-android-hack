@@ -12,14 +12,20 @@ import okhttp3.Response;
  */
 public class MockInterceptor implements Interceptor {
 
+	private boolean called = false;
+
 	@Override
 	public Response intercept(Interceptor.Chain chain) throws IOException {
 		HttpUrl.Builder url = chain.request().url().newBuilder();
+		called = true;
 		Request.Builder request = chain.request().newBuilder();
 		request.addHeader("User-Agent", "ExpediaBookings/1.1 (EHad; Mobiata)");
 		url.addQueryParameter("clientid", "expedia.app.android.phone:6.9.0");
 		request.url(url.build());
-		Response response = chain.proceed(request.build());
-		return response;
+		return chain.proceed(request.build());
+	}
+
+	public boolean wasCalled() {
+		return called;
 	}
 }

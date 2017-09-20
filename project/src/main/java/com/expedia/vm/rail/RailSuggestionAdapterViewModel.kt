@@ -12,18 +12,12 @@ import rx.Observable
 
 class RailSuggestionAdapterViewModel(context: Context, suggestionsService: SuggestionV4Services, val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
     override fun getSuggestionService(query: String) {
-        suggestionsService.suggestRailsV4(query, PointOfSale.getPointOfSale().siteId, ServicesUtil.generateClient(context), isDest, generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier())
+        suggestionsService.suggestRailsV4(query, isDest, generateSuggestionServiceCallback())
     }
 
-    override fun getSuggestionHistoryFile(): String {
-        return SuggestionV4Utils.RECENT_RAIL_SUGGESTIONS_FILE
-    }
+    override fun getSuggestionHistoryFile(): String = SuggestionV4Utils.RECENT_RAIL_SUGGESTIONS_FILE
 
-    override fun getLineOfBusinessForGaia(): String {
-        return "rails"
-    }
+    override fun getLineOfBusinessForGaia(): String = "rails"
 
-    override fun getNearbySortTypeForGaia(): String {
-        return "distance"
-    }
+    override fun getNearbySortTypeForGaia(): String = "distance"
 }

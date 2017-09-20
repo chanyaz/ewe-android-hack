@@ -6,14 +6,17 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import com.expedia.account.AccountService;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.DeviceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.LocationServices;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class ServicesUtil {
@@ -149,10 +152,18 @@ public class ServicesUtil {
 	}
 
 	public static String getRailApiKey(Context context) {
-			return context.getResources().getString(R.string.rails_prod_api_key);
+		return context.getResources().getString(R.string.rails_prod_api_key);
 	}
 
 	public static String getGaiaApiKey(Context context) {
 		return context.getResources().getString(R.string.gaia_prod_api_key);
+	}
+
+	@NonNull
+	public static DeviceType getDeviceType(Context context) {
+		if (AndroidUtils.isTablet(context)) {
+			return DeviceType.TABLET;
+		}
+		return DeviceType.PHONE;
 	}
 }
