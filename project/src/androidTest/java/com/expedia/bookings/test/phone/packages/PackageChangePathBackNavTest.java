@@ -65,11 +65,11 @@ public class PackageChangePathBackNavTest extends PackageTestCase {
 		Common.delay(1);
 		Common.pressBack();
 		Common.delay(1);
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit, United States of America (DTW)")))));
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit (DTW)")))));
 
 		Common.pressBack();
 		Common.delay(1);
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit, United States of America (DTW)")))));
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Outbound to Detroit (DTW)")))));
 
 		Common.pressBack();
 		Common.delay(1);

@@ -18,7 +18,6 @@ class FlightToolbarViewModel(private val context: Context) {
     val isOutboundSearch = BehaviorSubject.create<Boolean>() // TODO - move this into flightSearchViewModel
     val setTitleOnly = BehaviorSubject.create<String>()
     val city = BehaviorSubject.create<String>()
-    val country = BehaviorSubject.create<String>()
     val airport = BehaviorSubject.create<String>()
     val travelers = BehaviorSubject.create<Int>()
     val date = BehaviorSubject.create<LocalDate>()
@@ -36,11 +35,11 @@ class FlightToolbarViewModel(private val context: Context) {
             menuVisibilitySubject.onNext(false)
         }
 
-        Observable.combineLatest(refreshToolBar, isOutboundSearch, city, country, airport, lob, travelers, date, { isResults, isOutboundSearch, cityBound, country, airportCode, lob, numTravelers, date ->
+        Observable.combineLatest(refreshToolBar, isOutboundSearch, city, airport, lob, travelers, date, { isResults, isOutboundSearch, cityBound, airportCode, lob, numTravelers, date ->
             if (lob == LineOfBusiness.FLIGHTS_V2) {
                 titleSubject.onNext(getFlightTitle(isResults, isOutboundSearch, cityBound))
             } else if (lob == LineOfBusiness.PACKAGES) {
-                titleSubject.onNext(getPackageTitle(isOutboundSearch, cityBound, country, airportCode))
+                titleSubject.onNext(getPackageTitle(isOutboundSearch, cityBound, airportCode))
             }
             subtitleSubject.onNext(getSubtitle(date, numTravelers))
             menuVisibilitySubject.onNext(isResults)
@@ -54,17 +53,15 @@ class FlightToolbarViewModel(private val context: Context) {
         return if (isResults && !isOutboundSearch) resultsOutInboundTitle else if (isResults) resultsTitle else overviewTitle
     }
 
-    fun getPackageTitle(isOutboundSearch: Boolean, city: String, country: String, airportCode: String): String {
-        val resultsTitle: String = Phrase.from(context, R.string.package_outbound_flight_toolbar_title_TEMPLATE)
+    fun getPackageTitle(isOutboundSearch: Boolean, city: String, airportCode: String): String {
+        val resultsTitle: String = Phrase.from(context, R.string.outbound_to_TEMPLATE)
                 .put("cityname", StrUtils.formatCityName(HtmlCompat.stripHtml(city)))
-                .put("country", country)
-                .put("airportcode", airportCode)
+                .put("airportcode", StrUtils.formatCityName(airportCode))
                 .format()
                 .toString()
-        val resultsInboundTitle: String = Phrase.from(context, R.string.package_inbound_flight_toolbar_title_TEMPLATE)
+        val resultsInboundTitle: String = Phrase.from(context, R.string.inbound_to_TEMPLATE)
                 .put("cityname", StrUtils.formatCityName(HtmlCompat.stripHtml(city)))
-                .put("country", country)
-                .put("airportcode", airportCode)
+                .put("airportcode", StrUtils.formatCityName(airportCode))
                 .format()
                 .toString()
         return if (!isOutboundSearch) resultsInboundTitle else resultsTitle
