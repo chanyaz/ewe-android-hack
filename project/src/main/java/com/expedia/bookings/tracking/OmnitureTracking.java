@@ -2502,6 +2502,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
+		trackAbacusTest(s, AbacusUtils.TripsFlightsNewdesign);
 		s.setEvents("event63");
 		s.track();
 	}

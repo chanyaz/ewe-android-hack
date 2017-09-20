@@ -39,6 +39,7 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
@@ -787,7 +788,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
-		Boolean isItinCardDetailFeatureOn = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppItinHotelRedesign);
+
+		Boolean isHotelItinCardDetailBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.EBAndroidAppItinHotelRedesign);
+		Boolean isFlightItinCardDetailFeatureOn = FeatureToggleUtil.
+			isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.TripsFlightsNewdesign, R.string.preference_trips_new_flights_design);
+
 		if (data != null) {
 			if (view instanceof ItinButtonCard) {
 				// Do nothing
@@ -798,12 +803,15 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			else if (data instanceof ItinCardDataRails) {
 				openItinInWebView(data.getDetailsUrl());
 			}
-			else if (data.getTripComponentType() == TripComponent.Type.HOTEL && isItinCardDetailFeatureOn) {
+			else if (data.getTripComponentType() == TripComponent.Type.HOTEL && isHotelItinCardDetailBucketed) {
 				getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()),
 					ActivityOptionsCompat
 						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 						.toBundle());
 				OmnitureTracking.trackItinHotel(getContext());
+			}
+			else if (data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailFeatureOn) {
+				OmnitureTracking.trackItinFlight(getContext());
 			}
 			else if (data.hasDetailData()) {
 				showDetails(position, true);
