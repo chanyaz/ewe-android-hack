@@ -52,8 +52,11 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeBackground
 import com.expedia.util.subscribeBackgroundResource
+import com.expedia.util.subscribeContentDescription
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseHotelDetailViewModel
@@ -77,7 +80,16 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val vipLoyaltyMessage: TextView by bindView(R.id.vip_loyalty_message_details)
     private val regularLoyaltyMessage: TextView by bindView(R.id.regular_loyalty_applied)
 
-    private val hotelDetailPriceView: HotelDetailPriceView by bindView(R.id.detail_price_view)
+    private val priceContainer: ViewGroup by bindView(R.id.price_widget)
+    @VisibleForTesting val detailsSoldOut: TextView by bindView(R.id.details_sold_out)
+
+    private val hotelPriceContainer: View by bindView(R.id.hotel_price_container)
+    @VisibleForTesting val price: TextView by bindView(R.id.price)
+    private val pricePerDescriptor: TextView by bindView(R.id.price_per_descriptor)
+    @VisibleForTesting val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
+    @VisibleForTesting val searchInfo: TextView by bindView(R.id.hotel_search_info)
+    private val earnMessage: TextView by bindView(R.id.earn_message)
+    private val taxFeeDescriptor: TextView by bindView(R.id.tax_fee_descriptor)
 
     private val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     private val noGuestRating: TextView by bindView(R.id.no_guest_rating)
@@ -129,10 +141,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
     private val ANIMATION_DURATION = 200L
 
-    private val hotelDetailPriceViewModel by lazy { viewModel.getHotelDetailPriceViewModel() }
-
     init {
         View.inflate(context, R.layout.hotel_detail_content_view, this)
+
 
         val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone).mutate()
         phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
@@ -163,6 +174,12 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     }
 
     var viewModel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
+        vm.hotelSoldOut.subscribeVisibility(detailsSoldOut)
+        vm.hotelSoldOut.subscribeInverseVisibility(price)
+        vm.hotelSoldOut.subscribeInverseVisibility(roomContainer)
+
+        vm.hotelSearchInfoText.subscribeTextColor(searchInfo)
+
         vm.noAmenityObservable.subscribe {
             amenityContainer.visibility = View.GONE
             amenityEtpDivider.visibility = View.GONE
@@ -210,6 +227,16 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         vm.sectionBodyObservable.subscribe { htmlBodyText -> setHotelDescriptionText(htmlBodyText) }
 
+        vm.strikeThroughPriceObservable.subscribeText(strikeThroughPrice)
+        vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
+        vm.priceToShowCustomerObservable.subscribeText(price)
+        vm.roomPriceToShowCustomer.subscribeText(price)
+        vm.searchInfoObservable.subscribeText(searchInfo)
+        vm.perNightVisibility.subscribeVisibility(pricePerDescriptor)
+        vm.pricePerDescriptorObservable.subscribeText(pricePerDescriptor)
+
+        vm.hotelPriceContentDesc.subscribeContentDescription(hotelPriceContainer)
+
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
         vm.userRatingObservable.subscribeText(userRating)
         vm.userRatingBackgroundColorObservable.subscribeBackground(userRating)
@@ -237,6 +264,10 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.hasVipAccessLoyaltyObservable.subscribeVisibility(vipLoyaltyMessage)
         vm.hasRegularLoyaltyPointsAppliedObservable.subscribeVisibility(regularLoyaltyMessage)
         vm.promoMessageObservable.subscribeText(promoMessage)
+        vm.earnMessageObservable.subscribeText(earnMessage)
+        vm.earnMessageVisibilityObservable.subscribeVisibility(earnMessage)
+        vm.taxFeeDescriptorObservable.subscribeText(taxFeeDescriptor)
+        vm.taxFeeDescriptorVisibilityObservable.subscribeVisibility(taxFeeDescriptor)
 
         vm.promoImageObservable.subscribe { promoImage ->
             promoMessage.setCompoundDrawablesWithIntrinsicBounds(promoImage, 0, 0, 0)
@@ -281,13 +312,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
-
-        vm.hotelSoldOut.subscribe(hotelDetailPriceViewModel.isSoldOut)
-
-        Observable.combineLatest(vm.hotelOffersResponseSubject, vm.paramsSubject, { offer, params ->
-            hotelDetailPriceViewModel.bind(offerResponse = offer, hotelSearchParams = params)
-            hotelDetailPriceView.bindViewModel(hotelDetailPriceViewModel)
-        }).subscribe()
     }
 
     fun resetViews() {
@@ -319,7 +343,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         miniMapView.translationY = scrollOffset * 0.15f
         transparentViewOverMiniMap.translationY = miniMapView.translationY
 
-        hotelDetailPriceView.getLocationOnScreen(priceContainerLocation)
+        priceContainer.getLocationOnScreen(priceContainerLocation)
         val priceAlpha = AlphaCalculator.fadeOutAlpha(startPoint = toolbarOffset, endPoint = (toolbarOffset / 2),
                 currentPoint = priceContainerLocation[1].toFloat())
         priceViewAlpha(priceAlpha)
@@ -338,7 +362,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         if (hotelMessagingContainer.visibility == View.VISIBLE) {
             hotelMessagingContainer.getLocationOnScreen(priceContainerLocation)
         } else {
-            hotelDetailPriceView.getLocationOnScreen(priceContainerLocation)
+            priceContainer.getLocationOnScreen(priceContainerLocation)
         }
         return priceContainerLocation[1]
     }
@@ -619,7 +643,12 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     }
 
     private fun priceViewAlpha(ratio: Float) {
-        hotelDetailPriceView.alpha = ratio
+        pricePerDescriptor.alpha = ratio
+        price.alpha = ratio
+        searchInfo.alpha = ratio
+        strikeThroughPrice.alpha = ratio
+        searchInfo.alpha = ratio
+        earnMessage.alpha = ratio
         roomRateRegularLoyaltyAppliedView.alpha = ratio
         roomRateVIPLoyaltyAppliedContainer.alpha = ratio
     }

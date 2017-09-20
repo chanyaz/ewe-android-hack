@@ -101,6 +101,164 @@ class HotelDetailContentViewTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testSearchInfoText() {
+        val expectedInfo = "1 Guest, May 10"
+        testVM.searchInfoObservable.onNext(expectedInfo)
+
+        assertViewTextEquals(expectedInfo, contentView.searchInfo)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testSoldOutVisibilities() {
+        testVM.hotelSoldOut.onNext(false)
+        assertGone(contentView.detailsSoldOut)
+        assertVisible(contentView.price)
+        assertVisible(contentView.roomContainer)
+
+        testVM.hotelSoldOut.onNext(true)
+        assertVisible(contentView.detailsSoldOut)
+        assertEquals(activity.getString(R.string.trip_bucket_sold_out), contentView.detailsSoldOut.text)
+        assertGone(contentView.price)
+        assertGone(contentView.roomContainer)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithStrikeThroughPriceGreaterThanPriceToShowUsers() {
+        val strikeThroughPrice = "100"
+
+        testVM.strikeThroughPriceObservable.onNext(strikeThroughPrice)
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
+        testVM.hotelSoldOut.onNext(false)
+        testVM.shopWithPointsObservable.onNext(true)
+        testVM.showAirAttachedObservable.onNext(false)
+
+        assertVisible(contentView.strikeThroughPrice)
+        assertViewTextEquals(strikeThroughPrice, contentView.strikeThroughPrice)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithoutStrikeThroughPriceGreaterThanPriceToShowUsers() {
+        val strikeThroughPrice = "100"
+
+        testVM.strikeThroughPriceObservable.onNext(strikeThroughPrice)
+
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(false)
+        testVM.hotelSoldOut.onNext(false)
+        testVM.shopWithPointsObservable.onNext(true)
+        testVM.showAirAttachedObservable.onNext(false)
+
+        assertGone(contentView.strikeThroughPrice)
+        assertViewTextEquals(strikeThroughPrice, contentView.strikeThroughPrice)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithHotelSoldOut() {
+        val strikeThroughPrice = "100"
+
+        testVM.strikeThroughPriceObservable.onNext(strikeThroughPrice)
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
+        testVM.hotelSoldOut.onNext(true)
+        testVM.shopWithPointsObservable.onNext(true)
+        testVM.showAirAttachedObservable.onNext(false)
+
+        assertGone(contentView.strikeThroughPrice)
+        assertViewTextEquals(strikeThroughPrice, contentView.strikeThroughPrice)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithHotelNotSoldOut() {
+        val strikeThroughPrice = "100"
+
+        testVM.strikeThroughPriceObservable.onNext(strikeThroughPrice)
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
+        testVM.hotelSoldOut.onNext(false)
+        testVM.shopWithPointsObservable.onNext(true)
+        testVM.showAirAttachedObservable.onNext(false)
+
+        assertVisible(contentView.strikeThroughPrice)
+        assertViewTextEquals(strikeThroughPrice, contentView.strikeThroughPrice)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithShopWithPoints() {
+        val strikeThroughPrice = "100"
+
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
+        testVM.hotelSoldOut.onNext(false)
+        testVM.shopWithPointsObservable.onNext(true)
+        testVM.showAirAttachedObservable.onNext(true)
+        assertVisible(contentView.strikeThroughPrice)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithoutShopWithPoints() {
+        val strikeThroughPrice = "100"
+
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
+        testVM.hotelSoldOut.onNext(false)
+        testVM.shopWithPointsObservable.onNext(false)
+        testVM.showAirAttachedObservable.onNext(true)
+        assertGone(contentView.strikeThroughPrice)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithAirAttached() {
+        val strikeThroughPrice = "100"
+
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
+        testVM.hotelSoldOut.onNext(false)
+        testVM.shopWithPointsObservable.onNext(false)
+        testVM.showAirAttachedObservable.onNext(true)
+        assertGone(contentView.strikeThroughPrice)
+
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithoutAirAttached() {
+        val strikeThroughPrice = "100"
+
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
+        testVM.hotelSoldOut.onNext(false)
+        testVM.shopWithPointsObservable.onNext(false)
+        testVM.showAirAttachedObservable.onNext(false)
+        assertVisible(contentView.strikeThroughPrice)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithControl() {
+        val strikeThroughPrice = "100"
+        testVM.isBucketForHideStrikeThroughPrice = false
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
+        testVM.hotelSoldOut.onNext(false)
+        testVM.shopWithPointsObservable.onNext(false)
+        testVM.showAirAttachedObservable.onNext(false)
+        assertVisible(contentView.strikeThroughPrice)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testStrikeThroughPriceWithBucked() {
+        val strikeThroughPrice = "100"
+        testVM.isBucketForHideStrikeThroughPrice = true
+        testVM.strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(true)
+        testVM.hotelSoldOut.onNext(false)
+        testVM.shopWithPointsObservable.onNext(false)
+        testVM.showAirAttachedObservable.onNext(false)
+        assertGone(contentView.strikeThroughPrice)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFreeCancellationAndEtp() {
         testVM.hasETPObservable.onNext(true)
         testVM.hasFreeCancellationObservable.onNext(true)

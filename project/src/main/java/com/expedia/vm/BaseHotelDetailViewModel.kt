@@ -52,6 +52,8 @@ import kotlin.properties.Delegates
 
 abstract class BaseHotelDetailViewModel(val context: Context) {
 
+    abstract fun getLobPriceObservable(rate: HotelRate)
+    abstract fun pricePerDescriptor(): String
     abstract fun getFeeTypeText(): Int
     abstract fun getResortFeeText(): Int
     abstract fun showFeesIncludedNotIncluded(): Boolean
@@ -68,13 +70,13 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     abstract fun trackHotelDetailLoad(isRoomSoldOut: Boolean)
     abstract fun shouldShowBookByPhone(): Boolean
     abstract fun getTelesalesNumber(): String
-    abstract fun getHotelDetailPriceViewModel(): BaseHotelDetailPriceViewModel
-
-    val hotelOffersResponseSubject = PublishSubject.create<HotelOffersResponse>()
 
     val roomSelectedSubject = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
     val selectedRoomSoldOut = PublishSubject.create<Unit>()
+    val hotelPriceContentDesc = PublishSubject.create<String>()
+
+    val hotelSearchInfoText = hotelSoldOut.map { if (it) ContextCompat.getColor(context, R.color.gray3) else ContextCompat.getColor(context, R.color.gray6) }
 
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
@@ -89,6 +91,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val amenitiesListObservable = BehaviorSubject.create<List<Amenity>>()
     val noAmenityObservable = BehaviorSubject.create<Unit>()
 
+    var isBucketForHideStrikeThroughPrice = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
     val hasETPObservable = BehaviorSubject.create<Boolean>(false)
     val hasFreeCancellationObservable = BehaviorSubject.create<Boolean>()
     val hasBestPriceGuaranteeObservable = BehaviorSubject.create<Boolean>()
@@ -115,6 +118,12 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val hotelRatingObservable = BehaviorSubject.create<Float>()
     val hotelRatingContentDescriptionObservable = BehaviorSubject.create<String>()
     val hotelRatingObservableVisibility = BehaviorSubject.create<Boolean>()
+    val onlyShowTotalPrice = BehaviorSubject.create<Boolean>(false)
+    val roomPriceToShowCustomer = BehaviorSubject.create<String>()
+    val totalPriceObservable = BehaviorSubject.create<String>()
+    val priceToShowCustomerObservable = BehaviorSubject.create<String>()
+    val searchInfoObservable = BehaviorSubject.create<String>()
+    val searchDatesObservable = BehaviorSubject.create<String>()
     val userRatingBackgroundColorObservable = BehaviorSubject.create<Drawable>()
     val userRatingObservable = BehaviorSubject.create<String>()
     val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()
@@ -136,7 +145,13 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.create<Boolean>(false)
     val promoMessageObservable = BehaviorSubject.create<String>("")
     val promoImageObservable = BehaviorSubject.create<Int>(0)
+    val earnMessageObservable = BehaviorSubject.create<String>()
+    val earnMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val taxFeeDescriptorObservable = BehaviorSubject.create<String>()
+    val taxFeeDescriptorVisibilityObservable = BehaviorSubject.create<Boolean>()
 
+    val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
+    val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
     val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
     val scrollToRoom = PublishSubject.create<Unit>()
     val changeDates = PublishSubject.create<Unit>()
@@ -192,6 +207,22 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         HotelTracking.trackHotelEtpInfo()
     }
 
+    val strikeThroughPriceVisibility = Observable.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable) {
+        strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable ->
+        (strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut) && (shopWithPointsObservable || (!showAirAttachedObservable && !isBucketForHideStrikeThroughPrice))
+    }
+
+    val perNightVisibility = Observable.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut ->
+        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        if (bucketedToShowPriceDescriptorProminence) {
+            !hotelSoldOut
+        } else {
+            !(onlyShowTotalPrice || hotelSoldOut)
+        }
+    }
+
+    val pricePerDescriptorObservable = BehaviorSubject.create<String>()
+
     val payByPhoneContainerVisibility = Observable.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
     val hotelMessagingContainerVisibility = Observable.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable)
@@ -226,6 +257,10 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
                     hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
                 }
             }
+        }
+
+        onlyShowTotalPrice.subscribe { onlyShowTotalPrice ->
+            (if (onlyShowTotalPrice) totalPriceObservable else priceToShowCustomerObservable).subscribe(roomPriceToShowCustomer)
         }
 
         hotelOffersSubject.subscribe(offersObserver)
@@ -433,7 +468,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     @CallSuper
     protected open fun offerReturned(offerResponse: HotelOffersResponse) {
         hotelOffersResponse = offerResponse
-        hotelOffersResponseSubject.onNext(hotelOffersResponse)
 
         galleryObservable.onNext(getGalleryUrls())
 
@@ -461,6 +495,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         val firstHotelRoomResponse = offerResponse.hotelRoomResponse?.firstOrNull()
         if (firstHotelRoomResponse != null) {
             val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
+            onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
+            getLobPriceObservable(rate)
+            totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
             showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())
             showAirAttachedObservable.onNext(rate.isShowAirAttached())
@@ -477,6 +514,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
                 else context.resources.getString(R.string.zero_reviews))
 
         val chargeableRateInfo = offerResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
+        val packageLoyaltyInformation = offerResponse.hotelRoomResponse?.firstOrNull()?.packageLoyaltyInformation
         val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
         val discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
         discountPercentageObservable.onNext(Pair(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
@@ -492,6 +530,32 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && offerResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
         promoImageObservable.onNext(getPromoImage(firstHotelRoomResponse))
+        val earnMessage = LoyaltyUtil.getEarnMessagingString(context, offerResponse.isPackage, chargeableRateInfo?.loyaltyInfo?.earn, packageLoyaltyInformation?.earn)
+        val earnMessageVisibility = LoyaltyUtil.shouldShowEarnMessage(earnMessage, offerResponse.isPackage)
+        earnMessageObservable.onNext(earnMessage)
+        earnMessageVisibilityObservable.onNext(earnMessageVisibility)
+        val priceDescriptor: String
+        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        if (bucketedToShowPriceDescriptorProminence) {
+            val priceType = firstHotelRoomResponse?.rateInfo?.chargeableRateInfo?.getUserPriceType()
+            priceDescriptor = priceDescriptorForPriceType(priceType) ?: ""
+        } else {
+            priceDescriptor = ""
+        }
+        val priceDescriptorVisibility = priceDescriptor.isNotBlank()
+        taxFeeDescriptorObservable.onNext(priceDescriptor)
+        taxFeeDescriptorVisibilityObservable.onNext(priceDescriptorVisibility)
+
+        val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
+        val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
+
+        val isStrikeThroughPriceGreaterThanPriceToShowUsers = priceToShowUsers < strikethroughPriceToShowUsers
+        if (isStrikeThroughPriceGreaterThanPriceToShowUsers) {
+            strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true, !offerResponse.isPackage))
+        }
+        strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(isStrikeThroughPriceGreaterThanPriceToShowUsers)
+        hotelPriceContentDesc.onNext(getHotelPriceContentDescription(isStrikeThroughPriceGreaterThanPriceToShowUsers))
+
         hasFreeCancellationObservable.onNext(hasFreeCancellation(offerResponse))
         hasBestPriceGuaranteeObservable.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee())
         val hasETPOffer = hasEtpOffer(offerResponse)
@@ -503,6 +567,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
 
         hotelLatLngObservable.onNext(doubleArrayOf(offerResponse.latitude, offerResponse.longitude))
+
+        pricePerDescriptorObservable.onNext( pricePerDescriptor() )
     }
 
     private fun getGalleryUrls(): ArrayList<HotelMedia> {
@@ -579,5 +645,28 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             return ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable
         }
         return 0
+    }
+
+    open fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
+        return if (showStrikeThrough) {
+            Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
+                    .put("strikethroughprice", strikeThroughPriceObservable.value)
+                    .put("price", priceToShowCustomerObservable.value)
+                    .format()
+                    .toString() + Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
+                    .put("percentage", discountPercentageObservable.value.first)
+                    .format()
+                    .toString()
+        } else {
+            priceToShowCustomerObservable.value + context.getString(R.string.per_night)
+        }
+    }
+
+    protected fun priceDescriptorForPriceType(priceType: HotelRate.UserPriceType?): String? {
+        return when (priceType) {
+            HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_including_taxes_fees)
+            HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> context.getString(R.string.excluding_taxes_fees)
+            else -> null
+        }
     }
 }

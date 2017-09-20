@@ -19,7 +19,7 @@ class PackageHotelInfositeSteps {
     }
 
     private fun validateHotelTravelDatesHIS(dateString: String) {
-        onView(Matchers.allOf<View>(withId(R.id.search_info_text_view), withText(Matchers.containsString("guests"))))
+        onView(Matchers.allOf<View>(withId(R.id.hotel_search_info), withText(Matchers.containsString("guests"))))
                 .check(matches(withText(Matchers.containsString(dateString))))
     }
 }
