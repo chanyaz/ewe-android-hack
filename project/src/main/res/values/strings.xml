@@ -885,8 +885,8 @@
     <string name="total_with_tax">Total with Tax</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Trip Total</string>
-    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">Trip Total for {farefamily}</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">Trip Total: {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Trip total</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -4437,9 +4437,9 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">Change unsuccessful</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Sorry, &lt;b&gt;{selected_upgrade}&lt;/b&gt; is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Sorry, &lt;b&gt;{fare_family_name}&lt;/b&gt; is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Sorry, &lt;b&gt;{selected_upgrade}&lt;/b&gt; is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Sorry, &lt;b&gt;{fare_family_name}&lt;/b&gt; is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.</string>
     <!-- Label for fare family upgrade option. Example. Change your fare -->
     <string name="flight_fare_family_fare_label">Change your fare</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->

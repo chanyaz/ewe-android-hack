@@ -255,7 +255,7 @@
     "productKey": "happy_fare_family_round_trip",
     "fareFamilyDetails": [
       {
-        "fareFamilyName": "ECONOMY",
+        "fareFamilyName": "ECONOMY Plus",
         "fareFamilyCode": "ECONOMY",
         "cabinClass": "coach",
         "totalPrice": {

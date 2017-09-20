@@ -14,7 +14,6 @@ import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
@@ -47,6 +46,7 @@ import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
+import java.util.Locale
 import javax.inject.Inject
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
@@ -151,8 +151,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
                 val tripResponse = tripResponse
                 val selectedFareFamily = selectedFareFamily
             }
-        }).filter { it.tripResponse.createTripStatus == FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE }.subscribe {
-            showFareFamilyUnavailableAlertDialog(it.selectedFareFamily.cabinClass)
+        }).filter { it.tripResponse.createTripStatus == FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE && currentState == BundleDefault::class.java.name
+        }.subscribe {
+            showFareFamilyUnavailableAlertDialog(it.selectedFareFamily.fareFamilyName)
         }
     }
 
@@ -203,6 +204,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             super.endTransition(forward)
             val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(offerInsuranceInFlightSummary)
+            if (isUserBucketedForFareFamily) {
+                flightFareFamilyDetailsWidget.visibility = View.INVISIBLE
+            }
         }
     }
 
@@ -314,7 +318,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         return false
     }
 
-    private fun showFareFamilyUnavailableAlertDialog(selectedClass: String) {
+    private fun showFareFamilyUnavailableAlertDialog(fareFamilyName: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(context.getString(R.string.flight_fare_family_upgrade_unavailable_error_title))
         val errorString = if (Db.getFlightSearchParams().isRoundTrip()) {
@@ -324,7 +328,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         }
         builder.setMessage(HtmlCompat.fromHtml(
                 Phrase.from(this, errorString)
-                        .put("selected_upgrade", context.getString(FlightServiceClassType.getCabinCodeResourceId(selectedClass)))
+                        .put("fare_family_name", Strings.capitalize(fareFamilyName, Locale.US))
                         .format().toString()))
         builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
             dialog.dismiss()

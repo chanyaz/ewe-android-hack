@@ -170,11 +170,11 @@ class FareFamilyItemWidgetTest {
         assertEquals(View.VISIBLE, totalPriceTextView.visibility)
 
         assertEquals("$142.20", totalPriceTextView.text)
-        assertEquals("Trip Total for Economy", tripTotalTextView.text)
+        assertEquals("Trip Total: Economy", tripTotalTextView.text)
         thirdFareFamilyItem.fareFamilyRadioButton.performClick()
         assertEquals("$413.20", totalPriceTextView.text)
         assertEquals(View.VISIBLE, totalPriceTextView.visibility)
-        assertEquals("Trip Total for Economy Flexible", tripTotalTextView.text)
+        assertEquals("Trip Total: Economy Flexible", tripTotalTextView.text)
     }
 
 

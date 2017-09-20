@@ -140,7 +140,7 @@ class FlightOverviewPresenterTest {
         val okButton = alertDialog.findViewById<View>(android.R.id.button1) as Button
         val errorMessage = alertDialog.findViewById<View>(android.R.id.message) as android.widget.TextView
         assertEquals(true, alertDialog.isShowing)
-        assert(errorMessage.text.contains("Sorry, Economy is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection."))
+        assert(errorMessage.text.contains("Sorry, Economy Plus is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection."))
         assertEquals("OK", okButton.text)
     }
 
