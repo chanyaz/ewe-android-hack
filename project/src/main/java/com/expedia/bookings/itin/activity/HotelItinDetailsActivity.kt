@@ -11,6 +11,7 @@ import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.itin.widget.HotelItinBookingDetails
 import com.expedia.bookings.itin.widget.HotelItinCheckInCheckOutDetails
@@ -69,7 +70,7 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
         Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_card_details)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
+        OmnitureTracking.trackItinHotel(this)
     }
 
     override fun onResume() {

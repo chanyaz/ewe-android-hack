@@ -325,7 +325,7 @@ class HotelItinContentGeneratorTest {
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
         val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
         val notifications = hotelItinGenerator.generateNotifications()
-        assertEquals(3, notifications.size)
+        assertEquals(4, notifications.size)
         verify(hotelItinGenerator, Mockito.times(1)).generateGetReadyNotification()
 
     }
@@ -345,8 +345,52 @@ class HotelItinContentGeneratorTest {
         val itinCardDataHotel = givenHappyItinCardDataHotel(3)
         val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
         val notifications = hotelItinGenerator.generateNotifications()
-        assertEquals(3, notifications.size)
+        assertEquals(4, notifications.size)
         verify(hotelItinGenerator, Mockito.times(1)).generateGetReadyNotification()
+
+    }
+
+    @Test
+    fun activityCrossNotificationDoesNotShowTripsLessThanThreeDays() {
+        val checkInTime = mTodayAtNoon.plusDays(7)
+        val checkOutTime = mTodayAtNoon.plusDays(8)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(2, notifications.size)
+        verify(hotelItinGenerator, never()).generateActivityCrossSellNotification()
+
+    }
+
+    @Test
+    fun activityCrossNotificationDoesShowTripsThreeDaysOrMore() {
+        val checkInTime = mTodayAtNoon.plusDays(1)
+        val checkOutTime = mTodayAtNoon.plusDays(5)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(4, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(1)).generateActivityCrossSellNotification()
+
+    }
+
+    @Test
+    fun activityCrossNotificationDoesNotShowTripsWithTwoOrLessTravelers() {
+        val itinCardDataHotel = givenHappyItinCardDataHotel(2)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(2, notifications.size)
+        verify(hotelItinGenerator, never()).generateActivityCrossSellNotification()
+
+    }
+
+    @Test
+    fun activityCrossNotificationDoesShowTripsWithMoreThanTwoTravelers() {
+        val itinCardDataHotel = givenHappyItinCardDataHotel(3)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(4, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(1)).generateActivityCrossSellNotification()
 
     }
 

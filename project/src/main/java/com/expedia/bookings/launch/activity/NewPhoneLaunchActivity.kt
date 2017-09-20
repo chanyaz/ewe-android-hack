@@ -30,10 +30,13 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
 import com.expedia.bookings.dialog.GooglePlayServicesDialog
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
+import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
+import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.launch.widget.ProWizardLaunchTabView
@@ -52,6 +55,9 @@ import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.LXNavUtils
+import com.expedia.bookings.utils.LXDataUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.model.UserLoginStateChangedModel
@@ -87,6 +93,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         @Inject set
 
     var jumpToItinId: String? = null
+    var jumpToActivityCross: String? = null
     private var pagerPosition = PAGER_POS_LAUNCH
 
     private var itinListFragment: ItinItemListFragment? = null
@@ -135,7 +142,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         setSupportActionBar(toolbar)
         supportActionBar?.elevation = 0f
-
+        AbacusHelperUtils.downloadBucket(this)
         if (intent.hasExtra(ARG_ITIN_NUM)) {
             jumpToItinId = intent.getStringExtra(ARG_ITIN_NUM)
         }
@@ -155,7 +162,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             // No need to do anything special, waterfall is the default behavior anyway
         } else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
             handleArgJumpToNotification(intent)
-            gotoItineraries()
+            if(jumpToActivityCross == null)
+                gotoItineraries()
+            else
+                gotoActivitiesCrossSell()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
             gotoItineraries()
         } else if (ItineraryManager.haveTimelyItinItem()) {
@@ -172,7 +182,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             val errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", lobName).format()
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
         }
-        AbacusHelperUtils.downloadBucket(this)
 
         GooglePlayServicesDialog(this).startChecking()
 
@@ -213,7 +222,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             gotoWaterfall()
         } else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
             handleArgJumpToNotification(intent)
-            gotoItineraries()
+            if(jumpToActivityCross == null)
+                gotoItineraries()
+            else
+                gotoActivitiesCrossSell()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
             gotoItineraries()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false)) {
@@ -295,8 +307,11 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         if (!notificationManager.hasExisting(notification)) {
             return
         }
-
-        jumpToItinId = notification.itinId
+        if (notification.uniqueId.contains("_activityCross"))
+            jumpToActivityCross = notification.itinId
+        else{
+            jumpToItinId = notification.itinId
+        }
         OmnitureTracking.trackNotificationClick(notification)
 
         // There's no need to dismiss with the notification manager, since it was set to
@@ -390,9 +405,25 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         }
 
         if (jumpToItinId != null) {
-            itinListFragment?.showItinCard(jumpToItinId, false)
-            jumpToItinId = null
+
+            val isItinCardDetailFeatureOn = AbacusFeatureConfigManager.
+                    isUserBucketedForTest(this, AbacusUtils.EBAndroidAppItinHotelRedesign);
+            val data = ItineraryManager.getInstance().getItinCardDataFromItinId(jumpToItinId)
+            if (data is ItinCardDataHotel && isItinCardDetailFeatureOn ) {
+                jumpToItinId = null
+                startActivity(HotelItinDetailsActivity.createIntent(this, data.getId()))
+            } else {
+                itinListFragment?.showItinCard(jumpToItinId, false)
+                jumpToItinId = null
+            }
         }
+    }
+
+    @Synchronized private fun gotoActivitiesCrossSell() {
+        var data = ItineraryManager.getInstance().getItinCardDataFromItinId(jumpToActivityCross) as ItinCardDataHotel
+        jumpToActivityCross = null
+        LXNavUtils.goToActivities(this, null, LXDataUtils.fromHotelParams(this, data.startDate.toLocalDate(), data.endDate.toLocalDate(), data.propertyLocation),
+                NavUtils.FLAG_OPEN_RESULTS)
     }
 
     @Synchronized private fun gotoAccount() {

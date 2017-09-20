@@ -30,7 +30,9 @@ class NewPhoneLaunchActivityTest {
                 Notification.NotificationType.HOTEL_CHECK_IN,
                 Notification.NotificationType.HOTEL_CHECK_OUT,
                 Notification.NotificationType.FLIGHT_DEPARTURE_REMINDER,
-                Notification.NotificationType.DESKTOP_BOOKING
+                Notification.NotificationType.DESKTOP_BOOKING,
+                Notification.NotificationType.HOTEL_PRE_TRIP,
+                Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll
         )
 
         for(notificationType in listOfNotificationTypes) {

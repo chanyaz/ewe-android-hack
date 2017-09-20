@@ -613,6 +613,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notifications.add(generateCheckoutNotification());
 		if (getItinCardData().getGuestCount() > 2 || isDurationLongerThenInput(3)) {
 			notifications.add(generateGetReadyNotification());
+			notifications.add(generateActivityCrossSellNotification());
 		}
 		return notifications;
 	}
@@ -742,6 +743,42 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		return notification;
 	}
+
+	public Notification generateActivityCrossSellNotification() {
+		ItinCardDataHotel data = getItinCardData();
+
+		String itinId = data.getId();
+		MutableDateTime trigger = data.getStartDate().minusDays(7).toMutableDateTime();
+		trigger.setZoneRetainFields(DateTimeZone.getDefault());
+		trigger.setRounding(trigger.getChronology().minuteOfHour());
+		trigger.setHourOfDay(11);
+		long triggerTimeMillis = trigger.getMillis();
+
+		trigger.setHourOfDay(23);
+		trigger.setMinuteOfHour(59);
+		long expirationTimeMillis = trigger.getMillis();
+
+		Notification notification = new Notification(itinId + "_activityCross", itinId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.HOTEL_ACTIVITY_CROSSSEll);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
+		notification.setFlags(Notification.FLAG_LOCAL);
+		notification.setIconResId(R.drawable.ic_stat_expedia);
+
+		String title = Phrase.from(getContext(), R.string.hotel_book_activities_cross_sell_notification_title_TEMPLATE)
+			.put("destination", data.getPropertyCity())
+			.format().toString();
+
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = Phrase.from(getContext(), R.string.hotel_book_activities_cross_sell_notification_body_TEMPLATE)
+			.put("destination", data.getPropertyCity())
+			.format().toString();
+		notification.setBody(body);
+
+		return notification;
+	}
+
 
 	@Override
 	public String getSharableImageURL() {
