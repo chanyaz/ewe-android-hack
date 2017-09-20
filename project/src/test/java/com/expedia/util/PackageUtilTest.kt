@@ -91,7 +91,7 @@ class PackageUtilTest {
     fun testPackageLOBTitleStringAustralia() {
         assertPackageTitle(posId = PointOfSaleId.AUSTRALIA,
                 expectedPackagesLobTitleABTestEnabled = false,
-                expectedPackageTitle = "Hotel + Flight")
+                expectedPackageTitle = "Hotel + Flight Deals")
     }
 
     @Test
@@ -99,7 +99,7 @@ class PackageUtilTest {
     fun testPackageLOBTitleStringNewZealand() {
         assertPackageTitle(posId = PointOfSaleId.NEW_ZEALND,
                 expectedPackagesLobTitleABTestEnabled = false,
-                expectedPackageTitle = "Hotel + Flight")
+                expectedPackageTitle = "Hotel + Flight Deals")
     }
 
     @Test

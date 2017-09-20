@@ -43,12 +43,14 @@ object PackageUtil {
             val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId
             if (pointOfSaleId == PointOfSaleId.SINGAPORE ||
                     pointOfSaleId == PointOfSaleId.MALAYSIA ||
-                    pointOfSaleId == PointOfSaleId.AUSTRALIA ||
-                    pointOfSaleId == PointOfSaleId.NEW_ZEALND ||
                     pointOfSaleId == PointOfSaleId.JAPAN) {
                 return R.string.nav_hotel_plus_flight
             }
 
+            if (pointOfSaleId == PointOfSaleId.AUSTRALIA ||
+                    pointOfSaleId == PointOfSaleId.NEW_ZEALND) {
+                return R.string.nav_hotel_plus_flight_deals
+            }
             return R.string.nav_packages
         }
 }
