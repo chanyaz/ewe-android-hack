@@ -81,8 +81,6 @@ class FlightInboundPresenterTest {
         flightInboundPresenter.toolbarViewModel.travelers.onNext(1)
         flightInboundPresenter.toolbarViewModel.date.onNext(LocalDate.now())
         flightInboundPresenter.toolbarViewModel.city.onNext("Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India")
-        flightInboundPresenter.toolbarViewModel.airport.onNext("BLR")
-        flightInboundPresenter.toolbarViewModel.lob.onNext(flightInboundPresenter.getLineOfBusiness())
         assertEquals("Select return flight", flightInboundPresenter.toolbar.title.toString())
     }
 
@@ -164,8 +162,7 @@ class FlightInboundPresenterTest {
         val currentTime = LocalDate.now()
         flightInboundPresenter.toolbarViewModel.date.onNext(currentTime)
         flightInboundPresenter.toolbarViewModel.city.onNext("Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India")
-        flightInboundPresenter.toolbarViewModel.airport.onNext("BLR")
-        flightInboundPresenter.toolbarViewModel.lob.onNext(flightInboundPresenter.getLineOfBusiness())
+
         val travelDate = DateFormatUtils.formatLocalDateToShortDayAndDate(currentTime)
         assertEquals(View.VISIBLE,flightInboundPresenter.toolbar.visibility)
         assertEquals(travelDate+", 1 traveler",flightInboundPresenter.toolbar.subtitle)

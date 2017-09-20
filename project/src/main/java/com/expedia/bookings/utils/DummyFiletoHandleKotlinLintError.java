@@ -380,8 +380,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_flight_overview,
 		R.string.select_return_flight,
 		R.string.flight_to_template,
-		R.string.inbound_to_TEMPLATE,
-		R.string.outbound_to_TEMPLATE,
 		R.menu.package_flights_menu,
 		R.layout.package_confirmation_presenter,
 		R.layout.bundle_total_price_widget,

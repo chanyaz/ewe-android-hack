@@ -138,8 +138,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.toolbarViewModel.city.onNext(HtmlCompat.stripHtml(params.arrivalAirport.regionNames.displayName))
-            presenter.toolbarViewModel.airport.onNext(HtmlCompat.stripHtml(params.arrivalAirport.hierarchyInfo?.airport?.airportCode as String))
-            presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             presenter.toolbarViewModel.date.onNext(params.departureDate)
             searchTrackingBuilder.searchParams(params)
@@ -175,8 +173,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.toolbarViewModel.city.onNext(HtmlCompat.stripHtml(params.departureAirport.regionNames.displayName))
-            presenter.toolbarViewModel.airport.onNext(HtmlCompat.stripHtml(params.departureAirport.hierarchyInfo?.airport?.airportCode as String))
-            presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             if (params.returnDate != null) {
                 presenter.toolbarViewModel.date.onNext(params.returnDate)
