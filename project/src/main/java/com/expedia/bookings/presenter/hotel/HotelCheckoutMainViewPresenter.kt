@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
@@ -16,8 +17,10 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.enums.MerchandiseSpam
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
@@ -112,6 +115,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         }
         vm.animateSlideToPurchaseWithPaymentSplits.subscribe {
             HotelTracking.trackHotelSlideToPurchase(paymentInfoCardView.getCardType(), it)
+            if (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled) {
+                logWebViewTestToCrashlytics("Slide to purchase shown")
+            }
         }
     }
 
@@ -221,7 +227,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus!!))
         }
         HotelTracking.trackPageLoadHotelCheckoutInfo(trip, hotelSearchParams, pageUsableData)
-
+        if (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled) {
+            logWebViewTestToCrashlytics("Loaded native hotels checkout info")
+        }
     }
 
     override fun showProgress(show: Boolean) {
@@ -281,5 +289,13 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
 
     fun markRoomSelected() {
         pageUsableData.markPageLoadStarted(System.currentTimeMillis())
+    }
+
+    private fun logWebViewTestToCrashlytics(message: String) {
+        val webViewTest = Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppHotelsWebCheckout)
+        val isBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout)
+        Crashlytics.logException(Exception("$message, is user bucketed into webview? : $isBucketed " +
+                "Analytics Test: ${AbacusUtils.getAnalyticsString(webViewTest)}, user tuid: ${Db.getUser().tuidString}, " +
+                "Point of Sale: ${PointOfSale.getPointOfSale().threeLetterCountryCode}"))
     }
 }
