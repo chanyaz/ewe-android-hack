@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.itin
+package com.expedia.bookings.itin.widget
 
 import android.app.Activity
 import android.view.LayoutInflater

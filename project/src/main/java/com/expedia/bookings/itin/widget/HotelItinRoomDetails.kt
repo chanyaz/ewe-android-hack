@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.itin
+package com.expedia.bookings.itin.widget
 
 import android.animation.LayoutTransition
 import android.content.Context
@@ -17,7 +17,6 @@ import com.expedia.bookings.fragment.ScrollableContentDialogFragment
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase

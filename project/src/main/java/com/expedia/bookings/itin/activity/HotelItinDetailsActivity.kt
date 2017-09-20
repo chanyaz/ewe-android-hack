@@ -12,12 +12,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.itin.HotelItinBookingDetails
-import com.expedia.bookings.widget.itin.HotelItinCheckInCheckOutDetails
-import com.expedia.bookings.widget.itin.HotelItinImage
-import com.expedia.bookings.widget.itin.HotelItinLocationDetails
-import com.expedia.bookings.widget.itin.HotelItinRoomDetails
-import com.expedia.bookings.widget.itin.HotelItinToolbar
+import com.expedia.bookings.itin.widget.HotelItinBookingDetails
+import com.expedia.bookings.itin.widget.HotelItinCheckInCheckOutDetails
+import com.expedia.bookings.itin.widget.HotelItinImage
+import com.expedia.bookings.itin.widget.HotelItinLocationDetails
+import com.expedia.bookings.itin.widget.HotelItinRoomDetails
+import com.expedia.bookings.itin.widget.ItinToolbar
 
 open class HotelItinDetailsActivity : HotelItinBaseActivity() {
 
@@ -36,8 +36,8 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
     val checkinCheckoutView: HotelItinCheckInCheckOutDetails by lazy {
         findViewById(R.id.widget_hotel_itin_checkin_checkout_details) as HotelItinCheckInCheckOutDetails
     }
-    val toolbar: HotelItinToolbar by lazy {
-        findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
+    val toolbar: ItinToolbar by lazy {
+        findViewById(R.id.widget_hotel_itin_toolbar) as ItinToolbar
     }
     val hotelBookingDetailsView: HotelItinBookingDetails by lazy {
         findViewById(R.id.widget_hotel_itin_booking_details) as HotelItinBookingDetails

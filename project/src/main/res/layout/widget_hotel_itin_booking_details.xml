@@ -12,21 +12,21 @@
         android:layout_marginRight="3dp"
         android:layout_marginLeft="3dp"/>
 
-    <com.expedia.bookings.widget.itin.HotelItinLinkOffCardView
+    <com.expedia.bookings.itin.widget.ItinLinkOffCardView
         android:id="@+id/itin_hotel_manage_booking_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:clickable="true" />
 
-    <com.expedia.bookings.widget.itin.HotelItinLinkOffCardView
+    <com.expedia.bookings.itin.widget.ItinLinkOffCardView
         android:id="@+id/itin_hotel_price_summary_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:clickable="true" />
 
-    <com.expedia.bookings.widget.itin.HotelItinLinkOffCardView
+    <com.expedia.bookings.itin.widget.ItinLinkOffCardView
         android:id="@+id/itin_hotel_additional_info_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

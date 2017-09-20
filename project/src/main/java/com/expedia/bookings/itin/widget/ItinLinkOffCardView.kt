@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.itin
+package com.expedia.bookings.itin.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 
-class HotelItinLinkOffCardView(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
+class ItinLinkOffCardView(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
     private val icon: ImageView by bindView(R.id.link_off_card_icon)
     private val heading: TextView by bindView(R.id.link_off_card_heading)
     private val subheading: TextView by bindView(R.id.link_off_card_subheading)

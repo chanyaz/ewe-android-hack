@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.itin
+package com.expedia.bookings.itin.widget
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -19,6 +19,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ItinActionsSection
 import com.expedia.bookings.widget.LocationMapImageView
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.itin.SummaryButton
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
 
@@ -47,7 +48,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         addressLine1.text = itinCardDataHotel.propertyLocation.streetAddressString
         addressLine2.text = itinCardDataHotel.propertyLocation.toTwoLineAddressFormattedString()
         val phoneNumber: String = itinCardDataHotel.localPhone
-        val callButton: SummaryButton = SummaryButton(R.drawable.itin_call_hotel, phoneNumber, Phrase.from(context, R.string.itin_hotel_details_call_button_content_description_TEMPLATE).put("phonenumber", phoneNumber).format().toString(), View.OnClickListener {
+        val callButton = SummaryButton(R.drawable.itin_call_hotel, phoneNumber, Phrase.from(context, R.string.itin_hotel_details_call_button_content_description_TEMPLATE).put("phonenumber", phoneNumber).format().toString(), OnClickListener {
             if (phoneNumber.isNotEmpty()) {
                 val pm = context.packageManager
                 if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
@@ -59,7 +60,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
             }
         })
 
-        val directionsButton: SummaryButton = SummaryButton(R.drawable.itin_directions_hotel, context.getString(R.string.itin_action_directions), View.OnClickListener {
+        val directionsButton = SummaryButton(R.drawable.itin_directions_hotel, context.getString(R.string.itin_action_directions), OnClickListener {
             val intent = GoogleMapsUtil.getDirectionsIntent(itinCardDataHotel.property.location.toLongFormattedString())
             if (intent != null) {
                 NavUtils.startActivitySafe(context, intent)

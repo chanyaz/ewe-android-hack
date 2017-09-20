@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.itin
+package com.expedia.bookings.itin.widget
 
 import android.app.Activity
 import android.content.Context
@@ -16,9 +16,9 @@ import com.expedia.bookings.utils.bindView
 
 class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
-    val manageBookingCard: HotelItinLinkOffCardView by bindView(R.id.itin_hotel_manage_booking_card_view)
-    val priceSummaryCard: HotelItinLinkOffCardView by bindView(R.id.itin_hotel_price_summary_card_view)
-    val additionalInfoCard: HotelItinLinkOffCardView by bindView(R.id.itin_hotel_additional_info_card_view)
+    val manageBookingCard: ItinLinkOffCardView by bindView(R.id.itin_hotel_manage_booking_card_view)
+    val priceSummaryCard: ItinLinkOffCardView by bindView(R.id.itin_hotel_price_summary_card_view)
+    val additionalInfoCard: ItinLinkOffCardView by bindView(R.id.itin_hotel_additional_info_card_view)
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_booking_details, this)

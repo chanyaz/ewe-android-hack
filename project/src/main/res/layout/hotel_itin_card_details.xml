@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.expedia.bookings.widget.itin.HotelItinToolbar
+        <com.expedia.bookings.itin.widget.ItinToolbar
             android:id="@+id/widget_hotel_itin_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,20 +35,20 @@
             android:paddingTop="20dp">
 
             <!--Hotel thumbnail-->
-            <com.expedia.bookings.widget.itin.HotelItinImage
+            <com.expedia.bookings.itin.widget.HotelItinImage
                 android:id="@+id/hotel_itin_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <!--Check in/out info-->
-            <com.expedia.bookings.widget.itin.HotelItinCheckInCheckOutDetails
+            <com.expedia.bookings.itin.widget.HotelItinCheckInCheckOutDetails
                 android:id="@+id/widget_hotel_itin_checkin_checkout_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"/>
 
             <!--Map and directions-->
-            <com.expedia.bookings.widget.itin.HotelItinLocationDetails
+            <com.expedia.bookings.itin.widget.HotelItinLocationDetails
                 android:id="@+id/widget_hotel_itin_location_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,14 +67,14 @@
                 android:textSize="18sp"
                 app:textStyle="medium" />
 
-            <com.expedia.bookings.widget.itin.HotelItinRoomDetails
+            <com.expedia.bookings.itin.widget.HotelItinRoomDetails
                 android:id="@+id/widget_hotel_itin_room_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp" />
 
             <!--Booking details-->
-            <com.expedia.bookings.widget.itin.HotelItinBookingDetails
+            <com.expedia.bookings.itin.widget.HotelItinBookingDetails
                 android:id="@+id/widget_hotel_itin_booking_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,10 +1,9 @@
-package com.expedia.bookings.widget.itin
+package com.expedia.bookings.itin.widget
 
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.joda.time.format.DateTimeFormat
@@ -18,14 +17,14 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class HotelItinToolbarTest {
 
-    lateinit var hotelItinToolbar: HotelItinToolbar
+    lateinit var hotelItinToolbar: ItinToolbar
     lateinit private var activity: HotelItinManageBookingActivity
 
     @Before
     fun before() {
         activity = Robolectric.buildActivity(HotelItinManageBookingActivity::class.java).create().get()
         activity.setTheme(R.style.ItinTheme)
-        hotelItinToolbar = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_toolbar, null) as HotelItinToolbar
+        hotelItinToolbar = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_toolbar, null) as ItinToolbar
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.itin
+package com.expedia.bookings.itin.widget
 
 import android.app.PendingIntent
 import android.content.Context
@@ -18,12 +18,13 @@ import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.itin.ItinContentGenerator
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import java.util.Locale
 
 
-class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr) {
+class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr) {
 
     val toolbarTitleTextView: TextView by lazy {
         findViewById<TextView>(R.id.itin_toolbar_title)

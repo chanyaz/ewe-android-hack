@@ -1,13 +1,16 @@
-package com.expedia.bookings.widget.itin
+package com.expedia.bookings.itin
 
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.itin.widget.HotelItinBookingDetails
+import com.expedia.bookings.itin.widget.HotelItinCheckInCheckOutDetails
+import com.expedia.bookings.itin.widget.HotelItinImage
+import com.expedia.bookings.itin.widget.HotelItinRoomDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
