@@ -26,4 +26,16 @@ public class HotelCreateTripParams {
 
 		return params;
 	}
+
+	public String getProductKey() {
+		return productKey;
+	}
+	
+	public boolean getQualityAirAttach() {
+		return qualifyAirAttach;
+	}
+
+	public RoomInfoFields getRoomInfoFields() {
+		return roomInfoFields;
+	}
 }

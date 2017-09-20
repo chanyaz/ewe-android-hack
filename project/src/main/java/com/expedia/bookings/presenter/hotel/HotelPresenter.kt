@@ -53,6 +53,9 @@ import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.ProWizardBucketCache
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
@@ -70,8 +73,8 @@ import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelPresenterViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
-import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.vm.HotelWebCheckoutViewViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import rx.Observable
@@ -146,26 +149,27 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val webCheckoutViewStub: ViewStub by bindView(R.id.web_checkout_view_stub)
     val webCheckoutView: WebCheckoutView by lazy {
         val webCheckoutView = webCheckoutViewStub.inflate() as WebCheckoutView
-        val webCheckoutViewViewModel = WebCheckoutViewViewModel(context)
-        webCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, paymentModel)
-        setUpCreateTripErrorHandling(webCheckoutViewViewModel.createTripViewModel)
-        webCheckoutView.viewModel = webCheckoutViewViewModel
+        val hotelWebCheckoutViewViewModel = HotelWebCheckoutViewViewModel(context)
+        hotelWebCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, paymentModel)
+        setUpCreateTripErrorHandling(hotelWebCheckoutViewViewModel.createTripViewModel)
+        webCheckoutView.viewModel = hotelWebCheckoutViewViewModel
 
-        webCheckoutViewViewModel.closeView.subscribe {
+        hotelWebCheckoutViewViewModel.closeView.subscribe {
             webCheckoutView.clearHistory()
-            webCheckoutViewViewModel.webViewURLObservable.onNext("about:blank")
+            hotelWebCheckoutViewViewModel.webViewURLObservable.onNext("about:blank")
         }
 
-        webCheckoutViewViewModel.backObservable.subscribe {
+        hotelWebCheckoutViewViewModel.backObservable.subscribe {
             back()
         }
 
-        webCheckoutViewViewModel.blankViewObservable.subscribe {
+        hotelWebCheckoutViewViewModel.blankViewObservable.subscribe {
             super.back()
         }
-        webCheckoutViewViewModel.fetchItinObservable.subscribe { bookedTripID ->
+        hotelWebCheckoutViewViewModel.fetchItinObservable.subscribe { bookedTripID ->
             itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
         }
+
 
         webCheckoutView
     }
@@ -234,7 +238,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelDetailView.viewmodel.changeDates.subscribe(goToSearchScreen)
 
         if (shouldUseWebCheckout()) {
-            viewModel = HotelPresenterViewModel((webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel, null, presenter.hotelDetailView.viewmodel)
+            viewModel = HotelPresenterViewModel((webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).createTripViewModel, null, presenter.hotelDetailView.viewmodel)
         } else {
             viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, presenter.hotelDetailView.viewmodel)
         }
@@ -320,8 +324,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         createTripViewModel.noResponseObservable.subscribe {
             val retryFun = fun() {
                 if (shouldUseWebCheckout()) {
-                    (webCheckoutView.viewModel as WebCheckoutViewViewModel).fireCreateTripObservable.onNext(Unit)
-                } else {
+                    (webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).fireCreateTripObservable.onNext(Unit)
+                } else{
                     checkoutPresenter.hotelCheckoutWidget.doCreateTrip()
                 }
             }
@@ -386,7 +390,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         hotelDetailViewModel.roomSelectedSubject.subscribe { offer ->
             checkoutPresenter.hotelCheckoutWidget.markRoomSelected()
             if (shouldUseWebCheckout()) {
-                val webCheckoutViewModel = webCheckoutView.viewModel as WebCheckoutViewViewModel
+                val webCheckoutViewModel = webCheckoutView.viewModel as HotelWebCheckoutViewViewModel
                 webCheckoutViewModel.hotelSearchParamsObservable.onNext(hotelSearchParams)
                 webCheckoutViewModel.offerObservable.onNext(offer)
                 show(webCheckoutView)

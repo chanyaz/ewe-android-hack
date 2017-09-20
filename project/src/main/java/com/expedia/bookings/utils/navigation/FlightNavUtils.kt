@@ -8,6 +8,7 @@ import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.FlightsV2DataUtil
+import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.ui.FlightActivity
 
 class FlightNavUtils : NavUtils() {
@@ -35,7 +36,7 @@ class FlightNavUtils : NavUtils() {
 
         @JvmStatic private fun goToFlights(context: Context, animOptions: Bundle?, expediaFlags: Int,
                                            flightSearchParams: FlightSearchParams?) {
-            if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
+            if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS) && !isShowFlightsCheckoutWebview(context)) {
                 goToLaunchScreen(context, false, LineOfBusiness.FLIGHTS)
             } else {
                 sendKillActivityBroadcast(context)

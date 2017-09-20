@@ -15,4 +15,8 @@ public class RoomInfoFields {
 		}
 		room = sb.toString();
 	}
+
+	public String getRoom() {
+		return room;
+	}
 }
