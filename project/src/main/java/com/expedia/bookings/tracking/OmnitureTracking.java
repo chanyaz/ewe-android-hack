@@ -594,7 +594,6 @@ public class OmnitureTracking {
 
 	public static void trackHotelNarrowSearchPrompt() {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_FILTER_PROMPT_TRIGGER);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSortCallToAction);
 		s.trackLink(null, "o", "Filter Prompt Triggered", null, null);
 	}
 

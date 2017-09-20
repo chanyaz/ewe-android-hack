@@ -189,15 +189,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         viewModel.hotelResultsObservable.subscribe {
             narrowResultsPromptView.visibility = View.GONE
             narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
-                if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSortCallToAction)) {
-                    val animationRunner = AnimationRunner(narrowResultsPromptView, context)
-                    narrowResultsPromptView.visibility = View.VISIBLE
-                    animationRunner.animIn(R.anim.filter_prompt_in)
-                            .animOut(R.anim.filter_prompt_out)
-                            .afterAction({ narrowResultsPromptView.visibility = View.GONE })
-                            .duration(500L).outDelay(3000L)
-                            .run()
-                }
+                val animationRunner = AnimationRunner(narrowResultsPromptView, context)
+                narrowResultsPromptView.visibility = View.VISIBLE
+                animationRunner.animIn(R.anim.filter_prompt_in)
+                        .animOut(R.anim.filter_prompt_out)
+                        .afterAction({ narrowResultsPromptView.visibility = View.GONE })
+                        .duration(500L).outDelay(3000L)
+                        .run()
                 HotelTracking.trackHotelNarrowPrompt()
                 narrowFilterPromptSubscription?.unsubscribe()
             }

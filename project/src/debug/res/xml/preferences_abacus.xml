@@ -47,14 +47,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14923"
-            android:summary="%s"
-            android:title="Hotel Sort call to action - 14923" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="14483"
             android:summary="%s"
             android:title="Hotel Auto Suggest Same as Web - 14483" />
