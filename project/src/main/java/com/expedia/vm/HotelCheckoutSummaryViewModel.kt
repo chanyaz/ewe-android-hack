@@ -3,7 +3,6 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -12,18 +11,19 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
-import org.joda.time.LocalDate
 
 
 class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
@@ -89,7 +89,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             priceAdjustments.onNext(rate.getPriceAdjustments())
             hotelName.onNext(it.newHotelProductResponse.getHotelName())
             checkInDate.onNext(it.newHotelProductResponse.checkInDate)
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
                 checkinDateFormattedByEEEMMDD.onNext(DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(LocalDate.parse(it.newHotelProductResponse.checkInDate)))
                 checkoutDateFormattedByEEEMMDD.onNext(DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(LocalDate.parse(it.newHotelProductResponse.checkOutDate)))
             } else {

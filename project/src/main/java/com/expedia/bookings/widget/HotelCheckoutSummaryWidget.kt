@@ -86,7 +86,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         viewModel.address.subscribeText(address)
         viewModel.city.subscribeText(cityState)
 
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
             date.visibility = View.GONE
             checkinCheckoutDateContainer.visibility = View.VISIBLE
             hotelBookingSummaryContainer.setPadding(hotelBookingSummaryContainer.paddingLeft, hotelBookingSummaryContainer.paddingTop, hotelBookingSummaryContainer.paddingRight, 6)
@@ -101,7 +101,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         viewModel.valueAddsListObservable.safeSubscribe(valueAddsContainer.valueAddsSubject)
         viewModel.roomDescriptions.subscribeText(selectedRoom)
         viewModel.bedDescriptions.subscribeText(selectedBed)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
             viewModel.checkinDateFormattedByEEEMMDD.subscribeText(checkinDate)
             viewModel.checkoutDateFormattedByEEEMMDD.subscribeText(checkoutDate)
         } else {
