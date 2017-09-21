@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.BaseSearchPresenter
+import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
 import com.expedia.util.endlessObserver
@@ -27,16 +28,18 @@ import org.joda.time.LocalDate
 open class CalendarDialogFragment() : DialogFragment() {
 
     var baseSearchViewModel: BaseSearchViewModel? = null
+    var rules: CalendarRules? = null
 
-    constructor(vm: BaseSearchViewModel) : this() {
+    constructor(vm: BaseSearchViewModel, rules: CalendarRules) : this() {
         baseSearchViewModel = vm
+        this.rules = rules
     }
     var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null
     var userTappedDone = false
 
     companion object {
-        fun createFragment(searchViewModel: BaseSearchViewModel): CalendarDialogFragment {
-            val fragment = CalendarDialogFragment(searchViewModel)
+        fun createFragment(searchViewModel: BaseSearchViewModel, rules: CalendarRules): CalendarDialogFragment {
+            val fragment = CalendarDialogFragment(searchViewModel, rules)
             // Because we are passing baseSearchViewModel as an argument in the constructor, on ChangeOfConfig (or any activity resuling in
             // recreation of FlightActivity) fragment requires value of the baseSearchVieModel, hence retaining old instance.
             fragment.retainInstance = true
@@ -52,10 +55,10 @@ open class CalendarDialogFragment() : DialogFragment() {
     val calendar: CalendarPicker by lazy {
         val calendarPickerView = calendarDialogView.findViewById<CalendarPicker>(R.id.calendar)
         val vm = baseSearchViewModel
-        if (vm != null) {
-            val maxDate = LocalDate.now().plusDays(vm.getMaxDateRange())
-            calendarPickerView.setSelectableDateRange(vm.getFirstAvailableDate(), maxDate)
-            calendarPickerView.setMaxSelectableDateRange(vm.getMaxSearchDurationDays())
+        if (vm != null && rules != null) {
+            val maxDate = LocalDate.now().plusDays(rules!!.getMaxDateRange())
+            calendarPickerView.setSelectableDateRange(rules!!.getFirstAvailableDate(), maxDate)
+            calendarPickerView.setMaxSelectableDateRange(rules!!.getMaxSearchDurationDays())
 
             val monthView = calendarPickerView.findViewById<MonthView>(R.id.month)
             val dayOfWeek = calendarPickerView.findViewById<DaysOfWeekView>(R.id.days_of_week)
@@ -65,7 +68,7 @@ open class CalendarDialogFragment() : DialogFragment() {
 
             calendarPickerView.setDateChangedListener { start, end ->
                 if (calendar.visibility == CardView.VISIBLE) {
-                    if (start != null && JodaUtils.isEqual(start, end) && !vm.sameStartAndEndDateAllowed()) {
+                    if (start != null && JodaUtils.isEqual(start, end) && !rules!!.sameStartAndEndDateAllowed()) {
                         if (!JodaUtils.isEqual(end, maxDate)) {
                             calendarPickerView.setSelectedDates(start, end.plusDays(1))
                         } else {
@@ -151,7 +154,7 @@ open class CalendarDialogFragment() : DialogFragment() {
             calendar.visibility = CardView.INVISIBLE
             calendar.hideToolTip()
             if (calendar.startDate != null && calendar.endDate == null) {
-                val endDate = if (!(baseSearchViewModel?.isStartDateOnlyAllowed() ?: false)) calendar.startDate.plusDays(1) else null
+                val endDate = if (!(rules?.isStartDateOnlyAllowed() ?: false)) calendar.startDate.plusDays(1) else null
                 calendar.setSelectedDates(calendar.startDate, endDate)
             }
             userTappedDone = true
@@ -184,6 +187,6 @@ open class CalendarDialogFragment() : DialogFragment() {
     }
 
     private fun setMaxSelectableDateRange() {
-        calendar.setMaxSelectableDateRange(baseSearchViewModel?.getMaxSearchDurationDays() ?: 0)
+        calendar.setMaxSelectableDateRange(rules?.getMaxSearchDurationDays() ?: 0)
     }
 }

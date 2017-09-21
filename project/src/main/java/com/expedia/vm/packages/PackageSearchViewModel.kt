@@ -5,12 +5,14 @@ import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
+import com.expedia.util.PackageCalendarRules
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
@@ -24,6 +26,8 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
+    private val rules = PackageCalendarRules(context)
+
     // Inputs
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
         getParamsBuilder().infantSeatingInLap(isInfantInLap)
@@ -31,7 +35,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
 
-    val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
+    val packageParamsBuilder = PackageSearchParams.Builder(rules.getMaxSearchDurationDays(), rules.getMaxDateRange())
     val previousSearchParamsObservable = PublishSubject.create<PackageSearchParams>()
 
     val performSearchObserver = endlessObserver<PackageSearchParams> { params ->
@@ -62,9 +66,9 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             if (getParamsBuilder().isOriginSameAsDestination()) {
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
             } else if (!getParamsBuilder().hasValidDateDuration()) {
-                errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+                errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, rules.getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {
-                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
+                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, rules.getMaxSearchDurationDays()))
             } else {
                 performSearchObserver.onNext(getParamsBuilder().build())
             }
@@ -77,14 +81,6 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
     }
 
-    override fun getMaxSearchDurationDays(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_package_stay)
-    }
-
-    override fun getMaxDateRange(): Int {
-        return context.resources.getInteger(R.integer.max_calendar_selectable_date_range)
-    }
-
     override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().destination(suggestion)
         formattedDestinationObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
@@ -95,8 +91,8 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return packageParamsBuilder
     }
 
-    override fun isStartDateOnlyAllowed(): Boolean {
-        return false
+    override fun getCalendarRules(): CalendarRules {
+        return rules
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
@@ -167,9 +163,5 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
         }
         return context.getString(R.string.calendar_drag_to_modify)
-    }
-
-    override fun sameStartAndEndDateAllowed(): Boolean {
-        return false
     }
 }

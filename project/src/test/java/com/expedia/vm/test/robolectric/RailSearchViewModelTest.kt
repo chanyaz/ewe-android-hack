@@ -168,16 +168,6 @@ class RailSearchViewModelTest {
     }
 
     @Test
-    fun testStartDate() {
-        assertEquals(LocalDate.now().plusDays(1), searchVM.getFirstAvailableDate(), "Start Date is Tomorrow")
-    }
-
-    @Test
-    fun testSameStartAndEndDateAllowed() {
-        assertEquals(false, searchVM.sameStartAndEndDateAllowed(), "Same Start And EndDate Are Not Allowed")
-    }
-
-    @Test
     fun testCalendarToolTipOneWay() {
         val testSub = TestSubscriber.create<Pair<String, String>>()
         searchVM.calendarTooltipTextObservable.subscribe(testSub)

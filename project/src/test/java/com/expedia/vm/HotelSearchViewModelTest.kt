@@ -70,8 +70,8 @@ class HotelSearchViewModelTest {
     @Test
     fun testSearchInvalidDuration() {
         val expectedErrorText = context.getString(R.string.hotel_search_range_error_TEMPLATE,
-                testViewModel.getMaxSearchDurationDays())
-        val invalidEndDate = today.plusDays(testViewModel.getMaxSearchDurationDays() + 1)
+                testViewModel.getCalendarRules().getMaxSearchDurationDays())
+        val invalidEndDate = today.plusDays(testViewModel.getCalendarRules().getMaxSearchDurationDays() + 1)
 
         triggerParams(suggestion = suggestionBuilder.build(),
                 startDate = today, endDate = invalidEndDate)
@@ -85,7 +85,7 @@ class HotelSearchViewModelTest {
 
     @Test
     fun testSearchDatesOutOfRange() {
-        val invalidStartDate = today.plusDays(testViewModel.getMaxDateRange() + 1)
+        val invalidStartDate = today.plusDays(testViewModel.getCalendarRules().getMaxDateRange() + 1)
         val invalidEndDate = invalidStartDate.plusDays(1)
 
         triggerParams(suggestion = suggestionBuilder.build(),

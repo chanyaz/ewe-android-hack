@@ -6,6 +6,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.shared.CalendarRules
+import com.expedia.bookings.shared.util.CalendarDateFormatter
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.DateFormatUtils
@@ -47,11 +49,8 @@ abstract class BaseSearchViewModel(val context: Context) {
         updateTraveler()
     }
 
+    abstract fun getCalendarRules(): CalendarRules
     abstract fun getParamsBuilder(): BaseSearchParams.Builder
-    abstract fun getMaxSearchDurationDays(): Int
-    abstract fun getMaxDateRange(): Int
-    abstract fun sameStartAndEndDateAllowed(): Boolean
-    abstract fun isStartDateOnlyAllowed(): Boolean
     abstract fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence
 
     protected abstract fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String
@@ -78,10 +77,6 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     fun endDate(): LocalDate? {
         return selectedDates.second
-    }
-
-    open fun getFirstAvailableDate(): LocalDate {
-        return LocalDate.now()
     }
 
     open fun isTalkbackActive(): Boolean {
@@ -167,24 +162,15 @@ abstract class BaseSearchViewModel(val context: Context) {
     }
 
     protected fun getDateAccessibilityText(datesLabel: String, durationDescription: String): String {
-        return Phrase.from(context, R.string.search_dates_cont_desc_TEMPLATE)
-                .put("dates_label", datesLabel)
-                .put("duration_description", durationDescription).format().toString()
+        return CalendarDateFormatter.getDateAccessibilityText(context, datesLabel, durationDescription)
     }
 
     protected fun getStartDashEndDateString(start: LocalDate, end: LocalDate): String {
-        return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
-                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start))
-                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(end))
-                .format().toString()
+        return CalendarDateFormatter.formatStartDashEnd(context, start, end)
     }
 
     protected fun getStartToEndDateString(start: LocalDate, end: LocalDate): String {
-        // need to explicitly use "to" for screen readers
-        return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
-                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start))
-                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(end))
-                .format().toString()
+        return CalendarDateFormatter.formatStartToEnd(context, start, end)
     }
 
     protected fun getStartDashEndDateWithDayString(start: LocalDate, end: LocalDate): String {

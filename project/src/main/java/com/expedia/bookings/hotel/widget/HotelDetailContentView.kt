@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Handler
 import android.support.annotation.VisibleForTesting
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -29,6 +30,8 @@ import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AlphaCalculator
+import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
+import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -36,6 +39,8 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CollectionUtils
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.DESCRIPTION_ANIMATION
@@ -168,6 +173,12 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                 }
             }
         })
+
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_dateless_infosite)) {
+            searchInfo.setOnClickListener {
+                showDialog()
+            }
+        }
 
         payNowPayLaterTabs.payNowClickedSubject.subscribe { payNowClicked() }
         payNowPayLaterTabs.payLaterClickedSubject.subscribe { payLaterClicked() }
@@ -408,6 +419,14 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                 }
             }
         }, 400L)
+    }
+
+    private fun showDialog() {
+        val dialogFragment = ChangeDatesDialogFragment.createFragment(HotelCalendarRules(context))
+        val fragmentManager = (context as FragmentActivity).supportFragmentManager
+
+        dialogFragment.presetDates(viewModel.checkInDate, viewModel.checkOutDate)
+        dialogFragment?.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
     }
 
     private fun areRoomsOffScreenAboveETPToolbar(toolbarOffset: Float): Boolean {

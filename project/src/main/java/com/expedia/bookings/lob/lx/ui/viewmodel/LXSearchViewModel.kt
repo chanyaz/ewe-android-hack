@@ -4,14 +4,19 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.lx.LxSearchParams
+import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.LxCalendarRules
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 
 class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
+    override fun getCalendarRules(): CalendarRules {
+        return LxCalendarRules(context)
+    }
 
     val lxParamsBuilder = LxSearchParams.Builder()
     val searchParamsObservable = PublishSubject.create<LxSearchParams>()
@@ -44,18 +49,6 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return lxParamsBuilder
     }
 
-    override fun isStartDateOnlyAllowed(): Boolean {
-        return true // check-in and out dates required
-    }
-
-    override fun getMaxSearchDurationDays(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_selection_date_range_lx)
-    }
-
-    override fun getMaxDateRange(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_lx_search)
-    }
-
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         var (start, end) = dates
 
@@ -75,10 +68,6 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             return context.getString(R.string.select_lx_search_dates)
         }
         return LocaleBasedDateFormatUtils.localDateToMMMd(start!!)
-    }
-
-    override fun sameStartAndEndDateAllowed(): Boolean {
-        return false
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {

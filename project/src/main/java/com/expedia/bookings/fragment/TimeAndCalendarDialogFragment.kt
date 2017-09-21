@@ -16,6 +16,7 @@ import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
@@ -24,7 +25,8 @@ import rx.Subscription
 import kotlin.properties.Delegates
 import org.joda.time.DateTime
 
-class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSliderCalendar) : CalendarDialogFragment(viewModel) {
+class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSliderCalendar,
+                                    rules: CalendarRules) : CalendarDialogFragment(viewModel, rules) {
 
     var popupLabel by Delegates.notNull<android.widget.TextView>()
     var pickupTimePopup by Delegates.notNull<android.widget.TextView>()
@@ -40,8 +42,8 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
     var returnSliderColorSubscription by Delegates.notNull<Subscription>()
 
     companion object {
-        fun createFragment(searchViewModel: SearchViewModelWithTimeSliderCalendar): TimeAndCalendarDialogFragment {
-            val fragment = TimeAndCalendarDialogFragment(searchViewModel)
+        fun createFragment(searchViewModel: SearchViewModelWithTimeSliderCalendar, rules: CalendarRules): TimeAndCalendarDialogFragment {
+            val fragment = TimeAndCalendarDialogFragment(searchViewModel, rules)
             return fragment
         }
     }

@@ -106,7 +106,6 @@ class HotelSearchTest {
         assertEquals(testSubscriber.onNextEvents[0].checkOut, expected[0].checkOut)
         assertEquals(testSubscriber.onNextEvents[1].checkOut, expected[1].checkOut)
         errorSubscriber.assertValue(activity.resources.getString(R.string.error_date_too_far))
-        assertEquals(LocalDate.now(), vm.getFirstAvailableDate(), "Start Date is Today")
     }
 
     @Test

@@ -216,7 +216,7 @@ class FlightSearchViewModelTest {
         sut.errorMaxDurationObservable.subscribe(testSubscriber)
 
         val startDate = LocalDate()
-        val endDate = startDate.plusDays(sut.getMaxSearchDurationDays() + 1)
+        val endDate = startDate.plusDays(sut.getCalendarRules().getMaxSearchDurationDays() + 1)
 
         givenParamsHaveOrigin()
         givenParamsHaveDestination()
@@ -269,24 +269,6 @@ class FlightSearchViewModelTest {
         testSubscriber.requestMore(LOTS_MORE)
         testSubscriber.assertValueCount(1)
         assertNotNull(testSubscriber.onNextEvents[0])
-    }
-
-    @Test
-    fun testSameStartAndEndDateAllowed() {
-        givenMockServer()
-        givenDefaultTravelerComponent()
-        createSystemUnderTest()
-
-        assertTrue(sut.sameStartAndEndDateAllowed(), "Same day return flights are allowed")
-    }
-
-    @Test
-    fun testStartDate() {
-        givenMockServer()
-        givenDefaultTravelerComponent()
-        createSystemUnderTest()
-
-        assertEquals(LocalDate.now() ,sut.getFirstAvailableDate(), "Start Date is Today")
     }
 
     @Test

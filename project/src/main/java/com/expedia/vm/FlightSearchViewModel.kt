@@ -9,6 +9,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Constants
@@ -19,6 +20,7 @@ import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
+import com.expedia.util.FlightCalendarRules
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.vm.flights.AdvanceSearchFilter
@@ -30,6 +32,9 @@ import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
+    override fun getCalendarRules(): CalendarRules {
+        return if (isRoundTripSearchObservable.value) roundTripRules else oneWayRules
+    }
 
     lateinit var travelerValidator: TravelerValidator
         @Inject set
@@ -48,7 +53,11 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
     val searchTravelerParamsObservable = PublishSubject.create<com.expedia.bookings.data.FlightSearchParams>()
 
-    val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
+    private val oneWayRules = FlightCalendarRules(context, false)
+    private val roundTripRules = FlightCalendarRules(context, true)
+
+    val flightParamsBuilder = FlightSearchParams.Builder(getCalendarRules().getMaxSearchDurationDays(),
+            getCalendarRules().getMaxDateRange())
 
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
         getParamsBuilder().infantSeatingInLap(isInfantInLap)
@@ -88,7 +97,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
             getParamsBuilder().roundTrip(isRoundTripSearch)
-            getParamsBuilder().maxStay = getMaxSearchDurationDays()
+            getParamsBuilder().maxStay = getCalendarRules().getMaxSearchDurationDays()
             if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
                 getParamsBuilder().legNo(if (isRoundTripSearch) 0 else null)
             }
@@ -137,7 +146,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     val performSearchObserver = endlessObserver<Unit> {
-        getParamsBuilder().maxStay = getMaxSearchDurationDays()
+        getParamsBuilder().maxStay = getCalendarRules().getMaxSearchDurationDays()
         if (getParamsBuilder().areRequiredParamsFilled() && !getParamsBuilder().isOriginSameAsDestination()) {
             val flightSearchParams = getParamsBuilder().build()
             travelerValidator.updateForNewSearch(flightSearchParams)
@@ -166,7 +175,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         } else if (getParamsBuilder().isOriginSameAsDestination()) {
             errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
         } else if (!getParamsBuilder().hasValidDateDuration()) {
-            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE,
+                    getCalendarRules().getMaxSearchDurationDays()))
         }
     }
 
@@ -184,7 +194,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         } else if (getParamsBuilder().isOriginSameAsDestination()) {
             errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
         } else if (!getParamsBuilder().hasValidDateDuration()) {
-            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE,
+                    getCalendarRules().getMaxSearchDurationDays()))
         }
     }
 
@@ -238,7 +249,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         calendarTooltipTextObservable.onNext(getToolTipText(start, end))
         calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end, isRoundTripSearchObservable.value))
 
-        if (!isStartDateOnlyAllowed()) {
+        if (!getCalendarRules().isStartDateOnlyAllowed()) {
             if (start != null && end == null) {
                 end = start.plusDays(1)
             }
@@ -252,25 +263,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         super.onDatesChanged(Pair(start, end))
     }
 
-    override fun sameStartAndEndDateAllowed(): Boolean {
-        return true
-    }
-
     override fun getParamsBuilder(): FlightSearchParams.Builder {
         return flightParamsBuilder
-    }
-
-    override fun isStartDateOnlyAllowed(): Boolean {
-        return true
-    }
-
-    override fun getMaxSearchDurationDays(): Int {
-        // 0 for one-way searches
-        return if (isRoundTripSearchObservable.value) context.resources.getInteger(R.integer.calendar_max_days_flight_search) else 0
-    }
-
-    override fun getMaxDateRange(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_flight_search)
     }
 
     override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {

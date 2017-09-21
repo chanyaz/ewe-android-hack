@@ -46,7 +46,7 @@ class CalendarWidgetWithTimeSlider(context: Context, attrs: AttributeSet?) : Car
     var calendarDialog: CalendarDialogFragment? = null
 
     fun showCalendarDialog() {
-        calendarDialog = TimeAndCalendarDialogFragment.createFragment(viewModel)
+        calendarDialog = TimeAndCalendarDialogFragment.createFragment(viewModel, viewModel.getCalendarRules())
 
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
         calendarDialog?.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
