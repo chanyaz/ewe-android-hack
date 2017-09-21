@@ -8,20 +8,22 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.section.AssistanceTypeSpinnerAdapter
 import com.expedia.bookings.section.SeatPreferenceSpinnerAdapter
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper.setPOS
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerAdvancedOptionsWidget
 import com.expedia.vm.traveler.TravelerAdvancedOptionsViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
@@ -140,13 +142,61 @@ class FlightTravelerAdvancedOptionsWidgetTest {
         assertEquals("No Special Assistance Required", assistanceSpinner.selectedItem)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testKnownTravelerNumberIconContentDescription() {
+        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
+        assertEquals("What is a known traveler number?", widget.travelerNumberIcon.contentDescription)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testKnownTravelerNumberIconContentDescriptionForMaterialForms() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
+        assertEquals("What is a known traveler number?", widget.travelerNumberIcon.contentDescription)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRedressNumberIconContentDescription() {
+        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
+        assertEquals("What is a redress number?", widget.redressNumberIcon.contentDescription)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRedressNumberIconContentDescriptionForMaterialForms() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
+        assertEquals("What is a redress number?", widget.redressNumberIcon.contentDescription)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testKnownTravelerNumberDialog() {
+        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
+        widget.travelerNumberIcon.performClick()
+        val testAlert = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+        assertEquals("This is the government-issued number used for TSA PreCheck", testAlert.message)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRedressNumberDialog() {
+        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
+        widget.redressNumberIcon.performClick()
+        val testAlert = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+        assertEquals("A redress number is a unique TSA-issued number that helps the TSA eliminate watch list misidentification and verify your identity.", testAlert.message)
+    }
+
     private fun assertWidgetHasCorrectData(editBoxForDialog: EditText, expectedType: Any, viewModelValue: Any, textDisplayed: String) {
         assertEquals(View.VISIBLE, editBoxForDialog.visibility)
         assertEquals(expectedType, viewModelValue)
         assertEquals(textDisplayed, editBoxForDialog.text.toString())
     }
 
-    private fun assertDialogIsCorrect(testAlertDialog: ShadowAlertDialog, expectedTitle: String, numOfItems: Int, expectedPosition: Int, actualPosition:Int) {
+    private fun assertDialogIsCorrect(testAlertDialog: ShadowAlertDialog, expectedTitle: String, numOfItems: Int, expectedPosition: Int, actualPosition: Int) {
         assertNotNull(testAlertDialog)
         assertEquals(expectedTitle, testAlertDialog.title)
         assertEquals(numOfItems, testAlertDialog.items.size)

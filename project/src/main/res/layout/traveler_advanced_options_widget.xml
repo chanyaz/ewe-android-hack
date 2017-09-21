@@ -4,27 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.expedia.bookings.widget.traveler.TravelerEditText
-        android:id="@+id/traveler_number"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableRight="@drawable/ic_checkout_info"
-        android:hint="@string/known_traveler_number"
-        android:maxLength="13"
-        android:maxLines="1"
-        android:textSize="@dimen/traveler_input_text_size"
-        android:visibility="gone" />
+        android:layout_height="wrap_content">
 
-    <com.expedia.bookings.widget.traveler.TravelerEditText
-        android:id="@+id/redress_number"
+        <com.expedia.bookings.widget.traveler.TravelerEditText
+            android:id="@+id/traveler_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/known_traveler_number"
+            android:maxLength="13"
+            android:maxLines="1"
+            android:textSize="@dimen/traveler_input_text_size"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/traveler_number_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp"
+            android:contentDescription="@string/traveler_number_icon_cont_desc"
+            android:src="@drawable/ic_checkout_info"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableRight="@drawable/ic_checkout_info"
-        android:hint="@string/only_if_applicable"
-        android:inputType="number"
-        android:maxLength="7"
-        android:maxLines="1"
-        android:textSize="@dimen/traveler_input_text_size" />
+        android:layout_height="wrap_content">
+
+        <com.expedia.bookings.widget.traveler.TravelerEditText
+            android:id="@+id/redress_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/redress_number"
+            android:inputType="number"
+            android:maxLength="7"
+            android:maxLines="1"
+            android:textSize="@dimen/traveler_input_text_size" />
+
+        <ImageView
+            android:id="@+id/redress_number_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp"
+            android:contentDescription="@string/redress_number_icon_cont_desc"
+            android:src="@drawable/ic_checkout_info" />
+    </RelativeLayout>
 
     <com.expedia.bookings.widget.accessibility.AccessibleSpinner
         android:id="@+id/edit_assistance_preference_spinner"

@@ -2222,7 +2222,7 @@
     <!-- Billing country label -->
     <string name="billing_country">청구지 국가</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">리드레스 번호(해당하는 경우)</string>
+    <string name="redress_number">리드레스 번호(해당하는 경우)</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">알려진 여행객 번호</string>
     <!-- traveler number info msg -->

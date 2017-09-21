@@ -2222,7 +2222,7 @@
     <!-- Billing country label -->
     <string name="billing_country">ประเทศที่เรียกเก็บเงิน</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">หมายเลข Redress (หากมี)</string>
+    <string name="redress_number">หมายเลข Redress (หากมี)</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">หมายเลขผู้เดินทางที่ทราบ</string>
     <!-- traveler number info msg -->

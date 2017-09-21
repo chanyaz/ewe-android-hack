@@ -2222,7 +2222,7 @@
     <!-- Billing country label -->
     <string name="billing_country">Land van betaling</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">Redressnummer (indien toepasbaar)</string>
+    <string name="redress_number">Redressnummer (indien toepasbaar)</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">Known Traveler-nummer</string>
     <!-- traveler number info msg -->

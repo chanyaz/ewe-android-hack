@@ -4,10 +4,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
@@ -25,7 +25,9 @@ import com.expedia.vm.traveler.TravelerAdvancedOptionsViewModel
 class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val travelerNumber: TravelerEditText by bindView(R.id.traveler_number)
+    val travelerNumberIcon: ImageView by bindView(R.id.traveler_number_icon)
     val redressNumber: TravelerEditText by bindView(R.id.redress_number)
+    val redressNumberIcon: ImageView by bindView(R.id.redress_number_icon)
     val assistancePreferenceSpinner: Spinner by bindView(R.id.edit_assistance_preference_spinner)
     val assistancePreferenceEditBox: EditText by bindView(R.id.edit_assistance_preference_button)
     val seatPreferenceSpinner: Spinner by bindView(R.id.edit_seat_preference_spinner)
@@ -140,25 +142,14 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
 
         if (PointOfSale.getPointOfSale().shouldShowKnownTravelerNumber()) {
             travelerNumber.visibility = View.VISIBLE
-            travelerNumber.setOnTouchListener { view, motionEvent ->
-                if (motionEvent.action == MotionEvent.ACTION_UP) {
-                    if (motionEvent.rawX >= travelerNumber.right - travelerNumber.totalPaddingRight) {
-                        travelerInfoDialog.show()
-                        true
-                    }
-                }
-                false
+            travelerNumberIcon.visibility = View.VISIBLE
+            travelerNumberIcon.setOnClickListener {
+                travelerInfoDialog.show()
             }
         }
 
-        redressNumber.setOnTouchListener { view, motionEvent ->
-            if (motionEvent.action == MotionEvent.ACTION_UP) {
-                if (motionEvent.rawX >= redressNumber.right - redressNumber.totalPaddingRight) {
-                    redressInfoDialog.show()
-                    true
-                }
-            }
-            false
+        redressNumberIcon.setOnClickListener {
+            redressInfoDialog.show()
         }
 
         if (materialFormTestEnabled) {

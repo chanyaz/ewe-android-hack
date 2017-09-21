@@ -2222,7 +2222,7 @@
     <!-- Billing country label -->
     <string name="billing_country">Laskutusmaa</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">Redress-numero (jos olemassa)</string>
+    <string name="redress_number">Redress-numero (jos olemassa)</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">Known Traveler -numero</string>
     <!-- traveler number info msg -->

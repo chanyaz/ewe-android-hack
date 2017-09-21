@@ -4,43 +4,74 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/traveler_layout_number"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/known_traveler_number"
-        android:labelFor="@+id/traveler_number">
+        android:layout_height="wrap_content">
 
-        <com.expedia.bookings.widget.traveler.TravelerEditText
-            android:id="@+id/traveler_number"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/traveler_layout_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_checkout_info"
-            android:maxLength="13"
-            android:maxLines="1"
-            android:textSize="@dimen/traveler_input_text_size"
+            android:hint="@string/known_traveler_number"
+            android:labelFor="@+id/traveler_number">
+
+            <com.expedia.bookings.widget.traveler.TravelerEditText
+                android:id="@+id/traveler_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="13"
+                android:maxLines="1"
+                android:textSize="@dimen/traveler_input_text_size"
+                android:visibility="gone" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/traveler_number_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp"
+            android:contentDescription="@string/traveler_number_icon_cont_desc"
+            android:paddingTop="9dp"
+            android:src="@drawable/ic_checkout_info"
             android:visibility="gone" />
+    </RelativeLayout>
 
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/redress_layout_number"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/only_if_applicable"
-        android:labelFor="@+id/redress_number">
+        android:layout_height="wrap_content">
 
-        <com.expedia.bookings.widget.traveler.TravelerEditText
-            android:id="@+id/redress_number"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/redress_layout_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_checkout_info"
-            android:inputType="number"
-            android:maxLength="7"
-            android:maxLines="1"
-            android:textSize="@dimen/traveler_input_text_size" />
+            android:hint="@string/redress_number"
+            android:labelFor="@+id/redress_number">
 
-    </android.support.design.widget.TextInputLayout>
+            <com.expedia.bookings.widget.traveler.TravelerEditText
+                android:id="@+id/redress_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="7"
+                android:maxLines="1"
+                android:textSize="@dimen/traveler_input_text_size" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/redress_number_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp"
+            android:contentDescription="@string/redress_number_icon_cont_desc"
+            android:paddingTop="9dp"
+            android:src="@drawable/ic_checkout_info" />
+    </RelativeLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/edit_assistance_preference_layout"
@@ -55,10 +86,10 @@
             android:layout_height="wrap_content"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
-            android:textIsSelectable="true"
-            android:nextFocusForward="@+id/seat_preference_layout"
-            android:maxLines="1"
             android:inputType="text"
+            android:maxLines="1"
+            android:nextFocusForward="@+id/seat_preference_layout"
+            android:textIsSelectable="true"
             android:textSize="@dimen/traveler_input_text_size" />
 
     </android.support.design.widget.TextInputLayout>
@@ -76,8 +107,8 @@
             android:layout_height="wrap_content"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
-            android:textIsSelectable="true"
             android:maxLines="1"
+            android:textIsSelectable="true"
             android:textSize="@dimen/traveler_input_text_size" />
 
     </android.support.design.widget.TextInputLayout>
@@ -91,5 +122,4 @@
         android:text="@string/contact_airline_message"
         android:textSize="@dimen/default_text_size"
         app:textStyle="normal" />
-    
 </merge>

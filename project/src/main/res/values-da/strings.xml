@@ -2222,7 +2222,7 @@
     <!-- Billing country label -->
     <string name="billing_country">Faktureringsland</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">Klagenummer (hvis relevant)</string>
+    <string name="redress_number">Klagenummer (hvis relevant)</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">Known Traveler-nummer</string>
     <!-- traveler number info msg -->

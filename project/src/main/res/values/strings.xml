@@ -2239,13 +2239,17 @@
     <!-- Billing country label -->
     <string name="billing_country">Billing Country</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">Redress # (if applicable)</string>
+    <string name="redress_number">Redress # (if applicable)</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">Known traveler number</string>
     <!-- traveler number info msg -->
     <string name="known_traveler_msg">This is the government-issued number used for TSA PreCheck</string>
+    <!-- traveler number icon content description -->
+    <string name="traveler_number_icon_cont_desc">What is a known traveler number?</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">A redress number is a unique TSA-issued number that helps the TSA eliminate watch list misidentification and verify your identity.</string>
+    <!-- redress number icon content description -->
+    <string name="redress_number_icon_cont_desc">What is a redress number?</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">Frequent flyer program</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->

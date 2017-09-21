@@ -2222,7 +2222,7 @@
     <!-- Billing country label -->
     <string name="billing_country">クレジットカード登録住所の国</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">リドレスナンバー (該当する場合)</string>
+    <string name="redress_number">リドレスナンバー (該当する場合)</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">Known traveler Number (登録済旅行者番号)</string>
     <!-- traveler number info msg -->

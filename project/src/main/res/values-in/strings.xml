@@ -2222,7 +2222,7 @@
     <!-- Billing country label -->
     <string name="billing_country">Negara Penagihan</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">No. Redress (jika ada)</string>
+    <string name="redress_number">No. Redress (jika ada)</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">Nomor traveler terdaftar</string>
     <!-- traveler number info msg -->

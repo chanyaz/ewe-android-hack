@@ -2222,7 +2222,7 @@
     <!-- Billing country label -->
     <string name="billing_country">帐单国家/地区</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">身份纠正识别号（如适用）</string>
+    <string name="redress_number">身份纠正识别号（如适用）</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">已知旅客编号</string>
     <!-- traveler number info msg -->
