@@ -37,6 +37,7 @@ import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
@@ -811,7 +812,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				OmnitureTracking.trackItinHotel(getContext());
 			}
 			else if (data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailFeatureOn) {
-				OmnitureTracking.trackItinFlight(getContext());
+				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),
+					ActivityOptionsCompat
+						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
+						.toBundle());
 			}
 			else if (data.hasDetailData()) {
 				showDetails(position, true);

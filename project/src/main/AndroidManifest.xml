@@ -162,6 +162,14 @@
             tools:ignore="UnusedAttribute" />
 
         <activity
+            android:name="com.expedia.bookings.itin.activity.FlightItinDetailsActivity"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:theme="@style/ItinTheme"
+            tools:ignore="UnusedAttribute"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name="com.expedia.bookings.itin.activity.NewAddGuestItinActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"

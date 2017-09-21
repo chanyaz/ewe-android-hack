@@ -33,6 +33,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_hour_min_duration_template_cont_desc,
 		R.string.flight_min_duration_template_cont_desc,
 		R.anim.slide_out_right_no_fill_after,
+		R.layout.flight_itin_card_details,
 		R.anim.slide_out_left_complete,
 		R.anim.slide_in_left_complete,
 		R.layout.activity_hotel,
