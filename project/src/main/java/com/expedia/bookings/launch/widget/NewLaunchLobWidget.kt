@@ -14,7 +14,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.NavigationHelper
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
 import rx.subjects.PublishSubject

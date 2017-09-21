@@ -9,6 +9,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCreateTripViewModel
+import com.expedia.vm.HotelWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
@@ -21,7 +22,7 @@ import rx.observers.TestSubscriber
 @RunWith(RobolectricRunner::class)
 class WebCheckoutViewViewModelTest {
 
-    lateinit var webCheckoutViewViewModel: WebCheckoutViewViewModel
+    lateinit var webCheckoutViewViewModel: HotelWebCheckoutViewViewModel
 
     var servicesRule = ServicesRule(HotelServices::class.java)
         @Rule get
@@ -30,7 +31,7 @@ class WebCheckoutViewViewModelTest {
 
     @Before
     fun setup() {
-        webCheckoutViewViewModel = WebCheckoutViewViewModel(getContext())
+        webCheckoutViewViewModel = HotelWebCheckoutViewViewModel(getContext())
         webCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(servicesRule.services!!, null)
     }
 
@@ -46,5 +47,4 @@ class WebCheckoutViewViewModelTest {
         webViewURLSubscriber.assertValueCount(1)
         webViewURLSubscriber.assertValue("${PointOfSale.getPointOfSale().hotelsWebCheckoutURL}?tripid=happypath_0")
     }
-
 }
