@@ -9,6 +9,7 @@ import com.expedia.bookings.activity.RestrictedProfileActivity
 import com.expedia.bookings.data.AirAttach
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
@@ -133,9 +134,7 @@ class UserStateManagerTests {
             var didCallLoadUser = false
                 private set
             override var user: User?
-                get() {
-                    return null
-                }
+                get() = null
                 set(value) = Db.setUser(value)
 
             override fun loadUser() {
@@ -168,19 +167,23 @@ class UserStateManagerTests {
     }
 
     @Test
-    fun testUserStateSanityCallsOnUserAccountRefreshedWhenUserLoggedIn() {
-        var onUserAccountRefreshCalled = false
+    fun testUserStateSanityCallsForceAccountRefreshWhenUserIsNotLoggedInOnDisk() {
+        val testRefresher = TestUserAccountRefresher()
 
-        class TestListener: UserAccountRefresher.IUserAccountRefreshListener {
-            override fun onUserAccountRefreshed() {
-                onUserAccountRefreshCalled = true
-            }
-        }
+        userStateManager.addUserToAccountManager(getBaseTierRewardsMember())
+        userStateManager.ensureUserStateSanity(TestListener(), testRefresher)
+
+        assertTrue(testRefresher.didCallForceAccountRefresh)
+    }
+
+    @Test
+    fun testUserStateSanityCallsOnUserAccountRefreshedWhenUserLoggedIn() {
+        val testListener = TestListener()
 
         givenSignedInAsUser(getBaseTierRewardsMember())
-        userStateManager.ensureUserStateSanity(TestListener())
+        userStateManager.ensureUserStateSanity(testListener)
 
-        assertTrue(onUserAccountRefreshCalled)
+        assertTrue(testListener.onUserAccountRefreshCalled)
     }
 
     @Test
@@ -296,13 +299,13 @@ class UserStateManagerTests {
     fun testSignOutPreservingCookiesPreservesCookies() {
         val cookieManager = populateAndGetCookieManager()
 
-        var cookies = cookieManager.cookieStore.get(expediaUrl.host())
+        var cookies = cookieManager.cookieStore[expediaUrl.host()]
 
         assertTrue(cookies?.values?.size == 3)
 
         userStateManager.signOutPreservingCookies()
 
-        cookies = cookieManager.cookieStore.get(expediaUrl.host())
+        cookies = cookieManager.cookieStore[expediaUrl.host()]
 
         assertTrue(cookies?.values?.size == 3)
     }
@@ -311,13 +314,13 @@ class UserStateManagerTests {
     fun testSignOutClearsCookies() {
         val cookieManager = populateAndGetCookieManager()
 
-        var cookies = cookieManager.cookieStore.get(expediaUrl.host())
+        var cookies = cookieManager.cookieStore[expediaUrl.host()]
 
         assertTrue(cookies?.values?.size == 3)
 
         userStateManager.signOut()
 
-        cookies = cookieManager.cookieStore.get(expediaUrl.host())
+        cookies = cookieManager.cookieStore[expediaUrl.host()]
 
         assertTrue(cookies?.values?.size == 0)
     }
@@ -558,5 +561,23 @@ class UserStateManagerTests {
 
     private class TestRestrictedProfileSource: RestrictedProfileSource(Activity()) {
         override fun isRestrictedProfile(): Boolean = true
+    }
+
+    private class TestListener: UserAccountRefresher.IUserAccountRefreshListener {
+        var onUserAccountRefreshCalled = false
+            private set
+
+        override fun onUserAccountRefreshed() {
+            onUserAccountRefreshCalled = true
+        }
+    }
+
+    private class TestUserAccountRefresher: UserAccountRefresher(RuntimeEnvironment.application, LineOfBusiness.NONE, TestListener()) {
+        var didCallForceAccountRefresh = false
+            private set
+
+        override fun forceAccountRefresh() {
+            didCallForceAccountRefresh = true
+        }
     }
 }

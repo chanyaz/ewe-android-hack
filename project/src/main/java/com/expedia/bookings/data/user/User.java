@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Phone;
@@ -12,7 +11,6 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.StoredPointsCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.utils.CollectionUtils;
-import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -300,10 +298,4 @@ public class User implements JSONable {
 		}
 		return null;
 	}
-
-	static void loadUser(Context context, UserAccountRefresher.IUserAccountRefreshListener listener) {
-		UserAccountRefresher userAccountRefresher = new UserAccountRefresher(context, LineOfBusiness.NONE, listener);
-		userAccountRefresher.forceAccountRefresh();
-	}
-
 }
