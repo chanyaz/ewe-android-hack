@@ -10,6 +10,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment
 import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
+import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -77,6 +78,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
     @Test
     fun testCorrectFFNCardsDuplicateAirlines() {
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans.onNext(getFrequentFlyerPlans(false))
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable.onNext(listOf(buildMockFlight(3)))
         assertEquals(2, widget.frequentFlyerRecycler?.adapter?.itemCount)
     }
@@ -190,9 +192,80 @@ class FlightTravelerFrequentFlyerWidgetTest {
         assertEquals(secondViewHolder.viewModel, secondVm)
     }
 
+    @Test
+    fun testFrequentFlyerButtonHiddenWithoutValidPlans() {
+        val frequentFlyerVisibilitySubscriber = TestSubscriber.create<Boolean>()
+        val frequentFlyerCardsSubscriber = TestSubscriber.create<List<FrequentFlyerCard>>()
+        setupVisibilityAndCardTestSubscribers(frequentFlyerVisibilitySubscriber, frequentFlyerCardsSubscriber, 1)
+
+        frequentFlyerCardsSubscriber.assertNoValues()
+        frequentFlyerVisibilitySubscriber.assertValue(false)
+        assertEquals(View.GONE, widget.frequentFlyerButton?.visibility)
+        assertEquals(0, (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.viewHolderViewModels?.size)
+    }
+
+    @Test
+    fun testFrequentFlyerButtonVisibleWithOneValidAndOneInvalidPlan() {
+        val frequentFlyerVisibilitySubscriber = TestSubscriber.create<Boolean>()
+        val frequentFlyerCardsSubscriber = TestSubscriber.create<List<FrequentFlyerCard>>()
+        setupVisibilityAndCardTestSubscribers(frequentFlyerVisibilitySubscriber, frequentFlyerCardsSubscriber, 2)
+
+        frequentFlyerCardsSubscriber.assertValueCount(1)
+        frequentFlyerVisibilitySubscriber.assertValue(true)
+        assertEquals(View.VISIBLE, widget.frequentFlyerButton?.visibility)
+    }
+
+    @Test
+    fun testFrequentFlyerRecyclerVisibilityWithValidPlans() {
+        val frequentFlyerVisibilitySubscriber = TestSubscriber.create<Boolean>()
+        val frequentFlyerCardsSubscriber = TestSubscriber.create<List<FrequentFlyerCard>>()
+        setupVisibilityAndCardTestSubscribers(frequentFlyerVisibilitySubscriber, frequentFlyerCardsSubscriber, 2)
+
+        frequentFlyerCardsSubscriber.assertValueCount(1)
+        frequentFlyerVisibilitySubscriber.assertValue(true)
+        assertEquals(View.GONE, widget.frequentFlyerRecycler?.visibility)
+
+        openFrequentFlyerWidget()
+
+        assertEquals(View.VISIBLE, widget.frequentFlyerRecycler?.visibility)
+        assertEquals(1, (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.viewHolderViewModels?.size)
+        assertEquals(1, (widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).itemCount)
+    }
+
+    @Test
+    fun testFrequentFlyerRecyclerVisibilityWithInvalidPlans() {
+        val frequentFlyerVisibilitySubscriber = TestSubscriber.create<Boolean>()
+        val frequentFlyerCardsSubscriber = TestSubscriber.create<List<FrequentFlyerCard>>()
+        setupVisibilityAndCardTestSubscribers(frequentFlyerVisibilitySubscriber, frequentFlyerCardsSubscriber, 1)
+
+        frequentFlyerCardsSubscriber.assertNoValues()
+        frequentFlyerVisibilitySubscriber.assertValue(false)
+        assertEquals(0, (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.viewHolderViewModels?.size)
+        assertEquals(0, (widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).itemCount)
+    }
+
+    private fun setupVisibilityAndCardTestSubscribers(visibilitySubscriber: TestSubscriber<Boolean>,
+                                                      cardsSubscriber: TestSubscriber<List<FrequentFlyerCard>>,
+                                                      numOfSegments: Int) {
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel
+                ?.showFrequentFlyerObservable?.subscribe(visibilitySubscriber)
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel
+                ?.frequentFlyerCardsObservable?.subscribe(cardsSubscriber)
+
+        val mockFlightWithInvalidAirlines = buildMockFlight(numOfSegments)
+        mockFlightWithInvalidAirlines.segments.first().airlineName = "INVALID AIRLINE NAME"
+        mockFlightWithInvalidAirlines.segments.first().airlineCode = "INVALID AIRLINE CODE"
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable.onNext(listOf(mockFlightWithInvalidAirlines))
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans.onNext(getFrequentFlyerPlans(false))
+    }
+
     private fun givenLegsAndFrequentFlyerPlans(hasEnrolledPlans: Boolean) {
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable.onNext(listOf(buildMockFlight(3)))
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans.onNext(getFrequentFlyerPlans(hasEnrolledPlans))
+        openFrequentFlyerWidget()
+    }
+
+    private fun openFrequentFlyerWidget() {
         widget.frequentFlyerButton?.performClick()
         widget.frequentFlyerRecycler?.measure(0, 0);
         widget.frequentFlyerRecycler?.layout(0, 0, 100, 10000);

@@ -41,7 +41,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
     val closeSubject = PublishSubject.create<Unit>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
-    val isFrequentFlyerEnabled = isFrequentFlyerNumberForFlightsEnabled(context)
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
@@ -76,7 +75,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             } else {
                 travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
             }
-            if (isFrequentFlyerEnabled) {
+            if (shouldShowFrequentFlyerWidget()) {
                 updateFlightTravelerEntryWidgetViewModel()
             }
         }
@@ -174,7 +173,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         else if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.CLEAN) {
             travelerEntryWidget.resetErrorState()
         }
-        if (isFrequentFlyerEnabled) {
+        if (shouldShowFrequentFlyerWidget()) {
             updateFlightTravelerEntryWidgetViewModel()
         }
     }
@@ -274,5 +273,9 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         flightTravelersViewModel.frequentFlyerPlans?.let { plans ->
             flightTravelerEntryWidgetViewModel.frequentFlyerPlans.onNext(plans)
         }
+    }
+
+    private fun shouldShowFrequentFlyerWidget() : Boolean {
+        return isFrequentFlyerNumberForFlightsEnabled(context) && viewModel.lob == LineOfBusiness.FLIGHTS_V2
     }
 }

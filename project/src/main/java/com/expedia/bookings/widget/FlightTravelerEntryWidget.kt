@@ -30,9 +30,9 @@ import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
 import com.expedia.bookings.widget.traveler.TSAEntryView
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeVisibility
-import com.expedia.util.updateVisibility
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
+import com.expedia.vm.traveler.FrequentFlyerAdapterViewModel
 
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : AbstractTravelerEntryWidget(context, attrs) {
 
@@ -117,8 +117,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
         if (frequentflyerTestEnabled) {
             vm.frequentFlyerAdapterViewModel?.let { viewModel ->
-                frequentFlyerRecycler?.adapter = FrequentFlyerAdapter(viewModel)
+                setUpFrequentFlyerRecyclerView(context, viewModel)
             }
+            vm.frequentFlyerAdapterViewModel?.showFrequentFlyerObservable?.subscribeVisibility(frequentFlyerButton)
         }
         vm.passportCountrySubject.subscribe { countryCode ->
             if (materialFormTestEnabled) {
@@ -174,8 +175,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                 frequentFlyerRecycler = findViewById<RecyclerView>(R.id.frequent_flyer_recycler_view)
                 frequentFlyerIcon = findViewById<ImageView>(R.id.traveler_frequent_flyer_program_icon)
                 frequentFlyerText = findViewById<TextView>(R.id.frequent_flyer_program_text)
-                frequentFlyerButton!!.updateVisibility(frequentflyerTestEnabled)
-                setUpFrequentFlyerRecyclerView(context)
             }
         } else {
             val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
@@ -199,12 +198,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                 showCountryAlertDialog()
             }
             if (frequentflyerTestEnabled) {
-                frequentFlyerButton!!.setOnClickListener {
-                    if (frequentFlyerRecycler?.visibility == Presenter.GONE) {
-                        showFrequentFlyerProgram()
-                    } else {
-                        hideFrequentFlyerProgram()
-                    }
+                updateFrequentFlyerVisibility(show = false)
+                frequentFlyerButton?.setOnClickListener {
+                    updateFrequentFlyerVisibility(frequentFlyerRecycler?.visibility == Presenter.GONE)
                 }
             }
             setOnFocusChangeListenerForView(tsaEntryView.genderEditText!!)
@@ -360,8 +356,17 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         tsaEntryView.genderEditText?.viewModel?.errorSubject?.onNext(false)
     }
 
-    fun setUpFrequentFlyerRecyclerView(context: Context) {
+    fun setUpFrequentFlyerRecyclerView(context: Context, viewModel: FrequentFlyerAdapterViewModel) {
         val linearLayoutManager = LinearLayoutManager(context)
         frequentFlyerRecycler?.layoutManager = linearLayoutManager
+        frequentFlyerRecycler?.adapter = FrequentFlyerAdapter(viewModel)
+    }
+
+    private fun updateFrequentFlyerVisibility(show: Boolean) {
+        if (show) {
+            showFrequentFlyerProgram()
+        } else {
+            hideFrequentFlyerProgram()
+        }
     }
 }

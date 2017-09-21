@@ -17,12 +17,9 @@ class FrequentFlyerAdapterViewModel(var traveler: Traveler) {
     val frequentFlyerCardsObservable = PublishSubject.create<List<FrequentFlyerCard>>()
     val updateTravelerObservable = PublishSubject.create<Traveler>()
     val viewHolderViewModels = ArrayList<FlightTravelerFrequentFlyerItemViewModel>()
+    val showFrequentFlyerObservable = PublishSubject.create<Boolean>()
 
     init {
-        flightLegsObservable.subscribe { legs ->
-            frequentFlyerCardsObservable.onNext(FlightV2Utils.getAirlineNames(legs))
-        }
-
         updateTravelerObservable.subscribe { traveler ->
             this.traveler = traveler
             viewHolderViewModels.forEach { viewModel ->
@@ -30,14 +27,24 @@ class FrequentFlyerAdapterViewModel(var traveler: Traveler) {
             }
         }
 
-        Observable.combineLatest(frequentFlyerCardsObservable, frequentFlyerPlans, { cards, plans ->
-            if (cards != null && plans != null) {
+        Observable.combineLatest(flightLegsObservable, frequentFlyerPlans, { legs, plans ->
+            if (legs != null && plans != null) {
                 viewHolderViewModels.clear()
-                cards.forEach {
+                val validAirlines = ArrayList<FrequentFlyerCard>()
+                val airlines = FlightV2Utils.getAirlineNames(legs)
+                airlines.forEach { airline ->
                     val viewModel = FlightTravelerFrequentFlyerItemViewModel(traveler)
                     setUpFrequentFlyerPlans(plans, viewModel)
-                    viewHolderViewModels.add(viewModel)
+                    if (viewModel.allAirlineCodes.contains(airline.airlineCode)) {
+                        viewHolderViewModels.add(viewModel)
+                        validAirlines.add(airline)
+                    }
                 }
+                val hasValidAirlines = validAirlines.isNotEmpty()
+                if (hasValidAirlines) {
+                    frequentFlyerCardsObservable.onNext(validAirlines)
+                }
+                showFrequentFlyerObservable.onNext(hasValidAirlines)
             }
         }).subscribe()
     }
