@@ -6,8 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="120dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/hotel_checkout_room_image"
@@ -49,10 +48,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="13dp"
+        android:paddingBottom="6dp"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
-        android:paddingTop="9dp">
+        android:paddingTop="12dp">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/selected_room"

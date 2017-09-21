@@ -89,11 +89,9 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
             date.visibility = View.GONE
             checkinCheckoutDateContainer.visibility = View.VISIBLE
-            hotelBookingSummaryContainer.setPadding(hotelBookingSummaryContainer.paddingLeft, hotelBookingSummaryContainer.paddingTop, hotelBookingSummaryContainer.paddingRight, 6)
         } else {
             date.visibility = View.VISIBLE
             checkinCheckoutDateContainer.visibility = View.GONE
-            hotelBookingSummaryContainer.setPadding(hotelBookingSummaryContainer.paddingLeft, hotelBookingSummaryContainer.paddingTop, hotelBookingSummaryContainer.paddingRight, 13)
         }
 
         setUpFreeCancellationSubscription()
