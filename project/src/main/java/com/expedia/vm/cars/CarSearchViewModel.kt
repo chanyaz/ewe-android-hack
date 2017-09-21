@@ -5,11 +5,13 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.CarSearchParam
+import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.widget.TimeSlider
+import com.expedia.util.CarCalendarRules
 import com.expedia.util.endlessObserver
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import com.squareup.phrase.Phrase
@@ -18,6 +20,7 @@ import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 
 class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalendar(context) {
+
     val carParamsBuilder = CarSearchParam.Builder()
     val searchParamsObservable = PublishSubject.create<CarSearchParam>()
     val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.app_primary)
@@ -70,20 +73,12 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
         }
     }
 
-    override fun getMaxSearchDurationDays(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_car_search)
-    }
-
-    override fun getMaxDateRange(): Int {
-        return context.resources.getInteger(R.integer.max_calendar_selectable_date_range)
-    }
-
     override fun getParamsBuilder(): CarSearchParam.Builder {
         return carParamsBuilder
     }
 
-    override fun isStartDateOnlyAllowed(): Boolean {
-        return false
+    override fun getCalendarRules(): CalendarRules {
+        return CarCalendarRules(context)
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
@@ -146,10 +141,6 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
             return context.getString(R.string.cars_calendar_start_date_label)
         }
         return context.getString(R.string.calendar_drag_to_modify)
-    }
-
-    override fun sameStartAndEndDateAllowed(): Boolean {
-        return true
     }
 
     override fun getCalendarSliderTooltipStartTimeLabel(): String{

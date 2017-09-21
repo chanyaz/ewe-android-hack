@@ -9,6 +9,11 @@
             android:key="@string/preference_satellite_config"
             android:summary="Enable satellite remote feature config."
             android:title="Enable satellite" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_dateless_infosite"
+            android:summary="Enable change date functionality"
+            android:title="Enable Hotel Dateless Infosite" />
     </PreferenceCategory>
 
     <PreferenceCategory

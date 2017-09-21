@@ -36,6 +36,7 @@ import com.expedia.util.getGuestRatingText
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -68,6 +69,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     abstract fun trackHotelDetailLoad(isRoomSoldOut: Boolean)
     abstract fun shouldShowBookByPhone(): Boolean
     abstract fun getTelesalesNumber(): String
+
+    val checkInDate: LocalDate? get() = paramsSubject.value.checkIn
+    val checkOutDate: LocalDate? get() = paramsSubject.value.checkOut
 
     val roomSelectedSubject = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)

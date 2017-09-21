@@ -129,6 +129,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.server_neighborhood_filter_stub,
 		R.layout.widget_hotel_detail_presenter,
 		R.layout.hotel_checkout_summary_widget,
+		R.layout.change_dates_calendar_picker,
 		R.string.non_smoking,
 		R.string.smoking,
 		R.string.itin_hotel_room_details_no_requests_selected,

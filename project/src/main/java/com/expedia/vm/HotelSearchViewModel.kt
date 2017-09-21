@@ -9,10 +9,12 @@ import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.util.HotelCalendarDirections
+import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.JodaUtils
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
@@ -35,7 +37,11 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     }
         @Inject set
 
-    private val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), true)
+    private val rules = HotelCalendarRules(context)
+    private val calendarInstructions = HotelCalendarDirections(context)
+
+    private val hotelParamsBuilder = HotelSearchParams.Builder(rules.getMaxSearchDurationDays(),
+            rules.getMaxDateRange(), true)
     private var prefetchParams: HotelSearchParams? = null
 
     // Inputs
@@ -69,24 +75,12 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         }
     }
 
-    override fun sameStartAndEndDateAllowed(): Boolean {
-        return false
+    override fun getCalendarRules(): CalendarRules {
+        return rules
     }
 
     override fun getParamsBuilder(): HotelSearchParams.Builder {
         return hotelParamsBuilder
-    }
-
-    override fun isStartDateOnlyAllowed(): Boolean {
-        return false // check-in and out dates required
-    }
-
-    override fun getMaxSearchDurationDays(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
-    }
-
-    override fun getMaxDateRange(): Int {
-        return context.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only)
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
@@ -105,19 +99,11 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
-        if (end == null) {
-            return context.getString(R.string.hotel_calendar_tooltip_bottom)
-        }
-        return context.getString(R.string.calendar_drag_to_modify)
+        return calendarInstructions.getToolTipInstructions(end)
     }
 
     override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
-        if (start == null && end == null) {
-            return context.getString(R.string.select_checkin_date)
-        } else if (end == null) {
-            return getNoEndDateText(start, false)
-        }
-        return getCompleteDateText(start!!, end, false)
+        return calendarInstructions.getDateInstructionText(start, end)
     }
 
     override fun getEmptyDateText(forContentDescription: Boolean): String {
@@ -129,24 +115,17 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     }
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
-        val selectCheckoutText = context.getString(R.string.select_checkout_date_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(start!!))
-        if (forContentDescription) {
-            return getDateAccessibilityText(selectCheckoutText, "")
-        }
-        return selectCheckoutText
+        return calendarInstructions.getNoEndDateText(start, forContentDescription)
     }
 
     override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
-        val dateNightText = getDateNightText(start, end, forContentDescription)
-        if (forContentDescription) {
-            return getDateAccessibilityText(context.getString(R.string.select_dates), dateNightText.toString())
-        }
-        return dateNightText.toString()
+        return calendarInstructions.getCompleteDateText(start, end, forContentDescription)
     }
 
     private fun validateAndSearch() {
         if (!getParamsBuilder().hasValidDateDuration()) {
-            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE,
+                    rules.getMaxSearchDurationDays()))
         } else if (!getParamsBuilder().isWithinDateRange()) {
             errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
         } else {

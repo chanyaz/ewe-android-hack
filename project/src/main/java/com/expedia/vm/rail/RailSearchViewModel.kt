@@ -5,6 +5,8 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.rail.util.RailCalendarRules
+import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -18,10 +20,14 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalendar(context) {
+
+    private val oneWayRules = RailCalendarRules(context, roundTrip = false)
+    private val roundTripRules = RailCalendarRules(context, roundTrip = true)
+
     val searchParamsObservable = PublishSubject.create<RailSearchRequest>()
     val railOriginObservable = BehaviorSubject.create<SuggestionV4>()
     val railDestinationObservable = BehaviorSubject.create<SuggestionV4>()
-    val railRequestBuilder = RailSearchRequest.Builder(getMaxSearchDurationDays(), getMaxDateRange())
+    val railRequestBuilder = RailSearchRequest.Builder(getCalendarRules().getMaxSearchDurationDays(), getCalendarRules().getMaxDateRange())
     val errorInvalidCardsCountObservable = PublishSubject.create<String>()
 
     val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.rail_primary_color)
@@ -46,7 +52,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     }
 
     val searchObserver = endlessObserver<Unit> {
-        getParamsBuilder().maxStay = getMaxSearchDurationDays()
+        getParamsBuilder().maxStay = getCalendarRules().getMaxSearchDurationDays()
         getParamsBuilder().origin(railOriginObservable.value)
         getParamsBuilder().destination(railDestinationObservable.value)
         getParamsBuilder().departDateTimeMillis(departTimeSubject.value)
@@ -56,7 +62,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
             if (getParamsBuilder().isOriginSameAsDestination()) {
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_station_departure_arrival))
             } else if (isRoundTripSearchObservable.value && !getParamsBuilder().hasValidDateDuration()) {
-                errorMaxDurationObservable.onNext(context.getString(R.string.rail_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+                errorMaxDurationObservable.onNext(context.getString(R.string.rail_search_range_error_TEMPLATE, getCalendarRules().getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
             } else if (getParamsBuilder().isRailCardsCountInvalid()) {
@@ -87,6 +93,10 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         destinationLocationObserver.onNext(oldOrigin)
     }
 
+    override fun getCalendarRules(): CalendarRules {
+        return if (isRoundTripSearchObservable.value) roundTripRules else oneWayRules
+    }
+
     override fun updateTraveler() {
         travelersObservable.subscribe { update ->
             getParamsBuilder().adults(update.numberOfAdults)
@@ -114,11 +124,6 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     override fun getParamsBuilder(): RailSearchRequest.Builder {
         return railRequestBuilder
-    }
-
-    override fun isStartDateOnlyAllowed(): Boolean {
-        // return true if one-way
-        return !isRoundTripSearchObservable.value
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
@@ -165,23 +170,6 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
             return Phrase.from(context.resources, R.string.select_return_date_TEMPLATE).put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start!!)).format().toString()
         }
         return DateFormatUtils.formatRailDateRange(context, start, end)
-    }
-
-    override fun getMaxSearchDurationDays(): Int {
-        // 0 for one-way searches
-        return if (isRoundTripSearchObservable.value) context.resources.getInteger(R.integer.calendar_max_days_rail_return) else 0
-    }
-
-    override fun getMaxDateRange(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_rail_search)
-    }
-
-    override fun sameStartAndEndDateAllowed(): Boolean {
-        return false
-    }
-
-    override fun getFirstAvailableDate(): LocalDate {
-        return LocalDate.now().plusDays(1)
     }
 
     override fun getCalendarSliderTooltipStartTimeLabel(): String{

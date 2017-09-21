@@ -516,19 +516,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         return false
     }
 
-    companion object {
-        @JvmStatic fun styleCalendar(context: Context, calendar: CalendarPicker, monthView: MonthView, dayOfWeek: DaysOfWeekView) {
-            monthView.setTextEqualDatesColor(Color.WHITE)
-            monthView.setMaxTextSize(context.resources.getDimension(R.dimen.car_calendar_month_view_max_text_size))
-            dayOfWeek.setDayOfWeekRenderer(CalendarShortDateRenderer())
-
-            calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
-            dayOfWeek.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
-            monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT))
-            monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
-        }
-    }
-
     open fun getToolbarsHeight(): Int {
         return Ui.toolbarSizeWithStatusBar(context)
     }

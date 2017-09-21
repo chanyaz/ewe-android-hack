@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.util.AttributeSet
 import com.expedia.bookings.fragment.CalendarDialogFragment
+import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.vm.BaseSearchViewModel
@@ -47,6 +48,7 @@ class PackageDatePickerWidgetTest {
 
     fun getMockViewModel(): BaseSearchViewModel {
         val mockViewModel = Mockito.mock(BaseSearchViewModel::class.java)
+        Mockito.`when`(mockViewModel.getCalendarRules()).thenReturn(HotelCalendarRules(activity))
         mockViewModel.dateTextObservable = BehaviorSubject.create<CharSequence>()
         return mockViewModel
     }

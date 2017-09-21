@@ -134,11 +134,6 @@ class CarSearchViewModelTest {
 
     }
 
-    @Test
-    fun testStartDate() {
-        assertEquals(LocalDate.now(), vm.getFirstAvailableDate(), "Start Date is Today")
-    }
-
     private fun dateFormatter(startDateTime: LocalDate, endDateTime: LocalDate, times: Pair<Int, Int>, isContentDescription: Boolean): String{
         val (startMillis, endMillis) = times
         val formattedString = DateFormatUtils.formatStartEndDateTimeRange(activity, DateUtils.localDateAndMillisToDateTime(startDateTime, startMillis),
