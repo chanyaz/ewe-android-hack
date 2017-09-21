@@ -68,6 +68,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
                 val selectedFareFamily = selectedFareFamily
             }
         }).subscribe { fareDetailsAndSelectedFareFamily ->
+            vm.choosingFareFamilyObservable.onNext(fareDetailsAndSelectedFareFamily.selectedFareFamily)
             fareFamilyRadioGroup.removeAllViews()
             fareDetailsAndSelectedFareFamily.fareDetails.forEachIndexed { index, fareFamilyDetails ->
                 val defaultChecked = fareDetailsAndSelectedFareFamily.selectedFareFamily.fareFamilyCode == fareFamilyDetails.fareFamilyCode

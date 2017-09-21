@@ -73,6 +73,21 @@ class FareFamilyItemWidgetTest {
     }
 
     @Test
+    fun testFareFamilyItemSelectionAfterPressingBack() {
+        Db.setFlightSearchParams(setupFlightSearchParams(2, 2, true))
+        fareFamilyWidget.viewModel.tripObservable.onNext(flightCreateTripResponse)
+        fareFamilyWidget.viewModel.showFareFamilyObservable.onNext(Unit)
+        //Choose new fare family but dont press done
+        fareFamilyWidget.viewModel.choosingFareFamilyObservable.onNext(flightCreateTripResponse.fareFamilyList!!.fareFamilyDetails[1])
+        fareFamilyWidget.viewModel.showFareFamilyObservable.onNext(Unit)
+
+        val firstFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(0) as FareFamilyItemWidget
+        assertEquals(true, firstFareFamilyItem.fareFamilyRadioButton.isChecked)
+        val secondFareFamilyItem = fareFamilyWidget.fareFamilyRadioGroup.getChildAt(1) as FareFamilyItemWidget
+        assertEquals(false, secondFareFamilyItem.fareFamilyRadioButton.isChecked)
+    }
+
+    @Test
     fun testFareFamilyItemDetails() {
         Db.setFlightSearchParams(setupFlightSearchParams(2, 2, true))
         fareFamilyWidget.viewModel.tripObservable.onNext(flightCreateTripResponse)
