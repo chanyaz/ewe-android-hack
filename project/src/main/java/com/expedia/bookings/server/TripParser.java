@@ -901,6 +901,7 @@ public class TripParser {
 		location.setStateCode(addressJson.optString("countrySubdivisionCode", null));
 		location.setCountryCode(addressJson.optString("countryCode", null));
 		location.setPostalCode(addressJson.optString("postalCode", null));
+		location.setCountryName(addressJson.optString("countryName", null));
 		location.setLatitude(propertyJson.optDouble("latitude"));
 		location.setLongitude(propertyJson.optDouble("longitude"));
 		return location;

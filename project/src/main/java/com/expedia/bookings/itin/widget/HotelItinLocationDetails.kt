@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.widget
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.support.v4.app.ActivityOptionsCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -9,6 +10,7 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
+import com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
@@ -38,9 +40,9 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         if (itinCardDataHotel.propertyLocation != null) {
             locationMapImageView.setZoom(14)
             locationMapImageView.setLocation(LatLong(itinCardDataHotel.propertyLocation.latitude, itinCardDataHotel.propertyLocation.longitude))
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.TripsHotelMap, R.string.preference_trips_hotel_maps)) {
+            if (isMapFeatureOn()) {
                 locationMapImageView.setOnClickListener {
-                    //click to expand map
+                    context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
                     OmnitureTracking.trackItinHotelExpandMap()
                 }
             }
@@ -61,10 +63,16 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         })
 
         val directionsButton = SummaryButton(R.drawable.itin_directions_hotel, context.getString(R.string.itin_action_directions), OnClickListener {
-            val intent = GoogleMapsUtil.getDirectionsIntent(itinCardDataHotel.property.location.toLongFormattedString())
-            if (intent != null) {
-                NavUtils.startActivitySafe(context, intent)
-                OmnitureTracking.trackRedesignItinHotelDirections()
+            if (isMapFeatureOn()) {
+                context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
+                OmnitureTracking.trackItinHotelExpandMap()
+            }
+            else {
+                val intent = GoogleMapsUtil.getDirectionsIntent(itinCardDataHotel.property.location.toLongFormattedString())
+                if (intent != null) {
+                    NavUtils.startActivitySafe(context, intent)
+                    OmnitureTracking.trackRedesignItinHotelDirections()
+                }
             }
         })
         if (phoneNumber.isEmpty()) actionButtons.bind(null, directionsButton) else actionButtons.bind(callButton, directionsButton)
@@ -77,5 +85,12 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         }
         address.contentDescription = Phrase.from(context, R.string.itin_hotel_details_address_copy_content_description_TEMPLATE)
                 .put("address", textToCopy).format().toString()
+    }
+
+    private fun isMapFeatureOn(): Boolean {
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.TripsHotelMap, R.string.preference_trips_hotel_maps)) {
+            return true
+        }
+        return false
     }
 }

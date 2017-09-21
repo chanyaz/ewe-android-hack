@@ -25,6 +25,7 @@ public class Location implements JSONable, Parcelable {
 	private String mCity;
 	private String mStateCode;
 	private String mCountryCode;
+	private String mCountryName;
 	private String mPostalCode;
 	private double mLatitude;
 	private double mLongitude;
@@ -143,6 +144,14 @@ public class Location implements JSONable, Parcelable {
 		this.mPostalCode = postalCode;
 	}
 
+	public String getCountyName() {
+		return mCountryName;
+	}
+
+	public void setCountryName(String countryName) {
+		this.mCountryName = countryName;
+	}
+
 	public double getLatitude() {
 		return mLatitude;
 	}
@@ -206,6 +215,9 @@ public class Location implements JSONable, Parcelable {
 		if (!TextUtils.isEmpty(other.mCountryCode)) {
 			mCountryCode = other.mCountryCode;
 		}
+		if (!TextUtils.isEmpty(other.mCountryName)) {
+			mCountryName = other.mCountryName;
+		}
 		if (!TextUtils.isEmpty(other.mPostalCode)) {
 			mPostalCode = other.mPostalCode;
 		}
@@ -233,6 +245,7 @@ public class Location implements JSONable, Parcelable {
 			obj.putOpt("stateCode", mStateCode);
 			obj.putOpt("countryCode", mCountryCode);
 			obj.putOpt("postalCode", mPostalCode);
+			obj.putOpt("countryName", mCountryName);
 			obj.putOpt("latitude", mLatitude);
 			obj.putOpt("longitude", mLongitude);
 			obj.putOpt("destinationId", mDestinationId);
@@ -254,6 +267,7 @@ public class Location implements JSONable, Parcelable {
 		mStateCode = obj.optString("stateCode", null);
 		mCountryCode = LocaleUtils.convertCountryCode(obj.optString("countryCode", null));
 		mPostalCode = obj.optString("postalCode", null);
+		mCountryName = obj.optString("countryName", null);
 		mLatitude = obj.optDouble("latitude", 0);
 		mLongitude = obj.optDouble("longitude", 0);
 		mDestinationId = obj.optString("destinationId", null);
@@ -331,8 +345,17 @@ public class Location implements JSONable, Parcelable {
 		ArrayList<String> locationParts = new ArrayList<String>();
 		locationParts.add(mCity);
 		locationParts.add(mStateCode);
-		locationParts.add(mCountryCode);
+		locationParts.add(mCountryName);
 		locationParts.add(mPostalCode);
+
+		return Strings.joinWithoutEmpties(", ", locationParts);
+	}
+
+	public String toCityStateCountryAddressFormattedString() {
+		ArrayList<String> locationParts = new ArrayList<String>();
+		locationParts.add(mCity);
+		locationParts.add(mStateCode);
+		locationParts.add(mCountryName);
 
 		return Strings.joinWithoutEmpties(", ", locationParts);
 	}
@@ -347,6 +370,7 @@ public class Location implements JSONable, Parcelable {
 		mCity = in.readString();
 		mStateCode = in.readString();
 		mCountryCode = in.readString();
+		mCountryName = in.readString();
 		mPostalCode = in.readString();
 		mLatitude = in.readDouble();
 		mLongitude = in.readDouble();
@@ -360,6 +384,7 @@ public class Location implements JSONable, Parcelable {
 		dest.writeString(mCity);
 		dest.writeString(mStateCode);
 		dest.writeString(mCountryCode);
+		dest.writeString(mCountryName);
 		dest.writeString(mPostalCode);
 		dest.writeDouble(mLatitude);
 		dest.writeDouble(mLongitude);

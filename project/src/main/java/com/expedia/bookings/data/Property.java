@@ -445,6 +445,7 @@ public class Property implements JSONable {
 		mLocation.setStateCode(offer.stateProvinceCode);
 		mLocation.setCountryCode(offer.countryCode);
 		mLocation.setPostalCode(offer.postalCode);
+		mLocation.setCountryName(offer.countryName);
 		mLocation.setLatitude(offer.latitude);
 		mLocation.setLongitude(offer.longitude);
 

@@ -38,11 +38,16 @@ class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr
         View.inflate(context, R.layout.widget_hotel_itin_toolbar, this)
     }
 
-    fun setUpWidget(itinCardDataHotel: ItinCardDataHotel, toolbarTitle: String) {
+    fun setUpWidget(itinCardDataHotel: ItinCardDataHotel, toolbarTitle: String, toolbarSubtitle: String? = null) {
         mItinContentGenerator = ItinContentGenerator.createGenerator(context, itinCardDataHotel)
         this.navigationIcon = context.getDrawable(R.drawable.ic_arrow_back_white_24dp)
         this.navigationContentDescription = context.getText(R.string.toolbar_nav_icon_cont_desc)
-        toolbarSubtitle(itinCardDataHotel)
+        if (toolbarSubtitle == null) {
+            buildToolbarSubtitleForDates(itinCardDataHotel)
+        }
+        else {
+            toolbarSubtitleTextView.text = toolbarSubtitle
+        }
         toolbarTitleTextView.text = toolbarTitle
     }
 
@@ -54,7 +59,7 @@ class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr
     }
 
 
-    private fun toolbarSubtitle(itinCardDataHotel: ItinCardDataHotel) {
+    private fun buildToolbarSubtitleForDates(itinCardDataHotel: ItinCardDataHotel) {
         val formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MMM d")
         val tripStartDate = itinCardDataHotel.startDate.toString(formatPattern)
         val tripEndDate = itinCardDataHotel.endDate.toString(formatPattern)

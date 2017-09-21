@@ -2160,6 +2160,7 @@ public class OmnitureTracking {
 	private static final String ITIN_TRIP_REFRESH_CALL_MADE = "App.Itinerary.Call.Made";
 	private static final String ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success";
 	private static final String ITIN_TRIP_REFRESH_CALL_FAILURE = "App.Itinerary.Call.Failure";
+	private static final String ITIN_HOTEL_MAP_DIRECTIONS = "App.Map.Directions.Drive";
 
 	public static void trackItinTripRefreshCallMade() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_MADE);
@@ -2441,6 +2442,11 @@ public class OmnitureTracking {
 	public static void trackRedesignItinHotelDirections() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_HOTEL_DIRECTIONS);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinHotelDirectionsButton() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_DIRECTIONS);
+		s.trackLink(null, "o", "Map Action", null, null);
 	}
 
 	public static void trackItinHotelExpandMap() {

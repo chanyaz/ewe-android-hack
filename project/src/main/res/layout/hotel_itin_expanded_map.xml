@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.expedia.bookings.itin.widget.ItinToolbar
+            android:id="@+id/widget_hotel_itin_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/app_primary"
+            android:minHeight="?attr/actionBarSize" />
+    </android.support.design.widget.AppBarLayout>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/expanded_map_view_hotel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        android:id="@+id/directions_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:background="@color/app_primary">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/directions_button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="@string/directions"
+            android:drawableLeft="@drawable/ic_directions_icon_cta_button"
+            android:background="@color/app_primary"
+            android:drawablePadding="6dp"
+            android:textColor="@color/white"
+            android:paddingBottom="17dp"
+            android:paddingTop="16dp"
+            app:textStyle="medium"
+            android:textSize="16sp" />
+
+    </FrameLayout>
+
+</LinearLayout>

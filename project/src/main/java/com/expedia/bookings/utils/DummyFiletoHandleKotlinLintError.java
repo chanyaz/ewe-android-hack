@@ -113,6 +113,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_amenity_deaf_access,
 		R.drawable.ic_amenity_braille_signs,
 		R.integer.calendar_max_days_hotel_stay,
+		R.layout.hotel_itin_expanded_map,
 		R.layout.hotel_marker_preview_cell,
 		R.layout.toolbar_filter_item,
 		R.menu.menu_filter_item,

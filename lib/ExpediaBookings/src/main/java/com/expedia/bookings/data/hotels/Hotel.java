@@ -16,6 +16,7 @@ public class Hotel {
 	public String city;
 	public String stateProvinceCode;
 	public String countryCode;
+	public String countryName;
 	public String postalCode;
 	public String airportCode;
 	public String supplierType;
