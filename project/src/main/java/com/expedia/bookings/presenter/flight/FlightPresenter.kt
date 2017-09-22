@@ -41,7 +41,6 @@ import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.safeSubscribe
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel

@@ -20,7 +20,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.flights.FareFamilyItemWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
 import com.expedia.vm.flights.FlightFareFamilyViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -55,7 +54,6 @@ class FareFamilyItemWidgetTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultFlightComponents()
-        SettingUtils.save(activity, R.string.preference_fare_family_flight_summary, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         fareFamilyWidget = LayoutInflater.from(activity).inflate(R.layout.fare_family_details_stub, null) as FlightFareFamilyWidget
         fareFamilyWidget.viewModel = FlightFareFamilyViewModel(activity)

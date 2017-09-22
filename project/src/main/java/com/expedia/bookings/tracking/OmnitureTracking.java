@@ -5283,14 +5283,14 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview);
 
 		StringBuilder eventStringBuilder = new StringBuilder(s.getEvents());
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_fare_family_flight_summary)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFareFamilyFlightSummary);
-			//This tracking should be done only when user is bucketed for Fare Family AB test
-			if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
-				&& isFareFamilyAvailable) {
-				eventStringBuilder.append(isFareFamilySelected ? ",event275" : ",event274");
-			}
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFareFamilyFlightSummary);
+		//This tracking should be done only when user is bucketed for Fare Family AB test
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
+			&& isFareFamilyAvailable) {
+			eventStringBuilder.append(isFareFamilySelected ? ",event275" : ",event274");
 		}
+
 		appendPageLoadTimeEvents(eventStringBuilder, overviewPageUsableData.getLoadTimeInSeconds());
 
 		if (eventStringBuilder.length() > 0) {

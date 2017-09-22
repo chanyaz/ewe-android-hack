@@ -17,7 +17,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.flights.FlightFareFamilyViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -48,7 +47,6 @@ class FlightFareFamilyViewModelTest {
         flightCreateTripResponse = createTripResponseObserver.onNextEvents[0]
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
-        SettingUtils.save(activity, R.string.preference_fare_family_flight_summary, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         sut = FlightFareFamilyViewModel(activity)
     }

@@ -6,7 +6,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.FlightTripResponse.FareFamilyDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
 import rx.subjects.PublishSubject
@@ -25,8 +25,7 @@ class FareFamilyViewModel(private val context: Context) {
     val fromLabelVisibility = PublishSubject.create<Boolean>()
     val travellerObservable = PublishSubject.create<String>()
     val updateTripObserver = PublishSubject.create<Pair<String, FlightTripResponse.FareFamilyDetails>>()
-    val isUserBucketedForFareFamily = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFareFamilyFlightSummary,
-            R.string.preference_fare_family_flight_summary)
+    val isUserBucketedForFareFamily = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
 
     init {
         tripObservable.subscribe { trip ->

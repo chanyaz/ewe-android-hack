@@ -39,7 +39,6 @@ import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import com.expedia.vm.packages.PackageSearchType
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
@@ -83,7 +82,6 @@ class FlightOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyWidgetVisibility() {
-        SettingUtils.save(context, R.string.preference_fare_family_flight_summary, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()
@@ -96,7 +94,6 @@ class FlightOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyCreateTripFiring() {
-        SettingUtils.save(context, R.string.preference_fare_family_flight_summary, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val cardViewViewModel = widget.fareFamilyCardView.viewModel
@@ -128,7 +125,6 @@ class FlightOverviewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyUnavailableError() {
-        SettingUtils.save(context, R.string.preference_fare_family_flight_summary, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
         val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()

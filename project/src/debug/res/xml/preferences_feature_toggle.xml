@@ -26,11 +26,6 @@
             android:title="Flight Traveler Form Revamp" />
 
         <CheckBoxPreference
-            android:key="@string/preference_fare_family_flight_summary"
-            android:summary="Fare Family on Flight Summary"
-            android:title="Fare Family on Flight Summary" />
-
-        <CheckBoxPreference
             android:key="@string/preference_flight_rate_detail_from_cache"
             android:summary="Flight rate details from cache"
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />
