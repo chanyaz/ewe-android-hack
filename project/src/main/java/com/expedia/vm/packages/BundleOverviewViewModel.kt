@@ -159,9 +159,13 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             override fun onError(throwable: Throwable?) {
                 Log.i("package error: " + throwable?.message)
                 if (throwable is HttpException) {
-                    val response = throwable.response().errorBody()
-                    val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
-                    errorObservable.onNext(midError.firstError)
+                    try {
+                        val response = throwable.response().errorBody()
+                        val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
+                        errorObservable.onNext(midError.firstError)
+                    } catch (e: Exception) {
+                        errorObservable.onNext(PackageApiError.Code.pkg_error_code_not_mapped)
+                    }
                 } else if (RetrofitUtils.isNetworkError(throwable)) {
                     val retryFun = fun() {
                         if (type.equals(PackageSearchType.HOTEL)) {

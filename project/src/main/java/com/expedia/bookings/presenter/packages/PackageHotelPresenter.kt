@@ -327,9 +327,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         return object : Subscriber<Any>() {
             override fun onError(throwable: Throwable) {
                 if (throwable is HttpException) {
-                    val response = throwable.response().errorBody()
-                    val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
-                    handleRoomResponseErrors(midError.roomResponseFirstError.errorCode)
+                    try {
+                        val response = throwable.response().errorBody()
+                        val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
+                        handleRoomResponseErrors(midError.roomResponseFirstError.errorCode)
+                    } catch (e: Exception) {
+                        handleRoomResponseErrors(ApiError.Code.PACKAGE_SEARCH_ERROR)
+                    }
                 } else if (showErrorDialog) {
                     handleError(throwable)
                 }
