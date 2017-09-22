@@ -54,6 +54,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val baggageInfoUrlSubject = PublishSubject.create<String>()
     val baggageInfoClickSubject = PublishSubject.create<Unit>()
     val paymentFeeInfoClickSubject = PublishSubject.create<Unit>()
+    lateinit var baggageUrl : String
 
     init {
         Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
@@ -96,6 +97,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
         }
 
         Observable.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, suggestion, date, guests ->
+            baggageUrl = flight.baggageFeesUrl
             val fmt = ISODateTimeFormat.dateTime()
             val localDate = LocalDate.parse(flight.departureDateTimeISO, fmt)
             flightSelectIconObservable.onNext(false)
@@ -123,10 +125,10 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
 
             val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
             baggageInfoClickSubject.subscribe {
-                if (flight.baggageFeesUrl.contains("http")) {
-                    baggageInfoUrlSubject.onNext(flight.baggageFeesUrl)
+                if (baggageUrl.contains("http")) {
+                    baggageInfoUrlSubject.onNext(baggageUrl)
                 } else {
-                    baggageInfoUrlSubject.onNext(e3EndpointUrl + flight.baggageFeesUrl)
+                    baggageInfoUrlSubject.onNext(e3EndpointUrl + baggageUrl)
                 }
             }
 

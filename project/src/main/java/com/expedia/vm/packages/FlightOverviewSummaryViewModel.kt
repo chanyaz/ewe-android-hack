@@ -18,6 +18,8 @@ class FlightOverviewSummaryViewModel(val context: Context) {
     val tripResponse = PublishSubject.create<FlightTripResponse>()
     val outboundBundleWidgetClassObservable = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
     val inboundBundleWidgetClassObservable = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
+    val outboundBundleBaggageUrlSubject = PublishSubject.create<String>()
+    val inboundBundleBaggageUrlSubject = PublishSubject.create<String>()
     val freeCancellationInfoClickSubject = PublishSubject.create<Unit>()
     val freeCancellationInfoSubject = PublishSubject.create<Boolean>()
 
@@ -55,8 +57,10 @@ class FlightOverviewSummaryViewModel(val context: Context) {
             }
         }).subscribe {
             outboundBundleWidgetClassObservable.onNext(Pair(it.trip.details.offer.offersSeatClassAndBookingCode[0], it.trip.details.getLegs()[0].isBasicEconomy))
+            outboundBundleBaggageUrlSubject.onNext(it.trip.details.getLegs()[0].baggageFeesUrl)
             if (it.params?.returnDate != null && it.trip.details.getLegs().size > 1) {
                 inboundBundleWidgetClassObservable.onNext(Pair(it.trip.details.offer.offersSeatClassAndBookingCode[1], it.trip.details.getLegs()[1].isBasicEconomy))
+                inboundBundleBaggageUrlSubject.onNext(it.trip.details.getLegs()[1].baggageFeesUrl)
             }
         }
     }

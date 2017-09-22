@@ -53,6 +53,12 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         vm.inboundFlightTitle.subscribeTextAndVisibility(inboundFlightTitle)
         vm.outboundBundleWidgetClassObservable.subscribe(outboundFlightWidget.viewModel.updateUpsellClassPreference)
         vm.inboundBundleWidgetClassObservable.subscribe(inboundFlightWidget.viewModel.updateUpsellClassPreference)
+        vm.outboundBundleBaggageUrlSubject.subscribe{
+            outboundFlightWidget.viewModel.baggageUrl = it
+        }
+        vm.inboundBundleBaggageUrlSubject.subscribe{
+            inboundFlightWidget.viewModel.baggageUrl = it
+        }
         freeCancellationInfoContainer.subscribeOnClick(vm.freeCancellationInfoClickSubject)
         vm.freeCancellationInfoSubject.subscribe {
             if (it){

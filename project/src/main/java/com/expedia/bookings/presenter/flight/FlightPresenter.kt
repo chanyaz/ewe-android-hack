@@ -76,6 +76,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val pageUsableData = PageUsableData()
     val showMoreInfoOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
+    val isUserBucketedForFareFamily = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.error_presenter_stub)
@@ -210,7 +211,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         searchViewModel.isRoundTripSearchObservable.subscribeVisibility(presenter.flightSummary.inboundFlightWidget)
         searchViewModel.searchParamsObservable.subscribe { params ->
-            if (showMoreInfoOnOverview) {
+            if (showMoreInfoOnOverview || isUserBucketedForFareFamily) {
                 presenter.flightSummary.viewmodel.params.onNext(params)
             }
             if (params.returnDate != null) {
@@ -451,8 +452,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
         }
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFareFamilyFlightSummary,
-                R.string.preference_fare_family_flight_summary)) {
+        if (isUserBucketedForFareFamily) {
             flightOverviewPresenter.fareFamilyCardView.visibility = View.GONE
         }
     }

@@ -418,6 +418,25 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
+    fun testOutboundWidgetBaggageUrlUpdate() {
+        createExpectedFlightLeg()
+        val summaryWidgetViewModel = widget.flightSummary.viewmodel
+        summaryWidgetViewModel.params.onNext(setupFlightSearchParams())
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        flightLeg.baggageFeesUrl = "http://old baggage url"
+        outboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(outboundFlightBaggageInfoTestSubscriber)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        outboundFlightWidget.baggageFeesButton.performClick()
+        assertEquals("http://old baggage url", outboundFlightBaggageInfoTestSubscriber.onNextEvents[0])
+
+        //After new create trip
+        summaryWidgetViewModel.tripResponse.onNext(getFlightCreateTripResponse())
+        outboundFlightWidget.baggageFeesButton.performClick()
+        assertEquals("http://new baggage url", outboundFlightBaggageInfoTestSubscriber.onNextEvents[1])
+    }
+
+    @Test
     fun testOutboundWidgetPaymentInfoClick() {
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
@@ -513,11 +532,15 @@ class FlightOverviewPresenterTest {
         pricePerPassengerList.add(passengerInfo)
         val flightOffer = FlightTripDetails.FlightOffer()
         flightOffer.totalPrice = Money(223, "USD")
+        val seatClassAndBookingCode = FlightTripDetails().SeatClassAndBookingCode()
+        seatClassAndBookingCode.seatClass = "coach"
+        flightOffer.offersSeatClassAndBookingCode = listOf(listOf(seatClassAndBookingCode))
         val flightTripDetails = FlightTripDetails()
         flightTripDetails.legs = ArrayList()
         val flightLeg = FlightLeg()
         flightLeg.segments = ArrayList()
         flightLeg.segments.add(FlightLeg.FlightSegment())
+        flightLeg.baggageFeesUrl = "http://new baggage url"
         flightTripDetails.legs.add(flightLeg)
         flightOffer.pricePerPassengerCategory = pricePerPassengerList
         flightTripDetails.offer = flightOffer
@@ -546,6 +569,7 @@ class FlightOverviewPresenterTest {
         flightLeg.departureDateTimeISO = "2016-07-10T01:10:00.000-05:00"
         flightLeg.arrivalDateTimeISO = "2016-07-10T12:20:00.000-07:00"
         flightLeg.stopCount = 1
+        flightLeg.baggageFeesUrl = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
         flightLeg.packageOfferModel = PackageOfferModel()
         flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
         flightLeg.packageOfferModel.price.packageTotalPrice = Money("111", "USD")
