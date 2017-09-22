@@ -3,10 +3,14 @@ package com.expedia.bookings.notification
 import android.app.AlarmManager
 import android.app.NotificationManager
 import android.content.Context
+import android.util.Log
 import com.activeandroid.ActiveAndroid
 import com.activeandroid.Model
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
+import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.R
+import com.mobiata.android.util.SettingUtils
 
 class NotificationManager(private val context: Context) {
 
@@ -19,7 +23,14 @@ class NotificationManager(private val context: Context) {
     fun scheduleNotification(notification: Notification) {
         val pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, notification)
         val mgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        mgr.set(AlarmManager.RTC_WAKEUP, notification.triggerTimeMillis, pendingIntent)
+        if (BuildConfig.DEBUG && SettingUtils
+                .get(context, context.getString(R.string.preference_launch_all_trip_notifications), false)) {
+            val testTriggerTime = System.currentTimeMillis() + 5000
+            mgr.set(AlarmManager.RTC_WAKEUP, testTriggerTime, pendingIntent)
+        }
+        else {
+            mgr.set(AlarmManager.RTC_WAKEUP, notification.triggerTimeMillis, pendingIntent)
+        }
     }
 
     /**
@@ -94,6 +105,10 @@ class NotificationManager(private val context: Context) {
      * from the notification bar if they've already been notified.
      */
     fun cancelAllExpired() {
+        if (BuildConfig.DEBUG && SettingUtils
+                .get(context, context.getString(R.string.preference_launch_all_trip_notifications), false)) {
+            return
+        }
         val notifications = Select()
                 .from(Notification::class.java)
                 .where("Status IN (?,?) AND ExpirationTimeMillis<?", Notification.StatusType.NEW.name, Notification.StatusType.NOTIFIED.name, System.currentTimeMillis())
@@ -116,6 +131,7 @@ class NotificationManager(private val context: Context) {
             cancelNotification(notification)
         }
     }
+
 
     /**
      * Cancels and removes _all_ notifications from the database.

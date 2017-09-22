@@ -21,6 +21,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -47,6 +48,7 @@ import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.picasso.Picasso;
 
@@ -264,6 +266,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 			case NONE:
 				display();
 				break;
+			}
+			if (BuildConfig.DEBUG && SettingUtils
+				.get(mContext, mContext.getString(R.string.preference_launch_all_trip_notifications), false)) {
+				display();
 			}
 		}
 

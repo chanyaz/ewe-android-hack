@@ -234,6 +234,12 @@
             android:summary="Show Check In Now button on Itin flights before 24 hours (kill the app and start again to see the changes.)"
             android:title="Show Itin Check In Now for Flights" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_launch_all_trip_notifications"
+            android:summary="Launch notifications for all trips in account"
+            android:title="Show all Trip Notifications" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
