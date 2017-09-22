@@ -113,13 +113,13 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         })
     }
 
-    fun suggestPackagesV4(query: String, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
+    fun suggestPackagesV4(query: String, siteId: Int, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
         var suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or
                 SuggestionResultType.CITY or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
         if (isDest) {
             suggestType = suggestType or SuggestionResultType.AIRPORT
         }
-        return suggestApi.suggestV4(query, locale, suggestType, isDest, "ta_hierarchy", clientId, "PACKAGES", null, null, null)
+        return suggestApi.suggestV4(query, locale, suggestType, isDest, "ta_hierarchy", clientId, "PACKAGES", siteId, null, null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
