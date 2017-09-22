@@ -383,8 +383,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_flight_overview,
 		R.string.select_return_flight,
 		R.string.flight_to_template,
-		R.string.package_inbound_flight_toolbar_title_TEMPLATE,
-		R.string.package_outbound_flight_toolbar_title_TEMPLATE,
 		R.menu.package_flights_menu,
 		R.layout.package_confirmation_presenter,
 		R.layout.bundle_total_price_widget,
@@ -1277,7 +1275,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.excluding_taxes_fees,
 		R.string.trip_total_upsell_TEMPLATE,
 		R.string.flight_fare_family_total_price_widget_cont_desc_TEMPLATE,
-		R.layout.hotel_detail_price_search_info,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt
 	};

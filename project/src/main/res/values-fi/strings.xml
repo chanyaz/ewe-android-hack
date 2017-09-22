@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Anna uuden pankki-/luottokortin tiedot</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Asiakkaan tiedot</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">Anna tietosi</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">Maksutapa</string>
     <!-- Text for enter payment details line 2 -->
@@ -1513,7 +1511,7 @@
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">viiva</string>
     <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">Muuta tai peruuta huone</string>
+    <string name="itin_hotel_manage_booking_cancel_change_header">muuta tai peruuta huone</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Muuta tai peruuta huone</string>
     <!--Hotel itin manage booking room details header-->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">Tarkoititko…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">VALMIS</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">OK</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Kartta</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Haluttu lentoluokka {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">Korota lentoluokkaasi</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">Lentoluokan korotus epäonnistui</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Muutos epäonnistui</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Pahoittelut, &lt;b&gt;{selected_upgrade}&lt;/b&gt; on loppuunmyyty. Yritä uudelleen eri lentoluokalla. Lentosi palautetaan alkuperäiseen lentoluokkaan.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">Pahoittelut, &lt;b&gt;{selected_upgrade}&lt;/b&gt; on loppuunmyyty. Yritä uudelleen eri lentoluokalla. Lentosi palautetaan alkuperäiseen lentoluokkaan.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Pahoittelut, &lt;b&gt;{selected_upgrade}&lt;/b&gt; on loppuunmyyty. Yritä uudelleen eri lentoluokalla. Lentosi palautetaan alkuperäiseen lentoluokkaan.</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">Vaihda lentoluokkaasi</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Korota lentoluokkaasi</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">Korota lentoluokkaasi</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Alkaen</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Lopullinen hinta sisältäen verot ja maksut</string>
     <string name="excluding_taxes_fees">Ei sisällä veroja ja maksuja</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">Matkatavarat</string>
+    <string name="amenity_cancellation">Peruutus</string>
+    <string name="amenity_seat_selection">Paikanvalinta</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">näytä lisää</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">Sisältyy hintaan</string>
+    <string name="fare_family_fee_applies">Maksuja sovelletaan</string>
+    <string name="fare_family_not_available">Ei saatavilla</string>
+    <string name="fare_family_unknown">Tuntematon</string>
 
 </resources>

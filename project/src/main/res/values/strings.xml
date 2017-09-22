@@ -3994,8 +3994,6 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Showing outbound flights to {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Select flight to %1$s</string>
-    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
-    <string name="package_outbound_flight_toolbar_title_TEMPLATE">Outbound to {cityname}, {country} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Flight to %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -4006,8 +4004,6 @@
     <string name="select_return_flight">Select return flight</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Flight to %1$s</string>
-    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
-    <string name="package_inbound_flight_toolbar_title_TEMPLATE">Inbound to {cityname}, {country} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->

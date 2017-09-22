@@ -9,6 +9,7 @@ class TravelerFrequentFlyerMembership : JSONable {
     lateinit var membershipNumber : String
     lateinit var planCode : String
     lateinit var airlineCode : String
+    var frequentFlyerPlanID = ""
 
     override fun toJson(): JSONObject? {
         val obj = JSONObject()

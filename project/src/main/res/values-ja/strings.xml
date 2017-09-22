@@ -119,7 +119,7 @@
     <!-- Car doors text-->
     <string name="car_doors_text">ドア</string>
     <!-- Car bags text-->
-    <string name="car_bags_text">バッグ</string>
+    <string name="car_bags_text">手荷物</string>
     <!-- Car automatic transmission text-->
     <string name="car_auto_tran_text">オートマチック トランスミッション</string>
     <!-- Car manual transmission text-->
@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">新しいデビット / クレジットカード情報を入力</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">ゲストの詳細</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">情報を入力してください</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">お支払い方法</string>
     <!-- Text for enter payment details line 2 -->
@@ -706,7 +704,7 @@
     <!-- Text for error toolbar-->
     <string name="lx_payment_failed_text">支払い手続失敗</string>
     <!-- Offers show more string -->
-    <string name="lx_show_more_offers">もっと見る</string>
+    <string name="lx_show_more_offers">すべて表示</string>
     <!-- Text for traveler details toolbar-->
     <string name="traveler_details_text">旅行者の詳細</string>
     <!-- Text for traveler age dialog box when age is invalid-->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">もしかして…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">完了</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">OK</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">マップ</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">ご希望のクラス {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">フライトのアップグレード</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">アップグレードできません</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">変更できません</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">申し訳ございません。&lt;b&gt;{selected_upgrade}&lt;/b&gt;は完売しています。別の運賃オプションで再度お試しください。航空券を元の運賃オプションに戻します。</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">申し訳ございません。&lt;b&gt;{selected_upgrade}&lt;/b&gt; は完売しています。別の料金オプションで再度お試しください。航空券を元の料金オプションに戻します。</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">申し訳ございません。&lt;b&gt;{selected_upgrade}&lt;/b&gt;は完売しています。別の運賃オプションで再度お試しください。航空券を元の運賃オプションに戻します。</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">搭乗クラスを変更</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">フライトのアップグレード</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">フライトのアップグレード</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">最低料金</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">税金とサービス料込み</string>
     <string name="excluding_taxes_fees">税およびサービス料別</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">手荷物</string>
+    <string name="amenity_cancellation">キャンセル</string>
+    <string name="amenity_seat_selection">座席指定</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">すべて表示</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">含まれているもの</string>
+    <string name="fare_family_fee_applies">有料</string>
+    <string name="fare_family_not_available">利用不可</string>
+    <string name="fare_family_unknown">不明</string>
 
 </resources>

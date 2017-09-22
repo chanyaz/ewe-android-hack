@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Inserisci una nuova carta di credito/debito</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Dettagli ospite</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">Inserisci i tuoi dati</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">Metodo di pagamento</string>
     <!-- Text for enter payment details line 2 -->
@@ -1513,7 +1511,7 @@
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Fino al</string>
     <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">Cancella o cambia camera</string>
+    <string name="itin_hotel_manage_booking_cancel_change_header">Cambia o cancella camera</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Cancella o cambia camera</string>
     <!--Hotel itin manage booking room details header-->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">Forse cercavi…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">OK</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">OK</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Mappa</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Classe di viaggio preferita: {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">Cambia classe di viaggio</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">Upgrade non riuscito</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Modifica non riuscita</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Spiacenti, non ci sono più posti disponibili in &lt;b&gt;{selected_upgrade}&lt;/b&gt;. Riprova selezionando un\&apos;altra opzione. Riassegneremo al tuo volo la classe che avevi scelto in precedenza.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">Spiacenti, non ci sono più posti disponibili in &lt;b&gt;{selected_upgrade}&lt;/b&gt;. Riprova selezionando un\&apos;altra opzione. Riassegneremo ai tuoi voli la classe che avevi scelto in precedenza.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Spiacenti, non ci sono più posti disponibili in &lt;b&gt;{selected_upgrade}&lt;/b&gt;. Riprova selezionando un\&apos;altra opzione. Riassegneremo ai tuoi voli la classe che avevi scelto in precedenza.</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">Cambia classe</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Cambia classe di viaggio per i tuoi voli</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">Cambia classe di viaggio per il tuo volo</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Da</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Tasse e oneri inclusi</string>
     <string name="excluding_taxes_fees">Tasse e oneri esclusi</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">Bagagli</string>
+    <string name="amenity_cancellation">Cancellazione</string>
+    <string name="amenity_seat_selection">Scelta del posto a sedere</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">Mostra altro</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">Inclusi</string>
+    <string name="fare_family_fee_applies">Richiedono una commissione aggiuntiva</string>
+    <string name="fare_family_not_available">Non disponibili</string>
+    <string name="fare_family_unknown">Nessuna informazione</string>
 
 </resources>

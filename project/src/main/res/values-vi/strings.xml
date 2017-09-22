@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Nhập thẻ tín dụng/ghi nợ mới</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Thông tin khách</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">Nhập thông tin của quý vị</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">Phương thức thanh toán</string>
     <!-- Text for enter payment details line 2 -->
@@ -1513,7 +1511,7 @@
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Đến</string>
     <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">Thay đổi hoặc hủy đặt phòng</string>
+    <string name="itin_hotel_manage_booking_cancel_change_header">Thay đổi hoặc hủy phòng</string>
     <!--Hotel itin manage booking webview title-->
     <string name="itin_hotel_manage_booking_webview_title">Thay đổi hoặc hủy đặt phòng</string>
     <!--Hotel itin manage booking room details header-->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">Ý quý vị là…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">HOÀN TẤT</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">OK</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Bản đồ</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Ưu tiên chọn hạng {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">Nâng hạng chuyến bay</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">Nâng hạng thành công</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Thay đổi thành công</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Rất tiếc, đã hết chỗ &lt;b&gt;{selected_upgrade}&lt;/b&gt;. Vui lòng thử lại với loại giá khác. Chuyển chuyến bay về hạng vé chọn ban đầu.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">Rất tiếc, đã hết chỗ &lt;b&gt;{selected_upgrade}&lt;/b&gt;. Vui lòng thử lại với loại giá khác. Chuyển chuyến bay về hạng vé chọn ban đầu.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Rất tiếc, đã hết chỗ &lt;b&gt;{selected_upgrade}&lt;/b&gt;. Vui lòng thử lại với loại giá khác. Chuyển chuyến bay về hạng vé chọn ban đầu.</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">Thay đổi hạng cabin</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Nâng hạng chuyến bay</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">Nâng hạng chuyến bay</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Từ</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Tổng gồm thuế và phí</string>
     <string name="excluding_taxes_fees">Chưa gồm thuế và phí</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">Túi</string>
+    <string name="amenity_cancellation">Hủy</string>
+    <string name="amenity_seat_selection">Chọn chỗ ngồi</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">hiển thị thêm</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">Bao gồm</string>
+    <string name="fare_family_fee_applies">Áp dụng phí riêng</string>
+    <string name="fare_family_not_available">Không áp dụng</string>
+    <string name="fare_family_unknown">Không có thông tin</string>
 
 </resources>

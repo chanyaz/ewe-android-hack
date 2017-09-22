@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Legg til nytt debet-/kredittkort</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Gjestens detaljer</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">Angi din informasjon</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">Betalingsmåte</string>
     <!-- Text for enter payment details line 2 -->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">Mente du…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">FULLFØRT</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">OK</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Kart</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Foretrukket klasse {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">Oppgrader flyvningene dine</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">Oppgraderingen mislyktes</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Byttet mislyktes</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Beklager, &lt;b&gt;{selected_upgrade}&lt;/b&gt; er nå utsolgt. Prøv igjen med et annet prisalternativ. Flyvningen din endres til det opprinnelige prisvalget.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">Beklager, &lt;b&gt;{selected_upgrade}&lt;/b&gt; er nå utsolgt. Prøv igjen med et annet prisalternativ. Endre flyvningene dine til ditt opprinnelige prisvalg.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Beklager, &lt;b&gt;{selected_upgrade}&lt;/b&gt; er nå utsolgt. Prøv igjen med et annet prisalternativ. Flyvningene dine endres til det opprinnelige prisvalget.</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">Endre kabinklasse</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Oppgrader flyvningene dine</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">Oppgrader flyvningen din</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Fra</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Totalpris inkludert skatter og avgifter</string>
     <string name="excluding_taxes_fees">Skatter og avgifter ikke inkludert</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">koffert(er)</string>
+    <string name="amenity_cancellation">avbestilling</string>
+    <string name="amenity_seat_selection">setevalg</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">vis mer</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">Inkludert</string>
+    <string name="fare_family_fee_applies">Mot en avgift</string>
+    <string name="fare_family_not_available">Ikke tilgjengelig</string>
+    <string name="fare_family_unknown">Ukjent</string>
 
 </resources>

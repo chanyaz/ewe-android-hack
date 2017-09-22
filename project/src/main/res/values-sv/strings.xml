@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Ange nytt bankkort/kreditkort</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Gästinformation</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">Ange dina uppgifter</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">Betalningsmetod</string>
     <!-- Text for enter payment details line 2 -->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">Menade du…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">KLAR</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">OK</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Karta</string>
     <!-- Label for sort hotels in hotel list -->
@@ -2933,7 +2933,7 @@
     <!-- Label for the property fee for a hotel room booking. -->
     <string name="property_fee">Hotellavgift</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
-    <string name="included">Inkluderas</string>
+    <string name="included">Ingår</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Rabatt</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">Förerdrar klass {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">Uppgradera dina flyg</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">Uppgardering utfördes inte</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">Ändringen har inte utförts</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">&lt;b&gt;{selected_upgrade}&lt;/b&gt; är tyvärr slutsålt. Försök igen med en annan prisklass. Ditt flyg ställs om till ursprungligt prisklassval.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">&lt;b&gt;{selected_upgrade}&lt;/b&gt; är tyvärr slutsålt. Försök igen med en annan prisklass. Dina flyg ställs om till ursprungligt prisklassval.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">&lt;b&gt;{selected_upgrade}&lt;/b&gt; är tyvärr slutsålt. Försök igen med en annan prisklass. Dina flyg ställs om till ursprungligt prisklassval.</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">Ändra kabinklass</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">Uppgradera dina flyg</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">Uppgradera ditt flyg</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">Från</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">Totalpris, inklusive skatter och avgifter</string>
     <string name="excluding_taxes_fees">Exklusive skatter och avgifter</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">Väskor</string>
+    <string name="amenity_cancellation">Avbokning</string>
+    <string name="amenity_seat_selection">Sittplatsval</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">visa mer</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">Ingår</string>
+    <string name="fare_family_fee_applies">Avgift tillkommer</string>
+    <string name="fare_family_not_available">Ej tillgänglig</string>
+    <string name="fare_family_unknown">Okänt</string>
 
 </resources>
