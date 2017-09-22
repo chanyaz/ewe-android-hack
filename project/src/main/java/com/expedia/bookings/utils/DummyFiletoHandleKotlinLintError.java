@@ -1275,6 +1275,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.excluding_taxes_fees,
 		R.string.trip_total_upsell_TEMPLATE,
 		R.string.flight_fare_family_total_price_widget_cont_desc_TEMPLATE,
+		R.string.nav_flight_plus_hotel,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt
 	};

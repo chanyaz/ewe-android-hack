@@ -15,7 +15,8 @@ object PackageUtil {
             return pointOfSaleId == PointOfSaleId.SINGAPORE ||
                     pointOfSaleId == PointOfSaleId.MALAYSIA ||
                     pointOfSaleId == PointOfSaleId.AUSTRALIA ||
-                    pointOfSaleId == PointOfSaleId.NEW_ZEALND
+                    pointOfSaleId == PointOfSaleId.NEW_ZEALND ||
+                    pointOfSaleId == PointOfSaleId.CANADA
         }
 
     val isPackagesLobTitleABTestEnabled: Boolean
@@ -51,6 +52,11 @@ object PackageUtil {
                     pointOfSaleId == PointOfSaleId.NEW_ZEALND) {
                 return R.string.nav_hotel_plus_flight_deals
             }
+
+            if (pointOfSaleId == PointOfSaleId.CANADA) {
+                return R.string.nav_flight_plus_hotel
+            }
+
             return R.string.nav_packages
         }
 }

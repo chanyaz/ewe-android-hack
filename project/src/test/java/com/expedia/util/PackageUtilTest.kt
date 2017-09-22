@@ -112,6 +112,14 @@ class PackageUtilTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageLOBTitleStringCanada() {
+        assertPackageTitle(posId = PointOfSaleId.CANADA,
+                expectedPackagesLobTitleABTestEnabled = false,
+                expectedPackageTitle = "Flight + Hotel")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageLOBTitleStringFallback() {
         assertPackageTitle(posId = PointOfSaleId.FINLAND,
                 expectedPackagesLobTitleABTestEnabled = false,
@@ -143,6 +151,13 @@ class PackageUtilTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageNEW_ZEALNDLOBEnabled() {
         RoboTestHelper.setPOS(PointOfSaleId.NEW_ZEALND)
+        assertTrue(PackageUtil.isPackageLOBUnderABTest)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageCANADALOBEnabled() {
+        RoboTestHelper.setPOS(PointOfSaleId.CANADA)
         assertTrue(PackageUtil.isPackageLOBUnderABTest)
     }
 
