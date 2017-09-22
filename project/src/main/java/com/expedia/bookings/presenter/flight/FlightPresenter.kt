@@ -32,13 +32,9 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.SearchParamsHistoryUtil
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.TravelerManager
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isFlexEnabled
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.flights.FlightListAdapter
+import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.FlightActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
@@ -46,6 +42,7 @@ import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
+import com.expedia.vm.FlightWebCheckoutViewViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
@@ -346,8 +343,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 createTripBuilder.enableSubPubFeature()
             }
             flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
-            show(flightOverviewPresenter)
-            flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+            if (shouldShowWebCheckoutView()) {
+                show(webCheckoutView)
+            } else {
+                show(flightOverviewPresenter)
+                flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+            }
         }
         viewModel.outboundResultsObservable.subscribe {
             announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE)
@@ -399,6 +400,29 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
+    val webCheckoutView: WebCheckoutView by lazy {
+        val viewStub = findViewById<ViewStub>(R.id.flight_web_checkout_stub)
+        var webCheckoutView = viewStub.inflate() as WebCheckoutView
+        var flightWebCheckoutViewModel = FlightWebCheckoutViewViewModel(context)
+        flightWebCheckoutViewModel.createTripViewModel = FlightCreateTripViewModel(context)
+        webCheckoutView.viewModel = flightWebCheckoutViewModel
+
+        flightWebCheckoutViewModel.closeView.subscribe {
+            webCheckoutView.clearHistory()
+            flightWebCheckoutViewModel.webViewURLObservable.onNext("about:blank")
+        }
+
+        flightWebCheckoutViewModel.backObservable.subscribe {
+            back()
+        }
+
+        flightWebCheckoutViewModel.blankViewObservable.subscribe {
+            super.back()
+        }
+
+        webCheckoutView
+    }
+
     init {
         travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         Ui.getApplication(getContext()).flightComponent().inject(this)
@@ -416,16 +440,22 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     override fun onFinishInflate() {
         super.onFinishInflate()
         addTransition(searchToOutbound)
-        addTransition(inboundFlightToOverview)
         addTransition(outboundToInbound)
-        addTransition(overviewToConfirmation)
-        addTransition(outboundFlightToOverview)
         addTransition(outboundToError)
         addTransition(flightOverviewToError)
         addTransition(errorToSearch)
         addTransition(searchToInbound)
         addTransition(errorToConfirmation)
         addTransition(inboundToError)
+        if (shouldShowWebCheckoutView()) {
+            addTransition(inboundToWebCheckoutView)
+            addTransition(outboundToWebCheckoutView)
+
+        } else {
+            addTransition(inboundFlightToOverview)
+            addTransition(outboundFlightToOverview)
+            addTransition(overviewToConfirmation)
+        }
 
         if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
             SearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, loadSuccess, loadFailed)
@@ -537,6 +567,24 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             if (!forward) {
                 outBoundPresenter.showResults()
             }
+        }
+    }
+
+    private val inboundToWebCheckoutView = object : Transition(FlightInboundPresenter::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
+            webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+        }
+    }
+
+    private val outboundToWebCheckoutView = object : Transition(FlightOutboundPresenter::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
+            webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
         }
     }
 
@@ -669,5 +717,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE)
                 .put("city", StrUtils.formatCity(city))
                 .format().toString())
+    }
+
+    private fun shouldShowWebCheckoutView(): Boolean {
+        return PointOfSale.getPointOfSale().shouldShowWebCheckout() && isShowFlightsCheckoutWebview(context)
     }
 }
