@@ -12,12 +12,13 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrequentFlyerDialogAdapter
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.traveler.FlightTravelerFrequentFlyerItemViewModel
 
 class FrequentFlyerViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
-    val frequentFlyerProgram: TravelerEditText by bindView(R.id.edit_frequent_flyer_program_name)
+    val frequentFlyerProgram: AccessibleEditTextForSpinner by bindView(R.id.edit_frequent_flyer_program_name)
     val frequentFlyerNameTitle: TextView by bindView(R.id.frequent_flyer_program_card_title)
     val frequentFlyerNumberInput: TravelerEditText by bindView(R.id.edit_frequent_flyer_number)
     val context: Context = root.context
@@ -61,7 +62,6 @@ class FrequentFlyerViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(roo
     }
 
     init {
-        frequentFlyerProgram.viewModel = FrequentFlyerProgramViewModel()
         frequentFlyerProgram.setOnClickListener {
             frequentFlyerDialog.show()
         }

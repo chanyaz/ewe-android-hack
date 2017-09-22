@@ -8,14 +8,13 @@
         android:id="@+id/edit_birth_date_text_layout_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="@string/date_of_birth"
-        android:labelFor="@+id/edit_birth_date_text_btn">
+        android:layout_weight="1">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_birth_date_text_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/date_of_birth"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
             android:inputType="none"
@@ -29,14 +28,13 @@
         android:id="@+id/edit_gender_layout_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="@string/gender"
-        android:labelFor="@+id/edit_gender_btn">
+        android:layout_weight="1">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_gender_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/gender"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
             android:textIsSelectable="true"

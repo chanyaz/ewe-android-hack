@@ -58,17 +58,16 @@
             android:id="@+id/passport_country_layout_btn"
             android:layout_width="match_parent"
             android:visibility="gone"
-            android:layout_height="wrap_content"
-            android:hint="@string/passport_country"
-            android:labelFor="@+id/passport_country_btn">
+            android:layout_height="wrap_content">
 
-            <EditText
+            <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
                 android:id="@+id/passport_country_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="false"
                 android:drawableRight="@drawable/material_dropdown"
                 android:textIsSelectable="true"
+                android:hint="@string/passport_country"
                 android:textSize="@dimen/traveler_input_text_size" />
 
         </android.support.design.widget.TextInputLayout>

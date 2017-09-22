@@ -16,6 +16,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEditText
 import com.expedia.util.subscribeTextChange
@@ -106,16 +107,20 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
 
     override fun onInitializeAccessibilityNodeInfo(nodeInfo: AccessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(nodeInfo)
+        nodeInfo.text = getAccessibilityNodeInfo()
+    }
+
+    fun getAccessibilityNodeInfo() : String {
         val text = this.text?.toString()
         var hint = this.hint?.toString()
-        val error = (this.parent as? TextInputLayout)?.error ?: errorContDesc
         if (Strings.isEmpty(hint)) {
-            hint = (this.parentForAccessibility as? TextInputLayout)?.hint.toString()
+            hint = (this.getParentTextInputLayout() as? TextInputLayout)?.hint.toString()
         }
+        val error = (this.getParentTextInputLayout() as? TextInputLayout)?.error ?: errorContDesc
         val conDescription = if (Strings.isNotEmpty(this.contentDescription)) {
             this.contentDescription.toString()
         } else ""
-        nodeInfo.text = if (!valid) " $hint, $text, $defaultErrorString, $error, $conDescription" else " $hint, $text, $conDescription"
+        return if (!valid) " $hint, $text, $defaultErrorString, $error, $conDescription" else " $hint, $text, $conDescription"
     }
 
     private fun resetError() {

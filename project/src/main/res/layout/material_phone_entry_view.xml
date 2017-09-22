@@ -9,14 +9,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:layout_marginRight="10dp"
-        android:hint="@string/phone_number_country_code_hint"
-        android:labelFor="@+id/material_edit_phone_number_country_code">
+        android:layout_marginRight="10dp">
 
         <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
             android:id="@+id/material_edit_phone_number_country_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/phone_number_country_code_hint"
             android:focusableInTouchMode="true"
             android:focusable="true"
             android:drawableRight="@drawable/material_dropdown"
@@ -29,14 +28,13 @@
         android:id="@+id/edit_phone_layout_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:hint="@string/phone_number_hint"
-        android:labelFor="@+id/edit_phone_number">
+        android:layout_weight="5">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/phone_number_hint"
             android:inputType="phone"
             android:maxLines="1"
             android:nextFocusForward="@+id/edit_birth_date_text_btn"

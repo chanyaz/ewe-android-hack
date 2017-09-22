@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isFrequentFlyerNumberForFlightsEnabled
 import com.expedia.bookings.utils.isMaterialFormsEnabled
+import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
@@ -42,7 +43,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: AccessibleSpinner by bindView(R.id.passport_country_spinner)
     val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)
-    val passportCountryEditBox: EditText by bindView(R.id.passport_country_btn)
+    val passportCountryEditBox: AccessibleEditTextForSpinner by bindView(R.id.passport_country_btn)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)

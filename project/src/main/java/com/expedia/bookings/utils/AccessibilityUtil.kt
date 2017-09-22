@@ -2,12 +2,15 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import android.support.annotation.StringRes
+import android.support.design.widget.TextInputLayout
 import android.support.v7.widget.ActionMenuView
+import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import android.widget.ImageButton
+import com.expedia.bookings.R
 
 object AccessibilityUtil {
     @JvmStatic fun isTalkBackEnabled(context: Context): Boolean {
@@ -83,4 +86,9 @@ fun View.setAccessibilityHoverFocus() {
 
 fun View.setAccessibilityHoverFocus(delayMillis: Long) {
     postDelayed({ this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER) }, delayMillis)
+}
+
+fun TextInputLayout.hideErrorTextViewFromHoverFocus() {
+    val errorText = this.findViewById<AppCompatTextView>(R.id.textinput_error)
+    errorText.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
 }

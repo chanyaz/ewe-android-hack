@@ -7,14 +7,13 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/last_name_layout_input"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/last_name"
-        android:labelFor="@+id/last_name_input">
+        android:layout_height="wrap_content">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/last_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/last_name"
             android:inputType="textPersonName|textCapWords"
             android:maxLines="1"
             android:textSize="@dimen/traveler_input_text_size"
@@ -25,14 +24,13 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/first_name_layout_input"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/first_name"
-        android:labelFor="@+id/first_name_input">
+        android:layout_height="wrap_content">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/first_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/first_name"
             android:inputType="textPersonName|textCapWords"
             android:maxLines="1"
             android:nextFocusForward="@+id/email_input"

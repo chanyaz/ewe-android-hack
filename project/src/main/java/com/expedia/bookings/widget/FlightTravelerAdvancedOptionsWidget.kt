@@ -17,6 +17,7 @@ import com.expedia.bookings.section.SeatPreferenceSpinnerAdapter
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMaterialFormsEnabled
+import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEditText
@@ -29,9 +30,9 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
     val redressNumber: TravelerEditText by bindView(R.id.redress_number)
     val redressNumberIcon: ImageView by bindView(R.id.redress_number_icon)
     val assistancePreferenceSpinner: Spinner by bindView(R.id.edit_assistance_preference_spinner)
-    val assistancePreferenceEditBox: EditText by bindView(R.id.edit_assistance_preference_button)
+    val assistancePreferenceEditBox: AccessibleEditTextForSpinner by bindView(R.id.edit_assistance_preference_button)
     val seatPreferenceSpinner: Spinner by bindView(R.id.edit_seat_preference_spinner)
-    val seatPreferenceEditBox: EditText by bindView(R.id.edit_seat_preference_button)
+    val seatPreferenceEditBox: AccessibleEditTextForSpinner by bindView(R.id.edit_seat_preference_button)
     val materialFormTestEnabled = isMaterialFormsEnabled()
 
     val travelerInfoDialog: AlertDialog by lazy {

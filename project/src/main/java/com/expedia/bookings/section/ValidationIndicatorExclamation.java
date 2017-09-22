@@ -1,14 +1,12 @@
 package com.expedia.bookings.section;
 
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.TextInputLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.TextViewExtensionsKt;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
-import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner;
 
 /**
  * Validation indicator field for textviews and subclasses that sets the error icon and changes the text color if things aren't valid
@@ -47,8 +45,7 @@ public class ValidationIndicatorExclamation<Data> extends
 	@Override
 	protected void onPostValidate(TextView field, boolean isValid, boolean force) {
 		boolean materialFormTestEnabled = FeatureUtilKt.isMaterialFormsEnabled();
-		//TODO `field.getParent()` this should be updated. We should never rely on hierarchy maintained by libs
-		if (materialFormTestEnabled && Strings.isNotEmpty(mErrorString) && (field.getParent() instanceof TextInputLayout || field.getParent().getParent() instanceof TextInputLayout)) {
+		if (materialFormTestEnabled && Strings.isNotEmpty(mErrorString) && (TextViewExtensionsKt.getParentTextInputLayout(field) != null)) {
 			TextViewExtensionsKt.setMaterialFormsError(field, isValid, mErrorString, mDropDownInt);
 		}
 		else {
@@ -65,12 +62,5 @@ public class ValidationIndicatorExclamation<Data> extends
 				((AccessibleEditText) field).setErrorMessage(mErrorString);
 			}
 		}
-		else if (field instanceof AccessibleEditTextForSpinner) {
-			((AccessibleEditTextForSpinner) field).setValid(isValid);
-			if (Strings.isNotEmpty(mErrorString)) {
-				((AccessibleEditTextForSpinner) field).setErrorMessage(mErrorString);
-			}
-		}
 	}
-
 }

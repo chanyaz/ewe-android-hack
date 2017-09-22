@@ -12,8 +12,9 @@
             android:id="@+id/traveler_layout_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/known_traveler_number"
-            android:labelFor="@+id/traveler_number">
+            android:maxLength="13"
+            android:maxLines="1"
+            android:textSize="@dimen/traveler_input_text_size">
 
             <com.expedia.bookings.widget.traveler.TravelerEditText
                 android:id="@+id/traveler_number"
@@ -22,6 +23,7 @@
                 android:maxLength="13"
                 android:maxLines="1"
                 android:textSize="@dimen/traveler_input_text_size"
+                android:hint="@string/known_traveler_number"
                 android:visibility="gone" />
 
         </android.support.design.widget.TextInputLayout>
@@ -47,8 +49,11 @@
             android:id="@+id/redress_layout_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/redress_number"
-            android:labelFor="@+id/redress_number">
+            android:drawableRight="@drawable/ic_checkout_info"
+            android:inputType="number"
+            android:maxLength="7"
+            android:maxLines="1"
+            android:textSize="@dimen/traveler_input_text_size" >
 
             <com.expedia.bookings.widget.traveler.TravelerEditText
                 android:id="@+id/redress_number"
@@ -57,6 +62,7 @@
                 android:inputType="number"
                 android:maxLength="7"
                 android:maxLines="1"
+                android:hint="@string/redress_number"
                 android:textSize="@dimen/traveler_input_text_size" />
 
         </android.support.design.widget.TextInputLayout>
@@ -76,14 +82,13 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/edit_assistance_preference_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/special_assistance"
-        android:labelFor="@+id/edit_assistance_preference_button">
+        android:layout_height="wrap_content">
 
-        <EditText
+        <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
             android:id="@+id/edit_assistance_preference_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/special_assistance"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
             android:inputType="text"
@@ -97,14 +102,13 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/seat_preference_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/seating_preference"
-        android:labelFor="@+id/edit_seat_preference_button">
+        android:layout_height="wrap_content">
 
-        <EditText
+        <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
             android:id="@+id/edit_seat_preference_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/seating_preference"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
             android:maxLines="1"

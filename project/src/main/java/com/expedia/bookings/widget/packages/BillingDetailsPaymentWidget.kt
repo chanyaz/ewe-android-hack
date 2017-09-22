@@ -22,6 +22,7 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.updatePaddingForOldApi
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeMaterialFormsError
@@ -42,7 +43,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     val creditCardFeeDisclaimer: TextView by bindView(R.id.card_fee_disclaimer)
     var maskedCreditLayout: TextInputLayout ?= null
     var defaultCreditCardNumberLayout: TextInputLayout ?= null
-    var editCountryEditText: EditText ?= null
+    var editCountryEditText: AccessibleEditTextForSpinner ?= null
     var postalCodeLayout: TextInputLayout ?= null
     val cardInfoSummary: LinearLayout by bindView(R.id.card_info_summary)
 
@@ -178,7 +179,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         sectionLocation.removeNonMaterialFields()
         sectionLocation.materialCountryAdapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME, R.layout.material_item)
         defaultCreditCardNumberLayout = findViewById<TextInputLayout>(R.id.material_edit_credit_card_number)
-        editCountryEditText = findViewById<AccessibleEditText>(R.id.material_edit_country)
+        editCountryEditText = findViewById<AccessibleEditTextForSpinner>(R.id.material_edit_country)
         maskedCreditLayout = findViewById<TextInputLayout>(R.id.material_edit_masked_creditcard_number)
         addressStateLayout = findViewById<TextInputLayout>(R.id.material_edit_address_state)
         postalCodeLayout = findViewById<TextInputLayout>(R.id.material_edit_address_postal_code)
@@ -219,6 +220,9 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
 
         sectionLocation.validateBillingCountrySubject.subscribe {
             sectionLocation.billingCountryErrorSubject.onNext(editCountryEditText?.text.isNullOrBlank())
+        }
+        sectionLocation.billingCountryErrorSubject.subscribe { hasError ->
+            editCountryEditText?.valid = !hasError
         }
     }
 

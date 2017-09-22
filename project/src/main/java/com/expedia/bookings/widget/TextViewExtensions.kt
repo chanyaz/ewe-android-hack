@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isMaterialFormsEnabled
+import com.expedia.bookings.utils.hideErrorTextViewFromHoverFocus
 
 fun TextView.addErrorExclamation() {
     val context = this.context
@@ -27,28 +28,35 @@ fun TextView.removeErrorExclamation(newDrawableRight: Drawable?) {
 }
 
 fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, rightDrawableId: Int) {
-    val parentTextInputLayout = this.getParentTextInputLayout() ?: return
+    setRightDrawable(rightDrawableId)
 
-    parentTextInputLayout.isErrorEnabled = !isValid
-    if (!isValid) {
-        parentTextInputLayout.error = errorMessage
-    } else {
-        parentTextInputLayout.error = null
-        if (this.text.isBlank()) this.text = ""
-    }
-    
-    val rightDrawable = if (rightDrawableId != 0) ContextCompat.getDrawable(this.context, rightDrawableId) else null
-    val compounds = this.compoundDrawables
-    this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], rightDrawable, compounds[3])
+    val parentTextInputLayout = this.getParentTextInputLayout() ?: return
+    setParentTextInputLayoutError(parentTextInputLayout, !isValid, errorMessage)
 
     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
         this.updatePaddingForOldApi()
     }
 }
 
+fun TextView.setRightDrawable(rightDrawableId: Int) {
+    val rightDrawable = if (rightDrawableId != 0) ContextCompat.getDrawable(this.context, rightDrawableId) else null
+    val compounds = this.compoundDrawables
+    this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], rightDrawable, compounds[3])
+}
+
 fun TextView.updatePaddingForOldApi() {
     val bottomPadding = context.resources.getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
     this.setPadding(this.paddingLeft, this.paddingTop, this.paddingRight, bottomPadding)
+}
+
+fun TextView.setParentTextInputLayoutError(parentTextInputLayout: TextInputLayout, hasError: Boolean, errorMessage: String) {
+    if (hasError) {
+        parentTextInputLayout.error = errorMessage
+        parentTextInputLayout.hideErrorTextViewFromHoverFocus()
+    } else {
+        parentTextInputLayout.error = null
+    }
+    parentTextInputLayout.isErrorEnabled = hasError
 }
 
 fun TextView.getParentTextInputLayout(): TextInputLayout? {

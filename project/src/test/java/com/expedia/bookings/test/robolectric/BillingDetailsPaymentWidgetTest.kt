@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import android.support.design.widget.TextInputLayout
+import android.support.v7.widget.AppCompatTextView
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
@@ -28,9 +29,11 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
+import com.expedia.bookings.widget.setMaterialFormsError
 import com.expedia.vm.PaymentViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
@@ -48,6 +51,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import java.util.ArrayList
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)
@@ -82,19 +86,26 @@ class BillingDetailsPaymentWidgetTest {
     fun testAccessibilityOnPaymentDetailScreen() {
         givenPackageTripWithVisaValidFormOfPayment()
         givenMaterialPaymentBillingWidget()
-        val expirationDate = billingDetailsPaymentWidget.findViewById<View>(billingDetailsPaymentWidget.creditCardNumber.getNextFocusForwardId())
+
+        val expirationDate = billingDetailsPaymentWidget.findViewById<View>(billingDetailsPaymentWidget.creditCardNumber.nextFocusForwardId)
         assertEquals(expirationDate, billingDetailsPaymentWidget.expirationDate)
-        val cvvView = billingDetailsPaymentWidget.findViewById<View>(expirationDate.getNextFocusForwardId())
+
+        val cvvView = billingDetailsPaymentWidget.findViewById<View>(expirationDate.nextFocusForwardId)
         assertEquals(cvvView, billingDetailsPaymentWidget.creditCardCvv)
-        val cardholderName = billingDetailsPaymentWidget.findViewById<View>(cvvView.getNextFocusForwardId())
+
+        val cardholderName = billingDetailsPaymentWidget.findViewById<View>(cvvView.nextFocusForwardId)
         assertEquals(cardholderName, billingDetailsPaymentWidget.creditCardName)
-        val addressLine1 = billingDetailsPaymentWidget.findViewById<View>(cardholderName.getNextFocusForwardId())
+
+        val addressLine1 = billingDetailsPaymentWidget.findViewById<View>(cardholderName.nextFocusForwardId)
         assertEquals(addressLine1, billingDetailsPaymentWidget.addressLineOne)
-        val city = billingDetailsPaymentWidget.findViewById<View>(addressLine1.getNextFocusForwardId())
+
+        val city = billingDetailsPaymentWidget.findViewById<View>(addressLine1.nextFocusForwardId)
         assertEquals(city, billingDetailsPaymentWidget.addressCity)
-        val state = billingDetailsPaymentWidget.findViewById<View>(city.getNextFocusForwardId())
+
+        val state = billingDetailsPaymentWidget.findViewById<View>(city.nextFocusForwardId)
         assertEquals(state, billingDetailsPaymentWidget.addressState)
-        val zip = billingDetailsPaymentWidget.findViewById<View>(state.getNextFocusForwardId())
+
+        val zip = billingDetailsPaymentWidget.findViewById<View>(state.nextFocusForwardId)
         assertEquals(zip, billingDetailsPaymentWidget.creditCardPostalCode)
     }
 
@@ -488,18 +499,18 @@ class BillingDetailsPaymentWidgetTest {
         givenMaterialPaymentBillingWidget()
         val creditCardLayout = billingDetailsPaymentWidget.creditCardNumber.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(creditCardLayout, "Enter new Debit/Credit Card")
+        assertValidState(creditCardLayout, "Enter new Debit/Credit Card", "Enter new Debit/Credit Card")
 
         validateInvalidBillingInfo()
-        assertErrorState(creditCardLayout, "Enter a valid card number")
+        assertErrorState(creditCardLayout, "Enter a valid card number", "Enter new Debit/Credit Card, Error, Enter a valid card number")
 
         billingDetailsPaymentWidget.creditCardNumber.setText("4")
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertErrorState(creditCardLayout, "Enter a valid card number")
+        assertErrorState(creditCardLayout, "Enter a valid card number", "Enter new Debit/Credit Card, 4, Error, Enter a valid card number")
 
         billingDetailsPaymentWidget.creditCardNumber.setText("4111111111111111")
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertValidState(creditCardLayout, "Enter new Debit/Credit Card")
+        assertValidState(creditCardLayout, "Enter new Debit/Credit Card", "Enter new Debit/Credit Card, 4111111111111111")
     }
 
     @Test
@@ -508,12 +519,12 @@ class BillingDetailsPaymentWidgetTest {
         val expirationLayout = billingDetailsPaymentWidget.expirationDate.getParentTextInputLayout()!!
 
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(expirationLayout, "Expiration Date")
+        assertValidState(expirationLayout, "Expiration Date", " Expiration Date, Opens dialog")
         assertNotNull(expirationLayout.editText!!.compoundDrawables[2])
 
         validateInvalidBillingInfo()
 
-        assertErrorState(expirationLayout, "Enter a valid month and year")
+        assertErrorState(expirationLayout, "Enter a valid month and year", "Expiration Date, Opens dialog, Error, Enter a valid month and year")
     }
 
     @Test
@@ -521,18 +532,18 @@ class BillingDetailsPaymentWidgetTest {
         givenMaterialPaymentBillingWidget()
         val cvvLayout = billingDetailsPaymentWidget.creditCardCvv.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(cvvLayout, "CVV")
+        assertValidState(cvvLayout, "CVV", "CVV")
 
         validateInvalidBillingInfo()
-        assertErrorState(cvvLayout, "Enter a valid CVV number")
+        assertErrorState(cvvLayout, "Enter a valid CVV number", "CVV, Error, Enter a valid CVV number")
 
         billingDetailsPaymentWidget.creditCardCvv.setText("1")
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertErrorState(cvvLayout, "Enter a valid CVV number")
+        assertErrorState(cvvLayout, "Enter a valid CVV number", "CVV, Error, Enter a valid CVV number")
 
         billingDetailsPaymentWidget.creditCardCvv.setText("111")
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertValidState(cvvLayout, "CVV")
+        assertValidState(cvvLayout, "CVV", "CVV")
     }
 
     @Test
@@ -540,14 +551,14 @@ class BillingDetailsPaymentWidgetTest {
         givenMaterialPaymentBillingWidget()
         val nameLayout = billingDetailsPaymentWidget.creditCardName.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(nameLayout, "Cardholder name")
+        assertValidState(nameLayout, "Cardholder name", "Cardholder name")
 
         validateInvalidBillingInfo()
-        assertErrorState(nameLayout, "Enter name as it appears on the card")
+        assertErrorState(nameLayout, "Enter name as it appears on the card", "Cardholder name, Error, Enter name as it appears on the card")
 
         billingDetailsPaymentWidget.creditCardName.setText("Joe Bloggs")
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertValidState(nameLayout, "Cardholder name")
+        assertValidState(nameLayout, "Cardholder name", "Cardholder name, Joe Bloggs")
     }
 
     @Test
@@ -555,14 +566,15 @@ class BillingDetailsPaymentWidgetTest {
         givenMaterialPaymentBillingWidget()
         val addressLayout = billingDetailsPaymentWidget.addressLineOne.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(addressLayout, "Address line 1")
+        assertValidState(addressLayout, "Address line 1", "Address line 1")
 
         validateInvalidBillingInfo()
-        assertErrorState(addressLayout, "Enter a valid billing address (using letters and numbers only)")
+        assertErrorState(addressLayout, "Enter a valid billing address (using letters and numbers only)",
+                "Address line 1, Error, Enter a valid billing address (using letters and numbers only)")
 
         billingDetailsPaymentWidget.addressLineOne.setText("114 Sansome")
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertValidState(addressLayout, "Address line 1")
+        assertValidState(addressLayout, "Address line 1", "Address line 1, 114 Sansome")
     }
 
     @Test
@@ -570,18 +582,18 @@ class BillingDetailsPaymentWidgetTest {
         givenMaterialPaymentBillingWidget()
         val cityLayout = billingDetailsPaymentWidget.addressCity.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(cityLayout, "City")
+        assertValidState(cityLayout, "City", "City")
 
         validateInvalidBillingInfo()
-        assertErrorState(cityLayout, "Enter a valid city")
+        assertErrorState(cityLayout, "Enter a valid city", "City, Error, Enter a valid city")
 
         billingDetailsPaymentWidget.addressCity.setText("San")
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertValidState(cityLayout, "City")
+        assertValidState(cityLayout, "City", "City, San")
 
         billingDetailsPaymentWidget.addressCity.setText("")
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertErrorState(cityLayout, "Enter a valid city")
+        assertErrorState(cityLayout, "Enter a valid city", "City, Error, Enter a valid city")
     }
 
     @Test
@@ -590,25 +602,25 @@ class BillingDetailsPaymentWidgetTest {
         val stateLayout = billingDetailsPaymentWidget.addressState.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("USA")
-        assertValidState(stateLayout, "State")
+        assertValidState(stateLayout, "State", "State")
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
-        assertValidState(stateLayout, "State")
+        assertValidState(stateLayout, "State", "State")
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
         billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("CAN")
-        assertValidState(stateLayout, "Province")
+        assertValidState(stateLayout, "Province", "Province")
 
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
-        assertValidState(stateLayout, "Province")
+        assertValidState(stateLayout, "Province", "Province")
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
         billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("MEX")
-        assertValidState(stateLayout, "County/State/Province (optional)")
+        assertValidState(stateLayout, "County/State/Province (optional)", "County/State/Province (optional)")
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("MEX")
-        assertValidState(stateLayout, "County/State/Province (optional)")
+        assertValidState(stateLayout, "County/State/Province (optional)", "County/State/Province (optional)")
     }
 
     @Test
@@ -623,7 +635,7 @@ class BillingDetailsPaymentWidgetTest {
 
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
 
-        assertValidState(countryLayout, "Country")
+        assertValidState(countryLayout, "Country", " Country, $countryName, Opens dialog")
         assertEquals(true, testHasErrorSubscriber.onNextEvents.isEmpty())
         assertEquals(countryName, countryLayout.editText?.text.toString())
         assertEquals(pointOfSale, billingDetailsPaymentWidget.sectionLocation.location.countryCode)
@@ -633,15 +645,15 @@ class BillingDetailsPaymentWidgetTest {
 
         assertEquals(false, testHasErrorSubscriber.onNextEvents.isEmpty())
         assertTrue(testHasErrorSubscriber.onNextEvents[testHasErrorSubscriber.onNextEvents.lastIndex])
-        assertErrorState(countryLayout, "Select a billing country")
+        assertErrorState(countryLayout, "Select a billing country", "Country, Opens dialog, Error, Select a billing country")
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryErrorSubject.onNext(false)
-        assertValidState(countryLayout, "Country")
+        assertValidState(countryLayout, "Country", " Country, Opens dialog")
 
         countryLayout.editText?.setText("")
         billingDetailsPaymentWidget.sectionLocation.validateBillingCountrySubject.onNext(Unit)
         assertTrue(testHasErrorSubscriber.onNextEvents[testHasErrorSubscriber.onNextEvents.lastIndex])
-        assertErrorState(countryLayout, "Select a billing country")
+        assertErrorState(countryLayout, "Select a billing country", "Country, Opens dialog, Error, Select a billing country")
     }
 
     @Test
@@ -653,7 +665,7 @@ class BillingDetailsPaymentWidgetTest {
         val countryName = billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getItem(position)
 
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(countryLayout, "Country")
+        assertValidState(countryLayout, "Country", " Country, $countryName, Opens dialog")
         assertEquals(countryName, countryLayout.editText?.text.toString())
         assertNotNull(countryLayout.editText!!.compoundDrawables[2])
 
@@ -665,7 +677,7 @@ class BillingDetailsPaymentWidgetTest {
 
         assertEquals("Afghanistan", billingDetailsPaymentWidget.editCountryEditText?.text.toString())
         assertEquals("AFG", billingDetailsPaymentWidget.sectionLocation.location.countryCode)
-        assertValidState(countryLayout, "Country")
+        assertValidState(countryLayout, "Country", " Country, Afghanistan, Opens dialog")
     }
 
     @Test
@@ -675,20 +687,20 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
         billingDetailsPaymentWidget.sectionLocation.resetValidation(R.id.edit_address_postal_code, true)
-        assertValidState(postalLayout, "Zip Code")
+        assertValidState(postalLayout, "Zip Code", "Zip Code")
         assertEquals(InputType.TYPE_CLASS_NUMBER, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertErrorState(postalLayout, "Enter a valid zip code")
+        assertErrorState(postalLayout, "Enter a valid zip code", "Zip Code, Error, Enter a valid zip code")
 
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
         billingDetailsPaymentWidget.sectionLocation.resetValidation(R.id.edit_address_postal_code, true)
         billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.UNITED_STATES)
-        assertValidState(postalLayout, "Zip Code")
+        assertValidState(postalLayout, "Zip Code", "Zip Code")
         assertEquals(InputType.TYPE_CLASS_NUMBER, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertErrorState(postalLayout, "Enter a valid zip code")
+        assertErrorState(postalLayout, "Enter a valid zip code", "Zip Code, Error, Enter a valid zip code")
     }
 
     @Test
@@ -697,15 +709,15 @@ class BillingDetailsPaymentWidgetTest {
         val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.IRELAND)
-        assertValidState(postalLayout, "Postal Code")
+        assertValidState(postalLayout, "Postal Code", "Postal Code")
         assertEquals(InputType.TYPE_CLASS_TEXT, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("IRL")
-        assertValidState(postalLayout, "Postal Code")
+        assertValidState(postalLayout, "Postal Code", "Postal Code")
         assertEquals(InputType.TYPE_CLASS_TEXT, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
-        assertValidState(postalLayout, "Postal Code")
+        assertValidState(postalLayout, "Postal Code", "Postal Code")
         assertEquals(InputType.TYPE_CLASS_TEXT, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
     }
 
@@ -975,15 +987,21 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.viewmodel.emptyBillingInfo.onNext(Unit)
     }
 
-    private fun assertValidState(layout: TextInputLayout, hint: String?) {
+    private fun assertValidState(layout: TextInputLayout, hint: String?, accessbilityString: String) {
         assertFalse(layout.isErrorEnabled)
         assertNull(layout.error)
         assertEquals(hint, layout.hint)
+        assertFalse(layout.isImportantForAccessibility)
+        assertEquals(accessbilityString, (layout.editText as AccessibleEditText).getAccessibilityNodeInfo())
     }
 
-    private fun assertErrorState(layout: TextInputLayout, errorString: String) {
+    private fun assertErrorState(layout: TextInputLayout, errorString: String, stringForAccessibility: String) {
         assertTrue(layout.isErrorEnabled)
         assertEquals(errorString, layout.error)
+        assertFalse(layout.isImportantForAccessibility)
+        assertEquals(stringForAccessibility, (layout.editText as AccessibleEditText).getAccessibilityNodeInfo())
+        val errorTextView = layout.findViewById<AppCompatTextView>(R.id.textinput_error)
+        assertFalse(errorTextView.isImportantForAccessibility)
     }
 
     private fun validateInvalidBillingInfo() {

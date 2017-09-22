@@ -32,15 +32,14 @@
                 android:id="@+id/frequent_flyer_program_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/frequent_flyer_program_name"
-                android:labelFor="@+id/frequent_flyer_program_name"
                 android:importantForAccessibility="no"
                 android:layout_gravity="center_horizontal">
 
-                <com.expedia.bookings.widget.traveler.TravelerEditText
+                <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
                     android:id="@+id/edit_frequent_flyer_program_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/frequent_flyer_program_name"
                     android:textIsSelectable="true"
                     android:maxLength="40"
                     android:maxLines="1"
@@ -54,8 +53,6 @@
                 android:id="@+id/frequent_flyer_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/frequent_flyer_program_number"
-                android:labelFor="@+id/frequent_flyer_program_number"
                 android:importantForAccessibility="no"
                 android:layout_gravity="center_horizontal">
 
@@ -63,6 +60,7 @@
                     android:id="@+id/edit_frequent_flyer_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/frequent_flyer_program_number"
                     android:maxLength="40"
                     android:maxLines="1"
                     android:textSize="@dimen/traveler_input_text_size"/>
