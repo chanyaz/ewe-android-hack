@@ -6,7 +6,6 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.payment.PaymentSplitsType
-import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -34,7 +33,7 @@ class SlideToPurchaseOmnitureTrackingTest {
                 37 to "Visa",
                 44 to "FLEX"
         )
-        assertStateTracked("App.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Package.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
@@ -45,7 +44,7 @@ class SlideToPurchaseOmnitureTrackingTest {
                 37 to "Visa",
                 44 to "NO_FLEX"
         )
-        assertStateTracked("App.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Flight.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
@@ -55,7 +54,7 @@ class SlideToPurchaseOmnitureTrackingTest {
                 18 to "App.Hotels.Checkout.SlideToPurchase",
                 37 to "Visa + Points"
         )
-        assertStateTracked("App.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Hotels.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
@@ -65,7 +64,7 @@ class SlideToPurchaseOmnitureTrackingTest {
                 18 to "App.Hotels.Checkout.SlideToPurchase",
                 37 to "Visa"
         )
-        assertStateTracked("App.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Hotels.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
@@ -75,7 +74,7 @@ class SlideToPurchaseOmnitureTrackingTest {
                 18 to "App.Hotels.Checkout.SlideToPurchase",
                 37 to "Points"
         )
-        assertStateTracked("App.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Hotels.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
 }

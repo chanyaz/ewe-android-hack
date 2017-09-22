@@ -5378,7 +5378,7 @@ public class OmnitureTracking {
 
 	private static void trackSlidetoPurchase(String lobPageName, String cardType, String flexStatus) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		s.setAppState(APP_CHECKOUT_SLIDE_TO_PURCHASE_PAGE_NAME);
+		s.setAppState(lobPageName);
 		s.setEvar(18, lobPageName);
 		s.setEvar(37, cardType);
 		if (Strings.isNotEmpty(flexStatus)) {
