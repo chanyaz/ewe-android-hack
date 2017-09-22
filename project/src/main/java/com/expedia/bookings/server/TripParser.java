@@ -16,7 +16,6 @@ import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightLeg;
@@ -47,6 +46,7 @@ import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripHotelRoom;
 import com.expedia.bookings.data.trips.TripPackage;
 import com.expedia.bookings.data.trips.TripRails;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -634,7 +634,7 @@ public class TripParser {
 				}
 			}
 			activity.setGuestCount(guestCount);
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidLXVoucherRedemption)) {
+			if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXVoucherRedemption)) {
 				String voucherPrintURL = "";
 				String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
 				if (obj.optInt("activityCategoryID") == 2) {

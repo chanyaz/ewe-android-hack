@@ -1,5 +1,7 @@
 package com.expedia.bookings.section;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
@@ -7,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.widget.TextViewExtensions;
 import com.mobiata.android.util.Ui;
-import java.util.ArrayList;
 
 import static com.expedia.bookings.utils.FeatureUtilKt.isMaterialFormsEnabled;
 
@@ -110,8 +112,6 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 
 		return retView;
 	}
-
-
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {

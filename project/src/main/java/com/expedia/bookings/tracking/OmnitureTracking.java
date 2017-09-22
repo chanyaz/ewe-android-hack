@@ -46,6 +46,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -87,6 +88,7 @@ import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.OnboardingPagerState;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData;
 import com.expedia.bookings.notification.Notification;
@@ -1087,7 +1089,8 @@ public class OmnitureTracking {
 
 	public static void trackHotelV2SlideToPurchase(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
-		trackSlidetoPurchase(HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE, getPaymentTypeOmnitureCode(paymentType, paymentSplitsType), null);
+		trackSlidetoPurchase(HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE,
+			getPaymentTypeOmnitureCode(paymentType, paymentSplitsType), null);
 	}
 
 	private static String getPaymentTypeOmnitureCode(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {
@@ -1270,7 +1273,8 @@ public class OmnitureTracking {
 				strikeThroughPriceString = strikeThroughBd.toString() + "-";
 			}
 
-			float priceToShowUsersFloat = hotel.lowRateInfo.priceToShowUsers < 0 ? 0 : hotel.lowRateInfo.priceToShowUsers;
+			float priceToShowUsersFloat =
+				hotel.lowRateInfo.priceToShowUsers < 0 ? 0 : hotel.lowRateInfo.priceToShowUsers;
 			BigDecimal priceToShowUsers = new BigDecimal(Float.toString(priceToShowUsersFloat));
 			priceToShowUsers = priceToShowUsers.setScale(0, BigDecimal.ROUND_HALF_UP);
 
@@ -1993,11 +1997,11 @@ public class OmnitureTracking {
 		logAbacusQuery(test);
 	}
 
-	private static void trackAbacusTest(ADMS_Measurement s, int testKey) {
+	private static void trackAbacusTest(ADMS_Measurement s, ABTest abTest) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;
 		}
-		AbacusTest test = Db.getAbacusResponse().testForKey(testKey);
+		AbacusTest test = Db.getAbacusResponse().testForKey(abTest);
 
 		if (test == null) {
 			return;
@@ -2167,7 +2171,8 @@ public class OmnitureTracking {
 	public static void trackItinTripRefreshCallSuccess(boolean tripHasHotel) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS);
 		s.setEvents("event287");
-		if (tripHasHotel && FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_trips_hotel_scheduled_notifications)) {
+		if (tripHasHotel && FeatureToggleUtil
+			.isFeatureEnabled(sContext, R.string.preference_trips_hotel_scheduled_notifications)) {
 			trackAbacusTest(s, AbacusUtils.TripsHotelScheduledNotificationsV2);
 		}
 		s.trackLink(null, "o", "Trips Call", null, null);
@@ -2888,7 +2893,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
 		String pageName;
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
 			pageName = LOGIN_SINGLE_PAGE;
 		}
 		else {
@@ -2914,7 +2919,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		// set the pageName
 		String pageName;
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
 			pageName = LOGIN_SINGLE_PAGE;
 		}
 		else {
@@ -4319,10 +4324,10 @@ public class OmnitureTracking {
 		createTrackPackagePageLoadEventBase(pageName).track();
 	}
 
-	private static void trackPackagePageLoadEventStandard(String pageName, int... testKeys) {
+	private static void trackPackagePageLoadEventStandard(String pageName, ABTest... abTests) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
-		for (int testKey : testKeys) {
+		for (ABTest testKey : abTests) {
 			trackAbacusTest(s, testKey);
 		}
 		s.track();
@@ -4716,6 +4721,9 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME = "Package Xsell Banner";
 	private static final String FLIGHTS_V2_SORTBY_TEMPLATE = "App.Flight.Search.Sort.";
 	private static final String FLIGHTS_V2_FILTER_STOPS_TEMPLATE = "App.Flight.Search.Filter.";
+	private static final String FLIGHTS_V2_FLIGHT_FILTER_ZERO_RESULTS = "App.Flight.Search.Filter.ZeroResult";
+	private static final String FLIGHTS_V2_FLIGHT_FILTER_DURATION = "App.Flight.Search.Filter.Duration";
+	private static final String FLIGHTS_V2_FLIGHT_FILTER_TIME = "App.Flight.Search.Filter.Time";
 	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
 	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.Details.";
@@ -5164,13 +5172,14 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackResultInBoundFlights(FlightSearchTrackingData trackingData, kotlin.Pair outboundSelectedAndTotalLegRank) {
+	public static void trackResultInBoundFlights(FlightSearchTrackingData trackingData,
+		kotlin.Pair outboundSelectedAndTotalLegRank) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_ROUNDTRIP_IN);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
 		s.setEvar(35, getRankEvent(outboundSelectedAndTotalLegRank, null));
 
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
 		}
 		s.track();
@@ -5193,6 +5202,27 @@ public class OmnitureTracking {
 
 	public static void trackFlightFilterAirlines() {
 		createAndtrackLinkEvent(FLIGHTS_V2_FLIGHT_AIRLINES, "Search Results Filter");
+	}
+
+	public static void trackFlightFilterZeroResults() {
+		ADMS_Measurement s = createTrackLinkEvent(FLIGHTS_V2_FLIGHT_FILTER_ZERO_RESULTS);
+		s.setEvents("event273");
+		s.trackLink(null, "o", "Zero results", null, null);
+	}
+
+	public static void trackFlightFilterDuration() {
+		createAndtrackLinkEvent(FLIGHTS_V2_FLIGHT_FILTER_DURATION, "Search Results Filter");
+	}
+
+	public static void trackFlightFilterArrivalDeparture(boolean isDeparture) {
+		StringBuilder link = new StringBuilder(FLIGHTS_V2_FLIGHT_FILTER_TIME);
+		if (isDeparture) {
+			link.append(".Departure");
+		}
+		else {
+			link.append(".Arrival");
+		}
+		createAndtrackLinkEvent(link.toString(), "Search Results Filter");
 	}
 
 	public static void trackShowFlightOverView(
@@ -5241,7 +5271,7 @@ public class OmnitureTracking {
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_fare_family_flight_summary)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFareFamilyFlightSummary);
 			//This tracking should be done only when user is bucketed for Fare Family AB test
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
+			if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
 				&& isFareFamilyAvailable) {
 				eventStringBuilder.append(isFareFamilySelected ? ",event275" : ",event274");
 			}
@@ -5404,7 +5434,7 @@ public class OmnitureTracking {
 		if (searchTrackingData.getFlightCabinClass() != null) {
 			str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
 		}
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)) {
 			if (searchTrackingData.getNonStopFlight() != null && searchTrackingData.getNonStopFlight()) {
 				str += "|Dir";
 			}

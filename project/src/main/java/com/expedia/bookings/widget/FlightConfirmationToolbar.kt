@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -15,22 +14,20 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.flights.FlightConfirmationShareBroadcastReceiver
 import com.expedia.vm.ConfirmationToolbarViewModel
 import com.mobiata.android.util.SettingUtils
 import rx.Observer
-import javax.inject.Inject
 
-class ConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs) {
+class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs) {
 
-    lateinit var itinTripServices: ItinTripServices
-        @Inject set
     lateinit var viewModel: ConfirmationToolbarViewModel
 
     val menuItem: MenuItem by lazy {
@@ -43,17 +40,14 @@ class ConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(cont
         item
     }
 
-    val navIcon: Drawable by lazy {
-        val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        navIcon
+    val itinTripServices: ItinTripServices by lazy {
+        Ui.getApplication(getContext()).flightComponent().itinTripService()
     }
+
     val progressDialog = ProgressDialog(context)
 
     init {
-        Ui.getApplication(getContext()).flightComponent().inject(this)
-
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {
             inflateMenu(R.menu.confirmation_menu)
             menuItem.setOnMenuItemClickListener {
                 progressDialog.setCancelable(true)
@@ -63,14 +57,18 @@ class ConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(cont
                 false
             }
         }
+        setupCloseIcon()
+    }
 
-        setNavigationOnClickListener {
-            NavUtils.goToLaunchScreen(context)
-        }
-
+    private fun setupCloseIcon() {
+        val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         navigationIcon = navIcon
         setNavigationContentDescription(R.string.toolbar_nav_icon_close_cont_desc)
         navigationIcon?.setVisible(true, true)
+        setNavigationOnClickListener {
+            NavUtils.goToLaunchScreen(context)
+        }
     }
 
     private fun shareTrip(shareMessage: String) {

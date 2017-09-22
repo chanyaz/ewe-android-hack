@@ -86,12 +86,10 @@ public class DateUtils {
 		return date != null ? date.toString(LX_DATE_PATTERN) : null;
 	}
 
-	// Leave Testinggg
 	public static String localDateToyyyyMMdd(LocalDate date) {
 		return date.toString("yyyy-MM-dd");
 	}
 
-	// Leave Testinggg
 	public static String dateTimeToHHmmss(DateTime date) {
 		return date.toString("HH:mm:ss");
 	}
@@ -100,7 +98,6 @@ public class DateUtils {
 		return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));
 	}
 
-	// Leave Testinggg
 	public static LocalDate yyyyMMddToLocalDateSafe(String dateyyyyMMdd, LocalDate defaultValue) {
 		try {
 			return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));

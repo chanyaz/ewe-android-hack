@@ -4,18 +4,21 @@ import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -68,6 +71,8 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val createTripConsumed = BehaviorSubject.create<Unit>()
     val newPriceSetObservable = BehaviorSubject.create<Unit>()
     val createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
+    val checkinDateFormattedByEEEMMDD = PublishSubject.create<String>()
+    val checkoutDateFormattedByEEEMMDD = PublishSubject.create<String>()
 
     init {
 
@@ -84,7 +89,12 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             priceAdjustments.onNext(rate.getPriceAdjustments())
             hotelName.onNext(it.newHotelProductResponse.getHotelName())
             checkInDate.onNext(it.newHotelProductResponse.checkInDate)
-            checkInOutDatesFormatted.onNext(DateFormatUtils.formatHotelsV2DateRange(context, it.newHotelProductResponse.checkInDate, it.newHotelProductResponse.checkOutDate))
+            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+                checkinDateFormattedByEEEMMDD.onNext(DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(LocalDate.parse(it.newHotelProductResponse.checkInDate)))
+                checkoutDateFormattedByEEEMMDD.onNext(DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(LocalDate.parse(it.newHotelProductResponse.checkOutDate)))
+            } else {
+                checkInOutDatesFormatted.onNext(DateFormatUtils.formatHotelsV2DateRange(context, it.newHotelProductResponse.checkInDate, it.newHotelProductResponse.checkOutDate))
+            }
             address.onNext(it.newHotelProductResponse.hotelAddress)
             city.onNext(context.resources.getString(R.string.single_line_street_address_TEMPLATE, it.newHotelProductResponse.hotelCity, it.newHotelProductResponse.hotelStateProvince))
             roomDescriptions.onNext(room.roomTypeDescription)

@@ -7,13 +7,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.RoomUpgradeOffersResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.services.RoomUpgradeOffersService
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -90,7 +90,7 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
 
     fun isRoomUpgradable(): Boolean {
         val itinCardData = mItinContentGenerator.itinCardData as ItinCardDataHotel
-        val isFeatureOn = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUpgrade)
+        val isFeatureOn = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUpgrade)
         val hasRoomOffersApi = itinCardData.property.roomUpgradeOffersApiUrl != null
         val isRoomUpgradable = isFeatureOn && !itinCardData.isSharedItin && hasRoomOffersApi
         return isRoomUpgradable

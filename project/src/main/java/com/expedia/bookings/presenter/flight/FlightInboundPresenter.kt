@@ -2,9 +2,8 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Ui
@@ -31,7 +30,7 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedInboundFlightSelection)
         overviewPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.inboundSelected)
         flightOfferViewModel.inboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
             flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
                 resultsPresenter.setLoadingState()
             }

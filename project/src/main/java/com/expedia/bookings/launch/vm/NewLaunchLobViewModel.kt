@@ -2,12 +2,12 @@ package com.expedia.bookings.launch.vm
 
 import android.content.Context
 import android.view.View
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.PackageUtil
 import com.expedia.util.endlessObserver
@@ -38,12 +38,12 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
         lobs.add(LobInfo.HOTELS)
         lobs.add(LobInfo.FLIGHTS)
 
-        val packagesPOSABTestEnabled = !PackageUtil.isPackageLOBUnderABTest || Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesEnablePOS)
+        val packagesPOSABTestEnabled = !PackageUtil.isPackageLOBUnderABTest || AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesEnablePOS)
         if (pos.supports(LineOfBusiness.PACKAGES) && packagesPOSABTestEnabled) {
             lobs.add(LobInfo.PACKAGES)
         }
 
-        if (pos.supports(LineOfBusiness.CARS) || Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsWebViewNewPOS)) {
+        if (pos.supports(LineOfBusiness.CARS) || AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsWebViewNewPOS)) {
             lobs.add(LobInfo.CARS)
         }
 
@@ -55,7 +55,7 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.TRANSPORT)
         }
 
-        if (pos.supports(LineOfBusiness.RAILS) || (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidRailHybridAppForDEEnabled) && PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.GERMANY)) {
+        if (pos.supports(LineOfBusiness.RAILS) || (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidRailHybridAppForDEEnabled) && PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.GERMANY)) {
             lobs.add(LobInfo.RAILS)
         }
 

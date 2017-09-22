@@ -14,8 +14,8 @@ import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.squareup.phrase.Phrase;
 
 /**
@@ -63,8 +63,7 @@ public class DateFormatUtils {
 		String formattedStartDateTime = LocaleBasedDateFormatUtils.dateTimeToMMMd(startDateTime) + ", " + DateUtils
 			.formatDateTime(context, startDateTime.getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
 		if (endDateTime != null) {
-			String formattedEndDateTime = LocaleBasedDateFormatUtils.dateTimeToMMMd(
-				endDateTime) + ", " + DateUtils
+			String formattedEndDateTime = LocaleBasedDateFormatUtils.dateTimeToMMMd(endDateTime) + ", " + DateUtils
 				.formatDateTime(context, endDateTime.getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
 			return Phrase.from(context,
 				isContDesc ? R.string.car_toolbar_date_range_cont_desc_TEMPLATE
@@ -81,10 +80,12 @@ public class DateFormatUtils {
 	}
 
 	public static String formatRailDateTimeRange(Context context, LocalDate startDate, int startMillis,
-											LocalDate endDate, int endMillis, Boolean isRoundTrip) {
-		DateTime startDateTime = com.expedia.bookings.utils.DateUtils.localDateAndMillisToDateTime(startDate, startMillis);
+		LocalDate endDate, int endMillis, Boolean isRoundTrip) {
+		DateTime startDateTime = com.expedia.bookings.utils.DateUtils
+			.localDateAndMillisToDateTime(startDate, startMillis);
 		if (isRoundTrip) {
-			DateTime endDateTime = com.expedia.bookings.utils.DateUtils.localDateAndMillisToDateTime(endDate, endMillis);
+			DateTime endDateTime = com.expedia.bookings.utils.DateUtils
+				.localDateAndMillisToDateTime(endDate, endMillis);
 			return formatStartEndDateTimeRange(context, startDateTime, endDateTime, false);
 		}
 		else {
@@ -125,7 +126,8 @@ public class DateFormatUtils {
 	}
 
 	public static String formatPackageDateRange(Context context, String checkinDate, String checkoutDate) {
-		return formatPackageDateRangeTemplate(context, checkinDate, checkoutDate, R.string.calendar_instructions_date_range_TEMPLATE);
+		return formatPackageDateRangeTemplate(context, checkinDate, checkoutDate,
+			R.string.calendar_instructions_date_range_TEMPLATE);
 	}
 
 	private static String formatPackageDateRangeTemplate(Context context, String checkinDate, String checkoutDate,
@@ -166,7 +168,7 @@ public class DateFormatUtils {
 	}
 
 	public static String formatLocalDateToEEEMMMdBasedOnLocale(LocalDate date) {
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLocaleBasedDateFormatting)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLocaleBasedDateFormatting)) {
 			return LocaleBasedDateFormatUtils.localDateToEEEMMMd(date);
 		}
 		else {

@@ -11,17 +11,17 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
-import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.ui.AbstractAppCompatActivity;
@@ -55,9 +55,9 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 
 		Intent intent = getIntent();
 		isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
-		boolean isUserBucketedForTest = Db.getAbacusResponse()
+		boolean isUserBucketedForTest = AbacusFeatureConfigManager
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest);
-		boolean isUserBucketedForRTRTest = Db.getAbacusResponse()
+		boolean isUserBucketedForRTRTest = AbacusFeatureConfigManager
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXRTROnSearchAndDetails);
 
 		if (isGroundTransport) {
@@ -86,9 +86,9 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		}
 
 		Events.post(new Events.LXShowLoadingAnimation());
-		LxSearchParams currentLocationSearchParams = new LxSearchParams("",LocalDate.now(),
+		LxSearchParams currentLocationSearchParams = new LxSearchParams("", LocalDate.now(),
 			LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)),
-			SearchType.DEFAULT_SEARCH,"","","");
+			SearchType.DEFAULT_SEARCH, "", "", "");
 
 		Observable<SuggestionV4> currentLocationSuggestionObservable =
 			Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();

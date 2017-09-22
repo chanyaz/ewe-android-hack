@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
@@ -13,24 +14,24 @@ import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 
 object RoboTestHelper {
-    fun updateABTest(key: Int, value: Int) {
+    fun updateABTest(abTest: ABTest, value: Int) {
         val abacusResponse = AbacusResponse()
-        abacusResponse.updateABTestForDebug(key, value)
+        abacusResponse.updateABTestForDebug(abTest.key, value)
         Db.setAbacusResponse(abacusResponse)
     }
 
-    fun bucketTests(vararg tests: Int) {
+    fun bucketTests(vararg tests: ABTest) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+            abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         }
         Db.setAbacusResponse(abacusResponse)
     }
 
-    fun controlTests(vararg tests: Int) {
+    fun controlTests(vararg tests: ABTest) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.CONTROL.ordinal)
+            abacusResponse.updateABTestForDebug(test.key, AbacusUtils.DefaultVariant.CONTROL.ordinal)
         }
         Db.setAbacusResponse(abacusResponse)
     }

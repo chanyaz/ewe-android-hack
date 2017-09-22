@@ -24,10 +24,10 @@ import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.PackagesTracking
@@ -536,7 +536,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         fadeInRoomsAnimation.setAnimationListener(object : AnimationListenerAdapter() {
             override fun onAnimationStart(animation: Animation?) {
-                if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
+                if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
                     hotelRoomRateViewModels.first().expandRoomObservable.onNext(Unit)
                     hotelRoomRateViewModels.drop(1).forEach { vm -> vm.collapseRoomObservable.onNext(Unit) }
                 } else {

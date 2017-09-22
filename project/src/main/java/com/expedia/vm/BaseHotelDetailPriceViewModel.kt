@@ -3,12 +3,12 @@ package com.expedia.vm
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import rx.subjects.BehaviorSubject
@@ -26,7 +26,7 @@ abstract class BaseHotelDetailPriceViewModel(val context: Context) {
     protected var chargeableRateInfo: HotelRate? = null
     protected var isShopWithPointsRate = false
     protected var isAirAttached = false
-    protected var isBucketToHideStrikeThroughPrice = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
+    protected var isBucketToHideStrikeThroughPrice = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
     protected var showTotalPrice = false
 
     protected lateinit var hotelSearchParams: HotelSearchParams
@@ -54,7 +54,7 @@ abstract class BaseHotelDetailPriceViewModel(val context: Context) {
             return null
         }
 
-        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
         if (bucketedToShowPriceDescriptorProminence) {
             val priceType = chargeableRateInfo?.getUserPriceType()
 

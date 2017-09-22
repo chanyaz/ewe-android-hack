@@ -10,11 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
@@ -38,7 +38,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 	public void setOffers(List<Offer> offers, PublishSubject<Offer> subject, boolean isGroundTransport) {
 		this.offers = offers;
 		this.publishSubject = subject;
-		boolean shouldExpandFirstItem = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded);
+		boolean shouldExpandFirstItem = AbacusFeatureConfigManager.isUserBucketedForTest( AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded);
 		OmnitureTracking.trackFirstActivityListingExpanded();
 		// If there is only one offer, expand it.
 		if (CollectionUtils.isNotEmpty(offers) && (offers.size() == 1 || shouldExpandFirstItem)) {

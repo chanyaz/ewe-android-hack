@@ -15,6 +15,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
@@ -183,8 +184,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     override val defaultTransition = object : DefaultCheckoutTransition() {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            val offerInsuranceInFlightSummary = Db.getAbacusResponse().isUserBucketedForTest(
-                    AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
+            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!offerInsuranceInFlightSummary)
         }
     }
@@ -192,8 +192,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     override val defaultToPayment = object : DefaultToPayment(this) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            val offerInsuranceInFlightSummary = Db.getAbacusResponse().isUserBucketedForTest(
-                    AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
+            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!forward && !offerInsuranceInFlightSummary)
         }
     }

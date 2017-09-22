@@ -61,21 +61,21 @@ class NewLaunchLobWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightNotAvailableIndiaPOS() {
         setPOS(PointOfSaleId.INDIA)
-        validateFlightNotAvialable()
+        validateFlightNotAvailable()
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightNotAvailableArgentinaPOS() {
         setPOS(PointOfSaleId.ARGENTINA)
-        validateFlightNotAvialable()
+        validateFlightNotAvailable()
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightNotAvailableVietnamPOS() {
         setPOS(PointOfSaleId.VIETNAM)
-        validateFlightNotAvialable()
+        validateFlightNotAvailable()
     }
 
     @Test
@@ -141,7 +141,7 @@ class NewLaunchLobWidgetTest {
         return lobLabelInfoMap
     }
 
-    private fun validateFlightNotAvialable() {
+    private fun validateFlightNotAvailable() {
         setUp()
         val allLobsRecycler = newLaunchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as android.support.v7.widget.RecyclerView
         // workaround robolectric recyclerView issue

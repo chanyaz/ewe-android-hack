@@ -7,9 +7,6 @@ import android.support.v4.app.DialogFragment
 import android.widget.TableRow
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.util.PackageUtil
 import com.squareup.phrase.Phrase
 

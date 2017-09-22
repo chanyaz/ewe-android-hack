@@ -12,11 +12,10 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -29,8 +28,6 @@ import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.priceFormatter
-import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
 import com.expedia.util.getGuestRatingBackground
 import com.expedia.util.getGuestRatingText
@@ -47,7 +44,6 @@ import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.LinkedHashMap
 import java.util.Locale
-import kotlin.comparisons.compareBy
 import kotlin.properties.Delegates
 
 abstract class BaseHotelDetailViewModel(val context: Context) {
@@ -269,7 +265,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
         rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
             //collapse already expanded row if there is one
-            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
+            if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
                 val previousRowIndex = lastExpandedRowIndexObservable.value
                 if (previousRowIndex >= 0
                         && previousRowIndex < hotelRoomRateViewModelsObservable.value.size
@@ -285,7 +281,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     fun shouldGroupAndSortRoom(): Boolean {
         return getLOB() == LineOfBusiness.HOTELS &&
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGroupRoomRate)
+                AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGroupRoomRate)
     }
 
     fun groupAndSortRoomList(roomList: List<HotelOffersResponse.HotelRoomResponse>): LinkedHashMap<String, ArrayList<HotelOffersResponse.HotelRoomResponse>> {

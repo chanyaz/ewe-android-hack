@@ -9,7 +9,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.IMedia
 import com.expedia.bookings.data.trips.ItinCardDataRails
 import com.expedia.bookings.data.trips.TripComponent
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase

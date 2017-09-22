@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 import android.content.Context;
 
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.featureconfig.SatelliteFeatureConfigViewModel;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
@@ -17,6 +16,7 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -44,8 +44,6 @@ public interface AppComponent {
 	void inject(AddGuestItinWidget addGuestItinWidget);
 
 	void inject(AccountSettingsFragment accountSettingsFragment);
-
-	void inject(SatelliteFeatureConfigViewModel featureConfigViewModel);
 
 	PointOfSaleStateModel pointOfSaleStateModel();
 
@@ -78,4 +76,6 @@ public interface AppComponent {
 	SearchLobToolbarCache searchLobToolbarCache();
 
 	NotificationManager notificationManager();
+
+	SatelliteServices satelliteServices();
 }

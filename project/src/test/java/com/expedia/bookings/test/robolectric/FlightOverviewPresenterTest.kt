@@ -12,6 +12,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
@@ -90,6 +91,38 @@ class FlightOverviewPresenterTest {
         flightServiceRule.services!!.createTrip(params, testSubscriber)
         widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
         assertEquals(View.VISIBLE, widget.fareFamilyCardView.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFareFamilyCreateTripFiring() {
+        SettingUtils.save(context, R.string.preference_fare_family_flight_summary, true)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
+        widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        val cardViewViewModel = widget.fareFamilyCardView.viewModel
+        val detailsViewModel = widget.flightFareFamilyDetailsWidget.viewModel
+        val testSubscriber = TestSubscriber.create<FlightCreateTripResponse>()
+        val params = FlightCreateTripParams.Builder().productKey("happy_fare_family_round_trip").build()
+        flightServiceRule.services!!.createTrip(params, testSubscriber)
+        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+
+        val updateTripTestSubscriber = TestSubscriber.create<Pair<String, FlightTripResponse.FareFamilyDetails>>()
+        cardViewViewModel.updateTripObserver.subscribe(updateTripTestSubscriber)
+
+        //When done button is not pressed
+        detailsViewModel.choosingFareFamilyObservable.onNext(getFareFamilyDetail("coach"))
+        detailsViewModel.selectedFareFamilyObservable.onNext(getFareFamilyDetail("coach"))
+        updateTripTestSubscriber.assertNoValues()
+
+        //When done is pressed but user not changed the original selection
+        detailsViewModel.doneButtonObservable.onNext(Unit)
+        updateTripTestSubscriber.assertNoValues()
+
+        //When done is pressed but user changed the selection too
+        detailsViewModel.choosingFareFamilyObservable.onNext(getFareFamilyDetail("economy"))
+        detailsViewModel.doneButtonObservable.onNext(Unit)
+        updateTripTestSubscriber.assertValueCount(1)
+        assertEquals("economy", updateTripTestSubscriber.onNextEvents[0].second.fareFamilyCode)
     }
 
     @Test
@@ -581,6 +614,11 @@ class FlightOverviewPresenterTest {
         bundleFlightViewModel.flight.onNext(flightLeg)
         bundleFlightViewModel.date.onNext(LocalDate())
         bundleFlightViewModel.guests.onNext(1)
+    }
+
+    private fun getFareFamilyDetail(className: String): FlightTripResponse.FareFamilyDetails {
+        return FlightTripResponse.FareFamilyDetails(className, className, className,
+                Money("210.00", "USD"), Money(1, "USD"), true, HashMap())
     }
 
     private fun setShowMoreInfoTest() {

@@ -3,17 +3,16 @@ package com.expedia.vm
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
@@ -180,7 +179,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     }
 
     private fun shouldPrefetchSearch() : Boolean {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGreedySearch)
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGreedySearch)
                 && builderHasValidParams()) {
             val params = hotelParamsBuilder.build()
             val suggestion = params.suggestion

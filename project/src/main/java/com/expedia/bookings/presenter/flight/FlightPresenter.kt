@@ -22,6 +22,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -71,11 +72,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     lateinit var travelerManager: TravelerManager
     lateinit var createTripBuilder: FlightCreateTripParams.Builder
 
-    val isByotEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
+    val isByotEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
-    val showMoreInfoOnOverview = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-    val EBAndroidAppFlightSubpubChange = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
-
+    val showMoreInfoOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.error_presenter_stub)
@@ -158,7 +158,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchTrackingBuilder.markResultsUsable()
             if (searchTrackingBuilder.isWorkComplete()) {
                 val trackingData = searchTrackingBuilder.build()
-                FlightsV2Tracking.trackResultOutBoundFlights(trackingData,flightOfferViewModel.isSubPub)
+                FlightsV2Tracking.trackResultOutBoundFlights(trackingData, flightOfferViewModel.isSubPub)
             }
         }
         if (isByotEnabled) {
@@ -271,6 +271,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
             presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable)
             presenter.viewModel.outboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalOutboundResults)
+            presenter.viewModel.inboundSelectedAndTotalLegRank = null
         }
         flightOfferViewModel.confirmedInboundFlightSelection.subscribe {
             presenter.viewModel.inboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalInboundResults)
@@ -341,7 +342,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             createTripBuilder = FlightCreateTripParams.Builder()
             createTripBuilder.productKey(productKey)
             createTripBuilder.setFlexEnabled(isFlexEnabled())
-            if(EBAndroidAppFlightSubpubChange){
+            if (EBAndroidAppFlightSubpubChange) {
                 createTripBuilder.enableSubPubFeature()
             }
             flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
@@ -406,7 +407,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchViewModel.deeplinkDefaultTransitionObservable.subscribe { screen ->
             setDefaultTransition(screen)
         }
-        searchViewModel.searchTravelerParamsObservable.subscribe{ searchParams ->
+        searchViewModel.searchTravelerParamsObservable.subscribe { searchParams ->
             searchPresenter.travelerWidgetV2.traveler.getViewModel().travelerParamsObservable
                     .onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
         }
@@ -426,7 +427,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(errorToConfirmation)
         addTransition(inboundToError)
 
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
             SearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, loadSuccess, loadFailed)
         } else {
             searchViewModel.isReadyForInteractionTracking.onNext(Unit)
@@ -452,8 +453,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
             flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
-        }
-        else {
+        } else {
             flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
         }
@@ -623,7 +623,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.startTransition(forward)
             if (forward) {
                 if ((searchPresenter.flightAdvanceSearchView.visibility == View.VISIBLE) && !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
-                        Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)) {
+                        AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)) {
                     searchPresenter.flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
                 }
             }

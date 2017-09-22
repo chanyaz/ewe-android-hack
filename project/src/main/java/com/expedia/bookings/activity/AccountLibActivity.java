@@ -21,6 +21,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.tracking.AdTracker;
@@ -161,7 +162,7 @@ public class AccountLibActivity extends AppCompatActivity
 			config.setParentActivity(this);
 		}
 
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
 			accountView.setWhiteBackgroundFromActivity(whiteBackground);
 			config.setEnableSinglePageSignUp(true);
 		}

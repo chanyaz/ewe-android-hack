@@ -5,9 +5,9 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripFlight
@@ -17,7 +17,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.TextView
-import com.mobiata.android.util.SettingUtils
 import okio.Okio
 import org.joda.time.DateTime
 import org.json.JSONArray
@@ -26,7 +25,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import java.io.File
 import kotlin.test.assertEquals
 
@@ -46,16 +44,16 @@ class FlightItinCardTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun shareButtonTest(){
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar)
-        AbacusTestUtils.bucketTestWithVariant(14201, 0)
+        AbacusTestUtils.bucketTestWithVariant(ABTest(14201), 0)
         createSystemUnderTest()
         assertEquals(View.GONE, getShareButtonText().visibility)
         assertEquals(View.VISIBLE, getShareButtonOverflow().visibility)
-        AbacusTestUtils.bucketTestWithVariant(14201, 1)
+        AbacusTestUtils.bucketTestWithVariant(ABTest(14201), 1)
         createSystemUnderTest()
         assertEquals(View.VISIBLE, getShareButtonText().visibility)
         assertEquals(View.GONE, getShareButtonOverflow().visibility)
         assertEquals("", getShareButtonText().text)
-        AbacusTestUtils.bucketTestWithVariant(14201, 2)
+        AbacusTestUtils.bucketTestWithVariant(ABTest(14201), 2)
         createSystemUnderTest()
         assertEquals(View.VISIBLE, getShareButtonText().visibility)
         assertEquals(View.GONE, getShareButtonOverflow().visibility)

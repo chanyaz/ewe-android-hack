@@ -18,8 +18,8 @@ import android.view.animation.LinearInterpolator
 import android.widget.ScrollView
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionListenerAdapter
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.widget.HotelDetailContentView
 import com.expedia.bookings.hotel.widget.HotelDetailGalleryView
@@ -192,7 +192,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             bottomButtonInAnimator.startDelay = 100
             bottomButtonInAnimator.start()
         }
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelThrottleGalleryAnimation)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelThrottleGalleryAnimation)) {
             val collapseTransition = TransitionInflater.from(context).inflateTransition(R.transition.gallery_collapse_transition)
             collapseTransition.addListener(object: TransitionListenerAdapter() {
                 override fun onTransitionEnd(transition: Transition?) {
@@ -214,7 +214,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat()) {
             bottomButtonOutAnimator.start()
         }
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelThrottleGalleryAnimation)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelThrottleGalleryAnimation)) {
             val expandTransition = TransitionInflater.from(context).inflateTransition(R.transition.gallery_expand_transition)
             expandTransition.addListener(object: TransitionListenerAdapter() {
                 override fun onTransitionEnd(transition: Transition?) {

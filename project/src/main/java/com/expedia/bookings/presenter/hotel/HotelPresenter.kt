@@ -20,7 +20,6 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -31,6 +30,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
 import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.hotel.util.HotelSearchManager
@@ -46,13 +46,13 @@ import com.expedia.bookings.tracking.hotel.ClientLogTracker
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.ClientLogConstants
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.ProWizardBucketCache
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
@@ -136,7 +136,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         searchViewModel.genericSearchSubject.subscribe { params -> handleGenericSearch(params) }
         searchViewModel.hotelIdSearchSubject.subscribe { params ->
             HotelTracking.trackPinnedSearch()
-            handleHotelIdSearch(params, goToResults = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch))
+            handleHotelIdSearch(params, goToResults = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch))
         }
         searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
 
@@ -433,7 +433,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     private fun shouldUseWebCheckout() = PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
                                         (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled
-                                                && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsWebCheckout))
+                                                && AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsWebCheckout))
 
     fun setDefaultTransition(screen: Screen) {
         val defaultTransition = when (screen) {

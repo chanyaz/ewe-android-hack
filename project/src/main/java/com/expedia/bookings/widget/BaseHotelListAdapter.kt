@@ -18,7 +18,6 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.mobiata.android.util.AndroidUtils
@@ -160,7 +159,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             return loadingViewHolder
         } else if (viewType == PRICING_STRUCTURE_HEADER_VIEW) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_results_header_cell, parent, false)
-            val vm = HotelResultsPricingStructureHeaderViewModel(view.resources, shouldShowPackageIncludesTaxesMessage())
+            val vm = HotelResultsPricingStructureHeaderViewModel(parent.context, shouldShowPackageIncludesTaxesMessage())
             loadingSubject.subscribe(vm.loadingStartedObserver)
             resultsSubject.subscribe(vm.resultsDeliveredObserver)
             val holder = HotelResultsPricingStructureHeaderViewHolder(view as ViewGroup, vm)
