@@ -171,6 +171,61 @@ class HotelDetailViewModelTest {
                 "FAILURE: No rating available needs a static background")
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun strikeThroughPriceShouldShow() {
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val df = DecimalFormat("#")
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers + 10f
+        vm.hotelOffersSubject.onNext(offer1)
+        assertEquals("$" + df.format(chargeableRateInfo.strikethroughPriceToShowUsers), vm.strikeThroughPriceObservable.value.toString())
+    }
+
+    @Test fun strikeThroughPriceLessThanPriceToShowUsersDontShow() {
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
+        vm.hotelOffersSubject.onNext(offer1)
+        assertNull(vm.strikeThroughPriceObservable.value)
+    }
+
+    @Test fun strikeThroughPriceSameAsPriceToShowUsersDontShow() {
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = 0f
+        vm.hotelOffersSubject.onNext(offer1)
+        assertNull(vm.strikeThroughPriceObservable.value)
+    }
+
+    @Test fun getHotelPriceContentDescriptionTestWithStrikeThrough() {
+        val testSubscriberText = TestSubscriber<CharSequence>()
+        val chargeableRateInfo = offer2.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.averageRate = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers + 10f
+        vm.hotelPriceContentDesc.subscribe(testSubscriberText)
+        vm.hotelOffersSubject.onNext(offer2)
+
+        assertEquals("Regularly ${vm.strikeThroughPriceObservable.value}, now ${vm.priceToShowCustomerObservable.value}.\u0020Original price discounted ${vm.discountPercentageObservable.value.first}.\u0020",
+                testSubscriberText.onNextEvents[0])
+    }
+
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val testSubscriberText = TestSubscriber<CharSequence>()
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
+        chargeableRateInfo.averageRate = 110f
+        vm.hotelPriceContentDesc.subscribe(testSubscriberText)
+        vm.hotelOffersSubject.onNext(offer1)
+
+        assertEquals("$110/night", testSubscriberText.onNextEvents[0])
+    }
+
     @Test fun discountPercentageShouldNotShowForPackages() {
         val hotelOffer = HotelOffersResponse()
         vm.hotelOffersSubject.onNext(hotelOffer)
@@ -265,6 +320,58 @@ class HotelDetailViewModelTest {
         assertTrue(vm.showAirAttachSWPImageObservable.value)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun earnMessagePriceIsShownWithDecimalPoints() {
+        loyaltyPriceInfo("320.56")
+        vm.hotelOffersSubject.onNext(offer1)
+        if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
+            assertTrue(vm.earnMessageVisibilityObservable.value)
+            assertEquals("Earn $320.56", vm.earnMessageObservable.value.toString())
+        } else {
+            assertFalse(vm.earnMessageVisibilityObservable.value)
+        }
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun earnMessagePriceIsShownWithoutDecimalPoints() {
+        loyaltyPriceInfo("320")
+        vm.hotelOffersSubject.onNext(offer1)
+        if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
+            assertTrue(vm.earnMessageVisibilityObservable.value)
+            assertEquals("Earn $320", vm.earnMessageObservable.value.toString())
+        } else {
+            assertFalse(vm.earnMessageVisibilityObservable.value)
+        }
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+    fun earnMessagePointsIsShown() {
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 1000, 1320), null), true)
+        chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        vm.hotelOffersSubject.onNext(offer1)
+        if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
+            assertTrue(vm.earnMessageVisibilityObservable.value)
+            assertEquals("Earn 1,320 points", vm.earnMessageObservable.value.toString())
+        } else {
+            assertFalse(vm.earnMessageVisibilityObservable.value)
+        }
+    }
+
+    @Test fun earnMessagePointsIsNotShown() {
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 100, 420), null), true)
+        chargeableRateInfo.loyaltyInfo = loyaltyInfo
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.earnMessageVisibilityObservable.value)
+    }
+
     /**
      * Sets the member deal for the current user
      * @param loginUser : Determines whether the user should get logged in or logged out
@@ -351,6 +458,15 @@ class HotelDetailViewModelTest {
         offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = false
         vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
         assertEquals(0, vm.promoImageObservable.value)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun priceShownToCustomerIncludesCustomerFees() {
+        vm.hotelOffersSubject.onNext(offer2)
+        val df = DecimalFormat("#")
+        val expectedPrice = "$" + df.format(expectedTotalPriceWithMandatoryFees)
+        assertEquals(expectedPrice, vm.totalPriceObservable.value)
     }
 
     @Test fun reviewsClicking() {

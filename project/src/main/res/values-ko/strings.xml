@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">새 카드 입력</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">숙박객 정보</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">정보 입력</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">결제 방법</string>
     <!-- Text for enter payment details line 2 -->
@@ -354,7 +352,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s, %2$s(%3$s)</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s, %2$s</string>
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">지금 예약: %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
@@ -726,7 +724,7 @@
     <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
     <string name="checkout_traveler_title_TEMPLATE">여행객 {travelernumber} ({passengerycategory})</string>
     <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
-    <string name="traveler_age_range_TEMPLATE">{category}, {range}</string>
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">만 18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">좀 더 자세히 알려주세요.</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">완료</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">확인</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">지도</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">선호 등급 {class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">항공편 업그레이드</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">업그레이드 실패</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">변경 완료</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">죄송합니다. &lt;b&gt;{selected_upgrade}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 시도해 주세요. 처음 선택하신 요금으로 되돌리는 중입니다.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">죄송합니다, &lt;b&gt;{selected_upgrade}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 업그레이드해 주세요. 처음 선택하신 요금으로 돌아가겠습니다.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">죄송합니다. &lt;b&gt;{selected_upgrade}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 시도해 주세요. 처음 선택하신 요금으로 되돌리는 중입니다.</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">좌석 등급 변경</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">항공편 업그레이드</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">항공편 업그레이드</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">최저</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">세금 및 수수료를 포함한 총액</string>
     <string name="excluding_taxes_fees">세금 및 수수료 제외</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">수하물</string>
+    <string name="amenity_cancellation">취소</string>
+    <string name="amenity_seat_selection">좌석 선택</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">자세히 보기</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">포함 항목</string>
+    <string name="fare_family_fee_applies">요금 적용 항목</string>
+    <string name="fare_family_not_available">이용 불가 항목</string>
+    <string name="fare_family_unknown">알 수 없음</string>
 
 </resources>

@@ -41,6 +41,8 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     private val filterTracker: FilterTracker = createFilterTracker()
     private var searchedLocationId: String? = null
 
+    private var shouldTrackFilterPriceSlider = true
+
     var neighborhoodsExist = false
 
     init {
@@ -116,7 +118,11 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val priceRangeChangedObserver = endlessObserver<Pair<Int, Int>> { minMaxPair ->
         userFilterChoices.minPrice = minMaxPair.first
         userFilterChoices.maxPrice = minMaxPair.second
-        trackHotelFilterPriceSlider()
+
+        if (shouldTrackFilterPriceSlider) {
+            trackHotelFilterPriceSlider()
+            shouldTrackFilterPriceSlider = false
+        }
 
         updateFilterCount()
         handleFiltering()
@@ -225,6 +231,10 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     fun trackHotelSortBy(sortBy: String) {
         filterTracker.trackHotelSortBy(sortBy)
+    }
+
+    fun resetPriceSliderFilterTracking() {
+        shouldTrackFilterPriceSlider = true
     }
 
     open protected fun handleFiltering() {

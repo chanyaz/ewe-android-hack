@@ -45,6 +45,14 @@ class FrequentFlyerDialogAdapter(context: Context, textViewResId: Int, val dropD
         return allFrequentFlyerPlans[allAirlineCodes[position]]?.frequentFlyerPlanName ?: ""
     }
 
+    fun getFrequentFlyerFlyerProgramId(position: Int) : String {
+        return allFrequentFlyerPlans[allAirlineCodes[position]]?.frequentFlyerPlanID ?: ""
+    }
+
+    fun getFrequentFlyerProgramCode(position: Int) : String {
+        return allAirlineCodes[position]
+    }
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val retView = Ui.inflate<LinearLayout>(dropDownViewResId, parent, false)
 

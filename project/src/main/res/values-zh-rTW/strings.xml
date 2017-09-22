@@ -245,8 +245,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">輸入新的金融卡/信用卡號碼</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資訊</string>
-    <!-- Text for enter guest details line 2 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line2">輸入您的資訊</string>
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_enter_payment_details">付款方式</string>
     <!-- Text for enter payment details line 2 -->
@@ -2513,6 +2511,8 @@
     <string name="ChooseLocation">您的意思是…</string>
     <!-- Button label for dismissing the flight guest picker -->
     <string name="DONE">完成</string>
+    <!-- Button label for dismissing the flight fare family amenities dialog -->
+    <string name="OK">確定</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">地圖</string>
     <!-- Label for sort hotels in hotel list -->
@@ -4419,13 +4419,17 @@
     <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
     <string name="flight_detail_cabin_class_desc_TEMPLATE">偏好艙等：{class}</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
-    <string name="flight_fare_family_upgrade_flight_label">機票升等</string>
-    <!-- Label for fare family upgrade unavailable error title. Example. Upgrade unsuccessful -->
-    <string name="flight_fare_family_upgrade_unavailable_error_title">升等失敗</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_title">無法變更</string>
+    <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">很抱歉，&lt;b&gt;{selected_upgrade}&lt;/b&gt;已搶訂一空。請嘗試其他票價選項。我們會先回復至您原先選擇的班機票價。</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_TEMPLATE">很抱歉，&lt;b&gt;{selected_upgrade}&lt;/b&gt;已搶訂一空。請嘗試其他票價選項。我們會先回復至您原先選擇的班機票價。</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">很抱歉，&lt;b&gt;{selected_upgrade}&lt;/b&gt;已搶訂一空。請嘗試其他票價選項。我們會先回復至您原先選擇的班機票價。</string>
     <!-- Label for fare family upgrade option. Example. Change your cabin class -->
     <string name="flight_fare_family_change_class_label">變更艙等</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_roundtrip_label">機位升等</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_oneway_label">機位升等</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">最低</string>
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
@@ -4790,5 +4794,19 @@
     <!--price descriptor for different hotel rate type-->
     <string name="total_including_taxes_fees">總價包含稅金和其他費用</string>
     <string name="excluding_taxes_fees">不含稅金和其他費用</string>
+
+    <!-- Amenities String -->
+    <string name="amenity_bags">行李</string>
+    <string name="amenity_cancellation">取消</string>
+    <string name="amenity_seat_selection">選位</string>
+
+    <!-- Amenity Show More String -->
+    <string name="amenity_show_more">顯示更多</string>
+
+    <!-- Fare Family Component Names -->
+    <string name="fare_family_included">包含</string>
+    <string name="fare_family_fee_applies">需付費</string>
+    <string name="fare_family_not_available">不提供</string>
+    <string name="fare_family_unknown">不確定</string>
 
 </resources>

@@ -57,6 +57,25 @@ class PackageHotelDetailViewModelTest {
         offer1.hotelRoomResponse = makeHotel()
     }
 
+    @Test fun packageSearchInfoShouldShow() {
+        val searchParams = createSearchParams()
+        searchParams.forPackage = true
+        val response = PackageSearchResponse()
+        response.packageInfo = PackageSearchResponse.PackageInfo()
+        response.packageInfo.hotelCheckinDate = PackageSearchResponse.HotelCheckinDate()
+        response.packageInfo.hotelCheckinDate.isoDate = "2016-09-07"
+        response.packageInfo.hotelCheckoutDate = PackageSearchResponse.HotelCheckoutDate()
+        response.packageInfo.hotelCheckoutDate.isoDate = "2016-09-08"
+        Db.setPackageResponse(response)
+        testViewModel.paramsSubject.onNext(searchParams)
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+
+        val dates = LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())) + " - " +
+                LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))
+        assertEquals(dates, testViewModel.searchDatesObservable.value)
+        assertEquals("$dates, ${searchParams.guests} guests", testViewModel.searchInfoObservable.value)
+    }
+
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun resortFeeShowsForPackages() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
