@@ -87,7 +87,7 @@ public class AbacusResponse {
 		return Strings.toPrettyString(this);
 	}
 
-	void setAbacusTestMap(Map<Integer, AbacusTest> map) {
+	public void setAbacusTestMap(Map<Integer, AbacusTest> map) {
 		abacusTestMap = map;
 		abacusTestDebugMap = new HashMap<>();
 		for (Map.Entry<Integer, AbacusTest> entry : map.entrySet()) {

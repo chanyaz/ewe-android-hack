@@ -7,6 +7,7 @@ import java.util.concurrent.TimeoutException;
 import javax.inject.Inject;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
@@ -66,23 +67,9 @@ public class AbacusHelperUtils {
 			return;
 		}
 
-		if (Db.getAbacusResponse() == null) {
-			Db.setAbacusResponse(abacusResponse);
-		}
-		else {
-			Db.getAbacusResponse().updateFrom(abacusResponse);
-		}
+		updateAbacusResponse(abacusResponse);
+		updateForceBucketedTests(context);
 
-		// Modify the bucket values based on forced bucket settings;
-		//TODO this doesn't seem right - it will update each active test to IGNORE_DEBUG if they are not force bucketed,
-		//TODO which in turn will always return false to isUserBucketedInTest() ... am I missing something here?
-		if (ForceBucketPref.isForceBucketed(context)) {
-			for (Integer key : AbacusUtils.getActiveTests()) {
-				Db.getAbacusResponse()
-					.forceUpdateABTest(key, ForceBucketPref.getForceBucketedTestValue(context, key,
-						AbacusUtils.ABTEST_IGNORE_DEBUG));
-			}
-		}
 
 		// Modify the bucket values based on dev settings;
 		if (BuildConfig.DEBUG) {
@@ -94,6 +81,29 @@ public class AbacusHelperUtils {
 
 		Log.v("AbacusData", Db.getAbacusResponse().toString());
 		Crashlytics.log(Db.getAbacusResponse().toString());
+	}
+
+	@VisibleForTesting
+	static void updateForceBucketedTests(Context context) {
+		// Modify the bucket values based on forced bucket settings;
+		if (ForceBucketPref.isForceBucketed(context)) {
+			for (Integer key : AbacusUtils.getActiveTests()) {
+				int testVal = ForceBucketPref.getForceBucketedTestValue(context, key, AbacusUtils.ABTEST_IGNORE_DEBUG);
+				if (testVal != AbacusUtils.ABTEST_IGNORE_DEBUG) {
+					Db.getAbacusResponse().forceUpdateABTest(key, testVal);
+				}
+			}
+		}
+	}
+
+	@VisibleForTesting
+	static void updateAbacusResponse(AbacusResponse abacusResponse) {
+		if (Db.getAbacusResponse() == null) {
+			Db.setAbacusResponse(abacusResponse);
+		}
+		else {
+			Db.getAbacusResponse().updateFrom(abacusResponse);
+		}
 	}
 
 	public static void downloadBucketWithWait(Context context, Observer<AbacusResponse> observer) {
