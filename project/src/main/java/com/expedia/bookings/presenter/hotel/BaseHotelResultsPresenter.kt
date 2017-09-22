@@ -146,14 +146,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
     val pricingHeaderSelectedSubject = PublishSubject.create<Unit>()
-    val showSearchMenu = PublishSubject.create<Boolean>()
     val hideBundlePriceOverviewSubject = PublishSubject.create<Boolean>()
 
     var googleMap: GoogleMap? = null
 
     var filterBtn: LinearLayout? = null
-
-    val searchOverlaySubject = PublishSubject.create<Unit>()
 
     var hotelMapClusterRenderer: HotelMapClusterRenderer by Delegates.notNull()
 
@@ -508,11 +505,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 val marker = markersForHotel.first()
                 mapViewModel.carouselSwipedObservable.onNext(marker)
                 trackCarouselScroll()
-            }
-        }
-        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
-            if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
-                toolbar.inflateMenu(R.menu.menu_search_item)
             }
         }
         toolbar.inflateMenu(R.menu.menu_filter_item)
@@ -956,7 +948,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
             hideBundlePriceOverview(!forwardToList)
             updateFilterButtonTextVisibility(forwardToList)
-            showSearchMenu.onNext(forwardToList)
             showFilterMenuItem(forwardToList)
         }
 

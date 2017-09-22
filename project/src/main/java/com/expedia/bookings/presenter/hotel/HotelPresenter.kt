@@ -206,7 +206,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         presenter.viewModel.errorObservable.subscribe { show(errorPresenter) }
         presenter.viewModel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
-        presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
         presenter.showDefault()
         presenter
     }
@@ -1028,10 +1027,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             return super.back()
         }
         return true
-    }
-
-    val searchResultsOverlayObserver: Observer<Unit> = endlessObserver { params ->
-        show(searchPresenter)
     }
 
     private fun trackHotelDetail() {

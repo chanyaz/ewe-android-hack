@@ -66,11 +66,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     private var narrowFilterPromptSubscription: Subscription? = null
     private var swpEnabled = false
 
-    val searchMenu: MenuItem by lazy {
-        val searchMenu = toolbar.menu.findItem(R.id.menu_open_search)
-        searchMenu
-    }
-
     val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
         filterBtnWithCountWidget.showNumberOfFilters(numberOfFilters)
     }
@@ -84,9 +79,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     lateinit var urgencyViewModel: UrgencyViewModel
 
     init {
-        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
-            showSearchMenu.subscribe { searchMenu.isVisible = it }
-        }
         filterView.viewModel.filterByParamsObservable.subscribe { params ->
             viewModel.filterParamsSubject.onNext(params)
         }
@@ -215,16 +207,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 UrgencyAnimation(urgencyDropDownContainer, toolbarShadow).animate()
             }
         }
-        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
-            searchMenu.setOnMenuItemClickListener({
-                if (!transitionRunning) {
-                    searchOverlaySubject.onNext(Unit)
-                    true
-                } else {
-                    false
-                }
-            })
-        }
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
@@ -242,9 +224,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             trackMapSearchAreaClick()
         })
 
-        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
-            searchMenu.isVisible = true
-        }
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
 
         sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())

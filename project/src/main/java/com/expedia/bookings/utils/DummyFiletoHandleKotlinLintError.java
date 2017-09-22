@@ -725,7 +725,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.accessibility_cont_desc_role_button,
 		R.plurals.search_travelers_cont_desc_TEMPLATE,
 		R.layout.process_dialog_layout,
-		R.menu.menu_search_item,
 		R.string.accessibility_cont_desc_role_button_expand,
 		R.string.accessibility_cont_desc_role_button_collapse,
 		R.string.map_select_a_room_cont_desc_TEMPLATE,
