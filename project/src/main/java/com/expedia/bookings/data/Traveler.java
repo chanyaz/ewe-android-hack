@@ -92,7 +92,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	//These names should be consistance with valid api values
 	public enum AssistanceType {
 		NONE,
-		BLIND_WITH_GUIDE_DOG,
+		BLIND_WITH_SEEING_EYE_DOG,
 		DEAF_WITH_HEARING_DOG,
 		WHEELCHAIR_CAN_CLIMB_STAIRS,
 		WHEELCHAIR_CANNOT_CLIMB_STAIRS,
@@ -282,7 +282,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		case DEAF_WITH_HEARING_DOG:
 			retStr = res.getString(R.string.deaf_with_hearing_dog);
 			break;
-		case BLIND_WITH_GUIDE_DOG:
+		case BLIND_WITH_SEEING_EYE_DOG:
 			retStr = res.getString(R.string.blind_with_guide_dog);
 			break;
 		case NONE:
