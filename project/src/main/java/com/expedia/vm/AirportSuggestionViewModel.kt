@@ -21,7 +21,7 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
             R.string.preference_flight_enable_search_suggestion_label)
 
     override fun getSuggestionService(query: String) {
-        suggestionsService.getAirports(query, ServicesUtil.generateClientId(context), isDest, generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier(), Db.getAbacusGuid())
+        suggestionsService.getAirports(query, PointOfSale.getPointOfSale().siteId, ServicesUtil.generateClientId(context), isDest, generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier(), Db.getAbacusGuid())
     }
 
     override fun getSuggestionHistoryFile(): String {

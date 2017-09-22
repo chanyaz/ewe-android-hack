@@ -137,14 +137,14 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
     
     var airportSuggestionSubscription: Subscription? = null
 
-    fun getAirports(query: String, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String, guid: String): Subscription {
+    fun getAirports(query: String, siteId: Int, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String, guid: String): Subscription {
 
         airportSuggestionSubscription?.unsubscribe()
 
         val suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or
                 SuggestionResultType.CITY or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
 
-        airportSuggestionSubscription = suggestApi.suggestV4(query, locale, suggestType, isDest, "ta_hierarchy|nearby_airport", clientId, "FLIGHTS", null, 10, guid)
+        airportSuggestionSubscription = suggestApi.suggestV4(query, locale, suggestType, isDest, "ta_hierarchy|nearby_airport", clientId, "FLIGHTS", siteId, 10, guid)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
