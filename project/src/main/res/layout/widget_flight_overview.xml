@@ -71,11 +71,31 @@
                     android:layout_marginTop="12dp"
                     style="@style/Widget.InfoIconButton"/>
 
-                <Button
-                    android:id="@+id/show_payment_fees"
-                    android:visibility="gone"
-                    style="@style/Widget.InfoIconButton"
-                    app:textStyle="medium" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/show_payment_fees"
+                        style="@style/Widget.InfoIconButton"
+                        android:visibility="gone"
+                        app:textStyle="medium" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/show_airline_fee_warning_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="@dimen/card_view_container_margin"
+                        android:layout_marginTop="5dp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textColor="@color/defaultTextColor"
+                        android:textSize="10sp"
+                        android:visibility="gone"
+                        android:gravity="center"/>
+                </FrameLayout>
 
             </LinearLayout>
             

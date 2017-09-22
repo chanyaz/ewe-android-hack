@@ -23,6 +23,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val baggageFeeURLSubject = BehaviorSubject.create<String>()
     val selectedFlightClickedSubject = BehaviorSubject.create<FlightLeg>()
     val chargesObFeesTextSubject = PublishSubject.create<String>()
+    val airlineFeesWarningTextSubject = PublishSubject.create<String>()
     var numberOfTravelers = BehaviorSubject.create<Int>(0)
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl

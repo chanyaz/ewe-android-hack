@@ -41,11 +41,11 @@ class AbstractFlightOverviewViewModelTest {
         setupFlightLeg()
         addObFees()
         sut.selectedFlightLegSubject.onNext(flightLeg)
-        testSubscriber.assertValue("https://www.expedia.co.uk/p/regulatory/obfees")
+        testSubscriber.assertValues("", "https://www.expedia.co.uk/p/regulatory/obfees")
         setupFlightLeg()
         sut.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals(false, flightLeg.airlineMessageModel.hasAirlineWithCCfee)
-        testSubscriber.assertValues("https://www.expedia.co.uk/p/regulatory/obfees", "")
+        testSubscriber.assertValues("", "https://www.expedia.co.uk/p/regulatory/obfees", "")
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -60,7 +60,7 @@ class AbstractFlightOverviewViewModelTest {
         setupFlightLeg()
         sut.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals(false, flightLeg.airlineMessageModel.hasAirlineWithCCfee)
-        obFeeTestSubscriber.assertValues("Payment fees may apply", "")
+        obFeeTestSubscriber.assertValues("", "Payment fees may apply", "")
     }
 
     @Test

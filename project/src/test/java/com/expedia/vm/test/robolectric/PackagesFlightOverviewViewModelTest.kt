@@ -130,9 +130,9 @@ class PackagesFlightOverviewViewModelTest {
         sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
 
         sut.selectedFlightLegSubject.onNext(flightLeg)
+        paymentInfoTestSubscriber.assertValues("", "Payment fees may apply")
 
-        paymentInfoTestSubscriber.assertValue("Payment fees may apply")
-        obFeeDetailsUrlTestSubscriber.assertValue(sut.e3EndpointUrl + "/p/regulatory/obfees")
+        obFeeDetailsUrlTestSubscriber.assertValues("", sut.e3EndpointUrl + "/p/regulatory/obfees")
     }
 
     @Test
@@ -141,13 +141,13 @@ class PackagesFlightOverviewViewModelTest {
         setupFlightLegWithAirlineMessageModel(airlineFeeLink = "")
 
         val paymentInfoTestSubscriber = TestSubscriber<String>()
-        sut.chargesObFeesTextSubject.subscribe(paymentInfoTestSubscriber)
+        sut.airlineFeesWarningTextSubject.subscribe(paymentInfoTestSubscriber)
         val obFeeDetailsUrlTestSubscriber = TestSubscriber<String>()
         sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
 
         sut.selectedFlightLegSubject.onNext(flightLeg)
 
-        paymentInfoTestSubscriber.assertValue("Payment fees may apply")
+        paymentInfoTestSubscriber.assertValues("", "There may be an additional fee based on your payment method.")
         obFeeDetailsUrlTestSubscriber.assertValue("")
     }
 

@@ -27,19 +27,23 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
     }
 
     fun updateOBFees(selectedFlight: FlightLeg) {
+        resetPaymentFeeViews()
         if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
-            val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
-            chargesObFeesTextSubject.onNext(paymentFeeText)
             val hasAirlineFeeLink = !selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()
             if (hasAirlineFeeLink){
+                val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
+                chargesObFeesTextSubject.onNext(paymentFeeText)
                 obFeeDetailsUrlObservable.onNext(e3EndpointUrl + selectedFlight.airlineMessageModel.airlineFeeLink)
             } else {
-                obFeeDetailsUrlObservable.onNext("")
+                val airlineFeeWarningText = context.resources.getString(R.string.airline_additional_fee_notice)
+                airlineFeesWarningTextSubject.onNext(airlineFeeWarningText)
             }
         }
-        else{
-            chargesObFeesTextSubject.onNext("")
-            obFeeDetailsUrlObservable.onNext("")
-        }
+    }
+
+    private fun resetPaymentFeeViews() {
+        chargesObFeesTextSubject.onNext("")
+        obFeeDetailsUrlObservable.onNext("")
+        airlineFeesWarningTextSubject.onNext("")
     }
 }
