@@ -14,11 +14,9 @@ import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isSecureIconEnabled
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.BaggageFeeInfoWebView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
@@ -425,11 +423,15 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     private fun setupClickListeners() {
         checkoutButton.setOnClickListener {
-            if (currentState == BundleDefault::class.java.name) {
-                showCheckout()
-                slideToPurchaseLayout.visibility = View.VISIBLE
+            if(shouldShowWebCheckoutView()) {
+                println("Inside show web view")
             } else {
-                checkoutPresenter.doHarlemShakes()
+                if (currentState == BundleDefault::class.java.name) {
+                    showCheckout()
+                    slideToPurchaseLayout.visibility = View.VISIBLE
+                } else {
+                    checkoutPresenter.doHarlemShakes()
+                }
             }
         }
     }
@@ -476,5 +478,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         if (checkoutPresenter.acceptTermsRequired) {
             bottomCheckoutContainer.toggleAcceptTermsWidget(showSlider)
         }
+    }
+
+    private fun shouldShowWebCheckoutView(): Boolean {
+        return PointOfSale.getPointOfSale().shouldShowWebCheckout() && isShowFlightsCheckoutWebview(context)
     }
 }
