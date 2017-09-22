@@ -31,6 +31,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -150,10 +151,10 @@ public class PointOfSale {
 	private String mRailUrlInfix;
 
 	//AB Test ID for Rails Web View
-	private int mRailsWebViewABTestID;
+	private ABTest mRailsWebViewABTestID;
 
 	// AB test ID for Cars Web View
-	private int mCarsWebViewABTestID;
+	private ABTest mCarsWebViewABTestID;
 
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
@@ -727,11 +728,11 @@ public class PointOfSale {
 		return mRailUrlInfix;
 	}
 
-	public int getRailsWebViewABTestID() {
+	public ABTest getRailsWebViewABTestID() {
 		return mRailsWebViewABTestID;
 	}
 
-	public int getCarsWebViewABTestID() {
+	public ABTest getCarsWebViewABTestID() {
 		return mCarsWebViewABTestID;
 	}
 
@@ -1376,8 +1377,8 @@ public class PointOfSale {
 		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
 		pos.mSupportsRailsWebView = data.optBoolean("android.webViewEnabledForRails", false);
 		pos.mRailUrlInfix = data.optString("railsWebViewPageUrl","trains");
-		pos.mRailsWebViewABTestID = data.optInt("android.webViewABTestIDForRails");
-		pos.mCarsWebViewABTestID = data.optInt("carsWebViewABTestID");
+		pos.mRailsWebViewABTestID = new ABTest(data.optInt("android.webViewABTestIDForRails"));
+		pos.mCarsWebViewABTestID = new ABTest(data.optInt("carsWebViewABTestID"));
 		pos.mSupportPropertyFee = data.optBoolean("propertyFeeEnabledInHotelCostSummary", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);

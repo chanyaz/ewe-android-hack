@@ -1,5 +1,7 @@
 package com.expedia.bookings.presenter.lx;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 import android.app.Activity;
@@ -19,10 +21,9 @@ import android.widget.LinearLayout;
 
 import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSearchResponse;
@@ -30,6 +31,7 @@ import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.lx.LXTheme;
 import com.expedia.bookings.data.lx.SearchType;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.LeftToRightTransition;
 import com.expedia.bookings.presenter.Presenter;
@@ -49,8 +51,6 @@ import com.expedia.bookings.widget.LXSortFilterWidget;
 import com.expedia.bookings.widget.LXThemeResultsWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
-
-import java.util.HashMap;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -175,13 +175,16 @@ public class LXResultsPresenter extends Presenter {
 			sortFilterWidget.setVisibility(forward ? VISIBLE : GONE);
 			if (forward) {
 				sortFilterWidget.setFocusToToolbarForAccessibility();
-				ViewCompat.setImportantForAccessibility(toolbar, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-				ViewCompat.setImportantForAccessibility(searchResultsWidget, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+				ViewCompat
+					.setImportantForAccessibility(toolbar, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+				ViewCompat.setImportantForAccessibility(searchResultsWidget,
+					ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
 				ViewCompat.setImportantForAccessibility(transparentView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO);
 			}
 			else {
 				ViewCompat.setImportantForAccessibility(toolbar, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
-				ViewCompat.setImportantForAccessibility(searchResultsWidget, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
+				ViewCompat
+					.setImportantForAccessibility(searchResultsWidget, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
 				ViewCompat.setImportantForAccessibility(transparentView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
 			}
 		}
@@ -215,16 +218,17 @@ public class LXResultsPresenter extends Presenter {
 		addTransition(searchResultsToSortFilter);
 		addTransition(themeResultsToActivityResults);
 
-		setUserBucketedForCategoriesTest(Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest));
+		setUserBucketedForCategoriesTest(
+			AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest));
 
-		lxFilterTextSearchEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFilterSearch);
+		lxFilterTextSearchEnabled = AbacusFeatureConfigManager
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFilterSearch);
 
 		setupToolbar();
 		int toolbarSize = Ui.getStatusBarHeight(getContext());
 		if (toolbarSize > 0) {
-				themeResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
-			}
+			themeResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
+		}
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 	}
@@ -264,7 +268,8 @@ public class LXResultsPresenter extends Presenter {
 			sortFilterButton.showNumberOfFilters(0);
 			sortFilterButton.setVisibility(VISIBLE);
 			searchSubscription = lxServices.lxThemeSortAndFilter(
-				themeSelected, new LXSortFilterMetadata(new HashMap<String, LXCategoryMetadata>(), LXSortType.POPULARITY),
+				themeSelected,
+				new LXSortFilterMetadata(new HashMap<String, LXCategoryMetadata>(), LXSortType.POPULARITY),
 				themeResultSortObserver, lxFilterTextSearchEnabled);
 			setToolbarTitles(theme.title,
 				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),
@@ -423,8 +428,8 @@ public class LXResultsPresenter extends Presenter {
 			Events.post(new Events.LXShowLoadingAnimation());
 		}
 
-		setUserBucketedForCategoriesTest(Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest));
+		setUserBucketedForCategoriesTest(
+			AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest));
 
 		cleanup();
 		sortFilterWidget.bind(null);
@@ -465,7 +470,8 @@ public class LXResultsPresenter extends Presenter {
 			searchResultFilterObserver.widget = searchResultsWidget;
 			searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
 				areExternalFiltersSupplied ? new LXSortFilterMetadata(filters) : null,
-				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver, lxFilterTextSearchEnabled);
+				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver,
+				lxFilterTextSearchEnabled);
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort_and_filter));
 			setToolbarTitles(event.lxSearchParams.getLocation(),
@@ -495,7 +501,8 @@ public class LXResultsPresenter extends Presenter {
 		}
 		else {
 			searchSubscription = lxServices
-				.lxSearchSortFilter(null, event.lxSortFilterMetadata, searchResultFilterObserver, lxFilterTextSearchEnabled);
+				.lxSearchSortFilter(null, event.lxSortFilterMetadata, searchResultFilterObserver,
+					lxFilterTextSearchEnabled);
 		}
 	}
 

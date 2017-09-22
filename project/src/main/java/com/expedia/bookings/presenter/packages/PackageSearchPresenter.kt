@@ -16,11 +16,11 @@ import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.PackageUtil

@@ -18,12 +18,12 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AnimationRunner
 import com.expedia.bookings.hotel.animation.ScaleInRunnable
 import com.expedia.bookings.hotel.animation.ScaleOutRunnable
@@ -84,7 +84,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     lateinit var urgencyViewModel: UrgencyViewModel
 
     init {
-        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
+        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
             showSearchMenu.subscribe { searchMenu.isVisible = it }
         }
         filterView.viewModel.filterByParamsObservable.subscribe { params ->
@@ -100,7 +100,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
             vm.hotelResultsObservable.subscribe { response ->
                 vm.getSearchParams()?.let { params ->
                     urgencyViewModel.fetchCompressionScore(response.searchRegionId, params.checkIn, params.checkOut)
@@ -189,7 +189,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         viewModel.hotelResultsObservable.subscribe {
             narrowResultsPromptView.visibility = View.GONE
             narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
-                if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSortCallToAction)) {
+                if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSortCallToAction)) {
                     val animationRunner = AnimationRunner(narrowResultsPromptView, context)
                     narrowResultsPromptView.visibility = View.VISIBLE
                     animationRunner.animIn(R.anim.filter_prompt_in)
@@ -208,7 +208,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)
         urgencyViewModel = UrgencyViewModel(context, urgencyServices)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
             urgencyViewModel.percentSoldOutTextSubject.zipWith(urgencyViewModel.urgencyDescriptionSubject,
                     { soldOutPercentText, urgencyDescription ->
                         urgencyPercentBookedView.text = soldOutPercentText
@@ -217,7 +217,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 UrgencyAnimation(urgencyDropDownContainer, toolbarShadow).animate()
             }
         }
-        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
+        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
             searchMenu.setOnMenuItemClickListener({
                 if (!transitionRunning) {
                     searchOverlaySubject.onNext(Unit)
@@ -244,7 +244,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             trackMapSearchAreaClick()
         })
 
-        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
+        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
             searchMenu.isVisible = true
         }
         filterView.shopWithPointsViewModel = shopWithPointsViewModel

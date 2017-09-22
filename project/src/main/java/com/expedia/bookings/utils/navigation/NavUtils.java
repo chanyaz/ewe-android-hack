@@ -17,10 +17,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
@@ -151,10 +151,11 @@ public class NavUtils {
 		finishIfFlagged(context, expediaFlags);
 	}
 
- 	public static void goToRail(Context context, Bundle animOptions, int expediaFlags) {
+	public static void goToRail(Context context, Bundle animOptions, int expediaFlags) {
 		sendKillActivityBroadcast(context);
 		RailWebViewTracking.trackAppRailWebViewABTest();
-		boolean isAbTestEnabled = Db.getAbacusResponse().isUserBucketedForTest(PointOfSale.getPointOfSale().getRailsWebViewABTestID());
+		boolean isAbTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(
+			PointOfSale.getPointOfSale().getRailsWebViewABTestID());
 		if (PointOfSale.getPointOfSale().supportsRailsWebView() && isAbTestEnabled) {
 			LOBWebViewActivity.IntentBuilder builder = new LOBWebViewActivity.IntentBuilder(context);
 			EndpointProvider endpointProvider = Ui.getApplication(context).appComponent().endpointProvider();
@@ -243,7 +244,7 @@ public class NavUtils {
 			}
 			else {
 				throw new IllegalArgumentException("Error: Expected an AppCompatActivity context. " +
-						"Can't finish() a non AppCompatActivity context");
+					"Can't finish() a non AppCompatActivity context");
 			}
 		}
 	}

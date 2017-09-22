@@ -2,24 +2,24 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 
 fun isMaterialFormsEnabled(): Boolean {
-    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 }
 
 fun isFlexEnabled(): Boolean {
-    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFlexEnabled)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFlexEnabled)
 }
 
 fun isPopulateCardholderNameEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_populate_cardholder_name)
-            && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidPopulateCardholderName)
+            && AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidPopulateCardholderName)
 }
 
 fun isSecureIconEnabled(context: Context): Boolean {
-    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
             && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_secure_icon)
 }
 
@@ -35,19 +35,19 @@ fun isMidAPIEnabled(context: Context): Boolean {
 }
 
 fun isHideApacBillingFieldsEnabled(): Boolean {
-    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHideApacBillingAddressFields)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHideApacBillingAddressFields)
 }
 
 fun isAllowUnknownCardTypesEnabled(context: Context): Boolean {
-    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
             && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_allow_unknown_card_types)
 }
 
 fun isAllowCheckinCheckoutDatesInlineEnabled(): Boolean {
-    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
 }
 
 fun isShowFlightsCheckoutWebview(context: Context): Boolean {
-    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
             && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_flights_checkout_webview)
 }

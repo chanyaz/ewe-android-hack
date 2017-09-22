@@ -49,16 +49,16 @@ class ForceBucketPrefTest {
 
         //when the user is not force bucketed
         ForceBucketPref.saveForceBucketedTestKeyValue(context, 1111, 0)
-        assertEquals(-1, ForceBucketPref.getForceBucketedTestValue(context, "1111", -1))
+        assertEquals(-1, ForceBucketPref.getForceBucketedTestValue(context, 1111, -1))
 
         //when the user is force bucketed
         ForceBucketPref.setUserForceBucketed(context, true)
         ForceBucketPref.saveForceBucketedTestKeyValue(context, 1111, 0)
-        assertEquals(0, ForceBucketPref.getForceBucketedTestValue(context, "1111", -1))
+        assertEquals(0, ForceBucketPref.getForceBucketedTestValue(context, 1111, -1))
 
         //when the user resets force bucketing settings
         ForceBucketPref.setUserForceBucketed(context, false)
         ForceBucketPref.saveForceBucketedTestKeyValue(context, 1111, 0)
-        assertEquals(-1, ForceBucketPref.getForceBucketedTestValue(context, "1111", -1))
+        assertEquals(-1, ForceBucketPref.getForceBucketedTestValue(context, 1111, -1))
     }
 }

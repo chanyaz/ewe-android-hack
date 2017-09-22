@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.util.endlessObserver
@@ -46,6 +47,13 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     var previousSort = FlightFilter.Sort.PRICE
     var isAirlinesExpanded: Boolean = false
     val atleastOneFilterIsApplied = PublishSubject.create<Boolean>()
+
+    var hasTrackedZeroFilteredResults = false
+    var hasTrackedDurationFilterInteraction = false
+    var hasTrackedDepartureTimeFilterInteraction = false
+    var hasTrackedArrivalTimeFilterInteraction = false
+    val resetFilterTracking = PublishSubject.create<Unit>()
+    val durationFilterInteractionFromUser = PublishSubject.create<Unit>()
 
     enum class Stops(val stops: Int) {
         NONSTOP(0),
@@ -185,6 +193,20 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
             clearChecks.onNext(Unit)
             isAirlinesExpanded = false
         }
+
+        resetFilterTracking.subscribe {
+            hasTrackedZeroFilteredResults = false
+            hasTrackedDurationFilterInteraction = false
+            hasTrackedDepartureTimeFilterInteraction = false
+            hasTrackedArrivalTimeFilterInteraction = false
+        }
+
+        durationFilterInteractionFromUser.subscribe {
+            if (lob == LineOfBusiness.FLIGHTS_V2 && !hasTrackedDurationFilterInteraction) {
+                OmnitureTracking.trackFlightFilterDuration()
+                hasTrackedDurationFilterInteraction = true
+            }
+        }
     }
 
     fun getStops(stops: Int): Stops {
@@ -202,6 +224,10 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         // not to include best flight in the count
         val allFlightsListSize = if (filteredList.isNotEmpty() && filteredList[0].isBestFlight) filteredList.size - 1 else filteredList.size
         val dynamicFeedbackWidgetCount = if (filterCount > 0) allFlightsListSize else -1
+        if (lob == LineOfBusiness.FLIGHTS_V2 && !hasTrackedZeroFilteredResults && dynamicFeedbackWidgetCount == 0) {
+            OmnitureTracking.trackFlightFilterZeroResults()
+            hasTrackedZeroFilteredResults = true
+        }
         updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
         doneButtonEnableObservable.onNext(filteredList.size > 0)
         filterCountObservable.onNext(filterCount)
@@ -256,12 +282,20 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         userFilterChoices.minDeparture = p.first
         userFilterChoices.maxDeparture = p.second
         handleFiltering()
+        if (lob == LineOfBusiness.FLIGHTS_V2 && !hasTrackedDepartureTimeFilterInteraction) {
+            OmnitureTracking.trackFlightFilterArrivalDeparture(true)
+            hasTrackedDepartureTimeFilterInteraction = true
+        }
     }
 
     val arrivalRangeChangedObserver = endlessObserver<Pair<Int, Int>> { p ->
         userFilterChoices.minArrival = p.first
         userFilterChoices.maxArrival = p.second
         handleFiltering()
+        if (lob == LineOfBusiness.FLIGHTS_V2 && !hasTrackedArrivalTimeFilterInteraction) {
+            OmnitureTracking.trackFlightFilterArrivalDeparture(false)
+            hasTrackedArrivalTimeFilterInteraction = true
+        }
     }
 
     private fun resetCheckboxes() {

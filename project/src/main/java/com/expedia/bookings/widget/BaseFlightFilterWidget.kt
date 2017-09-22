@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewStub
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -23,7 +22,6 @@ import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -107,6 +105,9 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 durationSeekBar.currentA11yValue = duration.text.toString()
                 announceForAccessibility(durationSeekBar.currentA11yValue)
                 vm.durationRangeChangedObserver.onNext(durationRange.update(progress))
+                if (fromUser) {
+                    vm.durationFilterInteractionFromUser.onNext(Unit)
+                }
             }
         }
 

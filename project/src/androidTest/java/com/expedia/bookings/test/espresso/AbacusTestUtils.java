@@ -1,21 +1,22 @@
 package com.expedia.bookings.test.espresso;
 
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 
 public class AbacusTestUtils {
 
-	public static void updateABTest(int key, int value) {
+	public static void updateABTest(ABTest abTest, int value) {
 		AbacusResponse abacusResponse = Db.getAbacusResponse();
-		abacusResponse.updateABTestForDebug(key, value);
+		abacusResponse.updateABTestForDebug(abTest.getKey(), value);
 		Db.setAbacusResponse(abacusResponse);
 	}
 
-	public static void bucketTests(int... tests) {
+	public static void bucketTests(ABTest... tests) {
 		AbacusResponse abacusResponse = new AbacusResponse();
-		for (int test : tests) {
-			abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		for (ABTest test : tests) {
+			abacusResponse.updateABTestForDebug(test.getKey(), AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 		Db.setAbacusResponse(abacusResponse);
 	}

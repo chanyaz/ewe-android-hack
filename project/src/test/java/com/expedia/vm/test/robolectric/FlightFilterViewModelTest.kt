@@ -2,7 +2,9 @@ package com.expedia.vm.test.robolectric
 
 import android.content.Context
 import android.view.LayoutInflater
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -27,12 +29,14 @@ import kotlin.test.assertTrue
 class FlightFilterViewModelTest {
     var vm: BaseFlightFilterViewModel by Delegates.notNull()
     private var widget: BaseFlightFilterWidget by Delegates.notNull()
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun before() {
         widget = LayoutInflater.from(getContext()).inflate(R.layout.flight_filter_widget_test, null) as BaseFlightFilterWidget
         widget.viewModelBase = BaseFlightFilterViewModel(getContext(), LineOfBusiness.FLIGHTS_V2)
         vm = widget.viewModelBase
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     private fun getContext(): Context {
@@ -90,6 +94,55 @@ class FlightFilterViewModelTest {
 
         assertFalse(checkbox.isEnabled)
         assertTrue(checkbox.isChecked)
+    }
+
+    @Test
+    fun testDurationFilterInteractionIsTracked() {
+        vm.durationFilterInteractionFromUser.onNext(Unit)
+        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Flight.Search.Filter.Duration", mockAnalyticsProvider)
+
+        // Reset mock analytics provider to test that tracking is done only once.
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.durationFilterInteractionFromUser.onNext(Unit)
+        vm.durationFilterInteractionFromUser.onNext(Unit)
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testDepartureTimeFilterInteractionIsTracked() {
+        vm.departureRangeChangedObserver.onNext(Pair(1, 1))
+        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Flight.Search.Filter.Time.Departure", mockAnalyticsProvider)
+
+        // Reset mock analytics provider to test that tracking is done only once.
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.departureRangeChangedObserver.onNext(Pair(2, 2))
+        vm.departureRangeChangedObserver.onNext(Pair(3, 3))
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testArrivalTimeFilterInteractionIsTracked() {
+        vm.arrivalRangeChangedObserver.onNext(Pair(1, 1))
+        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Flight.Search.Filter.Time.Arrival", mockAnalyticsProvider)
+
+        // Reset mock analytics provider to test that tracking is done only once.
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.arrivalRangeChangedObserver.onNext(Pair(2, 2))
+        vm.arrivalRangeChangedObserver.onNext(Pair(3, 3))
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testZeroResultAfterFilteringIsTracked() {
+        vm.filteredList = getFlightList()
+        vm.durationRangeChangedObserver.onNext(1)
+        OmnitureTestUtils.assertLinkTracked("Zero results", "App.Flight.Search.Filter.ZeroResult", mockAnalyticsProvider)
+
+        // Reset mock analytics provider to test that tracking is done only once.
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        vm.durationRangeChangedObserver.onNext(1)
+        vm.durationRangeChangedObserver.onNext(1)
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
     }
 
     private fun getFlightList(): List<FlightLeg> {

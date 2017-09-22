@@ -9,8 +9,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-
-class HotelWebCheckoutViewViewModel(var c: Context) : WebCheckoutViewViewModel(c) {
+class HotelWebCheckoutViewViewModel(context: Context): WebCheckoutViewViewModel(context) {
 
     var hotelSearchParamsObservable = BehaviorSubject.create<HotelSearchParams>()
     var offerObservable = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
@@ -34,4 +33,5 @@ class HotelWebCheckoutViewViewModel(var c: Context) : WebCheckoutViewViewModel(c
         val qualifyAirAttach = false
         createTripViewModel.tripParams.onNext(HotelCreateTripParams(offerObservable.value.productKey, qualifyAirAttach, numberOfAdults, childAges))
     }
+
 }

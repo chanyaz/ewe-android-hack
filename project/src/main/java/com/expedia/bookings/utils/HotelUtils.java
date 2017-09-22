@@ -77,7 +77,8 @@ public class HotelUtils {
 	public static String getFreeCancellationText(Context context, String cancellationWindow) {
 		if (cancellationWindow != null) {
 			String cancellationDate = LocaleBasedDateFormatUtils
-				.localDateToEEEMMMd(com.expedia.bookings.utils.DateUtils.yyyyMMddHHmmToDateTime(cancellationWindow).toLocalDate());
+				.localDateToEEEMMMd(
+					com.expedia.bookings.utils.DateUtils.yyyyMMddHHmmToDateTime(cancellationWindow).toLocalDate());
 			return Phrase.from(context, R.string.hotel_free_cancellation_before_TEMPLATE)
 				.put("date", cancellationDate)
 				.format()

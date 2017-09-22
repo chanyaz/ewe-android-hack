@@ -9,7 +9,6 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
@@ -55,17 +54,17 @@ abstract class BaseSearchViewModel(val context: Context) {
     abstract fun isStartDateOnlyAllowed(): Boolean
     abstract fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence
 
-    protected abstract fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?) : String
-    protected abstract fun getEmptyDateText(forContentDescription: Boolean) : String
-    protected abstract fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean) : String
-    protected abstract fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean) : String
+    protected abstract fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String
+    protected abstract fun getEmptyDateText(forContentDescription: Boolean): String
+    protected abstract fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String
+    protected abstract fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String
 
 
-    open val originLocationObserver = endlessObserver<SuggestionV4> {suggestion ->
+    open val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         setOriginText(suggestion)
     }
 
-    open val destinationLocationObserver = endlessObserver<SuggestionV4> {suggestion ->
+    open val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         setDestinationText(suggestion)
     }
 
@@ -89,7 +88,8 @@ abstract class BaseSearchViewModel(val context: Context) {
         return AccessibilityUtil.isTalkBackEnabled(context)
     }
 
-    open protected var requiredSearchParamsObserver = endlessObserver<Unit> { // open so HotelSearchViewModel can override it
+    open protected var requiredSearchParamsObserver = endlessObserver<Unit> {
+        // open so HotelSearchViewModel can override it
         searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
     }
 
@@ -125,7 +125,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    protected fun getToolTipText(start: LocalDate?, end: LocalDate?) : Pair<String, String> {
+    protected fun getToolTipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
         val instructionsText = getCalendarToolTipInstructions(start, end)
         if (start == null && end == null) {
             return Pair(context.resources.getString(R.string.select_dates_proper_case), instructionsText)
@@ -156,7 +156,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         }
     }
 
-    protected fun getCalendarCardDateText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean) : String {
+    protected fun getCalendarCardDateText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String {
         if (start == null && end == null) {
             return getEmptyDateText(isContentDescription)
         } else if (end == null) {
@@ -166,20 +166,20 @@ abstract class BaseSearchViewModel(val context: Context) {
         }
     }
 
-    protected fun getDateAccessibilityText(datesLabel: String, durationDescription: String) : String {
+    protected fun getDateAccessibilityText(datesLabel: String, durationDescription: String): String {
         return Phrase.from(context, R.string.search_dates_cont_desc_TEMPLATE)
                 .put("dates_label", datesLabel)
                 .put("duration_description", durationDescription).format().toString()
     }
 
-    protected fun getStartDashEndDateString(start: LocalDate, end: LocalDate) : String {
+    protected fun getStartDashEndDateString(start: LocalDate, end: LocalDate): String {
         return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
                 .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start))
                 .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(end))
                 .format().toString()
     }
 
-    protected fun getStartToEndDateString(start: LocalDate, end: LocalDate) : String {
+    protected fun getStartToEndDateString(start: LocalDate, end: LocalDate): String {
         // need to explicitly use "to" for screen readers
         return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
                 .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start))
@@ -187,7 +187,7 @@ abstract class BaseSearchViewModel(val context: Context) {
                 .format().toString()
     }
 
-    protected fun getStartDashEndDateWithDayString(start: LocalDate, end: LocalDate) : String {
+    protected fun getStartDashEndDateWithDayString(start: LocalDate, end: LocalDate): String {
         val startDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start)
         val endDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(end)
         return Phrase.from(context, R.string.calendar_instructions_date_range_flight_extra_spacing_TEMPLATE)
@@ -196,7 +196,7 @@ abstract class BaseSearchViewModel(val context: Context) {
                 .format().toString()
     }
 
-    protected fun getStartToEndDateWithDayString(start: LocalDate, end: LocalDate) : String {
+    protected fun getStartToEndDateWithDayString(start: LocalDate, end: LocalDate): String {
         val startDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start)
         val endDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(end)
         // need to explicitly use "to" for screen readers

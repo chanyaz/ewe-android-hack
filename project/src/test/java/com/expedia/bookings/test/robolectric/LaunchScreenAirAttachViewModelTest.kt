@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.AirAttach
 import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -52,7 +53,7 @@ class LaunchScreenAirAttachViewModelTest {
     @Test
     fun testAirAttachVariant1Displayed() {
         enableABTest()
-        AbacusTestUtils.bucketTestWithVariant(13345, 1)
+        AbacusTestUtils.bucketTestWithVariant(ABTest(13345), 1)
 
         val expiryDateTime = LocalDateTime.now().plusDays(20)
         val contentDesc = "Offer expires in 20 days. Up to 55% off San Francisco Hotels. Save on a hotel because you booked a flight. Button"
@@ -69,7 +70,7 @@ class LaunchScreenAirAttachViewModelTest {
     @Test
     fun testAirAttachVariant2Displayed() {
         enableABTest()
-        AbacusTestUtils.bucketTestWithVariant(13345, 2)
+        AbacusTestUtils.bucketTestWithVariant(ABTest(13345), 2)
 
         val expiryDateTime = LocalDateTime.now().plusHours(5)
         val contentDesc = "Offer expires in 4 hours. Because You Booked a Flight. Save up to 55% off San Francisco Hotels. Button"
@@ -86,7 +87,7 @@ class LaunchScreenAirAttachViewModelTest {
     @Test
     fun testAirAttachExpiresSoon() {
         enableABTest()
-        AbacusTestUtils.bucketTestWithVariant(13345, 1)
+        AbacusTestUtils.bucketTestWithVariant(ABTest(13345), 1)
 
         val expiryDateTime = LocalDateTime.now()
         val contentDesc = "Offer expires soon. Up to 55% off San Francisco Hotels. Save on a hotel because you booked a flight. Button"

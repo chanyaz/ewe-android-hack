@@ -32,8 +32,8 @@ class ForceBucketPref {
             }
         }
 
-        @JvmStatic fun getForceBucketedTestValue(context: Context, key: String, defValue: Int): Int {
-            return context.getSharedPreferences(FORCE_BUCKET_PREFERENCES, 0).getInt(key, defValue)
+        @JvmStatic fun getForceBucketedTestValue(context: Context, key: Int, defValue: Int): Int {
+            return context.getSharedPreferences(FORCE_BUCKET_PREFERENCES, 0).getInt(key.toString(), defValue)
         }
     }
 }

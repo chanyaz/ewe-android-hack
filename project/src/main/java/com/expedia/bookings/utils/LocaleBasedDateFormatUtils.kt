@@ -1,17 +1,16 @@
 package com.expedia.bookings.utils
 
 import android.text.format.DateFormat
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
-import java.lang.UnsupportedOperationException
 import java.util.Locale
 
 object LocaleBasedDateFormatUtils {
 
     private val isUserBucketed: Boolean
-        get() = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLocaleBasedDateFormatting)
+        get() = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLocaleBasedDateFormatting)
 
     @JvmStatic fun localDateToEEEMMMd(date: LocalDate): String {
         if (isUserBucketed) {

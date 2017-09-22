@@ -7,8 +7,8 @@ import com.expedia.bookings.presenter.flight.FlightOutboundPresenter;
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter;
 import com.expedia.bookings.presenter.flight.FlightPresenter;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
+import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.SuggestionV4Services;
-import com.expedia.bookings.widget.ConfirmationToolbar;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
 
@@ -25,7 +25,7 @@ public interface FlightComponent {
 	void inject(FlightCheckoutPresenter flightCheckoutPresenter);
 	void inject(FlightCreateTripViewModel createTripViewModel);
 	void inject(FlightCheckoutViewModel checkoutViewModel);
-	void inject(ConfirmationToolbar confirmationToolbar);
 
 	SuggestionV4Services suggestionsService();
+	ItinTripServices itinTripService();
 }

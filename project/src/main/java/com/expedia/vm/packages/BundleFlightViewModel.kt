@@ -4,15 +4,15 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
@@ -46,7 +46,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val totalDurationObserver = BehaviorSubject.create<CharSequence>()
     val totalDurationContDescObserver = BehaviorSubject.create<String>()
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
-    val showRowContainerWithMoreInfo = BehaviorSubject.create<Boolean>(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    val showRowContainerWithMoreInfo = BehaviorSubject.create<Boolean>(AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
             && (lob == LineOfBusiness.FLIGHTS_V2))
     val updateUpsellClassPreference = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
 

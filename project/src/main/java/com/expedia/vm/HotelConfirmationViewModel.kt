@@ -11,7 +11,6 @@ import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -20,6 +19,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -29,13 +29,13 @@ import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.LXNavUtils
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.navigation.CarNavUtils
 import com.expedia.bookings.utils.navigation.FlightNavUtils
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
@@ -165,7 +165,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             AdImpressionTracking.trackAdConversion(context, it.checkoutResponse.bookingResponse.tripId)
 
             // LX Cross sell
-            val isUserBucketedForLXCrossSellTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
+            val isUserBucketedForLXCrossSellTest = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
             addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, product.hotelCity) else "")
 
@@ -221,7 +221,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             location.addStreetAddressLine(hotelAddress.addressLine1)
             hotelLocation.onNext(location)
 
-            val isUserBucketedForLXCrossSellTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
+            val isUserBucketedForLXCrossSellTest = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
             addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, hotelAddress.city) else "")
 

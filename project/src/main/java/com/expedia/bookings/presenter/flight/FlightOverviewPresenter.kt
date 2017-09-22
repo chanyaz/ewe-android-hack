@@ -16,6 +16,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
@@ -55,7 +56,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightCheckoutSummaryViewModel()
-    val isBucketedForShowMoreDetailsOnOverview = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    val isBucketedForShowMoreDetailsOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
     val showCollapsedToolbar = isBucketedForShowMoreDetailsOnOverview
 
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
@@ -125,10 +126,16 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
         if (isUserBucketedForFareFamily) {
             flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(
-                    flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, {
-                unit, fareFamilyDetail ->
-                fareFamilyDetail
-            }).subscribe(fareFamilyCardView.viewModel.selectedFareFamilyObservable)
+                    flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, flightFareFamilyDetailsWidget.viewModel.choosingFareFamilyObservable, {
+                unit, selectedFareFamily, choosingFareFamily ->
+                object {
+                    val selectedFareFamily = selectedFareFamily
+                    val choosingFareFamily = choosingFareFamily
+                }
+            }).filter { it.selectedFareFamily.fareFamilyCode != it.choosingFareFamily.fareFamilyCode }.subscribe {
+                flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable.onNext(it.choosingFareFamily)
+                fareFamilyCardView.viewModel.selectedFareFamilyObservable.onNext(it.choosingFareFamily)
+            }
         }
 
         fareFamilyCardView.viewModel.fareFamilyCardClickObserver.withLatestFrom(
@@ -194,8 +201,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override val defaultTransition = object : TwoScreenOverviewDefaultTransition() {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            val offerInsuranceInFlightSummary = Db.getAbacusResponse().isUserBucketedForTest(
-                    AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
+            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(offerInsuranceInFlightSummary)
         }
     }

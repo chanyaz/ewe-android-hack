@@ -3,15 +3,14 @@ package com.expedia.bookings.utils
 import android.content.Context
 import android.support.annotation.StringRes
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.ABTest
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.mobiata.android.util.SettingUtils
 
 class FeatureToggleUtil {
     companion object {
-        @JvmStatic fun isUserBucketedAndFeatureEnabled(context: Context, abacusTestKey: Int, @StringRes featureKey: Int): Boolean {
-            val isTestBucketed = isTestBucketed(abacusTestKey)
+        @JvmStatic fun isUserBucketedAndFeatureEnabled(context: Context, abTest: ABTest, @StringRes featureKey: Int): Boolean {
+            val isTestBucketed = isTestBucketed(context, abTest)
             val isFeatureEnabled = isFeatureEnabled(context, featureKey)
             return isTestBucketed && isFeatureEnabled
         }
@@ -23,8 +22,8 @@ class FeatureToggleUtil {
             return isFeatureEnabled
         }
 
-        private fun isTestBucketed(abacusTestKey: Int): Boolean {
-            val isTestBucketed = Db.getAbacusResponse().isUserBucketedForTest(abacusTestKey)
+        private fun isTestBucketed(context: Context, abTest: ABTest): Boolean {
+            val isTestBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(abTest)
             return isTestBucketed
         }
 

@@ -9,19 +9,19 @@ import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotel.HotelValueAdd
 import com.expedia.bookings.data.hotel.ValueAddsEnum
+import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.HotelUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -191,7 +191,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     }
 
     private fun createTaxFeeDescriptorString(): String? {
-        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
         if (bucketedToShowPriceDescriptorProminence) {
             val priceType = hotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType()
             return when (priceType) {
@@ -205,7 +205,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     }
 
     private fun createPricePerDescriptorString(): String? {
-        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
         if (!isPayLater && bucketedToShowPriceDescriptorProminence) {
             val priceType = hotelRoomResponse.rateInfo?.chargeableRateInfo?.getUserPriceType()
             return when (priceType) {

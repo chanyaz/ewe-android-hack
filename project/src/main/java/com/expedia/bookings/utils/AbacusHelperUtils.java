@@ -74,16 +74,19 @@ public class AbacusHelperUtils {
 		}
 
 		// Modify the bucket values based on forced bucket settings;
+		//TODO this doesn't seem right - it will update each active test to IGNORE_DEBUG if they are not force bucketed,
+		//TODO which in turn will always return false to isUserBucketedInTest() ... am I missing something here?
 		if (ForceBucketPref.isForceBucketed(context)) {
-			for (int key : AbacusUtils.getActiveTests()) {
-				Db.getAbacusResponse().updateABTest(key, ForceBucketPref.getForceBucketedTestValue(context, String.valueOf(key),
-					AbacusUtils.ABTEST_IGNORE_DEBUG));
+			for (Integer key : AbacusUtils.getActiveTests()) {
+				Db.getAbacusResponse()
+					.forceUpdateABTest(key, ForceBucketPref.getForceBucketedTestValue(context, key,
+						AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
 		}
 
 		// Modify the bucket values based on dev settings;
 		if (BuildConfig.DEBUG) {
-			for (int key : AbacusUtils.getActiveTests()) {
+			for (Integer key : AbacusUtils.getActiveTests()) {
 				Db.getAbacusResponse().updateABTestForDebug(key, SettingUtils
 					.get(context, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
@@ -106,7 +109,8 @@ public class AbacusHelperUtils {
 	}
 
 	private static AbacusEvaluateQuery getQuery(Context context) {
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(context), PointOfSale.getPointOfSale().getTpid(), 0);
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(context),
+			PointOfSale.getPointOfSale().getTpid(), 0);
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			query.addExperiments(AbacusUtils.getActiveTests());
 		}

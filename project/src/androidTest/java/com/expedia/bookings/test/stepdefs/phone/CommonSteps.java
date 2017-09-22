@@ -45,19 +45,19 @@ public class CommonSteps {
 	@And("^I bucket the following tests$")
 	public void bucketABTest(List<String> list) throws Throwable {
 		if (list.contains("FlightsSeatClassAndBookingCode")) {
-			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode,
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode.getKey(),
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 		if (list.contains("FlightByotSearch")) {
-			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightByotSearch,
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightByotSearch.getKey(),
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 		if (list.contains("FlightXSellPackage")) {
-			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR,
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR.getKey(),
 					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 		if (list.contains("FlightRetainSearchParams")) {
-			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightRetainSearchParams,
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightRetainSearchParams.getKey(),
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 
@@ -67,7 +67,7 @@ public class CommonSteps {
 	@And("^I put following tests in control$")
 	public void contronABTest(List<String> list) {
 		if (list.contains("FlightsCrossSellPackage")) {
-			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR,
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR.getKey(),
 				AbacusUtils.DefaultVariant.CONTROL.ordinal());
 		}
 		Db.setAbacusResponse(abacusResponse);

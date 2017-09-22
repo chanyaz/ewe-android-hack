@@ -10,20 +10,18 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ConfirmationRowCardView
 import com.expedia.bookings.widget.ConfirmationSummaryCardView
 import com.expedia.bookings.widget.HotelCrossSellView
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.ConfirmationToolbar
+import com.expedia.bookings.widget.FlightConfirmationToolbar
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
-import com.expedia.util.updateVisibility
 import com.expedia.vm.ConfirmationToolbarViewModel
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
@@ -41,7 +39,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     val hotelCrossSell: HotelCrossSellView by bindView(R.id.hotel_cross_sell_widget)
 
     val flightSummary: ConfirmationSummaryCardView by bindView(R.id.trip_summary_card)
-    val toolbar: ConfirmationToolbar by bindView(R.id.confirmation_toolbar)
+    val toolbar: FlightConfirmationToolbar by bindView(R.id.confirmation_toolbar)
     val tripProtectionLabel: TextView by bindView(R.id.trip_protection)
     val tripProtectionDivider: View by bindView(R.id.trip_protection_divider)
 

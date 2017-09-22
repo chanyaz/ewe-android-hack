@@ -69,25 +69,19 @@
                 android:orientation="vertical" />
         </com.expedia.bookings.widget.ScrollView>
 
-        <LinearLayout
+        <View
+            android:id="@+id/bottom_container_drop_shadow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="4dp"
+            android:background="@drawable/drop_shadow" />
 
-            <View
-                android:id="@+id/bottom_container_drop_shadow"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:background="@drawable/drop_shadow" />
-
-            <com.expedia.bookings.widget.TotalPriceWidget
-                android:id="@+id/upsell_total_price_widget"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/footer_button_height"
-                android:background="@color/white"
-                android:paddingLeft="19dp"
-                android:paddingRight="19dp"
-                android:visibility="gone" />
-        </LinearLayout>
+        <com.expedia.bookings.widget.TotalPriceWidget
+            android:id="@+id/upsell_total_price_widget"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/footer_button_height"
+            android:background="@color/white"
+            android:paddingLeft="19dp"
+            android:paddingRight="19dp"
+            android:visibility="gone" />
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

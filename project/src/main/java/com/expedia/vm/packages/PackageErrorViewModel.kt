@@ -6,7 +6,6 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionStrUtils

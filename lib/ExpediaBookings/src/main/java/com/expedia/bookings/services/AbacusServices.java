@@ -21,7 +21,6 @@ import rx.Subscription;
 
 public class AbacusServices {
 	private AbacusApi api;
-	private Gson gson;
 
 	private Scheduler observeOn;
 	private Scheduler subscribeOn;
@@ -31,7 +30,7 @@ public class AbacusServices {
 		this.observeOn = observeOn;
 		this.subscribeOn = subscribeOn;
 
-		gson = new GsonBuilder().registerTypeAdapter(AbacusResponse.class, new PayloadDeserializer()).create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(AbacusResponse.class, new PayloadDeserializer()).create();
 
 		Retrofit adapter = new Retrofit.Builder()
 			.baseUrl(endpoint)

@@ -3,11 +3,11 @@ package com.expedia.vm.flights
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightTripDetails.PassengerCategory
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -102,7 +102,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                 breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
             }
 
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)) {
+            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)) {
                 if (flightOffer.discountAmount != null && !flightOffer.discountAmount.isZero) {
                     title = Phrase.from(context, R.string.cost_summary_breakdown_discount_TEMPLATE).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
                     breakdowns.add(CostSummaryBreakdownRow.Builder()

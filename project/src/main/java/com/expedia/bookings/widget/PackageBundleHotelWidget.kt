@@ -17,7 +17,6 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui

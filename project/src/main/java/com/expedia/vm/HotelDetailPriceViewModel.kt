@@ -2,10 +2,10 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
@@ -34,7 +34,7 @@ open class HotelDetailPriceViewModel(context: Context): BaseHotelDetailPriceView
         }
 
         val priceType = chargeableRateInfo?.getUserPriceType()
-        val bucketedToShowPriceDescriptorProminence = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
+        val bucketedToShowPriceDescriptorProminence = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceDescriptorProminence)
         if (priceType != null && bucketedToShowPriceDescriptorProminence) {
             return when (priceType) {
                 HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> context.getString(R.string.total_stay)

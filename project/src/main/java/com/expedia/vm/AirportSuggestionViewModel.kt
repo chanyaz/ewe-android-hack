@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.ServicesUtil
@@ -52,7 +53,7 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
     }
 
     override fun isSuggestionOnOneCharEnabled(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter)
+        return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter)
     }
 
 }

@@ -31,6 +31,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.TextViewDialog
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
@@ -318,7 +319,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         }
 
         createAccountButton.setOnClickListener {
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
+            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAccountSinglePageSignUp)) {
                 NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
             }
             else {

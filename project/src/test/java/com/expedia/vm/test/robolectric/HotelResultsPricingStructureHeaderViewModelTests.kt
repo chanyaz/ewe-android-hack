@@ -29,7 +29,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
 
     @Before
     fun before() {
-        sut = HotelResultsPricingStructureHeaderViewModel(getContext().resources, false)
+        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), false)
         givenUserPriceType(HotelRate.UserPriceType.UNKNOWN)
         givenHotelsResultsCount(-1)
     }
@@ -82,7 +82,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
     fun testPackagesJapanHeaderShowTaxesAndFees() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.JAPAN)
-        sut = HotelResultsPricingStructureHeaderViewModel(getContext().resources, true)
+        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), true)
         assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip (including taxes and fees), per person - for hotels and flights • 50 Results", false)
         setPointOfSale(initialPOSID)
     }

@@ -224,7 +224,7 @@ class LXResultsPresenterTest {
 
     private fun lxCategoriesABTest(defaultVariate: AbacusUtils.DefaultVariant) {
         val abacusResponse = AbacusResponse()
-        abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLXCategoryABTest,
+        abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLXCategoryABTest.key,
                 defaultVariate.ordinal)
         Db.setAbacusResponse(abacusResponse)
     }

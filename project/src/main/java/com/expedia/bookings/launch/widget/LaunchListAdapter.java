@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -28,6 +27,7 @@ import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
@@ -35,11 +35,11 @@ import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.FrameLayout;
@@ -435,12 +435,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean userBucketedForAirAttach() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
+		return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 	}
 
 	private boolean showMemberDeal() {
 		return userStateManager.isUserAuthenticated() &&
-			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
+			AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 	}
 
 	private boolean showProWizard() {

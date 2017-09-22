@@ -14,12 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
@@ -147,8 +147,7 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		if (offer.hasFreeCancellation) {
 			tickedInfoTextStringValues.add(getResources().getString(R.string.free_cancellation));
 		}
-		boolean isUserBucketedForCarInsuranceIncludedCheckout = Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
+		boolean isUserBucketedForCarInsuranceIncludedCheckout = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
 		if (isUserBucketedForCarInsuranceIncludedCheckout && offer.isInsuranceIncluded) {
 			tickedInfoTextStringValues.add(getResources().getString(R.string.insurance_included));
 		}

@@ -201,16 +201,6 @@ class FlightFareFamilyViewModelTest {
 
     }
 
-    @Test
-    fun testFareFamilyWhenDoneButtonIsClicked() {
-        val selectedFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
-        sut.selectedFareFamilyObservable.subscribe(selectedFareFamilySubscriber)
-        sut.choosingFareFamilyObservable.onNext(flightCreateTripResponse.fareFamilyList!!.fareFamilyDetails.get(1))
-        sut.doneButtonObservable.onNext(Unit)
-        assertEquals(flightCreateTripResponse.fareFamilyList!!.fareFamilyDetails.get(1), selectedFareFamilySubscriber.onNextEvents[0])
-        assertEquals(flightCreateTripResponse.fareFamilyList!!.fareFamilyDetails.get(1).fareFamilyCode, selectedFareFamilySubscriber.onNextEvents[0].fareFamilyCode)
-    }
-
     private fun setupFlightSearchParams(adultCount: Int, childCount: Int, isroundTrip: Boolean): FlightSearchParams {
         val departureSuggestion = SuggestionV4()
         departureSuggestion.gaiaId = "1234"

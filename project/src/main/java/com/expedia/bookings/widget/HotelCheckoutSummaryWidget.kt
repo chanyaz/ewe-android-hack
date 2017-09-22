@@ -13,9 +13,9 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -32,7 +32,7 @@ import com.squareup.picasso.Picasso
 class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
 
     val isFreeCancellationTooltipEnabled by lazy {
-        Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
+        AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
     }
 
     val PICASSO_HOTEL_IMAGE = "HOTEL_CHECKOUT_IMAGE"
@@ -59,6 +59,10 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     val costSummary: LinearLayout by bindView(R.id.cost_summary)
     val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
     val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
+    val checkinCheckoutDateContainer: LinearLayout by bindView(R.id.checkin_checkout_date_holder)
+    val checkinDate: android.widget.TextView by bindView(R.id.checkin_date)
+    val checkoutDate: android.widget.TextView by bindView(R.id.checkout_date)
+    val hotelBookingSummaryContainer: android.widget.LinearLayout by bindView(R.id.hotel_booking_summary)
 
     val breakdown = HotelBreakDownView(context, null)
     val dialog: AlertDialog by lazy {
@@ -79,15 +83,30 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         }
 
         viewModel.hotelName.subscribeText(hotelName)
-        viewModel.checkInOutDatesFormatted.subscribeText(date)
         viewModel.address.subscribeText(address)
         viewModel.city.subscribeText(cityState)
+
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+            date.visibility = View.GONE
+            checkinCheckoutDateContainer.visibility = View.VISIBLE
+            hotelBookingSummaryContainer.setPadding(hotelBookingSummaryContainer.paddingLeft, hotelBookingSummaryContainer.paddingTop, hotelBookingSummaryContainer.paddingRight, 6)
+        } else {
+            date.visibility = View.VISIBLE
+            checkinCheckoutDateContainer.visibility = View.GONE
+            hotelBookingSummaryContainer.setPadding(hotelBookingSummaryContainer.paddingLeft, hotelBookingSummaryContainer.paddingTop, hotelBookingSummaryContainer.paddingRight, 13)
+        }
 
         setUpFreeCancellationSubscription()
 
         viewModel.valueAddsListObservable.safeSubscribe(valueAddsContainer.valueAddsSubject)
         viewModel.roomDescriptions.subscribeText(selectedRoom)
         viewModel.bedDescriptions.subscribeText(selectedBed)
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+            viewModel.checkinDateFormattedByEEEMMDD.subscribeText(checkinDate)
+            viewModel.checkoutDateFormattedByEEEMMDD.subscribeText(checkoutDate)
+        } else {
+            viewModel.checkInOutDatesFormatted.subscribeText(date)
+        }
         viewModel.numNights.subscribeText(numberNights)
         viewModel.numGuests.subscribeText(numberGuests)
         viewModel.dueNowAmount.subscribeText(totalPriceWithTaxAndFees)
