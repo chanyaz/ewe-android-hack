@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 
-import com.expedia.bookings.BuildConfig;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -48,7 +48,6 @@ import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.picasso.Picasso;
 
@@ -253,7 +252,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				final String url = new Akeakamai(Images.getFlightDestination(code)) //
 					.resizeExactly(width, height) //
 					.build();
-				new PicassoHelper.Builder(mContext).setTarget(mDestinationImageLoaded).build().load(url);
+				new PicassoHelper.Builder(mContext).setTarget(mDestinationImageLoaded).setCacheEnabled(true).build().load(url);
 				break;
 			}
 			case CAR: {
@@ -266,10 +265,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 			case NONE:
 				display();
 				break;
-			}
-			if (BuildConfig.DEBUG && SettingUtils
-				.get(mContext, mContext.getString(R.string.preference_launch_all_trip_notifications), false)) {
-				display();
 			}
 		}
 
@@ -301,7 +296,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				return;
 			}
 			String url = mUrls.remove(0);
-			new PicassoHelper.Builder(mContext).setTarget(mTwoLevelImageLoaded).build().load(url);
+			new PicassoHelper.Builder(mContext).setTarget(mTwoLevelImageLoaded).setCacheEnabled(true).build().load(url);
 		}
 
 		// Callbacks for TwoLevelImageCache image loader
