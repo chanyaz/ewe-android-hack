@@ -29,6 +29,7 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
         frequentFlyerAirlineIdObservable.subscribe { airlineId ->
             frequentFlyerProgramNumberViewModel.airlineId = airlineId
         }
+        frequentFlyerNumberObservable.subscribe(frequentFlyerProgramNumberViewModel.textSubject)
     }
 
     fun bind(frequentFlyerCard: FrequentFlyerCard) {

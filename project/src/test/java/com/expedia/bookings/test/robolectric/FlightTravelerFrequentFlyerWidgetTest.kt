@@ -149,7 +149,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
         val newTraveler = Traveler()
         newTraveler.addFrequentFlyerMembership(getNewFrequentFlyerMembership("UA", "98765", "UA", "UA-U1"))
-        frequentFlyerViewHolder.viewModel.updateTraveler(newTraveler)
+        widget.viewModel.updateTraveler(newTraveler)
 
         val newEnrolledPlans = frequentFlyerViewHolder.frequentFlyerDialogAdapter.enrolledFrequentFlyerPlans
         assertEnrolledPlans(newEnrolledPlans, 1, "UA", "98765", "UA")
@@ -242,6 +242,21 @@ class FlightTravelerFrequentFlyerWidgetTest {
         frequentFlyerVisibilitySubscriber.assertValue(false)
         assertEquals(0, (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.viewHolderViewModels?.size)
         assertEquals(0, (widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).itemCount)
+    }
+
+    @Test
+    fun testFrequentFlyerDoesntCrashSwitchingTravelersWhileClosed() {
+        val updateTravelerSubscriber = TestSubscriber.create<Traveler>()
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel?.updateTravelerObservable?.subscribe(updateTravelerSubscriber)
+        Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).flightLegsObservable.onNext(listOf(buildMockFlight(3)))
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerPlans.onNext(getFrequentFlyerPlans(true))
+        updateTravelerSubscriber.assertValueCount(0)
+
+        (widget.viewModel as FlightTravelerEntryWidgetViewModel).updateTraveler(traveler)
+
+        updateTravelerSubscriber.assertValueCount(1)
+        assertEquals(traveler, (widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).viewModel.traveler)
     }
 
     private fun setupVisibilityAndCardTestSubscribers(visibilitySubscriber: TestSubscriber<Boolean>,

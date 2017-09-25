@@ -38,6 +38,7 @@ class FrequentFlyerAdapterViewModel(var traveler: Traveler) {
                     if (viewModel.allAirlineCodes.contains(airline.airlineCode)) {
                         viewHolderViewModels.add(viewModel)
                         validAirlines.add(airline)
+                        viewModel.bind(airline)
                     }
                 }
                 val hasValidAirlines = validAirlines.isNotEmpty()

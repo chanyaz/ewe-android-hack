@@ -17,7 +17,7 @@ class FrequentFlyerProgramNumberViewModel(traveler: Traveler, var airlineKey: St
         textSubject.subscribe {
             if (!airlineKey.isNullOrBlank()) {
                 if (traveler.frequentFlyerMemberships.containsKey(airlineKey)) {
-                    traveler.frequentFlyerMemberships[airlineKey]!!.membershipNumber = it
+                    traveler.frequentFlyerMemberships[airlineKey]?.membershipNumber = it
                     if (!airlineId.isNullOrEmpty()) {
                         traveler.frequentFlyerMemberships[airlineKey]?.frequentFlyerPlanID = airlineId
                     }

@@ -211,6 +211,8 @@ class FlightCheckoutPresenterTest {
         enrolledPlan.airlineCode = "AA"
         enrolledPlan.frequentFlyerPlanName = "American Airlines"
         enrolledPlan.membershipNumber = if (hasMembership) "123" else null
+        enrolledPlan.frequentFlyerPlanCode = ""
+        enrolledPlan.frequentFlyerPlanID = "AA-A1"
         return enrolledPlan
     }
 
