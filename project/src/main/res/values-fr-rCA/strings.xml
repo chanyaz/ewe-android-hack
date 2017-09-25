@@ -885,8 +885,8 @@
     <string name="total_with_tax">Total avec taxes</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Prix total du voyage</string>
-    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">Prix total ({farefamily})</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">Prix total du voyage : {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Prix total du voyage</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1052,8 +1052,21 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Votre billet pour %s peut être réclamé à compter de demain.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Itinéraire prêt</string>
-
-
+    <!-- Notification title text for get ready for your trip -->
+    <string name="get_ready_for_trip">Préparez-vous pour votre voyage</string>
+    <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
+    <string name="get_ready_for_trip_body_TEMPLATE">Bonjour {firstname}, votre réservation à l\&apos;établissement {hotel} débute le {startday}. Consultez votre réservation pour obtenir l\&apos;adresse, le numéro de téléphone et les autres détails de l\&apos;hôtel.</string>
+    <string name="check_in_notification_title">Rappel d\&apos;enregistrement à l\&apos;hôtel</string>
+    <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
+    <string name="check_in_notification_body_TEMPLATE">Vous pourrez vous enregistrer à l\&apos;établissement {hotel} dès {checkin} demain. Consultez votre réservation pour plus d\&apos;informations.</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out at 3 PM")-->
+    <string name="check_out_notification_title_TEMPLATE">Départ à {checkout}</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. Check out time your hotel booking for Caesars Palace is at 2 AM. View your booking for details.-->
+    <string name="check_out_notification_body_TEMPLATE">Vous devez quitter l\&apos;établissement {hotel} avant {checkout}. Consultez votre réservation pour plus d\&apos;informations.</string>
+    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Quoi faire à {destination}</string>
+    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
+    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Les activités à {destination} se vendent rapidement! Découvrez les choses à faire et réservez vos billets sans tarder.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinéraire</string>
@@ -1506,8 +1519,12 @@
     <string name="itin_hotel_details_additional_info_heading">Informations supplémentaires</string>
     <!--Hotel itin checkin text-->
     <string name="itin_hotel_details_checkin_text">Arrivée</string>
+    <!--Hotel summary checkin text-->
+    <string name="hotel_summary_checkin_text">Arrivée :</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">Départ</string>
+    <!--Hotel summary checkout text-->
+    <string name="hotel_summary_checkout_text">Départ :</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Vers</string>
     <!--Hotel itin manage booking button to change or cancel room-->
@@ -2226,9 +2243,13 @@
     <!-- traveler number hint -->
     <string name="known_traveler_number">Numéro de voyageur connu</string>
     <!-- traveler number info msg -->
-    <string name="known_traveler_msg">Il s\&apos;agit du numéro émis par le gouvernement pour le programme TSA PreCheck</string>
+    <string name="known_traveler_msg">Il s\&apos;agit du numéro émis par le gouvernement pour le programme TSA PreCheck.</string>
+    <!-- traveler number icon content description -->
+    <string name="traveler_number_icon_cont_desc">Qu\&apos;est-ce qu\&apos;un numéro de voyageur connu?</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">Un numéro de recours est un numéro unique émis par la TSA afin d\&apos;aider l\&apos;organisation à vérifier votre identité, de façon à éviter de vous confondre avec une personne inscrite sur une liste de surveillance.</string>
+    <!-- redress number icon content description -->
+    <string name="redress_number_icon_cont_desc">Qu\&apos;est-ce qu\&apos;un numéro de recours?</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">Programme pour grands voyageurs</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
@@ -3535,6 +3556,8 @@
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
+    <!-- Unknown Card -->
+    <string name="unknown_card">Carte inconnue</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3975,8 +3998,6 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Affichage des vols sortant de {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Sélectionnez un vol vers %1$s</string>
-    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
-    <string name="package_outbound_flight_toolbar_title_TEMPLATE">Vol sortant de {cityname}, {country} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Vol vers %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3987,8 +4008,6 @@
     <string name="select_return_flight">Sélectionnez un vol de retour</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Vols vers %1$s</string>
-    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
-    <string name="package_inbound_flight_toolbar_title_TEMPLATE">Vol entrant à {cityname}, {country} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4421,11 +4440,11 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">Modification impossible</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Désolé, la classe &lt;b&gt;{selected_upgrade}&lt;/b&gt; n\&apos;est plus disponible. Veuillez réessayer en sélectionnant un tarif différent. Le tarif correspondant à votre choix de classe initial sera affiché à nouveau.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Désolé, la classe &lt;b&gt;{fare_family_name}&lt;/b&gt; n\&apos;est plus disponible. Veuillez réessayer en sélectionnant un tarif différent. Le tarif correspondant à votre choix de classe initial sera affiché à nouveau.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Désolé, la classe &lt;b&gt;{selected_upgrade}&lt;/b&gt; n\&apos;est plus disponible. Veuillez réessayer en sélectionnant un tarif différent. Les tarifs correspondant à votre choix de classe initial seront affichés à nouveau.</string>
-    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
-    <string name="flight_fare_family_change_class_label">Modifier la classe de cabine</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Désolé, la classe &lt;b&gt;{fare_family_name}&lt;/b&gt; n\&apos;est plus disponible. Veuillez réessayer en sélectionnant un tarif différent. Les tarifs correspondant à votre choix de classe initial seront affichés à nouveau.</string>
+    <!-- Label for fare family upgrade option. Example. Change your fare -->
+    <string name="flight_fare_family_fare_label">Modifiez votre tarif</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Surclassez vos vols</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
@@ -4796,9 +4815,9 @@
     <string name="excluding_taxes_fees">Taxes et frais en sus</string>
 
     <!-- Amenities String -->
-    <string name="amenity_bags">Bagage(s)</string>
+    <string name="amenity_checked_bags">Bagages enregistrés</string>
     <string name="amenity_cancellation">Annulation</string>
-    <string name="amenity_seat_selection">Sélection de siège</string>
+    <string name="amenity_seat_choice">Choix du siège</string>
 
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">Afficher plus</string>
@@ -4806,7 +4825,7 @@
     <!-- Fare Family Component Names -->
     <string name="fare_family_included">Inclus</string>
     <string name="fare_family_fee_applies">Moyennant des frais</string>
-    <string name="fare_family_not_available">Non disponible</string>
+    <string name="fare_family_not_available">Non compris</string>
     <string name="fare_family_unknown">Information inconnue</string>
 
 </resources>

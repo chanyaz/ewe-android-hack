@@ -885,8 +885,8 @@
     <string name="total_with_tax">Tổng gồm thuế</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">Tổng chuyến đi</string>
-    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">Tổng giá {farefamily}</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">Tổng giá chuyến đi: {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">Tổng giá</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1052,8 +1052,21 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Quý vị đã có thể đổi vé %s để sử dụng từ ngày mai.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Lịch trình đã sẵn sàng</string>
-
-
+    <!-- Notification title text for get ready for your trip -->
+    <string name="get_ready_for_trip">Sẵn sàng lên đường</string>
+    <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
+    <string name="get_ready_for_trip_body_TEMPLATE">Chào {firstname}, đặt phòng khách sạn của quý vị tại {hotel} bắt đầu vào {startday}. Xem địa chỉ, số điện thoại và thông tin khác của khách sạn trong xác nhận đặt phòng.</string>
+    <string name="check_in_notification_title">Nhắc nhở nhận phòng khách sạn</string>
+    <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
+    <string name="check_in_notification_body_TEMPLATE">Nhận phòng tại {hotel} từ {checkin} ngày mai. Xem xác nhận đặt phòng để biết thêm chi tiết.</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out at 3 PM")-->
+    <string name="check_out_notification_title_TEMPLATE">Trả phòng lúc {checkout}</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. Check out time your hotel booking for Caesars Palace is at 2 AM. View your booking for details.-->
+    <string name="check_out_notification_body_TEMPLATE">Giờ trả phòng tại {hotel} là {checkout}. Xem xác nhận đặt phòng để biết thêm chi tiết.</string>
+    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Hoạt động giải trí tại {destination}</string>
+    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
+    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Nhiều khách đặt hoạt động giải trí tại {destination}! Khám phá các hoạt động trong vùng và đặt vé sớm.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
@@ -1506,8 +1519,12 @@
     <string name="itin_hotel_details_additional_info_heading">Thông tin bổ sung</string>
     <!--Hotel itin checkin text-->
     <string name="itin_hotel_details_checkin_text">Nhận phòng</string>
+    <!--Hotel summary checkin text-->
+    <string name="hotel_summary_checkin_text">Nhận phòng:</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">Trả phòng</string>
+    <!--Hotel summary checkout text-->
+    <string name="hotel_summary_checkout_text">Trả phòng:</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Đến</string>
     <!--Hotel itin manage booking button to change or cancel room-->
@@ -2227,8 +2244,12 @@
     <string name="known_traveler_number">Số Known Traveler</string>
     <!-- traveler number info msg -->
     <string name="known_traveler_msg">Đây là số do chính phủ cấp, dùng cho chương trình TSA PreCheck</string>
+    <!-- traveler number icon content description -->
+    <string name="traveler_number_icon_cont_desc">Số known traveler là gì?</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">Số redress là số duy nhất do TSA cấp cho cá nhân, giúp TSA xác nhận danh tính và loại trừ trường hợp nhận dạng nhầm trong danh sách cần theo dõi.</string>
+    <!-- redress number icon content description -->
+    <string name="redress_number_icon_cont_desc">Số redress là gì?</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">Chương trình khách bay thường xuyên</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
@@ -3535,6 +3556,8 @@
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
+    <!-- Unknown Card -->
+    <string name="unknown_card">Thẻ không xác định</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3975,8 +3998,6 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Hiển thị chuyến bay đi đến {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Chọn chuyến bay đến %1$s</string>
-    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
-    <string name="package_outbound_flight_toolbar_title_TEMPLATE">Bay đi {cityname}, {country} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Bay đến %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3987,8 +4008,6 @@
     <string name="select_return_flight">Chọn chuyến bay về</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Bay đến %1$s</string>
-    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
-    <string name="package_inbound_flight_toolbar_title_TEMPLATE">Bay về {cityname}, {country} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4421,11 +4440,11 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">Thay đổi thành công</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Rất tiếc, đã hết chỗ &lt;b&gt;{selected_upgrade}&lt;/b&gt;. Vui lòng thử lại với loại giá khác. Chuyển chuyến bay về hạng vé chọn ban đầu.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">Rất tiếc, đã hết chỗ &lt;b&gt;{fare_family_name}&lt;/b&gt;. Vui lòng thử lại với loại giá khác. Chuyển chuyến bay về hạng vé chọn ban đầu.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Rất tiếc, đã hết chỗ &lt;b&gt;{selected_upgrade}&lt;/b&gt;. Vui lòng thử lại với loại giá khác. Chuyển chuyến bay về hạng vé chọn ban đầu.</string>
-    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
-    <string name="flight_fare_family_change_class_label">Thay đổi hạng cabin</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">Rất tiếc, đã hết chỗ &lt;b&gt;{fare_family_name}&lt;/b&gt;. Vui lòng thử lại với loại giá khác. Chuyển chuyến bay về hạng vé chọn ban đầu.</string>
+    <!-- Label for fare family upgrade option. Example. Change your fare -->
+    <string name="flight_fare_family_fare_label">Thay đổi vé</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Nâng hạng chuyến bay</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
@@ -4796,9 +4815,9 @@
     <string name="excluding_taxes_fees">Chưa gồm thuế và phí</string>
 
     <!-- Amenities String -->
-    <string name="amenity_bags">Túi</string>
+    <string name="amenity_checked_bags">Hành lý ký gửi</string>
     <string name="amenity_cancellation">Hủy</string>
-    <string name="amenity_seat_selection">Chọn chỗ ngồi</string>
+    <string name="amenity_seat_choice">Chọn chỗ ngồi</string>
 
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">hiển thị thêm</string>
@@ -4806,7 +4825,7 @@
     <!-- Fare Family Component Names -->
     <string name="fare_family_included">Bao gồm</string>
     <string name="fare_family_fee_applies">Áp dụng phí riêng</string>
-    <string name="fare_family_not_available">Không áp dụng</string>
+    <string name="fare_family_not_available">Không gồm</string>
     <string name="fare_family_unknown">Không có thông tin</string>
 
 </resources>

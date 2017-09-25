@@ -885,8 +885,8 @@
     <string name="total_with_tax">ราคารวมภาษี</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">ราคารวม</string>
-    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">ราคารวมสำหรับ {farefamily}</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">ราคารวม: {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">ยอดรวมทริป</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1052,8 +1052,21 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">คุณสามารถแลกตั๋ว %s ได้ตั้งแต่พรุ่งนี้เป็นต้นไป</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">แผนการเดินทางพร้อม</string>
-
-
+    <!-- Notification title text for get ready for your trip -->
+    <string name="get_ready_for_trip">เตรียมพร้อมไปทริป</string>
+    <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
+    <string name="get_ready_for_trip_body_TEMPLATE">สวัสดีค่ะ {firstname} คุณได้จองที่พักที่ {hotel} ในวันที่ {startday} คุณสามารถดูที่อยู่ หมายเลขโทรศัพท์ และรายละเอียดอื่นๆ ของโรงแรมได้ที่หน้าการจองของคุณ</string>
+    <string name="check_in_notification_title">แจ้งเตือนเช็คอินโรงแรม</string>
+    <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
+    <string name="check_in_notification_body_TEMPLATE">เวลาเช็คอินที่ {hotel} พรุ่งนี้ เวลา {checkin} ดูรายละเอียดได้ที่การจองของคุณ</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out at 3 PM")-->
+    <string name="check_out_notification_title_TEMPLATE">เช็คเอาท์เวลา {checkout}</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. Check out time your hotel booking for Caesars Palace is at 2 AM. View your booking for details.-->
+    <string name="check_out_notification_body_TEMPLATE">เวลาเช็คเอาท์ที่ {hotel} เวลา {checkout} ดูรายละเอียดได้ที่การจองของคุณ</string>
+    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">กิจกรรมใน {destination}</string>
+    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
+    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">กิจกรรมใน {destination} ขายหมดเร็วมาก! สำรวจกิจกรรมที่น่าสนใจแล้วจองตั๋วเข้าชมล่วงหน้า</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">แผนการเดินทาง</string>
@@ -1506,8 +1519,12 @@
     <string name="itin_hotel_details_additional_info_heading">ข้อมูลเพิ่มเติม</string>
     <!--Hotel itin checkin text-->
     <string name="itin_hotel_details_checkin_text">เช็คอิน</string>
+    <!--Hotel summary checkin text-->
+    <string name="hotel_summary_checkin_text">เช็คอิน:</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">เช็คเอาท์</string>
+    <!--Hotel summary checkout text-->
+    <string name="hotel_summary_checkout_text">เช็คเอาท์:</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">ถึง</string>
     <!--Hotel itin manage booking button to change or cancel room-->
@@ -2227,8 +2244,12 @@
     <string name="known_traveler_number">หมายเลขผู้เดินทางที่ทราบ</string>
     <!-- traveler number info msg -->
     <string name="known_traveler_msg">นี่เป็นหมายเลขที่ออกโดยรัฐบาลเพื่อใช้สำหรับ TSA PreCheck</string>
+    <!-- traveler number icon content description -->
+    <string name="traveler_number_icon_cont_desc">หมายเลขประจำตัวผู้เดินทางคืออะไร</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">หมายเลข Redress เป็นหมายเลขเฉพาะที่ออกโดย TSA ซึ่งช่วยให้ TSA ลดการระบุตัวตามรายชื่อเฝ้าระวังผิดพลาดและยืนยันตัวตนของคุณได้ถูกต้อง</string>
+    <!-- redress number icon content description -->
+    <string name="redress_number_icon_cont_desc">หมายเลข Redress คืออะไร</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">โปรแกรมสะสมไมล์</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
@@ -3535,6 +3556,8 @@
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
+    <!-- Unknown Card -->
+    <string name="unknown_card">บัตรไม่ถูกต้อง</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3975,8 +3998,6 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">แสดงเที่ยวบินขาออกไปยัง{city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">เลือกเที่ยวบินไปยัง%1$s</string>
-    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
-    <string name="package_outbound_flight_toolbar_title_TEMPLATE">เดินทางไปยัง {cityname}, {country} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">เที่ยวบินไปยัง%1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3987,8 +4008,6 @@
     <string name="select_return_flight">เลือกเที่ยวบินขากลับ</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">เที่ยวบินไปยัง %1$s</string>
-    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
-    <string name="package_inbound_flight_toolbar_title_TEMPLATE">เดินทางมาถึง {cityname}, {country} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4421,11 +4440,11 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">ไม่สามารถเปลี่ยนได้</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">ขออภัย &lt;b&gt;{selected_upgrade}&lt;/b&gt; ขายหมดแล้วตอนนี้ โปรดเลือกตัวเลือกค่าโดยสารอื่น แล้วลองอีกครั้ง เราจะย้อนกลับไปยังการเลือกตั้งต้นของคุณ</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">ขออภัย &lt;b&gt;{fare_family_name}&lt;/b&gt; ขายหมดแล้วตอนนี้ โปรดเลือกตัวเลือกค่าโดยสารอื่น แล้วลองอีกครั้ง เราจะย้อนกลับไปยังการเลือกตั้งต้นของคุณ</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">ขออภัย &lt;b&gt;{selected_upgrade}&lt;/b&gt; ขายหมดแล้วตอนนี้ โปรดเลือกตัวเลือกค่าโดยสารอื่น แล้วลองอีกครั้ง เราจะย้อนกลับไปยังการเลือกตั้งต้นของคุณ</string>
-    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
-    <string name="flight_fare_family_change_class_label">เปลี่ยนชั้นโดยสาร</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">ขออภัย &lt;b&gt;{fare_family_name}&lt;/b&gt; ขายหมดแล้วตอนนี้ โปรดเลือกตัวเลือกค่าโดยสารอื่น แล้วลองอีกครั้ง เราจะย้อนกลับไปยังการเลือกตั้งต้นของคุณ</string>
+    <!-- Label for fare family upgrade option. Example. Change your fare -->
+    <string name="flight_fare_family_fare_label">เปลี่ยนค่าโดยสาร</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">อัพเกรดเที่ยวบินของคุณ</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
@@ -4796,9 +4815,9 @@
     <string name="excluding_taxes_fees">ไม่รวมภาษีและค่าธรรมเนียม</string>
 
     <!-- Amenities String -->
-    <string name="amenity_bags">สัมภาระ</string>
+    <string name="amenity_checked_bags">สัมภาระเช็คอิน</string>
     <string name="amenity_cancellation">ยกเลิก</string>
-    <string name="amenity_seat_selection">เลือกที่นั่ง</string>
+    <string name="amenity_seat_choice">เลือกที่นั่ง</string>
 
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">แสดงเพิ่มเติม</string>
@@ -4806,7 +4825,7 @@
     <!-- Fare Family Component Names -->
     <string name="fare_family_included">รวม</string>
     <string name="fare_family_fee_applies">มีค่าธรรมเนียม</string>
-    <string name="fare_family_not_available">ไม่พร้อมให้บริการ</string>
+    <string name="fare_family_not_available">ไม่รวม</string>
     <string name="fare_family_unknown">ไม่มีข้อมูล</string>
 
 </resources>

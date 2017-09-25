@@ -885,8 +885,8 @@
     <string name="total_with_tax">세금 포함 총계</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">총 금액</string>
-    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">{farefamily} 선택 시 총 금액</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">총 금액: {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">총 금액</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1052,8 +1052,21 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">고객님의 %s 티켓은 내일부터 이용하실 수 있습니다.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">일정 준비 완료</string>
-
-
+    <!-- Notification title text for get ready for your trip -->
+    <string name="get_ready_for_trip">떠날 준비하세요!</string>
+    <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
+    <string name="get_ready_for_trip_body_TEMPLATE">{firstname} 님, {hotel}에 대한 예약이 {startday}에 시작됩니다. 호텔 주소, 전화 번호 및 기타 정보를 확인해 두세요.</string>
+    <string name="check_in_notification_title">호텔 체크인 다시 알림</string>
+    <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
+    <string name="check_in_notification_body_TEMPLATE">내일 {hotel} 체크인이 {checkin}에 시작됩니다. 예약 세부 정보를 확인해 보세요.</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out at 3 PM")-->
+    <string name="check_out_notification_title_TEMPLATE">체크아웃 시간: {checkout}</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. Check out time your hotel booking for Caesars Palace is at 2 AM. View your booking for details.-->
+    <string name="check_out_notification_body_TEMPLATE">{hotel}에서 체크아웃하는 시간은 {checkout}입니다. 예약 세부 정보를 확인해 보세요.</string>
+    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination} 즐길거리</string>
+    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
+    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination} 즐길거리가 빠르게 매진되고 있어요! 즐길거리를 찾아보고 미리 티켓을 예약하세요.</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">일정</string>
@@ -1506,8 +1519,12 @@
     <string name="itin_hotel_details_additional_info_heading">추가 정보</string>
     <!--Hotel itin checkin text-->
     <string name="itin_hotel_details_checkin_text">체크인</string>
+    <!--Hotel summary checkin text-->
+    <string name="hotel_summary_checkin_text">체크인:</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">체크아웃</string>
+    <!--Hotel summary checkout text-->
+    <string name="hotel_summary_checkout_text">체크아웃:</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">부터</string>
     <!--Hotel itin manage booking button to change or cancel room-->
@@ -2227,8 +2244,12 @@
     <string name="known_traveler_number">알려진 여행객 번호</string>
     <!-- traveler number info msg -->
     <string name="known_traveler_msg">이는 TSA 프리체크에 사용되는 정부 발행 번호입니다.</string>
+    <!-- traveler number icon content description -->
+    <string name="traveler_number_icon_cont_desc">알려진 여행객 번호란 무엇인가요?</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">리드레스 번호는 고유한 TSA 발행 번호로, TSA가 감시 목록 오식별을 없애고 고객님의 신원을 확인하는 데 도움이 됩니다.</string>
+    <!-- redress number icon content description -->
+    <string name="redress_number_icon_cont_desc">리드레스 번호란 무엇인가요?</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">항공 마일리지 프로그램</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
@@ -3535,6 +3556,8 @@
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
+    <!-- Unknown Card -->
+    <string name="unknown_card">알 수 없는 카드</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3975,8 +3998,6 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">{city}행 가는 항공편 표시 중입니다.</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$s행 항공편 선택</string>
-    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
-    <string name="package_outbound_flight_toolbar_title_TEMPLATE">{country} {cityname}({airportcode})행 가는 항공편</string>
     <!-- Flight to template -->
     <string name="flight_to">%1$s행 항공편</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3987,8 +4008,6 @@
     <string name="select_return_flight">오는 항공편 선택</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">%1$s행 항공편</string>
-    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
-    <string name="package_inbound_flight_toolbar_title_TEMPLATE">{country} {cityname}({airportcode})행 오는 항공편</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4421,11 +4440,11 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">변경 완료</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">죄송합니다. &lt;b&gt;{selected_upgrade}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 시도해 주세요. 처음 선택하신 요금으로 되돌리는 중입니다.</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">죄송합니다. &lt;b&gt;{fare_family_name}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 시도해 주세요. 처음 선택하신 요금으로 되돌리는 중입니다.</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">죄송합니다. &lt;b&gt;{selected_upgrade}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 시도해 주세요. 처음 선택하신 요금으로 되돌리는 중입니다.</string>
-    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
-    <string name="flight_fare_family_change_class_label">좌석 등급 변경</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">죄송합니다. &lt;b&gt;{fare_family_name}&lt;/b&gt;의 경우 현재 매진입니다. 다른 요금 옵션으로 다시 시도해 주세요. 처음 선택하신 요금으로 되돌리는 중입니다.</string>
+    <!-- Label for fare family upgrade option. Example. Change your fare -->
+    <string name="flight_fare_family_fare_label">요금 변경</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">항공편 업그레이드</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
@@ -4796,9 +4815,9 @@
     <string name="excluding_taxes_fees">세금 및 수수료 제외</string>
 
     <!-- Amenities String -->
-    <string name="amenity_bags">수하물</string>
+    <string name="amenity_checked_bags">위탁 수하물</string>
     <string name="amenity_cancellation">취소</string>
-    <string name="amenity_seat_selection">좌석 선택</string>
+    <string name="amenity_seat_choice">좌석 선택</string>
 
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">자세히 보기</string>
@@ -4806,7 +4825,7 @@
     <!-- Fare Family Component Names -->
     <string name="fare_family_included">포함 항목</string>
     <string name="fare_family_fee_applies">요금 적용 항목</string>
-    <string name="fare_family_not_available">이용 불가 항목</string>
+    <string name="fare_family_not_available">불포함 항목</string>
     <string name="fare_family_unknown">알 수 없음</string>
 
 </resources>

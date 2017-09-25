@@ -885,8 +885,8 @@
     <string name="total_with_tax">税込合計</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">合計料金</string>
-    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">{farefamily}の旅行料金合計</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">合計料金 : {farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">合計料金</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1052,8 +1052,21 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">%sのチケットは明日から使用できます。</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">旅程番号のお知らせ</string>
-
-
+    <!-- Notification title text for get ready for your trip -->
+    <string name="get_ready_for_trip">ご旅行に関するお知らせ</string>
+    <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
+    <string name="get_ready_for_trip_body_TEMPLATE">{firstname} 様、ご予約いただいた{hotel}のチェックイン日は {startday} です。ホテルの住所、電話番号、その他の詳細については予約をご確認ください。</string>
+    <string name="check_in_notification_title">ホテルのチェックイン時刻のお知らせ</string>
+    <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
+    <string name="check_in_notification_body_TEMPLATE">ご予約いただいた{hotel}のチェックイン時刻は明日の {checkin} です。詳細は予約情報をご確認ください。</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out at 3 PM")-->
+    <string name="check_out_notification_title_TEMPLATE">チェックアウト時刻 - {checkout}</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. Check out time your hotel booking for Caesars Palace is at 2 AM. View your booking for details.-->
+    <string name="check_out_notification_body_TEMPLATE">ご予約いただいた{hotel}のチェックアウト時刻は {checkout} です。詳細は予約情報をご確認ください。</string>
+    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination}の現地ツアー</string>
+    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
+    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}の現地ツアーは売り切れ間近です ! 今すぐ現地ツアーをチェックし、事前に予約しましょう。</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
@@ -1506,8 +1519,12 @@
     <string name="itin_hotel_details_additional_info_heading">追加情報</string>
     <!--Hotel itin checkin text-->
     <string name="itin_hotel_details_checkin_text">チェックイン</string>
+    <!--Hotel summary checkin text-->
+    <string name="hotel_summary_checkin_text">チェックイン :</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">チェックアウト</string>
+    <!--Hotel summary checkout text-->
+    <string name="hotel_summary_checkout_text">チェックアウト :</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">から</string>
     <!--Hotel itin manage booking button to change or cancel room-->
@@ -2227,8 +2244,12 @@
     <string name="known_traveler_number">Known traveler Number (登録済旅行者番号)</string>
     <!-- traveler number info msg -->
     <string name="known_traveler_msg">これは運輸保安局 (TSA) の事前チェックに必要な、政府発行の番号です</string>
+    <!-- traveler number icon content description -->
+    <string name="traveler_number_icon_cont_desc">Known Traveler Number (登録済旅行者番号) とは ?</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">リドレスナンバーとは、監視対象者リストに登録されている人物と同姓同名の方が誤って識別されてしまうことを防止するために、運輸保安局 (TSA) が発行する番号です。</string>
+    <!-- redress number icon content description -->
+    <string name="redress_number_icon_cont_desc">リドレスナンバーとは ?</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">フリークエント フライヤー プログラム</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
@@ -3535,6 +3556,8 @@
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
+    <!-- Unknown Card -->
+    <string name="unknown_card">不明のカード</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3975,8 +3998,6 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">{city}への行きの便を表示中</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$sへのフライトを選択</string>
-    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
-    <string name="package_outbound_flight_toolbar_title_TEMPLATE">行きの目的地 : {cityname}, {country} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">%1$sへのフライト</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3987,8 +4008,6 @@
     <string name="select_return_flight">帰りの便を選択</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">%1$sへのフライト</string>
-    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
-    <string name="package_inbound_flight_toolbar_title_TEMPLATE">帰りの到着地 : {cityname}, {country} ({airportcode})</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}、{travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4421,11 +4440,11 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">変更できません</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">申し訳ございません。&lt;b&gt;{selected_upgrade}&lt;/b&gt;は完売しています。別の運賃オプションで再度お試しください。航空券を元の運賃オプションに戻します。</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">申し訳ございません。&lt;b&gt;{fare_family_name}&lt;/b&gt;は完売しています。別の運賃オプションで再度お試しください。航空券を元の運賃オプションに戻します。</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">申し訳ございません。&lt;b&gt;{selected_upgrade}&lt;/b&gt;は完売しています。別の運賃オプションで再度お試しください。航空券を元の運賃オプションに戻します。</string>
-    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
-    <string name="flight_fare_family_change_class_label">搭乗クラスを変更</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">申し訳ございません。&lt;b&gt;{fare_family_name}&lt;/b&gt;は完売しています。別の運賃オプションで再度お試しください。航空券を元の運賃オプションに戻します。</string>
+    <!-- Label for fare family upgrade option. Example. Change your fare -->
+    <string name="flight_fare_family_fare_label">座席クラスを変更する</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">フライトのアップグレード</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
@@ -4796,9 +4815,9 @@
     <string name="excluding_taxes_fees">税およびサービス料別</string>
 
     <!-- Amenities String -->
-    <string name="amenity_bags">手荷物</string>
+    <string name="amenity_checked_bags">預け入れ手荷物</string>
     <string name="amenity_cancellation">キャンセル</string>
-    <string name="amenity_seat_selection">座席指定</string>
+    <string name="amenity_seat_choice">座席の選択</string>
 
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">すべて表示</string>
@@ -4806,7 +4825,7 @@
     <!-- Fare Family Component Names -->
     <string name="fare_family_included">含まれているもの</string>
     <string name="fare_family_fee_applies">有料</string>
-    <string name="fare_family_not_available">利用不可</string>
+    <string name="fare_family_not_available">含まれないもの :</string>
     <string name="fare_family_unknown">不明</string>
 
 </resources>

@@ -885,8 +885,8 @@
     <string name="total_with_tax">总计（含税）</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
     <string name="trip_total">旅行费用总计</string>
-    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total for Basic Economy-->
-    <string name="trip_total_upsell_TEMPLATE">{farefamily}行程总价</string>
+    <!-- Label describing the total price of the flight fare family, when we're including mandatory taxes & fees Eg: Trip Total: Basic Economy-->
+    <string name="trip_total_upsell_TEMPLATE">旅行费用总计：{farefamily}</string>
     <!-- Label describing the total price of the package that is going to be booked which will be appended by packages_append_taxes_and_fees -->
     <string name="packages_trip_total">旅行费用总计</string>
     <!-- Label describing the price of the package includes taxes and fees -->
@@ -1052,8 +1052,21 @@
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">从明天起，您可以兑换 %s票。</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">行程单已准备好</string>
-
-
+    <!-- Notification title text for get ready for your trip -->
+    <string name="get_ready_for_trip">准备出发吧</string>
+    <!-- Notification body for get ready for your trip {first name} is name of primary traveler, {hotel} is hotel name, and {start day} is start day of booking e.g. "Hey Tom, your hotel booking for Caesars Palace starts on OCT 12. View your booking for hotel address, phone number and other details."-->
+    <string name="get_ready_for_trip_body_TEMPLATE">{firstname}，你好！您预订的{hotel} {startday}入住。订单中有酒店的地址、电话和其他信息。</string>
+    <string name="check_in_notification_title">酒店入住提醒</string>
+    <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
+    <string name="check_in_notification_body_TEMPLATE">为您在 {hotel} 的酒店预订办理入住，入住时间为明天 {checkin}。查看您的预订了解详细信息。</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out at 3 PM")-->
+    <string name="check_out_notification_title_TEMPLATE">退房时间为 {checkout}</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. Check out time your hotel booking for Caesars Palace is at 2 AM. View your booking for details.-->
+    <string name="check_out_notification_body_TEMPLATE">您在 {hotel} 的酒店预订的退房时间为 {checkout}。查看您的预订了解详细信息。</string>
+    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination}游览观光</string>
+    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
+    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}的旅游活动预订火爆！查看游览观光活动，提前订票。</string>
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
@@ -1506,8 +1519,12 @@
     <string name="itin_hotel_details_additional_info_heading">其他信息</string>
     <!--Hotel itin checkin text-->
     <string name="itin_hotel_details_checkin_text">入住</string>
+    <!--Hotel summary checkin text-->
+    <string name="hotel_summary_checkin_text">入住：</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">退房</string>
+    <!--Hotel summary checkout text-->
+    <string name="hotel_summary_checkout_text">退房：</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">到</string>
     <!--Hotel itin manage booking button to change or cancel room-->
@@ -2227,8 +2244,12 @@
     <string name="known_traveler_number">已知旅客编号</string>
     <!-- traveler number info msg -->
     <string name="known_traveler_msg">这是政府签发的、用于 TSA 预检的号码。</string>
+    <!-- traveler number icon content description -->
+    <string name="traveler_number_icon_cont_desc">已知旅客编号是什么？</string>
     <!-- redress number info msg -->
     <string name="redress_number_msg">身份纠正识别号是 TSA 发出的唯一编号，目的是帮助 TSA 避免发生观察名单误认并验证您的身份。</string>
+    <!-- redress number icon content description -->
+    <string name="redress_number_icon_cont_desc">身份纠正识别号是什么？</string>
     <!--Frequent flyer program name hint -->
     <string name="frequent_flyer_program_name">飞行常客计划</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
@@ -3535,6 +3556,8 @@
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
+    <!-- Unknown Card -->
+    <string name="unknown_card">未知卡</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -3975,8 +3998,6 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">显示飞往{city}的去程航班</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">选择飞往%1$s的航班</string>
-    <!-- Outbound to template. E.g. Outbound to Delhi, India (DEL) -->
-    <string name="package_outbound_flight_toolbar_title_TEMPLATE">飞往{cityname}，{country}（{airportcode}）</string>
     <!-- Flight to template -->
     <string name="flight_to">飞往%1$s的航班</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3987,8 +4008,6 @@
     <string name="select_return_flight">选择回程航班</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">飞往%1$s的航班</string>
-    <!-- Inbound to template. E.g. Inbound to Kathmandu, Nepal (KTM) -->
-    <string name="package_inbound_flight_toolbar_title_TEMPLATE">返回{cityname}，{country}（{airportcode}）</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}，{travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4421,11 +4440,11 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_unavailable_error_title">变更不成功</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flight to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">抱歉，&lt;b&gt;{selected_upgrade}&lt;/b&gt;现已售完。请选择其他票价再试一次。正在将您的航班恢复至原始票价选择。</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE">抱歉，&lt;b&gt;{fare_family_name}&lt;/b&gt;现已售完。请选择其他票价再试一次。正在将您的航班恢复至原始票价选择。</string>
     <!-- Label for fare family upgrade unavailable error message. Example. Sorry, first class is now sold out. Please try again with a different fare option. Reverting your flights to your original fare selection.-->
-    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">抱歉，&lt;b&gt;{selected_upgrade}&lt;/b&gt;现已售完。请选择其他票价再试一次。正在将您的航班恢复至原始票价选择。</string>
-    <!-- Label for fare family upgrade option. Example. Change your cabin class -->
-    <string name="flight_fare_family_change_class_label">变更客舱等级</string>
+    <string name="flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE">抱歉，&lt;b&gt;{fare_family_name}&lt;/b&gt;现已售完。请选择其他票价再试一次。正在将您的航班恢复至原始票价选择。</string>
+    <!-- Label for fare family upgrade option. Example. Change your fare -->
+    <string name="flight_fare_family_fare_label">变更您的票价</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">升级您的机票</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
@@ -4796,9 +4815,9 @@
     <string name="excluding_taxes_fees">不含税费</string>
 
     <!-- Amenities String -->
-    <string name="amenity_bags">行李</string>
+    <string name="amenity_checked_bags">托运行李</string>
     <string name="amenity_cancellation">取消</string>
-    <string name="amenity_seat_selection">选择座位</string>
+    <string name="amenity_seat_choice">座位选择</string>
 
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">显示更多</string>
@@ -4806,7 +4825,7 @@
     <!-- Fare Family Component Names -->
     <string name="fare_family_included">已包含</string>
     <string name="fare_family_fee_applies">需另收费</string>
-    <string name="fare_family_not_available">不可用</string>
+    <string name="fare_family_not_available">不含</string>
     <string name="fare_family_unknown">未知</string>
 
 </resources>
