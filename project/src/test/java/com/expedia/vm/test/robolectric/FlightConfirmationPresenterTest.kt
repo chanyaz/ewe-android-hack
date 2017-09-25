@@ -3,7 +3,6 @@ package com.expedia.vm.test.robolectric
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
@@ -31,7 +30,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -59,16 +57,16 @@ class FlightConfirmationPresenterTest {
     private lateinit var inboundSupplementaryText : TextView
     private lateinit var outboundSupplementaryText: TextView
 
-    val firstLegDeparture = DateTime.now().plusDays(5).toString()
-    val firstLegArrival = DateTime.now().plusDays(6).toString()
-    val secondLegDeparture = DateTime.now().plusDays(10).toString()
-    val secondLegArrival = DateTime.now().plusDays(11).toString()
+    private val firstLegDeparture = DateTime.now().plusDays(5).toString()
+    private val firstLegArrival = DateTime.now().plusDays(6).toString()
+    private val secondLegDeparture = DateTime.now().plusDays(10).toString()
+    private val secondLegArrival = DateTime.now().plusDays(11).toString()
 
-    val arrivalAirportCode = "OAX"
-    val arrivalCity = "Oakland"
-    val departureAirportCode = "SEA"
-    val departureCity = "Seattle"
-    val rewardPoints = "999"
+    private val arrivalAirportCode = "OAX"
+    private val arrivalCity = "Oakland"
+    private val departureAirportCode = "SEA"
+    private val departureCity = "Seattle"
+    private val rewardPoints = "999"
 
     @Before fun before() {
         activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().get()
@@ -84,7 +82,7 @@ class FlightConfirmationPresenterTest {
     fun testFlightConfirmationVisibility() {
         setupPresenter()
         givenCheckoutResponse()
-        val tripTotalText = presenter.flightSummary?.findViewById<View>(R.id.trip_total_text) as TextView
+        val tripTotalText = presenter.flightSummary.findViewById<View>(R.id.trip_total_text) as TextView
 
         assertEquals(VISIBLE, presenter.outboundFlightCard.visibility)
         assertEquals(VISIBLE, presenter.inboundFlightCard.visibility)
@@ -95,16 +93,16 @@ class FlightConfirmationPresenterTest {
         assertEquals(activity.getDrawable(R.color.air_attach_crystal_background).colorFilter, presenter.hotelCrossSell.background.colorFilter)
 
         assertNotNull(presenter.toolbar)
-        assertEquals(VISIBLE, presenter.toolbar?.visibility)
-        assertEquals(true, presenter.toolbar?.navigationIcon?.isVisible)
+        assertEquals(VISIBLE, presenter.toolbar.visibility)
+        assertEquals(true, presenter.toolbar.navigationIcon?.isVisible)
 
         val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(activity, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
-        assertEquals(navIcon, presenter.toolbar?.navigationIcon)
+        assertEquals(navIcon, presenter.toolbar.navigationIcon)
 
-        assertEquals(VISIBLE, presenter.flightSummary?.visibility)
-        assertEquals("$rewardPoints points earned", presenter.flightSummary?.pointsEarned?.text)
-        assertEquals("1 traveler", presenter.flightSummary?.numberOfTravelers?.text)
-        assertEquals("$100.95", presenter.flightSummary?.tripPrice?.text)
+        assertEquals(VISIBLE, presenter.flightSummary.visibility)
+        assertEquals("$rewardPoints points earned", presenter.flightSummary.pointsEarned.text)
+        assertEquals("1 traveler", presenter.flightSummary.numberOfTravelers.text)
+        assertEquals("$100.95", presenter.flightSummary.tripPrice.text)
         assertEquals(VISIBLE, tripTotalText.visibility)
     }
 
@@ -113,7 +111,7 @@ class FlightConfirmationPresenterTest {
         setupPresenter()
         givenCheckoutResponse()
 
-        assertNull(presenter.toolbar?.menuItem)
+        assertNull(presenter.toolbar.menuItem)
     }
 
     @Test
@@ -122,7 +120,7 @@ class FlightConfirmationPresenterTest {
         setupPresenter()
         givenCheckoutResponse()
 
-        assertTrue(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
+        assertTrue(presenter.toolbar.menuItem.icon?.isVisible ?: false)
     }
 
     @Test
@@ -131,8 +129,8 @@ class FlightConfirmationPresenterTest {
         setupPresenter()
         givenCheckoutResponse()
 
-        assertEquals("Share", presenter.toolbar?.menuItem?.title)
-        assertFalse(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
+        assertEquals("Share", presenter.toolbar.menuItem.title)
+        assertFalse(presenter.toolbar.menuItem.icon?.isVisible ?: false)
     }
 
     @Test
@@ -145,12 +143,12 @@ class FlightConfirmationPresenterTest {
         val flightItinDetailsResponse = generateFlightItinDetailsResponse(false)
         setRoundTripFlight(false)
 
-        var shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
+        var shareMessage = presenter.toolbar.viewModel.getShareMessage(flightItinDetailsResponse)
         var expectedShareMessage = "I'm flying to Oakland on 5/20/17!" + "\n" + "www.expedia_test_outbound.com"
         assertEquals(expectedShareMessage, shareMessage)
 
         Locale.setDefault(Locale.CHINA)
-        shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
+        shareMessage = presenter.toolbar.viewModel.getShareMessage(flightItinDetailsResponse)
         expectedShareMessage = "www.expedia_test_outbound.com"
         assertEquals(expectedShareMessage, shareMessage)
         Locale.setDefault(Locale.US)
@@ -166,13 +164,13 @@ class FlightConfirmationPresenterTest {
         val flightItinDetailsResponse = generateFlightItinDetailsResponse(true)
         setRoundTripFlight(true)
 
-        var shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
+        var shareMessage = presenter.toolbar.viewModel.getShareMessage(flightItinDetailsResponse)
         var expectedShareMessage = "I'm flying roundtrip from Seattle to Oakland on 5/20/17 - 5/24/17!" + "\n" +
             "Outbound: www.expedia_test_outbound.com" + "\n" + "Inbound: www.expedia_test_inbound.com"
         assertEquals(expectedShareMessage, shareMessage)
 
         Locale.setDefault(Locale.CHINA)
-        shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
+        shareMessage = presenter.toolbar.viewModel.getShareMessage(flightItinDetailsResponse)
         expectedShareMessage = "www.expedia_test_outbound.com" + "\n" + "www.expedia_test_inbound.com"
         assertEquals(expectedShareMessage, shareMessage)
         Locale.setDefault(Locale.US)
@@ -183,7 +181,7 @@ class FlightConfirmationPresenterTest {
         setupPresenter()
         givenCheckoutResponse(numberOfTravelers = 3)
 
-        assertEquals("3 travelers", presenter.flightSummary?.numberOfTravelers?.text)
+        assertEquals("3 travelers", presenter.flightSummary.numberOfTravelers.text)
     }
 
     @Test
@@ -333,9 +331,9 @@ class FlightConfirmationPresenterTest {
 
     private fun setRoundTripFlight(isRoundTrip: Boolean) {
         val flightSearch = if (isRoundTrip) FlightSearchParams(SuggestionV4(), SuggestionV4(), LocalDate(), LocalDate(), 5,
-                ArrayList<Int>(), false, "", 5, "", true, true, "")
+                ArrayList(), false, "", 5, "", true, true, "")
         else FlightSearchParams(SuggestionV4(), SuggestionV4(), LocalDate(), null, 5,
-                ArrayList<Int>(), false, "", 5, "", true, true, "")
+                ArrayList(), false, "", 5, "", true, true, "")
         Db.setFlightSearchParams(flightSearch)
     }
 }
