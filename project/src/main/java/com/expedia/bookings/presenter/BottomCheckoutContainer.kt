@@ -167,17 +167,21 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
             accessiblePurchaseButton.hideTouchTarget()
             slideToPurchase.visibility = View.GONE
             checkoutButtonContainer.visibility = View.GONE
+            checkoutButton.visibility = View.GONE
         } else {
             accessiblePurchaseButton.visibility = View.GONE
 
             if (showSlider) {
                 slideToPurchase.visibility = View.VISIBLE
                 checkoutButtonContainer.visibility = View.GONE
+                checkoutButton.visibility = View.GONE
             } else {
                 if (state == TwoScreenOverviewState.OTHER) {
                     checkoutButtonContainer.visibility = View.GONE
+                    checkoutButton.visibility = View.GONE
                 } else {
                     checkoutButtonContainer.visibility = View.VISIBLE
+                    checkoutButton.visibility = View.VISIBLE
                     val checkoutButtonTextColor = ContextCompat.getColor(context, if (state == TwoScreenOverviewState.BUNDLE) {
                         R.color.search_dialog_background_v2
                     } else {
