@@ -87,7 +87,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     }
 
     override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
-        return false
+        return PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()
     }
 
     override fun shouldShowTaxesAndFeeMessageInPackagesFSR(): Boolean {
