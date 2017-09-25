@@ -18,7 +18,6 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     // Inputs
     val apiErrorObserver = PublishSubject.create<ApiError>()
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
-    var hasPinnedHotel = false
     var error: ApiError by Delegates.notNull()
 
     // Outputs
@@ -86,40 +85,6 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             error = it
             hotelSoldOutErrorObservable.onNext(false)
             when (it.errorCode) {
-                ApiError.Code.INVALID_INPUT -> {
-                    imageObservable.onNext(R.drawable.error_search)
-                    errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
-                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
-                    if (hasPinnedHotel) {
-                        HotelTracking.trackHotelsNoPinnedResult("Invalid input")
-                    } else {
-                        HotelTracking.trackHotelsInvalidInput()
-                    }
-                }
-                ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
-                    imageObservable.onNext(R.drawable.error_search)
-                    errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
-                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
-                    HotelTracking.trackHotelsNoResult()
-                }
-                ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS -> {
-                    imageObservable.onNext(R.drawable.error_search)
-                    errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
-                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
-                    titleObservable.onNext(context.getString(R.string.visible_map_area))
-                    HotelTracking.trackHotelsNoResult()
-                }
-                ApiError.Code.HOTEL_FILTER_NO_RESULTS -> {
-                    imageObservable.onNext(R.drawable.error_search)
-                    errorMessageObservable.onNext(context.getString(R.string.error_no_filter_result_message))
-                    buttonOneTextObservable.onNext(context.getString(R.string.reset_filter))
-                }
-                ApiError.Code.HOTEL_PINNED_NOT_FOUND -> {
-                    imageObservable.onNext(R.drawable.error_search)
-                    errorMessageObservable.onNext(context.getString(R.string.error_no_pinned_result_message))
-                    buttonOneTextObservable.onNext(context.getString(R.string.nearby_results))
-                    HotelTracking.trackHotelsNoPinnedResult("Selected hotel not returned in position 0")
-                }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_payment)
                     if (error.errorInfo?.field == "nameOnCard") {
@@ -198,7 +163,6 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 else -> {
                     makeDefaultError()
                 }
-
             }
         }
 
@@ -215,7 +179,47 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     }
 
     override fun searchErrorHandler(): Observer<ApiError> {
-        return endlessObserver {  }
+        return endlessObserver {
+            error = it
+            when (it.errorCode) {
+                ApiError.Code.INVALID_INPUT -> {
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
+                    val errorMessage = "${error.errorCode.name}:${error.errorInfo?.field ?: ""}"
+                    HotelTracking.trackHotelsNoResult(errorMessage)
+                }
+                ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
+                    HotelTracking.trackHotelsNoResult(error.errorCode.name)
+                }
+                ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS -> {
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
+                    titleObservable.onNext(context.getString(R.string.visible_map_area))
+                    HotelTracking.trackHotelsNoResult(error.errorCode.name)
+                }
+                ApiError.Code.HOTEL_FILTER_NO_RESULTS -> {
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_filter_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.reset_filter))
+                    HotelTracking.trackHotelsNoResult(error.errorCode.name)
+                }
+                ApiError.Code.HOTEL_PINNED_NOT_FOUND -> {
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_pinned_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.nearby_results))
+                    HotelTracking.trackHotelsNoPinnedResult("Selected hotel not returned in position 0")
+                }
+                else -> {
+                    makeDefaultError()
+                    HotelTracking.trackHotelsNoResult(error.errorCode.name)
+                }
+            }
+        }
     }
 
     override fun createTripErrorHandler(): Observer<ApiError> {

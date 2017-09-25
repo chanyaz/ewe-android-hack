@@ -189,7 +189,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchTrackingBuilder.markResultsProcessed()
             searchTrackingBuilder.searchParams(hotelSearchParams)
             searchTrackingBuilder.searchResponse(hotelSearchResponse)
-            errorPresenter.getViewModel().hasPinnedHotel = hotelSearchResponse.hasPinnedHotel()
         }
         presenter.viewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
             searchTrackingBuilder.markApiResponseReceived()
@@ -203,8 +202,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
         }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
-        presenter.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
-        presenter.viewModel.errorObservable.subscribe { show(errorPresenter) }
+        presenter.viewModel.searchApiErrorObservable.subscribe(errorPresenter.viewmodel.searchApiErrorObserver)
+        presenter.viewModel.searchApiErrorObservable.subscribe { show(errorPresenter) }
         presenter.viewModel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
         presenter.showDefault()
         presenter

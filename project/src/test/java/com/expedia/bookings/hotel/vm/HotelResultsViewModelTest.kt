@@ -125,7 +125,7 @@ class HotelResultsViewModelTest {
     @Test
     fun errorResponseCallsErrorObservable() {
         val testSubscriber = TestSubscriber<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
+        sut.searchApiErrorObservable.subscribe(testSubscriber)
 
         mockSearchProvider.errorSubject.onNext(ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS))
 
@@ -180,7 +180,7 @@ class HotelResultsViewModelTest {
         val regionShortName = context.getString(R.string.visible_map_area)
         val params = makeParams("", regionShortName)
         val testSubscriber = TestSubscriber<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
+        sut.searchApiErrorObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(params)
         mockSearchProvider.noResultsSubject.onNext(Unit)
@@ -193,7 +193,7 @@ class HotelResultsViewModelTest {
     @Test
     fun noResultsFilter() {
         val testSubscriber = TestSubscriber<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
+        sut.searchApiErrorObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
         sut.filterParamsSubject.onNext(filterParams)
@@ -208,7 +208,7 @@ class HotelResultsViewModelTest {
     @Test
     fun noResultsGeneral() {
         val testSubscriber = TestSubscriber<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
+        sut.searchApiErrorObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
 
@@ -224,7 +224,7 @@ class HotelResultsViewModelTest {
         val testErrorSubscriber = TestSubscriber<ApiError>()
         val testResultsSubscriber = TestSubscriber<HotelSearchResponse>()
 
-        sut.errorObservable.subscribe(testErrorSubscriber)
+        sut.searchApiErrorObservable.subscribe(testErrorSubscriber)
         sut.hotelResultsObservable.subscribe(testResultsSubscriber)
 
         val pinnedResponse = getHotelSearchResponse("src/test/resources/raw/hotel/hotel_happy_search_response_pinned.json")
@@ -242,7 +242,7 @@ class HotelResultsViewModelTest {
         val testErrorSubscriber = TestSubscriber<ApiError>()
         val testResultsSubscriber = TestSubscriber<HotelSearchResponse>()
 
-        sut.errorObservable.subscribe(testErrorSubscriber)
+        sut.searchApiErrorObservable.subscribe(testErrorSubscriber)
         sut.hotelResultsObservable.subscribe(testResultsSubscriber)
 
         val noPinnedResponse = getHotelSearchResponse("src/test/resources/raw/hotel/hotel_happy_search_response_no_pinned.json")

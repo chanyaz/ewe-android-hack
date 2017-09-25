@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -30,6 +31,8 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
     val searchingForHotelsDateTime = PublishSubject.create<Unit>()
     val resultsReceivedDateTimeObservable = PublishSubject.create<Unit>()
+
+    val searchApiErrorObservable = PublishSubject.create<ApiError>()
 
     var cachedResponse: HotelSearchResponse? = null
         private set
@@ -62,14 +65,15 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         hotelSearchManager.successSubject.subscribe { response ->
             if (response.isPinnedSearch && !response.hasPinnedHotel()) {
                 val error = ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND)
-                errorObservable.onNext(error)
+                searchApiErrorObservable.onNext(error)
                 cachedResponse = response
             } else {
                 onSearchResponseSuccess(response)
             }
         }
 
-        hotelSearchManager.errorSubject.subscribe(errorObservable)
+        hotelSearchManager.errorSubject.subscribe(searchApiErrorObservable)
+
         hotelSearchManager.noResultsSubject.subscribe {
             var error: ApiError
             if (isFilteredSearch) {
@@ -81,10 +85,11 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
                     error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
                 }
             }
-            errorObservable.onNext(error)
+            searchApiErrorObservable.onNext(error)
         }
 
         hotelSearchManager.noInternetSubject.subscribe {
+            HotelTracking.trackHotelsNoResult("NetworkError")
             val cancelFun = fun() {
                 showHotelSearchViewObservable.onNext(Unit)
             }

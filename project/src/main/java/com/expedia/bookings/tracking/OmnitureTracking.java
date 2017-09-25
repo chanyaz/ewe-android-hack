@@ -203,7 +203,6 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_GEO_SUGGESTION_CLICK = "App.Hotels.DS.DestSuggest";
 	private static final String HOTELSV2_TRAVELER = "App.Hotels.Traveler.";
 	private static final String HOTELSV2_RESULT = "App.Hotels.Search";
-	private static final String HOTELSV2_INVALID_INPUT = "App.Hotels.Search.NoResults.InvalidInput";
 	private static final String HOTELSV2_NO_RESULT = "App.Hotels.Search.NoResults";
 	private static final String HOTELSV2_NO_PINNED_RESULT = "App.Hotels.Search.SelectedHotelNotFound";
 	private static final String HOTELSV2_SORT = "App.Hotels.Search.Sort.";
@@ -510,30 +509,16 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackHotelV2InvalidInput() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_INVALID_INPUT + "\" pageLoad...");
-
-		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_INVALID_INPUT);
-
-		s.setEvar(2, "D=c2");
-		s.setProp(2, HOTELV2_LOB);
-
-		s.track();
-	}
-
-	public static void trackHotelV2NoResult() {
+	public static void trackHotelV2NoResult(String errorMessage) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_NO_RESULT + "\" pageLoad...");
 
-		ADMS_Measurement s = getFreshTrackingObject();
+		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_NO_RESULT);
 
-		s.setAppState(HOTELSV2_NO_RESULT);
-		s.setEvar(18, HOTELSV2_NO_RESULT);
-
-		// LOB Search
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 
-		// Send the tracking data
+		s.setProp(36, errorMessage);
+
 		s.track();
 	}
 
