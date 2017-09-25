@@ -18,7 +18,7 @@ import com.expedia.bookings.itin.widget.HotelItinCheckInCheckOutDetails
 import com.expedia.bookings.itin.widget.HotelItinImage
 import com.expedia.bookings.itin.widget.HotelItinLocationDetails
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
-import com.expedia.bookings.itin.widget.ItinToolbar
+import com.expedia.bookings.itin.widget.HotelItinToolbar
 
 open class HotelItinDetailsActivity : HotelItinBaseActivity() {
 
@@ -37,8 +37,8 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
     val checkinCheckoutView: HotelItinCheckInCheckOutDetails by lazy {
         findViewById(R.id.widget_hotel_itin_checkin_checkout_details) as HotelItinCheckInCheckOutDetails
     }
-    val toolbar: ItinToolbar by lazy {
-        findViewById(R.id.widget_hotel_itin_toolbar) as ItinToolbar
+    val toolbar: HotelItinToolbar by lazy {
+        findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
     }
     val hotelBookingDetailsView: HotelItinBookingDetails by lazy {
         findViewById(R.id.widget_hotel_itin_booking_details) as HotelItinBookingDetails

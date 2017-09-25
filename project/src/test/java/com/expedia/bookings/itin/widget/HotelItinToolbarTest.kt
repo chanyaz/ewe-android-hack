@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class HotelItinToolbarTest {
 
-    lateinit var hotelItinToolbar: ItinToolbar
+    lateinit var hotelItinToolbar: HotelItinToolbar
     lateinit private var manageBookingActivity: HotelItinManageBookingActivity
     lateinit private var detailsActivity: HotelItinDetailsActivity
     lateinit private var expandedMapActivity: HotelItinExpandedMapActivity
@@ -27,7 +27,7 @@ class HotelItinToolbarTest {
     fun testItinToolbarOnDetailsView() {
         detailsActivity = Robolectric.buildActivity(HotelItinDetailsActivity::class.java).create().get()
         detailsActivity.setTheme(R.style.ItinTheme)
-        hotelItinToolbar = LayoutInflater.from(detailsActivity).inflate(R.layout.test_hotel_itin_toolbar, null) as ItinToolbar
+        hotelItinToolbar = LayoutInflater.from(detailsActivity).inflate(R.layout.test_hotel_itin_toolbar, null) as HotelItinToolbar
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         hotelItinToolbar.setUpWidget(itinCardDataHotel, itinCardDataHotel.propertyName, null)
@@ -44,7 +44,7 @@ class HotelItinToolbarTest {
     fun testItinToolbarOnManageBookingView() {
         manageBookingActivity = Robolectric.buildActivity(HotelItinManageBookingActivity::class.java).create().get()
         manageBookingActivity.setTheme(R.style.ItinTheme)
-        hotelItinToolbar = LayoutInflater.from(manageBookingActivity).inflate(R.layout.test_hotel_itin_toolbar, null) as ItinToolbar
+        hotelItinToolbar = LayoutInflater.from(manageBookingActivity).inflate(R.layout.test_hotel_itin_toolbar, null) as HotelItinToolbar
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
 
         val titleString = manageBookingActivity.getString(R.string.itin_hotel_manage_booking_header)
@@ -62,7 +62,7 @@ class HotelItinToolbarTest {
     fun testItinToolbarOnExpandedMapView() {
         expandedMapActivity = Robolectric.buildActivity(HotelItinExpandedMapActivity::class.java).create().get()
         expandedMapActivity.setTheme(R.style.ItinTheme)
-        hotelItinToolbar = LayoutInflater.from(expandedMapActivity).inflate(R.layout.test_hotel_itin_toolbar, null) as ItinToolbar
+        hotelItinToolbar = LayoutInflater.from(expandedMapActivity).inflate(R.layout.test_hotel_itin_toolbar, null) as HotelItinToolbar
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         val hotelCityStateCountry = itinCardDataHotel.propertyLocation.toCityStateCountryAddressFormattedString()

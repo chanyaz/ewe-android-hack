@@ -9,7 +9,7 @@ import android.support.v4.content.ContextCompat
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.itin.widget.ItinToolbar
+import com.expedia.bookings.itin.widget.HotelItinToolbar
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
@@ -40,8 +40,8 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 
     private var googleMap: GoogleMap? = null
     private val MAP_ZOOM_LEVEL = 14f
-    private val toolbar: ItinToolbar by lazy {
-        findViewById(R.id.widget_hotel_itin_toolbar) as ItinToolbar
+    private val toolbar: HotelItinToolbar by lazy {
+        findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -24,7 +24,7 @@ import com.squareup.phrase.Phrase
 import java.util.Locale
 
 
-class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr) {
+class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr) {
 
     val toolbarTitleTextView: TextView by lazy {
         findViewById<TextView>(R.id.itin_toolbar_title)

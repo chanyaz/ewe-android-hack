@@ -13,15 +13,15 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.itin.widget.HotelItinManageBookingHelp
 import com.expedia.bookings.itin.widget.HotelItinCustomerSupportDetails
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
-import com.expedia.bookings.itin.widget.ItinToolbar
+import com.expedia.bookings.itin.widget.HotelItinToolbar
 
 class HotelItinManageBookingActivity : HotelItinBaseActivity() {
 
     val roomDetailsView: HotelItinRoomDetails by lazy {
         findViewById(R.id.widget_hotel_itin_room_details) as HotelItinRoomDetails
     }
-    val toolbar: ItinToolbar by lazy {
-        findViewById(R.id.widget_hotel_itin_toolbar) as ItinToolbar
+    val toolbar: HotelItinToolbar by lazy {
+        findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
     }
     val manageBookingButton: Button by lazy {
         findViewById(R.id.itin_hotel_manage_booking_button) as Button
