@@ -33,6 +33,7 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.isAllowUnknownCardTypesEnabled
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
+import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
 import com.mobiata.android.util.SettingUtils
@@ -90,8 +91,8 @@ class PaymentViewModelTest {
         viewModel.paymentTypeWarningHandledByCkoView.onNext(true)
 
         viewModel.showCardFeeInfoLabel.subscribe(testSubscriber)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_MASTERCARD)
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_MASTERCARD))
 
         testSubscriber.assertValues(true, false)
     }
@@ -129,7 +130,7 @@ class PaymentViewModelTest {
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.CARS)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue("Rental company does not accept American Express")
@@ -143,7 +144,7 @@ class PaymentViewModelTest {
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue("Hotel does not accept American Express")
@@ -157,7 +158,7 @@ class PaymentViewModelTest {
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue("Trip does not accept American Express")
@@ -171,7 +172,7 @@ class PaymentViewModelTest {
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue("Airline does not accept American Express")
@@ -185,7 +186,7 @@ class PaymentViewModelTest {
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.LX)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue("Activity does not accept American Express")
@@ -199,7 +200,7 @@ class PaymentViewModelTest {
         viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.TRANSPORT)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue("Activity does not accept American Express")
@@ -341,7 +342,7 @@ class PaymentViewModelTest {
 
         viewModel.invalidPaymentTypeWarning.subscribe(invalidPaymentTypeWarningTestSubscriber)
         viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_UNKNOWN)
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_UNKNOWN))
 
         invalidPaymentTypeWarningTestSubscriber.assertValueCount(1)
         invalidPaymentTypeWarningTestSubscriber.assertValue("")
@@ -355,7 +356,7 @@ class PaymentViewModelTest {
 
         viewModel.invalidPaymentTypeWarning.subscribe(invalidPaymentTypeWarningTestSubscriber)
         viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_UNKNOWN)
+        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_UNKNOWN))
 
         invalidPaymentTypeWarningTestSubscriber.assertValueCount(1)
         invalidPaymentTypeWarningTestSubscriber.assertValue("Airline does not accept Unknown Card")

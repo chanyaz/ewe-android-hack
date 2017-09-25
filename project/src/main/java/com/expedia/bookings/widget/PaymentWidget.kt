@@ -247,7 +247,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
-            viewmodel.cardTypeSubject.onNext(card.type)
+            viewmodel.cardTypeSubject.onNext(Optional(card.type))
             if (card.id != null && !card.id.equals(viewmodel.cardBIN.value)) {
                 viewmodel.cardBIN.onNext(card.id)
             }
@@ -378,7 +378,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                         Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
                         sectionBillingInfo.billingInfo.storedCard = card
                         temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
-                        viewmodel.cardTypeSubject.onNext(card.type)
+                        viewmodel.cardTypeSubject.onNext(Optional(card.type))
                         viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
                         viewmodel.cardBIN.onNext(card.id)
                         break
@@ -474,7 +474,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     private val billingInfoChangedListener: ISectionEditable.SectionChangeListener = ISectionEditable.SectionChangeListener {
         val cardType = sectionBillingInfo.billingInfo?.getPaymentType(context)
-        viewmodel.cardTypeSubject.onNext(cardType)
+        viewmodel.cardTypeSubject.onNext(Optional(cardType))
         val cardNumber = sectionBillingInfo.billingInfo?.number
         if (cardNumber != null) {
             val currentCardBIN = viewmodel.cardBIN.value

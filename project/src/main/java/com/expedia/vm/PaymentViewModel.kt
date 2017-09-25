@@ -19,7 +19,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
-import com.expedia.bookings.utils.isAllowUnknownCardTypesEnabled
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
@@ -47,7 +46,7 @@ open class PaymentViewModel(val context: Context) {
     val menuVisibility = PublishSubject.create<Boolean>()
     val updateBackgroundColor = PublishSubject.create<Boolean>()
 
-    val cardTypeSubject = PublishSubject.create<PaymentType?>()
+    val cardTypeSubject = PublishSubject.create<Optional<PaymentType>>()
     val cardBIN = BehaviorSubject.create<String>("")
     val resetCardFees = PublishSubject.create<Unit>()
     val moveFocusToPostalCodeSubject = PublishSubject.create<Unit>()
@@ -161,6 +160,7 @@ open class PaymentViewModel(val context: Context) {
 
         cardTypeSubject
                 .debounce(1, TimeUnit.SECONDS, getScheduler())
+                .map { it.value }
                 .subscribe { cardType ->
                     val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
                     val showingPaymentFeeWarning = tripItem?.hasPaymentFee(cardType) ?: false
