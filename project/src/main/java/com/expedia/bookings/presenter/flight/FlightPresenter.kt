@@ -404,7 +404,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val viewStub = findViewById<ViewStub>(R.id.flight_web_checkout_stub)
         var webCheckoutView = viewStub.inflate() as WebCheckoutView
         var flightWebCheckoutViewModel = FlightWebCheckoutViewViewModel(context)
-        flightWebCheckoutViewModel.createTripViewModel = FlightCreateTripViewModel(context)
         webCheckoutView.viewModel = flightWebCheckoutViewModel
 
         flightWebCheckoutViewModel.closeView.subscribe {
@@ -573,18 +572,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     private val inboundToWebCheckoutView = object : Transition(FlightInboundPresenter::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
-            webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
-            AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+            transitionToWebView(forward)
         }
     }
 
     private val outboundToWebCheckoutView = object : Transition(FlightOutboundPresenter::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
-            webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
-            AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+            transitionToWebView(forward)
         }
     }
 
@@ -722,4 +717,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     private fun shouldShowWebCheckoutView(): Boolean {
         return PointOfSale.getPointOfSale().shouldShowWebCheckout() && isShowFlightsCheckoutWebview(context)
     }
+
+    private fun transitionToWebView(forward: Boolean) {
+        webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
+        webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
+        AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+    }
+
 }
