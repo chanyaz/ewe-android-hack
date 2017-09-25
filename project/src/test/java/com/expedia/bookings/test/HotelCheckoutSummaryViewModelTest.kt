@@ -2,6 +2,7 @@ package com.expedia.bookings.test
 
 import android.app.Application
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -31,6 +32,12 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutSummaryViewModelTest {
@@ -46,10 +53,12 @@ class HotelCheckoutSummaryViewModelTest {
     private var createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
     lateinit private var paymentModel: PaymentModel<HotelCreateTripResponse>
     lateinit private var context: Application
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun before() {
         context = RuntimeEnvironment.application
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -313,7 +322,23 @@ class HotelCheckoutSummaryViewModelTest {
         paymentModel.createTripSubject.onNext(createTripResponse)
         assertFalse(sut.isShoppingWithPoints.value)
     }
-    
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCheckOmnitureTrackingForHotelCheckinCheckoutDateInline() {
+        createTripResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse()
+        val params = HotelPresenterTestUtil.getDummyHotelSearchParams(context)
+        val expectedEvars = mapOf(34 to "15344.0.1")
+        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
+                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        HotelTracking.trackPageLoadHotelCheckoutInfo(createTripResponse, params, PageUsableData())
+
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
     private fun setPOS(pos: PointOfSaleId) {
         SettingUtils.save(context, R.string.PointOfSaleKey, pos.id.toString())
         PointOfSale.onPointOfSaleChanged(context)
@@ -369,8 +394,7 @@ class HotelCheckoutSummaryViewModelTest {
     private fun toggleABTestCheckinCheckoutDatesInline(toggleOn: Boolean) {
         if (toggleOn) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
-        }
-        else {
+        } else {
             AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
         }
     }
