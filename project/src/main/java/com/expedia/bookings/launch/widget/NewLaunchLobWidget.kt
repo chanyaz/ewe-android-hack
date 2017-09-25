@@ -23,7 +23,6 @@ import com.expedia.util.notNullAndObservable
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-
 class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     private val backGroundView: View by bindView(R.id.background)
@@ -112,4 +111,5 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
         adjustBackgroundView()
         lobViewHeightChangeSubject.onNext(Unit)
     }
+
 }

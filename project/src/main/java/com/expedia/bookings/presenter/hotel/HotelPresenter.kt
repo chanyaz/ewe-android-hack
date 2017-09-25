@@ -163,10 +163,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         hotelWebCheckoutViewViewModel.blankViewObservable.subscribe {
             super.back()
         }
+
         hotelWebCheckoutViewViewModel.fetchItinObservable.subscribe { bookedTripID ->
             itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
         }
-
 
         webCheckoutView
     }
@@ -324,7 +324,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             val retryFun = fun() {
                 if (shouldUseWebCheckout()) {
                     (webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).fireCreateTripObservable.onNext(Unit)
-                } else{
+                } else {
                     checkoutPresenter.hotelCheckoutWidget.doCreateTrip()
                 }
             }

@@ -15,6 +15,7 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
+import com.expedia.vm.HotelWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
@@ -221,7 +222,7 @@ class WebCheckoutViewTest {
         hotelPresenter.hotelSearchParams = getDummyHotelSearchParams()
         hotelPresenter.show(hotelPresenter.detailPresenter)
         webCheckoutViewObservable = TestSubscriber<Unit>()
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fireCreateTripObservable.subscribe(webCheckoutViewObservable)
+        (hotelPresenter.webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).fireCreateTripObservable.subscribe(webCheckoutViewObservable)
     }
 
     private fun givenHotelDetailsScreen(bucketWebCheckoutABTest: Boolean = false, setPOSWithWebCheckoutABTestEnabled: Boolean = false): Action {
