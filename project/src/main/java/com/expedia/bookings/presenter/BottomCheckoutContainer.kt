@@ -165,14 +165,14 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
             accessiblePurchaseButton.setText(context.getString(R.string.accessibility_purchase_button))
             accessiblePurchaseButton.visibility = View.VISIBLE
             accessiblePurchaseButton.hideTouchTarget()
-            slideToPurchase.visibility = View.GONE
             checkoutButtonContainer.visibility = View.GONE
+            slideToPurchase.visibility = View.GONE
         } else {
             accessiblePurchaseButton.visibility = View.GONE
 
             if (showSlider) {
-                slideToPurchase.visibility = View.VISIBLE
                 checkoutButtonContainer.visibility = View.GONE
+                slideToPurchase.visibility = View.VISIBLE
             } else {
                 if (state == TwoScreenOverviewState.OTHER) {
                     checkoutButtonContainer.visibility = View.GONE

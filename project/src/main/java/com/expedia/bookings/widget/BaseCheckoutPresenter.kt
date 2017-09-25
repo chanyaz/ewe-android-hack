@@ -399,8 +399,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun endDefaultToPaymentTransition(forward: Boolean) {
+//        ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
         if (!forward) {
-            ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
             paymentWidget.setFocusForView()
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
             paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
@@ -416,6 +416,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         depositPolicyText.setInverseVisibility(forward)
         ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
         if (!forward) {
+            ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
             Ui.hideKeyboard(paymentWidget)
             invalidPaymentTypeWarningTextView.visibility = View.GONE
             cardProcessingFeeTextView.visibility = View.GONE
@@ -569,8 +570,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     open inner class DefaultToTraveler(className: Class<*>) : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, className) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
+//            ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
             if (!forward) {
+                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
+                ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
                 Ui.hideKeyboard(travelersPresenter)
                 travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
                 travelersPresenter.viewModel.updateCompletionStatus()
@@ -578,6 +581,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
                 travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources))
             } else {
+                ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
                 decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
             }
         }
@@ -585,7 +589,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
-                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
                 travelersPresenter.setFocusForView()
                 travelerSummaryCard.setFocusForView()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)

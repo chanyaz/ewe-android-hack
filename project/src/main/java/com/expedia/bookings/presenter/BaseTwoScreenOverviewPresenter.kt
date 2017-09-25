@@ -395,8 +395,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             onTripResponse(response)
         }
         checkoutPresenter.getCheckoutViewModel().bottomContainerInverseVisibilityObservable.subscribe { forward ->
-            bottomContainer.setInverseVisibility(forward)
             checkoutButtonContainer.setInverseVisibility(forward)
+            bottomContainer.setInverseVisibility(forward)
         }
         checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
             toggleBottomContainerViews(currentState)
