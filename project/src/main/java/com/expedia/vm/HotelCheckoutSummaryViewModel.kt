@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -74,6 +75,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
     val checkinDateFormattedByEEEMMDD = PublishSubject.create<String>()
     val checkoutDateFormattedByEEEMMDD = PublishSubject.create<String>()
+    val tripResponseSubject = BehaviorSubject.create<HotelCreateTripResponse>()
 
     init {
 
@@ -81,6 +83,10 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
         Observable.combineLatest(newPriceSetObservable, createTripConsumed, { _, _ ->
             newDataObservable.onNext(Unit)
         }).subscribe()
+
+        paymentModel.tripResponses.subscribe { it ->
+            tripResponseSubject.onNext(it)
+        }
 
         createTripResponseObservable.subscribe { it ->
 
@@ -127,27 +133,18 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             createTripConsumed.onNext(Unit)
         }
 
-        paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.map {
-            object {
-                val originalRoomResponse = it.tripResponse.originalHotelProductResponse.hotelRoomResponse
-                val newHotelProductResponse = it.tripResponse.newHotelProductResponse
-                val room = newHotelProductResponse.hotelRoomResponse
-                val rate = newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
-                val isExpediaRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
-                val payingWithPoints = it.paymentSplits.payingWithPoints
-                val payingWithCard = it.paymentSplits.payingWithCards
-                val paymentSplitsType = it.paymentSplits.paymentSplitsType()
-                val tripTotalPayableIncludingFee = it.tripTotalPayableIncludingFee
-            }
-        }.subscribe {
-
-            val hasPriceChange = it.originalRoomResponse != null
+        tripResponseSubject.subscribe { it ->
+            val originalRoomResponse = it.originalHotelProductResponse.hotelRoomResponse
+            val newHotelProductResponse = it.newHotelProductResponse
+            val room = newHotelProductResponse.hotelRoomResponse
+            val rate = newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
+            val hasPriceChange = originalRoomResponse != null
             isPriceChange.onNext(hasPriceChange)
 
             if (hasPriceChange) {
                 // potential price change
-                val currencyCode = it.originalRoomResponse.rateInfo.chargeableRateInfo.currencyCode
-                val originalPrice = it.originalRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
+                val currencyCode = originalRoomResponse.rateInfo.chargeableRateInfo.currencyCode
+                val originalPrice = originalRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
                 val newPrice = it.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
                 val priceChange = (originalPrice - newPrice)
 
@@ -165,24 +162,32 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
 
                 HotelTracking.trackPriceChange(priceChange.toString())
             }
-
             //TODO remove dependency on .value(BehaviorSubjects here)
-            isPayLater.onNext(it.room.isPayLater)
-            isResortCase.onNext(it.rate.totalMandatoryFees != 0f && Strings.equals(it.rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
+            isPayLater.onNext(room.isPayLater)
+            isResortCase.onNext(rate.totalMandatoryFees != 0f && Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
-            isDepositV2.onNext(it.room.depositRequired)
+            isDepositV2.onNext(room.depositRequired)
             showFeesPaidAtHotel.onNext(isResortCase.value)
+        }
 
-            if (it.isExpediaRewardsRedeemable && !it.paymentSplitsType.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)) {
-                dueNowAmount.onNext(it.payingWithCard.amount.formattedMoneyFromAmountAndCurrencyCode)
+        paymentModel.paymentSplits.subscribe { paymentSplits ->
+            val payingWithPoints = paymentSplits.payingWithPoints
+            val payingWithCard = paymentSplits.payingWithCards
+            val paymentSplitsType = paymentSplits.paymentSplitsType()
+            val tripTotalPayableIncludingFee = paymentModel.tripTotalPayable.value
+            val newHotelProductResponse = tripResponseSubject.value.newHotelProductResponse
+            val rate = newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
+
+            if (tripResponseSubject.value.isRewardsRedeemable() && !paymentSplitsType.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)) {
+                dueNowAmount.onNext(payingWithCard.amount.formattedMoneyFromAmountAndCurrencyCode)
                 burnPointsShownOnHotelCostBreakdown.onNext(Phrase.from(context, R.string.hotel_cost_breakdown_burn_points_TEMPLATE)
-                        .putOptional("points", NumberFormat.getInstance().format(it.payingWithPoints.points)).format().toString())
-                burnAmountShownOnHotelCostBreakdown.onNext(it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                tripTotalPrice.onNext(it.tripTotalPayableIncludingFee.formattedMoneyFromAmountAndCurrencyCode)
+                        .putOptional("points", NumberFormat.getInstance().format(payingWithPoints.points)).format().toString())
+                burnAmountShownOnHotelCostBreakdown.onNext(payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                tripTotalPrice.onNext(tripTotalPayableIncludingFee.formattedMoneyFromAmountAndCurrencyCode)
                 isShoppingWithPoints.onNext(true)
             } else {
-                tripTotalPrice.onNext(it.rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
-                dueNowAmount.onNext(it.newHotelProductResponse.dueNowAmount.formattedMoney)
+                tripTotalPrice.onNext(rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+                dueNowAmount.onNext(newHotelProductResponse.dueNowAmount.formattedMoney)
                 isShoppingWithPoints.onNext(false)
             }
             val amountDueTodayText: String
@@ -206,6 +211,86 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             costSummaryContentDescription.onNext(accessibilityCostSummaryContentDescription.toString())
             newPriceSetObservable.onNext(Unit)
         }
+
+//        paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.map {
+//            object {
+//                val originalRoomResponse = it.tripResponse.originalHotelProductResponse.hotelRoomResponse
+//                val newHotelProductResponse = it.tripResponse.newHotelProductResponse
+//                val room = newHotelProductResponse.hotelRoomResponse
+//                val rate = newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
+//                val isExpediaRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
+//                val payingWithPoints = it.paymentSplits.payingWithPoints
+//                val payingWithCard = it.paymentSplits.payingWithCards
+//                val paymentSplitsType = it.paymentSplits.paymentSplitsType()
+//                val tripTotalPayableIncludingFee = it.tripTotalPayableIncludingFee
+//            }
+//        }.subscribe {
+//
+//            val hasPriceChange = it.originalRoomResponse != null
+//            isPriceChange.onNext(hasPriceChange)
+//
+//            if (hasPriceChange) {
+//                // potential price change
+//                val currencyCode = it.originalRoomResponse.rateInfo.chargeableRateInfo.currencyCode
+//                val originalPrice = it.originalRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
+//                val newPrice = it.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
+//                val priceChange = (originalPrice - newPrice)
+//
+//                if (newPrice > originalPrice) {
+//                    priceChangeIconResourceId.onNext(R.drawable.warning_triangle_icon)
+//                    priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
+//                } else if (newPrice < originalPrice) {
+//                    priceChangeMessage.onNext(context.getString(R.string.price_dropped_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
+//                    priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
+//                } else {
+//                    // API could return price change error with no difference in price (see: hotel_price_change_checkout.json)
+//                    priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
+//                    priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
+//                }
+//
+//                HotelTracking.trackPriceChange(priceChange.toString())
+//            }
+//
+//            //TODO remove dependency on .value(BehaviorSubjects here)
+//            isPayLater.onNext(it.room.isPayLater)
+//            isResortCase.onNext(it.rate.totalMandatoryFees != 0f && Strings.equals(it.rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
+//            isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
+//            isDepositV2.onNext(it.room.depositRequired)
+//            showFeesPaidAtHotel.onNext(isResortCase.value)
+//
+//            if (it.isExpediaRewardsRedeemable && !it.paymentSplitsType.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)) {
+//                dueNowAmount.onNext(it.payingWithCard.amount.formattedMoneyFromAmountAndCurrencyCode)
+//                burnPointsShownOnHotelCostBreakdown.onNext(Phrase.from(context, R.string.hotel_cost_breakdown_burn_points_TEMPLATE)
+//                        .putOptional("points", NumberFormat.getInstance().format(it.payingWithPoints.points)).format().toString())
+//                burnAmountShownOnHotelCostBreakdown.onNext(it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+//                tripTotalPrice.onNext(it.tripTotalPayableIncludingFee.formattedMoneyFromAmountAndCurrencyCode)
+//                isShoppingWithPoints.onNext(true)
+//            } else {
+//                tripTotalPrice.onNext(it.rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+//                dueNowAmount.onNext(it.newHotelProductResponse.dueNowAmount.formattedMoney)
+//                isShoppingWithPoints.onNext(false)
+//            }
+//            val amountDueTodayText: String
+//            val accessibilityCostSummaryContentDescription = StringBuilder()
+//            accessibilityCostSummaryContentDescription.append(context.getString(R.string.total_with_tax)).append(" ").append(tripTotalPrice.value).append(" ")
+//
+//            if (isDepositV2.value) {
+//                amountDueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+//                appendFeesPaidCostSummaryContDesc(accessibilityCostSummaryContentDescription)
+//                accessibilityCostSummaryContentDescription.append(Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()).append(" ").append(dueNowAmount.value).append(" ")
+//
+//            } else if (isPayLaterOrResortCase.value) {
+//                amountDueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+//                appendFeesPaidCostSummaryContDesc(accessibilityCostSummaryContentDescription)
+//                accessibilityCostSummaryContentDescription.append(Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()).append(" ").append(dueNowAmount.value).append(" ")
+//            } else {
+//                amountDueTodayText = context.getString(R.string.total_with_tax)
+//            }
+//
+//            amountDueTodayLabelObservable.onNext(amountDueTodayText)
+//            costSummaryContentDescription.onNext(accessibilityCostSummaryContentDescription.toString())
+//            newPriceSetObservable.onNext(Unit)
+//        }
 
         guestCountObserver.subscribe {
             numGuests.onNext(StrUtils.formatGuestString(context, it))
