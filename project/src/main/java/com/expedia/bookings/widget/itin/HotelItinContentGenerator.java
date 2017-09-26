@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
 
@@ -28,6 +29,7 @@ import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
@@ -42,6 +44,7 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Constants;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
@@ -607,9 +610,21 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public List<Notification> generateNotifications() {
+
+		Boolean bucketedForNewScheduledNotifications = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(),
+			AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications);
+		if (bucketedForNewScheduledNotifications) {
+			return generateNewNotifications();
+		}
+		else {
+			return generateOldNotifications();
+		}
+	}
+
+	private List<Notification> generateNewNotifications() {
 		ArrayList<Notification> notifications = new ArrayList<Notification>();
-		notifications.add(generateCheckinNotification());
-		notifications.add(generateCheckoutNotification());
+		notifications.add(generateCheckinNewNotification());
+		notifications.add(generateCheckoutNewNotification());
 		if (getItinCardData().getGuestCount() > 2 || isDurationLongerThanDays(2)) {
 			notifications.add(generateGetReadyNotification());
 			notifications.add(generateActivityCrossSellNotification());
@@ -617,11 +632,54 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		return notifications;
 	}
 
+	private List<Notification> generateOldNotifications() {
+		ArrayList<Notification> notifications = new ArrayList<Notification>();
+		notifications.add(generateCheckinNotification());
+		notifications.add(generateCheckoutNotification());
+		return notifications;
+	}
+
+
 	// https://mingle.karmalab.net/projects/eb_ad_app/cards/876
 	// Given I have a hotel, when it is 10 AM on the check-in day, then I want to receive a notification
 	// that reads "Check in at The Hyatt Regency Bellevue begins at 3PM today."
 	// Hotel Check-in: Valid from 10:00AM-11:59PM on the day of check-in
 	private Notification generateCheckinNotification() {
+		ItinCardDataHotel data = getItinCardData();
+
+		String itinId = data.getId();
+
+		MutableDateTime trigger = data.getStartDate().toMutableDateTime();
+		trigger.setZoneRetainFields(DateTimeZone.getDefault());
+		trigger.setRounding(trigger.getChronology().minuteOfHour());
+		trigger.setHourOfDay(10);
+		long triggerTimeMillis = trigger.getMillis();
+
+		trigger.setHourOfDay(23);
+		trigger.setMinuteOfHour(59);
+		long expirationTimeMillis = trigger.getMillis();
+
+		Notification notification = new Notification(itinId + "_checkin", itinId, triggerTimeMillis);
+		notification.setNotificationType(Notification.NotificationType.HOTEL_CHECK_IN);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
+		notification.setIconResId(R.drawable.ic_stat_hotel);
+
+		String title = getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
+			data.getFallbackCheckInTime(getContext()));
+
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = data.getPropertyName();
+		notification.setBody(body);
+
+		notification.setImageUrls(data.getHeaderImageUrls());
+
+		return notification;
+	}
+
+	private Notification generateCheckinNewNotification() {
 		ItinCardDataHotel data = getItinCardData();
 
 		String itinId = data.getId();
@@ -662,6 +720,41 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	// that reads "Check out at The Hyatt Regency Bellevue is at 11AM today."
 	// Hotel Check-out: Valid from 10:00AM-11:59PM on the day of check-out
 	private Notification generateCheckoutNotification() {
+		ItinCardDataHotel data = getItinCardData();
+
+		String itinId = data.getId();
+
+		MutableDateTime trigger = data.getEndDate().toMutableDateTime();
+		trigger.setZoneRetainFields(DateTimeZone.getDefault());
+		trigger.setRounding(trigger.getChronology().minuteOfHour());
+		trigger.setHourOfDay(10);
+		long triggerTimeMillis = trigger.getMillis();
+
+		trigger.setHourOfDay(23);
+		trigger.setMinuteOfHour(59);
+		long expirationTimeMillis = trigger.getMillis();
+
+		Notification notification = new Notification(itinId + "_checkout", itinId, triggerTimeMillis);
+		notification.setNotificationType(Notification.NotificationType.HOTEL_CHECK_OUT);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
+		notification.setIconResId(R.drawable.ic_stat_hotel);
+
+		String title = getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
+			data.getFallbackCheckOutTime(getContext()));
+
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = data.getPropertyName();
+		notification.setBody(body);
+
+		notification.setImageUrls(data.getHeaderImageUrls());
+
+		return notification;
+	}
+
+	private Notification generateCheckoutNewNotification() {
 		ItinCardDataHotel data = getItinCardData();
 
 		String itinId = data.getId();
