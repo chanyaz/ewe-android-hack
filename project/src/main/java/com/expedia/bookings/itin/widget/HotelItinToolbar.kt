@@ -4,8 +4,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
-import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Toolbar
@@ -16,26 +16,26 @@ import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.itin.ItinContentGenerator
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
-import java.util.Locale
 
 
 class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr) {
 
-    val toolbarTitleTextView: TextView by lazy {
-        findViewById<TextView>(R.id.itin_toolbar_title)
-    }
-    val toolbarSubtitleTextView: TextView by lazy {
-        findViewById<TextView>(R.id.itin_toolbar_subtitle)
-    }
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val toolbarTitleTextView: TextView by bindView(R.id.itin_toolbar_title)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val toolbarSubtitleTextView: TextView by bindView(R.id.itin_toolbar_subtitle)
+
     private var mItinContentGenerator: ItinContentGenerator<out ItinCardData>? = null
 
     init {
-        View.inflate(context, R.layout.widget_hotel_itin_toolbar, this)
+        View.inflate(context, R.layout.widget_itin_toolbar, this)
     }
 
     fun setUpWidget(itinCardDataHotel: ItinCardDataHotel, toolbarTitle: String, toolbarSubtitle: String? = null) {
@@ -44,8 +44,7 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
         this.navigationContentDescription = context.getText(R.string.toolbar_nav_icon_cont_desc)
         if (toolbarSubtitle == null) {
             buildToolbarSubtitleForDates(itinCardDataHotel)
-        }
-        else {
+        } else {
             toolbarSubtitleTextView.text = toolbarSubtitle
         }
         toolbarTitleTextView.text = toolbarTitle
@@ -60,9 +59,8 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
 
 
     private fun buildToolbarSubtitleForDates(itinCardDataHotel: ItinCardDataHotel) {
-        val formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MMM d")
-        val tripStartDate = itinCardDataHotel.startDate.toString(formatPattern)
-        val tripEndDate = itinCardDataHotel.endDate.toString(formatPattern)
+        val tripStartDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataHotel.startDate)
+        val tripEndDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataHotel.endDate)
         val tripDateString = Phrase.from(this, R.string.calendar_instructions_date_range_TEMPLATE)
                 .put("startdate", tripStartDate)
                 .put("enddate", tripEndDate)
