@@ -112,12 +112,4 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
             }
         }
     }
-
-    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        val isVisible = visibility == View.VISIBLE
-        if (changedView == this && materialFormTestEnabled) {
-            phoneEditBox?.isFocusableInTouchMode = isVisible
-            phoneEditBox?.isFocusable = isVisible
-        }
-    }
 }

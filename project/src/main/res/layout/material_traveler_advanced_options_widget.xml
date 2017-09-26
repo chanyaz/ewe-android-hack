@@ -93,6 +93,8 @@
             android:drawableRight="@drawable/material_dropdown"
             android:inputType="text"
             android:maxLines="1"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:nextFocusForward="@+id/seat_preference_layout"
             android:textIsSelectable="true"
             android:textSize="@dimen/traveler_input_text_size" />
@@ -112,6 +114,8 @@
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
             android:maxLines="1"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:textIsSelectable="true"
             android:textSize="@dimen/traveler_input_text_size" />
 

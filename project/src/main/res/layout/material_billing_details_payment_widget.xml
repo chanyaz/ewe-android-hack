@@ -238,6 +238,8 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/expiration_date"
                                     android:nextFocusForward="@+id/edit_creditcard_cvv"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
                                     android:bufferType="spannable"
                                     android:textSize="@dimen/traveler_input_text_size" />
 

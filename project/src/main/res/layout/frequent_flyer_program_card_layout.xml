@@ -44,6 +44,8 @@
                     android:maxLength="40"
                     android:maxLines="1"
                     android:textSize="@dimen/traveler_input_text_size"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:drawableRight="@drawable/material_dropdown"
                     android:layout_gravity="center_horizontal" />
 

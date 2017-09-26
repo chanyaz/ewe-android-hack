@@ -20,6 +20,8 @@
             android:inputType="none"
             android:nextFocusForward="@+id/edit_gender_layout_btn"
             android:textSize="@dimen/traveler_input_text_size"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             app:error_cont_desc="@string/accessibility_cont_desc_role_error" />
 
     </android.support.design.widget.TextInputLayout>
@@ -40,6 +42,8 @@
             android:textIsSelectable="true"
             android:nextFocusForward="@+id/first_name_input"
             android:textSize="@dimen/traveler_input_text_size"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             app:error_cont_desc="@string/accessibility_cont_desc_role_error" />
 
     </android.support.design.widget.TextInputLayout>

@@ -29,9 +29,8 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
+import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowAlertDialog::class))
@@ -258,21 +257,18 @@ class PhoneEntryViewTest {
     }
 
     @Test
-    fun testCountryCodeFocusDependsOnVisibility() {
+    fun testCountryCodeFocusabilityRemainsFalse() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
         val phoneCountryCode = widget.phoneEditBox as AccessibleEditTextForSpinner
 
-        assertTrue(phoneCountryCode.isFocusable)
-        assertTrue(phoneCountryCode.isFocusableInTouchMode)
+        assertViewFocusabilityIsFalse(phoneCountryCode)
 
         widget.visibility = View.GONE
-        assertFalse(phoneCountryCode.isFocusable)
-        assertFalse(phoneCountryCode.isFocusableInTouchMode)
+        assertViewFocusabilityIsFalse(phoneCountryCode)
 
         widget.visibility = View.VISIBLE
-        assertTrue(phoneCountryCode.isFocusable)
-        assertTrue(phoneCountryCode.isFocusableInTouchMode)
+        assertViewFocusabilityIsFalse(phoneCountryCode)
     }
 
     private fun setupViewModelWithPhone() : TravelerPhoneViewModel{

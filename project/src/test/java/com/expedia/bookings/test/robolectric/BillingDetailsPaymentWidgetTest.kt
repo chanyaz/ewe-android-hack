@@ -6,6 +6,7 @@ import android.support.v7.widget.AppCompatTextView
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import butterknife.ButterKnife
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
@@ -23,6 +24,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
+import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -89,6 +91,7 @@ class BillingDetailsPaymentWidgetTest {
 
         val expirationDate = billingDetailsPaymentWidget.findViewById<View>(billingDetailsPaymentWidget.creditCardNumber.nextFocusForwardId)
         assertEquals(expirationDate, billingDetailsPaymentWidget.expirationDate)
+        assertViewFocusabilityIsFalse(expirationDate)
 
         val cvvView = billingDetailsPaymentWidget.findViewById<View>(expirationDate.nextFocusForwardId)
         assertEquals(cvvView, billingDetailsPaymentWidget.creditCardCvv)
@@ -107,6 +110,9 @@ class BillingDetailsPaymentWidgetTest {
 
         val zip = billingDetailsPaymentWidget.findViewById<View>(state.nextFocusForwardId)
         assertEquals(zip, billingDetailsPaymentWidget.creditCardPostalCode)
+
+        val country = billingDetailsPaymentWidget.editCountryEditText as EditText
+        assertViewFocusabilityIsFalse(country)
     }
 
     @Test

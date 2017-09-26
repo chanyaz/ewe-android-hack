@@ -25,6 +25,7 @@ import com.expedia.bookings.widget.traveler.FrequentFlyerViewHolder
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FrequentFlyerProgramNumberViewModel
 import com.mobiata.android.util.SettingUtils
+import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -257,6 +258,15 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
         updateTravelerSubscriber.assertValueCount(1)
         assertEquals(traveler, (widget.frequentFlyerRecycler?.adapter as FrequentFlyerAdapter).viewModel.traveler)
+    }
+
+    @Test
+    fun testFrequentFlyerProgramFocusability() {
+        givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = false)
+        val viewHolder = widget.frequentFlyerRecycler?.findViewHolderForAdapterPosition(0) as FrequentFlyerViewHolder
+        val frequentFlyerProgram = viewHolder.frequentFlyerProgram
+
+        assertViewFocusabilityIsFalse(frequentFlyerProgram)
     }
 
     private fun setupVisibilityAndCardTestSubscribers(visibilitySubscriber: TestSubscriber<Boolean>,

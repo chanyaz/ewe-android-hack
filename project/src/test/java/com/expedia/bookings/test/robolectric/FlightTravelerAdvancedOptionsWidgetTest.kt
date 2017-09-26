@@ -8,12 +8,11 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
 import com.expedia.bookings.section.AssistanceTypeSpinnerAdapter
 import com.expedia.bookings.section.SeatPreferenceSpinnerAdapter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.test.robolectric.RoboTestHelper.setPOS
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -77,6 +76,15 @@ class FlightTravelerAdvancedOptionsWidgetTest {
     }
 
     @Test
+    fun testAssistancePreferenceFocusabilityForMaterialForms() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
+        val assistancePreferenceField = widget.findViewById<View>(R.id.edit_assistance_preference_button) as EditText
+
+        assertViewFocusabilityIsFalse(assistancePreferenceField)
+    }
+
+    @Test
     fun testSeatPreferenceForMaterialForms() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
@@ -103,6 +111,15 @@ class FlightTravelerAdvancedOptionsWidgetTest {
                 expectedType = Traveler.SeatPreference.WINDOW,
                 viewModelValue = widget.viewModel.seatPreferenceSubject.value,
                 textDisplayed = "Prefers: Window Seat")
+    }
+
+    @Test
+    fun testSeatPreferenceFocusabilityForMaterialForms() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
+        val seatPreferenceField = widget.findViewById<View>(R.id.edit_seat_preference_button) as EditText
+
+        assertViewFocusabilityIsFalse(seatPreferenceField)
     }
 
     @Test

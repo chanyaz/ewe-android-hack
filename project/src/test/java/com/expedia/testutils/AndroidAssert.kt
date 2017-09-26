@@ -3,6 +3,7 @@ package com.expedia.testutils
 import android.view.View
 import com.expedia.bookings.widget.TextView
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 class AndroidAssert {
     companion object {
@@ -20,6 +21,11 @@ class AndroidAssert {
 
         fun assertViewContDescEquals(expectedText: String, view: View) {
             assertEquals(expectedText, view.contentDescription)
+        }
+
+        fun assertViewFocusabilityIsFalse(view: View) {
+            assertFalse(view.isFocusable)
+            assertFalse(view.isFocusableInTouchMode)
         }
     }
 }

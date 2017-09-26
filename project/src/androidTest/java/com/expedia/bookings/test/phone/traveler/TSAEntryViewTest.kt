@@ -64,6 +64,34 @@ class TSAEntryViewTest {
 
     @Test
     @Throws(Throwable::class)
+    fun testMaterialGenderFocusability() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+
+        uiThreadTestRule.runOnUiThread {
+            val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
+                    .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
+
+            val genderField = tsaEntryView.genderEditText as TravelerEditText
+            assertViewFocusabilityIsFalse(genderField)
+        }
+    }
+
+    @Test
+    @Throws(Throwable::class)
+    fun testMaterialDateOfBirthFocusability() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+
+        uiThreadTestRule.runOnUiThread {
+            val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
+                    .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
+
+            val dateOfBirthField = tsaEntryView.dateOfBirth
+            assertViewFocusabilityIsFalse(dateOfBirthField)
+        }
+    }
+
+    @Test
+    @Throws(Throwable::class)
     fun testMaterialFormGender() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
@@ -224,5 +252,10 @@ class TSAEntryViewTest {
 
         //test for accessibility content description
         assertEquals("Select a gender", tsaEntryView.genderSpinner?.errorMessage)
+    }
+
+    private fun assertViewFocusabilityIsFalse(view: View) {
+        assertFalse(view.isFocusable)
+        assertFalse(view.isFocusableInTouchMode)
     }
 }
