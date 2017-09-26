@@ -51,6 +51,7 @@ import kotlin.properties.Delegates
 
 abstract class BaseHotelDetailViewModel(val context: Context) {
 
+    abstract fun isChangeDatesEnabled() : Boolean
     abstract fun getLobPriceObservable(rate: HotelRate)
     abstract fun pricePerDescriptor(): String
     abstract fun getFeeTypeText(): Int
@@ -160,6 +161,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val hotelSelectedObservable = PublishSubject.create<Unit>()
     private val allRoomsSoldOut = BehaviorSubject.create<Boolean>(false)
 
+    lateinit var hotelId: String
     var isCurrentLocationSearch = false
     var selectedRoomIndex = -1
     val loadTimeData = PageUsableData()
@@ -356,6 +358,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     }
 
     fun addViewsAfterTransition() {
+        galleryObservable.onNext(getGalleryUrls())
+
         if (hotelOffersResponse.hotelRoomResponse != null && hotelOffersResponse.hotelRoomResponse.isNotEmpty()) {
             uniqueValueAddForRooms = getValueAdd(hotelOffersResponse.hotelRoomResponse)
             roomResponseListObservable.onNext(Pair(hotelOffersResponse.hotelRoomResponse, uniqueValueAddForRooms))
@@ -470,8 +474,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     @CallSuper
     protected open fun offerReturned(offerResponse: HotelOffersResponse) {
         hotelOffersResponse = offerResponse
-
-        galleryObservable.onNext(getGalleryUrls())
 
         val amenityList = arrayListOf<Amenity>()
         if (offerResponse.hotelAmenities != null) {

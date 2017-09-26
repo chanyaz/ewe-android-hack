@@ -58,6 +58,10 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         }
     }
 
+    override fun isChangeDatesEnabled(): Boolean {
+        return false
+    }
+
     override fun pricePerDescriptor(): String {
         return " " + context.getString(R.string.price_per_person)
     }

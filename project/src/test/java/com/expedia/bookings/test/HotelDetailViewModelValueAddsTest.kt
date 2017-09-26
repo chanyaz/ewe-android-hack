@@ -4,6 +4,7 @@ import android.app.Activity
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -41,7 +42,7 @@ class HotelDetailViewModelValueAddsTest {
         service = HotelServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
-        vm = HotelDetailViewModel(activity.applicationContext)
+        vm = HotelDetailViewModel(activity.applicationContext, HotelInfoManager(null))
     }
 
     private fun setUpTest(): TestSubscriber<HotelOffersResponse> {

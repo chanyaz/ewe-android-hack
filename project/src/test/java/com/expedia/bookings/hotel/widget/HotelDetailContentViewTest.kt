@@ -2,11 +2,10 @@ package com.expedia.bookings.hotel.widget
 
 import android.app.Activity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.testutils.AndroidAssert.Companion.assertGone
 import com.expedia.testutils.AndroidAssert.Companion.assertViewContDescEquals
@@ -34,7 +33,7 @@ class HotelDetailContentViewTest {
         activity.setTheme(R.style.Theme_Hotels_Default)
         CurrencyUtils.initMap(activity)
         contentView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_detail_content_view, null) as HotelDetailContentView
-        testVM = HotelDetailViewModel(activity)
+        testVM = HotelDetailViewModel(activity, HotelInfoManager(null))
         contentView.viewModel = testVM
     }
 

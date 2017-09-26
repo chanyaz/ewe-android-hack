@@ -20,6 +20,7 @@ import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -36,6 +37,7 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
@@ -65,9 +67,11 @@ class HotelDetailViewModelTest {
     private val expectedTotalPriceWithMandatoryFees = 42f
     private var context: Context by Delegates.notNull()
 
+    private val mockHotelInfoManager = TestHotelInfoManager()
+
     @Before fun before() {
         context = RuntimeEnvironment.application
-        vm = HotelDetailViewModel(RuntimeEnvironment.application)
+        vm = HotelDetailViewModel(RuntimeEnvironment.application, mockHotelInfoManager)
 
         offer1 = HotelOffersResponse()
         offer1.hotelId = "hotel1"
@@ -612,6 +616,44 @@ class HotelDetailViewModelTest {
         assertEquals(sorted["2"]!![1]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 100.toFloat())
     }
 
+    @Test
+    fun testFetchOffersHappy() {
+        val testProgressSub = TestSubscriber.create<Unit>()
+        val testSuccessSub = TestSubscriber.create<HotelOffersResponse>()
+
+        vm.fetchInProgressSubject.subscribe(testProgressSub)
+        vm.hotelOffersSubject.subscribe(testSuccessSub)
+
+        vm.fetchOffers(createSearchParams(), "12345")
+
+        testProgressSub.assertValueCount(1)
+        mockHotelInfoManager.offerSuccessSubject.onNext(HotelOffersResponse())
+        testSuccessSub.assertValueCount(1)
+    }
+
+    @Test
+    fun testFetchOffersSoldOut() {
+        val testSuccessSub = TestSubscriber.create<HotelOffersResponse>()
+        val testFetchOfferSub= TestSubscriber.create<Unit>()
+        val testFetchInfoSub = TestSubscriber.create<Unit>()
+
+        mockHotelInfoManager.fetchOffersCalled.subscribe(testFetchOfferSub)
+        mockHotelInfoManager.fetchInfoCalled.subscribe(testFetchInfoSub)
+
+        vm.hotelOffersSubject.subscribe(testSuccessSub)
+
+        vm.fetchOffers(createSearchParams(), "12345")
+        testFetchOfferSub.assertValueCount(1)
+        testSuccessSub.assertValueCount(0)
+
+        mockHotelInfoManager.soldOutSubject.onNext(Unit)
+        testFetchInfoSub.assertValueCount(1) // After offer fails due to sold out it is expected an offer call is attempted.
+        testSuccessSub.assertValueCount(0)
+
+        mockHotelInfoManager.infoSuccessSubject.onNext(HotelOffersResponse())
+        testSuccessSub.assertValueCount(1)
+    }
+
     private fun createRoomResponseList() : List<HotelOffersResponse.HotelRoomResponse> {
         val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
@@ -717,4 +759,16 @@ class HotelDetailViewModelTest {
         PointOfSale.onPointOfSaleChanged(RuntimeEnvironment.application)
     }
 
+    private class TestHotelInfoManager() : HotelInfoManager(null) {
+        val fetchOffersCalled = PublishSubject.create<Unit>()
+        val fetchInfoCalled = PublishSubject.create<Unit>()
+
+        override fun fetchOffers(params: HotelSearchParams, hotelId: String) {
+            fetchOffersCalled.onNext(Unit)
+        }
+
+        override fun fetchInfo(params: HotelSearchParams, hotelId: String) {
+            fetchInfoCalled.onNext(Unit)
+        }
+    }
 }
