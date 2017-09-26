@@ -105,7 +105,7 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
         }
         vm.resetPriceWidgetObservable.subscribe {
             totalPriceWidget.resetPriceWidget()
-            if (totalPriceViewModel.shouldShowTotalPriceLoadingProgress() && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
+            if (totalPriceViewModel.shouldShowTotalPriceLoadingProgress()) {
                 vm.checkoutButtonEnableObservable.onNext(false)
             }
         }

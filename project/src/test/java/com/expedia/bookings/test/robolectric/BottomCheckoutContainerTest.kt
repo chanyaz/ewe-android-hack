@@ -78,19 +78,12 @@ class BottomCheckoutContainerTest {
 
     @Test
     fun testBottomContainerState() {
-        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_flight_rate_detail_from_cache, true)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)
         val testSubscriber = TestSubscriber.create<Boolean>()
         bottomContainer.viewModel.checkoutButtonEnableObservable.subscribe(testSubscriber)
         bottomContainer.viewModel.resetPriceWidgetObservable.onNext(Unit)
         testSubscriber.assertValueCount(1)
         assertFalse(bottomContainer.checkoutButton.isEnabled)
         bottomContainer.viewModel.checkoutButtonEnableObservable.onNext(true)
-        assertTrue(bottomContainer.checkoutButton.isEnabled)
-
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)
-        bottomContainer.viewModel.resetPriceWidgetObservable.onNext(Unit)
-        testSubscriber.assertValueCount(2)
         assertTrue(bottomContainer.checkoutButton.isEnabled)
     }
 }
