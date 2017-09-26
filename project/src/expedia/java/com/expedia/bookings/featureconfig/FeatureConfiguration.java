@@ -434,7 +434,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isFirebaseEnabled() {
-		return true;
+		return false;
 	}
 
 }
