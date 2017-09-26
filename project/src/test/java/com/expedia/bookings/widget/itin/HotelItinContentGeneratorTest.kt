@@ -12,6 +12,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -291,7 +292,7 @@ class HotelItinContentGeneratorTest {
         val checkOutTime = mTodayAtNoon.plusDays(10)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
-        assertTrue(hotelItinGenerator.isDurationLongerThenInput(3))
+        assertTrue(hotelItinGenerator.isDurationLongerThanDays(3))
 
     }
 
@@ -301,10 +302,20 @@ class HotelItinContentGeneratorTest {
         val checkOutTime = mTodayAtNoon.plusDays(5)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
-        assertFalse { hotelItinGenerator.isDurationLongerThenInput(3) }
+        assertFalse { hotelItinGenerator.isDurationLongerThanDays(3) }
 
     }
 
+    @Test
+    fun testDoesCrossSellNotificationsFireAtRightTime(){
+        val checkInTime = mTodayAtNoon.plusDays(10)
+        val testTime = checkInTime.minusDays(7)
+        val checkOutTime = mTodayAtNoon.plusDays(20)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(notifications.get(3).triggerTimeMillis, testTime.millis)
+    }
 
     @Test
     fun getReadyNotificationDoesNotShowTripsLessThanThreeDays() {

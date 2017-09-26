@@ -6,7 +6,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
 
@@ -611,7 +610,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		ArrayList<Notification> notifications = new ArrayList<Notification>();
 		notifications.add(generateCheckinNotification());
 		notifications.add(generateCheckoutNotification());
-		if (getItinCardData().getGuestCount() > 2 || isDurationLongerThenInput(3)) {
+		if (getItinCardData().getGuestCount() > 2 || isDurationLongerThanDays(2)) {
 			notifications.add(generateGetReadyNotification());
 			notifications.add(generateActivityCrossSellNotification());
 		}
@@ -668,7 +667,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		String itinId = data.getId();
 
 		MutableDateTime trigger = data.getEndDate().toMutableDateTime();
-		if (isDurationLongerThenInput(2)) {
+		if (isDurationLongerThanDays(2)) {
 			trigger.addDays(-1);
 		}
 		else {
@@ -713,9 +712,6 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 
 		MutableDateTime trigger = data.getStartDate().minusDays(3).toMutableDateTime();
-		trigger.setZoneRetainFields(DateTimeZone.getDefault());
-		trigger.setRounding(trigger.getChronology().minuteOfHour());
-		trigger.setHourOfDay(11);
 		long triggerTimeMillis = trigger.getMillis();
 
 		trigger.setHourOfDay(23);
@@ -723,7 +719,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		long expirationTimeMillis = trigger.getMillis();
 
 		Notification notification = new Notification(itinId + "_getready", itinId, triggerTimeMillis);
-		notification.setNotificationType(NotificationType.HOTEL_PRE_TRIP);
+		notification.setNotificationType(NotificationType.HOTEL_GET_READY);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
@@ -749,9 +745,6 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String itinId = data.getId();
 		MutableDateTime trigger = data.getStartDate().minusDays(7).toMutableDateTime();
-		trigger.setZoneRetainFields(DateTimeZone.getDefault());
-		trigger.setRounding(trigger.getChronology().minuteOfHour());
-		trigger.setHourOfDay(11);
 		long triggerTimeMillis = trigger.getMillis();
 
 		trigger.setHourOfDay(23);
@@ -799,8 +792,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		return sharableImgURL;
 	}
 
-	public boolean isDurationLongerThenInput(int day) {
-		return getItinCardData().getEndDate().isAfter(data.getStartDate().plusDays(day));
+	public boolean isDurationLongerThanDays(int days) {
+		DateTime endDate = getItinCardData().getEndDate();
+		DateTime dateToCheck = data.getStartDate().plusDays(days);
+		return endDate.isAfter(dateToCheck);
 
 	}
 
