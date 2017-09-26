@@ -31,7 +31,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
-import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -40,7 +39,6 @@ import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.DESCRIPTION_ANIMATION
@@ -68,6 +66,7 @@ import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.HotelRoomHeaderViewModel
 import com.expedia.vm.HotelRoomRateViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import rx.Observable
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -173,12 +172,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                 }
             }
         })
-
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_dateless_infosite)) {
-            searchInfo.setOnClickListener {
-                showDialog()
-            }
-        }
 
         payNowPayLaterTabs.payNowClickedSubject.subscribe { payNowClicked() }
         payNowPayLaterTabs.payLaterClickedSubject.subscribe { payLaterClicked() }
@@ -320,6 +313,12 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
+
+        if (vm.isChangeDatesEnabled()) {
+            searchInfo.setOnClickListener {
+                showDialog()
+            }
+        }
     }
 
     fun resetViews() {
@@ -420,6 +419,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     private fun showDialog() {
         val dialogFragment = ChangeDatesDialogFragment()
+        dialogFragment.datesChangedSubject.subscribe { dates ->
+            (viewModel as? HotelDetailViewModel)?.changeDates(dates.first, dates.second)
+        }
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
 
         dialogFragment.presetDates(viewModel.checkInDate, viewModel.checkOutDate)

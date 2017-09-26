@@ -2,28 +2,41 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.util.HotelCalendarRules
+import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelDetailToolbarViewModel
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
+import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 
-open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(context) {
+open class HotelDetailViewModel(context: Context,
+                                private val hotelInfoManager: HotelInfoManager) : BaseHotelDetailViewModel(context) {
+    val fetchInProgressSubject = PublishSubject.create<Unit>()
+    val fetchCancelledSubject = PublishSubject.create<Unit>()
+
     private var swpEnabled = false
+    private var cachedParams: HotelSearchParams? = null
+    private var apiSubscriptions = CompositeSubscription()
 
     init {
         paramsSubject.subscribe { params ->
+            cachedParams = params
             searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                     LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn)).put("enddate",
                     LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests))
@@ -33,6 +46,53 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
             isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
             swpEnabled = params.shopWithPoints
         }
+
+        apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribe(hotelOffersSubject))
+        apiSubscriptions.add(hotelInfoManager.infoSuccessSubject.subscribe(hotelOffersSubject))
+    }
+
+    fun fetchOffers(params: HotelSearchParams, hotelId: String) {
+        this.hotelId = hotelId
+        paramsSubject.onNext(params)
+
+        fetchInProgressSubject.onNext(Unit)
+
+        apiSubscriptions.add(hotelInfoManager.offersNoInternetSubject.subscribe {
+            handleNoInternet(retryFun = {
+                fetchOffers(params, hotelId)
+            })
+        })
+
+        apiSubscriptions.add(hotelInfoManager.infoNoInternetSubject.subscribe {
+            handleNoInternet(retryFun = {
+                hotelInfoManager.fetchInfo(params, hotelId)
+            })
+        })
+
+        apiSubscriptions.add(hotelInfoManager.soldOutSubject.subscribe {
+            hotelInfoManager.fetchInfo(params, hotelId)
+        })
+
+        hotelInfoManager.fetchOffers(params, hotelId)
+    }
+
+    fun changeDates(newStartDate: LocalDate, newEndDate: LocalDate) {
+        cachedParams?.let {
+            val rules = HotelCalendarRules(context)
+            val builder = HotelSearchParams.Builder(rules.getMaxDateRange(), rules.getMaxSearchDurationDays())
+            builder.from(cachedParams!!).startDate(newStartDate).endDate(newEndDate)
+            val params = builder.build()
+
+            fetchOffers(params, hotelId)
+        }
+    }
+
+    fun clearSubscriptions() {
+        apiSubscriptions.clear()
+    }
+
+    override fun isChangeDatesEnabled(): Boolean {
+        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_dateless_infosite)
     }
 
     override fun pricePerDescriptor(): String {
@@ -124,4 +184,12 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
             return viewModel
         }
     }
+
+    private fun handleNoInternet(retryFun: () -> Unit) {
+        val cancelFun = fun() {
+            fetchCancelledSubject.onNext(Unit)
+        }
+        DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+    }
+
 }

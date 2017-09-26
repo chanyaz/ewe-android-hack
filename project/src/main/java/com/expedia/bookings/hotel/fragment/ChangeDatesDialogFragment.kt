@@ -17,8 +17,10 @@ import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.widget.TextView
 import rx.Subscription
+import rx.subjects.PublishSubject
 
 class ChangeDatesDialogFragment() : DialogFragment() {
+    val datesChangedSubject = PublishSubject.create<Pair<LocalDate, LocalDate>>()
 
     private lateinit var rules: HotelCalendarRules
 
@@ -69,16 +71,16 @@ class ChangeDatesDialogFragment() : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         dateSubscription?.unsubscribe()
+        dateSubscription = null
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
         if (userTappedDone && newDates.first != null && newDates.second != null) {
-            //todo tell someone about new dates, https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/6411
-        } else {
-            //todo use old dates
+            datesChangedSubject.onNext(Pair(newDates.first!!, newDates.second!!))
         }
         userTappedDone = false
+        pickerView.hideToolTip()
     }
 
     fun presetDates(startDate: LocalDate?, endDate: LocalDate?) {

@@ -132,6 +132,25 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             this.userSort = null
         }
 
+        fun from(params: HotelSearchParams) : Builder {
+            destination(params.suggestion)
+            forPackage(params.forPackage)
+            shopWithPoints(params.shopWithPoints)
+            params.filterOptions?.let { filterOptions ->
+                filterOptions.filterHotelName?.let { hotelName(it) }
+                filterOptions.filterStarRatings?.let { starRatings(it) }
+                filterOptions.filterPrice?.let { priceRange(it) }
+                vipOnly(filterOptions.filterVipOnly)
+                filterOptions.filterByNeighborhoodId?.let { neighborhood(it) }
+                filterOptions.userSort?.let { userSort(it) }
+            }
+            adults(params.adults)
+            children(params.children)
+            startDate(params.checkIn)
+            endDate(params.checkOut)
+            return this
+        }
+
         override fun build(): HotelSearchParams {
             val location = destinationLocation ?: throw IllegalArgumentException()
             if (destinationLocation?.gaiaId == null && destinationLocation?.coordinates == null) throw IllegalArgumentException()

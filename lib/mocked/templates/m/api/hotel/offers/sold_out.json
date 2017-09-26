@@ -1,0 +1,11 @@
+{
+  "errors": [{
+    "errorCode": "HOTEL_ROOM_UNAVAILABLE",
+    "errorInfo": {
+      "summary": "Selected room or options for the room are unavailable",
+      "retriable": "false"
+    },
+    "diagnosticId": 0
+  }],
+  "activityId": "bc78a56d-576b-46cf-a1fa-52d9872c56a5"
+}
