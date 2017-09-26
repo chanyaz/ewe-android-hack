@@ -38,6 +38,15 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.not;
 
+/**
+ * Deprecated by Stan Palguyev on Sept 20, 2017
+ * This class is too large for it's own good. I'm deprecating it before moving the methods out, in order
+ * for the crossed out class name to serve as a reminder that we need to clean this up
+ * It should be broken down into HotelInfoSite, HotelSearchResults and SortAndFilter classes at the very least.
+ * There should only be one class per page.
+ * Cleanup work is pending.
+ */
+@Deprecated
 public class HotelScreen {
 
 	public static ViewInteraction calendar() {

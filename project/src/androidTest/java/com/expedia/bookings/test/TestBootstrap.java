@@ -49,6 +49,9 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 
 	@Before
 	public void setUp() throws Exception {
+		//clear private data
+		Settings.clearPrivateData();
+
 		Settings.setMockModeEndPoint();
 		Settings.setOnboardingScreenVisibility(false);
 		super.setUp();
@@ -66,8 +69,6 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		ExpediaNetUtils.setFake(true, true);
 		//clear map
 		TestUtil.storeDataAtRuntime.clear();
-		//clear private data
-		Settings.clearPrivateData();
 
 		Settings.setFakeCurrentLocation("0", "0");
 

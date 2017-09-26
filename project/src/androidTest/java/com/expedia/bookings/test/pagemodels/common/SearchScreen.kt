@@ -24,6 +24,7 @@ import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.not
@@ -303,6 +304,16 @@ object SearchScreen {
     @Throws(Throwable::class)
     @JvmStatic fun selectLocation(location: String) {
         val viewMatcher = hasDescendant(withText(containsString(location)))
+        selectSuggestion(viewMatcher)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectSpecificLocation(location: String) {
+        val viewMatcher = hasDescendant(allOf(
+                withText(Matchers.hasToString(location)),
+                withId(R.id.title_textview)
+        ))
+
         selectSuggestion(viewMatcher)
     }
 

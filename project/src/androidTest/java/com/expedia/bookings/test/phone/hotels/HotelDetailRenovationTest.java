@@ -5,7 +5,6 @@ import org.junit.Test;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
@@ -38,7 +37,6 @@ public class HotelDetailRenovationTest extends HotelTestCase {
 		//if current allotment < 5, we show number of rooms left on "collapsed room container"
 		//otherwise we just show free cancellation message
 
-		onView(withId(R.id.detail_container)).perform(ViewActions.swipeUp());
 		HotelScreen.clickPayNow();
 		onView(allOf(withId(R.id.room_header_image), isDisplayed())).perform(swipeUp());
 		Common.delay(1);

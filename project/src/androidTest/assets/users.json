@@ -1,0 +1,18 @@
+{
+  "users":[{
+    "tier" : "Blue",
+    "email" : "qa-ehcc@mobiata.com",
+    "password" : "3xp3d1acc"
+    },
+    {
+    "tier" : "Silver",
+    "email" : "",
+    "password" : ""
+    },
+    {
+    "tier" : "Gold",
+    "email" : "",
+    "password" : ""
+    }
+  ]
+}

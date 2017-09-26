@@ -54,12 +54,12 @@ public final class ViewActions {
 	}
 
 	public static ViewAction swipeUp() {
-		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
+		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER,
 			GeneralLocation.TOP_CENTER, Press.FINGER);
 	}
 
 	public static ViewAction slowSwipeUp() {
-		return new GeneralSwipeAction(Swipe.SLOW, GeneralLocation.BOTTOM_CENTER,
+		return new GeneralSwipeAction(Swipe.SLOW, GeneralLocation.CENTER,
 			GeneralLocation.TOP_CENTER, Press.FINGER);
 	}
 
