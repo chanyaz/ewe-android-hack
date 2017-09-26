@@ -277,12 +277,12 @@ fun EditText.subscribeMaterialFormsError(observer: Observable<Boolean>, errorMes
         this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], rightDrawable, compounds[3])
 
         val parentTextInputLayout = this.getParentTextInputLayout() ?: return@subscribe
-        parentTextInputLayout.isErrorEnabled = hasError
         if (hasError) {
             parentTextInputLayout.error = errorMessage
         } else {
             parentTextInputLayout.error = null
         }
+        parentTextInputLayout.isErrorEnabled = hasError
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
             this.updatePaddingForOldApi()
         }
