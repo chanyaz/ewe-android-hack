@@ -95,11 +95,6 @@
             android:title="Trips Hotel Scheduled Notifications V2" />
 
         <CheckBoxPreference
-            android:key="@string/preference_trips_hotel_maps"
-            android:summary="Trips Hotel Maps"
-            android:title="Trips Hotel Maps" />
-
-        <CheckBoxPreference
             android:key="@string/preference_trips_new_flights_design"
             android:summary="Trips New Flights Design"
             android:title="Trips New Flights Design" />

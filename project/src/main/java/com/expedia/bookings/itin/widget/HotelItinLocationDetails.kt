@@ -10,11 +10,11 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.GoogleMapsUtil
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.bindView
@@ -40,7 +40,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         if (itinCardDataHotel.propertyLocation != null) {
             locationMapImageView.setZoom(14)
             locationMapImageView.setLocation(LatLong(itinCardDataHotel.propertyLocation.latitude, itinCardDataHotel.propertyLocation.longitude))
-            if (isMapFeatureOn()) {
+            if (isUserBucketedForMapABTest()) {
                 locationMapImageView.setOnClickListener {
                     context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
                     OmnitureTracking.trackItinHotelExpandMap()
@@ -63,7 +63,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         })
 
         val directionsButton = SummaryButton(R.drawable.itin_directions_hotel, context.getString(R.string.itin_action_directions), OnClickListener {
-            if (isMapFeatureOn()) {
+            if (isUserBucketedForMapABTest()) {
                 context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
                 OmnitureTracking.trackItinHotelExpandMap()
             }
@@ -87,10 +87,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
                 .put("address", textToCopy).format().toString()
     }
 
-    private fun isMapFeatureOn(): Boolean {
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.TripsHotelMap, R.string.preference_trips_hotel_maps)) {
-            return true
-        }
-        return false
+    private fun isUserBucketedForMapABTest(): Boolean {
+        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.TripsHotelMap)
     }
 }

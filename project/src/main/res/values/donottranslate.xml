@@ -118,7 +118,6 @@
     <string name="preference_satellite_config">preference_satellite_config</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
     <string name="preference_trips_hotel_scheduled_notifications">preference_trips_hotel_scheduled_notifications</string>
-    <string name="preference_trips_hotel_maps">preference_trips_hotel_maps</string>
     <string name="preference_trips_new_flights_design">preference_trips_new_flights_design</string>
     <string name="preference_soft_prompt_permission">preference_soft_prompt_permission</string>
     <string name="preference_allow_unknown_card_types">preference_allow_unknown_card_types</string>
