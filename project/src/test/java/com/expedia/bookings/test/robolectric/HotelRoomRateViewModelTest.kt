@@ -10,6 +10,7 @@ import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -25,6 +26,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
@@ -251,7 +253,7 @@ class HotelRoomRateViewModelTest {
     private fun setupNonSoldOutRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
-        mockHotelDetailViewModel = HotelDetailViewModel(context)
+        mockHotelDetailViewModel = HotelDetailViewModel(context, HotelInfoManager(null))
 
         sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, false, LineOfBusiness.HOTELS)
     }
@@ -271,7 +273,7 @@ class HotelRoomRateViewModelTest {
     private fun setupSoldOutRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
-        mockHotelDetailViewModel = HotelDetailViewModel(context)
+        mockHotelDetailViewModel = HotelDetailViewModel(context, HotelInfoManager(null))
 
         sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, false, LineOfBusiness.HOTELS)
     }

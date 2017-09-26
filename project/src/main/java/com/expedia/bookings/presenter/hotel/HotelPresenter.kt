@@ -18,8 +18,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.AbstractItinDetailsResponse
-import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -33,6 +31,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
 import com.expedia.bookings.hotel.deeplink.HotelLandingPage
+import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.hotel.util.HotelSuggestionManager
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
@@ -49,7 +48,6 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.ProWizardBucketCache
-import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -76,7 +74,7 @@ import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import rx.Observable
 import rx.Observer
-import rx.subjects.PublishSubject
+import rx.Subscription
 import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -106,6 +104,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         @Inject set
 
     lateinit var hotelSearchManager: HotelSearchManager
+        @Inject set
+
+    lateinit var hotelInfoManager: HotelInfoManager
         @Inject set
 
     val eventName = ClientLogConstants.REGULAR_SEARCH_RESULTS
@@ -381,23 +382,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
-        hotelDetailViewModel = HotelDetailViewModel(context)
-
-        hotelDetailViewModel.roomSelectedSubject.subscribe { offer ->
-            checkoutPresenter.hotelCheckoutWidget.markRoomSelected()
-            if (shouldUseWebCheckout()) {
-                val webCheckoutViewModel = webCheckoutView.viewModel as HotelWebCheckoutViewViewModel
-                webCheckoutViewModel.hotelSearchParamsObservable.onNext(hotelSearchParams)
-                webCheckoutViewModel.offerObservable.onNext(offer)
-                show(webCheckoutView)
-            } else {
-                checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
-                checkoutPresenter.setSearchParams(hotelSearchParams)
-                checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
-                checkoutPresenter.showCheckout(offer)
-                show(checkoutPresenter)
-            }
-        }
+        initDetailViewModel()
 
         geoCodeSearchModel.geoResults.subscribe { geoResults ->
             fun triggerNewSearch(selectedResultIndex: Int) {
@@ -880,38 +865,12 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         show(reviewsView)
     }
 
-    private val hotelDetailsListener: Observer<HotelDetailsRequestMetadata> = endlessObserver {
-        if (it.hotelOffersResponse.hasErrors() && it.hotelOffersResponse.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE && it.isOffersRequest) {
-            loadingOverlay.animate(false)
-            //Just show the Hotel Details Screen in "Sold Out" state, fields being fetched from "/info/" API
-            showDetails(it.hotelId, false)
-        } else if (!it.hotelOffersResponse.hasErrors()) {
-            //correct hotel name if it is a deeplink HOTEL search
-            val intent = (context as Activity).intent
-            if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
-                intent.putExtra(Codes.FROM_DEEPLINK, false)
-                if (hotelSearchParams.suggestion.type == "HOTEL") {
-                    searchPresenter.getSearchViewModel().locationTextObservable.onNext(it.hotelOffersResponse.hotelName)
-                }
-            }
-            detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(it.hotelOffersResponse)
-            detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(it.hotelOffersResponse)
-            if (it.isOffersRequest) {
-                loadingOverlay.animate(false)
-            }
-            show(detailPresenter)
-            detailPresenter.showDefault()
-        }
-    }
-
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         detailPresenter.hotelDetailView.viewmodel.hotelSelectedObservable.onNext(Unit)
         //If hotel is known to be "Sold Out", simply show the Hotel Details Screen in "Sold Out" state, otherwise fetch Offers and show those as well
-        showDetails(hotel.hotelId, !hotel.isSoldOut)
+        showDetails(hotel.hotelId)
         HotelTracking.trackHotelCarouselClick()
     }
-
-    data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)
 
     fun handleGenericSearch(params: HotelSearchParams) {
         updateSearchParams(params)
@@ -931,7 +890,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             resultsPresenter.viewModel.paramsSubject.onNext(params)
         } else {
             setDefaultTransition(Screen.DETAILS)
-            showDetails(params.suggestion.hotelId, true)
+            showDetails(params.suggestion.hotelId)
         }
     }
 
@@ -945,41 +904,52 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         errorPresenter.getViewModel().paramsSubject.onNext(params)
     }
 
-    private fun showDetails(hotelId: String, fetchOffers: Boolean) {
-        if (fetchOffers) {
+    private fun initDetailViewModel() {
+        hotelDetailViewModel = HotelDetailViewModel(context, hotelInfoManager)
+
+        hotelDetailViewModel.fetchInProgressSubject.subscribe {
             loadingOverlay.visibility = View.VISIBLE
             loadingOverlay.animate(true)
         }
 
-        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
-        val subject = PublishSubject.create<HotelOffersResponse>()
-        subject.subscribe(object : Observer<HotelOffersResponse> {
-            override fun onNext(t: HotelOffersResponse?) {
-                hotelDetailsListener.onNext(HotelDetailsRequestMetadata(hotelId, t!!, fetchOffers))
-            }
-
-            override fun onCompleted() {
-            }
-
-            override fun onError(e: Throwable?) {
-                if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        showDetails(hotelId, fetchOffers)
-                    }
-                    val cancelFun = fun() {
-                        loadingOverlay.visibility = View.GONE
-                        show(searchPresenter)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-                }
-            }
-
-        })
-        if (fetchOffers) {
-            hotelServices.offers(hotelSearchParams, hotelId, subject)
-        } else {
-            hotelServices.info(hotelSearchParams, hotelId, subject)
+        hotelDetailViewModel.fetchCancelledSubject.subscribe {
+            loadingOverlay.visibility = View.GONE
+            show(searchPresenter)
         }
+
+        hotelDetailViewModel.hotelOffersSubject.subscribe { response ->
+            loadingOverlay.animate(false)
+            loadingOverlay.visibility = View.GONE
+            if (currentState != detailPresenter::class.java.name) {
+                show(detailPresenter)
+                detailPresenter.showDefault()
+            } else {
+                // change dates just update the views.  todo this is terrible fix eventually
+                hotelDetailViewModel.addViewsAfterTransition()
+            }
+            detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(response)
+        }
+
+
+        hotelDetailViewModel.roomSelectedSubject.subscribe { offer ->
+            checkoutPresenter.hotelCheckoutWidget.markRoomSelected()
+            if (shouldUseWebCheckout()) {
+                val webCheckoutViewModel = webCheckoutView.viewModel as HotelWebCheckoutViewViewModel
+                webCheckoutViewModel.hotelSearchParamsObservable.onNext(hotelSearchParams)
+                webCheckoutViewModel.offerObservable.onNext(offer)
+                show(webCheckoutView)
+            } else {
+                checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
+                checkoutPresenter.setSearchParams(hotelSearchParams)
+                checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
+                checkoutPresenter.showCheckout(offer)
+                show(checkoutPresenter)
+            }
+        }
+    }
+
+    private fun showDetails(hotelId: String) {
+        hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
     }
 
     private val deepLinkHandler: HotelDeepLinkHandler by lazy {
@@ -996,8 +966,15 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             handleHotelIdSearch(params, goToResults = true)
         }
 
+        var subscription: Subscription? = null
         handler.hotelIdToDetailsSubject.subscribe { params ->
             updateSearchForDeepLink(params)
+            subscription = hotelInfoManager.infoSuccessSubject.subscribe { offerResponse ->
+                if (hotelSearchParams.suggestion.type == "HOTEL") {
+                    searchPresenter.getSearchViewModel().locationTextObservable.onNext(offerResponse.hotelName)
+                }
+                subscription?.unsubscribe()
+            }
             handleHotelIdSearch(params, goToResults = false)
         }
 
