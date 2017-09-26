@@ -2171,8 +2171,7 @@ public class OmnitureTracking {
 	public static void trackItinTripRefreshCallSuccess(boolean tripHasHotel) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS);
 		s.setEvents("event287");
-		if (tripHasHotel && FeatureToggleUtil
-			.isFeatureEnabled(sContext, R.string.preference_trips_hotel_scheduled_notifications)) {
+		if (tripHasHotel) {
 			trackAbacusTest(s, AbacusUtils.TripsHotelScheduledNotificationsV2);
 		}
 		s.trackLink(null, "o", "Trips Call", null, null);
