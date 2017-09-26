@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.itin
 
+import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.R
@@ -23,6 +24,7 @@ import org.mockito.Mockito.verify
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.never
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -31,7 +33,7 @@ import kotlin.test.assertFalse
 class HotelItinContentGeneratorTest {
 
     lateinit private var activity: NewPhoneLaunchActivity
-
+    lateinit var context: Context
     lateinit var mTodayAtNoon: DateTime
 
     @Before
@@ -39,6 +41,7 @@ class HotelItinContentGeneratorTest {
         mTodayAtNoon = DateTime.now().withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)
         activity = Robolectric.buildActivity(NewPhoneLaunchActivity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
+        context = RuntimeEnvironment.application
     }
 
     @Test
@@ -288,6 +291,7 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun testIsDurationLongerThenInputsIsLonger() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.plusDays(4)
         val checkOutTime = mTodayAtNoon.plusDays(10)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
@@ -298,6 +302,7 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun testIsDurationLongerThenInputIsShorter() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.plusDays(4)
         val checkOutTime = mTodayAtNoon.plusDays(5)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
@@ -308,6 +313,7 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun testDoesCrossSellNotificationsFireAtRightTime(){
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.plusDays(10)
         val testTime = checkInTime.minusDays(7)
         val checkOutTime = mTodayAtNoon.plusDays(20)
@@ -319,6 +325,7 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun getReadyNotificationDoesNotShowTripsLessThanThreeDays() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.plusDays(7)
         val checkOutTime = mTodayAtNoon.plusDays(8)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
@@ -331,6 +338,8 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun getReadyNotificationDoesShowTripsThreeDaysOrMore() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, 
+                AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.plusDays(1)
         val checkOutTime = mTodayAtNoon.plusDays(5)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
@@ -342,27 +351,51 @@ class HotelItinContentGeneratorTest {
     }
 
     @Test
+    fun getReadyNotificationNotDoesShowTripsThreeDaysOrMoreForNotBucketed() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.TripsHotelScheduledNotificationsV2)
+        val checkInTime = mTodayAtNoon.plusDays(1)
+        val checkOutTime = mTodayAtNoon.plusDays(5)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(2, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(0)).generateGetReadyNotification()
+
+    }
+
+    @Test
     fun getReadyNotificationDoesNotShowTripsWithTwoOrLessTravelers() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val itinCardDataHotel = givenHappyItinCardDataHotel(2)
         val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
         val notifications = hotelItinGenerator.generateNotifications()
         assertEquals(2, notifications.size)
         verify(hotelItinGenerator, never()).generateGetReadyNotification()
-
     }
 
     @Test
     fun getReadyNotificationDoesShowTripsWithMoreThanTwoTravelers() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val itinCardDataHotel = givenHappyItinCardDataHotel(3)
         val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
         val notifications = hotelItinGenerator.generateNotifications()
         assertEquals(4, notifications.size)
         verify(hotelItinGenerator, Mockito.times(1)).generateGetReadyNotification()
+    }
 
+    @Test
+    fun getReadyNotificationDoesNotShowTripsWithMoreThanTwoTravelersForNotBuckted() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.TripsHotelScheduledNotificationsV2)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(3)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(2, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(0)).generateGetReadyNotification()
     }
 
     @Test
     fun activityCrossNotificationDoesNotShowTripsLessThanThreeDays() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.plusDays(7)
         val checkOutTime = mTodayAtNoon.plusDays(8)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
@@ -370,11 +403,11 @@ class HotelItinContentGeneratorTest {
         val notifications = hotelItinGenerator.generateNotifications()
         assertEquals(2, notifications.size)
         verify(hotelItinGenerator, never()).generateActivityCrossSellNotification()
-
     }
 
     @Test
     fun activityCrossNotificationDoesShowTripsThreeDaysOrMore() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.plusDays(1)
         val checkOutTime = mTodayAtNoon.plusDays(5)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
@@ -382,31 +415,53 @@ class HotelItinContentGeneratorTest {
         val notifications = hotelItinGenerator.generateNotifications()
         assertEquals(4, notifications.size)
         verify(hotelItinGenerator, Mockito.times(1)).generateActivityCrossSellNotification()
+    }
 
+    @Test
+    fun activityCrossNotificationDoesNotShowTripsThreeDaysOrMoreForNotBucketed() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.TripsHotelScheduledNotificationsV2)
+        val checkInTime = mTodayAtNoon.plusDays(1)
+        val checkOutTime = mTodayAtNoon.plusDays(5)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(2, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(0)).generateActivityCrossSellNotification()
     }
 
     @Test
     fun activityCrossNotificationDoesNotShowTripsWithTwoOrLessTravelers() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val itinCardDataHotel = givenHappyItinCardDataHotel(2)
         val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
         val notifications = hotelItinGenerator.generateNotifications()
         assertEquals(2, notifications.size)
         verify(hotelItinGenerator, never()).generateActivityCrossSellNotification()
-
     }
 
     @Test
     fun activityCrossNotificationDoesShowTripsWithMoreThanTwoTravelers() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val itinCardDataHotel = givenHappyItinCardDataHotel(3)
         val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
         val notifications = hotelItinGenerator.generateNotifications()
         assertEquals(4, notifications.size)
         verify(hotelItinGenerator, Mockito.times(1)).generateActivityCrossSellNotification()
+    }
 
+    @Test
+    fun activityCrossNotificationDoesNotShowWhenNotBuckted() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.TripsHotelScheduledNotificationsV2)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(3)
+        val hotelItinGenerator = spy(makeHotelItinGenerator(itinCardDataHotel))
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(2, notifications.size)
+        verify(hotelItinGenerator, Mockito.times(0)).generateActivityCrossSellNotification()
     }
 
     @Test
     fun testCheckinNotification() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.minusDays(3)
         val checkOutTime = mTodayAtNoon.minusDays(1)
         val happyItinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
@@ -418,6 +473,7 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun testCheckoutMorethan2dNotification() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.minusDays(4)
         val checkOutTime = mTodayAtNoon.minusDays(1)
         val happyItinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
@@ -425,11 +481,11 @@ class HotelItinContentGeneratorTest {
         assertTrue(notification.title.contains("Check out at"))
         assertTrue(notification.body.contains("Check out time your hotel booking for " + happyItinCardDataHotel.propertyName))
         assertTrue(notification.triggerTimeMillis.equals(checkOutTime.minusDays(1).millis))
-
     }
 
     @Test
     fun testCheckout2dOrLessNotification() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.minusDays(2)
         val checkOutTime = mTodayAtNoon.minusDays(1)
         val happyItinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
@@ -437,7 +493,6 @@ class HotelItinContentGeneratorTest {
         assertTrue(notification.title.contains("Check out at"))
         assertTrue(notification.body.contains("Check out time your hotel booking for " + happyItinCardDataHotel.propertyName))
         assertTrue(notification.triggerTimeMillis.equals(checkOutTime.minusHours(12).millis))
-
     }
 
     private fun getBookingChangeUrl(): String {
