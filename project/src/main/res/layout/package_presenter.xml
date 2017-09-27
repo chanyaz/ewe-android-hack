@@ -9,12 +9,19 @@
         android:inflatedId="@+id/widget_bundle_overview"
         android:layout="@layout/bundle_overview_stub" />
 
-    <com.expedia.bookings.presenter.packages.PackageSearchPresenter
+    <ViewStub
+        android:id="@+id/package_search_restricted_airport_dropdown_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/widget_package_search"
+        android:layout="@layout/package_search_restricted_airport_dropdown_stub" />
+
+    <ViewStub
         android:id="@+id/widget_package_search_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray1"
-        android:visibility="gone" />
+        android:inflatedId="@+id/widget_package_search"
+        android:layout="@layout/package_search_stub" />
 
     <ViewStub
         android:id="@+id/widget_package_confirmation_view_stub"

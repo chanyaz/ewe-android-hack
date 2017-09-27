@@ -49,6 +49,9 @@ public class RoutesResponseHandler extends JsonResponseHandler<RoutesResponse> {
 					airport.mName = airportJson.optString("name");
 					airport.mCountryCode = airportJson
 						.optString("country"); // Note: this is using a somewhat overloaded var name
+					airport.mCity = airportJson.optString("city");
+					airport.mCountry = airportJson.optString("country");
+					airport.mRegionId = airportJson.optString("regionId");
 					routes.addAirport(airport);
 				}
 			}

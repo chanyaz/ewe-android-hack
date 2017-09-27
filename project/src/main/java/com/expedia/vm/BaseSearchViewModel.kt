@@ -205,4 +205,10 @@ abstract class BaseSearchViewModel(val context: Context) {
                 .put("enddate", endDate)
                 .format().toString()
     }
+
+    fun clearDestinationLocation() {
+        getParamsBuilder().destination(null)
+        formattedDestinationObservable.onNext("")
+        requiredSearchParamsObserver.onNext(Unit)
+    }
 }

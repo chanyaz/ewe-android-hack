@@ -33,7 +33,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
     val originId: String?
         get() {
-            return  origin?.hierarchyInfo?.airport?.multicity ?: origin?.gaiaId
+            return  origin?.hierarchyInfo?.airport?.multicity ?: origin?.gaiaId ?: origin?.hierarchyInfo?.airport?.regionId
         }
 
     val destinationId: String?
@@ -44,7 +44,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
             if (destination?.type == "POI" ) {
                 return destination.hierarchyInfo?.airport?.multicity
             } else {
-                return destination?.gaiaId
+                return destination?.gaiaId ?: destination?.hierarchyInfo?.airport?.regionId
             }
         }
 
@@ -83,9 +83,16 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         }
 
         override fun isOriginSameAsDestination(): Boolean {
-            val departureCity = originLocation?.hierarchyInfo?.airport?.multicity ?: ""
-            val arrivalCity = destinationLocation?.hierarchyInfo?.airport?.multicity ?: ""
-
+            var departureCity = "";
+            var arrivalCity = "";
+            if (originLocation?.hierarchyInfo?.airport?.multicity != null) {
+                departureCity = originLocation?.hierarchyInfo?.airport?.multicity ?: ""
+                arrivalCity = destinationLocation?.hierarchyInfo?.airport?.multicity ?: ""
+            }
+            else {
+                departureCity = originLocation?.hierarchyInfo?.airport?.regionId ?: ""
+                arrivalCity = destinationLocation?.hierarchyInfo?.airport?.regionId ?: ""
+            }
             return departureCity.equals(arrivalCity)
         }
     }

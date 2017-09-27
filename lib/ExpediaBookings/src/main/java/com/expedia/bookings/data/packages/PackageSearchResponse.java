@@ -29,6 +29,7 @@ public class PackageSearchResponse extends PackageBaseApiResponse implements Bun
 	@Override
 	public int getHotelResultsCount() {
 //		return universalDataObject.entity.packageFHSearch.packageFHSearchResults.resultsCount;
+		packageResult.hotelsPackage.hotels.size();
 		return 0;
 	}
 

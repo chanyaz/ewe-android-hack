@@ -223,12 +223,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         isReadyForInteractionTracking.onNext(Unit)
     }
 
-    fun clearDestinationLocation() {
-        getParamsBuilder().destination(null)
-        formattedDestinationObservable.onNext("")
-        requiredSearchParamsObserver.onNext(Unit)
-    }
-
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         var (start, end) = dates
 
