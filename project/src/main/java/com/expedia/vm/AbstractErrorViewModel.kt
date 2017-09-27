@@ -69,11 +69,7 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
 
     protected fun couldNotConnectToServerError() {
         imageObservable.onNext(defaultErrorDrawable())
-        val message = Phrase.from(context, R.string.error_server_TEMPLATE)
-                .put("brand", BuildConfig.brand)
-                .format()
-                .toString()
-        errorMessageObservable.onNext(message)
+        errorMessageObservable.onNext(context.getString(R.string.package_error_server))
         buttonOneTextObservable.onNext(context.getString(R.string.retry))
     }
 

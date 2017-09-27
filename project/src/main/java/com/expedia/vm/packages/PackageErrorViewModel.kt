@@ -81,6 +81,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 PackageApiError.Code.pkg_too_many_children_in_lap,
                 PackageApiError.Code.pkg_no_flights_available,
                 PackageApiError.Code.pkg_hotel_no_longer_available,
+                PackageApiError.Code.mid_could_not_find_results,
                 PackageApiError.Code.pkg_invalid_checkin_checkout_dates -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_package_search_message))
@@ -107,6 +108,11 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                             .put("origin", it.searchParams.origin!!.regionNames!!.shortName)
                             .format().toString())
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
+                }
+                PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.error_package_search_red_eye_flight_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.retry))
                 }
                 else -> {
                     couldNotConnectToServerError()

@@ -41,7 +41,7 @@ public class PackageSearchErrorTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 
-		PackageScreen.assertErrorScreen("Edit Search", "We were unable to find any results. Please adjust your search.");
+		PackageScreen.assertErrorScreen("Edit Search", "Sorry, we were unable to find any results. Please modify your search criteria and try again.");
 		onView(withId(R.id.error_action_button)).perform(click());
 		SearchScreen.searchButton().check(matches(isDisplayed()));
 	}
@@ -56,7 +56,7 @@ public class PackageSearchErrorTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("hotel offers error")), click()));
 
-		PackageScreen.assertErrorScreen("Edit Search", "We were unable to find any results. Please adjust your search.");
+		PackageScreen.assertErrorScreen("Edit Search", "Sorry, we were unable to find any results. Please modify your search criteria and try again.");
 		onView(withId(R.id.error_action_button)).perform(click());
 
 		//Error action button takes back to search screen

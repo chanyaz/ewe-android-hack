@@ -2,7 +2,6 @@ package com.expedia.bookings.test
 
 import android.content.Context
 import android.support.annotation.StringRes
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
@@ -11,7 +10,6 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.vm.packages.PackageErrorViewModel
-import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -55,8 +53,8 @@ class PackageErrorViewModelTest {
 
         subjectUnderTest.packageSearchApiErrorObserver.onNext(apiError)
         val expectedErrorMessage = when (apiError) {
-            PackageApiError.Code.pkg_destination_resolution_failed -> "Could not resolve a destination for $destinationShortName"
-            PackageApiError.Code.pkg_origin_resolution_failed -> "Could not resolve an origin for $originShortName"
+            PackageApiError.Code.pkg_destination_resolution_failed -> "Sorry, we could not resolve the entered destination for $destinationShortName. Please retry."
+            PackageApiError.Code.pkg_origin_resolution_failed -> "Sorry, we could not resolve the entered origin for $originShortName. Please retry."
             else -> RuntimeEnvironment.application.getString(R.string.error_package_search_message)
         }
 
@@ -144,7 +142,7 @@ class PackageErrorViewModelTest {
         val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
-        val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN);
+        val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN)
 
         val checkoutError = PackagesTracking().createCheckoutError(apiError)
 
@@ -155,10 +153,7 @@ class PackageErrorViewModelTest {
 
         checkoutUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
-        val message = Phrase.from(getContext(), R.string.error_server_TEMPLATE)
-                .put("brand", BuildConfig.brand)
-                .format()
-                .toString()
+        val message = getContext().getString(R.string.package_error_server)
         errorMessageObservableTestSubscriber.assertValues(message)
         errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.retry))
     }
@@ -191,10 +186,7 @@ class PackageErrorViewModelTest {
 
         createTripUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
-        val message = Phrase.from(getContext(), R.string.error_server_TEMPLATE)
-                .put("brand", BuildConfig.brand)
-                .format()
-                .toString()
+        val message = getContext().getString(R.string.package_error_server)
         errorMessageObservableTestSubscriber.assertValues(message)
         errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.retry))
     }

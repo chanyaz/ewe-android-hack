@@ -63,7 +63,7 @@ class BundleOverviewViewModelTests {
         errorSubscriber.assertNoTerminalEvent()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.pkg_unknown_error, errorSubscriber.onNextEvents[0])
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.onNextEvents[0])
     }
 
     @Test
@@ -96,7 +96,7 @@ class BundleOverviewViewModelTests {
         errorSubscriber.assertNoTerminalEvent()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.pkg_unknown_error, errorSubscriber.onNextEvents[0])
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.onNextEvents[0])
     }
 
     @Test
@@ -131,7 +131,7 @@ class BundleOverviewViewModelTests {
         errorSubscriber.assertNoTerminalEvent()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.pkg_unknown_error, errorSubscriber.onNextEvents[0])
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.onNextEvents[0])
     }
 
     private fun setUpParams(originAirportCode: String = ""): PackageSearchParams {

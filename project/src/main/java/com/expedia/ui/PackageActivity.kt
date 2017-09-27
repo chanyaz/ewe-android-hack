@@ -91,8 +91,10 @@ class PackageActivity : AbstractAppCompatActivity() {
         when (requestCode) {
             Constants.HOTEL_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
-                    if (data?.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)?.equals(ApiError.Code.PACKAGE_SEARCH_ERROR.name) ?: false) {
-                        packagePresenter.hotelOffersErrorObservable.onNext(ApiError.Code.PACKAGE_SEARCH_ERROR)
+                    val errorString = data?.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
+                    if (errorString != null) {
+                        val errorCode = if (ApiError.Code.PACKAGE_SEARCH_ERROR.name == errorString) ApiError.Code.PACKAGE_SEARCH_ERROR else ApiError.Code.UNKNOWN_ERROR
+                        packagePresenter.hotelOffersErrorObservable.onNext(errorCode)
                     } else {
                         //is is change hotel search, call createTrip, otherwise start outbound flight search
                         if (!Db.getPackageParams().isChangePackageSearch()) {

@@ -125,7 +125,9 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 .subscribeOn(subscribeOn)
                 .doOnNext {
                     it.setup()
-                    it.setCurrentOfferModel(it.getHotels().first().packageOfferModel)//TODO PUK
+                    if (!it.hasErrors()) {
+                        it.setCurrentOfferModel(it.getHotels().first().packageOfferModel)//TODO PUK
+                    }
                 }
                 .map { it }
     }
@@ -154,7 +156,9 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 .subscribeOn(subscribeOn)
                 .doOnNext {
                     it.setup()
-                    it.setCurrentOfferModel(it.getHotels().first().packageOfferModel)//TODO PUK
+                    if (!it.hasErrors()) {
+                        it.setCurrentOfferModel(it.getHotels().first().packageOfferModel)//TODO PUK
+                    }
                 }
                 .map { it }
     }

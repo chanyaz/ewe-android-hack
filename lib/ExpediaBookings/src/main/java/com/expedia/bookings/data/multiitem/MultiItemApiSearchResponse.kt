@@ -19,7 +19,7 @@ data class MultiItemApiSearchResponse(
 
     private lateinit var sortedHotels: List<Hotel>
     private lateinit var sortedFlights: List<FlightLeg>
-    private lateinit var hotelRooms : List<HotelOffersResponse.HotelRoomResponse>
+    private lateinit var hotelRooms: List<HotelOffersResponse.HotelRoomResponse>
     private var currentSelectedOffer: PackageOfferModel? = null
 
     fun setup(): BundleSearchResponse {
@@ -106,14 +106,45 @@ data class MultiItemApiSearchResponse(
         return errors?.isNotEmpty() ?: false
     }
 
+    private val midCouldNotFindResultsErrors: List<String>
+        get() {
+            return arrayListOf(
+                    "MIS_FLIGHT_PRODUCT_NOT_FOUND",
+                    "FLIGHT_DETAIL_CALL_FAILED",
+                    "FLIGHT_DETAIL_CALL_FLIGHT_COMBINATION_UNAVAILABLE",
+                    "FLIGHT_DETAIL_CALL_PRICING_ERROR",
+                    "FLIGHT_DETAIL_CALL_ERROR_READING_FROM_CACHE",
+                    "FLIGHT_DETAIL_CALL_FAILED_DUE_TO_BAD_REQUEST",
+                    "MIS_HOTEL_PRODUCT_NOT_FOUND",
+                    "AVAIL_SUMMARY_DATES_INVALID",
+                    "AVAIL_SUMMARY_TRIP_DURATION_INVALID",
+                    "AVAIL_SUMMARY_INVALID_ROOM_OCCUPANTS",
+                    "AVAIL_SUMMARY_INVALID_HOTEL_ID",
+                    "FSS_SELECTED_HOTEL_OFFER_NOT_FOUND",
+                    "MIS_INVALID_REQUEST",
+                    "MIS_FAILED_TO_MATCH_OFFERS"
+            )
+        }
+
     override val firstError: PackageApiError.Code
         get() {
             if (errors == null || errors.isEmpty()) {
                 throw RuntimeException("No errors to get!")
             }
-            return when (errors.first().key) {
-                //TODO to be handled
-                else -> PackageApiError.Code.pkg_unknown_error
+            val errorCode = errors.first().key
+            if (midCouldNotFindResultsErrors.contains(errorCode)) {
+                return PackageApiError.Code.mid_could_not_find_results
+            } else if (errorCode == "MIS_ORIGIN_RESOLUTION_ERROR" ||
+                    errorCode == "MIS_AMBIGUOUS_ORIGIN_ERROR") {
+                return PackageApiError.Code.pkg_origin_resolution_failed
+            } else if (errorCode == "MIS_DESTINATION_RESOLUTION_ERROR" ||
+                    errorCode == "MIS_PROHIBITED_DESTINATION_ERROR" ||
+                    errorCode == "MIS_AMBIGUOUS_DESTINATION_ERROR") {
+                return PackageApiError.Code.pkg_destination_resolution_failed
+            } else if (errorCode == "FSS_HOTEL_UNAVAILABLE_FOR_RED_EYE_FLIGHT") {
+                return PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight
+            } else {
+                return PackageApiError.Code.mid_internal_server_error
             }
         }
 
@@ -133,14 +164,17 @@ data class MultiItemApiSearchResponse(
         return errors?.isNotEmpty() ?: false
     }
 
-    override val roomResponseFirstError: ApiError
+    override val roomResponseFirstErrorCode: ApiError.Code
         get() {
             if (errors == null || errors.isEmpty()) {
                 throw RuntimeException("No errors to get!")
             }
-            return when (errors.first().key) {
-                //TODO to be handled
-                else -> ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
+
+            val errorCode = errors.first().key
+            if (midCouldNotFindResultsErrors.contains(errorCode)) {
+                return ApiError.Code.PACKAGE_SEARCH_ERROR
+            } else {
+                return ApiError.Code.UNKNOWN_ERROR
             }
         }
 
