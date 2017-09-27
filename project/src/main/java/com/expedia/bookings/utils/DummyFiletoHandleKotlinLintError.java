@@ -307,7 +307,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.base_flight_presenter,
 		R.layout.widget_flight_results_package,
 		R.layout.fragment_dialog_scrollable_content,
-		R.string.itin_hotel_check_in_policies_dialog_heading,
+		R.string.itin_hotel_check_in_policies_dialog_title,
 		R.dimen.card_view_container_margin,
 		R.color.hotel_member_pricing_text_color,
 		R.string.member_pricing,

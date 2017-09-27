@@ -54,6 +54,7 @@ class HotelItinCheckInCheckOutDetailsTest {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
 
+        assertEquals("Check-in policies", hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text.toString())
         hotelItinCheckinCheckOutWidget.checkInOutPoliciesContainer.performClick()
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val checkInPolicesText = alertDialog.findViewById<View>(R.id.fragment_dialog_scrollable_text_content) as TextView

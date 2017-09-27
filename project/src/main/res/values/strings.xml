@@ -1590,10 +1590,8 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">Free Parking</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Free Wifi</string>
-    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
-    <string name="itin_hotel_check_in_policies_button_text">Check-in information</string>
-    <!--Title for a pop-up that lists out detailed check-in policies-->
-    <string name="itin_hotel_check_in_policies_dialog_heading">Check-in policies</string>
+    <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_title">Check-in policies</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Change and cancellation rules</string>
 

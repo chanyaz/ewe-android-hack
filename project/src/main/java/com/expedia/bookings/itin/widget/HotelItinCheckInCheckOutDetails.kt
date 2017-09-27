@@ -46,7 +46,7 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
             checkInOutPoliciesContainer.visibility = View.VISIBLE
             checkInOutPoliciesContainer.setOnClickListener {
                 val fragmentManager = (context as FragmentActivity).supportFragmentManager
-                val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_in_policies_dialog_heading),
+                val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title),
                         TextUtils.join("\n", itinCardDataHotel.property.checkInPolicies).toString())
                 dialog.show(fragmentManager, DIALOG_TAG)
                 OmnitureTracking.trackHotelItinCheckInPoliciesDialogClick()
