@@ -51,10 +51,11 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val updateUpsellClassPreference = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
 
     val showPaymentInfoLinkObservable = PublishSubject.create<Boolean>()
+    val showBaggageInfoLinkObservable = PublishSubject.create<Boolean>()
     val baggageInfoUrlSubject = PublishSubject.create<String>()
     val baggageInfoClickSubject = PublishSubject.create<Unit>()
     val paymentFeeInfoClickSubject = PublishSubject.create<Unit>()
-    lateinit var baggageUrl : String
+    lateinit var baggageUrl: String
 
     init {
         Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
@@ -121,7 +122,10 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 FlightV2Utils.getFlightLegDurationContentDescription(context, flight)
             }
 
-            showPaymentInfoLinkObservable.onNext(flight.mayChargeObFees || PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage())
+            showBaggageInfoLinkObservable.onNext(lob == LineOfBusiness.FLIGHTS_V2)
+
+            showPaymentInfoLinkObservable.onNext(lob == LineOfBusiness.FLIGHTS_V2 &&
+                    (flight.mayChargeObFees || PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()))
 
             val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
             baggageInfoClickSubject.subscribe {

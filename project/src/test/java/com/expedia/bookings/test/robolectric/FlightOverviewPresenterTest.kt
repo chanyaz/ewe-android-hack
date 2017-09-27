@@ -361,6 +361,7 @@ class FlightOverviewPresenterTest {
     fun testOutboundWidgetBaggageInfoPaymentInfoButtonVisibility() {
         createExpectedFlightLeg()
         val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
         prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
         val outboundFlightBaggagePackageDivider = outboundFlightWidget.baggagePaymentDivider
         assertEquals(View.VISIBLE, outboundFlightBaggagePackageDivider.visibility)
@@ -376,6 +377,7 @@ class FlightOverviewPresenterTest {
     fun testInboundWidgetBaggageInfoPaymentInfoButtonVisibility() {
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
+        inboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
         prepareBundleWidgetViewModel(inboundFlightWidget.viewModel)
         val inboundFlightBaggagePackageDivider = inboundFlightWidget.baggagePaymentDivider
         assertEquals(View.VISIBLE, inboundFlightBaggagePackageDivider.visibility)

@@ -35,6 +35,7 @@ import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.expedia.vm.flights.FlightOverviewRowViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
+import rx.Observable
 
 abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {
     abstract fun showLoading()
@@ -109,9 +110,13 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             flightIcon.setColorFilter(pair.second)
         }
 
+        Observable.combineLatest(vm.showBaggageInfoLinkObservable, vm.showPaymentInfoLinkObservable, {
+            showBaggageInfoLink, showPaymentInfoLink -> (showBaggageInfoLink || showPaymentInfoLink)
+        }).subscribeVisibility(baggagePaymentDivider)
+        vm.showBaggageInfoLinkObservable.subscribeVisibility(baggageFeesButton)
+        vm.showPaymentInfoLinkObservable.subscribeVisibility(paymentFeesButton)
         baggageFeesButton.subscribeOnClick(vm.baggageInfoClickSubject)
         paymentFeesButton.subscribeOnClick(vm.paymentFeeInfoClickSubject)
-        vm.showPaymentInfoLinkObservable.subscribeVisibility(paymentFeesButton)
 
         vm.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)
