@@ -25,7 +25,7 @@
             style="@style/PackagesHotelMapMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gray1"
+            android:background="@color/gray6"
             android:gravity="center"
             android:text="@string/includes_flights_hotel" />
 
