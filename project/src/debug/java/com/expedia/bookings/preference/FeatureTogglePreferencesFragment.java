@@ -40,6 +40,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_flights_frequent_flyer_number);
 		initializeFeatureCheck(R.string.preference_allow_unknown_card_types);
 		initializeFeatureCheck(R.string.preference_show_flights_checkout_webview);
+		initializeFeatureCheck(R.string.preference_display_eligible_cards_on_payment_form);
 
 		//Flight Features
 		initializeFeatureCheck(R.string.preference_flight_rate_detail_from_cache);

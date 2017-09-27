@@ -13,7 +13,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.user.User
-import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -28,7 +27,9 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
@@ -238,10 +239,20 @@ class PaymentWidgetV2Test {
         assertEquals("Joe Shmo", sut.creditCardName.text.toString())
     }
 
-    private fun updateABTest(key: Int, value: Int) {
-        val abacusResponse = AbacusResponse()
-        abacusResponse.updateABTestForDebug(key, value)
-        Db.setAbacusResponse(abacusResponse)
+    @Test
+    fun testToggleOnDisplayCardsOnPaymentForm() {
+        AbacusTestUtils.bucketTestAndEnableFeature(activity,
+                AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm,
+                R.string.preference_display_eligible_cards_on_payment_form)
+        assertTrue(isDisplayCardsOnPaymentForm(activity))
+    }
+
+    @Test
+    fun testToggleOffDisplayCardsOnPaymentForm() {
+        AbacusTestUtils.unbucketTestAndDisableFeature(activity,
+                AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm,
+                R.string.preference_display_eligible_cards_on_payment_form)
+        assertFalse(isDisplayCardsOnPaymentForm(activity))
     }
 
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
@@ -263,7 +274,6 @@ class PaymentWidgetV2Test {
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
 
         return createTripResponse
-
     }
 
     private fun assertCardImageEquals(cardDrawableResId: Int, tv: TextView) {

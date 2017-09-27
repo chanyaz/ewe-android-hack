@@ -47,4 +47,11 @@ object AbacusTestUtils {
         }
         Db.setAbacusResponse(abacusResponse)
     }
+
+    @JvmStatic fun unbucketTestAndDisableFeature(context: Context, abacusTest: ABTest, @StringRes featureKey: Int) {
+        val abacusResponse = AbacusResponse()
+        abacusResponse.updateABTestForDebug(abacusTest.key, AbacusUtils.DefaultVariant.CONTROL.ordinal)
+        Db.setAbacusResponse(abacusResponse)
+        SettingUtils.save(context, featureKey, false)
+    }
 }

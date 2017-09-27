@@ -397,6 +397,14 @@
             android:summary="%s"
             android:title="Show Flights Checkout Webview - 15371" />
 
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="15682"
+            android:summary="%s"
+            android:title="Display Eligible Cards On Payment Form - 15682" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

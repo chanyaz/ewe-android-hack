@@ -88,6 +88,11 @@
             android:summary="Show Flights Checkout Webview"
             android:title="Show Flights Checkout Webview" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_display_eligible_cards_on_payment_form"
+            android:summary="Display Eligible Cards On Payment Form"
+            android:title="Display Eligible Cards On Payment Form" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

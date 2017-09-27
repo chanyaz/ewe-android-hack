@@ -1068,6 +1068,9 @@ public class OmnitureTracking {
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_allow_unknown_card_types)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
 		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_display_eligible_cards_on_payment_form)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm);
+		}
 		s.track();
 	}
 
