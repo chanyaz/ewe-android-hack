@@ -93,6 +93,9 @@ class PaymentWidgetV2Test {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
+        AbacusTestUtils.unbucketTestAndDisableFeature(activity,
+                AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm,
+                R.string.preference_display_eligible_cards_on_payment_form)
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel
@@ -255,6 +258,19 @@ class PaymentWidgetV2Test {
         assertFalse(isDisplayCardsOnPaymentForm(activity))
     }
 
+    @Test
+    fun testEligibleCardsListShouldShow() {
+        setupWithValidCardsList()
+        val listView = sut.findViewById<View>(R.id.valid_cards_list) as ListView
+        assertTrue(listView.visibility == View.VISIBLE)
+    }
+
+    @Test
+    fun testEligibleCardsListShouldNotShow() {
+        val listView = sut.findViewById<View>(R.id.valid_cards_list) as ListView
+        assertFalse(listView.visibility == View.VISIBLE)
+    }
+
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
         assertEquals(paymentInfo, paymentTileInfo.text)
         assertEquals(paymentOption, paymentTileOption.text)
@@ -318,5 +334,21 @@ class PaymentWidgetV2Test {
         val pointOfSale = if (enable) PointOfSaleId.JAPAN else PointOfSaleId.UNITED_STATES
         SettingUtils.save(activity, "point_of_sale_key", pointOfSale.id.toString())
         PointOfSale.onPointOfSaleChanged(activity)
+    }
+
+    private fun setupWithValidCardsList() {
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Hotels_Default)
+        Ui.getApplication(activity).defaultHotelComponents()
+        AbacusTestUtils.bucketTestAndEnableFeature(activity,
+                AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm,
+                R.string.preference_display_eligible_cards_on_payment_form)
+        sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
+        viewModel = PaymentViewModel(activity)
+        sut.viewmodel = viewModel
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())
+        val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.applicationContext)
+        sut.paymentWidgetViewModel = PaymentWidgetViewModel(activity.application, paymentModel, payWithPointsViewModel)
     }
 }

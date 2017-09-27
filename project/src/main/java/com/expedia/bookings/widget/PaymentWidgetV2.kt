@@ -5,11 +5,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import android.widget.LinearLayout
+import android.widget.ListView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeText
@@ -25,6 +27,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     val remainingBalanceAmount: TextView by bindView(R.id.remaining_balance_amount)
     val totalDueTodayAmount: TextView by bindView(R.id.total_due_today_amount)
     val rewardWidget: ViewStub by bindView(R.id.reward_widget_stub)
+    val validCardsList: ListView by bindView(R.id.valid_cards_list)
     var paymentSplitsType = PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
     var isRewardsRedeemable: Boolean = false
     var isFullPayableWithPoints: Boolean = false
@@ -63,6 +66,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     override fun init(vm: PaymentViewModel) {
         super.init(vm)
         Ui.getApplication(context).hotelComponent().inject(this)
+        if (isDisplayCardsOnPaymentForm(context)) {
+            validCardsList.visibility = View.VISIBLE
+        }
     }
 
     override fun onFinishInflate() {
