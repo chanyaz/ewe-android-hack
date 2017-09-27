@@ -49,4 +49,11 @@
         android:layout_height="match_parent"
         android:layout="@layout/flight_error_stub" />
 
+    <ViewStub
+        android:id="@+id/flight_web_checkout_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/flight_web_checkout"
+        android:layout="@layout/web_checkout_view_stub" />
+
 </merge>
