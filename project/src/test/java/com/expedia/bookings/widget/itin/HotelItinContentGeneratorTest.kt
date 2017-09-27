@@ -312,6 +312,38 @@ class HotelItinContentGeneratorTest {
     }
 
     @Test
+    fun testCheckinNotificationExpirationTime() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
+        val checkInTime = mTodayAtNoon.plusDays(10)
+        val checkOutTime = mTodayAtNoon.plusDays(20)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val notifications = hotelItinGenerator.generateNotifications()
+        val checkinNotifcation = notifications.get(0)
+        val dayAfter = itinCardDataHotel.startDate.toMutableDateTime()
+        dayAfter.addDays(1)
+        dayAfter.hourOfDay = 0
+        dayAfter.minuteOfDay = 1
+        assertTrue(checkinNotifcation.expirationTimeMillis < dayAfter.millis)
+    }
+
+    @Test
+    fun testCheckoutNotificationExpirationTime() {
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
+        val checkInTime = mTodayAtNoon.plusDays(10)
+        val checkOutTime = mTodayAtNoon.plusDays(20)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val notifications = hotelItinGenerator.generateNotifications()
+        val checkoutNotifcation = notifications.get(1)
+        val dayAfter = itinCardDataHotel.endDate.toMutableDateTime()
+        dayAfter.addDays(1)
+        dayAfter.hourOfDay = 0
+        dayAfter.minuteOfDay = 1
+        assertTrue(checkoutNotifcation.expirationTimeMillis < dayAfter.millis)
+    }
+
+    @Test
     fun testDoesCrossSellNotificationsFireAtRightTime(){
         AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.plusDays(10)

@@ -687,7 +687,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		MutableDateTime trigger = data.getStartDate().toMutableDateTime();
 		trigger.addDays(-1);
 		long triggerTimeMillis = trigger.getMillis();
-
+		trigger = data.getStartDate().toMutableDateTime();
 		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
 		long expirationTimeMillis = trigger.getMillis();
@@ -767,7 +767,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			trigger.addHours(-12);
 		}
 		long triggerTimeMillis = trigger.getMillis();
-
+		trigger = data.getEndDate().toMutableDateTime();
 		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
 		long expirationTimeMillis = trigger.getMillis();
