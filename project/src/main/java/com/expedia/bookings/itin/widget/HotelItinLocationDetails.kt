@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.widget
 import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -62,7 +63,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
             }
         })
 
-        val directionsButton = SummaryButton(R.drawable.itin_directions_hotel, context.getString(R.string.itin_action_directions), OnClickListener {
+        val directionsButton = SummaryButton(R.drawable.ic_directions_icon_cta_button, context.getString(R.string.itin_action_directions), OnClickListener {
             if (isMapFeatureOn()) {
                 context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
                 OmnitureTracking.trackItinHotelExpandMap()
@@ -76,6 +77,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
             }
         })
         if (phoneNumber.isEmpty()) actionButtons.bind(null, directionsButton) else actionButtons.bind(callButton, directionsButton)
+        actionButtons.getmRightButton().setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
         val textToCopy: String = Phrase.from(context, R.string.itin_hotel_details_address_clipboard_TEMPLATE)
                 .put("addresslineone", addressLine1.text.toString())
                 .put("addresslinetwo", addressLine2.text.toString()).format().toString()

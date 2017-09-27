@@ -1083,7 +1083,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_hotel_details_address_clipboard_TEMPLATE,
 		R.layout.widget_hotel_itin_location_details,
 		R.drawable.itin_call_hotel,
-		R.drawable.itin_directions_hotel,
+		R.drawable.ic_directions_icon_cta_button,
 		R.string.pending_points_button,
 		R.string.itin_hotel_details_call_button_content_description_TEMPLATE,
 		R.string.itin_hotel_details_address_copy_content_description_TEMPLATE,

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.AccessibilityUtil;
