@@ -135,6 +135,12 @@ public class PointOfSale {
 	// Whether to show packages on this POS
 	private boolean mSupportsPackages;
 
+	// Whether to show packages HSR header message on this POS
+	private boolean mSupportsPackagesHSRHeader;
+
+	// Whether to show packages HSR header including taxes message on this POS
+	private boolean mSupportsPackagesHSRIncludesHeader;
+
 	// Whether to show rails on this POS
 	private boolean mSupportsRails;
 
@@ -724,6 +730,14 @@ public class PointOfSale {
 
 	public boolean supportsRailsWebView() {
 		return mSupportsRailsWebView;
+	}
+
+	public boolean supportsPackagesHSRHeader() {
+		return mSupportsPackagesHSRHeader;
+	}
+
+	public boolean supportsPackagesHSRIncludesHeader() {
+		return mSupportsPackagesHSRIncludesHeader;
 	}
 
 	public String getRailUrlInfix() {
@@ -1383,6 +1397,8 @@ public class PointOfSale {
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mSupportsGT = data.optBoolean("gtEnabled");
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
+		pos.mSupportsPackagesHSRHeader = data.optBoolean("packagesHSRHeaderEnabled", false);
+		pos.mSupportsPackagesHSRIncludesHeader = data.optBoolean("packagesHSRIncludesHeaderEnabled", false);
 		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
 		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
 		pos.mSupportsRailsWebView = data.optBoolean("android.webViewEnabledForRails", false);

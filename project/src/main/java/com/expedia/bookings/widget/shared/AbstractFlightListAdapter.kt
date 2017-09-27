@@ -54,7 +54,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     abstract protected fun showAdvanceSearchFilterHeader(): Boolean
     abstract protected fun isShowOnlyNonStopSearch(): Boolean
     abstract protected fun isShowOnlyRefundableSearch(): Boolean
-    abstract protected fun shouldShowTaxesAndFeeMessageInPackagesFSR(): Boolean
+    abstract protected fun getPriceDescriptorMessageIdForFSR(): Int?
 
     @UiThread
     open fun setNewFlights(flights: List<FlightLeg>) {
@@ -168,9 +168,10 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val advanceSearchFilterHeader: TextView by bindView(R.id.flight_results_advance_search_filter_header)
 
         fun bind(isRoundTripSearch: Boolean) {
-            if (shouldShowTaxesAndFeeMessageInPackagesFSR()) {
+            val priceDescriptorInFSRMessageId = getPriceDescriptorMessageIdForFSR()
+            if (priceDescriptorInFSRMessageId != null) {
                 advanceSearchFilterHeader.visibility = View.GONE
-                priceHeader.text = context.resources.getString(R.string.package_prices_taxes_fees_included_label)
+                priceHeader.text = context.resources.getString(priceDescriptorInFSRMessageId)
                 priceHeader.visibility = View.VISIBLE
             } else {
                 val roundTripStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label

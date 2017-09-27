@@ -827,6 +827,8 @@
     <string name="prices_oneway_minimum_label">Prices one-way, per person, from</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Total price roundtrip (including taxes and fees), per person - for hotel and flights</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Prices roundtrip, per person, from • includes hotel and flights</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Sold Out</string>
 
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Total price roundtrip (including taxes and fees), per person - for hotels and flights • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Total price roundtrip (including taxes and fees), per person - for hotels and flights • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">Total price roundtrip, per person. includes hotel and flights • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% booked</string>

@@ -99,6 +99,21 @@ class PackageFlightListAdapterTest {
         setPointOfSale(initialPOSID)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testflightResultsHeaderForUKPointOfSale() {
+        createSystemUnderTest()
+        val headerViewHolder = createHeaderViewHolder()
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals("Prices roundtrip, per person.", headerViewHolder.priceHeader.text)
+
+        val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
+        setPointOfSale(PointOfSaleId.UNITED_KINGDOM)
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals("Prices roundtrip, per person, from • includes hotel and flights", headerViewHolder.priceHeader.text)
+        setPointOfSale(initialPOSID)
+    }
+
     private fun createHeaderViewHolder(): AbstractFlightListAdapter.HeaderViewHolder {
         return sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal) as AbstractFlightListAdapter.HeaderViewHolder
     }

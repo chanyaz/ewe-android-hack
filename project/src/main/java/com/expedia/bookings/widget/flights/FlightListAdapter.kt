@@ -35,8 +35,8 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
         return PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()
     }
 
-    override fun shouldShowTaxesAndFeeMessageInPackagesFSR(): Boolean {
-        return false
+    override fun getPriceDescriptorMessageIdForFSR(): Int? {
+        return null
     }
 
     override fun showAllFlightsHeader(): Boolean {

@@ -11,7 +11,7 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class HotelResultsPricingStructureHeaderViewModel(val context: Context, val shouldShowPackageIncludesTaxesMessage: Boolean) {
+class HotelResultsPricingStructureHeaderViewModel(val context: Context, val priceDescriptorMessageIdForHSR: Int?) {
     // Inputs
     val loadingStartedObserver = PublishSubject.create<Unit>()
     val resultsDeliveredObserver = PublishSubject.create<HotelSearchResponse>()
@@ -35,10 +35,10 @@ class HotelResultsPricingStructureHeaderViewModel(val context: Context, val shou
             val hotelResultsCount = list.size
             val priceDescriptorAndResultsCountHeader: String
 
-            if (shouldShowPackageIncludesTaxesMessage) {
+            if (priceDescriptorMessageIdForHSR != null) {
                 val hotelResultsCount = context.resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
-                priceDescriptorAndResultsCountHeader = Phrase.from(context, R.string.package_hotel_results_includes_header_TEMPLATE)
-                        .put("totalpriceresultcountheader", hotelResultsCount)
+                priceDescriptorAndResultsCountHeader = Phrase.from(context, priceDescriptorMessageIdForHSR)
+                        .put("total_price_result_count_header", hotelResultsCount)
                         .format()
                         .toString()
             } else {

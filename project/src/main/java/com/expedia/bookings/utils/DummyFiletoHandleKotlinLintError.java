@@ -615,6 +615,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.DONE,
 		R.string.airline_additional_fee_notice,
 		R.string.airline_fee_apply,
+		R.string.package_prices_roundtrip_person_minimum_fsr_label,
+		R.string.package_hotel_results_header_TEMPLATE,
 		R.layout.flight_results_loading_tile_widget,
 		R.layout.search_results_loading_tile_widget,
 		R.string.loading_flights_from_400_airlines,

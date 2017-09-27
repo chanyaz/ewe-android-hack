@@ -1,6 +1,7 @@
 package com.expedia.vm.test.robolectric
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -29,7 +30,7 @@ class HotelResultsPricingStructureHeaderViewModelTests {
 
     @Before
     fun before() {
-        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), false)
+        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), null)
         givenUserPriceType(HotelRate.UserPriceType.UNKNOWN)
         givenHotelsResultsCount(-1)
     }
@@ -82,8 +83,18 @@ class HotelResultsPricingStructureHeaderViewModelTests {
     fun testPackagesJapanHeaderShowTaxesAndFees() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.JAPAN)
-        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), true)
+        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), R.string.package_hotel_results_includes_header_TEMPLATE)
         assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip (including taxes and fees), per person - for hotels and flights • 50 Results", false)
+        setPointOfSale(initialPOSID)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackagesUKHeaderShowTaxesAndFees() {
+        val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
+        setPointOfSale(PointOfSaleId.UNITED_KINGDOM)
+        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), R.string.package_hotel_results_header_TEMPLATE)
+        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip, per person. includes hotel and flights • 50 Results", false)
         setPointOfSale(initialPOSID)
     }
 

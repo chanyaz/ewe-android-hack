@@ -17,7 +17,14 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
         return PackageHotelCellViewHolder(view as ViewGroup, parent.width)
     }
 
-    override fun shouldShowPackageIncludesTaxesMessage(): Boolean {
-        return PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN
+    override fun getPriceDescriptorMessageIdForHSR(): Int? {
+        val shouldShowPackageIncludesTaxesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRIncludesHeader()
+        val shouldShowPackageIncludesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRHeader()
+        if (shouldShowPackageIncludesTaxesMessage) {
+            return R.string.package_hotel_results_includes_header_TEMPLATE
+        } else if (shouldShowPackageIncludesMessage) {
+            return R.string.package_hotel_results_header_TEMPLATE
+        } else
+            return null
     }
 }

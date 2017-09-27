@@ -3,13 +3,11 @@ package com.expedia.bookings.widget.packages
 import android.content.Context
 import android.support.annotation.UiThread
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.packages.PackageFlightViewModel
 import rx.subjects.PublishSubject
@@ -90,8 +88,15 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         return PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()
     }
 
-    override fun shouldShowTaxesAndFeeMessageInPackagesFSR(): Boolean {
-        return PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN
+    override fun getPriceDescriptorMessageIdForFSR(): Int? {
+        val shouldShowPackageIncludesTaxesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRIncludesHeader()
+        val shouldShowPackageIncludesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRHeader()
+        if (shouldShowPackageIncludesTaxesMessage) {
+            return R.string.package_prices_taxes_fees_included_label
+        } else if (shouldShowPackageIncludesMessage) {
+            return R.string.package_prices_roundtrip_person_minimum_fsr_label
+        } else
+            return null
     }
 
     override fun showAllFlightsHeader(): Boolean {

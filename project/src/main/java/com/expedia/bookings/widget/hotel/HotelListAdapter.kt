@@ -17,8 +17,8 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
         return holder
     }
 
-    override fun shouldShowPackageIncludesTaxesMessage(): Boolean {
-        return false
+    override fun getPriceDescriptorMessageIdForHSR(): Int? {
+        return null
     }
 
 }
