@@ -14,6 +14,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.extensions.LineOfBusinessExtensions
 import com.expedia.bookings.data.extensions.isUniversalCheckout
+import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
@@ -84,6 +85,7 @@ open class PaymentViewModel(val context: Context) {
     val removeBillingAddressForApac = PublishSubject.create<Boolean>()
     val populateFakeBillingAddress = PublishSubject.create<Location>()
     val clearHiddenBillingAddress = PublishSubject.create<Unit>()
+    val showValidCards = PublishSubject.create<List<ValidFormOfPayment>>()
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
