@@ -27,6 +27,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
+import com.expedia.vm.HotelWebCheckoutViewViewModel
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -61,7 +62,7 @@ class HotelCreateTripErrorOnWebViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCreateTripErrorProductExpiry() {
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
+        (hotelPresenter.webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
         assertVisible(hotelPresenter.errorPresenter)
         assertEquals("Search Again", hotelPresenter.errorPresenter.errorButton.text)
         assertEquals("We're really sorry, your hold on this room has expired", hotelPresenter.errorPresenter.errorText.text)
@@ -70,7 +71,7 @@ class HotelCreateTripErrorOnWebViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCreateTripErrorRoomUnavailable() {
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
+        (hotelPresenter.webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
         assertVisible(hotelPresenter.errorPresenter)
         assertEquals("Select another room", hotelPresenter.errorPresenter.errorButton.text)
         assertEquals("This room is sold out.", hotelPresenter.errorPresenter.errorText.text)
@@ -79,7 +80,7 @@ class HotelCreateTripErrorOnWebViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCreateTripErrorUnknownError() {
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+        (hotelPresenter.webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
         assertVisible(hotelPresenter.errorPresenter)
         assertEquals("Retry", hotelPresenter.errorPresenter.errorButton.text)
         assertEquals("Sorry, we could not connect to Expedia's servers.  Please try again later.", hotelPresenter.errorPresenter.errorText.text)

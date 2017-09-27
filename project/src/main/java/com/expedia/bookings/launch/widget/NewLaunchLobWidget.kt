@@ -21,6 +21,7 @@ import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
+import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 
 class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -50,7 +51,7 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
                     nav.goToHotels(animOptions)
                 }
                 LineOfBusiness.FLIGHTS -> {
-                    if (PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
+                    if (PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS) || isShowFlightsCheckoutWebview(context)) {
                         nav.goToFlights(null)
                     } else {
                         flightNotSupportedDialog.show()
