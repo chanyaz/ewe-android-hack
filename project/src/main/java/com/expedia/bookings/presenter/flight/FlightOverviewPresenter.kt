@@ -63,7 +63,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     val overviewPageUsableData = PageUsableData()
     val isUserBucketedForFareFamily = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
 
-
     private val basicEconomyInfoWebView: BasicEconomyInfoWebView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.basic_economy_info_web_view)
         val basicEconomyInfoView = viewStub.inflate() as BasicEconomyInfoWebView
@@ -305,9 +304,11 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         createTripResponse as FlightCreateTripResponse
         val flightSearchParams = Db.getFlightSearchParams()
         val fareFamilyDetails = createTripResponse.fareFamilyList?.fareFamilyDetails
+        val discountAmount = createTripResponse.details.offer.discountAmount
         FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, createTripResponse, overviewPageUsableData,
                 viewModel.outboundSelectedAndTotalLegRank, viewModel.inboundSelectedAndTotalLegRank,
-                (!createTripResponse.getOffer().isSplitTicket && fareFamilyDetails?.firstOrNull() != null), createTripResponse.isFareFamilyUpgraded)
+                (!createTripResponse.getOffer().isSplitTicket && fareFamilyDetails?.firstOrNull() != null),
+                createTripResponse.isFareFamilyUpgraded, (discountAmount != null && !discountAmount.isZero))
     }
 
     override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {

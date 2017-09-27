@@ -4888,26 +4888,34 @@ public class OmnitureTracking {
 		}
 	}
 
+	private static String getFlightSubpubProductString(String products) {
+		StringBuilder subpubStringBuilder = new StringBuilder(products);
+		subpubStringBuilder.append(";eVar59=FLT:");
+		subpubStringBuilder.append(getFlightItineraryTypeCode());
+		return subpubStringBuilder.append(":SubPub").toString();
+	}
+
+	private static String getFlightItineraryTypeCode() {
+		switch (getFlightItineraryType()) {
+		case SPLIT_TICKET:
+			return "ST";
+		case ONE_WAY:
+			return "OW";
+		case ROUND_TRIP:
+			return "RT";
+		default:
+			return "MD";
+		}
+	}
+
 	private static String getFlightProductString(boolean isConfirmation) {
 		Pair<FlightSegment, FlightSegment> segments = getFirstAndLastFlightSegments();
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 
-		String itineraryType;
+		String itineraryType = getFlightItineraryTypeCode();
 		BigDecimal outBoundFlightPrice = trip.getDetails().offer.totalPrice.amount;
-		switch (getFlightItineraryType()) {
-		case SPLIT_TICKET:
-			itineraryType = "ST";
+		if (itineraryType.equalsIgnoreCase("ST")) {
 			outBoundFlightPrice = trip.getDetails().offer.splitFarePrice.get(0).totalPrice.amount;
-			break;
-		case ONE_WAY:
-			itineraryType = "OW";
-			break;
-		case ROUND_TRIP:
-			itineraryType = "RT";
-			break;
-		default:
-			itineraryType = "MD";
-			break;
 		}
 
 		String evarValuesOutBound, evarValuesInBound = "";
@@ -5309,7 +5317,8 @@ public class OmnitureTracking {
 	public static void trackShowFlightOverView(
 		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
 		PageUsableData overviewPageUsableData, kotlin.Pair outboundSelectedAndTotalLegRank,
-		kotlin.Pair inboundSelectedAndTotalLegRank, boolean isFareFamilyAvailable, boolean isFareFamilySelected) {
+		kotlin.Pair inboundSelectedAndTotalLegRank, boolean isFareFamilyAvailable, boolean isFareFamilySelected,
+		boolean hasSubPub) {
 		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_RATE_DETAILS + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_RATE_DETAILS);
@@ -5345,7 +5354,11 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview);
 		}
 
-		s.setProducts(getFlightProductString(false));
+		String products = getFlightProductString(false);
+		if (hasSubPub) {
+			products = getFlightSubpubProductString(products);
+		}
+		s.setProducts(products);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview);
 
 		StringBuilder eventStringBuilder = new StringBuilder(s.getEvents());
@@ -5355,6 +5368,10 @@ public class OmnitureTracking {
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
 			&& isFareFamilyAvailable) {
 			eventStringBuilder.append(isFareFamilySelected ? ",event275" : ",event274");
+		}
+
+		if (hasSubPub) {
+			eventStringBuilder.append(",event204");
 		}
 
 		appendPageLoadTimeEvents(eventStringBuilder, overviewPageUsableData.getLoadTimeInSeconds());
