@@ -4,12 +4,17 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeText
@@ -25,10 +30,11 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     val remainingBalanceAmount: TextView by bindView(R.id.remaining_balance_amount)
     val totalDueTodayAmount: TextView by bindView(R.id.total_due_today_amount)
     val rewardWidget: ViewStub by bindView(R.id.reward_widget_stub)
+    val validCardsList: LinearLayout by bindView(R.id.valid_cards_list)
     var paymentSplitsType = PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
     var isRewardsRedeemable: Boolean = false
     var isFullPayableWithPoints: Boolean = false
-
+    val shouldDisplayCardsListOnPaymentForm = isDisplayCardsOnPaymentForm(context)
 
     var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> { vm ->
         vm.totalDueToday.subscribeText(totalDueTodayAmount)
@@ -42,6 +48,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             paymentSplitsType = it.paymentSplits.paymentSplitsType()
             isFullPayableWithPoints = !it.isCardRequired()
             vm.burnAmountApiCallResponsePending.onNext(false)
+            if (shouldDisplayCardsListOnPaymentForm) {
+                viewmodel.showValidCards.onNext(it.tripResponse.validFormsOfPayment)
+            }
         }
 
         enableToolbarMenuButton.subscribe{ enable ->
@@ -63,6 +72,13 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     override fun init(vm: PaymentViewModel) {
         super.init(vm)
         Ui.getApplication(context).hotelComponent().inject(this)
+        viewmodel.showValidCards.subscribe { validFormsOfPayment ->
+            validCardsList.removeAllViewsInLayout()
+            for (validType in validFormsOfPayment) {
+                addCardInValidCardsList(validType.getPaymentType())
+            }
+            addCardInValidCardsList(PaymentType.CARD_UNKNOWN)
+        }
     }
 
     override fun onFinishInflate() {
@@ -71,6 +87,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         if(layoutId != 0){
             rewardWidget.layoutResource = layoutId
             rewardWidget.inflate()
+        }
+        if (shouldDisplayCardsListOnPaymentForm) {
+            validCardsList.visibility = View.VISIBLE
         }
     }
 
@@ -105,5 +124,15 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             viewmodel.enableMenuItem.onNext(true)
         }
         return super.back()
+    }
+
+    private fun addCardInValidCardsList(paymentType: PaymentType) {
+        val creditCardImage = ImageView(context)
+        creditCardImage.setBackgroundResource(BookingInfoUtils.getCreditCardIcon(paymentType))
+        val padding = context.resources.getDimensionPixelOffset(R.dimen.default_margin)
+        val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        params.setMargins(0, padding, padding, padding)
+        creditCardImage.layoutParams = params
+        validCardsList.addView(creditCardImage)
     }
 }

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ListView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
@@ -14,11 +15,14 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
+import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
@@ -28,6 +32,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
 import com.expedia.bookings.widget.PaymentWidgetV2
@@ -93,6 +98,9 @@ class PaymentWidgetV2Test {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
+        AbacusTestUtils.unbucketTestAndDisableFeature(activity,
+                AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm,
+                R.string.preference_display_eligible_cards_on_payment_form)
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel
@@ -255,6 +263,62 @@ class PaymentWidgetV2Test {
         assertFalse(isDisplayCardsOnPaymentForm(activity))
     }
 
+    @Test
+    fun testValidCardsContainerShouldShow() {
+        setupAndShowValidCardsList()
+        val validCardContainer = sut.findViewById<View>(R.id.valid_cards_container) as LinearLayout
+        assertTrue(validCardContainer.visibility == View.VISIBLE)
+    }
+
+    @Test
+    fun testValidCardsContainerShouldNotShow() {
+        val validCardsContainer = sut.findViewById<View>(R.id.valid_cards_container) as LinearLayout
+        assertFalse(validCardsContainer.visibility == View.VISIBLE)
+    }
+
+    @Test
+    fun testUnknownCardIsOnlyShown() {
+        val validFormsOfPayment = ArrayList<String>()
+        val response = getCreateTripResponseWithValidFormsOfPayment(validFormsOfPayment)
+        setupAndShowValidCardsList()
+
+        sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
+        val validCardsContainer = sut.findViewById<View>(R.id.valid_cards_container) as LinearLayout
+
+        assertEquals(1, sut.validCardsList.childCount)
+        val cardInContainer = (validCardsContainer.getChildAt(0) as ImageView).background
+        assertEquals(activity.resources.getDrawable(R.drawable.generic), cardInContainer)
+    }
+
+    @Test
+    fun testAmericanExpressCardShown() {
+        val validFormsOfPayment = ArrayList<String>()
+        validFormsOfPayment.add("AmericanExpress")
+        val response = getCreateTripResponseWithValidFormsOfPayment(validFormsOfPayment)
+        setupAndShowValidCardsList()
+
+        sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
+        val validCardsContainer = sut.findViewById<View>(R.id.valid_cards_container) as LinearLayout
+
+        assertValidCardsContainerShowsValidCards(validCardsContainer, response)
+    }
+
+    @Test
+    fun testMultipleEligibleCardsShown() {
+        val validFormsOfPayment = ArrayList<String>()
+        validFormsOfPayment.add("AmericanExpress")
+        validFormsOfPayment.add("CarteBleue")
+        validFormsOfPayment.add("Mastercard")
+        validFormsOfPayment.add("Maestro")
+        val response = getCreateTripResponseWithValidFormsOfPayment(validFormsOfPayment)
+        setupAndShowValidCardsList()
+
+        sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
+        val validCardsContainer = sut.findViewById<View>(R.id.valid_cards_container) as LinearLayout
+
+        assertValidCardsContainerShowsValidCards(validCardsContainer, response)
+    }
+
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
         assertEquals(paymentInfo, paymentTileInfo.text)
         assertEquals(paymentOption, paymentTileOption.text)
@@ -318,5 +382,48 @@ class PaymentWidgetV2Test {
         val pointOfSale = if (enable) PointOfSaleId.JAPAN else PointOfSaleId.UNITED_STATES
         SettingUtils.save(activity, "point_of_sale_key", pointOfSale.id.toString())
         PointOfSale.onPointOfSaleChanged(activity)
+    }
+
+    private fun setupAndShowValidCardsList() {
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Hotels_Default)
+        Ui.getApplication(activity).defaultHotelComponents()
+        AbacusTestUtils.bucketTestAndEnableFeature(activity,
+                AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm,
+                R.string.preference_display_eligible_cards_on_payment_form)
+        sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
+        viewModel = PaymentViewModel(activity)
+        sut.viewmodel = viewModel
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())
+        val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.applicationContext)
+        sut.paymentWidgetViewModel = PaymentWidgetViewModel(activity.application, paymentModel, payWithPointsViewModel)
+    }
+
+    private fun assertValidCardsContainerShowsValidCards(validCardsContainer: LinearLayout, response: HotelCreateTripResponse) {
+        val childCountWithoutUnknownCard = validCardsContainer.childCount - 1
+        val validPaymentTypesCount = response.validFormsOfPayment.size
+        assertEquals(childCountWithoutUnknownCard, validPaymentTypesCount)
+        for (i in 0..childCountWithoutUnknownCard - 1) {
+            val res = BookingInfoUtils.getCreditCardIcon(response.validFormsOfPayment[i].getPaymentType())
+            val cardInValidForms = activity.resources.getDrawable(res)
+            val cardInContainer = (validCardsContainer.getChildAt(i) as ImageView).background
+            assertEquals(cardInContainer, cardInValidForms)
+        }
+    }
+
+    private fun getCreateTripResponseWithValidFormsOfPayment(cardNames: ArrayList<String>): HotelCreateTripResponse {
+        val response = HotelCreateTripResponse()
+        val validFormsOfPayment = ArrayList<ValidFormOfPayment>()
+        for (name in cardNames) {
+            val validPayment = ValidFormOfPayment()
+            validPayment.name = name
+            ValidFormOfPaymentUtils.addValidPayment(validFormsOfPayment, validPayment)
+        }
+        response.validFormsOfPayment = validFormsOfPayment
+        Db.getTripBucket().clearHotelV2()
+        Db.getTripBucket().add(TripBucketItemHotelV2(response))
+
+        return response
     }
 }

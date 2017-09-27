@@ -72,6 +72,14 @@ public class BookingInfoUtils {
 		return R.drawable.ic_generic_card_colorful;
 	}
 
+	public static int getCreditCardIcon(PaymentType type) {
+		type.assertIsCardOrPoints();
+		if (CREDIT_CARD_ICON.containsKey(type)) {
+			return CREDIT_CARD_ICON.get(type);
+		}
+		return R.drawable.generic;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// More static data (that just takes up a lot of space, so at bottom)
 
@@ -124,6 +132,22 @@ public class BookingInfoUtils {
 			put(PaymentType.CARD_VISA, R.drawable.ic_visa_colorful);
 			put(PaymentType.POINTS_REWARDS, R.drawable.pwp_icon);
 			put(PaymentType.CARD_UNKNOWN, R.drawable.ic_unknown_card_colorful);
+		}
+	};
+
+	@SuppressWarnings("serial")
+	private static final HashMap<PaymentType, Integer> CREDIT_CARD_ICON = new HashMap<PaymentType, Integer>() {
+		{
+			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.amex);
+			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.carte_bleue);
+			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.union_pay);
+			put(PaymentType.CARD_DINERS_CLUB, R.drawable.diners_club);
+			put(PaymentType.CARD_DISCOVER, R.drawable.discover);
+			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.jcb);
+			put(PaymentType.CARD_MAESTRO, R.drawable.maestro);
+			put(PaymentType.CARD_MASTERCARD, R.drawable.mc);
+			put(PaymentType.CARD_VISA, R.drawable.visa);
+			put(PaymentType.CARD_UNKNOWN, R.drawable.generic);
 		}
 	};
 }
