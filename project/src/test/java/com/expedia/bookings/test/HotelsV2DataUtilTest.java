@@ -73,8 +73,8 @@ public class HotelsV2DataUtilTest {
 		com.expedia.bookings.data.HotelSearchParams v1Params = new com.expedia.bookings.data.HotelSearchParams();
 		v1Params.setRegionId("1234");
 		v1Params.setQuery("San Francisco");
-		LocalDate checkIn = new LocalDate("2017-09-27");
-		LocalDate checkOut = new LocalDate("2017-09-29");
+		LocalDate checkIn = LocalDate.now().plusDays(1);
+		LocalDate checkOut = LocalDate.now().plusDays(5);
 		v1Params.setCheckInDate(checkIn);
 		v1Params.setCheckOutDate(checkOut);
 

@@ -3,6 +3,7 @@ package com.expedia.vm.packages
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import rx.subjects.BehaviorSubject
 
@@ -28,7 +29,7 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
 
     fun updateOBFees(selectedFlight: FlightLeg) {
         resetPaymentFeeViews()
-        if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
+        if ((selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) && PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage() ?: false) {
             val hasAirlineFeeLink = !selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()
             if (hasAirlineFeeLink){
                 val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)

@@ -3,6 +3,10 @@ package com.expedia.vm.test.robolectric
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.packages.FlightOverviewViewModel
 import org.junit.Test
@@ -119,8 +123,10 @@ class PackagesFlightOverviewViewModelTest {
         assertEquals("$646.00/person", sut.bundlePriceSubject.value)
     }
 
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     @Test
     fun testUpdateOBFeesHasAirlineFeeLink() {
+        RoboTestHelper.setPOS(PointOfSaleId.AUSTRALIA)
         setupSystemUnderTest()
         setupFlightLegWithAirlineMessageModel()
 
@@ -135,8 +141,10 @@ class PackagesFlightOverviewViewModelTest {
         obFeeDetailsUrlTestSubscriber.assertValues("", sut.e3EndpointUrl + "/p/regulatory/obfees")
     }
 
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     @Test
     fun testUpdateOBFeesNoAirlineFeeLink() {
+        RoboTestHelper.setPOS(PointOfSaleId.AUSTRALIA)
         setupSystemUnderTest()
         setupFlightLegWithAirlineMessageModel(airlineFeeLink = "")
 
@@ -151,10 +159,30 @@ class PackagesFlightOverviewViewModelTest {
         obFeeDetailsUrlTestSubscriber.assertValue("")
     }
 
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     @Test
     fun testUpdateOBFeesNoShowAirlineFeeLink() {
+        RoboTestHelper.setPOS(PointOfSaleId.AUSTRALIA)
         setupSystemUnderTest()
         setupFlightLegWithAirlineMessageModel(mayChargeObFees = false, hasAirlineWithCCfee = false)
+
+        val paymentInfoTestSubscriber = TestSubscriber<String>()
+        sut.chargesObFeesTextSubject.subscribe(paymentInfoTestSubscriber)
+        val obFeeDetailsUrlTestSubscriber = TestSubscriber<String>()
+        sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
+
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+
+        paymentInfoTestSubscriber.assertValue("")
+        obFeeDetailsUrlTestSubscriber.assertValue("")
+    }
+
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    fun testUpdateOBFeesNoShowAirlineFeeLinkOnDifferentPOS() {
+        RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
+        setupSystemUnderTest()
+        setupFlightLegWithAirlineMessageModel(mayChargeObFees = true, hasAirlineWithCCfee = true)
 
         val paymentInfoTestSubscriber = TestSubscriber<String>()
         sut.chargesObFeesTextSubject.subscribe(paymentInfoTestSubscriber)
