@@ -84,8 +84,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
     override val travelerWidgetV2 by lazy {
-        if(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-                AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp))
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp))
             travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
         else
             travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)

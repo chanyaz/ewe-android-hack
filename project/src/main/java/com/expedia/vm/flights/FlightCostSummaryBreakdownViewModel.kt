@@ -10,7 +10,6 @@ import com.expedia.bookings.data.flights.FlightTripDetails.PassengerCategory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
@@ -43,9 +42,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                     }
 
                     PassengerCategory.ADULT_CHILD -> {
-                        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-                                AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
-                                R.string.preference_flight_traveler_form_revamp)) {
+                        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
                             travelerInfo = Phrase.from(context, R.string.flight_add_youth_number_TEMPLATE).put("number", ++numYouthAdded).format().toString()
                         } else {
                             travelerInfo = Phrase.from(context, R.string.flight_add_child_number_TEMPLATE).put("number", ++numChildrenAdded).format().toString()

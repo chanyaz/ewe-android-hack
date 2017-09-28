@@ -11,12 +11,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -40,8 +40,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
 
     val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
     override val travelerWidgetV2: TravelerWidgetV2 by lazy {
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-                AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
             travelerFlightCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
         } else {
             travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)

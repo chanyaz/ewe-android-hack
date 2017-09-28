@@ -41,7 +41,7 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testNewTravelerPickerSelectionOperations(){
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
 
         var travelerCard = widget.travelerWidgetV2
         travelerCard.performClick()
@@ -72,7 +72,7 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testNewTravelerPickerWidgetItemsVisiblity() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
 
         var travelerCard = widget.travelerWidgetV2
         travelerCard.performClick()
@@ -91,7 +91,7 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testTravelerFormSelectionsTracked() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
         var travelerCard = widget.travelerWidgetV2

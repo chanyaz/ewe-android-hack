@@ -4383,9 +4383,7 @@ public class OmnitureTracking {
 
 			StringBuilder evar47String = new StringBuilder("PKG|1R|RT|");
 			evar47String.append("A" + Db.getPackageParams().getAdults() + "|");
-			if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
-				AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
-				R.string.preference_flight_traveler_form_revamp)) {
+			if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
 				evar47String.append("C" + children + "|");
 				evar47String.append("YTH" + youth + "|");
 				evar47String.append("IL" + infantInLap + "|");
@@ -5112,12 +5110,8 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_switch_to_from_flight_locations)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
-		}
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_traveler_form_revamp)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
+
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
 		s.track();
 	}
@@ -5423,9 +5417,7 @@ public class OmnitureTracking {
 		int youthCount = getYouthCount(searchTrackingData.getChildren());
 		str += searchTrackingData.getAdults();
 
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
-			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
-			R.string.preference_flight_traveler_form_revamp)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
 			str += "|YTH";
 			str += youthCount;
 		}
@@ -5465,9 +5457,7 @@ public class OmnitureTracking {
 
 	private static int getYouthCount(List<Integer> children) {
 		int youthCount = 0;
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
-			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
-			R.string.preference_flight_traveler_form_revamp)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
 			for (int age : children) {
 				if (age > 11 && age < 18) {
 					++youthCount;
@@ -5479,9 +5469,7 @@ public class OmnitureTracking {
 
 	private static int getChildCount(List<Integer> children) {
 		int childCount = 0;
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
-			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
-			R.string.preference_flight_traveler_form_revamp)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
 			for (int age : children) {
 				if (age > 1 && age < 12) {
 					++childCount;

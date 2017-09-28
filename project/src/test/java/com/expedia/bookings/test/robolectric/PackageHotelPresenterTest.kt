@@ -77,7 +77,7 @@ class PackageHotelPresenterTest {
 
     @Test
     fun testPackageSearchParamsTrackedWithNewTravelerForm() {
-        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
 
         buildPackagesSearchParams()
         searchPackages()
