@@ -137,6 +137,11 @@ public class SearchScreenSteps {
 		SearchScreen.searchButton().perform(click());
 	}
 
+	@Then("^I can trigger packages search$")
+	public void searchClick() throws Throwable {
+		SearchScreen.searchButton().perform(click());
+	}
+
 	@And("^I click on edit icon and select \"(.*?)\"$")
 	public void changePackageComponent(String componentName) {
 		PackageScreen.moreOptions().perform(click());

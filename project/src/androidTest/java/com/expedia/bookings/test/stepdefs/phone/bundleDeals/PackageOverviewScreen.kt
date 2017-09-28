@@ -530,6 +530,11 @@ class PackageOverviewScreen {
                 .check(matches(isDisplayed()))
     }
 
+    @And("^I click on start over button to modify search$")
+    @Throws(Throwable::class)
+    fun clickOnStartOverButton() {
+        onView((withId(android.R.id.button1))).perform(click())
+    }
 
     @And("^Validate that edit icon is present on top right$")
     @Throws(Throwable::class)

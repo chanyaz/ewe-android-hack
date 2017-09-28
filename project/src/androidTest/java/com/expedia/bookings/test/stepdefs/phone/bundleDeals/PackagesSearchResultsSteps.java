@@ -30,4 +30,9 @@ public class PackagesSearchResultsSteps {
 	public void validateHotelResultsShown() throws Throwable {
 		HotelScreen.hotelResultsList().check(matches(isDisplayed()));
 	}
+
+	@And("^I wait for flight results for packages to load$")
+	public void waitForFlightsForPackage() throws Throwable {
+		PackageScreen.flightList().perform(waitForViewToDisplay());
+	}
 }
