@@ -87,6 +87,7 @@ public class FlightLeg {
 		flightLeg.stopCount = multiItemFlightLeg.getStops();
 		flightLeg.destinationCity = flightLeg.flightSegments.get(flightLeg.flightSegments.size() - 1).arrivalCity;
 		flightLeg.destinationAirportCode = flightLeg.flightSegments.get(flightLeg.flightSegments.size() - 1).arrivalAirportCode;
+		flightLeg.baggageFeesUrl = multiItemFlightLeg.getBaggageFeesUrl();
 		return flightLeg;
 	}
 
@@ -163,15 +164,17 @@ public class FlightLeg {
 			flightSegment.arrivalAirportCode = multiItemFlightSegment.getArrivalAirportCode();
 			flightSegment.arrivalDateTimeISO = multiItemFlightSegment.getArrivalDateTime();
 
-			Period period = DateUtils.parseDurationFromISOFormat(multiItemFlightSegment.getFlightDuration());
-			flightSegment.durationHours = period.getHours();
-			flightSegment.durationMinutes = period.getMinutes();
-			flightSegment.layoverDurationHours = 0;//TODO PUK
-			flightSegment.layoverDurationMinutes = 0;//TODO PUK
-			flightSegment.elapsedDays = 0;//TODO PUK
+			Period durationPeriod = DateUtils.parseDurationFromISOFormat(multiItemFlightSegment.getFlightDuration());
+			flightSegment.durationHours = durationPeriod.getHours();
+			flightSegment.durationMinutes = durationPeriod.getMinutes();
 
-//			flightSegment.seatClass; //TODO PUK
-//			flightSegment.bookingCode; //TODO PUK
+			String layoverDuration = multiItemFlightSegment.getLayoverDuration();
+			if (layoverDuration != null) {
+				Period layoverPeriod = DateUtils.parseDurationFromISOFormat(layoverDuration);
+				flightSegment.layoverDurationHours = layoverPeriod.getHours();
+				flightSegment.layoverDurationMinutes = layoverPeriod.getMinutes();
+			}
+			flightSegment.elapsedDays = 0;//TODO PUK
 
 			return flightSegment;
 		}
