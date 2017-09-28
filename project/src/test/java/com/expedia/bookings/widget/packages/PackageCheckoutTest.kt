@@ -15,6 +15,7 @@ import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -35,6 +36,7 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -354,6 +356,19 @@ class PackageCheckoutTest {
         createTrip()
         checkout.cardFeeWarningTextView.performClick()
         assertEquals(View.GONE, overview.paymentFeeInfoWebView.visibility)
+    }
+
+    @Test
+    fun testRefreshedUserAccountDoesNotCrashBeforeOpeningPaymentWidget() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        createTrip()
+        checkout.onUserAccountRefreshed()
+
+        assertEquals(View.GONE, checkout.paymentWidget.billingInfoContainer.visibility)
+
+        checkout.showPaymentPresenter()
+        checkout.paymentWidget.showPaymentForm(fromPaymentError = false)
+        assertEquals(View.VISIBLE, checkout.paymentWidget.cardInfoContainer.visibility)
     }
 
     private fun createTrip() {

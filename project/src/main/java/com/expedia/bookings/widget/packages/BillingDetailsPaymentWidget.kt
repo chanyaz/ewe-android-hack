@@ -177,7 +177,6 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
 
     private fun setupMaterialForm() {
         sectionLocation.removeNonMaterialFields()
-        sectionLocation.materialCountryAdapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME, R.layout.material_item)
         defaultCreditCardNumberLayout = findViewById<TextInputLayout>(R.id.material_edit_credit_card_number)
         editCountryEditText = findViewById<AccessibleEditTextForSpinner>(R.id.material_edit_country)
         maskedCreditLayout = findViewById<TextInputLayout>(R.id.material_edit_masked_creditcard_number)
@@ -202,7 +201,6 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             if (billingCountry.isNullOrBlank()) {
                 billingCountry = PointOfSale.getPointOfSale().threeLetterCountryCode
                 updateCountryDependantFields(billingCountry)
-                sectionLocation.updateMaterialPostalFields(PointOfSale.getPointOfSale().pointOfSaleId)
             } else {
                 sectionLocation.billingCountryErrorSubject.onNext(false)
                 updateCountryDependantFields(billingCountry)

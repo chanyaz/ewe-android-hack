@@ -31,11 +31,9 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
-import com.expedia.bookings.widget.setMaterialFormsError
 import com.expedia.vm.PaymentViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
@@ -53,7 +51,6 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import java.util.ArrayList
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)

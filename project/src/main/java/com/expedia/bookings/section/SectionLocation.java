@@ -30,6 +30,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.SpinnerAdapterWithHint;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
@@ -53,7 +54,8 @@ public class SectionLocation extends LinearLayout
 	public BehaviorSubject<String> billingCountryCodeSubject = BehaviorSubject.create();
 	public PublishSubject<Boolean> billingCountryErrorSubject = PublishSubject.create();
 	public PublishSubject<Unit> validateBillingCountrySubject = PublishSubject.create();
-	CountrySpinnerAdapter materialCountryAdapter;
+	CountrySpinnerAdapter materialCountryAdapter = new CountrySpinnerAdapter(getContext(),
+		CountrySpinnerAdapter.CountryDisplayType.FULL_NAME, R.layout.material_item);
 
 	public SectionLocation(Context context) {
 		super(context);
@@ -144,10 +146,6 @@ public class SectionLocation extends LinearLayout
 		}
 	}
 
-	public void setMaterialCountryAdapter(CountrySpinnerAdapter adapter) {
-		materialCountryAdapter = adapter;
-	}
-
 	public CountrySpinnerAdapter getMaterialCountryAdapter() {
 		return materialCountryAdapter;
 	}
@@ -194,12 +192,13 @@ public class SectionLocation extends LinearLayout
 		CountrySpinnerAdapter countryAdapter;
 		String selectedCountryCode;
 		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-			if (billingCountryCodeSubject.getValue() == null || billingCountryCodeSubject.getValue().isEmpty()) {
+			String billingCountryCode = billingCountryCodeSubject.getValue();
+			if (Strings.isEmpty(billingCountryCode)) {
 				countryAdapter = materialCountryAdapter;
 				selectedCountryCode = countryAdapter.getItemValue(countryAdapter.getDefaultLocalePosition(), CountryDisplayType.THREE_LETTER);
 			}
 			else {
-				selectedCountryCode = billingCountryCodeSubject.getValue();
+				selectedCountryCode = billingCountryCode;
 			}
 		}
 		else {
@@ -593,9 +592,9 @@ public class SectionLocation extends LinearLayout
 			if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
 				CountrySpinnerAdapter countryAdapter = new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME,
 					R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item, false);
-				int position = (billingCountryCodeSubject.getValue() != null
-					&& !billingCountryCodeSubject.getValue().isEmpty())
-					? countryAdapter.getPositionByCountryThreeLetterCode(billingCountryCodeSubject.getValue())
+				String billingCountryCode = billingCountryCodeSubject.getValue();
+				int position = (Strings.isNotEmpty(billingCountryCode))
+					? countryAdapter.getPositionByCountryThreeLetterCode(billingCountryCode)
 					: countryAdapter.getDefaultLocalePosition();
 				selectedCountry = countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER);
 			}
@@ -810,8 +809,10 @@ public class SectionLocation extends LinearLayout
 		}
 
 		if (isMaterialFormEnabled()) {
-			TextInputLayout stateLayout = (TextInputLayout) findViewById(R.id.material_edit_address_state);
-			stateLayout.setHint(getContext().getString(hintString));
+			TextInputLayout stateLayout = findViewById(R.id.material_edit_address_state);
+			if (stateLayout != null) {
+				stateLayout.setHint(getContext().getString(hintString));
+			}
 			mValidState.setErrorString(getContext().getResources().getString(errorString));
 		}
 		else {
@@ -822,12 +823,10 @@ public class SectionLocation extends LinearLayout
 	public void updateMaterialPostalFields(PointOfSaleId pointOfSaleId) {
 		int postalHintString;
 		int postalErrorString;
-		TextInputLayout postalLayout = (TextInputLayout) findViewById(R.id.material_edit_address_postal_code);
-
-		if  (billingCountryCodeSubject.getValue() != null  && !billingCountryCodeSubject.getValue().isEmpty()) {
-			if (materialCountryAdapter.getItemValue(materialCountryAdapter
-				.getPositionByCountryThreeLetterCode(billingCountryCodeSubject.getValue()), CountryDisplayType.THREE_LETTER)
-				.equalsIgnoreCase("USA")) {
+		TextInputLayout postalLayout = findViewById(R.id.material_edit_address_postal_code);
+		String billingCountryCode = billingCountryCodeSubject.getValue();
+		if (Strings.isNotEmpty(billingCountryCode)) {
+			if (billingCountryCode.equalsIgnoreCase("USA")) {
 				postalHintString = R.string.address_zip_code_hint;
 				postalErrorString = R.string.error_enter_a_zip_code;
 				mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -849,7 +848,9 @@ public class SectionLocation extends LinearLayout
 			postalErrorString = R.string.error_enter_a_valid_postal_code;
 		}
 
-		postalLayout.setHint(getContext().getString(postalHintString));
+		if (postalLayout != null) {
+			postalLayout.setHint(getContext().getString(postalHintString));
+		}
 		mValidPostalCode.setErrorString(getContext().getString(postalErrorString));
 	}
 }
