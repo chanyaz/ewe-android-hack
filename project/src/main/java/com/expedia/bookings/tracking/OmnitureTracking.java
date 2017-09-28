@@ -2150,6 +2150,10 @@ public class OmnitureTracking {
 	private static final String ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success";
 	private static final String ITIN_TRIP_REFRESH_CALL_FAILURE = "App.Itinerary.Call.Failure";
 	private static final String ITIN_HOTEL_MAP_DIRECTIONS = "App.Map.Directions.Drive";
+	private static final String ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan";
+	private static final String ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn";
+	private static final String ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut";
+
 
 	public static void trackItinTripRefreshCallMade() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_MADE);
@@ -2435,6 +2439,21 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelDirectionsButton() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_DIRECTIONS);
+		s.trackLink(null, "o", "Map Action", null, null);
+	}
+
+	public static void trackItinExpandedMapZoomIn() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_ZOOM_IN);
+		s.trackLink(null, "o", "Map Action", null, null);
+	}
+
+	public static void trackItinExpandedMapZoomOut() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_ZOOM_OUT);
+		s.trackLink(null, "o", "Map Action", null, null);
+	}
+
+	public static void trackItinExpandedMapZoomPan() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_PAN);
 		s.trackLink(null, "o", "Map Action", null, null);
 	}
 

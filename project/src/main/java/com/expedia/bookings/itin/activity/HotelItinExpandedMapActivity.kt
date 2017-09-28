@@ -17,6 +17,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.havePermissionToAccessLocation
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -25,7 +26,46 @@ import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
 
 
-class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback {
+class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener {
+
+    override fun onCameraIdle() {
+        if (moveStarted) {
+            if (!zoomTracked) {
+                if (googleMap?.cameraPosition?.zoom != MAP_ZOOM_LEVEL) {
+                    zoomTracked = true
+                    if (googleMap?.cameraPosition!!.zoom > MAP_ZOOM_LEVEL) {
+                        OmnitureTracking.trackItinExpandedMapZoomIn()
+                    } else {
+                        OmnitureTracking.trackItinExpandedMapZoomOut()
+                    }
+                }
+            }
+            if (checkForPan()) {
+                    OmnitureTracking.trackItinExpandedMapZoomPan()
+                    panTracked = true
+
+            }
+            if (panTracked && zoomTracked) {
+                fullyTracked = true
+            }
+            moveStarted = false
+
+        }
+    }
+
+
+
+    fun checkForPan(): Boolean {
+        return !panTracked && currentZoom == googleMap?.cameraPosition?.zoom
+                && googleMap?.cameraPosition?.target != startPosition
+    }
+    override fun onCameraMoveStarted(reason: Int) {
+        if (reason == OnCameraMoveStartedListener.REASON_GESTURE && !fullyTracked) {
+            moveStarted = true
+            currentZoom = googleMap?.cameraPosition!!.zoom
+        }
+    }
+
 
     lateinit var itinCardDataHotel: ItinCardDataHotel
     private val mapView: MapView by lazy {
@@ -40,6 +80,12 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 
     private var googleMap: GoogleMap? = null
     private val MAP_ZOOM_LEVEL = 14f
+    private lateinit var startPosition: LatLng
+    private var fullyTracked = false
+    private var zoomTracked = false
+    private var panTracked = false
+    private var moveStarted = false
+    private var currentZoom = 0f
     private val toolbar: HotelItinToolbar by lazy {
         findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
     }
@@ -82,7 +128,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             val hotelLong = itinCardDataHotel.propertyLocation.longitude
             val propertyName = itinCardDataHotel.propertyName
 
-            val uri = String.format(Locale.getDefault(), "geo:0,0?q=") + android.net.Uri.encode(String.format("%s@%f,%f", propertyName, hotelLat, hotelLong), "UTF-8");
+            val uri = String.format(Locale.getDefault(), "geo:0,0?q=") + android.net.Uri.encode(String.format("%s@%f,%f", propertyName, hotelLat, hotelLong), "UTF-8")
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT
             intent.flags = Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
@@ -102,6 +148,11 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         googleMap?.isMyLocationEnabled = havePermissionToAccessLocation(this)
         googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(getHotelLatLong(), MAP_ZOOM_LEVEL))
         addMarker(map)
+        googleMap?.setOnCameraMoveStartedListener(this)
+        googleMap?.setOnCameraIdleListener(this)
+        startPosition = googleMap?.cameraPosition!!.target
+        currentZoom = MAP_ZOOM_LEVEL
+
     }
 
     override fun updateItinCardDataHotel() {

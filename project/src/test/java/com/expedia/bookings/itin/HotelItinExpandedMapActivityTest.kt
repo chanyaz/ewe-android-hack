@@ -6,6 +6,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.android.util.SettingUtils
@@ -37,6 +38,29 @@ class HotelItinExpandedMapActivityTest {
         activity.directionsButton.performClick()
 
         OmnitureTestUtils.assertLinkTracked("Map Action", "App.Map.Directions.Drive", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOmnitureForZoomIn() {
+
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackItinExpandedMapZoomIn()
+        OmnitureTestUtils.assertLinkTracked("Map Action", "App.Map.Directions.ZoomIn", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOmnitureForZoomout() {
+
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackItinExpandedMapZoomOut()
+        OmnitureTestUtils.assertLinkTracked("Map Action", "App.Map.Directions.ZoomOut", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOmnitureForPan() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        OmnitureTracking.trackItinExpandedMapZoomPan()
+        OmnitureTestUtils.assertLinkTracked("Map Action", "App.Map.Directions.Pan", mockAnalyticsProvider)
     }
 
 }
