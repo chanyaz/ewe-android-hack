@@ -12,6 +12,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.RestrictedProfileActivity
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.notification.NotificationManager
@@ -113,9 +114,11 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
         }
     }
 
-    fun ensureUserStateSanity(listener: UserAccountRefresher.IUserAccountRefreshListener) {
+    @JvmOverloads
+    fun ensureUserStateSanity(listener: UserAccountRefresher.IUserAccountRefreshListener,
+                              refresher: UserAccountRefresher? = null) {
         if (isUserLoggedInToAccountManager() && !isUserLoggedInOnDisk()) {
-            User.loadUser(context, listener)
+            (refresher ?: UserAccountRefresher(context, LineOfBusiness.NONE, listener)).forceAccountRefresh()
         } else {
             listener.onUserAccountRefreshed()
         }
