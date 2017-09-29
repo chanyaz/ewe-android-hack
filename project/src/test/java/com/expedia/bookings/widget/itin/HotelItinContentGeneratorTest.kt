@@ -347,7 +347,7 @@ class HotelItinContentGeneratorTest {
     fun testDoesCrossSellNotificationsFireAtRightTime(){
         AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications)
         val checkInTime = mTodayAtNoon.plusDays(10)
-        val testTime = checkInTime.minusDays(7)
+        val testTime = roundTime(checkInTime.minusDays(7))
         val checkOutTime = mTodayAtNoon.plusDays(20)
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
@@ -500,7 +500,8 @@ class HotelItinContentGeneratorTest {
         val notification = makeHotelItinGenerator(happyItinCardDataHotel).generateNotifications().get(0)
         assertEquals(notification.title, "Hotel check in reminder")
         assertTrue(notification.body.contains(" tomorrow. View your booking for details."))
-        assertTrue(notification.triggerTimeMillis.equals(checkInTime.minusDays(1).millis))
+        val testTime = roundTime(checkInTime.minusDays(1))
+        assertTrue(notification.triggerTimeMillis.equals(testTime.millis))
     }
 
     @Test
@@ -512,7 +513,8 @@ class HotelItinContentGeneratorTest {
         val notification = makeHotelItinGenerator(happyItinCardDataHotel).generateNotifications().get(1)
         assertTrue(notification.title.contains("Check out at"))
         assertTrue(notification.body.contains("Check out time your hotel booking for " + happyItinCardDataHotel.propertyName))
-        assertTrue(notification.triggerTimeMillis.equals(checkOutTime.minusDays(1).millis))
+        val testTime = roundTime(checkOutTime.minusDays(1))
+        assertTrue(notification.triggerTimeMillis.equals(testTime.millis))
     }
 
     @Test
@@ -524,7 +526,8 @@ class HotelItinContentGeneratorTest {
         val notification = makeHotelItinGenerator(happyItinCardDataHotel).generateNotifications().get(1)
         assertTrue(notification.title.contains("Check out at"))
         assertTrue(notification.body.contains("Check out time your hotel booking for " + happyItinCardDataHotel.propertyName))
-        assertTrue(notification.triggerTimeMillis.equals(checkOutTime.minusHours(12).millis))
+        val testTime = roundTime(checkOutTime.minusHours(12))
+        assertTrue(notification.triggerTimeMillis.equals(testTime.millis))
     }
 
     private fun getBookingChangeUrl(): String {
@@ -563,5 +566,12 @@ class HotelItinContentGeneratorTest {
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInDate, checkOutDate)
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
         return hotelItinGenerator.summaryText
+    }
+
+    private fun roundTime(time: DateTime ): DateTime {
+        var roundedTime = time.toMutableDateTime()
+        roundedTime.setZoneRetainFields(DateTimeZone.getDefault())
+        roundedTime.setRounding(roundedTime.chronology.minuteOfHour())
+        return roundedTime.toDateTime()
     }
 }

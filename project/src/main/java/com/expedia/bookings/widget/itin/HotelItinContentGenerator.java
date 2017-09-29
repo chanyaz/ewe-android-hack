@@ -684,11 +684,16 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String itinId = data.getId();
 
-		MutableDateTime trigger = data.getStartDate().toMutableDateTime();
+		MutableDateTime startDate = data.getStartDate().toMutableDateTime();
+		startDate.setZoneRetainFields(DateTimeZone.getDefault());
+		startDate.setRounding(startDate.getChronology().minuteOfHour());
+
+		MutableDateTime trigger = startDate;
 		trigger.addDays(-1);
 		long triggerTimeMillis = trigger.getMillis();
-		trigger = data.getStartDate().toMutableDateTime();
-		trigger.setHourOfDay(22);
+
+		trigger = startDate;
+		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
 		long expirationTimeMillis = trigger.getMillis();
 
@@ -759,7 +764,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String itinId = data.getId();
 
-		MutableDateTime trigger = data.getEndDate().toMutableDateTime();
+		MutableDateTime endDate = data.getEndDate().toMutableDateTime();
+		endDate.setZoneRetainFields(DateTimeZone.getDefault());
+		endDate.setRounding(endDate.getChronology().minuteOfHour());
+
+		MutableDateTime trigger = endDate;
 		if (isDurationLongerThanDays(2)) {
 			trigger.addDays(-1);
 		}
@@ -767,9 +776,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			trigger.addHours(-12);
 		}
 		long triggerTimeMillis = trigger.getMillis();
-		trigger = data.getEndDate().toMutableDateTime();
-		trigger.setHourOfDay(22);
+
+		trigger = endDate;
+		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
+
 		long expirationTimeMillis = trigger.getMillis();
 
 		Notification notification = new Notification(itinId + "_checkout", itinId, triggerTimeMillis);
@@ -803,11 +814,16 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		TripHotel hotel = (TripHotel) getItinCardData().getTripComponent();
 
+		MutableDateTime startDate = data.getStartDate().toMutableDateTime();
+		startDate.setZoneRetainFields(DateTimeZone.getDefault());
+		startDate.setRounding(startDate.getChronology().minuteOfHour());
 
-		MutableDateTime trigger = data.getStartDate().minusDays(3).toMutableDateTime();
+		MutableDateTime trigger = startDate;
+		trigger.addDays(-3);
 		long triggerTimeMillis = trigger.getMillis();
-		trigger = data.getStartDate().toMutableDateTime();
-		trigger.setHourOfDay(22);
+
+		trigger = startDate;
+		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
 		long expirationTimeMillis = trigger.getMillis();
 
@@ -837,10 +853,17 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		ItinCardDataHotel data = getItinCardData();
 
 		String itinId = data.getId();
-		MutableDateTime trigger = data.getStartDate().minusDays(7).toMutableDateTime();
+
+		MutableDateTime startDate = data.getStartDate().toMutableDateTime();
+		startDate.setZoneRetainFields(DateTimeZone.getDefault());
+		startDate.setRounding(startDate.getChronology().minuteOfHour());
+
+		MutableDateTime trigger = startDate;
+		trigger.addDays(-7);
 		long triggerTimeMillis = trigger.getMillis();
-		trigger = data.getStartDate().toMutableDateTime();
-		trigger.setHourOfDay(22);
+
+		trigger = startDate;
+		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
 		long expirationTimeMillis = trigger.getMillis();
 
