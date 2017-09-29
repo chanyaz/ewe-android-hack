@@ -269,6 +269,7 @@ public class OmnitureTracking {
 	private static final String APP_CKO_PAYMENT_DECLINE_SAVE = "App.CKO.Payment.DeclineSave";
 	private static final String APP_CKO_TRAVELER_SAVE = "App.CKO.Traveler.Save";
 	private static final String APP_CKO_TRAVELER_DECLINE_SAVE = "App.CKO.Traveler.DeclineSave";
+	public static final String APP_CKO_SLIDE_TO_BOOK = "App.CKO.SlideToBook";
 
 	private static final String UNIVERSAL_CHECKOUT = "Universal Checkout";
 
@@ -5414,12 +5415,15 @@ public class OmnitureTracking {
 	private static void trackSlidetoPurchase(String lobPageName, String cardType, String flexStatus) {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(lobPageName);
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.setEvar(28, APP_CKO_SLIDE_TO_BOOK);
+		s.setProp(16, APP_CKO_SLIDE_TO_BOOK);
 		s.setEvar(18, lobPageName);
 		s.setEvar(37, cardType);
 		if (Strings.isNotEmpty(flexStatus)) {
 			s.setEvar(44, flexStatus);
 		}
-		s.track();
+		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
 	}
 
 	public static void trackFlightCheckoutPaymentCID() {
