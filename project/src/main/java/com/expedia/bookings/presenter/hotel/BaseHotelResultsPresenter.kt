@@ -504,7 +504,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (markersForHotel.isNotEmpty()) {
                 val marker = markersForHotel.first()
                 mapViewModel.carouselSwipedObservable.onNext(marker)
-                trackCarouselScroll()
             }
         }
         toolbar.inflateMenu(R.menu.menu_filter_item)
@@ -1290,7 +1289,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun createFilterViewModel(): BaseHotelFilterViewModel
     abstract fun trackSearchMap()
     abstract fun trackMapToList()
-    abstract fun trackCarouselScroll()
     abstract fun trackMapPinTap()
     abstract fun trackFilterShown()
     abstract fun trackMapSearchAreaClick()

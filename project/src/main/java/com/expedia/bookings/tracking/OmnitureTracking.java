@@ -221,7 +221,6 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_MAP_TAP_PIN = "App.Hotels.Search.TapPin";
 	private static final String HOTELSV2_SEARCH_MAP_TAP_CAROUSAL = "App.Hotels.Search.Expand.Hotel";
 	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
-	private static final String HOTELSV2_CAROUSEL_SCROLL = "App.Hotels.Search.ShowNext";
 	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
 	private static final String HOTELSV2_SOLD_OUT_PAGE = "App.Hotels.Infosite.SoldOut";
 	private static final String HOTEL_URGENCY_COMPRESSION_SCORE = "HOT.SR.RegionCompression.Score.";
@@ -696,13 +695,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_THIS_AREA + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_THIS_AREA);
-		s.trackLink(null, "o", "Search Results Map View", null, null);
-	}
-
-	public static void trackHotelV2CarouselScroll() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_CAROUSEL_SCROLL + "\" scroll...");
-
-		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CAROUSEL_SCROLL);
 		s.trackLink(null, "o", "Search Results Map View", null, null);
 	}
 
@@ -4203,7 +4195,6 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_MAP_PIN_TAP = "App.Package.Hotels.Search.TapPin";
 	private static final String PACKAGES_HOTEL_CAROUSEL_TAP = "App.Package.Hotels.Search.Expand.Package";
 	private static final String PACKAGES_HOTEL_MAP_SEARCH_AREA = "App.Package.Hotels.Search.AreaSearch";
-	private static final String PACKAGES_HOTEL_MAP_CAROUSEL_SCROLL = "App.Package.Hotels.Search.ShowNext";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_SELECT = "App.Package.Checkout.Payment.Select";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_EDIT = "App.Package.Checkout.Payment.Edit.Card";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC = "App.Package.CKO.Payment.StoredCard";
@@ -4487,10 +4478,6 @@ public class OmnitureTracking {
 
 	public static void trackPackagesHotelMapCarouselPropertyClick() {
 		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_CAROUSEL_TAP);
-	}
-
-	public static void trackPackagesHotelMapCarouselScroll() {
-		trackPackagesHotelMapLinkEvent(PACKAGES_HOTEL_MAP_CAROUSEL_SCROLL);
 	}
 
 	public static void trackPackagesHotelMapSearchThisAreaClick() {

@@ -43,10 +43,6 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesHotelMapCarouselPropertyClick()
     }
 
-    fun trackHotelMapCarouselScroll() {
-        OmnitureTracking.trackPackagesHotelMapCarouselScroll()
-    }
-
     fun trackHotelMapSearchThisAreaClick() {
         OmnitureTracking.trackPackagesHotelMapSearchThisAreaClick()
     }

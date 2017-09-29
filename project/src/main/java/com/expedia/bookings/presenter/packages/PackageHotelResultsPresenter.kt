@@ -87,10 +87,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         PackagesTracking().trackHotelMapToList()
     }
 
-    override fun trackCarouselScroll() {
-        PackagesTracking().trackHotelMapCarouselScroll()
-    }
-
     override fun trackMapPinTap() {
         PackagesTracking().trackHotelMapPinTap()
     }
