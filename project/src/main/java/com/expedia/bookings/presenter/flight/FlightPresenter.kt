@@ -353,18 +353,19 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         viewModel.flightProductId.subscribe { productKey ->
+            createTripBuilder = FlightCreateTripParams.Builder()
+            createTripBuilder.productKey(productKey)
+            createTripBuilder.setFlexEnabled(isFlexEnabled())
+            if (EBAndroidAppFlightSubpubChange) {
+                createTripBuilder.enableSubPubFeature()
+            }
+            flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
             if (shouldShowWebCheckoutView()) {
+                (webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).doCreateTrip()
                 show(webCheckoutView)
                 webCheckoutView.visibility = View.VISIBLE
             } else {
                 flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
-                createTripBuilder = FlightCreateTripParams.Builder()
-                createTripBuilder.productKey(productKey)
-                createTripBuilder.setFlexEnabled(isFlexEnabled())
-                if (EBAndroidAppFlightSubpubChange) {
-                    createTripBuilder.enableSubPubFeature()
-                }
-                flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
                 show(flightOverviewPresenter)
                 flightOverviewPresenter.visibility = View.VISIBLE
                 flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
@@ -426,8 +427,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     val webCheckoutView: WebCheckoutView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.flight_web_checkout_stub)
-        var webCheckoutView = viewStub.inflate() as WebCheckoutView
-        var flightWebCheckoutViewModel = FlightWebCheckoutViewViewModel(context)
+        val webCheckoutView = viewStub.inflate() as WebCheckoutView
+        val flightWebCheckoutViewModel = FlightWebCheckoutViewViewModel(context)
+        flightWebCheckoutViewModel.flightCreateTripViewModel = flightCreateTripViewModel
         webCheckoutView.viewModel = flightWebCheckoutViewModel
 
         flightWebCheckoutViewModel.closeView.subscribe {

@@ -26,7 +26,7 @@ class HotelWebCheckoutViewViewModel(var context: Context): WebCheckoutViewViewMo
         offerObservable.map { Unit }.subscribe(fireCreateTripObservable)
     }
 
-    fun doCreateTrip() {
+    override fun doCreateTrip() {
         showLoadingObservable.onNext(Unit)
         val numberOfAdults = hotelSearchParamsObservable.value.adults
         val childAges = hotelSearchParamsObservable.value.children

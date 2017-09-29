@@ -20,6 +20,8 @@ abstract class WebCheckoutViewViewModel(context: Context) : WebViewViewModel(), 
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
+    abstract fun doCreateTrip()
+
     override fun onUserAccountRefreshed() {
         userStateManager.addUserToAccountManager(Db.getUser())
         val bookTripId = bookedTripIDObservable.value

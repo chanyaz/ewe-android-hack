@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.hotel
+package com.expedia.bookings.presenter.flight
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -7,11 +7,14 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.presenter.flight.FlightPresenter
+import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
@@ -19,24 +22,38 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.vm.FlightWebCheckoutViewViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import com.mobiata.android.util.SettingUtils
+import com.mobiata.mocke3.ExpediaDispatcher
+import com.mobiata.mocke3.FileSystemOpener
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
+import org.junit.Rule
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
+import java.io.File
 import java.util.ArrayList
-import kotlin.test.assertFalse
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class))
 class FlightCheckoutViewTest {
+
     lateinit var activity: Activity
     lateinit var flightPresenter: FlightPresenter
+    lateinit private var flightServices: FlightServices
+    var server: MockWebServer = MockWebServer()
+        @Rule get
 
     @Before
     fun setup() {
@@ -100,6 +117,40 @@ class FlightCheckoutViewTest {
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.VISIBLE)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testProductIdFiresCreateTrip() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        val tripResponseSubscriber = TestSubscriber<TripResponse>()
+        val testPerformCreateTripSubscriber = TestSubscriber<Unit>()
+        val testShowLoadingSubscriber = TestSubscriber<Unit>()
+        val testUrlSubscriber = TestSubscriber<String>()
+        val webCheckoutViewModel = flightPresenter.webCheckoutView.viewModel as FlightWebCheckoutViewViewModel
+        webCheckoutViewModel.flightCreateTripViewModel.createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
+        webCheckoutViewModel.flightCreateTripViewModel.performCreateTrip.subscribe(testPerformCreateTripSubscriber)
+        webCheckoutViewModel.showLoadingObservable.subscribe(testShowLoadingSubscriber)
+        webCheckoutViewModel.webViewURLObservable.subscribe(testUrlSubscriber)
+
+        setupTestToOpenInFlightOutboundPresenter()
+
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("happy_round_trip")
+        testShowLoadingSubscriber.assertValueCount(1)
+        testPerformCreateTripSubscriber.assertValueCount(1)
+        tripResponseSubscriber.assertValueCount(1)
+        assertEquals("happy_round_trip", (tripResponseSubscriber.onNextEvents[0] as FlightCreateTripResponse).newTrip?.tripId)
+        testUrlSubscriber.assertValue("${PointOfSale.getPointOfSale().flightsWebCheckoutUrl}?tripid=happy_round_trip")
+    }
+
+    private fun setFlightPresenterAndFlightServices() {
+        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+        flightPresenter.flightServices = flightServices
+        (flightPresenter.webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).flightCreateTripViewModel.flightServices = flightServices
+    }
+
     private fun setupTestToOpenInFlightInboundPresenter() {
         flightPresenter.flightOfferViewModel.isRoundTripSearchSubject.onNext(false)
         flightPresenter.show(flightPresenter.inboundPresenter)
@@ -158,6 +209,18 @@ class FlightCheckoutViewTest {
         val checkOut = LocalDate().plusDays(3)
 
         return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null,null)
+    }
+
+    private fun createMockFlightServices() {
+        val logger = HttpLoggingInterceptor()
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        val interceptor = MockInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        server.setDispatcher(ExpediaDispatcher(opener))
+        flightServices = FlightServices("http://localhost:" + server.port,
+                OkHttpClient.Builder().addInterceptor(logger).build(),
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 
 }
