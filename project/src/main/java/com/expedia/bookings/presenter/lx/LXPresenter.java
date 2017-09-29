@@ -243,8 +243,43 @@ public class LXPresenter extends Presenter {
 			}
 		}
 	};
-
+	//Transitioned the same behavior of the
 	private Transition searchOverlayOnResults = new Transition(LXResultsPresenter.class,
+		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
+		@Override
+		public void startTransition(boolean forward) {
+			resultsPresenter.setVisibility(VISIBLE);
+			searchParamsWidget.setVisibility(VISIBLE);
+			detailsPresenter.setVisibility(View.GONE);
+			resultsPresenter.animationStart(forward);
+			searchParamsWidget.animationStart(forward);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			resultsPresenter.animationUpdate(f, forward);
+			setBackgroundColorForSearchWidget(f, forward);
+			searchParamsWidget.animationUpdate(f, forward);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			if (forward) {
+				resultsPresenter.setVisibility(GONE);
+			}
+			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
+			resultsPresenter.animationFinalize(forward);
+			searchParamsWidget.animationFinalize(forward);
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(searchParamsWidget.getToolbar());
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar);
+			}
+		}
+	};
+	//searchOverlayOnDetails transition is applied.
+	private Transition searchOverlayOnPresenter = new Transition(LXSearchPresenter.class,
 		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
