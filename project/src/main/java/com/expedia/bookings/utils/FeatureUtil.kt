@@ -23,11 +23,8 @@ fun isSecureIconEnabled(context: Context): Boolean {
             && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_secure_icon)
 }
 
-fun isFrequentFlyerNumberForFlightsEnabled(context: Context): Boolean {
-    return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber,
-            R.string.preference_enable_flights_frequent_flyer_number)
-            && isMaterialFormsEnabled()
+fun isFrequentFlyerNumberForFlightsEnabled(): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)&& isMaterialFormsEnabled()
 }
 
 fun isMidAPIEnabled(context: Context): Boolean {

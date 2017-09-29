@@ -9,7 +9,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,7 +30,6 @@ class HotelItinExpandedMapActivityTest {
 
     @Test
     fun testDirectionsOmnitureClick() {
-        SettingUtils.save(activity, R.string.preference_trips_hotel_maps, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppItinHotelRedesign)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         activity.setUpWidgets(itinCardDataHotel)
