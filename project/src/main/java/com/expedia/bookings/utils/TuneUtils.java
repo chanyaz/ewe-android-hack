@@ -1056,7 +1056,7 @@ public class TuneUtils {
 
 	private static void lazyLoadUser() {
 		if (Db.getUser() == null && userStateManager.isUserAuthenticated()) {
-			Db.loadUser(context);
+			userStateManager.getUserSource().getUser();
 		}
 	}
 

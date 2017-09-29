@@ -51,8 +51,8 @@ public class User implements JSONable {
 		// Default constructor
 	}
 
-	public User(Context context) {
-		load(context);
+	protected User(JSONObject userData) {
+		fromJson(userData);
 	}
 
 	public void setPrimaryTraveler(Traveler traveler) {
@@ -162,36 +162,6 @@ public class User implements JSONable {
 			}
 		}
 		return isFileSaved;
-	}
-
-	public boolean load(Context context) {
-		Log.d("Loading saved user.");
-
-		// Check that the saved billing info file exists
-		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		if (!f.exists()) {
-			return false;
-		}
-
-		// Initialize a cipher
-		FileCipher fileCipher = new FileCipher(PASSWORD);
-		if (!fileCipher.isInitialized()) {
-			return false;
-		}
-
-		String results = fileCipher.loadSecureData(f);
-		if (results == null || results.length() == 0) {
-			return false;
-		}
-
-		try {
-			fromJson(new JSONObject(results));
-			return true;
-		}
-		catch (JSONException e) {
-			Log.e("Could not restore saved user info.", e);
-			return false;
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

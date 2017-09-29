@@ -3405,14 +3405,13 @@ public class OmnitureTracking {
 		// If the user is logged in, we want to send their email address along with request
 		if (userStateManager.isUserAuthenticated()) {
 			// Load the user into the Db if it has not been done (which will most likely be the case on app launch)
-			if (Db.getUser() == null) {
-				Db.loadUser(sContext);
-			}
-			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
-				email = Db.getUser().getPrimaryTraveler().getEmail();
-				expediaId = Db.getUser().getExpediaUserId();
-				rewardsStatus = getRewardsStatusString(Db.getUser());
-				tuid = Db.getUser().getTuidString();
+			User user = userStateManager.getUserSource().getUser();
+
+			if (user != null && user.getPrimaryTraveler() != null) {
+				email = user.getPrimaryTraveler().getEmail();
+				expediaId = user.getExpediaUserId();
+				rewardsStatus = getRewardsStatusString(user);
+				tuid = user.getTuidString();
 			}
 		}
 

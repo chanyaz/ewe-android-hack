@@ -42,6 +42,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
@@ -1868,11 +1869,10 @@ public class ItineraryManager implements JSONable {
 			int siteId = PointOfSale.getPointOfSale().getSiteId();
 			long userTuid = 0;
 			if (userStateManager.isUserAuthenticated()) {
-				if (Db.getUser() == null) {
-					Db.loadUser(mContext);
-				}
-				if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
-					userTuid = Db.getUser().getPrimaryTraveler().getTuid();
+				User user = userStateManager.getUserSource().getUser();
+
+				if (user != null && user.getPrimaryTraveler() != null) {
+					userTuid = user.getPrimaryTraveler().getTuid();
 				}
 			}
 

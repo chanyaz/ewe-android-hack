@@ -40,6 +40,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
@@ -433,10 +434,15 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			doLogout();
 			return;
 		}
-		if (Db.getUser() == null) {
-			Db.loadUser(getActivity());
+
+		User user = userStateManager.getUserSource().getUser();
+
+		String email = null;
+
+		if (user != null) {
+			email = user.getPrimaryTraveler().getEmail();
 		}
-		String email = Db.getUser().getPrimaryTraveler().getEmail();
+
 		String logoutMessage = getResources().getString(R.string.itin_sign_out_confirmation_message_TEMPLATE, email);
 		LoginConfirmLogoutDialogFragment df = LoginConfirmLogoutDialogFragment.getInstance(logoutMessage);
 		df.show(getFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);

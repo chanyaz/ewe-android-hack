@@ -16,12 +16,12 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -1097,11 +1097,10 @@ public class PushNotificationUtils {
 				int siteId = PointOfSale.getPointOfSale().getSiteId();
 				UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 				if (userStateManager.isUserAuthenticated()) {
-					if (Db.getUser() == null) {
-						Db.loadUser(context);
-					}
-					if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
-						userTuid = Db.getUser().getPrimaryTraveler().getTuid();
+					User user = userStateManager.getUserSource().getUser();
+
+					if (user != null && user.getPrimaryTraveler() != null) {
+						userTuid = user.getPrimaryTraveler().getTuid();
 					}
 				}
 				ExpediaServices services = new ExpediaServices(context);

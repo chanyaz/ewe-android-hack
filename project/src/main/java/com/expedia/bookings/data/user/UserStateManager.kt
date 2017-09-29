@@ -24,7 +24,7 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
                        private val userLoginStateChangedModel: UserLoginStateChangedModel,
                        private val notificationManager: NotificationManager,
                        private val accountManager: AccountManager = AccountManager.get(context),
-                       private val userSource: UserSource = UserSource(context)) {
+                       val userSource: UserSource = UserSource(context)) {
     private val SAVED_INFO_FILENAME = "user.dat"
 
     private val accountType: String by lazy {

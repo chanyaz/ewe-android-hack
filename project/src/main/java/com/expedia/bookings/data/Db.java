@@ -284,10 +284,6 @@ public class Db {
 		return sDb.mBillingInfo != null;
 	}
 
-	public static void loadUser(Context context) {
-		sDb.mUser = new User(context);
-	}
-
 	public static void setUser(User user) {
 		sDb.mUser = user;
 	}
