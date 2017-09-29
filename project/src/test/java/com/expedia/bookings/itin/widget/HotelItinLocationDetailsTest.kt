@@ -4,21 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
-import com.expedia.bookings.test.CustomMatchers
-import com.expedia.bookings.test.NullSafeMockitoHamcrest
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
-import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.Robolectric
 import kotlin.test.assertEquals
 
@@ -52,7 +47,6 @@ class HotelItinLocationDetailsTest {
 
     @Test
     fun testMapOmnitureClick() {
-        SettingUtils.save(activity, R.string.preference_trips_hotel_maps, true)
         AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelMap)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         locationDetailsWidget.setupWidget(itinCardDataHotel)
