@@ -89,6 +89,16 @@ class SatelliteFeatureConfigManagerTest {
         assertFalse(SatelliteFeatureConfigManager.testEnabled(context, 123))
     }
 
+    @Test
+    fun testClearWillForceConfigRefresh() {
+        updateTimestamp(System.currentTimeMillis())
+        assertFalse(SatelliteFeatureConfigManager.shouldUpdateConfig(context))
+
+        clearCache()
+        assertTrue(SatelliteFeatureConfigManager.shouldUpdateConfig(context))
+        assertFalse(SatelliteFeatureConfigManager.configValid(context))
+    }
+
     private fun updateTimestamp(timestamp: Long) {
         val editor = getSharedPrefs().edit()
         editor.putLong(SatelliteFeatureConfigManager.PREFS_FEATURE_CONFIG_LAST_UPDATED, timestamp)
@@ -104,5 +114,10 @@ class SatelliteFeatureConfigManagerTest {
     private fun getSharedPrefs(): SharedPreferences {
         val prefs = context.getSharedPreferences("featureConfig", Context.MODE_PRIVATE)
         return prefs
+    }
+
+    private fun clearCache() {
+        val editor = getSharedPrefs().edit()
+        editor.clear().apply()
     }
 }

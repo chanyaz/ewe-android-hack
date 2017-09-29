@@ -28,14 +28,16 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.ProWizardBucketCache
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
@@ -204,6 +206,8 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             launchListWidget.onPOSChange()
 
             initializeProWizard()
+
+            initializeFeatureConfig()
         }
 
         initializeProWizard()
@@ -229,6 +233,12 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             proWizardSearchBarView.setOnClickListener(ProWizardClickListener())
         } else {
             proWizardSearchBarView.setOnClickListener(null)
+        }
+    }
+
+    private fun initializeFeatureConfig() {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_satellite_config)) {
+            SatelliteFeatureConfigManager.forceRefreshFeatureConfig(context)
         }
     }
 
