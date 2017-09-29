@@ -1,11 +1,13 @@
 package com.expedia.bookings.data;
 
+import org.jetbrains.annotations.Nullable;
 import com.expedia.bookings.utils.Strings;
 
 public class ApiError extends RuntimeException {
 
 	public enum Code {
 		// Common errors
+		UNMAPPED_ERROR, // error not in this list
 		UNKNOWN_ERROR, // retry
 		INVALID_INPUT,
 		PRICE_CHANGE,
@@ -51,6 +53,7 @@ public class ApiError extends RuntimeException {
 		HOTEL_MAP_SEARCH_NO_RESULTS,
 		HOTEL_FILTER_NO_RESULTS,
 		HOTEL_PINNED_NOT_FOUND,
+		REGION_BLOCKED,
 
 		//Hotel Checkout Errors
 		HOTEL_CHECKOUT_CARD_DETAILS,
@@ -119,6 +122,7 @@ public class ApiError extends RuntimeException {
 		}
 	}
 
+	@Nullable
 	public Code errorCode;
 
 	public DetailCode errorDetailCode;

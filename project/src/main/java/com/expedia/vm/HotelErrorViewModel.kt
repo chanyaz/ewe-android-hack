@@ -181,32 +181,32 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     override fun searchErrorHandler(): Observer<ApiError> {
         return endlessObserver {
             error = it
-            when (it.errorCode) {
+            when (error.errorCode) {
                 ApiError.Code.INVALID_INPUT -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
-                    val errorMessage = "${error.errorCode.name}:${error.errorInfo?.field ?: ""}"
+                    val errorMessage = "${error.errorCode!!.name}:${error.errorInfo?.field ?: ""}"
                     HotelTracking.trackHotelsNoResult(errorMessage)
                 }
                 ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
-                    HotelTracking.trackHotelsNoResult(error.errorCode.name)
+                    HotelTracking.trackHotelsNoResult(error.errorCode!!.name)
                 }
                 ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
                     titleObservable.onNext(context.getString(R.string.visible_map_area))
-                    HotelTracking.trackHotelsNoResult(error.errorCode.name)
+                    HotelTracking.trackHotelsNoResult(error.errorCode!!.name)
                 }
                 ApiError.Code.HOTEL_FILTER_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_filter_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.reset_filter))
-                    HotelTracking.trackHotelsNoResult(error.errorCode.name)
+                    HotelTracking.trackHotelsNoResult(error.errorCode!!.name)
                 }
                 ApiError.Code.HOTEL_PINNED_NOT_FOUND -> {
                     imageObservable.onNext(R.drawable.error_search)
@@ -216,7 +216,9 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 }
                 else -> {
                     makeDefaultError()
-                    HotelTracking.trackHotelsNoResult(error.errorCode.name)
+                    val errorCodeString = error.errorCode?.name ?: ApiError.Code.UNMAPPED_ERROR.name
+
+                    HotelTracking.trackHotelsNoResult(errorCodeString)
                 }
             }
         }

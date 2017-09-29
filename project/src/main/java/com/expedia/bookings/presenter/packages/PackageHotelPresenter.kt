@@ -300,7 +300,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         Observable.zip(packageHotelOffers.doOnError {}, info.doOnError {},
                 { packageHotelOffers, info ->
                     if (packageHotelOffers.hasRoomResponseErrors()) {
-                        handleRoomResponseErrors(packageHotelOffers.roomResponseFirstError.errorCode)
+                        handleRoomResponseErrors(packageHotelOffers.roomResponseFirstError.errorCode ?: ApiError.Code.UNMAPPED_ERROR)
                         return@zip
                     }
                     val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers.getBundleRoomResponse(), packageHotelOffers.getHotelCheckInDate(), packageHotelOffers.getHotelCheckOutDate())
@@ -330,7 +330,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                     try {
                         val response = throwable.response().errorBody()
                         val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
-                        handleRoomResponseErrors(midError.roomResponseFirstError.errorCode)
+                        handleRoomResponseErrors(midError.roomResponseFirstError.errorCode ?: ApiError.Code.UNMAPPED_ERROR)
                     } catch (e: Exception) {
                         handleRoomResponseErrors(ApiError.Code.PACKAGE_SEARCH_ERROR)
                     }

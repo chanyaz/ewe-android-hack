@@ -57,19 +57,31 @@ class HotelErrorViewModelTest {
     }
 
     @Test fun observableSearchInvalidInputError() {
-        validateSearchApiImageErrorMessageButtonTextForError(R.drawable.error_search,
-                RuntimeEnvironment.application.getString(R.string.error_no_result_message),
-                RuntimeEnvironment.application.getString(R.string.edit_search),
-                ApiError.Code.INVALID_INPUT)
+        val imageId = R.drawable.error_search
+        val errorMessage = RuntimeEnvironment.application.getString(R.string.error_no_result_message)
+        val buttonText = RuntimeEnvironment.application.getString(R.string.edit_search)
+
+        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+
+        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+
+        val error = createInvalidInputApiError("field")
+        subjectUnderTest.searchApiErrorObserver.onNext(error)
+
+        errorImageObservableTestSubscriber.assertValues(imageId)
+        errorMessageObservableTestSubscriber.assertValues(errorMessage)
+        errorButtonObservableTestSubscriber.assertValues(buttonText)
 
         val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
         subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
         defaultErrorObservableTestSubscriber.assertValues(Unit)
-
-        val error = createInvalidInputApiError("field")
-        subjectUnderTest.searchApiErrorObserver.onNext(error)
 
         validateOmnitureTracking("App.Hotels.Search.NoResults", "INVALID_INPUT:field")
     }
@@ -208,6 +220,79 @@ class HotelErrorViewModelTest {
         validateOmnitureTracking("App.Hotels.Search.NoResults", "UNKNOWN_ERROR")
     }
 
+    @Test fun observableSearchEmptyError() {
+        val imageId = R.drawable.error_default
+        val errorMessage = Phrase.from(RuntimeEnvironment.application, R.string.error_server_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .format()
+                .toString()
+        val buttonText = RuntimeEnvironment.application.getString(R.string.retry)
+
+        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+
+        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+
+        subjectUnderTest.searchApiErrorObserver.onNext(ApiError())
+
+        errorImageObservableTestSubscriber.assertValues(imageId)
+        errorMessageObservableTestSubscriber.assertValues(errorMessage)
+        errorButtonObservableTestSubscriber.assertValues(buttonText)
+
+        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
+
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
+        defaultErrorObservableTestSubscriber.assertValues(Unit)
+
+        validateOmnitureTracking("App.Hotels.Search.NoResults", "UNMAPPED_ERROR")
+    }
+
+    @Test fun observableSearchUnmappedError() {
+        val imageId = R.drawable.error_default
+        val errorMessage = Phrase.from(RuntimeEnvironment.application, R.string.error_server_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .format()
+                .toString()
+        val buttonText = RuntimeEnvironment.application.getString(R.string.retry)
+
+        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+
+        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+
+        val error = ApiError()
+        val errorInfo = ApiError.ErrorInfo()
+        errorInfo.summary = "Summary"
+        errorInfo.source = "Source"
+        errorInfo.sourceErrorId = "SourceErrorId"
+        errorInfo.field = "Field"
+        errorInfo.cause = "Cause"
+        errorInfo.couponErrorType = "CouponErrorType"
+        error.errorInfo = errorInfo
+        subjectUnderTest.searchApiErrorObserver.onNext(error)
+
+        errorImageObservableTestSubscriber.assertValues(imageId)
+        errorMessageObservableTestSubscriber.assertValues(errorMessage)
+        errorButtonObservableTestSubscriber.assertValues(buttonText)
+
+        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
+
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
+        defaultErrorObservableTestSubscriber.assertValues(Unit)
+
+        validateOmnitureTracking("App.Hotels.Search.NoResults", "UNMAPPED_ERROR")
+    }
+
     private fun validateImageErrorMessageButtonTextForError(imageId: Int, errorMessage: String, buttonText: String, errorCode: ApiError.Code) {
         val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
@@ -303,7 +388,7 @@ class HotelErrorViewModelTest {
 
         val checkoutError = HotelTracking.createCheckoutError(apiError)
 
-        assertEquals(validateError(apiError.errorCode, apiError.errorInfo.source, apiError.errorInfo.sourceErrorId), checkoutError)
+        assertEquals(validateError(apiError.errorCode!!, apiError.errorInfo.source, apiError.errorInfo.sourceErrorId), checkoutError)
 
         subjectUnderTest.apiErrorObserver.onNext(apiError)
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
