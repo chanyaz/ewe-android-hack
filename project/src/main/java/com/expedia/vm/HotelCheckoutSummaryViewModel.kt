@@ -74,6 +74,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
     val checkinDateFormattedByEEEMMDD = PublishSubject.create<String>()
     val checkoutDateFormattedByEEEMMDD = PublishSubject.create<String>()
+    val randomDataObservable = PublishSubject.create<Unit>()
 
     init {
 
@@ -125,6 +126,10 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
 
             roomHeaderImage.onNext(it.newHotelProductResponse.largeThumbnailUrl)
             createTripConsumed.onNext(Unit)
+        }
+
+        paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.subscribe {
+            randomDataObservable.onNext(Unit)
         }
 
         paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.map {
