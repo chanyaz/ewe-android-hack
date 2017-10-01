@@ -79,6 +79,27 @@ class TravelerContactDetailsWidgetTest {
         assertEquals(View.GONE, travelerWidget.travelerPhoneText.visibility)
     }
 
+    @Test
+    fun testTravelerReentryPersists() {
+        travelerWidget.setLineOfBusiness(LineOfBusiness.HOTELS)
+        travelerWidget.performClick()
+        travelerWidget.onTravelerChosen(getCompletedTraveler())
+        travelerWidget.onMenuButtonPressed()
+
+        assertEquals("Oscar", travelerWidget.firstName.text.toString())
+
+        travelerWidget.performClick()
+
+        assertEquals("Oscar", travelerWidget.firstName.text.toString())
+
+        var traveler = getCompletedTraveler()
+        traveler.firstName = "Oscartest"
+        travelerWidget.onTravelerChosen(traveler)
+        travelerWidget.onMenuButtonPressed()
+
+        assertEquals("Oscartest", travelerWidget.firstName.text.toString())
+    }
+
     private fun getCompletedTraveler() : Traveler{
         val traveler = Traveler()
         traveler.age = 40
@@ -87,6 +108,7 @@ class TravelerContactDetailsWidgetTest {
         traveler.firstName = "Oscar"
         traveler.lastName = "Grouch"
         traveler.tuid = 987654321
+        traveler.phoneNumber = "4053615992"
         return traveler
     }
 
