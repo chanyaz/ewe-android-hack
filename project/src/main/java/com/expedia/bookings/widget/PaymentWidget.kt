@@ -241,8 +241,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
 
     open val storedCreditCardListener = object : StoredCreditCardList.IStoredCreditCardListener {
+
         override fun onStoredCreditCardChosen(card: StoredCreditCard) {
             clearCCAndCVV()
+            reset()
             sectionBillingInfo.billingInfo.storedCard = card
             temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
@@ -257,11 +259,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         override fun onTemporarySavedCreditCardChosen(info: BillingInfo) {
             reset()
             removeStoredCard()
-            temporarilySavedCardIsSelected(true, Db.getTemporarilySavedCard())
-            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
-            viewmodel.onStoredCardChosen.onNext(Unit)
-            viewmodel.onTemporarySavedCreditCardChosen.onNext(Unit)
+            selectTemporaryCard()
+            viewmodel.cardBIN.onNext(info.number.replace(" ", "").substring(0, 6))
         }
+
     }
 
     override fun onFinishInflate() {
@@ -334,6 +335,13 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
         }
         viewmodel.expandObserver.onNext(true)
+    }
+
+    private fun selectTemporaryCard() {
+        temporarilySavedCardIsSelected(true, Db.getTemporarilySavedCard())
+        viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
+        viewmodel.onStoredCardChosen.onNext(Unit)
+        viewmodel.onTemporarySavedCreditCardChosen.onNext(Unit)
     }
 
     protected fun getCreditCardIcon(drawableResourceId: Int): Drawable {
@@ -692,8 +700,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         sectionBillingInfo.billingInfo.saveCardToExpediaAccount = true
         sectionBillingInfo.billingInfo.setIsTempCard(true)
         Db.setTemporarilySavedCard(BillingInfo(sectionBillingInfo.billingInfo))
-        storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
-        reset()
+        selectTemporaryCard()
         close()
     }
 

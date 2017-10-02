@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
@@ -12,6 +13,8 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.TripResponse
@@ -31,6 +34,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.util.Optional
 import com.expedia.vm.FlightCheckoutViewModel
 import com.mobiata.android.util.SettingUtils
@@ -67,6 +71,7 @@ class FlightCheckoutViewModelTest {
     lateinit private var cardFeeService: CardFeeService
     lateinit private var params: FlightCheckoutParams
     lateinit private var newTripResponse: FlightCreateTripResponse
+    lateinit private var paymentWidget: PaymentWidget
 
     @Test
     fun debitCardNotAccepted() {
@@ -287,6 +292,42 @@ class FlightCheckoutViewModelTest {
         hasCardFeeTestSubscriber.assertValue(true)
     }
 
+    @Test
+    fun testCardFeeAppliedWhenTemporarySavedCardIsSavedAndSelected() {
+        val selectedCardFeeSubscriber = TestSubscriber<Money>()
+        givenGoodTripResponse()
+        setupSystemUnderTest()
+        getPaymentWidget()
+
+        sut.selectedCardFeeObservable.subscribe(selectedCardFeeSubscriber)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
+        paymentWidget.sectionBillingInfo.bind(makeBillingInfo())
+
+        paymentWidget.userChoosesToSaveCard()
+
+        selectedCardFeeSubscriber.assertValueCount(1)
+        assertEquals(2.5, selectedCardFeeSubscriber.onNextEvents[0].amount.toDouble())
+        assertEquals("USD", selectedCardFeeSubscriber.onNextEvents[0].currencyCode)
+    }
+
+    @Test
+    fun testCardFeeAppliedWhenTemporaryCardIsSavedAndThenSelectsExistingCard() {
+        val selectedCardFeeSubscriber = TestSubscriber<Money>()
+        givenGoodTripResponse()
+        setupSystemUnderTest()
+        getPaymentWidget()
+
+        sut.selectedCardFeeObservable.subscribe(selectedCardFeeSubscriber)
+        sut.createTripResponseObservable.onNext(Optional(newTripResponse))
+        paymentWidget.sectionBillingInfo.bind(makeBillingInfo())
+
+        paymentWidget.userChoosesToSaveCard()
+        paymentWidget.storedCreditCardListener.onStoredCreditCardChosen(getNewCard())
+
+        selectedCardFeeSubscriber.assertValueCount(2)
+        assertEquals(2.5, selectedCardFeeSubscriber.onNextEvents[1].amount.toDouble())
+        assertEquals("USD", selectedCardFeeSubscriber.onNextEvents[1].currencyCode)
+    }
 
     @Test
     fun testFlexEnabledCardFeeArbitrage() {
@@ -457,6 +498,14 @@ class FlightCheckoutViewModelTest {
         sut.makeCheckoutResponseObserver().onError(IOException())
     }
 
+    private fun getPaymentWidget() {
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.V2_Theme_Packages)
+        Ui.getApplication(activity).defaultPackageComponents()
+        paymentWidget = LayoutInflater.from(activity).inflate(R.layout.payment_widget, null) as PaymentWidget
+        paymentWidget.viewmodel = sut.paymentViewModel
+    }
+
     private fun givenGoodTripResponse() {
         val tripId = "1234"
         val tealeafTransactionId = "tealeaf-1234"
@@ -599,6 +648,18 @@ class FlightCheckoutViewModelTest {
 
     private fun givenAirlineChargesFees() {
         sut.selectedFlightChargesFees.onNext("Airline Fee")
+    }
+
+    private fun getNewCard(): StoredCreditCard {
+        val card = StoredCreditCard()
+
+
+        card.cardNumber = "4111111111111111"
+        card.id = "stored-card-id"
+        card.type = PaymentType.CARD_AMERICAN_EXPRESS
+        card.description = "Visa 4111"
+        card.setIsGoogleWallet(false)
+        return card
     }
 
     class TestFlightCheckoutViewModelClass(context: Context): FlightCheckoutViewModel(context) {

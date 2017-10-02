@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.phone.hotels;
 
 import org.junit.Test;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
