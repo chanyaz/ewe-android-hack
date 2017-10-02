@@ -31,6 +31,8 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     val totalDueTodayAmount: TextView by bindView(R.id.total_due_today_amount)
     val rewardWidget: ViewStub by bindView(R.id.reward_widget_stub)
     val validCardsList: LinearLayout by bindView(R.id.valid_cards_list)
+    val greyCardIcon: ImageView by bindView(R.id.display_credit_card_brand_icon_grey)
+    val editCreditCardNumber: NumberMaskEditText by bindView(R.id.edit_creditcard_number)
     var paymentSplitsType = PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
     var isRewardsRedeemable: Boolean = false
     var isFullPayableWithPoints: Boolean = false
@@ -79,6 +81,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             }
             addCardInValidCardsList(PaymentType.CARD_UNKNOWN)
         }
+        if (shouldDisplayCardsListOnPaymentForm) {
+            updateViewsForDisplayingCardsList()
+        }
     }
 
     override fun onFinishInflate() {
@@ -87,9 +92,6 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         if(layoutId != 0){
             rewardWidget.layoutResource = layoutId
             rewardWidget.inflate()
-        }
-        if (shouldDisplayCardsListOnPaymentForm) {
-            validCardsList.visibility = View.VISIBLE
         }
     }
 
@@ -134,5 +136,14 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         params.setMargins(0, padding, padding, padding)
         creditCardImage.layoutParams = params
         validCardsList.addView(creditCardImage)
+    }
+
+    private fun updateViewsForDisplayingCardsList() {
+        greyCardIcon.visibility = View.GONE
+        validCardsList.visibility = View.VISIBLE
+        val editCreditCardNumber = editCreditCardNumber
+        val paddingLeft = context.resources.getDimensionPixelOffset(R.dimen.small_margin)
+        editCreditCardNumber.setPadding(paddingLeft, editCreditCardNumber.paddingTop,
+                editCreditCardNumber.paddingRight, editCreditCardNumber.paddingBottom)
     }
 }

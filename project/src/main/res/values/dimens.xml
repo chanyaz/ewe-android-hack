@@ -32,7 +32,7 @@
     <dimen name="launch_mod_card_width">336dp</dimen>
     <dimen name="launch_mod_card_height">147dp</dimen>
     <dimen name="launch_list_padding_to_pro_wizard">12dp</dimen>
-    <item name="launch_sign_in_placeholder_alpha" type="dimen" format="float">0.3</item>
+    <item name="launch_sign_in_placeholder_alpha" format="float" type="dimen">0.3</item>
     <dimen name="launch_pro_wizard_tab_height">56dp</dimen>
     <dimen name="launch_pro_wizard_tab_text_size">12dp</dimen>
     <dimen name="launch_pro_wizard_tab_selected_text_size">14dp</dimen>
@@ -222,6 +222,7 @@
     <dimen name="traveler_input_bottom_margin">4dp</dimen>
     <dimen name="traveler_input_text_size">16sp</dimen>
     <dimen name="checkout_form_padding">14dp</dimen>
+    <dimen name="checkout_form_field_padding_left">10dp</dimen>
     <dimen name="checkout_earlier_api_version_edit_text_spacing">8dp</dimen>
     <dimen name="checkout_card_view_height">64dp</dimen>
 
@@ -344,11 +345,11 @@
     <!-- The platform's desired minimum size for a dialog's width when it
          is along the major axis (that is the screen is landscape).  This may
          be either a fraction or a dimension. -->
-    <item type="dimen" name="abs__dialog_min_width_major">45%</item>
+    <item name="abs__dialog_min_width_major" type="dimen">45%</item>
     <!-- The platform's desired minimum size for a dialog's width when it
          is along the minor axis (that is the screen is portrait).  This may
          be either a fraction or a dimension. -->
-    <item type="dimen" name="abs__dialog_min_width_minor">72%</item>
+    <item name="abs__dialog_min_width_minor" type="dimen">72%</item>
 
     <!-- Textview Image -->
     <dimen name="textview_drawable_padding">9dp</dimen>
