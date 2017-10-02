@@ -46,11 +46,11 @@ import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
 import com.expedia.bookings.widget.TextView;
-import com.expedia.util.PermissionsHelperKt;
 import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
+import com.expedia.util.PermissionsUtils;
 
 import butterknife.ButterKnife;
 import kotlin.Unit;
@@ -371,7 +371,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	};
 
 	private void checkForPermissionAndGoToHotels(View v) {
-		if (PermissionsHelperKt.havePermissionToAccessLocation(context)) {
+		if (PermissionsUtils.havePermissionToAccessLocation(context)) {
 			Bundle animBundle = AnimUtils.createActivityScaleBundle(v);
 			seeAllClickSubject.onNext(animBundle);
 		}

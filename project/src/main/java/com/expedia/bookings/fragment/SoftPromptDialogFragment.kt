@@ -8,7 +8,7 @@ import android.support.v4.app.DialogFragment
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.util.requestLocationPermission
+import com.expedia.util.PermissionsUtils.requestLocationPermission
 
 class SoftPromptDialogFragment: DialogFragment() {
 

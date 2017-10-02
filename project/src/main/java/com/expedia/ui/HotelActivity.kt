@@ -18,7 +18,7 @@ import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Ui
-import com.expedia.util.requestLocationPermission
+import com.expedia.util.PermissionsUtils.requestLocationPermission
 import com.google.android.gms.maps.MapView
 
 class HotelActivity : AbstractAppCompatActivity() {

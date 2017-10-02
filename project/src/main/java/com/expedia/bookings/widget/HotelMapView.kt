@@ -18,8 +18,8 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
 import com.expedia.util.endlessObserver
-import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick

@@ -67,8 +67,8 @@ import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView
+import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
 import com.expedia.util.endlessObserver
-import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsMapViewModel

@@ -1,5 +1,6 @@
 package com.expedia.bookings.launch.activity
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -9,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.design.widget.TabLayout
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -63,8 +65,9 @@ import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.ui.AbstractAppCompatActivity
-import com.expedia.util.havePermissionToAccessLocation
-import com.expedia.util.requestLocationPermission
+import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
+import com.expedia.util.PermissionsUtils.isFirstTimeAskingLocationPermission
+import com.expedia.util.PermissionsUtils.requestLocationPermission
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -101,6 +104,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private var accountFragment: AccountSettingsFragment? = null
     private var phoneLaunchFragment: PhoneLaunchFragment? = null
     private var softPromptDialogFragment: SoftPromptDialogFragment? = null
+    private var isLocationPermissionPending = false
 
     private val userLoginStateChangedModel: UserLoginStateChangedModel by lazy {
         Ui.getApplication(this).appComponent().userLoginStateChangedModel()
@@ -150,11 +154,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
         if (savedInstanceState != null) {
             softPromptDialogFragment = supportFragmentManager.findFragmentByTag("fragment_dialog_soft_prompt") as? SoftPromptDialogFragment
+            isLocationPermissionPending = savedInstanceState.getBoolean("is_location_permission_pending", false)
         }
 
-        loginStateSubsciption = userLoginStateChangedModel.userLoginStateChanged.distinctUntilChanged().filter{ isSignIn -> isSignIn == true }.subscribe {
-            if (!havePermissionToAccessLocation(this)) {
-                SettingUtils.save(this, PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT, true)
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+            loginStateSubsciption = userLoginStateChangedModel.userLoginStateChanged.distinctUntilChanged().filter { isSignIn -> isSignIn == true }.subscribe {
+                SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, true)
             }
         }
 
@@ -188,20 +193,27 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
+
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+            if (shouldShowSoftPrompt()) {
+                requestLocationPermissionViaSoftPrompt()
+            }
+        } else {
+            if (!havePermissionToAccessLocation(this)) {
+                requestLocationPermission(this)
+            }
+        }
     }
 
-    private fun showLocationPermissionPrompt() {
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+    private fun requestLocationPermissionViaSoftPrompt() {
+        if (isFirstTimeAskingLocationPermission(this) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            isLocationPermissionPending = true
             if (softPromptDialogFragment == null) {
                 softPromptDialogFragment = SoftPromptDialogFragment()
             }
-            if (softPromptDialogFragment?.dialog?.isShowing?.not() ?: true) {
-                softPromptDialogFragment?.show(supportFragmentManager, "fragment_dialog_soft_prompt")
-            }
-        } else {
-            requestLocationPermission(this)
+            softPromptDialogFragment?.show(supportFragmentManager, "fragment_dialog_soft_prompt")
+            SettingUtils.save(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, SettingUtils.get(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0) + 1)
         }
-        updateLocationPermissionPromptPreference()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -209,8 +221,14 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             Constants.PERMISSION_REQUEST_LOCATION -> {
                 phoneLaunchFragment?.onReactToLocationRequest()
                 OmnitureTracking.trackLocationNativePrompt(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                isLocationPermissionPending = false
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putBoolean("is_location_permission_pending", isLocationPermissionPending)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -465,25 +483,28 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         return super.onOptionsItemSelected(item)
     }
 
+
+
     override fun onResume() {
         super.onResume()
         when (viewPager.currentItem) {
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this))
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
-        if (shouldShowLocationPermissionPrompt()) {
-            showLocationPermissionPrompt()
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSoftPromptLocation, R.string.preference_soft_prompt_permission)) {
+            if (SettingUtils.get(this, PREF_USER_ENTERS_FROM_SIGNIN, false)) {
+                if (shouldShowSoftPrompt()) {
+                    requestLocationPermissionViaSoftPrompt()
+                }
+                SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, false)
+            }
         }
     }
 
-    private fun shouldShowLocationPermissionPrompt() : Boolean {
-        return !havePermissionToAccessLocation(this) && SettingUtils.get(this, PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT, true)
-        && SettingUtils.get(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0) < Constants.LOCATION_PROMPT_LIMIT
-    }
-
-    private fun updateLocationPermissionPromptPreference() {
-        SettingUtils.save(this, PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT, false)
-        SettingUtils.save(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, SettingUtils.get(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0) + 1)
+    private fun shouldShowSoftPrompt() : Boolean {
+        return !havePermissionToAccessLocation(this)
+                && !isLocationPermissionPending
+                && SettingUtils.get(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0) < Constants.LOCATION_PROMPT_LIMIT
     }
 
     override fun onStart() {
@@ -707,7 +728,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         @JvmField val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
         @JvmField val ARG_ITIN_NUM = "ARG_ITIN_NUM"
 
-        @JvmField val PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT = "PREF_SHOULD_SHOW_LOCATION_PERMISSION_PROMPT"
+        @JvmField val PREF_USER_ENTERS_FROM_SIGNIN = "PREF_USER_ENTERS_FROM_SIGNIN"
         @JvmField val PREF_LOCATION_PERMISSION_PROMPT_TIMES = "PREF_SOFT_PROMPT_LAUNCH_TIMES"
 
         /** Create intent to open this activity and jump straight to a particular itin item.
