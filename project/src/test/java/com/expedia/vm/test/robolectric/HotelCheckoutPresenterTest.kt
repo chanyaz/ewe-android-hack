@@ -10,6 +10,7 @@ import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.ShampooRule
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
@@ -35,11 +36,17 @@ class HotelCheckoutPresenterTest {
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
+//    val shampooRule = ShampooRule(100)
+//        @Rule get
+
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+
+//    companion object {
+//        var i = 0
+//    }
 
     @Before
     fun setUp() {
-
         activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
@@ -50,29 +57,35 @@ class HotelCheckoutPresenterTest {
         hotelCheckoutPresenter.hotelCheckoutWidget.setSearchParams(HotelPresenterTestUtil.getDummyHotelSearchParams(activity))
     }
 
+
     @Test
     fun testRandom() {
-        val paymentSplitsTestSubscriber = TestSubscriber<PaymentSplits>()
-        val mainProblemSubscriber = TestSubscriber<Any>()
-        val newProblemSubscriber = TestSubscriber<Any>()
+        for (i in 1..100) {
+            println(i.toString())
 
-        paymentModel.paymentSplits.subscribe(paymentSplitsTestSubscriber)
-        paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.subscribe(mainProblemSubscriber)
-        hotelCheckoutPresenter.hotelCheckoutWidget.createTripViewmodel.tripParams.onNext(givenGoodCreateTripParams())
-        hotelCheckoutPresenter.hotelCheckoutWidget.hotelCheckoutSummaryWidget.viewModel.newDataObservable.subscribe(newProblemSubscriber)
-        paymentModel.swpOpted.onNext(true)
-        paymentModel.pwpOpted.onNext(true)
+            val paymentSplitsTestSubscriber = TestSubscriber<PaymentSplits>()
+            val mainProblemSubscriber = TestSubscriber<Any>()
+            val newProblemSubscriber = TestSubscriber<Any>()
+            paymentModel.swpOpted.onNext(false)
+            paymentModel.pwpOpted.onNext(true)
 
-        paymentSplitsTestSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        paymentSplitsTestSubscriber.assertValueCount(1)
-        mainProblemSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        mainProblemSubscriber.assertValueCount(1)
-        newProblemSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        newProblemSubscriber.assertValueCount(1)
+            paymentModel.paymentSplits.subscribe(paymentSplitsTestSubscriber)
+            paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.subscribe(mainProblemSubscriber)
+            hotelCheckoutPresenter.hotelCheckoutWidget.createTripViewmodel.tripParams.onNext(givenGoodCreateTripParams())
+            hotelCheckoutPresenter.hotelCheckoutWidget.hotelCheckoutSummaryWidget.viewModel.newDataObservable.subscribe(newProblemSubscriber)
+
+            paymentSplitsTestSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+            paymentSplitsTestSubscriber.assertValueCount(1)
+//        mainProblemSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+//        mainProblemSubscriber.assertValueCount(1)
+//        newProblemSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+//        newProblemSubscriber.assertValueCount(1)
+            println("Success")
+        }
     }
 
     private fun givenGoodCreateTripParams(): HotelCreateTripParams {
-        return HotelCreateTripParams("happypath_0", false, 1, listOf(1))
+        return HotelCreateTripParams("hotel_price_change_up", false, 1, listOf(1))
     }
 
 
