@@ -4107,7 +4107,10 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightCheckoutTravelerEditInfo() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO);
+		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber);
+		s.track();
 	}
 
 	// Pay with points tracking
