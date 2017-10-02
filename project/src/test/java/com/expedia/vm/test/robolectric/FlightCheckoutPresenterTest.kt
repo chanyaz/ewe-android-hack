@@ -4,8 +4,10 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.LinearLayout
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
@@ -17,16 +19,19 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.traveler.TravelerSelectItem
 import com.expedia.util.Optional
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelersViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,6 +54,7 @@ class FlightCheckoutPresenterTest {
 
     private var checkout: FlightCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before fun before() {
         Db.clear()
@@ -171,6 +177,33 @@ class FlightCheckoutPresenterTest {
         assertEquals("AA", firstPlan.airlineCode)
         assertEquals("American Airlines", firstPlan.frequentFlyerPlanName)
         assertEquals(null, firstPlan.membershipNumber)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFrequentFlyerBucketedTracking() {
+        setupCheckout(true)
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val bucketedEvar = mapOf(34 to "14971.0.1")
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        FlightsV2Tracking.trackCheckoutEditTraveler()
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(bucketedEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFrequentFlyerControlTracking() {
+        setupCheckout(true)
+        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber.key,
+                AbacusUtils.DefaultVariant.CONTROL.ordinal)
+
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val controlEvar = mapOf(34 to "14971.0.0")
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        FlightsV2Tracking.trackCheckoutEditTraveler()
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
     private fun setupCheckout(isFrequentFlyerEnabled: Boolean = false) {
