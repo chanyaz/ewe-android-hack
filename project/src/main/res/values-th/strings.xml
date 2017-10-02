@@ -927,6 +927,7 @@
     <string name="nav_packages">ดีลแพ็คเกจ</string>
     <string name="nav_hotel_plus_flight_deals">ดีลโรงแรม + เที่ยวบิน</string>
     <string name="nav_hotel_plus_flight">โรงแรม + เที่ยวบิน</string>
+    <string name="nav_flight_plus_hotel">เที่ยวบิน + โรงแรม</string>
     <!-- Rail -->
     <string name="nav_rail">รถไฟ</string>
     <string name="add_rail_card">เพิ่มบัตรรถไฟ</string>
@@ -1589,12 +1590,14 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">ที่จอดรถฟรี</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wifi ฟรี</string>
-    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
-    <string name="itin_hotel_check_in_policies_button_text">ข้อมูลเช็คอิน</string>
-    <!--Title for a pop-up that lists out detailed check-in policies-->
-    <string name="itin_hotel_check_in_policies_dialog_heading">นโยบายการเช็คอิน</string>
+    <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_title">นโยบายการเช็คอิน</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">กฎการเปลี่ยนแปลงและยกเลิก</string>
+
+    <!--Flight itin details redesign-->
+    <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
+    <string name="itin_flight_toolbar_title_TEMPLATE">เที่ยวบินไปยัง{destination}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">เช็คอิน — 3 วัน</string>

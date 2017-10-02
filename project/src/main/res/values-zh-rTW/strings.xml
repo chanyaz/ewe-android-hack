@@ -927,6 +927,7 @@
     <string name="nav_packages">套裝優惠</string>
     <string name="nav_hotel_plus_flight_deals">機 + 酒優惠</string>
     <string name="nav_hotel_plus_flight">機 + 酒</string>
+    <string name="nav_flight_plus_hotel">機 + 酒</string>
     <!-- Rail -->
     <string name="nav_rail">火車</string>
     <string name="add_rail_card">新增火車卡</string>
@@ -1589,12 +1590,14 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">免費停車</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">免費無線上網</string>
-    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
-    <string name="itin_hotel_check_in_policies_button_text">入住資訊</string>
-    <!--Title for a pop-up that lists out detailed check-in policies-->
-    <string name="itin_hotel_check_in_policies_dialog_heading">入住規定</string>
+    <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_title">入住規定</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">變更和取消規定</string>
+
+    <!--Flight itin details redesign-->
+    <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
+    <string name="itin_flight_toolbar_title_TEMPLATE">班機前往{destination}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3 天後入住</string>
@@ -3228,7 +3231,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>

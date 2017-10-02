@@ -927,6 +927,7 @@
     <string name="nav_packages">패키지 특가 상품</string>
     <string name="nav_hotel_plus_flight_deals">호텔+항공 특가 상품</string>
     <string name="nav_hotel_plus_flight">호텔+항공</string>
+    <string name="nav_flight_plus_hotel">항공 + 호텔</string>
     <!-- Rail -->
     <string name="nav_rail">기차</string>
     <string name="add_rail_card">레일카드 추가</string>
@@ -1589,12 +1590,14 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">무료 주차</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">무료 WiFi</string>
-    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
-    <string name="itin_hotel_check_in_policies_button_text">체크인 정보</string>
-    <!--Title for a pop-up that lists out detailed check-in policies-->
-    <string name="itin_hotel_check_in_policies_dialog_heading">체크인 정책</string>
+    <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_title">체크인 정책</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">변경 및 취소 규정</string>
+
+    <!--Flight itin details redesign-->
+    <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
+    <string name="itin_flight_toolbar_title_TEMPLATE">{destination}행 항공편</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3일 후 체크인</string>
@@ -3226,9 +3229,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>

@@ -927,6 +927,7 @@
     <string name="nav_packages">Ofertas de paquete</string>
     <string name="nav_hotel_plus_flight_deals">Ofertas de hotel y vuelo</string>
     <string name="nav_hotel_plus_flight">Hotel y vuelo</string>
+    <string name="nav_flight_plus_hotel">Vuelo + hotel</string>
     <!-- Rail -->
     <string name="nav_rail">Trenes</string>
     <string name="add_rail_card">Agregar tarjeta de descuento</string>
@@ -1589,12 +1590,14 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">Estacionamiento gratis</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wifi gratis</string>
-    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
-    <string name="itin_hotel_check_in_policies_button_text">Información de check-in</string>
-    <!--Title for a pop-up that lists out detailed check-in policies-->
-    <string name="itin_hotel_check_in_policies_dialog_heading">Políticas de check-in</string>
+    <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_title">Políticas de check-in</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Normas de cambios y cancelaciones</string>
+
+    <!--Flight itin details redesign-->
+    <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
+    <string name="itin_flight_toolbar_title_TEMPLATE">Vuelo a {destination}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in en 3 días</string>

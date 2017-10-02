@@ -927,6 +927,7 @@
     <string name="nav_packages">组合优惠</string>
     <string name="nav_hotel_plus_flight_deals">机 + 酒优惠</string>
     <string name="nav_hotel_plus_flight">酒店 + 机票</string>
+    <string name="nav_flight_plus_hotel">机 + 酒</string>
     <!-- Rail -->
     <string name="nav_rail">火车</string>
     <string name="add_rail_card">添加铁路卡</string>
@@ -1589,12 +1590,14 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">免费停车</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">免费 WiFi</string>
-    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
-    <string name="itin_hotel_check_in_policies_button_text">入住信息</string>
-    <!--Title for a pop-up that lists out detailed check-in policies-->
-    <string name="itin_hotel_check_in_policies_dialog_heading">入住规定</string>
+    <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_title">入住规定</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">变更和取消规定</string>
+
+    <!--Flight itin details redesign-->
+    <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
+    <string name="itin_flight_toolbar_title_TEMPLATE">飞往{destination}的航班</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">入住 - 3 天</string>

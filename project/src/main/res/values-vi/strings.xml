@@ -927,6 +927,7 @@
     <string name="nav_packages">Ưu đãi Gói</string>
     <string name="nav_hotel_plus_flight_deals">Ưu đãi Khách sạn + Chuyến bay</string>
     <string name="nav_hotel_plus_flight">Khách sạn + Chuyến bay</string>
+    <string name="nav_flight_plus_hotel">Chuyến bay + Khách sạn</string>
     <!-- Rail -->
     <string name="nav_rail">Tàu hỏa</string>
     <string name="add_rail_card">Thêm railcard</string>
@@ -1589,12 +1590,14 @@
     <string name="itin_hotel_room_amenity_free_parking_cont_desc">Đậu xe miễn phí</string>
     <!--Hotel itin room amenity free wifi content description-->
     <string name="itin_hotel_room_amenity_free_wifi_cont_desc">Wifi miễn phí</string>
-    <!--Label for a button that, when clicked, will show the user detailed check-in rules and policies-->
-    <string name="itin_hotel_check_in_policies_button_text">Thông tin nhận phòng</string>
-    <!--Title for a pop-up that lists out detailed check-in policies-->
-    <string name="itin_hotel_check_in_policies_dialog_heading">Chính sách nhận phòng</string>
+    <!--Title/Button text for a pop-up that lists out detailed check-in policies-->
+    <string name="itin_hotel_check_in_policies_dialog_title">Chính sách nhận phòng</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Quy định thay đổi và hủy</string>
+
+    <!--Flight itin details redesign-->
+    <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
+    <string name="itin_flight_toolbar_title_TEMPLATE">Bay đến {destination}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Nhận phòng trong 3 ngày</string>
