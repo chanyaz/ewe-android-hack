@@ -35,7 +35,6 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -857,7 +856,7 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testAllowUnknownCardWithValidNumberValidation() {
-        toggleAllowUnknownCardTypesABTestAndFF(true)
+        toggleAllowUnknownCardTypesABTest(true)
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
 
@@ -873,7 +872,7 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testDontAllowUnknownCardWithInvalidNumberValidation() {
-        toggleAllowUnknownCardTypesABTestAndFF(true)
+        toggleAllowUnknownCardTypesABTest(true)
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
 
@@ -889,7 +888,7 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testDontAllowUnknownCardValidation() {
-        toggleAllowUnknownCardTypesABTestAndFF(false)
+        toggleAllowUnknownCardTypesABTest(false)
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
 
@@ -1051,13 +1050,12 @@ class BillingDetailsPaymentWidgetTest {
         assertEquals("12345", fakeAddress.postalCode)
     }
 
-    private fun toggleAllowUnknownCardTypesABTestAndFF(toggleOn: Boolean) {
+    private fun toggleAllowUnknownCardTypesABTest(toggleOn: Boolean) {
         if (toggleOn) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
         }
         else {
             AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
         }
-        SettingUtils.save(activity.applicationContext, R.string.preference_allow_unknown_card_types, toggleOn)
     }
 }
