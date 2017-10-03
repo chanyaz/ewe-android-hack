@@ -17,6 +17,7 @@
         <item name="android:colorButtonNormal">@color/packages_primary_color</item>
         <item name="android:colorEdgeEffect">@color/packages_primary_color</item>
         <item name="android:spinnerItemStyle">@style/PackagesSpinner</item>
+        <item name="android:textColorHint">@color/gray6</item>
 
         <item name="colorAccent">@color/packages_primary_color</item>
         <item name="primary_color">@color/packages_primary_color</item>
