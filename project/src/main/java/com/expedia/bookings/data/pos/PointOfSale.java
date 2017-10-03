@@ -246,6 +246,7 @@ public class PointOfSale {
 	private String hotelsWebCheckoutURL;
 	private String hotelsWebBookingConfirmationURL;
 	private String flightsWebCheckoutUrl;
+	private String flightsWebBookingConfirmationURL;
 
 	private boolean mRequiresLXPostalCode;
 	private boolean mRequiresCarsPostalCode;
@@ -881,6 +882,10 @@ public class PointOfSale {
 		return flightsWebCheckoutUrl;
 	}
 
+	public String getFlightsWebBookingConfirmationURL() {
+		return flightsWebBookingConfirmationURL;
+	}
+
 	public String getHotelsWebBookingConfirmationURL() {
 		return hotelsWebBookingConfirmationURL;
 	}
@@ -1414,6 +1419,7 @@ public class PointOfSale {
 		pos.abTestHotelsWebCheckout = data.optBoolean("abTestHotelsWebCheckout", false);
 		pos.hotelsWebCheckoutURL = data.optString("webCheckoutURL:hotels");
 		pos.flightsWebCheckoutUrl = data.optString("webCheckoutURL:flights");
+		pos.flightsWebBookingConfirmationURL = data.optString("webBookingConfirmationURL:flights");
 		pos.hotelsWebBookingConfirmationURL = data.optString("webBookingConfirmationURL:hotels");
 		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
 		pos.showResortFeesInHotelLocalCurrency = data.optBoolean("showResortFeesInHotelLocalCurrency", false);

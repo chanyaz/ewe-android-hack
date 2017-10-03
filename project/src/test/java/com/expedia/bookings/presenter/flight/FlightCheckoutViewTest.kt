@@ -22,7 +22,9 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.vm.FlightWebCheckoutViewViewModel
+import com.expedia.vm.WebCheckoutViewViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,6 +38,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Rule
+import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
@@ -52,6 +55,7 @@ class FlightCheckoutViewTest {
     lateinit var activity: Activity
     lateinit var flightPresenter: FlightPresenter
     lateinit private var flightServices: FlightServices
+    val userAccountRefresherMock = Mockito.mock(UserAccountRefresher::class.java)
     var server: MockWebServer = MockWebServer()
         @Rule get
 
@@ -143,6 +147,36 @@ class FlightCheckoutViewTest {
         tripResponseSubscriber.assertValueCount(1)
         assertEquals("happy_round_trip", (tripResponseSubscriber.onNextEvents[0] as FlightCreateTripResponse).newTrip?.tripId)
         testUrlSubscriber.assertValue("${PointOfSale.getPointOfSale().flightsWebCheckoutUrl}?tripid=happy_round_trip")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webViewTripIDOnSuccessfulBooking() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        val bookingTripIDSubscriber = TestSubscriber<String>()
+        val fectchTripIDSubscriber = TestSubscriber<String>()
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        setupTestToOpenInFlightOutboundPresenter()
+
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("happy_round_trip")
+        bookingTripIDSubscriber.assertValueCount(0)
+        fectchTripIDSubscriber.assertValueCount(0)
+        val tripID = "testing-for-confirmation"
+        Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
+
+        flightPresenter.webCheckoutView.onWebPageStarted(flightPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL+ "?tripid=$tripID", null)
+        Mockito.verify(userAccountRefresherMock, Mockito.times(1)).forceAccountRefreshForWebView()
+        bookingTripIDSubscriber.assertValueCount(1)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+        fectchTripIDSubscriber.assertValueCount(1)
+        fectchTripIDSubscriber.assertValue(tripID)
+        bookingTripIDSubscriber.assertValue(tripID)
     }
 
     private fun setFlightPresenterAndFlightServices() {

@@ -6,7 +6,6 @@ import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
@@ -21,6 +20,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -29,6 +29,7 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -63,6 +64,8 @@ import com.expedia.util.setInverseVisibility
 import com.expedia.util.updateVisibility
 import com.expedia.util.Optional
 import com.expedia.util.subscribeVisibility
+import com.mobiata.android.Log
+import rx.Observer
 import java.util.Date
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
@@ -75,6 +78,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
         @Inject set
+
+    val itinTripServices: ItinTripServices by lazy {
+        Ui.getApplication(context).flightComponent().itinTripService()
+    }
 
     lateinit var travelerManager: TravelerManager
     lateinit var createTripBuilder: FlightCreateTripParams.Builder
@@ -445,6 +452,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.back()
         }
 
+        flightWebCheckoutViewModel.fetchItinObservable.subscribe { bookedTripID ->
+            itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
+        }
+
         webCheckoutView
     }
 
@@ -749,6 +760,22 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         webCheckoutView.updateVisibility(forward)
         webCheckoutView.toolbar.updateVisibility(forward)
         AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+    }
+
+    private fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
+        return object : Observer<AbstractItinDetailsResponse> {
+            override fun onCompleted() {
+            }
+
+            override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
+//                TODO: populate confirmation viewmodel, show confirmation presenter
+            }
+
+            override fun onError(e: Throwable) {
+                Log.d("Error fetching itin:" + e.stackTrace)
+//                TODO: handle failed itin request
+            }
+        }
     }
 
 }

@@ -52,7 +52,8 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
         toggleLoading(false)
-        if (url.startsWith(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL)) {
+        if (url.startsWith(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL)
+                || url.startsWith(PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL)) {
             view.stopLoading()
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
         }
