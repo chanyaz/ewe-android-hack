@@ -3,6 +3,7 @@ package com.expedia.bookings.data.packages
 import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
 import org.joda.time.LocalDate
@@ -26,6 +27,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     var currentFlights: Array<String?> by Delegates.notNull()
     var defaultFlights: Array<String?> by Delegates.notNull()
     var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
+    var flightLegList: List<FlightLeg>? = null
 
     //MID variables
     var hotelId: String? = null

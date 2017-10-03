@@ -6,6 +6,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
@@ -90,9 +91,11 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
     }
 
-    fun trackFlightRoundTripLoad(isOutBound: Boolean) {
-        if (isOutBound)
+    fun trackFlightRoundTripLoad(isOutBound: Boolean, packageParams: PackageSearchParams) {
+        if (isOutBound) {
             OmnitureTracking.trackPackagesFlightRoundTripOutLoad()
+            TuneUtils.trackPackageOutBoundResults(packageParams)
+        }
         else
             OmnitureTracking.trackPackagesFlightRoundTripInLoad()
     }

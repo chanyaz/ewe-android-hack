@@ -132,6 +132,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
         }
         overviewPresenter.vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
+        Db.getPackageParams().flightLegList = allFlights
         trackFlightResultsLoad()
     }
 
@@ -204,7 +205,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun trackFlightResultsLoad() {
-        PackagesTracking().trackFlightRoundTripLoad(Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false)
+        PackagesTracking().trackFlightRoundTripLoad(Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false, Db.getPackageParams())
     }
 
     private val backFlowDefaultTransition = object : DefaultTransition(FlightResultsListViewPresenter::class.java.name) {

@@ -44,6 +44,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
+import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
@@ -68,7 +69,6 @@ public class TuneUtils {
 	private static Context context;
 	private static UserStateManager userStateManager;
 	private static int top5 = 5;
-	private static int lastIndexOfTop5 = 4;
 
 	public static void init(Application app) {
 		initialized = true;
@@ -288,13 +288,14 @@ public class TuneUtils {
 			Date checkInDate = getHotelSearchParams().getCheckInDate().toDate();
 			Date checkOutDate = getHotelSearchParams().getCheckOutDate().toDate();
 
-			StringBuilder topFiveHotelIdsBuilder = new StringBuilder();
+			StringBuilder topHotelIdsBuilder = new StringBuilder();
 			StringBuilder sb = new StringBuilder();
 			int propertiesCount = Db.getHotelSearch().getSearchResponse().getPropertiesCount();
+			int lastIndex = getLastIndex(propertiesCount);
 			if (Db.getHotelSearch().getSearchResponse() != null && propertiesCount >= 0) {
-				for (int i = 0; (i < top5 && i < propertiesCount); i++) {
+				for (int i = 0; i <= lastIndex; i++) {
 					Property property = Db.getHotelSearch().getSearchResponse().getProperties().get(i);
-					topFiveHotelIdsBuilder.append(property.getPropertyId());
+					topHotelIdsBuilder.append(property.getPropertyId());
 					String hotelId = property.getPropertyId();
 					String hotelName = property.getName();
 					String price = "";
@@ -309,9 +310,9 @@ public class TuneUtils {
 						.toString(property.getDistanceFromUser().getDistance()) : "0";
 					sb.append(
 						String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, currency, price, starRating, miles));
-					if (i != lastIndexOfTop5) {
+					if (i != lastIndex) {
 						sb.append(":");
-						topFiveHotelIdsBuilder.append(",");
+						topHotelIdsBuilder.append(",");
 					}
 				}
 			}
@@ -319,7 +320,7 @@ public class TuneUtils {
 				eventItem
 					.withAttribute1(Db.getHotelSearch().getSearchResponse().getProperties().get(0).getLocation().getCity());
 			}
-			eventItem.withAttribute4(topFiveHotelIdsBuilder.toString());
+			eventItem.withAttribute4(topHotelIdsBuilder.toString());
 			eventItem.withAttribute5(sb.toString());
 
 			withTuidAndMembership(event)
@@ -342,16 +343,17 @@ public class TuneUtils {
 			Date checkInDate = trackingData.getCheckInDate().toDate();
 			Date checkOutDate = trackingData.getCheckoutDate().toDate();
 
-			StringBuilder topFiveHotelIdsBuilder = new StringBuilder();
+			StringBuilder topHotelIdsBuilder = new StringBuilder();
 			StringBuilder sb = new StringBuilder();
 
 			List<Hotel> hotels = trackingData.getHotels();
 
 			int hotelsCount = hotels.size();
+			int lastIndex = getLastIndex(hotelsCount);
 			if (hotels != null && hotelsCount >= 0) {
-				for (int i = 0; (i < top5 && i < hotelsCount); i++) {
+				for (int i = 0; i <= lastIndex; i++) {
 					Hotel hotel = hotels.get(i);
-					topFiveHotelIdsBuilder.append(hotel.hotelId);
+					topHotelIdsBuilder.append(hotel.hotelId);
 					String hotelId = hotel.hotelId;
 					String hotelName = hotel.localizedName;
 					String price = "";
@@ -368,16 +370,16 @@ public class TuneUtils {
 						.toString(hotel.proximityDistanceInMiles) : "0";
 					sb.append(
 						String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, currency, price, starRating, miles));
-					if (i != lastIndexOfTop5) {
+					if (i != lastIndex) {
 						sb.append(":");
-						topFiveHotelIdsBuilder.append(",");
+						topHotelIdsBuilder.append(",");
 					}
 				}
 			}
 			if (hotelsCount > 0) {
 				eventItem.withAttribute1(hotels.get(0).city);
 			}
-			eventItem.withAttribute4(topFiveHotelIdsBuilder.toString());
+			eventItem.withAttribute4(topHotelIdsBuilder.toString());
 			eventItem.withAttribute5(sb.toString());
 
 			withTuidAndMembership(event)
@@ -536,9 +538,10 @@ public class TuneUtils {
 			FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
 			if (response != null) {
 				int propertiesCount = response.getTripCount();
+				int lastIndex = getLastIndex(propertiesCount);
 				StringBuilder sb = new StringBuilder();
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
+					for (int i = 0; i <= lastIndex; i++) {
 						FlightTrip trip = response.getTrips().get(i);
 						String carrier = trip.getLegs().get(0).getFirstAirlineCode();
 						String currency = trip.getTotalPrice().getCurrency();
@@ -549,7 +552,7 @@ public class TuneUtils {
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-						if (i != lastIndexOfTop5) {
+						if (i != lastIndex) {
 							sb.append(":");
 						}
 					}
@@ -582,8 +585,9 @@ public class TuneUtils {
 			if (searchTrackingData.getFlightLegList() != null && !searchTrackingData.getFlightLegList().isEmpty()) {
 				int propertiesCount = searchTrackingData.getFlightLegList().size();
 				StringBuilder sb = new StringBuilder();
+				int lastIndex = getLastIndex(propertiesCount);
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
+					for (int i = 0; i <= lastIndex; i++) {
 						FlightLeg flightLeg = searchTrackingData.getFlightLegList().get(i);
 						String carrier = flightLeg.segments.get(0).airlineCode;
 						String currency = flightLeg.packageOfferModel.price.packageTotalPrice.currencyCode;
@@ -595,7 +599,7 @@ public class TuneUtils {
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-						if (i != lastIndexOfTop5) {
+						if (i != lastIndex) {
 							sb.append(":");
 						}
 					}
@@ -618,6 +622,47 @@ public class TuneUtils {
 
 	}
 
+	public static void trackPackageOutBoundResults(PackageSearchParams searchTrackingData) {
+		if (initialized) {
+			TuneEvent event = new TuneEvent("package_outbound_search_results");
+			TuneEventItem eventItem = new TuneEventItem("package_outbound_search_item");
+			eventItem.withAttribute2(searchTrackingData.getOrigin().hierarchyInfo.airport.airportCode)
+					.withAttribute3(searchTrackingData.getDestination().hierarchyInfo.airport.airportCode);
+
+			if (searchTrackingData.getFlightLegList() != null && !searchTrackingData.getFlightLegList().isEmpty()) {
+				int propertiesCount = searchTrackingData.getFlightLegList().size();
+				StringBuilder sb = new StringBuilder();
+				int lastIndex = getLastIndex(propertiesCount);
+
+				for (int i = 0; i <= lastIndex; i++) {
+					FlightLeg flightLeg = searchTrackingData.getFlightLegList().get(i);
+					String carrier = flightLeg.carrierCode;
+					String currency = flightLeg.packageOfferModel.price.packageTotalPrice.currencyCode;
+					String price = flightLeg.packageOfferModel.price.packageTotalPrice.amount.toString();
+					String routeType = "RT";
+					String route = String.format("%s-%s", searchTrackingData.getOrigin().gaiaId, searchTrackingData.getDestination().gaiaId);
+					sb.append(String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
+					if (i != lastIndex) {
+						sb.append(":");
+					}
+				}
+				eventItem.withAttribute5(sb.toString());
+			}
+			Date departureDate = searchTrackingData.getStartDate().toDate();
+			if (searchTrackingData.getEndDate() != null) {
+				Date returnDate = searchTrackingData.getEndDate().toDate();
+				event.withDate2(returnDate);
+			}
+			withTuidAndMembership(event)
+					.withAttribute2(isUserLoggedIn())
+					.withEventItems(Arrays.asList(eventItem))
+					.withSearchString("flight")
+					.withDate1(departureDate);
+
+			trackEvent(event);
+		}
+	}
+
 	public static void trackFlightInBoundResults() {
 		if (initialized) {
 			FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
@@ -630,8 +675,9 @@ public class TuneUtils {
 			if (response != null) {
 				int propertiesCount = response.getTripCount();
 				StringBuilder sb = new StringBuilder();
+				int lastIndex = getLastIndex(propertiesCount);
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
+					for (int i = 0; i <= lastIndex; i++) {
 						FlightTrip trip = response.getTrips().get(i);
 						String carrier = trip.getLegs().get(1).getFirstAirlineCode();
 						String currency = trip.getTotalPrice().getCurrency();
@@ -642,7 +688,7 @@ public class TuneUtils {
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-						if (i != lastIndexOfTop5) {
+						if (i != lastIndex) {
 							sb.append(":");
 						}
 					}
@@ -674,8 +720,9 @@ public class TuneUtils {
 			if (flightLegList != null && !flightLegList.isEmpty()) {
 				int propertiesCount = flightLegList.size();
 				StringBuilder sb = new StringBuilder();
+				int lastIndex = getLastIndex(propertiesCount);
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
+					for (int i = 0; i <= lastIndex; i++) {
 						String carrier = flightLegList.get(i).segments.get(0).airlineCode;
 						String currency = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.currencyCode;
 						String price = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.amount.toString();
@@ -685,7 +732,7 @@ public class TuneUtils {
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
-						if (i != lastIndexOfTop5) {
+						if (i != lastIndex) {
 							sb.append(":");
 						}
 					}
@@ -784,15 +831,16 @@ public class TuneUtils {
 			Date checkInDate = LocalDate.parse(packageTrackingData.getHotelCheckInDate()).toDate();
 			Date checkOutDate = LocalDate.parse(packageTrackingData.getHotelCheckOutDate()).toDate();
 
-			StringBuilder topFiveHotelIdsBuilder = new StringBuilder();
+			StringBuilder topHotelIdsBuilder = new StringBuilder();
 			StringBuilder sb = new StringBuilder();
 
 			List<Hotel> hotels = packageTrackingData.getHotels();
 			int hotelsCount = hotels.size();
+			int lastIndex = getLastIndex(hotelsCount);
 
-			for (int i = 0; (i < top5 && i < hotelsCount); i++) {
+			for (int i = 0; i <= lastIndex; i++) {
 				Hotel hotel = hotels.get(i);
-				topFiveHotelIdsBuilder.append(hotel.hotelId);
+				topHotelIdsBuilder.append(hotel.hotelId);
 				String hotelId = hotel.hotelId;
 				String hotelName = hotel.localizedName;
 				String price = "";
@@ -807,16 +855,16 @@ public class TuneUtils {
 
 				String miles = hotel.proximityDistanceInMiles != 0 ? Double.toString(hotel.proximityDistanceInMiles) : "0";
 				sb.append(String.format("%s|%s|%s|%s|%s|%s", hotelId, hotelName, currency, price, starRating, miles));
-				if (i != lastIndexOfTop5) {
+				if (i != lastIndex) {
 					sb.append(":");
-					topFiveHotelIdsBuilder.append(",");
+					topHotelIdsBuilder.append(",");
 				}
 			}
 
 			if (hotelsCount > 0) {
 				eventItem.withAttribute1(hotels.get(0).city);
 			}
-			eventItem.withAttribute4(topFiveHotelIdsBuilder.toString());
+			eventItem.withAttribute4(topHotelIdsBuilder.toString());
 			eventItem.withAttribute5(sb.toString());
 
 			withTuidAndMembership(event)
@@ -841,23 +889,24 @@ public class TuneUtils {
 			if (search != null) {
 				int propertiesCount = search.categories.size();
 				StringBuilder sb = new StringBuilder();
-				StringBuilder carTopFiveClass = new StringBuilder();
+				StringBuilder topCarsClassBuilder = new StringBuilder();
+				int lastIndex = getLastIndex(propertiesCount);
 				if (propertiesCount >= 0) {
-					for (int i = 0; (i < top5 && i < propertiesCount); i++) {
+					for (int i = 0; i <= lastIndex; i++) {
 						CategorizedCarOffers carOffer = search.categories.get(i);
 						String carClass = carOffer.carCategoryDisplayLabel;
 						String currency = carOffer.getLowestTotalPriceOffer().fare.total.getCurrency();
 						String price = carOffer.getLowestTotalPriceOffer().fare.total.amount.toString();
-						carTopFiveClass.append(carClass);
+						topCarsClassBuilder.append(carClass);
 						sb.append(String.format("%s|%s|%s", carClass, currency, price));
-						if (i != lastIndexOfTop5) {
+						if (i != lastIndex) {
 							sb.append(":");
-							carTopFiveClass.append(",");
+							topCarsClassBuilder.append(",");
 						}
 					}
 				}
 				eventItem.withAttribute5(sb.toString());
-				eventItem.withAttribute4(carTopFiveClass.toString());
+				eventItem.withAttribute4(topCarsClassBuilder.toString());
 			}
 
 
@@ -932,23 +981,24 @@ public class TuneUtils {
 			if (searchResponse != null) {
 				int activitiesCount = searchResponse.activities.size();
 				StringBuilder sb = new StringBuilder();
-				StringBuilder topFiveActivities = new StringBuilder();
+				StringBuilder topActivitiesBuilder = new StringBuilder();
+				int lastIndex = getLastIndex(activitiesCount);
 				if (activitiesCount >= 0) {
-					for (int i = 0; (i < top5 && i < activitiesCount); i++) {
+					for (int i = 0; i <= lastIndex; i++) {
 						LXActivity activity = searchResponse.activities.get(i);
 						String title = activity.title;
 						String currency = activity.price.currencyCode;
 						double price = activity.price.amount.doubleValue();
-						topFiveActivities.append(title);
+						topActivitiesBuilder.append(title);
 						sb.append(String.format(Locale.getDefault(), "%s|%s|%f", title, currency, price));
-						if (i != lastIndexOfTop5) {
+						if (i != lastIndex) {
 							sb.append(":");
-							topFiveActivities.append(",");
+							topActivitiesBuilder.append(",");
 						}
 					}
 				}
 				eventItem.withAttribute5(sb.toString());
-				eventItem.withAttribute4(topFiveActivities.toString());
+				eventItem.withAttribute4(topActivitiesBuilder.toString());
 			}
 
 			withTuidAndMembership(event)
@@ -1076,6 +1126,15 @@ public class TuneUtils {
 	private static String getAdvertiserRefId(String travelRecordLocator) {
 		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
 		return String.format("%s:%s", travelRecordLocator, tpid);
+	}
+
+	private static int getLastIndex(int propertiesCount) {
+		if (propertiesCount < top5) {
+			return propertiesCount - 1;
+		}
+		else {
+			return top5 - 1;
+		}
 	}
 
 }
