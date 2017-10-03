@@ -10,7 +10,7 @@
     <color name="launch_toolbar_background_color">@color/bg_blue_color_travelocity</color>
     <color name="action_bar_text_blue_travelocity">#7baed4</color>
     <color name="actionbar_button_text_color">@color/action_bar_text_blue_travelocity</color>
-    <color name="actionbar_tab_text_unselected">#BFFFFFFF</color>
+    <color name="actionbar_tab_text_unselected">#FFFFFF</color>
     <color name="bg_btn_color_travelocity">#7bae00</color>
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color">#276498</color>
@@ -45,6 +45,8 @@
     <color name="launch_list_header_title_color">#565656</color>
     <color name="placeholder_card_background_color">@color/app_primary</color>
     <color name="placeholder_card_button_text_color">@color/app_primary</color>
+    <color name="hotel_reviews_summary_text_color">@color/gray9</color>
+    <color name="hotel_review_reviewer_color">@color/gray9</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>

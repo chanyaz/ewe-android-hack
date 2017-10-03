@@ -132,6 +132,7 @@
     <!-- Hotel reviews colors -->
     <color name="hotel_review_reviewer_color">#A5A5A5</color>
     <color name="hotel_reviews_summary_background_color">@color/white</color>
+    <color name="hotel_reviews_summary_text_color">@color/gray5</color>
 
     <!--Hotel Filter Colors -->
     <color name="hotel_filter_hotel_name_icon">@color/gray5</color>

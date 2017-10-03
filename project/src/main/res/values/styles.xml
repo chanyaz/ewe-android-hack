@@ -355,7 +355,7 @@
     </style>
 
     <style name="widgetHotelReviewsSummaryText">
-        <item name="android:textColor">@color/gray5</item>
+        <item name="android:textColor">@color/hotel_reviews_summary_text_color</item>
         <item name="android:textSize">@dimen/hotel_reviews_summary_text_size</item>
     </style>
 
