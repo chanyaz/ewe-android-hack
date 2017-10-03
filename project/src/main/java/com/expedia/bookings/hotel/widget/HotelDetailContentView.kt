@@ -189,8 +189,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.hotelSoldOut.subscribeInverseVisibility(price)
         vm.hotelSoldOut.subscribeInverseVisibility(roomContainer)
 
-        vm.hotelSearchInfoText.subscribeTextColor(searchInfo)
-
         vm.noAmenityObservable.subscribe {
             amenityContainer.visibility = View.GONE
             amenityEtpDivider.visibility = View.GONE
@@ -250,7 +248,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
         vm.userRatingObservable.subscribeText(userRating)
-        vm.userRatingBackgroundColorObservable.subscribeBackground(userRating)
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRatingRecommendationText)
         vm.userRatingRecommendationTextObservable.subscribeText(userRatingRecommendationText)
         vm.isUserRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)

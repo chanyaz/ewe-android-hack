@@ -13,8 +13,8 @@ import com.expedia.bookings.widget.TextView
 
 class ProWizardLaunchTabView(context: Context, iconId: Int, text: String): LinearLayout(context) {
 
-    private val baseIconColor = ContextCompat.getColor(context, R.color.gray6)
-    private val baseTextColor = ContextCompat.getColor(context, R.color.gray7)
+    private val baseIconColor = ContextCompat.getColor(context, R.color.gray600)
+    private val baseTextColor = ContextCompat.getColor(context, R.color.gray700)
     private val selectedColor = ContextCompat.getColor(context, R.color.app_primary)
 
     private val textSize = context.resources.getDimensionPixelSize(R.dimen.launch_pro_wizard_tab_text_size)

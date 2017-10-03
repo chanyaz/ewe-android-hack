@@ -6,7 +6,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray1"
+        android:background="@color/gray100"
         android:orientation="vertical">
 
         <ScrollView
@@ -31,6 +31,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/etp_payment_options_text"
+                        android:textColor="@color/default_text_color"
                         app:textStyle="medium" />
 
                     <com.expedia.bookings.widget.TextView
@@ -56,7 +57,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/etp_pay_now_charges_text"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/light_text_color"/>
 
                     </LinearLayout>
 
@@ -71,7 +73,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/etp_pay_now_currency_text"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/light_text_color"/>
 
                     </LinearLayout>
 
@@ -86,7 +89,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/etp_pay_now_cancellation_text" />
+                            android:text="@string/etp_pay_now_cancellation_text"
+                            android:textColor="@color/light_text_color"/>
 
                     </LinearLayout>
 
@@ -145,7 +149,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/deposit_terms_first_text"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/light_text_color"/>
 
                     </LinearLayout>
 
@@ -163,7 +168,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/deposit_terms_second_text"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/light_text_color"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -179,7 +185,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/etp_pay_later_deposit_text" />
+                            android:text="@string/etp_pay_later_deposit_text"
+                            android:textColor="@color/light_text_color"/>
 
                     </LinearLayout>
 
@@ -194,7 +201,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/etp_pay_later_currency_text"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/light_text_color"/>
 
                     </LinearLayout>
 
@@ -209,7 +217,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/etp_pay_later_cancellation_text" />
+                            android:text="@string/etp_pay_later_cancellation_text"
+                            android:textColor="@color/light_text_color"/>
 
                     </LinearLayout>
 
@@ -226,7 +235,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/etp_pay_later_payment_info_text" />
+                            android:text="@string/etp_pay_later_payment_info_text"
+                            android:textColor="@color/light_text_color"/>
 
                     </LinearLayout>
 
@@ -241,7 +251,8 @@
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/no_charges_text"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/light_text_color"/>
 
                     </LinearLayout>
 

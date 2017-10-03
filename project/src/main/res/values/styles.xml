@@ -355,7 +355,7 @@
     </style>
 
     <style name="widgetHotelReviewsSummaryText">
-        <item name="android:textColor">@color/hotel_reviews_summary_text_color</item>
+        <item name="android:textColor">@color/gray900</item>
         <item name="android:textSize">@dimen/hotel_reviews_summary_text_size</item>
     </style>
 
@@ -884,7 +884,7 @@
 
     <style name="Widget.InfoIconButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
-        <item name="android:textColor">@color/gray7</item>
+        <item name="android:textColor">@color/gray700</item>
         <item name="android:textAllCaps">false</item>>
         <item name="android:textSize">13sp</item>
         <item name="android:drawablePadding">10dp</item>
@@ -940,7 +940,7 @@
     </style>
 
     <style name="Core.Text.Large.Gray3">
-        <item name="android:textColor">@color/gray3</item>
+        <item name="android:textColor">@color/gray300</item>
     </style>
 
     <style name="Core.Text.Large.Medium">
@@ -960,7 +960,7 @@
     </style>
 
     <style name="Core.Text.XLarge.LightColor">
-        <item name="android:textColor">@color/gray6</item>
+        <item name="android:textColor">@color/gray600</item>
     </style>
 
     <style name="Core.Text.XLarge.Medium">
@@ -980,7 +980,7 @@
     </style>
 
     <style name="Core.Text.XXLarge.Medium.Gray3">
-        <item name="android:textColor">@color/gray3</item>
+        <item name="android:textColor">@color/gray300</item>
     </style>
 
     <style name="Core.Text.XXXLarge">
@@ -1288,7 +1288,7 @@
     </style>
 
     <style name="FlightFareFamilyTextStyle">
-        <item name="android:textColor">@color/gray7</item>
+        <item name="android:textColor">@color/gray700</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:layout_width">wrap_content</item>
@@ -1298,12 +1298,12 @@
     <style name="FlightFareFamilyAmenityText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textColor">@color/gray9</item>
+        <item name="android:textColor">@color/gray900</item>
         <item name="android:textSize">13sp</item>
     </style>
 
     <style name="FareFamilyHeader" parent="FlightFareFamilyTextStyle">
-        <item name="android:textColor">@color/gray9</item>
+        <item name="android:textColor">@color/gray900</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">16sp</item>
     </style>

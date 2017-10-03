@@ -21,7 +21,3 @@ fun getGuestRatingText(rating: Float, resources: Resources) : String {
         resources.getString(R.string.hotel_guest_recommend_exceptional_superlative)
     }
 }
-
-fun getGuestRatingBackground(context: Context): Drawable {
-    return ContextCompat.getDrawable(context, R.drawable.user_review_background)
-}

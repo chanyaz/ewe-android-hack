@@ -694,7 +694,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.new_launch_lx_lob_color,
 		R.color.new_launch_rail_lob_color,
 		R.color.new_launch_packages_lob_color,
-		R.color.new_launch_lob_divider_color,
+		R.color.app_divider_on_white,
 		R.color.new_launch_lob_disabled_color,
 		R.drawable.ic_itin_additional_info_icon,
 		R.drawable.ic_itin_credit_card_icon,

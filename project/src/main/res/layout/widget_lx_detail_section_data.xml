@@ -37,7 +37,7 @@
         android:contentDescription="@string/lx_read_more_cont_desc"
         android:clickable="false"
         android:layout_gravity="right"
-        android:tint="@color/gray7"
+        android:tint="@color/gray700"
         android:src="@drawable/read_more"
         android:visibility="gone" />
 

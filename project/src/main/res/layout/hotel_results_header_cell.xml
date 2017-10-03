@@ -14,7 +14,7 @@
         android:id="@+id/results_description_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray1"
+        android:background="@color/gray200"
         android:paddingBottom="8dp"
         android:paddingTop="9dp">
 

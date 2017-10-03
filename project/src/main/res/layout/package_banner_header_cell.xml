@@ -43,7 +43,7 @@
                 android:paddingRight="13dp"
                 android:paddingTop="15dp"
                 android:text="@string/flight_package_banner_description"
-                android:textColor="@color/gray9"
+                android:textColor="@color/gray900"
                 android:textSize="12sp" />
 
         </LinearLayout>

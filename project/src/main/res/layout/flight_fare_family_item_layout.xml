@@ -109,14 +109,14 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginTop="1dp"
                 android:src="@drawable/flight_upsell_chevron_icon"
-                android:tint="@color/gray7" />
+                android:tint="@color/gray700" />
         </LinearLayout>
 
         <View
             android:id="@+id/fare_family_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray2" />
+            android:background="@color/gray200" />
     </LinearLayout>
 
 </com.expedia.bookings.widget.flights.FareFamilyItemWidget>

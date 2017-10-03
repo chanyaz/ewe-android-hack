@@ -2,5 +2,5 @@
 <com.expedia.bookings.presenter.flight.FlightOverviewPresenter xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray1"
+    android:background="@color/gray100"
     android:visibility="gone" />

@@ -48,6 +48,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="6dp"
         android:layout_toRightOf="@+id/circle_rating_bar"
-        android:textColor="@color/gray3"/>
+        android:textColor="@color/gray300"/>
 
 </merge>

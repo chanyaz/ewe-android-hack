@@ -19,7 +19,7 @@
         android:gravity="left"
         android:paddingBottom="12dp"
         android:text="@string/pending_points_info"
-        android:textColor="@color/gray8" />
+        android:textColor="@color/gray800" />
 
     <TableRow>
         <TextView
@@ -30,7 +30,7 @@
             android:paddingBottom="2dp"
             android:layout_height="wrap_content"
             android:text="@string/trip_type"
-            android:textColor="@color/gray8"
+            android:textColor="@color/gray800"
             android:layout_gravity="left"/>
 
         <TextView
@@ -41,7 +41,7 @@
             android:paddingBottom="2dp"
             android:layout_height="wrap_content"
             android:text="@string/up_to"
-            android:textColor="@color/gray8"
+            android:textColor="@color/gray800"
             android:layout_gravity="right"
             android:gravity="right"/>
 
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:text="@string/flights_title"
             android:importantForAccessibility="no"
-            android:textColor="@color/gray8" />
+            android:textColor="@color/gray800" />
 
         <TextView
             android:id="@+id/flights_days"
@@ -65,7 +65,7 @@
             android:gravity="right"
             tools:text="30 days"
             android:importantForAccessibility="no"
-            android:textColor="@color/gray8" />
+            android:textColor="@color/gray800" />
     </TableRow>
 
     <TableRow android:id="@+id/bundles_points_row">
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:text="@string/nav_packages"
             android:importantForAccessibility="no"
-            android:textColor="@color/gray8" />
+            android:textColor="@color/gray800" />
 
         <TextView
             android:id="@+id/packages_days"
@@ -86,7 +86,7 @@
             android:gravity="right"
             tools:text="30 days"
             android:importantForAccessibility="no"
-            android:textColor="@color/gray8" />
+            android:textColor="@color/gray800" />
     </TableRow>
 
     <TableRow android:id="@+id/activities_points_row">
@@ -98,7 +98,7 @@
         android:layout_below="@id/packages_pp"
         android:text="@string/activities"
         android:importantForAccessibility="no"
-        android:textColor="@color/gray8" />
+        android:textColor="@color/gray800" />
 
         <TextView
         android:id="@+id/activities_days"
@@ -109,7 +109,7 @@
         android:gravity="right"
         tools:text="30 days"
         android:importantForAccessibility="no"
-        android:textColor="@color/gray8" />
+        android:textColor="@color/gray800" />
     </TableRow>
 
     <TableRow android:id="@+id/hotels_points_row">
@@ -121,7 +121,7 @@
         android:layout_below="@id/activities_pp"
         android:text="@string/nav_hotels"
         android:importantForAccessibility="no"
-        android:textColor="@color/gray8" />
+        android:textColor="@color/gray800" />
 
         <TextView
         android:id="@+id/hotels_days"
@@ -132,7 +132,7 @@
         android:gravity="right"
         tools:text="35 days"
         android:importantForAccessibility="no"
-        android:textColor="@color/gray8" />
+        android:textColor="@color/gray800" />
     </TableRow>
 
     <TableRow android:id="@+id/cruises_points_row">
@@ -144,7 +144,7 @@
         android:layout_below="@id/hotels_pp"
         android:text="@string/cruises"
         android:importantForAccessibility="no"
-        android:textColor="@color/gray8" />
+        android:textColor="@color/gray800" />
 
         <TextView
         android:id="@+id/cruises_days"
@@ -155,7 +155,7 @@
         android:gravity="right"
         tools:text="45 days"
         android:importantForAccessibility="no"
-        android:textColor="@color/gray8" />
+        android:textColor="@color/gray800" />
     </TableRow>
 
     <TableRow android:id="@+id/cars_points_row">
@@ -167,7 +167,7 @@
         android:layout_below="@id/cruises_pp"
         android:text="@string/cars"
         android:importantForAccessibility="no"
-        android:textColor="@color/gray8" />
+        android:textColor="@color/gray800" />
 
         <TextView
         android:id="@+id/cars_days"
@@ -178,6 +178,6 @@
         android:gravity="right"
         tools:text="90 days"
         android:importantForAccessibility="no"
-        android:textColor="@color/gray8" />
+        android:textColor="@color/gray800" />
     </TableRow>
 </TableLayout>

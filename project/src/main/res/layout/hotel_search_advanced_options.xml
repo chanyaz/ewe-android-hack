@@ -23,13 +23,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/gray1">
+        android:background="@color/gray100">
 
         <ScrollView
             android:id="@+id/search_options_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/gray1"
+            android:background="@color/gray100"
             android:paddingBottom="16dp"
             android:scrollbars="none">
 

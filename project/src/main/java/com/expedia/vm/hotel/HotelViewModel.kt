@@ -321,7 +321,7 @@ open class HotelViewModel(private val context: Context) {
         if (hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
             return R.color.hotels_primary_color
         }
-        return R.color.hotel_cell_gray_text
+        return R.color.default_text_color
     }
 
     data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String, val messageTextColorId: Int = R.color.white) {

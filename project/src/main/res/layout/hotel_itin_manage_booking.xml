@@ -21,7 +21,7 @@
     <com.expedia.bookings.widget.ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray1"
+        android:background="@color/gray100"
         android:fadingEdge="none">
 
         <LinearLayout
@@ -39,7 +39,7 @@
                 android:layout_marginRight="14dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/itin_hotel_manage_booking_header"
-                android:textColor="@color/gray9"
+                android:textColor="@color/gray900"
                 android:textSize="18sp"
                 app:textStyle="medium" />
 

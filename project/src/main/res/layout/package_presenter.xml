@@ -5,7 +5,7 @@
         android:id="@+id/widget_bundle_overview_view_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray1"
+        android:background="@color/gray100"
         android:inflatedId="@+id/widget_bundle_overview"
         android:layout="@layout/bundle_overview_stub" />
 
@@ -35,7 +35,7 @@
         android:id="@+id/widget_package_error_view_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray1"
+        android:background="@color/gray100"
         android:inflatedId="@+id/widget_package_hotel_errors"
         android:layout="@layout/package_error_stub" />
 

@@ -24,7 +24,7 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:background="@color/gray1" />
+            tools:background="@color/gray100" />
 
         <View
             android:id="@+id/bottom_tab_layout_shadow"

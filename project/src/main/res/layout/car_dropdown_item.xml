@@ -27,13 +27,13 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:paddingLeft="4dp"
-        android:textColor="@color/gray5"/>
+        android:textColor="@color/gray500"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/location_subtitle_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/gray5"
+        android:textColor="@color/gray500"
         android:textSize="11sp"
         android:layout_gravity="center_vertical"
         android:maxLines="1"

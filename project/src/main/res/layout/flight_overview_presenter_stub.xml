@@ -4,4 +4,4 @@
     android:id="@+id/widget_flight_overview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray1" />
+    android:background="@color/gray100" />

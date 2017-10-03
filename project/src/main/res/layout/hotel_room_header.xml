@@ -37,7 +37,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/bed_type_text_view"
-        style="@style/Core.Text.Default.LightColor"
+        style="@style/Core.Text.Default"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -47,6 +47,7 @@
         android:layout_marginRight="4dp"
         android:layout_toLeftOf="@+id/room_info_icon"
         android:drawableLeft="@drawable/room_bed"
-        android:drawablePadding="@dimen/textview_drawable_padding" />
+        android:drawablePadding="@dimen/textview_drawable_padding"
+        android:textColor="@color/light_text_color"/>
 
 </merge>

@@ -31,7 +31,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
-import com.expedia.util.getGuestRatingBackground
 import com.expedia.util.getGuestRatingText
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
@@ -77,8 +76,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
     val selectedRoomSoldOut = PublishSubject.create<Unit>()
     val hotelPriceContentDesc = PublishSubject.create<String>()
-
-    val hotelSearchInfoText = hotelSoldOut.map { if (it) ContextCompat.getColor(context, R.color.gray3) else ContextCompat.getColor(context, R.color.gray6) }
 
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
@@ -126,13 +123,12 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val priceToShowCustomerObservable = BehaviorSubject.create<String>()
     val searchInfoObservable = BehaviorSubject.create<String>()
     val searchDatesObservable = BehaviorSubject.create<String>()
-    val userRatingBackgroundColorObservable = BehaviorSubject.create<Drawable>()
     val userRatingObservable = BehaviorSubject.create<String>()
     val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()
     val userRatingRecommendationTextObservable = BehaviorSubject.create<String>()
     val ratingContainerBackground = isUserRatingAvailableObservable.map { ratingAvailable ->
         if (ratingAvailable) ContextCompat.getDrawable(context, R.drawable.gray_background_ripple)
-        else (ContextCompat.getDrawable(context, R.color.gray1))
+        else (ContextCompat.getDrawable(context, R.color.gray100))
     }
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
@@ -506,7 +502,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         }
 
         userRatingObservable.onNext(offerResponse.hotelGuestRating.toString())
-        userRatingBackgroundColorObservable.onNext(getGuestRatingBackground(context))
         userRatingRecommendationTextObservable.onNext(getGuestRatingText(offerResponse.hotelGuestRating.toFloat(), context.resources))
         isUserRatingAvailableObservable.onNext(offerResponse.hotelGuestRating > 0)
 

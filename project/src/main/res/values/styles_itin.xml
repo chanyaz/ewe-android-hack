@@ -3,7 +3,7 @@
 
     <style name="ItinTheme" parent="AppTheme.Base">
         <item name="android:windowBackground">@color/white</item>
-        <item name="itin_card_summary_divider_color">@color/gray1</item>
+        <item name="itin_card_summary_divider_color">@color/gray100</item>
         <item name="itin_card_summary_action_button_text_color">@color/exp_launch_blue</item>
         <item name="itin_card_summary_action_button_text_size">14sp</item>
         <item name="android:statusBarColor">@color/app_status_bar_color</item>
@@ -15,7 +15,7 @@
     </style>
 
     <style name="ItinLinkOffTextSubHeading">
-        <item name="android:textColor">@color/gray6</item>
+        <item name="android:textColor">@color/gray600</item>
         <item name="android:textSize">12sp</item>
     </style>
 </resources>

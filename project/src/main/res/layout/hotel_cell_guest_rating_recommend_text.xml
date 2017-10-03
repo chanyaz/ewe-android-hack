@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:gravity="left|center_vertical"
     android:layout_width="wrap_content"
@@ -23,13 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/user_review_background"
         android:gravity="center"
         android:paddingBottom="4dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
         android:paddingTop="3dp"
-        android:textColor="@color/white"
+        android:textColor="@color/gray900"
         android:textSize="10sp"
         app:textStyle="medium" />
 
@@ -40,7 +36,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="4dp"
         android:text="@string/hotel_guest_recommend"
-        android:textColor="@color/result_cells_gray_text"
+        android:textColor="@color/gray900"
         android:textSize="10sp" />
 
 </LinearLayout>

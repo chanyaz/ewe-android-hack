@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/itin_hotel_details_booking_details_title_text"
-        android:textColor="@color/gray9"
+        android:textColor="@color/gray900"
         android:textSize="18sp"
         app:textStyle="medium"
         android:layout_marginRight="3dp"

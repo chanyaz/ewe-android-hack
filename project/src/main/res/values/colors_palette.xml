@@ -12,7 +12,7 @@
     <color name="exp_action_required_red">#E44A01</color>
 
     <color name="exp_itin_bg">#212527</color>
-    <color name="exp_itin_bg_crystal_theme">@color/gray1</color>
+    <color name="exp_itin_bg_crystal_theme">@color/gray100</color>
 
     <color name="blue1">#0C7CDF</color>
     <color name="blue2">#1369B3</color>
@@ -20,21 +20,24 @@
     <color name="blue4">#0B3F6B</color>
     <color name="blue5">#1E2E4A</color>
 
+    <color name="success_green">#0F7800</color>
+    <color name="error_red">#C72800</color>
+
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="egg_white">#FAFAFA</color>
 
-    <color name="gray1">#EEEEEE</color> <!-- Lightest gray, used for backgrounds (behind cardviews etc) -->
-    <color name="gray2">#D6D6D6</color>
-    <color name="gray3">#B9B9B9</color>
-    <color name="gray4">#9C9C9C</color>
-    <color name="gray5">#868686</color> <!-- Medium gray -->
-    <color name="gray6">#767676</color> <!--This is the lightest gray value we should use for text (accessibility)-->
-    <color name="gray7">#656565</color>
-    <color name="gray8">#585858</color>
-    <color name="gray9">#4A4A4A</color>
-    <color name="gray10">#3C3C3C</color>
-    <color name="gray11">#262626</color>
+    <color name="gray100">#F5F5F5</color>
+    <color name="gray200">#e6e6e6</color>
+    <color name="gray300">#e0e0e0</color>
+    <color name="gray400">#c7c7c7</color>
+    <color name="gray500">#999999</color>
+    <color name="gray600">#757575</color>
+    <color name="gray700">#616161</color>
+    <color name="gray800">#404040</color>
+    <color name="gray900">#1F1F1F</color>
+    <color name="gray10">@color/gray900</color>
+    <color name="gray11">@color/gray900</color>
     <color name="black">#FF000000</color>
 
     <!-- alpha colors http://stackoverflow.com/questions/15852122/hex-transparency-in-colors-->
@@ -67,8 +70,6 @@
     <color name="exp_launch_dark_teal">#3E6A85</color> <!-- TODO wtf to call this color -->
     <color name="exp_launch_secondary">#005199</color>
     <color name="air_attach_orange">#FD8126</color>
-    <color name="orange_crush">#FC9F23</color> <!-- This is used mainly for error states -->
-    <color name="reddish_orange">#F25F31</color> <!-- This is used mostly for error states -->
-    <color name="green_savings">#0f7800</color>
+
     <color name="yellow_layover">#E0A81C</color>
 </resources>

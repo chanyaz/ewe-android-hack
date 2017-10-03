@@ -143,7 +143,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         paymentWidget.viewmodel.lineOfBusiness.onNext(getLineOfBusiness())
         if (materialFormTestEnabled) {
             paymentWidget.viewmodel.updateBackgroundColor.subscribe { forward ->
-                val color = ContextCompat.getColor(context, if (forward) R.color.white else R.color.gray1)
+                val color = ContextCompat.getColor(context, if (forward) R.color.white else R.color.gray100)
                 scrollView.setBackgroundColor(color)
             }
         }

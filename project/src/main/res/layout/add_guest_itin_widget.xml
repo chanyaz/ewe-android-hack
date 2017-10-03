@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/find_guest_itinerary_intro_text"
-            android:textColor="@color/gray9"
+            android:textColor="@color/gray900"
             android:textSize="14sp"
             android:textStyle="normal" />
 

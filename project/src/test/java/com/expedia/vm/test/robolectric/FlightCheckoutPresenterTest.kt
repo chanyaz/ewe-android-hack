@@ -122,7 +122,7 @@ class FlightCheckoutPresenterTest {
         checkout.paymentWidget.showPaymentForm(false)
         assertEquals(checkout.scrollView.background, ContextCompat.getDrawable(activity.applicationContext, R.color.white))
         checkout.paymentWidget.back()
-        assertEquals(checkout.scrollView.background, ContextCompat.getDrawable(activity.applicationContext, R.color.gray1))
+        assertEquals(checkout.scrollView.background, ContextCompat.getDrawable(activity.applicationContext, R.color.gray100))
     }
 
     @Test

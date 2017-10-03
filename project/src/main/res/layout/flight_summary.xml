@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/flights_free_cancellation"
-                    android:textColor="@color/gray9"
+                    android:textColor="@color/gray900"
                     android:textSize="12sp"
                     app:textStyle="medium" />
 
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="@string/flights_free_cancellation_information"
-                android:textColor="@color/gray6"
+                android:textColor="@color/gray600"
                 android:textSize="10sp"
                 android:visibility="gone" />
         </LinearLayout>

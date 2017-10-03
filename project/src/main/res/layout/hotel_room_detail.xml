@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_alignParentTop="true"
-        android:background="@color/gray2" />
+        android:background="@color/app_divider_on_white" />
 
     <LinearLayout
         android:id="@+id/value_adds_point_fee_container"
@@ -38,9 +38,10 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/cancellation_time_text_view"
-            style="@style/Core.Text.Small.LightColor"
+            style="@style/Core.Text.Small"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_text_color"/>
 
         <LinearLayout
             android:id="@+id/value_adds_container"
@@ -51,20 +52,22 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/earn_message_text_view"
-            style="@style/Core.Text.Small.LightColor"
+            style="@style/Core.Text.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:drawableLeft="@drawable/earn_message_icon"
-            android:drawablePadding="@dimen/earn_message_icon_dimen" />
+            android:drawablePadding="@dimen/earn_message_icon_dimen"
+            android:textColor="@color/light_text_color"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/mandatory_fee_text_view"
-            style="@style/Core.Text.Small.LightColor"
+            style="@style/Core.Text.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:textColor="@color/light_text_color"/>
     </LinearLayout>
 
     <LinearLayout
@@ -110,13 +113,13 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/strike_through_price_text_view"
-                style="@style/Core.Text.Default.LightColor"
+                style="@style/Core.Text.Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/discount_percentage_text_view"
                 android:layout_marginLeft="4dp"
                 android:layout_toRightOf="@+id/discount_percentage_text_view"
-                android:alpha=".7" />
+                android:textColor="@color/light_text_color"/>
 
         </RelativeLayout>
 

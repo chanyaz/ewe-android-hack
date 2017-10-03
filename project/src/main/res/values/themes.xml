@@ -184,7 +184,7 @@
 
     <!-- TODO rename it to launch theme, remove old screen launch theme and all properties are placeholder !-->
     <style name="NewLaunchTheme" parent="AppTheme.Base">
-        <item name="android:windowBackground">@color/gray1</item>
+        <item name="android:windowBackground">@color/gray100</item>
 
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
@@ -263,7 +263,7 @@
         <item name="itin_card_detail_triplet_value_text_size">24sp</item>
         <item name="itin_card_detail_triplet_value_text_color">#f4f4f4</item>
         <item name="itin_card_detail_triplet_label_text_size">14sp</item>
-        <item name="itin_card_detail_triplet_label_text_color">@color/gray2</item>
+        <item name="itin_card_detail_triplet_label_text_color">@color/gray200</item>
         <item name="itin_card_detail_section_header_underline_drawable">@drawable/itin_section_divider</item>
         <item name="itin_card_detail_section_header_text_size">14sp</item>
         <item name="itin_card_detail_section_header_text_color">@color/white</item>
@@ -312,10 +312,10 @@
         <item name="itin_card_summary_text_left_drawable_activity">@drawable/ic_activity_attach_crystal</item>
         <item name="itin_card_summary_text_line1_color">@color/gray10</item>
         <item name="itin_card_summary_text_line1_size">16sp</item>
-        <item name="itin_card_summary_text_line2_color">@color/gray6</item>
+        <item name="itin_card_summary_text_line2_color">@color/gray600</item>
         <item name="itin_card_summary_text_line2_size">12sp</item>
         <item name="itin_card_summary_date_text_color">@android:color/white</item>
-        <item name="itin_card_summary_divider_color">@color/gray1</item>
+        <item name="itin_card_summary_divider_color">@color/gray100</item>
         <item name="itin_card_summary_action_button_text_color">@color/itin_summary_button_text_color</item>
         <item name="itin_card_summary_action_button_text_size">16sp</item>
         <item name="itin_card_summary_left_action_button_car_drawable">@drawable/ic_directions_crystal</item>
@@ -345,7 +345,7 @@
         <item name="itin_air_attach_expiration_text_color">@color/gray10</item>
         <item name="itin_air_attach_action_text_color">@color/gray10</item>
         <item name="itin_air_attach_action_overflow">@drawable/ic_itin_action_overflow_crystal_dark</item>
-        <item name="itin_air_attach_banner_divider_color">@color/gray1</item>
+        <item name="itin_air_attach_banner_divider_color">@color/gray100</item>
         <item name="itin_air_attach_expires_in_text_color">@color/gray10</item>
         <item name="itin_air_attach_margin_left_right">8dp</item>
         <item name="itin_air_attach_banner_divider_margin_left">@dimen/air_attach_banner_divider_margin_left_crystal_theme</item>
@@ -356,12 +356,12 @@
         <item name="itin_card_detail_triplet_value_text_size">24sp</item>
         <item name="itin_card_detail_triplet_value_text_color">@color/gray10</item>
         <item name="itin_card_detail_triplet_label_text_size">12sp</item>
-        <item name="itin_card_detail_triplet_label_text_color">@color/gray6</item>
+        <item name="itin_card_detail_triplet_label_text_color">@color/gray600</item>
         <item name="itin_card_detail_section_header_underline_drawable">@drawable/itin_section_divider_crystal</item>
         <item name="itin_card_detail_section_header_text_size">12sp</item>
         <item name="itin_card_detail_section_header_text_color">@color/gray10</item>
         <item name="itin_card_detail_section_text_size">16sp</item>
-        <item name="itin_card_detail_section_text_color">@color/gray6</item>
+        <item name="itin_card_detail_section_text_color">@color/gray600</item>
         <item name="skin_itinCardTitleTextColor">@color/gray10</item>
         <item name="itin_card_detail_section_text_capitalize_blue_style">@style/ItineraryCardActionItemTextView.Blue</item>
         <item name="itin_card_detail_cancel_left_drawable">@drawable/itin_cancel_icon</item>
@@ -376,10 +376,10 @@
         <item name="itin_card_detail_flight_airline_text_size">14sp</item>
         <item name="itin_card_detail_flight_airline_text_color">@color/gray10</item>
         <item name="itin_card_detail_flight_operating_carrier_text_size">12sp</item>
-        <item name="itin_card_detail_flight_operating_carrier_text_color">@color/gray6</item>
+        <item name="itin_card_detail_flight_operating_carrier_text_color">@color/gray600</item>
         <item name="itin_card_detail_flight_trip_view_text_color">@color/itin_flight_line_color</item>
         <item name="itin_card_detail_flight_arrow_drawable">@drawable/itin_arrow_icon</item>
-        <item name="itin_card_detail_flight_trip_summary_text_color">@color/gray6</item>
+        <item name="itin_card_detail_flight_trip_summary_text_color">@color/gray600</item>
         <item name="itin_card_detail_flight_trip_summary_bg_color">@color/white</item>
         <item name="itin_add_guest_itin_left_drawable">@drawable/itin_plus_icon</item>
         <item name="itin_add_guest_itin_text_color">@color/gray10</item>
@@ -390,7 +390,7 @@
         <item name="itin_card_detail_flight_canceled_drawable">@drawable/ic_flight_status_cancelled_crystal_theme</item>
         <item name="itin_card_detail_flight_delayed_drawable">@drawable/ic_flight_status_delayed_crystal_theme</item>
         <item name="itin_card_detail_flight_on_time_drawable">@drawable/ic_flight_status_on_time_crystal_theme</item>
-        <item name="itin_card_detail_horizontal_divider_color">@color/gray1</item>
+        <item name="itin_card_detail_horizontal_divider_color">@color/gray100</item>
     </style>
 
     <!-- Override this theme in whitelabels to provide whitelabel specific theme values. -->

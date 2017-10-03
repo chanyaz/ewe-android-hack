@@ -22,7 +22,7 @@ class FlightTravelersPresenter(context: Context, attrs: AttributeSet) : Abstract
             super.startTransition(forward)
             boardingWarning.visibility = if (forward) View.VISIBLE else View.GONE
             if (materialFormsEnabled) {
-                val color = if (forward) ContextCompat.getColor(context, R.color.white) else ContextCompat.getColor(context, R.color.gray1)
+                val color = if (forward) ContextCompat.getColor(context, R.color.white) else ContextCompat.getColor(context, R.color.gray100)
                 setBackgroundColor(color)
             }
         }

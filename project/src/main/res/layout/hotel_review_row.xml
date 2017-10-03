@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
-    android:background="@color/gray1">
+    android:background="@color/gray100">
 
     <LinearLayout
         android:id="@+id/root"
@@ -67,7 +67,7 @@
             android:id="@+id/reviewer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/hotel_review_reviewer_color"
+            android:textColor="@color/light_text_color"
             android:textSize="@dimen/hotel_reviewer_text_size"
             android:textStyle="italic" />
     </LinearLayout>
@@ -77,6 +77,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_review_divider_height"
         android:layout_below="@+id/root"
-        android:background="@color/gray1" />
+        android:background="@color/app_divider_on_gray" />
 
 </RelativeLayout>

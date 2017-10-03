@@ -107,7 +107,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="4dp"
             android:layout_weight="1"
-            android:background="@color/gray9" />
+            android:background="@color/gray900" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:text="@string/or"
-            android:textColor="@color/gray6"
+            android:textColor="@color/gray600"
             android:textSize="14sp"
             android:textAllCaps="true"/>
 
@@ -126,7 +126,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:background="@color/gray9"
+            android:background="@color/gray900"
             android:padding="20dp"/>
     </LinearLayout>
     <LinearLayout

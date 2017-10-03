@@ -18,7 +18,7 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
     val backgroundUrl: String? by lazy {
         getBackgroundImageUrl(leadingHotel.destination?.regionID)
     }
-    var backgroundFallback: Int = R.color.gray6
+    var backgroundFallback: Int = R.color.gray600
     var backgroundPlaceHolder: Int = R.drawable.results_list_placeholder
 
     private val formatter = DateTimeFormat.forPattern("EEE, MMM dd")

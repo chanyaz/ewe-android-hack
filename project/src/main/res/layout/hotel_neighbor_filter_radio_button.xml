@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textAppearance="@style/Core.Text.Large"
-    android:textColor="@color/gray7"
+    android:textColor="@color/gray700"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
     android:paddingRight="8dp"

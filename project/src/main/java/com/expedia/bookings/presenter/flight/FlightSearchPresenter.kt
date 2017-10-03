@@ -213,10 +213,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     { origin, destination ->
                         if (origin.isNullOrBlank() || destination.isNullOrBlank()) {
                             swapFlightsLocationsButton.isEnabled = false
-                            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2))
+                            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray200))
                         } else {
                             swapFlightsLocationsButton.isEnabled = true
-                            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray7))
+                            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray700))
                         }
                     }).subscribe()
         }
@@ -265,7 +265,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
             swapFlightsLocationsButton.isEnabled = false
-            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2))
+            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray200))
             swapFlightsLocationsButton.visibility = View.VISIBLE
 
             val dividerParams = flightsSearchDivider.layoutParams as ViewGroup.MarginLayoutParams

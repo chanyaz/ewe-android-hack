@@ -165,7 +165,7 @@ class HotelDetailViewModelTest {
                 "FAILURE: Rating available needs a clickable ripple background")
 
         vm.isUserRatingAvailableObservable.onNext(false)
-        assertEquals(ContextCompat.getDrawable(context, R.color.gray1), testSubscriber.onNextEvents[1],
+        assertEquals(ContextCompat.getDrawable(context, R.color.gray100), testSubscriber.onNextEvents[1],
                 "FAILURE: No rating available needs a static background")
     }
 

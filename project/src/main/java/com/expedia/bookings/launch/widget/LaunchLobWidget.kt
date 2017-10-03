@@ -79,7 +79,7 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
         super.onFinishInflate()
         val layoutManager = GridLayoutManager(context, 2)
         val itemDecoration = GridLinesItemDecoration(
-                ContextCompat.getColor(context, R.color.new_launch_lob_divider_color),
+                ContextCompat.getColor(context, R.color.app_divider_on_white),
                 context.resources.getDimension(R.dimen.new_launch_lob_divider_stroke_width))
         gridRecycler.addItemDecoration(itemDecoration)
 

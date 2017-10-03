@@ -112,7 +112,7 @@
         <item name="itin_card_detail_triplet_value_text_size">24sp</item>
         <item name="itin_card_detail_triplet_value_text_color">#f4f4f4</item>
         <item name="itin_card_detail_triplet_label_text_size">14sp</item>
-        <item name="itin_card_detail_triplet_label_text_color">@color/gray2</item>
+        <item name="itin_card_detail_triplet_label_text_color">@color/gray200</item>
         <item name="itin_card_detail_section_header_underline_drawable">@drawable/itin_section_divider</item>
         <item name="itin_card_detail_flight_arrow_drawable">@drawable/ic_depart_arrive_arrow</item>
         <item name="itin_card_list_icon_activity_drawable">@drawable/ic_type_circle_activity</item>

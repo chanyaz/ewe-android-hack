@@ -30,7 +30,6 @@ import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellNameStarAmeni
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellPriceTopAmenity
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellUrgencyMessage
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellVipMessage
-import com.expedia.util.getGuestRatingBackground
 import com.expedia.util.getGuestRatingText
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.updateVisibility
@@ -161,7 +160,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         if (viewModel.isHotelGuestRatingAvailable) {
             val rating = viewModel.hotelGuestRating
             guestRating.text = rating.toString()
-            guestRating.background = getGuestRatingBackground(itemView.context)
             guestRatingRecommendedText.text = getGuestRatingText(rating, itemView.resources)
         }
 

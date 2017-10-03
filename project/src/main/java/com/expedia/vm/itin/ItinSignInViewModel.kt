@@ -156,8 +156,8 @@ open class ItinSignInViewModel(val context: Context) {
             val colorMatrix = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.itin_warning_color), PorterDuff.Mode.SRC_IN)
             statusImageColorSubject.onNext(colorMatrix)
         } else {
-            statusTextColorSubject.onNext(ContextCompat.getColor(context, R.color.gray9))
-            val colorMatrix = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.gray9), PorterDuff.Mode.SRC_IN)
+            statusTextColorSubject.onNext(ContextCompat.getColor(context, R.color.gray900))
+            val colorMatrix = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.gray900), PorterDuff.Mode.SRC_IN)
             statusImageColorSubject.onNext(colorMatrix)
         }
     }

@@ -164,7 +164,7 @@
                 android:id="@+id/checkout_date"
                 style="@style/HotelCheckoutSummaryCommon.Common"
                 android:layout_width="wrap_content"
-                android:textColor="@color/gray8"/>
+                android:textColor="@color/gray800"/>
         </LinearLayout>
     </LinearLayout>
 

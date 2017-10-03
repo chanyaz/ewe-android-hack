@@ -18,7 +18,7 @@
             android:id="@+id/background_image_view"
             android:layout_width="match_parent"
             android:layout_height="134dp"
-            tool:background="@color/gray6"/>
+            tool:background="@color/gray600"/>
 
         <com.expedia.bookings.widget.TextView
             android:layout_width="match_parent"

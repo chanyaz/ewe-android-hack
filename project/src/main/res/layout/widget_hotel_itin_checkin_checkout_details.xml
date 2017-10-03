@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/itin_hotel_details_checkin_text"
-                    android:textColor="@color/gray6"
+                    android:textColor="@color/gray600"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="Check-in" />
@@ -56,7 +56,7 @@
                     android:id="@+id/hotel_itin_checkin_time_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray6"
+                    android:textColor="@color/gray600"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="3:00pm" />
@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/itin_hotel_details_checkout_text"
-                    android:textColor="@color/gray6"
+                    android:textColor="@color/gray600"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="Check-out" />
@@ -107,7 +107,7 @@
                     android:id="@+id/hotel_itin_checkout_time_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray6"
+                    android:textColor="@color/gray600"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="12:00pm" />

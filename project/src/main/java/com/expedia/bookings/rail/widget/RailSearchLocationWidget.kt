@@ -10,7 +10,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
 import com.expedia.vm.rail.RailSearchViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -28,7 +27,7 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
             viewModel.swapLocations()
         }
         swapLocationsButton.isEnabled = false
-        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2))
+        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray200))
     }
 
     var viewModel: RailSearchViewModel by notNullAndObservable { vm ->
@@ -50,10 +49,10 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
                 { origin, destination ->
                     if (origin.isNullOrBlank() || destination.isNullOrBlank()) {
                         swapLocationsButton.isEnabled = false
-                        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2))
+                        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray200))
                     } else {
                         swapLocationsButton.isEnabled = true
-                        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray7))
+                        swapLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray700))
                     }
                 }).subscribe()
 

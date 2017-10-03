@@ -12,11 +12,9 @@
             style="@style/widgetHotelReviewsSummaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/hotel_overall_rating_background"
             android:paddingBottom="@dimen/hotel_reviews_rating_padding_bottom"
-            android:paddingLeft="@dimen/hotel_reviews_rating_padding_left"
             android:paddingRight="@dimen/hotel_reviews_rating_padding_right"
-            android:textColor="@color/hotel_reviews_summary_background_color"
+            android:textColor="@color/default_text_color"
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
@@ -25,6 +23,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="4dp"
             android:text="@string/hotel_guest_recommend"
+            android:textColor="@color/default_text_color"
             android:textSize="@dimen/hotel_reviews_summary_text_size" />
 
     </LinearLayout>

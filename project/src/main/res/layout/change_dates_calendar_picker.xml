@@ -20,7 +20,7 @@
         app:calendarHeaderTextSize="16dp"
         app:calendarHighlightColor="?attr/primary_color"
         app:calendarHighlightInverseColor="?attr/primary_color"
-        app:calendarInvalidDaysColor="@color/gray4"
+        app:calendarInvalidDaysColor="@color/gray400"
         app:calendarLayout="@layout/calendar_layout"
         app:calendarSecondaryColor="@color/gray10"
         app:calendarTodayColor="?attr/primary_color"

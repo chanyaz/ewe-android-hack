@@ -71,7 +71,7 @@
                 android:layout_marginBottom="@dimen/hotel_preview_margin_small"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/gray7"
+                android:textColor="@color/gray700"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -156,15 +156,13 @@
                     android:id="@+id/hotel_guest_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/user_review_background"
                     android:gravity="center"
                     android:paddingBottom="1dp"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
                     android:paddingTop="1dp"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/light_text_color"
                     android:textSize="13sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="4.7"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotel_guest_recommend"
@@ -173,7 +171,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_weight="1"
                     android:text="@string/hotel_guest_recommend"
-                    android:textColor="@color/gray7"
+                    android:textColor="@color/gray700"
                     android:textSize="13sp" />
 
                 <com.expedia.bookings.widget.TextView
