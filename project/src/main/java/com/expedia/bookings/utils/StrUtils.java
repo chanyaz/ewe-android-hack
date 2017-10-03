@@ -20,6 +20,7 @@ import android.graphics.Typeface;
 import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -59,6 +60,8 @@ public class StrUtils {
 	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
 	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
 	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^((.+)(?= \\(.*\\)))");
+	// e.g. Seattle, WA (SEA-Seattle - Tacoma Intl.) -> WA
+	private static final Pattern STATE_CODE_PATTERN = Pattern.compile("\\, (.*?)\\ ");
 	private static final String HTML_TAGS_REGEX = "<[^>]*>";
 	private static final Pattern CITY_STATE_PATTERN_PACKAGE = Pattern.compile("^[^\\(]+");
 	/**
@@ -426,6 +429,34 @@ public class StrUtils {
 		if (cityMatcher.find()) {
 			city = cityMatcher.group(1);
 		}
+		return city;
+	}
+
+	@Nullable
+	public static String formatStateName(String suggestion) {
+		if (suggestion == null) {
+			return null;
+		}
+		String state = null;
+		Matcher stateMatcher = STATE_CODE_PATTERN.matcher(suggestion);
+		if (stateMatcher.find()) {
+			state = stateMatcher.group(1);
+		}
+		return state;
+	}
+
+	@Nullable
+	public static String formatPackageCityName(String suggestion) {
+		if (suggestion == null) {
+			return null;
+		}
+		String city = "";
+		Matcher cityMatcher = CITY_PATTERN.matcher(suggestion);
+		if (cityMatcher.find()) {
+			city = cityMatcher.group(1);
+		}
+		CharSequence[] cityValue = city.split(" \\(");
+		city = cityValue[0].toString();
 		return city;
 	}
 

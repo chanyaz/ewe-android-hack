@@ -123,10 +123,14 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
         overviewPresenter.vm.numberOfTravelers.onNext(numTravelers)
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
-        val cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin?.regionNames?.shortName as String
-        toolbarViewModel.city.onNext(cityBound)
+        val destinationOrOrigin = if (isOutboundResultsPresenter()) Db.getPackageParams().destination else Db.getPackageParams().origin
+        toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
+        toolbarViewModel.regionNames.onNext(destinationOrOrigin?.regionNames)
+        toolbarViewModel.country.onNext(destinationOrOrigin?.hierarchyInfo?.country?.name)
+        toolbarViewModel.airport.onNext(destinationOrOrigin?.hierarchyInfo?.airport?.airportCode)
         toolbarViewModel.travelers.onNext(numTravelers)
         toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate as LocalDate)
+        toolbarViewModel.lob.onNext(getLineOfBusiness())
         if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView()) {
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
             bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))

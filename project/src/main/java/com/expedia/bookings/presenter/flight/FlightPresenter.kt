@@ -14,8 +14,8 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -159,7 +159,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val presenter = viewStub.inflate() as FlightOutboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
-            presenter.toolbarViewModel.city.onNext(HtmlCompat.stripHtml(params.arrivalAirport.regionNames.displayName))
+            presenter.toolbarViewModel.regionNames.onNext(params.arrivalAirport.regionNames)
+            presenter.toolbarViewModel.country.onNext(params.arrivalAirport.hierarchyInfo?.country?.name)
+            presenter.toolbarViewModel.airport.onNext(params.arrivalAirport.hierarchyInfo?.airport?.airportCode)
+            presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             presenter.toolbarViewModel.date.onNext(params.departureDate)
             searchTrackingBuilder.searchParams(params)
@@ -207,7 +210,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val presenter = viewStub.inflate() as FlightInboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
-            presenter.toolbarViewModel.city.onNext(HtmlCompat.stripHtml(params.departureAirport.regionNames.displayName))
+            presenter.toolbarViewModel.regionNames.onNext(params.departureAirport.regionNames)
+            presenter.toolbarViewModel.country.onNext(params.departureAirport.hierarchyInfo?.country?.name)
+            presenter.toolbarViewModel.airport.onNext(params.departureAirport.hierarchyInfo?.airport?.airportCode)
+            presenter.toolbarViewModel.lob.onNext(presenter.getLineOfBusiness())
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             params.returnDate?.let {
                 presenter.toolbarViewModel.date.onNext(it)

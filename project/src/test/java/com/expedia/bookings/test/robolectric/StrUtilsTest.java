@@ -413,4 +413,27 @@ public class StrUtilsTest {
 	public void testBundleTotalWithTaxesString() {
 		assertEquals("Trip total (with taxes & fee)", StrUtils.bundleTotalWithTaxesString(getContext()).toString());
 	}
+
+	@Test
+	public void testFormatPackageCityName() {
+		String formattedString = StrUtils.formatPackageCityName(null);
+		assertNull(formattedString);
+		formattedString = StrUtils.formatPackageCityName(getDummySuggestion().regionNames.shortName);
+		assertEquals("Chicago", formattedString);
+		formattedString = StrUtils.formatPackageCityName(getDummySuggestion().regionNames.fullName);
+		assertEquals("Chicago", formattedString);
+		formattedString = StrUtils.formatPackageCityName(getDummySuggestion().regionNames.displayName);
+		assertEquals("Chicago", formattedString);
+	}
+
+	@Test
+	public void testFormatStateName() {
+		String formattedString = StrUtils.formatStateName(null);
+		assertNull(formattedString);
+		formattedString = StrUtils.formatStateName(getDummySuggestion().regionNames.shortName);
+		assertEquals(null, formattedString);
+		formattedString = StrUtils.formatStateName("Seattle, WA (SEA-Seattle - Tacoma Intl.)");
+		assertEquals("WA", formattedString);
+
+	}
 }

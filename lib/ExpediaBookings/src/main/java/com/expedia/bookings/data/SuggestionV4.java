@@ -36,6 +36,7 @@ public class SuggestionV4 {
 		public String fullName;
 		public String displayName;
 		public String shortName;
+		public String lastSearchName;
 	}
 
 	public static class HierarchyInfo {

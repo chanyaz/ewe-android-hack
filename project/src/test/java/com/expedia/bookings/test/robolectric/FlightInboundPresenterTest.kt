@@ -80,7 +80,13 @@ class FlightInboundPresenterTest {
         flightInboundPresenter.toolbarViewModel.isOutboundSearch.onNext(false)
         flightInboundPresenter.toolbarViewModel.travelers.onNext(1)
         flightInboundPresenter.toolbarViewModel.date.onNext(LocalDate.now())
-        flightInboundPresenter.toolbarViewModel.city.onNext("Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India")
+        val regionName = SuggestionV4.RegionNames()
+        regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
+        regionName.displayName = "Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India"
+        flightInboundPresenter.toolbarViewModel.regionNames.onNext(regionName)
+        flightInboundPresenter.toolbarViewModel.country.onNext("India")
+        flightInboundPresenter.toolbarViewModel.airport.onNext("BLR")
+        flightInboundPresenter.toolbarViewModel.lob.onNext(flightInboundPresenter.getLineOfBusiness())
         assertEquals("Select return flight", flightInboundPresenter.toolbar.title.toString())
     }
 
@@ -161,8 +167,13 @@ class FlightInboundPresenterTest {
         flightInboundPresenter.toolbarViewModel.travelers.onNext(1)
         val currentTime = LocalDate.now()
         flightInboundPresenter.toolbarViewModel.date.onNext(currentTime)
-        flightInboundPresenter.toolbarViewModel.city.onNext("Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India")
-
+        val regionName = SuggestionV4.RegionNames()
+        regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
+        regionName.displayName = "Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India"
+        flightInboundPresenter.toolbarViewModel.regionNames.onNext(regionName)
+        flightInboundPresenter.toolbarViewModel.country.onNext("India")
+        flightInboundPresenter.toolbarViewModel.airport.onNext("BLR")
+        flightInboundPresenter.toolbarViewModel.lob.onNext(flightInboundPresenter.getLineOfBusiness())
         val travelDate = DateFormatUtils.formatLocalDateToShortDayAndDate(currentTime)
         assertEquals(View.VISIBLE,flightInboundPresenter.toolbar.visibility)
         assertEquals(travelDate+", 1 traveler",flightInboundPresenter.toolbar.subtitle)
