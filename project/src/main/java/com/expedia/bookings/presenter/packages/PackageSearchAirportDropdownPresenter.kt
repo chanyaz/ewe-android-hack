@@ -1,11 +1,11 @@
-package com.expedia.bookings.presenter.flight
+package com.expedia.bookings.presenter.packages
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.ListPopupWindow
 import android.util.AttributeSet
-import android.util.TypedValue
-import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -13,11 +13,12 @@ import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.server.CrossContextHelper
 import com.expedia.bookings.utils.AirportDropDownUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.RecentAirports
 import com.expedia.bookings.widget.FlightRouteAdapter
 import com.mobiata.android.BackgroundDownloader
 
-class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet): FlightSearchPresenter(context, attrs) {
+class PackageSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet): PackageSearchPresenter(context, attrs) {
 
     private val recentAirports = RecentAirports(context)
 
@@ -47,14 +48,10 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
         AirportDropDownUtils.fetchingRoutesProgressDialog(context)
     }
 
-    private val failedFetchingRoutesAlertDialog by lazy {
-        AirportDropDownUtils.failedFetchingRoutesAlertDialog(context)
-    }
-
     val mRoutesCallback = BackgroundDownloader.OnDownloadComplete<com.expedia.bookings.data.RoutesResponse> { results ->
         progressDialog.dismiss()
         if (results == null || results.hasErrors()) {
-            failedFetchingRoutesAlertDialog.show()
+            AirportDropDownUtils.failedFetchingRoutesAlertDialog(context).show()
         } else {
             onRoutesLoaded()
         }
@@ -66,13 +63,6 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
         val chevronDrawable = ContextCompat.getDrawable(context, R.drawable.search_dropdown)
         originCardView.setEndDrawable(chevronDrawable)
         destinationCardView.setEndDrawable(chevronDrawable)
-        swapFlightsLocationsButton.visibility = View.GONE
-        val dividerParams = flightsSearchDivider.layoutParams as ViewGroup.MarginLayoutParams
-        val paddingRight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt()
-        val paddingLeft = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48f, resources.displayMetrics).toInt()
-
-        dividerParams.setMargins(paddingLeft, 0, paddingRight, 0)
-        flightsSearchDivider.layoutParams = dividerParams
 
         if (Db.getFlightRoutes() != null) {
             onRoutesLoaded()
@@ -117,7 +107,7 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
         return AdapterView.OnItemClickListener { parent, view, position, id ->
                 val airport = originListAdapter.getAirport(position)
                 if (airport != null) {
-                    val suggestionV4FromAirport = FlightsV2DataUtil.getSuggestionV4FromAirport(context,  airport)
+                    val suggestionV4FromAirport = FlightsV2DataUtil.getSuggestionV4FromAirport(context, airport)
                     searchViewModel.originLocationObserver.onNext(suggestionV4FromAirport)
                     originAirportListPopup.dismiss()
 

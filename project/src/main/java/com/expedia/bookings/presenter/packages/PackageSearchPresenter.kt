@@ -33,7 +33,7 @@ import com.expedia.vm.packages.PackageSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
 import kotlin.properties.Delegates
 
-class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
+open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
     }
@@ -64,12 +64,19 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         }
         vm.formattedDestinationObservable.subscribe {
             text ->
-            destinationCardView.setText(text)
-            destinationCardView.contentDescription = Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
-                    .put("to_destination", text)
-                    .format().toString()
-            if (this.visibility == VISIBLE && vm.startDate() == null && !AccessibilityUtil.isTalkBackEnabled(context)) {
-                calendarWidgetV2.showCalendarDialog()
+            if (text.isNotEmpty()) {
+                destinationCardView.setText(text)
+                destinationCardView.contentDescription =
+                            Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
+                                    .put("to_destination", text)
+                                    .format().toString()
+                if (this.visibility == VISIBLE && vm.startDate() == null && !AccessibilityUtil.isTalkBackEnabled(context)) {
+                    calendarWidgetV2.showCalendarDialog()
+                }
+            }
+            else {
+                destinationCardView.setText(getDestinationSearchBoxPlaceholderText())
+                destinationCardView.contentDescription = getDestinationSearchBoxPlaceholderText()
             }
         }
         vm.dateAccessibilityObservable.subscribe {

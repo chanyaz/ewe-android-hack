@@ -673,6 +673,14 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
+            android:key="15062"
+            android:title="Packages Search Airport DropDown - 15062" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
             android:key="15452"
             android:title="Packages New POS Launch" />
 

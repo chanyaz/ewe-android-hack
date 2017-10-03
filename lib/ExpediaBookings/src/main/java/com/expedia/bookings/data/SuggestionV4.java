@@ -49,6 +49,7 @@ public class SuggestionV4 {
 	public static class Airport {
 		public String airportCode;
 		public String multicity;
+		public String regionId;
 	}
 
 	public static class Country {

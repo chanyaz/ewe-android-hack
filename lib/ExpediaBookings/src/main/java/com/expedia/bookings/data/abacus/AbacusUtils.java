@@ -109,6 +109,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesMidApi = new ABTest(14856);
 	public static final ABTest EBAndroidAppPackagesTitleChange = new ABTest(14953);
 	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(15452);
+	public static final ABTest EBAndroidAppPackagesSearchAirportDropDown = new ABTest(15062);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
@@ -239,6 +240,7 @@ public class AbacusUtils {
 		testIDs.add(TripsFlightsNewdesign.getKey());
 		testIDs.add(EBAndroidAppDisplayEligibleCardsOnPaymentForm.getKey());
 		testIDs.add(EBAndroidAppFlightsSearchResultCaching.getKey());
+		testIDs.add(EBAndroidAppPackagesSearchAirportDropDown.getKey());
 
 		return testIDs;
 	}

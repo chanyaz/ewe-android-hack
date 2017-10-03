@@ -20,12 +20,14 @@ public class Airport implements JSONable {
 	public String mCity;
 	public String mStateCode;
 	public String mCountryCode;
+	public String mCountry;
 	public DateTimeZone mTimeZone;
 	public int mClassification;
 	public boolean mHasInternationalTerminalI;
 	public ArrayList<AirportMap> mAirportMaps;
 	public double mLat;
 	public double mLon;
+	public String mRegionId;
 
 	public double getLatitude() {
 		return mLat;
@@ -70,6 +72,8 @@ public class Airport implements JSONable {
 			obj.putOpt("city", mCity);
 			obj.putOpt("stateCode", mStateCode);
 			obj.putOpt("countryCode", mCountryCode);
+			obj.putOpt("country", mCountry);
+			obj.putOpt("regionId", mRegionId);
 			if (mTimeZone != null) {
 				obj.putOpt("timeZone", mTimeZone.getID());
 			}
@@ -101,7 +105,9 @@ public class Airport implements JSONable {
 			mCity = obj.optString("city", null);
 			mStateCode = obj.optString("stateCode", null);
 			mCountryCode = obj.optString("countryCode", null);
+			mCountry = obj.optString("country", null);
 			String timeZone = obj.optString("timeZone", null);
+			mRegionId = obj.optString("regionId", null);
 			if (timeZone != null) {
 				mTimeZone = DateTimeZone.forID(timeZone);
 			}

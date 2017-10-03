@@ -1,11 +1,15 @@
 package com.expedia.bookings.utils
 
+import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.services.LocalDateTypeAdapter
+import com.expedia.bookings.text.HtmlCompat
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
+import com.mobiata.flightlib.data.Airport
 import org.joda.time.LocalDate
 
 class FlightsV2DataUtil {
@@ -38,6 +42,25 @@ class FlightsV2DataUtil {
                 return suggestion
             }
             return null
+        }
+
+        fun getSuggestionV4FromAirport(context: Context, airport: Airport): SuggestionV4 {
+            val airportSuggestion = SuggestionV4()
+            airportSuggestion.regionNames = SuggestionV4.RegionNames()
+            val airportName = HtmlCompat.stripHtml(context.getString(R.string.dropdown_airport_selection, airport.mAirportCode, airport.mName))
+            airportSuggestion.regionNames.displayName = airportName
+            airportSuggestion.regionNames.shortName = airportName
+            airportSuggestion.regionNames.fullName = airportName
+            airportSuggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+            airportSuggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
+            airportSuggestion.hierarchyInfo!!.airport!!.airportCode = airport.mAirportCode
+            airportSuggestion.hierarchyInfo!!.airport!!.regionId = airport.mRegionId
+            airportSuggestion.hierarchyInfo?.isChild = false
+            airportSuggestion.hierarchyInfo!!.country = SuggestionV4.Country()
+            airportSuggestion.hierarchyInfo?.country?.countryCode = airport.mCountryCode
+            airportSuggestion.hierarchyInfo?.country?.name = airport.mCountry
+            airportSuggestion.coordinates = SuggestionV4.LatLng()
+            return airportSuggestion
         }
 
         @JvmStatic

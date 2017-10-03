@@ -120,6 +120,11 @@
             android:summary="Packages MID API"
             android:title="Packages MID API" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_packages_search_airport_dropdown"
+            android:summary="Packages Search Airport Dropdown"
+            android:title="Packages Search Airport Dropdown" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -57,11 +57,11 @@ public class PackageCreateTripParams {
 
 	public static String getGaiaIdOrMultiCityString(SuggestionV4 destination) {
 		String destinationId;
-		if (destination.type.equals("POI") && destination.hierarchyInfo != null && destination.hierarchyInfo.airport != null) {
+		if (destination.type != null && destination.type.equals("POI") && destination.hierarchyInfo != null && destination.hierarchyInfo.airport != null) {
 			destinationId = destination.hierarchyInfo.airport.multicity;
 		}
 		else {
-			destinationId = destination.gaiaId;
+			destinationId = destination.gaiaId != null ? destination.gaiaId : destination.hierarchyInfo.airport.regionId;
 		}
 		return destinationId;
 	}

@@ -20,8 +20,10 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
@@ -37,6 +39,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.ui.PackageActivity
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -55,11 +58,20 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     lateinit var travelerManager: TravelerManager
 
     var isCrossSellPackageOnFSREnabled = false
-    val searchPresenter: PackageSearchPresenter by bindView(R.id.widget_package_search_presenter)
     val bundlePresenterViewStub: ViewStub by bindView(R.id.widget_bundle_overview_view_stub)
     val confirmationViewStub: ViewStub by bindView(R.id.widget_package_confirmation_view_stub)
     val errorViewStub: ViewStub by bindView(R.id.widget_package_error_view_stub)
     val pageUsableData = PageUsableData()
+
+    val searchPresenter: PackageSearchPresenter by lazy {
+        if (displayFlightDropDownRoutes()) {
+            val viewStub = findViewById<View>(R.id.package_search_restricted_airport_dropdown_presenter) as ViewStub
+            viewStub.inflate() as PackageSearchAirportDropdownPresenter
+        } else {
+            val viewStub = findViewById<View>(R.id.widget_package_search_presenter) as ViewStub
+            viewStub.inflate() as PackageSearchPresenter
+        }
+    }
 
     val bundleLoadingView: View by lazy {
         val bundleLoadingView = bundlePresenter.findViewById<View>(R.id.bundle_loading_view)
@@ -269,7 +281,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
     }
 
-    private val defaultSearchTransition = object : Presenter.DefaultTransition(PackageSearchPresenter::class.java.name) {
+    private val defaultSearchTransition = object : Presenter.DefaultTransition(getDefaultSearchPresenterClassName()) {
         override fun startTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
             super.startTransition(forward)
@@ -284,7 +296,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     val searchArgbEvaluator = ArgbEvaluator()
     val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
 
-    private val searchToBundle = object : Transition(PackageSearchPresenter::class.java, PackageOverviewPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
+    private val searchToBundle = object : Transition(searchPresenter.javaClass, PackageOverviewPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
@@ -366,7 +378,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
     }
 
-    private val errorToSearch = object : Presenter.Transition(PackageErrorPresenter::class.java, PackageSearchPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val errorToSearch = object : Presenter.Transition(PackageErrorPresenter::class.java, searchPresenter.javaClass, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             searchPresenter.visibility = View.VISIBLE
@@ -420,6 +432,20 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
         }
         return super.handleBack(flags, currentChild)
+    }
+
+    private fun displayFlightDropDownRoutes(): Boolean {
+        return PointOfSale.getPointOfSale().displayFlightDropDownRoutes() &&
+                FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesSearchAirportDropDown,
+                R.string.preference_packages_search_airport_dropdown)
+    }
+
+    private fun getDefaultSearchPresenterClassName(): String {
+        return if (displayFlightDropDownRoutes()) {
+            PackageSearchAirportDropdownPresenter::class.java.name
+        } else {
+            PackageSearchPresenter::class.java.name
+        }
     }
 
 }
