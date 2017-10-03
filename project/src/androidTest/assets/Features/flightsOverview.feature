@@ -87,7 +87,7 @@ Feature: Flights Overview
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
     And I click on Ok button of Alert dialog
-    Then validate free cancellation message is displayed
+    Then validate free cancellation message "Free cancellation within 24 hours" is displayed
     And validate split ticket messaging is displayed
 
   @Flights @FlightsOverview

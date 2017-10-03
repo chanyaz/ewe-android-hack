@@ -127,10 +127,10 @@ public class FlightsOverviewScreenSteps {
 				withId(R.id.breakdown_container)))
 				.check(matches(hasDescendant(allOf(withId(R.id.flight_segment_layover_duration), withText(layoverTime)))));
 	}
-	@Then("^validate free cancellation message is displayed$")
-	public void validateFreeCancellation() throws Throwable {
-		onView(withId(R.id.free_cancellation_text))
-				.check(matches(allOf(withText(R.string.flights_free_cancellation), isDisplayed())));
+	@Then("^validate free cancellation message \"(.*?)\" is displayed$")
+	public void validateFreeCancellation(String message) throws Throwable {
+		onView(allOf(isDescendantOfA(withId(R.id.free_cancellation_layout)), withText(message)))
+				.check(matches(isDisplayed()));
 	}
 	@Then("^validate split ticket messaging is displayed$")
 	public void validateSplitTicketMessage() throws Throwable {
