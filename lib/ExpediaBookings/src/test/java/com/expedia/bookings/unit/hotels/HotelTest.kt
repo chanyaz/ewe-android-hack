@@ -4,6 +4,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse.convertMidHotelRoomResponse
 import com.expedia.bookings.data.multiitem.HotelOffer
 import com.expedia.bookings.data.multiitem.MultiItemOffer
+import com.expedia.bookings.data.packages.PackageHotel
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.utils.Constants
 import com.google.gson.Gson
@@ -99,6 +100,55 @@ class HotelTest {
         assertEquals(room.supplierType, hotelOffer.inventoryType);
         assertEquals(room.packageLoyaltyInformation, multiItemOffer.loyaltyInfo)
 
+    }
+
+    @Test
+    fun testConvertPackageHotel() {
+        val packageHotel = dummyPackageHotel()
+
+        val hotel = Hotel.convertPackageHotel(packageHotel)
+
+        assertEquals(hotel.hotelPid, packageHotel.hotelPid)
+        assertEquals(hotel.hotelId, packageHotel.hotelId)
+        // localizedHotelName Field is used
+        assertEquals(hotel.localizedName, packageHotel.localizedHotelName)
+        assertEquals(hotel.address, packageHotel.hotelAddress.firstAddressLine)
+        assertEquals(hotel.city, packageHotel.hotelAddress.city)
+        assertEquals(hotel.stateProvinceCode, packageHotel.hotelAddress.province)
+        assertEquals(hotel.countryCode, packageHotel.hotelAddress.countryAlpha3Code)
+        assertEquals(hotel.postalCode, packageHotel.hotelAddress.postalCode)
+        assertEquals(hotel.hotelStarRating, java.lang.Float.valueOf(packageHotel.hotelStarRating))
+        assertEquals(hotel.hotelGuestRating, packageHotel.overallReview)
+        assertEquals(hotel.locationDescription, packageHotel.hotelDescription)
+        assertEquals(hotel.latitude, packageHotel.latitude)
+        assertEquals(hotel.longitude, packageHotel.longitude)
+        assertEquals(hotel.largeThumbnailUrl, packageHotel.thumbnailURL)
+        assertEquals(hotel.thumbnailUrl, packageHotel.thumbnailURL)
+        assertEquals(hotel.isVipAccess, packageHotel.vip)
+        assertEquals(hotel.packageOfferModel, packageHotel.packageOfferModel)
+        assertEquals(hotel.isPackage, true)
+    }
+
+    @Test
+    fun testConvertPackageHotelWhenLocalizedHotelNameIsNull() {
+        val packageHotel = dummyPackageHotel()
+        packageHotel.localizedHotelName = null
+
+        val hotel = Hotel.convertPackageHotel(packageHotel)
+
+        // hotelName Field is used
+        assertEquals(hotel.localizedName, packageHotel.hotelName)
+    }
+
+    @Test
+    fun testConvertPackageHotelWhenLocalizedHotelNameIsEmpty() {
+        val packageHotel = dummyPackageHotel()
+        packageHotel.localizedHotelName = ""
+
+        val hotel = Hotel.convertPackageHotel(packageHotel)
+
+        // hotelName Field is used
+        assertEquals(hotel.localizedName, packageHotel.hotelName)
     }
 
     private fun dummyMultiItemOffer(): MultiItemOffer{
@@ -426,5 +476,64 @@ class HotelTest {
         }
         """
         return Gson().fromJson(hotelRoomMultiItemOfferJson, MultiItemOffer::class.java)
+    }
+
+    private fun dummyPackageHotel(): PackageHotel {
+        val packageHotel = """
+        {
+        "hotelPid": "425855119522100392",
+        "hotelId": "42585",
+        "hotelName": "Days Inn Detroit Metropolitan Airport",
+        "localizedHotelName": "Days Inn Detroit Metropolitan Airport",
+        "hotelAddress": {
+          "firstAddressLine": "9501 Middlebelt Road",
+          "secondAddressLine": "",
+          "city": "Romulus",
+          "province": "MI",
+          "provinceShort": "",
+          "postalCode": "48174",
+          "countryAlpha3Code": "USA"
+        },
+        "latitude": 42.235951,
+        "longitude": -83.327623,
+        "hotelStarRating": "3",
+        "overallReview": 3.5,
+        "walkabilityScore": null,
+        "ratePlanAmenities": [
+          {
+            "sequenceId": 1,
+            "id": 128,
+            "name": "Free Parking",
+            "count": 0,
+            "topAmenity": true
+          }
+        ],
+        "neighborhood": "",
+        "recommendationTotal": 683,
+        "thumbnailURL": "https://images.trvl-media.com//hotels/1000000/50000/42600/42585/42585_160_l.jpg",
+        "hotelDescription": "Situated near the airport, this hotel is within 9 mi (15 km) of Gateway Golf Club, Heritage Park, and Southland Center. Henry Ford Museum and Gibraltar Trade Center are also within 12 mi (20 km). ",
+        "reviewTotal": 683,
+        "drrMessage": "",
+        "roomType": "Standard Room, 2 Queen Beds, Accessible - 7 day advance purchase Save 15%",
+        "infositeURL": "/hotel.h42585.Hotel-Information?packagePIID=c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-13&usePS=1&packageType=fh&hotelId=42585&currentRatePlan=5119522100392&sourceType=mobileapp&packageType=fh&originId=6000581&ftla=SFO&packageTripType=2&ttla=DTW&toDate=2016-02-04&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&fromDate=2016-02-02&defaultFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&destinationId=6000199&currentFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&prices=972.53",
+        "showTHNectarDiv": false,
+        "distanceFromAirport": 1,
+        "distanceFromAirportUnit": "miles",
+        "roomTypeCode": "511952",
+        "ratePlanCode": "2100392",
+        "pinnedHotel": false,
+        "allInclusiveAvailable": false,
+        "hotelExtraModelList": [
+
+        ],
+        "superlative": "Good!",
+        "showRatingAsStars": true,
+        "drrHook": "Sale!",
+        "vip": false,
+        "exclusiveAmenity": false,
+        "available": true
+        }
+        """
+        return Gson().fromJson(packageHotel, PackageHotel::class.java)
     }
 }
