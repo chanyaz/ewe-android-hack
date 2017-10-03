@@ -335,7 +335,7 @@ Feature: Package Search
   Scenario: Validate Search form Default state for packages
     Given I launch the App
     And I launch "Bundle Deals" LOB
-    Then Validate toolbar title is "Hotel + Flight" for packages
+    Then Validate toolbar title is "Bundle Deals" for packages
     Then Validate search form default state for packages
       | source              | Flying from      |
       | destination         | Flying to        |
