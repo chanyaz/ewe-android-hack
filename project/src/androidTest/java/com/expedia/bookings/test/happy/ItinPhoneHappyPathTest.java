@@ -13,7 +13,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.test.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.TripsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -44,7 +44,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 		AbacusTestUtils.bucketTests(EBAndroidAppLXNavigateToSRP);
 
-		NewLaunchScreen.tripsButton().perform(click());
+		LaunchScreen.tripsButton().perform(click());
 
 		TripsScreen.clickOnLogInButton();
 

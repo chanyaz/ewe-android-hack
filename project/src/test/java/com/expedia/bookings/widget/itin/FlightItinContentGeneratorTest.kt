@@ -11,7 +11,7 @@ import com.expedia.bookings.data.FlightTrip
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TicketingStatus
 import com.expedia.bookings.data.trips.TripFlight
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -37,11 +37,11 @@ class FlightItinContentGeneratorTest {
     lateinit private var flightDetailView: View
     lateinit private var sut: FlightItinContentGenerator
     lateinit private var itinCardData: ItinCardDataFlight
-    lateinit private var activity: NewPhoneLaunchActivity
+    lateinit private var activity: PhoneLaunchActivity
 
     @Before
     fun setup() {
-        activity = Robolectric.buildActivity(NewPhoneLaunchActivity::class.java).create().get()
+        activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
     }
 

@@ -11,7 +11,7 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.pagemodels.cars.CarScreen;
 import com.expedia.bookings.test.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -24,7 +24,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 
 	private void goToCarDetails() throws Throwable {
 		AbacusTestUtils.updateABTest(PointOfSale.getPointOfSale().getCarsWebViewABTestID(), 0);
-		ViewInteraction carsLaunchButton = NewLaunchScreen.carsLaunchButton();
+		ViewInteraction carsLaunchButton = LaunchScreen.carsLaunchButton();
 		Common.delay(1);
 		carsLaunchButton.perform(click());
 		CarScreen.waitForSearchScreen();

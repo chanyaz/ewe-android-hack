@@ -13,7 +13,7 @@ import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
+import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
@@ -23,7 +23,7 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 
-class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     private val backGroundView: View by bindView(R.id.background)
     private val cardView: CardView by bindView(R.id.card_view)
@@ -36,10 +36,10 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
     }
     val lobViewHeightChangeSubject = PublishSubject.create<Unit>()
 
-    var adapter: NewLaunchLobAdapter by Delegates.notNull()
+    var adapter: LaunchLobAdapter by Delegates.notNull()
     val nav = NavigationHelper(context)
-    var viewModel: NewLaunchLobViewModel by notNullAndObservable {
-        adapter = NewLaunchLobAdapter(viewModel)
+    var viewModel: LaunchLobViewModel by notNullAndObservable {
+        adapter = LaunchLobAdapter(viewModel)
         gridRecycler.adapter = adapter
         viewModel.lobsSubject.subscribe {
             adapter.setLobs(it)

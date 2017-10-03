@@ -7,7 +7,7 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Constants
@@ -19,7 +19,7 @@ import org.robolectric.Robolectric
 @RunWith(RobolectricRunner::class)
 class SoftPromptDialogFragmentTest {
 
-    private lateinit var activity: NewPhoneLaunchActivity
+    private lateinit var activity: PhoneLaunchActivity
     private lateinit var prompt: SoftPromptDialogFragment
     private lateinit var enableButton: Button
     private lateinit var dismissButton: Button
@@ -27,7 +27,7 @@ class SoftPromptDialogFragmentTest {
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(NewPhoneLaunchActivity::class.java).create().resume().get()
+        activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().resume().get()
         activity.setTheme(R.style.NewLaunchTheme)
         prompt = SoftPromptDialogFragment()
         prompt.show(activity.supportFragmentManager, "fragment_dialog_soft_prompt")

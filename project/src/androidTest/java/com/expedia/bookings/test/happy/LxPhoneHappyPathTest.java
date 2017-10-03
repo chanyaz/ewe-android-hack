@@ -16,7 +16,7 @@ import com.expedia.bookings.test.pagemodels.lx.LXInfositeScreen;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.test.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -101,7 +101,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	private void goToLxSearchResults() throws Throwable {
 		waitForLaunchScreenToDisplay();
-		NewLaunchScreen.activitiesLaunchButton().perform(click());
+		LaunchScreen.activitiesLaunchButton().perform(click());
 	}
 
 	private void waitForLaunchScreenToDisplay() {

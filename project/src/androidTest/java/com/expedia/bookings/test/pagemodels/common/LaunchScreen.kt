@@ -2,11 +2,7 @@ package com.expedia.bookings.test.pagemodels.common
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
-import android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.withParent
-import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.espresso.matcher.ViewMatchers.*
 import android.view.View
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
@@ -15,8 +11,8 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import org.hamcrest.Matchers.allOf
 import java.util.concurrent.TimeUnit
 
-object NewLaunchScreen {
-    @JvmStatic  fun waitForLOBHeaderToBeDisplayed() {
+object LaunchScreen {
+    @JvmStatic fun waitForLOBHeaderToBeDisplayed() {
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(allOf(withId(R.id.launch_lob_widget), withParent(withId(R.id.launch_list_widget))), 10, TimeUnit.SECONDS)
     }
 

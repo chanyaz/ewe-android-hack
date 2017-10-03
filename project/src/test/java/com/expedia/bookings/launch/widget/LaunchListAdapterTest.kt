@@ -16,7 +16,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -56,7 +56,7 @@ class LaunchListAdapterTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        context = Robolectric.buildActivity(NewPhoneLaunchActivity::class.java).create().get()
+        context = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().get()
         headerView = LayoutInflater.from(context).inflate(R.layout.snippet_launch_list_header, null)
         parentView = FrameLayout(context)
         notificationManager = NotificationManager(context)

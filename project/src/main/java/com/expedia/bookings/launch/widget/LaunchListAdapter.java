@@ -32,7 +32,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
+import com.expedia.bookings.launch.vm.LaunchLobViewModel;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
@@ -114,8 +114,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		parentView = parent;
 
 		if (viewType == LaunchDataItem.LOB_VIEW) {
-			NewLaunchLobWidget view = (NewLaunchLobWidget) LayoutInflater.from(context)
-				.inflate(R.layout.widget_new_launch_lob, parent, false);
+			LaunchLobWidget view = (LaunchLobWidget) LayoutInflater.from(context)
+				.inflate(R.layout.widget_launch_lob, parent, false);
 			return new LaunchLobHeaderViewHolder(view);
 		}
 
@@ -200,10 +200,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		int width = fullWidthTile ? parentView.getWidth() : parentView.getWidth() / 2;
 
 		if (holder instanceof LaunchLobHeaderViewHolder) {
-			NewLaunchLobWidget lobWidget = ((LaunchLobHeaderViewHolder) holder).getLobWidget();
+			LaunchLobWidget lobWidget = ((LaunchLobHeaderViewHolder) holder).getLobWidget();
 			lobWidget
 				.setViewModel(
-					new NewLaunchLobViewModel(context, hasInternetConnectionChangeSubject, posSubject));
+					new LaunchLobViewModel(context, hasInternetConnectionChangeSubject, posSubject));
 		}
 		else if (holder instanceof SignInPlaceholderCard) {
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());

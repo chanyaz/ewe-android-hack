@@ -18,7 +18,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment
-import com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
+import com.expedia.bookings.launch.widget.PhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.bindView
@@ -30,16 +30,16 @@ import org.joda.time.LocalDate
 import rx.Observer
 import rx.Subscription
 
-class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
+class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
-    private val newPhoneLaunchWidget: NewPhoneLaunchWidget by bindView(R.id.new_phone_launch_widget)
+    private val phoneLaunchWidget: PhoneLaunchWidget by bindView(R.id.new_phone_launch_widget)
     private var locSubscription: Subscription? = null
     private var wasOffline = false
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if (isResumed && newPhoneLaunchWidget != null) {
-            newPhoneLaunchWidget.refreshState()
+        if (isResumed && phoneLaunchWidget != null) {
+            phoneLaunchWidget.refreshState()
         }
     }
 
@@ -52,7 +52,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.widget_new_phone_launch, null)
+        val view = inflater.inflate(R.layout.widget_phone_launch, null)
         return view
     }
 
@@ -62,13 +62,13 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
     override fun onStart() {
         super.onStart()
-        newPhoneLaunchWidget.initializeProWizard()
+        phoneLaunchWidget.initializeProWizard()
     }
 
     override fun onResume() {
         super.onResume()
-        newPhoneLaunchWidget.refreshState()
-        newPhoneLaunchWidget.toggleProWizardClickListener(enable = true)
+        phoneLaunchWidget.refreshState()
+        phoneLaunchWidget.toggleProWizardClickListener(enable = true)
         Events.register(this)
         Events.post(Events.PhoneLaunchOnResume())
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
@@ -81,7 +81,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             // show collection data to users as user denied location
-            newPhoneLaunchWidget.locationNotAvailable.onNext(Unit)
+            phoneLaunchWidget.locationNotAvailable.onNext(Unit)
         } else {
             findLocation()
         }
@@ -94,11 +94,11 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
             }
 
             override fun onError(e: Throwable) {
-                newPhoneLaunchWidget.locationNotAvailable.onNext(Unit)
+                phoneLaunchWidget.locationNotAvailable.onNext(Unit)
             }
 
             override fun onNext(currentLocation: Location) {
-                newPhoneLaunchWidget.currentLocationSubject.onNext(currentLocation)
+                phoneLaunchWidget.currentLocationSubject.onNext(currentLocation)
             }
         })
     }
@@ -108,7 +108,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         locSubscription?.unsubscribe()
         activity.unregisterReceiver(broadcastReceiver)
         Events.unregister(this)
-        newPhoneLaunchWidget.toggleProWizardClickListener(enable = false)
+        phoneLaunchWidget.toggleProWizardClickListener(enable = false)
     }
 
     private val broadcastReceiver = object : BroadcastReceiver() {
@@ -123,20 +123,20 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         val context = activity
         if (context != null && !NetUtils.isOnline(context) && !ExpediaBookingApp.isAutomation()) {
             wasOffline = true
-            newPhoneLaunchWidget.hasInternetConnection.onNext(false)
+            phoneLaunchWidget.hasInternetConnection.onNext(false)
         } else {
             wasOffline = false
-            newPhoneLaunchWidget.hasInternetConnection.onNext(true)
+            phoneLaunchWidget.hasInternetConnection.onNext(true)
             onReactToUserActive()
         }
     }
 
     override fun onBackPressed(): Boolean {
-        return newPhoneLaunchWidget.onBackPressed()
+        return phoneLaunchWidget.onBackPressed()
     }
 
     fun onReactToLocationRequest() {
-        newPhoneLaunchWidget.hasInternetConnection.onNext(true)
+        phoneLaunchWidget.hasInternetConnection.onNext(true)
         onReactToUserActive()
         return
     }
@@ -161,17 +161,17 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     @Subscribe
     @Suppress("UNUSED_PARAMETER")
     fun onPOSChanged(event: Events.PhoneLaunchOnPOSChange) {
-        newPhoneLaunchWidget.posChangeSubject.onNext(Unit)
+        phoneLaunchWidget.posChangeSubject.onNext(Unit)
     }
 
     fun smoothScrollToTop() {
-        if (newPhoneLaunchWidget.darkView.alpha == 0f) {
-            newPhoneLaunchWidget.launchListWidget.smoothScrollToPosition(0)
+        if (phoneLaunchWidget.darkView.alpha == 0f) {
+            phoneLaunchWidget.launchListWidget.smoothScrollToPosition(0)
         }
     }
 
     interface LaunchFragmentListener {
-        fun onLaunchFragmentAttached(frag: NewPhoneLaunchFragment)
+        fun onLaunchFragmentAttached(frag: PhoneLaunchFragment)
     }
 
 }

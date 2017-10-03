@@ -3,7 +3,7 @@ package com.expedia.bookings.launch.widget
 import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -48,7 +48,7 @@ class ItinLaunchCardTest {
 
         val intentResult = shadowActivity.nextStartedActivity
         val intentExtras = intentResult.extras
-        assertTrue(intentExtras.getBoolean(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN), "itinerary list view should have launched")
+        assertTrue(intentExtras.getBoolean(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN), "itinerary list view should have launched")
     }
 
     private fun createSystemUnderTest() {

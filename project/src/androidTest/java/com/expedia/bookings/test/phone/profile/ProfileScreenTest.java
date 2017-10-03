@@ -24,9 +24,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.ProfileScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -50,7 +50,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class ProfileScreenTest {
 
 	@Rule
-	public IntentsTestRule<NewPhoneLaunchActivity> intentRule = new IntentsTestRule<>(NewPhoneLaunchActivity.class);
+	public IntentsTestRule<PhoneLaunchActivity> intentRule = new IntentsTestRule<>(PhoneLaunchActivity.class);
 
 	@Before
 	public void stubAllExternalIntents() {
@@ -62,7 +62,7 @@ public class ProfileScreenTest {
 
 	@Test
 	public void clearPrivateData() {
-		NewLaunchScreen.accountButton().perform(click());
+		LaunchScreen.accountButton().perform(click());
 
 		ProfileScreen.clickClearPrivateData();
 		assertViewWithTextIsDisplayed(R.string.dialog_clear_private_data_title);
@@ -72,7 +72,7 @@ public class ProfileScreenTest {
 
 	@Test
 	public void signInButtons() {
-		NewLaunchScreen.accountButton().perform(click());
+		LaunchScreen.accountButton().perform(click());
 
 		ProfileScreen.clickSignInButton();
 		assertIntentFiredToStartSignInWithInitialState(Config.InitialState.SignIn);
@@ -87,7 +87,7 @@ public class ProfileScreenTest {
 	@Test
 	public void changeCountry() {
 		Context context = intentRule.getActivity();
-		NewLaunchScreen.accountButton().perform(click());
+		LaunchScreen.accountButton().perform(click());
 
 		List<PointOfSale> poses = PointOfSale.getAllPointsOfSale(context);
 		for (PointOfSale pos : poses) {

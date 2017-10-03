@@ -12,7 +12,7 @@ public class DummyFiletoHandleKotlinLintError {
 	 * Add resources which are only used in kotlin files.
 	 */
 	private static final int[] USED_RESOURCES = {
-		R.layout.widget_new_phone_launch,
+		R.layout.widget_phone_launch,
 		R.string.flight_cabin_mixed_classes,
 		R.string.flight_cabin_class_for_two_segment_TEMPLATE,
 		R.drawable.hotel_suggest,
@@ -503,7 +503,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.start_over,
 		R.string.package_checkout_back_dialog_message,
 		R.string.package_checkout_back_dialog_title,
-		R.layout.activity_phone_new_launch,
+		R.layout.activity_phone_launch,
 		R.string.error_package_search_message,
 		R.style.MarkerTextAppearance,
 		R.string.flight_departure_arrival_time_negative_days_TEMPLATE,

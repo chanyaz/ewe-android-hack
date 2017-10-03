@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
@@ -35,7 +35,7 @@ public interface AppComponent {
 
 	void inject(UserAccountRefresher userAccountRefresher);
 
-	void inject(NewPhoneLaunchActivity activity);
+	void inject(PhoneLaunchActivity activity);
 
 	void inject(AbacusHelperUtils.CookiesReference cookiesReference);
 

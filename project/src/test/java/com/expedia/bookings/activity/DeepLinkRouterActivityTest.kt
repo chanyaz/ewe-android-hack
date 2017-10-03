@@ -8,7 +8,7 @@ import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.hotel.deeplink.HotelExtras
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -81,8 +81,8 @@ class DeepLinkRouterActivityTest {
 
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
 
-        assertIntentForActivity(NewPhoneLaunchActivity::class.java, startedIntent)
-        assertBooleanExtraEquals(true, NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, startedIntent)
+        assertIntentForActivity(PhoneLaunchActivity::class.java, startedIntent)
+        assertBooleanExtraEquals(true, PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, startedIntent)
     }
 
     @Test
@@ -179,10 +179,10 @@ class DeepLinkRouterActivityTest {
     private fun assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity: TestDeepLinkRouterActivity, itinNum: String?) {
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
 
-        assertIntentForActivity(NewPhoneLaunchActivity::class.java, startedIntent)
-        assertBooleanExtraEquals(true, NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, startedIntent)
+        assertIntentForActivity(PhoneLaunchActivity::class.java, startedIntent)
+        assertBooleanExtraEquals(true, PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, startedIntent)
         if (itinNum != null) {
-            assertStringExtraEquals(itinNum, NewPhoneLaunchActivity.ARG_ITIN_NUM, startedIntent)
+            assertStringExtraEquals(itinNum, PhoneLaunchActivity.ARG_ITIN_NUM, startedIntent)
         }
     }
 

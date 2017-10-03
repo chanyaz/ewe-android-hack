@@ -38,8 +38,8 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
-import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
+import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
+import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
 import com.expedia.bookings.launch.widget.ProWizardLaunchTabView
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
@@ -72,7 +72,7 @@ import com.squareup.phrase.Phrase
 import rx.Subscription
 import javax.inject.Inject
 
-class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
+class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
         , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
 
@@ -99,7 +99,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     private var itinListFragment: ItinItemListFragment? = null
     private var accountFragment: AccountSettingsFragment? = null
-    private var newPhoneLaunchFragment: NewPhoneLaunchFragment? = null
+    private var phoneLaunchFragment: PhoneLaunchFragment? = null
     private var softPromptDialogFragment: SoftPromptDialogFragment? = null
 
     private val userLoginStateChangedModel: UserLoginStateChangedModel by lazy {
@@ -116,8 +116,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     val viewPager: DisableableViewPager by lazy {
         findViewById(R.id.viewpager) as DisableableViewPager
     }
-    val toolbar: NewPhoneLaunchToolbar by lazy {
-        findViewById(R.id.launch_toolbar) as NewPhoneLaunchToolbar
+    val toolbar: PhoneLaunchToolbar by lazy {
+        findViewById(R.id.launch_toolbar) as PhoneLaunchToolbar
     }
 
     val pagerAdapter: PagerAdapter by lazy {
@@ -137,7 +137,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         Ui.getApplication(this).appComponent().inject(this)
         Ui.getApplication(this).defaultLaunchComponents()
         Ui.getApplication(this).launchComponent()
-        setContentView(R.layout.activity_phone_new_launch)
+        setContentView(R.layout.activity_phone_launch)
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = pagerAdapter
 
@@ -207,7 +207,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             Constants.PERMISSION_REQUEST_LOCATION -> {
-                newPhoneLaunchFragment?.onReactToLocationRequest()
+                phoneLaunchFragment?.onReactToLocationRequest()
                 OmnitureTracking.trackLocationNativePrompt(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             }
         }
@@ -250,7 +250,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             viewPager.currentItem = PAGER_POS_LAUNCH
             return
         } else if (viewPager.currentItem == PAGER_POS_LAUNCH) {
-            if (newPhoneLaunchFragment?.onBackPressed() ?: false) return
+            if (phoneLaunchFragment?.onBackPressed() ?: false) return
         }
         super.onBackPressed()
     }
@@ -331,7 +331,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         }
 
         override fun onTabSelected(tab: TabLayout.Tab) {
-            val tripComponent = Ui.getApplication(this@NewPhoneLaunchActivity).tripComponent()
+            val tripComponent = Ui.getApplication(this@PhoneLaunchActivity).tripComponent()
             if (tab.position != pagerSelectedPosition) {
                 pagerSelectedPosition = tab.position
             } else {
@@ -339,7 +339,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 if (pagerSelectedPosition == PAGER_POS_ACCOUNT) {
                     accountFragment?.smoothScrollToTop()
                 } else if (pagerSelectedPosition == PAGER_POS_LAUNCH) {
-                    newPhoneLaunchFragment?.smoothScrollToTop()
+                    phoneLaunchFragment?.smoothScrollToTop()
                 }
             }
 
@@ -354,7 +354,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 when (tab.position) {
                     PAGER_POS_LAUNCH -> {
                         gotoWaterfall()
-                        OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this@NewPhoneLaunchActivity))
+                        OmnitureTracking.trackPageLoadLaunchScreen(ProWizardBucketCache.getTrackingValue(this@PhoneLaunchActivity))
                     }
                     PAGER_POS_ITIN -> {
                         if (tripComponent != null) {
@@ -437,7 +437,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     fun shouldShowOverFlowMenu(): Boolean {
         return (BuildConfig.DEBUG &&
-                SettingUtils.get(this@NewPhoneLaunchActivity, this@NewPhoneLaunchActivity.getString(R.string.preference_launch_screen_overflow), false))
+                SettingUtils.get(this@PhoneLaunchActivity, this@PhoneLaunchActivity.getString(R.string.preference_launch_screen_overflow), false))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -506,7 +506,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             val frag: Fragment
             when (position) {
                 PAGER_POS_ITIN -> frag = ItinItemListFragment.newInstance(jumpToItinId, true)
-                PAGER_POS_LAUNCH -> frag = NewPhoneLaunchFragment()
+                PAGER_POS_LAUNCH -> frag = PhoneLaunchFragment()
                 PAGER_POS_ACCOUNT -> frag = AccountSettingsFragment()
                 else -> throw RuntimeException("Position out of bounds position=" + position)
             }
@@ -521,7 +521,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         override fun getPageTitle(i: Int): String {
             val title: String
             when (i) {
-                PAGER_POS_ITIN -> title = resources.getString(Ui.obtainThemeResID(this@NewPhoneLaunchActivity, R.attr.skin_tripsTabText))
+                PAGER_POS_ITIN -> title = resources.getString(Ui.obtainThemeResID(this@PhoneLaunchActivity, R.attr.skin_tripsTabText))
                 PAGER_POS_LAUNCH -> title = resources.getString(R.string.shop)
                 PAGER_POS_ACCOUNT -> title = resources.getString(R.string.account_settings_menu_label)
                 else -> throw RuntimeException("Position out of bounds position = " + i)
@@ -600,8 +600,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         accountFragment = frag
     }
 
-    override fun onLaunchFragmentAttached(frag: NewPhoneLaunchFragment) {
-        newPhoneLaunchFragment = frag
+    override fun onLaunchFragmentAttached(frag: PhoneLaunchFragment) {
+        phoneLaunchFragment = frag
     }
 
     override fun onLogoClick() {
@@ -713,7 +713,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         /** Create intent to open this activity and jump straight to a particular itin item.
          */
         @JvmStatic fun createIntent(context: Context, notification: Notification): Intent {
-            val intent = Intent(context, NewPhoneLaunchActivity::class.java)
+            val intent = Intent(context, PhoneLaunchActivity::class.java)
             intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString())
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 

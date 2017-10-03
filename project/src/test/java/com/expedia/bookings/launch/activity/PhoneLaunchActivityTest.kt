@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 
 @RunWith(RobolectricRunner::class)
-class NewPhoneLaunchActivityTest {
+class PhoneLaunchActivityTest {
 
     @Test
     fun testNotificationClickOmnitureTracking() {

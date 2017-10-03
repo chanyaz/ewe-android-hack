@@ -5,35 +5,35 @@ import org.junit.Test;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.collections.CollectionLocation;
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
-import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.mobiata.android.Log;
 
 import static android.support.test.espresso.action.ViewActions.click;
 
-public class NewLaunchScreenTest extends PhoneTestCase {
+public class LaunchScreenTest extends PhoneTestCase {
 
-	public NewLaunchScreenTest() {
-		super(NewPhoneLaunchActivity.class);
+	public LaunchScreenTest() {
+		super(PhoneLaunchActivity.class);
 	}
 
-	private static final String TAG = NewLaunchScreenTest.class.getName();
+	private static final String TAG = LaunchScreenTest.class.getName();
 
 	@Test
 	public void testGeneralUIElements() throws Throwable {
-		NewLaunchScreen.tripsButton().perform(click());
+		LaunchScreen.tripsButton().perform(click());
 		EspressoUtils.assertViewIsDisplayed(R.id.account_sign_in_container);
 		Log.v(TAG, "Trips button on Launch screen is displayed and works");
 
-		NewLaunchScreen.shopButton().perform(click());
+		LaunchScreen.shopButton().perform(click());
 		EspressoUtils.assertViewIsDisplayed(R.id.launch_list_widget);
 		Log.v(TAG, "Shop button on Launch screen is displayed ");
 
-		NewLaunchScreen.accountButton().perform(click());
+		LaunchScreen.accountButton().perform(click());
 		EspressoUtils.assertViewIsDisplayed(R.id.sign_in_button);
 		Log.v(TAG, "Account button on Launch screen is displayed ");
 

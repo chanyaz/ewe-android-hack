@@ -111,7 +111,7 @@
         <!-- Phone New launch -->
 
         <activity
-            android:name="com.expedia.bookings.launch.activity.NewPhoneLaunchActivity"
+            android:name="com.expedia.bookings.launch.activity.PhoneLaunchActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"

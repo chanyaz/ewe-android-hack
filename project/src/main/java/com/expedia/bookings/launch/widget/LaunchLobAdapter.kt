@@ -11,20 +11,20 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LobInfo
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
+import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.PackageUtil
 import java.util.ArrayList
 
-class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewModel) : RecyclerView.Adapter<NewLaunchLobAdapter.LobViewHolder>() {
+class LaunchLobAdapter(private val launchLobViewModel: LaunchLobViewModel) : RecyclerView.Adapter<LaunchLobAdapter.LobViewHolder>() {
 
     private var enableLobs: Boolean = true
     private var lobInfos: List<LobInfo> = ArrayList<LobInfo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LobViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_lob_button, parent, false)
-        return LobViewHolder(view, newLaunchLobViewModel)
+        return LobViewHolder(view, launchLobViewModel)
     }
 
     override fun onBindViewHolder(holder: LobViewHolder, position: Int) {
@@ -50,7 +50,7 @@ class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewMod
         return if (length > 0 && position == length - 1 && position % 2 == 0) 2 else 1
     }
 
-    class LobViewHolder(itemView: View, val viewModel: NewLaunchLobViewModel) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class LobViewHolder(itemView: View, val viewModel: LaunchLobViewModel) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         val lobText by lazy {
             itemView.findViewById<TextView>(R.id.lob_cell_text)

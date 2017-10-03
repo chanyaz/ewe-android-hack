@@ -14,12 +14,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /* TODO remove old phone launch toolbar */
-public class NewPhoneLaunchToolbar extends Toolbar {
+public class PhoneLaunchToolbar extends Toolbar {
 
 	@InjectView(R.id.tab_layout)
 	public TabLayout tabLayout;
 
-	public NewPhoneLaunchToolbar(Context context, AttributeSet attrs) {
+	public PhoneLaunchToolbar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		LayoutInflater.from(getContext()).inflate(R.layout.toolbar_phone_new_launch, this);
 		ButterKnife.inject(this);

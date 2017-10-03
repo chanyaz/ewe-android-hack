@@ -7,7 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
@@ -32,14 +32,14 @@ import kotlin.test.assertFalse
 @RunWith(RobolectricRunner::class)
 class HotelItinContentGeneratorTest {
 
-    lateinit private var activity: NewPhoneLaunchActivity
+    lateinit private var activity: PhoneLaunchActivity
     lateinit var context: Context
     lateinit var mTodayAtNoon: DateTime
 
     @Before
     fun before() {
         mTodayAtNoon = DateTime.now().withHourOfDay(12).withMinuteOfHour(0).withSecondOfMinute(0)
-        activity = Robolectric.buildActivity(NewPhoneLaunchActivity::class.java).create().get()
+        activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
         context = RuntimeEnvironment.application
     }

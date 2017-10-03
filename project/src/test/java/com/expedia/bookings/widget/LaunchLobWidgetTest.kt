@@ -10,8 +10,8 @@ import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
-import com.expedia.bookings.launch.widget.NewLaunchLobWidget
+import com.expedia.bookings.launch.vm.LaunchLobViewModel
+import com.expedia.bookings.launch.widget.LaunchLobWidget
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
@@ -31,17 +31,17 @@ import kotlin.test.assertTrue
 import kotlin.test.fail
 
 @RunWith(RobolectricRunner::class)
-class NewLaunchLobWidgetTest {
+class LaunchLobWidgetTest {
 
-    var newLaunchLobWidget: NewLaunchLobWidget by Delegates.notNull()
+    var launchLobWidget: LaunchLobWidget by Delegates.notNull()
 
     fun getContext(): Context {
         return RuntimeEnvironment.application
     }
 
     fun setUp() {
-        newLaunchLobWidget = LayoutInflater.from(getContext()).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
-        newLaunchLobWidget.viewModel = NewLaunchLobViewModel(getContext(), BehaviorSubject.create<Boolean>(), BehaviorSubject.create<Unit>())
+        launchLobWidget = LayoutInflater.from(getContext()).inflate(R.layout.widget_launch_lob, null, false) as LaunchLobWidget
+        launchLobWidget.viewModel = LaunchLobViewModel(getContext(), BehaviorSubject.create<Boolean>(), BehaviorSubject.create<Unit>())
     }
 
     @Test
@@ -52,7 +52,7 @@ class NewLaunchLobWidgetTest {
         checkLOBsAvailable()
         for (pos in PointOfSale.getAllPointsOfSale(getContext())) {
             SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.pointOfSaleId.id.toString())
-            newLaunchLobWidget.viewModel.posChangeSubject?.onNext(Unit)
+            launchLobWidget.viewModel.posChangeSubject?.onNext(Unit)
             checkLOBsAvailable()
         }
     }
@@ -91,7 +91,7 @@ class NewLaunchLobWidgetTest {
     private fun checkLOBsAvailable() {
         var isHotelsLOBDisplayed = false
         var isFlightsLOBDisplayed = false
-        val recyclerView = newLaunchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as RecyclerView
+        val recyclerView = launchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as RecyclerView
         recyclerView.measure(0, 0)
         recyclerView.layout(0, 0, 100, 10000)
         val itemCount = recyclerView.layoutManager.itemCount
@@ -117,7 +117,7 @@ class NewLaunchLobWidgetTest {
     }
 
     private fun packagesTitleChange(expectedTitle: String) {
-        val recyclerView = newLaunchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as RecyclerView
+        val recyclerView = launchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as RecyclerView
         recyclerView.measure(0, 0)
         recyclerView.layout(0, 0, 100, 10000)
         val itemCount = recyclerView.layoutManager.itemCount
@@ -143,7 +143,7 @@ class NewLaunchLobWidgetTest {
 
     private fun validateFlightNotAvailable() {
         setUp()
-        val allLobsRecycler = newLaunchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as android.support.v7.widget.RecyclerView
+        val allLobsRecycler = launchLobWidget.findViewById<View>(R.id.lob_grid_recycler) as android.support.v7.widget.RecyclerView
         // workaround robolectric recyclerView issue
         allLobsRecycler.measure(0, 0)
         allLobsRecycler.layout(0, 0, 100, 1000)

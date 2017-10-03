@@ -29,8 +29,8 @@ import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
+import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
@@ -55,7 +55,7 @@ import rx.subjects.BehaviorSubject
 import java.util.Locale
 import javax.inject.Inject
 
-class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     private val TAG = "NewPhoneLaunchWidget"
     private val HOTEL_SORT = "ExpertPicks"
@@ -101,9 +101,9 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     val launchListWidget: LaunchListWidget by bindView(R.id.launch_list_widget)
     private val lobViewContainer: android.widget.FrameLayout by bindView(R.id.lob_view_container)
-    private val lobView: NewLaunchLobWidget by lazy {
-        val newLaunchLobWidget = LayoutInflater.from(context).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
-        newLaunchLobWidget.viewModel = NewLaunchLobViewModel(context, hasInternetConnection, posChangeSubject)
+    private val lobView: LaunchLobWidget by lazy {
+        val newLaunchLobWidget = LayoutInflater.from(context).inflate(R.layout.widget_launch_lob, null, false) as LaunchLobWidget
+        newLaunchLobWidget.viewModel = LaunchLobViewModel(context, hasInternetConnection, posChangeSubject)
         newLaunchLobWidget
     }
 
@@ -484,10 +484,10 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     private inner class ProWizardClickListener : View.OnClickListener {
         override fun onClick(v: View?) {
             OmnitureTracking.trackProWizardClick()
-            val activity = context as NewPhoneLaunchActivity
+            val activity = context as PhoneLaunchActivity
             val pairs = ActivityTransitionUtil.createPairsWithAndroidComponents(activity,
                     proWizardSearchCardView, context.getString(R.string.pro_wizard_bar_hero_animation))
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as NewPhoneLaunchActivity, *pairs)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as PhoneLaunchActivity, *pairs)
 
             HotelNavUtils.goToHotelsV2Params(context, null, options.toBundle(), 0)
         }

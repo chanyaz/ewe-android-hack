@@ -8,7 +8,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -38,8 +38,8 @@ public class CommonSteps {
 
 	@Given("^I launch the App$")
 	public void validateHomeScreenAppears() throws Throwable {
-		NewLaunchScreen.hotelsLaunchButton().perform(ViewActions.waitForViewToCompletelyDisplay());
-		NewLaunchScreen.shopButton().perform(waitForViewToDisplay(), click());
+		LaunchScreen.hotelsLaunchButton().perform(ViewActions.waitForViewToCompletelyDisplay());
+		LaunchScreen.shopButton().perform(waitForViewToDisplay(), click());
 	}
 
 	@And("^I bucket the following tests$")

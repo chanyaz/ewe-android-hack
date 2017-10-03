@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.launch.widget.NewLaunchLobWidget android:id="@+id/launch_lob_widget"
+<com.expedia.bookings.launch.widget.LaunchLobWidget android:id="@+id/launch_lob_widget"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -27,4 +27,4 @@
             android:layout_height="wrap_content" />
     </android.support.v7.widget.CardView>
 
-</com.expedia.bookings.launch.widget.NewLaunchLobWidget>
+</com.expedia.bookings.launch.widget.LaunchLobWidget>

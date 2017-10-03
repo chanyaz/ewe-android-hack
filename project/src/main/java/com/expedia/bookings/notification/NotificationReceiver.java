@@ -35,7 +35,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -341,7 +341,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 					.bigText(mNotification.getBody());
 			}
 
-			Intent clickIntent = NewPhoneLaunchActivity.createIntent(mContext, mNotification);
+			Intent clickIntent = PhoneLaunchActivity.createIntent(mContext, mNotification);
 			PendingIntent clickPendingIntent = PendingIntent.getActivity(mContext, 0, clickIntent, 0);
 
 			NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)

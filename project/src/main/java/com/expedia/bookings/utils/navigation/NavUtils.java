@@ -21,7 +21,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
@@ -73,7 +73,7 @@ public class NavUtils {
 		Intent intent = getLaunchIntent(context);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		if (forceShowWaterfall) {
-			intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 		}
 		sendKillActivityBroadcast(context);
 		context.startActivity(intent);
@@ -83,7 +83,7 @@ public class NavUtils {
 		Intent intent = getLaunchIntent(context);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		if (forceShowWaterfall) {
-			intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 		}
 		sendKillActivityBroadcast(context);
 		intent.putExtra(Codes.LOB_NOT_SUPPORTED, lobNotSupported);
@@ -97,9 +97,9 @@ public class NavUtils {
 	public static void goToItin(Context context, String itinNum) {
 		Intent intent = getLaunchIntent(context);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
+		intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
 		if (itinNum != null) {
-			intent.putExtra(NewPhoneLaunchActivity.ARG_ITIN_NUM, itinNum);
+			intent.putExtra(PhoneLaunchActivity.ARG_ITIN_NUM, itinNum);
 		}
 		context.startActivity(intent);
 	}
@@ -129,7 +129,7 @@ public class NavUtils {
 	public static void goToSignIn(Context context, boolean showAccount, boolean useItinSyncExtender, int flags) {
 		Intent intent = getLaunchIntent(context);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ACCOUNT, showAccount);
+		intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ACCOUNT, showAccount);
 		context.startActivity(intent);
 		Bundle bundle = new Bundle();
 		if (useItinSyncExtender) {
@@ -234,7 +234,7 @@ public class NavUtils {
 	}
 
 	public static Intent getLaunchIntent(Context context) {
-		return new Intent(context, NewPhoneLaunchActivity.class);
+		return new Intent(context, PhoneLaunchActivity.class);
 	}
 
 	protected static void finishIfFlagged(Context context, int flags) {

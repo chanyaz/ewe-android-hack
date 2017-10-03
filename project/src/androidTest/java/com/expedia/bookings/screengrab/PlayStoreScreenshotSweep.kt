@@ -42,7 +42,7 @@ import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen
 import com.expedia.bookings.test.pagemodels.lx.LXScreen
 import com.expedia.bookings.test.pagemodels.common.LogInScreen
-import com.expedia.bookings.test.pagemodels.common.NewLaunchScreen
+import com.expedia.bookings.test.pagemodels.common.LaunchScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.common.TripsScreen
 import com.expedia.bookings.test.Settings
@@ -150,7 +150,7 @@ class PlayStoreScreenshotSweep {
     }
 
     private fun signInUser() {
-        NewLaunchScreen.tripsButton().perform(click())
+        LaunchScreen.tripsButton().perform(click())
 
         TripsScreen.clickOnLogInButton()
 
@@ -159,8 +159,8 @@ class PlayStoreScreenshotSweep {
         LogInScreen.clickOnLoginButton()
         Common.delay(1)
 
-        NewLaunchScreen.shopButton().perform(click())
-        NewLaunchScreen.waitForLOBHeaderToBeDisplayed()
+        LaunchScreen.shopButton().perform(click())
+        LaunchScreen.waitForLOBHeaderToBeDisplayed()
 
         Screengrab.screenshot("launch")
         Common.delay(1)
@@ -169,7 +169,7 @@ class PlayStoreScreenshotSweep {
     //this runs on mock mode
     @Throws(Throwable::class)
     private fun takeItinScreens() {
-        NewLaunchScreen.tripsButton().perform(click())
+        LaunchScreen.tripsButton().perform(click())
 
         TripsScreen.clickOnLogInButton()
 
