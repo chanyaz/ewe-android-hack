@@ -25,6 +25,13 @@ class AlphaCalculator {
             return getBoundedAlpha(percentComplete)
         }
 
+        /*
+            Get an alpha value from 0 - 255 based off percentage
+        */
+        fun getAlphaValue(percentage: Int): Int {
+            return 255 * percentage / 100
+        }
+
         private fun getBoundedAlpha(alpha: Float): Float {
             if (alpha > 1f) {
                 return 1f
