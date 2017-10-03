@@ -14,6 +14,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.UiSelector
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.endsWith
@@ -107,6 +108,7 @@ object TravelerModel {
         }
 
         @JvmStatic fun ifPresentClickSave(){
+            Common.delay(1)
             var device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
             var saveButton = device.findObject(UiSelector().text("Save"))
             if (saveButton.exists()){
@@ -115,6 +117,7 @@ object TravelerModel {
         }
 
         @JvmStatic fun ifPresentClickNoThanks(){
+            Common.delay(1)
             var device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
             var saveButton = device.findObject(UiSelector().text("Save"))
             if (saveButton.exists()){

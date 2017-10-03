@@ -8,6 +8,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
@@ -29,6 +30,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 		HotelScreen.waitForDetailsLoaded();
 
 		assertViewsBasedOnETPAndFreeCancellation(true, false);
+		onView(withId(R.id.detail_container)).perform(ViewActions.swipeDown());
 		assertPayLaterPayNowRooms();
 	}
 
