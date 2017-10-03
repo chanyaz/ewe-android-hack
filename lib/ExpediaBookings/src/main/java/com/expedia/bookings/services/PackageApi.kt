@@ -15,6 +15,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import rx.Observable
+import java.math.BigDecimal
 
 interface PackageApi {
 
@@ -72,5 +73,7 @@ interface PackageApi {
             @Query("roomTypeCode") roomTypeCode: String? = null,
             @Query("legIndex") legIndex: Int? = null,
             @Query("legId[0]") outboundLegId: String? = null,
-            @Query("legId[1]") inboundLegId: String? = null): Observable<MultiItemApiSearchResponse>
+            @Query("legId[1]") inboundLegId: String? = null,
+            @Query("anchorTotalPrice") anchorTotalPrice: BigDecimal? = null,
+            @Query("currencyCode") currencyCode: String? = null): Observable<MultiItemApiSearchResponse>
 }

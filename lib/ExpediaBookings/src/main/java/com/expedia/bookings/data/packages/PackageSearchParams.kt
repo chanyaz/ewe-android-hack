@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.packages
 
 import com.expedia.bookings.data.AbstractFlightSearchParams
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
@@ -30,6 +31,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     var hotelId: String? = null
     var ratePlanCode: String? = null
     var roomTypeCode: String? = null
+    var latestSelectedProductTotalPrice: Money? = null
 
     val originId: String?
         get() {

@@ -8,13 +8,15 @@ import com.expedia.bookings.data.multiitem.MultiItemOffer
 import com.google.gson.Gson
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class FlightLegTest {
 
     @Test
     fun testConvertMultiItemFlight() {
-        val flightLeg = FlightLeg.convertMultiItemFlightLeg("a13b0ab1eea2bd1d7f4cba76a857ec4b", dummyFlightOffer(), dummyMultiItemFlightLeg(), dummyMultiItemOffer())
+        val flightLeg = FlightLeg.convertMultiItemFlightLeg("a13b0ab1eea2bd1d7f4cba76a857ec4b", dummyFlightOffer(), dummyMultiItemFlightLeg(), dummyMultiItemOffer(130))
 
         assertNotNull(flightLeg)
         assertNotNull(flightLeg.packageOfferModel)
@@ -25,7 +27,8 @@ class FlightLegTest {
 
         assertEquals(flightLeg.packageOfferModel.price.packageTotalPrice, Money("2387.61", "USD"))
         assertEquals(flightLeg.packageOfferModel.price.tripSavings, Money("237.48", "USD"))
-        assertEquals(flightLeg.packageOfferModel.price.differentialPriceFormatted, "$0")
+        assertEquals(flightLeg.packageOfferModel.price.differentialPriceFormatted, "$130")
+        assertTrue(flightLeg.packageOfferModel.price.deltaPositive)
         assertEquals(flightLeg.packageOfferModel.price.pricePerPerson, Money("2387.61", "USD"))
         assertEquals(flightLeg.packageOfferModel.price.pricePerPersonFormatted, "$2,387.61")
 
@@ -64,6 +67,13 @@ class FlightLegTest {
         assertEquals(flightLeg.flightSegments[0].layoverDurationHours, 0)
         assertEquals(flightLeg.flightSegments[0].layoverDurationMinutes, 0)
         assertEquals(flightLeg.flightSegments[0].elapsedDays, 0)
+    }
+
+    @Test
+    fun testConvertMultiItemFlightDeltaPriceNegative() {
+        val flightLeg = FlightLeg.convertMultiItemFlightLeg("a13b0ab1eea2bd1d7f4cba76a857ec4b", dummyFlightOffer(), dummyMultiItemFlightLeg(), dummyMultiItemOffer(-130))
+        assertEquals(flightLeg.packageOfferModel.price.differentialPriceFormatted, "-$130")
+        assertFalse(flightLeg.packageOfferModel.price.deltaPositive)
     }
 
     private fun dummyFlightOffer(): FlightOffer {
@@ -130,7 +140,7 @@ class FlightLegTest {
         return Gson().fromJson(multiItemFlightLeg, MultiItemFlightLeg::class.java)
     }
 
-    private fun dummyMultiItemOffer(): MultiItemOffer {
+    private fun dummyMultiItemOffer(deltaAvgPricePerPerson: Int): MultiItemOffer {
         val multiItemOffer = """
         {
           "cancellationPolicy": {
@@ -201,6 +211,10 @@ class FlightLegTest {
             },
             "avgReferencePricePerPerson": {
               "amount": 2625.09,
+              "currency": "USD"
+            },
+            "deltaAvgPricePerPerson": {
+              "amount": $deltaAvgPricePerPerson,
               "currency": "USD"
             }
           },

@@ -65,8 +65,8 @@ class HotelTest {
 
         assertEquals(room.productKey, null)
         assertEquals(room.packageHotelDeltaPrice, multiItemOffer.price.deltaPricePerPerson())
-        assertEquals(room.rateInfo.chargeableRateInfo.priceToShowUsers, multiItemOffer.price.deltaPricePerPerson().amount.toFloat())
-        assertEquals(room.rateInfo.chargeableRateInfo.currencyCode, multiItemOffer.price.deltaPricePerPerson().currency)
+        assertEquals(room.rateInfo.chargeableRateInfo.priceToShowUsers, multiItemOffer.price.deltaPricePerPerson()?.amount?.toFloat())
+        assertEquals(room.rateInfo.chargeableRateInfo.currencyCode, multiItemOffer.price.deltaPricePerPerson()?.currency)
         assertEquals(room.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers, 0f)
         assertEquals(room.rateInfo.chargeableRateInfo.userPriceType, Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE)
         assertEquals(room.rateInfo.chargeableRateInfo.averageRate, 10f)

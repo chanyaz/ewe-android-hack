@@ -53,7 +53,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
 
     //Bundle Exposed API
     fun packageSearch(params: PackageSearchParams, type: ProductSearchType): Observable<BundleSearchResponse> {
-        return when(type) {
+        return when (type) {
             ProductSearchType.OldPackageSearch -> oldPackageSearch(params)
             ProductSearchType.MultiItemHotels -> multiItemHotelsSearch(params)
             ProductSearchType.MultiItemHotelRooms -> throw RuntimeException("Use `multiItemRoomSearch`for MID rooms search")
@@ -95,7 +95,9 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 adults = params.adults,
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
-                hotelId = params.hotelId)
+                hotelId = params.hotelId,
+                anchorTotalPrice = params.latestSelectedProductTotalPrice?.amount,
+                currencyCode = params.latestSelectedProductTotalPrice?.currencyCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
@@ -116,7 +118,9 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 hotelId = params.hotelId,
                 ratePlanCode = params.ratePlanCode,
                 roomTypeCode = params.roomTypeCode,
-                legIndex = 0)
+                legIndex = 0,
+                anchorTotalPrice = params.latestSelectedProductTotalPrice?.amount,
+                currencyCode = params.latestSelectedProductTotalPrice?.currencyCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
@@ -143,7 +147,9 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 ratePlanCode = params.ratePlanCode,
                 roomTypeCode = params.roomTypeCode,
                 legIndex = 1,
-                outboundLegId = params.selectedLegId)
+                outboundLegId = params.selectedLegId,
+                anchorTotalPrice = params.latestSelectedProductTotalPrice?.amount,
+                currencyCode = params.latestSelectedProductTotalPrice?.currencyCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {

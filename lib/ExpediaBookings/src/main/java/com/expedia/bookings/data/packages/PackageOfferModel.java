@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.packages;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
@@ -29,9 +30,14 @@ public class PackageOfferModel {
 		price = new PackagePrice();
 		price.packageTotalPrice = multiItemOffer.getPrice().packageTotalPrice();
 		price.tripSavings = multiItemOffer.getPrice().packageSavings();
-		price.differentialPriceFormatted = "$0";//TODO PUK
 		price.pricePerPerson = multiItemOffer.getPrice().pricePerPerson();
 		price.pricePerPersonFormatted = multiItemOffer.getPrice().pricePerPerson().getFormattedMoneyFromAmountAndCurrencyCode();
+
+		Money deltaPricePerPerson = multiItemOffer.getPrice().deltaPricePerPerson();
+		if (deltaPricePerPerson != null) {
+			price.differentialPriceFormatted = deltaPricePerPerson.getFormattedMoneyFromAmountAndCurrencyCode();
+			price.deltaPositive = BigDecimal.ZERO.compareTo(deltaPricePerPerson.amount) < 0;
+		}
 
 		PackageDeal packageDeal = multiItemOffer.getPackageDeal();
 		if (packageDeal != null && packageDeal.getDeal() != null) {
