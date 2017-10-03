@@ -29,7 +29,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/fare_family_title"
-                style="@style/Core.Text.XLarge.Medium"
+                style="@style/Core.Text.400.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="2dp"
@@ -37,7 +37,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/selected_classes"
-                style="@style/Core.Text.Default"
+                style="@style/Core.Text.200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -52,7 +52,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/fare_family_from_label"
-                style="@style/Core.Text.Default"
+                style="@style/Core.Text.200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/flight_fare_family_from_label"
@@ -60,7 +60,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/upgrade_delta_price"
-                style="@style/Core.Text.Large.Medium"
+                style="@style/Core.Text.300.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/traveller"
@@ -68,7 +68,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/traveller"
-                style="@style/Core.Text.Default"
+                style="@style/Core.Text.200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp" />

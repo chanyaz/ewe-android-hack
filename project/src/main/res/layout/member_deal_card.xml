@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="2"
                     android:textColor="@color/white"
-                    style="@style/Core.Text.Large.Medium"
+                    style="@style/Core.Text.300.Medium"
                     tool:text="city"/>
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    style="@style/Core.Text.Large.Medium"
+                    style="@style/Core.Text.300.Medium"
                     tool:text="Feb. 2017 - Mar. 2017"/>
 
             </LinearLayout>
@@ -76,7 +76,7 @@
                 android:layout_marginRight="11dp"
                 android:layout_gravity="bottom|right"
                 android:textColor="@color/white"
-                style="@style/Core.Text.Small"
+                style="@style/Core.Text.100"
                 tool:text="-20%"/>
         </FrameLayout>
 
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/member_deal_hotel_only"
-                style="@style/Core.Text.Default"
+                style="@style/Core.Text.200"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical|left"
                 android:textColor="@color/member_deal_destination_card_text"/>
@@ -115,14 +115,14 @@
                     android:alpha=".7"
                     android:paddingRight="4dp"
                     android:textColor="@color/black"
-                    style="@style/Core.Text.Default"
+                    style="@style/Core.Text.200"
                     tool:text="$100"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/member_deal_price_per_night"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Core.Text.Large.Medium"
+                    style="@style/Core.Text.300.Medium"
                     tool:text="$80"/>
 
             </LinearLayout>

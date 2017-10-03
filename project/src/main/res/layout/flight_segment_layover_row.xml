@@ -28,14 +28,14 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_segment_layover_in"
-            style="@style/Core.Text.Default.Medium.LightColor"
+            style="@style/Core.Text.200.Medium.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="14dp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_segment_layover_duration"
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="14dp" />

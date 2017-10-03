@@ -10,21 +10,21 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/strike_through_price"
+            style="@style/Core.Text.300"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/result_cells_gray_text"
-            android:textSize="12sp" />
+            android:textColor="@color/result_cells_gray_text" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/price_per_night"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.400.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/price_per_descriptor"
-            style="@style/Core.Text.Default"
+            style="@style/Core.Text.200"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -32,14 +32,14 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/top_amenity"
+        style="@style/Core.Text.200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/result_cells_gray_text"
-        android:textSize="10sp" />
+        android:textColor="@color/result_cells_gray_text"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/sold_out_text"
-        style="@style/Core.Text.Large.Medium"
+        style="@style/Core.Text.300.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/result_cells_gray_text"

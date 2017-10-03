@@ -29,7 +29,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/departure_arrival_time"
-                style="@style/Core.Text.XLarge.Medium"
+                style="@style/Core.Text.400.Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -45,33 +45,33 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/departure_arrival_airport"
-            style="@style/Core.Text.Default"
+            style="@style/Core.Text.200"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/airline_airplane_type"
-            style="@style/Core.Text.Default.Medium"
+            style="@style/Core.Text.200.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/operating_airline_name"
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_duration"
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_seat_class_booking_code"
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone" />

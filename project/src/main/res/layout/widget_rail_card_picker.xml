@@ -34,7 +34,7 @@
             android:contentDescription="@string/rail_remove_railcard_cont_desc"/>
 
         <TextView
-            style="@style/Core.Text.XLarge"
+            style="@style/Core.Text.400"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

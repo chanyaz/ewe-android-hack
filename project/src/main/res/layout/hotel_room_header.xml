@@ -13,7 +13,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/room_type_text_view"
-        style="@style/Core.Text.XLarge.Medium"
+        style="@style/Core.Text.400.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -37,7 +37,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/bed_type_text_view"
-        style="@style/Core.Text.Default"
+        style="@style/Core.Text.200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

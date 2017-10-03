@@ -9,7 +9,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/outbound_card_time_text"
-            style="@style/Core.Text.XLarge.Medium"
+            style="@style/Core.Text.400.Medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -17,7 +17,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/outbound_card_price_text"
-            style="@style/Core.Text.XLarge.Medium"
+            style="@style/Core.Text.400.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
@@ -31,7 +31,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/outbound_card_train_operator_text"
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
@@ -39,7 +39,7 @@
             tools:text="Virgin Trains, London Midland" />
 
         <com.expedia.bookings.widget.TextView
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
@@ -48,7 +48,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/outbound_card_layover_text"
-        style="@style/Core.Text.Default"
+        style="@style/Core.Text.200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"

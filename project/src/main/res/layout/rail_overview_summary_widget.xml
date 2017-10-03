@@ -6,7 +6,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/outbound_dates_view"
-        style="@style/Core.Text.Large.Medium.LightColor"
+        style="@style/Core.Text.300.Medium.LightColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -27,7 +27,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/inbound_dates_view"
-        style="@style/Core.Text.Large.Medium.LightColor"
+        style="@style/Core.Text.300.Medium.LightColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -39,7 +39,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/open_return_messaging"
-        style="@style/Core.Text.Default.LightColor"
+        style="@style/Core.Text.200.LightColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/card_view_container_margin"

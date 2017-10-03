@@ -26,19 +26,19 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/option_text_view"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.300.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/cancellation_text_view"
-            style="@style/Core.Text.Default.Medium"
+            style="@style/Core.Text.200.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/cancellation_time_text_view"
-            style="@style/Core.Text.Small"
+            style="@style/Core.Text.100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/light_text_color"/>
@@ -52,7 +52,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/earn_message_text_view"
-            style="@style/Core.Text.Small"
+            style="@style/Core.Text.100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
@@ -62,7 +62,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/mandatory_fee_text_view"
-            style="@style/Core.Text.Small"
+            style="@style/Core.Text.100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -88,7 +88,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/discount_percentage_text_view"
-                style="@style/Core.Text.Small.Medium"
+                style="@style/Core.Text.100.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
@@ -103,7 +103,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/pay_later_price_text_view"
-                style="@style/Core.Text.Default.LightColor"
+                style="@style/Core.Text.200.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/discount_percentage_text_view"
@@ -113,7 +113,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/strike_through_price_text_view"
-                style="@style/Core.Text.Default"
+                style="@style/Core.Text.200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/discount_percentage_text_view"
@@ -125,7 +125,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/deposit_terms_text_view"
-            style="@style/Core.Text.XLarge.Medium"
+            style="@style/Core.Text.400.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/textview_drawable_padding"
@@ -141,14 +141,14 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/price_per_night_text_view"
-                style="@style/Core.Text.XLarge.Medium"
+                style="@style/Core.Text.400.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/hotel_cell_disabled_text" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/price_per_descriptor_text_view"
-                style="@style/Core.Text.Default.LightColor"
+                style="@style/Core.Text.200.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -156,7 +156,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/tax_fee_descriptor"
-            style="@style/Core.Text.Small.LightColor"
+            style="@style/Core.Text.100.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-2dp" />
@@ -182,7 +182,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_left_text_view"
-                style="@style/Core.Text.Default.LightColor"
+                style="@style/Core.Text.200.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp" />

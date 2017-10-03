@@ -65,14 +65,14 @@
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/details_times"
-                            style="@style/Core.Text.XLarge.Medium"
+                            style="@style/Core.Text.400.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="9:10 - 11:42" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/details_info"
-                            style="@style/Core.Text.Default"
+                            style="@style/Core.Text.200"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="2h 32m, 1 change" />

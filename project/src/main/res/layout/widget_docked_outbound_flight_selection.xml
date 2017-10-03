@@ -18,7 +18,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/arrival_departure_time"
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="7:45am - 11:33 pm +1d (12h 24m)" />

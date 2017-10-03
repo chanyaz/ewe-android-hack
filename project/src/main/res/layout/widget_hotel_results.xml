@@ -86,7 +86,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/urgency_percentage_view"
-                style="@style/Core.Text.Large"
+                style="@style/Core.Text.300"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_trending_up_white_18px"
@@ -97,7 +97,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/urgency_destination_description_view"
-                style="@style/Core.Text.Small"
+                style="@style/Core.Text.100"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -143,7 +143,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/narrow_result_prompt"
-        style="@style/Core.Text.Large.Medium"
+        style="@style/Core.Text.300.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"

@@ -20,7 +20,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/timesView"
-                style="@style/Core.Text.XLarge.Medium"
+                style="@style/Core.Text.400.Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -35,7 +35,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/priceView"
-                style="@style/Core.Text.XLarge.Medium"
+                style="@style/Core.Text.400.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -44,7 +44,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/trainOperator"
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
@@ -52,7 +52,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/layoverView"
-            style="@style/Core.Text.Default"
+            style="@style/Core.Text.200"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"

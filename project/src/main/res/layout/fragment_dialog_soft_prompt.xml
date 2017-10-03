@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
@@ -19,16 +19,18 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Core.Text.XXXLarge.Medium"
+        style="@style/Core.Text"
         android:textStyle="bold"
         android:textColor="@color/soft_prompt_text_color"
         android:gravity="center"
-        android:text="@string/location_soft_prompt_title" />
+        android:text="@string/location_soft_prompt_title"
+        android:textSize="24sp"
+        app:textStyle="medium"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Core.Text.XLarge"
+        style="@style/Core.Text.400"
         android:textColor="@color/soft_prompt_text_color"
         android:gravity="center"
         android:layout_marginTop="8dp"
@@ -40,7 +42,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/soft_prompt_enable_button"
         android:text="@string/location_soft_prompt_enable"
-        style="@style/Core.Text.XXLarge"
+        style="@style/Core.Text.500"
         android:textColor="@color/white"
         android:gravity="center"
         android:layout_marginTop="32dp"
@@ -51,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/soft_prompt_button_color"
-        style="@style/Core.Text.XXLarge"
+        style="@style/Core.Text.500"
         android:background="@android:color/transparent"
         android:padding="12dp"
         android:layout_marginBottom="12dp"

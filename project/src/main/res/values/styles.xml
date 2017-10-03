@@ -898,99 +898,6 @@
     <!--Core represents any styles that are shared across LOBs throughout the app-->
     <style name="Core" />
 
-    <style name="Core.Text">
-        <item name="android:textColor">@color/default_text_color</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="Core.Text.Default">
-        <item name="android:textSize">@dimen/default_text_size</item>
-    </style>
-
-    <style name="Core.Text.Default.Medium">
-        <item name="textStyle">medium</item>
-    </style>
-
-    <style name="Core.Text.Default.LightColor">
-        <item name="android:textColor">@color/light_text_color</item>
-    </style>
-
-    <style name="Core.Text.Default.WhiteColor">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="Core.Text.Default.Medium.LightColor">
-        <item name="android:textColor">@color/light_text_color</item>
-    </style>
-
-    <style name="Core.Text.Small">
-        <item name="android:textSize">@dimen/small_text_size</item>
-    </style>
-
-    <style name="Core.Text.Small.Medium">
-        <item name="textStyle">medium</item>
-    </style>
-
-    <style name="Core.Text.Small.LightColor">
-        <item name="android:textColor">@color/light_text_color</item>
-    </style>
-
-    <style name="Core.Text.Large">
-        <item name="android:textSize">@dimen/large_text_size</item>
-    </style>
-
-    <style name="Core.Text.Large.Gray3">
-        <item name="android:textColor">@color/gray300</item>
-    </style>
-
-    <style name="Core.Text.Large.Medium">
-        <item name="textStyle">medium</item>
-    </style>
-
-    <style name="Core.Text.Large.Medium.WhiteColor">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="Core.Text.Large.Medium.LightColor">
-        <item name="android:textColor">@color/light_text_color</item>
-    </style>
-
-    <style name="Core.Text.XLarge">
-        <item name="android:textSize">@dimen/xlarge_text_size</item>
-    </style>
-
-    <style name="Core.Text.XLarge.LightColor">
-        <item name="android:textColor">@color/gray600</item>
-    </style>
-
-    <style name="Core.Text.XLarge.Medium">
-        <item name="textStyle">medium</item>
-    </style>
-
-    <style name="Core.Text.XXLarge">
-        <item name="android:textSize">@dimen/xxlarge_text_size</item>
-    </style>
-
-    <style name="Core.Text.XXLarge.Medium">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Core.Text.XXLarge.Medium.LightColor">
-        <item name="android:textColor">@color/light_text_color</item>
-    </style>
-
-    <style name="Core.Text.XXLarge.Medium.Gray3">
-        <item name="android:textColor">@color/gray300</item>
-    </style>
-
-    <style name="Core.Text.XXXLarge">
-        <item name="android:textSize">@dimen/xxxlarge_text_size</item>
-    </style>
-
-    <style name="Core.Text.XXXLarge.Medium">
-        <item name="textStyle">medium</item>
-    </style>
-
     <style name="Core.Widget" />
 
     <style name="Core.Widget.TwoTabTextView">
@@ -1041,20 +948,20 @@
         <item name="android:ellipsize">end</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/material_tab_text</item>
-        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:textSize">@dimen/type_300_text_size</item>
     </style>
 
     <style name="ETPInfoTextLeft" parent="HotelDetailsInfo">
         <item name="android:gravity">left</item>
         <item name="android:paddingRight">15dp</item>
-        <item name="android:background">@drawable/gray_background_ripple</item>
+        <item name="android:background">@drawable/white_back_gray_ripple</item>
         <item name="android:drawableRight">@drawable/details_info</item>
     </style>
 
     <style name="ETPInfoTextSmallCenter" parent="HotelDetailsInfoSmallCenter">
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
-        <item name="android:background">@drawable/gray_background_ripple</item>
+        <item name="android:background">@drawable/white_back_gray_ripple</item>
         <item name="android:drawableRight">@drawable/smaller_details_info</item>
     </style>
 

@@ -19,7 +19,7 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:text="@string/view_room_button_text"
-        android:textAppearance="@style/Core.Text.XLarge"
+        android:textAppearance="@style/Core.Text.400"
         android:visibility="gone"
         android:textColor="?attr/primary_color" />
 
@@ -34,12 +34,12 @@
         android:padding="5dp"
         android:text="@string/book_room_button_text"
         android:visibility="gone"
-        android:textAppearance="@style/Core.Text.XLarge"
+        android:textAppearance="@style/Core.Text.400"
         android:textColor="@color/white" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/sold_out_button"
-        style="@style/Core.Text.XLarge"
+        style="@style/Core.Text.400"
         android:background="@drawable/hotel_sold_out_background_selector"
         android:layout_width="wrap_content"
         android:layout_height="36dp"

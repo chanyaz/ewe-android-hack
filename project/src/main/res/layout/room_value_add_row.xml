@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/value_add_label"
-        style="@style/Core.Text.Small.LightColor"
+        style="@style/Core.Text.100.LightColor"
         android:layout_marginLeft="@dimen/textview_drawable_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

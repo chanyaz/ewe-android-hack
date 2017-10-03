@@ -36,25 +36,26 @@ class DebugTextStylesActivity : AppCompatActivity() {
     }
 
     private val styles by lazy {
-        arrayOf(R.style.Core_Text_Default,
-                R.style.Core_Text_Default_Medium,
-                R.style.Core_Text_Default_LightColor,
-                R.style.Core_Text_Default_Medium_LightColor,
-                R.style.Core_Text_Small,
-                R.style.Core_Text_Small_Medium,
-                R.style.Core_Text_Small_LightColor,
-                R.style.Core_Text_Large,
-                R.style.Core_Text_Large_Gray3,
-                R.style.Core_Text_Large_Medium,
-                R.style.Core_Text_Large_Medium_LightColor,
-                R.style.Core_Text_XLarge,
-                R.style.Core_Text_XLarge_LightColor,
-                R.style.Core_Text_XLarge_Medium,
-                R.style.Core_Text_XXLarge,
-                R.style.Core_Text_XXLarge_Medium,
-                R.style.Core_Text_XXLarge_Medium_LightColor,
-                R.style.Core_Text_XXLarge_Medium_Gray3,
-                R.style.Core_Text_XXXLarge,
-                R.style.Core_Text_XXXLarge_Medium)
+        arrayOf(
+                R.style.Core_Text_100,
+                R.style.Core_Text_100_Medium,
+                R.style.Core_Text_100_LightColor,
+                R.style.Core_Text_200,
+                R.style.Core_Text_200_Medium,
+                R.style.Core_Text_200_LightColor,
+                R.style.Core_Text_200_Medium_LightColor,
+                R.style.Core_Text_300,
+                R.style.Core_Text_300_Medium,
+                R.style.Core_Text_300_Medium_LightColor,
+                R.style.Core_Text_400,
+                R.style.Core_Text_400_LightColor,
+                R.style.Core_Text_400_Medium,
+                R.style.Core_Text_500,
+                R.style.Core_Text_500_Medium,
+                R.style.Core_Text_500_Medium_LightColor,
+                R.style.Core_Text_600,
+                R.style.Core_Text_700,
+                R.style.Core_Text_800,
+                R.style.Core_Text_900)
     }
 }

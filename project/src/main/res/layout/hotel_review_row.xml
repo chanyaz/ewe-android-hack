@@ -24,7 +24,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/review_title"
-                style="@style/Core.Text.Default.Medium"
+                style="@style/Core.Text.200.Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -47,7 +47,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/date"
-                style="@style/Core.Text.Default"
+                style="@style/Core.Text.200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -57,7 +57,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/content"
-            style="@style/Core.Text.Default"
+            style="@style/Core.Text.200"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="@dimen/hotel_review_content_line_spacing"

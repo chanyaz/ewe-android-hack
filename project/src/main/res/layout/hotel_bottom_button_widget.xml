@@ -10,7 +10,7 @@
 
     <Button
         android:id="@+id/sticky_bottom_button"
-        style="@style/Core.Text.XLarge"
+        style="@style/Core.Text.400"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/app_primary"

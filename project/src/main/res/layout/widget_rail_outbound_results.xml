@@ -56,7 +56,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/outbound_legal_banner"
-            style="@style/Core.Text.Small.LightColor"
+            style="@style/Core.Text.100.LightColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

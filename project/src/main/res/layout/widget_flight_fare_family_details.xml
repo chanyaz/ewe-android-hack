@@ -37,7 +37,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/fare_family_location"
-                style="@style/Core.Text.Default.Medium"
+                style="@style/Core.Text.200.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp" />

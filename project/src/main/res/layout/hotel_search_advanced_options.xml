@@ -148,7 +148,7 @@
             tools:visibility="visible">
 
             <com.expedia.bookings.widget.TextView
-                style="@style/Core.Text.Default"
+                style="@style/Core.Text.200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

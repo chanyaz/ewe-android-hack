@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Core.Text">
+        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="Core.Text.100">
+        <item name="android:textSize">@dimen/type_100_text_size</item>
+    </style>
+
+    <style name="Core.Text.100.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="Core.Text.100.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.200">
+        <item name="android:textSize">@dimen/type_200_text_size</item>
+    </style>
+
+    <style name="Core.Text.200.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="Core.Text.200.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.200.WhiteColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Core.Text.200.Medium.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.300">
+        <item name="android:textSize">@dimen/type_300_text_size</item>
+    </style>
+
+    <style name="Core.Text.300.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="Core.Text.300.Medium.WhiteColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Core.Text.300.Medium.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.400">
+        <item name="android:textSize">@dimen/type_400_text_size</item>
+    </style>
+
+    <style name="Core.Text.400.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.400.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="Core.Text.500">
+        <item name="android:textSize">@dimen/type_500_text_size</item>
+    </style>
+
+    <style name="Core.Text.500.Medium">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Core.Text.500.Medium.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.600">
+        <item name="android:textSize">@dimen/type_600_text_size</item>
+    </style>
+
+    <style name="Core.Text.700">
+        <item name="android:textSize">@dimen/type_700_text_size</item>
+    </style>
+
+    <style name="Core.Text.800">
+        <item name="android:textSize">@dimen/type_800_text_size</item>
+    </style>
+
+    <style name="Core.Text.900">
+        <item name="android:textSize">@dimen/type_900_text_size</item>
+    </style>
+</resources>

@@ -16,7 +16,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_fare_title"
-            style="@style/Core.Text.XLarge.Medium"
+            style="@style/Core.Text.400.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/ic_checkout_info"
@@ -27,7 +27,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/fare_description"
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rail_fare_title"
@@ -78,7 +78,7 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/rail_fare_price"
-                    style="@style/Core.Text.XLarge.Medium"
+                    style="@style/Core.Text.400.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="4dp"

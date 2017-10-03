@@ -35,7 +35,7 @@ class HotelRoomHeaderViewModel(val context: Context, val hotelRoomResponse: Hote
         if (roomCount < 0 && !detailString.isNullOrBlank()) {
             detailString = "  (" + detailString + ")"
 
-            val smallTextSize = context.resources.getDimensionPixelSize(R.dimen.small_text_size)
+            val smallTextSize = context.resources.getDimensionPixelSize(R.dimen.type_100_text_size)
             val span = SpannableString(roomTypeDescription + detailString)
 
             span.setSpan(AbsoluteSizeSpan(smallTextSize), roomTypeDescription.length, roomTypeDescription.length + detailString.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)

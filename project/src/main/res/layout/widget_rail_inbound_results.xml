@@ -47,14 +47,14 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/open_return_header_messaging"
-                style="@style/Core.Text.Large.Medium.WhiteColor"
+                style="@style/Core.Text.300.Medium.WhiteColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rail_open_return_selected" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/open_return_description"
-                style="@style/Core.Text.Default.WhiteColor"
+                style="@style/Core.Text.200.WhiteColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rail_open_return_description"/>
@@ -89,7 +89,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/inbound_legal_banner"
-            style="@style/Core.Text.Small.LightColor"
+            style="@style/Core.Text.100.LightColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

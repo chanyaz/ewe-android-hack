@@ -23,7 +23,7 @@
         <com.expedia.bookings.widget.TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.300.Medium"
             android:paddingLeft="14dp"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"

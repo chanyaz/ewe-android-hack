@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:gravity="left|center_vertical"
     android:layout_width="wrap_content"
@@ -18,25 +19,22 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/guest_rating"
+        style="@style/Core.Text.300.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:gravity="center"
-        android:paddingBottom="4dp"
-        android:paddingTop="3dp"
         android:textColor="@color/gray900"
-        android:textSize="10sp"
-        app:textStyle="medium" />
+        tools:text="4.7"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/guest_rating_recommended_text"
+        style="@style/Core.Text.300"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="4dp"
         android:text="@string/hotel_guest_recommend"
-        android:textColor="@color/gray900"
-        android:textSize="10sp" />
+        android:textColor="@color/gray900" />
 
 </LinearLayout>

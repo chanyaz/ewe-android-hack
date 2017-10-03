@@ -9,6 +9,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/discount_percentage"
+        style="@style/Core.Text.200.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/guest_rating_background"
@@ -17,9 +18,7 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="3dp"
-        android:textColor="@color/white"
-        android:textSize="10sp"
-        app:textStyle="medium" />
+        android:textColor="@color/white"/>
 
     <LinearLayout
         android:id="@+id/air_attach_layout"

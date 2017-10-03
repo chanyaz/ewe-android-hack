@@ -47,7 +47,9 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@color/white"
                 android:gravity="center_horizontal"
-                style="@style/Core.Text.XXXLarge.Medium"
+                style="@style/Core.Text"
+                android:textSize="24sp"
+                app:textStyle="medium"
                 tools:text="@string/member_deal_title"/>
 
             <com.expedia.bookings.widget.TextView
@@ -56,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:gravity="center_horizontal"
-                style="@style/Core.Text.Large"
+                style="@style/Core.Text.300"
                 tools:text="@string/member_deal_subtitle"/>
         </LinearLayout>
     </RelativeLayout>

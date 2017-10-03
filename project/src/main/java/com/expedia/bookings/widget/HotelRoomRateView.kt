@@ -369,7 +369,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             if (showTerms) {
                 dailyPricePerNight.visibility = View.VISIBLE
             }
-            collapsedContainer.background = ContextCompat.getDrawable(context, R.drawable.gray_background_ripple)
+            collapsedContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.egg_white))
 
             roomInfoContainer.setPadding(0, 0, 0, 0)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)

@@ -229,12 +229,15 @@
     <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>
     <dimen name="packages_bundle_overview_footer_secondary_text">@dimen/temporary_font_size_small</dimen>
 
-    <dimen name="small_text_size">10sp</dimen>
-    <dimen name="default_text_size">12sp</dimen>
-    <dimen name="large_text_size">14sp</dimen>
-    <dimen name="xlarge_text_size">16sp</dimen>
-    <dimen name="xxlarge_text_size">18sp</dimen>
-    <dimen name="xxxlarge_text_size">24sp</dimen>
+    <dimen name="type_100_text_size">10sp</dimen>
+    <dimen name="type_200_text_size">12sp</dimen>
+    <dimen name="type_300_text_size">14sp</dimen>
+    <dimen name="type_400_text_size">16sp</dimen>
+    <dimen name="type_500_text_size">18sp</dimen>
+    <dimen name="type_600_text_size">22sp</dimen>
+    <dimen name="type_700_text_size">28sp</dimen>
+    <dimen name="type_800_text_size">36sp</dimen>
+    <dimen name="type_900_text_size">56sp</dimen>
 
     <!-- Package Hotel Map -->
     <dimen name="packages_hotel_map_message">@dimen/temporary_font_size_small</dimen>

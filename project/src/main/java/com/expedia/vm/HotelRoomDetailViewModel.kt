@@ -114,8 +114,8 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
         if (optionIndex >= 0) {
             val optionString = Phrase.from(context, R.string.option_TEMPLATE).put("number", optionIndex + 1).format().toString()
 
-            val largeTextSize = context.resources.getDimensionPixelSize(R.dimen.large_text_size)
-            val smallTextSize = context.resources.getDimensionPixelSize(R.dimen.small_text_size)
+            val largeTextSize = context.resources.getDimensionPixelSize(R.dimen.type_300_text_size)
+            val smallTextSize = context.resources.getDimensionPixelSize(R.dimen.type_100_text_size)
 
             var detailString = hotelRoomResponse.roomTypeDescriptionDetail
 

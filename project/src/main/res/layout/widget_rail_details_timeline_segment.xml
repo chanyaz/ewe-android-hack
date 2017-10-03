@@ -15,7 +15,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_departure_time"
-            style="@style/Core.Text.XLarge.Medium"
+            style="@style/Core.Text.400.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -31,7 +31,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_arrival_time"
-            style="@style/Core.Text.XLarge.Medium"
+            style="@style/Core.Text.400.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -53,14 +53,14 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_departure_station"
-            style="@style/Core.Text.XLarge.Medium"
+            style="@style/Core.Text.400.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="London Euston" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_operator"
-            style="@style/Core.Text.Default"
+            style="@style/Core.Text.200"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -69,7 +69,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_duration"
-            style="@style/Core.Text.Default.LightColor"
+            style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -78,7 +78,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_arrival_station"
-            style="@style/Core.Text.XLarge.Medium"
+            style="@style/Core.Text.400.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Crewe" />

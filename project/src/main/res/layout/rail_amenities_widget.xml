@@ -25,6 +25,6 @@
         android:layout_height="wrap_content"
         android:gravity="bottom|center"
         android:padding="10dp"
-        style="@style/Core.Text.Default.Medium.LightColor"
+        style="@style/Core.Text.200.Medium.LightColor"
         android:text="@string/rail_amenities_disclaimer" />
 </LinearLayout>
