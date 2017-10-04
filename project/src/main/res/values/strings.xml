@@ -4851,4 +4851,10 @@
     <string name="fare_family_not_available">Not Included</string>
     <string name="fare_family_unknown">Unknown</string>
 
+    <!-- Confirmation widget Strings -->
+    <string name="flight_itin_confirmation_status_label">Confirmation</string>
+    <string name="flight_itin_cancelled_status_label">Cancelled</string>
+    <string name="flight_itin_in_progress_status_label">Ticketing in progress</string>
+
+
 </resources>

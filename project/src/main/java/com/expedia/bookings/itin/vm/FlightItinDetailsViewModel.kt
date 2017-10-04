@@ -18,11 +18,12 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     val updateToolbarSubject: PublishSubject<ItinToolbarViewModel.ToolbarParams> = PublishSubject.create<ItinToolbarViewModel.ToolbarParams>()
     val createSegmentSummaryWidgetsSubject: PublishSubject<FlightItinSegmentSummaryViewModel.SummaryWidgetParams> = PublishSubject.create<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
     val clearLegSummaryContainerSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
-
+    val updateConfirmationSubject: PublishSubject<ItinConfirmationViewModel.WidgetParams> = PublishSubject.create<ItinConfirmationViewModel.WidgetParams>()
     fun onResume() {
         updateItinCardDataFlight()
         updateToolbar()
         updateLegSummaryWidget()
+        updateConfirmationWidget()
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -34,9 +35,13 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
             itinCardDataFlight = freshItinCardDataFlight
         }
     }
+    fun updateConfirmationWidget() {
+        val confirmationStatus = itinCardDataFlight.confirmationStatus
+        val confirmationNumbers = itinCardDataFlight.getSpannedConfirmationNumbers(context)
+        updateConfirmationSubject.onNext(ItinConfirmationViewModel.WidgetParams(confirmationStatus, confirmationNumbers))
+    }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun updateToolbar() {
+    private fun updateToolbar() {
         val destinationCity = itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: ""
         val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataFlight.startDate).capitalize()
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(destinationCity, startDate, !itinCardDataFlight.isSharedItin))

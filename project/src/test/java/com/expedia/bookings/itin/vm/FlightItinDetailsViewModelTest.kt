@@ -1,7 +1,9 @@
 package com.expedia.bookings.itin.vm
 
 import android.app.Activity
+import android.content.Context
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.trips.TicketingStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
@@ -13,6 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import org.mockito.Mockito.`when` as whenever
@@ -21,16 +24,18 @@ import org.mockito.Mockito.`when` as whenever
 class FlightItinDetailsViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: FlightItinDetailsViewModel
-
+    lateinit private var context: Context
     val itinCardDataValidSubscriber = TestSubscriber<Unit>()
     val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
     val clearLegSummaryContainerSubscriber = TestSubscriber<Unit>()
     val createLegSummaryWidgetsSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
+    val updateConfirmationSubscriber = TestSubscriber<ItinConfirmationViewModel.WidgetParams>()
 
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         sut = FlightItinDetailsViewModel(activity, "TEST_ITIN_ID")
+        context = RuntimeEnvironment.application
     }
 
     @Test
@@ -60,7 +65,7 @@ class FlightItinDetailsViewModelTest {
     @Test
     fun testOnResume() {
         sut.updateToolbarSubject.subscribe(updateToolbarSubscriber)
-
+        sut.updateConfirmationSubject.subscribe(updateConfirmationSubscriber)
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
         val testItinCardData = ItinCardDataFlightBuilder().build()
         val now = DateTime.now()
@@ -71,6 +76,17 @@ class FlightItinDetailsViewModelTest {
         sut.onResume()
         updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams("Las Vegas", startDate, true))
     }
+    @Test
+    fun testUpdateConfirmation() {
+        sut.updateConfirmationSubject.subscribe(updateConfirmationSubscriber)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateConfirmationWidget()
+        updateConfirmationSubscriber.assertValueCount(1)
+        val charSeq = updateConfirmationSubscriber.onNextEvents[0].confirmationNumbers
+        updateConfirmationSubscriber.assertValue(ItinConfirmationViewModel.WidgetParams(TicketingStatus.COMPLETE, charSeq))
+        assertEquals<CharSequence>(charSeq.toString(),"IKQVCR")
+    }
 
     @Test
     fun testUpdateLegSummaryWidget() {
@@ -78,8 +94,9 @@ class FlightItinDetailsViewModelTest {
         sut.createSegmentSummaryWidgetsSubject.subscribe(createLegSummaryWidgetsSubscriber)
 
         val testItinCardData = ItinCardDataFlightBuilder().build()
-        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco")
-        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas")
+        val dateTime = DateTime.now()
+        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
+        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime)
         sut.itinCardDataFlight = testItinCardData
         sut.updateLegSummaryWidget()
         clearLegSummaryContainerSubscriber.assertValueCount(1)
@@ -89,8 +106,8 @@ class FlightItinDetailsViewModelTest {
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
                 "United Airlines 681",
                 "COMPASS AIRLINES",
-                DateTime(),
-                DateTime(),
+                dateTime,
+                dateTime,
                 "SFO",
                 "San Francisco",
                 "LAS",
@@ -104,10 +121,11 @@ class FlightItinDetailsViewModelTest {
         sut.createSegmentSummaryWidgetsSubject.subscribe(createLegSummaryWidgetsSubscriber)
 
         val testItinCardData = ItinCardDataFlightBuilder().build(multiSegment = true)
-        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco")
-        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("EWR", "Newark")
-        testItinCardData.flightLeg.segments[1].originWaypoint = TestWayPoint("EWR", "Newark")
-        testItinCardData.flightLeg.segments[1].destinationWaypoint = TestWayPoint("PBI", "West Palm Beach")
+        val dateTime = DateTime.now()
+        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
+        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("EWR", "Newark", dateTime)
+        testItinCardData.flightLeg.segments[1].originWaypoint = TestWayPoint("EWR", "Newark", dateTime)
+        testItinCardData.flightLeg.segments[1].destinationWaypoint = TestWayPoint("PBI", "West Palm Beach", dateTime)
         sut.itinCardDataFlight = testItinCardData
         sut.updateLegSummaryWidget()
         clearLegSummaryContainerSubscriber.assertValueCount(1)
@@ -117,8 +135,8 @@ class FlightItinDetailsViewModelTest {
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
                 "United Airlines 1796",
                 null,
-                DateTime(),
-                DateTime(),
+                dateTime,
+                dateTime,
                 "SFO",
                 "San Francisco",
                 "EWR",
@@ -127,8 +145,8 @@ class FlightItinDetailsViewModelTest {
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
                 "United Airlines 1489",
                 null,
-                DateTime(),
-                DateTime(),
+                dateTime,
+                dateTime,
                 "EWR",
                 "Newark",
                 "PBI",
@@ -136,7 +154,7 @@ class FlightItinDetailsViewModelTest {
         ))
     }
 
-    class TestWayPoint(val code: String, val city: String) : Waypoint(ACTION_UNKNOWN) {
+    class TestWayPoint(val code: String, val city: String, val dateTime: DateTime) : Waypoint(ACTION_UNKNOWN) {
         override fun getAirport(): Airport {
             val airport = Airport()
             airport.mAirportCode = code
@@ -144,6 +162,6 @@ class FlightItinDetailsViewModelTest {
             return airport
         }
 
-        override fun getBestSearchDateTime(): DateTime = DateTime()
+        override fun getBestSearchDateTime(): DateTime = dateTime
     }
 }

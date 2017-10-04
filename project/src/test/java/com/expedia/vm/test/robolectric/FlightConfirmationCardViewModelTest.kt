@@ -1,14 +1,11 @@
 package com.expedia.vm.test.robolectric
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.FlightV2Utils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.junit.Test
 import org.junit.runner.RunWith

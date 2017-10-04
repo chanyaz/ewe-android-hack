@@ -1,15 +1,21 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
+import com.expedia.bookings.utils.FlightClickAbleSpan;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
@@ -49,7 +55,7 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		for (Flight segment : segments) {
 			if (relevantSegment == null) {
 				if (segment.getOriginWaypoint().getMostRelevantDateTime().isAfter(now)
-						|| segment.getArrivalWaypoint().getMostRelevantDateTime().isAfter(now)) {
+					|| segment.getArrivalWaypoint().getMostRelevantDateTime().isAfter(now)) {
 					relevantSegment = segment;
 				}
 			}
@@ -107,6 +113,19 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		List<FlightConfirmation> confirmationNumbers = ((TripFlight) getTripComponent()).getConfirmations();
 		if (confirmationNumbers != null) {
 			return TextUtils.join(",  ", confirmationNumbers.toArray());
+		}
+		return null;
+	}
+
+	private List<String> getSpannedListOfConfirmationNumbers() {
+		if (hasConfirmationNumber() && getConfirmationStatus() == TicketingStatus.COMPLETE
+			&& (getTripComponent()).getBookingStatus() == BookingStatus.BOOKED) {
+			List<FlightConfirmation> confirmationNumbers = ((TripFlight) getTripComponent()).getConfirmations();
+			List<String> list = new ArrayList<>();
+			for (FlightConfirmation confirmation : confirmationNumbers) {
+				list.add(confirmation.getConfirmationCode());
+			}
+			return list;
 		}
 		return null;
 	}
@@ -177,6 +196,10 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		mNextFlightLeg = nextLeg;
 	}
 
+	public TicketingStatus getConfirmationStatus() {
+		return ((TripFlight) getTripComponent()).getTicketingStatus();
+	}
+
 	@Override
 	public String getSharableDetailsUrl() {
 		if (getFlightLeg().getShareInfo().hasSharableUrl()) {
@@ -193,5 +216,26 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	@Override
 	public boolean getSharingEnabled() {
 		return true;
+	}
+
+	public CharSequence getSpannedConfirmationNumbers(Context context) {
+		if (getSpannedListOfConfirmationNumbers() != null) {
+			List<String> confirmationNumbers = getSpannedListOfConfirmationNumbers();
+			SpannableStringBuilder spannableBuilder = new SpannableStringBuilder(getSpannedString(context, confirmationNumbers.get(0)));
+			for (int i = 1; i < confirmationNumbers.size(); i++) {
+				spannableBuilder.append(" , ");
+				spannableBuilder.append(getSpannedString(context, confirmationNumbers.get(i)));
+			}
+			return spannableBuilder;
+		}
+		return "";
+	}
+
+	@NonNull
+	private SpannableString getSpannedString(Context context, String confirmationNumber) {
+		FlightClickAbleSpan flightClickAble = new FlightClickAbleSpan(context);
+		SpannableString confirmation = new SpannableString(confirmationNumber);
+		confirmation.setSpan(flightClickAble, 0, confirmation.length(), 0);
+		return confirmation;
 	}
 }

@@ -23,6 +23,7 @@
         android:background="@color/gray100"
         android:fadingEdge="none">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +31,11 @@
             android:orientation="vertical"
             android:paddingBottom="20dp"
             android:paddingTop="20dp">
+
+            <com.expedia.bookings.itin.widget.ItinConfirmationWidget
+                android:id="@+id/widget_itin_flight_confirmation_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:id="@+id/flight_itin_summary_container"

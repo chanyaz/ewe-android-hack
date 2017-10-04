@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget.itin.support
 
+import android.text.TextUtils
+import com.expedia.bookings.data.trips.FlightConfirmation
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
@@ -10,11 +12,16 @@ import java.io.File
 
 class ItinCardDataFlightBuilder {
 
-    fun build(airAttachEnabled:Boolean = false, multiSegment:Boolean = false): ItinCardDataFlight {
+    
+    fun build(airAttachEnabled:Boolean = false, multiSegment:Boolean = false, confirmationNumber:String? = null): ItinCardDataFlight {
         val itinCardDataFlight = makeFlight(multiSegment)
-
         itinCardDataFlight.setShowAirAttach(airAttachEnabled)
-
+        if(!TextUtils.isEmpty(confirmationNumber)) {
+            val trip = itinCardDataFlight.tripComponent as TripFlight
+            val confirmation = FlightConfirmation()
+            confirmation.confirmationCode = confirmationNumber
+            trip.addConfirmation(confirmation)
+        }
         return itinCardDataFlight
     }
 
@@ -72,4 +79,5 @@ class ItinCardDataFlightBuilder {
             return null
         }
     }
+
 }
