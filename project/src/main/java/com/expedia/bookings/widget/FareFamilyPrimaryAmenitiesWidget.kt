@@ -29,9 +29,13 @@ class FareFamilyPrimaryAmenitiesWidget(context: Context, attrs: AttributeSet): L
         addPrimaryAmenityView(FareFamilyAmenityItemViewModel(
                 FlightV2Utils.getBagsAmenityResource(context, viewModel.fareFamilyComponents),
                 context.resources.getString(R.string.amenity_checked_bags)))
-        addPrimaryAmenityView(FareFamilyAmenityItemViewModel(
-                FlightV2Utils.getCancellationAmenityResource(context, viewModel.fareFamilyComponents),
-                context.resources.getString(R.string.amenity_cancellation)))
+
+        val amenityResourceType = FlightV2Utils.getCarryOnBagAmenityResource(context, viewModel.fareFamilyComponents)
+        if (!(amenityResourceType.dispVal.isNullOrBlank() && amenityResourceType.resourceId == 0)) {
+            addPrimaryAmenityView(FareFamilyAmenityItemViewModel(amenityResourceType,
+                    context.resources.getString(R.string.amenity_carry_on_bag)))
+        }
+
         addPrimaryAmenityView(FareFamilyAmenityItemViewModel(
                 FlightV2Utils.getSeatSelectionAmenityResource(context, viewModel.fareFamilyComponents),
                 context.resources.getString(R.string.amenity_seat_choice)))

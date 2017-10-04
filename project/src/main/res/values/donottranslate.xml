@@ -449,8 +449,7 @@
     <string name="amenity_key_two_luggage">TwoLuggage</string>
     <string name="amenity_key_three_luggage">ThreeLuggage</string>
     <string name="amenity_key_four_luggage">FourLuggage</string>
-    <string name="amenity_key_refund_before_departure">RefundBeforeDeparture</string>
-    <string name="amenity_key_refund_after_departure">RefundAfterDeparture</string>
+    <string name="amenity_key_carry_on_bag">CarryOnBag</string>
     <string name="amenity_key_seat_reservation">SeatReservation</string>
 
     <!-- Amenity Family Keys -->

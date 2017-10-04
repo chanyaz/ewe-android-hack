@@ -34,7 +34,7 @@ class FareFamilyAmenityDialogTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultFlightComponents()
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_fare_family_item_layout, null) as FareFamilyItemWidget
-        prepareViewModel()
+        widget.bindViewModel(getViewModel())
     }
 
     @Test
@@ -58,7 +58,7 @@ class FareFamilyAmenityDialogTest {
         val firstPrimaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(0) as FareFamilyAmenityItemWidget).getChildAt(0) as LinearLayout
         assertEquals("Checked Bags", (firstPrimaryAmenity.getChildAt(1) as TextView).text.toString())
         val secondPrimaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(1) as FareFamilyAmenityItemWidget).getChildAt(0) as LinearLayout
-        assertEquals("Cancellation", (secondPrimaryAmenity.getChildAt(1) as TextView).text.toString())
+        assertEquals("Carry on Bag", (secondPrimaryAmenity.getChildAt(1) as TextView).text.toString())
         val thirdPrimaryAmenity = (widget.fareFamilyAmenitiesDialogView.fareFamilyPrimaryAmenitiesWidget.primaryAmenitiesContainer.getChildAt(2) as FareFamilyAmenityItemWidget).getChildAt(0) as LinearLayout
         assertEquals("Seat Choice", (thirdPrimaryAmenity.getChildAt(1) as TextView).text.toString())
     }
@@ -72,7 +72,7 @@ class FareFamilyAmenityDialogTest {
         assertEquals("Priority Boarding", (((widget.fareFamilyAmenitiesDialogView.amenitiesList.getChildAt(7) as FareFamilyAmenityItemWidget).getChildAt(0) as LinearLayout).getChildAt(1) as TextView).text.toString())
     }
 
-    private fun prepareViewModel() {
+    private fun getViewModel(): FareFamilyItemViewModel {
         val totalPriceMoney = Money()
         totalPriceMoney.amount = BigDecimal("2558.40")
         totalPriceMoney.currencyCode = "USD"
@@ -91,7 +91,7 @@ class FareFamilyAmenityDialogTest {
         fareFamilyComponentMap.put("unknown", HashMap<String, String>())
         var amenityMap = HashMap<String, String>()
         amenityMap.put("SeatReservation", "Seat Choice")
-        amenityMap.put("RefundBeforeDeparture", "Cancellation")
+        amenityMap.put("CarryOnBag", "Carry on Bag")
         fareFamilyComponentMap.put("included", amenityMap)
         amenityMap = HashMap<String, String>()
         amenityMap.put("Bags", "Checked Bags")
@@ -109,7 +109,6 @@ class FareFamilyAmenityDialogTest {
                 fareFamilyComponentMap
         )
 
-        val viewModel = FareFamilyItemViewModel(activity, fareFamilyDetails, false, PublishSubject.create())
-        widget.bindViewModel(viewModel)
+        return FareFamilyItemViewModel(activity, fareFamilyDetails, false, PublishSubject.create())
     }
 }

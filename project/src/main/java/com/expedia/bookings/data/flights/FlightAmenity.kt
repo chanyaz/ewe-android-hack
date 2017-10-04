@@ -10,9 +10,8 @@ enum class FlightBagAmenity(val key: Int) {
     BAGS(R.string.amenity_key_bags)
 }
 
-enum class FlightCancellationAmenity(val key: Int) {
-    REFUND_BEFORE_DEPARTURE(R.string.amenity_key_refund_before_departure),
-    REFUND_AFTER_DEPARTURE(R.string.amenity_key_refund_after_departure)
+enum class FlightCarryOnBagAmenity(val key: Int) {
+    CARRY_ON_BAG(R.string.amenity_key_carry_on_bag)
 }
 
 enum class FlightSeatReservationAmenity(val key: Int) {

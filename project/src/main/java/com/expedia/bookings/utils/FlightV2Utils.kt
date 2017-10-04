@@ -11,7 +11,7 @@ import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.AmenityResourceType
 import com.expedia.bookings.data.flights.FlightAmenityCategory
 import com.expedia.bookings.data.flights.FlightBagAmenity
-import com.expedia.bookings.data.flights.FlightCancellationAmenity
+import com.expedia.bookings.data.flights.FlightCarryOnBagAmenity
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSeatReservationAmenity
 import com.expedia.bookings.data.flights.FlightServiceClassType
@@ -416,12 +416,12 @@ object FlightV2Utils {
         return AmenityResourceType(resourceId, dispVal)
     }
 
-    @JvmStatic fun getCancellationAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
-        var resourceId = R.drawable.flight_upsell_cross_icon
+    @JvmStatic fun getCarryOnBagAmenityResource(context: Context, fareFamilyComponents: HashMap<String, HashMap<String, String>>): AmenityResourceType {
+        var resourceId = 0
         var dispVal = ""
-        val cancellationAmenities = FlightCancellationAmenity.values()
-        for (cancelAmenity in cancellationAmenities) {
-            val amenityCategory = getAmenityCategory(context.resources.getString(cancelAmenity.key), fareFamilyComponents)
+        val amenities = FlightCarryOnBagAmenity.values()
+        for (amenity in amenities) {
+            val amenityCategory = getAmenityCategory(context.resources.getString(amenity.key), fareFamilyComponents)
             if (amenityCategory != null) {
                 val resourceType = getAmenityDrawable(context, amenityCategory)
                 resourceId = resourceType.resourceId

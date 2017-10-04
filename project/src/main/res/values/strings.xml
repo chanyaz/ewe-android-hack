@@ -4829,7 +4829,7 @@
 
     <!-- Amenities String -->
     <string name="amenity_checked_bags">Checked Bags</string>
-    <string name="amenity_cancellation">Cancellation</string>
+    <string name="amenity_carry_on_bag">Carry on Bag</string>
     <string name="amenity_seat_choice">Seat Choice</string>
 
     <!-- Amenity Show More String -->
