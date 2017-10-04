@@ -10,16 +10,22 @@ import java.io.File
 
 class ItinCardDataFlightBuilder {
 
-    fun build(airAttachEnabled:Boolean = false): ItinCardDataFlight {
-        val itinCardDataFlight = makeFlight()
+    fun build(airAttachEnabled:Boolean = false, multiSegment:Boolean = false): ItinCardDataFlight {
+        val itinCardDataFlight = makeFlight(multiSegment)
 
         itinCardDataFlight.setShowAirAttach(airAttachEnabled)
 
         return itinCardDataFlight
     }
 
-    private fun makeFlight(): ItinCardDataFlight {
-        val filename = "flight_trip_details"
+    private fun makeFlight(multiSegment: Boolean): ItinCardDataFlight {
+        var filename: String? = null
+        if (multiSegment) {
+            filename = "flight_trip_details_multi_segment"
+        }
+        else{
+            filename = "flight_trip_details"
+        }
         val tripFlight = fetchTripFlight(filename)
         return ItinCardDataFlight(tripFlight, 0)
     }

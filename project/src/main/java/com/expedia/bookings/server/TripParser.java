@@ -491,6 +491,7 @@ public class TripParser {
 			// Fetch the sharable link at the flight leg level.
 			leg.getShareInfo().setSharableDetailsUrl(legJson.optString("sharableFlightLegURL").replace("/api/", "/m/"));
 			leg.setLegDuration(legJson.optString("duration"));
+			leg.setAirlineLogoURL(legJson.optString("airlineLogoURL"));
 
 			JSONArray segmentsArr = legJson.optJSONArray("segments");
 			for (int b = 0; b < segmentsArr.length(); b++) {

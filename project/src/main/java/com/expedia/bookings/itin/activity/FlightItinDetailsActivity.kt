@@ -5,9 +5,12 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinDetailsViewModel
+import com.expedia.bookings.itin.vm.FlightItinSegmentSummaryViewModel
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
+import com.expedia.bookings.itin.widget.FlightItinSegmentSummaryWidget
 import com.expedia.bookings.itin.widget.ItinToolbar
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
@@ -26,9 +29,6 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private val itinToolbar: ItinToolbar by lazy {
-        findViewById(R.id.widget_flight_itin_toolbar) as ItinToolbar
-    }
     var viewModel: FlightItinDetailsViewModel by notNullAndObservable { vm ->
         vm.itinCardDataNotValidSubject.subscribe {
             finishActivity()
@@ -36,11 +36,26 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         vm.updateToolbarSubject.subscribe { params ->
             itinToolbar.viewModel.updateWidget(params)
         }
+        vm.clearLegSummaryContainerSubject.subscribe {
+            flightSummaryContainer.removeAllViews()
+        }
+        vm.createSegmentSummaryWidgetsSubject.subscribe { params ->
+            val legSummaryWidget = FlightItinSegmentSummaryWidget(this, null)
+            legSummaryWidget.viewModel = FlightItinSegmentSummaryViewModel(this)
+            legSummaryWidget.viewModel.updateWidget(params)
+            flightSummaryContainer.addView(legSummaryWidget)
+        }
+    }
+    private val itinToolbar: ItinToolbar by lazy {
+        findViewById(R.id.widget_flight_itin_toolbar) as ItinToolbar
     }
     var toolbarViewModel: FlightItinToolbarViewModel by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
             finishActivity()
         }
+    }
+    private val flightSummaryContainer: LinearLayout by lazy {
+        findViewById(R.id.flight_itin_summary_container) as LinearLayout
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

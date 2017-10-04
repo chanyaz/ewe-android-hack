@@ -1,0 +1,845 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "ce97764e-cc59-44dd-b315-351115aef5c2",
+    "webDetailsURL": "https://wwwexpediacom.integration.sb.karmalab.net/trips/79010216932",
+    "tripNumber": 79010216932,
+    "title": "Flight to West Palm Beach",
+    "updateTripNameDescPathURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/ce97764e-cc59-44dd-b315-351115aef5c2/updateTripNameDescription",
+    "startTime": {
+      "raw": "2017-12-13T23:39:00-08:00",
+      "localized": "Dec 13, 2017 11:39:00 PM",
+      "epochSeconds": 1513237140,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "12/13/2017",
+      "localizedMediumDate": "Dec 13",
+      "localizedFullDate": "Wed, Dec 13",
+      "localizedLongDate": "Dec 13, 2017",
+      "localizedShortTime": "11:39pm"
+    },
+    "endTime": {
+      "raw": "2017-12-20T00:03:00-08:00",
+      "localized": "Dec 20, 2017 12:03:00 AM",
+      "epochSeconds": 1513756980,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "12/20/2017",
+      "localizedMediumDate": "Dec 20",
+      "localizedFullDate": "Wed, Dec 20",
+      "localizedLongDate": "Dec 20, 2017",
+      "localizedShortTime": "12:03am"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-09-29T16:47:11Z",
+      "localized": "Sep 29, 2017 4:47:11 PM",
+      "epochSeconds": 1506703631,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 29 Sep",
+      "localizedMediumDate": "Sep 29, 2017",
+      "localizedFullDate": "Friday, September 29, 2017",
+      "localizedLongDate": "September 29, 2017",
+      "localizedShortTime": "4:47 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2017-09-29T16:56:46Z",
+      "localized": "Sep 29, 2017 4:56:46 PM",
+      "epochSeconds": 1506704206,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 29 Sep",
+      "localizedMediumDate": "Sep 29, 2017",
+      "localizedFullDate": "Friday, September 29, 2017",
+      "localizedLongDate": "September 29, 2017",
+      "localizedShortTime": "4:56 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2017-09-29T16:56:46Z",
+      "localized": "Sep 29, 2017 4:56:46 PM",
+      "epochSeconds": 1506704206,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 29 Sep",
+      "localizedMediumDate": "Sep 29, 2017",
+      "localizedFullDate": "Friday, September 29, 2017",
+      "localizedLongDate": "September 29, 2017",
+      "localizedShortTime": "4:56 PM"
+    },
+    "ownerId": 4197799,
+    "bookingStatus": "BOOKED",
+    "rewardList": [
+      null
+    ],
+    "sharableDetailsURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/shared/HG4Ujk-UFsQTgg3P0D9S38CATj2L-OnnHByDWEMmk4tnW3b4J_zgJywj1w21xeaZY5L52zlSmPXXbGCxj2batq65",
+    "airAttachQualificationInfo": {
+      "airAttachQualified": true,
+      "offerExpires": "2017-10-19T09:47:11.880-07:00",
+      "offerExpiresTime": {
+        "raw": "2017-10-19T09:47:11-07:00",
+        "localized": "Oct 19, 2017 9:47:11 AM",
+        "epochSeconds": 1508431631,
+        "timeZoneOffsetSeconds": -25200,
+        "localizedShortDate": "10/19/17",
+        "localizedMediumDate": "Oct 19, 2017",
+        "localizedFullDate": "Thursday, October 19, 2017",
+        "localizedLongDate": "October 19, 2017",
+        "localizedShortTime": "9:47 AM"
+      }
+    },
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1 800-397-3342",
+      "customerSupportPhoneNumberInternational": "+1 404-728-8787",
+      "customerSupportPhoneInfoForEmail": [
+        "Call us at 1-877-261-3523.",
+        "For faster service, mention <strong>itinerary #79010216932 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "flights": [
+      {
+        "uniqueID": "F781784E-8052-4A19-A7FF-A90DAAF593D1_0",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
+        "ticketingStatus": "COMPLETE",
+        "orderNumber": "8105971317074",
+        "webCancelPathURL": "https://wwwexpediacom.integration.sb.karmalab.net/flight-cancel-exchange?tripnumber=79010216932&arl=100528445&bookingid=WKOEXP",
+        "updateFrequentFlyerPathURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/ce97764e-cc59-44dd-b315-351115aef5c2/updateFrequentFlyerInformation",
+        "orderLineNumber": "67409b56-541f-4468-ac2e-20e8299e82ad",
+        "confirmationNumbers": [
+          {
+            "airlineName": "United",
+            "number": "M6F5Q9"
+          },
+          {
+            "airlineName": "Silver Airways",
+            "number": "QQWSMG"
+          },
+          {
+            "airlineName": "Alaska Airlines",
+            "number": "CAWLME"
+          }
+        ],
+        "paymentModel": "AGENCY",
+        "fareType": "PUBLISHED",
+        "flightType": "ROUND_TRIP",
+        "isInternational": false,
+        "fareTotal": {
+          "expediaServiceFee": "7.0",
+          "expediaServiceFeeFormatted": "$7.00",
+          "subTotal": "806.99",
+          "subTotalFormatted": "$806.99",
+          "totalWithoutBookingFeeFormatted": "$799.99",
+          "currency": "USD",
+          "base": "697.94",
+          "baseFormatted": "$697.94",
+          "taxes": "102.05",
+          "taxesFormatted": "$102.05",
+          "feeTotal": "7.0",
+          "feeTotalFormatted": "$7.00",
+          "total": "806.99",
+          "totalFormatted": "$806.99"
+        },
+        "farePerPassenger": [
+          {
+            "passengerIndex": 0,
+            "passengerTypeCode": "ADULT",
+            "passengerTypeCodeLocalized": "Adult",
+            "currency": "USD",
+            "base": "697.94",
+            "baseFormatted": "$697.94",
+            "taxes": "102.05",
+            "taxesFormatted": "$102.05",
+            "fees": [
+              {
+                "localizedName": "Passenger Civil Aviation Security Service Fee",
+                "amount": "11.2",
+                "amountFormatted": "$11.20"
+              },
+              {
+                "localizedName": "Transportation Tax",
+                "amount": "52.35",
+                "amountFormatted": "$52.35"
+              },
+              {
+                "localizedName": "Flight Segment Tax",
+                "amount": "20.5",
+                "amountFormatted": "$20.50"
+              },
+              {
+                "localizedName": "Passenger Facility Charge",
+                "amount": "18.0",
+                "amountFormatted": "$18.00"
+              }
+            ],
+            "total": "799.99",
+            "totalFormatted": "$799.99"
+          }
+        ],
+        "isSplitTicket": false,
+        "fulfillmentMethod": "ETICKET",
+        "passengers": [
+          {
+            "typeCode": "ADULT",
+            "typeLocalized": "Adult",
+            "title": "",
+            "firstName": "Susanna",
+            "lastName": "Van greunen",
+            "fullName": "Susanna Van greunen",
+            "age": 35,
+            "gender": "Female",
+            "dateOfBirth": "1982-4-1",
+            "TSAKnownTravelerNumber": "",
+            "passportNumber": "",
+            "passportCountryCode": "US",
+            "phoneNumbers": [
+              {
+                "countryCode": "1",
+                "phone": "2244362237"
+              }
+            ],
+            "ticketNumbers": [
+              "0167015560372"
+            ],
+            "frequentFlyerPlans": [],
+            "seats": [],
+            "emailAddress": "susanna@mobiata.com",
+            "seatPreferenceCode": "Z"
+          }
+        ],
+        "brandedFareFamilyName": "",
+        "legs": [
+          {
+            "type": "ONESTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 1,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco (SFO)",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "airportMetroCode": "QSF",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "departureTime": {
+                  "raw": "2017-12-13T23:39:00-08:00",
+                  "localized": "Dec 13, 2017 11:39:00 PM",
+                  "epochSeconds": 1513237140,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/13/2017",
+                  "localizedMediumDate": "Dec 13",
+                  "localizedFullDate": "Wed, Dec 13",
+                  "localizedLongDate": "Dec 13, 2017",
+                  "localizedShortTime": "11:39pm"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 40.69085,
+                  "longitude": -74.17747,
+                  "name": "Newark (EWR)",
+                  "longName": "Newark, NJ (EWR-Liberty Intl.)",
+                  "airportCode": "EWR",
+                  "airportMetroCode": "NYC",
+                  "city": "Newark",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " NJ",
+                  "timeZoneName": "America/New_York"
+                },
+                "arrivalTime": {
+                  "raw": "2017-12-14T07:59:00-05:00",
+                  "localized": "Dec 14, 2017 7:59:00 AM",
+                  "epochSeconds": 1513256340,
+                  "timeZoneOffsetSeconds": -18000,
+                  "localizedShortDate": "12/14/2017",
+                  "localizedMediumDate": "Dec 14",
+                  "localizedFullDate": "Thu, Dec 14",
+                  "localizedLongDate": "Dec 14, 2017",
+                  "localizedShortTime": "7:59am"
+                },
+                "departureTerminal": "3",
+                "arrivalTerminal": "C",
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "United",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "United",
+                "confirmationNUmber": "M6F5Q9",
+                "flightNumber": "1796",
+                "equipmentCode": "752",
+                "equipmentDescription": "Boeing 757-200",
+                "layoverDuration": "PT1H21M",
+                "formattedLayoverDuration": "1h 21m",
+                "distance": 2566,
+                "distanceUnits": "mi",
+                "duration": "PT5H20M",
+                "formattedDuration": "5h 20m",
+                "bookingCode": "Q",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "F781784E-8052-4A19-A7FF-A90DAAF593D1_0_L1_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              },
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 40.69085,
+                  "longitude": -74.17747,
+                  "name": "Newark (EWR)",
+                  "longName": "Newark, NJ (EWR-Liberty Intl.)",
+                  "airportCode": "EWR",
+                  "airportMetroCode": "NYC",
+                  "city": "Newark",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " NJ",
+                  "timeZoneName": "America/New_York"
+                },
+                "departureTime": {
+                  "raw": "2017-12-14T09:20:00-05:00",
+                  "localized": "Dec 14, 2017 9:20:00 AM",
+                  "epochSeconds": 1513261200,
+                  "timeZoneOffsetSeconds": -18000,
+                  "localizedShortDate": "12/14/2017",
+                  "localizedMediumDate": "Dec 14",
+                  "localizedFullDate": "Thu, Dec 14",
+                  "localizedLongDate": "Dec 14, 2017",
+                  "localizedShortTime": "9:20am"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 26.688551,
+                  "longitude": -80.090429,
+                  "name": "West Palm Beach (Palm Beach Intl.)",
+                  "longName": "West Palm Beach, FL (PBI-Palm Beach Intl.)",
+                  "airportCode": "PBI",
+                  "airportMetroCode": "PBI",
+                  "city": "West Palm Beach",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " FL",
+                  "timeZoneName": "America/New_York"
+                },
+                "arrivalTime": {
+                  "raw": "2017-12-14T12:19:00-05:00",
+                  "localized": "Dec 14, 2017 12:19:00 PM",
+                  "epochSeconds": 1513271940,
+                  "timeZoneOffsetSeconds": -18000,
+                  "localizedShortDate": "12/14/2017",
+                  "localizedMediumDate": "Dec 14",
+                  "localizedFullDate": "Thu, Dec 14",
+                  "localizedLongDate": "Dec 14, 2017",
+                  "localizedShortTime": "12:19pm"
+                },
+                "departureTerminal": "C",
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "United",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "United",
+                "confirmationNUmber": "M6F5Q9",
+                "flightNumber": "1489",
+                "equipmentCode": "738",
+                "equipmentDescription": "Boeing 737-800",
+                "formattedLayoverDuration": "",
+                "distance": 1043,
+                "distanceUnits": "mi",
+                "duration": "PT2H59M",
+                "formattedDuration": "2h 59m",
+                "bookingCode": "Q",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "F781784E-8052-4A19-A7FF-A90DAAF593D1_0_L1_S2_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              }
+            ],
+            "sharableFlightLegURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/shared/uM-BuduJS4tn7nszaCzKLcCABglLatuX1gHIEEE5jWOxMqJAGFlcHuwQdZRN6Srvmn_mPN44Lj42-Y5fKuGIVixvuwOLXKAIY3_B6iU-VJOuUcUv74nz4j0SDi_CMr3SBlN5O_8tVwmo5g8iHACFMusT",
+            "duration": "PT9H40M",
+            "formattedDuration": "9h 40m",
+            "departingAirport": {
+              "code": "SFO",
+              "name": "San Francisco (SFO)",
+              "city": "San Francisco",
+              "metroCode": "QSF",
+              "latitude": 37.61594,
+              "longitude": -122.387996,
+              "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 5195347,
+              "airportCityCode": "San Francisco, CA (SFO)",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal 1",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 2",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "International Terminal",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "arrivalAirport": {
+              "code": "PBI",
+              "name": "West Palm Beach (Palm Beach Intl.)",
+              "city": "West Palm Beach",
+              "metroCode": "PBI",
+              "latitude": 26.688551,
+              "longitude": -80.090429,
+              "longName": "West Palm Beach, FL (PBI-Palm Beach Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": true,
+              "isMetroCode": false,
+              "airportID": 4801104,
+              "airportCityCode": "West Palm Beach, FL (PBI)",
+              "terminalMaps": [],
+              "timeZoneName": "America/New_York"
+            },
+            "legDepartureTime": {
+              "raw": "2017-12-13T23:39:00-08:00",
+              "localized": "Dec 13, 2017 11:39:00 PM",
+              "epochSeconds": 1513237140,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "12/13/2017",
+              "localizedMediumDate": "Dec 13",
+              "localizedFullDate": "Wed, Dec 13",
+              "localizedLongDate": "Dec 13, 2017",
+              "localizedShortTime": "11:39pm"
+            },
+            "legArrivaltime": {
+              "raw": "2017-12-14T12:19:00-05:00",
+              "localized": "Dec 14, 2017 12:19:00 PM",
+              "epochSeconds": 1513271940,
+              "timeZoneOffsetSeconds": -18000,
+              "localizedShortDate": "12/14/2017",
+              "localizedMediumDate": "Dec 14",
+              "localizedFullDate": "Thu, Dec 14",
+              "localizedLongDate": "Dec 14, 2017",
+              "localizedShortTime": "12:19pm"
+            },
+            "fareBasisCode": "QAA7AFEN"
+          },
+          {
+            "type": "MULTISTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 2,
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 26.688551,
+                  "longitude": -80.090429,
+                  "name": "West Palm Beach (Palm Beach Intl.)",
+                  "longName": "West Palm Beach, FL (PBI-Palm Beach Intl.)",
+                  "airportCode": "PBI",
+                  "airportMetroCode": "PBI",
+                  "city": "West Palm Beach",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " FL",
+                  "timeZoneName": "America/New_York"
+                },
+                "departureTime": {
+                  "raw": "2017-12-19T08:50:00-05:00",
+                  "localized": "Dec 19, 2017 8:50:00 AM",
+                  "epochSeconds": 1513691400,
+                  "timeZoneOffsetSeconds": -18000,
+                  "localizedShortDate": "12/19/2017",
+                  "localizedMediumDate": "Dec 19",
+                  "localizedFullDate": "Tue, Dec 19",
+                  "localizedLongDate": "Dec 19, 2017",
+                  "localizedShortTime": "8:50am"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 27.979129,
+                  "longitude": -82.534736,
+                  "name": "Tampa (Tampa Intl.)",
+                  "longName": "Tampa, FL (TPA-Tampa Intl.)",
+                  "airportCode": "TPA",
+                  "airportMetroCode": "TPA",
+                  "city": "Tampa",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " FL",
+                  "timeZoneName": "America/New_York"
+                },
+                "arrivalTime": {
+                  "raw": "2017-12-19T10:01:00-05:00",
+                  "localized": "Dec 19, 2017 10:01:00 AM",
+                  "epochSeconds": 1513695660,
+                  "timeZoneOffsetSeconds": -18000,
+                  "localizedShortDate": "12/19/2017",
+                  "localizedMediumDate": "Dec 19",
+                  "localizedFullDate": "Tue, Dec 19",
+                  "localizedLongDate": "Dec 19, 2017",
+                  "localizedShortTime": "10:01am"
+                },
+                "airlineCode": "3M",
+                "externalAirlineCode": "3M",
+                "airlineName": "Silver Airways",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "Silver Airways",
+                "confirmationNUmber": "QQWSMG",
+                "flightNumber": "141",
+                "equipmentCode": "SF3",
+                "equipmentDescription": "Saab 340/340B",
+                "layoverDuration": "PT7H4M",
+                "formattedLayoverDuration": "7h 4m",
+                "distance": 178,
+                "distanceUnits": "mi",
+                "duration": "PT1H11M",
+                "formattedDuration": "1h 11m",
+                "bookingCode": "V",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "F781784E-8052-4A19-A7FF-A90DAAF593D1_0_L2_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              },
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 27.979129,
+                  "longitude": -82.534736,
+                  "name": "Tampa (Tampa Intl.)",
+                  "longName": "Tampa, FL (TPA-Tampa Intl.)",
+                  "airportCode": "TPA",
+                  "airportMetroCode": "TPA",
+                  "city": "Tampa",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " FL",
+                  "timeZoneName": "America/New_York"
+                },
+                "departureTime": {
+                  "raw": "2017-12-19T17:05:00-05:00",
+                  "localized": "Dec 19, 2017 5:05:00 PM",
+                  "epochSeconds": 1513721100,
+                  "timeZoneOffsetSeconds": -18000,
+                  "localizedShortDate": "12/19/2017",
+                  "localizedMediumDate": "Dec 19",
+                  "localizedFullDate": "Tue, Dec 19",
+                  "localizedLongDate": "Dec 19, 2017",
+                  "localizedShortTime": "5:05pm"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 47.45475,
+                  "longitude": -122.30112,
+                  "name": "Seattle (SEA)",
+                  "longName": "Seattle, WA (SEA-Seattle - Tacoma Intl.)",
+                  "airportCode": "SEA",
+                  "city": "Seattle",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " WA",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "arrivalTime": {
+                  "raw": "2017-12-19T20:30:00-08:00",
+                  "localized": "Dec 19, 2017 8:30:00 PM",
+                  "epochSeconds": 1513744200,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/19/2017",
+                  "localizedMediumDate": "Dec 19",
+                  "localizedFullDate": "Tue, Dec 19",
+                  "localizedLongDate": "Dec 19, 2017",
+                  "localizedShortTime": "8:30pm"
+                },
+                "airlineCode": "AS",
+                "externalAirlineCode": "AS",
+                "airlineName": "Alaska Airlines",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "Alaska Airlines",
+                "confirmationNUmber": "CAWLME",
+                "flightNumber": "523",
+                "equipmentCode": "739",
+                "equipmentDescription": "Boeing 737-900",
+                "layoverDuration": "PT1H16M",
+                "formattedLayoverDuration": "1h 16m",
+                "distance": 2516,
+                "distanceUnits": "mi",
+                "duration": "PT6H25M",
+                "formattedDuration": "6h 25m",
+                "bookingCode": "V",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "F781784E-8052-4A19-A7FF-A90DAAF593D1_0_L2_S2_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              },
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 47.45475,
+                  "longitude": -122.30112,
+                  "name": "Seattle (SEA)",
+                  "longName": "Seattle, WA (SEA-Seattle - Tacoma Intl.)",
+                  "airportCode": "SEA",
+                  "city": "Seattle",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " WA",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "departureTime": {
+                  "raw": "2017-12-19T21:46:00-08:00",
+                  "localized": "Dec 19, 2017 9:46:00 PM",
+                  "epochSeconds": 1513748760,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/19/2017",
+                  "localizedMediumDate": "Dec 19",
+                  "localizedFullDate": "Tue, Dec 19",
+                  "localizedLongDate": "Dec 19, 2017",
+                  "localizedShortTime": "9:46pm"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco (SFO)",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "airportMetroCode": "QSF",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "arrivalTime": {
+                  "raw": "2017-12-20T00:03:00-08:00",
+                  "localized": "Dec 20, 2017 12:03:00 AM",
+                  "epochSeconds": 1513756980,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/20/2017",
+                  "localizedMediumDate": "Dec 20",
+                  "localizedFullDate": "Wed, Dec 20",
+                  "localizedLongDate": "Dec 20, 2017",
+                  "localizedShortTime": "12:03am"
+                },
+                "arrivalTerminal": "I",
+                "airlineCode": "AS",
+                "externalAirlineCode": "AS",
+                "airlineName": "Alaska Airlines",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "Alaska Airlines",
+                "confirmationNUmber": "CAWLME",
+                "flightNumber": "300",
+                "equipmentCode": "738",
+                "equipmentDescription": "Boeing 737-800",
+                "formattedLayoverDuration": "",
+                "distance": 679,
+                "distanceUnits": "mi",
+                "duration": "PT2H17M",
+                "formattedDuration": "2h 17m",
+                "bookingCode": "R",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "F781784E-8052-4A19-A7FF-A90DAAF593D1_0_L2_S3_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false
+              }
+            ],
+            "sharableFlightLegURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/shared/v2HaVjVtrcjKM8bJ22yrP8CA1IYNF5ri16LBFI3pPyLLEtOfgh7nBB94ttt779v8R-mvVylWRSHKxQGWgb1KGlzuIdo4_P6X8aPu72NDQzhAoqM44XDEMX97M4L9b8Jovg-PF1qb5LbCOMS0AvKkRu18",
+            "duration": "PT18H13M",
+            "formattedDuration": "18h 13m",
+            "departingAirport": {
+              "code": "PBI",
+              "name": "West Palm Beach (Palm Beach Intl.)",
+              "city": "West Palm Beach",
+              "metroCode": "PBI",
+              "latitude": 26.688551,
+              "longitude": -80.090429,
+              "longName": "West Palm Beach, FL (PBI-Palm Beach Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": true,
+              "isMetroCode": false,
+              "airportID": 4801104,
+              "airportCityCode": "West Palm Beach, FL (PBI)",
+              "terminalMaps": [],
+              "timeZoneName": "America/New_York"
+            },
+            "arrivalAirport": {
+              "code": "SFO",
+              "name": "San Francisco (SFO)",
+              "city": "San Francisco",
+              "metroCode": "QSF",
+              "latitude": 37.61594,
+              "longitude": -122.387996,
+              "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 5195347,
+              "airportCityCode": "San Francisco, CA (SFO)",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal 1",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 2",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "International Terminal",
+                  "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "legDepartureTime": {
+              "raw": "2017-12-19T08:50:00-05:00",
+              "localized": "Dec 19, 2017 8:50:00 AM",
+              "epochSeconds": 1513691400,
+              "timeZoneOffsetSeconds": -18000,
+              "localizedShortDate": "12/19/2017",
+              "localizedMediumDate": "Dec 19",
+              "localizedFullDate": "Tue, Dec 19",
+              "localizedLongDate": "Dec 19, 2017",
+              "localizedShortTime": "8:50am"
+            },
+            "legArrivaltime": {
+              "raw": "2017-12-20T00:03:00-08:00",
+              "localized": "Dec 20, 2017 12:03:00 AM",
+              "epochSeconds": 1513756980,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "12/20/2017",
+              "localizedMediumDate": "Dec 20",
+              "localizedFullDate": "Wed, Dec 20",
+              "localizedLongDate": "Dec 20, 2017",
+              "localizedShortTime": "12:03am"
+            },
+            "fareBasisCode": "V21N4"
+          }
+        ],
+        "rules": {
+          "bookingFeeText": "This price includes a nonrefundable booking fee.",
+          "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+          "bookingFeeLegalText": "An additional non-refundable administration fees is applied for flights booked on a standalone basis through the Call Centre. Customers are informed of the administration fee by their Call Centre Agent at the time of their call.",
+          "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+          "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+          "isRefundable": false,
+          "completePenaltyRules": {
+            "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+            "url": "https://wwwexpediacom.integration.sb.karmalab.net/Fare-Rules?tripid=ce97764e-cc59-44dd-b315-351115aef5c2",
+            "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://wwwexpediacom.integration.sb.karmalab.net/Fare-Rules?tripid=ce97764e-cc59-44dd-b315-351115aef5c2\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> applicable to this fare.",
+            "apiURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/79010216932/items/F781784E-8052-4A19-A7FF-A90DAAF593D1_0/gdsFareRulesText?useCache=true"
+          },
+          "additionalAirlineFees": {
+            "text": "The airline may charge additional fees for checked baggage or other optional services.",
+            "url": "https://wwwexpediacom.integration.sb.karmalab.net/Flights-BagFees?originapt=SFO&destinationapt=PBI&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=QAA7AFEN&bookingclass=Q&travelDate=2017-12-13&flightNumber=1796",
+            "textAndURL": "The airline may charge <a href=\"https://wwwexpediacom.integration.sb.karmalab.net/Flights-BagFees?originapt=SFO&destinationapt=PBI&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=QAA7AFEN&bookingclass=Q&travelDate=2017-12-13&flightNumber=1796\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> for checked baggage or other optional services."
+          },
+          "airlineLiabilityLimitations": {
+            "text": "Please read important information regarding airline liability limitations.",
+            "url": "https://wwwexpediacom.integration.sb.karmalab.net/p/info-main/warsaw?",
+            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://wwwexpediacom.integration.sb.karmalab.net/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+          },
+          "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+          "railFeederMessages": [],
+          "expediaChangeFeeChargeable": false,
+          "hasElectronicsBannedMessage": false
+        },
+        "sharableItemDetailURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/shared/uA35kq-EhN-flZeHAjuaQ8CAUTUir_UXTXeLhHHn6CuWUG6wKGsFYd9W5THM-zkMk3tc9OGTBvKXOM7o9mnpfxJ1034rajW5lnJwnWoxS01FfcZs-_2Cy3fGz6i0Epz_tyAxap-jb8bB97Cs4KE16-Dw",
+        "airRecordLocator": "100528445",
+        "isSeatMapAvailable": true,
+        "ticketingTime": {
+          "raw": "2017-09-29T09:51:00-07:00",
+          "localized": "Sep 29, 2017 9:51:00 AM",
+          "epochSeconds": 1506703860,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Fri, 29 Sep",
+          "localizedMediumDate": "Sep 29, 2017",
+          "localizedFullDate": "Friday, September 29, 2017",
+          "localizedLongDate": "September 29, 2017",
+          "localizedShortTime": "9:51 AM"
+        },
+        "webChangePathURL": "https://wwwexpediacom.integration.sb.karmalab.net/flight-change-gds?tripnumber=79010216932&arl=100528445&cname=United",
+        "bookingProvider": "SABRE",
+        "hasTrainTransfer": false,
+        "ticketingAirCarrierNames": [
+          "United"
+        ],
+        "isLccOrCharter": false,
+        "destinationRegionId": 4801104,
+        "action": {
+          "isChangeable": false,
+          "isCancellable": false
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "806.99",
+      "totalFormatted": "$806.99"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "isMRP": false,
+    "tripDataSource": "EXPWEB",
+    "isTripUpgradable": false,
+    "isRewardsPointsBooking": false
+  }
+}

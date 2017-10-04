@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    style="@style/MaterialCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="11dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--airline name widget-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <ImageView
+                android:id="@+id/flight_itin_airline_logo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_itin_airline_name"
+                style="@style/FlightItinAirlineName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/flight_itin_airline_operated_by"
+                app:layout_constraintLeft_toRightOf="@+id/flight_itin_airline_logo"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Alaska airlines 4584" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_itin_airline_operated_by"
+                style="@style/FlightItinOperatedBy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/flight_itin_airline_logo"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flight_itin_airline_name"
+                tools:text="Operated by Virgin Airlines"
+                tools:visibility="visible" />
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/itin_card_summary_divider_color" />
+
+        <!--airline timing widget-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <LinearLayout
+                android:id="@+id/flight_itin_departure_details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/flight_itin_to_arrow"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_itin_departure_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="6dp"
+                    android:textColor="@color/gray10"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="6:45am" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_itin_departure_airport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray600"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    tools:text="Seattle (SEA)" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/flight_itin_to_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/itin_flight_summary_arrow_cont_desc"
+                android:focusable="true"
+                android:tint="@color/gray10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/flight_itin_departure_details"
+                app:layout_constraintRight_toLeftOf="@+id/flight_itin_arrival_details"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/itin_arrow_icon" />
+
+            <LinearLayout
+                android:id="@+id/flight_itin_arrival_details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:gravity="right"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/flight_itin_to_arrow"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_itin_arrival_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/gray10"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="8:45am" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_itin_arrival_airport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray600"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    tools:text="San Francisco (SFO)" />
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

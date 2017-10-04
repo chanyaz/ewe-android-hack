@@ -23,5 +23,21 @@
         android:background="@color/gray100"
         android:fadingEdge="none">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp">
+
+            <LinearLayout
+                android:id="@+id/flight_itin_summary_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp" />
+        </LinearLayout>
+
     </com.expedia.bookings.widget.ScrollView>
 </LinearLayout>

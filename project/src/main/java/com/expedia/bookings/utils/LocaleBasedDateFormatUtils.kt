@@ -68,6 +68,14 @@ object LocaleBasedDateFormatUtils {
         }
     }
 
+    @JvmStatic fun dateTimeTohmma(date: DateTime): String {
+        if (isUserBucketed) {
+            return formatDateTimeBasedOnLocale(date, "h:mma")
+        } else {
+            return date.toString("h:mma")
+        }
+    }
+
     private fun formatLocalDateBasedOnLocale(date: LocalDate, pattern: String): String {
         var formattedDate: String
         try {

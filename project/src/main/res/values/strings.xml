@@ -1604,6 +1604,12 @@
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
     <string name="itin_flight_toolbar_title_TEMPLATE">Flight to {destination}</string>
+    <!--Flight itin summary widget - to arrow content description-->
+    <string name="itin_flight_summary_arrow_cont_desc">To</string>
+    <!--Flight itin summary widget airport name template. {city} ({code}) (e.g., San Francisco (SFO))-->
+    <string name="itin_flight_summary_airport_name_code_TEMPLATE">{city} ({code})</string>
+    <!--Flight itin summary widget operated by template. Operated by {operatedby} (e.g., Operated by Delta)-->
+    <string name="itin_flight_summary_operated_by_TEMPLATE">Operated by {operatedby}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

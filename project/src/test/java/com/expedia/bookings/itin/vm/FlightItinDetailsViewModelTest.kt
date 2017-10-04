@@ -22,6 +22,8 @@ class FlightItinDetailsViewModelTest {
 
     val itinCardDataValidSubscriber = TestSubscriber<Unit>()
     val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
+    val clearLegSummaryContainerSubscriber = TestSubscriber<Unit>()
+    val createLegSummaryWidgetsSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
 
     @Before
     fun setup() {
@@ -66,5 +68,69 @@ class FlightItinDetailsViewModelTest {
         sut.itineraryManager = mockItinManager
         sut.onResume()
         updateToolbarSubscriber.assertValue(ItinToolbarViewModel.ToolbarParams("Las Vegas", startDate, true))
+    }
+
+    @Test
+    fun testUpdateLegSummaryWidget() {
+        sut.clearLegSummaryContainerSubject.subscribe(clearLegSummaryContainerSubscriber)
+        sut.createSegmentSummaryWidgetsSubject.subscribe(createLegSummaryWidgetsSubscriber)
+
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val departureTime = testItinCardData.flightLeg.segments[0].originWaypoint.bestSearchDateTime
+        val arrivalTime = testItinCardData.flightLeg.segments[0].destinationWaypoint.bestSearchDateTime
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateLegSummaryWidget()
+        clearLegSummaryContainerSubscriber.assertValueCount(1)
+        clearLegSummaryContainerSubscriber.assertValue(Unit)
+        createLegSummaryWidgetsSubscriber.assertValueCount(1)
+        createLegSummaryWidgetsSubscriber.assertValue(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
+                "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+                "United Airlines 681",
+                "COMPASS AIRLINES",
+                departureTime,
+                arrivalTime,
+                "SFO",
+                "San Francisco",
+                "LAS",
+                "Las Vegas"
+        ))
+    }
+
+    @Test
+    fun testUpdateLegSummaryWidgetMultiSegment() {
+        sut.clearLegSummaryContainerSubject.subscribe(clearLegSummaryContainerSubscriber)
+        sut.createSegmentSummaryWidgetsSubject.subscribe(createLegSummaryWidgetsSubscriber)
+
+        val testItinCardData = ItinCardDataFlightBuilder().build(multiSegment = true)
+        val departureTimeSegment1 = testItinCardData.flightLeg.segments[0].originWaypoint.bestSearchDateTime
+        val arrivalTimeSegment1 = testItinCardData.flightLeg.segments[0].destinationWaypoint.bestSearchDateTime
+        val departureTimeSegment2 = testItinCardData.flightLeg.segments[1].originWaypoint.bestSearchDateTime
+        val arrivalTimeSegment2 = testItinCardData.flightLeg.segments[1].destinationWaypoint.bestSearchDateTime
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateLegSummaryWidget()
+        clearLegSummaryContainerSubscriber.assertValueCount(1)
+        clearLegSummaryContainerSubscriber.assertValue(Unit)
+        createLegSummaryWidgetsSubscriber.assertValueCount(2)
+        createLegSummaryWidgetsSubscriber.assertValues(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
+                "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+                "United Airlines 1796",
+                null,
+                departureTimeSegment1,
+                arrivalTimeSegment1,
+                "SFO",
+                "San Francisco",
+                "EWR",
+                "Newark"
+        ), FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
+                "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+                "United Airlines 1489",
+                null,
+                departureTimeSegment2,
+                arrivalTimeSegment2,
+                "EWR",
+                "Newark",
+                "PBI",
+                "West Palm Beach"
+        ))
     }
 }
