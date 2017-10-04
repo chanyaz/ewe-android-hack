@@ -436,8 +436,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     private fun displayFlightDropDownRoutes(): Boolean {
         return PointOfSale.getPointOfSale().displayFlightDropDownRoutes() &&
-                FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesSearchAirportDropDown,
-                R.string.preference_packages_search_airport_dropdown)
+                FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_search_airport_dropdown)
     }
 
     private fun getDefaultSearchPresenterClassName(): String {
