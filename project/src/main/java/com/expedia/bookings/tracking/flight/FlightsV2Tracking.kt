@@ -8,16 +8,19 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.presenter.flight.FlightSummaryWidget
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
 
 object FlightsV2Tracking {
-    fun trackSearchClick() {
+    fun trackSearchClick(flightSearchParams: FlightSearchParams) {
         OmnitureTracking.trackFlightSearchButtonClick()
+        CarnivalUtils.getInstance().trackFlightSearch(flightSearchParams.destination?.regionNames?.fullName, flightSearchParams.adults, flightSearchParams.departureDate)
     }
 
     fun trackSRPScrollDepth(scrollDepth: Int, isOutboundFlight: Boolean, isRoundTrip: Boolean, totalCount: Int) {
@@ -97,11 +100,16 @@ object FlightsV2Tracking {
 
     fun trackShowFlightOverView(flightSearchParams: FlightSearchParams, flightCreateTripResponse: FlightCreateTripResponse,
                                 overviewPageUsableData: PageUsableData, outboundSelectedAndTotalLegRank: Pair<Int, Int>?, inboundSelectedAndTotalLegRank: Pair<Int, Int>?,
-                                isFareFamilyAvailable: Boolean, isFareFamilySelected: Boolean, hasSubPub: Boolean) {
+                                isFareFamilyAvailable: Boolean, isFareFamilySelected: Boolean, hasSubPub: Boolean, flightSummary: FlightSummaryWidget) {
         OmnitureTracking.trackShowFlightOverView(flightSearchParams, overviewPageUsableData, outboundSelectedAndTotalLegRank, inboundSelectedAndTotalLegRank,
                 isFareFamilyAvailable, isFareFamilySelected, hasSubPub)
         TuneUtils.trackFlightV2RateDetailOverview(flightSearchParams)
         FacebookEvents().trackFlightV2Detail(flightSearchParams, flightCreateTripResponse)
+
+        CarnivalUtils.getInstance().trackFlightCheckoutStart(flightSearchParams.destination?.regionNames?.fullName,
+                flightSearchParams.adults, flightSearchParams.departureDate,
+                flightSummary.outboundFlightWidget.viewModel.flight.value,
+                flightSummary.inboundFlightWidget.viewModel.flight.value, flightSearchParams.isRoundTrip())
     }
 
     fun trackFareFamilyCardViewClick(isUpgradingFlight: Boolean){

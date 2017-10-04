@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import com.carnival.sdk.AttributeMap
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -72,6 +73,62 @@ class CarnivalUtilsTest : CarnivalUtils() {
         assertEquals(attributesToSend.get("product_view_hotel_number_of_adults"), 2)
         assertEquals(attributesToSend.get("product_view_hotel_check-in_date"), LocalDate.now().toDate())
         assertEquals(attributesToSend.get("product_view_hotel_length_of_stay"), 3)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackFlightSearch() {
+        reset()
+
+        this.trackFlightSearch("Orlando - MCO", 2, LocalDate.now())
+
+        assertEquals(eventNameToLog, "search_flight")
+        assertEquals(attributesToSend.get("search_flight_destination"), "Orlando - MCO")
+        assertEquals(attributesToSend.get("search_flight_number_of_adults"), 2)
+        assertEquals(attributesToSend.get("search_flight_departure_date"), LocalDate.now().toDate())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackFlightCheckoutStart() {
+        reset()
+
+        val outboundLeg = FlightLeg()
+        val outboundSegment = FlightLeg.FlightSegment()
+        outboundSegment.durationHours = 2
+        outboundSegment.durationMinutes = 30
+        outboundSegment.layoverDurationHours = 0
+        outboundSegment.layoverDurationMinutes = 0
+        outboundSegment.airlineName = "Delta"
+        outboundSegment.flightNumber = "103"
+        val outboundSegment2 = FlightLeg.FlightSegment()
+        outboundSegment2.durationHours = 1
+        outboundSegment2.durationMinutes = 0
+        outboundSegment2.layoverDurationHours = 0
+        outboundSegment2.layoverDurationMinutes = 0
+        outboundSegment2.airlineName = "Delta"
+        outboundSegment2.flightNumber = "123"
+        outboundLeg.segments = listOf(outboundSegment, outboundSegment2)
+
+        val inboundLeg = FlightLeg()
+        val inboundSegment = FlightLeg.FlightSegment()
+        inboundSegment.durationHours = 1
+        inboundSegment.durationMinutes = 15
+        inboundSegment.layoverDurationHours = 0
+        inboundSegment.layoverDurationMinutes = 45
+        inboundSegment.airlineName = "United"
+        inboundSegment.flightNumber = "212"
+        inboundLeg.segments = listOf(inboundSegment)
+
+        this.trackFlightCheckoutStart("Orlando - MCO", 2, LocalDate.now(), outboundLeg, inboundLeg, true)
+
+        assertEquals(eventNameToLog, "checkout_start_flight")
+        assertEquals(attributesToSend.get("checkout_start_flight_destination"), "Orlando - MCO")
+        assertEquals(attributesToSend.get("checkout_start_flight_airline"), arrayListOf("Delta","United"))
+        assertEquals(attributesToSend.get("checkout_start_flight_flight_number"), arrayListOf("123","212", "103"))
+        assertEquals(attributesToSend.get("checkout_start_flight_number_of_adults"), 2)
+        assertEquals(attributesToSend.get("checkout_start_flight_departure_date"), LocalDate.now().toDate())
+        assertEquals(attributesToSend.get("checkout_start_flight_length_of_flight"), "5:30")
     }
 
     @Test

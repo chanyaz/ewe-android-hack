@@ -308,7 +308,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, createTripResponse, overviewPageUsableData,
                 viewModel.outboundSelectedAndTotalLegRank, viewModel.inboundSelectedAndTotalLegRank,
                 (!createTripResponse.getOffer().isSplitTicket && fareFamilyDetails?.firstOrNull() != null),
-                createTripResponse.isFareFamilyUpgraded, (discountAmount != null && !discountAmount.isZero))
+                createTripResponse.isFareFamilyUpgraded, (discountAmount != null && !discountAmount.isZero), flightSummary)
     }
 
     override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {

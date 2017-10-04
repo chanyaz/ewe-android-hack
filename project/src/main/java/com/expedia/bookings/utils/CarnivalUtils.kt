@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Carnival
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -45,6 +46,19 @@ open class CarnivalUtils {
             attributes.putInt("search_flight_number_of_adults", adults)
             attributes.putDate("search_flight_departure_date", departure_date.toDate())
             setAttributes(attributes, "search_flight")
+        }
+    }
+
+    fun trackFlightCheckoutStart(destination: String?, adults: Int, departure_date: LocalDate, outboundFlight: FlightLeg?, inboundFlight: FlightLeg?, isRoundTrip: Boolean) {
+        if (isFeatureToggledOn() && initialized) {
+            val attributes = AttributeMap()
+            attributes.putString("checkout_start_flight_destination", destination)
+            attributes.putStringArray("checkout_start_flight_airline", getAllAirlinesInTrip(outboundFlight, inboundFlight, isRoundTrip))
+            attributes.putStringArray("checkout_start_flight_flight_number", getAllFlightNumbersInTrip(outboundFlight, inboundFlight, isRoundTrip))
+            attributes.putInt("checkout_start_flight_number_of_adults", adults)
+            attributes.putDate("checkout_start_flight_departure_date", departure_date.toDate())
+            attributes.putString("checkout_start_flight_length_of_flight", calculateTotalTravelTime(outboundFlight, inboundFlight, isRoundTrip))
+            setAttributes(attributes, "checkout_start_flight")
         }
     }
 
@@ -114,5 +128,49 @@ open class CarnivalUtils {
                 Log.d(TAG, error.message)
             }
         })
+    }
+
+    private fun getAllAirlinesInTrip(outboundLeg: FlightLeg?, inboundLeg: FlightLeg?, isRoundTrip: Boolean) : ArrayList<String> {
+        val segmentAirlines = hashSetOf<String>()
+        outboundLeg?.segments?.mapTo(segmentAirlines) { it.airlineName }
+
+        if(isRoundTrip) {
+            inboundLeg?.segments?.mapTo(segmentAirlines) { it.airlineName }
+        }
+
+        return ArrayList(segmentAirlines.distinct())
+    }
+
+    private fun getAllFlightNumbersInTrip(outboundLeg: FlightLeg?, inboundLeg: FlightLeg?, isRoundTrip: Boolean) : ArrayList<String> {
+        val segmentFlightNumbers = hashSetOf<String>()
+        outboundLeg?.segments?.mapTo(segmentFlightNumbers) { it.flightNumber }
+
+        if (isRoundTrip) {
+            inboundLeg?.segments?.mapTo(segmentFlightNumbers) { it.flightNumber }
+        }
+
+        return ArrayList(segmentFlightNumbers.distinct())
+    }
+
+    private fun calculateTotalTravelTime(outboundFlight: FlightLeg?, inboundFlight: FlightLeg?, isRoundTrip: Boolean) : String {
+        var totalDuration = 0
+        val totalSegments = arrayListOf<FlightLeg.FlightSegment>()
+
+        if (isRoundTrip && inboundFlight != null) {
+            totalSegments.addAll(inboundFlight.segments)
+        }
+
+        if (outboundFlight != null) {
+            totalSegments.addAll(outboundFlight.segments)
+        }
+
+        for (segment in totalSegments) {
+            totalDuration += (segment.durationHours * 60) + segment.durationMinutes
+            totalDuration += (segment.layoverDurationHours * 60) + segment.layoverDurationMinutes
+        }
+
+        val hours = totalDuration / 60
+        val minutes = totalDuration % 60
+        return String.format("%d:%02d", hours, minutes)
     }
 }

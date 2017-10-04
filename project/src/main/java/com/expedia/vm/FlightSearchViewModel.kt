@@ -19,7 +19,6 @@ import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
 import com.expedia.util.FlightCalendarRules
@@ -161,10 +160,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             travelerValidator.updateForNewSearch(flightSearchParams)
             Db.setFlightSearchParams(flightSearchParams)
             searchParamsObservable.onNext(flightSearchParams)
-            FlightsV2Tracking.trackSearchClick()
-            if (FeatureToggleUtil.isFeatureEnabled(this.context, R.string.preference_new_carnival_notifications)) {
-                CarnivalUtils.getInstance().trackFlightSearch(flightSearchParams.destination?.regionNames?.fullName, flightSearchParams.adults, flightSearchParams.departureDate)
-            }
+            FlightsV2Tracking.trackSearchClick(flightSearchParams)
             if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
                 SearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
