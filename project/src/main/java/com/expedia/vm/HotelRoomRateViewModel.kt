@@ -9,11 +9,12 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
 import com.mobiata.android.text.StrikethroughTagHandler
@@ -54,6 +55,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val dailyPricePerNightObservable = BehaviorSubject.create<String>()
     val perNightPriceVisibleObservable = BehaviorSubject.create<Boolean>()
+    val perNightPriceObservable = BehaviorSubject.create<String>()
     val depositTermsClickedObservable = PublishSubject.create<Unit>()
     val dailyMandatoryFeeMessageObservable = BehaviorSubject.create<String>()
 
@@ -214,6 +216,9 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         val bookContentDescription = Phrase.from(context, R.string.book_room_button_content_description_TEMPLATE)
                 .put("room", roomTypeObservable.value ?: "").format().toString()
         bookButtonContentDescriptionObservable.onNext(bookContentDescription)
+        if (lob == LineOfBusiness.PACKAGES && isMidAPIEnabled(context)) {
+            perNightPriceObservable.onNext(context.getString(R.string.price_per_person))
+        }
     }
 
     init {

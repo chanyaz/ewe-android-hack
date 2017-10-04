@@ -169,6 +169,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         vm.collapsedBedTypeObservable.subscribeText(collapsedBedType)
         vm.expandedBedTypeObservable.subscribeText(expandedBedType)
         vm.perNightPriceVisibleObservable.map { it && !vm.onlyShowTotalPrice.value }.subscribeVisibility(pricePerDescriptor)
+        vm.perNightPriceObservable.subscribeText(pricePerDescriptor)
         vm.expandedAmenityObservable.subscribe { text ->
             expandedAmenity.setTextAndVisibility(text)
         }
