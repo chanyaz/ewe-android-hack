@@ -54,6 +54,7 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		super.setUp();
 		mActivity = getActivity();
 		assertNotNull(mActivity);
+		
 	}
 
 	@After
