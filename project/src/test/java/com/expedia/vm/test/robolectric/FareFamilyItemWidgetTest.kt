@@ -190,6 +190,14 @@ class FareFamilyItemWidgetTest {
         assertEquals("Trip Total: Economy Flexible", tripTotalTextView.text)
     }
 
+    @Test
+    fun testFareFamilyItemVerifyToolBarTitle() {
+        Db.setFlightSearchParams(setupFlightSearchParams(2, 2, true))
+        fareFamilyWidget.viewModel.tripObservable.onNext(flightCreateTripResponse)
+        fareFamilyWidget.viewModel.showFareFamilyObservable.onNext(Unit)
+        val toolBarTitle = fareFamilyWidget.toolbar.title
+        assertEquals("Select your fare", toolBarTitle.toString())
+    }
 
     private fun setupFlightSearchParams(adultCount: Int, childCount: Int, isroundTrip: Boolean): FlightSearchParams {
         val departureSuggestion = SuggestionV4()

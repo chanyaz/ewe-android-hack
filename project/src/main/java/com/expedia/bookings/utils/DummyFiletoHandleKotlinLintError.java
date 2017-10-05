@@ -1229,7 +1229,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_fare_family_upgrade_unavailable_error_title,
 		R.string.flight_fare_family_upgrade_unavailable_error_message_one_way_TEMPLATE,
 		R.string.flight_fare_family_upgrade_unavailable_error_message_round_trip_TEMPLATE,
-		R.string.cabin_class,
+		R.string.select_your_fare,
 		R.string.cabin_code_TEMPLATE,
 		R.string.flight_departure_arrival_code_round_trip_TEMPLATE,
 		R.string.flight_departure_arrival_code_one_way_TEMPLATE,

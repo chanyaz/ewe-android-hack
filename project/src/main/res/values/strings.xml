@@ -790,8 +790,8 @@
     <!-- "Done" list header label -->
     <string name="Done">Done</string>
 
-    <!-- Cabin Class label -->
-    <string name="cabin_class">Cabin Class</string>
+    <!-- Select your fare label -->
+    <string name="select_your_fare">Select your fare</string>
 
     <!-- Cabin: Economy -->
     <string name="cabin_code_TEMPLATE">Cabin: {cabincode}</string>

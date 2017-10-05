@@ -127,7 +127,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
         totalPriceWidget.visibility = View.VISIBLE
         totalPriceWidget.viewModel = FareFamilyTotalPriceViewModel(context)
         toolbar.inflateMenu(R.menu.action_mode_done)
-        toolbar.title = resources.getString(R.string.cabin_class)
+        toolbar.title = resources.getString(R.string.select_your_fare)
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
