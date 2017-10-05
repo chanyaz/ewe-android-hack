@@ -10,7 +10,6 @@
     <color name="lob_btn_color">#006e8c</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
-    <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="preferences_text">#495863</color>
 
     <!--Splash-->
@@ -46,14 +45,11 @@
 
     <color name="action_bar_flight_text_color">@color/actionbar_text_lm</color>
 
-    <!-- Cars and LX -->
-    <color name="cars_primary_color">@color/last_minute_primary_color</color>
+    <!-- LX -->
     <color name="lx_primary_color">#E40088</color>
     <color name="lx_ripple_color">#A1266C</color>
     <color name="lx_secondary_color_disabled">#fd20a4</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-
-    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Launch screen colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>

@@ -30,7 +30,7 @@
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
         <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
-        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_lx</item>
         <item name="spinner_traveler_text_color_drawable">@drawable/flight_traveler_text_color</item>
     </style>
 
