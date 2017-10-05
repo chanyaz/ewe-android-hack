@@ -28,9 +28,7 @@
     <color name="hotel_promo_background">#00812f</color>
     <color name="hotel_mobile_exclusive_color">#27317a</color>
 
-    <!-- Cars and LX-->
-    <color name="cars_primary_color">#BA0A98</color>
-    <color name="cars_secondary_color">#BA0A98</color>
+    <!-- LX -->
     <color name="lx_primary_color">#EFBA00</color>
     <color name="lx_ripple_color">#DB6F0D</color>
     <color name="lx_secondary_color_disabled">#EFBA00</color>
