@@ -2254,7 +2254,7 @@
     <!-- redress number icon content description -->
     <string name="redress_number_icon_cont_desc">What is a redress number?</string>
     <!--Frequent flyer program name hint -->
-    <string name="frequent_flyer_program_name">Frequent flyer program</string>
+    <string name="frequent_flyer_program_name">Frequent Flyer Program</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
     <string name="frequent_flyer_programs">Programs</string>
     <!--Frequent flyer program number hint -->

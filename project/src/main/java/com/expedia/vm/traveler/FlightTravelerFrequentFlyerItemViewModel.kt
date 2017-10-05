@@ -3,6 +3,7 @@ package com.expedia.vm.traveler
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
+import com.expedia.bookings.utils.Strings
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.LinkedHashMap
@@ -59,12 +60,15 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
         traveler.frequentFlyerMemberships.asIterable().forEach { plan ->
             val tripResponse = FrequentFlyerPlansTripResponse()
             val airlineCode = plan.key
-            tripResponse.airlineCode = airlineCode
-            tripResponse.frequentFlyerPlanName = allFrequentFlyerPlans[airlineCode]?.frequentFlyerPlanName ?: ""
-            tripResponse.membershipNumber = plan.value.membershipNumber
-            tripResponse.frequentFlyerPlanID = allFrequentFlyerPlans[airlineCode]?.frequentFlyerPlanID ?: ""
-            tripResponse.frequentFlyerPlanCode = allFrequentFlyerPlans[airlineCode]?.frequentFlyerPlanCode ?: ""
-            enrolledPlans.put(airlineCode, tripResponse)
+            val membershipNumber = plan.value.membershipNumber
+            if (Strings.isNotEmpty(airlineCode) && Strings.isNotEmpty(membershipNumber)) {
+                tripResponse.airlineCode = airlineCode
+                tripResponse.frequentFlyerPlanName = allFrequentFlyerPlans[airlineCode]?.frequentFlyerPlanName ?: ""
+                tripResponse.membershipNumber = membershipNumber
+                tripResponse.frequentFlyerPlanID = allFrequentFlyerPlans[airlineCode]?.frequentFlyerPlanID ?: ""
+                tripResponse.frequentFlyerPlanCode = allFrequentFlyerPlans[airlineCode]?.frequentFlyerPlanCode ?: ""
+                enrolledPlans.put(airlineCode, tripResponse)
+            }
         }
         return enrolledPlans
     }

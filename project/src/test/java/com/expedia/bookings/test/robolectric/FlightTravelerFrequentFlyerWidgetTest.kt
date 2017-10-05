@@ -268,6 +268,15 @@ class FlightTravelerFrequentFlyerWidgetTest {
         assertViewFocusabilityIsFalse(frequentFlyerProgram)
     }
 
+    @Test
+    fun testFFNDialogEnrolledProgramsHidesProgramsWithoutNumbers() {
+        Db.getTravelers()[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "", "AA", "AA-A1"))
+        givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = false)
+
+        val frequentFlyerViewHolder = getViewHolderAndOpen()
+        assertEquals(0, frequentFlyerViewHolder.viewModel.enrolledPlans.size)
+    }
+
     private fun setupVisibilityAndCardTestSubscribers(visibilitySubscriber: TestSubscriber<Boolean>,
                                                       cardsSubscriber: TestSubscriber<List<FrequentFlyerCard>>,
                                                       numOfSegments: Int) {
