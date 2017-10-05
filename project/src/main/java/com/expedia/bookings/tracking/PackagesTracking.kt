@@ -87,11 +87,7 @@ class PackagesTracking {
     fun trackCheckoutPaymentSelectStoredCard() {
         OmnitureTracking.trackPackagesPaymentStoredCCSelect()
     }
-
-    fun trackCheckoutAddPaymentType() {
-        OmnitureTracking.trackPackagesPaymentEdit()
-    }
-
+    
     fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData) {
         OmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
     }

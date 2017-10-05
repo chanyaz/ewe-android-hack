@@ -329,10 +329,6 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2ConfirmationCrossSell(businessType)
         }
 
-        fun trackHotelPaymentEdit() {
-            OmnitureTracking.trackHotelV2PaymentEdit()
-        }
-
         fun trackHotelExpandCoupon() {
             OmnitureTracking.trackHotelV2ExpandCoupon()
         }

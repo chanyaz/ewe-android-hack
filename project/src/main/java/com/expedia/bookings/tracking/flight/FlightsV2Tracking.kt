@@ -160,10 +160,6 @@ object FlightsV2Tracking {
         OmnitureTracking.trackPaymentStoredCCSelect()
     }
 
-    fun trackShowPaymentEdit() {
-        OmnitureTracking.trackShowPaymentEdit()
-    }
-
     fun trackCheckoutSelectPaymentClick() {
         OmnitureTracking.trackPaymentSelect()
     }

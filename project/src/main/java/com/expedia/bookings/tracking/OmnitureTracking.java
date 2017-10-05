@@ -4093,14 +4093,23 @@ public class OmnitureTracking {
 	}
 
 	public static void trackCheckoutPayment(LineOfBusiness lineOfBusiness) {
-		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
-			trackAppCarCheckoutPayment();
-		}
-		else if (lineOfBusiness.equals(LineOfBusiness.LX) || lineOfBusiness.equals(LineOfBusiness.TRANSPORT)) {
-			trackAppLXCheckoutPayment(lineOfBusiness);
-		}
-		else if (lineOfBusiness.equals(LineOfBusiness.FLIGHTS_V2)) {
+		switch (lineOfBusiness) {
+		case FLIGHTS_V2:
 			trackPageLoadFlightCheckoutPaymentEditCard();
+			break;
+		case HOTELS:
+			trackHotelV2PaymentEdit();
+			break;
+		case CARS:
+			trackAppCarCheckoutPayment();
+			break;
+		case PACKAGES:
+			trackPackagesPaymentEdit();
+			break;
+		case LX:
+		case TRANSPORT:
+			trackAppLXCheckoutPayment(lineOfBusiness);
+			break;
 		}
 	}
 
@@ -4214,6 +4223,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_CHECKOUT_PAYMENT_EDIT = "App.Package.Checkout.Payment.Edit.Card";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC = "App.Package.CKO.Payment.StoredCard";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION = "App.Package.Checkout.Confirmation";
+	private static final String PACKAGES_ENTER_CARD = "App.Package.CKO.Payment.EnterManually";
 
 	private static final String PACKAGES_HOTEL_RT_OUT_RESULTS = "App.Package.Flight.Search.Roundtrip.Out";
 	private static final String PACKAGES_HOTEL_RT_IN_RESULTS = "App.Package.Flight.Search.Roundtrip.In";
@@ -5415,8 +5425,19 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_CARD, "Flight Checkout");
 	}
 
-	public static void trackShowPaymentEdit() {
-		createAndtrackLinkEvent(FLIGHTS_V2_ENTER_CARD, "Flight Checkout");
+	public static void trackShowPaymentEnterNewCard(LineOfBusiness lineOfBusiness) {
+		switch (lineOfBusiness) {
+		case FLIGHTS_V2: {
+			createAndtrackLinkEvent(FLIGHTS_V2_ENTER_CARD, "Flight Checkout");
+			break;
+		}
+		case PACKAGES: {
+			createAndtrackLinkEvent(PACKAGES_ENTER_CARD, "Package Checkout");
+			break;
+		}
+		default:
+			break;
+		}
 	}
 
 	public static void trackPaymentSelect() {

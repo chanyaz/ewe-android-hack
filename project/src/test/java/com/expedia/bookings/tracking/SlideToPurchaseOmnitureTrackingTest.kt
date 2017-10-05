@@ -23,7 +23,6 @@ class SlideToPurchaseOmnitureTrackingTest {
 
     @Before
     fun setup() {
-        Db.getTripBucket().clearAirAttach()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 

@@ -311,7 +311,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             } else {
                 show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
             }
-            trackShowPaymentEdit()
+            trackPaymentEnterNewCard()
         }
 
         FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
@@ -322,7 +322,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     fun showPaymentForm(fromPaymentError: Boolean) {
         if (!shouldShowPaymentOptions() || fromPaymentError && sectionBillingInfo.billingInfo.isTempCard) {
             show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
-            trackShowPaymentEdit()
+            trackPaymentEnterNewCard()
             if (fromPaymentError) {
                 clearCCAndCVV()
             }
@@ -662,11 +662,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     /** Tracking **/
     fun trackAnalytics() {
         if (!ExpediaBookingApp.isAutomation()) {
-            if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
-                HotelTracking.trackHotelPaymentEdit()
-            } else {
-                OmnitureTracking.trackCheckoutPayment(getLineOfBusiness())
-            }
+            OmnitureTracking.trackCheckoutPayment(getLineOfBusiness())
         }
     }
 
@@ -729,13 +725,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-    open fun trackShowPaymentEdit() {
-        // Let inheriting class call their respective tracking.
-        if (viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
-            FlightsV2Tracking.trackShowPaymentEdit()
-        } else if (viewmodel.lineOfBusiness.value == LineOfBusiness.PACKAGES) {
-            PackagesTracking().trackCheckoutAddPaymentType()
-        }
+    fun trackPaymentEnterNewCard() {
+        OmnitureTracking.trackShowPaymentEnterNewCard(getLineOfBusiness())
     }
 
     open fun trackPaymentStoredCCSelect() {
