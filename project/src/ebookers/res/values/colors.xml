@@ -9,7 +9,6 @@
     <color name="lob_btn_color">#0099CC</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
-    <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#FF960D</color>
     <color name="hotel_member_pricing_bg_color">#003366</color>
     <color name="hotel_member_pricing_text_color">#FFFFFF</color>
@@ -72,22 +71,14 @@
     <!-- CVV entry colors -->
     <color name="cvv_book_button_text_color">@android:color/white</color>
 
-    <!-- Cars and LX-->
-    <color name="cars_primary_color">#0099CC</color>
-    <color name="cars_unchecked_toggle_text_color">#6AC4E9</color>
+    <!-- LX -->
     <color name="lx_primary_color">#0099CC</color>
     <color name="lx_ripple_color">#6AC4E9</color>
     <color name="lx_secondary_color_disabled">#003366</color>
     <color name="lx_unchecked_toggle_text_color">#6AC4E9</color>
     <color name="lx_primary_disabled_color">#400099CC</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
-    <color name="cars_ripple_color">@color/lx_ripple_color</color>
-    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
-    <color name="cars_secondary_color">@color/cars_primary_color</color>
-    <color name="cars_tooltip_color">@color/cars_primary_color</color>
-    <color name="cars_status_bar_color">@color/cars_primary_color</color>
     <color name="lx_color_primary_dark">@color/lx_primary_color</color>
-    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">#B80000</color>
@@ -128,7 +119,7 @@
     <color name="sign_in_user_top_tier">#787878</color>
 
     <color name="error_widget_edit_button_selected_color">#007095</color>
-    <color name="error_button_color">@color/cars_primary_color</color>
+    <color name="error_button_color">@color/app_primary</color>
 
     <!--Packages-->
     <color name="packages_primary_color">@color/lob_btn_color</color>
