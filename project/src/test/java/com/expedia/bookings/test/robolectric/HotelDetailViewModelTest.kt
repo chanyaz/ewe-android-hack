@@ -7,7 +7,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -26,7 +25,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
@@ -102,7 +100,7 @@ class HotelDetailViewModelTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMessageVisibility_discountOnly() {
+    fun testHotelMessageVisibilityDiscountOnly() {
         val testSubscriber = TestSubscriber.create<Boolean>()
         vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
         triggerHotelMessageContainer(showDiscount = true, vip = false, promoMessage = "",
@@ -116,7 +114,7 @@ class HotelDetailViewModelTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMessageVisibility_VIPOnly() {
+    fun testHotelMessageVisibilityVIPOnly() {
         val testSubscriber = TestSubscriber.create<Boolean>()
         vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
         triggerHotelMessageContainer(showDiscount = false, vip = true, promoMessage = "",
@@ -130,7 +128,7 @@ class HotelDetailViewModelTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMessageVisibility_loyaltyOnly() {
+    fun testHotelMessageVisibilityLoyaltyOnly() {
         val testSubscriber = TestSubscriber.create<Boolean>()
         vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
         triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "",
@@ -144,7 +142,7 @@ class HotelDetailViewModelTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMessageVisibility_promoOnly() {
+    fun testHotelMessageVisibilityPromoOnly() {
         val testSubscriber = TestSubscriber.create<Boolean>()
         vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
         triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "Mobile Exclusive",
@@ -424,7 +422,7 @@ class HotelDetailViewModelTest {
         assertEquals(0, vm.promoImageObservable.value)
     }
 
-    @Test fun TestPromoImageForRoomLeftNotShown() {
+    @Test fun testPromoImageForRoomLeftNotShown() {
         setMemberDeal(false, false)
         offer1.hotelRoomResponse[0].currentAllotment = "2"
         offer1.hotelRoomResponse[0].isSameDayDRR = false
@@ -433,7 +431,7 @@ class HotelDetailViewModelTest {
         assertEquals(0, vm.promoImageObservable.value)
     }
 
-    @Test fun TestPromoImageForAllDealsNotShown() {
+    @Test fun testPromoImageForAllDealsNotShown() {
         setMemberDeal(false, false)
         offer1.hotelRoomResponse[0].currentAllotment = "2"
         offer1.hotelRoomResponse[0].isSameDayDRR = true
@@ -563,28 +561,28 @@ class HotelDetailViewModelTest {
 
         //Non VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
-        offer1.isVipAccess = false;
+        offer1.isVipAccess = false
         vm.hotelOffersSubject.onNext(offer1)
         assertTrue(vm.hasRegularLoyaltyPointsAppliedObservable.value)
         assertFalse(vm.hasVipAccessLoyaltyObservable.value)
 
         //Non VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
-        offer1.isVipAccess = false;
+        offer1.isVipAccess = false
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
         assertFalse(vm.hasVipAccessLoyaltyObservable.value)
 
         //VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
-        offer1.isVipAccess = true;
+        offer1.isVipAccess = true
         vm.hotelOffersSubject.onNext(offer1)
         assertTrue(vm.hasVipAccessLoyaltyObservable.value)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
 
         //VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
-        offer1.isVipAccess = true;
+        offer1.isVipAccess = true
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.hasVipAccessLoyaltyObservable.value)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
@@ -595,21 +593,21 @@ class HotelDetailViewModelTest {
         val roomResponse = createRoomResponseList()
         val sorted = vm.groupAndSortRoomList(roomResponse)
         assertEquals(3, sorted.count())
-        assertEquals(sorted["1"]!![0]!!.roomTypeCode, "1")
-        assertEquals(sorted["1"]!![1]!!.roomTypeCode, "1")
-        assertEquals(sorted["1"]!![2]!!.roomTypeCode, "1")
-        assertEquals(sorted["3"]!![0]!!.roomTypeCode, "3")
-        assertEquals(sorted["2"]!![0]!!.roomTypeCode, "2")
-        assertEquals(sorted["2"]!![1]!!.roomTypeCode, "2")
+        assertEquals(sorted["1"]!![0].roomTypeCode, "1")
+        assertEquals(sorted["1"]!![1].roomTypeCode, "1")
+        assertEquals(sorted["1"]!![2].roomTypeCode, "1")
+        assertEquals(sorted["3"]!![0].roomTypeCode, "3")
+        assertEquals(sorted["2"]!![0].roomTypeCode, "2")
+        assertEquals(sorted["2"]!![1].roomTypeCode, "2")
 
-        assertEquals(sorted["1"]!![0]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
-        assertEquals(sorted["1"]!![0]!!.hasFreeCancellation, false)
-        assertEquals(sorted["1"]!![1]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
-        assertEquals(sorted["1"]!![1]!!.hasFreeCancellation, true)
-        assertEquals(sorted["1"]!![2]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 1000.toFloat())
-        assertEquals(sorted["3"]!![0]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 15.toFloat())
-        assertEquals(sorted["2"]!![0]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 20.toFloat())
-        assertEquals(sorted["2"]!![1]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 100.toFloat())
+        assertEquals(sorted["1"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
+        assertEquals(sorted["1"]!![0].hasFreeCancellation, false)
+        assertEquals(sorted["1"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
+        assertEquals(sorted["1"]!![1].hasFreeCancellation, true)
+        assertEquals(sorted["1"]!![2].rateInfo.chargeableRateInfo.priceToShowUsers, 1000.toFloat())
+        assertEquals(sorted["3"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 15.toFloat())
+        assertEquals(sorted["2"]!![0].rateInfo.chargeableRateInfo.priceToShowUsers, 20.toFloat())
+        assertEquals(sorted["2"]!![1].rateInfo.chargeableRateInfo.priceToShowUsers, 100.toFloat())
     }
 
     private fun createRoomResponseList() : List<HotelOffersResponse.HotelRoomResponse> {
