@@ -14,7 +14,6 @@
     <color name="lob_btn_color">#1F8EDE</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
-    <color name="lx_lob_btn">@color/lob_btn_color</color>
 
     <color name="itin_flight_line_color">#8fcc51</color>
     <color name="coupon_success_message_color">#7baed4</color>
@@ -52,14 +51,11 @@
     <!--Splash-->
     <color name="splash_screen_bg">#7AC231</color>
 
-    <!-- Cars and LX -->
-    <color name="cars_primary_color">#7AC231</color>
+    <!-- LX -->
     <color name="lx_primary_color">#7AC231</color>
     <color name="lx_ripple_color">#599027</color>
     <color name="lx_secondary_color_disabled">#7fa92c</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-
-    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
