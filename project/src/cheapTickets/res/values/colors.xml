@@ -14,7 +14,6 @@
     <color name="lob_btn_color">#116FAA</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
-    <color name="lx_lob_btn">@color/lob_btn_color</color>
 
     <color name="action_bar_selected_tab_underline_color">@color/launch_tab_indicator</color>
     <color name="actionbar_tab_text_selected">#ffffff</color>
@@ -51,15 +50,11 @@
     <!-- flight color-->
     <color name="traveler_drop_down_checked_color">@color/action_bar_flight_text_color</color>
 
-    <!-- Cars and LX-->
-    <color name="cars_primary_color">@color/lob_btn_color</color>
+    <!-- LX -->
     <color name="lx_primary_color">@color/lob_btn_color</color>
     <color name="lx_ripple_color">#054A75</color>
     <color name="lx_secondary_color_disabled">#0E7DC4</color>
     <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
-
-
-    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">#B80000</color>
@@ -92,7 +87,7 @@
     <color name="sign_in_user_base_tier">#808080</color>
 
     <color name="error_widget_edit_button_selected_color">#075D93</color>
-    <color name="error_button_color">@color/cars_primary_color</color>
+    <color name="error_button_color">@color/lob_btn_color</color>
 
     <!-- Packages colors -->
     <color name="packages_primary_color">@color/lob_btn_color</color>
