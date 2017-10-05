@@ -18,7 +18,6 @@
 
     <color name="launch_actionbar_bg_color">#2B2D32</color>
     <color name="hotel_lob_btn">@color/aag_primary_color</color>
-    <color name="lx_lob_btn">@color/aag_primary_color</color>
     <color name="flights_lob_btn">@color/aag_primary_color</color>
     <color name="hotels_primary_color">@color/aag_primary_color</color>
     <color name="traveler_drop_down_checked_color">@color/aag_primary_color</color>
@@ -40,15 +39,11 @@
     <color name="hotel_urgency_message_color">#555555</color>
     <color name="hotelsv2_discount_green">@color/aag_primary_color</color>
 
-    <!-- Cars and LX-->
-    <color name="cars_primary_color">@color/aag_primary_color</color>
-
     <!-- LX colors -->
     <color name="lx_primary_color">@color/aag_primary_color</color>
     <color name="lx_ripple_color">#8b1a10</color>
     <color name="lx_secondary_color_disabled">@color/aag_primary_color</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">@color/aag_primary_color</color>
