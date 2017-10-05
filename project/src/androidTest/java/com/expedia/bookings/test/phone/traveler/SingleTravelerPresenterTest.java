@@ -9,7 +9,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
