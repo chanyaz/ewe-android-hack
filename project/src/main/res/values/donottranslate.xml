@@ -129,6 +129,7 @@
     <string name="preference_display_eligible_cards_on_payment_form">preference_display_eligible_cards_on_payment_form</string>
     <string name="preference_flight_search_from_cache">preference_flight_search_from_cache</string>
     <string name="preference_new_carnival_notifications">preference_new_carnival_notifications</string>
+    <string name="preference_flight_delta_pricing">preference_flight_delta_pricing</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

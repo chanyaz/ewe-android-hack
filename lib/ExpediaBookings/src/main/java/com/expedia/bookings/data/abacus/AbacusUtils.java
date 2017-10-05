@@ -77,6 +77,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsSearchResultCaching = new ABTest(14888);
 	public static final ABTest EBAndroidAppFlightsKrazyGlue = new ABTest(15790);
 	public static final ABTest EBAndroidAppFlightsEvolable = new ABTest(15732);
+	public static final ABTest EBAndroidAppFlightsDeltaPricing = new ABTest(15602);
 
 	// Hotel Tests
 	public static final ABTest EBAndroidAppHotelRoomRateExpanded = new ABTest(13246);
@@ -248,6 +249,7 @@ public class AbacusUtils {
 		testIDs.add(HotelShowSoldOutResults.getKey());
 		testIDs.add(EBAndroidAppFlightsKrazyGlue.getKey());
 		testIDs.add(SatelliteTest.getKey());
+		testIDs.add(EBAndroidAppFlightsDeltaPricing.getKey());
 
 		return testIDs;
 	}

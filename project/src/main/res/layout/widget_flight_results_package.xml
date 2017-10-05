@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
-        android:id="@+id/docked_outbound_flight_selection"
+    <ViewStub
+        android:id="@+id/widget_docked_outbound_flight_stub"
+        android:inflatedId="@+id/docked_outbound_flight_selection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:background="@android:color/white"
-        android:paddingTop="13dp"
-        android:paddingBottom="14dp"
-        android:paddingLeft="19dp"
-        android:paddingRight="14dp"
-        android:visibility="gone" />
+        android:layout_height="wrap_content"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/airline_charges_fees_header"

@@ -264,6 +264,14 @@
             android:key="14888"
             android:summary="%s"
             android:title="Rendering Flight search from cache - 14888" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="15602"
+            android:summary="%s"
+            android:title="Delta Pricing on flights - 15602" />
     </PreferenceCategory>
 
     <PreferenceCategory

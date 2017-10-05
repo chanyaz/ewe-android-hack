@@ -235,7 +235,7 @@ class FlightInboundPresenterTest {
         assertEquals("$646.80 per person", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
     }
-
+    
     private fun createFlightSegment(departureCity: String, departureAirport: String, arrivalCity: String, arrivalAirport: String, layoverHrs: Int, layoverMins: Int): FlightLeg.FlightSegment {
         val airlineSegment = FlightLeg.FlightSegment()
         airlineSegment.flightNumber = "51"

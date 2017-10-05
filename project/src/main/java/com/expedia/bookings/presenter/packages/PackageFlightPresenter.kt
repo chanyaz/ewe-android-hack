@@ -177,7 +177,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             selectedFlightResults.onNext(Db.getPackageFlightBundle().second)
         } else {
             super.addResultOverViewTransition()
-            resultsPresenter.lineOfBusinessSubject.onNext(getLineOfBusiness())
             show(resultsPresenter)
         }
     }
