@@ -44,23 +44,20 @@
     <color name="acct__bg_input_text_good">#EEEEEE</color>
     <color name="launch_actionbar_bg_color">#EDEDED</color>
     <color name="hotel_lob_btn">#70BB00</color>
-    <color name="lx_lob_btn">#A1006B</color>
     <color name="flights_lob_btn">#0088CE</color>
     <color name="action_bar_selected_tab_underline_color">#585858</color>
     <color name="account_sign_in_button_background_color">@color/vsc_primary_color</color>
     <color name="account_create_button_text_color">@color/vsc_primary_color</color>
     <color name="account_sign_out_button_background_color">@color/vsc_secondary_color</color>
 
-    <!-- Cars and LX-->
-    <color name="cars_primary_color">#663399</color>
-    <color name="lx_primary_color">@color/lx_lob_btn</color>
-    <color name="lx_secondary_color_disabled">@color/lx_lob_btn</color>
+    <!-- LX -->
+    <color name="lx_primary_color">#a1006b</color>
+    <color name="lx_secondary_color_disabled">@color/lx_primary_color</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
     <color name="lx_ripple_color">#AC7299</color>
-    <color name="checkout_login_button_color">@android:color/white</color>
 
     <color name="error_widget_edit_button_selected_color">#7b3761</color>
-    <color name="error_button_color">@color/cars_primary_color</color>
+    <color name="error_button_color">#663399</color>
 
     <!-- New Launch Screen colors -->
     <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
