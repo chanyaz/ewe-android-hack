@@ -9,7 +9,6 @@
     <color name="lob_btn_color">#D6682D</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
-    <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#009784</color>
 
     <!-- Launch colors -->
@@ -69,23 +68,14 @@
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="checkout_screen_error_message_color">#b80000</color>
 
-    <!-- Cars and LX-->
-    <color name="cars_button_color">@color/cars_primary_color</color>
-    <color name="cars_primary_color">#26344F</color>
-    <color name="cars_unchecked_toggle_text_color">#70ffffff</color>
+    <!-- LX -->
     <color name="lx_primary_color">#26344F</color>
     <color name="lx_ripple_color">#8f3f14</color>
     <color name="lx_secondary_color_disabled">#D6682D</color>
     <color name="lx_unchecked_toggle_text_color">#70ffffff</color>
     <color name="lx_primary_disabled_color">#4026344F</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
-    <color name="cars_ripple_color">@color/lx_ripple_color</color>
-    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
-    <color name="cars_secondary_color">@color/cars_primary_color</color>
-    <color name="cars_tooltip_color">@color/cars_primary_color</color>
-    <color name="cars_status_bar_color">@color/cars_primary_color</color>
     <color name="lx_color_primary_dark">@color/lx_primary_color</color>
-    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">#B80000</color>
@@ -126,7 +116,7 @@
     <color name="sign_in_user_top_tier">@color/reward_top_tier_color</color>
 
     <color name="error_widget_edit_button_selected_color">#162033</color>
-    <color name="error_button_color">@color/cars_primary_color</color>
+    <color name="error_button_color">@color/app_primary</color>
 
     <!-- New Launch Screen colors -->
     <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
