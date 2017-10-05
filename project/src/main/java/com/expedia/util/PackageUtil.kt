@@ -16,7 +16,16 @@ object PackageUtil {
                     pointOfSaleId == PointOfSaleId.MALAYSIA ||
                     pointOfSaleId == PointOfSaleId.AUSTRALIA ||
                     pointOfSaleId == PointOfSaleId.NEW_ZEALND ||
-                    pointOfSaleId == PointOfSaleId.CANADA
+                    pointOfSaleId == PointOfSaleId.CANADA ||
+                    pointOfSaleId == PointOfSaleId.TRAVELOCITY_CA ||
+                    pointOfSaleId == PointOfSaleId.AIRASIAGO_MALAYSIA ||
+                    pointOfSaleId == PointOfSaleId.AIRASIAGO_SINGAPORE ||
+                    pointOfSaleId == PointOfSaleId.AIRASIAGO_AUSTRALIA ||
+                    pointOfSaleId == PointOfSaleId.AIRASIAGO_JAPAN ||
+                    pointOfSaleId == PointOfSaleId.WOTIF ||
+                    pointOfSaleId == PointOfSaleId.WOTIF_NZ ||
+                    pointOfSaleId == PointOfSaleId.LASTMINUTE ||
+                    pointOfSaleId == PointOfSaleId.LASTMINUTE_NZ
         }
 
     val isPackagesLobTitleABTestEnabled: Boolean
