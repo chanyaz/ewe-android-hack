@@ -159,9 +159,6 @@ public class PointOfSale {
 	//AB Test ID for Rails Web View
 	private ABTest mRailsWebViewABTestID;
 
-	// AB test ID for Cars Web View
-	private ABTest mCarsWebViewABTestID;
-
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -255,7 +252,6 @@ public class PointOfSale {
 	private String flightsWebBookingConfirmationURL;
 
 	private boolean mRequiresLXPostalCode;
-	private boolean mRequiresCarsPostalCode;
 	private boolean showBundleTotalWhenResortFees;
 
 	// 8555 - Should show hotel fees in local currency for packages.
@@ -691,14 +687,10 @@ public class PointOfSale {
 		return mRequiresLXPostalCode;
 	}
 
-	public boolean requiresCarsPostalCode() {
-		return mRequiresCarsPostalCode;
-	}
-
 	public boolean supports(LineOfBusiness lob) {
 		switch (lob) {
 		case CARS:
-			return mSupportsCars;
+			return mSupportsCars || mSupportsCarsWebView;
 		case LX:
 			return mSupportsLx;
 		case TRANSPORT:
@@ -724,10 +716,6 @@ public class PointOfSale {
 		return mShowFlightsFreeCancellation;
 	}
 
-	public boolean supportsCarsWebView() {
-		return mSupportsCarsWebView;
-	}
-
 	public boolean supportsRailsWebView() {
 		return mSupportsRailsWebView;
 	}
@@ -748,24 +736,12 @@ public class PointOfSale {
 		return mRailsWebViewABTestID;
 	}
 
-	public ABTest getCarsWebViewABTestID() {
-		return mCarsWebViewABTestID;
-	}
-
 	public String getCarsTabWebViewURL() {
 		return getPosLocale().getCarsTabWebViewURL();
 	}
 
 	public boolean supportPropertyFee() {
 		return mSupportPropertyFee;
-	}
-
-	/**
-	 * Helper method to determine if flights are enabled and if we need to even
-	 * kick off a flight search - TABLETS ONLY.
-	 */
-	public boolean isFlightSearchEnabledTablet() {
-		return mSupportsFlights && !displayFlightDropDownRoutes();
 	}
 
 	public boolean displayFlightDropDownRoutes() {
@@ -1404,7 +1380,6 @@ public class PointOfSale {
 		pos.mSupportsRailsWebView = data.optBoolean("android.webViewEnabledForRails", false);
 		pos.mRailUrlInfix = data.optString("railsWebViewPageUrl","trains");
 		pos.mRailsWebViewABTestID = new ABTest(data.optInt("android.webViewABTestIDForRails"));
-		pos.mCarsWebViewABTestID = new ABTest(data.optInt("carsWebViewABTestID"));
 		pos.mSupportPropertyFee = data.optBoolean("propertyFeeEnabledInHotelCostSummary", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
@@ -1422,7 +1397,6 @@ public class PointOfSale {
 		pos.shouldAdjustPricingMessagingForAirlinePaymentMethodFee = data.optBoolean("adjustPricingMessagingForAirlinePaymentMethodFee", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 		pos.mRequiresLXPostalCode = data.optString("requiredPaymentFields:lx").equals("postalCode");
-		pos.mRequiresCarsPostalCode = data.optString("requiredPaymentFields:cars").equals("postalCode");
 
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);

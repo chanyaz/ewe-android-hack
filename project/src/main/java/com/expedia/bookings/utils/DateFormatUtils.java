@@ -58,7 +58,7 @@ public class DateFormatUtils {
 	}
 
 
-	public static String formatStartEndDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime,
+	private static String formatStartEndDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime,
 		boolean isContDesc) {
 		String formattedStartDateTime = LocaleBasedDateFormatUtils.dateTimeToMMMd(startDateTime) + ", " + DateUtils
 			.formatDateTime(context, startDateTime.getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
@@ -66,8 +66,8 @@ public class DateFormatUtils {
 			String formattedEndDateTime = LocaleBasedDateFormatUtils.dateTimeToMMMd(endDateTime) + ", " + DateUtils
 				.formatDateTime(context, endDateTime.getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
 			return Phrase.from(context,
-				isContDesc ? R.string.car_toolbar_date_range_cont_desc_TEMPLATE
-					: R.string.car_toolbar_date_range_TEMPLATE)
+				isContDesc ? R.string.date_time_range_cont_desc_TEMPLATE
+					: R.string.date_time_range_TEMPLATE)
 				.put("from_date_time", formattedStartDateTime)
 				.put("to_date_time", formattedEndDateTime)
 				.format().toString();

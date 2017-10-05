@@ -11,12 +11,9 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.RewardsInfo
 import com.expedia.bookings.data.TripBucketItemFlightV2
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.cars.CarCreateTripResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.lx.LXCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
-import com.expedia.bookings.data.trips.TripBucketItemCar
 import com.expedia.bookings.data.trips.TripBucketItemFlight
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.trips.TripBucketItemLX
@@ -26,7 +23,6 @@ import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Rule
@@ -36,9 +32,9 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
-import java.text.DecimalFormat
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowCookieManagerEB
+import java.text.DecimalFormat
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -210,7 +206,7 @@ class AccountButtonTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testShowLoginButtonTextNoEarnMessage() {
         val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()
-        accountButton.showLoginButtonText(LineOfBusiness.CARS)
+        accountButton.showLoginButtonText(LineOfBusiness.LX)
         val rewardsText = accountButton.mLoginTextView.text.toString()
         assertEquals(expectedText, rewardsText)
     }
@@ -238,13 +234,11 @@ class AccountButtonTest {
 
     @Test
     fun testNullRewardsOtherThanHotelV2AndFlights() {
-        Db.getTripBucket().add(TripBucketItemCar(CarCreateTripResponse()))
         Db.getTripBucket().add(TripBucketItemLX(LXCreateTripResponse()))
         Db.getTripBucket().add(TripBucketItemTransport(LXCreateTripResponse()))
         val packageCreateTripResponse = PackageCreateTripResponse()
         packageCreateTripResponse.validFormsOfPayment = emptyList()
         Db.getTripBucket().add(TripBucketItemPackages(packageCreateTripResponse))
-        assertNull(accountButton.getRewardsForLOB(LineOfBusiness.CARS))
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.LX))
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.PACKAGES))
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.TRANSPORT))

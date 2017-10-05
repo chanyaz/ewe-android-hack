@@ -157,19 +157,7 @@
     <attr name="skin_bookNowButtonDrawable" format="reference" />
 
     <!-- Cars -->
-    <attr name="skin_carsPrimaryColor" format="reference|color" />
-    <attr name="skin_carsSecondaryColor" format="reference|color" />
-    <attr name="skin_carsTooltipColor" format="reference|color" />
-    <attr name="skin_carsStatusBarColor" format="reference|color" />
-    <attr name="skin_carsSortButtonSelectorDrawable" format="reference" />
-    <attr name="skin_carsSortButtonTextSelectorDrawable" format="reference" />
-    <attr name="skin_carsToggleBackgroundSelectorDrawable" format="reference" />
     <attr name="skin_costSummaryAlertDrawable" format="reference" />
-    <attr name="skin_checkoutLoginBookNowButtonDrawable" format="reference" />
-    <attr name="skin_checkoutLoginButtonColor" format="reference|color" />
-    <attr name="skin_carsUncheckedToggleTextColor" format="reference|color" />
-    <attr name="skin_carsPinDrawable" format="reference" />
-    <attr name="skin_carsErrorDefaultDrawable" format="reference" />
 
     <!-- LX -->
     <attr name="skin_lxPrimaryColor" format="reference|color" />

@@ -107,7 +107,7 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
 
     private fun dressAction(textView: TextView, drawableResId: Int) {
         val drawable = ContextCompat.getDrawable(context, drawableResId)
-        drawable.setColorFilter(ContextCompat.getColor(context, R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN)
+        drawable.setColorFilter(ContextCompat.getColor(context, R.color.confirmation_screen_action_icon_color), PorterDuff.Mode.SRC_IN)
         textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         FontCache.setTypeface(textView, FontCache.Font.ROBOTO_REGULAR)
     }

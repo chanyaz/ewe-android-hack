@@ -48,8 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginLeft="@dimen/car_slide_to_purchase_padding"
-                android:layout_marginRight="@dimen/car_slide_to_purchase_padding"
+                android:layout_marginLeft="@dimen/slide_to_purchase_padding"
+                android:layout_marginRight="@dimen/slide_to_purchase_padding"
                 android:layout_marginTop="8dp"
                 android:background="#FFFFFF" />
 
@@ -57,8 +57,8 @@
                 android:id="@+id/purchase_button_widget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/car_slide_to_purchase_padding"
-                android:layout_marginRight="@dimen/car_slide_to_purchase_padding"
+                android:layout_marginLeft="@dimen/slide_to_purchase_padding"
+                android:layout_marginRight="@dimen/slide_to_purchase_padding"
                 android:background="#FFFFFF"
                 android:visibility="gone" />
 
@@ -72,7 +72,7 @@
                 android:padding="8dp"
                 android:text="@string/accessibility_purchase_button"
                 android:textColor="?attr/primary_color"
-                android:textSize="@dimen/car_slide_to_purchase_price_text_size"
+                android:textSize="@dimen/slide_to_purchase_price_text_size"
                 android:visibility="gone" />
 
             <Space

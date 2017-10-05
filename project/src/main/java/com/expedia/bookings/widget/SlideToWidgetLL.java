@@ -80,7 +80,7 @@ public class SlideToWidgetLL extends RelativeLayout {
 		mPaintBackground.setColor(Ui.obtainThemeColor(getContext(), R.attr.primary_color));
 		mGreenPaint.setStyle(Paint.Style.FILL);
 		mGreenPaint.setAntiAlias(true);
-		mGreenPaint.setColor(getResources().getColor(R.color.cars_checkmark_color));
+		mGreenPaint.setColor(getResources().getColor(R.color.slide_to_widget_tray_mask_color));
 		resetSlider();
 	}
 

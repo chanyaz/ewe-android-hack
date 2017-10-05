@@ -11,7 +11,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.facebook.AccessToken;
@@ -179,7 +178,6 @@ public class UserAccountRefresher {
 
 		BackgroundDownloader.getInstance().cancelDownload(keyRefreshUser);
 		mLastRefreshedUserTimeMillis = 0L;
-		Events.post(new Events.SignOut());
 		userLoginStateChangedModel.getUserLoginStateChanged().onNext(false);
 	}
 

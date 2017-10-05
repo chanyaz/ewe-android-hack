@@ -14,7 +14,6 @@ public class AbacusUtils {
 	 * participating in the AB Test.
 	 */
 
-	public static final ABTest EBAndroidAppCarInsuranceIncludedCKO =  new ABTest(7774);
 	public static final ABTest ExpediaAndroidAppAATestSep2015 =  new ABTest(11455);
 	public static final ABTest EBAndroidAppLXCategoryABTest =  new ABTest(9165);
 	public static final ABTest EBAndroidAppLXFirstActivityListingExpanded = new ABTest(9467);
@@ -94,16 +93,6 @@ public class AbacusUtils {
 	public static final ABTest HotelShowSoldOutResults = new ABTest(15730);
 
 	// Cars Web View Tests
-	public static final ABTest EBAndroidAppCarsWebViewUK = new ABTest(12913);
-	public static final ABTest EBAndroidAppCarsWebViewTVLY = new ABTest(13658);
-	public static final ABTest EBAndroidAppCarsWebViewUS = new ABTest(13648);
-	public static final ABTest EBAndroidAppCarsWebViewCT = new ABTest(13830);
-	public static final ABTest EBAndroidAppCarsWebViewEB = new ABTest(13826);
-	public static final ABTest EBAndroidAppCarsWebViewAUNZ = new ABTest(13828);
-	public static final ABTest EBAndroidAppCarsWebViewCA = new ABTest(13829);
-	public static final ABTest EBAndroidAppCarsWebViewOB = new ABTest(13660);
-	public static final ABTest EBAndroidAppCarsWebViewEMEA = new ABTest(13827);
-	public static final ABTest EBAndroidAppCarsWebViewNewPOS = new ABTest(15271);
 	public static final ABTest EBAndroidAppCarsFlexView = new ABTest(14632);
 	public static final ABTest EBAndroidAppCarsAATest = new ABTest(15311);
 
@@ -157,7 +146,6 @@ public class AbacusUtils {
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
-		testIDs.add(EBAndroidAppCarInsuranceIncludedCKO.getKey());
 		testIDs.add(ExpediaAndroidAppAATestSep2015.getKey());
 		testIDs.add(EBAndroidAppLXCategoryABTest.getKey());
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded.getKey());
@@ -186,17 +174,7 @@ public class AbacusUtils {
 		testIDs.add(PackagesTitleChange.getKey());
 		testIDs.add(EBAndroidAppSimplifyFlightShopping.getKey());
 		testIDs.add(EBAndroidAppItinHotelRedesign.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewUK.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewTVLY.getKey());
 		testIDs.add(EBAndroidAppHotelsWebCheckout.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewUS.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewCT.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewEB.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewAUNZ.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewCA.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewOB.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewEMEA.getKey());
-		testIDs.add(EBAndroidAppCarsWebViewNewPOS.getKey());
 		testIDs.add(EBAndroidAppCarsFlexView.getKey());
 		testIDs.add(EBAndroidAppFlightAATest.getKey());
 		testIDs.add(EBAndroidAppFlightSearchFormValidation.getKey());

@@ -29,7 +29,6 @@
     <color name="launch_air_attach">#F27D0F</color>
     <color name="launch_tonight_only">#204A8E</color>
     <color name="hotel_lob_btn">@color/hotels_primary_color</color>
-    <color name="lx_lob_btn">@color/lx_primary_color</color>
     <color name="flights_lob_btn">#204A8E</color>
 
     <color name="launch_list_bg">#ECEFF1</color>
@@ -219,25 +218,20 @@
 
     <color name="placeholder_background_color">#21394E</color>
 
-    <!-- Cars colors -->
-    <color name="cars_primary_color">@color/app_primary</color>
-
-    <color name="cars_actionbar_text_color">@color/gray800</color>
-    <color name="cars_tooltip_disabled_color">@color/gray400</color>
-    <color name="cars_invalid_days_calendar">@color/gray400</color>
-    <color name="cars_valid_days_calendar">@color/gray900</color>
-    <color name="cars_details_price">@color/gray600</color>
-    <color name="cars_checkout_text_color">@color/gray700</color>
+    <color name="actionbar_text_color_inverse">@color/gray800</color>
+    <color name="rail_tooltip_disabled_color">@color/gray400</color>
+    <color name="calendar_invalid_days">@color/gray400</color>
+    <color name="calendar_valid_days">@color/gray900</color>
+    <color name="hotel_checkout_text_color">@color/gray700</color>
     <color name="price_change_text_color">@color/gray900</color>
-    <color name="cars_lx_checkout_button_text_color">@color/gray700</color>
-    <color name="cars_confirmation_action_text_color">@color/gray100</color>
-    <color name="cars_confirmation_email_text_color">@color/gray300</color>
+    <color name="checkout_button_text_color">@color/gray700</color>
+    <color name="confirmation_action_text_color">@color/gray100</color>
+    <color name="hotel_confirmation_email_text_color">@color/gray300</color>
 
-    <color name="cars_checkmark_color">@color/success_green</color>
-    <color name="cars_confirmation_icon_color">#D1D3D6</color>
-    <color name="cars_confirmation_gradient">#80000000</color>
-    <color name="cars_confirmation_action_background">#3A424C</color>
-    <color name="cars_selected_tab_color">#5F717F</color>
+    <color name="slide_to_widget_tray_mask_color">#29a653</color>
+    <color name="confirmation_screen_action_icon_color">#D1D3D6</color>
+    <color name="hotel_confirmation_gradient">#80000000</color>
+    <color name="launch_selected_tab_color">#5F717F</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_text_color">@color/gray900</color>
@@ -293,7 +287,6 @@
 
     <color name="lx_checkout_text_color">@color/gray700</color>
 
-    <color name="lx_confirmation_action_text_color">@color/gray100</color>
     <color name="lx_confirmation_email_text_color">@color/gray300</color>
     <color name="search_dropdown_disabled_stroke">@color/gray300</color>
 
@@ -306,8 +299,6 @@
     <color name="lx_secondary_color_disabled">#F6DAC0</color>
     <color name="lx_confirmation_action_background">#3A424C</color>
     <color name="lx_unchecked_toggle_text_color">#FFC48E</color>
-
-    <color name="checkout_login_button_color">#836B11</color>
 
     <color name="gt_primary_color">@color/exp_gt_red</color>
     <color name="gt_unchecked_toggle_text_color">#E98DA7</color>
@@ -337,8 +328,6 @@
 
     <color name="defaultTextColor">@color/gray700</color>
 
-    <!-- Hotels V2 Confirmation Colors -->
-    <color name="hotel_confirmation_cross_sell_text_color">#F3F3F3</color>
     <!-- Hotels V2 Detail star color -->
     <color name="hotelsv2_detail_star_color">#F1B906</color>
 
@@ -355,7 +344,7 @@
 
     <!-- Error widget button colors -->
     <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
-    <color name="error_button_color">@color/cars_primary_color</color>
+    <color name="error_button_color">@color/app_primary</color>
 
     <color name="rating_yellow_disabled">#DBDBDB</color>
     <color name="rating_yellow">#F6AE24</color>

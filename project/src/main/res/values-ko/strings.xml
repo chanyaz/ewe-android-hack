@@ -60,137 +60,33 @@
 
     <!-- Cars -->
     <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="car_toolbar_date_range_TEMPLATE">{from_date_time} ~ {to_date_time}</string>
+    <string name="date_time_range_TEMPLATE">{from_date_time} ~ {to_date_time}</string>
     <!-- Cars Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="car_toolbar_date_range_cont_desc_TEMPLATE">{from_date_time}에서 {to_date_time}</string>
+    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time}에서 {to_date_time}</string>
     <!-- Cars Calendar Strings -->
-    <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">다음: 반납 날짜 선택</string>
-    <!-- When user hasn't picked drop-off date, we show something like: "Jan 21 - Select drop-off date" -->
-    <string name="select_drop_off_date_TEMPLATE">%1$s - 반납 날짜 선택</string>
-    <!-- Cars price templates-->
-    <string name="cars_hourly_text">시간당</string>
-    <!-- Cars price templates-->
-    <string name="cars_daily_text">일별</string>
-    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">요금은 %s 기준입니다.</string>
-    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">요금은 %1$s 기준입니다. 인수 시 결제할 모든 세금이나 수수료는 현지 통화로 결제하셔야 합니다(%2$s).</string>
-    <!-- Cars weekly price templates-->
-    <string name="cars_weekly_text">주별</string>
-    <!-- Cars weekly price templates-->
-    <string name="cars_monthly_text">월별</string>
-    <!-- Cars price templates-->
-    <string name="cars_total_template">총 합계 %s</string>
     <!-- Slide to reserve -->
-    <string name="cars_slider_text">밀어서 예약하기</string>
+    <string name="lx_slide_to_reserve">밀어서 예약하기</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_reserve_button">예약하기</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">결제</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_dupe_trip_text">중복된 여행</string>
     <!-- Text for price change-->
     <string name="price_change_text">가격 변경</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">고객님 여행의 가격이 {oldprice}에서 {newprice}의 금액으로 변경되었습니다. 요금은 자주 변경됩니다. 지금 바로 예약하여 이 가격을 확보하세요.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">가격 변경됨</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_payment_failed_text">결제 실패함</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_invalid_input_text">잘못된 정보</string>
-    <!-- Text for generic error toolbar-->
-    <string name="cars_error_text">오류</string>
-    <!-- Text for toolbar on no search results -->
-    <string name="cars_no_results_text">검색 결과 없음</string>
-    <!-- Text for reserving car-->
-    <string name="cars_reserve_text">예약</string>
-    <!-- Text for viewing details-->
-    <string name="cars_view_details_text">세부 정보 보기</string>
-    <!-- Text for driver details toolbar-->
-    <string name="cars_driver_details_text">운전자 정보</string>
-    <!-- Text for enter driver details-->
-    <string name="enter_driver_details">운전자 정보 입력</string>
-    <!-- Content description for enter driver details-->
-    <string name="enter_driver_details_cont_desc">운전자 정보 입력 버튼</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">저장된 연락처 선택</string>
-    <!-- Car doors text-->
-    <string name="car_doors_text">도어</string>
-    <!-- Car bags text-->
-    <string name="car_bags_text">짐</string>
-    <!-- Car automatic transmission text-->
-    <string name="car_auto_tran_text">자동 변속기</string>
-    <!-- Car manual transmission text-->
-    <string name="car_man_tran_text">수동 변속기</string>
-
-    <!-- car result -->
-    <!-- car door range -->
-    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
-    <!-- car details template -->
-    <string name="car_details_TEMPLATE">%1$s %2$s</string>
-
-    <!-- Cars Confirmation Screen -->
-    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
-    <string name="calendar_car_title_TEMPLATE">인수 위치: %1$s</string>
-    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
-    <string name="calendar_car_location_TEMPLATE">%1$s</string>
-    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_desc_itinerary_TEMPLATE">{brand} 일정 번호: {itinerary}</string>
-    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_desc_support_TEMPLATE">{brand} 고객 지원: {localphone} 및 {phone}</string>
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">즐길거리 위치 구글 지도 보기</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">호텔</string>
-    <!-- Label for pickup location selector -->
-    <string name="pick_up_location">차량 인수 위치</string>
-    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="drop_off_location">차량 반납 위치(인수 위치와 동일)</string>
-    <!-- Label for Car Search Screen header -->
-    <string name="toolbar_search_cars">렌터카 검색</string>
-    <!-- Label for Cars date button -->
-    <string name="select_pickup_and_dropoff_dates">인수 및 반납 날짜 선택</string>
-    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
-    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} – 오는 날짜를 선택하세요.</string>
-    <!-- Car Calendar Strings -->
-    <string name="select_pickup_date">인수 날짜 선택</string>
-    <!-- Label for pick-up time picker -->
-    <string name="pick_up_time_label">인수</string>
-    <!-- Label for drop-up time picker -->
-    <string name="drop_off_time_label">반납</string>
-    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">제공 예정! 다음 버전에서는 타지점 반납의 편도 예약을 추가하도록 지금 열심히 준비 중입니다.</string>
-    <!-- Label for hint for car pick-up-->
-    <string name="car_pick_up_hint">차량 인수</string>
-    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Pick up time 9:00 am-->
-    <string name="pick_up_slider_cont_desc_TEMPLATE">인수 시간 {time}</string>
-    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
-    <string name="drop_off_slider_cont_desc_TEMPLATE">반납 시간 {time}</string>
     <!-- Car search error -->
     <string name="error_no_result_message">죄송합니다. 검색 결과가 없습니다. 다른 검색 조건으로 다시 시도해 주세요.</string>
-    <!-- Car no filtered search results -->
-    <string name="filter_no_car_search_results_message">검색 결과가 없습니다. 필터 개수를 줄여보세요.</string>
-    <!-- Transmission options filter label for a car rental -->
-    <string name="options">옵션</string>
-    <!-- Automatic transmission filter button-->
-    <string name="car_filter_automatic">자동</string>
-    <!-- Manual transmission filter button-->
-    <string name="car_filter_manual">수동</string>
-    <!-- Any transmission type filter button -->
-    <string name="car_filter_all">모두</string>
-    <!-- Air conditioning option checkbox filter -->
-    <string name="car_filter_checkbox_air_conditioning">에어컨</string>
-    <!-- Unlimited mileage option checkbox filter -->
-    <string name="car_filter_checkbox_unlimited_mileage">무제한 마일리지</string>
-    <!-- Car types checkbox filter label for a car rental-->
-    <string name="car_types">차량 종류</string>
-    <!-- Car types checkbox filter label for a car rental-->
-    <string name="car_vendors">렌터카 회사</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">필터 지우기</string>
     <!-- Label to tell the user how many products match their filter -->
@@ -205,42 +101,12 @@
     </plurals>
 
     <!-- Checkout -->
-    <!-- Car model templates-->
-    <string name="car_model_name_template">%1$s 또는 동급 차량</string>
-    <string name="car_model_unknown_template">정확한 모델 없음</string>
-    <!-- Car checkout cost breakdown total due today -->
-    <string name="car_cost_breakdown_due_today">오늘 결제할 금액</string>
-    <!-- Car checkout cost breakdown total due at pick up -->
-    <string name="car_cost_breakdown_total_due">인수 시 결제할 금액</string>
-    <!-- Car checkout cost breakdown for alert button -->
-    <string name="car_cost_breakdown_button_text">완료</string>
-    <!-- Car checkout rental fare breakdown types -->
-    <!--Cost breakdown type base -->
-    <string name="car_rental_breakdown_base">렌터카</string>
-    <!--Cost breakdown type insurance -->
-    <string name="car_rental_breakdown_insurance">보험</string>
-    <!--Cost breakdown type drop off charge -->
-    <string name="car_rental_breakdown_drop_off_charges">반납 요금</string>
-    <!-- Unlimited mileage -->
-    <string name="unlimited_mileage">무제한 마일리지</string>
-    <!-- Insurance included -->
-    <string name="insurance_included">보험 포함됨</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">일정 번호 %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">체크아웃 매개변수가 없습니다.</string>
-    <!--Adding hotel from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_hotel">%1$s 호텔</string>
-    <!--Adding flight from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_flight">%1$s행 항공편</string>
-    <!-- Car confirmation screen label -->
-    <string name="successful_checkout_pickup_label">인수 위치:</string>
-    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
-    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s -</string>
     <!-- Car confirmation itin text -->
     <string name="successful_checkout_email_label">다음 주소로 일정 전송됨:</string>
-    <!-- Car confirmation directions text -->
-    <string name="car_confirmation_directions">%1$s까지의 길 안내</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">새 카드 입력</string>
     <!-- Text for enter guest details line 1 -->
@@ -277,21 +143,14 @@
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">자물쇠 아이콘, 보안 결제</string>
 
-    <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early.  -->
-    <string name="pick_up_time_error">인수 또는 반납 시간을 조정해 주세요.</string>
     <!-- Message for user that date is too far out.  -->
     <string name="error_date_too_far">이 날짜는 너무 멉니다. 좀 더 가까운 날짜를 선택해 주세요.</string>
-    <!-- Message for user that increase your reservation duration. -->
-    <string name="reservation_time_too_short">예약 기간을 늘려주세요.</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">아직 계시나요? 세션이 초과되었습니다. 다시 검색해 주세요.</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
     <string name="reservation_already_exists_new_hotels">이 예약이 완료되었습니다. 여행 일정 또는 이메일을 확인해 보세요.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">잠시만요, 이 여행은 이미 예약하신 것 같네요. 여행 일정 또는 이메일을 확인해 보세요.</string>
-    <!-- Show to user when the price of a car they are trying to book has changed -->
-    <string name="reservation_price_change">고객님의 렌터카 가격이 변동되었습니다. 계속하려면 새 가격을 확인해 주세요.</string>
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">이름에는 숫자나 특수 문자가 포함되면 안 됩니다.</string>
     <!-- Show to user when their phone number is invalid -->
@@ -301,8 +160,6 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">잠시만요… 결제가 제대로 되지 않았어요. 결제 세부 정보를 확인하고 다시 시도해 주세요.</string>
-    <!-- Shown to a user when their ability to rent a specific car expires -->
-    <string name="error_cars_product_expired">수행하신 검색은 만료되었습니다. 유효한 인수 시간을 선택해 주세요.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">가격 변동 보기</string>
     <!-- My Trips button that takes you to Itins -->
@@ -683,8 +540,6 @@
     <string name="all_things_to_do_description">선택하신 날짜에 이용 가능한 모든 즐길거리 목록입니다.</string>
 
     <!-- LX Strings -->
-    <!-- Slide to book -->
-    <string name="lx_slider_text">밀어서 구매하기</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">연락처 정보 입력</string>
     <!-- LX search error -->
@@ -1382,66 +1237,6 @@
     <!-- Car category: oversize -->
     <string name="car_category_oversize">특대형</string>
 
-    <!-- Car category for results and details screen -->
-    <!-- Car category: mini -->
-    <string name="car_category_result_mini">미니</string>
-    <!-- Car category: economy -->
-    <string name="car_category_result_economy">소형</string>
-    <!-- Car category: compact -->
-    <string name="car_category_result_compact">중소형</string>
-    <!-- Car category: midize -->
-    <string name="car_category_result_midsize">중형</string>
-    <!-- Car category: standard -->
-    <string name="car_category_result_standard">표준</string>
-    <!-- Car category: fullsize -->
-    <string name="car_category_result_fullsize">대형</string>
-    <!-- Car category: premium -->
-    <string name="car_category_result_premium">프리미엄</string>
-    <!-- Car category: luxury -->
-    <string name="car_category_result_luxury">고급대형</string>
-    <!-- Car category: mini elite -->
-    <string name="car_category_result_mini_elite">미니 엘리트</string>
-    <!-- Car category: economy elite -->
-    <string name="car_category_result_economy_elite">소형 엘리트</string>
-    <!-- Car category: compact elite -->
-    <string name="car_category_result_compact_elite">중소형 엘리트</string>
-    <!-- Car category: midize elite -->
-    <string name="car_category_result_midsize_elite">중형 엘리트</string>
-    <!-- Car category: standard elite -->
-    <string name="car_category_result_standard_elite">표준 엘리트</string>
-    <!-- Car category: fullsize elite -->
-    <string name="car_category_result_fullsize_elite">대형 엘리트</string>
-    <!-- Car category: premium elite -->
-    <string name="car_category_result_premium_elite">프리미엄 엘리트</string>
-    <!-- Car category: luxury elite -->
-    <string name="car_category_result_luxury_elite">고급대형 엘리트</string>
-    <!-- Car category: oversize -->
-    <string name="car_category_result_oversize">특대형</string>
-
-    <!-- Car types -->
-    <string name="car_type_two_door">2도어 차량</string>
-    <string name="car_type_three_door">3도어 차량</string>
-    <string name="car_type_four_door">4도어 차량</string>
-    <string name="car_type_van">밴</string>
-    <string name="car_type_wagon">왜건</string>
-    <string name="car_type_limousine">리무진</string>
-    <string name="car_type_recreational_vehicle">RV</string>
-    <string name="car_type_convertible">컨버터블</string>
-    <string name="car_type_sports_car">스포츠카</string>
-    <string name="car_type_suv">SUV</string>
-    <string name="car_type_pickup_regular_cab">픽업 레귤러캡</string>
-    <string name="car_type_open_air_all_terrain">오픈에어 올터레인</string>
-    <string name="car_type_special">스페셜</string>
-    <string name="car_type_commercial_van_truck">커머셜 밴/트럭</string>
-    <string name="car_type_pickup_extended_cab">픽업 익스텐디드캡</string>
-    <string name="car_type_special_offer_car">특별 제공 차량</string>
-    <string name="car_type_coupe">쿠페</string>
-    <string name="car_type_monospace">모노스페이스</string>
-    <string name="car_type_motor_home">모터홈</string>
-    <string name="car_type_two_wheel_vehicle">이륜차</string>
-    <string name="car_type_roadster">로드스터</string>
-    <string name="car_type_crossover">크로스오버</string>
-
     <!-- Itin card details -->
     <string name="itin_card_details_active">활성</string>
     <string name="itin_card_details_expires">만료</string>
@@ -1978,8 +1773,6 @@
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">호텔에서 {card_type} 결제를 지원하지 않습니다.</string>
     <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
     <string name="package_does_not_accept_cardtype_TEMPLATE">여행에서 {card_type} 결제가 지원되지 않습니다.</string>
-    <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
-    <string name="car_does_not_accept_cardtype_TEMPLATE">렌터카 회사에서 {card_type} 결제를 지원하지 않습니다.</string>
     <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">즐길거리에서 {card_type} 결제가 지원되지 않습니다.</string>
 
@@ -2019,8 +1812,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">Expedia+ {points}포인트({amount})를 사용하고 계십니다.</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">Expedia+ {points}포인트({amount})를 사용하고 계십니다.\n고객님 카드에 {dueamount}의 금액이 청구됩니다.</string>
-    <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_template">오늘 결제할 금액: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">예약 완료</string>
     <!-- Our price gaurentee string -->
@@ -2413,8 +2204,6 @@
     <!-- Button label for accepting an error and moving forward -->
     <!-- Button label for retrying after getting an error -->
     <string name="retry">다시 시도</string>
-    <!-- Button label for adjusting filters after getting no results -->
-    <string name="edit_filters">필터 수정</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">입력하신 카드 소유자 이름이 신용카드상의 이름과 일치하지 않습니다. 다시 시도해 주세요.</string>
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
@@ -3677,39 +3466,11 @@
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="pay_later_cont_desc">버튼을 눌러 나중에 결제합니다.</string>
 
-    <!-- Content description for Cars filter button -->
-    <string name="cars_filter_button_cont_desc">필터 버튼</string>
-    <!-- Content description for car result door count e.g. Doors 2-4 -->
-    <string name="cars_door_count_cont_desc_TEMPLATE">도어 {doorcount}개</string>
-    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
-    <string name="cars_passenger_count_cont_desc_TEMPLATE">승객 {passengercount}명</string>
-    <!-- Content description for car result bags count e.g. Bags 2-4 -->
-    <string name="cars_bags_count_cont_desc_TEMPLATE">짐 {bagscount}개</string>
     <!-- Content description for hotel star rating e.g. 3 stars -->
     <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
         <item quantity="one">{rating}성급</item>
         <item quantity="other">{rating}성급</item>
     </plurals>
-    <!-- Content descriptions for Cars filter transmission buttons -->
-    <string name="cars_filter_transmission_manual_button_cont_desc">수동 변속기</string>
-    <string name="cars_filter_transmission_automatic_button_cont_desc">자동 변속기</string>
-    <string name="cars_filter_transmission_all_button_cont_desc">모든 변속기</string>
-
-    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
-    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, 예약 버튼</string>
-    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
-    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, 세부 정보 보기 버튼</string>
-
-    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
-    <string name="car_confirmation_directions_cont_desc_TEMPLATE">{vendor}까지 가는 길 버튼</string>
-    <!-- Car confirmation add to calendar content description-->
-    <string name="car_confirmation_add_to_calendar_cont_desc">달력에 추가 버튼</string>
-    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
-    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">{location} 호텔 버튼</string>
-    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
-    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">{location}행 항공편 버튼</string>
-    <!-- Content description for action: $500. Cost summary information button -->
-    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. 비용 요약 정보 버튼.</string>
 
     <!-- Dialog positive button message -->
     <string name="yes">예</string>

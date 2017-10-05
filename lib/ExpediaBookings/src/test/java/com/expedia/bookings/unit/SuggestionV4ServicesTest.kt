@@ -177,19 +177,6 @@ class SuggestionV4ServicesTest {
         assertFalse(gaiaMockInterceptor.wasCalled())
     }
 
-    @Test
-    fun carSuggestionsUsesCorrectInterceptors() {
-        val testObserver = TestSubscriber<List<SuggestionV4>>()
-
-        service?.getCarSuggestionsV4("chicago", testObserver)
-        testObserver.awaitTerminalEvent()
-        testObserver.assertCompleted()
-
-        assertTrue(mockInterceptor.wasCalled())
-        assertTrue(essMockInterceptor.wasCalled())
-        assertFalse(gaiaMockInterceptor.wasCalled())
-    }
-
     private fun getGaiaSuggestion(): GaiaSuggestion {
         val suggestion = GaiaSuggestion()
         suggestion.gaiaID = "180000"

@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="215dp"
             android:layout_gravity="top"
-            android:background="@color/cars_confirmation_gradient" />
+            android:background="@color/hotel_confirmation_gradient" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -105,32 +105,32 @@
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/direction_action_textView"
-                        style="@style/CarsBookingButton"
+                        style="@style/HotelConfirmationActionStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
                         android:drawableLeft="@drawable/car_directions"
-                        android:textColor="@color/cars_confirmation_action_text_color"
+                        android:textColor="@color/confirmation_action_text_color"
                         android:text="@string/hotel_confirmation_directions" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/calendar_action_textView"
-                        style="@style/CarsBookingButton"
+                        style="@style/HotelConfirmationActionStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
                         android:drawableLeft="@drawable/add_to_calendar"
                         android:text="@string/add_to_calendar"
-                        android:textColor="@color/cars_confirmation_action_text_color" />
+                        android:textColor="@color/confirmation_action_text_color" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/call_support_action_textView"
-                        style="@style/CarsBookingButton"
+                        style="@style/HotelConfirmationActionStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
                         android:drawableLeft="@drawable/hotel_phone"
-                        android:textColor="@color/cars_confirmation_action_text_color" />
+                        android:textColor="@color/confirmation_action_text_color" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/add_lx_textView"
@@ -143,22 +143,22 @@
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/add_car_textView"
-                        style="@style/CarsBookingButton"
+                        style="@style/HotelConfirmationCrossSellStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
                         android:drawableLeft="@drawable/hotel_car"
-                        android:textColor="@color/cars_confirmation_action_text_color" />
+                        android:textColor="@color/confirmation_action_text_color" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/add_flight_textView"
-                        style="@style/CarsBookingButton"
+                        style="@style/HotelConfirmationCrossSellStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="1dp"
                         android:layout_marginTop="1dp"
                         android:drawableLeft="@drawable/car_flights"
-                        android:textColor="@color/cars_confirmation_action_text_color" />
+                        android:textColor="@color/confirmation_action_text_color" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -172,7 +172,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:layout_above="@+id/email_text"
-                            android:textColor="@color/cars_confirmation_email_text_color"
+                            android:textColor="@color/hotel_confirmation_email_text_color"
                             android:textSize="12sp"
                             app:textStyle="light"
                             android:text="@string/successful_checkout_email_label"
@@ -184,7 +184,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:layout_alignParentBottom="true"
-                            android:textColor="@color/cars_confirmation_email_text_color"
+                            android:textColor="@color/hotel_confirmation_email_text_color"
                             android:textSize="12sp"
                             app:textStyle="light"
                             android:paddingBottom="20dp" />

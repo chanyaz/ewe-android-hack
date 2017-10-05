@@ -20,18 +20,16 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.CarSearchParam;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
-import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.AddToCalendarUtilsTests;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
-import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.ui.FlightActivity;
+import com.expedia.ui.LOBWebViewActivity;
 import com.expedia.vm.HotelConfirmationViewModel;
-import com.google.gson.Gson;
 
 import rx.observers.TestSubscriber;
 
@@ -115,15 +113,11 @@ public class HotelConfirmationViewModelTest {
 		givenHotelLocation();
 
 		vm.getHotelLocation().onNext(hotelLocation);
-		Gson gson = CarServices.generateGson();
-		CarSearchParam expectedSearchParams = (CarSearchParam) new CarSearchParam.Builder()
-			.origin(CarDataUtils.getSuggestionFromLocation(hotelAddress, null, hotelAddress))
-			.startDate(checkInDate).endDate(checkOutDate).build();
 		vm.getAddCarBtnObserver(getContext()).onNext(null);
 		Intent intent = shadowApplication.getNextStartedActivity();
 
-		assertEquals(gson.toJson(expectedSearchParams), intent.getStringExtra("carSearchParams"));
-		assertTrue(intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false));
+		assertEquals(LOBWebViewActivity.class.getName(), intent.getComponent().getClassName());
+		assertTrue(intent.getStringExtra("ARG_URL").startsWith(PointOfSale.getPointOfSale().getCarsTabWebViewURL()));
 	}
 
 	@Test

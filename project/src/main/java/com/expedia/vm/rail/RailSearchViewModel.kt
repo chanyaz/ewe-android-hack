@@ -31,7 +31,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     val errorInvalidCardsCountObservable = PublishSubject.create<String>()
 
     val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.rail_primary_color)
-    val errorTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_tooltip_disabled_color)
+    val errorTimeTooltipColor = ContextCompat.getColor(context, R.color.rail_tooltip_disabled_color)
 
     init {
         updateTraveler()

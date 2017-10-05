@@ -599,15 +599,15 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="ItinLoginRefreshButton" parent="android:Widget.Button">
+    <style name="ItinLoginRefreshButton" parent="android:Widget.Material.Button">
         <item name="android:background">@drawable/itin_login_ripple</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
     </style>
 
     <style name="ItinCheckInYesNoButtons">
@@ -720,6 +720,8 @@
 
     <!-- RatingBar styling copied from tablet theme-->
 
+    <style name="V2" />
+    <style name="V2.Widget" />
     <style name="V2.Widget.RatingBar" />
 
     <style name="V2.Widget.RatingBar.UserReview">
@@ -1035,6 +1037,14 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <style name="CheckoutCardView">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:textColor">@color/actionbar_text_color_inverse</item>
+        <item name="cardCornerRadius">@dimen/card_view_border_radius</item>
+        <item name="cardElevation">1dp</item>
+    </style>
+
     <!--Material CardView Style-->
     <style name="MaterialCardView">
         <item name="cardCornerRadius">@dimen/card_view_border_radius</item>
@@ -1094,7 +1104,7 @@
     </style>
 
     <style name="CheckoutWidgetPrimaryTextStyle">
-        <item name="android:textColor">@color/cars_lx_checkout_button_text_color</item>
+        <item name="android:textColor">@color/checkout_button_text_color</item>
         <item name="android:textSize">@dimen/checkout_widget_primary_text_size</item>
         <item name="android:gravity">center|left</item>
         <item name="android:singleLine">true</item>
@@ -1102,7 +1112,7 @@
     </style>
 
     <style name="CheckoutWidgetSecondaryTextStyle">
-        <item name="android:textColor">@color/cars_lx_checkout_button_text_color</item>
+        <item name="android:textColor">@color/checkout_button_text_color</item>
         <item name="android:textSize">@dimen/checkout_widget_secondary_text_size</item>
         <item name="android:gravity">center|left</item>
         <item name="android:singleLine">true</item>
@@ -1217,6 +1227,42 @@
         <item name="android:layout_width">12dp</item>
         <item name="android:layout_height">12dp</item>
         <item name="android:layout_marginRight">12dp</item>
+    </style>
+
+    <style name="CVVPromptBase">
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:shadowColor">#2D000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">.1</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ToolbarTitleTextAppearance">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="ToolbarSubtitleTextAppearance">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="Theme.AlertDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">?attr/primary_color</item>
+        <item name="colorPrimary">?attr/primary_color</item>
     </style>
 
 </resources>

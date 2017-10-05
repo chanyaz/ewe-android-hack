@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center|left"
                         android:maxLines="1"
-                        android:textColor="@color/cars_actionbar_text_color"
+                        android:textColor="@color/actionbar_text_color_inverse"
                         android:textSize="16sp"
                         app:textStyle="medium" />
 

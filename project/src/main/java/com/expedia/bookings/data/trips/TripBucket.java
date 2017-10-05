@@ -86,10 +86,6 @@ public class TripBucket implements JSONable {
 		clear(LineOfBusiness.TRANSPORT);
 	}
 
-	public void clearCars() {
-		clear(LineOfBusiness.CARS);
-	}
-
 	public void clearHotelV2() {
 		clear(LineOfBusiness.HOTELS);
 	}
@@ -158,10 +154,6 @@ public class TripBucket implements JSONable {
 		addBucket(flight);
 	}
 
-	public void add(TripBucketItemCar car) {
-		addBucket(car);
-	}
-
 	public void add(TripBucketItemLX lx) {
 		addBucket(lx);
 	}
@@ -203,16 +195,6 @@ public class TripBucket implements JSONable {
 	 */
 	public boolean isEmpty() {
 		return mItems.size() < 1;
-	}
-
-	/**
-	 * Returns the first car found in the bucket, or null if not found.
-	 *
-	 * @return
-	 */
-	public TripBucketItemCar getCar() {
-		int index = getIndexOf(LineOfBusiness.CARS);
-		return index == -1 ? null : (TripBucketItemCar) mItems.get(index);
 	}
 
 	/**

@@ -2,7 +2,6 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.json.JSONException;
@@ -12,12 +11,10 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -468,32 +465,6 @@ public class HotelSearchParams implements JSONable {
 		numHotelAdults = Math.max(numHotelAdults, GuestsPickerUtils.MIN_ADULTS); // just in case default...
 		hotelParams.setNumAdults(numHotelAdults);
 		hotelParams.setCorrespondingAirportCode(firstLeg.getAirport(false).mAirportCode);
-		return hotelParams;
-	}
-
-	public static HotelSearchParams fromCarParams(CreateTripCarOffer offer) {
-		HotelSearchParams hotelParams = new HotelSearchParams();
-
-		// Where //
-		hotelParams.setSearchType(SearchType.CITY);
-
-		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
-		String cityStr = offer.pickUpLocation.cityName;
-		hotelParams.setUserQuery(cityStr);
-		hotelParams.setQuery(cityStr);
-
-		if (Strings.isNotEmpty(offer.pickUpLocation.regionId)) {
-			hotelParams.setRegionId(offer.pickUpLocation.regionId);
-		}
-
-		double latitude = offer.pickUpLocation.latitude;
-		double longitude = offer.pickUpLocation.longitude;
-		hotelParams.setSearchLatLon(latitude, longitude);
-
-		hotelParams.setCheckInDate(LocalDate.fromCalendarFields(offer.getPickupTime().toCalendar(Locale.US)));
-		hotelParams.setCheckOutDate(LocalDate.fromCalendarFields(offer.getDropOffTime().toCalendar(Locale.US)));
-		ensureMaxStayTwentyEightDays(hotelParams);
-
 		return hotelParams;
 	}
 

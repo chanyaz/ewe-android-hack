@@ -3,18 +3,18 @@ package com.expedia.bookings.test
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
-import com.expedia.ui.CarActivity
+import com.expedia.ui.LOBWebViewActivity
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -117,8 +117,9 @@ class PackageConfirmationViewModelTest {
 
         vm.searchForCarRentalsForTripObserver(activity).onNext(null)
         val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
 
-        assertEquals(CarActivity::class.java.name, intent.component.className)
-        assertTrue(intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false))
+        assertEquals(LOBWebViewActivity::class.java.name, intent.component.className)
+        assertTrue(intentUrl.startsWith(PointOfSale.getPointOfSale().carsTabWebViewURL))
     }
 }

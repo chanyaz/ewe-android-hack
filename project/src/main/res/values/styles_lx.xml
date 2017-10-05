@@ -17,15 +17,13 @@
         <item name="android:colorPrimaryDark">@color/app_primary_dark</item>
         <item name="android:colorButtonNormal">@color/app_primary</item>
         <item name="colorAccent">@color/app_primary</item>
-        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_lx</item>
 
         <item name="map_pin_drawable">@drawable/map_marker_green</item>
 
         <!-- Skins added for whitelabel -->
         <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
 
-        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
-        <item name="skin_checkoutLoginButtonColor">@color/checkout_login_button_color</item>
         <item name="skin_lxPrimaryColor">@color/app_primary</item>
 
         <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
@@ -84,8 +82,7 @@
     <style name="AppTheme.Base.LX">
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
         <item name="checkout_card_view_style">@style/LXCardView</item>
-        <item name="checkout_slider_text">@string/lx_slider_text</item>
-        <item name="sliderText">@string/cars_slider_text</item>
+        <item name="sliderText">@string/lx_slide_to_reserve</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
 
@@ -103,7 +100,6 @@
         <!-- Action Bar Attrs -->
         <item name="skin_actionbarTextColor">@color/lx_actionbar_text_color</item>
 
-        <item name="checkout_unexpanded_space_height">@dimen/lx_unexpanded_space_height</item>
         <item name="toolbarNavigationButtonStyle">@style/LXNavigationButtonStyle</item>
     </style>
 
@@ -185,7 +181,7 @@
     <style name="LXBookingButton" parent="V2.Theme.LX">   
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:background">@drawable/itin_button</item>
-        <item name="android:textColor">@color/lx_confirmation_action_text_color</item>     
+        <item name="android:textColor">@color/confirmation_action_text_color</item>     
         <item name="android:textSize">15sp</item>     
         <item name="android:paddingLeft">20dp</item>
         <item name="android:paddingRight">20dp</item>

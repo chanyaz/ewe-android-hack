@@ -35,9 +35,8 @@ public class PlaygroundActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Ui.getApplication(this).defaultCarComponents();
 		Ui.getApplication(this).defaultLXComponents();
-		setTheme(getIntent().getIntExtra(KEY_THEME_RES, R.style.V2_Theme_Cars));
-		setContentView(getIntent().getIntExtra(KEY_LAYOUT_RES, R.layout.activity_car));
+		setTheme(getIntent().getIntExtra(KEY_THEME_RES, R.style.V2_Theme_Packages));
+		setContentView(getIntent().getIntExtra(KEY_LAYOUT_RES, R.layout.package_activity));
 	}
 }

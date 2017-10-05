@@ -11,6 +11,7 @@ import android.content.res.Resources;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.JodaUtils;
+import com.squareup.phrase.Phrase;
 
 import java.text.SimpleDateFormat;
 
@@ -73,6 +74,9 @@ public class DateTimeUtils {
 		String dateFormat = DateTimeUtils.getDeviceTimeFormat(context);
 		String formattedStart = JodaUtils.format(start, dateFormat);
 		String formattedEnd = JodaUtils.format(end, dateFormat);
-		return context.getString(R.string.date_time_range_TEMPLATE, formattedStart, formattedEnd);
+		return Phrase.from(context, R.string.date_time_range_TEMPLATE)
+			.put("from_date_time", formattedStart)
+			.put("to_date_time", formattedEnd)
+			.format().toString();
 	}
 }

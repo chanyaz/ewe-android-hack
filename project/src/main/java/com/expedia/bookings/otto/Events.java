@@ -11,16 +11,6 @@ import android.os.Looper;
 
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.cars.CarCategory;
-import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
-import com.expedia.bookings.data.cars.CarCheckoutResponse;
-import com.expedia.bookings.data.cars.CarCreateTripResponse;
-import com.expedia.bookings.data.cars.CarFilter;
-import com.expedia.bookings.data.cars.CarSearch;
-import com.expedia.bookings.data.cars.CarSearchParam;
-import com.expedia.bookings.data.cars.CategorizedCarOffers;
-import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -37,7 +27,6 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.widget.LXOfferDatesButton;
-import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -170,211 +159,11 @@ public class Events {
 	public static class HotelRateSelected {
 	}
 
-	/**
-	 * Cars cars cars
-	 */
-
-	public static class SignOut {
-		// ignore
-	}
-
-	public static class CarsSessionTimeout {
-		// ignore
-	}
-
-	public static class CarsPaymentFailed {
-		// ignore
-	}
-
-	public static class CarsSearchFailed {
-		// ignore
-	}
-
-	public static class CarsInvalidInput {
-		public String field;
-
-		public CarsInvalidInput(String field) {
-			this.field = field;
-		}
-	}
-
-	public static class CarsGoToSearch {
-		// ignore
-	}
-
-	public static class CarsFilterDone {
-		public CarFilter carFilter;
-
-		public CarsFilterDone(CarFilter carFilter) {
-			this.carFilter = carFilter;
-		}
-	}
-
-	public static class CarsGoToOverlay {
-		// ignore
-	}
-
-	public static class CarsNewSearchParams {
-		public CarSearchParam carSearchParams;
-		public String productKey;
-
-		public CarsNewSearchParams(CarSearchParam params) {
-			carSearchParams = params;
-		}
-
-		public CarsNewSearchParams(CarSearchParam params, String productKey) {
-			carSearchParams = params;
-			this.productKey = productKey;
-		}
-
-	}
-
-	public static class CarsShowLoadingAnimation {
-		// ignore
-	}
-
-	public static class CarsShowSearchResults {
-		public CarSearch results;
-
-		public CarsShowSearchResults(CarSearch results) {
-			this.results = results;
-		}
-	}
-
-	public static class CarsShowFilteredSearchResults {
-		// ignore
-	}
-
-	public static class CarsShowSearchResultsError {
-		public ApiError error;
-
-		public CarsShowSearchResultsError(ApiError error) {
-			this.error = error;
-		}
-	}
-
-	public static class CarsShowDetails {
-		public CategorizedCarOffers categorizedCarOffers;
-
-		public CarsShowDetails(CategorizedCarOffers offers) {
-			categorizedCarOffers = offers;
-		}
-	}
-
-	public static class CarsShowCheckoutAfterPriceChange {
-		// ignore
-	}
-
-	public static class CarsUpdateCheckoutSummaryAfterPriceChange {
-		public CreateTripCarOffer originalCreateTripOffer;
-		public CreateTripCarOffer newCreateTripOffer;
-		public String tripId;
-
-		public CarsUpdateCheckoutSummaryAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer,
-			String tripId) {
-			this.originalCreateTripOffer = originalOffer;
-			this.newCreateTripOffer = newOffer;
-			this.tripId = tripId;
-		}
-	}
-
-	public static class CarsShowCheckout {
-		public String productKey;
-		public Money fare;
-		public boolean isInsuranceIncluded;
-		public LatLng location;
-
-		public CarsShowCheckout(String productKey, Money fare, boolean isInsuranceIncluded, LatLng location) {
-			this.productKey = productKey;
-			this.fare = fare;
-			this.isInsuranceIncluded = isInsuranceIncluded;
-			this.location = location;
-		}
-	}
-
-	public static class CarsCheckoutCreateTripSuccess {
-		public CarCreateTripResponse response;
-
-		public CarsCheckoutCreateTripSuccess(CarCreateTripResponse carCreateTripResponse) {
-			this.response = carCreateTripResponse;
-		}
-	}
-
 	public static class ShowCVV {
 		public BillingInfo billingInfo;
 
 		public ShowCVV(BillingInfo info) {
 			this.billingInfo = info;
-		}
-	}
-
-	public static class CarsKickOffSearchCall {
-		public CarSearchParam carSearchParams;
-
-		public CarsKickOffSearchCall(CarSearchParam params) {
-			this.carSearchParams = params;
-		}
-	}
-
-	public static class CarsKickOffCheckoutCall {
-		public CarCheckoutParamsBuilder checkoutParamsBuilder;
-
-		public CarsKickOffCheckoutCall(CarCheckoutParamsBuilder checkoutParamsBuilder) {
-			this.checkoutParamsBuilder = checkoutParamsBuilder;
-		}
-	}
-
-	public static class CarsShowConfirmation {
-		public CarCheckoutResponse checkoutResponse;
-
-		public CarsShowConfirmation(CarCheckoutResponse checkoutResponse) {
-			this.checkoutResponse = checkoutResponse;
-		}
-	}
-
-	public static class CarsCategoryFilterCheckChanged {
-		public CarCategory category;
-		public boolean checked;
-
-		public CarsCategoryFilterCheckChanged(CarCategory category, boolean checked) {
-			this.category = category;
-			this.checked = checked;
-		}
-	}
-
-	public static class CarsSupplierFilterCheckChanged {
-		public String supplier;
-		public boolean checked;
-
-		public CarsSupplierFilterCheckChanged(String supplier, boolean checked) {
-			this.supplier = supplier;
-			this.checked = checked;
-		}
-	}
-
-	public static class CarsIsFiltered {
-		public CarSearch filteredCarSearch;
-		public CategorizedCarOffers filteredCarOffers;
-
-		public CarsIsFiltered(CarSearch filteredCarSearch, CategorizedCarOffers filteredCarOffers) {
-			this.filteredCarSearch = filteredCarSearch;
-			this.filteredCarOffers = filteredCarOffers;
-		}
-	}
-
-	public static class CarsShowProductKeyDetails {
-		public CarSearch productKeyCarSearch;
-
-		public CarsShowProductKeyDetails(CarSearch productKeyCarSearch) {
-			this.productKeyCarSearch = productKeyCarSearch;
-		}
-	}
-
-	public static class CarsShowResultsForProductKey {
-		public CarSearch productKeyCarSearch;
-
-		public CarsShowResultsForProductKey(CarSearch productKeyCarSearch) {
-			this.productKeyCarSearch = productKeyCarSearch;
 		}
 	}
 

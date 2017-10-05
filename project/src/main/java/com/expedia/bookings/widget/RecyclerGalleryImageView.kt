@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.Ui
 
 class RecyclerGalleryImageView(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
 
-    private var actualHeight = context.resources.getDimensionPixelSize(R.dimen.car_details_image_size)
+    private var actualHeight = context.resources.getDimensionPixelSize(R.dimen.gallery_image_height)
 
     override fun setImageBitmap(bitmap: Bitmap?) {
         super.setImageBitmap(bitmap)

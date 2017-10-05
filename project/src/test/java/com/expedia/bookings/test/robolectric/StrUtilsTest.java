@@ -46,7 +46,7 @@ public class StrUtilsTest {
 
 	@Before
 	public void before() {
-		getContext().setTheme(R.style.V2_Theme_Cars);
+		getContext().setTheme(R.style.V2_Theme_Packages);
 	}
 
 	@Test

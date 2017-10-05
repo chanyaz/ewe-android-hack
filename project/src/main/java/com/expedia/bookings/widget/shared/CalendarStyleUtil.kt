@@ -14,7 +14,7 @@ class CalendarStyleUtil {
     companion object {
         @JvmStatic fun style(context: Context, calendar: CalendarPicker, monthView: MonthView, dayOfWeek: DaysOfWeekView) {
             monthView.setTextEqualDatesColor(Color.WHITE)
-            monthView.setMaxTextSize(context.resources.getDimension(R.dimen.car_calendar_month_view_max_text_size))
+            monthView.setMaxTextSize(context.resources.getDimension(R.dimen.calendar_month_view_max_text_size))
             dayOfWeek.setDayOfWeekRenderer(CalendarShortDateRenderer())
 
             calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))

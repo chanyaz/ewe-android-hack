@@ -127,37 +127,30 @@
     <dimen name="lx_sort_filter_container_height">58dp</dimen>
     <dimen name="lx_sort_filter_padding">16dp</dimen>
     <dimen name="lx_sort_filter_margin">16dp</dimen>
-    <dimen name="lx_unexpanded_space_height">190dp</dimen>
     <dimen name="lx_results_bottom_padding">58dp</dimen>
     <dimen name="gt_results_bottom_padding">0dp</dimen>
     <dimen name="lx_category_image_width">300dp</dimen>
     <dimen name="space_below_lx_filter_view_height">52dp</dimen>
 
-    <!-- Car Search  -->
-    <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>
+    <dimen name="calendar_month_view_max_text_size">12dp</dimen>
     <dimen name="time_slider_rectangle_width">50dp</dimen>
     <dimen name="time_slider_rectangle_height">25dp</dimen>
     <dimen name="time_slider_thumbnail_radius">8dp</dimen>
     <dimen name="time_slider_corner_radius">5dp</dimen>
     <dimen name="time_slider_text_size">10dp</dimen>
     <dimen name="time_slider_text_container">110dp</dimen>
-    <dimen name="car_search_list_image_container_height">134dp</dimen>
-    <dimen name="car_search_details_container_height">37dp</dimen>
 
     <!-- Filter Widget  -->
     <dimen name="filter_slider_thumbnail_radius">25dp</dimen>
 
-    <!-- Car Details -->
-    <dimen name="car_details_image_size">240dp</dimen>
+    <dimen name="gallery_image_height">240dp</dimen>
 
-    <dimen name="cars_checkout_cost_summary_min_height">270dp</dimen>
+    <dimen name="lx_checkout_cost_summary_min_height">270dp</dimen>
 
-    <!-- Car Confirmation Slide to reserve -->
-    <dimen name="car_slide_to_purchase_price_text_size">13dp</dimen>
-    <dimen name="car_slide_to_purchase_padding">50dp</dimen>
-    <dimen name="car_image_width">300dp</dimen>
-    <dimen name="car_unexpanded_space_height">165dp</dimen>
-    <dimen name="car_expanded_space_height">350dp</dimen>
+    <dimen name="slide_to_purchase_price_text_size">13dp</dimen>z
+    <dimen name="slide_to_purchase_padding">50dp</dimen>
+    <dimen name="itin_car_image_width">300dp</dimen>
+    <dimen name="checkout_expanded_space_height">350dp</dimen>
     <dimen name="core_spinner_height">50dp</dimen>
 
     <!-- Hotel Dimensions -->
@@ -279,11 +272,11 @@
     <!-- Dimension for left margin on icon of new login button on flight checkout-->
     <dimen name="checkout_icon_right_margin_flight">16dp</dimen>
 
-    <!-- Dimension for left margin on icon of new login button on gotel checkout-->
+    <!-- Dimension for left margin on icon of new login button on hotel checkout-->
     <dimen name="checkout_icon_right_margin_hotel">16dp</dimen>
 
-    <!-- Dimension for left margin on icon of new login button on car >>>>>>> expedia-stable& LX checkout-->
-    <dimen name="checkout_icon_right_margin_car_lx">16dp</dimen>
+    <!-- Dimension for left margin on icon of new login button on LX checkout-->
+    <dimen name="checkout_icon_right_margin_lx">16dp</dimen>
 
     <!-- Filter Screen Padding -->
     <dimen name="sort_filter_padding_small">5dp</dimen>

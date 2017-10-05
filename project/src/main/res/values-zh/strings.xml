@@ -60,137 +60,33 @@
 
     <!-- Cars -->
     <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="car_toolbar_date_range_TEMPLATE">{from_date_time}- {to_date_time}</string>
+    <string name="date_time_range_TEMPLATE">{from_date_time}- {to_date_time}</string>
     <!-- Cars Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="car_toolbar_date_range_cont_desc_TEMPLATE">{from_date_time}- {to_date_time}</string>
+    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time}- {to_date_time}</string>
     <!-- Cars Calendar Strings -->
-    <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">下一步：选择还车日期</string>
-    <!-- When user hasn't picked drop-off date, we show something like: "Jan 21 - Select drop-off date" -->
-    <string name="select_drop_off_date_TEMPLATE">%1$s- 选择还车日期</string>
-    <!-- Cars price templates-->
-    <string name="cars_hourly_text">每小时</string>
-    <!-- Cars price templates-->
-    <string name="cars_daily_text">每天</string>
-    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">标价使用的是%s。</string>
-    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">标价使用的是%1$s。所有取车时应付的税费都需要使用当地货币结算 (%2$s)。</string>
-    <!-- Cars weekly price templates-->
-    <string name="cars_weekly_text">每周</string>
-    <!-- Cars weekly price templates-->
-    <string name="cars_monthly_text">每月</string>
-    <!-- Cars price templates-->
-    <string name="cars_total_template">总额 %s</string>
     <!-- Slide to reserve -->
-    <string name="cars_slider_text">滑动屏幕，开始预订</string>
+    <string name="lx_slide_to_reserve">滑动屏幕，开始预订</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_reserve_button">预订</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">付款</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_dupe_trip_text">重复行程</string>
     <!-- Text for price change-->
     <string name="price_change_text">价格变动</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">您此次旅行的价格已由 {oldprice} 变为 {newprice}。价格经常变化。马上预订，锁定这个价格。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">价格有变动</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_payment_failed_text">付款失败</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_invalid_input_text">信息无效</string>
-    <!-- Text for generic error toolbar-->
-    <string name="cars_error_text">错误</string>
-    <!-- Text for toolbar on no search results -->
-    <string name="cars_no_results_text">无结果</string>
-    <!-- Text for reserving car-->
-    <string name="cars_reserve_text">预订</string>
-    <!-- Text for viewing details-->
-    <string name="cars_view_details_text">查看详细信息</string>
-    <!-- Text for driver details toolbar-->
-    <string name="cars_driver_details_text">驾驶员信息</string>
-    <!-- Text for enter driver details-->
-    <string name="enter_driver_details">输入驾驶员的信息</string>
-    <!-- Content description for enter driver details-->
-    <string name="enter_driver_details_cont_desc">按钮：输入驾驶员信息</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">选择保存的联系人</string>
-    <!-- Car doors text-->
-    <string name="car_doors_text">门</string>
-    <!-- Car bags text-->
-    <string name="car_bags_text">行李</string>
-    <!-- Car automatic transmission text-->
-    <string name="car_auto_tran_text">自动档</string>
-    <!-- Car manual transmission text-->
-    <string name="car_man_tran_text">手动档</string>
-
-    <!-- car result -->
-    <!-- car door range -->
-    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
-    <!-- car details template -->
-    <string name="car_details_TEMPLATE">%1$s %2$s</string>
-
-    <!-- Cars Confirmation Screen -->
-    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
-    <string name="calendar_car_title_TEMPLATE">取车地点%1$s</string>
-    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
-    <string name="calendar_car_location_TEMPLATE">%1$s</string>
-    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_desc_itinerary_TEMPLATE">{brand}行程编号：{itinerary}</string>
-    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_desc_support_TEMPLATE">{brand}客服电话：{localphone} 和 {phone}</string>
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">谷歌地图显示的活动地点</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">酒店</string>
-    <!-- Label for pickup location selector -->
-    <string name="pick_up_location">取车地点</string>
-    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="drop_off_location">还车（与取车相同）</string>
-    <!-- Label for Car Search Screen header -->
-    <string name="toolbar_search_cars">搜索租车</string>
-    <!-- Label for Cars date button -->
-    <string name="select_pickup_and_dropoff_dates">请选择取车和还车日期</string>
-    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
-    <string name="date_time_range_TEMPLATE">%1$s– %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} - 选择回程日期</string>
-    <!-- Car Calendar Strings -->
-    <string name="select_pickup_date">选择取车日期</string>
-    <!-- Label for pick-up time picker -->
-    <string name="pick_up_time_label">取车</string>
-    <!-- Label for drop-up time picker -->
-    <string name="drop_off_time_label">还车</string>
-    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">即将推出！我们正在努力，争取尽快添加单程预订功能。</string>
-    <!-- Label for hint for car pick-up-->
-    <string name="car_pick_up_hint">取车</string>
-    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Pick up time 9:00 am-->
-    <string name="pick_up_slider_cont_desc_TEMPLATE">取车时间 {time}</string>
-    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
-    <string name="drop_off_slider_cont_desc_TEMPLATE">还车时间 {time}</string>
     <!-- Car search error -->
     <string name="error_no_result_message">很抱歉，我们找不到任何结果。请使用不同的搜索组合，再试一次。</string>
-    <!-- Car no filtered search results -->
-    <string name="filter_no_car_search_results_message">您所做的搜索未返回任何结果。请尝试减少筛选条件。</string>
-    <!-- Transmission options filter label for a car rental -->
-    <string name="options">选项</string>
-    <!-- Automatic transmission filter button-->
-    <string name="car_filter_automatic">自动</string>
-    <!-- Manual transmission filter button-->
-    <string name="car_filter_manual">手动</string>
-    <!-- Any transmission type filter button -->
-    <string name="car_filter_all">全部</string>
-    <!-- Air conditioning option checkbox filter -->
-    <string name="car_filter_checkbox_air_conditioning">空调</string>
-    <!-- Unlimited mileage option checkbox filter -->
-    <string name="car_filter_checkbox_unlimited_mileage">不限里程</string>
-    <!-- Car types checkbox filter label for a car rental-->
-    <string name="car_types">车型</string>
-    <!-- Car types checkbox filter label for a car rental-->
-    <string name="car_vendors">租车公司</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">清除筛选条件</string>
     <!-- Label to tell the user how many products match their filter -->
@@ -205,42 +101,12 @@
     </plurals>
 
     <!-- Checkout -->
-    <!-- Car model templates-->
-    <string name="car_model_name_template">%1$s或相近车型</string>
-    <string name="car_model_unknown_template">具体型号未知</string>
-    <!-- Car checkout cost breakdown total due today -->
-    <string name="car_cost_breakdown_due_today">今天付款</string>
-    <!-- Car checkout cost breakdown total due at pick up -->
-    <string name="car_cost_breakdown_total_due">取车时付款</string>
-    <!-- Car checkout cost breakdown for alert button -->
-    <string name="car_cost_breakdown_button_text">完成</string>
-    <!-- Car checkout rental fare breakdown types -->
-    <!--Cost breakdown type base -->
-    <string name="car_rental_breakdown_base">租车</string>
-    <!--Cost breakdown type insurance -->
-    <string name="car_rental_breakdown_insurance">保险</string>
-    <!--Cost breakdown type drop off charge -->
-    <string name="car_rental_breakdown_drop_off_charges">还车收费</string>
-    <!-- Unlimited mileage -->
-    <string name="unlimited_mileage">不限里程</string>
-    <!-- Insurance included -->
-    <string name="insurance_included">已含保险</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">行程编号 %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">缺少付款参数。</string>
-    <!--Adding hotel from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_hotel">%1$s的酒店</string>
-    <!--Adding flight from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_flight">飞往%1$s的航班</string>
-    <!-- Car confirmation screen label -->
-    <string name="successful_checkout_pickup_label">取车地点：</string>
-    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
-    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s飞往</string>
     <!-- Car confirmation itin text -->
     <string name="successful_checkout_email_label">行程单已发送至</string>
-    <!-- Car confirmation directions text -->
-    <string name="car_confirmation_directions">前往%1$s的路线</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">输入新的借记卡或信用卡信息</string>
     <!-- Text for enter guest details line 1 -->
@@ -277,21 +143,14 @@
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">锁图标，安全付款</string>
 
-    <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early.  -->
-    <string name="pick_up_time_error">请调整您的取车或还车时间。</string>
     <!-- Message for user that date is too far out.  -->
     <string name="error_date_too_far">日期距离太远了，请选择较近的日期。</string>
-    <!-- Message for user that increase your reservation duration. -->
-    <string name="reservation_time_too_short">请延长预订时间。</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">还在吗？您的会话已经过期了。请再次尝试搜索。</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
     <string name="reservation_already_exists_new_hotels">此次预订已经完成。请检查您的行程或电子邮件。</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">嗯…好像您已经预订过了。请检查您的行程或电子邮件。</string>
-    <!-- Show to user when the price of a car they are trying to book has changed -->
-    <string name="reservation_price_change">您租车的价格有变化。请确认新价格，然后继续。</string>
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">姓名不能包含数字或特殊字符。</string>
     <!-- Show to user when their phone number is invalid -->
@@ -301,8 +160,6 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">嗯…您的付款没有成功。请仔细检查详细付款信息，然后再试一次。</string>
-    <!-- Shown to a user when their ability to rent a specific car expires -->
-    <string name="error_cars_product_expired">您的搜索已经过期了。请选择有效的取车时间。</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">查看价格变化</string>
     <!-- My Trips button that takes you to Itins -->
@@ -683,8 +540,6 @@
     <string name="all_things_to_do_description">您所选日期提供的全部活动列表</string>
 
     <!-- LX Strings -->
-    <!-- Slide to book -->
-    <string name="lx_slider_text">滑动屏幕，即可预订</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">请输入详细联系信息</string>
     <!-- LX search error -->
@@ -1382,66 +1237,6 @@
     <!-- Car category: oversize -->
     <string name="car_category_oversize">特大型车</string>
 
-    <!-- Car category for results and details screen -->
-    <!-- Car category: mini -->
-    <string name="car_category_result_mini">迷你型</string>
-    <!-- Car category: economy -->
-    <string name="car_category_result_economy">经济型</string>
-    <!-- Car category: compact -->
-    <string name="car_category_result_compact">小型</string>
-    <!-- Car category: midize -->
-    <string name="car_category_result_midsize">中型</string>
-    <!-- Car category: standard -->
-    <string name="car_category_result_standard">标准车型</string>
-    <!-- Car category: fullsize -->
-    <string name="car_category_result_fullsize">大型车</string>
-    <!-- Car category: premium -->
-    <string name="car_category_result_premium">高档</string>
-    <!-- Car category: luxury -->
-    <string name="car_category_result_luxury">豪华</string>
-    <!-- Car category: mini elite -->
-    <string name="car_category_result_mini_elite">精英版迷你车</string>
-    <!-- Car category: economy elite -->
-    <string name="car_category_result_economy_elite">精英版经济型车</string>
-    <!-- Car category: compact elite -->
-    <string name="car_category_result_compact_elite">精英版小型车</string>
-    <!-- Car category: midize elite -->
-    <string name="car_category_result_midsize_elite">精英版中型车</string>
-    <!-- Car category: standard elite -->
-    <string name="car_category_result_standard_elite">精英版标准型车</string>
-    <!-- Car category: fullsize elite -->
-    <string name="car_category_result_fullsize_elite">精英版大型车</string>
-    <!-- Car category: premium elite -->
-    <string name="car_category_result_premium_elite">精英版高档车</string>
-    <!-- Car category: luxury elite -->
-    <string name="car_category_result_luxury_elite">精英版豪华车</string>
-    <!-- Car category: oversize -->
-    <string name="car_category_result_oversize">特大型车</string>
-
-    <!-- Car types -->
-    <string name="car_type_two_door">双门轿车</string>
-    <string name="car_type_three_door">三门轿车</string>
-    <string name="car_type_four_door">四门轿车</string>
-    <string name="car_type_van">商务车</string>
-    <string name="car_type_wagon">旅行车</string>
-    <string name="car_type_limousine">豪华轿车</string>
-    <string name="car_type_recreational_vehicle">露营车</string>
-    <string name="car_type_convertible">敞篷车</string>
-    <string name="car_type_sports_car">跑车</string>
-    <string name="car_type_suv">SUV</string>
-    <string name="car_type_pickup_regular_cab">标准皮卡</string>
-    <string name="car_type_open_air_all_terrain">吉普车</string>
-    <string name="car_type_special">特殊车款</string>
-    <string name="car_type_commercial_van_truck">商用厢式货车/卡车</string>
-    <string name="car_type_pickup_extended_cab">加长皮卡</string>
-    <string name="car_type_special_offer_car">特价车款</string>
-    <string name="car_type_coupe">轿跑车</string>
-    <string name="car_type_monospace">单厢车</string>
-    <string name="car_type_motor_home">旅宿车</string>
-    <string name="car_type_two_wheel_vehicle">双轮车</string>
-    <string name="car_type_roadster">敞篷跑车</string>
-    <string name="car_type_crossover">跨界车</string>
-
     <!-- Itin card details -->
     <string name="itin_card_details_active">有效</string>
     <string name="itin_card_details_expires">到期</string>
@@ -1978,8 +1773,6 @@
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">酒店不接受 {card_type}</string>
     <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
     <string name="package_does_not_accept_cardtype_TEMPLATE">此行程不接受 {card_type}</string>
-    <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
-    <string name="car_does_not_accept_cardtype_TEMPLATE">此租车公司不接受 {card_type}</string>
     <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">此活动不接受 {card_type}</string>
 
@@ -2019,8 +1812,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">您使用了 {points} Expedia+ 积分（价值 {amount}）</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">您使用了 {points} Expedia+ 积分（价值 {amount}）\n您的卡将被收取 {dueamount}</string>
-    <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_template">今天应付金额：{dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">完成预订</string>
     <!-- Our price gaurentee string -->
@@ -2413,8 +2204,6 @@
     <!-- Button label for accepting an error and moving forward -->
     <!-- Button label for retrying after getting an error -->
     <string name="retry">重试</string>
-    <!-- Button label for adjusting filters after getting no results -->
-    <string name="edit_filters">编辑筛选条件</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">您输入的持卡人姓名与信用卡不符。请再试一次。</string>
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
@@ -3677,39 +3466,11 @@
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="pay_later_cont_desc">按此按钮选择到店付款</string>
 
-    <!-- Content description for Cars filter button -->
-    <string name="cars_filter_button_cont_desc">筛选按钮</string>
-    <!-- Content description for car result door count e.g. Doors 2-4 -->
-    <string name="cars_door_count_cont_desc_TEMPLATE">{doorcount} 门</string>
-    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
-    <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount} 座</string>
-    <!-- Content description for car result bags count e.g. Bags 2-4 -->
-    <string name="cars_bags_count_cont_desc_TEMPLATE">{bagscount} 个旅行袋</string>
     <!-- Content description for hotel star rating e.g. 3 stars -->
     <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
         <item quantity="one">{rating} 星</item>
         <item quantity="other">{rating} 星</item>
     </plurals>
-    <!-- Content descriptions for Cars filter transmission buttons -->
-    <string name="cars_filter_transmission_manual_button_cont_desc">手动档</string>
-    <string name="cars_filter_transmission_automatic_button_cont_desc">自动档</string>
-    <string name="cars_filter_transmission_all_button_cont_desc">全部换档方式</string>
-
-    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
-    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}，{make}，预订按钮</string>
-    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
-    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}，{make}，详细信息按钮</string>
-
-    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
-    <string name="car_confirmation_directions_cont_desc_TEMPLATE">按钮：前往{vendor}的路线</string>
-    <!-- Car confirmation add to calendar content description-->
-    <string name="car_confirmation_add_to_calendar_cont_desc">按钮：添加到日历</string>
-    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
-    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">按钮：{location}的酒店</string>
-    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
-    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">按钮：飞往{location}的航班</string>
-    <!-- Content description for action: $500. Cost summary information button -->
-    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}。按钮：费用摘要信息。</string>
 
     <!-- Dialog positive button message -->
     <string name="yes">是</string>

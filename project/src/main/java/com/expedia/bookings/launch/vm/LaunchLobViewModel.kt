@@ -43,7 +43,7 @@ class LaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSu
             lobs.add(LobInfo.PACKAGES)
         }
 
-        if (pos.supports(LineOfBusiness.CARS) || AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsWebViewNewPOS)) {
+        if (pos.supports(LineOfBusiness.CARS)) {
             lobs.add(LobInfo.CARS)
         }
 

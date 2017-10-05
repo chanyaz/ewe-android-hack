@@ -6,7 +6,6 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,23 +37,16 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.ApiError;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.PaymentType;
-import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.abacus.ABTest;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.CarCheckoutResponse;
-import com.expedia.bookings.data.cars.CarSearchParam;
-import com.expedia.bookings.data.cars.CarTrackingData;
-import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightItineraryType;
@@ -98,7 +90,6 @@ import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.PageUsableData;
 import com.expedia.bookings.utils.CollectionUtils;
-import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
@@ -246,7 +237,6 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CHECKOUT_TRAVELER_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
 	private static final String HOTELSV2_CHECKOUT_SELECT_STORED_CARD = "App.Hotels.CKO.Payment.StoredCard";
 	private static final String HOTELSV2_CHECKOUT_EDIT_PAYMENT = "App.Hotels.Checkout.Payment.Edit.Card";
-	private static final String APP_CHECKOUT_SLIDE_TO_PURCHASE_PAGE_NAME = "App.Checkout.SlideToPurchase";
 	private static final String HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
 	private static final String HOTELSV2_CHECKOUT_ERROR = "App.Hotels.Checkout.Error";
 	private static final String HOTELSV2_PURCHASE_CONFIRMATION = "App.Hotels.Checkout.Confirmation";
@@ -269,7 +259,7 @@ public class OmnitureTracking {
 	private static final String APP_CKO_PAYMENT_DECLINE_SAVE = "App.CKO.Payment.DeclineSave";
 	private static final String APP_CKO_TRAVELER_SAVE = "App.CKO.Traveler.Save";
 	private static final String APP_CKO_TRAVELER_DECLINE_SAVE = "App.CKO.Traveler.DeclineSave";
-	public static final String APP_CKO_SLIDE_TO_BOOK = "App.CKO.SlideToBook";
+	private static final String APP_CKO_SLIDE_TO_BOOK = "App.CKO.SlideToBook";
 
 	private static final String UNIVERSAL_CHECKOUT = "Universal Checkout";
 
@@ -3531,11 +3521,6 @@ public class OmnitureTracking {
 		createTrackPageLoadEventBase(pageName).track();
 	}
 
-	private static void internalTrackPageLoadEventPriceChange(String pageName) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		createTrackPageLoadEventPriceChange(pageName).track();
-	}
-
 	private static void internalTrackLink(String link) {
 		ADMS_Measurement s = createTrackLinkEvent(link);
 		internalTrackLink(s);
@@ -3751,49 +3736,6 @@ public class OmnitureTracking {
 			.createUsersTripComponentTypeEventString(getUsersTrips());
 	}
 
-	private static String getPaymentType() {
-		BillingInfo billingInfo = Db.getBillingInfo();
-		StoredCreditCard scc = billingInfo.getStoredCard();
-		PaymentType type;
-		if (scc != null) {
-			type = scc.getType();
-		}
-		else {
-			type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber(), sContext);
-		}
-
-		if (type != null) {
-			switch (type) {
-			case CARD_AMERICAN_EXPRESS:
-				return "AmericanExpress";
-			case CARD_CARTE_BLANCHE:
-				return "CarteBlanche";
-			case CARD_CHINA_UNION_PAY:
-				return "ChinaUnionPay";
-			case CARD_DINERS_CLUB:
-				return "DinersClub";
-			case CARD_DISCOVER:
-				return "Discover";
-			case CARD_JAPAN_CREDIT_BUREAU:
-				return "JapanCreditBureau";
-			case CARD_MAESTRO:
-				return "Maestro";
-			case CARD_MASTERCARD:
-				return "MasterCard";
-			case CARD_VISA:
-				return "Visa";
-			case CARD_CARTE_BLEUE:
-				return "CarteBleue";
-			case CARD_CARTA_SI:
-				return "CartaSi";
-			case CARD_UNKNOWN:
-				return "Unknown";
-			}
-		}
-
-		return "Unknown";
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Car Tracking
 	//
@@ -3801,24 +3743,6 @@ public class OmnitureTracking {
 	//
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String CAR_LOB = "cars";
-	private static final String CAR_DATE_FORMAT = "HHmm";
-
-	private static final String CAR_DEST_SEARCH = "App.Cars.Dest-Search";
-	private static final String CAR_NO_RESULT = "App.Cars.NoResults";
-	private static final String CAR_SEARCH = "App.Cars.Search";
-	private static final String CAR_FILTERS = "App.Cars.Search.Filter";
-	private static final String CAR_CHECKOUT_ERROR = "App.Cars.Checkout.Error";
-	private static final String CAR_RATE_DETAIL = "App.Cars.RateDetails";
-	private static final String CAR_VIEW_DETAILS = "App.Cars.RD.ViewDetails";
-	private static final String CAR_VIEW_MAP = "App.Cars.RD.ViewMap";
-	private static final String CAR_CHECKOUT_PAGE = "App.Cars.Checkout.Info";
-	private static final String CAR_CHECKOUT_TRAVELER_INFO = "App.Cars.Checkout.Traveler.Edit.Info";
-	private static final String CAR_CHECKOUT_PAYMENT_INFO = "App.Cars.Checkout.Payment.Edit.Info";
-	private static final String CAR_CHECKOUT_SLIDE_TO_PURCHASE = "App.Cars.Checkout.SlideToPurchase";
-	private static final String CAR_CHECKOUT_CVV_SCREEN = "App.Cars.Checkout.Payment.CID";
-	private static final String CAR_CHECKOUT_CONFIRMATION = "App.Cars.Checkout.Confirmation";
-	private static final String CAR_CHECKOUT_CONFIRMATION_CROSS_SELL = "App.Cars.CKO.Confirm.Xsell";
 	private static final String CAR_WEBVIEW_RETRY = "App.Cars.WebView.Retry";
 	private static final String CAR_WEBVIEW_LOGOUT = "App.Cars.WebView.Logout";
 	private static final String CAR_WEBVIEW_CLOSE = "App.Cars.WebView.Close";
@@ -3829,179 +3753,6 @@ public class OmnitureTracking {
 	private static final String RAIL_WEBVIEW_CLOSE = "App.Rails.WebView.Close";
 	private static final String RAIL_WEBVIEW_BACK = "App.Rails.WebView.Back";
 	private static final String RAIL_WEBVIEW_SIGNIN = "App.Rails.WebView.SignIn";
-
-	public static void trackAppCarSearchBox() {
-		Log.d(TAG, "Tracking \"" + CAR_DEST_SEARCH + "\" pageLoad...");
-		ADMS_Measurement s = internalTrackAppCar(CAR_DEST_SEARCH);
-		s.track();
-	}
-
-	public static void trackAppCarNoResults(ApiError apiError) {
-		Log.d(TAG, "Tracking \"" + CAR_NO_RESULT + "\" pageLoad...");
-		ADMS_Measurement s = internalTrackAppCar(CAR_NO_RESULT);
-		if (apiError.errorInfo != null && (Strings.isNotEmpty(apiError.errorInfo.cause) || Strings
-			.isNotEmpty(apiError.errorInfo.summary))) {
-			s.setProp(36,
-				Strings.isNotEmpty(apiError.errorInfo.cause) ? apiError.errorInfo.cause : apiError.errorInfo.summary);
-		}
-		s.track();
-	}
-
-	public static void trackAppCarSearch(CarSearchParam carSearchParams, int resultSize) {
-		Log.d(TAG, "Tracking \"" + CAR_SEARCH + "\" pageLoad...");
-		ADMS_Measurement s = internalTrackAppCar(CAR_SEARCH);
-
-		boolean isOffAirportSearch = carSearchParams.shouldSearchByLocationLatLng();
-		// Success event for Product Search, Local Expert Search
-		s.setEvents(isOffAirportSearch ? "event30,event52,event59" : "event30,event52");
-
-		//Number of results
-		s.setProp(1, Integer.toString(resultSize));
-
-		//Search Origin
-		s.setEvar(3, "D=c3");
-		s.setProp(3, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.getOriginLocation()));
-
-		//Search Destination
-		s.setProp(4, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.getOriginLocation()));
-		s.setEvar(4, "D=c4");
-
-		setDateValues(s, carSearchParams.getStartDateTime().toLocalDate(),
-			carSearchParams.getEndDateTime().toLocalDate());
-
-		s.setEvar(47, getEvar47String(carSearchParams));
-		s.setEvar(48, carSearchParams.getOriginDescription());
-
-		s.track();
-	}
-
-	public static void trackAppCarFilter() {
-		Log.d(TAG, "Tracking \"" + CAR_FILTERS + "\" pageLoad...");
-		ADMS_Measurement s = internalTrackAppCar(CAR_FILTERS);
-		s.track();
-	}
-
-	public static void trackCarCheckoutError() {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_ERROR + "\" pageLoad...");
-		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME, CAR_CHECKOUT_ERROR);
-
-		s.setProp(36, "Product key is null");
-		s.track();
-	}
-
-	public static void trackAppCarFilterUsage(String filter) {
-		Log.d(TAG, "Tracking \"" + CAR_FILTERS + "." + filter + "\" trackLink...");
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setEvar(28, CAR_FILTERS + "." + filter);
-		s.setProp(16, CAR_FILTERS + "." + filter);
-
-		s.trackLink(null, "o", "Car Search", null, null);
-	}
-
-	public static void trackAppCarRateDetails(SearchCarOffer offer) {
-		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + "\" pageLoad...");
-		ADMS_Measurement s = internalTrackAppCar(CAR_RATE_DETAIL);
-
-		s.setEvents("event4");
-		String evar38String = Strings.capitalizeFirstLetter(offer.vehicleInfo.category.toString()) + ":" + Strings
-			.capitalizeFirstLetter(offer.vehicleInfo.type.toString().replaceAll("_", " "));
-
-		s.setEvar(38, evar38String);
-		s.track();
-	}
-
-	public static void trackAppCarViewDetails() {
-		Log.d(TAG, "Tracking \"" + CAR_RATE_DETAIL + ".sh" + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setEvar(28, CAR_VIEW_DETAILS);
-		s.setProp(16, CAR_VIEW_DETAILS);
-		s.trackLink(null, "o", "Car Details", null, null);
-	}
-
-	public static void trackAppCarMapClick() {
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setEvar(28, CAR_VIEW_MAP);
-		s.setProp(16, CAR_VIEW_MAP);
-		s.trackLink(null, "o", "Car Details", null, null);
-	}
-
-	public static void trackAppCarCheckoutPage(CreateTripCarOffer carOffer) {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_PAGE + "\" pageLoad...");
-		ADMS_Measurement s = internalTrackAppCar(CAR_CHECKOUT_PAGE);
-
-		s.setEvents("event73");
-		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
-		s.track();
-	}
-
-	private static void trackAppCarCheckoutTraveler() {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setAppState(CAR_CHECKOUT_TRAVELER_INFO);
-		s.track();
-
-	}
-
-	private static void trackAppCarCheckoutPayment() {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_PAYMENT_INFO + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setAppState(CAR_CHECKOUT_PAYMENT_INFO);
-		s.setEvar(18, CAR_CHECKOUT_PAYMENT_INFO);
-		s.track();
-
-	}
-
-	public static void trackAppCarCheckoutSlideToPurchase(String cardType) {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setAppState(CAR_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(18, CAR_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37, cardType);
-		s.track();
-
-	}
-
-	public static void trackAppCarCheckoutCvvScreen() {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_CVV_SCREEN + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setAppState(CAR_CHECKOUT_CVV_SCREEN);
-		s.setEvar(18, CAR_CHECKOUT_CVV_SCREEN);
-
-		s.track();
-
-	}
-
-	public static void trackAppCarCheckoutConfirmation(CarCheckoutResponse carCheckoutResponse) {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_CONFIRMATION + "\" pageLoad...");
-		ADMS_Measurement s = internalTrackAppCar(CAR_CHECKOUT_CONFIRMATION);
-
-		s.setEvents("purchase");
-		s.setCurrencyCode(carCheckoutResponse.totalChargesPrice.currencyCode);
-		s.setPurchaseID("onum" + carCheckoutResponse.orderId);
-		addProducts(s, carCheckoutResponse.newCarProduct, carCheckoutResponse.trackingData);
-		setEvar30(s, carCheckoutResponse);
-
-		s.setProp(71, carCheckoutResponse.newTrip.travelRecordLocator);
-		s.setProp(72, carCheckoutResponse.orderId);
-		s.track();
-
-	}
-
-	public static void trackAppCarCheckoutConfirmationCrossSell(LineOfBusiness lob) {
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setEvar(12,
-			lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
-		s.setEvar(28, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
-		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
-		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
-	}
 
 	public static void trackAppCarWebViewRetry() {
 		createAndtrackLinkEvent(CAR_WEBVIEW_RETRY, "Car Webview");
@@ -4021,12 +3772,6 @@ public class OmnitureTracking {
 
 	public static void trackAppCarWebViewClose() {
 		createAndtrackLinkEvent(CAR_WEBVIEW_CLOSE, "Car Webview");
-	}
-
-	public static void trackAppCarWebViewABTest() {
-		ADMS_Measurement s = getFreshTrackingObject();
-		trackAbacusTest(s, PointOfSale.getPointOfSale().getCarsWebViewABTestID());
-		s.trackLink(null, "o", "Car Webview", null, null);
 	}
 
 	public static void trackAppCarFlexViewABTest() {
@@ -4067,51 +3812,6 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Rail Webview", null, null);
 	}
 
-	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackingData) {
-		String duration = Integer
-			.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()) + 1);
-		s.setProducts(
-			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
-				+ carOffer.detailedFare.grandTotal.amount);
-	}
-
-	private static String getEvar47String(CarSearchParam params) {
-		StringBuilder sb = new StringBuilder("CAR|RT|");
-		SimpleDateFormat sdf = new SimpleDateFormat(CAR_DATE_FORMAT, Locale.US);
-		sb.append(sdf.format(params.getStartDateTime().toDate()));
-		sb.append("|");
-		sb.append(sdf.format(params.getEndDateTime().toDate()));
-		return sb.toString();
-	}
-
-	private static void setEvar30(ADMS_Measurement s, CarCheckoutResponse carCheckoutResponse) {
-		String pickUpLocation = carCheckoutResponse.newCarProduct.pickUpLocation.locationCode;
-		String dropOffLocation = carCheckoutResponse.newCarProduct.dropOffLocation.locationCode;
-
-		StringBuilder sb = new StringBuilder("Car: ");
-		sb.append(pickUpLocation).append('-');
-		sb.append(dropOffLocation);
-		sb.append(':');
-		sb.append(carCheckoutResponse.newCarProduct.getPickupTime().toLocalDate().toString(EVAR30_DATE_FORMAT));
-		sb.append('-')
-			.append(carCheckoutResponse.newCarProduct.getDropOffTime().toLocalDate().toString(EVAR30_DATE_FORMAT));
-
-
-		s.setEvar(30, sb.toString());
-	}
-
-	private static ADMS_Measurement internalTrackAppCar(String pageName) {
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		s.setAppState(pageName);
-		s.setEvar(18, pageName);
-
-		// LOB Search
-		s.setEvar(2, "D=c2");
-		s.setProp(2, CAR_LOB);
-		return s;
-	}
-
 	public static void trackCheckoutPayment(LineOfBusiness lineOfBusiness) {
 		switch (lineOfBusiness) {
 		case FLIGHTS_V2:
@@ -4119,9 +3819,6 @@ public class OmnitureTracking {
 			break;
 		case HOTELS:
 			trackHotelV2PaymentEdit();
-			break;
-		case CARS:
-			trackAppCarCheckoutPayment();
 			break;
 		case PACKAGES:
 			trackPackagesPaymentEdit();
@@ -4134,10 +3831,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackCheckoutTraveler(LineOfBusiness lineOfBusiness) {
-		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
-			trackAppCarCheckoutTraveler();
-		}
-		else if (lineOfBusiness.equals(LineOfBusiness.LX) || lineOfBusiness.equals(LineOfBusiness.TRANSPORT)) {
+		if (lineOfBusiness.equals(LineOfBusiness.LX) || lineOfBusiness.equals(LineOfBusiness.TRANSPORT)) {
 			trackAppLXCheckoutTraveler(lineOfBusiness);
 		}
 	}

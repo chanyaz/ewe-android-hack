@@ -19,7 +19,7 @@
 
         <!--TODO RENAME OR MOVE TO BASE-->
         <item name="hotel_select_room_ripple_drawable">@drawable/exp_blue_button_ripple</item>
-        <item name="checkout_card_view_style">@style/CarsCardView</item>
+        <item name="checkout_card_view_style">@style/CheckoutCardView</item>
         <item name="traveler_checkout_circle_drawable">@drawable/packages_traveler_checkout_circle</item>
     </style>
 

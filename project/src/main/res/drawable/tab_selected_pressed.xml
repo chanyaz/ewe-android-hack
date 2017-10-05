@@ -9,7 +9,7 @@
             <stroke
                 android:color="#FFED18"
                 android:width="5dp" />
-            <solid android:color="@color/cars_selected_tab_color"/>
+            <solid android:color="@color/launch_selected_tab_color"/>
         </shape>
     </item>
 </layer-list>

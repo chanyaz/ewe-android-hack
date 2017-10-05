@@ -129,7 +129,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
         toolbar.inflateMenu(R.menu.action_mode_done)
         toolbar.title = resources.getString(R.string.select_your_fare)
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
-        toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
+        toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.actionbar_text_color_inverse))
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         toolbar.setBackgroundColor(ContextCompat.getColor(this.context, R.color.packages_flight_filter_background_color))
         totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))

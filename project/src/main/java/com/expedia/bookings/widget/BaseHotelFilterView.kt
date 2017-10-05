@@ -46,11 +46,11 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
     val doneButton: Button by lazy {
         val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
-        button.setTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
+        button.setTextColor(ContextCompat.getColor(context, R.color.actionbar_text_color_inverse))
         button.setText(R.string.done)
 
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
-        icon.setColorFilter(ContextCompat.getColor(context, R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN)
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.actionbar_text_color_inverse), PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
 
         button
@@ -106,7 +106,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         toolbar.inflateMenu(R.menu.cars_lx_filter_menu)
         toolbar.title = resources.getString(R.string.sort_and_filter)
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
-        toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
+        toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.actionbar_text_color_inverse))
 
         toolbar.menu.findItem(R.id.apply_check).actionView = doneButton
 

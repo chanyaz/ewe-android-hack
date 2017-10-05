@@ -15,7 +15,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val travelAdRequests = hashMapOf<String, Int>()
     private val hotelRequestDispatcher = HotelRequestDispatcher(fileOpener)
     private val flightApiRequestDispatcher = FlightApiRequestDispatcher(fileOpener)
-    private val carApiRequestDispatcher = CarApiRequestDispatcher(fileOpener)
     private val lxApiRequestDispatcher = LxApiRequestDispatcher(fileOpener)
     private val packagesApiRequestDispatcher = PackagesApiRequestDispatcher(fileOpener)
     private val multiItemApiRequestDispatcher = MultiItemApiRequestDispatcher(fileOpener)
@@ -63,11 +62,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         // Flights API
         if (request.path.contains("/api/flight")) {
             return flightApiRequestDispatcher.dispatch(request)
-        }
-
-        // Cars API
-        if (request.path.contains("/m/api/cars")) {
-            return carApiRequestDispatcher.dispatch(request)
         }
 
         // LX API

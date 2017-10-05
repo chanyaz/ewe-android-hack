@@ -11,9 +11,6 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.cars.CarCreateTripResponse
-import com.expedia.bookings.data.cars.CarVendor
-import com.expedia.bookings.data.cars.CreateTripCarOffer
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -21,7 +18,6 @@ import com.expedia.bookings.data.lx.LXCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
-import com.expedia.bookings.data.trips.TripBucketItemCar
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
@@ -121,21 +117,6 @@ class PaymentViewModelTest {
     }
 
     @Test
-    fun invalidPaymentTypeWarningCars() {
-        val testSubscriber = TestSubscriber<String>()
-        val expectedCarVendorName = "Avis"
-        givenCarTrip(expectedCarVendorName)
-
-        viewModel.invalidPaymentTypeWarning.subscribe(testSubscriber)
-
-        viewModel.lineOfBusiness.onNext(LineOfBusiness.CARS)
-        viewModel.cardTypeSubject.onNext(Optional(PaymentType.CARD_AMERICAN_EXPRESS))
-
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("Rental company does not accept American Express")
-    }
-
-    @Test
     fun invalidPaymentTypeWarningHotels() {
         val testSubscriber = TestSubscriber<String>()
         givenHotelTrip()
@@ -217,7 +198,7 @@ class PaymentViewModelTest {
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
 
         paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
-                ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon))
+                ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard))
         cardTitleTestSubscriber.assertValues("Visa …1111", "Visa 4111", "Enter payment details")
         cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "")
         pwpSmallIconTestSubscriber.assertValues(false, false, false)
@@ -238,7 +219,7 @@ class PaymentViewModelTest {
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
 
         paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(),R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
-                ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon))
+                ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard))
         cardTitleTestSubscriber.assertValues("Visa …1111", "Paying with Points & Visa …1111", "Enter payment details")
         cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "")
         pwpSmallIconTestSubscriber.assertValues(false, true, false)
@@ -247,7 +228,7 @@ class PaymentViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPaymentTileWithPaymentABTest() {
-        val viewModel: PaymentViewModel = PaymentViewModel(getContext())
+        val viewModel = PaymentViewModel(getContext())
 
         viewModel.cardTitle.subscribe(cardTitleTestSubscriber)
         viewModel.cardSubtitle.subscribe(cardSubtitleTestSubscriber)
@@ -293,14 +274,13 @@ class PaymentViewModelTest {
         viewModel.newCheckoutIsEnabled.subscribe(testNewCheckoutSubscriber)
 
         viewModel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
-        viewModel.lineOfBusiness.onNext(LineOfBusiness.CARS)
         viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
         viewModel.lineOfBusiness.onNext(LineOfBusiness.LX)
         viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS)
         viewModel.lineOfBusiness.onNext(LineOfBusiness.NONE)
         viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
 
-        testNewCheckoutSubscriber.assertValues(false, false, false, true, false, false, false, true)
+        testNewCheckoutSubscriber.assertValues(false, false, true, false, false, false, true)
     }
 
     @Test
@@ -386,15 +366,6 @@ class PaymentViewModelTest {
         val hotelCreateTripResponse = HotelCreateTripResponse()
         val tripBucketItemHotel = TripBucketItemHotelV2(hotelCreateTripResponse)
         Db.getTripBucket().add(tripBucketItemHotel)
-    }
-
-    private fun givenCarTrip(expectedCarVendorName: String) {
-        val carTripResponse = CarCreateTripResponse()
-        carTripResponse.carProduct = CreateTripCarOffer()
-        carTripResponse.carProduct.vendor = CarVendor()
-        carTripResponse.carProduct.vendor.name = expectedCarVendorName
-        val tripBucketItemCar = TripBucketItemCar(carTripResponse)
-        Db.getTripBucket().add(tripBucketItemCar)
     }
 
     private fun getBillingInfo(hasStoredCard: Boolean): BillingInfo {

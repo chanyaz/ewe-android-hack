@@ -47,15 +47,21 @@
     <!--
         Base app theme for Hotels, all the properties of hotels which are common for all whitelabels should be added here
     -->
-    <style name="AppTheme.Base.PackageTheme" parent="Cars.Base">
-        <!--TODO:
-            It should have its own properties and should not be dependent on cars theme.
-            If something is common for all LOB's put it in  AppTheme.Base
-         -->
+    <style name="AppTheme.Base.PackageTheme" parent="AppTheme.Base">
+        <item name="checkout_card_view_style">@style/CheckoutCardView</item>
+        <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
+
         <item name="traveler_toolbar_text">@string/traveler_information</item>
-        <item name="traveler_checkout_circle_drawable">@drawable/packages_traveler_checkout_circle</item>
+        <item name="traveler_details_text">@string/enter_traveler_details</item>
+
+        <!-- Action Bar Attrs -->
+        <item name="skin_actionbarTextColor">@color/actionbar_text_color_inverse</item>
+
+        <item name="android:textColorSecondary">@color/actionbar_text_color_inverse</item>
+        <item name="windowActionModeOverlay">true</item>
         <item name="accept_terms_text_color">@color/white</item>
         <item name="accept_terms_background_color">@color/flight_warning_bar_color</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/packages_traveler_checkout_circle</item>
     </style>
 
     <style name="InfantSeatingPreferenceSpinner" parent="Core.Widget.Spinner"/>

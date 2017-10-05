@@ -109,7 +109,6 @@ class PlayStoreScreenshotSweep {
 
         val hotelSearchCriteria = hotelSearchCriteriaForLocale[LocaleUtil.getTestLocale()]
         val flightSearchCriteria = flightSearchCriteriaForLocale[LocaleUtil.getTestLocale()]
-        val carSearchCriteria = carSearchCriteriaForLocale[LocaleUtil.getTestLocale()]
         val lxSearchCriteria = lxSearchCriteriaForLocale[LocaleUtil.getTestLocale()]
 
         try {
@@ -129,10 +128,6 @@ class PlayStoreScreenshotSweep {
 
             if (flightSearchCriteria != null) {
                 takeMaterialFlightScreenshotAndReturnToLaunchScreen(flightSearchCriteria)
-            }
-
-            if (carSearchCriteria != null) {
-                takeCarScreenshotAndReturnToLaunchScreen(carSearchCriteria)
             }
 
             if (lxSearchCriteria != null) {
@@ -262,29 +257,6 @@ class PlayStoreScreenshotSweep {
         Common.delay(1)
     }
 
-    private fun takeCarScreenshotAndReturnToLaunchScreen(searchCriteria: LocationSearchCriteria) {
-        onView(allOf(withText(LobInfo.CARS.labelRes), isCompletelyDisplayed())).perform(click())
-
-        SearchScreen.searchEditText().perform(typeTextViaReplace(searchCriteria.searchString))
-        Common.delay(1)
-        SearchScreen.selectLocation(searchCriteria.suggestString)
-
-        val startDate = LocalDate.now().plusDays(90)
-        val endDate = startDate.plusDays(1)
-        SearchScreen.selectDates(startDate, endDate)
-
-        SearchScreen.searchButton().perform(click())
-        waitForViewNotYetInLayout(R.id.category_sort_toolbar, 30)
-        Common.delay(2)
-
-        Screengrab.screenshot("car_results")
-
-        Espresso.pressBack()
-        Common.delay(1)
-        Espresso.pressBack()
-        Common.delay(1)
-    }
-
     private fun takeLxScreenshotAndReturnToLaunchScreen(searchCriteria: LocationSearchCriteria) {
         onView(allOf(withText(LobInfo.ACTIVITIES.labelRes), isCompletelyDisplayed())).perform(click())
 
@@ -363,7 +335,6 @@ class PlayStoreScreenshotSweep {
         val localeTestRule = LocaleTestRule()
 
         private val hotelSearchCriteriaForLocale = HashMap<Locale, LocationSearchCriteria>()
-        private val carSearchCriteriaForLocale = HashMap<Locale, LocationSearchCriteria>()
         private val lxSearchCriteriaForLocale = HashMap<Locale, LocationSearchCriteria>()
         private val flightSearchCriteriaForLocale = HashMap<Locale, FlightSearchCriteria>()
         private val pointOfSaleForLocale = HashMap<Locale, PointOfSaleId>()
@@ -466,15 +437,6 @@ class PlayStoreScreenshotSweep {
             flightSearchCriteriaForLocale.put(HONG_KONG_SIMPLIFIED, FlightSearchCriteria(HKG, BKK))
             flightSearchCriteriaForLocale.put(Locale.TAIWAN, FlightSearchCriteria(TPE, BKK))
             flightSearchCriteriaForLocale.put(Locale.UK, FlightSearchCriteria(EDI, LON))
-
-            carSearchCriteriaForLocale.put(Locale.US, LocationSearchCriteria("San Francisco", "San Francisco (and vicinity)"))
-            carSearchCriteriaForLocale.put(Locale.CANADA_FRENCH, LocationSearchCriteria("Montréal", "Montréal (et environs)"))
-            carSearchCriteriaForLocale.put(Locale.GERMANY, LocationSearchCriteria("Berlin", "Berlin (und Umgebung)"))
-            carSearchCriteriaForLocale.put(FINLAND, LocationSearchCriteria("Helsinki", "Helsinki (ja lähialueet)"))
-            carSearchCriteriaForLocale.put(Locale.FRANCE, LocationSearchCriteria("Paris", "Paris (et environs)"))
-            carSearchCriteriaForLocale.put(Locale.ITALY, LocationSearchCriteria("Roma", "Roma (e dintorni)"))
-            carSearchCriteriaForLocale.put(SWEDEN, LocationSearchCriteria("Stockholm", "Stockholm (med omnejd)"))
-            carSearchCriteriaForLocale.put(Locale.UK, LocationSearchCriteria("London", "London (and vicinity)"))
 
             lxSearchCriteriaForLocale.put(Locale.US, LocationSearchCriteria("San Francisco", "San Francisco, CA"))
             lxSearchCriteriaForLocale.put(Locale.CANADA_FRENCH, LocationSearchCriteria("Montréal", "Montréal, QC"))

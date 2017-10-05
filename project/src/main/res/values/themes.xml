@@ -555,9 +555,7 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="WebViewAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textAppearance">@style/CarButton</item>
-    </style>
+    <style name="WebViewAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert" />
 
     <style name="CarWebViewTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/CarWebViewActionBar</item>

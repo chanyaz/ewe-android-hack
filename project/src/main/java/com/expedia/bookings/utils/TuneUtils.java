@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils;
 
-import com.expedia.bookings.ADMS_Measurement;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
+import com.expedia.bookings.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -27,11 +27,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.cars.CarCheckoutResponse;
-import com.expedia.bookings.data.cars.CarSearch;
-import com.expedia.bookings.data.cars.CarSearchParam;
-import com.expedia.bookings.data.cars.CategorizedCarOffers;
-import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightLeg;
@@ -874,99 +869,6 @@ public class TuneUtils {
 					.withEventItems(Arrays.asList(eventItem))
 					.withSearchString("hotel")
 					.withLevel(1);
-
-			trackEvent(event);
-		}
-	}
-
-	public static void trackCarSearch(CarSearch search, CarSearchParam params) {
-		if (initialized) {
-			TuneEvent event = new TuneEvent("car_result");
-			TuneEventItem eventItem = new TuneEventItem("car_result_item");
-			eventItem.withAttribute2(params.getOriginLocation())
-				.withAttribute3(params.getOriginLocation());
-
-			if (search != null) {
-				int propertiesCount = search.categories.size();
-				StringBuilder sb = new StringBuilder();
-				StringBuilder topCarsClassBuilder = new StringBuilder();
-				int lastIndex = getLastIndex(propertiesCount);
-				if (propertiesCount >= 0) {
-					for (int i = 0; i <= lastIndex; i++) {
-						CategorizedCarOffers carOffer = search.categories.get(i);
-						String carClass = carOffer.carCategoryDisplayLabel;
-						String currency = carOffer.getLowestTotalPriceOffer().fare.total.getCurrency();
-						String price = carOffer.getLowestTotalPriceOffer().fare.total.amount.toString();
-						topCarsClassBuilder.append(carClass);
-						sb.append(String.format("%s|%s|%s", carClass, currency, price));
-						if (i != lastIndex) {
-							sb.append(":");
-							topCarsClassBuilder.append(",");
-						}
-					}
-				}
-				eventItem.withAttribute5(sb.toString());
-				eventItem.withAttribute4(topCarsClassBuilder.toString());
-			}
-
-
-			withTuidAndMembership(event)
-				.withAttribute2(isUserLoggedIn())
-				.withEventItems(Arrays.asList(eventItem))
-				.withDate2(params.getStartDateTime().toDate())
-				.withSearchString("car")
-				.withDate1(params.getEndDateTime().toDate());
-
-			trackEvent(event);
-		}
-	}
-
-	public static void trackCarRateDetails(CreateTripCarOffer carOffer) {
-		if (initialized) {
-			TuneEvent event = new TuneEvent("car_rate_details");
-			TuneEventItem eventItem = new TuneEventItem("car_rate_details_item");
-			eventItem.withAttribute2(carOffer.pickUpLocation.locationCode)
-				.withAttribute3(carOffer.dropOffLocation.locationCode)
-				.withAttribute4(carOffer.vehicleInfo.carCategoryDisplayLabel)
-				.withAttribute5(carOffer.vendor.name);
-
-
-			withTuidAndMembership(event)
-				.withAttribute2(isUserLoggedIn())
-				.withRevenue(carOffer.detailedFare.grandTotal.getAmount().doubleValue())
-				.withCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency())
-				.withEventItems(Arrays.asList(eventItem))
-				.withDate2(carOffer.getDropOffTime().toDate())
-				.withDate1(carOffer.getPickupTime().toDate());
-
-			trackEvent(event);
-		}
-	}
-
-	public static void trackCarConfirmation(CarCheckoutResponse carCheckoutResponse) {
-		if (initialized) {
-			TuneEvent event = new TuneEvent("car_confirmation");
-			TuneEventItem eventItem = new TuneEventItem("car_confirmation_item");
-
-			CreateTripCarOffer carOffer = carCheckoutResponse.newCarProduct;
-			eventItem.withQuantity(1)
-				.withRevenue(carCheckoutResponse.totalChargesPrice.getAmount().doubleValue())
-				.withAttribute2(carOffer.pickUpLocation.locationCode)
-				.withAttribute3(carOffer.dropOffLocation.locationCode)
-				.withAttribute4(carOffer.vehicleInfo.carCategoryDisplayLabel)
-				.withAttribute5(carOffer.vendor.name);
-
-
-			Date pickupTime = carOffer.getPickupTime().toDate();
-			Date dropOffTime = carOffer.getDropOffTime().toDate();
-			withTuidAndMembership(event)
-				.withAttribute2(isUserLoggedIn())
-				.withRevenue(carOffer.detailedFare.grandTotal.getAmount().doubleValue())
-				.withCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency())
-				.withAdvertiserRefId(getAdvertiserRefId(carCheckoutResponse.newTrip.travelRecordLocator))
-				.withEventItems(Arrays.asList(eventItem))
-				.withDate1(pickupTime)
-				.withDate2(dropOffTime);
 
 			trackEvent(event);
 		}

@@ -25,10 +25,8 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.ValidPayment;
-import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.ValidFormOfPayment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
@@ -37,10 +35,10 @@ import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.trips.TripBucketItem;
-import com.expedia.bookings.data.trips.TripBucketItemCar;
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -193,28 +191,6 @@ public class PaymentWidgetFlowTest {
 
 		assertCorrectErrorMessage("Trip does not accept Maestro", paymentWidget);
 	}
-
-	@Test
-	public void testInvalidCardOptionsMessageCars() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		activity.setTheme(R.style.V2_Theme_Cars);
-		Ui.getApplication(activity).defaultCarComponents();
-		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.payment_widget, null);
-		paymentWidget.setViewmodel(new PaymentViewModel(activity));
-		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
-		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.CARS);
-
-		UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser());
-
-		CarCreateTripResponse response = new CarCreateTripResponse();
-		response.validFormsOfPayment = setupValidPayments();
-		TripBucketItem tripItem = new TripBucketItemCar(response);
-		Db.getTripBucket().add((TripBucketItemCar) tripItem);
-
-		assertCorrectErrorMessage("Rental company does not accept Maestro", paymentWidget);
-	}
-
 
 	@Test
 	public void testInvalidCardOptionsMessageFlights() {

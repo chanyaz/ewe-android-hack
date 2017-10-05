@@ -75,7 +75,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			query.addExperiment(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());
-			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID().getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAdvanceSearch.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm.getKey());

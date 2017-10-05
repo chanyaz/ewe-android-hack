@@ -12,7 +12,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
@@ -25,7 +24,6 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
-import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.LXNavUtils
@@ -275,11 +273,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     fun getAddCarBtnObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                val originSuggestion = CarDataUtils.getSuggestionFromLocation(hotelLocation.value.toShortFormattedString(),
-                        null, hotelLocation.value.toShortFormattedString())
-                val carSearchParams = CarSearchParam.Builder().origin(originSuggestion)
-                        .startDate(checkInDate.value).endDate(checkOutDate.value).build() as CarSearchParam
-                CarNavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
+                CarNavUtils.goToCars(context, null, NavUtils.FLAG_OPEN_SEARCH)
                 HotelTracking.trackHotelCrossSellCar()
             }
 

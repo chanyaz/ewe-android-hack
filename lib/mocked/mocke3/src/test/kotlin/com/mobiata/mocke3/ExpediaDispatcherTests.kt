@@ -80,11 +80,6 @@ class ExpediaDispatcherTests {
     }
 
     @Test
-    fun testRequestWithCarsPathReturnsMatchingMockResponse() {
-        assertPathReturnsMockBodyWithString("m/api/cars/search/airport", mapOf(Pair("airportCode", "KTM")), "m/api/cars/search/airport/ktm_no_product.json")
-    }
-
-    @Test
     fun testRequestWithLXSearchPathReturnsMatchingResponse() {
         assertPathReturnsMockBodyWithString("lx/api/search", null, "lx/api/search/happy.json")
     }

@@ -149,7 +149,7 @@ class PaymentWidgetV2Test {
 
         val listView = sut.storedCreditCardList.findViewById<View>(R.id.stored_card_list) as ListView
         assertNull(Db.getBillingInfo().storedCard)
-        testPaymentTileInfo("Enter payment details", "", ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon), View.GONE)
+        testPaymentTileInfo("Enter payment details", "", ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
         assertEquals(1, listView.adapter.count)
         val tv = listView.adapter.getView(0, null, sut).findViewById<View>(R.id.text1) as TextView
         assertCardImageEquals(R.drawable.unsupported_card, tv)

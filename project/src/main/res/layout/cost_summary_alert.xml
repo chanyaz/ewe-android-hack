@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/cars_checkout_cost_summary_min_height"
+    android:minHeight="@dimen/lx_checkout_cost_summary_min_height"
     android:orientation="vertical">
 
     <com.expedia.bookings.widget.TextView

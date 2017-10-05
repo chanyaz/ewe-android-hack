@@ -39,12 +39,6 @@
     <!-- The minimum number of hours out from current time -->
     <integer name="calendar_min_search_time_rail">8</integer>
 
-    <!-- The minimum number of hours out from current time -->
-    <integer name="calendar_min_search_time_car">1</integer>
-
-    <!-- The maximum days range for a car search -->
-    <integer name="calendar_max_days_car_search">330</integer>
-
     <!-- login button font style: 0 = normal, 32 = light -->
     <integer name="login_button_text_style">0</integer>
 

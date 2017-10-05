@@ -157,7 +157,6 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     }
 
     fun bind() {
-        mainContactInfoCardView.setEnterDetailsText(resources.getString(R.string.enter_driver_details))
         mainContactInfoCardView.isExpanded = false
         paymentInfoCardView.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
 

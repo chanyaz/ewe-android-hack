@@ -60,137 +60,33 @@
 
     <!-- Cars -->
     <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="car_toolbar_date_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
+    <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
     <!-- Cars Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="car_toolbar_date_range_cont_desc_TEMPLATE">De {from_date_time} a {to_date_time}</string>
+    <string name="date_time_range_cont_desc_TEMPLATE">De {from_date_time} a {to_date_time}</string>
     <!-- Cars Calendar Strings -->
-    <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">Siguiente: selecciona fecha de entrega</string>
-    <!-- When user hasn't picked drop-off date, we show something like: "Jan 21 - Select drop-off date" -->
-    <string name="select_drop_off_date_TEMPLATE">%1$s - selecciona la fecha de entrega</string>
-    <!-- Cars price templates-->
-    <string name="cars_hourly_text">Por hora</string>
-    <!-- Cars price templates-->
-    <string name="cars_daily_text">Por día</string>
-    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">Las tarifas aparecen en %s.</string>
-    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">Las tarifas aparecen en %1$s. Todas las tasas e impuestos a pagar en el momento de la recogida se abonarán en la moneda local (%2$s).</string>
-    <!-- Cars weekly price templates-->
-    <string name="cars_weekly_text">Por semana</string>
-    <!-- Cars weekly price templates-->
-    <string name="cars_monthly_text">Por mes</string>
-    <!-- Cars price templates-->
-    <string name="cars_total_template">Total: %s</string>
     <!-- Slide to reserve -->
-    <string name="cars_slider_text">Desliza para reservar</string>
+    <string name="lx_slide_to_reserve">Desliza para reservar</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_reserve_button">Reservar</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Completar reserva</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_dupe_trip_text">Viaje duplicado</string>
     <!-- Text for price change-->
     <string name="price_change_text">Cambio de precio</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">El precio de tu viaje ha cambiado de {oldprice} a {newprice}. Las tarifas pueden cambiar de un momento a otro. Reserva ya mismo para disfrutar de este precio.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">El precio ha cambiado</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_payment_failed_text">No se ha podido procesar el pago</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_invalid_input_text">La información no es válida</string>
-    <!-- Text for generic error toolbar-->
-    <string name="cars_error_text">Se ha producido un error</string>
-    <!-- Text for toolbar on no search results -->
-    <string name="cars_no_results_text">Sin resultados</string>
-    <!-- Text for reserving car-->
-    <string name="cars_reserve_text">Reservar</string>
-    <!-- Text for viewing details-->
-    <string name="cars_view_details_text">Ver detalles</string>
-    <!-- Text for driver details toolbar-->
-    <string name="cars_driver_details_text">Datos del conductor</string>
-    <!-- Text for enter driver details-->
-    <string name="enter_driver_details">Introducir datos del conductor</string>
-    <!-- Content description for enter driver details-->
-    <string name="enter_driver_details_cont_desc">Botón para introducir los datos del conductor</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Seleccionar de la lista de contactos</string>
-    <!-- Car doors text-->
-    <string name="car_doors_text">Puertas</string>
-    <!-- Car bags text-->
-    <string name="car_bags_text">Maletas</string>
-    <!-- Car automatic transmission text-->
-    <string name="car_auto_tran_text">Cambio automático</string>
-    <!-- Car manual transmission text-->
-    <string name="car_man_tran_text">Cambio manual</string>
-
-    <!-- car result -->
-    <!-- car door range -->
-    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
-    <!-- car details template -->
-    <string name="car_details_TEMPLATE">%1$s %2$s</string>
-
-    <!-- Cars Confirmation Screen -->
-    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
-    <string name="calendar_car_title_TEMPLATE">Ubicación de recogida %1$s</string>
-    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
-    <string name="calendar_car_location_TEMPLATE">%1$s</string>
-    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_desc_itinerary_TEMPLATE">Número de itinerario de {brand}: {itinerary}</string>
-    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_desc_support_TEMPLATE">Servicio de atención al cliente de {brand}: {localphone} y {phone}</string>
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">Ubicación de la actividad usando la vista de mapa de Google</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hoteles</string>
-    <!-- Label for pickup location selector -->
-    <string name="pick_up_location">Lugar de recogida</string>
-    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="drop_off_location">Entrega (el mismo que el de la recogida)</string>
-    <!-- Label for Car Search Screen header -->
-    <string name="toolbar_search_cars">Buscar vehículos de alquiler</string>
-    <!-- Label for Cars date button -->
-    <string name="select_pickup_and_dropoff_dates">Selecciona las fechas de recogida y entrega</string>
-    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
-    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} – Selecciona la fecha de vuelta</string>
-    <!-- Car Calendar Strings -->
-    <string name="select_pickup_date">Selecciona una fecha de recogida</string>
-    <!-- Label for pick-up time picker -->
-    <string name="pick_up_time_label">Recogida</string>
-    <!-- Label for drop-up time picker -->
-    <string name="drop_off_time_label">Entrega</string>
-    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">¡Próximamente! Estamos trabajando para añadir reservas de coche de alquiler con recogida y entrega en distintas ubicaciones a la próxima versión.</string>
-    <!-- Label for hint for car pick-up-->
-    <string name="car_pick_up_hint">Recogida</string>
-    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Pick up time 9:00 am-->
-    <string name="pick_up_slider_cont_desc_TEMPLATE">Hora de recogida {time}</string>
-    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
-    <string name="drop_off_slider_cont_desc_TEMPLATE">Hora de entrega {time}</string>
     <!-- Car search error -->
     <string name="error_no_result_message">No hemos encontrado ningún resultado. Cambia los criterios de búsqueda y vuelve a intentarlo.</string>
-    <!-- Car no filtered search results -->
-    <string name="filter_no_car_search_results_message">No se han obtenido resultados. Elimina alguno de los filtros.</string>
-    <!-- Transmission options filter label for a car rental -->
-    <string name="options">Opciones</string>
-    <!-- Automatic transmission filter button-->
-    <string name="car_filter_automatic">Automático</string>
-    <!-- Manual transmission filter button-->
-    <string name="car_filter_manual">Manual</string>
-    <!-- Any transmission type filter button -->
-    <string name="car_filter_all">Todos</string>
-    <!-- Air conditioning option checkbox filter -->
-    <string name="car_filter_checkbox_air_conditioning">Aire acondicionado</string>
-    <!-- Unlimited mileage option checkbox filter -->
-    <string name="car_filter_checkbox_unlimited_mileage">Kilometraje ilimitado</string>
-    <!-- Car types checkbox filter label for a car rental-->
-    <string name="car_types">Tipos de vehículos</string>
-    <!-- Car types checkbox filter label for a car rental-->
-    <string name="car_vendors">Empresas de alquiler de vehículos</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Eliminar filtros</string>
     <!-- Label to tell the user how many products match their filter -->
@@ -205,42 +101,12 @@
     </plurals>
 
     <!-- Checkout -->
-    <!-- Car model templates-->
-    <string name="car_model_name_template">%1$s o similar</string>
-    <string name="car_model_unknown_template">Modelo exacto desconocido</string>
-    <!-- Car checkout cost breakdown total due today -->
-    <string name="car_cost_breakdown_due_today">A pagar hoy</string>
-    <!-- Car checkout cost breakdown total due at pick up -->
-    <string name="car_cost_breakdown_total_due">A pagar en la recogida</string>
-    <!-- Car checkout cost breakdown for alert button -->
-    <string name="car_cost_breakdown_button_text">Listo</string>
-    <!-- Car checkout rental fare breakdown types -->
-    <!--Cost breakdown type base -->
-    <string name="car_rental_breakdown_base">Alquiler de coches</string>
-    <!--Cost breakdown type insurance -->
-    <string name="car_rental_breakdown_insurance">Seguro</string>
-    <!--Cost breakdown type drop off charge -->
-    <string name="car_rental_breakdown_drop_off_charges">Cargo por la entrega</string>
-    <!-- Unlimited mileage -->
-    <string name="unlimited_mileage">Kilometraje ilimitado</string>
-    <!-- Insurance included -->
-    <string name="insurance_included">Seguro incluido</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">Nº de itinerario: %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">Faltan los parámetros de salida.</string>
-    <!--Adding hotel from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_hotel">Hoteles en %1$s</string>
-    <!--Adding flight from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_flight">Vuelos a %1$s</string>
-    <!-- Car confirmation screen label -->
-    <string name="successful_checkout_pickup_label">Recogida en</string>
-    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
-    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s a</string>
     <!-- Car confirmation itin text -->
     <string name="successful_checkout_email_label">Itinerario enviado a</string>
-    <!-- Car confirmation directions text -->
-    <string name="car_confirmation_directions">Instrucciones para llegar a %1$s</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">Introduce la nueva tarjeta de débito o crédito</string>
     <!-- Text for enter guest details line 1 -->
@@ -277,21 +143,14 @@
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">Icono de un candado, pago seguro</string>
 
-    <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early.  -->
-    <string name="pick_up_time_error">Modifica el horario de recogida o entrega.</string>
     <!-- Message for user that date is too far out.  -->
     <string name="error_date_too_far">La fecha está demasiado lejana en el tiempo, elige otra más cercana.</string>
-    <!-- Message for user that increase your reservation duration. -->
-    <string name="reservation_time_too_short">Debes aumentar la duración de la reserva.</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">¿Aún sigues ahí? La sesión ha caducado. Vuelve a intentarlo.</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
     <string name="reservation_already_exists_new_hotels">La reserva se ha realizado. Comprueba la sección Tus viajes o tu correo electrónico.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Vaya. Parece que ya has reservado este viaje. Comprueba la sección Tus viajes o tu correo electrónico.</string>
-    <!-- Show to user when the price of a car they are trying to book has changed -->
-    <string name="reservation_price_change">El precio de tu coche de alquiler ha cambiado. Confirma el nuevo precio para continuar.</string>
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">Los nombres no pueden contener números o caracteres especiales.</string>
     <!-- Show to user when their phone number is invalid -->
@@ -301,8 +160,6 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Vaya, parece que no se ha podido procesar el pago. Comprueba tus datos de pago e inténtalo de nuevo.</string>
-    <!-- Shown to a user when their ability to rent a specific car expires -->
-    <string name="error_cars_product_expired">Tu búsqueda ha caducado. Selecciona una hora de recogida válida.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">Ver nuevo precio</string>
     <!-- My Trips button that takes you to Itins -->
@@ -683,8 +540,6 @@
     <string name="all_things_to_do_description">Una lista con todas las actividades disponibles en las fechas seleccionadas.</string>
 
     <!-- LX Strings -->
-    <!-- Slide to book -->
-    <string name="lx_slider_text">Desliza para comprar</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Introducir datos de contacto</string>
     <!-- LX search error -->
@@ -1382,66 +1237,6 @@
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Automóvil de gran tamaño</string>
 
-    <!-- Car category for results and details screen -->
-    <!-- Car category: mini -->
-    <string name="car_category_result_mini">Mini</string>
-    <!-- Car category: economy -->
-    <string name="car_category_result_economy">Económico</string>
-    <!-- Car category: compact -->
-    <string name="car_category_result_compact">Compacto</string>
-    <!-- Car category: midize -->
-    <string name="car_category_result_midsize">Mediano</string>
-    <!-- Car category: standard -->
-    <string name="car_category_result_standard">Estándar</string>
-    <!-- Car category: fullsize -->
-    <string name="car_category_result_fullsize">Grande</string>
-    <!-- Car category: premium -->
-    <string name="car_category_result_premium">Premium</string>
-    <!-- Car category: luxury -->
-    <string name="car_category_result_luxury">Lujo</string>
-    <!-- Car category: mini elite -->
-    <string name="car_category_result_mini_elite">Mini Elite</string>
-    <!-- Car category: economy elite -->
-    <string name="car_category_result_economy_elite">Económico Elite</string>
-    <!-- Car category: compact elite -->
-    <string name="car_category_result_compact_elite">Compacto Elite</string>
-    <!-- Car category: midize elite -->
-    <string name="car_category_result_midsize_elite">Mediano Elite</string>
-    <!-- Car category: standard elite -->
-    <string name="car_category_result_standard_elite">Estándar Elite</string>
-    <!-- Car category: fullsize elite -->
-    <string name="car_category_result_fullsize_elite">Grande Elite</string>
-    <!-- Car category: premium elite -->
-    <string name="car_category_result_premium_elite">Premium Elite</string>
-    <!-- Car category: luxury elite -->
-    <string name="car_category_result_luxury_elite">Lujo Elite</string>
-    <!-- Car category: oversize -->
-    <string name="car_category_result_oversize">Gran tamaño</string>
-
-    <!-- Car types -->
-    <string name="car_type_two_door">Coche de dos puertas</string>
-    <string name="car_type_three_door">Coche de tres puertas</string>
-    <string name="car_type_four_door">Coche de cuatro puertas</string>
-    <string name="car_type_van">Furgoneta</string>
-    <string name="car_type_wagon">Furgón</string>
-    <string name="car_type_limousine">Limusina</string>
-    <string name="car_type_recreational_vehicle">Vehículo de recreo</string>
-    <string name="car_type_convertible">Convertible</string>
-    <string name="car_type_sports_car">Vehículo deportivo</string>
-    <string name="car_type_suv">Todoterreno</string>
-    <string name="car_type_pickup_regular_cab">Taxi de recogida normal</string>
-    <string name="car_type_open_air_all_terrain">Todoterreno descapotable</string>
-    <string name="car_type_special">Vehículo especial</string>
-    <string name="car_type_commercial_van_truck">Furgoneta o camión comercial</string>
-    <string name="car_type_pickup_extended_cab">Taxi de recogida grande</string>
-    <string name="car_type_special_offer_car">Vehículo de oferta</string>
-    <string name="car_type_coupe">Cupé</string>
-    <string name="car_type_monospace">Monovolumen</string>
-    <string name="car_type_motor_home">Caravana</string>
-    <string name="car_type_two_wheel_vehicle">Vehículo de dos ruedas</string>
-    <string name="car_type_roadster">Biplaza</string>
-    <string name="car_type_crossover">Vehículo híbrido</string>
-
     <!-- Itin card details -->
     <string name="itin_card_details_active">Activa</string>
     <string name="itin_card_details_expires">Caduca</string>
@@ -1978,8 +1773,6 @@
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">El hotel no acepta {card_type}</string>
     <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
     <string name="package_does_not_accept_cardtype_TEMPLATE">El viaje no acepta {card_type}</string>
-    <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
-    <string name="car_does_not_accept_cardtype_TEMPLATE">La compañía de alquiler no acepta {card_type}</string>
     <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">La actividad no acepta {card_type}</string>
 
@@ -2019,8 +1812,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">Estás utilizando {points} puntos de Expedia+ ({amount})</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">Estás utilizando {points} puntos de Expedia+ ({amount})\nSe te cargarán {dueamount} en la tarjeta</string>
-    <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_template">Total a pagar hoy: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Completar reserva</string>
     <!-- Our price gaurentee string -->
@@ -2413,8 +2204,6 @@
     <!-- Button label for accepting an error and moving forward -->
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Reintentar</string>
-    <!-- Button label for adjusting filters after getting no results -->
-    <string name="edit_filters">Editar filtros</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">El nombre que has introducido no coincide con el del titular de la tarjeta de crédito. Vuelve a intentarlo.</string>
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
@@ -3677,39 +3466,11 @@
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="pay_later_cont_desc">Pulsa el botón para pagar más tarde</string>
 
-    <!-- Content description for Cars filter button -->
-    <string name="cars_filter_button_cont_desc">Botón para filtrar</string>
-    <!-- Content description for car result door count e.g. Doors 2-4 -->
-    <string name="cars_door_count_cont_desc_TEMPLATE">Puertas {doorcount}</string>
-    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
-    <string name="cars_passenger_count_cont_desc_TEMPLATE">Pasajeros {passengercount}</string>
-    <!-- Content description for car result bags count e.g. Bags 2-4 -->
-    <string name="cars_bags_count_cont_desc_TEMPLATE">Maletas {bagscount}</string>
     <!-- Content description for hotel star rating e.g. 3 stars -->
     <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
         <item quantity="one">{rating} estrella</item>
         <item quantity="other">{rating} estrellas</item>
     </plurals>
-    <!-- Content descriptions for Cars filter transmission buttons -->
-    <string name="cars_filter_transmission_manual_button_cont_desc">Transmisión manual</string>
-    <string name="cars_filter_transmission_automatic_button_cont_desc">Transmisión automática</string>
-    <string name="cars_filter_transmission_all_button_cont_desc">Todas las transmisiones</string>
-
-    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
-    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, botón para reservar</string>
-    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
-    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, botón para ver los detalles</string>
-
-    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
-    <string name="car_confirmation_directions_cont_desc_TEMPLATE">Botón para recibir indicaciones para llegar a {vendor}</string>
-    <!-- Car confirmation add to calendar content description-->
-    <string name="car_confirmation_add_to_calendar_cont_desc">Botón para añadir al calendario</string>
-    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
-    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Botón de hoteles en {location}</string>
-    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
-    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Botón de vuelos a {location}</string>
-    <!-- Content description for action: $500. Cost summary information button -->
-    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Botón de resumen del coste.</string>
 
     <!-- Dialog positive button message -->
     <string name="yes">Sí</string>

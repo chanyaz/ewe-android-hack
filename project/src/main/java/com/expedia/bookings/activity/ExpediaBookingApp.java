@@ -23,9 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.AppModule;
-import com.expedia.bookings.dagger.CarComponent;
 import com.expedia.bookings.dagger.DaggerAppComponent;
-import com.expedia.bookings.dagger.DaggerCarComponent;
 import com.expedia.bookings.dagger.DaggerFlightComponent;
 import com.expedia.bookings.dagger.DaggerHotelComponent;
 import com.expedia.bookings.dagger.DaggerLXComponent;
@@ -369,7 +367,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	// Dagger instances
 
 	private AppComponent mAppComponent;
-	private CarComponent mCarComponent;
 	private HotelComponent mHotelComponent;
 	private RailComponent mRailComponent;
 	private PackageComponent mPackageComponent;
@@ -383,20 +380,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	public AppComponent appComponent() {
 		return mAppComponent;
-	}
-
-	public void defaultCarComponents() {
-		setCarComponent(DaggerCarComponent.builder()
-			.appComponent(mAppComponent)
-			.build());
-	}
-
-	public void setCarComponent(CarComponent carComponent) {
-		mCarComponent = carComponent;
-	}
-
-	public CarComponent carComponent() {
-		return mCarComponent;
 	}
 
 	public void defaultHotelComponents() {

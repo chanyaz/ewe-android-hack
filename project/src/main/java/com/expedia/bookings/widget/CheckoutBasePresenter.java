@@ -427,9 +427,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			case TRANSPORT:
 				OmnitureTracking.trackAppLXCheckoutSlideToPurchase(getLineOfBusiness(), cardType);
 				break;
-			case CARS:
-				OmnitureTracking.trackAppCarCheckoutSlideToPurchase(cardType);
-				break;
 			}
 		}
 	}
@@ -618,7 +615,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				slideToContainer.setVisibility(INVISIBLE);
 				acceptTermsWidget.setVisibility(INVISIBLE);
 				// Space to avoid keyboard hiding the view behind.
-				int spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
+				int spacerHeight = (int) getResources().getDimension(R.dimen.checkout_expanded_space_height);
 				ViewGroup.LayoutParams params = space.getLayoutParams();
 				params.height = spacerHeight;
 				space.setLayoutParams(params);
@@ -668,7 +665,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				slideToContainer.setVisibility(INVISIBLE);
 				acceptTermsWidget.setVisibility(INVISIBLE);
 				// Space to avoid keyboard hiding the view behind.
-				int spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
+				int spacerHeight = (int) getResources().getDimension(R.dimen.checkout_expanded_space_height);
 				ViewGroup.LayoutParams params = space.getLayoutParams();
 				params.height = spacerHeight;
 				space.setLayoutParams(params);
@@ -723,7 +720,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				slideToContainer.setVisibility(INVISIBLE);
 				acceptTermsWidget.setVisibility(INVISIBLE);
 				// Space to avoid keyboard hiding the view behind.
-				int spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
+				int spacerHeight = (int) getResources().getDimension(R.dimen.checkout_expanded_space_height);
 				ViewGroup.LayoutParams params = space.getLayoutParams();
 				params.height = spacerHeight;
 				space.setLayoutParams(params);

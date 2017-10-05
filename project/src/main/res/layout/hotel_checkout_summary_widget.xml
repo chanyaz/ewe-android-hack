@@ -314,7 +314,7 @@
             android:layout_gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="8dp"
-            android:textColor="@color/cars_checkout_text_color"
+            android:textColor="@color/hotel_checkout_text_color"
             android:textSize="14sp"
             app:textStyle="light"
             android:drawableLeft="@drawable/price_change_decrease"

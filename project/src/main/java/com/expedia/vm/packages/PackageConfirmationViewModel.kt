@@ -5,12 +5,10 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RewardsUtil
@@ -102,14 +100,7 @@ class PackageConfirmationViewModel(private val context: Context) {
     fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                val outbound = Db.getPackageFlightBundle().first
-                val originSuggestion = CarDataUtils.getSuggestionFromLocation(outbound.destinationAirportCode,
-                        null, StrUtils.formatCarOriginDescription(context, outbound))
-                val carSearchParams = CarSearchParam.Builder()
-                        .startDate(Db.getPackageParams().startDate).endDate(Db.getPackageParams().endDate)
-                        .origin(originSuggestion).build() as CarSearchParam
-
-                CarNavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
+                CarNavUtils.goToCars(context, null, NavUtils.FLAG_OPEN_SEARCH)
                 val activity = context as AppCompatActivity
                 activity.setResult(Activity.RESULT_OK)
                 activity.finish()

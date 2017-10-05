@@ -25,7 +25,7 @@
             android:name="com.expedia.bookings.activity.PlaygroundActivity"
             android:label="Playground"
             android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
-            android:theme="@style/V2.Theme.Cars" />
+            android:theme="@style/V2.Theme.Packages" />
 
         <activity android:name="com.expedia.bookings.activity.DebugTextStylesActivity"
             android:label="Core Text Styles"

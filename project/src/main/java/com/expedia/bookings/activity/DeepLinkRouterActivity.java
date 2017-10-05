@@ -15,7 +15,6 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -43,21 +42,19 @@ import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
-import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
-import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
-import com.expedia.bookings.utils.navigation.CarNavUtils;
-import com.expedia.bookings.utils.navigation.FlightNavUtils;
-import com.expedia.bookings.utils.navigation.HotelNavUtils;
-import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.bookings.utils.navigation.CarNavUtils;
+import com.expedia.bookings.utils.navigation.FlightNavUtils;
+import com.expedia.bookings.utils.navigation.HotelNavUtils;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.navigation.PackageNavUtils;
 import com.expedia.util.ForceBucketPref;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -299,17 +296,9 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private boolean handleCarsSearch(CarDeepLink carDeepLink) {
 
-		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS)) {
-			String productKey = null;
-
-			CarSearchParam carSearchParams = CarDataUtils.fromDeepLink(carDeepLink);
-			if (carSearchParams != null && JodaUtils
-				.isBeforeOrEquals(carSearchParams.getStartDateTime(), carSearchParams.getEndDateTime())) {
-				CarNavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
-			}
-			else {
-				CarNavUtils.goToCars(this, null, 0);
-			}
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		if (pos.supports(LineOfBusiness.CARS)) {
+			CarNavUtils.goToCars(this, null, 0);
 		}
 		else {
 			NavUtils.goToLaunchScreen(this, false, LineOfBusiness.CARS);

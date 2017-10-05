@@ -23,7 +23,7 @@
         <!-- Checkout -->
         <item name="traveler_toolbar_text">@string/traveler_information</item>
         <item name="traveler_presenter">@layout/lx_traveler_presenter_view_stub</item>
-        <item name="checkout_card_view_style">@style/CarsCardView</item>
+        <item name="checkout_card_view_style">@style/CheckoutCardView</item>
         <item name="paymentWidgetLayout">@layout/payment_widget_v2</item>
         <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
         <item name="sliderText">@string/hotelsv2_slide_reserve</item>
@@ -165,5 +165,19 @@
         <item name="android:paddingRight">5dp</item>
         <item name="android:paddingTop">3dp</item>
     </style>
+
+    <style name="HotelConfirmationCrossSellStyle" >   
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:background">@drawable/itin_button</item>
+        <item name="android:textColor">@color/confirmation_action_text_color</item>     
+        <item name="android:textSize">15sp</item>     
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>     
+        <item name="android:drawablePadding">12dp</item>
+    </style>
+
+    <style name="HotelConfirmationActionStyle" parent="HotelConfirmationCrossSellStyle" />
 
 </resources>

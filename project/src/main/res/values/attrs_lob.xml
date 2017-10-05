@@ -7,7 +7,6 @@
     <attr name="checkout_card_view_style" format="reference" />
     <!-- Primary color for lob -->
     <attr name="spinner_text_color_drawable" format="reference" />
-    <attr name="checkout_slider_text" format="reference" />
     <attr name="toolbar_title_style" format="reference" />
     <!-- Text displayed on traveler details widget toolbar -->
     <attr name="traveler_toolbar_text" format="reference" />
@@ -23,7 +22,6 @@
     <attr name="hotel_select_room_ripple_drawable" format="reference" />
     <attr name="hotel_map_tooltip_pressed_drawable" format="reference" />
     <attr name="hotel_map_tooltip_drawable" format="reference" />
-    <attr name="checkout_unexpanded_space_height" format="reference" />
     <attr name="paymentWidgetLayout" format="reference" />
     <attr name="traveler_presenter" format="reference" />
     <attr name="map_pin_drawable" format="reference" />

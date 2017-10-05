@@ -22,10 +22,6 @@ class CarWebViewTracking {
         OmnitureTracking.trackAppCarWebViewClose()
     }
 
-    fun trackAppCarWebViewABTest() {
-        OmnitureTracking.trackAppCarWebViewABTest()
-    }
-
     fun trackAppCarFlexViewABTest() {
         OmnitureTracking.trackAppCarFlexViewABTest()
     }

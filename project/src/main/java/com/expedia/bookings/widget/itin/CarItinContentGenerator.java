@@ -89,7 +89,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	public List<? extends IMedia> getHeaderBitmapDrawable() {
 		List<String> urls = new ArrayList<>();
 		List<IMedia> mediaList =  new ArrayList<>();
-		urls.add(Images.getCarRental(getItinCardData().getCar(), getResources().getDimension(R.dimen.car_image_width)));
+		urls.add(Images.getCarRental(getItinCardData().getCar(), getResources().getDimension(R.dimen.itin_car_image_width)));
 		mediaList.add(new DefaultMedia(urls, "", getHeaderImagePlaceholderResId()));
 		return mediaList;
 	}
@@ -348,7 +348,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		notification.setNotificationType(NotificationType.CAR_PICK_UP);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 
-		final String carUrl = Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width));
+		final String carUrl = Images.getCarRental(car, getResources().getDimension(R.dimen.itin_car_image_width));
 		notification.setImageCar(carUrl);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);
@@ -386,7 +386,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 
-		final String carUrl = Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width));
+		final String carUrl = Images.getCarRental(car, getResources().getDimension(R.dimen.itin_car_image_width));
 		notification.setImageCar(carUrl);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);

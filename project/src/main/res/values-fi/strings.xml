@@ -60,137 +60,33 @@
 
     <!-- Cars -->
     <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="car_toolbar_date_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
+    <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
     <!-- Cars Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="car_toolbar_date_range_cont_desc_TEMPLATE">{from_date_time} – {to_date_time}</string>
+    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time} – {to_date_time}</string>
     <!-- Cars Calendar Strings -->
-    <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">Seuraava: valitse palautuspäivä</string>
-    <!-- When user hasn't picked drop-off date, we show something like: "Jan 21 - Select drop-off date" -->
-    <string name="select_drop_off_date_TEMPLATE">%1$s – valitse palautuspäivä</string>
-    <!-- Cars price templates-->
-    <string name="cars_hourly_text">per tunti</string>
-    <!-- Cars price templates-->
-    <string name="cars_daily_text">per päivä</string>
-    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">Hinnat ovat valuutassa %s.</string>
-    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">Hinnat ovat valuutassa %1$s. Kaikki noutohetkellä veloitettavat verot ja maksut maksetaan paikallisessa valuutassa (%2$s).</string>
-    <!-- Cars weekly price templates-->
-    <string name="cars_weekly_text">per viikko</string>
-    <!-- Cars weekly price templates-->
-    <string name="cars_monthly_text">per kuukausi</string>
-    <!-- Cars price templates-->
-    <string name="cars_total_template">Yhteensä %s</string>
     <!-- Slide to reserve -->
-    <string name="cars_slider_text">Liu\&apos;uta varataksesi</string>
+    <string name="lx_slide_to_reserve">Liu\&apos;uta varataksesi</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_reserve_button">Varaa</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Maksu</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_dupe_trip_text">Sama matka</string>
     <!-- Text for price change-->
     <string name="price_change_text">Hintamuutos</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">Matkasi hinta on muuttunut. Vanha hinta oli {oldprice} ja uusi hinta on {newprice}. Hinnat muuttuvat usein. Varaa nyt hyödyntääksesi tämän hinnan.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Hinta on muuttunut</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_payment_failed_text">Maksu hylätty</string>
-    <!-- Text for error toolbar-->
-    <string name="cars_invalid_input_text">Väärät tiedot</string>
-    <!-- Text for generic error toolbar-->
-    <string name="cars_error_text">Virhe</string>
-    <!-- Text for toolbar on no search results -->
-    <string name="cars_no_results_text">Ei tuloksia</string>
-    <!-- Text for reserving car-->
-    <string name="cars_reserve_text">Varaa</string>
-    <!-- Text for viewing details-->
-    <string name="cars_view_details_text">Katso tiedot</string>
-    <!-- Text for driver details toolbar-->
-    <string name="cars_driver_details_text">Kuljettajan tiedot</string>
-    <!-- Text for enter driver details-->
-    <string name="enter_driver_details">Anna kuljettajan tiedot</string>
-    <!-- Content description for enter driver details-->
-    <string name="enter_driver_details_cont_desc">Anna kuljettajan tiedot - painike</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Valitse tallennetuista yhteystiedoista</string>
-    <!-- Car doors text-->
-    <string name="car_doors_text">Ovet</string>
-    <!-- Car bags text-->
-    <string name="car_bags_text">Matkatavarat</string>
-    <!-- Car automatic transmission text-->
-    <string name="car_auto_tran_text">Automaattivaihteisto</string>
-    <!-- Car manual transmission text-->
-    <string name="car_man_tran_text">Manuaalivaihteisto</string>
-
-    <!-- car result -->
-    <!-- car door range -->
-    <string name="car_door_range_TEMPLATE">%1$d–%2$d</string>
-    <!-- car details template -->
-    <string name="car_details_TEMPLATE">%1$s %2$s</string>
-
-    <!-- Cars Confirmation Screen -->
-    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
-    <string name="calendar_car_title_TEMPLATE">Noutopaikka %1$s</string>
-    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
-    <string name="calendar_car_location_TEMPLATE">%1$s</string>
-    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_desc_itinerary_TEMPLATE">{brand}n matkasuunnitelman numero: {itinerary}</string>
-    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
-    <string name="calendar_desc_support_TEMPLATE">{brand}n asiakaspalvelu: {localphone} ja {phone}</string>
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">Aktiviteetin sijainti Google Map -näkymässä</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotellit</string>
-    <!-- Label for pickup location selector -->
-    <string name="pick_up_location">Noutopaikka</string>
-    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="drop_off_location">Palautuspaikka (sama kuin noutopaikka)</string>
-    <!-- Label for Car Search Screen header -->
-    <string name="toolbar_search_cars">Etsi autoja</string>
-    <!-- Label for Cars date button -->
-    <string name="select_pickup_and_dropoff_dates">Valitse nouto- ja palautuspäivät</string>
-    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
-    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} – valitse paluupäivä</string>
-    <!-- Car Calendar Strings -->
-    <string name="select_pickup_date">Valitse noutopäivä</string>
-    <!-- Label for pick-up time picker -->
-    <string name="pick_up_time_label">Nouto</string>
-    <!-- Label for drop-up time picker -->
-    <string name="drop_off_time_label">Palautus</string>
-    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
-    <string name="drop_off_same_as_pick_up">Tulossa pian! Teemme parhaamme lisätäksemme yhdensuuntaiset varaukset tulevaan versioon.</string>
-    <!-- Label for hint for car pick-up-->
-    <string name="car_pick_up_hint">Nouto</string>
-    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Pick up time 9:00 am-->
-    <string name="pick_up_slider_cont_desc_TEMPLATE">Noutoaika {time}</string>
-    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
-    <string name="drop_off_slider_cont_desc_TEMPLATE">Palautusaika {time}</string>
     <!-- Car search error -->
     <string name="error_no_result_message">Emme löytäneet yhtään tulosta. Yritä uudelleen eri hakuehdoilla.</string>
-    <!-- Car no filtered search results -->
-    <string name="filter_no_car_search_results_message">Ei hakutuloksia. Koita vähentää suodattimien määrää</string>
-    <!-- Transmission options filter label for a car rental -->
-    <string name="options">Vaihtoehdot</string>
-    <!-- Automatic transmission filter button-->
-    <string name="car_filter_automatic">Automaattivaihteisto</string>
-    <!-- Manual transmission filter button-->
-    <string name="car_filter_manual">Manuaalivaihteisto</string>
-    <!-- Any transmission type filter button -->
-    <string name="car_filter_all">Kaikki</string>
-    <!-- Air conditioning option checkbox filter -->
-    <string name="car_filter_checkbox_air_conditioning">Ilmastointi</string>
-    <!-- Unlimited mileage option checkbox filter -->
-    <string name="car_filter_checkbox_unlimited_mileage">Rajoittamaton kilometrimäärä</string>
-    <!-- Car types checkbox filter label for a car rental-->
-    <string name="car_types">Autotyypit</string>
-    <!-- Car types checkbox filter label for a car rental-->
-    <string name="car_vendors">Vuokraamot</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Poista suodattimet</string>
     <!-- Label to tell the user how many products match their filter -->
@@ -205,42 +101,12 @@
     </plurals>
 
     <!-- Checkout -->
-    <!-- Car model templates-->
-    <string name="car_model_name_template">%1$s tai vastaava</string>
-    <string name="car_model_unknown_template">Tarkka malli ei saatavilla</string>
-    <!-- Car checkout cost breakdown total due today -->
-    <string name="car_cost_breakdown_due_today">Veloitetaan nyt</string>
-    <!-- Car checkout cost breakdown total due at pick up -->
-    <string name="car_cost_breakdown_total_due">Maksetaan noutohetkellä</string>
-    <!-- Car checkout cost breakdown for alert button -->
-    <string name="car_cost_breakdown_button_text">Valmis</string>
-    <!-- Car checkout rental fare breakdown types -->
-    <!--Cost breakdown type base -->
-    <string name="car_rental_breakdown_base">Autonvuokraus</string>
-    <!--Cost breakdown type insurance -->
-    <string name="car_rental_breakdown_insurance">Vakuutus</string>
-    <!--Cost breakdown type drop off charge -->
-    <string name="car_rental_breakdown_drop_off_charges">Palautusmaksu</string>
-    <!-- Unlimited mileage -->
-    <string name="unlimited_mileage">Rajoittamaton kilometrimäärä</string>
-    <!-- Insurance included -->
-    <string name="insurance_included">Vakuutus lisätty</string>
     <!-- Checkout confirmation message (temporary) -->
     <string name="successful_checkout_TEMPLATE">Matkasuunnitelman numero %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">Puuttuvia maksuparametrejä.</string>
-    <!--Adding hotel from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_hotel">Hotellit kohteessa %1$s</string>
-    <!--Adding flight from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_flight">Lennot kohteeseen %1$s</string>
-    <!-- Car confirmation screen label -->
-    <string name="successful_checkout_pickup_label">Nouto</string>
-    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
-    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s –</string>
     <!-- Car confirmation itin text -->
     <string name="successful_checkout_email_label">Matkasuunnitelma lähetetty osoitteeseen</string>
-    <!-- Car confirmation directions text -->
-    <string name="car_confirmation_directions">Ajo-ohjeet kohteeseen %1$s</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">Anna uuden pankki-/luottokortin tiedot</string>
     <!-- Text for enter guest details line 1 -->
@@ -277,21 +143,14 @@
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">Lukkoikoni, turvallinen maksutapahtuma</string>
 
-    <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early.  -->
-    <string name="pick_up_time_error">Ole hyvä ja muokkaa nouto- ja palautusaikoja.</string>
     <!-- Message for user that date is too far out.  -->
     <string name="error_date_too_far">Tämä päivämäärä on liian kaukana tulevaisuudessa, valitse uusi päivä.</string>
-    <!-- Message for user that increase your reservation duration. -->
-    <string name="reservation_time_too_short">Lisää varauksesi kestoa.</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Oletko vielä siellä? Istuntosi on vanhentunut Yritä tehdä haku uudelleen.</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
     <string name="reservation_already_exists_new_hotels">Tämä varaus on tehty. Tarkista matkasi tai sähköpostisi.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hmm. Näyttäisi siltä, että olet jo varannut tämän matkan. Tarkista matkasi tai sähköpostisi.</string>
-    <!-- Show to user when the price of a car they are trying to book has changed -->
-    <string name="reservation_price_change">Vuokra-autosi hinta on muuttunut. Vahvista uusi hinta jatkaaksesi.</string>
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">Nimissä ei saa olla numeroita tai erikoismerkkejä.</string>
     <!-- Show to user when their phone number is invalid -->
@@ -301,8 +160,6 @@
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm… Maksusi ei mennyt läpi. Tarkista maksutiedot ja yritä uudelleen.</string>
-    <!-- Shown to a user when their ability to rent a specific car expires -->
-    <string name="error_cars_product_expired">Hakusi on vanhentunut. Valitse voimassa oleva noutoaika.</string>
     <!-- Price changed button text that takes you back to checkout -->
     <string name="view_price_change">Katso hintamuutos</string>
     <!-- My Trips button that takes you to Itins -->
@@ -683,8 +540,6 @@
     <string name="all_things_to_do_description">Lista kaikista saatavilla olevista aktiviteeteista valitsemillesi päiville.</string>
 
     <!-- LX Strings -->
-    <!-- Slide to book -->
-    <string name="lx_slider_text">Liu\&apos;uta ostaaksesi</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Anna yhteystiedot</string>
     <!-- LX search error -->
@@ -1382,66 +1237,6 @@
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Ylisuuri auto</string>
 
-    <!-- Car category for results and details screen -->
-    <!-- Car category: mini -->
-    <string name="car_category_result_mini">Minikokoinen</string>
-    <!-- Car category: economy -->
-    <string name="car_category_result_economy">Economy</string>
-    <!-- Car category: compact -->
-    <string name="car_category_result_compact">Kompakti</string>
-    <!-- Car category: midize -->
-    <string name="car_category_result_midsize">Keskikokoinen</string>
-    <!-- Car category: standard -->
-    <string name="car_category_result_standard">Standardikokoinen</string>
-    <!-- Car category: fullsize -->
-    <string name="car_category_result_fullsize">Täysikokoinen</string>
-    <!-- Car category: premium -->
-    <string name="car_category_result_premium">Premium</string>
-    <!-- Car category: luxury -->
-    <string name="car_category_result_luxury">Luksus</string>
-    <!-- Car category: mini elite -->
-    <string name="car_category_result_mini_elite">Elitetason minikokoinen</string>
-    <!-- Car category: economy elite -->
-    <string name="car_category_result_economy_elite">Elitetason economy</string>
-    <!-- Car category: compact elite -->
-    <string name="car_category_result_compact_elite">Elitetason kompakti</string>
-    <!-- Car category: midize elite -->
-    <string name="car_category_result_midsize_elite">Elitetason keskikokoinen</string>
-    <!-- Car category: standard elite -->
-    <string name="car_category_result_standard_elite">Elitetason standardikokoinen</string>
-    <!-- Car category: fullsize elite -->
-    <string name="car_category_result_fullsize_elite">Elitetason täysikokoinen</string>
-    <!-- Car category: premium elite -->
-    <string name="car_category_result_premium_elite">Elitetason premium</string>
-    <!-- Car category: luxury elite -->
-    <string name="car_category_result_luxury_elite">Elitetason luksus</string>
-    <!-- Car category: oversize -->
-    <string name="car_category_result_oversize">Ylisuuri</string>
-
-    <!-- Car types -->
-    <string name="car_type_two_door">Kaksiovinen auto</string>
-    <string name="car_type_three_door">Kolmiovinen auto</string>
-    <string name="car_type_four_door">Neliovinen auto</string>
-    <string name="car_type_van">Pakettiauto</string>
-    <string name="car_type_wagon">Farmariauto</string>
-    <string name="car_type_limousine">Limusiini</string>
-    <string name="car_type_recreational_vehicle">Matkailuauto</string>
-    <string name="car_type_convertible">Avoauto</string>
-    <string name="car_type_sports_car">Urheiluauto</string>
-    <string name="car_type_suv">Katumaasturi</string>
-    <string name="car_type_pickup_regular_cab">Lava-auto, normaali ohjaamo</string>
-    <string name="car_type_open_air_all_terrain">Mönkijä</string>
-    <string name="car_type_special">Erikoisauto</string>
-    <string name="car_type_commercial_van_truck">Raskas pakettiauto</string>
-    <string name="car_type_pickup_extended_cab">Lava-auto, pidennetty ohjaamo</string>
-    <string name="car_type_special_offer_car">Erikoistarjousauto</string>
-    <string name="car_type_coupe">Coupé</string>
-    <string name="car_type_monospace">Tila-auto</string>
-    <string name="car_type_motor_home">Asuntoauto</string>
-    <string name="car_type_two_wheel_vehicle">Kaksipyöräinen ajoneuvo</string>
-    <string name="car_type_roadster">Urheiluauto</string>
-    <string name="car_type_crossover">Crossover</string>
-
     <!-- Itin card details -->
     <string name="itin_card_details_active">Aktiivinen</string>
     <string name="itin_card_details_expires">Vanhenee</string>
@@ -1978,8 +1773,6 @@
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotelli ei hyväksy {card_type}-kortteja</string>
     <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
     <string name="package_does_not_accept_cardtype_TEMPLATE">Pakettimatkaa ei voi varata {card_type}-kortilla</string>
-    <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
-    <string name="car_does_not_accept_cardtype_TEMPLATE">Autovuokraamo ei hyväksy {card_type}-kortteja</string>
     <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">Aktiviteettia ei voi varata {card_type}-kortilla</string>
 
@@ -2019,8 +1812,6 @@
     <string name="you_are_using_expedia_points_TEMPLATE">Käytät {points} ({amount}) Expedia+-pistettä</string>
     <!-- Payment through card + pwp points -->
     <string name="payment_through_card_and_pwp_points">Käytät {points} ({amount}) Expedia+-pistettä\nKortiltasi veloitetaan {dueamount}</string>
-    <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_template">Nyt maksettava summa: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Tee varaus loppuun</string>
     <!-- Our price gaurentee string -->
@@ -2413,8 +2204,6 @@
     <!-- Button label for accepting an error and moving forward -->
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Yritä uudelleen</string>
-    <!-- Button label for adjusting filters after getting no results -->
-    <string name="edit_filters">Muokkaa suodattimia</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Antamasi kortin haltijan nimi ei ole sama kuin luottokortissa. Ole hyvä ja yritä uudelleen.</string>
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
@@ -3677,39 +3466,11 @@
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
     <string name="pay_later_cont_desc">Paina painiketta maksaaksesi myöhemmin</string>
 
-    <!-- Content description for Cars filter button -->
-    <string name="cars_filter_button_cont_desc">Suodatinpainike</string>
-    <!-- Content description for car result door count e.g. Doors 2-4 -->
-    <string name="cars_door_count_cont_desc_TEMPLATE">Ovia {doorcount}</string>
-    <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
-    <string name="cars_passenger_count_cont_desc_TEMPLATE">Matkustajia {passengercount}</string>
-    <!-- Content description for car result bags count e.g. Bags 2-4 -->
-    <string name="cars_bags_count_cont_desc_TEMPLATE">Matkatavaroita {bagscount}</string>
     <!-- Content description for hotel star rating e.g. 3 stars -->
     <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
         <item quantity="one">{rating} tähti</item>
         <item quantity="other">{rating} tähteä</item>
     </plurals>
-    <!-- Content descriptions for Cars filter transmission buttons -->
-    <string name="cars_filter_transmission_manual_button_cont_desc">Manuaalivaihteisto</string>
-    <string name="cars_filter_transmission_automatic_button_cont_desc">Automaattivaihteisto</string>
-    <string name="cars_filter_transmission_all_button_cont_desc">Kaikki vaihteistotyypit</string>
-
-    <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
-    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, varauspainike</string>
-    <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
-    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, katso tiedot -painike</string>
-
-    <!-- Car confirmation directions content description e.g. Directions to Fox button-->
-    <string name="car_confirmation_directions_cont_desc_TEMPLATE">Ohjeet {vendor}-autovuokraamolle -painike</string>
-    <!-- Car confirmation add to calendar content description-->
-    <string name="car_confirmation_add_to_calendar_cont_desc">Lisää kalenteriin -painike</string>
-    <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
-    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Hotellit kohteessa {location} -painike</string>
-    <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
-    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Lennot kohteeseen {location} -painike</string>
-    <!-- Content description for action: $500. Cost summary information button -->
-    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Maksutietojen yhteenvedon painike.</string>
 
     <!-- Dialog positive button message -->
     <string name="yes">Kyllä</string>

@@ -182,7 +182,6 @@ open class PaymentViewModel(val context: Context) {
             isCreditCardRequired.onNext(lobRequiresCreditCard(lob))
             val isPostalCodeRequired = when (lob) {
                 LineOfBusiness.HOTELS -> PointOfSale.getPointOfSale().requiresHotelPostalCode()
-                LineOfBusiness.CARS -> PointOfSale.getPointOfSale().requiresCarsPostalCode()
                 LineOfBusiness.TRANSPORT -> PointOfSale.getPointOfSale().requiresLXPostalCode()
                 LineOfBusiness.LX -> PointOfSale.getPointOfSale().requiresLXPostalCode()
                 else -> true
@@ -269,7 +268,7 @@ open class PaymentViewModel(val context: Context) {
 
     private fun getCardIcon(type: PaymentType?): Drawable {
         if (type == null) {
-            return ContextCompat.getDrawable(context, R.drawable.cars_checkout_cc_default_icon)
+            return ContextCompat.getDrawable(context, R.drawable.ic_checkout_default_creditcard)
         } else {
             return ContextCompat.getDrawable(context, BookingInfoUtils.getColorfulCardIcon(type))
         }
