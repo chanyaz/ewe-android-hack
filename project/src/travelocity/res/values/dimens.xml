@@ -8,5 +8,5 @@
     <dimen name="checkout_icon_right_margin_hotel">0dp</dimen>
 
     <!-- Dimension for left margin on icon of new login button on car & LX checkout-->
-    <dimen name="checkout_icon_right_margin_car_lx">14dp</dimen>
+    <dimen name="checkout_icon_right_margin_lx">14dp</dimen>
 </resources>

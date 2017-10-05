@@ -29,14 +29,11 @@
     <color name="hotelsv2_discount_green">#428201</color>
     <color name="hotelsv2_coupon_applied_color">#7baed4</color>
 
-    <!-- Cars and LX -->
-    <color name="cars_primary_color">@color/lob_primary_color</color>
+    <!-- LX -->
     <color name="lx_primary_color">@color/lob_primary_color</color>
     <color name="lx_ripple_color">#53a0d3</color>
     <color name="lx_secondary_color_disabled">#032E4D</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-
-    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#7ABC00</color>
