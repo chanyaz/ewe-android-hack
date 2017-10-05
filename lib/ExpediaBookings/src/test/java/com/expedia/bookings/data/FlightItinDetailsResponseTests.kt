@@ -34,27 +34,27 @@ class FlightItinDetailsResponseTests {
 
     @Test
     fun testGetOutboundDepartureDate() {
-        assertEquals(getResponse().getOutboundDepartureDate(), "5/20/17")
+        assertEquals(getResponse().getFirstFlightOutboundDepartureDate(), "5/20/17")
     }
 
     @Test
     fun testGetOutboundDepartureDateNullWhenMissingFlights() {
-        assertNull(getResponse(omitFlights = true).getOutboundDepartureDate())
+        assertNull(getResponse(omitFlights = true).getFirstFlightOutboundDepartureDate())
     }
 
     @Test
     fun testGetInboundArrivalDate() {
-        assertEquals(getResponse(isRoundTrip = true).getInboundArrivalDate(), "5/24/17")
+        assertEquals(getResponse(isRoundTrip = true).getFirstFlightInboundArrivalDate(), "5/24/17")
     }
 
     @Test
     fun testGetInboundArrivalDateNullWhenMissingFlights() {
-        assertNull(getResponse(omitFlights = true, isRoundTrip = true).getInboundArrivalDate())
+        assertNull(getResponse(omitFlights = true, isRoundTrip = true).getFirstFlightInboundArrivalDate())
     }
 
     @Test
     fun testGetInboundArrivalDateNullWhenMissingSegments() {
-        assertNull(getResponse(omitSegments = true, isRoundTrip = true).getInboundArrivalDate())
+        assertNull(getResponse(omitSegments = true, isRoundTrip = true).getFirstFlightInboundArrivalDate())
     }
 
     private fun getResponse(omitFlights: Boolean = false, omitSegments: Boolean = false, isRoundTrip: Boolean = false): FlightItinDetailsResponse {

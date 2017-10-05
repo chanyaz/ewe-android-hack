@@ -30,6 +30,7 @@ abstract class AbstractItinDetailsResponse {
 
     class Time {
         lateinit var localizedShortDate: String
+        lateinit var raw: String
     }
 
 

@@ -317,6 +317,10 @@ class FlightConfirmationPresenterTest {
         val outboundSegment = FlightItinDetailsResponse.Flight.Leg.Segment()
         outboundSegment.departureTime = AbstractItinDetailsResponse.Time()
         outboundSegment.departureTime.localizedShortDate = "5/20/17"
+        outboundSegment.departureLocation = FlightItinDetailsResponse.Flight.Leg.Segment.Location()
+        outboundSegment.arrivalLocation = FlightItinDetailsResponse.Flight.Leg.Segment.Location()
+        outboundSegment.departureLocation.city = "Seattle"
+        outboundSegment.arrivalLocation.city = "Oakland"
         outboundSegments.add(outboundSegment)
         outboundLeg.segments = outboundSegments
 

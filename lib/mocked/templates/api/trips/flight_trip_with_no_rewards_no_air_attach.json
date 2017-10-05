@@ -65,38 +65,9 @@
     },
     "ownerId": 307520314,
     "bookingStatus": "BOOKED",
-    "rewardList": [
-      {
-        "totalPoints": 13.00,
-        "basePoints": 12.00,
-        "bonusPoints": [
-          {
-            "m_pointValue": 1.00,
-            "m_pointType": "offerPoint",
-            "m_pointDescription": "+silver Bonus",
-            "m_status": "PENDING",
-            "m_programId": 3
-          }
-        ],
-        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
-        "viewStatementURL": "/user/rewards"
-      }
-    ],
     "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/3onkuf_eBckddgmkNz3BNcCAqKW-p7rd4kTA4H5YkcUoaVhITa7YLZksqAi7kIDkO9f2Of33KaNUvN-pzL704LOL",
     "airAttachQualificationInfo": {
-      "airAttachQualified": true,
-      "offerExpires": "2017-02-07T15:57:11.407-08:00",
-      "offerExpiresTime": {
-        "raw": "2017-02-07T15:57:11-08:00",
-        "localized": "Feb 7, 2017 3:57:11 PM",
-        "epochSeconds": 1486511831,
-        "timeZoneOffsetSeconds": -28800,
-        "localizedShortDate": "2/7/17",
-        "localizedMediumDate": "Feb 7, 2017",
-        "localizedFullDate": "Tuesday, February 7, 2017",
-        "localizedLongDate": "February 7, 2017",
-        "localizedShortTime": "3:57 PM"
-      }
+      "airAttachQualified": false
     },
     "customerSupport": {
       "customerSupportURL": "http://www.expedia.com/service/",

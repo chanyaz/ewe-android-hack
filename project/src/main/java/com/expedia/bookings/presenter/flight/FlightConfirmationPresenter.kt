@@ -7,9 +7,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.shared.KrazyglueWidget
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
@@ -20,6 +22,7 @@ import com.expedia.bookings.widget.HotelCrossSellView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.FlightConfirmationToolbar
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.Optional
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
@@ -84,23 +87,57 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     fun showConfirmationInfo(response: FlightCheckoutResponse, email: String) {
-        setCardViewModels(response)
+        setCardViewModelsFromCheckoutResponse(response)
         viewModel.confirmationObservable.onNext(Pair(response, email))
+        viewModel.flightCheckoutResponseObservable.onNext(response)
         hotelCrossSell.viewModel.confirmationObservable.onNext(response)
-        toolbar.viewModel.bindCheckoutResponseData(response)
+        toolbar.viewModel.bindTripId(response.newTrip?.tripId ?: "")
     }
 
-    fun setCardViewModels(response: FlightCheckoutResponse) {
+    fun showConfirmationInfoFromWebCheckoutView(response: FlightItinDetailsResponse) {
+        setCardViewModelsFromItinResponse(response)
+        viewModel.itinDetailsResponseObservable.onNext(response)
+        hotelCrossSell.viewModel.itinDetailsResponseObservable.onNext(response)
+        toolbar.viewModel.bindTripId(response.responseData.tripId ?: "")
+        val expediaRewards = response.getTotalPoints()
+        viewModel.setRewardsPoints.onNext(Optional(expediaRewards))
+    }
+
+    private fun setCardViewModelsFromCheckoutResponse(response: FlightCheckoutResponse) {
         val outbound = response.getFirstFlightLeg()
         val inbound = response.getLastFlightLeg()
-        val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city ?: ""
-        val numberOfGuests = response.passengerDetails.size
 
-        outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests)
-        viewModel.destinationObservable.onNext(destinationCity)
-        viewModel.numberOfTravelersSubject.onNext(numberOfGuests)
+        var flightTitle = FlightV2Utils.getDepartureToArrivalTitleFromCheckoutResponseLeg(context, outbound)
+        var flightSubtitle = FlightV2Utils.getDepartureToArrivalSubtitleFromCheckoutResponseLeg(context, outbound)
+        var flightUrl = FlightV2Utils.getAirlineUrlFromCheckoutResponseLeg(outbound) ?: ""
+        var flightDepartureDateTitle = FlightV2Utils.getDepartureOnDateStringFromCheckoutResponseLeg(context, outbound)
+        outboundFlightCard.viewModel = FlightConfirmationCardViewModel(flightTitle, flightSubtitle, flightUrl, flightDepartureDateTitle)
         if (inbound != outbound && viewModel.inboundCardVisibility.value ?: false) {
-            inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, numberOfGuests)
+            flightTitle = FlightV2Utils.getDepartureToArrivalTitleFromCheckoutResponseLeg(context, inbound)
+            flightSubtitle = FlightV2Utils.getDepartureToArrivalSubtitleFromCheckoutResponseLeg(context, inbound)
+            flightUrl = FlightV2Utils.getAirlineUrlFromCheckoutResponseLeg(inbound) ?: ""
+            flightDepartureDateTitle = FlightV2Utils.getDepartureOnDateStringFromCheckoutResponseLeg(context, inbound)
+            inboundFlightCard.viewModel = FlightConfirmationCardViewModel(flightTitle, flightSubtitle, flightUrl, flightDepartureDateTitle)
+        }
+    }
+
+    private fun setCardViewModelsFromItinResponse(response: FlightItinDetailsResponse) {
+        val outbound = response.getFirstFlightOutboundLeg()
+        val inbound = response.getLastFlightInboundLeg()
+
+        var flightTitle = FlightV2Utils.getDepartureToArrivalTitleFromItinResponseLeg(context, outbound)
+        var flightSubTitle = FlightV2Utils.getDepartureToArrivalSubtitleFromItinResponseLeg(context, outbound)
+        var flightUrl = outbound?.airlineLogoURL ?: ""
+        var flightDepartureDateTitle = FlightV2Utils.getDepartureOnDateStringFromItinResponseLeg(context, outbound)
+        outboundFlightCard.viewModel = FlightConfirmationCardViewModel(flightTitle, flightSubTitle, flightUrl, flightDepartureDateTitle)
+        val isRoundTrip = response.isRoundTrip()
+        viewModel.inboundCardVisibility.onNext(isRoundTrip)
+        if (inbound != outbound && isRoundTrip) {
+            flightTitle = FlightV2Utils.getDepartureToArrivalTitleFromItinResponseLeg(context, inbound)
+            flightSubTitle = FlightV2Utils.getDepartureToArrivalSubtitleFromItinResponseLeg(context, inbound)
+            flightUrl = inbound?.airlineLogoURL ?: ""
+            flightDepartureDateTitle = FlightV2Utils.getDepartureOnDateStringFromItinResponseLeg(context, inbound)
+            inboundFlightCard.viewModel = FlightConfirmationCardViewModel(flightTitle, flightSubTitle, flightUrl, flightDepartureDateTitle)
         }
     }
 }

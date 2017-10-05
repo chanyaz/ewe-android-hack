@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -28,7 +27,7 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Lin
         vm.titleSubject.subscribeText(title)
         vm.subtitleSubject.subscribeText(subTitle)
         title.typeface = Typeface.DEFAULT_BOLD
-        vm.secondaryTitleSubject.subscribeTextAndVisibility(titleSupplement)
+        vm.departureDateTitleSubject.subscribeTextAndVisibility(titleSupplement)
         vm.urlSubject.subscribe { url ->
             if (!url.isNullOrBlank()) {
                 val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)

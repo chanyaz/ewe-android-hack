@@ -71,9 +71,9 @@
     "sharableDetailsURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/shared/HG4Ujk-UFsQTgg3P0D9S38CATj2L-OnnHByDWEMmk4tnW3b4J_zgJywj1w21xeaZY5L52zlSmPXXbGCxj2batq65",
     "airAttachQualificationInfo": {
       "airAttachQualified": true,
-      "offerExpires": "2017-10-19T09:47:11.880-07:00",
+      "offerExpires": "2017-11-20T09:47:11.880-07:00",
       "offerExpiresTime": {
-        "raw": "2017-10-19T09:47:11-07:00",
+        "raw": "2017-11-20T09:47:11-07:00",
         "localized": "Oct 19, 2017 9:47:11 AM",
         "epochSeconds": 1508431631,
         "timeZoneOffsetSeconds": -25200,
@@ -203,7 +203,6 @@
             ],
             "frequentFlyerPlans": [],
             "seats": [],
-            "emailAddress": "susanna@mobiata.com",
             "seatPreferenceCode": "Z"
           }
         ],
@@ -459,6 +458,7 @@
             "type": "MULTISTOP",
             "state": "PRE_START_4",
             "numberOfStops": 2,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
             "segments": [
               {
                 "transportationType": "FLIGHT",

@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.AmenityResourceType
@@ -21,7 +22,6 @@ import com.expedia.bookings.text.HtmlCompat
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.Locale
@@ -30,7 +30,7 @@ object FlightV2Utils {
     val TICKETS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
 
     @JvmStatic fun getFlightDurationStopString(context: Context, flight: FlightLeg): String {
-        return context.resources.getString(R.string.flight_duration_description_template, getFlightDurationString(context, flight), getFlightStopString(context, flight))
+        return context.resources.getString(R.string.flight_duration_description_template, getFlightDurationString(context, flight), getStopsStringFromCheckoutResponseLeg(context, flight))
     }
 
     @JvmStatic fun getFlightSegmentDurationString(context: Context, segment: FlightLeg.FlightSegment): String {
@@ -117,8 +117,17 @@ object FlightV2Utils {
                 .format().toString()
     }
 
-    @JvmStatic fun getFlightStopString(context: Context, flight: FlightLeg): String {
+    @JvmStatic fun getStopsStringFromCheckoutResponseLeg(context: Context, flight: FlightLeg): String {
         val numOfStops = flight.stopCount
+        if (numOfStops == 0) {
+            return context.resources.getString(R.string.flight_nonstop_description)
+        } else {
+            return context.resources.getQuantityString(R.plurals.x_Stops_TEMPLATE, numOfStops, numOfStops)
+        }
+    }
+
+    @JvmStatic fun getStopsStringFromCheckoutItinResponseLeg(context: Context, flightLeg: FlightItinDetailsResponse.Flight.Leg?): String {
+        val numOfStops = flightLeg?.numberOfStops ?: 0
         if (numOfStops == 0) {
             return context.resources.getString(R.string.flight_nonstop_description)
         } else {
@@ -238,8 +247,7 @@ object FlightV2Utils {
 
     @JvmStatic fun formatTimeShort(context: Context, timeStr: String): String {
         if (timeStr.isEmpty()) return ""
-        val fmt = ISODateTimeFormat.dateTime().withOffsetParsed()
-        val time = DateTime.parse(timeStr, fmt)
+        val time = DateTime.parse(timeStr)
         val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
         return JodaUtils.format(time, dateFormat).toLowerCase(Locale.getDefault())
     }
@@ -284,7 +292,7 @@ object FlightV2Utils {
         }
     }
 
-    @JvmStatic fun getAirlineUrl(flightLeg: FlightLeg): String? {
+    @JvmStatic fun getAirlineUrlFromCheckoutResponseLeg(flightLeg: FlightLeg): String? {
         return when {
             flightLeg.airlines.size == 1 -> flightLeg.airlines.first().airlineLogoUrl
             flightLeg.airlines.size > 1 && getDistinctiveAirline(flightLeg.airlines).size == 1 ->
@@ -293,8 +301,15 @@ object FlightV2Utils {
         }
     }
 
-    @JvmStatic fun getDepartureOnDateString(context: Context, flightLeg: FlightLeg): String {
+    @JvmStatic fun getDepartureOnDateStringFromCheckoutResponseLeg(context: Context, flightLeg: FlightLeg): String {
         val date = LocaleBasedDateFormatUtils.localDateToMMMd(DateTime.parse(flightLeg.segments.first().departureTimeRaw).toLocalDate())
+        return " " + Phrase.from(context.getString(R.string.flight_confirmation_crystal_title_on_date_TEMPLATE))
+                .put("date", date)
+                .format().toString()
+    }
+
+    @JvmStatic fun getDepartureOnDateStringFromItinResponseLeg(context: Context, flightLeg: FlightItinDetailsResponse.Flight.Leg?): String {
+        val date = LocaleBasedDateFormatUtils.localDateToMMMd(DateTime.parse(flightLeg?.segments?.first()?.departureTime?.raw).toLocalDate())
         return " " + Phrase.from(context.getString(R.string.flight_confirmation_crystal_title_on_date_TEMPLATE))
                 .put("date", date)
                 .format().toString()
@@ -352,6 +367,45 @@ object FlightV2Utils {
             selectedClassText = context.getString(R.string.flight_selected_classes_mixed_classes)
         }
         return selectedClassText
+    }
+
+    @JvmStatic fun getDepartureToArrivalTitleFromCheckoutResponseLeg(context: Context, flightLeg: FlightLeg) : String {
+        val departureAirportCode = flightLeg.segments.first().departureAirportCode
+        val arrivalAirportCode = flightLeg.segments.last().arrivalAirportCode
+        return context.getString(R.string.SharedItin_Title_Flight_TEMPLATE, departureAirportCode, arrivalAirportCode)
+    }
+
+    @JvmStatic fun getDepartureToArrivalSubtitleFromCheckoutResponseLeg(context: Context, flightLeg: FlightLeg): String {
+        val departureDateTime = flightLeg.segments.first().departureTimeRaw
+        val departureTime = FlightV2Utils.formatTimeShort(context, departureDateTime ?: "")
+        val arrivalTime = FlightV2Utils.formatTimeShort(context, flightLeg.segments.last().arrivalTimeRaw ?: "")
+        val stops = FlightV2Utils.getStopsStringFromCheckoutResponseLeg(context, flightLeg)
+
+        return Phrase.from(context.getString(R.string.flight_to_card_crystal_subtitle_TEMPLATE))
+                .put("departuretime", departureTime)
+                .put("arrivaltime", arrivalTime)
+                .put("stops", stops)
+                .format().toString()
+    }
+
+    @JvmStatic
+    fun getDepartureToArrivalTitleFromItinResponseLeg(context: Context, flightLeg: FlightItinDetailsResponse.Flight.Leg?) : String {
+        val departureAirportCode = flightLeg?.segments?.first()?.departureLocation?.airportCode ?: ""
+        val arrivalAirportCode = flightLeg?.segments?.last()?.arrivalLocation?.airportCode ?: ""
+        return context.getString(R.string.SharedItin_Title_Flight_TEMPLATE, departureAirportCode, arrivalAirportCode)
+    }
+
+    @JvmStatic
+    fun getDepartureToArrivalSubtitleFromItinResponseLeg(context: Context, flightLeg: FlightItinDetailsResponse.Flight.Leg?): String {
+        val departureTime = FlightV2Utils.formatTimeShort(context, flightLeg?.segments?.first()?.departureTime?.raw ?: "")
+        val arrivalTime = FlightV2Utils.formatTimeShort(context, flightLeg?.segments?.last()?.arrivalTime?.raw ?: "")
+        val stops = FlightV2Utils.getStopsStringFromCheckoutItinResponseLeg(context, flightLeg)
+
+        return Phrase.from(context.getString(R.string.flight_to_card_crystal_subtitle_TEMPLATE))
+                .put("departuretime", departureTime)
+                .put("arrivaltime", arrivalTime)
+                .put("stops", stops)
+                .format().toString()
     }
 
     private fun getBasicEconomyLeg(flightLegs: List<FlightLeg>): Pair<Boolean, Int> {

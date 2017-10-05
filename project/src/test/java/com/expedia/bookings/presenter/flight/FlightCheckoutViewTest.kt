@@ -1,10 +1,12 @@
 package com.expedia.bookings.presenter.flight
 
 import android.app.Activity
+import android.content.ComponentName
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripResponse
@@ -14,8 +16,10 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
@@ -25,6 +29,10 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.WebViewUtils
+import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.RewardsUtil
+import com.expedia.ui.HotelActivity
+import com.expedia.util.Optional
 import com.expedia.vm.FlightWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import org.junit.Before
@@ -42,10 +50,13 @@ import org.joda.time.LocalDate
 import org.junit.Rule
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
+import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
 import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -58,6 +69,9 @@ class FlightCheckoutViewTest {
     lateinit private var flightServices: FlightServices
     val userAccountRefresherMock = Mockito.mock(UserAccountRefresher::class.java)
     var server: MockWebServer = MockWebServer()
+        @Rule get
+
+    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../lib/mocked/templates")
         @Rule get
 
     @Before
@@ -202,12 +216,276 @@ class FlightCheckoutViewTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testSingleFlightOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+
+        serviceRule.services!!.getTripDetails("flight_trip_details", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        val confirmationPresenter = flightPresenter.confirmationPresenter
+        assertEquals("#7238007847306 sent to gbalachandran@expedia.com", flightPresenter.confirmationPresenter.itinNumber.text)
+        assertEquals("Las Vegas", confirmationPresenter.destination.text)
+
+        val outboundFlightCard = confirmationPresenter.outboundFlightCard
+        assertEquals("SFO to LAS", outboundFlightCard.title.text)
+        assertEquals("20:00:00 - 21:33:00 · Nonstop", outboundFlightCard.subTitle.text)
+
+        val inboundFlightCard = confirmationPresenter.inboundFlightCard
+        assertTrue(inboundFlightCard.visibility == View.GONE)
+
+        val flightSummary = confirmationPresenter.flightSummary
+        assertEquals("1 traveler", flightSummary.numberOfTravelers.text)
+        assertEquals("$60.20", flightSummary.tripPrice.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRoundTripFlightOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        val inboundFlightCard = flightPresenter.confirmationPresenter.inboundFlightCard
+        assertTrue(inboundFlightCard.visibility == View.VISIBLE)
+        assertEquals("PBI to SFO", inboundFlightCard.title.text)
+        assertEquals("08:50:00 - 00:03:00 · 2 Stops", inboundFlightCard.subTitle.text)
+        assertEquals("#79010216932 sent to your email.", flightPresenter.confirmationPresenter.itinNumber.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightWithRewardsConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testRewardsSubscriber: TestSubscriber<Optional<String>> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        flightPresenter.confirmationPresenter.viewModel.setRewardsPoints.subscribe(testRewardsSubscriber)
+
+        serviceRule.services!!.getTripDetails("flight_trip_details", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        assertEquals("13 points earned", RewardsUtil.buildRewardText(activity,
+                testRewardsSubscriber.onNextEvents[0].value ?: "",
+                ProductFlavorFeatureConfiguration.getInstance(), isFlights = true))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightWithNoRewardsOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val testRewardsSubscriber: TestSubscriber<Optional<String>> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        flightPresenter.confirmationPresenter.viewModel.setRewardsPoints.subscribe(testRewardsSubscriber)
+
+        serviceRule.services!!.getTripDetails("flight_trip_with_no_rewards_no_air_attach", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        assertEquals("", RewardsUtil.buildRewardText(activity,
+                testRewardsSubscriber.onNextEvents[0].value ?: "",
+                ProductFlavorFeatureConfiguration.getInstance(), isFlights = true))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightWithCrossSellOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+
+        serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        val hotelCrossSell = flightPresenter.confirmationPresenter.hotelCrossSell
+        assertTrue(hotelCrossSell.airAttachCountDownView.visibility == View.VISIBLE)
+        assertTrue(hotelCrossSell.airAttachExpirationTodayTextView.visibility == View.GONE)
+        assertEquals("20 days", hotelCrossSell.airattachExpirationDaysRemainingTextView.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelCrossSellClickOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+        val shadowActivity = Shadows.shadowOf(activity)
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+
+        serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        flightPresenter.confirmationPresenter.hotelCrossSell.viewModel.searchParamsObservable.onNext(setupFlightSearchParams())
+
+        flightPresenter.confirmationPresenter.hotelCrossSell.airAttachContainer.callOnClick()
+
+        val intent = shadowActivity.peekNextStartedActivityForResult().intent
+        assertTrue(intent.component == ComponentName(activity, HotelActivity::class.java))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightWithCrossSellExpirationOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+
+        serviceRule.services!!.getTripDetails("flight_trip_details", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        val hotelCrossSell = flightPresenter.confirmationPresenter.hotelCrossSell
+        assertTrue(hotelCrossSell.airAttachCountDownView.visibility == View.GONE)
+        assertTrue(hotelCrossSell.airAttachExpirationTodayTextView.visibility == View.VISIBLE)
+        assertEquals("", hotelCrossSell.airattachExpirationDaysRemainingTextView.text)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightWithNoAirAttachOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+
+        serviceRule.services!!.getTripDetails("flight_trip_with_no_rewards_no_air_attach", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        val hotelCrossSell = flightPresenter.confirmationPresenter.hotelCrossSell
+        assertTrue(hotelCrossSell.airAttachCountDownView.visibility == View.GONE)
+        assertTrue(hotelCrossSell.airAttachExpirationTodayTextView.visibility == View.GONE)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightWithInsuranceOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+
+        serviceRule.services!!.getTripDetails("flight_trip_details", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        assertTrue(flightPresenter.confirmationPresenter.tripProtectionLabel.visibility == View.VISIBLE)
+        assertTrue(flightPresenter.confirmationPresenter.tripProtectionDivider.visibility == View.VISIBLE)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightWithNoInsuranceOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+
+        serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        assertTrue(flightPresenter.confirmationPresenter.tripProtectionLabel.visibility == View.GONE)
+        assertTrue(flightPresenter.confirmationPresenter.tripProtectionDivider.visibility == View.GONE)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightWithNoEmailOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        assertEquals("#79010216932 sent to your email.", flightPresenter.confirmationPresenter.itinNumber.text)
+    }
+    
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testShowBookingSuccessDialogOnItinResponseError() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        serviceRule.services!!.getTripDetails("should_error", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+        assertTrue(alertDialog.title.contains("Booking Successful!"))
+        assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     @Config(qualifiers = "sw600dp")
     fun testUserAgentStringHasTabletInfo() {
         setPOSToIndia()
         turnOnABTestAndFeatureToggle()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
 
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.tablet", flightPresenter.webCheckoutView.webView.settings.userAgentString)
     }
@@ -219,7 +497,7 @@ class FlightCheckoutViewTest {
         turnOnABTestAndFeatureToggle()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
-        
+
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.phone", flightPresenter.webCheckoutView.webView.settings.userAgentString)
     }
 
@@ -305,5 +583,4 @@ class FlightCheckoutViewTest {
         var builder = FlightCreateTripParams.Builder()
         return builder.productKey(productKey).build()
     }
-
 }

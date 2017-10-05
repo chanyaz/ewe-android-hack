@@ -5,30 +5,26 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightItinDetailsResponse
-import com.expedia.bookings.data.flights.FlightCheckoutResponse
-import rx.subjects.PublishSubject
 import java.util.Locale
 
 class ConfirmationToolbarViewModel(val context: Context) {
 
-    val tripId: String get() = checkoutResponse.newTrip?.tripId as String
+    lateinit var tripId: String
 
-    private lateinit var checkoutResponse: FlightCheckoutResponse
-
-    fun bindCheckoutResponseData(checkoutResponse: FlightCheckoutResponse) {
-        this.checkoutResponse = checkoutResponse
+    fun bindTripId(tripId: String) {
+        this.tripId = tripId
     }
 
     fun getShareMessage(itinDetailsResponse: AbstractItinDetailsResponse): String {
         var shareText = ""
 
         val flightItinDetailsResponse = itinDetailsResponse as FlightItinDetailsResponse
-        val departureCity = checkoutResponse.getFirstFlightFirstSegment().departureAirportAddress.city
-        val arrivalCity = checkoutResponse.getFirstFlightLastSegment().arrivalAirportAddress.city
+        val departureCity = itinDetailsResponse.getOutboundDepartureCity()
+        val arrivalCity = flightItinDetailsResponse.getOutboundDestinationCity()
         val outboundSharableDetailsURL = flightItinDetailsResponse.getOutboundSharableDetailsURL()
-        val departureDate = flightItinDetailsResponse.getOutboundDepartureDate()
+        val departureDate = flightItinDetailsResponse.getFirstFlightOutboundDepartureDate()
         if (Db.getFlightSearchParams().isRoundTrip()) {
-            val arrivalDate = flightItinDetailsResponse.getInboundArrivalDate()
+            val arrivalDate = flightItinDetailsResponse.getFirstFlightInboundArrivalDate()
             val inboundSharableDetailsURL = flightItinDetailsResponse.getInboundSharableDetailsURL()
             if (Locale.US == Locale.getDefault()) {
                 val template = context.getString(R.string.share_msg_template_roundtrip_flight)

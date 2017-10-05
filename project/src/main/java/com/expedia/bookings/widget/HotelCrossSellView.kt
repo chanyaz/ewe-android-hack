@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.navigation.NavUtils
@@ -40,8 +41,15 @@ class HotelCrossSellView(context: Context, attrs: AttributeSet) : CardView(conte
         viewModel = HotelCrossSellViewModel(context)
         airAttachContainer.setOnClickListener {
             FlightsV2Tracking.trackAirAttachClicked()
-            val flightLegs = viewModel.confirmationObservable.value.getFirstFlightTripDetails().getLegs()
-            val sp = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(context, flightLegs, viewModel.searchParamsObservable.value)
+            var sp: HotelSearchParams
+            if (viewModel.confirmationObservable.value == null) {
+                val flightLegs = viewModel.itinDetailsResponseObservable.value.responseData.flights.firstOrNull()?.legs
+                sp = HotelsV2DataUtil.getHotelV2ParmsFromFlightItinParams(context, flightLegs, viewModel.searchParamsObservable.value)
+            } else {
+                val flightLegs = viewModel.confirmationObservable.value.getFirstFlightTripDetails().getLegs()
+                sp = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(context, flightLegs, viewModel.searchParamsObservable.value)
+            }
+
             HotelNavUtils.goToHotelsV2Params(context, sp, null, NavUtils.FLAG_DEEPLINK)
             val activity = context as AppCompatActivity
             activity.finish()

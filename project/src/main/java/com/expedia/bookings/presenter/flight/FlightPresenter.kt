@@ -12,15 +12,16 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -334,6 +335,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 FlightsV2Tracking.trackAirAttachShown()
             }
         }
+
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripResponseObservable.safeSubscribeOptional { trip ->
             trip!!
@@ -475,6 +477,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         webCheckoutView
     }
 
+    val bookingSuccessDialog: android.app.AlertDialog by lazy {
+        val builder = android.app.AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.booking_successful))
+        builder.setMessage(context.getString(R.string.check_your_email_for_itin))
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+            (context as Activity).finish()
+            dialog.dismiss()
+        })
+        builder.create()
+    }
+
     init {
         travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         Ui.getApplication(getContext()).flightComponent().inject(this)
@@ -503,7 +516,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             addTransition(inboundToWebCheckoutView)
             addTransition(outboundToWebCheckoutView)
             addTransition(flightWebViewToError)
-
+            addTransition(webCheckoutViewToConfirmation)
         } else {
             addTransition(inboundFlightToOverview)
             addTransition(outboundFlightToOverview)
@@ -757,6 +770,16 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
+    private val webCheckoutViewToConfirmation = object : Transition(WebCheckoutView::class.java, FlightConfirmationPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            if (forward) {
+                confirmationPresenter.visibility = View.VISIBLE
+                webCheckoutView.visibility = View.GONE
+                AccessibilityUtil.delayFocusToToolbarNavigationIcon(confirmationPresenter.toolbar, 300)
+            }
+        }
+    }
+
     private fun displayFlightDropDownRoutes(): Boolean {
         return PointOfSale.getPointOfSale().displayFlightDropDownRoutes()
     }
@@ -789,28 +812,20 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 .format().toString())
     }
 
-    private fun shouldShowWebCheckoutView(): Boolean {
-        return PointOfSale.getPointOfSale().shouldShowWebCheckout() && isShowFlightsCheckoutWebview(context)
-    }
-
-    private fun transitionToWebView(forward: Boolean) {
-        webCheckoutView.updateVisibility(forward)
-        webCheckoutView.toolbar.updateVisibility(forward)
-        AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
-    }
-
-    private fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
+    fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
+        confirmationPresenter.viewModel = FlightConfirmationViewModel(context, isWebCheckout = true)
         return object : Observer<AbstractItinDetailsResponse> {
             override fun onCompleted() {
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
-//                TODO: populate confirmation viewmodel, show confirmation presenter
+                confirmationPresenter.showConfirmationInfoFromWebCheckoutView(itinDetailsResponse as FlightItinDetailsResponse)
+                show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
             }
 
             override fun onError(e: Throwable) {
                 Log.d("Error fetching itin:" + e.stackTrace)
-//                TODO: handle failed itin request
+                bookingSuccessDialog.show()
             }
         }
     }
@@ -824,5 +839,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
+    private fun shouldShowWebCheckoutView(): Boolean {
+        return PointOfSale.getPointOfSale().shouldShowWebCheckout() && isShowFlightsCheckoutWebview(context)
+    }
+
+    private fun transitionToWebView(forward: Boolean) {
+        webCheckoutView.updateVisibility(forward)
+        webCheckoutView.toolbar.updateVisibility(forward)
+        AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+    }
 }
 

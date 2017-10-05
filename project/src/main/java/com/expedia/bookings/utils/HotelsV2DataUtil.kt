@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.HotelSearchParams.SearchType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -81,6 +82,33 @@ class HotelsV2DataUtil {
             if (flightLegs?.size == 2) {
                 val inboundLeg = flightLegs.last()
                 localCheckoutDate = LocalDate(DateTime.parse(inboundLeg.segments?.get(0)?.departureTimeRaw))
+            }
+
+            val numFlightTravelers = flightSearchParams.guests
+            val listOfChildTravelerAges = flightSearchParams.children
+            val numAdultTravelers = numFlightTravelers - listOfChildTravelerAges.size
+            var numAdultsPerHotelRoom = Math.min(GuestsPickerUtils.getMaxAdults(0), numAdultTravelers)
+            numAdultsPerHotelRoom = Math.max(numAdultsPerHotelRoom, GuestsPickerUtils.MIN_ADULTS) // just in case default...
+
+            val suggestionV4 = SuggestionV4()
+            suggestionV4.gaiaId = flightSearchParams.destination?.gaiaId
+            suggestionV4.coordinates = flightSearchParams.destination?.coordinates
+            suggestionV4.type = SearchType.CITY.name
+            suggestionV4.regionNames = flightSearchParams.destination?.regionNames
+
+            val filterUnavailable = !AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelShowSoldOutResults)
+            return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges, shopWithPoints = true, filterUnavailable = filterUnavailable)
+        }
+
+        fun getHotelV2ParmsFromFlightItinParams(context: Context, flightLegs: List<FlightItinDetailsResponse.Flight.Leg>?, flightSearchParams: FlightSearchParams): HotelSearchParams {
+            val outboundLeg = flightLegs?.first()
+            val lastOutboundSegment = outboundLeg?.segments?.get(outboundLeg.segments.size - 1)
+
+            val localCheckInDate = LocalDate(DateTime.parse(lastOutboundSegment?.arrivalTime?.raw))
+            var localCheckoutDate = localCheckInDate.plusDays(1)
+            if (flightLegs?.size == 2) {
+                val inboundLeg = flightLegs.last()
+                localCheckoutDate = LocalDate(DateTime.parse(inboundLeg.segments?.get(0)?.departureTime?.raw))
             }
 
             val numFlightTravelers = flightSearchParams.guests

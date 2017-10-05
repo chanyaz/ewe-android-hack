@@ -3,8 +3,8 @@ package com.expedia.vm.test.robolectric
 import android.content.Context
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import org.joda.time.DateTime
 import org.junit.Test
@@ -30,7 +30,11 @@ class FlightConfirmationCardViewModelTest {
     fun testFlightConfirmationCardViewModelTest() {
         val arrivalTime = FlightV2Utils.formatTimeShort(getContext(), arrivalDateTimeIso)
         val flight = makeFlightLeg(outboundDepartureDateTimeISO, arrivalDateTimeIso)
-        val viewModel = FlightConfirmationCardViewModel(getContext(), flight, numberOfTravelers)
+        var flightTitle = FlightV2Utils.getDepartureToArrivalTitleFromCheckoutResponseLeg(getContext(), flight)
+        var flightSubtitle = FlightV2Utils.getDepartureToArrivalSubtitleFromCheckoutResponseLeg(getContext(), flight)
+        var flightUrl = FlightV2Utils.getAirlineUrlFromCheckoutResponseLeg(flight) ?: ""
+        var flightDeparetureDateTitle = FlightV2Utils.getDepartureOnDateStringFromCheckoutResponseLeg(getContext(), flight)
+        val viewModel = FlightConfirmationCardViewModel(flightTitle, flightSubtitle, flightUrl, flightDeparetureDateTitle)
         setupTestSubscriptions(viewModel)
 
         titleSubscriber.assertValue("SEA to OAX")
@@ -88,6 +92,6 @@ class FlightConfirmationCardViewModelTest {
         viewModel.titleSubject.subscribe(titleSubscriber)
         viewModel.subtitleSubject.subscribe(subtitleSubscriber)
         viewModel.urlSubject.subscribe(urlSubscriber)
-        viewModel.secondaryTitleSubject.subscribe(secondaryHeaderText)
+        viewModel.departureDateTitleSubject.subscribe(secondaryHeaderText)
     }
 }
