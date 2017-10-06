@@ -54,7 +54,6 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
     }
 
     open fun search(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
-
         val lat = getLatitude(params.suggestion)
         val long = getLongitude(params.suggestion)
         val regionId = getRegionId(params)
@@ -62,18 +61,18 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
             params.enableSponsoredListings = false
         }
 
-            return hotelApi.search(regionId, params.suggestion.hotelId, lat, long,
-                    params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
-                    params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(),
-                    params.mctc, params.enableSponsoredListings)
-                    .observeOn(observeOn)
-                    .subscribeOn(subscribeOn)
-                    .doOnNext {
-                        resultsResponseReceivedObservable?.onNext(Unit)
-                    }
-                    .doOnNext { response ->
-                        doPostSearchClientSideWork(params, response)
-                    }
+        return hotelApi.search(regionId, params.suggestion.hotelId, lat, long,
+                params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
+                params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(),
+                params.mctc, params.enableSponsoredListings)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .doOnNext {
+                    resultsResponseReceivedObservable?.onNext(Unit)
+                }
+                .doOnNext { response ->
+                    doPostSearchClientSideWork(params, response)
+                }
     }
 
     fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {

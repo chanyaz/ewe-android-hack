@@ -41,7 +41,7 @@ class HotelCrossSellView(context: Context, attrs: AttributeSet) : CardView(conte
         airAttachContainer.setOnClickListener {
             FlightsV2Tracking.trackAirAttachClicked()
             val flightLegs = viewModel.confirmationObservable.value.getFirstFlightTripDetails().getLegs()
-            val sp = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(flightLegs, viewModel.searchParamsObservable.value)
+            val sp = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(context, flightLegs, viewModel.searchParamsObservable.value)
             HotelNavUtils.goToHotelsV2Params(context, sp, null, NavUtils.FLAG_DEEPLINK)
             val activity = context as AppCompatActivity
             activity.finish()

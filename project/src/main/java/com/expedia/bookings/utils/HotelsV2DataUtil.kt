@@ -4,10 +4,12 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelSearchParams.SearchType
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.LocalDateTypeAdapter
 import com.expedia.util.LoyaltyUtil
 import com.google.gson.Gson
@@ -59,7 +61,8 @@ class HotelsV2DataUtil {
             val checkInDate = if (hasValidDates) params.checkInDate else LocalDate.now()
             val checkOutDate = if (hasValidDates) params.checkOutDate else LocalDate.now().plusDays(1)
             val shopWithPointsAvailable = LoyaltyUtil.isShopWithPointsAvailable(Ui.getApplication(context).appComponent().userStateManager())
-            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, shopWithPointsAvailable, true, params.sortType, params.mctc)
+            val filterUnavailable = !AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelShowSoldOutResults)
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, shopWithPointsAvailable, filterUnavailable, params.sortType, params.mctc)
             return v2params
         }
 
@@ -69,7 +72,7 @@ class HotelsV2DataUtil {
             return GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(PATTERN)).create()
         }
 
-        fun getHotelV2ParamsFromFlightV2Params(flightLegs: MutableList<FlightLeg>?, flightSearchParams: FlightSearchParams): HotelSearchParams {
+        fun getHotelV2ParamsFromFlightV2Params(context: Context, flightLegs: MutableList<FlightLeg>?, flightSearchParams: FlightSearchParams): HotelSearchParams {
             val outboundLeg = flightLegs?.first()
             val lastOutboundSegment = outboundLeg?.segments?.get(outboundLeg.segments.size - 1)
 
@@ -92,7 +95,8 @@ class HotelsV2DataUtil {
             suggestionV4.type = SearchType.CITY.name
             suggestionV4.regionNames = flightSearchParams.destination?.regionNames
 
-            return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges, shopWithPoints = true, filterUnavailable = true)
+            val filterUnavailable = !AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelShowSoldOutResults)
+            return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges, shopWithPoints = true, filterUnavailable = filterUnavailable)
         }
 
         fun getHotelRatingContentDescription(context: Context, hotelStarRating: Int): String {

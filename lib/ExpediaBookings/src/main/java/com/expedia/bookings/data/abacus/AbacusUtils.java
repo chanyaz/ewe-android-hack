@@ -89,7 +89,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppHotelsWebCheckout = new ABTest(14761);
 	public static final ABTest EBAndroidAppHotelPriceDescriptorProminence = new ABTest(15137);
 	public static final ABTest EBAndroidAppHotelCheckinCheckoutDatesInline = new ABTest(15344);
-
+	public static final ABTest HotelShowSoldOutResults = new ABTest(15730);
 
 	// Cars Web View Tests
 	public static final ABTest EBAndroidAppCarsWebViewUK = new ABTest(12913);
@@ -239,6 +239,7 @@ public class AbacusUtils {
 		testIDs.add(TripsFlightsNewdesign.getKey());
 		testIDs.add(EBAndroidAppDisplayEligibleCardsOnPaymentForm.getKey());
 		testIDs.add(EBAndroidAppFlightsSearchResultCaching.getKey());
+		testIDs.add(HotelShowSoldOutResults.getKey());
 
 		return testIDs;
 	}

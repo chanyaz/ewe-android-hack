@@ -41,7 +41,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     private val calendarInstructions = HotelCalendarDirections(context)
 
     private val hotelParamsBuilder = HotelSearchParams.Builder(rules.getMaxSearchDurationDays(),
-            rules.getMaxDateRange(), true)
+            rules.getMaxDateRange(), !AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelShowSoldOutResults))
     private var prefetchParams: HotelSearchParams? = null
 
     // Inputs
@@ -158,7 +158,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     }
 
     private fun shouldPrefetchSearch() : Boolean {
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGreedySearch)
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelGreedySearch)
                 && builderHasValidParams()) {
             val params = hotelParamsBuilder.build()
             val suggestion = params.suggestion

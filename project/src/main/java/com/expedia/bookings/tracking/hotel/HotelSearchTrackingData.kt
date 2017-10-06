@@ -4,7 +4,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.tracking.AbstractSearchTrackingData
 import org.joda.time.LocalDate
 
-class HotelSearchTrackingData : AbstractSearchTrackingData(){
+class HotelSearchTrackingData : AbstractSearchTrackingData() {
     var city: String? = null
     var stateProvinceCode: String? = null
     var countryCode: String? = null

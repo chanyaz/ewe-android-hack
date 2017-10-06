@@ -146,7 +146,7 @@ public class HotelsV2DataUtilTest {
 		flightLegs.add(outboundFlightLeg);
 		flightLegs.add(inboundFlightLeg);
 
-		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2ParamsFromFlightV2Params(flightLegs, testSearchParams);
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2ParamsFromFlightV2Params(context, flightLegs, testSearchParams);
 
 		Assert.assertEquals(LocalDate.now().plusDays(1), v2params.getCheckIn());
 		Assert.assertEquals(LocalDate.now().plusDays(5), v2params.getCheckOut());
@@ -174,7 +174,7 @@ public class HotelsV2DataUtilTest {
 		List<FlightLeg> flightLegs = new ArrayList<>();
 		flightLegs.add(outboundFlightLeg);
 
-		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2ParamsFromFlightV2Params(flightLegs, testSearchParams);
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2ParamsFromFlightV2Params(context, flightLegs, testSearchParams);
 
 		Assert.assertEquals(LocalDate.now().plusDays(1), v2params.getCheckIn());
 		Assert.assertEquals(LocalDate.now().plusDays(2), v2params.getCheckOut());

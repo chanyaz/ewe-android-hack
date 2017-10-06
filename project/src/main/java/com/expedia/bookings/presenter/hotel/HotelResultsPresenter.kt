@@ -92,7 +92,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
             vm.hotelResultsObservable.subscribe { response ->
                 vm.getSearchParams()?.let { params ->
                     urgencyViewModel.fetchCompressionScore(response.searchRegionId, params.checkIn, params.checkOut)
