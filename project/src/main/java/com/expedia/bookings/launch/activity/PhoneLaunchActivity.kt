@@ -483,8 +483,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         return super.onOptionsItemSelected(item)
     }
 
-
-
     override fun onResume() {
         super.onResume()
         when (viewPager.currentItem) {

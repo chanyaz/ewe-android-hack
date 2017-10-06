@@ -29,7 +29,7 @@ class PendingPointsDialogFragment : DialogFragment() {
         val bundleDaysText = view.findViewById<TextView>(R.id.packages_days)
         val bundleRow = view.findViewById<TableRow>(R.id.bundles_points_row)
         val packageTitleText = view.findViewById<TextView>(R.id.packages_pp)
-        packageTitleText.text = resources.getString(PackageUtil.packageTitle)
+        packageTitleText.text = resources.getString(PackageUtil.packageTitle(activity))
         bundleRow.contentDescription = createAccessibilityText(R.string.pending_points_bundles_accessibility_TEMPLATE, BUNDLE_DAYS)
         bundleDaysText.text = createDaysText(BUNDLE_DAYS)
 

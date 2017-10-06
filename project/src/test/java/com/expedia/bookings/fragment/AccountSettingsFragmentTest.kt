@@ -52,7 +52,6 @@ import org.robolectric.shadows.ShadowAlertDialog
 import java.util.Calendar
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -242,8 +241,8 @@ class AccountSettingsFragmentTest {
 
     @Test
     fun testBundlePackageTitleChangeVariate1() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
+        AbacusTestUtils.bucketTests(AbacusUtils.PackagesTitleChange)
+        RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
         givenFragmentSetup()
         givenSignedInAsUser(getMiddleTierRewardsMember())
         val pendingPoints = fragment.view?.findViewById<TextView>(R.id.pending_points)
@@ -255,8 +254,8 @@ class AccountSettingsFragmentTest {
 
     @Test
     fun testBundlePackageTitleChangeVariate2() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
+        AbacusTestUtils.bucketTests(AbacusUtils.PackagesTitleChange)
+        RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
         givenFragmentSetup()
         givenSignedInAsUser(getMiddleTierRewardsMember())
         val pendingPoints = fragment.view?.findViewById<TextView>(R.id.pending_points)

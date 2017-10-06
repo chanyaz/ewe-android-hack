@@ -246,8 +246,8 @@ class PackageUtilTest {
     }
 
     private fun updateABTestVariant(value: Int) {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, value)
+        AbacusTestUtils.bucketTests(AbacusUtils.PackagesTitleChange)
+        RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, value)
     }
 
     private fun assertPackageTitle(posId: PointOfSaleId, abTestValue: Int? = null, expectedPackagesLobTitleABTestEnabled: Boolean, expectedPackageTitle: String) {
@@ -256,6 +256,6 @@ class PackageUtilTest {
             updateABTestVariant(abTestValue)
         }
         assertEquals(expectedPackagesLobTitleABTestEnabled, PackageUtil.isPackagesLobTitleABTestEnabled)
-        assertEquals(expectedPackageTitle, RoboTestHelper.getContext().getString(PackageUtil.packageTitle))
+        assertEquals(expectedPackageTitle, RoboTestHelper.getContext().getString(PackageUtil.packageTitle(RoboTestHelper.getContext())))
     }
 }

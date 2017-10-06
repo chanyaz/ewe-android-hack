@@ -2993,7 +2993,7 @@ public class OmnitureTracking {
 		}
 
 		if (PackageUtil.INSTANCE.isPackagesLobTitleABTestEnabled()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesTitleChange);
+			trackAbacusTest(s, AbacusUtils.PackagesTitleChange);
 		}
 
 		if (PackageUtil.INSTANCE.isPackageLOBUnderABTest()) {

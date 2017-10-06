@@ -672,9 +672,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_package_title_change"
             android:entryValues="@array/abacus_package_title_change_choice_values"
-            android:key="14953"
+            android:key="15787"
             android:summary="%s"
-            android:title="Title Change for Bundle Deals - 14953" />
+            android:title="Title Change for Bundle Deals - 15787" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"

@@ -138,7 +138,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
     override fun inflate() {
         val view = View.inflate(context, R.layout.widget_base_flight_search, this)
         val packageTitleText = view.findViewById<TextView>(R.id.title)
-        packageTitleText.text = resources.getString(PackageUtil.packageTitle)
+        packageTitleText.text = resources.getString(PackageUtil.packageTitle(context))
     }
 
     override fun getSuggestionHistoryFileName(): String {

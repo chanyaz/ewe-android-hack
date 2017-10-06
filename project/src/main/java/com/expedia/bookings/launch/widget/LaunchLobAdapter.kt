@@ -67,7 +67,7 @@ class LaunchLobAdapter(private val launchLobViewModel: LaunchLobViewModel) : Rec
             lobInfo = info
             isLobEnabled = lobEnabled
             if (info == LobInfo.PACKAGES) {
-                lobText.setText(PackageUtil.packageTitle)
+                lobText.setText(PackageUtil.packageTitle(context))
             } else {
                 lobText.setText(info.labelRes)
             }

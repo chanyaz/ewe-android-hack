@@ -82,8 +82,8 @@ class LaunchLobWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageLOBTitleStringUSVariant1() {
         setPOS(PointOfSaleId.UNITED_STATES)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesTitleChange)
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppPackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
+        AbacusTestUtils.bucketTests(AbacusUtils.PackagesTitleChange)
+        RoboTestHelper.updateABTest(AbacusUtils.PackagesTitleChange, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
         setUp()
         packagesTitleChange("Hotel + Flight")
     }

@@ -175,5 +175,4 @@ public class AbacusHelperUtils {
 			Ui.getApplication(context).appComponent().inject(this);
 		}
 	}
-
 }

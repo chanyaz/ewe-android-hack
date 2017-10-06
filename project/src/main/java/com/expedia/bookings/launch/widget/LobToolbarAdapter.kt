@@ -13,6 +13,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.PackageUtil
 import rx.subjects.PublishSubject
 
 class LobToolbarAdapter(val defaultLob: LineOfBusiness) : RecyclerView.Adapter<LobToolbarAdapter.LobTabViewHolder>() {
@@ -50,7 +51,15 @@ class LobToolbarAdapter(val defaultLob: LineOfBusiness) : RecyclerView.Adapter<L
 
         fun bind(lobInfo: LobInfo) {
             lob = lobInfo.lineOfBusiness
-            lobName.text = itemView.resources.getString(lobInfo.labelRes)
+
+            val labelRes = when (lob) {
+                LineOfBusiness.PACKAGES ->
+                    PackageUtil.packageTitle(itemView.context)
+                else ->
+                    lobInfo.labelRes
+            }
+
+            lobName.text = itemView.resources.getString(labelRes)
             lobIcon.setImageResource(lobInfo.iconRes)
             val selected = defaultLob == lobInfo.lineOfBusiness
 
