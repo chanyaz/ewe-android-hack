@@ -75,6 +75,7 @@ import com.mobiata.android.Log
 import rx.Observable
 import rx.Observer
 import rx.Subscription
+import rx.subscriptions.CompositeSubscription
 import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -465,6 +466,12 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         setUpErrorPresenter()
         loadingOverlay.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
+    }
+
+    fun onDestroyed() {
+        searchPresenter.shopWithPointsWidget.subscription.unsubscribe()
+        searchPresenter.shopWithPointsWidget.shopWithPointsViewModel.subscription.unsubscribe()
+        hotelDetailViewModel.clearSubscriptions()
     }
 
     private fun setUpErrorPresenter() {

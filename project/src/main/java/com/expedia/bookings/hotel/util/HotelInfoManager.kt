@@ -8,20 +8,22 @@ import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.subjects.PublishSubject
 
-open class HotelInfoManager(private val hotelServices: HotelServices?) {
+open class HotelInfoManager(private val hotelServices: HotelServices) {
 
     val offerSuccessSubject = PublishSubject.create<HotelOffersResponse>()
     val infoSuccessSubject = PublishSubject.create<HotelOffersResponse>()
 
-    val noInternetSubject = PublishSubject.create<Unit>()
+    val offersNoInternetSubject = PublishSubject.create<Unit>()
+    val infoNoInternetSubject = PublishSubject.create<Unit>()
+
     val soldOutSubject = PublishSubject.create<Unit>()
 
     open fun fetchOffers(params: HotelSearchParams, hotelId: String) {
-        hotelServices?.offers(params, hotelId, offersObserver)
+        hotelServices.offers(params, hotelId, offersObserver)
     }
 
     open fun fetchInfo(params: HotelSearchParams, hotelId: String) {
-        hotelServices?.info(params, hotelId, infoObserver)
+        hotelServices.info(params, hotelId, infoObserver)
     }
 
     private val offersObserver = object : Observer<HotelOffersResponse> {
@@ -41,7 +43,7 @@ open class HotelInfoManager(private val hotelServices: HotelServices?) {
 
         override fun onError(e: Throwable?) {
             if (RetrofitUtils.isNetworkError(e)) {
-                noInternetSubject.onNext(Unit)
+                offersNoInternetSubject.onNext(Unit)
             }
         }
     }
@@ -60,7 +62,7 @@ open class HotelInfoManager(private val hotelServices: HotelServices?) {
 
         override fun onError(e: Throwable?) {
             if (RetrofitUtils.isNetworkError(e)) {
-                noInternetSubject.onNext(Unit)
+                infoNoInternetSubject.onNext(Unit)
             }
         }
     }

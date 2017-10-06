@@ -71,6 +71,7 @@ class ChangeDatesDialogFragment() : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         dateSubscription?.unsubscribe()
+        dateSubscription = null
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
@@ -81,6 +82,7 @@ class ChangeDatesDialogFragment() : DialogFragment() {
             //todo use old dates
         }
         userTappedDone = false
+        pickerView.hideToolTip()
     }
 
     fun presetDates(startDate: LocalDate?, endDate: LocalDate?) {

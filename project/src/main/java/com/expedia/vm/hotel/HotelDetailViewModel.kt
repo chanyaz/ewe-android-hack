@@ -23,6 +23,7 @@ import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Subscription
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 
 open class HotelDetailViewModel(context: Context,
@@ -34,7 +35,7 @@ open class HotelDetailViewModel(context: Context,
 
     private var cachedParams: HotelSearchParams? = null
 
-    private var noInternetSubscription: Subscription? = null
+    private var apiSubscriptions = CompositeSubscription()
 
     init {
         paramsSubject.subscribe { params ->
@@ -49,8 +50,8 @@ open class HotelDetailViewModel(context: Context,
             swpEnabled = params.shopWithPoints
         }
 
-        hotelInfoManager.offerSuccessSubject.subscribe(hotelOffersSubject)
-        hotelInfoManager.infoSuccessSubject.subscribe(hotelOffersSubject)
+        apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribe(hotelOffersSubject))
+        apiSubscriptions.add(hotelInfoManager.infoSuccessSubject.subscribe(hotelOffersSubject))
     }
 
     fun fetchOffers(params: HotelSearchParams, hotelId: String) {
@@ -59,17 +60,22 @@ open class HotelDetailViewModel(context: Context,
 
         fetchInProgressSubject.onNext(Unit)
 
-        noInternetSubscription = hotelInfoManager.noInternetSubject.subscribe {
-            handleNoInternet(retryFun = { fetchOffers(params, hotelId) })
-        }
+        apiSubscriptions.add(hotelInfoManager.offersNoInternetSubject.subscribe {
+            handleNoInternet(retryFun = {
+                fetchOffers(params, hotelId)
+            })
+        })
 
-        hotelInfoManager.soldOutSubject.subscribe {
-            noInternetSubscription?.unsubscribe()
-            noInternetSubscription = hotelInfoManager.noInternetSubject.subscribe {
-                handleNoInternet(retryFun = { hotelInfoManager.fetchInfo(params, hotelId) })
-            }
+        apiSubscriptions.add(hotelInfoManager.infoNoInternetSubject.subscribe {
+            handleNoInternet(retryFun = {
+                hotelInfoManager.fetchInfo(params, hotelId)
+            })
+        })
+
+        apiSubscriptions.add(hotelInfoManager.soldOutSubject.subscribe {
             hotelInfoManager.fetchInfo(params, hotelId)
-        }
+        })
+
         hotelInfoManager.fetchOffers(params, hotelId)
     }
 
@@ -82,6 +88,10 @@ open class HotelDetailViewModel(context: Context,
 
             fetchOffers(params, hotelId)
         }
+    }
+
+    fun clearSubscriptions() {
+        apiSubscriptions.clear()
     }
 
     override fun isChangeDatesEnabled(): Boolean {
