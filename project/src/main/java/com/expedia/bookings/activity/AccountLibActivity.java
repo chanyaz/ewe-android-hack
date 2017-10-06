@@ -169,6 +169,17 @@ public class AccountLibActivity extends AppCompatActivity
 			config.setEnableSinglePageSignUp(true);
 		}
 
+		// We want to enable reCAPTCHA if the user is feature flagged and either bucketed or missing the abacus response.
+		// Basically we want it to "fail on" if abacus didn't return quickly enough so that the user isn't blocked from
+		// signing in if the reCaptcha token is enforced in the API
+		if (ProductFlavorFeatureConfiguration.getInstance().isRecaptchaEnabled() &&
+			(AbacusFeatureConfigManager.isUserBucketedForTest(this, AbacusUtils.EBAndroidAppAccountRecaptcha) ||
+			Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppAccountRecaptcha) == null)) {
+
+			config.setEnableRecaptcha(true);
+			config.setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));
+		}
+
 		accountView.configure(config);
 
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);

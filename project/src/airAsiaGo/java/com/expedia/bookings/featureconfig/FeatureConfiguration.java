@@ -376,4 +376,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isCarnivalEnabled() {
 		return false;
 	}
+
+	@Override
+	public boolean isRecaptchaEnabled() {
+		return false;
+	}
 }

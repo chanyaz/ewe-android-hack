@@ -2899,6 +2899,7 @@ public class OmnitureTracking {
 		s.setEvar(18, LOGIN_SCREEN);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSmartLockTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountRecaptcha);
 		s.track();
 	}
 

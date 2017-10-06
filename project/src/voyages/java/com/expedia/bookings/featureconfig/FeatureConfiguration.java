@@ -388,4 +388,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	@Override
+	public boolean isRecaptchaEnabled() {
+		return false;
+	}
 }

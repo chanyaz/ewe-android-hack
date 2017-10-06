@@ -36,6 +36,9 @@
     <!--<string name="carnival_sdk_key">d8f3ab6e39c645b0bd2fbb192e6158e6042233c0</string>-->
     <string name="carnival_sdk_debug_key">813a3ca4a2bdd97c7a3fd967417d37e006d96dec</string>
 
+    <!-- Google reCAPTCHA Site Key -->
+    <string name="recaptcha_sdk_site_key">6LeAzS8UAAAAAKQWXjjM5yUyfRvGCRk7joa_gfXG</string>
+
     <!-- MapsV2 -->
     <!-- Maps v2 key configured to work with many application package names -->
     <string name="mapsv2_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>

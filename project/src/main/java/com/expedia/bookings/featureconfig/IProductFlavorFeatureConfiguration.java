@@ -182,4 +182,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isFirebaseEnabled();
 
 	boolean isCarnivalEnabled();
+
+	boolean isRecaptchaEnabled();
 }

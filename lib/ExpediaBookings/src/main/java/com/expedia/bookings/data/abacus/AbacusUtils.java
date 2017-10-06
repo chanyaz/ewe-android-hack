@@ -105,6 +105,7 @@ public class AbacusUtils {
 
 	// Account
 	public static final ABTest EBAndroidAppAccountSinglePageSignUp = new ABTest(13923);
+	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652);
 
 	// Launch
 	public static final ABTest ProWizardTest = new ABTest(15594);
@@ -226,6 +227,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsDeltaPricing.getKey());
 		testIDs.add(HotelEnableInfositeChangeDate.getKey());
 		testIDs.add(EBAndroidAppFlightsFrenchLegalBaggageInfo.getKey());
+		testIDs.add(EBAndroidAppAccountRecaptcha.getKey());
 
 		return testIDs;
 	}
