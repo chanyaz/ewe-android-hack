@@ -111,7 +111,7 @@
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
-    <string name="preference_enable_activity_map">preference_enable_activity_map</string>
+    <string name="preference_enable_activity_map">preference_enable_activity_mappreference_enable_activity_map</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_populate_cardholder_name">preference_populate_cardholder_name</string>
     <string name="preference_enable_secure_icon">preference_enable_secure_icon</string>
@@ -122,6 +122,7 @@
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
     <string name="preference_trips_new_flights_design">preference_trips_new_flights_design</string>
     <string name="preference_dateless_infosite">preference_dateless_infosite</string>
+    <string name="preference_flight_cko_krazyglue">preference_flight_cko_krazyglue</string>
     <string name="preference_soft_prompt_permission">preference_soft_prompt_permission</string>
     <string name="preference_show_flights_checkout_webview">preference_show_flights_checkout_webview</string>
     <string name="preference_launch_all_trip_notifications">preference_launch_all_trip_notifications</string>

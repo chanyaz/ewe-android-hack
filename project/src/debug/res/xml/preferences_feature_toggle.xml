@@ -61,7 +61,7 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="CheckOut Features">
+        android:title="Checkout Features">
 
         <CheckBoxPreference
             android:key="@string/preference_enable_universal_checkout_on_lx"
@@ -87,6 +87,12 @@
             android:key="@string/preference_display_eligible_cards_on_payment_form"
             android:summary="Display Eligible Cards On Payment Form"
             android:title="Display Eligible Cards On Payment Form" />
+
+
+        <CheckBoxPreference
+            android:key="@string/preference_flight_cko_krazyglue"
+            android:summary="Enable Krazyglue on Flights Confirmation"
+            android:title="Krazyglue on Flights Confirmation" />
 
     </PreferenceCategory>
 
