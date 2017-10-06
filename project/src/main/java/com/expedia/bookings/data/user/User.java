@@ -1,9 +1,7 @@
 package com.expedia.bookings.data.user;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Phone;
@@ -11,16 +9,13 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.StoredPointsCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.utils.CollectionUtils;
-import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.IoUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,12 +24,6 @@ public class User implements JSONable {
 
 	// Version of this User
 	private static final int VERSION = 2;
-
-	static final String SAVED_INFO_FILENAME = "user.dat";
-
-	// Kind of pointless when this is just stored as a static field, but at least protects
-	// against someone getting the plaintext file but not the app itself.
-	static final String PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9";
 
 	private Traveler mPrimaryTraveler;
 	private List<Traveler> mAssociatedTravelers = new ArrayList<>();
@@ -130,38 +119,6 @@ public class User implements JSONable {
 	@Nullable
 	public UserLoyaltyMembershipInformation getLoyaltyMembershipInformation() {
 		return loyaltyMembershipInformation;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Save/load
-
-	public boolean save(Context context) {
-		Log.d("Saving user.");
-
-		JSONObject data = toJson();
-
-		boolean isFileSaved;
-
-		File pathToSave =  context.getFileStreamPath(SAVED_INFO_FILENAME);
-		if (!ExpediaBookingApp.isRobolectric()) {
-			// Initialize a cipher
-			FileCipher fileCipher = new FileCipher(PASSWORD);
-
-			if (!fileCipher.isInitialized()) {
-				return false;
-			}
-			isFileSaved = fileCipher.saveSecureData(pathToSave, data.toString());
-		}
-		else {
-			try {
-				IoUtils.writeStringToFile(SAVED_INFO_FILENAME, data.toString(), context);
-				isFileSaved = true;
-			}
-			catch (Exception e) {
-				throw new IllegalStateException("Unable to save temp user.dat file");
-			}
-		}
-		return isFileSaved;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -7,11 +7,9 @@ import android.support.annotation.Nullable;
 
 import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
@@ -168,10 +166,7 @@ public class UserAccountRefresher {
 	};
 
 	private void onSuccessfulUserAuthentication(SignInResponse results) {
-		// Update our existing saved data
-		User user = results.getUser();
-		user.save(context);
-		Db.setUser(user);
+		userStateManager.getUserSource().setUser(results.getUser());
 	}
 
 	private void logOut(boolean clearCookies) {

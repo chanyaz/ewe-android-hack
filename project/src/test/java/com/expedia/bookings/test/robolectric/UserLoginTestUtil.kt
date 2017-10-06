@@ -39,7 +39,9 @@ class UserLoginTestUtil {
 
         @JvmStatic
         fun setupUserAndMockDiskOnlyLogin(user: User, activity: Activity = getContext()) {
-            user.save(activity)
+            val userStateManager = Ui.getApplication(activity).appComponent().userStateManager()
+
+            userStateManager.userSource.user = user
         }
 
         @JvmStatic

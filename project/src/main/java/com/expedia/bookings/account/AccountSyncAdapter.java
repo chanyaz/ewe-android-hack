@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
@@ -39,8 +38,9 @@ public class AccountSyncAdapter extends AbstractThreadedSyncAdapter {
 			else {
 				// Update our user object
 				User user = results.getUser();
-				user.save(context);
-				Db.setUser(user);
+
+				userStateManager.getUserSource().setUser(user);
+
 				Log.d("AccountSyncAdapter.onPerformSync has completed successfully, updating the User object in Db.");
 			}
 		}

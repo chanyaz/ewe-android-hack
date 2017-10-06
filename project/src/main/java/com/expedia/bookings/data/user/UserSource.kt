@@ -1,9 +1,11 @@
 package com.expedia.bookings.data.user
 
 import android.content.Context
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.mobiata.android.FileCipher
 import com.mobiata.android.Log
+import com.mobiata.android.util.IoUtils
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.FileNotFoundException
@@ -12,9 +14,8 @@ open class UserSource(val context: Context,
                       private val fileCipher: FileCipher = FileCipher(PASSWORD)) {
     private companion object {
         val PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9"
+        val SAVED_INFO_FILENAME = "user.dat"
     }
-
-    private val SAVED_INFO_FILENAME = "user.dat"
 
     open var user: User?
         get() {
@@ -29,7 +30,10 @@ open class UserSource(val context: Context,
 
             return Db.getUser()
         }
-        set(value) = Db.setUser(value)
+        set(value) {
+            Db.setUser(value)
+            saveUser()
+        }
 
     @Throws
     open fun loadUser() {
@@ -57,6 +61,29 @@ open class UserSource(val context: Context,
         catch (e: JSONException) {
             Log.e("Could not restore saved user info.", e)
             throw e
+        }
+    }
+
+    @Throws
+    open fun saveUser() {
+        Log.d("Saving user.")
+
+        val data = Db.getUser()?.toJson()?.toString()
+        val pathToSave = context.getFileStreamPath(SAVED_INFO_FILENAME)
+
+        if (data == null) {
+            pathToSave.delete()
+        }
+        else {
+            if (ExpediaBookingApp.isRobolectric()) {
+                try {
+                    IoUtils.writeStringToFile(SAVED_INFO_FILENAME, data, context)
+                } catch (e: Exception) {
+                    throw IllegalStateException("Unable to save temp user.dat file.")
+                }
+            } else if (fileCipher.isInitialized) {
+                fileCipher.saveSecureData(pathToSave, data)
+            }
         }
     }
 }

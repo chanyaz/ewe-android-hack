@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
@@ -85,9 +84,11 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator im
 
 		Bundle result = new Bundle();
 		String tuidStr = null;
-		if (userStateManager.isUserAuthenticated() && Db.getUser() != null && !TextUtils.isEmpty(Db.getUser().getTuidString())) {
+		User user = userStateManager.getUserSource().getUser();
+
+		if (userStateManager.isUserAuthenticated() && user != null && !TextUtils.isEmpty(user.getTuidString())) {
 			//We are already logged in and things look ok, lets get us that tuid
-			tuidStr = Db.getUser().getTuidString();
+			tuidStr = user.getTuidString();
 		}
 		else if (userStateManager.isUserAuthenticated()) {
 			//Try to log in with stored stuff
@@ -95,10 +96,11 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator im
 
 			SignInResponse signInResponse = services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
 			if (signInResponse != null && !signInResponse.hasErrors()) {
-				User user = signInResponse.getUser();
-				Db.setUser(user);
-				user.save(mContext);
-				tuidStr = user.getTuidString();
+				User signedInUser = signInResponse.getUser();
+
+				userStateManager.getUserSource().setUser(signedInUser);
+
+				tuidStr = signedInUser.getTuidString();
 			}
 		}
 		else {
