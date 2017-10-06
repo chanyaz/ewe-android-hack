@@ -27,21 +27,21 @@ class AbacusFeatureConfigManagerTest {
 
     @Test
     fun testSatelliteManagedEnabledABTest() {
-        var abTest = ABTest(12345, true)
+        val abTest = ABTest(12345, true)
         updateTest(abTest.key, AbacusUtils.DefaultVariant.BUCKETED)
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
     }
 
     @Test
     fun testSatelliteManagedDisabledABTest() {
-        var abTest = ABTest(99999, true)
+        val abTest = ABTest(99999, true)
         updateTest(abTest.key, AbacusUtils.DefaultVariant.BUCKETED)
         assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
     }
 
     @Test
     fun testSatelliteManagedDisabledWithOverrideABTest() {
-        var abTest = ABTest(99999, true)
+        val abTest = ABTest(99999, true)
         updateTest(abTest.key, AbacusUtils.DefaultVariant.BUCKETED)
         updateTestOverride(abTest.key, AbacusUtils.DefaultVariant.BUCKETED)
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
@@ -49,16 +49,34 @@ class AbacusFeatureConfigManagerTest {
 
     @Test
     fun testNonSatelliteABTestIsBucketed() {
-        var abTest = ABTest(12345)
+        val abTest = ABTest(12345)
         updateTest(abTest.key, AbacusUtils.DefaultVariant.BUCKETED)
         assertTrue(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
     }
 
     @Test
     fun testNonSatelliteABTestInControl() {
-        var abTest = ABTest(12345)
+        val abTest = ABTest(12345)
         updateTest(abTest.key, AbacusUtils.DefaultVariant.CONTROL)
         assertFalse(AbacusFeatureConfigManager.isUserBucketedForTest(context, abTest))
+    }
+
+    @Test
+    fun testShouldTrackTestIfNotRemote() {
+        val abTest = ABTest(12345)
+        assertTrue(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))
+    }
+
+    @Test
+    fun testShouldTrackTestIfRemoteAndDisabled() {
+        val abTest = ABTest(99999, true)
+        assertFalse(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))
+    }
+
+    @Test
+    fun testShouldTrackIfRemoteAndEnabled() {
+        val abTest = ABTest(12345, true)
+        assertTrue(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))
     }
 
     private fun updateTestOverride(testKey: Int, bucketed: AbacusUtils.DefaultVariant) {

@@ -27,6 +27,17 @@ class AbacusFeatureConfigManager {
             return isBucketed(abacusTest)
         }
 
+        @JvmStatic fun shouldTrackTest(context: Context, abacusTest: ABTest): Boolean {
+            if (!FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_satellite_config)) {
+                return true
+            }
+
+            if (abacusTest.remote && !SatelliteFeatureConfigManager.isABTestEnabled(context, abacusTest.key)) {
+                return false
+            }
+            return true
+        }
+
         private fun isUserBucketedForRemoteTest(context: Context, abacusTest: ABTest): Boolean {
             if (SatelliteFeatureConfigManager.isABTestEnabled(context, abacusTest.key)) {
                 return isBucketed(abacusTest)

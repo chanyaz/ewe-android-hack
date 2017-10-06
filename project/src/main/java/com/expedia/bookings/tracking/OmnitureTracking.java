@@ -1982,6 +1982,11 @@ public class OmnitureTracking {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;
 		}
+
+		if (!AbacusFeatureConfigManager.shouldTrackTest(sContext, abTest)) {
+			return;
+		}
+
 		AbacusTest test = Db.getAbacusResponse().testForKey(abTest);
 
 		if (test == null) {
