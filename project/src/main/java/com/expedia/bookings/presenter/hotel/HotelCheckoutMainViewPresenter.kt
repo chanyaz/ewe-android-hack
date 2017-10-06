@@ -292,10 +292,11 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     }
 
     private fun logWebViewTestToCrashlytics(message: String) {
+        val tuidString = Db.getUser()?.tuidString ?: "n/a guest user"
         val webViewTest = Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppHotelsWebCheckout)
-        val isBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout)
+        val isBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsWebCheckout)
         Crashlytics.logException(Exception("$message, is user bucketed into webview? : $isBucketed " +
-                "Analytics Test: ${AbacusUtils.getAnalyticsString(webViewTest)}, user tuid: ${Db.getUser().tuidString}, " +
+                "Analytics Test: ${AbacusUtils.getAnalyticsString(webViewTest)}, user tuid: $tuidString, " +
                 "Point of Sale: ${PointOfSale.getPointOfSale().threeLetterCountryCode}"))
     }
 }
