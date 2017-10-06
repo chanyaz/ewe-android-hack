@@ -445,7 +445,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         flightWebCheckoutViewModel.backObservable.subscribe {
-            back()
+            webCheckoutView.back()
         }
 
         flightWebCheckoutViewModel.blankViewObservable.subscribe {
