@@ -1062,10 +1062,14 @@
     <string name="check_in_notification_title">Hotel check in reminder</string>
     <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
     <string name="check_in_notification_body_TEMPLATE">Check in for your hotel booking for {hotel} begins at {checkin} tomorrow. View your booking for details.</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out at 3 PM")-->
-    <string name="check_out_notification_title_TEMPLATE">Check out at {checkout}</string>
-    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. Check out time your hotel booking for Caesars Palace is at 2 AM. View your booking for details.-->
-    <string name="check_out_notification_body_TEMPLATE">Check out time your hotel booking for {hotel} is at {checkout}. View your booking for details.</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
+    <string name="check_out_notification_title_day_of_TEMPLATE">Check out today at {checkout}</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
+    <string name="check_out_notification_title_day_before_TEMPLATE">Check out tomorrow at {checkout}</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is today at 11 PM. Tap for details.")-->
+    <string name="check_out_notification_body_day_of_TEMPLATE">Your check out time at {hotel} is today at {checkout}. Tap for details.</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is tomorrow at 11 PM. Tap for details.")-->
+    <string name="check_out_notification_body_day_before_TEMPLATE">Your check out time at {hotel} is tomorrow at {checkout}. Tap for details.</string>
     <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Things to do in {destination}</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->

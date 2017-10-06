@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.view.View;
@@ -33,10 +34,10 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.services.HotelServices;
@@ -48,10 +49,10 @@ import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
@@ -683,15 +684,12 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String itinId = data.getId();
 
-		MutableDateTime startDate = data.getStartDate().toMutableDateTime();
-		startDate.setZoneRetainFields(DateTimeZone.getDefault());
-		startDate.setRounding(startDate.getChronology().minuteOfHour());
-
-		MutableDateTime trigger = startDate;
+		DateTime startDate = roundTime(data.getStartDate());
+		MutableDateTime trigger = startDate.toMutableDateTime();
 		trigger.addDays(-1);
 		long triggerTimeMillis = trigger.getMillis();
 
-		trigger = startDate;
+		trigger = startDate.toMutableDateTime();
 		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
 		long expirationTimeMillis = trigger.getMillis();
@@ -758,16 +756,21 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		return notification;
 	}
 
+	@NonNull
+	public DateTime roundTime(DateTime time) {
+		MutableDateTime trigger = time.toMutableDateTime();
+		trigger.setZoneRetainFields(DateTimeZone.getDefault());
+		trigger.setRounding(trigger.getChronology().minuteOfHour());
+		return trigger.toDateTime();
+	}
+
 	private Notification generateCheckoutNewNotification() {
 		ItinCardDataHotel data = getItinCardData();
 
 		String itinId = data.getId();
 
-		MutableDateTime endDate = data.getEndDate().toMutableDateTime();
-		endDate.setZoneRetainFields(DateTimeZone.getDefault());
-		endDate.setRounding(endDate.getChronology().minuteOfHour());
-
-		MutableDateTime trigger = endDate;
+		DateTime endDate = roundTime(data.getEndDate());
+		MutableDateTime trigger = endDate.toMutableDateTime();
 		if (isDurationLongerThanDays(2)) {
 			trigger.addDays(-1);
 		}
@@ -776,10 +779,9 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 		long triggerTimeMillis = trigger.getMillis();
 
-		trigger = endDate;
+		trigger = endDate.toMutableDateTime();
 		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
-
 		long expirationTimeMillis = trigger.getMillis();
 
 		Notification notification = new Notification(itinId + "_checkout", itinId, triggerTimeMillis);
@@ -787,24 +789,35 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
-
-		String title = Phrase.from(getContext(), R.string.check_out_notification_title_TEMPLATE)
-			.put("checkout", data.getFallbackCheckOutTime(getContext()))
-			.format().toString();
-
+		String title;
+		String body;
+		if (hasLastDayStarted()) {
+			title = Phrase.from(getContext(), R.string.check_out_notification_title_day_of_TEMPLATE)
+				.put("checkout", data.getFallbackCheckOutTime(getContext()))
+				.format().toString();
+			body = Phrase.from(getContext(), R.string.check_out_notification_body_day_of_TEMPLATE)
+				.put("hotel", data.getPropertyName())
+				.put("checkout", data.getFallbackCheckOutTime(getContext()))
+				.format().toString();
+		}
+		else {
+			title = Phrase.from(getContext(), R.string.check_out_notification_title_day_before_TEMPLATE)
+				.put("checkout", data.getFallbackCheckOutTime(getContext()))
+				.format().toString();
+			body = Phrase.from(getContext(), R.string.check_out_notification_body_day_before_TEMPLATE)
+				.put("hotel", data.getPropertyName())
+				.put("checkout", data.getFallbackCheckOutTime(getContext()))
+				.format().toString();
+		}
 		notification.setTicker(title);
 		notification.setTitle(title);
-
-		String body = Phrase.from(getContext(), R.string.check_out_notification_body_TEMPLATE)
-			.put("hotel", data.getPropertyName())
-			.put("checkout", data.getFallbackCheckOutTime(getContext()))
-			.format().toString();
 		notification.setBody(body);
 
 		notification.setImageUrls(data.getHeaderImageUrls());
 
 		return notification;
 	}
+
 	@VisibleForTesting
 	public Notification generateGetReadyNotification() {
 		ItinCardDataHotel data = getItinCardData();
@@ -813,15 +826,14 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		TripHotel hotel = (TripHotel) getItinCardData().getTripComponent();
 
-		MutableDateTime startDate = data.getStartDate().toMutableDateTime();
-		startDate.setZoneRetainFields(DateTimeZone.getDefault());
-		startDate.setRounding(startDate.getChronology().minuteOfHour());
 
-		MutableDateTime trigger = startDate;
+		DateTime startDate = roundTime(data.getStartDate());
+
+		MutableDateTime trigger = startDate.toMutableDateTime();
 		trigger.addDays(-3);
 		long triggerTimeMillis = trigger.getMillis();
 
-		trigger = startDate;
+		trigger = startDate.toMutableDateTime();
 		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
 		long expirationTimeMillis = trigger.getMillis();
@@ -853,15 +865,13 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String itinId = data.getId();
 
-		MutableDateTime startDate = data.getStartDate().toMutableDateTime();
-		startDate.setZoneRetainFields(DateTimeZone.getDefault());
-		startDate.setRounding(startDate.getChronology().minuteOfHour());
+		DateTime startDate = roundTime(data.getStartDate());
 
-		MutableDateTime trigger = startDate;
+		MutableDateTime trigger = startDate.toMutableDateTime();
 		trigger.addDays(-7);
 		long triggerTimeMillis = trigger.getMillis();
 
-		trigger = startDate;
+		trigger = startDate.toMutableDateTime();
 		trigger.setHourOfDay(23);
 		trigger.setMinuteOfHour(59);
 		long expirationTimeMillis = trigger.getMillis();
@@ -906,12 +916,19 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		return sharableImgURL;
 	}
-
+	@VisibleForTesting
 	public boolean isDurationLongerThanDays(int days) {
 		DateTime endDate = getItinCardData().getEndDate();
 		DateTime dateToCheck = data.getStartDate().plusDays(days);
 		return endDate.isAfter(dateToCheck);
 
+	}
+	@VisibleForTesting
+	public boolean hasLastDayStarted() {
+		MutableDateTime endDate = data.getEndDate().toMutableDateTime();
+		endDate.setZoneRetainFields(DateTimeZone.getDefault());
+		endDate.setMinuteOfDay(1);
+		return endDate.getMillis() < DateTime.now().getMillis();
 	}
 
 }
