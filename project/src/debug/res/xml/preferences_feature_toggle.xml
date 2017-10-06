@@ -79,11 +79,6 @@
             android:title="Enable secure icon for Flight and Bundle Checkout pages" />
 
         <CheckBoxPreference
-            android:key="@string/preference_allow_unknown_card_types"
-            android:summary="Allow Unknown Card Types"
-            android:title="Allow Unknown Card Types" />
-
-        <CheckBoxPreference
             android:key="@string/preference_show_flights_checkout_webview"
             android:summary="Show Flights Checkout Webview"
             android:title="Show Flights Checkout Webview" />
@@ -98,11 +93,6 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="Itin Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_trips_hotel_scheduled_notifications"
-            android:summary="Trips Hotel Scheduled Notifications V2"
-            android:title="Trips Hotel Scheduled Notifications V2" />
 
         <CheckBoxPreference
             android:key="@string/preference_trips_new_flights_design"

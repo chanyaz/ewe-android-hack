@@ -2,7 +2,6 @@ package com.expedia.bookings.data.trips
 
 import android.content.Context
 import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
@@ -12,7 +11,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.joda.time.LocalDateTime
@@ -66,7 +64,6 @@ class ItineraryManagerTest {
     fun testOmnitureTrackingTripRefreshCallSuccessWithHotel() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelScheduledNotificationsV2)
-        SettingUtils.save(context, context.resources.getString(R.string.preference_trips_hotel_scheduled_notifications), true)
         OmnitureTracking.trackItinTripRefreshCallSuccess(true)
         assertLinkTrackedWithExposure("Trips Call", "App.Itinerary.Call.Success", "event287", "15315.0.1", mockAnalyticsProvider)
     }
