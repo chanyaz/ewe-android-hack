@@ -1,13 +1,11 @@
 package com.expedia.bookings.tracking
 
 import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.payment.PaymentSplitsType
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -32,10 +30,9 @@ class SlideToPurchaseOmnitureTrackingTest {
         val expectedEvars = mapOf(
                 18 to "App.Package.Checkout.SlideToPurchase",
                 37 to "Visa",
-                44 to "FLEX",
-                61 to PointOfSale.getPointOfSale().tpid.toString()
+                44 to "FLEX"
         )
-        assertLinkTracked("Universal Checkout", "App.CKO.SlideToBook", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Package.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
@@ -44,10 +41,9 @@ class SlideToPurchaseOmnitureTrackingTest {
         val expectedEvars = mapOf(
                 18 to "App.Flight.Checkout.SlideToPurchase",
                 37 to "Visa",
-                44 to "NO_FLEX",
-                61 to PointOfSale.getPointOfSale().tpid.toString()
+                44 to "NO_FLEX"
         )
-        assertLinkTracked("Universal Checkout", "App.CKO.SlideToBook", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Flight.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
@@ -55,10 +51,9 @@ class SlideToPurchaseOmnitureTrackingTest {
         HotelTracking.trackHotelSlideToPurchase(PaymentType.CARD_VISA, PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD)
         val expectedEvars = mapOf(
                 18 to "App.Hotels.Checkout.SlideToPurchase",
-                37 to "Visa + Points",
-                61 to PointOfSale.getPointOfSale().tpid.toString()
+                37 to "Visa + Points"
         )
-        assertLinkTracked("Universal Checkout", "App.CKO.SlideToBook", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Hotels.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
@@ -66,10 +61,9 @@ class SlideToPurchaseOmnitureTrackingTest {
         HotelTracking.trackHotelSlideToPurchase(PaymentType.CARD_VISA, PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)
         val expectedEvars = mapOf(
                 18 to "App.Hotels.Checkout.SlideToPurchase",
-                37 to "Visa",
-                61 to PointOfSale.getPointOfSale().tpid.toString()
+                37 to "Visa"
         )
-        assertLinkTracked("Universal Checkout", "App.CKO.SlideToBook", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Hotels.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
@@ -77,10 +71,9 @@ class SlideToPurchaseOmnitureTrackingTest {
         HotelTracking.trackHotelSlideToPurchase(PaymentType.CARD_VISA, PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT)
         val expectedEvars = mapOf(
                 18 to "App.Hotels.Checkout.SlideToPurchase",
-                37 to "Points",
-                61 to PointOfSale.getPointOfSale().tpid.toString()
+                37 to "Points"
         )
-        assertLinkTracked("Universal Checkout", "App.CKO.SlideToBook", withEvars(expectedEvars), mockAnalyticsProvider)
+        assertStateTracked("App.Hotels.Checkout.SlideToPurchase", withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
 }
