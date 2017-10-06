@@ -1058,9 +1058,7 @@ public class OmnitureTracking {
 		s.setAppState(HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		trackAbacusTest(s, AbacusUtils.EBAndroidPopulateCardholderName);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_allow_unknown_card_types)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_display_eligible_cards_on_payment_form)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm);
 		}
@@ -1526,9 +1524,7 @@ public class OmnitureTracking {
 		if (isMaterialFormsEnabled()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHideApacBillingAddressFields);
 		}
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_allow_unknown_card_types)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
 
 		s.track();
 	}
@@ -2157,8 +2153,7 @@ public class OmnitureTracking {
 	public static void trackItinTripRefreshCallSuccess(boolean tripHasHotel) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS);
 		s.setEvents("event287");
-		if (tripHasHotel && FeatureToggleUtil
-			.isFeatureEnabled(sContext, R.string.preference_trips_hotel_scheduled_notifications)) {
+		if (tripHasHotel) {
 			trackAbacusTest(s, AbacusUtils.TripsHotelScheduledNotificationsV2);
 		}
 		s.trackLink(null, "o", "Trips Call", null, null);

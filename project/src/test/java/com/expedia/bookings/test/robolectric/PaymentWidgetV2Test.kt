@@ -102,7 +102,6 @@ class PaymentWidgetV2Test {
         Ui.getApplication(activity).defaultHotelComponents()
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm, AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
         SettingUtils.save(activity, R.string.preference_display_eligible_cards_on_payment_form, false)
-        SettingUtils.save(activity, R.string.preference_allow_unknown_card_types, false)
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel
@@ -442,7 +441,6 @@ class PaymentWidgetV2Test {
         Ui.getApplication(activity).defaultHotelComponents()
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm, AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
         SettingUtils.save(activity, R.string.preference_display_eligible_cards_on_payment_form, true)
-        SettingUtils.save(activity, R.string.preference_allow_unknown_card_types, true)
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel

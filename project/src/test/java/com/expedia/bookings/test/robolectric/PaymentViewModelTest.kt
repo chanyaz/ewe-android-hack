@@ -36,7 +36,6 @@ import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -323,20 +322,20 @@ class PaymentViewModelTest {
 
     @Test
     fun testToggleOnAllowUnknownCardTypes() {
-        toggleAllowUnknownCardTypesABTestAndFF(true)
+        toggleAllowUnknownCardTypesABTest(true)
         assertTrue(isAllowUnknownCardTypesEnabled(getContext()))
     }
 
     @Test
     fun testToggleOffAllowUnknownCardTypes() {
-        toggleAllowUnknownCardTypesABTestAndFF(false)
+        toggleAllowUnknownCardTypesABTest(false)
         assertFalse(isAllowUnknownCardTypesEnabled(getContext()))
     }
 
 
     @Test
     fun testAllowUnknownCardTypesNoPaymentTypeWarning() {
-        toggleAllowUnknownCardTypesABTestAndFF(true)
+        toggleAllowUnknownCardTypesABTest(true)
         val invalidPaymentTypeWarningTestSubscriber = TestSubscriber<String>()
         givenFlightsTrip()
 
@@ -350,7 +349,7 @@ class PaymentViewModelTest {
 
     @Test
     fun testDontAllowUnknownCardTypesNoPaymentTypeWarning() {
-        toggleAllowUnknownCardTypesABTestAndFF(false)
+        toggleAllowUnknownCardTypesABTest(false)
         val invalidPaymentTypeWarningTestSubscriber = TestSubscriber<String>()
         givenFlightsTrip()
 
@@ -419,14 +418,13 @@ class PaymentViewModelTest {
         return info
     }
 
-    private fun toggleAllowUnknownCardTypesABTestAndFF(toggleOn: Boolean) {
+    private fun toggleAllowUnknownCardTypesABTest(toggleOn: Boolean) {
         if (toggleOn) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
         }
         else {
             AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
         }
-        SettingUtils.save(getContext().applicationContext, R.string.preference_allow_unknown_card_types, toggleOn)
     }
 
     class TestPaymentViewModelClass(context: Context): PaymentViewModel(context) {

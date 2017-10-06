@@ -33,6 +33,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
@@ -44,7 +45,6 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
@@ -611,8 +611,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	@Override
 	public List<Notification> generateNotifications() {
 
-		Boolean bucketedForNewScheduledNotifications = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(),
-			AbacusUtils.TripsHotelScheduledNotificationsV2, R.string.preference_trips_hotel_scheduled_notifications);
+		Boolean bucketedForNewScheduledNotifications = AbacusFeatureConfigManager.isUserBucketedForTest(getContext(), AbacusUtils.TripsHotelScheduledNotificationsV2);
 		if (bucketedForNewScheduledNotifications) {
 			return generateNewNotifications();
 		}
