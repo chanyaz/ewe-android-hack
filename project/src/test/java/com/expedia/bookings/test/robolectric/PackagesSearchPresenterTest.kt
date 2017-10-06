@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,6 @@ import com.expedia.bookings.presenter.packages.PackageSearchPresenter
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerPickerView
-import com.expedia.bookings.widget.TravelerWidgetV2
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,7 +27,7 @@ class PackagesSearchPresenterTest {
     lateinit private var widget: PackageSearchPresenter
     lateinit private var activity: Activity
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
-    val context = RuntimeEnvironment.application
+    val context: Context = RuntimeEnvironment.application
 
     @Before
     fun setup() {
@@ -43,10 +43,10 @@ class PackagesSearchPresenterTest {
     fun testNewTravelerPickerSelectionOperations(){
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
 
-        var travelerCard = widget.travelerWidgetV2
+        val travelerCard = widget.travelerWidgetV2
         travelerCard.performClick()
-        var view = travelerCard.travelerDialogView
-        var travelerPicker = view.findViewById<TravelerWidgetV2>(R.id.flight_traveler_view) as FlightTravelerPickerView
+        val view = travelerCard.travelerDialogView
+        val travelerPicker = view.findViewById<FlightTravelerPickerView>(R.id.flight_traveler_view)
 
         travelerPicker.youthCountSelector.travelerPlus.performClick()
         travelerPicker.childCountSelector.travelerPlus.performClick()
@@ -74,10 +74,10 @@ class PackagesSearchPresenterTest {
     fun testNewTravelerPickerWidgetItemsVisiblity() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
 
-        var travelerCard = widget.travelerWidgetV2
+        val travelerCard = widget.travelerWidgetV2
         travelerCard.performClick()
-        var view = travelerCard.travelerDialogView
-        var travelerPicker = view.findViewById<TravelerWidgetV2>(R.id.flight_traveler_view) as FlightTravelerPickerView
+        val view = travelerCard.travelerDialogView
+        val travelerPicker = view.findViewById<FlightTravelerPickerView>(R.id.flight_traveler_view)
 
         assertEquals(View.VISIBLE, travelerPicker.visibility)
         assertEquals(View.VISIBLE, travelerPicker.adultCountSelector.visibility)
@@ -94,13 +94,13 @@ class PackagesSearchPresenterTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
-        var travelerCard = widget.travelerWidgetV2
+        val travelerCard = widget.travelerWidgetV2
         travelerCard.performClick()
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
-        var view = travelerCard.travelerDialogView
-        var travelerPicker = view.findViewById<TravelerWidgetV2>(R.id.flight_traveler_view) as FlightTravelerPickerView
+        val view = travelerCard.travelerDialogView
+        val travelerPicker = view.findViewById<FlightTravelerPickerView>(R.id.flight_traveler_view)
         travelerPicker.viewmodel.lob = LineOfBusiness.PACKAGES
 
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()

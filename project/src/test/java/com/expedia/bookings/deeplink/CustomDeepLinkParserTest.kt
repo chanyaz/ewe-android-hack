@@ -242,7 +242,6 @@ class CustomDeepLinkParserTest {
 
         data = Uri.parse("expda://trips?itinNum=7238447666975")
         output = parser.parseDeepLink(data) as TripDeepLink
-        Assert.assertTrue(output is TripDeepLink)
         Assert.assertEquals("7238447666975", output.itinNum)
 
     }
@@ -269,12 +268,10 @@ class CustomDeepLinkParserTest {
 
         data = data.buildUpon().appendQueryParameter("key", "1111").build()
         output = parser.parseDeepLink(data) as ForceBucketDeepLink
-        Assert.assertTrue(output is ForceBucketDeepLink)
         Assert.assertEquals("1111", output.key)
 
         data = data.buildUpon().appendQueryParameter("value", "0").build()
         output = parser.parseDeepLink(data) as ForceBucketDeepLink
-        Assert.assertTrue(output is ForceBucketDeepLink)
         Assert.assertEquals("1111", output.key)
         Assert.assertEquals("0", output.value)
     }

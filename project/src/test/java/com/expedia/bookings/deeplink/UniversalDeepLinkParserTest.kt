@@ -16,7 +16,7 @@ import java.util.ArrayList
 @RunWith(RobolectricRunner::class)
 class UniversalDeepLinkParserTest {
 
-    val parser = UniversalDeepLinkParser(RuntimeEnvironment.application.assets)
+    private val parser = UniversalDeepLinkParser(RuntimeEnvironment.application.assets)
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -27,25 +27,21 @@ class UniversalDeepLinkParserTest {
 
         data = data.buildUpon().appendQueryParameter("startDate", "05%2F31%2F2017").build()
         output = parser.parseDeepLink(data) as HotelDeepLink
-        Assert.assertTrue(output is HotelDeepLink)
         Assert.assertEquals(LocalDate(2017, 5, 31), output.checkInDate)
 
         data = data.buildUpon().appendQueryParameter("endDate", "06%2F06%2F2017").build()
         output = parser.parseDeepLink(data) as HotelDeepLink
-        Assert.assertTrue(output is HotelDeepLink)
         Assert.assertEquals(LocalDate(2017, 5, 31), output.checkInDate)
         Assert.assertEquals(LocalDate(2017, 6, 6), output.checkOutDate)
 
         data = data.buildUpon().appendQueryParameter("regionId", "6059241").build()
         output = parser.parseDeepLink(data) as HotelDeepLink
-        Assert.assertTrue(output is HotelDeepLink)
         Assert.assertEquals(LocalDate(2017, 5, 31), output.checkInDate)
         Assert.assertEquals(LocalDate(2017, 6, 6), output.checkOutDate)
         Assert.assertEquals("6059241", output.regionId)
 
         data = data.buildUpon().appendQueryParameter("sort", "deals").build()
         output = parser.parseDeepLink(data) as HotelDeepLink
-        Assert.assertTrue(output is HotelDeepLink)
         Assert.assertEquals(LocalDate(2017, 5, 31), output.checkInDate)
         Assert.assertEquals(LocalDate(2017, 6, 6), output.checkOutDate)
         Assert.assertEquals("6059241", output.regionId)
@@ -53,7 +49,6 @@ class UniversalDeepLinkParserTest {
 
         data = data.buildUpon().appendQueryParameter("adults", "2").build()
         output = parser.parseDeepLink(data) as HotelDeepLink
-        Assert.assertTrue(output is HotelDeepLink)
         Assert.assertEquals(LocalDate(2017, 5, 31), output.checkInDate)
         Assert.assertEquals(LocalDate(2017, 6, 6), output.checkOutDate)
         Assert.assertEquals("6059241", output.regionId)
@@ -99,30 +94,27 @@ class UniversalDeepLinkParserTest {
 
         data = data.buildUpon().appendQueryParameter("leg1", "from:Seattle, WA (SEA-Seattle - Tacoma Intl.),to:BKK,departure:09%2F27%2F2017TANYT").build()
         output = parser.parseDeepLink(data) as FlightDeepLink
-        Assert.assertTrue(output is FlightDeepLink)
         Assert.assertEquals("SEA", output.origin)
         Assert.assertEquals("BKK", output.destination)
         Assert.assertEquals(LocalDate(2017, 9, 27), output.departureDate)
 
         data = data.buildUpon().appendQueryParameter("leg2", "from:BKK,to:Seattle, WA (SEA-Seattle - Tacoma Intl.),departure:10/11/2017TANYT").build()
         output = parser.parseDeepLink(data) as FlightDeepLink
-        Assert.assertTrue(output is FlightDeepLink)
         Assert.assertEquals("SEA", output.origin)
         Assert.assertEquals("BKK", output.destination)
         Assert.assertEquals(LocalDate(2017, 9, 27), output.departureDate)
         Assert.assertEquals(LocalDate(2017, 10, 11), output.returnDate)
 
-        val data_c1 = data.buildUpon().appendQueryParameter("passengers", "children:2[8;10],adults:2,seniors:0,infantinlap:Y").build()
-        output = parser.parseDeepLink(data_c1) as FlightDeepLink
-        Assert.assertTrue(output is FlightDeepLink)
+        val dataC1 = data.buildUpon().appendQueryParameter("passengers", "children:2[8;10],adults:2,seniors:0,infantinlap:Y").build()
+        output = parser.parseDeepLink(dataC1) as FlightDeepLink
         Assert.assertEquals("SEA", output.origin)
         Assert.assertEquals("BKK", output.destination)
         Assert.assertEquals(LocalDate(2017, 9, 27), output.departureDate)
         Assert.assertEquals(LocalDate(2017, 10, 11), output.returnDate)
         Assert.assertEquals(2, output.numAdults)
 
-        val data_c2 = data.buildUpon().appendQueryParameter("passengers", "adults:5").build()
-        output = parser.parseDeepLink(data_c2) as FlightDeepLink
+        val dataC2 = data.buildUpon().appendQueryParameter("passengers", "adults:5").build()
+        output = parser.parseDeepLink(dataC2) as FlightDeepLink
         Assert.assertEquals(5, output.numAdults)
     }
 
@@ -218,7 +210,6 @@ class UniversalDeepLinkParserTest {
 
         data = Uri.parse("https://www.expedia.com/mobile/deeplink/trips/7238447666975")
         output = parser.parseDeepLink(data) as TripDeepLink
-        Assert.assertTrue(output is TripDeepLink)
         Assert.assertEquals("7238447666975", output.itinNum)
     }
 
