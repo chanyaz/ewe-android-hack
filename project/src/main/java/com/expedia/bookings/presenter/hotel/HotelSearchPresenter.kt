@@ -193,6 +193,15 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         suggestionTrackingData.reset()
     }
 
+    override fun setUpStatusBar() {
+        // HotelSmartActivity is smart and lets the system handle the status bar. Do nothing.
+    }
+
+    override fun getToolbarsHeight(): Int {
+        return Ui.getToolbarSize(context)
+    }
+
+
     override fun getSuggestionHistoryFileName(): String {
         return SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE
     }

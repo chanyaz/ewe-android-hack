@@ -21,6 +21,10 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
         private set
 
     private var searchResponse: HotelSearchResponse? = null
+
+    //todo make smarter
+    var searchParams: HotelSearchParams? = null
+
     private var subscriptions: CompositeSubscription = CompositeSubscription()
 
     private var prefetchSearch = false
@@ -46,6 +50,7 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
     fun unsubscribe() {
         subscriptions.clear()
     }
+
 
     val searchResponseObserver = object : Observer<HotelSearchResponse> {
         override fun onNext(hotelSearchResponse: HotelSearchResponse) {

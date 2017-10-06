@@ -1,0 +1,78 @@
+<com.expedia.bookings.hotel.presenter.HotelPostSearchPresenter
+    android:id="@+id/hotel_presenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/details_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:liteMode="false"
+        app:mapType="normal"
+        android:visibility="gone"/>
+
+    <ViewStub
+        android:id="@+id/results_stub"
+        android:inflatedId="@+id/widget_hotel_results"
+        android:layout="@layout/hotel_results_presenter_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.presenter.hotel.HotelErrorPresenter
+        android:id="@+id/widget_hotel_errors"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray1"
+        android:visibility="gone"/>
+
+    <ViewStub
+        android:id="@+id/details_stub"
+        android:inflatedId="@+id/widget_hotel_detail"
+        android:layout="@layout/hotel_detail_presenter_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.LoadingOverlayWidget
+        android:id="@+id/details_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <ViewStub
+        android:id="@+id/checkout_stub"
+        android:inflatedId="@+id/hotel_checkout_presenter"
+        android:layout="@layout/hotel_checkout_presenter_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ViewStub
+        android:id="@+id/web_checkout_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/web_checkout_view"
+        android:layout="@layout/web_checkout_view_stub" />
+
+    <com.expedia.bookings.presenter.hotel.HotelConfirmationPresenter
+        android:id="@+id/hotel_confirmation_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <ViewStub
+        android:id="@+id/reviews_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bundle_price_widget"
+        android:inflatedId="@+id/widget_hotel_reviews"
+        android:layout="@layout/hotel_review_presenter_stub" />
+
+</com.expedia.bookings.hotel.presenter.HotelPostSearchPresenter>

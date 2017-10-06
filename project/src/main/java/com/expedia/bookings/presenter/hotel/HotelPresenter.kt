@@ -899,7 +899,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         geoCodeSearchModel.searchObserver.onNext(params)
     }
 
-    private fun updateSearchParams(params: HotelSearchParams) {
+    fun updateSearchParams(params: HotelSearchParams) {
         hotelSearchParams = params
         errorPresenter.getViewModel().paramsSubject.onNext(params)
     }
