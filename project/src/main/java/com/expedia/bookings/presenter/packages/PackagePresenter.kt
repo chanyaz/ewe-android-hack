@@ -435,8 +435,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     }
 
     private fun displayFlightDropDownRoutes(): Boolean {
-        return PointOfSale.getPointOfSale().displayFlightDropDownRoutes() &&
-                FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_search_airport_dropdown)
+        return PointOfSale.getPointOfSale().displayFlightDropDownRoutes()
     }
 
     private fun getDefaultSearchPresenterClassName(): String {
