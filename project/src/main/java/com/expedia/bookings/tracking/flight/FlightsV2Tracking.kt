@@ -164,9 +164,9 @@ object FlightsV2Tracking {
         OmnitureTracking.trackPaymentSelect()
     }
 
-    fun trackSlideToPurchase(cardType: PaymentType, flexStatus: String) {
+    fun trackShowSlideToPurchase(cardType: PaymentType, flexStatus: String) {
         val cardName = cardType.omnitureTrackingCode
-        OmnitureTracking.trackFlightSlideToPurchase(cardName, flexStatus)
+        OmnitureTracking.trackFlightShowSlideToPurchase(cardName, flexStatus)
     }
 
     fun trackCheckoutPaymentCID() {

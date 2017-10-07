@@ -269,8 +269,17 @@ public class OmnitureTracking {
 	private static final String APP_CKO_PAYMENT_DECLINE_SAVE = "App.CKO.Payment.DeclineSave";
 	private static final String APP_CKO_TRAVELER_SAVE = "App.CKO.Traveler.Save";
 	private static final String APP_CKO_TRAVELER_DECLINE_SAVE = "App.CKO.Traveler.DeclineSave";
+	public static final String APP_CKO_SLIDE_TO_BOOK = "App.CKO.SlideToBook";
 
 	private static final String UNIVERSAL_CHECKOUT = "Universal Checkout";
+
+	public static void trackSlideToBookAction() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, APP_CKO_SLIDE_TO_BOOK);
+		s.setProp(16, APP_CKO_SLIDE_TO_BOOK);
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+	}
 
 	public enum OmnitureEventName {
 		REWARD_PROGRAM_NAME,
@@ -1066,9 +1075,9 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackHotelV2SlideToPurchase(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {
+	public static void trackHotelV2ShowSlideToPurchase(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
-		trackSlidetoPurchase(HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE,
+		trackShowSlidetoPurchase(HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE,
 			getPaymentTypeOmnitureCode(paymentType, paymentSplitsType), null);
 	}
 
@@ -4705,9 +4714,9 @@ public class OmnitureTracking {
 		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_EDIT_TRAVELER).track();
 	}
 
-	public static void trackPackagesCheckoutSlideToPurchase(String flexStatus, String cardType) {
+	public static void trackPackagesCheckoutShowSlideToPurchase(String flexStatus, String cardType) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE + "\" load...");
-		trackSlidetoPurchase(PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE, cardType, flexStatus);
+		trackShowSlidetoPurchase(PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE, cardType, flexStatus);
 	}
 
 	public static void trackPackagesCheckoutPaymentCID() {
@@ -5440,11 +5449,11 @@ public class OmnitureTracking {
 		trackPackagePageLoadEventStandard(FLIGHTS_V2_CHECKOUT_PAYMENT_SELECT);
 	}
 
-	public static void trackFlightSlideToPurchase(String cardType, String flexStatus) {
-		trackSlidetoPurchase(FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE, cardType, flexStatus);
+	public static void trackFlightShowSlideToPurchase(String cardType, String flexStatus) {
+		trackShowSlidetoPurchase(FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE, cardType, flexStatus);
 	}
 
-	private static void trackSlidetoPurchase(String lobPageName, String cardType, String flexStatus) {
+	private static void trackShowSlidetoPurchase(String lobPageName, String cardType, String flexStatus) {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(lobPageName);
 		s.setEvar(18, lobPageName);

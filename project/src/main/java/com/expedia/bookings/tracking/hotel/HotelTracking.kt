@@ -276,7 +276,7 @@ open class HotelTracking {
         }
 
         fun trackHotelSlideToPurchase(paymentType: PaymentType, paymentSplitsType: PaymentSplitsType) {
-            OmnitureTracking.trackHotelV2SlideToPurchase(paymentType, paymentSplitsType)
+            OmnitureTracking.trackHotelV2ShowSlideToPurchase(paymentType, paymentSplitsType)
         }
 
         fun trackHotelsCheckoutError(error: ApiError) {

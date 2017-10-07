@@ -15,6 +15,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -450,6 +451,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun setupViewModels() {
         val bottomCheckoutContainerViewModel = BottomCheckoutContainerViewModel(context)
         bottomCheckoutContainerViewModel.slideAllTheWayObservable.subscribe {
+            OmnitureTracking.trackSlideToBookAction()
             val checkoutViewModel = checkoutPresenter.getCheckoutViewModel()
             if (checkoutViewModel.builder.hasValidCVV()) {
                 val params = checkoutViewModel.builder.build()
