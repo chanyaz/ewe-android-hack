@@ -1029,6 +1029,7 @@
     <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Trips</string>
+    <string name="whatsnu">What\'s New!</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">Your Trips</string>
     <!-- Google play services unrecoverable error dialog message -->
