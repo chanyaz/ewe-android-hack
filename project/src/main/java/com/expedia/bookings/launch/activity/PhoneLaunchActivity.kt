@@ -38,6 +38,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
+import com.expedia.bookings.fragment.WhatsNewFragment
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
@@ -561,6 +562,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 PAGER_POS_ITIN -> frag = ItinItemListFragment.newInstance(jumpToItinId, true)
                 PAGER_POS_LAUNCH -> frag = PhoneLaunchFragment()
                 PAGER_POS_ACCOUNT -> frag = AccountSettingsFragment()
+                PAGER_POS_NEW -> frag = WhatsNewFragment()
                 else -> throw RuntimeException("Position out of bounds position=" + position)
             }
 
@@ -577,6 +579,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 PAGER_POS_ITIN -> title = resources.getString(Ui.obtainThemeResID(this@PhoneLaunchActivity, R.attr.skin_tripsTabText))
                 PAGER_POS_LAUNCH -> title = resources.getString(R.string.shop)
                 PAGER_POS_ACCOUNT -> title = resources.getString(R.string.account_settings_menu_label)
+                PAGER_POS_NEW -> title = resources.getString(R.string.whatsnu)
                 else -> throw RuntimeException("Position out of bounds position = " + i)
             }
             return title
@@ -695,6 +698,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
         val accountTab = ProWizardLaunchTabView(this, R.drawable.ic_account_circle, resources.getString(R.string.account_settings_menu_label))
         bottomNavTabLayout.getTabAt(PAGER_POS_ACCOUNT)?.customView = accountTab
+
+        val whatsNewTab = ProWizardLaunchTabView(this, R.drawable.ic_hotel_check, resources.getString(R.string.whatsnu))
+        bottomNavTabLayout.getTabAt(PAGER_POS_NEW)?.customView = whatsNewTab
     }
 
     private fun setupTopNav() {
@@ -749,10 +755,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     companion object {
         private const val TOOLBAR_ANIM_DURATION = 200L
 
-        private const val NUMBER_OF_TABS = 3
+        private const val NUMBER_OF_TABS = 4
         private const val PAGER_POS_LAUNCH = 0
         private const val PAGER_POS_ITIN = 1
         private const val PAGER_POS_ACCOUNT = 2
+        private const val PAGER_POS_NEW = 3
 
         @JvmField val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
         @JvmField val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
