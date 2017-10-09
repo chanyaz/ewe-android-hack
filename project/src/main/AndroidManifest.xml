@@ -266,7 +266,15 @@
             tools:ignore="UnusedAttribute" />
 
         <activity
-            android:name="com.expedia.bookings.hotel.activity.HotelPostSearchActivity"
+            android:name="com.expedia.bookings.hotel.activity.HotelResultsActivity"
+            android:label="Hotels"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:theme="@style/Theme.Hotels.Default"
+            tools:ignore="UnusedAttribute" />
+
+        <activity
+            android:name="com.expedia.bookings.hotel.activity.HotelPostResultsActivity"
             android:label="Hotels"
             android:launchMode="singleTop"
             android:resizeableActivity="false"

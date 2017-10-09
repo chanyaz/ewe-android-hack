@@ -10,11 +10,9 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
-import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.hotel.HotelSearchPresenter
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.Ui
-import com.expedia.ui.HotelActivity
 import com.expedia.vm.HotelSearchViewModel
 import javax.inject.Inject
 
@@ -57,7 +55,7 @@ class HotelSearchActivity : AppCompatActivity() {
 
     fun handleGenericSearch(params: HotelSearchParams) {
         hotelSearchManager.searchParams = params
-        val intent = Intent(this, HotelPostSearchActivity::class.java)
+        val intent = Intent(this, HotelResultsActivity::class.java)
         startActivity(intent)
 
         //todo launch results

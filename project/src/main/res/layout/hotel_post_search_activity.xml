@@ -7,25 +7,12 @@
     android:orientation="vertical">
 
     <com.google.android.gms.maps.MapView
-        android:id="@+id/map_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
-
-    <com.google.android.gms.maps.MapView
         android:id="@+id/details_map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:liteMode="false"
         app:mapType="normal"
         android:visibility="gone"/>
-
-    <ViewStub
-        android:id="@+id/results_stub"
-        android:inflatedId="@+id/widget_hotel_results"
-        android:layout="@layout/hotel_results_presenter_stub"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <com.expedia.bookings.presenter.hotel.HotelErrorPresenter
         android:id="@+id/widget_hotel_errors"

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!--//todo fix me-->
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/results_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
+
+    <com.expedia.bookings.presenter.hotel.HotelResultsPresenter
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/hotel_results_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray1" />
+
+
+</LinearLayout>

@@ -1,7 +1,8 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
-import com.expedia.bookings.hotel.activity.HotelPostSearchActivity;
+import com.expedia.bookings.hotel.activity.HotelPostResultsActivity;
+import com.expedia.bookings.hotel.activity.HotelResultsActivity;
 import com.expedia.bookings.hotel.activity.HotelSearchActivity;
 import com.expedia.bookings.hotel.presenter.HotelPostSearchPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter;
@@ -48,5 +49,7 @@ public interface HotelComponent {
 
     void inject(@NotNull HotelSearchActivity hotelSearchActivity);
     void inject(@NotNull HotelPostSearchPresenter hotelPostSearchPresenter);
-	void inject(@NotNull HotelPostSearchActivity hotelPostSearchActivity);
+	void inject(@NotNull HotelPostResultsActivity hotelPostSearchActivity);
+
+    void inject(@NotNull HotelResultsActivity hotelResultsActivity);
 }

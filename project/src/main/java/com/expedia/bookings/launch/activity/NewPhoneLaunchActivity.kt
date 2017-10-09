@@ -488,6 +488,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onStart() {
         super.onStart()
+        Ui.getApplication(this).setHotelComponent(null)
         if (ProWizardBucketCache.isBucketed(this)) {
             setupBottomNav()
         } else {
