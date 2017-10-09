@@ -9,7 +9,6 @@ import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.multiitem.Amenity;
 import com.expedia.bookings.data.multiitem.HotelOffer;
-import com.expedia.bookings.data.multiitem.MandatoryFees;
 import com.expedia.bookings.data.multiitem.MultiItemOffer;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
@@ -183,7 +182,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public String description;
 	}
 
-	public static HotelOffersResponse convertToHotelOffersResponse(HotelOffersResponse hotelOffer, List<HotelRoomResponse> hotelRoomResponse, String checkInDate, String checkOutDate) {
+	public static HotelOffersResponse convertToHotelOffersResponse(HotelOffersResponse hotelOffer,
+		List<HotelRoomResponse> hotelRoomResponse, String checkInDate, String checkOutDate) {
 		hotelOffer.checkInDate = checkInDate;
 		hotelOffer.checkOutDate = checkOutDate;
 		hotelOffer.hotelRoomResponse = hotelRoomResponse;
@@ -200,14 +200,16 @@ public class HotelOffersResponse extends BaseApiResponse {
 			}
 			if (packageHotelOffer.priceDifferencePerNight != null) {
 				packageHotelOffer.hotelOffer.packageHotelDeltaPrice = packageHotelOffer.priceDifferencePerNight;
-				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.priceToShowUsers = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.amount.floatValue();
+				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.priceToShowUsers = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.amount
+					.floatValue();
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.currencyCode = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.currencyCode;
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0;
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
 			}
 			if (packageHotelOffer.packagePricing.hotelPricing != null) {
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.showResortFeeMessage = true;
-				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.totalMandatoryFees = packageHotelOffer.packagePricing.hotelPricing.mandatoryFees.feeTotal.amount.floatValue();
+				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.totalMandatoryFees = packageHotelOffer.packagePricing.hotelPricing.mandatoryFees.feeTotal.amount
+					.floatValue();
 			}
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packagePricePerPerson = packageHotelOffer.pricePerPerson;
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageSavings = packageHotelOffer.packagePricing.savings;
@@ -228,38 +230,35 @@ public class HotelOffersResponse extends BaseApiResponse {
 
 		hotelRoomResponse.productKey = null; //won't be available
 		hotelRoomResponse.packageHotelDeltaPrice = room.getPrice().deltaPricePerPerson();
-		hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = room.getPrice().deltaPricePerPerson().getAmount().floatValue();
-		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().deltaPricePerPerson().getCurrency();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers = room.getPrice().deltaPricePerPerson()
+			.getAmount().floatValue();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().deltaPricePerPerson()
+			.getCurrency();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0;
 		hotelRoomResponse.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
-		hotelRoomResponse.rateInfo.chargeableRateInfo.averageRate = 10f; //ToDo MS:hard-coded as it is not available in MID as of now
-		hotelRoomResponse.rateInfo.chargeableRateInfo.taxStatusType = "None"; //ToDo MS: hard-coded as it is not available in MID as of now
-		hotelRoomResponse.rateInfo.chargeableRateInfo.surchargeTotal = 10f; //ToDo MS: hard-coded as it is not available in MID as of now
-		hotelRoomResponse.rateInfo.chargeableRateInfo.surchargeTotalForEntireStay =  10f; //ToDo MS: hard-coded as it is not available in MID as of now
-		hotelRoomResponse.rateInfo.chargeableRateInfo.discountPercent = room.getPrice().getSavings().getAmount().floatValue();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.discountPercent = room.getPrice().getSavings().getAmount()
+			.floatValue();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.total = room.getPrice().getTotalPrice().getAmount().floatValue();
-		hotelRoomResponse.rateInfo.chargeableRateInfo.surchargesWithoutPropertyFeeForEntireStay = 10f; //ToDo MS: hard-coded as it is not available in MID as of now(CKO)
-		//ToDo MS: hotelRoomResponse.rateInfo.chargeableRateInfo.nightlyRatesPerRoom = missing
-		//ToDo MS: hotelRoomResponse.rateInfo.chargeableRateInfo.priceAdjustments = missing (though we only get empty array in response)
-		hotelRoomResponse.rateInfo.chargeableRateInfo.checkoutPriceType = "totalPriceWithMandatoryFees"; //ToDo MS: hard-coded as it is not available in MID as of now
 		hotelRoomResponse.rateInfo.chargeableRateInfo.airAttached = false;
 
 		hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = room.getPrice().getTotalPrice().getCurrency();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = true;
+
 		if (roomOffer.getMandatoryFees() != null) {
-			if (roomOffer.getMandatoryFees().getDisplayType() == MandatoryFees.DisplayType.DAILY) {
-				hotelRoomResponse.rateInfo.chargeableRateInfo.dailyMandatoryFee = roomOffer.getMandatoryFees()
-					.getDailyResortFeePOSCurrency().getAmount().floatValue();
-			}
-			else if (roomOffer.getMandatoryFees().getDisplayType() == MandatoryFees.DisplayType.TOTAL) {
+			switch (roomOffer.getMandatoryFees().getDisplayType()) {
+			case TOTAL:
 				hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
 					.getTotalMandatoryFeesSupplyCurrency().getAmount().floatValue();
-				hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees = roomOffer.getMandatoryFees()
-					.getTotalMandatoryFeesSupplyCurrency().getAmount()
-					.floatValue(); //ToDo MS: hard-coded as it is not available in MID as of now
+				break;
+			case DAILY:
+				hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
+					.getDailyResortFeePOSCurrency().getAmount().floatValue();
+				break;
+			case NONE:
+				hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = false;
+				break;
 			}
 		}
-		hotelRoomResponse.rateInfo.chargeableRateInfo.resortFeeInclusion = true; //ToDo MS: hard-coded as it is not available in MID as of now
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = room.getPrice().pricePerPerson();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = room.getPrice().packageSavings();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = room.getPrice().packageTotalPrice();

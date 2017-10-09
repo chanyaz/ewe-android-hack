@@ -74,7 +74,7 @@ public class FlightLeg {
 			flightLeg.airlines.add(new Airline(flightSegment.carrier, flightSegment.airlineLogoURL));
 		}
 
-		flightLeg.carrierName = multiItemFlightLeg.getSegments().get(0).getAirlineName(); //TODO PUK
+		flightLeg.carrierName = multiItemFlightLeg.getSegments().get(0).getAirlineName();
 		flightLeg.arrivalDateTimeISO = flightLeg.flightSegments.get(flightLeg.flightSegments.size() - 1).arrivalDateTimeISO;
 		flightLeg.carrierCode = flightLeg.flightSegments.get(0).airlineCode;
 		flightLeg.departureDateTimeISO = flightLeg.flightSegments.get(0).departureDateTimeISO;
