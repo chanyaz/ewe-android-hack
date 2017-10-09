@@ -20,7 +20,7 @@ data class MultiItemApiSearchResponse(
     private lateinit var sortedHotels: List<Hotel>
     private lateinit var sortedFlights: List<FlightLeg>
     private lateinit var hotelRooms: List<HotelOffersResponse.HotelRoomResponse>
-    private var currentSelectedOffer: PackageOfferModel? = null
+    private var currentSelectedOfferPrice: PackageOfferModel.PackagePrice? = null
 
     fun setup(): BundleSearchResponse {
         if (hasErrors()) {
@@ -94,12 +94,12 @@ data class MultiItemApiSearchResponse(
         return offers[0].price.totalPrice.currency
     }
 
-    override fun getCurrentOfferModel(): PackageOfferModel? {
-        return currentSelectedOffer
+    override fun getCurrentOfferPrice(): PackageOfferModel.PackagePrice? {
+        return currentSelectedOfferPrice
     }
 
-    override fun setCurrentOfferModel(offerModel: PackageOfferModel) {
-        currentSelectedOffer = offerModel
+    override fun setCurrentOfferPrice(offerPrice: PackageOfferModel.PackagePrice) {
+        currentSelectedOfferPrice = offerPrice
     }
 
     override fun hasErrors(): Boolean {

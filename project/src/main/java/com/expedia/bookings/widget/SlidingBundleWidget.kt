@@ -248,8 +248,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     private fun updateBundlePricing() {
-        val currentOffer: PackageOfferModel = Db.getPackageResponse().getCurrentOfferModel() ?: return
-        val packagePrice: PackageOfferModel.PackagePrice = currentOffer.price
+        val packagePrice: PackageOfferModel.PackagePrice = Db.getPackageResponse().getCurrentOfferPrice() ?: return
         if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
             bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
         }

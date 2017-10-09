@@ -149,7 +149,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                         flightResultsObservable.onNext(type)
                     }
                     autoAdvanceObservable.onNext(type)
-                    if (response.getCurrentOfferModel() != null) {
+                    if (response.getCurrentOfferPrice() != null) {
                         showBundleTotalObservable.onNext(true)
                     }
                 }

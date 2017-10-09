@@ -246,7 +246,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         selectedPackageHotel = hotel
         val params = Db.getPackageParams()
         params.hotelId = hotel.hotelId
-        params.latestSelectedProductOfferModel = hotel.packageOfferModel
+        params.latestSelectedProductOfferPrice = hotel.packageOfferModel.price
         val packageHotelOffers = if (isMidAPIEnabled(context)) {
             getMIDRoomSearch(params)
         } else {
@@ -454,7 +454,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         params.packagePIID = offer.productKey
         params.ratePlanCode = offer.ratePlanCode
         params.roomTypeCode = offer.roomTypeCode
-        params.latestSelectedProductOfferModel = Db.getPackageResponse().getCurrentOfferModel()
+        params.latestSelectedProductOfferPrice = Db.getPackageResponse().getCurrentOfferPrice()
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
@@ -462,12 +462,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private fun updatePackagePrice(offer: HotelOffersResponse.HotelRoomResponse) {
         val response = Db.getPackageResponse()
-        val currentOffer = PackageOfferModel()
-        currentOffer.price = PackageOfferModel.PackagePrice()
-        currentOffer.price.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
-        currentOffer.price.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings
-        currentOffer.price.pricePerPerson = offer.rateInfo.chargeableRateInfo.packagePricePerPerson
-        response.setCurrentOfferModel(currentOffer)
+        val currentOfferPrice = PackageOfferModel.PackagePrice()
+        currentOfferPrice.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
+        currentOfferPrice.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings
+        currentOfferPrice.pricePerPerson = offer.rateInfo.chargeableRateInfo.packagePricePerPerson
+        response.setCurrentOfferPrice(currentOfferPrice)
     }
 
     val defaultTransitionObserver: Observer<PackageHotelActivity.Screen> = endlessObserver {

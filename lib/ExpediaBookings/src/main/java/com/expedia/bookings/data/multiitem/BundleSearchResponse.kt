@@ -13,8 +13,8 @@ interface BundleSearchResponse {
     fun getFlightLegs(): List<FlightLeg>
     fun hasSponsoredHotelListing(): Boolean
     fun getCurrencyCode(): String
-    fun getCurrentOfferModel(): PackageOfferModel?
-    fun setCurrentOfferModel(offerModel: PackageOfferModel)
+    fun getCurrentOfferPrice(): PackageOfferModel.PackagePrice?
+    fun setCurrentOfferPrice(offerPrice: PackageOfferModel.PackagePrice)
     fun hasErrors(): Boolean
     val firstError: PackageApiError.Code
 }

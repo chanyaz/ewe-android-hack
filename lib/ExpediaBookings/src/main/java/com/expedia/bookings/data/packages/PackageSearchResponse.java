@@ -3,12 +3,13 @@ package com.expedia.bookings.data.packages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.google.gson.annotations.SerializedName;
-
-import org.jetbrains.annotations.Nullable;
 
 public class PackageSearchResponse extends PackageBaseApiResponse implements BundleSearchResponse {
 	@SerializedName("packagePageInput")
@@ -43,13 +44,17 @@ public class PackageSearchResponse extends PackageBaseApiResponse implements Bun
 
 	@Override
 	@Nullable
-	public PackageOfferModel getCurrentOfferModel() {
-		return packageResult.currentSelectedOffer;
+	public PackageOfferModel.PackagePrice getCurrentOfferPrice() {
+		if (packageResult.currentSelectedOffer == null) {
+			return null;
+		}
+		return packageResult.currentSelectedOffer.price;
 	}
 
 	@Override
-	public void setCurrentOfferModel(PackageOfferModel offerModel) {
-		packageResult.currentSelectedOffer = offerModel;
+	public void setCurrentOfferPrice(@NotNull PackageOfferModel.PackagePrice offerPrice) {
+		packageResult.currentSelectedOffer = new PackageOfferModel();
+		packageResult.currentSelectedOffer.price = offerPrice;
 	}
 
 	@Override

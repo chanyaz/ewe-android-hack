@@ -63,10 +63,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid
-        params.latestSelectedProductOfferModel = flight.packageOfferModel
+        params.latestSelectedProductOfferPrice = flight.packageOfferModel.price
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_FLIGHT)
         val response = Db.getPackageResponse()
-        response.setCurrentOfferModel(flight.packageOfferModel)
+        response.setCurrentOfferPrice(flight.packageOfferModel.price)
 
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)

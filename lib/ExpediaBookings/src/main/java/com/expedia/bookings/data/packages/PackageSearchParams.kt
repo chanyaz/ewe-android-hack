@@ -32,7 +32,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     var hotelId: String? = null
     var ratePlanCode: String? = null
     var roomTypeCode: String? = null
-    var latestSelectedProductOfferModel: PackageOfferModel? = null
+    var latestSelectedProductOfferPrice: PackageOfferModel.PackagePrice? = null
 
     val originId: String?
         get() {
