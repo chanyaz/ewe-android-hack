@@ -48,14 +48,14 @@ class FlightLegTest {
 
         assertEquals(flightLeg.airlines.size, 1)
         assertEquals(flightLeg.airlines[0].airlineName, "American Airlines")
-        assertEquals(flightLeg.airlines[0].airlineLogoUrl, "https://images.trvl-media.com//media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif")
+        assertEquals(flightLeg.airlines[0].airlineLogoUrl, "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/s/AA_sq.jpg")
 
         assertEquals(flightLeg.flightSegments.size, 1)
         assertEquals(flightLeg.flightSegments[0].airplaneType, "Boeing 737")
         assertEquals(flightLeg.flightSegments[0].flightNumber, "6962")
         assertEquals(flightLeg.flightSegments[0].carrier, "American Airlines")
         assertEquals(flightLeg.flightSegments[0].airlineCode, "AA")
-        assertEquals(flightLeg.flightSegments[0].airlineLogoURL, "https://images.trvl-media.com//media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif")
+        assertEquals(flightLeg.flightSegments[0].airlineLogoURL, "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/s/AA_sq.jpg")
         assertEquals(flightLeg.flightSegments[0].departureCity, "San Francisco")
         assertEquals(flightLeg.flightSegments[0].departureAirportCode, "SFO")
         assertEquals(flightLeg.flightSegments[0].departureDateTimeISO, "2017-09-12T05:00:00.000-07:00")

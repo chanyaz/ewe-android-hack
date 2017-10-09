@@ -154,7 +154,7 @@ public class FlightLeg {
 			flightSegment.flightNumber = multiItemFlightSegment.getFlightNumber();
 			flightSegment.carrier = multiItemFlightSegment.getAirlineName();
 			flightSegment.airlineCode = multiItemFlightSegment.getAirlineCode();
-			flightSegment.airlineLogoURL = Constants.AIRLINE_LOGO_BASE_URL + multiItemFlightSegment.getAirlineLogoUrl();
+			flightSegment.airlineLogoURL = Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", flightSegment.airlineCode);
 
 			flightSegment.departureCity = multiItemFlightSegment.getDepartureCity();
 			flightSegment.departureAirportCode = multiItemFlightSegment.getDepartureAirportCode();
