@@ -21,6 +21,7 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.model.UserLoginStateChangedModel
 import okhttp3.Cookie
@@ -52,7 +53,10 @@ class UserStateManagerTests {
     fun setup() {
         val context: Context = RuntimeEnvironment.application
         notificationManager = NotificationManager(context)
-        userStateManager = UserStateManager(context, UserLoginStateChangedModel(), notificationManager)
+
+        val userSource = UserSource(context, TestFileCipher("whatever"))
+
+        userStateManager = UserStateManager(context, UserLoginStateChangedModel(), notificationManager, AccountManager.get(context), userSource)
     }
 
     @Test
@@ -133,9 +137,8 @@ class UserStateManagerTests {
         class TestUserSource: UserSource(RuntimeEnvironment.application) {
             var didCallLoadUser = false
                 private set
-            override var user: User?
+            override var user: User? = null
                 get() = null
-                set(value) = Db.setUser(value)
 
             override fun loadUser() {
                 didCallLoadUser = true
@@ -461,11 +464,11 @@ class UserStateManagerTests {
     }
 
     private fun givenSignedInAsUser(user: User) {
-        UserLoginTestUtil.setupUserAndMockLogin(user)
+        UserLoginTestUtil.setupUserAndMockLogin(user, userStateManager)
     }
 
     private fun givenSignedInAsDiskOnlyUser(user: User) {
-        UserLoginTestUtil.setupUserAndMockDiskOnlyLogin(user)
+        userStateManager.userSource.user = user
     }
 
     private fun getNonRewardsMember(): User {

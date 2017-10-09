@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.section.InvalidCharacterHelper;
@@ -226,20 +227,27 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 		if (isLoggedIn) {
 			// User is logged in - default to primary
+			User user = userStateManager.getUserSource().getUser();
+
 			if (traveler == null) {
-				traveler = Db.getUser().getPrimaryTraveler();
+				traveler = user != null ? user.getPrimaryTraveler() : null;
 			}
+
 			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
-			traveler.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
+
+			if (traveler != null) {
+				traveler.setEmail(user != null ? user.getPrimaryTraveler().getEmail() : null);
+			}
+
 			sectionTravelerInfo.refreshOnLoginStatusChange();
 			sectionTravelerInfo.bind(traveler);
 			lastName.setNextFocusRightId(phoneNumber.getId());
 			lastName.setNextFocusDownId(phoneNumber.getId());
 			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
-			String travelerFullName = traveler.getFullNameBasedOnPos();
+			String travelerFullName = traveler != null ? traveler.getFullNameBasedOnPos() : null;
 			travelerButton.updateSelectTravelerText(travelerFullName);
 			enterDetailsText.setText(travelerFullName);
-			travelerPhoneText.setText(traveler.getPhoneNumber());
+			travelerPhoneText.setText(traveler != null ? traveler.getPhoneNumber() : null);
 			travelerPhoneText.setVisibility(VISIBLE);
 		}
 		else {
@@ -254,7 +262,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			lastName.setNextFocusDownId(emailAddress.getId());
 		}
 
-		if (TextUtils.isEmpty(traveler.getFullName())) {
+		if (TextUtils.isEmpty(traveler != null ? traveler.getFullName() : "")) {
 			travelerPhoneText.setVisibility(GONE);
 			travelerPhoneText.setText("");
 			if (lineOfBusiness == LineOfBusiness.HOTELS) {

@@ -451,7 +451,10 @@ class FacebookEvents {
         if (userStateManager != null) {
             parameters.safePutInt("Logged_in_Status", encodeBoolean(userStateManager?.isUserAuthenticated() ?: false))
         }
-        parameters.safePutString("Reward_Status", getLoyaltyTier(Db.getUser()))
+
+        val user = userStateManager?.userSource?.user
+
+        parameters.safePutString("Reward_Status", getLoyaltyTier(user))
         parameters.safePutString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
 
     }

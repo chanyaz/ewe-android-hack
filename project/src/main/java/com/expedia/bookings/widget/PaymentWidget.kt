@@ -32,7 +32,6 @@ import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
@@ -172,7 +171,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
         vm.selectCorrectCardObservable.subscribe { isLoggedIn ->
             if (isLoggedIn && !isAtLeastPartiallyFilled()) {
-                val numberOfSavedCards = Db.getUser()?.storedCreditCards?.size ?: 0
+                val user = userStateManager.userSource.user
+                val numberOfSavedCards = user?.storedCreditCards?.size ?: 0
                 val tempSavedCard = Db.getTemporarilySavedCard()
                 if (numberOfSavedCards >= 1 && tempSavedCard == null) {
                     selectFirstAvailableCard()
@@ -374,7 +374,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         val tripItem = Db.getTripBucket().getItem(getLineOfBusiness())
         if (tripItem != null) {
             if ((hasStoredCard() && !tripItem.isPaymentTypeSupported(getCardType(), context)) || !hasStoredCard()) {
-                val storedUserCreditCards = Db.getUser().storedCreditCards
+                val user = userStateManager.userSource.user
+                val storedUserCreditCards = user?.storedCreditCards ?: emptyList()
+
                 for (storedCard in storedUserCreditCards) {
                     if (tripItem.isPaymentTypeSupported(storedCard.type, context)) {
                         sectionBillingInfo.bind(Db.getBillingInfo())
@@ -447,7 +449,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     fun hasTempCard(): Boolean {
         val info = Db.getTemporarilySavedCard()
-        return info?.saveCardToExpediaAccount ?: false
+        return info?.saveCardToExpediaAccount == true
     }
 
     open fun isComplete(): Boolean {
@@ -563,7 +565,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     })
             storedCreditCardList.bind()
             if (!forward) validateAndBind()
-            else viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
+            else viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.getTemporarilySavedCard() != null))
             if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(!forward) else updateLegacyToolbarMenu(forward)
         }
     }
@@ -645,7 +647,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackAnalytics()
             if (!forward) {
                 validateAndBind()
-                viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
+                viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.getTemporarilySavedCard() != null))
             }
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
@@ -687,7 +689,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     open fun shouldShowPaymentOptions(): Boolean {
-        return (userStateManager.isUserAuthenticated() && Db.getUser().storedCreditCards.isNotEmpty()
+        val user = userStateManager.userSource.user
+
+        return (userStateManager.isUserAuthenticated() && user?.storedCreditCards?.isNotEmpty() == true
                 && getLineOfBusiness() != LineOfBusiness.RAILS)
                 || Db.getTemporarilySavedCard() != null
     }

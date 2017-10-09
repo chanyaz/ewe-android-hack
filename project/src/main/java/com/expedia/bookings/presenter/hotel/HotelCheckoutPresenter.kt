@@ -26,6 +26,7 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ServicesUtil
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.FreeCancellationWidget
@@ -232,7 +233,10 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         }
 
         if (!payingWithPointsSplit.amount.isZero) {
-            val pointsCard = Db.getUser().getStoredPointsCard(PaymentType.POINTS_REWARDS)
+            val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+            val user = userStateManager.userSource.user
+
+            val pointsCard = user?.getStoredPointsCard(PaymentType.POINTS_REWARDS)
 
             // If the user has already used points before, points card will be returned in the Sign in response.
             if (pointsCard != null) {
@@ -241,7 +245,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
                 rewardsSelectedForPayment.add(rewardsSelectedDetails)
             }
             else {
-                val rewardsSelectedDetails = RewardDetails(membershipId = Db.getUser().rewardsMembershipId, programName = hotelCreateTripResponse.getProgramName()!!,
+                val rewardsSelectedDetails = RewardDetails(membershipId = user?.rewardsMembershipId, programName = hotelCreateTripResponse.getProgramName()!!,
                         amountToChargeInRealCurrency = payingWithPointsSplit.amount.amount.toFloat(), amountToChargeInVirtualCurrency = payingWithPointsSplit.points, rateId = rewardsPointsDetails!!.rateID, currencyCode = payingWithPointsSplit.amount.currencyCode)
                 rewardsSelectedForPayment.add(rewardsSelectedDetails)
             }

@@ -8,21 +8,23 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 
 public class BookingInfoUtils {
 
 	public static List<StoredCreditCard> getStoredCreditCards(UserStateManager userStateManager) {
 		List<StoredCreditCard> cards = new ArrayList<>();
-		boolean seenSelectedCard = false;
 
-		if (userStateManager.isUserAuthenticated() && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
+		User user = userStateManager.getUserSource().getUser();
+
+		if (userStateManager.isUserAuthenticated() && user != null && user.getStoredCreditCards() != null) {
+			List<StoredCreditCard> dbCards = user.getStoredCreditCards();
 			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
-			if (currentCard != null && !seenSelectedCard) {
+			if (currentCard != null) {
 				for (int i = 0; i < dbCards.size(); i++) {
 					if (currentCard.compareTo(dbCards.get(i)) == 0) {
-						Db.getUser().getStoredCreditCards().get(i).setIsSelectable(false);
+						user.getStoredCreditCards().get(i).setIsSelectable(false);
 					}
 				}
 			}
@@ -38,11 +40,13 @@ public class BookingInfoUtils {
 	 */
 	public static void resetPreviousCreditCardSelectState(UserStateManager userStateManager, StoredCreditCard creditCard) {
 		// Check to find the desired credit card and reset his selectable state
-		if (creditCard != null && userStateManager.isUserAuthenticated() && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
+		User user = userStateManager.getUserSource().getUser();
+
+		if (creditCard != null && userStateManager.isUserAuthenticated() && user != null && user.getStoredCreditCards() != null) {
+			List<StoredCreditCard> dbCards = user.getStoredCreditCards();
 			for (int i = 0; i < dbCards.size(); i++) {
 				if (creditCard.compareTo(dbCards.get(i)) == 0) {
-					Db.getUser().getStoredCreditCards().get(i).setIsSelectable(true);
+					user.getStoredCreditCards().get(i).setIsSelectable(true);
 				}
 			}
 		}

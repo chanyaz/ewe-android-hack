@@ -17,8 +17,9 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -181,8 +182,12 @@ public class AboutUtils {
 
 		public void contactViaPhone() {
 			trackCallSupport();
+
+			UserStateManager userStateManager = Ui.getApplication(getContext()).appComponent().userStateManager();
+			User user = userStateManager.getUserSource().getUser();
+
 			SocialUtils
-				.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
+				.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(user));
 		}
 
 		public void trackCallSupport() {

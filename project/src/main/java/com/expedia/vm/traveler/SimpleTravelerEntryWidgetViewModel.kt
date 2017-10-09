@@ -16,7 +16,7 @@ class SimpleTravelerEntryWidgetViewModel(context: Context, travelerIndex: Int) :
     override fun updateTraveler(traveler: Traveler) {
         Db.getTravelers()[travelerIndex] = traveler
         if (userStateManager.isUserAuthenticated()) {
-            traveler.email = Db.getUser().primaryTraveler.email
+            traveler.email = userStateManager.userSource.user?.primaryTraveler?.email
         }
         nameViewModel.updateTravelerName(traveler.name)
         phoneViewModel.updatePhone(traveler.orCreatePrimaryPhoneNumber)

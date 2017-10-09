@@ -1,24 +1,20 @@
 package com.expedia.bookings.test.utils.validation
 
-import android.content.Context
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
-import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.validation.TravelerValidator
-import com.expedia.model.UserLoginStateChangedModel
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -37,10 +33,8 @@ class TravelerValidatorTest {
     val TOMORROW = LocalDate.now().plusDays(1)
     val TODAY = LocalDate.now()
 
-    private val notificationManager: NotificationManager = NotificationManager(getContext())
-    val travelerValidator = TravelerValidator(UserStateManager(getContext(),  UserLoginStateChangedModel(), notificationManager))
-
-    private fun getContext(): Context = RuntimeEnvironment.application
+    val travelerValidator: TravelerValidator by lazy { TravelerValidator(userStateManager) }
+    val userStateManager: UserStateManager by lazy { UserLoginTestUtil.getUserStateManager() }
 
     @Test
     fun testInvalidChar() {
@@ -441,7 +435,7 @@ class TravelerValidatorTest {
         user.primaryTraveler = traveler
         user.primaryTraveler.passengerCategory = PassengerCategory.ADULT
 
-        UserLoginTestUtil.setupUserAndMockLogin(user)
+        UserLoginTestUtil.setupUserAndMockLogin(user, userStateManager)
 
         assertTrue(travelerValidator.isValidForFlightBooking(traveler, mainTravelerIndex, false))
     }
@@ -460,7 +454,7 @@ class TravelerValidatorTest {
         user.primaryTraveler = traveler
         user.primaryTraveler.passengerCategory = PassengerCategory.ADULT
 
-        UserLoginTestUtil.setupUserAndMockLogin(user)
+        UserLoginTestUtil.setupUserAndMockLogin(user, userStateManager)
 
         assertTrue(travelerValidator.isValidForFlightBooking(guestTraveler, addTravelerIndex, false))
     }

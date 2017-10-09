@@ -129,7 +129,8 @@ open class HotelViewModel(private val context: Context) {
     }
 
     fun showVipLoyaltyMessage(): Boolean {
-        val isMidOrTopTier = Db.getUser()?.loyaltyMembershipInformation?.loyaltyMembershipTier?.isMidOrTopTier ?: false
+        val user = userStateManager.userSource.user
+        val isMidOrTopTier = user?.loyaltyMembershipInformation?.loyaltyMembershipTier?.isMidOrTopTier ?: false
         return showVipMessage() && isMidOrTopTier && loyaltyAvailable
     }
 

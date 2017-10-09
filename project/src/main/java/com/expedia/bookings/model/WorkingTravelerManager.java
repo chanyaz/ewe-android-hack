@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerCommitResponse;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
@@ -190,13 +191,15 @@ public class WorkingTravelerManager {
 							Log.i("Commit traveler succeeded:" + success);
 							if (success) {
 								if (!TextUtils.isEmpty(resp.getTuid())) {
-									if (userStateManager.isUserAuthenticated() && Db.getUser() != null) {
+									User user = userStateManager.getUserSource().getUser();
+
+									if (userStateManager.isUserAuthenticated() && user != null) {
 										//If the traveler we sent didn't have a tuid, and the response does, then we set the tuid and add it to the users travelers
 										//However currently the api doesn't currently return the tuid for new travelers 10/30/2012
 										Traveler tTrav = new Traveler();
 										tTrav.fromJson(trav.toJson());
 										tTrav.setTuid(Long.valueOf(resp.getTuid()));
-										Db.getUser().addAssociatedTraveler(tTrav);
+										user.addAssociatedTraveler(tTrav);
 									}
 								}
 								break;

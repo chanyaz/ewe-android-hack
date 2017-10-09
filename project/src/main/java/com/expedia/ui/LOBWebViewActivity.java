@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.interfaces.LOBWebViewConfigurator;
@@ -65,6 +65,7 @@ public class LOBWebViewActivity extends WebViewActivity implements UserAccountRe
 
 	@Override
 	public void onUserAccountRefreshed() {
-		userStateManager.addUserToAccountManager(Db.getUser());
+		User user = userStateManager.getUserSource().getUser();
+		userStateManager.addUserToAccountManager(user);
 	}
 }

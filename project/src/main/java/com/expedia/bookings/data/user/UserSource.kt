@@ -2,7 +2,6 @@ package com.expedia.bookings.data.user
 
 import android.content.Context
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.Db
 import com.mobiata.android.FileCipher
 import com.mobiata.android.Log
 import com.mobiata.android.util.IoUtils
@@ -17,21 +16,20 @@ open class UserSource(val context: Context,
         val SAVED_INFO_FILENAME = "user.dat"
     }
 
-    open var user: User?
+    open var user: User? = null
         get() {
-            if (Db.getUser() == null) {
+            if (field == null) {
                 try {
                     loadUser()
-                }
-                catch (e: Exception) {
+                } catch (e: Exception) {
                     return null
                 }
             }
 
-            return Db.getUser()
+            return field
         }
         set(value) {
-            Db.setUser(value)
+            field = value
             saveUser()
         }
 
@@ -68,7 +66,7 @@ open class UserSource(val context: Context,
     open fun saveUser() {
         Log.d("Saving user.")
 
-        val data = Db.getUser()?.toJson()?.toString()
+        val data = user?.toJson()?.toString()
         val pathToSave = context.getFileStreamPath(SAVED_INFO_FILENAME)
 
         if (data == null) {

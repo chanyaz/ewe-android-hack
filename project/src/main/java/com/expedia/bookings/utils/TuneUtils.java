@@ -43,6 +43,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.HotelCheckoutResponse;
@@ -992,24 +993,26 @@ public class TuneUtils {
 
 	private static String getTuid() {
 		if (userStateManager.isUserAuthenticated()) {
-			lazyLoadUser();
-			return Db.getUser().getTuidString();
+			User user = lazyLoadUser();
+			return user != null ? user.getTuidString() : null;
 		}
 		return "";
 	}
 
 	private static String getExpediaUserId() {
 		if (userStateManager.isUserAuthenticated()) {
-			lazyLoadUser();
-			return Db.getUser().getExpediaUserId();
+			User user = lazyLoadUser();
+			return user != null ? user.getExpediaUserId() : null;
 		}
 		return "";
 	}
 
-	private static void lazyLoadUser() {
-		if (Db.getUser() == null && userStateManager.isUserAuthenticated()) {
-			userStateManager.getUserSource().getUser();
+	private static User lazyLoadUser() {
+		if (userStateManager.isUserAuthenticated()) {
+			return userStateManager.getUserSource().getUser();
 		}
+
+		return null;
 	}
 
 	private static HotelSearchParams getHotelSearchParams() {

@@ -9,10 +9,11 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
 import com.squareup.phrase.Phrase;
@@ -76,8 +77,12 @@ public class AddToCalendarUtils {
 		sb.append(context.getString(R.string.calendar_flight_desc_directions_TEMPLATE,
 			"https://maps.google.com/maps?q=" + origin.mAirportCode));
 		sb.append("\n\n");
+
+		UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+		User user = userStateManager.getUserSource().getUser();
+
 		sb.append(Phrase.from(context, R.string.calendar_flight_desc_support_TEMPLATE).put("brand", BuildConfig.brand)
-			.put("phone", pointOfSale.getSupportPhoneNumberBestForUser(Db.getUser())).format());
+			.put("phone", pointOfSale.getSupportPhoneNumberBestForUser(user)).format());
 		sb.append("\n\n");
 		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());
 		return intent;

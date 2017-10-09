@@ -39,6 +39,7 @@ import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -66,6 +67,7 @@ public class PaymentWidgetFlowTest {
 	private BillingInfo storedCardBillingInfo;
 	private BillingInfo tempSavedCardBillingInfo;
 	private BillingInfo tempNotSavedCardBillingInfo;
+	private UserStateManager userStateManager;
 
 	@Before
 	public void before() {
@@ -129,6 +131,8 @@ public class PaymentWidgetFlowTest {
 		TripBucketItemHotelV2 trip = new TripBucketItemHotelV2(response);
 		Db.getTripBucket().clear(LineOfBusiness.HOTELS);
 		Db.getTripBucket().add(trip);
+
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 	}
 
 	@Test
@@ -286,7 +290,7 @@ public class PaymentWidgetFlowTest {
 		User user = new User();
 		user.addStoredCreditCard(getNewCard(PaymentType.CARD_MAESTRO));
 		user.addStoredCreditCard(getNewCard(PaymentType.CARD_VISA));
-		Db.setUser(user);
+		userStateManager.getUserSource().setUser(user);
 
 		paymentWidget.selectFirstAvailableCard();
 
@@ -322,7 +326,7 @@ public class PaymentWidgetFlowTest {
 	private void setUserWithStoredCard(PaymentWidget paymentWidget) {
 		User user = new User();
 		user.addStoredCreditCard(getNewCard(PaymentType.CARD_MAESTRO));
-		Db.setUser(user);
+		userStateManager.getUserSource().setUser(user);
 
 		paymentWidget.getViewmodel().isCreditCardRequired().onNext(true);
 		paymentWidget.getSectionBillingInfo().bind(new BillingInfo());

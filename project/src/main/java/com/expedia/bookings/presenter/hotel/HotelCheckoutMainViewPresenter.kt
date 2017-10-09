@@ -297,7 +297,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     }
 
     private fun logWebViewTestToCrashlytics(message: String) {
-        val tuidString = Db.getUser()?.tuidString ?: "n/a guest user"
+        val user = userStateManager.userSource.user
+
+        val tuidString = user?.tuidString ?: "n/a guest user"
         val webViewTest = Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppHotelsWebCheckout)
         Crashlytics.logException(Exception("$message, Point of Sale: ${PointOfSale.getPointOfSale().threeLetterCountryCode} " +
                 "Analytics Test: ${AbacusUtils.getAnalyticsString(webViewTest)}, user tuid: $tuidString"))

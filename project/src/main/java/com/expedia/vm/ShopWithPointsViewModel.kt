@@ -38,11 +38,13 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
 
     val pointsDetailStringObservable = isShopWithPointsAvailableObservable.map {
         val value: String?
+        val user = userStateManager.userSource.user
+
         if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
-            val pointsAvailable = Db.getUser()?.loyaltyMembershipInformation?.loyaltyPointsAvailable?.toInt()
+            val pointsAvailable = user?.loyaltyMembershipInformation?.loyaltyPointsAvailable?.toInt()
             value = if (pointsAvailable != null) NumberFormat.getInstance().format(pointsAvailable) else null
         } else {
-            value = Db.getUser()?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.formattedMoneyFromAmountAndCurrencyCode
+            value = user?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.formattedMoneyFromAmountAndCurrencyCode
         }
         if (value != null) Phrase.from(context.resources, R.string.swp_widget_points_value_TEMPLATE).put("points_or_amount", value).format().toString() else ""
     }

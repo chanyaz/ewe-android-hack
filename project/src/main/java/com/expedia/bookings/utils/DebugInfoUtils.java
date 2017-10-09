@@ -62,7 +62,8 @@ public class DebugInfoUtils {
 
 		body.append("\n\n");
 
-		User user = Db.getUser();
+		User user = userStateManager.getUserSource().getUser();
+
 		if (userStateManager.isUserAuthenticated() && user != null) {
 			String email = user.getPrimaryTraveler().getEmail();
 			UserLoyaltyMembershipInformation loyaltyMembershipInformation = user.getLoyaltyMembershipInformation();

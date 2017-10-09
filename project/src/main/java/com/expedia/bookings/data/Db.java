@@ -21,7 +21,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.trips.TripBucket;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.mobiata.android.Log;
@@ -74,9 +73,6 @@ public class Db {
 
 	//It will be set only if user chose 'Save' on filling in new card details. If he chose 'No Thanks', this won't be set then.
 	private BillingInfo temporarilySavedCard ;
-
-	// The currently logged in User profile
-	private User mUser;
 
 	// Stores routes for AirAsia POSes
 	private FlightRoutes mFlightRoutes;
@@ -284,14 +280,6 @@ public class Db {
 		return sDb.mBillingInfo != null;
 	}
 
-	public static void setUser(User user) {
-		sDb.mUser = user;
-	}
-
-	public static User getUser() {
-		return sDb.mUser;
-	}
-
 	public static void setFlightRoutes(FlightRoutes routes) {
 		sDb.mFlightRoutes = routes;
 	}
@@ -381,7 +369,6 @@ public class Db {
 		getHotelSearch().resetSearchData();
 		getHotelSearch().resetSearchParams();
 
-		sDb.mUser = null;
 		sDb.mLaunchListHotelData = null;
 		sDb.mFlightRoutes = null;
 

@@ -250,7 +250,9 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     private fun initLoggedInState(userLoggedIn: Boolean) {
-        loginWidget.bind(false, userLoggedIn, Db.getUser(), LineOfBusiness.RAILS)
+        val user = userStateManager.userSource.user
+
+        loginWidget.bind(false, userLoggedIn, user, LineOfBusiness.RAILS)
         hintContainer.setVisibility(!userLoggedIn)
         travelersViewModel.refresh()
         updateSlideToPurchase()

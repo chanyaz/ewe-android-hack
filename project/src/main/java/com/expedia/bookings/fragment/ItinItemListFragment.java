@@ -33,7 +33,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -421,7 +420,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	private void updateLoginState() {
-		if (userStateManager.isUserAuthenticated() && Db.getUser() != null) {
+		User user = userStateManager.getUserSource().getUser();
+
+		if (userStateManager.isUserAuthenticated() && user != null) {
 			setState(MessageState.NO_UPCOMING_TRIPS);
 		}
 		else {

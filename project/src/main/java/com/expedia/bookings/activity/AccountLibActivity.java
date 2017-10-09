@@ -20,6 +20,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -194,7 +195,8 @@ public class AccountLibActivity extends AppCompatActivity
 	// TODO - talk to Mohit (as he is the tracking dude) about this. Doesn't seem right
 	@Override
 	public void onUserAccountRefreshed() {
-		userStateManager.addUserToAccountManager(Db.getUser());
+		User user = userStateManager.getUserSource().getUser();
+		userStateManager.addUserToAccountManager(user);
 
 		if (userStateManager.isUserAuthenticated()) {
 			if (userLoggedInWithFacebook) {

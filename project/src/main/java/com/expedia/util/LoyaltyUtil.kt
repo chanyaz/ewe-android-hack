@@ -13,8 +13,10 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 class LoyaltyUtil {
     companion object {
         fun isShopWithPointsAvailable(userStateManager: UserStateManager): Boolean {
+            val user = userStateManager.userSource.user
+
             return userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().isSWPEnabledForHotels
-                    && Db.getUser()?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false
+                    && user?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false
         }
 
         fun shouldShowEarnMessage(earnMessage: String, isPackage: Boolean): Boolean {

@@ -101,7 +101,7 @@ open class ItinSignInViewModel(val context: Context) {
             } else {
                 setState(MessageState.FAILURE)
             }
-        } else if (userStateManager.isUserAuthenticated() && Db.getUser() != null) {
+        } else if (userStateManager.isUserAuthenticated() && userStateManager.userSource.user != null) {
             setState(MessageState.NO_UPCOMING_TRIPS)
         } else {
             setState(MessageState.NOT_LOGGED_IN)

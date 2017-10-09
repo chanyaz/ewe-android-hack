@@ -299,7 +299,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun initLoggedInState(isUserLoggedIn: Boolean) {
-        loginWidget.bind(false, isUserLoggedIn, Db.getUser(), getLineOfBusiness())
+        val user = userStateManager.userSource.user
+
+        loginWidget.bind(false, isUserLoggedIn, user, getLineOfBusiness())
         hintContainer.visibility = if (isUserLoggedIn) View.GONE else View.VISIBLE
         travelersPresenter.onLogin(isUserLoggedIn)
         paymentWidget.viewmodel.userLogin.onNext(isUserLoggedIn)
@@ -373,7 +375,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     open inner class DefaultCheckoutTransition : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
             val isLoggedIn = userStateManager.isUserAuthenticated()
-            loginWidget.bind(false, isLoggedIn, Db.getUser(), getLineOfBusiness())
+            val user = userStateManager.userSource.user
+
+            loginWidget.bind(false, isLoggedIn, user, getLineOfBusiness())
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             paymentWidget.viewmodel.selectCorrectCardObservable.onNext(isLoggedIn)
             updateTravelerPresenter()

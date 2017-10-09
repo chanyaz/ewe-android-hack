@@ -853,13 +853,25 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair(prefix + "specialAssistanceOption", assistanceOption));
 		query.add(new BasicNameValuePair(prefix + "seatPreference", traveler.getSafeSeatPreference().name()));
 
+		String phoneCountryCode = null;
+		String phoneNumberString = null;
+		String travelerEmail = null;
+
+		if (userStateManager.getUserSource().getUser() != null) {
+			Traveler primaryTraveler = userStateManager.getUserSource().getUser().getPrimaryTraveler();
+
+			phoneCountryCode = primaryTraveler.getPhoneCountryCode();
+			phoneNumberString = primaryTraveler.getPhoneNumber();
+			travelerEmail = primaryTraveler.getEmail();
+		}
+
 		String travelerPhoneCountryCode = !TextUtils.isEmpty(traveler.getPhoneCountryCode()) ?
-			traveler.getPhoneCountryCode() : Db.getUser().getPrimaryTraveler().getPhoneCountryCode();
+			traveler.getPhoneCountryCode() : phoneCountryCode;
 
 		query.add(new BasicNameValuePair(prefix + "phoneCountryCode", travelerPhoneCountryCode));
 
 		String travelerPhoneNumber = !TextUtils.isEmpty(traveler.getOrCreatePrimaryPhoneNumber().getNumber()) ?
-			traveler.getPrimaryPhoneNumber().getNumber() : Db.getUser().getPrimaryTraveler().getPhoneNumber();
+			traveler.getPrimaryPhoneNumber().getNumber() : phoneNumberString;
 
 		query.add(new BasicNameValuePair(prefix + "phone", travelerPhoneNumber));
 
@@ -869,7 +881,7 @@ public class ExpediaServices implements DownloadListener {
 			email = Db.getBillingInfo().getEmail();
 		}
 		if (TextUtils.isEmpty(email)) {
-			email = Db.getUser().getPrimaryTraveler().getEmail();
+			email = travelerEmail;
 		}
 
 		query.add(new BasicNameValuePair(prefix + "email", email));

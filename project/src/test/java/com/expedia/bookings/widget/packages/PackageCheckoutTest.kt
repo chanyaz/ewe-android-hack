@@ -23,6 +23,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.enums.TwoScreenOverviewState
@@ -75,6 +76,7 @@ class PackageCheckoutTest {
         @Rule get
 
     lateinit var travelerValidator: TravelerValidator
+    lateinit var userStateManager: UserStateManager
 
     private var checkout: PackageCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
@@ -90,6 +92,8 @@ class PackageCheckoutTest {
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
         overview = activity.findViewById<View>(R.id.package_overview_presenter) as PackageOverviewPresenter
+
+        userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
 
         setUpCheckout()
     }
@@ -217,7 +221,7 @@ class PackageCheckoutTest {
         testUser.addStoredCreditCard(testCard1)
         testUser.addStoredCreditCard(testCard2)
         testUser.primaryTraveler = enterTraveler(Traveler())
-        Db.setUser(testUser)
+        userStateManager.userSource.user = testUser
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
 
         checkout.onLoginSuccess()
@@ -241,7 +245,7 @@ class PackageCheckoutTest {
         testUser.addStoredCreditCard(testSecondInvalidCard)
         testUser.addStoredCreditCard(testThirdInvalidCard)
         testUser.primaryTraveler = enterTraveler(Traveler())
-        Db.setUser(testUser)
+        userStateManager.userSource.user = testUser
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
 
         checkout.onLoginSuccess()
@@ -269,7 +273,7 @@ class PackageCheckoutTest {
 
         val testUser = User()
         testUser.primaryTraveler = enterTraveler(Traveler())
-        Db.setUser(testUser)
+        userStateManager.userSource.user = testUser
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
         checkout.onLoginSuccess()
 
@@ -518,7 +522,7 @@ class PackageCheckoutTest {
     private fun givenCompletedTravelerEntryWidget(numOfTravelers: Int = 1) {
         val testUser = User()
         testUser.primaryTraveler = enterTraveler(Traveler())
-        Db.setUser(testUser)
+        userStateManager.userSource.user = testUser
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
         val mockTravelerProvider = MockTravelerProvider()
         mockTravelerProvider.updateDBWithMockTravelers(numOfTravelers, testUser.primaryTraveler)

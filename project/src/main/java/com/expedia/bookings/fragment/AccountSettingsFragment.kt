@@ -454,12 +454,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             // commitAllowingStateLoss is okay because we call this function again in onResume anyway
             childFragmentManager.beginTransaction().hide(appSettingsFragment).commitAllowingStateLoss()
 
-            val user = Db.getUser()
-            val member = user.primaryTraveler
+            val user = userStateManager.userSource.user
+            val member = user?.primaryTraveler
 
-            memberNameView.text = member.fullName
-            memberEmailView.text = member.email
-            val userLoyaltyInfo = user.loyaltyMembershipInformation
+            memberNameView.text = member?.fullName
+            memberEmailView.text = member?.email
+            val userLoyaltyInfo = user?.loyaltyMembershipInformation
             loyaltySection.visibility = View.VISIBLE
             if (userLoyaltyInfo?.isLoyaltyMembershipActive ?: false) {
                 firstRowContainer.visibility = View.VISIBLE

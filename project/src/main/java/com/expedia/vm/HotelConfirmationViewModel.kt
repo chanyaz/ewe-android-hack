@@ -319,7 +319,8 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     fun getCallSupportBtnObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                val phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser())
+                val user = userStateManager.userSource.user
+                val phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(user)
                 SocialUtils.call(context, phoneNumber)
                 HotelTracking.trackHotelCallCustomerSupport()
             }

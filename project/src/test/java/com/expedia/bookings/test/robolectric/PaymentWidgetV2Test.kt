@@ -391,7 +391,9 @@ class PaymentWidgetV2Test {
     private fun setUserWithStoredCard() {
         val user = User()
         user.addStoredCreditCard(getNewCard())
-        Db.setUser(user)
+
+        val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
+        userStateManager.userSource.user = user
 
         sut.viewmodel.isCreditCardRequired.onNext(true)
         sut.sectionBillingInfo.bind(BillingInfo())

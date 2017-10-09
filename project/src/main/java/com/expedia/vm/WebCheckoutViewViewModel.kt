@@ -23,7 +23,9 @@ abstract class WebCheckoutViewViewModel(context: Context) : WebViewViewModel(), 
     abstract fun doCreateTrip()
 
     override fun onUserAccountRefreshed() {
-        userStateManager.addUserToAccountManager(Db.getUser())
+        val user = userStateManager.userSource.user
+        userStateManager.addUserToAccountManager(user)
+
         val bookTripId = bookedTripIDObservable.value
         if (Strings.isNotEmpty(bookTripId)) {
             fetchItinObservable.onNext(bookTripId)

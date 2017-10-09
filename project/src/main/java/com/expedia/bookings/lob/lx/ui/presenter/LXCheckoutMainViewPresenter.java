@@ -146,12 +146,16 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	public void onBook(String cvv) {
 		final boolean suppressFinalBooking = BookingSuppressionUtils
 			.shouldSuppressFinalBooking(getContext(), R.string.preference_suppress_lx_bookings);
+		String email = null;
+
+		if (userStateManager.getUserSource().getUser() != null) {
+			email = userStateManager.getUserSource().getUser().getPrimaryTraveler().getEmail();
+		}
 
 		LXCheckoutParams checkoutParams = new LXCheckoutParams()
 			.firstName(mainContactInfoCardView.firstName.getText().toString())
 			.lastName(mainContactInfoCardView.lastName.getText().toString())
-			.email(userStateManager.isUserAuthenticated() ? Db.getUser().getPrimaryTraveler().getEmail()
-				: mainContactInfoCardView.emailAddress.getText().toString())
+			.email(userStateManager.isUserAuthenticated() ? email : mainContactInfoCardView.emailAddress.getText().toString())
 			.expectedTotalFare(lxState.latestTotalPrice().getAmount().setScale(2).toString())
 			.phoneCountryCode(
 				Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))

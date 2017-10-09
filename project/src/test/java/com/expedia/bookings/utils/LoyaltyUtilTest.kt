@@ -1,19 +1,17 @@
 package com.expedia.bookings.utils
 
+import android.content.Context
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.data.user.UserStateManager
-import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.util.LoyaltyUtil
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -22,14 +20,8 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class LoyaltyUtilTest {
-    val context = RuntimeEnvironment.application
+    val context: Context = RuntimeEnvironment.application
     private lateinit var userStateManager: UserStateManager
-    private lateinit var notificationManager: NotificationManager
-
-    @Before
-    fun setup() {
-        notificationManager = NotificationManager(context)
-    }
 
     @Test
     fun testSWPDisabledNotSignedIn() {
@@ -68,7 +60,7 @@ class LoyaltyUtilTest {
     }
 
     private fun givenUserIsNotSignedIn() {
-        userStateManager = UserStateManager(context, UserLoginStateChangedModel(), notificationManager)
+        userStateManager = UserLoginTestUtil.getUserStateManager()
     }
 
     private fun givenUserIsSignedInAndAllowedToSWP() {
@@ -83,8 +75,9 @@ class LoyaltyUtilTest {
         val loyaltyInfo = UserLoyaltyMembershipInformation()
         loyaltyInfo.isAllowedToShopWithPoints = allowShopWithPoints
         val user = UserLoginTestUtil.mockUser()
-        user.setLoyaltyMembershipInformation(loyaltyInfo)
-        UserLoginTestUtil.setupUserAndMockLogin(user)
-        userStateManager = UserStateManager(context, UserLoginStateChangedModel(), notificationManager)
+        user.loyaltyMembershipInformation = loyaltyInfo
+
+        userStateManager = UserLoginTestUtil.getUserStateManager()
+        UserLoginTestUtil.setupUserAndMockLogin(user, userStateManager)
     }
 }

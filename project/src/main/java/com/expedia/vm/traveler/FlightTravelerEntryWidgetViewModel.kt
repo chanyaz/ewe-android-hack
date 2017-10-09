@@ -71,7 +71,7 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
     override fun updateTraveler(traveler: Traveler) {
         Db.getTravelers()[travelerIndex] = traveler
         if (userStateManager.isUserAuthenticated()) {
-            traveler.email = Db.getUser().primaryTraveler.email
+            traveler.email = userStateManager.userSource.user?.primaryTraveler?.email
         }
         super.updateTraveler(traveler)
         tsaViewModel.updateTraveler(traveler)

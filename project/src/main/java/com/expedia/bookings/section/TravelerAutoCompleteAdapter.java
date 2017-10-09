@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TravelerIconUtils;
@@ -192,9 +193,11 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	}
 
 	protected ArrayList<Traveler> getAvailableTravelers() {
-		if (isUserLoggedIn() && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
-			ArrayList<Traveler> availableTravelers = new ArrayList<>(Db.getUser().getAssociatedTravelers());
-			availableTravelers.add(Db.getUser().getPrimaryTraveler());
+		User user = userStateManager.getUserSource().getUser();
+
+		if (isUserLoggedIn() && user != null && user.getAssociatedTravelers() != null) {
+			ArrayList<Traveler> availableTravelers = new ArrayList<>(user.getAssociatedTravelers());
+			availableTravelers.add(user.getPrimaryTraveler());
 			for (int i = availableTravelers.size() - 1; i >= 0; i--) {
 				Traveler trav = availableTravelers.get(i);
 				trav.setIsSelectable(true);

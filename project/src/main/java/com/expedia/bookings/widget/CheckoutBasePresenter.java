@@ -28,7 +28,9 @@ import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -42,6 +44,9 @@ import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -786,7 +791,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	public void onLoginSuccessful() {
 		showProgress(true);
-		loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
+
+		User user = userStateManager.getUserSource().getUser();
+
+		loginWidget.bind(false, true, user, getLineOfBusiness());
 		mainContactInfoCardView.onLogin();
 		paymentInfoCardView.getViewmodel().getUserLogin().onNext(true);
 		hintContainer.setVisibility(GONE);
@@ -877,17 +885,24 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	protected void updateLoginWidget() {
 		loginWidget.bind(false, userStateManager.isUserAuthenticated(),
-			userStateManager.isUserAuthenticated() ? Db.getUser() : null, getLineOfBusiness());
+			userStateManager.isUserAuthenticated() ? userStateManager.getUserSource().getUser() : null, getLineOfBusiness());
 	}
 
 	protected void selectFirstAvailableCardIfOnlyOneAvailable() {
 		if (userStateManager.isUserAuthenticated()) {
+			User user = userStateManager.getUserSource().getUser();
+			List<StoredCreditCard> storedCreditCards = new ArrayList<>();
+
+			if (user != null) {
+				storedCreditCards = user.getStoredCreditCards();
+			}
+
 			if (paymentInfoCardView.getSectionBillingInfo().getBillingInfo() != null && !paymentInfoCardView
 				.getSectionBillingInfo().getBillingInfo().isCreditCardDataEnteredManually()
-				&& Db.getUser().getStoredCreditCards().size() == 1 && Db.getTemporarilySavedCard() == null) {
+				&& storedCreditCards.size() == 1 && Db.getTemporarilySavedCard() == null) {
 				paymentInfoCardView.selectFirstAvailableCard();
 			}
-			else if (Db.getUser().getStoredCreditCards().size() == 0 && Db.getTemporarilySavedCard() != null) {
+			else if (storedCreditCards.size() == 0 && Db.getTemporarilySavedCard() != null) {
 				paymentInfoCardView.getStoredCreditCardListener().onTemporarySavedCreditCardChosen(
 					Db.getTemporarilySavedCard());
 			}

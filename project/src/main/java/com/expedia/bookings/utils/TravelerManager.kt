@@ -41,7 +41,9 @@ class TravelerManager(private val userStateManager: UserStateManager) {
         travelers.clear()
         // Rail only collects Primary Traveler so don't worry about the details of the others.
         if (userStateManager.isUserAuthenticated()) {
-            travelers.add(Db.getUser().primaryTraveler)
+            val user = userStateManager.userSource.user
+
+            travelers.add(user?.primaryTraveler)
         } else {
             travelers.add(Traveler())
         }
@@ -64,8 +66,9 @@ class TravelerManager(private val userStateManager: UserStateManager) {
 
     fun onSignIn() {
         if (userStateManager.isUserAuthenticated() && Db.getTravelers().isNotEmpty()) {
-            val primaryTraveler = Db.getUser().primaryTraveler
-            primaryTraveler.passengerCategory = Db.getTravelers()[0].passengerCategory
+            val user = userStateManager.userSource.user
+            val primaryTraveler = user?.primaryTraveler
+            primaryTraveler?.passengerCategory = Db.getTravelers()[0].passengerCategory
             Db.getTravelers()[0] = primaryTraveler
         }
     }

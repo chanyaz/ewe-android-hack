@@ -126,9 +126,6 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
 
     fun getCurrentUserLoyaltyTier(): LoyaltyMembershipTier {
         if (isUserAuthenticated()) {
-            if (userSource.user == null) {
-                userSource.loadUser()
-            }
             return userSource.user?.loyaltyMembershipInformation?.loyaltyMembershipTier ?: LoyaltyMembershipTier.NONE
         }
 

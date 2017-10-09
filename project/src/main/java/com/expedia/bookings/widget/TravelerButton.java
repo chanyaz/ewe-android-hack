@@ -222,6 +222,6 @@ public class TravelerButton extends LinearLayout {
 
 	private void deselectCurrentTraveler() {
 		Traveler previousTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-		TravelerUtils.resetPreviousTravelerSelectState(previousTraveler);
+		TravelerUtils.resetPreviousTravelerSelectState(previousTraveler, getContext());
 	}
 }

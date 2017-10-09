@@ -18,7 +18,6 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AboutWebViewActivity
 import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
@@ -46,6 +45,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
@@ -274,7 +274,11 @@ class AccountSettingsFragmentTest {
 
         clickViewWithTextInSection("Booking Support", R.id.section_contact_us)
         clickPhoneSupportButton()
-        assertIntentFiredToDialPhone(PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()))
+
+        val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
+        val user = userStateManager.userSource.user
+
+        assertIntentFiredToDialPhone(PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(user))
     }
 
     private fun givenFragmentSetup() {

@@ -1,11 +1,13 @@
 package com.expedia.bookings.utils;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
-
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 
 public class TravelerUtils {
@@ -16,18 +18,21 @@ public class TravelerUtils {
 	 *
 	 * @param traveler
 	 */
-	public static void resetPreviousTravelerSelectState(Traveler traveler) {
-		ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(Db.getUser().getAssociatedTravelers());
-		availableTravelers.add(Db.getUser().getPrimaryTraveler());
+	public static void resetPreviousTravelerSelectState(Traveler traveler, Context context) {
+		UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+		User user = userStateManager.getUserSource().getUser();
+
+		ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(user.getAssociatedTravelers());
+		availableTravelers.add(user.getPrimaryTraveler());
 		// Check if the traveler is the primary traveler
-		if (traveler.nameEquals(Db.getUser().getPrimaryTraveler())) {
-			Db.getUser().getPrimaryTraveler().setIsSelectable(true);
+		if (traveler.nameEquals(user.getPrimaryTraveler())) {
+			user.getPrimaryTraveler().setIsSelectable(true);
 			return;
 		}
 		// Check to find the desired traveler and reset his selectable state
 		for (int i = 0; i < availableTravelers.size(); i++) {
 			if (traveler.nameEquals(availableTravelers.get(i))) {
-				Db.getUser().getAssociatedTravelers().get(i).setIsSelectable(true);
+				user.getAssociatedTravelers().get(i).setIsSelectable(true);
 			}
 		}
 	}

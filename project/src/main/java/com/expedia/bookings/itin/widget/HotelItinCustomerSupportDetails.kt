@@ -9,11 +9,11 @@ import android.widget.Toast
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.mobiata.android.SocialUtils
@@ -39,7 +39,10 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
             Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
         }
 
-        val supportNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser())
+        val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+        val user = userStateManager.userSource.user
+
+        val supportNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(user)
         callSupportActionButton.text = supportNumber
         callSupportActionButton.contentDescription = Phrase.from(context, R.string.itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE).put("phonenumber", supportNumber).put("brand", BuildConfig.brand).format().toString()
         callSupportActionButton.setOnClickListener {

@@ -1,26 +1,21 @@
 package com.expedia.bookings.data.user
 
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.mobiata.android.FileCipher
 import com.mobiata.android.util.IoUtils
 import org.json.JSONException
 import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import java.io.File
 import java.io.FileNotFoundException
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlin.test.fail
 
 @RunWith(RobolectricRunner::class)
 class UserSourceTests {
@@ -39,11 +34,6 @@ class UserSourceTests {
     @Rule
     val expectedException: ExpectedException = ExpectedException.none()
 
-    @Before
-    fun setup() {
-        Db.setUser(null)
-    }
-
     @After
     fun tearDown() {
         RuntimeEnvironment.application.getFileStreamPath("user.dat").delete()
@@ -51,20 +41,7 @@ class UserSourceTests {
 
     @Test
     fun testGetUserReturnsNullWhenNoUser() {
-        assertNull(Db.getUser())
         assertNull(UserSource(RuntimeEnvironment.application).user)
-    }
-
-    @Test
-    fun testSetUserPopulatesDBUser() {
-        val userSource = UserSource(RuntimeEnvironment.application)
-
-        assertNull(Db.getUser())
-        assertNull(userSource.user)
-
-        userSource.user = testUser
-
-        assertNotNull(Db.getUser())
     }
 
     @Test
@@ -74,9 +51,7 @@ class UserSourceTests {
 
         createEmptyUserDataFile()
 
-        assertNull(Db.getUser())
         assertNotNull(userSource.user)
-        assertNotNull(Db.getUser())
     }
 
     @Test
@@ -104,7 +79,7 @@ class UserSourceTests {
 
     @Test
     fun testLoadUserThrowsExceptionWhenUnableToDecryptUserDataFile() {
-        val testFileCipher = TestFileCipher(null)
+        val testFileCipher = TestFileCipher(null, "")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
         createEmptyUserDataFile()
@@ -117,7 +92,7 @@ class UserSourceTests {
 
     @Test
     fun testLoadUserThrowsExceptionWhenDecryptedFileIsNullOrEmpty() {
-        val testFileCipher = TestFileCipher("whatever")
+        val testFileCipher = TestFileCipher("whatever", "")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
         createEmptyUserDataFile()
@@ -147,17 +122,14 @@ class UserSourceTests {
 
         createEmptyUserDataFile()
 
-        assertNull(Db.getUser())
-
         userSource.loadUser()
 
-        assertNotNull(Db.getUser())
         assertNotNull(userSource.user)
     }
 
     @Test
     fun testSaveUserPersistsUserToDisk() {
-        val testFileCipher = TestFileCipher("whatever", null)
+        val testFileCipher = TestFileCipher("whatever")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
         userSource.user = testUser
@@ -167,7 +139,7 @@ class UserSourceTests {
 
     @Test
     fun testSaveUserWithNullUserDoesNothingIfNoUserExists() {
-        val testFileCipher = TestFileCipher("whatever")
+        val testFileCipher = TestFileCipher("whatever", "")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
         userSource.user = null
@@ -177,7 +149,7 @@ class UserSourceTests {
 
     @Test
     fun testSaveUserWithNullUserDeletesSaveFile() {
-        val testFileCipher = TestFileCipher("whatever")
+        val testFileCipher = TestFileCipher("whatever", "")
         val userSource = UserSource(RuntimeEnvironment.application, testFileCipher)
 
         userSource.user = testUser
@@ -191,20 +163,5 @@ class UserSourceTests {
 
     private fun createEmptyUserDataFile() {
         IoUtils.writeStringToFile("user.dat", "", RuntimeEnvironment.application)
-    }
-
-    private class TestFileCipher(val password: String?, val results: String? = "") : FileCipher(password) {
-        override fun isInitialized(): Boolean = !password.isNullOrEmpty()
-        override fun loadSecureData(file: File?): String {
-            if (results != null) {
-                return results
-            }
-
-            try {
-                return IoUtils.readStringFromFile("user.dat", RuntimeEnvironment.application)
-            } catch (e: Exception) {
-                fail(e.message)
-            }
-        }
     }
 }

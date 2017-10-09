@@ -33,7 +33,6 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.IMedia;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
@@ -44,6 +43,7 @@ import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
@@ -354,7 +354,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
+					User user = userStateManager.getUserSource().getUser();
+					SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(user));
 				}
 			});
 	}
