@@ -68,11 +68,12 @@ class HotelDetailsActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         subscriptions.clear()
+        presenter.hotelDetailView.contentView.clearSubscriptions()
         hotelDetailViewModel.clearSubscriptions()
         super.onDestroy()
     }
     /*
-            val detailsStub = presenter.hotelMapView.findViewById<FrameLayout>(R.id.stub_map)
+        val detailsStub = presenter.hotelMapView.findViewById<FrameLayout>(R.id.stub_map)
         detailsMapView.visibility = View.VISIBLE
         removeView(detailsMapView)
         detailsStub.addView(detailsMapView)
@@ -170,6 +171,8 @@ class HotelDetailsActivity : AppCompatActivity() {
             presenter.showDefault()
             // change dates just update the views.  todo this is terrible fix eventually
             hotelDetailViewModel.addViewsAfterTransition()
+            presenter.animationStart()
+            presenter.animationUpdate(0f, true)
             presenter.animationFinalize()
             presenter.hotelMapView.viewmodel.offersObserver.onNext(response)
         })

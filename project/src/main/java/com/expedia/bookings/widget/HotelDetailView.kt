@@ -49,7 +49,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     val galleryView: HotelDetailGalleryView by bindView(R.id.detail_hotel_gallery)
 
-    private val contentView: HotelDetailContentView by bindView(R.id.hotel_detail_content_view)
+    val contentView: HotelDetailContentView by bindView(R.id.hotel_detail_content_view)
 
     val bottomButtonWidget: HotelBottomButtonWidget by bindView(R.id.bottom_button_widget)
     private val gradientHeight = context.resources.getDimension(R.dimen.hotel_detail_gradient_height)

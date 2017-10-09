@@ -67,8 +67,12 @@ import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.HotelRoomHeaderViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
+import org.joda.time.LocalDate
 import rx.Observable
+import rx.functions.Action1
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
+import java.lang.ref.WeakReference
 import java.util.ArrayList
 
 class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
@@ -144,6 +148,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
     private val ANIMATION_DURATION = 200L
+
+    private var subscriptions = CompositeSubscription()
 
     init {
         View.inflate(context, R.layout.hotel_detail_content_view, this)
@@ -317,11 +323,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
 
-//        if (vm.isChangeDatesEnabled()) {
-//            searchInfo.setOnClickListener {
-//                showDialog()
-//            }
-//        }
+        if (vm.isChangeDatesEnabled()) {
+            searchInfo.setOnClickListener(ChangeDateListener(WeakReference(this)))
+        }
     }
 
     fun resetViews() {
@@ -420,16 +424,32 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         }, 400L)
     }
 
-//    private fun showDialog() {
-//        val dialogFragment = ChangeDatesDialogFragment()
-//        dialogFragment.datesChangedSubject.subscribe { dates ->
-//            (viewModel as? HotelDetailViewModel)?.changeDates(dates.first, dates.second)
-//        }
-//        val fragmentManager = (context as FragmentActivity).supportFragmentManager
-//
-//        dialogFragment.presetDates(viewModel.checkInDate, viewModel.checkOutDate)
-//        dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
-//    }
+    fun clearSubscriptions() {
+        subscriptions.clear()
+    }
+
+    class ChangeDateListener(val contentViewRef: WeakReference<HotelDetailContentView>) : View.OnClickListener {
+        override fun onClick(p0: View?) {
+            contentViewRef.get()?.let { it.showDialog() }
+        }
+    }
+
+    private fun showDialog() {
+        val dialogFragment = ChangeDatesDialogFragment()
+        val changeDateAction = ChangeDates(WeakReference(viewModel as HotelDetailViewModel))
+        subscriptions.add(dialogFragment.datesChangedSubject.subscribe(changeDateAction))
+        val fragmentManager = (context as FragmentActivity).supportFragmentManager
+
+        dialogFragment.presetDates(viewModel.checkInDate, viewModel.checkOutDate)
+        dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
+    }
+
+    private class ChangeDates(val weakViewModel: WeakReference<HotelDetailViewModel>) : Action1<Pair<LocalDate, LocalDate>> {
+        override fun call(t: Pair<LocalDate, LocalDate>) {
+            weakViewModel.get()?.let { viewModel -> viewModel.changeDates(t.first, t.second) }
+        }
+
+    }
 
     private fun areRoomsOffScreenAboveETPToolbar(toolbarOffset: Float): Boolean {
         roomContainer.getLocationOnScreen(roomContainerPosition)

@@ -1,6 +1,7 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
+import android.util.Log
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -61,12 +62,15 @@ open class HotelDetailViewModel(context: Context,
         this.hotelId = hotelId
         paramsSubject.onNext(params)
 
+
         fetchInProgressSubject.onNext(Unit)
 
         noInternetSubscription = hotelInfoManager.noInternetSubject.subscribe {
             handleNoInternet(retryFun = { fetchOffers(params, hotelId) })
         }
 
+        Log.v("EXP_MEM_ISSUE", "MEMORY ISSUE STARTS HERE")
+//
         subscriptions.add(hotelInfoManager.soldOutSubject.subscribe {
             noInternetSubscription?.unsubscribe()
             noInternetSubscription = hotelInfoManager.noInternetSubject.subscribe {
@@ -74,22 +78,26 @@ open class HotelDetailViewModel(context: Context,
             }
             hotelInfoManager.fetchInfo(params, hotelId)
         })
+        Log.v("EXP_MEM_ISSUE", "MEMORY ISSUE ENDS HERE")
+
+
         hotelInfoManager.fetchOffers(params, hotelId)
     }
 
     fun changeDates(newStartDate: LocalDate, newEndDate: LocalDate) {
-//        cachedParams?.let {
-//            val rules = HotelCalendarRules(context)
-//            val builder = HotelSearchParams.Builder(rules.getMaxDateRange(), rules.getMaxSearchDurationDays())
-//            builder.from(cachedParams!!).startDate(newStartDate).endDate(newEndDate)
-//            val params = builder.build()
-//
-//            fetchOffers(params, hotelId)
-//        }
+        cachedParams?.let {
+            val rules = HotelCalendarRules(context)
+            val builder = HotelSearchParams.Builder(rules.getMaxDateRange(), rules.getMaxSearchDurationDays())
+            builder.from(cachedParams!!).startDate(newStartDate).endDate(newEndDate)
+            val params = builder.build()
+
+            fetchOffers(params, hotelId)
+        }
     }
 
     fun clearSubscriptions() {
         subscriptions.clear()
+        noInternetSubscription?.unsubscribe()
         hotelInfoManager.clearSubscriptions()
     }
 
