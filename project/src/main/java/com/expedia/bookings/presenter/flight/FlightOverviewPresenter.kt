@@ -292,7 +292,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             if (tripResponse.isFareFamilyUpgraded || tripResponse.createTripStatus == FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE) {
                 trackShowBundleOverview()
             }
-            flightSummary.viewmodel.tripResponse.onNext(tripResponse)
+            if (!tripResponse.hasPriceChange() && tripResponse.details.legs != null) {
+                flightSummary.viewmodel.tripResponse.onNext(tripResponse)
+            }
         }
         viewModel.showBasicEconomyMessageObservable.onNext(shouldShowBasicEconomyMessage(tripResponse))
         basicEconomyInfoWebView.loadData(tripResponse.details.basicEconomyFareRules)
