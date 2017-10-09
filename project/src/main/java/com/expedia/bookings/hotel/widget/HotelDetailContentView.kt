@@ -717,7 +717,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     }
 
     private fun setHotelDescriptionContainerA11y() {
-        if (readMoreView.visibility == View.VISIBLE && !isHotelDescriptionExpanded) {
+        if (hotelDescription.layout != null && readMoreView.visibility == View.VISIBLE && !isHotelDescriptionExpanded) {
             val start = hotelDescription.layout.getLineStart(0)
             val end = hotelDescription.layout.getLineEnd(HOTEL_DESC_COLLAPSE_LINES - 1)
 
