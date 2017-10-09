@@ -19,6 +19,7 @@ abstract class BaseTravelerPickerViewModel(var context: Context) {
     val guestsTextObservable = BehaviorSubject.create<CharSequence>()
     val isInfantInLapObservable = BehaviorSubject.create<Boolean>(false)
     val infantInSeatObservable = PublishSubject.create<Boolean>()
+    val isTravelerSelectionChanged = PublishSubject.create<Boolean>()
     var showSeatingPreference = false
     var lob = LineOfBusiness.HOTELS
         set(value) {

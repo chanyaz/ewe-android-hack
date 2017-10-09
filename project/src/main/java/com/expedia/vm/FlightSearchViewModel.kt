@@ -29,6 +29,7 @@ import com.expedia.vm.flights.AdvanceSearchFilter
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observable
+import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
@@ -54,6 +55,13 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val swapToFromFieldsObservable = PublishSubject.create<Unit>()
     val showDaywithDate = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
+    val isFlightGreedyCallSearchEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_flight_greedy_call)
+    val greedySearchParamsObservable = PublishSubject.create<FlightSearchParams>()
+    val abortGreedyCallObservable = PublishSubject.create<Boolean>()
+    val cancelGreedyCallObservable = PublishSubject.create<Unit>()
+    protected var flightGreedySearchSubscription: Subscription? = null
+    //val greedyCachedSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
+    var isGreedyCallAborted = false
     val searchTravelerParamsObservable = PublishSubject.create<com.expedia.bookings.data.FlightSearchParams>()
 
     private val oneWayRules = FlightCalendarRules(context, false)
@@ -83,6 +91,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 FlightsV2Tracking.trackAdvanceSearchFilterClick("Refundable", it.isChecked)
             }
         }
+        abortGreedyCallObservable.onNext(true)
     }
 
     override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
@@ -124,6 +133,19 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             flightParamsBuilder.setFeatureOverride(Constants.FEATURE_SUBPUB)
         }
 
+        if (isFlightGreedyCallSearchEnabled) {
+            flightGreedySearchSubscription =  Observable.combineLatest(formattedOriginObservable, formattedDestinationObservable, dateSetObservable, { flyFrom, flyTo, date ->
+                object {
+                    val flyingFrom = flyFrom
+                    val flyingTo = flyTo
+                    val travelDate = date
+                }
+            }).subscribe {
+                flightGreedySearchSubscription?.unsubscribe()
+                performGreedyCallSearchObserver.onNext(Unit)
+            }
+        }
+
         isReadyForInteractionTracking.subscribe {
             Observable.merge(formattedOriginObservable, formattedDestinationObservable, dateSetObservable).take(1).subscribe {
                 OmnitureTracking.trackFlightSearchFormInteracted()
@@ -146,6 +168,11 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             destinationLocationObserver.onNext(it.source)
             FlightsV2Tracking.trackFlightLocationSwapViewClick()
         }
+        abortGreedyCallObservable.filter { it }
+                .subscribe {
+                    flightGreedySearchSubscription?.unsubscribe()
+                    cancelGreedyCallObservable.onNext(Unit)
+                }
     }
 
     val performSearchObserver = endlessObserver<Unit> {
@@ -174,6 +201,23 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             } else {
                 concurrentSearchFormValidation()
             }
+        }
+    }
+
+    val performGreedyCallSearchObserver = endlessObserver<Unit> {
+        val maxStay = getCalendarRules().getMaxSearchDurationDays()
+        getParamsBuilder().maxStay = maxStay
+        if (getParamsBuilder().areRequiredParamsFilled() && !getParamsBuilder().isOriginSameAsDestination()) {
+            val flightSearchParams = getParamsBuilder().build()
+            greedySearchParamsObservable.onNext(flightSearchParams)
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache)
+                    && !flightSearchParams.hasAdvanceSearchOption() && flightSearchParams.flightCabinClass.equals(FlightServiceClassType.CabinCode.COACH.name)) {
+                val cachedSearchParams = flightSearchParams.buildParamsForCachedSearch(maxStay, getCalendarRules().getMaxDateRange())
+               // greedyCachedSearchParamsObservable.onNext(cachedSearchParams)
+            }
+        }
+        else{
+
         }
     }
 

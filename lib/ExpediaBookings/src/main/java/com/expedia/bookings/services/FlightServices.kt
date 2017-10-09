@@ -42,6 +42,7 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
         adapter.create(FlightApi::class.java)
     }
     var searchRequestSubscription: Subscription? = null
+    var greedySearchRequestSubscription: Subscription? = null
     var cachedSearchRequestSubscription: Subscription? = null
     var createTripRequestSubscription: Subscription? = null
     var checkoutRequestSubscription: Subscription? = null
@@ -52,6 +53,13 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
         searchRequestSubscription?.unsubscribe()
         searchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable)
         return searchRequestSubscription as Subscription
+    }
+
+    open fun greedyFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
+                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
+        greedySearchRequestSubscription?.unsubscribe()
+        greedySearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable)
+        return greedySearchRequestSubscription as Subscription
     }
 
     open fun cachedFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,

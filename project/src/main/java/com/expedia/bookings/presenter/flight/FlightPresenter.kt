@@ -430,6 +430,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         vm.cachedSearchParamsObservable.subscribe { params ->
             flightOfferViewModel.cachedFlightSearchObservable.onNext(params)
         }
+        vm.greedySearchParamsObservable.subscribe(flightOfferViewModel.greedyFlightSearchObservable)
     }
 
     val webCheckoutView: WebCheckoutView by lazy {
@@ -471,6 +472,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchPresenter.travelerWidgetV2.traveler.getViewModel().travelerParamsObservable
                     .onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
         }
+        searchViewModel.searchParamsObservable.withLatestFrom(flightOfferViewModel.greedyOutboundResultsObservable,
+                { _, b ->
+                    b
+                }).subscribe(flightOfferViewModel.outboundResultsObservable)
     }
 
     override fun onFinishInflate() {

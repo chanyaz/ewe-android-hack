@@ -35,6 +35,11 @@
             android:summary="Rendering flight search results from cache"
             android:title="Rendering flight search results from cache" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_flight_greedy_call"
+            android:summary="Flights greedy call"
+            android:title="Flights greedy call" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

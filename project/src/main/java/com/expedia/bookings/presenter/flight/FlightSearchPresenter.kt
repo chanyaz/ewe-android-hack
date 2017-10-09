@@ -97,10 +97,16 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
-        flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
+        flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe {
+            vm.flightCabinClassObserver.onNext(it)
+            if (it.equals(FlightServiceClassType.CabinCode.COACH.name)) {
+                vm.abortGreedyCallObservable.onNext(true)
+            }
+        }
         if (isFlightAdvanceSearchTestEnabled) {
             flightAdvanceSearchWidget.viewModel.selectAdvancedSearch.subscribe(vm.advanceSearchObserver)
         }
+
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
             if (AccessibilityUtil.isTalkBackEnabled(context)) {
@@ -119,8 +125,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     AnimUtils.reverseRotate(swapFlightsLocationsButton)
                 vm.toAndFromFlightFieldsSwitched = !(vm.toAndFromFlightFieldsSwitched)
                 vm.swapToFromFieldsObservable.onNext(Unit)
+                vm.abortGreedyCallObservable.onNext(true)
             }
         }
+        travelerWidgetV2.traveler.getViewModel().isTravelerSelectionChanged.subscribe(vm.abortGreedyCallObservable)
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
             travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).

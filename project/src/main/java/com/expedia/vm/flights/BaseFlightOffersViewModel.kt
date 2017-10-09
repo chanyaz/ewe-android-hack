@@ -41,6 +41,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val flightProductId = PublishSubject.create<String>()
     val showChargesObFeesSubject = PublishSubject.create<Boolean>()
+    val greedyOutboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val outboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
@@ -53,11 +54,13 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val nonStopSearchFilterAppliedSubject = BehaviorSubject.create<Boolean>()
     val refundableFilterAppliedSearchSubject = BehaviorSubject.create<Boolean>()
     val cachedFlightSearchObservable = PublishSubject.create<FlightSearchParams>()
+    val greedyFlightSearchObservable = PublishSubject.create<FlightSearchParams>()
     val cachedSearchTrackingString = PublishSubject.create<String>()
     var isOutboundSearch = true
     var totalOutboundResults = 0
     var totalInboundResults = 0
     var isSubPub = false
+    val isFlightGreedyCallSearchEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_flight_greedy_call)
 
     protected var isRoundTripSearch = true
     protected lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
@@ -65,6 +68,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     protected var flightOutboundSearchSubscription: Subscription? = null
     protected var flightInboundSearchSubscription: Subscription? = null
     protected var flightCacheSearchSubscription: Subscription? = null
+    protected var flightGreedySearchSubscription: Subscription? = null
+    protected var flightGreedyCacheSearchSubscription: Subscription? = null
 
     init {
         searchParamsObservable.subscribe { params ->
@@ -81,6 +86,10 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         cachedFlightSearchObservable.subscribe { params ->
             isCachedCallCompleted.onNext(false)
             flightCacheSearchSubscription = flightServices.cachedFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
+        }
+
+        greedyFlightSearchObservable.subscribe { params ->
+            flightGreedySearchSubscription = flightServices.greedyFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
         }
 
         cancelOutboundSearchObservable.subscribe {

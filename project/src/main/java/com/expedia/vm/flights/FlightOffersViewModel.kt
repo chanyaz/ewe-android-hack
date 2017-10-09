@@ -56,7 +56,11 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
             }
             flightMap.put(outboundId, flights)
         }
-        outboundResultsObservable.onNext(outBoundFlights.toList())
+        if (isFlightGreedyCallSearchEnabled) {
+            greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
+        } else {
+            outboundResultsObservable.onNext(outBoundFlights.toList())
+        }
     }
 
     private fun findInboundFlights(outboundFlightId: String): List<FlightLeg> {
