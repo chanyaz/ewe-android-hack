@@ -80,7 +80,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
                 val fareFamilyItem = inflater.inflate(R.layout.flight_fare_family_item_layout, fareFamilyRadioGroup, false) as FareFamilyItemWidget
                 fareFamilyItem.bindViewModel(fareFamilyItemViewModel)
                 fareFamilyItemViewModel.travelerTextObservable.onNext(StrUtils.formatMultipleTravelerString(context, Db.getFlightSearchParams().guests))
-                fareFamilyItemViewModel.dividerVisibilitySubject.onNext((index == (fareDetailsAndSelectedFareFamily.fareDetails.size - 1)))
+                fareFamilyItemViewModel.dividerVisibilitySubject.onNext((index == (fareDetailsAndSelectedFareFamily.fareDetails.size - 1)) || fareFamilyItem.isSelected)
                 vm.airlinesObservable.subscribe(fareFamilyItem.fareFamilyAmenitiesDialogView.viewModel.airlineNameSubject)
                 fareFamilyRadioGroup.addView(fareFamilyItem)
                 if (defaultChecked) {
@@ -137,8 +137,10 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
 
     fun clearChecks() {
         for (i in 0..fareFamilyRadioGroup.childCount - 1) {
-            val v = fareFamilyRadioGroup.getChildAt(i) as FareFamilyItemWidget
-            v.fareFamilyRadioButton.isChecked = false
+            val view = fareFamilyRadioGroup.getChildAt(i) as FareFamilyItemWidget
+            view.fareFamilyRadioButton.isChecked = false
+            view.isSelected = false
+            view.viewModel?.dividerVisibilitySubject?.onNext((i == (fareFamilyRadioGroup.childCount - 1)) || view.isSelected)
         }
     }
 

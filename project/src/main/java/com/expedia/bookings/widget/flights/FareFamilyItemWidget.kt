@@ -14,7 +14,7 @@ import com.expedia.bookings.widget.FareFamilyAmenitiesDialog
 import com.expedia.bookings.widget.FareFamilyPrimaryAmenitiesWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeInverseVisibilityInvisible
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextAndVisibilityInvisible
@@ -66,6 +66,8 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
     val clickObserver: Observer<Unit> = endlessObserver {
         viewModel?.radioBtnClickObservable?.onNext(Unit)
         fareFamilyRadioButton.isChecked = true
+        this.isSelected = true
+        viewModel?.dividerVisibilitySubject?.onNext(true)
     }
 
     fun bindViewModel(viewModel: FareFamilyItemViewModel) {
@@ -76,8 +78,9 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
         priceDelta.text = viewModel.fareDeltaAmount
         viewModel.roundTripObservable.subscribeVisibility(roundTrip)
         viewModel.travelerTextObservable.subscribeTextAndVisibilityInvisible(travelerTextView)
-        viewModel.dividerVisibilitySubject.subscribeInverseVisibility(fareFamilyDivider)
+        viewModel.dividerVisibilitySubject.subscribeInverseVisibilityInvisible(fareFamilyDivider)
         fareFamilyRadioButton.isChecked = viewModel.defaultChecked
+        this.isSelected = viewModel.defaultChecked
         fareFamilyRadioButton.subscribeOnClick(clickObserver)
         fareFamilyClassHeader.subscribeOnClick(clickObserver)
         fareFamilyPrimaryAmenitiesWidget.viewModel = FareFamilyPrimaryAmenitiesWidgetViewModel(context, viewModel.fareFamilyDetail.fareFamilyComponents)

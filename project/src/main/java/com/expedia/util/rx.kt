@@ -179,6 +179,10 @@ fun <T : CharSequence> Observable<T>.subscribeTextAndVisibilityInvisible(textvie
     this.map { it.toString().isNotBlank() }.subscribeVisibilityInvisible(textview)
 }
 
+fun Observable<Boolean>.subscribeInverseVisibilityInvisible(view: View) {
+    this.map { !it }.subscribeVisibilityInvisible(view)
+}
+
 fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView?) {
     this.subscribe { drawable -> imageView?.setImageDrawable(drawable) }
 }
