@@ -22,6 +22,9 @@ repositories {
             secretKey AWS_SECRET_KEY
         }
     }
+    maven {
+        url "https://maven.google.com"
+    }
     maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
 }
 
@@ -59,11 +62,14 @@ dependencies {
     debugCompile "com.android.support:preference-v7:${rootProject.ext.supportLibVersion}"
     debugCompile "com.android.support:preference-v14:${rootProject.ext.supportLibVersion}"
 
+    compile "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-ads:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}"
-    compile "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-wallet:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.android.support:support-v4:25.3.1"
+    compile "com.android.support:appcompat-v7:25.3.1"
 
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile "com.squareup.okhttp3:okhttp:${okhttp_version}"

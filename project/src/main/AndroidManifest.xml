@@ -73,6 +73,11 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <!-- Enables the Google Payment API -->
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+
         <!-- Crashlytics -->
         <meta-data
             android:name="com.crashlytics.ApiKey"
