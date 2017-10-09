@@ -1,5 +1,6 @@
 package com.expedia.bookings.tracking.hotel
 
+import android.content.Context
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.PaymentType
@@ -11,6 +12,7 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
+import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.TuneUtils
 
 open class HotelTracking {
@@ -212,10 +214,11 @@ open class HotelTracking {
             OmnitureTracking.trackGeoSuggestionClick()
         }
 
-        fun trackHotelSearch(trackingParams: HotelSearchTrackingData) {
+        fun trackHotelSearch(trackingParams: HotelSearchTrackingData, context: Context) {
             OmnitureTracking.trackHotelsV2Search(trackingParams)
             FacebookEvents().trackHotelV2Search(trackingParams)
             TuneUtils.trackHotelV2SearchResults(trackingParams)
+            CarnivalUtils.trackHotelSearch(context, trackingParams)
         }
 
         fun trackPinnedSearch() {
