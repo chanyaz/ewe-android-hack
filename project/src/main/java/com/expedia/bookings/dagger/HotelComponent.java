@@ -1,10 +1,11 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
+import com.expedia.bookings.hotel.activity.HotelDetailsActivity;
 import com.expedia.bookings.hotel.activity.HotelPostResultsActivity;
 import com.expedia.bookings.hotel.activity.HotelResultsActivity;
 import com.expedia.bookings.hotel.activity.HotelSearchActivity;
-import com.expedia.bookings.hotel.presenter.HotelPostSearchPresenter;
+import com.expedia.bookings.hotel.presenter.HotelPostResultsPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
 import com.expedia.bookings.presenter.hotel.HotelPresenter;
@@ -48,8 +49,8 @@ public interface HotelComponent {
 	IPayWithPointsViewModel payWithPointsViewModel();
 
     void inject(@NotNull HotelSearchActivity hotelSearchActivity);
-    void inject(@NotNull HotelPostSearchPresenter hotelPostSearchPresenter);
+    void inject(@NotNull HotelPostResultsPresenter hotelPostResultsPresenter);
 	void inject(@NotNull HotelPostResultsActivity hotelPostSearchActivity);
-
     void inject(@NotNull HotelResultsActivity hotelResultsActivity);
+    void inject(@NotNull HotelDetailsActivity hotelDetailsActivity);
 }

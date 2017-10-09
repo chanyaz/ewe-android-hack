@@ -23,6 +23,7 @@ import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Subscription
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 
 open class HotelDetailViewModel(context: Context,
@@ -35,6 +36,9 @@ open class HotelDetailViewModel(context: Context,
     private var cachedParams: HotelSearchParams? = null
 
     private var noInternetSubscription: Subscription? = null
+
+
+    private var subscriptions = CompositeSubscription()
 
     init {
         paramsSubject.subscribe { params ->
@@ -49,8 +53,8 @@ open class HotelDetailViewModel(context: Context,
             swpEnabled = params.shopWithPoints
         }
 
-        hotelInfoManager.offerSuccessSubject.subscribe(hotelOffersSubject)
-        hotelInfoManager.infoSuccessSubject.subscribe(hotelOffersSubject)
+        subscriptions.add(hotelInfoManager.offerSuccessSubject.subscribe(hotelOffersSubject))
+        subscriptions.add(hotelInfoManager.infoSuccessSubject.subscribe(hotelOffersSubject))
     }
 
     fun fetchOffers(params: HotelSearchParams, hotelId: String) {
@@ -63,25 +67,30 @@ open class HotelDetailViewModel(context: Context,
             handleNoInternet(retryFun = { fetchOffers(params, hotelId) })
         }
 
-        hotelInfoManager.soldOutSubject.subscribe {
+        subscriptions.add(hotelInfoManager.soldOutSubject.subscribe {
             noInternetSubscription?.unsubscribe()
             noInternetSubscription = hotelInfoManager.noInternetSubject.subscribe {
                 handleNoInternet(retryFun = { hotelInfoManager.fetchInfo(params, hotelId) })
             }
             hotelInfoManager.fetchInfo(params, hotelId)
-        }
+        })
         hotelInfoManager.fetchOffers(params, hotelId)
     }
 
     fun changeDates(newStartDate: LocalDate, newEndDate: LocalDate) {
-        cachedParams?.let {
-            val rules = HotelCalendarRules(context)
-            val builder = HotelSearchParams.Builder(rules.getMaxDateRange(), rules.getMaxSearchDurationDays())
-            builder.from(cachedParams!!).startDate(newStartDate).endDate(newEndDate)
-            val params = builder.build()
+//        cachedParams?.let {
+//            val rules = HotelCalendarRules(context)
+//            val builder = HotelSearchParams.Builder(rules.getMaxDateRange(), rules.getMaxSearchDurationDays())
+//            builder.from(cachedParams!!).startDate(newStartDate).endDate(newEndDate)
+//            val params = builder.build()
+//
+//            fetchOffers(params, hotelId)
+//        }
+    }
 
-            fetchOffers(params, hotelId)
-        }
+    fun clearSubscriptions() {
+        subscriptions.clear()
+        hotelInfoManager.clearSubscriptions()
     }
 
     override fun isChangeDatesEnabled(): Boolean {

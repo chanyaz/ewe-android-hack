@@ -7,6 +7,7 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 
 open class HotelInfoManager(private val hotelServices: HotelServices?) {
 
@@ -16,12 +17,18 @@ open class HotelInfoManager(private val hotelServices: HotelServices?) {
     val noInternetSubject = PublishSubject.create<Unit>()
     val soldOutSubject = PublishSubject.create<Unit>()
 
+    private var subscriptions = CompositeSubscription()
+
     open fun fetchOffers(params: HotelSearchParams, hotelId: String) {
-        hotelServices?.offers(params, hotelId, offersObserver)
+        subscriptions.add(hotelServices?.offers(params, hotelId, offersObserver))
     }
 
     open fun fetchInfo(params: HotelSearchParams, hotelId: String) {
-        hotelServices?.info(params, hotelId, infoObserver)
+        subscriptions.add(hotelServices?.info(params, hotelId, infoObserver))
+    }
+
+    fun clearSubscriptions() {
+        subscriptions.clear()
     }
 
     private val offersObserver = object : Observer<HotelOffersResponse> {

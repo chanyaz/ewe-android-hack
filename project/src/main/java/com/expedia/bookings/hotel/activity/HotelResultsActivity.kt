@@ -83,7 +83,7 @@ class HotelResultsActivity : AppCompatActivity() {
             }
         }
         presenter.hotelSelectedSubject.subscribe { hotel ->
-            val intent = Intent(this, HotelPostResultsActivity::class.java)
+            val intent = Intent(this, HotelDetailsActivity::class.java)
             intent.putExtra(HotelExtras.EXTRA_HOTEL_SELECTED_ID, hotel.hotelId)
             startActivity(intent)
         }

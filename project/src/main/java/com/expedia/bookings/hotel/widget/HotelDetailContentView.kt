@@ -317,11 +317,11 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
 
-        if (vm.isChangeDatesEnabled()) {
-            searchInfo.setOnClickListener {
-                showDialog()
-            }
-        }
+//        if (vm.isChangeDatesEnabled()) {
+//            searchInfo.setOnClickListener {
+//                showDialog()
+//            }
+//        }
     }
 
     fun resetViews() {
@@ -420,16 +420,16 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         }, 400L)
     }
 
-    private fun showDialog() {
-        val dialogFragment = ChangeDatesDialogFragment()
-        dialogFragment.datesChangedSubject.subscribe { dates ->
-            (viewModel as? HotelDetailViewModel)?.changeDates(dates.first, dates.second)
-        }
-        val fragmentManager = (context as FragmentActivity).supportFragmentManager
-
-        dialogFragment.presetDates(viewModel.checkInDate, viewModel.checkOutDate)
-        dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
-    }
+//    private fun showDialog() {
+//        val dialogFragment = ChangeDatesDialogFragment()
+//        dialogFragment.datesChangedSubject.subscribe { dates ->
+//            (viewModel as? HotelDetailViewModel)?.changeDates(dates.first, dates.second)
+//        }
+//        val fragmentManager = (context as FragmentActivity).supportFragmentManager
+//
+//        dialogFragment.presetDates(viewModel.checkInDate, viewModel.checkOutDate)
+//        dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
+//    }
 
     private fun areRoomsOffScreenAboveETPToolbar(toolbarOffset: Float): Boolean {
         roomContainer.getLocationOnScreen(roomContainerPosition)

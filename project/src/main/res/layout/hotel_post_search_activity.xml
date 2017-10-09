@@ -1,4 +1,4 @@
-<com.expedia.bookings.hotel.presenter.HotelPostSearchPresenter
+<com.expedia.bookings.hotel.presenter.HotelPostResultsPresenter
     android:id="@+id/hotel_presenter"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -62,4 +62,4 @@
         android:inflatedId="@+id/widget_hotel_reviews"
         android:layout="@layout/hotel_review_presenter_stub" />
 
-</com.expedia.bookings.hotel.presenter.HotelPostSearchPresenter>
+</com.expedia.bookings.hotel.presenter.HotelPostResultsPresenter>

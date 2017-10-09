@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.hotel.deeplink.HotelExtras
-import com.expedia.bookings.hotel.presenter.HotelPostSearchPresenter
+import com.expedia.bookings.hotel.presenter.HotelPostResultsPresenter
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -13,8 +13,8 @@ import com.google.android.gms.maps.MapView
 import javax.inject.Inject
 
 class HotelPostResultsActivity : AbstractAppCompatActivity() {
-    val hotelPresenter: HotelPostSearchPresenter by lazy {
-        findViewById(R.id.hotel_presenter) as HotelPostSearchPresenter
+    val hotelPresenter: HotelPostResultsPresenter by lazy {
+        findViewById(R.id.hotel_presenter) as HotelPostResultsPresenter
     }
 
     val detailsMapView: MapView by lazy {

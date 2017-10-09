@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/details_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:liteMode="false"
+        app:mapType="normal"
+        android:visibility="gone"/>
+
+
+    <com.expedia.bookings.presenter.hotel.HotelDetailPresenter
+        android:id="@+id/hotel_detail_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray1" />
+
+    <com.expedia.bookings.widget.LoadingOverlayWidget
+        android:id="@+id/details_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</LinearLayout>

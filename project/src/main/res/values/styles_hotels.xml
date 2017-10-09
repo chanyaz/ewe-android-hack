@@ -3,7 +3,6 @@
     <style name="Base.Hotels" parent="AppTheme.Base">
         <item name="android:windowBackground">@color/gray1</item>
 
-        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowEnterTransition">@transition/hotel_search_enter_transition</item>
