@@ -1,16 +1,19 @@
 package com.expedia.bookings.widget.itin
 
 import android.content.Context
+import android.text.format.DateUtils
 import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.Property
+import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -468,6 +471,20 @@ class HotelItinContentGeneratorTest {
         val notifications = hotelItinGenerator.generateNotifications()
         assertEquals(2, notifications.size)
         verify(hotelItinGenerator, never()).generateActivityCrossSellNotification()
+    }
+    @Test
+    fun nullCheckInAndOutForNotificationsTest() {
+        AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelScheduledNotificationsV2)
+        val itinCardDataHotel = givenHappyItinCardDataHotel(2)
+        val trip = itinCardDataHotel.tripComponent as TripHotel
+        trip.checkOutTime = null
+        trip.checkInTime = null
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val notifications = hotelItinGenerator.generateNotifications()
+        assertEquals(notifications[0].body, "Check in for your hotel booking for Orchard Hotel begins at " + JodaUtils.formatDateTime(context,
+                itinCardDataHotel.startDate, DateUtils.FORMAT_SHOW_TIME) + " tomorrow. View your booking for details.")
+        assertEquals(notifications[1].body, "Check out time your hotel booking for Orchard Hotel is at " + JodaUtils.formatDateTime(context,
+                itinCardDataHotel.endDate, DateUtils.FORMAT_SHOW_TIME) + ". View your booking for details.")
     }
 
     @Test
