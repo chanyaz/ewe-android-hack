@@ -55,6 +55,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val baggageInfoUrlSubject = PublishSubject.create<String>()
     val baggageInfoClickSubject = PublishSubject.create<Unit>()
     val paymentFeeInfoClickSubject = PublishSubject.create<Unit>()
+    val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
     lateinit var baggageUrl: String
 
     init {
@@ -127,18 +128,17 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             showPaymentInfoLinkObservable.onNext(lob == LineOfBusiness.FLIGHTS_V2 &&
                     (flight.mayChargeObFees || PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()))
 
-            val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
-            baggageInfoClickSubject.subscribe {
-                if (baggageUrl.contains("http")) {
-                    baggageInfoUrlSubject.onNext(baggageUrl)
-                } else {
-                    baggageInfoUrlSubject.onNext(e3EndpointUrl + baggageUrl)
-                }
-            }
-
             totalDurationContDescObserver.onNext(totalDurationContentDescription)
             totalDurationObserver.onNext(FlightV2Utils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))
             selectedFlightLegObservable.onNext(flight)
         }).subscribe()
+
+        baggageInfoClickSubject.subscribe {
+            if (baggageUrl.contains("http")) {
+                baggageInfoUrlSubject.onNext(baggageUrl)
+            } else {
+                baggageInfoUrlSubject.onNext(e3EndpointUrl + baggageUrl)
+            }
+        }
     }
 }
