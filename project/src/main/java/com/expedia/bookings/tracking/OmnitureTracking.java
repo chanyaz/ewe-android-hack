@@ -2693,6 +2693,7 @@ public class OmnitureTracking {
 			link = NOTIFICATION_DESKTOP_BOOKING_CONFIRMATION;
 			break;
 		case HOTEL_GET_READY:
+		case HOTEL_PRE_TRIP:
 			link = NOTIFICATION_HOTEL_GET_READY;
 			break;
 		case HOTEL_ACTIVITY_CROSSSEll:

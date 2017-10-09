@@ -709,7 +709,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String body = Phrase.from(getContext(), R.string.check_in_notification_body_TEMPLATE)
 			.put("hotel", data.getPropertyName())
-			.put("checkin", data.getCheckInTime())
+			.put("checkin", data.getFallbackCheckInTime(getContext()))
 			.format().toString();
 		notification.setBody(body);
 
@@ -789,7 +789,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
 		String title = Phrase.from(getContext(), R.string.check_out_notification_title_TEMPLATE)
-			.put("checkout", data.getCheckOutTime())
+			.put("checkout", data.getFallbackCheckOutTime(getContext()))
 			.format().toString();
 
 		notification.setTicker(title);
@@ -797,7 +797,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String body = Phrase.from(getContext(), R.string.check_out_notification_body_TEMPLATE)
 			.put("hotel", data.getPropertyName())
-			.put("checkout", data.getCheckOutTime())
+			.put("checkout", data.getFallbackCheckOutTime(getContext()))
 			.format().toString();
 		notification.setBody(body);
 
