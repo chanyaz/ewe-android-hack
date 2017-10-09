@@ -34,6 +34,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     var ratePlanCode: String? = null
     var roomTypeCode: String? = null
     var latestSelectedProductTotalPrice: Money? = null
+    var latestSelectedProductOfferModel: PackageOfferModel? = null
 
     val originId: String?
         get() {

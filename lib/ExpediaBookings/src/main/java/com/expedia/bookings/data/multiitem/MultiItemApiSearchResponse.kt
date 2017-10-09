@@ -94,8 +94,8 @@ data class MultiItemApiSearchResponse(
         return offers[0].price.totalPrice.currency
     }
 
-    override fun getCurrentOfferModel(): PackageOfferModel {
-        return currentSelectedOffer!!
+    override fun getCurrentOfferModel(): PackageOfferModel? {
+        return currentSelectedOffer
     }
 
     override fun setCurrentOfferModel(offerModel: PackageOfferModel) {

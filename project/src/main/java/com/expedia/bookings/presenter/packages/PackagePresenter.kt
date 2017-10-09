@@ -33,6 +33,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
@@ -98,7 +99,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             pageUsableData.markPageLoadStarted(startTime)
         }
         presenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
-            val packagePrice = Db.getPackageResponse().getCurrentOfferModel().price
+            val packagePrice = Db.getPackageResponse().getCurrentOfferModel()?.price ?: return@subscribe
 
             val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                     packagePrice.tripSavings.currencyCode)

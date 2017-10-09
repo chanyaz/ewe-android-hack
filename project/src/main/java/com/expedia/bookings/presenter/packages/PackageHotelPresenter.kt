@@ -455,17 +455,19 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         params.ratePlanCode = offer.ratePlanCode
         params.roomTypeCode = offer.roomTypeCode
         params.latestSelectedProductTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
+        params.latestSelectedProductOfferModel = Db.getPackageResponse().getCurrentOfferModel()
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
     }
 
     private fun updatePackagePrice(offer: HotelOffersResponse.HotelRoomResponse) {
-        var response = Db.getPackageResponse()
+        val response = Db.getPackageResponse()
         val currentOffer = PackageOfferModel()
         currentOffer.price = PackageOfferModel.PackagePrice()
         currentOffer.price.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
         currentOffer.price.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings
+        currentOffer.price.pricePerPerson = offer.rateInfo.chargeableRateInfo.packagePricePerPerson
         response.setCurrentOfferModel(currentOffer)
     }
 

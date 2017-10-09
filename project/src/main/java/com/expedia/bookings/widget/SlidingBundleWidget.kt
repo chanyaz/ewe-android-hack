@@ -248,7 +248,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     private fun updateBundlePricing() {
-        val currentOffer: PackageOfferModel = Db.getPackageResponse().getCurrentOfferModel()
+        val currentOffer: PackageOfferModel = Db.getPackageResponse().getCurrentOfferModel() ?: return
         val packagePrice: PackageOfferModel.PackagePrice = currentOffer.price
         if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
             bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
@@ -256,7 +256,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                 packagePrice.tripSavings.currencyCode)
         bundlePriceWidget.viewModel.pricePerPerson.onNext(Money(BigDecimal(packagePrice.pricePerPerson.amount.toDouble()),
-                packagePrice.packageTotalPrice.currencyCode))
+                packagePrice.pricePerPerson.currencyCode))
         bundlePriceFooter.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                 packagePrice.packageTotalPrice.currencyCode))
         bundlePriceFooter.viewModel.savings.onNext(packageSavings)
