@@ -157,7 +157,7 @@ public class FlightLeg {
 			flightSegment.airlineLogoURL = Constants.AIRLINE_LOGO_BASE_URL + multiItemFlightSegment.getAirlineLogoUrl();
 
 			flightSegment.departureCity = multiItemFlightSegment.getDepartureCity();
-			flightSegment.departureAirportCode = multiItemFlightSegment.getArrivalAirportCode();
+			flightSegment.departureAirportCode = multiItemFlightSegment.getDepartureAirportCode();
 			flightSegment.departureDateTimeISO = multiItemFlightSegment.getDepartureDateTime();
 
 			flightSegment.arrivalCity = multiItemFlightSegment.getArrivalCity();

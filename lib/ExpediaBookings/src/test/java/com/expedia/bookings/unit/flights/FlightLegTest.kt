@@ -57,7 +57,7 @@ class FlightLegTest {
         assertEquals(flightLeg.flightSegments[0].airlineCode, "AA")
         assertEquals(flightLeg.flightSegments[0].airlineLogoURL, "https://images.trvl-media.com//media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif")
         assertEquals(flightLeg.flightSegments[0].departureCity, "San Francisco")
-        assertEquals(flightLeg.flightSegments[0].departureAirportCode, "SEA")
+        assertEquals(flightLeg.flightSegments[0].departureAirportCode, "SFO")
         assertEquals(flightLeg.flightSegments[0].departureDateTimeISO, "2017-09-12T05:00:00.000-07:00")
         assertEquals(flightLeg.flightSegments[0].arrivalCity, "Seattle")
         assertEquals(flightLeg.flightSegments[0].arrivalAirportCode, "SEA")
