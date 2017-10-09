@@ -13,4 +13,6 @@
     <string name="member_pricing">GO Member Deals</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
     <string name="loading_flights_from_400_airlines">Finding your AirAsia flights</string>
+    <!-- package hotel results Go Crazy Deals text label -->
+    <string name="unreal_deal_text">Go Crazy Deals</string>
 </resources>

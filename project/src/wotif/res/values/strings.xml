@@ -16,5 +16,6 @@
     <string name="shop_as_a_member_TEMPLATE">Wotif mates get the best rates</string>
     <!-- Sign up and save an extra 10% or more with Mates Rates -->
     <string name="earn_rewards_and_unlock_deals">Sign up and save an extra 10% or more with Mates Rates</string>
-
+    <!-- package hotel results Flaming Deal® Package text label -->
+    <string name="unreal_deal_text">Flaming Deal® Package</string>
 </resources>
