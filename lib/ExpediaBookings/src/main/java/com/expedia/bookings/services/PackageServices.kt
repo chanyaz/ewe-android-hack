@@ -96,8 +96,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
                 hotelId = params.hotelId,
-                anchorTotalPrice = params.latestSelectedProductTotalPrice?.amount,
-                currencyCode = params.latestSelectedProductTotalPrice?.currencyCode)
+                anchorTotalPrice = params.latestSelectedProductOfferModel?.price?.packageTotalPrice?.amount,
+                currencyCode = params.latestSelectedProductOfferModel?.price?.packageTotalPrice?.currencyCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
@@ -119,8 +119,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 ratePlanCode = params.ratePlanCode,
                 roomTypeCode = params.roomTypeCode,
                 legIndex = 0,
-                anchorTotalPrice = params.latestSelectedProductTotalPrice?.amount,
-                currencyCode = params.latestSelectedProductTotalPrice?.currencyCode)
+                anchorTotalPrice = params.latestSelectedProductOfferModel?.price?.packageTotalPrice?.amount,
+                currencyCode = params.latestSelectedProductOfferModel?.price?.packageTotalPrice?.currencyCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
@@ -152,8 +152,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 roomTypeCode = params.roomTypeCode,
                 legIndex = 1,
                 outboundLegId = params.selectedLegId,
-                anchorTotalPrice = params.latestSelectedProductTotalPrice?.amount,
-                currencyCode = params.latestSelectedProductTotalPrice?.currencyCode)
+                anchorTotalPrice = params.latestSelectedProductOfferModel?.price?.packageTotalPrice?.amount,
+                currencyCode = params.latestSelectedProductOfferModel?.price?.packageTotalPrice?.currencyCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
