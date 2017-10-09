@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.utils.ArrowXDrawableUtil

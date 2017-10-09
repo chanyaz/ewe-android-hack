@@ -1,5 +1,6 @@
 package com.expedia.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -20,6 +21,8 @@ import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.PermissionsUtils.requestLocationPermission
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.wallet.*
+import rx.subjects.PublishSubject
 
 class HotelActivity : AbstractAppCompatActivity() {
     val hotelPresenter: HotelPresenter by lazy {
@@ -35,6 +38,8 @@ class HotelActivity : AbstractAppCompatActivity() {
     }
 
     val hotelComponentInjector = HotelComponentInjector()
+    var mPaymentsClient: PaymentsClient? = null
+    val paymentDataObserver = PublishSubject.create<PaymentData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +49,10 @@ class HotelActivity : AbstractAppCompatActivity() {
         val mapState = savedInstanceState?.getBundle(Constants.HOTELS_MAP_STATE)
         resultsMapView.onCreate(mapState)
         detailsMapView.onCreate(mapState)
+
+        mPaymentsClient = Wallet.getPaymentsClient(this, Wallet.WalletOptions.Builder()
+                        .setEnvironment(WalletConstants.ENVIRONMENT_TEST)
+                        .build())
 
         if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             val locationPermission = ContextCompat.checkSelfPermission(this.baseContext, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -112,6 +121,21 @@ class HotelActivity : AbstractAppCompatActivity() {
                 // show add to calendar for checkOut date
                 hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.showAddToCalendarIntent(false, this)
             }
+            Constants.LOAD_PAYMENT_DATA_REQUEST_CODE -> when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val paymentData = PaymentData.getFromIntent(data!!)
+                    paymentDataObserver.onNext(paymentData)
+//                    val token = paymentData!!.paymentMethodToken.token
+                }
+                Activity.RESULT_CANCELED -> {
+                }
+                AutoResolveHelper.RESULT_ERROR -> {
+                    val status = AutoResolveHelper.getStatusFromIntent(data)
+                }// Log the status for debugging.
+            // Generally, there is no need to show an error to
+            // the user as the Google Payment API will do that.
+            // Do nothing.
+            }// Do nothing.
         }
     }
 
@@ -160,6 +184,10 @@ class HotelActivity : AbstractAppCompatActivity() {
         sharedReturnTransition.duration = res.getInteger(R.integer.pro_wizard_shared_return_duration).toLong()
         window.sharedElementReturnTransition = sharedReturnTransition
 
+    }
+
+    fun getPaymentClient() : PaymentsClient {
+        return mPaymentsClient!!
     }
 }
 

@@ -98,4 +98,7 @@ public class Constants {
 	
 	//Location Permission Prompt Limit
 	public static final int LOCATION_PROMPT_LIMIT = 3;
+
+//	Google Payment API
+	public static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 0;
 }

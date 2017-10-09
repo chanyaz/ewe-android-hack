@@ -164,6 +164,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/google_payment_container"
             android:clickable="true"
             android:focusable="true"
             android:layout_width="match_parent"

@@ -22,9 +22,7 @@ repositories {
             secretKey AWS_SECRET_KEY
         }
     }
-    maven {
-        url "https://maven.google.com"
-    }
+    maven { url "https://maven.google.com" }
     maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
 }
 
