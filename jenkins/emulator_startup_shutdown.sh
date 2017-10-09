@@ -49,3 +49,4 @@ sleep 10
 
 getRunningDevices
 waitForAllDevicesBootCompleted
+
