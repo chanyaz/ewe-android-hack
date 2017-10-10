@@ -59,6 +59,7 @@ import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
+import com.expedia.bookings.utils.CarnivalUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -315,7 +316,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		initializeFeatureConfig();
 
-		if (FeatureToggleUtil.isFeatureEnabled(this,R.string.preference_new_carnival_notifications)) {
+		if (CarnivalUtils.isFeatureToggledOn(this)) {
 			Carnival.startEngine(this, getString(R.string.carnival_sdk_debug_key));
 		}
 	}

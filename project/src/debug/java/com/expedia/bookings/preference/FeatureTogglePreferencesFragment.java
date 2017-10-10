@@ -3,6 +3,8 @@ package com.expedia.bookings.preference;
 
 import android.os.Bundle;
 import android.support.v7.preference.CheckBoxPreference;
+import android.support.v7.preference.Preference;
+import com.carnival.sdk.Carnival;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 
@@ -52,6 +54,20 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		// Carnival Notifications
 		initializeFeatureCheck(R.string.preference_new_carnival_notifications);
+
+			//Make sure to init the Carnival SDK if we turn on that feature so we don't have to restart the app.
+		Preference carnivalCheckBox = findPreference(getResources().getString(R.string.preference_new_carnival_notifications));
+		carnivalCheckBox.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				if ((boolean) newValue) {
+					Carnival.startEngine(getContext(), getString(R.string.carnival_sdk_debug_key));
+				}
+
+				return true;
+			}
+		});
 	}
 
 	private void initializeFeatureCheck(int featureKey) {
