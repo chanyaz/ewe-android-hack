@@ -45,10 +45,16 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        Events.register(this)
         if (context is LaunchFragmentListener) {
             val listener: LaunchFragmentListener = context
             listener.onLaunchFragmentAttached(this)
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Events.unregister(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -69,7 +75,6 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         super.onResume()
         phoneLaunchWidget.refreshState()
         phoneLaunchWidget.toggleProWizardClickListener(enable = true)
-        Events.register(this)
         Events.post(Events.PhoneLaunchOnResume())
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         activity.registerReceiver(broadcastReceiver, filter)
@@ -107,7 +112,6 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         super.onPause()
         locSubscription?.unsubscribe()
         activity.unregisterReceiver(broadcastReceiver)
-        Events.unregister(this)
         phoneLaunchWidget.toggleProWizardClickListener(enable = false)
     }
 

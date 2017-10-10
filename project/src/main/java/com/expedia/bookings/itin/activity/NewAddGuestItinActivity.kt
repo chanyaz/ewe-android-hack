@@ -23,7 +23,6 @@ import com.expedia.bookings.utils.ClearPrivateDataUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.util.SettingUtils
-import com.squareup.otto.Produce
 import javax.inject.Inject
 
 class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDialogListener {
@@ -85,11 +84,6 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
         ItineraryManager.getInstance().removeSyncListener(syncListenerAdapter)
     }
 
-    @Produce
-    fun postPOSChangeEvent(): Events.PhoneLaunchOnPOSChange {
-        return Events.PhoneLaunchOnPOSChange()
-    }
-
     override fun onNewCountrySelected(pointOfSaleId: Int) {
         SettingUtils.save(this, R.string.PointOfSaleKey, Integer.toString(pointOfSaleId))
 
@@ -98,7 +92,7 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
         AdTracker.updatePOS()
 
         setResult(Constants.RESULT_CHANGED_PREFS)
-        postPOSChangeEvent()
+        Events.post(Events.PhoneLaunchOnPOSChange())
 
         Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show()
 

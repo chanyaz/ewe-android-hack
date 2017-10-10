@@ -168,6 +168,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        Events.register(this)
         Ui.getApplication(context).appComponent().inject(this)
         userAccountRefresher.setUserAccountRefreshListener(this)
         if (context is AccountFragmentListener) {
@@ -182,6 +183,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onDetach() {
         super.onDetach()
+        Events.unregister(this)
         userAccountRefresher.setUserAccountRefreshListener(null)
     }
 
@@ -348,7 +350,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onResume() {
         super.onResume()
-        Events.register(this)
         adjustLoggedInViews()
         scrollContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         legalFragment?.setRowVisibility(ROW_TERMS_AND_CONDITIONS,
@@ -377,7 +378,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onPause() {
         super.onPause()
-        Events.unregister(this)
         scrollContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
     }
 
