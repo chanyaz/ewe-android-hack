@@ -242,7 +242,7 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">%1$sへのアクセス方法</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
-    <string name="shortened_checkout_payment_option_credit_debit_label">新しいデビット / クレジットカード情報を入力</string>
+    <string name="shortened_checkout_payment_option_credit_debit_label">新しいクレジット / デビットカード情報を入力</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">ゲストの詳細</string>
     <!-- Text for enter payment details line 1 -->
@@ -827,6 +827,8 @@
     <string name="prices_oneway_minimum_label">片道 (1 名あたり) の最低価格</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">1 名あたりの往復料金合計 (税およびサービス料込み) - 航空券 + ホテル</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">往復 (1 名あたり) の最低料金 • 航空券 + ホテルを含む</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">売り切れ</string>
 
@@ -1774,9 +1776,9 @@
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">片道</string>
     <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
-    <string name="flights_tab_selection_accouncement_oneway">片道フライトの検索画面を表示中</string>
+    <string name="flights_tab_selection_accouncement_oneway">片道航空券の検索画面を表示中</string>
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
-    <string name="flights_tab_selection_accouncement_roundtrip">往復フライトの検索画面を表示中</string>
+    <string name="flights_tab_selection_accouncement_roundtrip">往復航空券の検索画面を表示中</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">行き</string>
     <!-- Flights Line of Business title -->
@@ -1803,13 +1805,13 @@
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">デビットカードはご利用いただけません。</string>
     <!-- Flights Sold out error screen:- warning message -->
-    <string name="flight_sold_out_warning">申し訳ありません。このフライトは完売しました。</string>
+    <string name="flight_sold_out_warning">申し訳ありません。この航空券は完売しました。</string>
     <!-- Flights Sold out error screen:- toolbar title -->
     <string name="flight_sold_out_toolbar_title">完売</string>
     <!-- Flight Unavailable error screen:- toolbar title -->
     <string name="flight_unavailable_toolbar_title">空席なし</string>
     <!-- Flight Unavailable error screen:- warning -->
-    <string name="flight_unavailable_warning">申し訳ありません。このフライトはご利用いただけません</string>
+    <string name="flight_unavailable_warning">申し訳ありません。この航空券はご利用いただけません</string>
     <!-- Flight Session expired error screen:- warning -->
     <string name="flight_session_expired_warning">申し訳ありません。セッションがタイムアウトしました。もう一度お試しください。</string>
     <!-- Flight Session expired error screen:- toolbar title -->
@@ -1924,9 +1926,9 @@
     <!-- Messaging on flight details for basic economy" -->
     <string name="flight_details_basic_economy_message">このフライトは&lt;b&gt;ベーシック エコノミー&lt;/b&gt;です</string>
     <!-- Messaging on flight checkout overview for basic economy" -->
-    <string name="flight_checkout_overview_basic_economy_message">重要なフライトの制限事項をご確認ください</string>
+    <string name="flight_checkout_overview_basic_economy_message">重要な航空券の制限事項をご確認ください</string>
     <!-- Toolbar title for basic econonmy flight information -->
-    <string name="toolbar_flight_basic_economy_info_title">重要なフライトの制限事項</string>
+    <string name="toolbar_flight_basic_economy_info_title">重要な航空券の制限事項</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">エコノミー</string>
     <!-- Label for Business Economy -->
@@ -1960,7 +1962,7 @@
     <string name="baggage_fees">手荷物料金</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
-    <string name="new_credit_debit_card">新しいデビット / クレジットカード</string>
+    <string name="new_credit_debit_card">新しいクレジット / デビットカード</string>
     <!-- New Credit card toolbar title shown on payment form -->
     <string name="new_credit_card">新しいクレジットカード</string>
     <!-- Billing Address -->
@@ -2140,7 +2142,7 @@
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">クレジットカード番号</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
-    <string name="credit_debit_card_hint">新しいデビット / クレジットカード情報を入力</string>
+    <string name="credit_debit_card_hint">新しいクレジット / デビットカード情報を入力</string>
     <!-- Expiration date label -->
     <string name="expiration_date">有効期限</string>
     <!-- Set expiration date button -->
@@ -2200,10 +2202,10 @@
     <string name="expand_advanced_button_cont_desc">このボタンをタップすると、詳細オプションが表示されます。</string>
     <string name="collapse_advanced_button_cont_desc">このボタンをタップすると、詳細オプションが非表示になります。</string>
     <!--Frequent flyer flight traveler options, explicitly telling user they are optional -->
-    <string name="frequent_flyer_optional">フリークエント フライヤー プログラム (オプション)</string>
+    <string name="frequent_flyer_optional">マイレージ プログラム (オプション)</string>
     <!--Content description for the Frequent Flyer button in traveler entry form used for Talkback-->
-    <string name="expand_frequent_flyer_button_cont_desc">フリークエント フライヤー プログラム (オプション) を表示するボタン</string>
-    <string name="collapse_frequent_flyer_button_cont_desc">フリークエント フライヤー プログラム (オプション) を非表示にするボタン</string>
+    <string name="expand_frequent_flyer_button_cont_desc">マイレージ プログラム (オプション) を表示するボタン</string>
+    <string name="collapse_frequent_flyer_button_cont_desc">マイレージ プログラム (オプション) を非表示にするボタン</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">{brand} アカウントで旅行者の情報を更新しますか ? 更新すると、次回からご予約が簡単に行えます。</string>
     <!-- Update traveler dialog title-->
@@ -2254,7 +2256,7 @@
     <!-- redress number icon content description -->
     <string name="redress_number_icon_cont_desc">リドレスナンバーとは ?</string>
     <!--Frequent flyer program name hint -->
-    <string name="frequent_flyer_program_name">フリークエント フライヤー プログラム</string>
+    <string name="frequent_flyer_program_name">マイレージプログラム</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
     <string name="frequent_flyer_programs">プログラム</string>
     <!--Frequent flyer program number hint -->
@@ -2265,7 +2267,7 @@
     <!-- Seat Preference -->
     <string name="seat_preference">座席のご希望</string>
     <!-- Special Assistance -->
-    <string name="special_assistance">スペシャル サポート</string>
+    <string name="special_assistance">お体の不自由な方のサポート</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -2399,7 +2401,7 @@
     <!-- Fare information header -->
     <string name="fare_information">料金情報</string>
     <!-- Accessibility announcement when filter are cleared-->
-    <string name="filters_cleared">フィルター解除済み</string>
+    <string name="filters_cleared">絞り込み条件を解除済み</string>
     <!-- split ticket rules and restrictions -->
     <string name="split_ticket_rules_with_link_TEMPLATE">航空券の料金は、片道フライト 2 件の合計となります。それぞれの運賃には、航空会社の規則および制限事項が適用されます。</string>
     <!-- split ticket rules - cancellation policy -->
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">1 名あたりの往復料金合計 (税およびサービス料込み) - 航空券 + ホテル • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">1 名あたりの往復料金合計 (税およびサービス料込み) - 航空券 + ホテル • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">往復 (1 名あたり) の最低料金。航空券 + ホテルを含む • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 予約済み</string>
@@ -3934,12 +3939,17 @@
     <!-- Package Best Flight description -->
     <string name="best_flight_description">お得 • 短時間 • 人気都市</string>
     <!-- Package search error -->
-    <string name="error_package_search_message">条件に一致するものは見つかりませんでした。検索条件を変更してください。</string>
+    <string name="error_package_search_message">申し訳ございません。条件に一致するものが見つかりません。検索条件を変更して、もう一度お試しください。</string>
+    <!-- Package search error -->
+    <string name="error_package_search_red_eye_flight_message">申し訳ございません。この航空券の組み合わせに宿泊日はありません。</string>
     <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
-    <string name="error_package_origin_resolution_message_TEMPLATE">{origin}という出発地が見つかりません</string>
+    <string name="error_package_origin_resolution_message_TEMPLATE">申し訳ございません。入力された{origin}を出発地とするフライトが見つかりません。再度お試しください。</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
-    <string name="error_package_destination_resolution_message_TEMPLATE">{destination}という目的地が見つかりません</string>
+    <string name="error_package_destination_resolution_message_TEMPLATE">申し訳ございません。入力された{destination}を目的地とするフライトが見つかりません。再度お試しください。</string>
     <string name="error_package_date_mismatch_error">申し訳ありません。このフライトは到着時刻が早いため、ホテルのチェックイン時刻まで長時間お待ちいただく必要があります。他のホテルまたはフライトを選択してください。</string>
+    <!-- string for package error when we simple can't connect to E3 servers-->
+    <string name="package_error_server">申し訳ございません。技術的な問題が発生しました。後ほど再度お試しください。</string>
+
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">処理を続けますか ?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->

@@ -827,6 +827,8 @@
     <string name="prices_oneway_minimum_label">Precios de ida por persona desde</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Precio total por el viaje de ida y vuelta por persona (incluyendo hotel, vuelos, impuestos y tasas)</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Precios de ida y vuelta por persona, desde • Incluye hotel y vuelo</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Sin plazas</string>
 
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Precio total por el viaje de ida y vuelta por persona (incluyendo hotel, vuelos, impuestos y tasas) • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Precio total por el viaje de ida y vuelta por persona (incluyendo hotel, vuelos, impuestos y tasas) • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">Precio total por viaje de ida y vuelta por persona. Incluye hotel y vuelo • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage} % reservado</string>
@@ -3431,7 +3436,7 @@
     <string name="country_yt">Mayotte</string>
     <string name="country_mx">México</string>
     <string name="country_fm">Micronesia</string>
-    <string name="country_md">Moldova</string>
+    <string name="country_md">Moldavia</string>
     <string name="country_mc">Mónaco</string>
     <string name="country_mn">Mongolia</string>
     <string name="country_me">Montenegro</string>
@@ -3934,12 +3939,17 @@
     <!-- Package Best Flight description -->
     <string name="best_flight_description">barato • corto • horario más elegido</string>
     <!-- Package search error -->
-    <string name="error_package_search_message">No se ha encontrado ningún resultado. Modifica la búsqueda.</string>
+    <string name="error_package_search_message">No se ha encontrado ningún resultado. Modifica tus criterios de búsqueda e inténtalo de nuevo.</string>
+    <!-- Package search error -->
+    <string name="error_package_search_red_eye_flight_message">No podemos continuar con la búsqueda porque esta combinación de vuelos no puede incluir ninguna estancia de hotel.</string>
     <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
-    <string name="error_package_origin_resolution_message_TEMPLATE">No se ha podido identificar el punto de origen "{origin}"</string>
+    <string name="error_package_origin_resolution_message_TEMPLATE">No se ha encontrado el origen introducido para {origin}. Inténtalo de nuevo.</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
-    <string name="error_package_destination_resolution_message_TEMPLATE">No se ha podido identificar el punto de destino "{destination}"</string>
+    <string name="error_package_destination_resolution_message_TEMPLATE">No se ha encontrado el destino introducido para {destination}. Inténtalo de nuevo.</string>
     <string name="error_package_date_mismatch_error">Este vuelo llega mucho antes de la hora de entrada al hotel. Te recomendamos que selecciones un hotel o un vuelo diferentes.</string>
+    <!-- string for package error when we simple can't connect to E3 servers-->
+    <string name="package_error_server">En este momento tenemos problemas técnicos. Vuelve a intentarlo más tarde.</string>
+
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">¿Estás seguro?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->

@@ -827,6 +827,8 @@
     <string name="prices_oneway_minimum_label">Priser pr. person for enkeltbillet fra</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Samlet pris tur-retur (inkl. skatter og gebyrer) pr. person - for hotel og flyrejser</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Priser pr. person tur-retur fra • inklusive hotel og fly</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Udsolgt</string>
 
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Samlet pris tur-retur (inkl. skatter og gebyrer) pr. person - for hotel og flyrejser • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Samlet pris tur-retur (inkl. skatter og gebyrer) pr. person - for hotel og flyrejser • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">Samlet pris pr. person tur-retur. inkl. hotel og fly • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% reserveret</string>
@@ -3934,12 +3939,17 @@
     <!-- Package Best Flight description -->
     <string name="best_flight_description">billig • kort • populær afgang</string>
     <!-- Package search error -->
-    <string name="error_package_search_message">Vi fandt ingen resultater. Tilpas din søgning.</string>
+    <string name="error_package_search_message">Vi fandt desværre ingen resultater. Rediger dine søgekriterier, og prøv igen.</string>
+    <!-- Package search error -->
+    <string name="error_package_search_red_eye_flight_message">Vi kan desværre ikke fortsætte, da denne flykombination resulterer i, at der ingen hotelovernatninger er.</string>
     <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
-    <string name="error_package_origin_resolution_message_TEMPLATE">Kunne ikke finde afrejsested for {origin}</string>
+    <string name="error_package_origin_resolution_message_TEMPLATE">Vi kunne desværre ikke finde det angivne afrejsested for {origin}. Prøv igen.</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
-    <string name="error_package_destination_resolution_message_TEMPLATE">Kunne ikke finde destination for {destination}</string>
+    <string name="error_package_destination_resolution_message_TEMPLATE">Vi kunne desværre ikke finde den angivne destination for {destination}. Prøv igen.</string>
     <string name="error_package_date_mismatch_error">Beklager, denne flyrejse ankommer længe før hotellets indtjekningstidspunkt. Vælg venligst et andet hotel eller en anden flyrejse.</string>
+    <!-- string for package error when we simple can't connect to E3 servers-->
+    <string name="package_error_server">Beklager, men vi oplever i øjeblikket tekniske problemer. Prøv igen senere.</string>
+
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">Er du sikker?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->

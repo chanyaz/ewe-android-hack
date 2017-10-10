@@ -827,6 +827,8 @@
     <string name="prices_oneway_minimum_label">Preise für eine Strecke pro Person ab</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Gesamtpreis der Hin- und Rückreise (inkl. Steuern und Gebühren), pro Person – für Hotel und Flüge</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Preise für den Hin- und Rückflug pro Person ab • inklusive Hotel und Flüge</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Ausgebucht</string>
 
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Gesamtpreis der Hin- und Rückreise (inkl. Steuern und Gebühren), pro Person – für Hotels und Flüge • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Gesamtpreis der Hin- und Rückreise (inkl. Steuern und Gebühren), pro Person – für Hotels und Flüge • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">Gesamtpreis für Hin- und Rückflug pro Person. Inklusive Hotel und Flüge • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">Zu {percentage}% ausgebucht</string>
@@ -3934,12 +3939,17 @@
     <!-- Package Best Flight description -->
     <string name="best_flight_description">günstig • kurz • beliebte Abflugzeit</string>
     <!-- Package search error -->
-    <string name="error_package_search_message">Wir konnten keine Ergebnisse finden. Bitte passen Sie Ihre Suche an.</string>
+    <string name="error_package_search_message">Wir konnten leider keine Ergebnisse finden. Bitte ändern Sie Ihre Suchkriterien und versuchen Sie es erneut.</string>
+    <!-- Package search error -->
+    <string name="error_package_search_red_eye_flight_message">Leider können wir die Suche nicht fortsetzen, da es zu dieser Flugkombination keinen Hotelaufenthalt gibt.</string>
     <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
-    <string name="error_package_origin_resolution_message_TEMPLATE">Konnte keinen Heimatflughafen für {origin} ermitteln</string>
+    <string name="error_package_origin_resolution_message_TEMPLATE">Leider konnten wird den eingegebenen Abreiseort {origin} nicht finden. Versuchen Sie es bitte erneut.</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
-    <string name="error_package_destination_resolution_message_TEMPLATE">Konnte keinen Zielflughafen für {destination} ermitteln</string>
+    <string name="error_package_destination_resolution_message_TEMPLATE">Leider konnten wird den eingegebenen Zielort {destination} nicht finden. Versuchen Sie es bitte erneut.</string>
     <string name="error_package_date_mismatch_error">Dieser Flug landet lange vor der Check-in-Zeit des Hotels. Bitte wählen Sie ein anderes Hotel oder andere Flüge.</string>
+    <!-- string for package error when we simple can't connect to E3 servers-->
+    <string name="package_error_server">Es tut uns leid, wir haben gerade technische Probleme. Bitte versuchen Sie es später erneut.</string>
+
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">Sind Sie sicher?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->

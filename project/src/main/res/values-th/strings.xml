@@ -827,6 +827,8 @@
     <string name="prices_oneway_minimum_label">ราคาเที่ยวเดียวต่อคน เริ่มที่</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">ราคารวมไปกลับ (รวมภาษีและค่าธรรมเนียม) ราคาต่อคน - สำหรับโรงแรมและเที่ยวบิน</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">ราคาไป-กลับต่อคน เริ่มที่ • รวมโรงแรมและเที่ยวบิน</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">หมดแล้ว</string>
 
@@ -1597,7 +1599,7 @@
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
-    <string name="itin_flight_toolbar_title_TEMPLATE">เที่ยวบินไปยัง{destination}</string>
+    <string name="itin_flight_toolbar_title_TEMPLATE">เที่ยวบินไปยัง {destination}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">เช็คอิน — 3 วัน</string>
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">ราคารวมไป-กลับ (รวมภาษีและค่าธรรมเนียม) ต่อคน - สำหรับโรงแรมและเที่ยวบิน • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">ราคารวมไป-กลับ (รวมภาษีและค่าธรรมเนียม) ต่อคน - สำหรับโรงแรมและเที่ยวบิน • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">ราคาไป-กลับต่อคน รวมโรงแรมและเที่ยวบิน • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">จองแล้ว {percentage}%</string>
@@ -3934,12 +3939,17 @@
     <!-- Package Best Flight description -->
     <string name="best_flight_description">ราคาถูก • ระยะทางสั้น • เวลาออกเดินทางที่นิยม</string>
     <!-- Package search error -->
-    <string name="error_package_search_message">เราไม่พบผลลัพธ์ใดๆ โปรดปรับเปลี่ยนการค้นหาของคุณ</string>
+    <string name="error_package_search_message">ขออภัย เราไม่พบผลการค้นหา โปรดปรับเกณฑ์การค้นหาแล้วลองอีกครั้ง</string>
+    <!-- Package search error -->
+    <string name="error_package_search_red_eye_flight_message">ขออภัย เราไม่สามารถดำเนินการค้นหาได้เนื่องจากการเดินทางในเที่ยวบินนี้ไม่มีคืนเข้าพัก</string>
     <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
-    <string name="error_package_origin_resolution_message_TEMPLATE">ไม่สามารถหาเมืองต้นทางสำหรับ {origin}</string>
+    <string name="error_package_origin_resolution_message_TEMPLATE">ขออภัย เราไม่พบผลลัพธ์สำหรับเมืองต้นทาง {origin} โปรดลองอีกครั้ง</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
-    <string name="error_package_destination_resolution_message_TEMPLATE">ไม่สามารถหาเมืองปลายทางสำหรับ {destination}</string>
+    <string name="error_package_destination_resolution_message_TEMPLATE">ขออภัย เราไม่พบผลลัพธ์สำหรับเมืองปลายทาง {destination} โปรดลองอีกครั้ง</string>
     <string name="error_package_date_mismatch_error">ขออภัย เที่ยวบินนี้ถึงก่อนเวลาเช็คอินเป็นเวลานาน โปรดเลือกโรงแรมอื่นหรือเที่ยวบินอื่น</string>
+    <!-- string for package error when we simple can't connect to E3 servers-->
+    <string name="package_error_server">ขออภัย ระบบขัดข้อง โปรดลองใหม่ภายหลัง</string>
+
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">คุณแน่ใจหรือไม่</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->
