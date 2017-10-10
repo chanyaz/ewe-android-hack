@@ -20,6 +20,7 @@ import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.presenter.flight.FlightConfirmationPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -27,9 +28,11 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isKrazyGlueOnFlightsConfirmationEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -190,6 +193,30 @@ class FlightConfirmationPresenterTest {
         givenCheckoutResponse()
         val itinNumber = presenter.itinNumber
         assertEquals("Confirmation Number: 12345", itinNumber.contentDescription)
+    }
+
+    @Test
+    fun testKrazyGlueEnabled() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
+
+        assertTrue(isKrazyGlueOnFlightsConfirmationEnabled(activity))
+    }
+
+    @Test
+    fun testKrazyGlueDisabledBucketedFeatureToggleOff() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), false)
+
+        assertFalse(isKrazyGlueOnFlightsConfirmationEnabled(activity))
+    }
+
+    @Test
+    fun testKrazyGlueDisabledFeatureToggleEnabledNotBucketed() {
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+        SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
+
+        assertFalse(isKrazyGlueOnFlightsConfirmationEnabled(activity))
     }
 
     private fun setupPresenter() {
