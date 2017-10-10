@@ -18,6 +18,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.AccessibleCardView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
@@ -121,6 +122,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         vm.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)
             if (showLoading) {
+                postDelayed({ flightCardText.setFocusForView() }, 600L)
                 rowContainer.isEnabled = false
                 flightInfoContainer.isEnabled = false
                 AnimUtils.progressForward(flightLoadingBar)
