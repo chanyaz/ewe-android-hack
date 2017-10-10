@@ -88,7 +88,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppHotelGreedySearch = new ABTest(15228);
 	public static final ABTest EBAndroidAppHotelSuperSearch = new ABTest(14911);
 	public static final ABTest EBAndroidAppHotelHideStrikethroughPrice = new ABTest(14863);
-	public static final ABTest EBAndroidAppHotelsWebCheckout = new ABTest(14761);
+	public static final ABTest EBAndroidAppHotelsWebCheckout = new ABTest(15823);
 	public static final ABTest EBAndroidAppHotelPriceDescriptorProminence = new ABTest(15137);
 	public static final ABTest EBAndroidAppHotelCheckinCheckoutDatesInline = new ABTest(15344);
 	public static final ABTest HotelShowSoldOutResults = new ABTest(15730);

@@ -28,6 +28,8 @@ import org.mockito.Mockito.verify
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import rx.observers.TestSubscriber
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class WebCheckoutViewTest {
@@ -128,6 +130,32 @@ class WebCheckoutViewTest {
         fectchTripIDSubscriber.assertValueCount(1)
         fectchTripIDSubscriber.assertValue(tripID)
         bookingTripIDSubscriber.assertValue(tripID)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testWebviewDoesNotFetchTripIdWithoutValidConfirmationUrl() {
+        val bookingTripIDSubscriber = TestSubscriber<String>()
+        val fectchTripIDSubscriber = TestSubscriber<String>()
+        val closeViewSubscriber = TestSubscriber<Unit>()
+
+        setPOSWithWebCheckoutABTestEnabled(true)
+        bucketWebCheckoutABTest(true)
+        setUpTestToStartAtDetailsScreen()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        assertFalse(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL.isNullOrBlank())
+        assertTrue(PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL.isNullOrBlank())
+        selectHotelRoom()
+
+        webCheckoutViewObservable.assertValueCount(1)
+        verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+        bookingTripIDSubscriber.assertValueCount(0)
+        fectchTripIDSubscriber.assertValueCount(0)
+        closeViewSubscriber.assertValueCount(1)
     }
 
     @Test
