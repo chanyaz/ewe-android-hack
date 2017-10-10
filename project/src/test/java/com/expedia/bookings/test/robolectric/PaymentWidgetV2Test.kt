@@ -282,19 +282,6 @@ class PaymentWidgetV2Test {
     }
 
     @Test
-    fun testUnknownCardIsOnlyShown() {
-        val validFormsOfPayment = ArrayList<String>()
-        val response = getCreateTripResponseWithValidFormsOfPayment(validFormsOfPayment)
-        setupAndShowValidCardsList()
-
-        sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
-
-        assertEquals(1, validCardsList.childCount)
-        val cardInList = (validCardsList.getChildAt(0) as ImageView).drawable
-        assertEquals(activity.resources.getDrawable(R.drawable.generic), cardInList)
-    }
-
-    @Test
     fun testAmericanExpressCardShown() {
         val validFormsOfPayment = ArrayList<String>()
         validFormsOfPayment.add("AmericanExpress")
@@ -333,7 +320,10 @@ class PaymentWidgetV2Test {
 
         sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
 
+        sut.creditCardNumber.requestFocus()
         sut.creditCardNumber.setText("378282246310005")
+        sut.creditCardPostalCode.requestFocus()
+
         assertAllCardsDimmedExceptValidCardType(validCardsList, PaymentType.CARD_AMERICAN_EXPRESS)
     }
 
@@ -354,7 +344,7 @@ class PaymentWidgetV2Test {
     }
 
     @Test
-    fun testDimUnknownCard() {
+    fun testCreditCardListStateWhenUnknowncardIsEntered() {
         val validFormsOfPayment = ArrayList<String>()
         validFormsOfPayment.add("AmericanExpress")
         validFormsOfPayment.add("CarteBleue")
@@ -365,9 +355,11 @@ class PaymentWidgetV2Test {
 
         sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
 
-        sut.creditCardNumber.setText("0000000000000000")
+        sut.creditCardNumber.requestFocus()
+        sut.creditCardNumber.setText("12345678912345")
+        sut.creditCardPostalCode.requestFocus()
 
-        assertAllCardsDimmedExceptValidCardType(validCardsList, PaymentType.CARD_UNKNOWN)
+        assertAllCardsAreNotDimmed()
     }
 
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
@@ -452,10 +444,12 @@ class PaymentWidgetV2Test {
     }
 
     private fun assertValidCardsListShowsValidCards(validCardsList: LinearLayout, response: HotelCreateTripResponse) {
-        val childCountWithoutUnknownCard = validCardsList.childCount - 1
+        val layoutChildCount = validCardsList.childCount
         val validPaymentTypesCount = response.validFormsOfPayment.size
-        assertEquals(childCountWithoutUnknownCard, validPaymentTypesCount)
-        for (i in 0..childCountWithoutUnknownCard - 1) {
+
+        assertEquals(layoutChildCount, validPaymentTypesCount)
+
+        for (i in 0..layoutChildCount - 1) {
             val cardInValidFormsRes = BookingInfoUtils.getCreditCardIcon(response.validFormsOfPayment[i].getPaymentType())
             val cardInList = (validCardsList.getChildAt(i) as ImageView)
             assertEquals(cardInList.tag, cardInValidFormsRes)

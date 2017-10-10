@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -83,21 +84,15 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             for (validType in validFormsOfPayment) {
                 addCardInValidCardsList(validType.getPaymentType())
             }
-            addCardInValidCardsList(PaymentType.CARD_UNKNOWN)
         }
 
         if (shouldDisplayCardsListOnPaymentForm) {
-            creditCardNumber.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {
+            creditCardNumber.setOnFocusChangeListener { view, hasFocus ->
+                if (!hasFocus) {
+                    updateCardListOpacity((view as EditText).text.toString())
                 }
-
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                }
-
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    updateCardListOpacity(s.toString())
-                }
-            })
+                super.onFocusChange(creditCardNumber, hasFocus)
+            }
         }
     }
 
@@ -147,14 +142,16 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     }
 
     private fun addCardInValidCardsList(paymentType: PaymentType) {
-        val creditCardImage = ImageView(context)
-        creditCardImage.setTag(BookingInfoUtils.getCreditCardIcon(paymentType))
-        creditCardImage.setImageResource(BookingInfoUtils.getCreditCardIcon(paymentType))
-        val padding = context.resources.getDimensionPixelOffset(R.dimen.default_margin)
-        val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-        params.setMargins(0, padding, padding, padding)
-        creditCardImage.layoutParams = params
-        validCardsList.addView(creditCardImage)
+        if (!paymentType.isPoints) {
+            val creditCardImage = ImageView(context)
+            creditCardImage.setTag(BookingInfoUtils.getCreditCardIcon(paymentType))
+            creditCardImage.setImageResource(BookingInfoUtils.getCreditCardIcon(paymentType))
+            val padding = context.resources.getDimensionPixelOffset(R.dimen.default_margin)
+            val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            params.setMargins(0, padding, padding, padding)
+            creditCardImage.layoutParams = params
+            validCardsList.addView(creditCardImage)
+        }
     }
 
     private fun updateViewsForDisplayingCardsList() {
@@ -167,7 +164,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
 
     private fun updateCardListOpacity(cardNumber: String) {
         val paymentType = CurrencyUtils.detectCreditCardBrand(cardNumber, context)
-        if (paymentType != null) {
+        if (paymentType != null && paymentType != PaymentType.CARD_UNKNOWN) {
             dimCardsInListThatDontMatchPaymentType(paymentType)
         } else {
             undimAllCards(validCardsList)
