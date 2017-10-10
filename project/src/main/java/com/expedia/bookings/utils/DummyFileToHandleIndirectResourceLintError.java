@@ -15,6 +15,7 @@ public class DummyFileToHandleIndirectResourceLintError {
 		R.style.AccountPrimaryText,
 		R.style.AccountSecondaryText,
 		R.bool.acct__isGoogleAccountChangeEnabled,
+		R.bool.signInCardUseCompatPadding,
 		R.bool.abs__split_action_bar_is_narrow,
 		R.string.rail_open_return_selected,
 		R.string.rail_open_return_description,

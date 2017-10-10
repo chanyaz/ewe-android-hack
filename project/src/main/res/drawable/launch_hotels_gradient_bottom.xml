@@ -4,5 +4,5 @@
         android:startColor="#B3000000"
         android:endColor="#00000000"
         android:angle="90"/>
-    <corners android:radius="@dimen/launch_list_corner_radius" />
+    <corners android:radius="@dimen/home_screen_card_view_border_radius" />
 </shape>

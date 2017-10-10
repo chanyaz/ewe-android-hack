@@ -49,11 +49,17 @@ class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 		int itemViewType = adapter.getItemViewType(recyclerViewChildIndex);
 
 		boolean isLobView = itemViewType == LaunchDataItem.LOB_VIEW;
+		boolean isHeaderView = itemViewType == LaunchDataItem.HEADER_VIEW;
 		boolean isStatic = LaunchListAdapter.isStaticCard(itemViewType);
 
 		if (isLobView) {
 			outRect.left = 0;
 			outRect.right = 0;
+			outRect.bottom = 0;
+		}
+		else if (isHeaderView) {
+			outRect.left = mLeft;
+			outRect.right = mRight;
 		}
 		// Big guys (0, 5, 10, etc)
 		else if (actualPosition % 5 == 0 || isStatic) {

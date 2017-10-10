@@ -6,9 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="160dp"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="4dp"
-    app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    style="@style/HomeScreenCardViewStyle"
+    app:cardPreventCornerOverlap="false">
 
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/background_image"
@@ -26,9 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
-        android:paddingBottom="10dp"
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp">
+        android:padding="@dimen/launch_tile_padding">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/title"
@@ -38,8 +35,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/launch_list_txt"
-            android:textSize="15sp"
-            app:textStyle="light" />
+            style="@style/Core.Text.400"
+            app:textStyle="light"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/subtitle"
@@ -48,8 +45,8 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/title"
             android:textColor="@color/launch_list_txt"
-            android:textSize="14sp"
-            app:textStyle="light" />
+            style="@style/Core.Text.300"
+            app:textStyle="light"/>
 
     </RelativeLayout>
 
@@ -61,8 +58,8 @@
         android:paddingRight="14dp"
         android:layout_gravity="bottom|right"
         android:textColor="@color/launch_list_txt"
-        android:textSize="16sp"
         android:text="@string/browse_hotels_label"
-        android:visibility="gone" />
+        android:visibility="gone"
+        style="@style/Core.Text.400"/>
 
 </android.support.v7.widget.CardView>

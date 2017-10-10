@@ -20,9 +20,11 @@
 
     <!--Universal Cardview Dimensions-->
     <dimen name="card_view_container_margin">9dp</dimen>
+    <dimen name="card_view_border_radius">3dp</dimen>
 
-    <dimen name="card_view_bottom_margin">2dp</dimen>
-    <dimen name="cardview_border_radius">3dp</dimen>
+    <!--Home Screen Cardview Dimension-->
+    <dimen name="home_screen_card_view_container_margin">12dp</dimen>
+    <dimen name="home_screen_card_view_border_radius">4dp</dimen>
 
     <!--Universal Sort and filter dimensions should live here going forward-->
     <dimen name="sort_filter_cards_left_right_margin">14dp</dimen>

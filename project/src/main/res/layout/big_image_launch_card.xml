@@ -5,9 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/cardview_border_radius"
-    app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    style="@style/HomeScreenCardViewStyle"
+    app:cardPreventCornerOverlap="false">
 
     <RelativeLayout
         android:layout_height="match_parent"
@@ -47,8 +46,7 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@color/white"
                 android:gravity="center_horizontal"
-                style="@style/Core.Text"
-                android:textSize="24sp"
+                style="@style/Core.Text.600"
                 app:textStyle="medium"
                 tools:text="@string/member_deal_title"/>
 

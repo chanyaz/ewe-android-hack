@@ -6,9 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="160dp"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="4dp"
     app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    style="@style/HomeScreenCardViewStyle">
 
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/background_image"
@@ -43,9 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:paddingBottom="10dp"
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp">
+        android:padding="@dimen/launch_tile_padding">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/title"
@@ -55,8 +52,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/launch_list_txt"
-            android:textSize="15sp"
-            app:textStyle="light" />
+            style="@style/Core.Text.400"
+            app:textStyle="light"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/subtitle"
@@ -65,8 +62,8 @@
             android:layout_below="@+id/title"
             android:layout_gravity="left"
             android:textColor="@color/launch_list_txt"
-            android:textSize="14sp"
-            app:textStyle="light" />
+            style="@style/Core.Text.300"
+            app:textStyle="light"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -95,7 +92,7 @@
                         android:layout_gravity="center"
                         android:paddingBottom="1dp"
                         android:textColor="#222222"
-                        android:textSize="12sp"
+                        style="@style/Core.Text.200"
                         app:textStyle="bold" />
                 </FrameLayout>
 
@@ -105,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/hotel_rating_text"
                     android:textColor="@color/launch_list_txt"
-                    android:textSize="14sp"
+                    style="@style/Core.Text.300"
                     app:textStyle="light" />
             </LinearLayout>
 
@@ -115,8 +112,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/not_rated"
                 android:textColor="@color/launch_list_txt"
-                android:textSize="14sp"
                 android:visibility="gone"
+                style="@style/Core.Text.300"
                 app:textStyle="light" />
 
             <LinearLayout
@@ -133,15 +130,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:textColor="@color/launch_list_strikethrough_txt"
-                    android:textSize="14sp" />
+                    style="@style/Core.Text.300" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/half_tile_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/launch_list_txt"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    style="@style/Core.Text.400"
+                    app:textStyle="bold" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -161,7 +158,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right"
                 android:textColor="@color/launch_list_strikethrough_txt"
-                android:textSize="14sp" />
+                style="@style/Core.Text.300"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/full_tile_price"
@@ -170,8 +167,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="bottom"
                 android:textColor="@color/launch_list_txt"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/Core.Text.500"
+                app:textStyle="bold" />
         </LinearLayout>
 
     </RelativeLayout>

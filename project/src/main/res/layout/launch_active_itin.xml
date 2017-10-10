@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="2.5dp"
+    style="@style/HomeScreenCardViewStyle"
     app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/launch_screen_active_itin_bg"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/launch_tile_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,8 +22,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="16dp"
+                android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_empty_itin_suitcase"
                 android:tint="@color/white" />
@@ -33,10 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="8dp"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                app:textStyle="medium" />
+                style="@style/Core.Text.400.Medium"/>
 
         </LinearLayout>
 
@@ -46,8 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            app:textStyle="normal" />
+            style="@style/Core.Text.300"/>
 
     </LinearLayout>
 

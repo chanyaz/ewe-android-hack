@@ -4,5 +4,5 @@
     android:shape="rectangle" android:paddingTop="16dp" android:paddingBottom="16dp"
     android:paddingLeft="32dp" android:paddingRight="32dp" >
     <solid android:color="@color/soft_prompt_button_color"/>
-    <corners android:radius="@dimen/cardview_border_radius"/>
+    <corners android:radius="@dimen/card_view_border_radius"/>
 </shape>

@@ -5,10 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="160dp"
-    app:cardCornerRadius="4dp"
+    style="@style/HomeScreenCardViewStyle"
     app:cardElevation="1dp"
-    app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    app:cardPreventCornerOverlap="false">
 
     <View
         android:id="@+id/background_image_view"

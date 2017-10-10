@@ -152,7 +152,7 @@ public class Images {
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 		headerBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
 		headerBitmapDrawable.setCornerRadius(
-			context.getResources().getDimensionPixelSize(R.dimen.launch_list_corner_radius));
+			context.getResources().getDimensionPixelSize(R.dimen.home_screen_card_view_border_radius));
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.CENTER_CROP);
 
 		return headerBitmapDrawable;

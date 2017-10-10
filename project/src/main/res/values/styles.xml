@@ -1037,8 +1037,13 @@
 
     <!--Material CardView Style-->
     <style name="MaterialCardView">
-        <item name="cardCornerRadius">@dimen/cardview_border_radius</item>
+        <item name="cardCornerRadius">@dimen/card_view_border_radius</item>
         <item name="cardElevation">1dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
+    <style name="HomeScreenCardViewStyle">
+        <item name="cardCornerRadius">@dimen/home_screen_card_view_border_radius</item>
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView android:id="@+id/card_view"
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="@dimen/cardview_border_radius"
     app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="@bool/signInCardUseCompatPadding">
+    style="@style/HomeScreenCardViewStyle"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,24 +23,23 @@
             android:background="@drawable/bg_sign_in_placeholder_launch"
             android:gravity="bottom|left"
             android:orientation="vertical"
-            android:paddingBottom="15dp">
+            android:padding="@dimen/launch_tile_padding">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/first_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="11dp"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                style="@style/Core.Text.400"
+                tools:text="Shop as an Expedia member"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/second_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:paddingLeft="11dp"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                style="@style/Core.Text.300"/>
 
         </LinearLayout>
 
@@ -56,11 +56,11 @@
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="@dimen/launch_tile_padding"
+                android:paddingRight="@dimen/launch_tile_padding"
                 android:textColor="@color/placeholder_card_button_text_color"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                style="@style/Core.Text.300"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/button_two"
@@ -69,11 +69,11 @@
                 android:layout_marginLeft="25dp"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="20dp"
+                android:paddingLeft="@dimen/launch_tile_padding"
+                android:paddingRight="@dimen/launch_tile_padding"
                 android:textColor="@color/placeholder_card_button_text_color"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                style="@style/Core.Text.300"/>
 
         </LinearLayout>
 

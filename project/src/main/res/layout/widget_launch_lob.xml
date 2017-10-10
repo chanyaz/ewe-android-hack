@@ -15,10 +15,7 @@
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/card_view_bottom_margin"
-        android:layout_marginLeft="@dimen/card_view_container_margin"
-        android:layout_marginRight="@dimen/card_view_container_margin"
-        android:layout_marginTop="@dimen/card_view_container_margin"
+        android:layout_margin="@dimen/launch_tile_margin_side"
         android:clipToPadding="false">
 
         <android.support.v7.widget.RecyclerView
