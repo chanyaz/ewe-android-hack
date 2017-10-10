@@ -14,7 +14,9 @@ open class HotelInfoManager(private val hotelServices: HotelServices?) {
     val offerSuccessSubject = PublishSubject.create<HotelOffersResponse>()
     val infoSuccessSubject = PublishSubject.create<HotelOffersResponse>()
 
-    val noInternetSubject = PublishSubject.create<Unit>()
+    val offersNoInternetSubject = PublishSubject.create<Unit>()
+    val infoNoInternetSubject = PublishSubject.create<Unit>()
+
     val soldOutSubject = PublishSubject.create<Unit>()
 
     private var subscriptions = CompositeSubscription()
@@ -48,7 +50,7 @@ open class HotelInfoManager(private val hotelServices: HotelServices?) {
 
         override fun onError(e: Throwable?) {
             if (RetrofitUtils.isNetworkError(e)) {
-                noInternetSubject.onNext(Unit)
+                offersNoInternetSubject.onNext(Unit)
             }
         }
     }
@@ -67,7 +69,7 @@ open class HotelInfoManager(private val hotelServices: HotelServices?) {
 
         override fun onError(e: Throwable?) {
             if (RetrofitUtils.isNetworkError(e)) {
-                noInternetSubject.onNext(Unit)
+                infoNoInternetSubject.onNext(Unit)
             }
         }
     }

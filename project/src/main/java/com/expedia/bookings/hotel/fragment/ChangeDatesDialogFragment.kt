@@ -16,8 +16,8 @@ import android.view.Window
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.widget.TextView
-import rx.Subscription
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 
 class ChangeDatesDialogFragment() : DialogFragment() {
     val datesChangedSubject = PublishSubject.create<Pair<LocalDate, LocalDate>>()
@@ -32,7 +32,7 @@ class ChangeDatesDialogFragment() : DialogFragment() {
     private var newDates = Pair<LocalDate?, LocalDate?>(null, null)
 
     private var userTappedDone = false
-    private var dateSubscription: Subscription? = null
+    private var dateSubscription = CompositeSubscription()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,9 +52,9 @@ class ChangeDatesDialogFragment() : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         pickerView.bind(rules, HotelCalendarDirections(context))
 
-        dateSubscription = pickerView.datesUpdatedSubject.subscribe { dates ->
+        dateSubscription.add(pickerView.datesUpdatedSubject.subscribe { dates ->
             newDates = dates
-        }
+        })
         pickerView.setDates(initialDates.first, initialDates.second)
         doneButton.setOnClickListener {
             userTappedDone = true
@@ -70,7 +70,7 @@ class ChangeDatesDialogFragment() : DialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        dateSubscription?.unsubscribe()
+        dateSubscription.clear()
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
@@ -78,9 +78,10 @@ class ChangeDatesDialogFragment() : DialogFragment() {
         if (userTappedDone && newDates.first != null && newDates.second != null) {
             datesChangedSubject.onNext(Pair(newDates.first!!, newDates.second!!))
         } else {
-            //todo use old dates
+            //do use old dates
         }
         userTappedDone = false
+        pickerView.hideToolTip()
     }
 
     fun presetDates(startDate: LocalDate?, endDate: LocalDate?) {

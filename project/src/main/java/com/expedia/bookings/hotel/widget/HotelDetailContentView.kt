@@ -324,7 +324,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
 
         if (vm.isChangeDatesEnabled()) {
-            searchInfo.setOnClickListener(ChangeDateListener(WeakReference(this)))
+            searchInfo.setOnClickListener {
+                showDialog()
+            }
         }
     }
 
@@ -428,27 +430,18 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         subscriptions.clear()
     }
 
-    class ChangeDateListener(val contentViewRef: WeakReference<HotelDetailContentView>) : View.OnClickListener {
-        override fun onClick(p0: View?) {
-            contentViewRef.get()?.let { it.showDialog() }
-        }
-    }
-
     private fun showDialog() {
         val dialogFragment = ChangeDatesDialogFragment()
-        val changeDateAction = ChangeDates(WeakReference(viewModel as HotelDetailViewModel))
-        subscriptions.add(dialogFragment.datesChangedSubject.subscribe(changeDateAction))
+        subscriptions.add(dialogFragment.datesChangedSubject.subscribe { dates ->
+            (viewModel as? HotelDetailViewModel)?.let { vm ->
+                vm.changeDates(dates.first, dates.second)
+            }
+        })
+
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
 
         dialogFragment.presetDates(viewModel.checkInDate, viewModel.checkOutDate)
         dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
-    }
-
-    private class ChangeDates(val weakViewModel: WeakReference<HotelDetailViewModel>) : Action1<Pair<LocalDate, LocalDate>> {
-        override fun call(t: Pair<LocalDate, LocalDate>) {
-            weakViewModel.get()?.let { viewModel -> viewModel.changeDates(t.first, t.second) }
-        }
-
     }
 
     private fun areRoomsOffScreenAboveETPToolbar(toolbarOffset: Float): Boolean {

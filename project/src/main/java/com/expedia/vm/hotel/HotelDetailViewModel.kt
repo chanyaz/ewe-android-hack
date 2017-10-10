@@ -36,9 +36,6 @@ open class HotelDetailViewModel(context: Context,
 
     private var cachedParams: HotelSearchParams? = null
 
-    private var noInternetSubscription: Subscription? = null
-
-
     private var subscriptions = CompositeSubscription()
 
     init {
@@ -65,21 +62,17 @@ open class HotelDetailViewModel(context: Context,
 
         fetchInProgressSubject.onNext(Unit)
 
-        noInternetSubscription = hotelInfoManager.noInternetSubject.subscribe {
+        subscriptions.add(hotelInfoManager.offersNoInternetSubject.subscribe {
             handleNoInternet(retryFun = { fetchOffers(params, hotelId) })
-        }
+        })
 
-        Log.v("EXP_MEM_ISSUE", "MEMORY ISSUE STARTS HERE")
-//
+        subscriptions.add(hotelInfoManager.infoNoInternetSubject.subscribe {
+            handleNoInternet(retryFun = { hotelInfoManager.fetchInfo(params, hotelId) })
+        })
+
         subscriptions.add(hotelInfoManager.soldOutSubject.subscribe {
-            noInternetSubscription?.unsubscribe()
-            noInternetSubscription = hotelInfoManager.noInternetSubject.subscribe {
-                handleNoInternet(retryFun = { hotelInfoManager.fetchInfo(params, hotelId) })
-            }
             hotelInfoManager.fetchInfo(params, hotelId)
         })
-        Log.v("EXP_MEM_ISSUE", "MEMORY ISSUE ENDS HERE")
-
 
         hotelInfoManager.fetchOffers(params, hotelId)
     }
@@ -97,7 +90,6 @@ open class HotelDetailViewModel(context: Context,
 
     fun clearSubscriptions() {
         subscriptions.clear()
-        noInternetSubscription?.unsubscribe()
         hotelInfoManager.clearSubscriptions()
     }
 
