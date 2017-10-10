@@ -827,6 +827,8 @@
     <string name="prices_oneway_minimum_label">1인당 편도 요금 최저가</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">총 왕복 요금(세금 및 수수료 포함) - 1인당, 호텔 및 항공 포함</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">왕복 요금 - 1인당, 최저가 • 호텔 및 항공 포함</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">매진</string>
 
@@ -927,7 +929,7 @@
     <string name="nav_packages">패키지 특가 상품</string>
     <string name="nav_hotel_plus_flight_deals">호텔+항공 특가 상품</string>
     <string name="nav_hotel_plus_flight">호텔+항공</string>
-    <string name="nav_flight_plus_hotel">항공 + 호텔</string>
+    <string name="nav_flight_plus_hotel">항공+호텔</string>
     <!-- Rail -->
     <string name="nav_rail">기차</string>
     <string name="add_rail_card">레일카드 추가</string>
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">총 왕복 요금(세금 및 수수료 포함) - 1인당, 호텔 및 항공 • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">총 왕복 요금(세금 및 수수료 포함) - 1인당, 호텔 및 항공 • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">총 왕복 요금 - 1인당, 호텔 및 항공 포함 • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 예약됨</string>
@@ -3229,9 +3234,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -3934,12 +3939,17 @@
     <!-- Package Best Flight description -->
     <string name="best_flight_description">저렴하고 • 짧은 • 인기 출발</string>
     <!-- Package search error -->
-    <string name="error_package_search_message">검색 결과가 없습니다. 검색 조건을 변경해 주세요.</string>
+    <string name="error_package_search_message">죄송합니다. 검색 결과가 없습니다. 검색 조건을 변경하고 다시 검색해 주세요.</string>
+    <!-- Package search error -->
+    <string name="error_package_search_red_eye_flight_message">죄송합니다. 이 항공편 조합으로는 검색되는 호텔 숙박이 없어 계속 진행할 수 없습니다.</string>
     <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
-    <string name="error_package_origin_resolution_message_TEMPLATE">{origin} 이름의 출발지를 찾을 수 없습니다.</string>
+    <string name="error_package_origin_resolution_message_TEMPLATE">죄송합니다. {origin}에 대해 입력하신 출발지를 찾을 수 없습니다. 다시 해보세요.</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
-    <string name="error_package_destination_resolution_message_TEMPLATE">{destination} 이름의 목적지를 찾을 수 없습니다.</string>
+    <string name="error_package_destination_resolution_message_TEMPLATE">죄송합니다. {destination}에 대해 입력하신 목적지를 찾을 수 없습니다. 다시 해보세요.</string>
     <string name="error_package_date_mismatch_error">죄송합니다. 이 항공편은 호텔 체크인 시간 한참 전에 도착합니다. 다른 호텔 또는 항공편을 선택해 주세요.</string>
+    <!-- string for package error when we simple can't connect to E3 servers-->
+    <string name="package_error_server">죄송합니다. 기술 문제가 발생했습니다. 나중에 다시 시도해 주세요.</string>
+
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">정말 하시겠어요?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->

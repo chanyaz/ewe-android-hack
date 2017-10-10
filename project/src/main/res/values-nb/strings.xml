@@ -822,11 +822,13 @@
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prisene er for én vei per person.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
-    <string name="prices_roundtrip_minimum_label">Priser er for tur-retur per person, fra</string>
+    <string name="prices_roundtrip_minimum_label">Prisene er for tur-retur per person, fra</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
-    <string name="prices_oneway_minimum_label">Priser er for én vei per person, fra</string>
+    <string name="prices_oneway_minimum_label">Prisene er for én vei per person, fra</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Totalpris tur-retur (inkludert skatter og avgifter), per person – for hotell og flyvninger</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Prisene er for tur-retur per person, fra • inkluderer hotell og flyreiser</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Utsolgt på appen vår</string>
 
@@ -1597,7 +1599,7 @@
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
-    <string name="itin_flight_toolbar_title_TEMPLATE">Flyvning til {destination}</string>
+    <string name="itin_flight_toolbar_title_TEMPLATE">Fly til {destination}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Innsjekking – 3 dager</string>
@@ -2254,7 +2256,7 @@
     <!-- redress number icon content description -->
     <string name="redress_number_icon_cont_desc">Hva er et redress-nummer?</string>
     <!--Frequent flyer program name hint -->
-    <string name="frequent_flyer_program_name">Flybonusordning:</string>
+    <string name="frequent_flyer_program_name">Flybonusordning</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
     <string name="frequent_flyer_programs">Programmer</string>
     <!--Frequent flyer program number hint -->
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Totalpris tur-retur (inkludert skatter og avgifter), per person – for hotell og flyvninger • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Totalpris tur-retur (inkludert skatter og avgifter), per person – for hotell og flyvninger • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">Totalprisen er tur-retur, per person. inkluderer hotell og flyreiser • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage} % bestilt</string>
@@ -3934,12 +3939,17 @@
     <!-- Package Best Flight description -->
     <string name="best_flight_description">billig • kort • populær avreise</string>
     <!-- Package search error -->
-    <string name="error_package_search_message">Vi fant ingen søkeresultat. Endre søket ditt.</string>
+    <string name="error_package_search_message">Vi fant dessverre ingen søkeresultater. Juster søkekriteriene dine og prøv igjen.</string>
+    <!-- Package search error -->
+    <string name="error_package_search_red_eye_flight_message">Vi kunne dessverre ikke fortsette, ettersom denne kombinasjonen av flyreiser ikke fører til noen overnatting.</string>
     <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
-    <string name="error_package_origin_resolution_message_TEMPLATE">Kunne ikke finne avreisestedet {origin}</string>
+    <string name="error_package_origin_resolution_message_TEMPLATE">Vi kunne dessverre ikke finne det angitte avreisestedet, {origin}. Prøv på nytt.</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
-    <string name="error_package_destination_resolution_message_TEMPLATE">Kunne ikke finne reisemålet {destination}</string>
+    <string name="error_package_destination_resolution_message_TEMPLATE">Vi kunne dessverre ikke finne det angitte ankomststedet, {destination}. Prøv på nytt.</string>
     <string name="error_package_date_mismatch_error">Beklager, denne flyvningen ankommer lenge før hotellets innsjekkingstid. Velg et annet hoteller eller en annen flyreise.</string>
+    <!-- string for package error when we simple can't connect to E3 servers-->
+    <string name="package_error_server">Vi har dessverre noen tekniske problemer. Prøv igjen senere.</string>
+
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">Er du sikker?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->

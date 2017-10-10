@@ -758,7 +758,7 @@
     <!-- Text for getting current location suggestion -->
     <string name="lx_getting_current_location">Estamos determinando la ubicación…</string>
     <!-- LX Error Fetching activity details -->
-    <string name="lx_error_details">No pudimos encontrar detalles. Inténtalo de nuevo por favor.</string>
+    <string name="lx_error_details">No pudimos encontrar detalles. Inténtalo de nuevo.</string>
     <!-- Current location failed toolbar text -->
     <string name="lx_error_current_location_toolbar_text">Inténtalo de nuevo</string>
     <!-- LX No Activities for Current location -->
@@ -827,6 +827,8 @@
     <string name="prices_oneway_minimum_label">Precios de ida por persona desde</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">Precio total de ida y vuelta (incluidos impuestos y cargos), por persona, para hoteles y vuelos</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">Precios de ida y vuelta, por persona, desde • hotel y vuelos incluidos</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Vendido</string>
 
@@ -939,7 +941,7 @@
     <!-- Error message when rail cards selected is greater than no. of travelers -->
     <string name="error_rail_cards_greater_than_number_travelers">La cantidad de tarjetas de descuento no puede exceder la cantidad de pasajeros.</string>
     <!-- Error message indicating we were unable to fetch rail cards at this time -->
-    <string name="no_rail_cards_error_message">No se pudieron cargar las tarjetas de descuento. Favor de intentarlo más tarde.</string>
+    <string name="no_rail_cards_error_message">No se pudieron cargar las tarjetas de descuento. Inténtalo de nuevo más tarde.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Sale de</string>
@@ -1838,7 +1840,7 @@
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Seleccionar</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
-    <string name="error_server_TEMPLATE">Lo sentimos, no pudimos conectarnos con los servidores de {brand}.  Favor de intentarlo más tarde.</string>
+    <string name="error_server_TEMPLATE">Lo sentimos, no pudimos conectarnos con los servidores de {brand}. Inténtalo de nuevo más tarde.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Horario de salida</string>
     <!-- Sort by arrival time label -->
@@ -2042,7 +2044,7 @@
     <string name="done">Listo</string>
     <string name="done_cont_desc">Botón para aceptar</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
-    <string name="please_use_the_roman_alphabet">Favor de utilizar el alfabeto latino</string>
+    <string name="please_use_the_roman_alphabet">Usa el alfabeto latino</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Cargos con pago en el hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
@@ -2065,7 +2067,7 @@
     <!-- Done menu item -->
     <string name="menu_done">Listo</string>
     <!-- unable to load traveler details message -->
-    <string name="unable_to_load_traveler_message">No pudimos cargar los detalles de este pasajero. Favor de controlar tu conexión e intentar de nuevo.</string>
+    <string name="unable_to_load_traveler_message">No pudimos cargar los detalles de este pasajero. Verifica tu conexión y vuelve a intentarlo.</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
@@ -2416,7 +2418,7 @@
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">Editar filtros</string>
     <!-- Error shown to user if their name on card is invalid -->
-    <string name="error_name_on_card_mismatch">El nombre del titular de la tarjeta que ingresaste no coincide con el nombre que figura en la tarjeta de crédito. Inténtalo de nuevo por favor.</string>
+    <string name="error_name_on_card_mismatch">El nombre del titular de la tarjeta que ingresaste no coincide con el nombre que figura en la tarjeta de crédito. Inténtalo de nuevo.</string>
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">Lo sentimos, tu reservación de esta habitación caducó</string>
     <!-- Text for hotel error unknown -->
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">Precio total del viaje de ida y vuelta (incluidos impuestos y cargos), por persona, para hoteles y vuelos • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">Precio total del viaje de ida y vuelta (incluidos impuestos y cargos), por persona, para hoteles y vuelos • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">Precio total de ida y vuelta, por persona. Incluye hotel y vuelos • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% reservado</string>
@@ -3004,11 +3009,11 @@
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Lo sentimos, pero este cupón ya venció.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Lo sentimos, encontramos algunos problemas. Inténtalo de nuevo por favor.</string>
+    <string name="coupon_error_not_redeemed">Lo sentimos, encontramos algunos problemas. Inténtalo de nuevo.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Lo sentimos, pero este código de cupón ya ha sido utilizado.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Lo sentimos, encontramos algunos problemas. Inténtalo de nuevo por favor.</string>
+    <string name="coupon_error_fallback">Lo sentimos, encontramos algunos problemas. Inténtalo de nuevo.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">El costo de la reservación cambió. Por este motivo, no aplicamos el cupón. Revísalo e inténtalo de nuevo.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
@@ -3028,7 +3033,7 @@
     <!-- Error when applying coupon - the package does not accept coupons -->
     <string name="coupon_error_invalid_booking">Lo sentimos, el cupón no puede aplicarse a esta reservación.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Lo sentimos, pero no podemos procesar cupones actualmente. Inténtalo de nuevo por favor.</string>
+    <string name="coupon_error_service_down">Lo sentimos, pero no podemos procesar cupones actualmente. Inténtalo de nuevo.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
     <string name="coupon_error_invalid_stay_dates">Lo sentimos, pero el cupón no puede aplicarse para estas fechas.</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
@@ -3242,19 +3247,19 @@
     <!-- Replaces "result was null" for no result search -->
     <string name="ean_error_connect_unavailable">No pudimos conectarnos con el hotel seleccionado para encontrar habitaciones disponibles.</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
-    <string name="ean_error_invalid_phone_number">Favor de ingresar un número de teléfono válido</string>
+    <string name="ean_error_invalid_phone_number">Ingresa un número de teléfono válido</string>
 
     <!-- Checkout API method -->
     <!-- The hotel booking failed -->
-    <string name="e3_error_checkout_booking_failed">Un error no nos ha permitido completar tu reservación. Favor de intentarlo de nuevo.</string>
+    <string name="e3_error_checkout_booking_failed">Un error no nos ha permitido completar tu reservación. Inténtalo de nuevo.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
     <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">¡Has reservado tu habitación de hotel con éxito! Si necesitas un itinerario de inmediato, llama al Servicio de atención a clientes de {brand}.</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">Lo sentimos, pero la habitación que has solicitado ya no está disponible.</string>
+    <string name="e3_error_checkout_hotel_room_unavailable">La habitación que solicitaste ya no está disponible.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
-    <string name="e3_error_checkout_invalid_input">Favor de corregir la información incorrecta.</string>
+    <string name="e3_error_checkout_invalid_input">Corrige la información incorrecta.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">Lo sentimos pero no pudimos procesar tu pago. Favor de verificar que la información ingresada sea la correcta.</string>
+    <string name="e3_error_checkout_payment_failed">Lo sentimos pero no pudimos procesar tu pago. Verifica que la información ingresada sea la correcta.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">La fecha de vencimiento de la tarjeta de crédito no es válida.</string>
     <!-- Error message displayed when the traveler information is invalid -->
@@ -3264,20 +3269,20 @@
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">Lo sentimos pero no pudimos completar tu búsqueda. Inténtalo de nuevo por favor.</string>
+    <string name="e3_error_search_results_hotel_service_failure">Lo sentimos pero no pudimos completar tu búsqueda. Inténtalo de nuevo.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">Lo sentimos pero no pudimos encontrar resultados para los términos de tu búsqueda. Inténtalo de nuevo por favor.</string>
+    <string name="e3_error_search_results_invalid_input">Lo sentimos pero no pudimos encontrar resultados para los términos de tu búsqueda. Inténtalo de nuevo.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">Lo sentimos pero no pudimos encontrar resultados para los términos de tu búsqueda. Inténtalo de nuevo por favor.</string>
+    <string name="e3_error_search_results_invalid_input_unknown">Lo sentimos pero no pudimos encontrar resultados para los términos de tu búsqueda. Inténtalo de nuevo.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">Lo sentimos pero no pudimos completar tu búsqueda. Inténtalo de nuevo por favor.</string>
+    <string name="e3_error_search_results_unknown_error">Lo sentimos pero no pudimos completar tu búsqueda. Inténtalo de nuevo.</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">¡Lo sentimos! La promoción para esta habitación ha terminado; sin embargo hay otras opciones disponibles.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Lo sentimos, pero la habitación que has solicitado ya no está disponible.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Lo sentimos pero no pudimos conectarnos a {brand}. Inténtalo de nuevo por favor.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Lo sentimos pero no pudimos conectarnos a {brand}. Inténtalo de nuevo.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">¡Lo sentimos! La promoción para esta habitación ha terminado; sin embargo hay otras opciones disponibles.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -3934,12 +3939,17 @@
     <!-- Package Best Flight description -->
     <string name="best_flight_description">económico • breve • horario muy elegido</string>
     <!-- Package search error -->
-    <string name="error_package_search_message">No pudimos encontrar ningún resultado. Modifica tu búsqueda.</string>
+    <string name="error_package_search_message">No pudimos encontrar ningún resultado. Modifica los criterios de búsqueda e inténtalo de nuevo.</string>
+    <!-- Package search error -->
+    <string name="error_package_search_red_eye_flight_message">No podemos seguir adelante, porque no hay ninguna estadía de hotel para esta combinación de vuelos.</string>
     <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
-    <string name="error_package_origin_resolution_message_TEMPLATE">No se pudo identificar el lugar de origen {origin}</string>
+    <string name="error_package_origin_resolution_message_TEMPLATE">No podemos encontrar el origen ingresado para {origin}. Volvé a intentarlo.</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
-    <string name="error_package_destination_resolution_message_TEMPLATE">No se pudo identificar el lugar de destino {destination}</string>
-    <string name="error_package_date_mismatch_error">Lo sentimos; este vuelo llega mucho antes del horario de check-in en el hotel. Elige un vuelo u hotel diferentes.</string>
+    <string name="error_package_destination_resolution_message_TEMPLATE">No podemos encontrar el destino ingresado para {destination}. Volvé a intentarlo.</string>
+    <string name="error_package_date_mismatch_error">Este vuelo llega mucho antes del horario de check-in en el hotel. Elige un vuelo u hotel diferentes.</string>
+    <!-- string for package error when we simple can't connect to E3 servers-->
+    <string name="package_error_server">Estamos teniendo dificultades técnicas. Vuelve a intentarlo más tarde.</string>
+
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">¿Estás seguro?</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->

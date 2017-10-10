@@ -827,6 +827,8 @@
     <string name="prices_oneway_minimum_label">每人單程價格，最低</string>
     <!-- Label indicating the price include hotel, flight ,taxes and fees-->
     <string name="package_prices_taxes_fees_included_label">每人來回總價 (含稅金和費用) - 機票和飯店</string>
+    <!-- Label indicating the price include hotel, flight-->
+    <string name="package_prices_roundtrip_person_minimum_fsr_label">每人來回最低價 • 含機 + 酒</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">已搶訂一空</string>
 
@@ -2254,7 +2256,7 @@
     <!-- redress number icon content description -->
     <string name="redress_number_icon_cont_desc">什麼是申訴編號？</string>
     <!--Frequent flyer program name hint -->
-    <string name="frequent_flyer_program_name">飛行常客計劃</string>
+    <string name="frequent_flyer_program_name">航空公司會員計劃</string>
     <!--Frequent flyer Programs title for Alert Dialog Box-->
     <string name="frequent_flyer_programs">計劃</string>
     <!--Frequent flyer program number hint -->
@@ -2857,7 +2859,10 @@
 
     <!-- Label for package hotel search results representing package includes hotel, flight, taxes and fees + Total price of stay + number of results
          e.g Total price (including taxes and fees), per person - for hotels and flights • 1 Result -->
-    <string name="package_hotel_results_includes_header_TEMPLATE">每人來回總價 (含稅金和費用) - 機票和飯店 • {totalpriceresultcountheader}</string>
+    <string name="package_hotel_results_includes_header_TEMPLATE">每人來回總價 (含稅金和費用) - 機票和飯店 • {total_price_result_count_header}</string>
+    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
+         e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
+    <string name="package_hotel_results_header_TEMPLATE">每人來回價。含機 + 酒 • {total_price_result_count_header}</string>
 
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 已訂滿</string>
@@ -3231,7 +3236,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3934,12 +3939,17 @@
     <!-- Package Best Flight description -->
     <string name="best_flight_description">超值 • 短程 • 熱門出發時間</string>
     <!-- Package search error -->
-    <string name="error_package_search_message">找不到任何結果。請調整您的搜尋。</string>
+    <string name="error_package_search_message">很抱歉，我們找不到任何結果。請變更搜尋條件然後再試一次。</string>
+    <!-- Package search error -->
+    <string name="error_package_search_red_eye_flight_message">很抱歉，由於此班機和飯店的搜尋組合找不到任何飯店住宿，因此無法繼續。</string>
     <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
-    <string name="error_package_origin_resolution_message_TEMPLATE">找不到 {origin} 的出發地</string>
+    <string name="error_package_origin_resolution_message_TEMPLATE">很抱歉，我們找不到您輸入的出發地：{origin}。請再試一次。</string>
     <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
-    <string name="error_package_destination_resolution_message_TEMPLATE">找不到 {destination} 的目的地</string>
+    <string name="error_package_destination_resolution_message_TEMPLATE">很抱歉，我們找不到您輸入的目的地：{destination}。請再試一次。</string>
     <string name="error_package_date_mismatch_error">很抱歉，此班機的抵達時間比飯店入住時間早很多。請選擇其他飯店或班機。</string>
+    <!-- string for package error when we simple can't connect to E3 servers-->
+    <string name="package_error_server">很抱歉，系統似乎出現技術性問題。請稍後再試一次。</string>
+
     <!-- Title of alert dialog when user taps back button on package checkout overview page -->
     <string name="package_checkout_back_dialog_title">您確定嗎？</string>
     <!-- Message of alert dialog when user taps back button on package checkout overview page -->
