@@ -41,6 +41,9 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
+    private val oneWayRules = FlightCalendarRules(context, false)
+    private val roundTripRules = FlightCalendarRules(context, true)
+
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val cachedSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
@@ -55,9 +58,9 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val showDaywithDate = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
     val searchTravelerParamsObservable = PublishSubject.create<com.expedia.bookings.data.FlightSearchParams>()
-
-    private val oneWayRules = FlightCalendarRules(context, false)
-    private val roundTripRules = FlightCalendarRules(context, true)
+    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
+    val EBAndroidAppFlightEvolable = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsEvolable, R.string.preference_flights_evolable)
+    var toAndFromFlightFieldsSwitched = false
 
     val flightParamsBuilder = FlightSearchParams.Builder(getCalendarRules().getMaxSearchDurationDays(),
             getCalendarRules().getMaxDateRange())
@@ -69,9 +72,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val flightCabinClassObserver = endlessObserver<FlightServiceClassType.CabinCode> { cabinCode ->
         getParamsBuilder().flightCabinClass(cabinCode.name)
     }
-    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
 
-    var toAndFromFlightFieldsSwitched = false
     val advanceSearchObserver = endlessObserver<AdvanceSearchFilter> {
         when (it) {
             AdvanceSearchFilter.NonStop -> {
@@ -122,6 +123,10 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
         if (EBAndroidAppFlightSubpubChange) {
             flightParamsBuilder.setFeatureOverride(Constants.FEATURE_SUBPUB)
+        }
+
+        if (EBAndroidAppFlightEvolable) {
+            flightParamsBuilder.setFeatureOverride(Constants.FEATURE_EVOLABLE)
         }
 
         isReadyForInteractionTracking.subscribe {

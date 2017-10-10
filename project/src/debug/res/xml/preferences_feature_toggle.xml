@@ -21,6 +21,11 @@
         android:title="Flights Features">
 
         <CheckBoxPreference
+            android:key="@string/preference_flights_evolable"
+            android:summary="Fetch Flights from Evolable Aggregator"
+            android:title="Flights Evolable" />
+
+        <CheckBoxPreference
             android:key="@string/preference_switch_to_from_flight_locations"
             android:summary="Switch between to and from flight locations"
             android:title="Switch between to and from flight locations" />

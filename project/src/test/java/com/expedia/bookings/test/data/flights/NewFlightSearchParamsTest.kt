@@ -220,8 +220,8 @@ class NewFlightSearchParamsTest {
 
     @Test
     fun testBuildParamsForInboundSearchWithoutSeatClassPreference() {
-        val params = giveSearchParams()
-        val inboundSearchParams = giveSearchParams().buildParamsForInboundSearch(maxStay, maxRange, "outboundleg")
+        val params = giveSearchParams(Constants.FEATURE_SUBPUB)
+        val inboundSearchParams = giveSearchParams(Constants.FEATURE_SUBPUB).buildParamsForInboundSearch(maxStay, maxRange, "outboundleg")
         Assert.assertEquals(params.adults, inboundSearchParams.adults)
         Assert.assertEquals(params.children.size, inboundSearchParams.children.size)
         Assert.assertEquals(params.departureDate, inboundSearchParams.departureDate)
@@ -249,12 +249,28 @@ class NewFlightSearchParamsTest {
 
     @Test
     fun testCachedSearchParams() {
-        val cachedParams = giveSearchParams().buildParamsForCachedSearch(maxStay, maxRange)
+        val cachedParams = giveSearchParams(Constants.FEATURE_SUBPUB).buildParamsForCachedSearch(maxStay, maxRange)
         assertEquals("SubPub,FlightSearchCacheGet", cachedParams.featureOverride)
     }
 
-    private fun giveSearchParams(): FlightSearchParams {
-        return builder.setFeatureOverride(Constants.FEATURE_SUBPUB)
+    @Test
+    fun testEvolableSearchParams() {
+        val flightSearchParams = giveSearchParams(Constants.FEATURE_EVOLABLE)
+        assertEquals("GetEvolable", flightSearchParams.featureOverride)
+    }
+
+    @Test
+    fun testSubpubEvolableSearchParams() {
+        val flightSearchParams = giveSearchParams(Constants.FEATURE_SUBPUB, Constants.FEATURE_EVOLABLE)
+        assertEquals("SubPub,GetEvolable", flightSearchParams.featureOverride)
+    }
+
+    private fun giveSearchParams(vararg overrides: String): FlightSearchParams {
+        for (flag in overrides) {
+            builder.setFeatureOverride(flag)
+        }
+
+        return builder
                 .origin(expectedOrigin)
                 .destination(expectedOrigin)
                 .startDate(tomorrow)

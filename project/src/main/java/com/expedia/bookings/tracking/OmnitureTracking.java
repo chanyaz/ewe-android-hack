@@ -5249,6 +5249,12 @@ public class OmnitureTracking {
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightHideFSRInfographic);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSubpubChange);
+
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightsEvolable,
+			R.string.preference_flights_evolable)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsEvolable);
+		}
+
 		s.track();
 	}
 

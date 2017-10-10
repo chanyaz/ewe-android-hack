@@ -66,6 +66,7 @@
     <!-- Preference keys -->
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_launch_screen_overflow">preference_launch_screen_overflow</string>
+    <string name="preference_flights_evolable">preference_flights_evolable</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_fake_hotel_price_change">fake_hotel_price_change</string>

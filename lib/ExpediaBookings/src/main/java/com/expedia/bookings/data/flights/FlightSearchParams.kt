@@ -85,8 +85,12 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
             return this
         }
 
-        fun setFeatureOverride(isFeatureOverride: String?): Builder {
-            this.featureOverride = isFeatureOverride
+        fun setFeatureOverride(newFeatureOverride: String?): Builder {
+            if (featureOverride.isNullOrBlank()) {
+                featureOverride = newFeatureOverride
+            } else {
+                featureOverride += "," + newFeatureOverride
+            }
             return this
         }
 
