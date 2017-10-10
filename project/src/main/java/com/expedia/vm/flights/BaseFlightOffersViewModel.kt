@@ -207,7 +207,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                         if (!response.cachedResultsFound!!) {
                             // Cache is null
                             cachedSearchTrackingString.onNext("CN")
-                            showDebugToast("Cached results not found")
+                            showDebugToast("Cached results not found ")
                             return
                         } else if (response.areCachedResultsBookable()) {
                             // Bookable cache found
