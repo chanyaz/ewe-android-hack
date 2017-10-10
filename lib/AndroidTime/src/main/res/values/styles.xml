@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget" />
+
+    <style name="Widget.CalendarPicker">
+        <item name="calendarBaseColor">#000000</item>
+        <item name="calendarSecondaryColor">#cccccc</item>
+        <item name="calendarHighlightColor">#24beef</item>
+        <item name="calendarHighlightInverseColor">#000000</item>
+        <item name="calendarTodayColor">#0000aa</item>
+        <item name="calendarInvalidDaysColor">#aaaaaa</item>
+    </style>
+
+    <style name="Widget.CalendarPicker.Animation">
+        <item name="android:windowEnterAnimation">@anim/calendarpicker_tooltip_show</item>
+        <item name="android:windowExitAnimation">@anim/calendarpicker_tooltip_hide</item>
+    </style>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
+    <string name="cd_month_previous_TEMPLATE">%s 前一個月</string>
+    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
+    <string name="cd_month_current_TEMPLATE">%s 本月</string>
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
+    <string name="cd_month_next_TEMPLATE">%s 下一個月</string>
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday" -->
+    <string name="cd_day_of_week_TEMPLATE">第 %1$s 日 (%2$s)</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">%s行程</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">%s (出發日期)</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">%s (結束日期)</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">無法選擇 %s</string>
+
+</resources>

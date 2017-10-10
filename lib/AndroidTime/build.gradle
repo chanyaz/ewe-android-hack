@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+repositories {
+    jcenter()
+    maven {
+        url "s3://mobiata-maven/release"
+        credentials(AwsCredentials) {
+            accessKey AWS_ACCESS_KEY
+            secretKey AWS_SECRET_KEY
+        }
+    }
+}
+
+dependencies {
+    compile 'joda-time:joda-time:2.9.9'
+    compile 'net.danlew:android.joda:2.9.9@aar'
+    compile 'com.mobiata:android-utils:1.2.1'
+    compile 'com.squareup.phrase:phrase:1.1.0'
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+}

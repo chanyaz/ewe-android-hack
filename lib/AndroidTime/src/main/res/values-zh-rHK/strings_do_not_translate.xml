@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+         Format for display in Calendar header (e.g. "MMMM yyyy" yields "January 2012")
+         MMMM => January
+         MMM => Jan
+         yyyy => 2012
+         yy => 12
+    -->
+    <string name="calendar_current_month_format">MMMM yyyy</string>
+
+</resources>

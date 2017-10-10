@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- CalendarPicker -->
+    <declare-styleable name="CalendarPicker">
+
+        <!-- The default color for elements on the calendar picker -->
+        <attr name="calendarBaseColor" format="color" />
+
+        <!-- Color used for secondary elements, like dates not in the current month -->
+        <attr name="calendarSecondaryColor" format="color" />
+
+        <!-- The highlight color; includes header buttons and selection -->
+        <attr name="calendarHighlightColor" format="color" />
+
+        <!-- The fill color for selected dates -->
+        <attr name="calendarDaySelectionFillColor" format="color" />
+
+        <!-- Color used for week highlight-->
+        <attr name="calendarWeekSelectionColor" format="color" />
+
+        <!-- Color used on top of the highlight color (should contrast) -->
+        <attr name="calendarHighlightInverseColor" format="color" />
+
+        <!-- Color used to indicate which day is today -->
+        <attr name="calendarTodayColor" format="color" />
+
+        <!-- Color used to indicate days which are not selectable for reasons -->
+        <attr name="calendarInvalidDaysColor" format="color" />
+
+        <!-- Color used for days of the week labels; defaults to the calendarBaseColor -->
+        <attr name="calendarDaysOfWeekColor" format="color" />
+
+        <!-- Color used for the previous/next month carets; defaults to the calendarHighlightColor -->
+        <attr name="calendarChangeMonthCaretColor" format="color" />
+
+        <!-- Color used for the current month name in the header; defaults to the calendarBaseColor -->
+        <attr name="calendarHeaderTextColor" format="color" />
+
+        <!-- Size of the text in the calendar header -->
+        <attr name="calendarHeaderTextSize" format="dimension" />
+
+        <!-- background drawable for tool tip tail-->
+        <attr name="calendarHeaderShowInstructions" format="boolean" />
+
+        <!-- Which layout to use -->
+        <attr name="calendarLayout" format="reference" />
+
+        <!-- want to show tool tip -->
+        <attr name="calendarToolTipEnabled" format="boolean" />
+
+        <!-- background of tool tip-->
+        <attr name="calendarToolTipBackground" format="reference" />
+
+        <!-- background drawable for tool tip tail-->
+        <attr name="calendarToolTipTailDrawable" format="reference" />
+
+    </declare-styleable>
+
+</resources>
