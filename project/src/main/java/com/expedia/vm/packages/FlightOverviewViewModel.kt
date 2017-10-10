@@ -1,6 +1,7 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.vm.AbstractFlightOverviewViewModel

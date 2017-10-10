@@ -36,7 +36,7 @@ class FlightTravelerFrequentFlyerItemViewModel(var traveler: Traveler) {
     fun bind(frequentFlyerCard: FrequentFlyerCard) {
         this.frequentFlyerCard = frequentFlyerCard
         frequentFlyerAirlineKeyObservable.onNext(frequentFlyerCard.airlineCode)
-        frequentFlyerAirlineIdObservable.onNext(allFrequentFlyerPlans[frequentFlyerCard.airlineCode]?.frequentFlyerPlanID)
+        frequentFlyerAirlineIdObservable.onNext(allFrequentFlyerPlans[frequentFlyerCard.airlineCode]?.frequentFlyerPlanID ?: "")
         updateTraveler(traveler)
     }
 

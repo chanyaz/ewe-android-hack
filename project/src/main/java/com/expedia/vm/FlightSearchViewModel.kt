@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
@@ -31,7 +30,6 @@ import com.expedia.vm.flights.AdvanceSearchFilter
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject

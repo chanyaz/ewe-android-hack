@@ -12,7 +12,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import javax.inject.Inject
 

@@ -56,7 +56,6 @@ import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
-import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates

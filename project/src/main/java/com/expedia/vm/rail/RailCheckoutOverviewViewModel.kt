@@ -13,7 +13,7 @@ class RailCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewView
     init {
         params.subscribe { searchParams ->
             val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-            val city = searchParams.destination?.regionNames?.shortName
+            val city = searchParams.destination?.regionNames?.shortName ?: ""
 
             cityTitle.onNext(city)
 

@@ -107,7 +107,7 @@ fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(observer: Observer<
     return this.subscribeObserver(object : DisposableObserver<Optional<T>>() {
         override fun onNext(t: Optional<T>) {
             if (t.value != null) {
-                observer.onNext(t.value)
+                observer.onNext(t.value as T)
             }
         }
 
@@ -115,7 +115,7 @@ fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(observer: Observer<
             observer.onComplete()
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             observer.onError(e)
         }
     })

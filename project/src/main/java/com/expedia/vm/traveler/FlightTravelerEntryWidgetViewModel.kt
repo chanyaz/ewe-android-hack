@@ -39,9 +39,10 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
         }
 
         if (isFrequentFlyerEnabled) {
-            frequentFlyerAdapterViewModel = FrequentFlyerAdapterViewModel(getTraveler())
-            flightLegsObservable.subscribe(frequentFlyerAdapterViewModel?.flightLegsObservable)
-            frequentFlyerPlans.subscribe(frequentFlyerAdapterViewModel?.frequentFlyerPlans)
+            val frequentFlyerAdapterViewModel = FrequentFlyerAdapterViewModel(getTraveler())
+            this.frequentFlyerAdapterViewModel = frequentFlyerAdapterViewModel
+            flightLegsObservable.subscribe(frequentFlyerAdapterViewModel.flightLegsObservable)
+            frequentFlyerPlans.subscribe(frequentFlyerAdapterViewModel.frequentFlyerPlans)
         }
     }
 

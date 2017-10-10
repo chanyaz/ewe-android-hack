@@ -20,7 +20,9 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Relativ
 
     val checkObserver: Observer<Unit> = endlessObserver {
         checkBox.isChecked = !checkBox.isChecked
-        observer?.onNext(value)
+        value?.let {
+            observer?.onNext(it)
+        }
         if (checkBox.isChecked) onChecked()
         refreshContentDescription()
     }
