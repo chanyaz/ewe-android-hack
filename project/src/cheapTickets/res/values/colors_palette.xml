@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- Cheaptickets Primary brand color -->
-    <color name="ctx_brand_red">#D00000</color>
-    <color name="ctx_brand_red_33">#33D00000</color>
-</resources>
