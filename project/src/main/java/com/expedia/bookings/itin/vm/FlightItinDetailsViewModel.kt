@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.utils.FormatUtils
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class FlightItinDetailsViewModel(private val context: Context, private val itinId: String) {
 

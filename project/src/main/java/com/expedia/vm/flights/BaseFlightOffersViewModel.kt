@@ -18,7 +18,7 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.withLatestFrom
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
@@ -96,7 +96,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 .filter { cachedCallCompleted -> !cachedCallCompleted }
                 .subscribe {
                     // Normal API call returned before cache call.
-                    flightCacheSearchSubscription?.unsubscribe()
+                    flightCacheSearchSubscription?.dispose()
                     cachedSearchTrackingString.onNext("CL")
                     showDebugToast("Normal api call returned before cached call.")
                 }

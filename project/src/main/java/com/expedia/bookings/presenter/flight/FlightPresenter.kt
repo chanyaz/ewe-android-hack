@@ -12,6 +12,7 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
@@ -21,7 +22,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -35,16 +35,27 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlexEnabled
+import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.flights.FlightListAdapter
+import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.bookings.withLatestFrom
 import com.expedia.ui.FlightActivity
+import com.expedia.util.Optional
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.safeSubscribeOptional
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.subscribeVisibility
+import com.expedia.util.updateVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
+import com.expedia.vm.FlightWebCheckoutViewViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
@@ -52,7 +63,10 @@ import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.expedia.vm.packages.PackageSearchType
+import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
 import java.util.Date
 import javax.inject.Inject
 import com.expedia.bookings.widget.shared.WebCheckoutView
@@ -67,7 +81,6 @@ import com.expedia.util.updateVisibility
 import com.expedia.util.Optional
 import com.expedia.util.subscribeVisibility
 import com.mobiata.android.Log
-import rx.Observer
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
@@ -795,8 +808,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     private fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
-        return object : Observer<AbstractItinDetailsResponse> {
-            override fun onCompleted() {
+        return object : DisposableObserver<AbstractItinDetailsResponse>() {
+            override fun onComplete() {
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {

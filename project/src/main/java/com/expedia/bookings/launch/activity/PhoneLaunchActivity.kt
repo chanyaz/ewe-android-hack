@@ -22,7 +22,6 @@ import android.widget.TextView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -37,6 +36,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
+import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
@@ -56,10 +56,10 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.LXDataUtils
+import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.LXNavUtils
-import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
@@ -72,7 +72,7 @@ import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
-import rx.Subscription
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
@@ -110,7 +110,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         Ui.getApplication(this).appComponent().userLoginStateChangedModel()
     }
 
-    private var loginStateSubsciption: Subscription? = null
+    private var loginStateSubsciption: Disposable? = null
 
     private val debugMenu: DebugMenu by lazy {
         DebugMenuFactory.newInstance(this)
@@ -516,7 +516,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     override fun onDestroy() {
         super.onDestroy()
-        loginStateSubsciption?.unsubscribe()
+        loginStateSubsciption?.dispose()
     }
 
     inner class PagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {

@@ -6,7 +6,8 @@ import android.support.annotation.VisibleForTesting
 import android.text.format.DateUtils
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.Log
-import rx.Observer
+import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
 
 class SatelliteFeatureConfigManager {
 
@@ -87,14 +88,14 @@ class SatelliteFeatureConfigManager {
         }
 
         private fun createConfigResponseObserver(context: Context): Observer<List<String>> {
-            return object : Observer<List<String>> {
+            return object : DisposableObserver<List<String>>() {
                 override fun onNext(featureConfigResponse: List<String>) {
                     cacheFeatureConfig(context, featureConfigResponse)
                 }
 
-                override fun onCompleted() {}
+                override fun onComplete() {}
 
-                override fun onError(e: Throwable?) {
+                override fun onError(e: Throwable) {
                     Log.e("Satellite Feature Config Fetch Error", e)
                 }
             }

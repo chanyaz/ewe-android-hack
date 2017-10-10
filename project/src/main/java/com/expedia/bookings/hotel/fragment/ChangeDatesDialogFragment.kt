@@ -16,8 +16,7 @@ import android.view.Window
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.widget.TextView
-import rx.Subscription
-import rx.subjects.PublishSubject
+import io.reactivex.disposables.Disposable
 
 class ChangeDatesDialogFragment() : DialogFragment() {
     val datesChangedSubject = PublishSubject.create<Pair<LocalDate, LocalDate>>()
@@ -32,7 +31,7 @@ class ChangeDatesDialogFragment() : DialogFragment() {
     private var newDates = Pair<LocalDate?, LocalDate?>(null, null)
 
     private var userTappedDone = false
-    private var dateSubscription: Subscription? = null
+    private var dateSubscription: Disposable? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -70,7 +69,7 @@ class ChangeDatesDialogFragment() : DialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        dateSubscription?.unsubscribe()
+        dateSubscription?.dispose()
         dateSubscription = null
     }
 

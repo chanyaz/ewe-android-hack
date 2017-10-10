@@ -1,13 +1,13 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.util.notNullAndObservable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class HotelWebCheckoutViewViewModel(var context: Context): WebCheckoutViewViewModel(context) {
 

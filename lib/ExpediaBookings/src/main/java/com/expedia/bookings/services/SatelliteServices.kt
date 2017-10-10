@@ -2,9 +2,9 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.subscribeObserver
 import com.google.gson.GsonBuilder
+import io.reactivex.Observer
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableObserver
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -30,7 +30,7 @@ open class SatelliteServices(endpoint: String, okHttpClient: OkHttpClient, inter
         adapter.create(SatelliteApi::class.java)
     }
 
-    fun fetchFeatureConfig(observer: DisposableObserver<List<String>>): Disposable {
+    fun fetchFeatureConfig(observer: Observer<List<String>>): Disposable {
 
         val satelliteSubscription = satelliteApi.getFeatureConfigs()
                 .observeOn(observeOn)

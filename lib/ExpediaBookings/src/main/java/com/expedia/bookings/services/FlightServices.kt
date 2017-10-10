@@ -62,14 +62,14 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
         return cachedSearchRequestSubscription as Disposable
     }
 
-    private fun doFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
+    private fun doFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
         val subscription = flightApi.flightSearch(params.toQueryMap(), params.children, params.flightCabinClass, params.legNo,
                 params.selectedOutboundLegId, params.showRefundableFlight, params.nonStopFlight, params.featureOverride)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { resultsResponseReceivedObservable?.onNext(Unit) }
                 .doOnNext { response -> processSearchResponse(response) }
-                .subscribe(observer)
+                .subscribeObserver(observer)
         return subscription
     }
 

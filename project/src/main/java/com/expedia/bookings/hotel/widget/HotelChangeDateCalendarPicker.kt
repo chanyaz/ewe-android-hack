@@ -13,8 +13,8 @@ import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
-import rx.subjects.PublishSubject
 
 class HotelChangeDateCalendarPicker(context: Context, attrs: AttributeSet?) : CalendarPicker(context, attrs) {
     val datesUpdatedSubject = PublishSubject.create<Pair<LocalDate?, LocalDate?>>()

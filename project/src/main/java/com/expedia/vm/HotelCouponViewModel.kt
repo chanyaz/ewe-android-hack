@@ -12,8 +12,10 @@ import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.util.endlessObserver
 import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.exceptions.OnErrorNotImplementedException
+import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -116,22 +118,22 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     )
 
     fun <T> couponEndlessObserver(body: (T) -> Unit): Observer<T> {
-        return object : Observer<T> {
+        return object : DisposableObserver<T>() {
             override fun onNext(t: T) {
                 body(t)
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
                 throw OnErrorNotImplementedException(RuntimeException("Cannot call completed on endless observer " + body.javaClass))
             }
 
-            override fun onError(e: Throwable?) {
+            override fun onError(e: Throwable) {
                 raiseAlertDialog(e)
             }
         }
     }
 
-     fun raiseAlertDialog(e: Throwable?) {
+     fun raiseAlertDialog(e: Throwable) {
         if (RetrofitUtils.isNetworkError(e)) {
             networkErrorAlertDialogObservable.onNext(Unit)
         }
