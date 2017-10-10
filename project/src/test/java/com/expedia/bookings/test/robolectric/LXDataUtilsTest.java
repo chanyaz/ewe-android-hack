@@ -198,14 +198,14 @@ public class LXDataUtilsTest {
 			new Money("0", "USD"), activityPrice, fromPriceTicketType);
 
 		assertEquals("$180", activityPrice.getText());
-		assertEquals("Price is $180", activityPrice.getContentDescription().toString());
+		assertEquals("Price is $180 per traveler", activityPrice.getContentDescription().toString());
 		assertEquals("per traveler", fromPriceTicketType.getText());
 
 		LXDataUtils.bindPriceAndTicketType(getContext(), LXTicketType.Traveler, new Money("180", "USD"),
 			new Money("220", "USD"), activityPrice, fromPriceTicketType);
 
 		assertEquals("$180", activityPrice.getText());
-		assertEquals("Price is $180. Price before discount was $220", activityPrice.getContentDescription().toString());
+		assertEquals("Price is $180 per traveler. Price before discount was $220 per traveler", activityPrice.getContentDescription().toString());
 		assertEquals("per traveler", fromPriceTicketType.getText());
 	}
 }

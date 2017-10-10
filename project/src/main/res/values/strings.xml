@@ -4623,11 +4623,11 @@
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">disabled</string>
 
-    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
-    <string name="activity_price_without_discount_cont_desc_TEMPLATE">Price is {activity_price}</string>
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
+    <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Price is {activity_price} {ticket_type}</string>
 
-    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
-    <string name="activity_price_with_discount_cont_desc_TEMPLATE">Price is {activity_price}. Price before discount was {activity_original_price}</string>
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180 per adult. Price before discount was $230 per adult-->
+    <string name="activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE">Price is {activity_price} {ticket_type}. Price before discount was {activity_original_price} {ticket_type}</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">Checkbox. Checked.</string>
     <!-- Content description for Checkbox types, state Unchecked -->
