@@ -6,11 +6,15 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.interceptors.MockInterceptor
@@ -21,6 +25,7 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.vm.FlightWebCheckoutViewViewModel
@@ -170,13 +175,34 @@ class FlightCheckoutViewTest {
         val tripID = "testing-for-confirmation"
         Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
 
-        flightPresenter.webCheckoutView.onWebPageStarted(flightPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL+ "?tripid=$tripID", null)
+        flightPresenter.webCheckoutView.onWebPageStarted(flightPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL + "?tripid=$tripID", null)
         Mockito.verify(userAccountRefresherMock, Mockito.times(1)).forceAccountRefreshForWebView()
         bookingTripIDSubscriber.assertValueCount(1)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
         fectchTripIDSubscriber.assertValueCount(1)
         fectchTripIDSubscriber.assertValue(tripID)
         bookingTripIDSubscriber.assertValue(tripID)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testOpeningOfErrorPresenterFromWebCheckoutView() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        flightPresenter.flightCreateTripViewModel.tripParams.onNext(createTripParams("custom_error_create_trip"))
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("custom_error_create_trip")
+
+        assertTrue(flightPresenter.errorPresenter.visibility == View.VISIBLE)
+
+        flightPresenter.flightCreateTripViewModel.tripParams.onNext(createTripParams("create_trip_price_increase"))
+        flightPresenter.errorPresenter.getViewModel().fireRetryCreateTrip.onNext(Unit)
+
+        assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
+
     }
 
     private fun setFlightPresenterAndFlightServices() {
@@ -242,7 +268,7 @@ class FlightCheckoutViewTest {
         val checkIn = LocalDate().plusDays(2)
         val checkOut = LocalDate().plusDays(3)
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null,null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null, null)
     }
 
     private fun createMockFlightServices() {
@@ -255,6 +281,11 @@ class FlightCheckoutViewTest {
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
+    }
+
+    private fun createTripParams(productKey: String): FlightCreateTripParams {
+        var builder = FlightCreateTripParams.Builder()
+        return builder.productKey(productKey).build()
     }
 
 }

@@ -102,9 +102,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
         presenter.getViewModel().fireRetryCreateTrip.subscribe {
-            flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
-            show(flightOverviewPresenter, FLAG_CLEAR_TOP)
-            flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+            if (shouldShowWebCheckoutView()) {
+                (webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).doCreateTrip()
+                show(webCheckoutView)
+            } else {
+                flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
+                show(flightOverviewPresenter, FLAG_CLEAR_TOP)
+                flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+            }
         }
         presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
             flightOverviewPresenter.showCheckout()
@@ -174,8 +179,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             allViewsLoadedObservable.withLatestFrom(presenter.flightOfferViewModel.cachedSearchTrackingString, { _, trackingString -> trackingString }).subscribe { trackingString ->
                 trackResultsLoaded(trackingString)
             }
-        }
-        else {
+        } else {
             allViewsLoadedObservable.subscribe {
                 trackResultsLoaded()
             }
@@ -194,7 +198,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchTrackingBuilder.markResultsUsable()
         if (searchTrackingBuilder.isWorkComplete()) {
             val trackingData = searchTrackingBuilder.build()
-            FlightsV2Tracking.trackResultOutBoundFlights(trackingData,flightOfferViewModel.isSubPub, cacheString)
+            FlightsV2Tracking.trackResultOutBoundFlights(trackingData, flightOfferViewModel.isSubPub, cacheString)
         }
     }
 
@@ -442,6 +446,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val webCheckoutView = viewStub.inflate() as WebCheckoutView
         val flightWebCheckoutViewModel = FlightWebCheckoutViewViewModel(context)
         flightWebCheckoutViewModel.flightCreateTripViewModel = flightCreateTripViewModel
+        flightWebCheckoutViewModel.flightCreateTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
+        flightWebCheckoutViewModel.flightCreateTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
         webCheckoutView.viewModel = flightWebCheckoutViewModel
 
         flightWebCheckoutViewModel.closeView.subscribe {
@@ -491,6 +497,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         if (shouldShowWebCheckoutView()) {
             addTransition(inboundToWebCheckoutView)
             addTransition(outboundToWebCheckoutView)
+            addTransition(flightWebViewToError)
 
         } else {
             addTransition(inboundFlightToOverview)
@@ -584,6 +591,26 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             flightOverviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             errorPresenter.animationFinalize()
+        }
+    }
+
+
+    private val flightWebViewToError = object : Presenter.Transition(WebCheckoutView::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            errorPresenter.visibility = View.VISIBLE
+            webCheckoutView.visibility = View.GONE
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            errorPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            webCheckoutView.visibility = if (forward) View.GONE else View.VISIBLE
+            errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
         }
     }
 
@@ -783,4 +810,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
+    override fun back(): Boolean {
+        if (currentState == WebCheckoutView::class.java.name) {
+            webCheckoutView.back()
+            return true
+        } else {
+            return super.back()
+        }
+    }
+
 }
+
