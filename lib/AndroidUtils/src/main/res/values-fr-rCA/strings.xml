@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- Formatting strings -->
+    <!-- The "and" conjunction -->
+    <string name="and">et</string>
+    <!-- The "or" conjunction -->
+    <string name="or">ou</string>
+
+    <!-- Error strings -->
+    <!-- Error message that user is not connected to the internet -->
+    <string name="error_no_internet">Votre appareil n’est pas connecté à Internet.  Veuillez vérifier votre connexion et réessayer.</string>
+
+    <!-- About strings -->
+    <!-- Link name leading users to Mobiata's help page on the current app -->
+    <string name="QuestionsComments">Questions? Commentaires?</string>
+    <!-- Text description for QuestionsComments -->
+    <string name="QuestionsCommentsDescription">Écrivez-nous et nous vous répondrons rapidement.</string>
+    <!-- Link to tell a friend about this app -->
+    <string name="TellAFriend">Envoyer à un ami</string>
+    <!-- Text description for TellAFriend -->
+    <string name="TellAFriendDescription">Vous aimez ce que nous faisons? Aidez-nous à passer le mot!</string>
+    <!-- Title for a number of ways to follow Mobiata -->
+    <string name="FollowMobiata">Suivre Mobiata</string>
+    <!-- Text for the email subscription prompt -->
+    <string name="EmailPrompt">Vous voulez être le premier à entendre parler de nos mises à jour? Nous ne vous dérangerons pas souvent, c’est promis.</string>
+    <!-- Link name leading users to Mobiata's careers page -->
+    <string name="WereHiring">Nous embauchons!</string>
+    <!-- Title for how to connect with Mobiata -->
+    <string name="ConnectWithUs">Connectez-vous avec nous</string>
+    <!-- Text decsription for ConnectWithUs -->
+    <string name="ConnectWithUsDescription">Nous écoutons vos commentaires sur tous les canaux.</string>
+    <!-- Header for a list of apps also written by Mobiata -->
+    <string name="AlsoByMobiata">Aussi par Mobiata</string>
+    <!-- Alternate Header for a list of apps written by Mobiata -->
+    <string name="MoreAppsFromMobiata">Plus d’appli de Mobiata</string>
+    <!-- Name of FlightTrack app -->
+    <string name="FlightTrackTitle">FlightTrack</string>
+    <!-- Description of what the FlightTrack app does -->
+    <string name="FlightTrackDescription">Suivez et partagez vos vols autour du monde. Sans efforts.</string>
+    <!-- Name of FlightBoard app -->
+    <string name="FlightBoardTitle">FlightBoard</string>
+    <!-- Description of FlightBoard app -->
+    <string name="FlightBoardDescription">Transformez votre écran en tableau des arrivées et des départs de n’importe quel aéroport.</string>
+    <!-- Name of FlightTrack app -->
+    <string name="ExpediaHotelsTitle">Expedia</string>
+    <!-- Description of Expedia Hotels app -->
+    <string name="ExpediaHotelsDescription">Hôtels, vols, voitures et activités. N’importe où.</string>
+    <!-- Default title for curent app, if for some reason it was not given -->
+    <string name="DefaultTitle">Appli</string>
+    <!-- Template for about title -->
+    <string name="about_title_template">À propos de %s</string>
+    <!-- Link to additional information -->
+    <string name="more">Plus…</string>
+
+    <!-- MailChimp strings -->
+    <!-- The title for the dialog when users click to subscribe to Mobiata via email -->
+    <string name="MailChimpDialogTitle">S’inscrire</string>
+    <!-- The hint in the edit text box for subscribing via email -->
+    <string name="MailChimpEmailHint">Entrez votre adresse courriel ici</string>
+    <!-- Short error message when user tries to subscribe with no email entered -->
+    <string name="MailChimpNoEmailToast">Vous devez entrer une adresse courriel</string>
+    <!-- Message when user subscribes successfully -->
+    <string name="MailChimpSuccess">Vous êtes inscrit!</string>
+    <!-- Generic error message when signup fails -->
+    <string name="MailChimpFailure">L’inscription a échoué; veuillez vérifier votre adresse de courriel et réessayer.</string>
+    <!-- Error message when signup fails because the user has already subscribed. The parameter is the email address entered by the user -->
+    <string name="Mailing_List_Already_Subscribed_Error">%s est déjà inscrit à la liste de publi-postage Mobiata!</string>
+    <!-- Error message when the user has entered an invalid email address. -->
+    <string name="Invalid_Email_Error">Veuillez fournir une adresse de courriel valide.</string>
+
+    <!-- Something that is about to occur in less than a minute -->
+    <string name="less_than_a_minute_future">dans moins d’une minute</string>
+    <!-- Something that occurred less than a minute ago -->
+    <string name="less_than_a_minute_past">il y a moins d’une minute</string>
+    <!-- Time since prefix -->
+    <string name="time_updated_template">Dernière mise à jour %s</string>
+    <!-- Time since prefix for offline mode -->
+    <string name="time_updated_template_offline">Hors ligne · Dernière mise à jour à %s</string>
+
+    <!-- Dialog related strings -->
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+    <string name="undo">Annuler</string>
+</resources>

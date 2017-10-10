@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- Formatting strings -->
+    <!-- The "and" conjunction -->
+    <string name="and">и</string>
+    <!-- The "or" conjunction -->
+    <string name="or">или</string>
+
+    <!-- Error strings -->
+    <!-- Error message that user is not connected to the internet -->
+    <string name="error_no_internet">Устройство не подключено к интернету.  Проверьте соединение и повторите попытку.</string>
+
+    <!-- About strings -->
+    <!-- Link name leading users to Mobiata's help page on the current app -->
+    <string name="QuestionsComments">Вопросы? Комментарии?</string>
+    <!-- Text description for QuestionsComments -->
+    <string name="QuestionsCommentsDescription">Напишите нам и мы свяжемся с вами как можно быстрее.</string>
+    <!-- Link to tell a friend about this app -->
+    <string name="TellAFriend">Рассказать другу</string>
+    <!-- Text description for TellAFriend -->
+    <string name="TellAFriendDescription">Вам нравится то, что мы делаем? Расскажите о нас своим друзьям и знакомым!</string>
+    <!-- Title for a number of ways to follow Mobiata -->
+    <string name="FollowMobiata">Следите за Mobiata</string>
+    <!-- Text for the email subscription prompt -->
+    <string name="EmailPrompt">Хотите узнавать все наши новости раньше остальных? Мы обещаем вам не надоедать!</string>
+    <!-- Link name leading users to Mobiata's careers page -->
+    <string name="WereHiring">Мы ищем сотрудников!</string>
+    <!-- Title for how to connect with Mobiata -->
+    <string name="ConnectWithUs">Свяжитесь с нами</string>
+    <!-- Text decsription for ConnectWithUs -->
+    <string name="ConnectWithUsDescription">Мы следим за вашими сообщениями по всем каналам связи.</string>
+    <!-- Header for a list of apps also written by Mobiata -->
+    <string name="AlsoByMobiata">Mobiata также предлагает</string>
+    <!-- Alternate Header for a list of apps written by Mobiata -->
+    <string name="MoreAppsFromMobiata">Другие приложения от Mobiata</string>
+    <!-- Name of FlightTrack app -->
+    <string name="FlightTrackTitle">FlightTrack</string>
+    <!-- Description of what the FlightTrack app does -->
+    <string name="FlightTrackDescription">Следите за рейсами по всему миру и делитесь информацией с друзьями. Просто и изящно.</string>
+    <!-- Name of FlightBoard app -->
+    <string name="FlightBoardTitle">FlightBoard</string>
+    <!-- Description of FlightBoard app -->
+    <string name="FlightBoardDescription">Превратите экран своего устройства в табло прилетов и вылетов любого аэропорта.</string>
+    <!-- Name of FlightTrack app -->
+    <string name="ExpediaHotelsTitle">Expedia</string>
+    <!-- Description of Expedia Hotels app -->
+    <string name="ExpediaHotelsDescription">Отели, авиарейсы, автомобили и мероприятия По всему миру.</string>
+    <!-- Default title for curent app, if for some reason it was not given -->
+    <string name="DefaultTitle">Приложение</string>
+    <!-- Template for about title -->
+    <string name="about_title_template">О приложении %s</string>
+    <!-- Link to additional information -->
+    <string name="more">Подробнее…</string>
+
+    <!-- MailChimp strings -->
+    <!-- The title for the dialog when users click to subscribe to Mobiata via email -->
+    <string name="MailChimpDialogTitle">Подписаться</string>
+    <!-- The hint in the edit text box for subscribing via email -->
+    <string name="MailChimpEmailHint">Укажите адрес электронной почты</string>
+    <!-- Short error message when user tries to subscribe with no email entered -->
+    <string name="MailChimpNoEmailToast">Необходимо указать адрес электронной почты</string>
+    <!-- Message when user subscribes successfully -->
+    <string name="MailChimpSuccess">Вы подписаны на рассылку!</string>
+    <!-- Generic error message when signup fails -->
+    <string name="MailChimpFailure">Регистрация не удалась. Проверьте правильность адреса электронной почты и повторите попытку.</string>
+    <!-- Error message when signup fails because the user has already subscribed. The parameter is the email address entered by the user -->
+    <string name="Mailing_List_Already_Subscribed_Error">%s уже является подписчиком рассылки от Mobiata!</string>
+    <!-- Error message when the user has entered an invalid email address. -->
+    <string name="Invalid_Email_Error">Укажите действующий адрес электронной почты.</string>
+
+    <!-- Something that is about to occur in less than a minute -->
+    <string name="less_than_a_minute_future">менее, чем через минуту</string>
+    <!-- Something that occurred less than a minute ago -->
+    <string name="less_than_a_minute_past">менее минуты назад</string>
+    <!-- Time since prefix -->
+    <string name="time_updated_template">Последнее обновление %s</string>
+    <!-- Time since prefix for offline mode -->
+    <string name="time_updated_template_offline">Не подключен · Последнее обновление %s</string>
+
+    <!-- Dialog related strings -->
+    <string name="ok">ОК</string>
+    <string name="cancel">Отменить</string>
+    <string name="undo">Вернуть</string>
+</resources>

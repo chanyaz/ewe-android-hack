@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- Formatting strings -->
+    <!-- The "and" conjunction -->
+    <string name="and">및</string>
+    <!-- The "or" conjunction -->
+    <string name="or">또는</string>
+
+    <!-- Error strings -->
+    <!-- Error message that user is not connected to the internet -->
+    <string name="error_no_internet">장치가 인터넷에 연결되어 있지 않습니다.  연결 상태를 확인하고 다시 시도해 주세요.</string>
+
+    <!-- About strings -->
+    <!-- Link name leading users to Mobiata's help page on the current app -->
+    <string name="QuestionsComments">질문이나 의견이 있으세요?</string>
+    <!-- Text description for QuestionsComments -->
+    <string name="QuestionsCommentsDescription">간단히 적어주시면 최대한 신속하게 답변을 드리겠습니다.</string>
+    <!-- Link to tell a friend about this app -->
+    <string name="TellAFriend">앱 추천하기</string>
+    <!-- Text description for TellAFriend -->
+    <string name="TellAFriendDescription">앱이 마음에 드세요? 그러면 입소문을 내주세요!</string>
+    <!-- Title for a number of ways to follow Mobiata -->
+    <string name="FollowMobiata">Mobiata 팔로우하기</string>
+    <!-- Text for the email subscription prompt -->
+    <string name="EmailPrompt">업데이트 소식을 가장 먼저 확인하고 싶으세요? 걱정마세요. 너무 자주는 아니랍니다.</string>
+    <!-- Link name leading users to Mobiata's careers page -->
+    <string name="WereHiring">채용 문의</string>
+    <!-- Title for how to connect with Mobiata -->
+    <string name="ConnectWithUs">Mobiata에 의견 보내기</string>
+    <!-- Text decsription for ConnectWithUs -->
+    <string name="ConnectWithUsDescription">Mobiata는 모든 채널을 통해 여러분의 의견을 기다리고 있습니다.</string>
+    <!-- Header for a list of apps also written by Mobiata -->
+    <string name="AlsoByMobiata">Mobiata의 다른 앱 보기</string>
+    <!-- Alternate Header for a list of apps written by Mobiata -->
+    <string name="MoreAppsFromMobiata">Mobiata 앱 더 보기</string>
+    <!-- Name of FlightTrack app -->
+    <string name="FlightTrackTitle">FlightTrack</string>
+    <!-- Description of what the FlightTrack app does -->
+    <string name="FlightTrackDescription">전 세계 항공 운항 정보를 확인하고 공유해 보세요. 아주 멋지답니다.</string>
+    <!-- Name of FlightBoard app -->
+    <string name="FlightBoardTitle">FlightBoard</string>
+    <!-- Description of FlightBoard app -->
+    <string name="FlightBoardDescription">고객님의 휴대폰 화면이 공항의 항공편 출발/도착 현황판으로 변신합니다.</string>
+    <!-- Name of FlightTrack app -->
+    <string name="ExpediaHotelsTitle">익스피디아</string>
+    <!-- Description of Expedia Hotels app -->
+    <string name="ExpediaHotelsDescription">호텔, 항공, 렌터카 및 즐길거리. 언제 어디서나!</string>
+    <!-- Default title for curent app, if for some reason it was not given -->
+    <string name="DefaultTitle">앱</string>
+    <!-- Template for about title -->
+    <string name="about_title_template">%s 정보</string>
+    <!-- Link to additional information -->
+    <string name="more">더 보기…</string>
+
+    <!-- MailChimp strings -->
+    <!-- The title for the dialog when users click to subscribe to Mobiata via email -->
+    <string name="MailChimpDialogTitle">가입하기</string>
+    <!-- The hint in the edit text box for subscribing via email -->
+    <string name="MailChimpEmailHint">여기에 이메일 주소를 입력해 주세요.</string>
+    <!-- Short error message when user tries to subscribe with no email entered -->
+    <string name="MailChimpNoEmailToast">이메일 주소를 입력하셔야 합니다.</string>
+    <!-- Message when user subscribes successfully -->
+    <string name="MailChimpSuccess">등록되셨습니다!</string>
+    <!-- Generic error message when signup fails -->
+    <string name="MailChimpFailure">등록하지 못했습니다. 이메일 주소를 확인하고 나중에 다시 시도해 주세요.</string>
+    <!-- Error message when signup fails because the user has already subscribed. The parameter is the email address entered by the user -->
+    <string name="Mailing_List_Already_Subscribed_Error">%s 주소는 이미 가입되어 Mobiata 주소록에 있습니다!</string>
+    <!-- Error message when the user has entered an invalid email address. -->
+    <string name="Invalid_Email_Error">유효한 이메일 주소를 입력해 주세요.</string>
+
+    <!-- Something that is about to occur in less than a minute -->
+    <string name="less_than_a_minute_future">1분 미만</string>
+    <!-- Something that occurred less than a minute ago -->
+    <string name="less_than_a_minute_past">1분 미만 전</string>
+    <!-- Time since prefix -->
+    <string name="time_updated_template">최신 업데이트: %s</string>
+    <!-- Time since prefix for offline mode -->
+    <string name="time_updated_template_offline">오프라인 · 최신 업데이트: %s</string>
+
+    <!-- Dialog related strings -->
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+    <string name="undo">실행 취소</string>
+</resources>

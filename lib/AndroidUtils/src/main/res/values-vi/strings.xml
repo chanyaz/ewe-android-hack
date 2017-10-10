@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- Formatting strings -->
+    <!-- The "and" conjunction -->
+    <string name="and">và</string>
+    <!-- The "or" conjunction -->
+    <string name="or">hoặc</string>
+
+    <!-- Error strings -->
+    <!-- Error message that user is not connected to the internet -->
+    <string name="error_no_internet">Thiết bị của quý vị hiện không kết nối internet.  Vui lòng kiểm tra kết nối của quý vị và thử lại.</string>
+
+    <!-- About strings -->
+    <!-- Link name leading users to Mobiata's help page on the current app -->
+    <string name="QuestionsComments">Câu hỏi? Nhận xét?</string>
+    <!-- Text description for QuestionsComments -->
+    <string name="QuestionsCommentsDescription">Vui lòng để lại vài dòng và chúng tôi sẽ trả lời trong thời gian sớm nhất có thể.</string>
+    <!-- Link to tell a friend about this app -->
+    <string name="TellAFriend">Chia sẻ với bạn bè</string>
+    <!-- Text description for TellAFriend -->
+    <string name="TellAFriendDescription">Thích sản phẩm của chúng tôi? Hãy chia sẻ để mọi người cùng biết!</string>
+    <!-- Title for a number of ways to follow Mobiata -->
+    <string name="FollowMobiata">Kết nối Mobiata</string>
+    <!-- Text for the email subscription prompt -->
+    <string name="EmailPrompt">Muốn nhận thông tin về bản cập nhật của chúng tôi đầu tiên? Xin hứa là chúng tôi sẽ không quấy nhiễu thường xuyên.</string>
+    <!-- Link name leading users to Mobiata's careers page -->
+    <string name="WereHiring">Chúng tôi đang tuyển dụng!</string>
+    <!-- Title for how to connect with Mobiata -->
+    <string name="ConnectWithUs">Liên kết với chúng tôi</string>
+    <!-- Text decsription for ConnectWithUs -->
+    <string name="ConnectWithUsDescription">Chúng tôi lắng nghe ý kiến của quý vị trên mọi kênh thông tin.</string>
+    <!-- Header for a list of apps also written by Mobiata -->
+    <string name="AlsoByMobiata">Cũng tạo bởi Mobiata</string>
+    <!-- Alternate Header for a list of apps written by Mobiata -->
+    <string name="MoreAppsFromMobiata">Các app khác của Mobiata</string>
+    <!-- Name of FlightTrack app -->
+    <string name="FlightTrackTitle">FlightTrack</string>
+    <!-- Description of what the FlightTrack app does -->
+    <string name="FlightTrackDescription">Theo dõi và chia sẻ thông tin chuyến bay trên toàn thế giới. Tuyệt vời!</string>
+    <!-- Name of FlightBoard app -->
+    <string name="FlightBoardTitle">FlightBoard</string>
+    <!-- Description of FlightBoard app -->
+    <string name="FlightBoardDescription">Biến màn hình thành bảng thông báo giờ khởi hành và giờ đến tại mọi sân bay.</string>
+    <!-- Name of FlightTrack app -->
+    <string name="ExpediaHotelsTitle">Expedia</string>
+    <!-- Description of Expedia Hotels app -->
+    <string name="ExpediaHotelsDescription">Khách sạn, Chuyến bay, Thuê xe &amp; Hoạt động. Mọi nơi.</string>
+    <!-- Default title for curent app, if for some reason it was not given -->
+    <string name="DefaultTitle">App</string>
+    <!-- Template for about title -->
+    <string name="about_title_template">Thông tin về %s</string>
+    <!-- Link to additional information -->
+    <string name="more">Xem thêm…</string>
+
+    <!-- MailChimp strings -->
+    <!-- The title for the dialog when users click to subscribe to Mobiata via email -->
+    <string name="MailChimpDialogTitle">Đăng ký</string>
+    <!-- The hint in the edit text box for subscribing via email -->
+    <string name="MailChimpEmailHint">Vui lòng điền địa chỉ email vào đây</string>
+    <!-- Short error message when user tries to subscribe with no email entered -->
+    <string name="MailChimpNoEmailToast">Quý vị phải điền địa chỉ email</string>
+    <!-- Message when user subscribes successfully -->
+    <string name="MailChimpSuccess">Quý vị đã đăng ký!</string>
+    <!-- Generic error message when signup fails -->
+    <string name="MailChimpFailure">Đăng ký không thành công, vui lòng kiểm tra địa chỉ email và thử lại sau.</string>
+    <!-- Error message when signup fails because the user has already subscribed. The parameter is the email address entered by the user -->
+    <string name="Mailing_List_Already_Subscribed_Error">%s đã được đăng ký nhận bản tin qua email từ Mobiata!</string>
+    <!-- Error message when the user has entered an invalid email address. -->
+    <string name="Invalid_Email_Error">Vui lòng nhập địa chỉ email hợp lệ.</string>
+
+    <!-- Something that is about to occur in less than a minute -->
+    <string name="less_than_a_minute_future">trong vòng chưa đến 1 phút</string>
+    <!-- Something that occurred less than a minute ago -->
+    <string name="less_than_a_minute_past">trong vòng chưa đầy 1 phút trước</string>
+    <!-- Time since prefix -->
+    <string name="time_updated_template">Cập nhật lần cuối %s</string>
+    <!-- Time since prefix for offline mode -->
+    <string name="time_updated_template_offline">Offline - Cập nhật lần cuối vào %s</string>
+
+    <!-- Dialog related strings -->
+    <string name="ok">OK</string>
+    <string name="cancel">Hủy</string>
+    <string name="undo">Hủy thao tác cuối</string>
+</resources>

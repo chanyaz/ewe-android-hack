@@ -4,5 +4,6 @@ include ':project'
 
 // libraries, order does not matter
 // Order matters in the dependencies block of individual projects
+include ':lib:AndroidUtils'
 include ':lib:AndroidTime'
 include ':lib:mocked:mocke3'

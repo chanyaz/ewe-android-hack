@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<declare-styleable name="CompoundButton">
+        <attr name="android:button" />
+        <attr name="android:gravity" />
+    </declare-styleable>
+
+	<declare-styleable name="CalendarDatePickerCell">
+        <attr name="state_cell_outside_of_valid_date_range" format="boolean" />
+        <attr name="state_cell_current_display_month" format="boolean" />
+        <attr name="state_cell_selected" format="boolean" />
+        <attr name="state_cell_selection_first" format="boolean" />
+        <attr name="state_cell_selection_last" format="boolean" />
+        <attr name="state_cell_today" format="boolean" />
+        <attr name="state_cell_in_range" format="boolean" />
+
+        <attr name="state_mode_single" format="boolean" />
+        <attr name="state_mode_range" format="boolean" />
+        <attr name="state_mode_hybrid" format="boolean" />
+    </declare-styleable>
+
+
+	<declare-styleable name="TiltedView">
+		<attr name="rotation" format="float" />
+	</declare-styleable>
+
+	<declare-styleable name="NumberPicker">
+		<attr name="android:textSize" />
+		<attr name="android:textColor" />
+		<attr name="android:textStyle" />
+		<attr name="android:orientation" />
+	</declare-styleable>
+
+	<declare-styleable name="AutoResizeTextView">
+		<attr name="maxTextSize" format="dimension" />
+		<attr name="minTextSize" format="dimension" />
+	</declare-styleable>
+
+	<declare-styleable name="Spinner">
+	    <attr name="android:textColor" />
+	</declare-styleable>
+
+</resources>

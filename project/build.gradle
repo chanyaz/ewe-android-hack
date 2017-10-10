@@ -31,13 +31,14 @@ dependencies {
             'adobeMobileLibrary-4.13.5.jar',
     ])
     compile project(':lib:AndroidTime')
+    compile project(':lib:AndroidUtils')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
     compile (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:1.0.0'
     compile 'com.expedia:android-account-lib:1.2.7'
-    compile 'com.mobiata:android-utils:1.2.2'
+//    compile 'com.mobiata:android-utils:1.2.2'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"

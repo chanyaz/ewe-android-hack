@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- AboutSectionFragment -->
+    <color name="about_row_bg_normal">#0000</color>
+    <color name="about_row_bg_pressed">#7caae5</color>
+    <color name="AboutSectionTextColor">#232323</color>
+    <color name="AboutSectionAppsTextColor">#454545</color>
+
+</resources>

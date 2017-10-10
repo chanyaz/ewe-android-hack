@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- Formatting strings -->
+    <!-- The "and" conjunction -->
+    <string name="and">ja</string>
+    <!-- The "or" conjunction -->
+    <string name="or">tai</string>
+
+    <!-- Error strings -->
+    <!-- Error message that user is not connected to the internet -->
+    <string name="error_no_internet">Laitteesi ei ole yhteydessä internetiin.  Tarkista yhteytesi ja yritä uudelleen.</string>
+
+    <!-- About strings -->
+    <!-- Link name leading users to Mobiata's help page on the current app -->
+    <string name="QuestionsComments">Kysyttävää? Kommentoitavaa?</string>
+    <!-- Text description for QuestionsComments -->
+    <string name="QuestionsCommentsDescription">Lähetä meille viestiä ja me vastaamme sinulle pian.</string>
+    <!-- Link to tell a friend about this app -->
+    <string name="TellAFriend">Kerro kaverille</string>
+    <!-- Text description for TellAFriend -->
+    <string name="TellAFriendDescription">Pidätkö meidän sovelluksistamme? Kerro siitä muille!</string>
+    <!-- Title for a number of ways to follow Mobiata -->
+    <string name="FollowMobiata">Seuraa Mobiataa</string>
+    <!-- Text for the email subscription prompt -->
+    <string name="EmailPrompt">Haluatko saada ensimmäisten joukossa tiedot päivityksistä? Lupaamme olla häiritsemättä sinua usein.</string>
+    <!-- Link name leading users to Mobiata's careers page -->
+    <string name="WereHiring">Meillä on avoimia työpaikkoja!</string>
+    <!-- Title for how to connect with Mobiata -->
+    <string name="ConnectWithUs">Seuraa meitä</string>
+    <!-- Text decsription for ConnectWithUs -->
+    <string name="ConnectWithUsDescription">Otamme kaikkien kanavien kautta saadun palautteen huomioon.</string>
+    <!-- Header for a list of apps also written by Mobiata -->
+    <string name="AlsoByMobiata">Muuta Mobiatalta</string>
+    <!-- Alternate Header for a list of apps written by Mobiata -->
+    <string name="MoreAppsFromMobiata">Muita Mobiatan sovelluksia</string>
+    <!-- Name of FlightTrack app -->
+    <string name="FlightTrackTitle">FlightTrack</string>
+    <!-- Description of what the FlightTrack app does -->
+    <string name="FlightTrackDescription">Seuraa ja jaa lentotietoja ympäri maailman. Tyylikkäästi.</string>
+    <!-- Name of FlightBoard app -->
+    <string name="FlightBoardTitle">FlightBoard</string>
+    <!-- Description of FlightBoard app -->
+    <string name="FlightBoardDescription">Seuraa minkä tahansa lentokentän saapuvia ja lähteviä lentoja.</string>
+    <!-- Name of FlightTrack app -->
+    <string name="ExpediaHotelsTitle">Expedia</string>
+    <!-- Description of Expedia Hotels app -->
+    <string name="ExpediaHotelsDescription">Hotellit, lennot, vuokra-autot ja aktiviteetit. Kaikkialla.</string>
+    <!-- Default title for curent app, if for some reason it was not given -->
+    <string name="DefaultTitle">Sovellus</string>
+    <!-- Template for about title -->
+    <string name="about_title_template">Tietoja: %s </string>
+    <!-- Link to additional information -->
+    <string name="more">Lisää…</string>
+
+    <!-- MailChimp strings -->
+    <!-- The title for the dialog when users click to subscribe to Mobiata via email -->
+    <string name="MailChimpDialogTitle">Tilaa uutiskirje</string>
+    <!-- The hint in the edit text box for subscribing via email -->
+    <string name="MailChimpEmailHint">Anna sähköpostiosoitteesi</string>
+    <!-- Short error message when user tries to subscribe with no email entered -->
+    <string name="MailChimpNoEmailToast">Sinun tulee antaa sähköpostiosoitteesi</string>
+    <!-- Message when user subscribes successfully -->
+    <string name="MailChimpSuccess">Tilasit uutiskirjeemme!</string>
+    <!-- Generic error message when signup fails -->
+    <string name="MailChimpFailure">Tilaus ei onnistunut, ole hyvä ja tarkista sähköpostiosoitteesi ja yritä uudelleen.</string>
+    <!-- Error message when signup fails because the user has already subscribed. The parameter is the email address entered by the user -->
+    <string name="Mailing_List_Already_Subscribed_Error">%s on jo Mobiatan postituslistalla!</string>
+    <!-- Error message when the user has entered an invalid email address. -->
+    <string name="Invalid_Email_Error">Anna oikea sähköpostiosoite.</string>
+
+    <!-- Something that is about to occur in less than a minute -->
+    <string name="less_than_a_minute_future">alle minuutin päästä</string>
+    <!-- Something that occurred less than a minute ago -->
+    <string name="less_than_a_minute_past">alle minuutti sitten</string>
+    <!-- Time since prefix -->
+    <string name="time_updated_template">Viimeksi päivitetty %s</string>
+    <!-- Time since prefix for offline mode -->
+    <string name="time_updated_template_offline">Offline-tilassa · viimeksi päivitetty kello %s</string>
+
+    <!-- Dialog related strings -->
+    <string name="ok">OK</string>
+    <string name="cancel">Peruuta</string>
+    <string name="undo">Kumoa</string>
+</resources>

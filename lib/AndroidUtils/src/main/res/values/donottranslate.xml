@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The string for the market prefix -->
+    <string name="market_prefix">market://details?id=</string>
+
+    <string name="app_name">Replace R.string.app_name!</string>
+</resources>

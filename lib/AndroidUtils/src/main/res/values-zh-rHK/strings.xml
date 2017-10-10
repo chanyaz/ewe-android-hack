@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- Formatting strings -->
+    <!-- The "and" conjunction -->
+    <string name="and">和</string>
+    <!-- The "or" conjunction -->
+    <string name="or">或</string>
+
+    <!-- Error strings -->
+    <!-- Error message that user is not connected to the internet -->
+    <string name="error_no_internet">您的裝置尚未連接互聯網。請檢查連線，然後再試一次。</string>
+
+    <!-- About strings -->
+    <!-- Link name leading users to Mobiata's help page on the current app -->
+    <string name="QuestionsComments">想要提出問題？或提出意見？</string>
+    <!-- Text description for QuestionsComments -->
+    <string name="QuestionsCommentsDescription">留言給我們，我們會盡快回覆。</string>
+    <!-- Link to tell a friend about this app -->
+    <string name="TellAFriend">向好友推薦</string>
+    <!-- Text description for TellAFriend -->
+    <string name="TellAFriendDescription">喜歡我們的服務嗎？請把它介紹給您的親朋好友！</string>
+    <!-- Title for a number of ways to follow Mobiata -->
+    <string name="FollowMobiata">掌握 Mobiata 的第一手資料</string>
+    <!-- Text for the email subscription prompt -->
+    <string name="EmailPrompt">想率先收到我們的最新資料嗎？我們承諾不會經常打擾您。</string>
+    <!-- Link name leading users to Mobiata's careers page -->
+    <string name="WereHiring">歡迎加入我們的行列！</string>
+    <!-- Title for how to connect with Mobiata -->
+    <string name="ConnectWithUs">和我們保持聯繫</string>
+    <!-- Text decsription for ConnectWithUs -->
+    <string name="ConnectWithUsDescription">我們會在所有途徑聽取您的意見。</string>
+    <!-- Header for a list of apps also written by Mobiata -->
+    <string name="AlsoByMobiata">Mobiata 的其他應用程式</string>
+    <!-- Alternate Header for a list of apps written by Mobiata -->
+    <string name="MoreAppsFromMobiata">更多來自 Mobiata 的應用程式</string>
+    <!-- Name of FlightTrack app -->
+    <string name="FlightTrackTitle">FlightTrack</string>
+    <!-- Description of what the FlightTrack app does -->
+    <string name="FlightTrackDescription">在世界各地都能追蹤和分享航班。保證萬無一失。</string>
+    <!-- Name of FlightBoard app -->
+    <string name="FlightBoardTitle">FlightBoard</string>
+    <!-- Description of FlightBoard app -->
+    <string name="FlightBoardDescription">讓您的手機螢幕變成世上任何一座機場的班機起降時間看板。</string>
+    <!-- Name of FlightTrack app -->
+    <string name="ExpediaHotelsTitle">Expedia</string>
+    <!-- Description of Expedia Hotels app -->
+    <string name="ExpediaHotelsDescription">酒店、機票、租車及活動。隨時預訂。</string>
+    <!-- Default title for curent app, if for some reason it was not given -->
+    <string name="DefaultTitle">應用程式</string>
+    <!-- Template for about title -->
+    <string name="about_title_template">關於%s</string>
+    <!-- Link to additional information -->
+    <string name="more">更多…</string>
+
+    <!-- MailChimp strings -->
+    <!-- The title for the dialog when users click to subscribe to Mobiata via email -->
+    <string name="MailChimpDialogTitle">訂閱</string>
+    <!-- The hint in the edit text box for subscribing via email -->
+    <string name="MailChimpEmailHint">請在此輸入電郵地址</string>
+    <!-- Short error message when user tries to subscribe with no email entered -->
+    <string name="MailChimpNoEmailToast">您必須輸入電郵地址</string>
+    <!-- Message when user subscribes successfully -->
+    <string name="MailChimpSuccess">您已完成註冊！</string>
+    <!-- Generic error message when signup fails -->
+    <string name="MailChimpFailure">註冊失敗。請檢查您的電郵地址，並請稍後再試一次。</string>
+    <!-- Error message when signup fails because the user has already subscribed. The parameter is the email address entered by the user -->
+    <string name="Mailing_List_Already_Subscribed_Error">%s 已經在 Mobiata 的訂閱郵件清單中！</string>
+    <!-- Error message when the user has entered an invalid email address. -->
+    <string name="Invalid_Email_Error">請輸入有效的電郵地址。</string>
+
+    <!-- Something that is about to occur in less than a minute -->
+    <string name="less_than_a_minute_future">不到 1 分鐘</string>
+    <!-- Something that occurred less than a minute ago -->
+    <string name="less_than_a_minute_past">不到 1 分鐘前</string>
+    <!-- Time since prefix -->
+    <string name="time_updated_template">上次更新 %s</string>
+    <!-- Time since prefix for offline mode -->
+    <string name="time_updated_template_offline">離線 · 上次更新時間： %s</string>
+
+    <!-- Dialog related strings -->
+    <string name="ok">確定</string>
+    <string name="cancel">取消</string>
+    <string name="undo">復原</string>
+</resources>

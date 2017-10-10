@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- Formatting strings -->
+    <!-- The "and" conjunction -->
+    <string name="and">og</string>
+    <!-- The "or" conjunction -->
+    <string name="or">eller</string>
+
+    <!-- Error strings -->
+    <!-- Error message that user is not connected to the internet -->
+    <string name="error_no_internet">Apparatet ditt er ikke koblet til Internett.  Kontroller internettforbindelsen og prøv på nytt.</string>
+
+    <!-- About strings -->
+    <!-- Link name leading users to Mobiata's help page on the current app -->
+    <string name="QuestionsComments">Spørsmål? Kommentarer?</string>
+    <!-- Text description for QuestionsComments -->
+    <string name="QuestionsCommentsDescription">Skriv til oss, så vil vi ta kontakt med deg innen rimelig tid.</string>
+    <!-- Link to tell a friend about this app -->
+    <string name="TellAFriend">Fortell en venn om oss</string>
+    <!-- Text description for TellAFriend -->
+    <string name="TellAFriendDescription">Liker du det vi gjør? Fortell andre om oss!</string>
+    <!-- Title for a number of ways to follow Mobiata -->
+    <string name="FollowMobiata">Følg Mobiata</string>
+    <!-- Text for the email subscription prompt -->
+    <string name="EmailPrompt">Vil du være den første som får høre om våre oppdateringer? Vi kommer ikke til å mase, det lover vi.</string>
+    <!-- Link name leading users to Mobiata's careers page -->
+    <string name="WereHiring">Ansettelser</string>
+    <!-- Title for how to connect with Mobiata -->
+    <string name="ConnectWithUs">Koble deg til oss</string>
+    <!-- Text decsription for ConnectWithUs -->
+    <string name="ConnectWithUsDescription">Vi leser tilbakemeldingene dine på alle kanaler.</string>
+    <!-- Header for a list of apps also written by Mobiata -->
+    <string name="AlsoByMobiata">Også laget av Mobiata</string>
+    <!-- Alternate Header for a list of apps written by Mobiata -->
+    <string name="MoreAppsFromMobiata">Flere apper fra Mobiata</string>
+    <!-- Name of FlightTrack app -->
+    <string name="FlightTrackTitle">FlightTrack</string>
+    <!-- Description of what the FlightTrack app does -->
+    <string name="FlightTrackDescription">Spor og del flyvninger over hele verden. Fint.</string>
+    <!-- Name of FlightBoard app -->
+    <string name="FlightBoardTitle">FlightBoard</string>
+    <!-- Description of FlightBoard app -->
+    <string name="FlightBoardDescription">Gjør om skjermen din til en oversikt over ankomster og avganger på en hvilken som helst flyplass.</string>
+    <!-- Name of FlightTrack app -->
+    <string name="ExpediaHotelsTitle">Expedia</string>
+    <!-- Description of Expedia Hotels app -->
+    <string name="ExpediaHotelsDescription">Hotell, fly, leiebiler og aktiviteter. Hvor som helst.</string>
+    <!-- Default title for curent app, if for some reason it was not given -->
+    <string name="DefaultTitle">App</string>
+    <!-- Template for about title -->
+    <string name="about_title_template">Om %s</string>
+    <!-- Link to additional information -->
+    <string name="more">Mer…</string>
+
+    <!-- MailChimp strings -->
+    <!-- The title for the dialog when users click to subscribe to Mobiata via email -->
+    <string name="MailChimpDialogTitle">Abonner</string>
+    <!-- The hint in the edit text box for subscribing via email -->
+    <string name="MailChimpEmailHint">Oppgi e-postadressen her</string>
+    <!-- Short error message when user tries to subscribe with no email entered -->
+    <string name="MailChimpNoEmailToast">Du må oppgi en e-postadresse</string>
+    <!-- Message when user subscribes successfully -->
+    <string name="MailChimpSuccess">Du er registrert!</string>
+    <!-- Generic error message when signup fails -->
+    <string name="MailChimpFailure">Registreringen mislyktes. Kontroller e-postadressen din og prøv igjen senere.</string>
+    <!-- Error message when signup fails because the user has already subscribed. The parameter is the email address entered by the user -->
+    <string name="Mailing_List_Already_Subscribed_Error">%s er allerede meldt på mailinglisten til Mobiata.</string>
+    <!-- Error message when the user has entered an invalid email address. -->
+    <string name="Invalid_Email_Error">Skriv inn en gyldig epost-adresse.</string>
+
+    <!-- Something that is about to occur in less than a minute -->
+    <string name="less_than_a_minute_future">om mindre enn ett minutt</string>
+    <!-- Something that occurred less than a minute ago -->
+    <string name="less_than_a_minute_past">mindre enn ett minutt siden</string>
+    <!-- Time since prefix -->
+    <string name="time_updated_template">Sist oppdatert%s</string>
+    <!-- Time since prefix for offline mode -->
+    <string name="time_updated_template_offline">Offline · Sist oppdatert %s</string>
+
+    <!-- Dialog related strings -->
+    <string name="ok">OK</string>
+    <string name="cancel">Avbryt</string>
+    <string name="undo">Angre</string>
+</resources>
