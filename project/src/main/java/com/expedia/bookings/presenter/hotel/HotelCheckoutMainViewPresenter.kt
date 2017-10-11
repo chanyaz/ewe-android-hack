@@ -115,7 +115,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         }
         vm.animateSlideToPurchaseWithPaymentSplits.subscribe {
             HotelTracking.trackHotelSlideToPurchase(paymentInfoCardView.getCardType(), it)
-            if (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled) {
+            if (shouldLogToCrashlytics()) {
                 logWebViewTestToCrashlytics("Slide to purchase shown")
             }
         }
@@ -227,7 +227,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus!!))
         }
         HotelTracking.trackPageLoadHotelCheckoutInfo(trip, hotelSearchParams, pageUsableData)
-        if (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled) {
+        if (shouldLogToCrashlytics()) {
             logWebViewTestToCrashlytics("Loaded native hotels checkout info")
         }
     }
@@ -291,12 +291,16 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         pageUsableData.markPageLoadStarted(System.currentTimeMillis())
     }
 
+
+    private fun shouldLogToCrashlytics() : Boolean {
+        return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout)
+                && !PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled
+    }
+
     private fun logWebViewTestToCrashlytics(message: String) {
         val tuidString = Db.getUser()?.tuidString ?: "n/a guest user"
         val webViewTest = Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppHotelsWebCheckout)
-        val isBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsWebCheckout)
-        Crashlytics.logException(Exception("$message, is user bucketed into webview? : $isBucketed " +
-                "Analytics Test: ${AbacusUtils.getAnalyticsString(webViewTest)}, user tuid: $tuidString, " +
-                "Point of Sale: ${PointOfSale.getPointOfSale().threeLetterCountryCode}"))
+        Crashlytics.logException(Exception("$message, Point of Sale: ${PointOfSale.getPointOfSale().threeLetterCountryCode} " +
+                "Analytics Test: ${AbacusUtils.getAnalyticsString(webViewTest)}, user tuid: $tuidString"))
     }
 }
