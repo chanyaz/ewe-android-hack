@@ -3,56 +3,12 @@
 
     <string name="travelocity_best_price_guarantee">Travelocity Price Guarantee</string>
 
-    <string name="customer_support_text">Call Travelocity Customer Support</string>
-
-    <!-- Content description for action: Press to log in with your Travelocity account -->
-    <string name="cd_checkout_log_in_with_travelocity">Press to log in to your Travelocity account</string>
-
-    <string name="contact_travelocity">Contact Travelocity</string>
     <string name="app_copyright_logo_url">http://www.travelocity.com/</string>
-
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_travelocity">Are you sure you want to log out of your Travelocity account?</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_travelocity_email_subject">Travelocity Reservations Support</string>
 
     <!-- package hotel results Wise Buys text label -->
     <string name="unreal_deal_text">Wise Buys</string>
     <!-- Hotel Wise Buys content description for accessibility. Eg. Wise Buys Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Wise Buys {unrealdeal}\u0020</string>
-
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_tvly">We\&apos;re sorry but this room is no longer available from Travelocity.</string>
-    <!--A message stating this hotel is Not currently available on Travelocity -->
-    <string name="not_currently_available_tvly">Not currently available from Travelocity</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Travelocity Nov. 3-4" -->
-    <string name="not_currently_available_tvly_TEMPLATE">Not available from Travelocity %s</string>
-
-    <!-- Missing strings for Travelocity from Expedia-->
-    <string name="tell_a_friend_body_tvly">Hi there,\n\nCheck out Travelocity Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
-    <string name="cd_log_in_email_edit_text_tvly">Enter Travelocity account email address</string>
-    <string name="tell_a_friend_subject_tvly">Travelocity Hotels</string>
-    <string name="cd_log_in_password_edit_text_tvly">Enter Travelocity account password</string>
-    <string name="cd_launch_open_eb_info_screen_tvly">Open Travelocity Bookings information screen</string>
-    <string name="loading_tvly_account">Loading Travelocity Account</string>
-    <string name="tvly_password_hint">Travelocity Password</string>
-    <string name="dialog_message_launch_tvly_mobile_site">Launch the Travelocity mobile website?</string>
-    <!-- Travelocity App download link -->
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Total Due to Travelocity Today:</string>
-    <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all Travelocity sites.&lt;br>Please reset your password using the ‘Forgot your password?’ link below.</string>
-
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Due to Travelocity Today</string>
-
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_a_Travelocity_account">Create a Travelocity account</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Travelocity">Welcome to Travelocity</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Travelocity_account_already_exists">A Travelocity account already exists with this email</string>
 
     <!-- Packages -->
     <string name="nav_packages">Vacation Packages</string>
@@ -69,8 +25,6 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Package total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Cost Breakdown dialog. Button.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Package price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view package.</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">Showing package details. Button to close.</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Member Discounts</string>
 

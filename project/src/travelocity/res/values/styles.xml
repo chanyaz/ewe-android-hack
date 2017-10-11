@@ -30,14 +30,4 @@
     <style name="Widget.ListView.DropDown.TVLY" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
         <item name="android:background">@drawable/bg_action_bar</item>
     </style>
-
-    <style name="DestinationTileUpperTextAppearance">
-        <item name="android:textColor">@color/bg_blue_color_travelocity</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="DestinationTileLowerTextAppearance">
-        <item name="android:textColor">@color/bg_blue_color_travelocity</item>
-        <item name="android:textSize">14sp</item>
-    </style>
 </resources>

@@ -4,37 +4,12 @@
     <color name="app_primary_dark">#003061</color>
     <color name="bg_blue_color_travelocity">#003e74</color>
     <color name="lob_primary_color">#003e74</color>
-    <color name="actionbar_button_background_pressed">#004888</color>
     <color name="hotels_primary_color">@color/lob_primary_color</color>
-    <color name="hotel_promo_background">#57A3CC</color>
     <color name="launch_toolbar_background_color">@color/bg_blue_color_travelocity</color>
     <color name="action_bar_text_blue_travelocity">#7baed4</color>
-    <color name="actionbar_button_text_color">@color/action_bar_text_blue_travelocity</color>
     <color name="actionbar_tab_text_unselected">#FFFFFF</color>
-    <color name="bg_btn_color_travelocity">#7bae00</color>
-    <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color">#276498</color>
-    <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color">#7baed4</color>
-    <color name="collection_overlay_color">#56a1d5</color>
-    <color name="tablet_book_button_text_color_travelocity">#57B3FF</color>
-    <color name="hotel_room_rate_select_room_button_tvly">#53A0D3</color>
-    <color name="hotel_room_rate_select_room_button_pressed_tvly">#004E93</color>
-    <color name="hotel_room_rate_add_room_button_tvly">#608405</color>
-    <color name="hotel_room_rate_add_room_button_pressed_tvly">#2F5806</color>
-    <color name="tablet_trip_bucket_text_color_tvly">@color/white</color>
-    <color name="tablet_search_result_error_button_tvly">#004E93</color>
-    <color name="tablet_search_result_error_button_pressed_tvly">#D1EAFF</color>
-    <color name="tablet_dates_popup_done_color_tvly">#7abb00</color>
-    <color name="launch_pin_detail_button_text_travelocity">#D1EAFF</color>
-    <color name="launch_card_back_container_color">#393939</color>
-    <color name="launch_card_explore_now_background_color">#4791C0</color>
-    <color name="destination_list_launch_card_title_text_color">#003E6F</color>
-    <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
-    <color name="destination_list_detail_container_background">#ff070f24</color>
-    <color name="accept_terms_color">#608405</color>
-    <color name="accept_terms_ripple_color">#7dad06</color>
-    <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
@@ -45,12 +20,7 @@
     <color name="launch_list_header_title_color">#565656</color>
     <color name="placeholder_card_background_color">@color/app_primary</color>
     <color name="placeholder_card_button_text_color">@color/app_primary</color>
-    <color name="hotel_reviews_summary_text_color">@color/gray900</color>
-    <color name="hotel_review_reviewer_color">@color/gray900</color>
     <color name="packages_bundle_price_background_color">#2B7CA8</color>
-
-    <!-- Calendar text colors -->
-    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
 
     <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#7AC231</color>
@@ -61,20 +31,11 @@
 
     <!-- Cars and LX -->
     <color name="cars_primary_color">@color/lob_primary_color</color>
-    <color name="cars_unchecked_toggle_text_color">#B3FFFFFF</color>
     <color name="lx_primary_color">@color/lob_primary_color</color>
     <color name="lx_ripple_color">#53a0d3</color>
     <color name="lx_secondary_color_disabled">#032E4D</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-    <color name="cars_ripple_color">@color/lx_ripple_color</color>
-    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
 
-    <color name="lx_primary_disabled_color">#40003E74</color>
-    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
-    <color name="cars_secondary_color">@color/cars_primary_color</color>
-    <color name="cars_tooltip_color">@color/cars_primary_color</color>
-    <color name="cars_status_bar_color">@color/cars_primary_color</color>
-    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
     <color name="checkout_login_button_color">@android:color/white</color>
 
     <!--Account Lib Colors -->

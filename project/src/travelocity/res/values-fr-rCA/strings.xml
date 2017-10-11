@@ -3,56 +3,12 @@
 
     <string name="travelocity_best_price_guarantee">Garantie du prix Travelocity</string>
 
-    <string name="customer_support_text">Téléphoner au soutien à la clientèle Travelocity</string>
-
-    <!-- Content description for action: Press to log in with your Travelocity account -->
-    <string name="cd_checkout_log_in_with_travelocity">Appuyez pour ouvrir une session à votre compte Travelocity</string>
-
-    <string name="contact_travelocity">Communiquer avec Travelocity</string>
     <string name="app_copyright_logo_url">http://www.travelocity.com/</string>
-
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_travelocity">Voulez-vous vraiment vous déconnecter de votre compte Travelocity?</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_travelocity_email_subject">Soutien Travelocity pour les réservations</string>
 
     <!-- package hotel results Wise Buys text label -->
     <string name="unreal_deal_text">Achats futés</string>
     <!-- Hotel Wise Buys content description for accessibility. Eg. Wise Buys Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Achats futés {unrealdeal}\u0020</string>
-
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_tvly">Désolé, la chambre sélectionnée n\&apos;est plus disponible sur Travelocity.</string>
-    <!--A message stating this hotel is Not currently available on Travelocity -->
-    <string name="not_currently_available_tvly">Non disponible présentement sur Travelocity</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Travelocity Nov. 3-4" -->
-    <string name="not_currently_available_tvly_TEMPLATE">Non disponible sur Travelocity %s</string>
-
-    <!-- Missing strings for Travelocity from Expedia-->
-    <string name="tell_a_friend_body_tvly">Bonjour,\n\nJetez un coup d\&apos;œil à l\&apos;application Travelocity Hotels pour téléphones iPhone et Android. Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde. C\&apos;est la façon la plus simple de réserver une chambre à partir de votre téléphone.</string>
-    <string name="cd_log_in_email_edit_text_tvly">Entrez l\&apos;adresse courriel du compte Travelocity</string>
-    <string name="tell_a_friend_subject_tvly">Hôtels Travelocity</string>
-    <string name="cd_log_in_password_edit_text_tvly">Entrez le mot de passe du compte Travelocity</string>
-    <string name="cd_launch_open_eb_info_screen_tvly">Ouvrez l\&apos;écran d\&apos;information Réservations Travelocity</string>
-    <string name="loading_tvly_account">Chargement du compte Travelocity</string>
-    <string name="tvly_password_hint">Mot de passe Travelocity</string>
-    <string name="dialog_message_launch_tvly_mobile_site">Lancer le site Web Travelocity mobile?</string>
-    <!-- Travelocity App download link -->
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Montant total dû à Travelocity aujourd\&apos;hui :</string>
-    <!-- User needs to reset password -->
-    <string name="login_reset_password">Vous devez créer un nouvel identifiant international vous donnant accès à tous les sites Travelocity.&lt;br&gt;Veuillez réinitialiser votre mot de passe à l\&apos;aide du lien « Vous avez oublié votre mot de passe? » ci-dessous.</string>
-
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Montant total dû à Travelocity aujourd\&apos;hui</string>
-
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_a_Travelocity_account">Créer un compte Travelocity</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Travelocity">Bienvenue sur Travelocity</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Travelocity_account_already_exists">Il existe déjà un compte Travelocity associé à cette adresse courriel</string>
 
     <!-- Packages -->
     <string name="nav_packages">Forfaits vacances</string>
@@ -69,8 +25,6 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Le coût total du forfait est de {totalprice}. Ce prix comprend les taxes et les frais pour les vols et l\&apos;hôtel. {savings}. Fenêtre contextuelle des détails du prix. Bouton.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Le prix du forfait est de {price_per_person} par personne. Ce prix comprend les taxes et les frais pour les vols et l\&apos;hôtel. Bouton d\&apos;affichage du forfait.</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">Affichage des détails du forfait. Bouton de fermeture.</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Réductions pour les membres</string>
 
