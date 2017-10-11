@@ -5,6 +5,8 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
+import com.mobiata.flightlib.data.Airport
+import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
@@ -76,8 +78,8 @@ class FlightItinDetailsViewModelTest {
         sut.createSegmentSummaryWidgetsSubject.subscribe(createLegSummaryWidgetsSubscriber)
 
         val testItinCardData = ItinCardDataFlightBuilder().build()
-        val departureTime = testItinCardData.flightLeg.segments[0].originWaypoint.bestSearchDateTime
-        val arrivalTime = testItinCardData.flightLeg.segments[0].destinationWaypoint.bestSearchDateTime
+        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco")
+        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas")
         sut.itinCardDataFlight = testItinCardData
         sut.updateLegSummaryWidget()
         clearLegSummaryContainerSubscriber.assertValueCount(1)
@@ -87,8 +89,8 @@ class FlightItinDetailsViewModelTest {
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
                 "United Airlines 681",
                 "COMPASS AIRLINES",
-                departureTime,
-                arrivalTime,
+                DateTime(),
+                DateTime(),
                 "SFO",
                 "San Francisco",
                 "LAS",
@@ -102,10 +104,10 @@ class FlightItinDetailsViewModelTest {
         sut.createSegmentSummaryWidgetsSubject.subscribe(createLegSummaryWidgetsSubscriber)
 
         val testItinCardData = ItinCardDataFlightBuilder().build(multiSegment = true)
-        val departureTimeSegment1 = testItinCardData.flightLeg.segments[0].originWaypoint.bestSearchDateTime
-        val arrivalTimeSegment1 = testItinCardData.flightLeg.segments[0].destinationWaypoint.bestSearchDateTime
-        val departureTimeSegment2 = testItinCardData.flightLeg.segments[1].originWaypoint.bestSearchDateTime
-        val arrivalTimeSegment2 = testItinCardData.flightLeg.segments[1].destinationWaypoint.bestSearchDateTime
+        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco")
+        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("EWR", "Newark")
+        testItinCardData.flightLeg.segments[1].originWaypoint = TestWayPoint("EWR", "Newark")
+        testItinCardData.flightLeg.segments[1].destinationWaypoint = TestWayPoint("PBI", "West Palm Beach")
         sut.itinCardDataFlight = testItinCardData
         sut.updateLegSummaryWidget()
         clearLegSummaryContainerSubscriber.assertValueCount(1)
@@ -115,8 +117,8 @@ class FlightItinDetailsViewModelTest {
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
                 "United Airlines 1796",
                 null,
-                departureTimeSegment1,
-                arrivalTimeSegment1,
+                DateTime(),
+                DateTime(),
                 "SFO",
                 "San Francisco",
                 "EWR",
@@ -125,12 +127,23 @@ class FlightItinDetailsViewModelTest {
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
                 "United Airlines 1489",
                 null,
-                departureTimeSegment2,
-                arrivalTimeSegment2,
+                DateTime(),
+                DateTime(),
                 "EWR",
                 "Newark",
                 "PBI",
                 "West Palm Beach"
         ))
+    }
+
+    class TestWayPoint(val code: String, val city: String) : Waypoint(ACTION_UNKNOWN) {
+        override fun getAirport(): Airport {
+            val airport = Airport()
+            airport.mAirportCode = code
+            airport.mCity = city
+            return airport
+        }
+
+        override fun getBestSearchDateTime(): DateTime = DateTime()
     }
 }
