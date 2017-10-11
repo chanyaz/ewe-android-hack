@@ -3,7 +3,6 @@
 
     <style name="TitleBarTextColor" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/actionbar_text</item>
-        <item name="textColor">@color/actionbar_text</item>
     </style>
 
     <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
@@ -24,7 +23,7 @@
         <item name="actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="textColor">@color/actionbar_text</item>
+        <item name="android:textColor">@color/actionbar_text</item>
 
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>

@@ -42,7 +42,7 @@ apply plugin: 'com.github.ben-manes.versions'
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
 ext.supportLibVersion = "25.3.1"
-ext.googlePlayServicesVersion = "11.0.2"
+ext.googlePlayServicesVersion = "11.0.4"
 
 ext.compileSdkVersion = 26
 ext.buildToolsVersion = "25.0.3"

@@ -15,7 +15,6 @@
 
     <style name="TitleBarTextColorCheapTickets" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">#FFFFFF</item>
-        <item name="textColor">#FFFFFF</item>
     </style>
 
     <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">

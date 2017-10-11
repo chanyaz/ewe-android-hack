@@ -1906,7 +1906,6 @@
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">次に、帰りの日付を選択</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
-    <string name="calendar_instructions_hotels_no_dates_selected">チェックイン日を選択</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}、{guests}</string>
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
@@ -2412,7 +2411,6 @@
     <!-- Button label for cancelling on error -->
     <string name="cancel">キャンセル</string>
     <!-- Button label for accepting an error and moving forward -->
-    <string name="accept">承諾</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">再試行</string>
     <!-- Button label for adjusting filters after getting no results -->
@@ -2487,7 +2485,6 @@
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->
-    <string name="drag_to_extend_your_stay">滞在期間を延長するには日付を&lt;b&gt;ドラッグ&lt;/b&gt;</string>
     <!-- Child age dialog button -->
     <string name="button_done">完了</string>
     <!-- Text for child's age on search refinements and in spinner -->
@@ -2766,7 +2763,6 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">ネガティブ</string>
     <!-- Read more of the review -->
-    <string name="more">もっと読む</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">口コミなし</string>
 

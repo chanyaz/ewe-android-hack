@@ -76,21 +76,6 @@
             android:textAppearance="@style/TextAppearance.Small"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/flighttrack_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableTop="@drawable/ic_share_flighttrack"
-            android:gravity="center_horizontal"
-            android:paddingBottom="24dp"
-            android:paddingTop="16dp"
-            android:maxLines="1"
-            android:text="@string/FlightTrackTitle"
-            android:textAppearance="@style/TextAppearance.Small"
-            android:visibility="gone" />
-
     </LinearLayout>
 
 </LinearLayout>

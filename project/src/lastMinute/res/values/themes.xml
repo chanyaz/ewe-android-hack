@@ -52,7 +52,7 @@
         <item name="actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="textColor">@color/actionbar_text</item>
+        <item name="android:textColor">@color/actionbar_text</item>
 
         <!-- PopupMenu -->
         <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
