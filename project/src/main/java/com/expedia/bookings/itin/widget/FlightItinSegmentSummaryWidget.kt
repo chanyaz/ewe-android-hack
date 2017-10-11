@@ -33,7 +33,11 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
 
     var viewModel: FlightItinSegmentSummaryViewModel by notNullAndObservable { vm ->
         vm.createAirlineWidgetSubject.subscribe { params ->
-            Picasso.with(context).load(params.airlineLogoURL).placeholder(R.drawable.ic_plane_icon_placeholder_android).into(airlineLogo)
+            if (params.airlineLogoURL != null) {
+                Picasso.with(context).load(params.airlineLogoURL).into(airlineLogo)
+            } else {
+                airlineLogo.setImageResource(R.drawable.ic_plane_icon_placeholder_android)
+            }
             airlineNameAndNumber.text = params.airlineName
             if (params.operatedByAirlines != null) {
                 operatedByAirlines.visibility = View.VISIBLE
