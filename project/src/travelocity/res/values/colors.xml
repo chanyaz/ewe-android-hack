@@ -47,6 +47,7 @@
     <color name="placeholder_card_button_text_color">@color/app_primary</color>
     <color name="hotel_reviews_summary_text_color">@color/gray900</color>
     <color name="hotel_review_reviewer_color">@color/gray900</color>
+    <color name="packages_bundle_price_background_color">#2B7CA8</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>

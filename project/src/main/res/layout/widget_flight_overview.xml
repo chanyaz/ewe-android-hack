@@ -104,7 +104,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/packages_secondary_color">
+            android:background="@color/packages_bundle_price_background_color">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/bundle_price_label"
