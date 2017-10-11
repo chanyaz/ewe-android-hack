@@ -15,10 +15,10 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.packages.SuggestionViewModel
 
 class SuggestionViewHolder(val root: ViewGroup, val vm: SuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
-    val title: TextView by root.bindView(R.id.title_textview)
-    val subtitle: TextView by root.bindView(R.id.suggestion_subtittle)
-    val icon: ImageView by root.bindView(R.id.icon_imageview)
-    val hierarchyIcon: ImageView by root.bindView(R.id.hierarchy_imageview)
+    val title: TextView by bindView(R.id.title_textview)
+    val subtitle: TextView by bindView(R.id.suggestion_subtittle)
+    val icon: ImageView by bindView(R.id.icon_imageview)
+    val hierarchyIcon: ImageView by bindView(R.id.hierarchy_imageview)
 
     init {
         itemView.setOnClickListener(this)

@@ -194,10 +194,10 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     }
 
     inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {
-        val resultsDescriptionHeader: TextView by root.bindView(R.id.results_description_header)
-        val loyaltyPointsAppliedHeader: TextView by root.bindView(R.id.loyalty_points_applied_message)
-        val infoIcon: ImageView by root.bindView(R.id.results_header_info_icon)
-        val shadow: View by root.bindView(R.id.drop_shadow)
+        val resultsDescriptionHeader: TextView by bindView(R.id.results_description_header)
+        val loyaltyPointsAppliedHeader: TextView by bindView(R.id.loyalty_points_applied_message)
+        val infoIcon: ImageView by bindView(R.id.results_header_info_icon)
+        val shadow: View by bindView(R.id.drop_shadow)
 
         init {
             if (ExpediaBookingApp.isDeviceShitty()) {

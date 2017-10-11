@@ -11,9 +11,9 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.vm.HotelSuggestionViewModel
 
 class HotelSuggestionViewHolder(val root: ViewGroup, private val vm : HotelSuggestionViewModel) : RecyclerView.ViewHolder(root) {
-    val title: TextView by root.bindView(R.id.title_textview)
-    val icon: ImageView by root.bindView(R.id.icon_imageview)
-    val hierarchyIcon: ImageView by root.bindView(R.id.hierarchy_imageview)
+    val title: TextView by bindView(R.id.title_textview)
+    val icon: ImageView by bindView(R.id.icon_imageview)
+    val hierarchyIcon: ImageView by bindView(R.id.hierarchy_imageview)
 
     fun bind(suggestion: SuggestionV4) {
         vm.bind(suggestion)

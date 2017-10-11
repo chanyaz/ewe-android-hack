@@ -57,9 +57,9 @@ class CarSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : Recycler
 }
 
 class CarSuggestionViewHolder(val root: ViewGroup, val vm : CarSuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
-    val displayName: TextView by root.bindView(R.id.location_title_textView)
-    val dropdownImage: ImageView by root.bindView(R.id.cars_dropdown_imageView)
-    val cityName: TextView by root.bindView(R.id.location_subtitle_textView)
+    val displayName: TextView by bindView(R.id.location_title_textView)
+    val dropdownImage: ImageView by bindView(R.id.cars_dropdown_imageView)
+    val cityName: TextView by bindView(R.id.location_subtitle_textView)
 
     init {
         itemView.setOnClickListener(this)

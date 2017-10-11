@@ -112,8 +112,8 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     }
 
     inner class HeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
-        val direction: TextView by root.bindView(R.id.selectDirection)
-        val oneWayOrRoundTrip: TextView by root.bindView(R.id.oneWayOrRoundTrip)
+        val direction: TextView by bindView(R.id.selectDirection)
+        val oneWayOrRoundTrip: TextView by bindView(R.id.oneWayOrRoundTrip)
 
         init {
             directionHeaderSubject.subscribeText(direction)
@@ -140,13 +140,13 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
 
         val resources = root.resources
 
-        val cardView: CardView by root.bindView(R.id.rail_card_view)
-        val timesView: TextView by root.bindView(R.id.timesView)
-        val priceView: TextView by root.bindView(R.id.priceView)
-        val operatorTextView: TextView by root.bindView(R.id.trainOperator)
-        val durationTextView: TextView by root.bindView(R.id.layoverView)
-        val timelineView: RailResultsTimelineWidget by root.bindView(R.id.timeline_view)
-        val railCardImage: ImageView by root.bindView(R.id.rail_card_image)
+        val cardView: CardView by bindView(R.id.rail_card_view)
+        val timesView: TextView by bindView(R.id.timesView)
+        val priceView: TextView by bindView(R.id.priceView)
+        val operatorTextView: TextView by bindView(R.id.trainOperator)
+        val durationTextView: TextView by bindView(R.id.layoverView)
+        val timelineView: RailResultsTimelineWidget by bindView(R.id.timeline_view)
+        val railCardImage: ImageView by bindView(R.id.rail_card_image)
 
         init {
             itemView.setOnClickListener(this)
