@@ -59,7 +59,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
     val searchTravelerParamsObservable = PublishSubject.create<com.expedia.bookings.data.FlightSearchParams>()
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
-    val EBAndroidAppFlightEvolable = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsEvolable, R.string.preference_flights_evolable)
+    val isUserEvolableBucketed = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsEvolable, R.string.preference_flights_evolable)
     var toAndFromFlightFieldsSwitched = false
 
     val flightParamsBuilder = FlightSearchParams.Builder(getCalendarRules().getMaxSearchDurationDays(),
@@ -125,7 +125,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             flightParamsBuilder.setFeatureOverride(Constants.FEATURE_SUBPUB)
         }
 
-        if (EBAndroidAppFlightEvolable) {
+        if (isUserEvolableBucketed) {
             flightParamsBuilder.setFeatureOverride(Constants.FEATURE_EVOLABLE)
         }
 

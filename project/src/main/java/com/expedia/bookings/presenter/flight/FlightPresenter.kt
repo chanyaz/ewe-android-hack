@@ -58,6 +58,7 @@ import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.vm.FlightWebCheckoutViewViewModel
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Constants
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.setInverseVisibility
@@ -91,6 +92,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val showMoreInfoOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
     val isUserBucketedForFareFamily = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
+    val isUserEvolableBucketed = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsEvolable, R.string.preference_flights_evolable)
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.error_presenter_stub)
@@ -364,7 +366,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             createTripBuilder.productKey(productKey)
             createTripBuilder.setFlexEnabled(isFlexEnabled())
             if (EBAndroidAppFlightSubpubChange) {
-                createTripBuilder.enableSubPubFeature()
+                createTripBuilder.setFeatureOverride(Constants.FEATURE_SUBPUB)
+            }
+            if (isUserEvolableBucketed) {
+                createTripBuilder.setFeatureOverride(Constants.FEATURE_EVOLABLE)
             }
             flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
             if (shouldShowWebCheckoutView()) {

@@ -23,8 +23,12 @@ class FlightCreateTripParams(val productKey: String, val flexEnabled: Boolean, v
             return this
         }
 
-        fun enableSubPubFeature(): Builder {
-            this.featureOverride = Constants.FEATURE_SUBPUB
+        fun setFeatureOverride(newFeatureOverride: String): Builder {
+            if (featureOverride.isNullOrBlank()) {
+                featureOverride = newFeatureOverride
+            } else {
+                featureOverride += "," + newFeatureOverride
+            }
             return this
         }
 
