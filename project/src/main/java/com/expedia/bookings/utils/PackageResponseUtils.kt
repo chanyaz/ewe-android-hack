@@ -19,31 +19,33 @@ object PackageResponseUtils {
     val RECENT_PACKAGE_HOTEL_OFFER_FILE = "hotel_offer.dat"
 
 
-    fun savePackageResponse(context: Context, response: BundleSearchResponse, file: String) {
+    fun savePackageResponse(context: Context, response: BundleSearchResponse, file: String, saveSuccess: ((Unit) -> Unit)? = null) {
         Thread(Runnable {
             val type = if(response is MultiItemApiSearchResponse) object: TypeToken<MultiItemApiSearchResponse>() {}.type else object: TypeToken<PackageSearchResponse>() {}.type
             val responseJson = Gson().toJson(response, type)
             try {
                 IoUtils.writeStringToFile(file, responseJson, context)
+                saveSuccess?.invoke(Unit)
             } catch (e: IOException) {
                 Log.e("Save History Error: ", e)
             }
         }).start()
     }
 
-    fun saveHotelOfferResponse(context: Context, hotelOffer: HotelOffersResponse, file: String) {
+    fun saveHotelOfferResponse(context: Context, hotelOffer: HotelOffersResponse, file: String, saveSuccess: ((Unit) -> Unit)? = null) {
         Thread(Runnable {
             val type = object : TypeToken<HotelOffersResponse>() {}.type
             val responseJson = Gson().toJson(hotelOffer, type)
             try {
                 IoUtils.writeStringToFile(file, responseJson, context)
+                saveSuccess?.invoke(Unit)
             } catch (e: IOException) {
                 Log.e("Save History Error: ", e)
             }
         }).start()
     }
 
-    fun loadPackageResponse(context: Context, file: String, isMidApiEnabled: Boolean): BundleSearchResponse {
+    fun loadPackageResponse(context: Context, file: String, isMidApiEnabled: Boolean): BundleSearchResponse? {
         try {
             val str = IoUtils.readStringFromFile(file, context)
             if(isMidApiEnabled) {
@@ -56,11 +58,11 @@ object PackageResponseUtils {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        return PackageSearchResponse()
+        return null
     }
 
-    fun loadHotelOfferResponse(context: Context, file: String): HotelOffersResponse {
-        var recentResponse = HotelOffersResponse()
+    fun loadHotelOfferResponse(context: Context, file: String): HotelOffersResponse? {
+        var recentResponse: HotelOffersResponse? = null
         try {
             val str = IoUtils.readStringFromFile(file, context)
             val type = object : TypeToken<HotelOffersResponse>() {}.type
