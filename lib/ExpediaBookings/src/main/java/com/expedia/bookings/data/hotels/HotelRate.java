@@ -123,10 +123,10 @@ public class HotelRate {
 
 	public Money getDisplayTotalPrice() {
 		if (Strings.equals(checkoutPriceType, "totalPriceWithMandatoryFees")) {
-			return new Money(new BigDecimal(totalPriceWithMandatoryFees), currencyCode);
+			return new Money(new BigDecimal(Float.toString(totalPriceWithMandatoryFees)), currencyCode);
 		}
 		else {
-			return new Money(new BigDecimal(total), currencyCode);
+			return new Money(new BigDecimal(Float.toString(total)), currencyCode);
 		}
 	}
 

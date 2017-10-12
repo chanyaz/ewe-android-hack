@@ -1,7 +1,8 @@
 package com.expedia.bookings.tracking.hotel
 
-import android.text.TextUtils
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.AbstractTrackingDataBuilder
 import com.expedia.bookings.utils.JodaUtils
 import org.joda.time.LocalDate
@@ -16,17 +17,17 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
         return trackingData
     }
 
-    fun searchParams(searchParams: com.expedia.bookings.data.hotels.HotelSearchParams) {
+    fun searchParams(searchParams: HotelSearchParams) {
         populateSearchParamFields(searchParams)
         paramsPopulated = true
     }
 
-    fun searchResponse(searchResponse: com.expedia.bookings.data.hotels.HotelSearchResponse) {
+    fun searchResponse(searchResponse: HotelSearchResponse) {
         populateSearchResponseFields(searchResponse)
         responsePopulated = true
     }
 
-    private fun populateSearchParamFields(searchParams: com.expedia.bookings.data.hotels.HotelSearchParams) {
+    private fun populateSearchParamFields(searchParams: HotelSearchParams) {
         populateRegionData(searchParams)
 
         trackingData.searchWindowDays = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.checkIn))
@@ -38,9 +39,6 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
         trackingData.checkInDate = searchParams.checkIn
         trackingData.checkoutDate = searchParams.checkOut
 
-        val now = LocalDate.now()
-        trackingData.daysOut = JodaUtils.daysBetween(now, trackingData.checkInDate)
-
         if (trackingData.checkoutDate != null) {
             trackingData.duration = JodaUtils.daysBetween(trackingData.checkInDate, trackingData.checkoutDate)
         } else {
@@ -50,8 +48,8 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
         trackingData.swpEnabled = searchParams.shopWithPoints
     }
 
-    private fun populateSearchResponseFields(searchResponse: com.expedia.bookings.data.hotels.HotelSearchResponse) {
-        if (searchResponse != null && !searchResponse.hotelList.isEmpty()) {
+    private fun populateSearchResponseFields(searchResponse: HotelSearchResponse) {
+        if (!searchResponse.hotelList.isEmpty()) {
             trackingData.resultsReturned = true
             trackingData.numberOfResults = Integer.toString(searchResponse.hotelList.size)
             trackingData.hasSponsoredListingPresent = searchResponse.hotelList[0].isSponsoredListing
@@ -66,18 +64,20 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
             trackingData.lowestHotelTotalPrice = calculateLowestTotalPrice(hotelList)
 
             trackingData.hasPinnedHotel = searchResponse.hasPinnedHotel()
-            trackingData.pinnedHotelSoldOut = searchResponse.hotelList[0].isSoldOut
+            trackingData.pinnedHotelSoldOut = trackingData.hasPinnedHotel && searchResponse.hotelList[0].isSoldOut
+
+            trackingData.hasSoldOutHotel = haveSoldOutProperties(hotelList)
         }
     }
 
-    private fun populateRegionData(params: com.expedia.bookings.data.hotels.HotelSearchParams) {
+    private fun populateRegionData(params: HotelSearchParams) {
         if (params.suggestion.isCurrentLocationSearch) {
             trackingData.region = "Current Location"
         } else {
             trackingData.region = params.suggestion.gaiaId
         }
 
-        if (!TextUtils.isEmpty(params.suggestion.regionNames.fullName)) {
+        if (!params.suggestion.regionNames.fullName.isNullOrBlank()) {
             trackingData.freeFormRegion = params.suggestion.regionNames.fullName
         }
     }
@@ -96,5 +96,14 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
             }
         }
         return minPropertyRate?.displayTotalPrice?.getAmount()?.toString()
+    }
+
+    private fun haveSoldOutProperties(properties: List<Hotel>): Boolean {
+        for (property in properties.asReversed()) {
+            if (property.isSoldOut) {
+                return true
+            }
+        }
+        return false
     }
 }

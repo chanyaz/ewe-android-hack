@@ -509,6 +509,10 @@ public class OmnitureTracking {
 			}
 		}
 
+		if (searchTrackingData.getHasSoldOutHotel()) {
+			events += ",event14";
+		}
+
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), events);
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);

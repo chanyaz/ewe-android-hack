@@ -21,7 +21,6 @@ class HotelSearchTrackingData : AbstractSearchTrackingData() {
     var numberOfChildren = 0
 
     var searchWindowDays: String? = null
-    var daysOut: Int? = null
     var duration: Int? = null
 
     var resultsReturned = false
@@ -34,6 +33,8 @@ class HotelSearchTrackingData : AbstractSearchTrackingData() {
 
     var hasPinnedHotel = false
     var pinnedHotelSoldOut = false
+
+    var hasSoldOutHotel = false
 
     fun hasResponse() : Boolean {
         return resultsReturned

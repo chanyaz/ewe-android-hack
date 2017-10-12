@@ -1,0 +1,348 @@
+{
+  "numberOfRoomsRequested": 1,
+  "filterUnavailableHotelsRequested": false,
+  "totalHotelCount": 120,
+  "availableHotelCount": 45,
+  "searchRegionId": "800024",
+  "searchRegionCity": "Chicago (and vicinity)",
+  "deepLinkUrl": "https://www.expedia.co.uk/Chicago-Hotels.d178248.Travel-Guide-Hotels",
+  "hotelList": [{
+    "sortIndex": "0",
+    "hotelId": "23963",
+    "name": "The Talbott Hotel",
+    "localizedName": "The Talbott Hotel",
+    "nonLocalizedName": "The Talbott Hotel",
+    "address": "20 E Delaware Pl",
+    "city": "Chicago",
+    "stateProvinceCode": "IL",
+    "countryCode": "USA",
+    "countryName": "United States of America",
+    "postalCode": "60611",
+    "airportCode": "ORD",
+    "supplierType": "MERCHANT",
+    "hotelStarRating": "4.0",
+    "hotelStarRatingCssClassName": "4-0",
+    "hotelGuestRating": "0.0",
+    "totalRecommendations": "0",
+    "percentRecommended": "0",
+    "totalReviews": "0",
+    "shortDescription": "Located in Near North Side, this boutique hotel is within a 10-minute walk of John Hancock Center and Chicago Water Tower. Tribune Tower and Wrigley Building are also within 1 mi (2 km). ",
+    "locationDescription": "Magnificent Mile",
+    "locationId": "800025",
+    "lowRate": "232.35",
+    "lowRateInfo": {
+      "maxNightlyRate": "232.35",
+      "averageRate": "232.35",
+      "taxStatusType": "ESTIMATED",
+      "surchargeTotal": "0.00",
+      "surchargeTotalForEntireStay": "0.00",
+      "surchargesWithoutPropertyFee": "0.00",
+      "surchargesWithoutPropertyFeeForEntireStay": "0.00",
+      "averageBaseRate": "232.35",
+      "nightlyRateTotal": "929.40",
+      "discountPercent": 0,
+      "total": "929.38",
+      "currencyCode": "GBP",
+      "currencySymbol": "£",
+      "surcharges": [],
+      "surchargesForEntireStay": [],
+      "nightlyRatesPerRoom": [{
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }, {
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }, {
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }, {
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }],
+      "priceToShowUsers": "929",
+      "strikethroughPriceWithTaxesAndFeesToShowUsers": "929",
+      "totalMandatoryFees": "0.00",
+      "totalPriceWithMandatoryFees": "929.38",
+      "formattedTotalPriceWithMandatoryFees": "£ 929.38",
+      "userPriceType": "RateForWholeStayWithTaxes",
+      "priceAdjustments": [],
+      "checkoutPriceType": "total",
+      "airAttached": false,
+      "roomTypeCode": "201969717",
+      "ratePlanCode": "210016795",
+      "showResortFeeMessage": false,
+      "resortFeeInclusion": false
+    },
+    "rateCurrencyCode": "GBP",
+    "rateCurrencySymbol": "£",
+    "roomsLeftAtThisRate": "24",
+    "latitude": "41.89919",
+    "longitude": "-87.62756",
+    "proximityDistanceInMiles": "1.2728402734617776",
+    "proximityDistanceInKiloMeters": "2.048",
+    "largeThumbnailUrl": "/hotels/1000000/30000/24000/23963/23963_146_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/30000/24000/23963/23963_146_n.jpg",
+    "discountMessage": "",
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isSameDayDRR": false,
+    "isHotelAvailable": false,
+    "notAvailableMessage": "",
+    "isSponsoredListing": false,
+    "clickTrackingUrl": "https://travelads.hlserve.com/TravelAdsService/v3/Hotels/TravelAdClick?trackingData\u003dCmp-pEW9vYjLnQ2xQ7AZh8w/v3dqBE6dFwMkyhZhHGuD3xMR947pignyoYdaSqdvfw8nbipbvqvVySBJmt8cX02YAFDB/8Gg+kweRZhfBb5jc8GDuHJNGR05GK8U/7XKP2IjUQ2aNbr5DgJMdIYQu7VsZZRyVpotQzy7AIclc0SoFMROA3vsxu3Mdj2l+RwFvnfgqAGyp7iJ4nPE176Xbvj6ASTNWSJ23Ffim9rVVVpJP6wK1ijQJDZ3IkMlE3zpsFnYnkKkBVdjusAVxd6qROdo8BebzatJuYqzlSe5GTdqCCFY/zNt6EcFjy9UVkb3WdlMWu/ZuwurrUCX8UjEsT6vfaAECOwru57VdtVbPS5Inw9jufXZCJnrD7alXiLmNldaNroMzldtywohGYbCtT5pwVzv4q3yIsrOXbjJQFAE/3CyQ6gLKdC0hbYBRrczdpQzTX+oDJfufwtAi98jxQ4Tae3fbEO1dtFgtsNEU3JkqBF+klCsC/2Lsl0AqkAbwsvWZ0o5bHbKooHuLT3ozsB1xQJlwvtGx33N4fgp56FCk57j3rGD69QAfoZbGwEi9GPK6sGKbB3Yeo8+5gPTnEfrqvpnMPSb7ag2JPWCG+7w9JPxKZQasPluKxgtWAQVVW+XPxlUDXSOECyXcRAE4AAmdLIJV8ZXsZ6cvFqXduS8yADUaP0A6PMm9+pktVzpMedY/7UQTDsX8lLonwGyDL+KhanDZ4iMSQ+a9VaaPyqF3orz8Ku+kIGdyQRiyOevo7mI4MFsIZSasNevQroy+65qZid00SKxdzWk8Qphu4iuKLn3Am9UhsfQnR2e8AjdpNecnJak3Kok62PJHouvfaG9JhHL2w7GNXgafnSs57+ZAS60EHhtP5H2q6ywT2vPqWDhtqLJrQXzy0h5bACn+pXj5BkQdHSIdHQv6tu5mSc7PXq/wHAdP46k8Cwf214hFwlHQ5tgVbQfKMKTrrCky2SQAzUksHuZmH5+Qk7jb7MRNaJFkzSQ9GCgYgOQ6GMKPDMmJx4k0LkHwZvYHXEhGNdolZ6CTXoH6lrD9tC6Sun/kx0\u003d\u0026rank\u003d1\u0026testVersionOverride\u003d12564.49548.1%2C13487.51625.0\u0026candidateHmGuid\u003d607c7d20-5c42-4d88-b149-ffe9e7bde27f\u0026beaconIssued\u003d2017-05-12T19:16:08",
+    "clickTrackingRedirectUrl": "https://travelads.hlserve.com/TravelAdsService/v3/Hotels/TravelAdClickRedirect?trackingData\u003dCmp-pEW9vYjLnQ2xQ7AZh8w/v3dqBE6dFwMkyhZhHGuD3xMR947pignyoYdaSqdvfw8nbipbvqvVySBJmt8cX02YAFDB/8Gg+kweRZhfBb5jc8GDuHJNGR05GK8U/7XKP2IjUQ2aNbr5DgJMdIYQu7VsZZRyVpotQzy7AIclc0SoFMROA3vsxu3Mdj2l+RwFvnfgqAGyp7iJ4nPE176Xbvj6ASTNWSJ23Ffim9rVVVpJP6wK1ijQJDZ3IkMlE3zpsFnYnkKkBVdjusAVxd6qROdo8BebzatJuYqzlSe5GTdqCCFY/zNt6EcFjy9UVkb3WdlMWu/ZuwurrUCX8UjEsT6vfaAECOwru57VdtVbPS5Inw9jufXZCJnrD7alXiLmNldaNroMzldtywohGYbCtT5pwVzv4q3yIsrOXbjJQFAE/3CyQ6gLKdC0hbYBRrczdpQzTX+oDJfufwtAi98jxQ4Tae3fbEO1dtFgtsNEU3JkqBF+klCsC/2Lsl0AqkAbwsvWZ0o5bHbKooHuLT3ozsB1xQJlwvtGx33N4fgp56FCk57j3rGD69QAfoZbGwEi9GPK6sGKbB3Yeo8+5gPTnEfrqvpnMPSb7ag2JPWCG+7w9JPxKZQasPluKxgtWAQVVW+XPxlUDXSOECyXcRAE4AAmdLIJV8ZXsZ6cvFqXduS8yADUaP0A6PMm9+pktVzpMedY/7UQTDsX8lLonwGyDL+KhanDZ4iMSQ+a9VaaPyqF3orz8Ku+kIGdyQRiyOevo7mI4MFsIZSasNevQroy+65qZid00SKxdzWk8Qphu4iuKLn3Am9UhsfQnR2e8AjdpNecnJak3Kok62PJHouvfaG9JhHL2w7GNXgafnSs57+ZAS60EHhtP5H2q6ywT2vPqWDhtqLJrQXzy0h5bACn+pXj5BkQdHSIdHQv6tu5mSc7PXq/wHAdP46k8Cwf214hFwlHQ5tgVbQfKMKTrrCky2SQAzUksHuZmH5+Qk7jb7MRNaJFkzSQ9GCgYgOQ6GMKPDMmJx4k0LkHwZvYHXEhGNdolZ6CTXoH6lrD9tC6Sun/kx0\u003d\u0026rank\u003d1\u0026testVersionOverride\u003d12564.49548.1%2C13487.51625.0\u0026destinationUrl\u003d[destinationUrl]\u0026candidateHmGuid\u003d607c7d20-5c42-4d88-b149-ffe9e7bde27f\u0026beaconIssued\u003d2017-05-12T19:16:08",
+    "impressionTrackingUrl": "https://travelads.hlserve.com/TravelAdsService/v3/Hotels/TravelAdImpression?trackingData\u003dCmp-pEW9vYjLnQ2xQ7AZh8w/v3dqBE6dFwMkyhZhHGuD3xMR947pignyoYdaSqdvfw8nbipbvqvVySBJmt8cX02YAFDB/8Gg+kweRZhfBb5jc8GDuHJNGR05GK8U/7XKP2IjUQ2aNbr5DgJMdIYQu7VsZZRyVpotQzy7AIclc0SoFMROA3vsxu3Mdj2l+RwFvnfgqAGyp7iJ4nPE176Xbvj6ASTNWSJ23Ffim9rVVVpJP6wK1ijQJDZ3IkMlE3zpsFnYnkKkBVdjusAVxd6qROdo8BebzatJuYqzlSe5GTdqCCFY/zNt6EcFjy9UVkb3WdlMWu/ZuwurrUCX8UjEsT6vfaAECOwru57VdtVbPS5Inw9jufXZCJnrD7alXiLmNldaNroMzldtywohGYbCtT5pwVzv4q3yIsrOXbjJQFAE/3CyQ6gLKdC0hbYBRrczdpQzTX+oDJfufwtAi98jxQ4Tae3fbEO1dtFgtsNEU3JkqBF+klCsC/2Lsl0AqkAbwsvWZ0o5bHbKooHuLT3ozsB1xQJlwvtGx33N4fgp56FCk57j3rGD69QAfoZbGwEi9GPK6sGKbB3Yeo8+5gPTnEfrqvpnMPSb7ag2JPWCG+7w9JPxKZQasPluKxgtWAQVVW+XPxlUDXSOECyXcRAE4AAmdLIJV8ZXsZ6cvFqXduS8yADUaP0A6PMm9+pktVzpMedY/7UQTDsX8lLonwGyDL+KhanDZ4iMSQ+a9VaaPyqF3orz8Ku+kIGdyQRiyOevo7mI4MFsIZSasNevQroy+65qZid00SKxdzWk8Qphu4iuKLn3Am9UhsfQnR2e8AjdpNecnJak3Kok62PJHouvfaG9JhHL2w7GNXgafnSs57+ZAS60EHhtP5H2q6ywT2vPqWDhtqLJrQXzy0h5bACn+pXj5BkQdHSIdHQv6tu5mSc7PXq/wHAdP46k8Cwf214hFwlHQ5tgVbQfKMKTrrCky2SQAzUksHuZmH5+Qk7jb7MRNaJFkzSQ9GCgYgOQ6GMKPDMmJx4k0LkHwZvYHXEhGNdolZ6CTXoH6lrD9tC6Sun/kx0\u003d\u0026rank\u003d1\u0026testVersionOverride\u003d12564.49548.1%2C13487.51625.0\u0026candidateHmGuid\u003d607c7d20-5c42-4d88-b149-ffe9e7bde27f\u0026beaconIssued\u003d2017-05-12T19:16:08",
+    "omnitureAdDisplayedUrl": "447?AQB\u003d1\u0026v28\u003dTravelAdImp|23963|0|Test\u0026c16\u003dTravelAdImp|23963|0|Test\u0026events\u003devent44\u0026pe\u003dlnk_o\u0026pev2\u003dAPE:Sponsored%20listing%20impression\u0026AQE\u003d1",
+    "omnitureAdClickedUrl": "447?AQB\u003d1\u0026v28\u003dTravelAdClick|23963|0|Test\u0026c16\u003dTravelAdClick|23963|0|Test\u0026pe\u003dlnk_o\u0026pev1\u003dD\u003durl\u0026pev2\u003dSponsored%20Listing%20Click\u0026AQE\u003d1",
+    "hasFreeCancellation": false,
+    "distanceUnit": "Miles",
+    "didGetBackHighestPriceFromSurvey": false,
+    "isDudley": false,
+    "isVipAccess": false,
+    "isPaymentChoiceAvailable": false,
+    "isShowEtpChoice": false,
+    "jsonHotelBrand": {
+      "brandId": "2090",
+      "brandName": "Destination Hotels"
+    },
+    "isMemberDeal": false,
+    "shortDiscountMessage": "",
+    "isMobileExclusive": false,
+    "fallbackImage": "/hotels/1000000/30000/24000/23963/ff17d439_t.jpg"
+  }],
+  "travelAdsSlotsConfiguration": {},
+  "allNeighborhoodsInSearchRegion": [{
+    "name": "Chicago (and vicinity)",
+    "id": 178248
+  }, {
+    "name": "Bolingbrook",
+    "id": 6350700
+  }, {
+    "name": "Chicago Midway Airport (MDW)",
+    "id": 6059326
+  }, {
+    "name": "Chicago O\u0027Hare International Airport (ORD)",
+    "id": 800023
+  }, {
+    "name": "Evanston",
+    "id": 6059333
+  }, {
+    "name": "Gurnee",
+    "id": 6059332
+  }, {
+    "name": "Itasca",
+    "id": 6350696
+  }, {
+    "name": "Joliet",
+    "id": 6350698
+  }, {
+    "name": "Lakeview",
+    "id": 178166
+  }, {
+    "name": "Lincoln Park",
+    "id": 6059328
+  }, {
+    "name": "Lombard",
+    "id": 6351997
+  }, {
+    "name": "Magnificent Mile",
+    "id": 800025
+  }, {
+    "name": "Naperville",
+    "id": 6350690
+  }, {
+    "name": "North Suburbs",
+    "id": 6059336
+  }, {
+    "name": "Oak Brook",
+    "id": 6059329
+  }, {
+    "name": "Schaumburg",
+    "id": 6059335
+  }, {
+    "name": "South Loop",
+    "id": 6130108
+  }, {
+    "name": "South Suburbs",
+    "id": 6264251
+  }, {
+    "name": "The Loop",
+    "id": 800024
+  }, {
+    "name": "Western Suburbs",
+    "id": 6059325
+  }],
+  "filteredSearchMatchedNoHotels": false,
+  "amenityFilterOptions": {
+    "66": {
+      "isAccessible": "false",
+      "filterName": "Free airport transportation",
+      "filterNumOccurrences": "70"
+    },
+    "69": {
+      "isAccessible": "false",
+      "filterName": "Babysitting service",
+      "filterNumOccurrences": "19"
+    },
+    "71": {
+      "isAccessible": "false",
+      "filterName": "Children\u0027s club",
+      "filterNumOccurrences": "5"
+    },
+    "7": {
+      "isAccessible": "false",
+      "filterName": "Swimming pool",
+      "filterNumOccurrences": "341"
+    },
+    "72": {
+      "isAccessible": "false",
+      "filterName": "Childcare",
+      "filterNumOccurrences": "1"
+    },
+    "9": {
+      "isAccessible": "false",
+      "filterName": "Restaurant in hotel",
+      "filterNumOccurrences": "271"
+    },
+    "11": {
+      "isAccessible": "false",
+      "filterName": "Fitness equipment",
+      "filterNumOccurrences": "491"
+    },
+    "12": {
+      "isAccessible": "false",
+      "filterName": "Business services",
+      "filterNumOccurrences": "477"
+    },
+    "13": {
+      "isAccessible": "false",
+      "filterName": "Room service",
+      "filterNumOccurrences": "235"
+    },
+    "14": {
+      "isAccessible": "false",
+      "filterName": "Free parking",
+      "filterNumOccurrences": "474"
+    },
+    "2158": {
+      "isAccessible": "false",
+      "filterName": "Kitchen",
+      "filterNumOccurrences": "206"
+    },
+    "15": {
+      "isAccessible": "false",
+      "filterName": "Spa services on site",
+      "filterNumOccurrences": "49"
+    },
+    "16": {
+      "isAccessible": "false",
+      "filterName": "Free breakfast",
+      "filterNumOccurrences": "335"
+    },
+    "17": {
+      "isAccessible": "false",
+      "filterName": "Pets allowed (conditions apply)",
+      "filterNumOccurrences": "269"
+    },
+    "18": {
+      "isAccessible": "false",
+      "filterName": "Free newspaper",
+      "filterNumOccurrences": "395"
+    },
+    "19": {
+      "isAccessible": "false",
+      "filterName": "High-speed Internet",
+      "filterNumOccurrences": "660"
+    },
+    "312": {
+      "isAccessible": "false",
+      "filterName": "Kitchenette",
+      "filterNumOccurrences": "20"
+    },
+    "58": {
+      "isAccessible": "true",
+      "filterName": "Accessible bathroom",
+      "filterNumOccurrences": "474"
+    },
+    "26": {
+      "isAccessible": "false",
+      "filterName": "Hair dryer",
+      "filterNumOccurrences": "516"
+    },
+    "27": {
+      "isAccessible": "false",
+      "filterName": "Air conditioning",
+      "filterNumOccurrences": "747"
+    },
+    "62": {
+      "isAccessible": "true",
+      "filterName": "In-room accessibility",
+      "filterNumOccurrences": "484"
+    },
+    "63": {
+      "isAccessible": "true",
+      "filterName": "Roll-in shower",
+      "filterNumOccurrences": "389"
+    }
+  },
+  "starOptions": [{
+    "starRating": 0,
+    "count": 0
+  }, {
+    "starRating": 5,
+    "count": 0
+  }, {
+    "starRating": 10,
+    "count": 14
+  }, {
+    "starRating": 15,
+    "count": 0
+  }, {
+    "starRating": 20,
+    "count": 288
+  }, {
+    "starRating": 25,
+    "count": 0
+  }, {
+    "starRating": 30,
+    "count": 343
+  }, {
+    "starRating": 35,
+    "count": 0
+  }, {
+    "starRating": 40,
+    "count": 126
+  }, {
+    "starRating": 45,
+    "count": 0
+  }, {
+    "starRating": 50,
+    "count": 7
+  }],
+  "priceOptions": [{
+    "minPrice": "0",
+    "maxPrice": "50",
+    "count": 43
+  }, {
+    "minPrice": "50",
+    "maxPrice": "99",
+    "count": 55
+  }, {
+    "minPrice": "100",
+    "maxPrice": "149",
+    "count": 28
+  }, {
+    "minPrice": "150",
+    "maxPrice": "224",
+    "count": 26
+  }, {
+    "minPrice": "225",
+    "maxPrice": "0",
+    "count": 34
+  }],
+  "activityId": "735a0b0c-3375-452b-aeae-8e2aac2bd846",
+  "pageViewBeaconPixelUrl": "https://beam.hlserve.com/travel?action\u003dpageview\u0026programId\u003d1\u0026domain\u003dwww.expedia.co.uk\u0026culture\u003den-GB\u0026publisher\u003dexpedia\u0026pageName\u003d\u0026rooms\u003d1\u0026destRegionId\u003d178248\u0026publisherUserGuid\u003dc662d476-0f00-43a2-945a-eeca6c3a16ea\u0026userIP\u003d198.151.53.10\u0026userAgent\u003dExpediaBookings%2F17.20.0+%28EHad%3B+Mobiata%29\u0026checkIn\u003d2018-05-07\u0026checkOut\u003d2018-05-11\u0026hotelIds\u003d23963,17809,23963,20695,6452,151139,18312112,7374,16212,17903,6435554,26076,15937,11237372,581213,9845524,9069667,49985,10465099,6309326,886306,25748,11062225,1850638,1669633\u0026adults\u003d1\u0026children\u003d0\u0026deviceType\u003dApp-Phone\u0026expediaPageName\u003dpage.mobile.MobileLPASHotelSearchController\u0026testVersion\u003d11141.44405.1%2C12564.49548.1%2C13487.51625.0"
+}
