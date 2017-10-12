@@ -83,7 +83,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppHotelUrgencyMessage = new ABTest(13277);
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
 	public static final ABTest EBAndroidAppHotelGroupRoomRate = new ABTest(14591);
-	public static final ABTest EBAndroidAppHotelAutoSuggestSameAsWeb = new ABTest(14483);
+	public static final ABTest HotelAutoSuggestSameAsWeb = new ABTest(15637, true);
 	public static final ABTest EBAndroidAppHotelThrottleGalleryAnimation = new ABTest(14785);
 	public static final ABTest EBAndroidAppHotelGreedySearch = new ABTest(15228);
 	public static final ABTest EBAndroidAppHotelSuperSearch = new ABTest(14911);
@@ -205,7 +205,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightAdvanceSearch.getKey());
 		testIDs.add(EBAndroidAppFlightRetainSearchParams.getKey());
 		testIDs.add(EBAndroidAppFlightDayPlusDateSearchForm.getKey());
-		testIDs.add(EBAndroidAppHotelAutoSuggestSameAsWeb.getKey());
+		testIDs.add(HotelAutoSuggestSameAsWeb.getKey());
 		testIDs.add(EBAndroidAppHotelGreedySearch.getKey());
 		testIDs.add(EBAndroidAppHotelSuperSearch.getKey());
 		testIDs.add(EBAndroidAppHotelHideStrikethroughPrice.getKey());
