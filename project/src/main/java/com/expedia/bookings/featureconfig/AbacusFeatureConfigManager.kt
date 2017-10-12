@@ -2,11 +2,9 @@ package com.expedia.bookings.featureconfig
 
 import android.content.Context
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.util.ForceBucketPref
 import com.mobiata.android.util.SettingUtils
 
@@ -19,7 +17,7 @@ class AbacusFeatureConfigManager {
         }
 
         @JvmStatic fun isUserBucketedForTest(context: Context, abacusTest: ABTest): Boolean {
-            if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_satellite_config)) {
+            if (isBucketed(AbacusUtils.SatelliteTest)) {
                 if (abacusTest.remote && !(useOverride(context, abacusTest))) {
                     return isUserBucketedForRemoteTest(context, abacusTest)
                 }
@@ -28,7 +26,7 @@ class AbacusFeatureConfigManager {
         }
 
         @JvmStatic fun shouldTrackTest(context: Context, abacusTest: ABTest): Boolean {
-            if (!FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_satellite_config)) {
+            if (!isBucketed(AbacusUtils.SatelliteTest)) {
                 return true
             }
 

@@ -63,7 +63,6 @@ import com.expedia.bookings.utils.CarnivalUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.ShortcutUtils;
@@ -322,9 +321,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	}
 
 	private void initializeFeatureConfig() {
-		if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_satellite_config)) {
-			SatelliteFeatureConfigManager.refreshFeatureConfigIfStale(this);
-		}
+		SatelliteFeatureConfigManager.refreshFeatureConfigIfStale(this);    //Fetch regardless of whether or not we are bucket in satty ab test
 	}
 
 	private void initializePointOfSale() {
@@ -353,7 +350,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	}
 
 	private boolean isFirstLaunchOfNewAppVersion() {
-		String lastVersionOfAppLaunched = SettingUtils.get(ExpediaBookingApp.this, PREF_LAST_VERSION_OF_APP_LAUNCHED, "");
+		String lastVersionOfAppLaunched = SettingUtils
+			.get(ExpediaBookingApp.this, PREF_LAST_VERSION_OF_APP_LAUNCHED, "");
 		return !BuildConfig.VERSION_NAME.equals(lastVersionOfAppLaunched);
 	}
 
@@ -579,7 +577,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		boolean isAccessibilityOn = AccessibilityUtil.isTalkBackEnabled(this);
 		int gpsVersion;
 		try {
-			gpsVersion = getPackageManager().getPackageInfo(GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE, 0).versionCode;
+			gpsVersion = getPackageManager()
+				.getPackageInfo(GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE, 0).versionCode;
 		}
 		catch (PackageManager.NameNotFoundException e) {
 			gpsVersion = 0;

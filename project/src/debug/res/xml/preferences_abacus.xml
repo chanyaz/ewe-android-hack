@@ -506,6 +506,14 @@
             android:summary="%s"
             android:title="Locale based date formatting - 15316" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="15820"
+            android:title="Satellite AB Tests - 15820" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

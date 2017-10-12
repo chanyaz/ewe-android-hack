@@ -35,7 +35,6 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.Ui
@@ -207,7 +206,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
 
             initializeProWizard()
 
-            initializeFeatureConfig()
+            refreshFeatureConfig()
         }
 
         initializeProWizard()
@@ -236,10 +235,8 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         }
     }
 
-    private fun initializeFeatureConfig() {
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_satellite_config)) {
-            SatelliteFeatureConfigManager.forceRefreshFeatureConfig(context)
-        }
+    private fun refreshFeatureConfig() {
+        SatelliteFeatureConfigManager.forceRefreshFeatureConfig(context)
     }
 
     private fun showCollections() {
