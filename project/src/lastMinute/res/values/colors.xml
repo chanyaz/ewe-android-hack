@@ -6,7 +6,6 @@
     <color name="action_bar_text_color">@color/white</color>
     <color name="action_bar_selected_tab_underline_color">@color/white</color>
     <color name="last_minute_primary_color">#E40088</color>
-    <color name="hotel_promo_background">#88146A</color>
 
     <color name="lob_btn_color">#006e8c</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
@@ -17,26 +16,9 @@
     <!--Splash-->
     <color name="splash_screen_bg">@color/white</color>
 
-    <!-- Calendar text colors -->
-    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
-
     <!-- Lob box shadow gradient -->
-    <color name="lob_box_shadow_start_color">#FF000000</color>
-    <color name="lob_box_shadow_center_color">#99000000</color>
-    <color name="lob_box_shadow_end_color">#00000000</color>
-    <color name="review_screen_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
-    <color name="actionbar_button_background_pressed">#004888</color>
-    <color name="actionbar_button_text_color">@color/white</color>
-    <color name="bg_btn_pressed_color_lm">@color/white</color>
     <color name="itin_flight_line_color">#d14197</color>
-    <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color">#E40088</color>
-    <color name="collection_overlay_color">#56a1d5</color>
-    <color name="hotel_room_rate_select_room_button_lm">#0079A1</color>
-    <color name="hotel_room_rate_select_room_button_pressed_lm">#005B79</color>
-    <color name="hotel_room_rate_add_room_button_lm">@color/action_bar_bg_color</color>
-    <color name="hotel_room_rate_add_room_button_pressed_lm">#A1266C</color>
-    <color name="launch_pin_detail_button_text_lm">@color/action_bar_bg_color</color>
 
     <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#EA8D00</color>
@@ -56,52 +38,21 @@
     <color name="hotel_price_sale_text_color">#0079a1</color>
     <color name="actionbar_text_lm">@color/white</color>
     <color name="actionbar_text">@color/white</color>
-    <color name="actionbar_menu_text_color">@color/white</color>
-    <color name="menu_bar_text_color">@color/white</color>
     <color name="actionbar_suggestion_text_color">@color/white</color>
 
     <color name="flight_trip">#0079A1</color>
     <color name="flight_trip_price">#4F4F4F</color>
-    <color name="flight_free_cancellation_text_color_lm">#7AC231</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <color name="action_bar_flight_text_color">@color/actionbar_text_lm</color>
-    <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_lm</color>
-    <color name="action_bar_flight_result_separator_color">@color/white</color>
-
-    <color name="confirmation_header_divider_color">#4D555D</color>
-
-    <color name="tablet_book_button_text_color_lm">@color/action_bar_bg_color</color>
-    <color name="tablet_trip_bucket_text_color_lm">@color/white</color>
-    <color name="tablet_search_result_error_button_pressed_lm">#005B79</color>
-    <color name="tablet_search_result_error_button_lm">#0079A1</color>
-    <color name="tablet_results_search_blue_lm">#00568F</color>
-    <color name="tablet_map_pin_text_color">#DDDFE1</color>
-    <color name="flight_results_row_bg_lm">#0079A1</color>
-    <color name="flight_results_row_return_leg_bg_lm">#005B79</color>
-    <color name="tablet_confirmation_action_color_lm">#2CA2E2</color>
-    <color name="tablet_price_expanded_bucket_text_color_lm">@color/action_bar_bg_color</color>
-    <color name="tablet_calender_results_search_blue_lm">#0079A1</color>
-
-    <color name="section_flight_edit_traveler_link_color_lm">@color/action_bar_bg_color</color>
-    <color name="room_rate_refundable_cancellation_text_color_lm">#599027</color>
 
     <!-- Cars and LX -->
     <color name="cars_primary_color">@color/last_minute_primary_color</color>
-    <color name="cars_unchecked_toggle_text_color">#B3FFFFFF</color>
     <color name="lx_primary_color">#E40088</color>
     <color name="lx_ripple_color">#A1266C</color>
     <color name="lx_secondary_color_disabled">#fd20a4</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-    <color name="cars_ripple_color">@color/lx_ripple_color</color>
-    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
 
-    <color name="lx_primary_disabled_color">#40E40088</color>
-    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
-    <color name="cars_secondary_color">@color/cars_primary_color</color>
-    <color name="cars_tooltip_color">@color/cars_primary_color</color>
-    <color name="cars_status_bar_color">@color/cars_primary_color</color>
-    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
     <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Launch screen colors -->
@@ -113,7 +64,6 @@
     <color name="btn_sign_in_pressed">#A1266C</color>
     <color name="btn_sign_in_focused">#F8159C</color>
     <color name="btn_sign_in_disabled">#80004C</color>
-    <color name="acct__btn_sign_in_text_lm">@color/white</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
 

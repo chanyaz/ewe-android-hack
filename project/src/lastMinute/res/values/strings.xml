@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_a_LastMinute_account">Create an Account</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_LastMinute">Welcome to Lastminute</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_LastMinute_account_already_exists">An LM AU &amp; NZ account already exists with this email</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Sneaky Saver</string>
     <!--New User Onboarding 3rd page Brand-Specific String-->
