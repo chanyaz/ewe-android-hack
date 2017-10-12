@@ -227,6 +227,12 @@ public class EndpointProvider {
 		}
 	}
 
+	private static final String PROD_KRAZY_GLUE_URL = "https://xsell.expedia.com";
+
+	public String getKrazyGlueEndpointUrl() {
+		return PROD_KRAZY_GLUE_URL;
+	}
+
 	//Smart Offer Service
 	private static final String SMART_OFFER_SERVICE_ENDPOINT = "https://www.expedia.com";
 

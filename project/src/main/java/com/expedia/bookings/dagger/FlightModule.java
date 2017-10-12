@@ -7,8 +7,10 @@ import com.expedia.bookings.dagger.tags.FlightScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.ItinTripServices;
+import com.expedia.bookings.services.KrazyGlueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
+import com.expedia.bookings.utils.RequestInterceptor;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
@@ -70,5 +72,13 @@ public final class FlightModule {
 	ItinTripServices provideItinTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ItinTripServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@FlightScope
+	KrazyGlueServices provideKrazyGlueServices(EndpointProvider endpointProvider, OkHttpClient client) {
+		final String endpoint = endpointProvider.getKrazyGlueEndpointUrl();
+		final Interceptor requestInterceptor = new RequestInterceptor();
+		return new KrazyGlueServices(endpoint, client, requestInterceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }

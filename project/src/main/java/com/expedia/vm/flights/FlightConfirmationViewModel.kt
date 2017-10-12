@@ -3,16 +3,22 @@ package com.expedia.vm.flights
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.flights.KrazyGlueResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.utils.RewardsUtil
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.services.KrazyGlueServices
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.RewardsUtil
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.isKrazyGlueOnFlightsConfirmationEnabled
+import com.expedia.bookings.utils.HMACUtil
 import com.expedia.util.Optional
+import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
+import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -32,6 +38,11 @@ class FlightConfirmationViewModel(val context: Context) {
     val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
+    private val krazyGlueService: KrazyGlueServices by lazy {
+        Ui.getApplication(context).flightComponent().krazyGlueService()
+    }
+    private val isKrazyGlueEnabled = isKrazyGlueOnFlightsConfirmationEnabled(context)
 
     init {
         confirmationObservable.subscribe { pair ->
@@ -59,6 +70,15 @@ class FlightConfirmationViewModel(val context: Context) {
 
             crossSellWidgetVisibility.onNext(isQualified)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+
+            if (isKrazyGlueEnabled) {
+                val destinationCode = response.getFirstFlightLastSegment().arrivalAirportCode
+                val destinationArrivalDateTime = response.getFirstFlightLastSegment().arrivalTimeRaw
+                val apiKey = context.getString(R.string.exp_krazy_glue_prod_key)
+                val baseUrl = context.getString(R.string.exp_krazy_glue_base_url)
+                val signedUrl = HMACUtil.getSignedKrazyGlueUrl(baseUrl, apiKey, destinationCode, destinationArrivalDateTime)
+                krazyGlueService.getKrazyGlueHotels(signedUrl, makeNewKrazyGlueObserver())
+            }
         }
 
         numberOfTravelersSubject.subscribe { number ->
@@ -73,6 +93,22 @@ class FlightConfirmationViewModel(val context: Context) {
                         rewardPointsObservable.onNext(rewardPointText)
                     }
                 }
+            }
+        }
+    }
+
+    private fun makeNewKrazyGlueObserver(): Observer<KrazyGlueResponse> {
+        return object : Observer<KrazyGlueResponse> {
+            override fun onNext(response: KrazyGlueResponse) {
+//                TODO: if response is successful & hotel list is not null, pass to UI & show KG widget
+            }
+
+            override fun onCompleted() {
+            }
+
+            override fun onError(e: Throwable) {
+                Log.d("Error fetching krazy glue hotels:" + e.stackTrace)
+//                TODO: handle failed krazy glue request
             }
         }
     }
