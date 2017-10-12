@@ -114,6 +114,25 @@ public class LXSortFilterWidgetTest {
 		assertFalse(priceSortButton.isSelected());
 	}
 
+	@Test
+	public void testWidgetBind() {
+		Map<String, LXCategoryMetadata> filterCategories = buildCategories();
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_LX);
+		LXSortFilterWidget widget = (LXSortFilterWidget) LayoutInflater.from(activity)
+			.inflate(R.layout.test_lx_sort_filter_widget, null);
+		assertNotNull(widget);
+		ButterKnife.inject(activity);
+		widget.bind(filterCategories);
+		LXCategoryMetadata attractions = filterCategories.get("Attractions");
+		attractions.checked = true;
+		widget.onCategoryCheckChanged(new Events.LXFilterCategoryCheckedChanged(attractions, "Attractions"));
+		assertEquals(1,widget.getNumberOfSelectedFilters());
+		attractions.checked = false;
+		widget.onCategoryCheckChanged(new Events.LXFilterCategoryCheckedChanged(attractions, "Attractions"));
+		assertEquals(0,widget.getNumberOfSelectedFilters());
+	}
+
 	private Map<String, LXCategoryMetadata> buildCategories() {
 		Map<String, LXCategoryMetadata> filterCategories = new LinkedHashMap<>();
 		filterCategories.put("Attractions", getLxCategoryMetadata());

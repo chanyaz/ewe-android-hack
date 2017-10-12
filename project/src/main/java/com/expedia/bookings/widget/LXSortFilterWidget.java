@@ -51,6 +51,7 @@ public class LXSortFilterWidget extends LinearLayout {
 	private String filterActivity;
 	private boolean clearTextFromReset = false;
 	private boolean skippedFirstFilter = false;
+	private boolean filterSelected = false;
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -188,20 +189,24 @@ public class LXSortFilterWidget extends LinearLayout {
 	}
 
 	public void bind(Map<String, LXCategoryMetadata> filterCategories) {
-		filterCategoriesContainer.removeAllViews();
 		if (filterCategories != null) {
-			for (Map.Entry<String, LXCategoryMetadata> filterCategory : filterCategories.entrySet()) {
-
-				LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
-				String categoryKey = filterCategory.getKey();
-				lxCategoryMetadata.checked = selectedFilterCategories.containsKey(categoryKey);
-				LXFilterCategoryWidget categoryView = Ui
-					.inflate(R.layout.section_lx_filter_row, filterCategoriesContainer, false);
-				categoryView.bind(lxCategoryMetadata, categoryKey);
-				filterCategoriesContainer.addView(categoryView);
+			//No need to add the remove and add views back in the filterCategroiesContainer upon selection of filter.
+			if (!filterSelected) {
+				filterCategoriesContainer.removeAllViews();
+				for (Map.Entry<String, LXCategoryMetadata> filterCategory : filterCategories.entrySet()) {
+					LXCategoryMetadata lxCategoryMetadata = filterCategory.getValue();
+					String categoryKey = filterCategory.getKey();
+					lxCategoryMetadata.checked = selectedFilterCategories.containsKey(categoryKey);
+					LXFilterCategoryWidget categoryView = Ui
+						.inflate(R.layout.section_lx_filter_row, filterCategoriesContainer, false);
+					categoryView.bind(lxCategoryMetadata, categoryKey);
+					filterCategoriesContainer.addView(categoryView);
+				}
 			}
 		}
 		else {
+			filterSelected = false;
+			filterCategoriesContainer.removeAllViews();
 			resetSortAndFilter();
 		}
 
@@ -221,6 +226,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		else {
 			selectedFilterCategories.remove(event.categoryKey);
 		}
+		filterSelected = true;
 		postLXFilterChangedEvent();
 		OmnitureTracking.trackLinkLXFilter(event.categoryKey);
 	}
@@ -263,6 +269,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	@Subscribe
 	public void onDynamicFeedbackClearButtonClicked(Events.DynamicFeedbackClearButtonClicked event) {
+		filterSelected = false;
 		OmnitureTracking.trackLinkLXSortAndFilterCleared();
 		LXSortFilterMetadata lxSortFilterMetadata = defaultFilterMetadata();
 		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
@@ -293,6 +300,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		doneButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				filterSelected = false;
 				if (isFilteredToZeroResults) {
 					dynamicFeedbackWidget.showDynamicFeedback();
 					animateDynamicFeedbackHeight(true);
@@ -335,6 +343,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	public void resetSortAndFilter() {
 		// Set to default state, as we have new search params available.
+		filterSelected = false;
 		selectedFilterCategories.clear();
 		clearTextFromReset = true;
 		activityNameFilterEditText.getText().clear();
