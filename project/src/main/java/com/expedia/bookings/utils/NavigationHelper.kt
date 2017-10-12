@@ -1,7 +1,9 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import com.expedia.bookings.hotel.activity.HotelCompareResultsActivity
 import com.expedia.bookings.utils.navigation.CarNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.navigation.FlightNavUtils
@@ -18,7 +20,9 @@ open class NavigationHelper(private var context: Context) {
         if (finishCallingActivity) {
             HotelNavUtils.goToHotels(context, animOptions, NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK)
         } else {
-            HotelNavUtils.goToHotels(context, animOptions)
+            val intent = Intent(context, HotelCompareResultsActivity::class.java)
+            context.startActivity(intent)
+//            HotelNavUtils.goToHotels(context, animOptions)
         }
     }
 

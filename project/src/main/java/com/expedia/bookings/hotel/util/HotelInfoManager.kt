@@ -26,6 +26,10 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
         hotelServices.info(params, hotelId, infoObserver)
     }
 
+    open fun fetchDatelessInfo(hotelId: String) {
+        hotelServices.datelessInfo(hotelId, infoObserver)
+    }
+
     private val offersObserver = object : Observer<HotelOffersResponse> {
         override fun onNext(response: HotelOffersResponse?) {
             response?.let { response ->

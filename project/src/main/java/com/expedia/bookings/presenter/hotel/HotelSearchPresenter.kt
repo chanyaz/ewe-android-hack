@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -13,6 +14,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.activity.HotelCompareResultsActivity
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
 import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
@@ -31,6 +33,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.bookings.widget.shared.SearchInputTextView
+import com.expedia.ui.HotelActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeText
@@ -101,14 +104,16 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         advancedOptionsViewModel.searchOptionsSubject.subscribe(searchViewModel.advancedOptionsObserver)
 
         searchButton.setOnClickListener {
-            searchTrackingBuilder.markSearchClicked()
-            val lastSuggestionV4 = suggestionViewModel.getLastSelectedSuggestion()
-            if (lastSuggestionV4 != null) {
-                suggestionTrackingData.updateData(lastSuggestionV4)
-            }
-            suggestionTrackingData.suggestionsFocused = suggestionListFocused
-            OmnitureTracking.trackHotelSuggestionBehavior(suggestionTrackingData)
-            vm.searchObserver.onNext(Unit)
+            val intent = Intent(context, HotelCompareResultsActivity::class.java)
+            context.startActivity(intent)
+//            searchTrackingBuilder.markSearchClicked()
+//            val lastSuggestionV4 = suggestionViewModel.getLastSelectedSuggestion()
+//            if (lastSuggestionV4 != null) {
+//                suggestionTrackingData.updateData(lastSuggestionV4)
+//            }
+//            suggestionTrackingData.suggestionsFocused = suggestionListFocused
+//            OmnitureTracking.trackHotelSuggestionBehavior(suggestionTrackingData)
+//            vm.searchObserver.onNext(Unit)
         }
     }
 
