@@ -16,7 +16,6 @@ import android.os.Build;
 import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
-import com.carnival.sdk.Carnival;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -312,10 +311,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		initializeFeatureConfig();
-
-		if (CarnivalUtils.isFeatureToggledOn(this)) {
-			Carnival.startEngine(this, getString(R.string.carnival_sdk_debug_key));
-		}
+		CarnivalUtils.getInstance().initialize(this);
 	}
 
 	private void initializeFeatureConfig() {

@@ -20,7 +20,6 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
@@ -39,7 +38,6 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.ui.PackageActivity
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -119,7 +117,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             pageUsableData.markAllViewsLoaded(Date().time)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
-            PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType), pageUsableData)
+            PackagesTracking().trackCheckoutPaymentConfirmation(context, response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType), pageUsableData, Db.getPackageParams())
         }
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)

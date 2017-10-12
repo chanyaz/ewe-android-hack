@@ -1,5 +1,6 @@
 package com.expedia.bookings.tracking
 
+import android.content.Context
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.PaymentType
@@ -8,6 +9,7 @@ import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 
@@ -87,8 +89,9 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesPaymentStoredCCSelect()
     }
     
-    fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData) {
+    fun trackCheckoutPaymentConfirmation(context: Context, response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData, packageParams: PackageSearchParams) {
         OmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
+        CarnivalUtils.getInstance().trackPackagesConfirmation(packageParams)
     }
 
     fun trackFlightRoundTripLoad(isOutBound: Boolean, packageParams: PackageSearchParams) {

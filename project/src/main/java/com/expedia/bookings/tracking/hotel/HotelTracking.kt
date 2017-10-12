@@ -218,7 +218,7 @@ open class HotelTracking {
             OmnitureTracking.trackHotelsV2Search(trackingParams)
             FacebookEvents().trackHotelV2Search(trackingParams)
             TuneUtils.trackHotelV2SearchResults(trackingParams)
-            CarnivalUtils.trackHotelSearch(context, trackingParams)
+            CarnivalUtils.getInstance().trackHotelSearch(trackingParams)
         }
 
         fun trackPinnedSearch() {

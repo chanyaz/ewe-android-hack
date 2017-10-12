@@ -123,7 +123,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		OmnitureTracking.trackAppLXCheckoutConfirmation(event.checkoutResponse, lxState.activity.id,
 			DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate), lxState.searchParams.getActivityEndDate(),
 			lxState.selectedTicketsCount(), isGroundTransport);
-		CarnivalUtils.trackLxConfirmation(getContext(), lxState.activity.title, lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
+		CarnivalUtils.getInstance().trackLxConfirmation(lxState.activity.title, lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 
 		AdTracker.trackLXBooked(lxState.activity.location, lxState.latestTotalPrice(), lxState.selectedTickets().get(0).money,
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories,
