@@ -116,7 +116,6 @@
     <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
 
 
-    <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
     <attr name="skin_itinCardActionBarCheckmark" format="reference"/>
     <attr name="skin_itinCardTitleTextColor" format="reference|color"/>
     <attr name="skin_itinActionOverflowDrawable" format="reference"/>

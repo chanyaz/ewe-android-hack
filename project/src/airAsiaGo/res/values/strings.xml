@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="loading_air_asia_routes_aag">Loading AirAsiaGo routes…</string>
-
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_aag_account">Create an AirAsiaGo account</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_aag">Welcome to AirAsiaGo</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_aag_account_already_exists">An AirAsiaGo account already exists with this email</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">GO Member Deals</string>
     <!-- Label at head of flight results while we're waiting for them to load -->

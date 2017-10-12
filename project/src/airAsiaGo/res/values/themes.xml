@@ -10,7 +10,6 @@
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.AAG.Yellow</item>
-        <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes_aag</item>
         <item name="skin_hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
         <item name="skin_roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
         <item name="skin_hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
