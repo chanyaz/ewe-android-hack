@@ -4,23 +4,13 @@
     <color name="vsc_primary_color">#7abb00</color>
     <color name="app_primary_dark">#67AC00</color>
     <color name="vsc_secondary_color">#0088CE</color>
-    <color name="action_bar_text_green">@color/vsc_primary_color</color>
     <color name="hotel_price_text_color_vsc">@color/vsc_secondary_color</color>
     <color name="hotel_price_sale_text_color_vsc">#cb0044</color>
-    <color name="cost_summary_header_text_color_vsc">@color/vsc_primary_color</color>
-    <color name="hotel_list_progress_text_color">#333</color>
-    <color name="action_bar_text_vsc">#F5A337</color>
     <color name="action_bar_bg_color">#36424F</color>
-    <color name="login_text_vsc">#333333</color>
-    <color name="actionbar_button_text_color">@color/vsc_primary_color</color>
     <color name="hotelsv2_coupon_applied_color">@color/vsc_primary_color</color>
-    <color name="collection_overlay_color">#56a1d5</color>
     <color name="flight_trip_price">@color/hotel_price_text_color_vsc</color>
     <color name="flight_trip">@color/flight_trip_price</color>
-    <color name="actionbar_menu_text_color">@color/vsc_primary_color</color>
-    <color name="hotel_sale_text_color">@color/vsc_primary_color</color>
     <color name="hotels_primary_color">@color/vsc_primary_color</color>
-    <color name="review_screen_tab_indicator">#ffffff</color>
     <color name="splash_screen_bg">@color/white</color>
     <color name="launch_tab_indicator">#7abb00</color>
     <color name="traveler_drop_down_checked_color">#112943</color>
@@ -37,7 +27,6 @@
     <color name="hotel_tonight_only_color">#72098A</color>
     <color name="hotel_urgency_message_color">#555555</color>
     <color name="hotelsv2_discount_green">@color/hotel_price_sale_text_color_vsc</color>
-    <color name="hotel_promo_background">#5b8b01</color>
     <color name="hotel_member_pricing_bg_color">#3c4851</color>
     <color name="hotel_member_pricing_text_color">#FFFFFF</color>
 
@@ -45,9 +34,6 @@
     <color name="material_checkout_account_button_background_color">@color/vsc_primary_color</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="checkout_screen_error_message_color">#b80000</color>
-
-    <color name="tablet_confirmation_action_color">@color/vsc_secondary_color</color>
-    <color name="tablet_price_expanded_bucket_text_color">@color/action_bar_bg_color</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">@color/vsc_primary_color</color>
@@ -61,26 +47,16 @@
     <color name="lx_lob_btn">#A1006B</color>
     <color name="flights_lob_btn">#0088CE</color>
     <color name="action_bar_selected_tab_underline_color">#585858</color>
-    <color name="launch_lob_bg">#E0DFDC</color>
     <color name="account_sign_in_button_background_color">@color/vsc_primary_color</color>
     <color name="account_create_button_text_color">@color/vsc_primary_color</color>
     <color name="account_sign_out_button_background_color">@color/vsc_secondary_color</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">#663399</color>
-    <color name="cars_unchecked_toggle_text_color">@android:color/white</color>
     <color name="lx_primary_color">@color/lx_lob_btn</color>
     <color name="lx_secondary_color_disabled">@color/lx_lob_btn</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
     <color name="lx_ripple_color">#AC7299</color>
-    <color name="lx_primary_disabled_color">#40A1006B</color>
-    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
-    <color name="cars_ripple_color">#572887</color>
-    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
-    <color name="cars_secondary_color">@color/cars_primary_color</color>
-    <color name="cars_tooltip_color">@color/cars_primary_color</color>
-    <color name="cars_status_bar_color">@color/cars_primary_color</color>
-    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
     <color name="checkout_login_button_color">@android:color/white</color>
 
     <color name="error_widget_edit_button_selected_color">#7b3761</color>

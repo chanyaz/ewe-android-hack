@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="brand_name">Agence Voyages-SNCF.com</string>
 
     <!-- VSC app name for the about screen-->
 
     <string name="app_name">Agence Voyages-SNCF.com</string>
-    <string name="app_vsc_info_url">https://agence.voyages-sncf.com/accueil</string>
 
     <string name="app_copyright_logo_url">http://www.voyages-sncf.com</string>
 
@@ -18,7 +16,6 @@
 
     <!-- CalendarDatePicker DateFormat -->
     <string name="calendar_date_picker_date_format">dd MMM</string>
-    <string name="hotel_receipt_cancellation_policy_date_format_vsc">"k'h'mm, MMM dd"</string>
 
     <!-- Email addresses -->
     <string name="email_app_support">serviceclient@serviceclient.voyages-sncf.com</string>

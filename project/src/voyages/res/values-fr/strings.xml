@@ -4,12 +4,7 @@
     <!-- Please include ONLY the strings that need to be changed for VSC build here. -->
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Saisir ma carte bancaire</string>
 
-    <!-- Checkout Activity -->
-    <!-- Checkout Information label -->
-    <string name="checkout_information">Réservez maintenant</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -28,35 +23,21 @@
     <string name="traveler_information">Mes coordonnées</string>
 
     <!-- Traveler options activity -->
-    <!-- Select a traveler -->
-    <string name="select_a_traveler">Profil voyageur</string>
-    <!-- Select a different traveler -->
-    <string name="select_a_different_traveler">Coordonnées des autres voyageurs</string>
-    <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">Saisir mes coordonnées</string>
 
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">Confirmation</string>
-    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">Pour vous accompagner</string>
 
     <!-- Credit card input section -->
     <string name="book">Payer</string>
     <string name="security_code_TEMPLATE">Veuillez saisir votre cryptogramme</string>
 
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable">Aucun hôtel disponible selon vos critères de voyage.</string>
 
     <!-- Search Fragment -->
     <!-- Child age dialog button -->
     <string name="button_done">Valider</string>
-    <!-- Done button text in Confirmation screens -->
-    <string name="button_confirmation_done">Continuer</string>
 
     <!-- Search Activity -->
-    <!-- Label indicating that there are no results matching their current filter -->
-    <string name="no_filter_results">Aucun hôtel disponible selon vos critères de voyage. Nous vous invitons à les modifier.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by deals label -->
@@ -74,33 +55,10 @@
 
     <!-- Confirmation activity -->
 
-    <!-- Subject property name template. -->
-    <string name="share_subject_template">Numéro de voyage L’Agence Voyages-sncf.com -</string>
-
-    <!-- Menu strings -->
-    <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Informations</string>
-
-    <!-- VSC Info Screen -->
-    <!-- Header for a list of apps also written by VSC -->
-    <string name="AlsoByVSC">Pour vous accompagner</string>
-    <!-- Name of VSC Train app -->
-    <string name="VSC_Voyages_SNF">Réservez un billet de train</string>
-    <!-- Description for FT Free app -->
-    <string name="VSC_Voyages_SNF_description">Avec l’application de </string>
-
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Merci d’avoir choisi l’application de L’Agence Voyages-sncf.com ! Votre réservation est confirmée : %1$s, pendant %2$s.</string>
 
     <!-- Sign in string for VSC. Varies from the other multibrands. -->
     <string name="Sign_in_with_TEMPLATE">Se connecter à son compte Agence</string>
-
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_vsc_account">Créer un compte Agence Voyages-SNCF.com</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_vsc">Bienvenue sur Agence\nVoyages-SNCF.com</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_vsc_account_already_exists">Un compte Agence Voyages-SNCF.com est déjà associé à cette adresse e-mail.</string>
 
 </resources>
