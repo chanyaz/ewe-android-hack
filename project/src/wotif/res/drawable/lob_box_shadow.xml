@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:angle="270"
-        android:centerY="0.5"
-        android:startColor="@color/lob_box_shadow_start_color"
-        android:centerColor="@color/lob_box_shadow_center_color"
-        android:endColor="@color/lob_box_shadow_end_color" />
-</shape>

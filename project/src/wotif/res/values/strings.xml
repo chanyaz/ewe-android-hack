@@ -2,12 +2,6 @@
 <resources>
 
     <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_a_Wotif_account">Create a Wotif account</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Wotif">Welcome to Wotif</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Wotif_account_already_exists">A Wotif account already exists with this email</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Mates Rates</string>
     <!--New User Onboarding 3rd page Brand-Specific String-->
