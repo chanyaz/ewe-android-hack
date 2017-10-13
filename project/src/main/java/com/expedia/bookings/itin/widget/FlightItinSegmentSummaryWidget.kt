@@ -31,6 +31,14 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val arrivalAirport: TextView by bindView(R.id.flight_itin_arrival_airport)
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val seats: TextView by bindView(R.id.flight_itin_seating)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val cabin: TextView by bindView(R.id.flight_itin_cabin)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val seatConfirmation: TextView by bindView(R.id.flight_seating_class)
+
+
     var viewModel: FlightItinSegmentSummaryViewModel by notNullAndObservable { vm ->
         vm.createAirlineWidgetSubject.subscribe { params ->
             if (params.airlineLogoURL != null) {
@@ -50,6 +58,15 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
             arrivalTime.text = params.arrivalTime
             departureAirport.text = params.departureAirport
             arrivalAirport.text = params.arrivalAirport
+        }
+
+        vm.createSeatingWidgetSubject.subscribe { params ->
+            seats.text = params.seats
+            cabin.text = params.cabinCode
+            if(params.seatConfirmation != null) {
+                seatConfirmation.visibility = View.VISIBLE
+                seatConfirmation.text = params.seatConfirmation
+            }
         }
     }
 

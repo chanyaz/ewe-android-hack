@@ -8,6 +8,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.flightlib.data.Airport
+import com.mobiata.flightlib.data.Seat
 import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.DateTime
 import org.junit.Before
@@ -111,7 +112,74 @@ class FlightItinDetailsViewModelTest {
                 "SFO",
                 "San Francisco",
                 "LAS",
-                "Las Vegas"
+                "Las Vegas",
+                "22F",
+                " • Economy / Coach",
+                "Confirm or change seats with airline"
+
+        ))
+    }
+    @Test
+    fun testUpdateLegSummaryNoSeatsAndMapWidget() {
+        sut.clearLegSummaryContainerSubject.subscribe(clearLegSummaryContainerSubscriber)
+        sut.createSegmentSummaryWidgetsSubject.subscribe(createLegSummaryWidgetsSubscriber)
+
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val dateTime = DateTime.now()
+        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
+        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime)
+        testItinCardData.flightLeg.segments[0].setIsSeatMapAvailable(false)
+        testItinCardData.flightLeg.segments[0].removeSeat(0)
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateLegSummaryWidget()
+        clearLegSummaryContainerSubscriber.assertValueCount(1)
+        clearLegSummaryContainerSubscriber.assertValue(Unit)
+        createLegSummaryWidgetsSubscriber.assertValueCount(1)
+        createLegSummaryWidgetsSubscriber.assertValue(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
+                "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+                "United Airlines 681",
+                "COMPASS AIRLINES",
+                dateTime,
+                dateTime,
+                "SFO",
+                "San Francisco",
+                "LAS",
+                "Las Vegas",
+                "Seat selection not available",
+                " • Economy / Coach",
+                null
+
+        ))
+    }
+    @Test
+    fun testUpdateLegSummaryNoSeatsWidget() {
+        sut.clearLegSummaryContainerSubject.subscribe(clearLegSummaryContainerSubscriber)
+        sut.createSegmentSummaryWidgetsSubject.subscribe(createLegSummaryWidgetsSubscriber)
+
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val dateTime = DateTime.now()
+        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
+        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime)
+        testItinCardData.flightLeg.segments[0].removeSeat(0)
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateLegSummaryWidget()
+        clearLegSummaryContainerSubscriber.assertValueCount(1)
+        clearLegSummaryContainerSubscriber.assertValue(Unit)
+        createLegSummaryWidgetsSubscriber.assertValueCount(1)
+        createLegSummaryWidgetsSubscriber.assertValue(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
+                "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+                "United Airlines 681",
+                "COMPASS AIRLINES",
+                dateTime,
+                dateTime,
+                "SFO",
+                "San Francisco",
+                "LAS",
+                "Las Vegas",
+                "No seats selected",
+                " • Economy / Coach",
+                null
+
         ))
     }
 
@@ -140,7 +208,10 @@ class FlightItinDetailsViewModelTest {
                 "SFO",
                 "San Francisco",
                 "EWR",
-                "Newark"
+                "Newark",
+                "No seats selected",
+                " • Economy / Coach",
+                null
         ), FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
                 "United Airlines 1489",
@@ -150,8 +221,38 @@ class FlightItinDetailsViewModelTest {
                 "EWR",
                 "Newark",
                 "PBI",
-                "West Palm Beach"
+                "West Palm Beach",
+                "No seats selected",
+                " • Economy / Coach",
+                null
         ))
+    }
+
+    @Test
+    fun testGetSeatStringNoneSelected() {
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flight = testItinCardData.flightLeg.segments[0]
+        flight.removeSeat(0)
+        assertEquals(sut.getSeatString(flight), "No seats selected")
+    }
+
+    @Test
+    fun testGetSeatStringSelected() {
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flight = testItinCardData.flightLeg.segments[0]
+        val seatA = Seat("12A")
+        val seatB = Seat("12B")
+        flight.addSeat(seatA)
+        flight.addSeat(seatB)
+        assertEquals(sut.getSeatString(flight), "22F, 12A, 12B")
+    }
+    @Test
+    fun testGetSeatStringNotAvailable() {
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flight = testItinCardData.flightLeg.segments[0]
+        flight.setIsSeatMapAvailable(false)
+        flight.removeSeat(0)
+        assertEquals(sut.getSeatString(flight), "Seat selection not available")
     }
 
     class TestWayPoint(val code: String, val city: String, val dateTime: DateTime) : Waypoint(ACTION_UNKNOWN) {

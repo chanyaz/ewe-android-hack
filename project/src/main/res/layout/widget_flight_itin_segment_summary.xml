@@ -152,5 +152,50 @@
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/itin_card_summary_divider_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/seating_container"
+                android:layout_marginBottom="6dp"
+                android:layout_centerHorizontal="true">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_itin_seating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/FlightItinSeating"
+                    android:drawablePadding="6dp"
+                    android:drawableLeft="@drawable/ic_itin_seat"
+                    android:text="21A, 22B "/>
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_itin_cabin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/FlightItinSeating"
+                    android:text="• Economy / Coach (R)"/>
+            </LinearLayout>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_seating_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/FlightItinSeating"
+                android:layout_below="@id/seating_container"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:visibility="gone"
+                tools:text="Confirm or change seats with airline"/>
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

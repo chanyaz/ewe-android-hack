@@ -17,7 +17,10 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
             val departureAirportCode: String,
             val departureAirportCity: String,
             val arrivalAirportCode: String,
-            val arrivalAirportCity: String
+            val arrivalAirportCity: String,
+            val seats: String,
+            val cabinCode: String?,
+            val seatConfirmation: String?
     )
 
     data class AirlineWidgetParams(
@@ -33,8 +36,15 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
             val arrivalAirport: String
     )
 
+    data class SeatingWidgetParams(
+            val seats: String,
+            val cabinCode: String?,
+            val seatConfirmation: String?
+    )
+
     val createAirlineWidgetSubject: PublishSubject<AirlineWidgetParams> = PublishSubject.create<AirlineWidgetParams>()
     val createTimingWidgetSubject: PublishSubject<TimingWidgetParams> = PublishSubject.create<TimingWidgetParams>()
+    val createSeatingWidgetSubject: PublishSubject<SeatingWidgetParams> = PublishSubject.create<SeatingWidgetParams>()
 
     fun updateWidget(summaryWidgetParams: SummaryWidgetParams) {
         val logoUrl = summaryWidgetParams.airlineLogoURL
@@ -57,6 +67,12 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
                 Phrase.from(context, R.string.itin_flight_summary_airport_name_code_TEMPLATE)
                         .put("city", summaryWidgetParams.arrivalAirportCity)
                         .put("code", summaryWidgetParams.arrivalAirportCode).format().toString()
+        ))
+
+        createSeatingWidgetSubject.onNext(SeatingWidgetParams(
+                summaryWidgetParams.seats,
+                summaryWidgetParams.cabinCode,
+                summaryWidgetParams.seatConfirmation
         ))
     }
 }

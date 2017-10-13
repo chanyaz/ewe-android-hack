@@ -1610,6 +1610,13 @@
     <string name="itin_flight_summary_airport_name_code_TEMPLATE">{city} ({code})</string>
     <!--Flight itin summary widget operated by template. Operated by {operatedby} (e.g., Operated by Delta)-->
     <string name="itin_flight_summary_operated_by_TEMPLATE">Operated by {operatedby}</string>
+    <!-- displayed when seats aren't selectable -->
+    <string name="seat_selection_not_available">Seat selection not available</string>
+    <!-- displayed when seats are selectable -->
+    <string name="confirm_seat_selection">Confirm or change seats with airline</string>
+    <!-- displayed when can but have not been selected -->
+    <string name="select_seat_prompt">No seats selected</string>
+
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

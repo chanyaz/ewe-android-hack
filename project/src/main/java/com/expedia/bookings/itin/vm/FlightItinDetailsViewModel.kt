@@ -2,10 +2,12 @@ package com.expedia.bookings.itin.vm
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.utils.FormatUtils
 import rx.subjects.PublishSubject
 
@@ -57,6 +59,9 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                 val primaryFlightCode = segment.primaryFlightCode
                 val operatingFlightCode = segment.operatingFlightCode
                 var operatedBy: String? = null
+                var seats: String?
+                var confirmSeats: String? = null
+                val cabinCodeBuilder = StringBuilder(" • ")
                 if ((primaryFlightCode != null) && (operatingFlightCode != null) && (primaryFlightCode != operatingFlightCode)) {
                     if (operatingFlightCode.mAirlineCode != null && operatingFlightCode.mAirlineCode.isNotEmpty()) {
                         val airline = Db.getAirline(operatingFlightCode.mAirlineCode)
@@ -64,6 +69,13 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                     } else {
                         operatedBy = operatingFlightCode.mAirlineName
                     }
+                }
+                if (segment.hasSeats()) {
+                    confirmSeats = context.getString(R.string.confirm_seat_selection)
+                }
+                seats = getSeatString(segment)
+                if (segment.hasCabinCode()) {
+                    cabinCodeBuilder.append(segment.cabinCode)
                 }
                 createSegmentSummaryWidgetsSubject.onNext(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
                         leg.airlineLogoURL,
@@ -74,8 +86,25 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                         segment.originWaypoint.airport.mAirportCode ?: "",
                         segment.originWaypoint.airport.mCity ?: "",
                         segment.destinationWaypoint.airport.mAirportCode ?: "",
-                        segment.destinationWaypoint.airport.mCity ?: ""
+                        segment.destinationWaypoint.airport.mCity ?: "",
+                        seats,
+                        cabinCodeBuilder.toString(),
+                        confirmSeats
                 ))
+            }
+        }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getSeatString(segment: Flight): String {
+        if(segment.hasSeats()) {
+            return segment.getFirstSixSeats(segment.assignedSeats)
+        } else {
+            return if (segment.isSeatMapAvailable) {
+                context.getString(R.string.select_seat_prompt)
+
+            } else {
+                context.getString(R.string.seat_selection_not_available)
             }
         }
     }

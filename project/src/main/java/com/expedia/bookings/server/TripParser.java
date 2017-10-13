@@ -52,6 +52,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
+import com.mobiata.flightlib.data.Seat;
 import com.mobiata.flightlib.data.Waypoint;
 
 import static com.activeandroid.Cache.getContext;
@@ -505,6 +506,18 @@ public class TripParser {
 				segment.setOriginWaypoint(parseWaypoint(segmentJson, Waypoint.F_DEPARTURE));
 				segment.setDestinationWaypoint(parseWaypoint(segmentJson, Waypoint.F_ARRIVAL));
 
+				segment.setCabinCode(segmentJson.optString("cabinCodeLocalized"));
+				segment.setIsSeatMapAvailable(segmentJson.optBoolean("isSeatMapAvailable"));
+				JSONArray seatsArr = segmentJson.optJSONArray("seatList");
+				if (seatsArr != null && seatsArr.length() > 0) {
+				for (int c = 0; c < seatsArr.length(); c++) {
+					JSONObject seatJson = seatsArr.optJSONObject(c);
+					Seat seat = new Seat();
+					seat.setAssigned(seatJson.optString("assigned"));
+					seat.setPassenger(seatJson.optString("passengerName"));
+					segment.addSeat(seat);
+				}
+				}
 				FlightCode flightCode = new FlightCode();
 				flightCode.mAirlineCode = segmentJson.optString("externalAirlineCode");
 				flightCode.mNumber = segmentJson.optString("flightNumber").trim();

@@ -1288,6 +1288,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.nav_flight_plus_hotel,
 		R.string.package_error_server,
 		R.string.error_package_search_red_eye_flight_message,
+		R.string.seat_selection_not_available,
+		R.string.confirm_seat_selection,
+		R.string.select_seat_prompt,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt
 	};

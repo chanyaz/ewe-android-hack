@@ -58,4 +58,32 @@ class FlightItinSegmentSummaryWidgetTest {
         assertEquals("San Francisco (SFO)", sut.departureAirport.text.toString())
         assertEquals("Las Vegas (LAS)", sut.arrivalAirport.text.toString())
     }
+
+    @Test
+    fun testSeatingWidget() {
+        sut.viewModel.createSeatingWidgetSubject.onNext(FlightItinSegmentSummaryViewModel.SeatingWidgetParams(
+                "21A, 23B, 25C",
+                "• Economy / Coach",
+                "Confirm or change seats with airline"
+
+        ))
+        assertEquals(sut.seats.text, "21A, 23B, 25C" )
+        assertEquals(sut.cabin.text, "• Economy / Coach")
+        assertEquals(sut.seatConfirmation.visibility, View.VISIBLE)
+        assertEquals(sut.seatConfirmation.text, "Confirm or change seats with airline")
+    }
+
+    @Test
+    fun testSeatingWidgetwithNoSeats() {
+        sut.viewModel.createSeatingWidgetSubject.onNext(FlightItinSegmentSummaryViewModel.SeatingWidgetParams(
+                "No seats selected",
+                "• Economy / Coach",
+                null
+
+        ))
+        assertEquals(sut.seats.text, "No seats selected" )
+        assertEquals(sut.cabin.text, "• Economy / Coach")
+        assertEquals(sut.seatConfirmation.visibility, View.GONE)
+        assertEquals(sut.seatConfirmation.text, "")
+    }
 }
