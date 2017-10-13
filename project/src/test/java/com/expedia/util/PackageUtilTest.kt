@@ -169,41 +169,6 @@ class PackageUtilTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.AIRASIAGO))
-    fun testPackageAAG_MALAYSIALOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.AIRASIAGO_MALAYSIA)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.AIRASIAGO))
-    fun testPackageAAG_SINGAPORELOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.AIRASIAGO_SINGAPORE)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.AIRASIAGO))
-    fun testPackageAAG_JAPANLOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.AIRASIAGO_JAPAN)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.AIRASIAGO))
-    fun testPackageAAG_AUSTRALIALOBEnabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.AIRASIAGO_AUSTRALIA)
-        assertTrue(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.AIRASIAGO))
-    fun testPackageAAG_INDONESIALOBDisabled() {
-        RoboTestHelper.setPOS(PointOfSaleId.AIRASIAGO_INDONESIA)
-        assertFalse(PackageUtil.isPackageLOBUnderABTest)
-    }
-
-    @Test
     @RunForBrands(brands = arrayOf(MultiBrand.TRAVELOCITY))
     fun testPackageTVLY_CANADALOBEnabled() {
         RoboTestHelper.setPOS(PointOfSaleId.TRAVELOCITY_CA)
