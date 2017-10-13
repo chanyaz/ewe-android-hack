@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/itin_list_view_manually_add_guest_trip_intro_text"
-        android:textColor="@color/gray10"
+        android:textColor="@color/gray900"
         android:textSize="16sp"
         app:textStyle="normal" />
 

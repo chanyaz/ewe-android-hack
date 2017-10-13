@@ -34,7 +34,7 @@
                 android:layout_marginRight="16dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:textColor="@color/gray10"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:text="Deluxe room, 1 King bed"/>
@@ -96,7 +96,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="4dp"
-                android:textColor="@color/gray10"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 tools:text="Reserved for"
                 app:textStyle="medium" />
@@ -126,7 +126,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="4dp"
-                android:textColor="@color/gray10"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 app:textStyle="medium"
                 android:text="@string/itin_hotel_room_details_requests_header"/>

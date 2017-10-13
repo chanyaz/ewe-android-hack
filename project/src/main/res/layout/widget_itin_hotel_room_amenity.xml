@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:scaleType="centerCrop"
-        android:tint="@color/gray10"
+        android:tint="@color/gray900"
         tools:src="@drawable/itin_hotel_room_free_breakfast" />
 
     <TextView

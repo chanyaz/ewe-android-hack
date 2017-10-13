@@ -113,7 +113,7 @@
     <color name="search_anim_background">@color/gray100</color>
     <color name="hotelsv2_discount_green">@color/success_green</color>
     <color name="hotel_result_background">@color/gray100</color>
-    <color name="hotels_room_title">@color/gray10</color>
+    <color name="hotels_room_title">@color/gray900</color>
     <color name="hotels_room_info">@color/gray600</color>
     <color name="hotel_filter_spinner_dropdown_color">@color/white</color>
     <color name="etp_text_color">@color/success_green</color>
@@ -225,7 +225,7 @@
     <color name="cars_actionbar_text_color">@color/gray800</color>
     <color name="cars_tooltip_disabled_color">@color/gray400</color>
     <color name="cars_invalid_days_calendar">@color/gray400</color>
-    <color name="cars_valid_days_calendar">@color/gray10</color>
+    <color name="cars_valid_days_calendar">@color/gray900</color>
     <color name="cars_details_price">@color/gray600</color>
     <color name="cars_checkout_text_color">@color/gray700</color>
     <color name="price_change_text_color">@color/gray900</color>
@@ -284,11 +284,11 @@
     <color name="lx_sort_filter_pressed_row_color">@color/gray200</color>
 
     <color name="lx_details_text_color">@color/gray800</color>
-    <color name="lx_details_heading_text_color">@color/gray10</color>
+    <color name="lx_details_heading_text_color">@color/gray900</color>
     <color name="lx_details_content_text_color">@color/gray800</color>
     <color name="lx_details_background_color">@color/gray100</color>
     <color name="lx_select_ticket_button_color">@color/gray600</color>
-    <color name="lx_ticket_title_color">@color/gray10</color>
+    <color name="lx_ticket_title_color">@color/gray900</color>
     <color name="lx_ticket_summary_color">@color/gray700</color>
 
     <color name="lx_checkout_text_color">@color/gray700</color>
@@ -393,7 +393,7 @@
     <color name="rail_background_color">@color/gray100</color>
     <color name="rail_primary_dark_background_color">@color/blue4</color>
     <color name="rail_bundle_icon_color">@color/gray600</color>
-    <color name="rail_title_color">@color/gray10</color>
+    <color name="rail_title_color">@color/gray900</color>
     <color name="rail_regular_text_color">@color/gray700</color>
     <color name="rail_error_message_cards">@color/error_red</color>
     <color name="rail_warning_bar_color">@color/blue3</color>

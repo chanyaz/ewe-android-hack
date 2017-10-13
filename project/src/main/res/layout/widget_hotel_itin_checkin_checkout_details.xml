@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="4dp"
                     android:paddingTop="4dp"
-                    android:textColor="@color/gray10"
+                    android:textColor="@color/gray900"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="Fri, Aug 17" />
@@ -69,7 +69,7 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/itin_hotel_details_checkout_to_arrow_cont_desc"
                 android:focusable="true"
-                android:tint="@color/gray10"
+                android:tint="@color/gray900"
                 app:srcCompat="@drawable/itin_arrow_icon" />
 
             <LinearLayout
@@ -98,7 +98,7 @@
                     android:gravity="right"
                     android:paddingBottom="4dp"
                     android:paddingTop="4dp"
-                    android:textColor="@color/gray10"
+                    android:textColor="@color/gray900"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="Mon, Aug 20" />

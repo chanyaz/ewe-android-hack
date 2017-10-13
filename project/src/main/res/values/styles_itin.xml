@@ -10,7 +10,7 @@
     </style>
 
     <style name="ItinLinkOffTextHeading">
-        <item name="android:textColor">@color/gray10</item>
+        <item name="android:textColor">@color/gray900</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -20,7 +20,7 @@
     </style>
 
     <style name="FlightItinAirlineName">
-        <item name="android:textColor">@color/gray10</item>
+        <item name="android:textColor">@color/gray900</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>

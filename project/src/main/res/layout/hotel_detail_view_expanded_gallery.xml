@@ -9,7 +9,7 @@
         android:id="@+id/detail_hotel_gallery"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/gray11"
+        android:background="@color/gray900"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

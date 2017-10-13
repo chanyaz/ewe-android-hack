@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:padding="16dp"
-            android:textColor="@color/gray10"
+            android:textColor="@color/gray900"
             android:textSize="14sp" />
 
         <com.expedia.bookings.widget.TextView
@@ -31,7 +31,7 @@
             android:layout_toRightOf="@id/confirmation_status_text_view"
             android:gravity="right"
             android:padding="16dp"
-            android:textColor="@color/gray10"
+            android:textColor="@color/gray900"
             android:textIsSelectable="false"
             android:textSize="14sp"/>
 

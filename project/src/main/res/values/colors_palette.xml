@@ -36,8 +36,6 @@
     <color name="gray700">#616161</color>
     <color name="gray800">#404040</color>
     <color name="gray900">#1F1F1F</color>
-    <color name="gray10">@color/gray900</color>
-    <color name="gray11">@color/gray900</color>
     <color name="black">#FF000000</color>
 
     <!-- alpha colors http://stackoverflow.com/questions/15852122/hex-transparency-in-colors-->

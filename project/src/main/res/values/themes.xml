@@ -309,7 +309,7 @@
         <item name="itin_card_summary_text_left_drawable_hotel">@drawable/check_in_crystal</item>
         <item name="itin_card_summary_text_left_drawable_cars">@drawable/check_in_crystal</item>
         <item name="itin_card_summary_text_left_drawable_activity">@drawable/ic_activity_attach_crystal</item>
-        <item name="itin_card_summary_text_line1_color">@color/gray10</item>
+        <item name="itin_card_summary_text_line1_color">@color/gray900</item>
         <item name="itin_card_summary_text_line1_size">16sp</item>
         <item name="itin_card_summary_text_line2_color">@color/gray600</item>
         <item name="itin_card_summary_text_line2_size">12sp</item>
@@ -326,7 +326,7 @@
         <item name="itin_card_summary_left_action_button_activity_drawable">@drawable/ic_redeem_crystal</item>
         <item name="itin_card_summary_right_action_button_activity_drawable">@drawable/ic_support_crystal</item>
         <item name="itin_card_list_cross_sell_bg">@android:color/white</item>
-        <item name="itin_card_list_cross_sell_text_color">@color/gray10</item>
+        <item name="itin_card_list_cross_sell_text_color">@color/gray900</item>
         <item name="itin_card_list_cross_sell_text_size">16sp</item>
         <item name="itin_card_list_cross_sell_lx_left_drawable">@drawable/ic_activity_attach_crystal</item>
         <item name="itin_card_list_cross_sell_hotel_left_drawable">@drawable/ic_hotel_attach_crystal</item>
@@ -340,12 +340,12 @@
         <item name="itin_add_guest_itin_style">@style/Widget.BorderlessButton.Crystal</item>
 
         <item name="itin_air_attach_background">@android:color/white</item>
-        <item name="itin_air_attach_text_color">@color/gray10</item>
-        <item name="itin_air_attach_expiration_text_color">@color/gray10</item>
-        <item name="itin_air_attach_action_text_color">@color/gray10</item>
+        <item name="itin_air_attach_text_color">@color/gray900</item>
+        <item name="itin_air_attach_expiration_text_color">@color/gray900</item>
+        <item name="itin_air_attach_action_text_color">@color/gray900</item>
         <item name="itin_air_attach_action_overflow">@drawable/ic_itin_action_overflow_crystal_dark</item>
         <item name="itin_air_attach_banner_divider_color">@color/gray100</item>
-        <item name="itin_air_attach_expires_in_text_color">@color/gray10</item>
+        <item name="itin_air_attach_expires_in_text_color">@color/gray900</item>
         <item name="itin_air_attach_margin_left_right">8dp</item>
         <item name="itin_air_attach_banner_divider_margin_left">@dimen/air_attach_banner_divider_margin_left_crystal_theme</item>
         <item name="itin_air_attach_banner_divider_margin_right">@dimen/air_attach_banner_divider_margin_right_crystal_theme</item>
@@ -353,15 +353,15 @@
 
         <item name="itin_card_detail_title_bg">@android:color/white</item>
         <item name="itin_card_detail_triplet_value_text_size">24sp</item>
-        <item name="itin_card_detail_triplet_value_text_color">@color/gray10</item>
+        <item name="itin_card_detail_triplet_value_text_color">@color/gray900</item>
         <item name="itin_card_detail_triplet_label_text_size">12sp</item>
         <item name="itin_card_detail_triplet_label_text_color">@color/gray600</item>
         <item name="itin_card_detail_section_header_underline_drawable">@drawable/itin_section_divider_crystal</item>
         <item name="itin_card_detail_section_header_text_size">12sp</item>
-        <item name="itin_card_detail_section_header_text_color">@color/gray10</item>
+        <item name="itin_card_detail_section_header_text_color">@color/gray900</item>
         <item name="itin_card_detail_section_text_size">16sp</item>
         <item name="itin_card_detail_section_text_color">@color/gray600</item>
-        <item name="skin_itinCardTitleTextColor">@color/gray10</item>
+        <item name="skin_itinCardTitleTextColor">@color/gray900</item>
         <item name="itin_card_detail_section_text_capitalize_blue_style">@style/ItineraryCardActionItemTextView.Blue</item>
         <item name="itin_card_detail_cancel_left_drawable">@drawable/itin_cancel_icon</item>
         <item name="itin_card_detail_info_left_drawable">@drawable/itin_info_icon</item>
@@ -373,7 +373,7 @@
         <item name="itin_card_detail_layover_drawable">@drawable/check_in_crystal</item>
         <item name="itin_card_detail_map_icon">@drawable/itin_terminal_map_icon</item>
         <item name="itin_card_detail_flight_airline_text_size">14sp</item>
-        <item name="itin_card_detail_flight_airline_text_color">@color/gray10</item>
+        <item name="itin_card_detail_flight_airline_text_color">@color/gray900</item>
         <item name="itin_card_detail_flight_operating_carrier_text_size">12sp</item>
         <item name="itin_card_detail_flight_operating_carrier_text_color">@color/gray600</item>
         <item name="itin_card_detail_flight_trip_view_text_color">@color/itin_flight_line_color</item>
@@ -381,7 +381,7 @@
         <item name="itin_card_detail_flight_trip_summary_text_color">@color/gray600</item>
         <item name="itin_card_detail_flight_trip_summary_bg_color">@color/white</item>
         <item name="itin_add_guest_itin_left_drawable">@drawable/itin_plus_icon</item>
-        <item name="itin_add_guest_itin_text_color">@color/gray10</item>
+        <item name="itin_add_guest_itin_text_color">@color/gray900</item>
         <item name="itin_card_detail_car_location_icon">@drawable/itin_terminal_map_icon</item>
         <item name="itin_card_detail_flight_canceled_text_color">@color/itin_flight_canceled_color_crystal_theme</item>
         <item name="itin_card_detail_flight_delayed_text_color">@color/itin_flight_delayed_color_crystal_theme</item>

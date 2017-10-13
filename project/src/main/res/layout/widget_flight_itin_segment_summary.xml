@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="6dp"
-                    android:textColor="@color/gray10"
+                    android:textColor="@color/gray900"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="6:45am" />
@@ -110,7 +110,7 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/itin_flight_summary_arrow_cont_desc"
                 android:focusable="true"
-                android:tint="@color/gray10"
+                android:tint="@color/gray900"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/flight_itin_departure_details"
                 app:layout_constraintRight_toLeftOf="@+id/flight_itin_arrival_details"
@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:paddingBottom="4dp"
-                    android:textColor="@color/gray10"
+                    android:textColor="@color/gray900"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="8:45am" />

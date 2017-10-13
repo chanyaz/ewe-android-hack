@@ -23,7 +23,7 @@
             android:layout_margin="16dp"
             android:textSize="14sp"
             android:textStyle="normal"
-            android:textColor="@color/gray10"
+            android:textColor="@color/gray900"
             tools:text="If you need help managing this itinerary, contact Expedia" />
 
         <View
@@ -41,7 +41,7 @@
             android:layout_marginRight="16dp"
             android:background="?attr/selectableItemBackground"
             tools:text="Itinerary # 39485798457"
-            android:textColor="@color/gray10"
+            android:textColor="@color/gray900"
             android:textSize="12sp"
             android:textStyle="bold" />
 
