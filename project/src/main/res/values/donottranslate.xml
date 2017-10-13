@@ -7,6 +7,7 @@
     <string name="email_user_name_TEMPLATE">{brand} user name: {email}</string>
     <string name="user_points_level_TEMPLATE">{brand} loyalty Level: {level}</string>
     <string name="user_points_available_TEMPLATE">{brand} points available: {points_amount}</string>
+    <string name="user_points_pending_TEMPLATE">{brand} points pending: {points_amount}</string>
     <string name="account_sign_in_method_TEMPLATE">account sign-in method {sign_in_method}</string>
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/expedia-android</string>

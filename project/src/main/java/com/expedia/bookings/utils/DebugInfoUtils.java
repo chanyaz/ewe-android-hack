@@ -86,6 +86,12 @@ public class DebugInfoUtils {
 					.put("points_amount", String.valueOf(loyaltyMembershipInformation.getLoyaltyPointsAvailable()))
 					.format());
 				body.append("\n");
+
+				body.append(Phrase.from(context, R.string.user_points_pending_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.put("points_amount", String.valueOf(loyaltyMembershipInformation.getLoyaltyPointsPending()))
+					.format());
+				body.append("\n");
 			}
 
 			if (Db.getSignInType() != null) {
