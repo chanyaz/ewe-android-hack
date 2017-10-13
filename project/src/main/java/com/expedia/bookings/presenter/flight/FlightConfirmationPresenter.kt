@@ -9,6 +9,8 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.shared.KrazyglueWidget
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
@@ -75,7 +77,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         return true
     }
 
-    fun showConfirmationInfo(response: FlightCheckoutResponse, email: String){
+    fun showConfirmationInfo(response: FlightCheckoutResponse, email: String) {
         setCardViewModels(response)
         viewModel.confirmationObservable.onNext(Pair(response, email))
         hotelCrossSell.viewModel.confirmationObservable.onNext(response)

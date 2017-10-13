@@ -4618,6 +4618,8 @@
     <string name="flight_itin_confirmation_status_label">Confirmation</string>
     <string name="flight_itin_cancelled_status_label">Cancelled</string>
     <string name="flight_itin_in_progress_status_label">Ticketing in progress</string>
+    <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
+    <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Because you booked a flight, save on select hotels in {city}</string>
 
 
 </resources>

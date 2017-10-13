@@ -48,6 +48,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_hotel_customer_support_header_text_TEMPLATE,
 		R.string.itin_hotel_itinerary_number_TEMPLATE,
 		R.string.itin_hotel_customer_support_site_header_TEMPLATE,
+		R.layout.krazyglue_hotel_view,
+		R.string.because_you_booked_a_flight_save_on_hotels_TEMPLATE,
 		R.string.itin_hotel_customer_support_site_toolbar_header,
 		R.layout.widget_hotel_itin_customer_support,
 		R.string.itin_hotel_room_details_reserved_for_header,
