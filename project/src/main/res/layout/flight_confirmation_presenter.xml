@@ -104,6 +104,8 @@
                 android:layout_marginRight="@dimen/card_view_container_margin"
                 app:cardPreventCornerOverlap="false"/>
 
+            <include layout="@layout/krazyglue_widget" />
+
         </LinearLayout>
 
     </ScrollView>
