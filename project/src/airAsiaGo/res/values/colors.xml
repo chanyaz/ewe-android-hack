@@ -6,37 +6,21 @@
     <color name="aag_secondary_color">#F18700</color>
     <color name="hotel_price_text_color_airasiago">#333</color>
     <color name="hotel_price_sale_text_color_airasiago">@color/aag_primary_color</color>
-    <color name="hotel_list_progress_text_color">#333</color>
-    <color name="action_bar_text_aag">#F5A337</color>
-    <color name="actionbar_button_text_color">@color/action_bar_text_aag</color>
-    <color name="actionbar_menu_text_color">@color/aag_secondary_color</color>
     <color name="action_bar_bg_color">#E21E25</color>
     <color name="flight_trip_color_aag">#F8A424</color>
     <color name="itin_flight_line_color">#e93b2c</color>
     <color name="flight_trip">@color/flight_trip_color_aag</color>
     <color name="flight_trip_price_aag">#E21E25</color>
     <color name="action_bar_selected_tab_underline_color">#E21E25</color>
-    <color name="collection_overlay_color">#56a1d5</color>
-    <color name="hotel_sale_text_color">@color/action_bar_bg_color</color>
-    <color name="calendar_cell_selected_date_text">@android:color/primary_text_dark</color>
     <color name="hotelsv2_coupon_applied_color">@color/aag_primary_color</color>
     <color name="splash_screen_bg">@color/aag_primary_color</color>
     <color name="flight_trip_price">@color/aag_primary_color</color>
 
-    <color name="tablet_confirmation_action_color">@color/aag_primary_color</color>
-    <color name="tablet_sort_filter_done_selector">@color/aag_primary_color</color>
-    <color name="tablet_price_expanded_bucket_text_color">@color/aag_secondary_color</color>
-    <color name="tablet_search_result_error_button_pressed">#D1EAFF</color>
-    <color name="tablet_search_result_error_button">#004E93</color>
-    <color name="tablet_results_search_done">#608405</color>
-    <color name="tablet_results_calendar_dates">@color/aag_primary_color</color>
-    <color name="aag_launch_lob_bg">@color/aag_primary_color</color>
     <color name="launch_actionbar_bg_color">#2B2D32</color>
     <color name="hotel_lob_btn">@color/aag_primary_color</color>
     <color name="lx_lob_btn">@color/aag_primary_color</color>
     <color name="flights_lob_btn">@color/aag_primary_color</color>
     <color name="hotels_primary_color">@color/aag_primary_color</color>
-    <color name="review_screen_tab_indicator">#ffffff</color>
     <color name="traveler_drop_down_checked_color">@color/aag_primary_color</color>
     <color name="hotel_member_pricing_bg_color">#3e3f43</color>
     <color name="hotel_member_pricing_text_color">#FFFFFF</color>
@@ -55,25 +39,15 @@
     <color name="hotel_tonight_only_color">#333333</color>
     <color name="hotel_urgency_message_color">#555555</color>
     <color name="hotelsv2_discount_green">@color/aag_primary_color</color>
-    <color name="hotel_promo_background">#de7b00</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">@color/aag_primary_color</color>
-    <color name="cars_unchecked_toggle_text_color">@android:color/white</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">@color/aag_primary_color</color>
     <color name="lx_ripple_color">#8b1a10</color>
     <color name="lx_secondary_color_disabled">@color/aag_primary_color</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-    <color name="lx_primary_disabled_color">#40E31F0E</color>
-    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
-    <color name="cars_ripple_color">@color/lx_ripple_color</color>
-    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
-    <color name="cars_secondary_color">@color/cars_primary_color</color>
-    <color name="cars_tooltip_color">@color/cars_primary_color</color>
-    <color name="cars_status_bar_color">@color/cars_primary_color</color>
-    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
     <color name="checkout_login_button_color">@android:color/white</color>
 
     <!--Account Lib Colors -->

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Dimension for left margin on icon of new login button on checkout-->
-    <dimen name="checkout_icon_right_margin">0dp</dimen>
     <item name="launch_sign_in_placeholder_alpha" type="dimen" format="float">0.1</item>
 </resources>
