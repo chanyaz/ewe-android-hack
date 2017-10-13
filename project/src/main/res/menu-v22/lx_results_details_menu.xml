@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_open_search"
+        android:icon="@drawable/ic_menu_search_mtrl_alpha"
+        android:title="@string/search_button_cont_desc"
+        android:accessibilityTraversalAfter="@id/toolbar_search_text"
+        app:showAsAction="always" />
+
+</menu>
