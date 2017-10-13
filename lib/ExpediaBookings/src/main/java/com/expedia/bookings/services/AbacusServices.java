@@ -48,7 +48,7 @@ public class AbacusServices {
 
 	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer, long timeout,
 		TimeUnit timeUnit) {
-		return api.evaluateExperiments(query.guid, query.eapid, query.tpid, query.evaluatedExperiments)
+		return api.evaluateExperiments(query.guid, query.eapid, query.tpid, query.getEvaluatedExperiments())
 			.observeOn(observeOn)
 			.subscribeOn(subscribeOn)
 			.timeout(timeout, timeUnit)
