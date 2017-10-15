@@ -5,6 +5,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitUtils
+import org.joda.time.LocalDate
 import rx.Observer
 import rx.subjects.PublishSubject
 
@@ -28,6 +29,10 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
 
     open fun fetchDatelessInfo(hotelId: String) {
         hotelServices.datelessInfo(hotelId, infoObserver)
+    }
+
+    open fun fetchOffers(startDate: LocalDate, endDate: LocalDate, hotelId: String) {
+        hotelServices.offers(startDate, endDate, hotelId, offersObserver)
     }
 
     private val offersObserver = object : Observer<HotelOffersResponse> {

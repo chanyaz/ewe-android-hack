@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
+import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -84,6 +85,17 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                         doPostOffersClientSideWork(response)
                     }
                     .subscribe(observer)
+    }
+
+    fun offers(checkInDate: LocalDate, checkoutDate: LocalDate, hotelId: String,
+               observer: Observer<HotelOffersResponse>) : Subscription {
+        return hotelApi.offers(checkInDate.toString(), checkoutDate.toString(), "1", hotelId, false, null)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .doOnNext { response ->
+                    doPostOffersClientSideWork(response)
+                }
+                .subscribe(observer)
     }
 
     fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {

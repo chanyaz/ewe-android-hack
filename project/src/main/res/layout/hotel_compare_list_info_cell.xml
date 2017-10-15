@@ -1,63 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/card_background"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:paddingBottom="8dp">
+    android:layout_marginTop="8dp"
+    android:orientation="vertical"
+    tools:background="@color/white">
 
-    <ImageView
-        android:id="@+id/hotel_info_background_image"
-        android:layout_width="0dp"
-        android:layout_height="134dp"
-        android:scaleType="matrix"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-
-        tools:background="@color/exp_launch_blue"/>
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/hotel_info_name"
-        style="@style/Core.Text.500.Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hotel_info_background_image"
-        app:layout_constraintRight_toLeftOf="@+id/hotel_info_fetch_price_button"
-
-        tools:text="Vail Residences at Hotel Talisa - Plus Long Text"/>
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/hotel_info_guest_rating"
+    <CheckBox
+        android:id="@+id/hotel_info_compare_check_box"
         style="@style/Core.Text.300"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintLeft_toLeftOf="@+id/hotel_info_name"
-        app:layout_constraintTop_toBottomOf="@+id/hotel_info_name"
-        tools:text="3.0 of 5 Guest Rating"
-        tools:layout_editor_absoluteX="0dp" />
+        app:drawableTintColor="@color/app_primary"
+        android:layout_marginLeft="12dp"
+        android:text="Compare"/>
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/hotel_info_fetch_price_button"
-        android:background="@drawable/new_hotel_book_background_selector"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Fetch Prices"
-        android:textColor="@color/white"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="8dp">
 
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/hotel_info_name"
-        app:layout_constraintBottom_toBottomOf="@+id/hotel_info_guest_rating"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="4dp"/>
+            <ImageView
+                android:id="@+id/hotel_info_background_image"
+                android:layout_width="0dp"
+                android:layout_height="134dp"
+                android:scaleType="centerCrop"
+                android:background="@color/app_primary_light"
 
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_info_name"
+                style="@style/Core.Text.500.Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/white"
+
+                app:layout_constraintLeft_toLeftOf="@+id/hotel_info_background_image"
+                app:layout_constraintBottom_toBottomOf="@+id/hotel_info_background_image"
+                app:layout_constraintRight_toLeftOf="@+id/hotel_info_fetch_price_button"
+
+                tools:text="Vail Residences at Hotel Talisa - Plus Long Text"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_info_guest_rating"
+                style="@style/Core.Text.400.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/light_text_color"
+                app:layout_constraintLeft_toLeftOf="@+id/hotel_info_background_image"
+                app:layout_constraintTop_toBottomOf="@+id/hotel_info_background_image"
+                tools:text="3.0/5" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/hotel_info_total_guest_count"
+                    style="@style/Core.Text.400"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/light_text_color"
+                    android:layout_marginLeft="8dp"
+
+                    app:layout_constraintLeft_toRightOf="@+id/hotel_info_guest_rating"
+                    app:layout_constraintBottom_toBottomOf="@+id/hotel_info_guest_rating"
+                    tools:text="(2,4669 reviews)"/>
+
+                <com.expedia.bookings.widget.TextView
+                    style="@style/Core.Text.300"
+                    android:id="@+id/hotel_info_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/light_text_color"
+                    tools:text="Vail"
+
+                    app:layout_constraintLeft_toLeftOf="@id/hotel_info_guest_rating"
+                    app:layout_constraintTop_toBottomOf="@id/hotel_info_guest_rating"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_info_fetch_price_button"
+                android:background="@drawable/new_hotel_book_background_selector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:text="Fetch Prices"
+                android:textColor="@color/white"
+
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hotel_info_background_image"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_info_display_price"
+                style="@style/Core.Text.500.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:visibility="gone"
+
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hotel_info_background_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                tools:text="$500"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/app_divider_on_white" />
+</LinearLayout>
