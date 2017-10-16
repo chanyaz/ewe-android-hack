@@ -14,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.fail
 
 @RunWith(RobolectricRunner::class)
@@ -210,6 +211,23 @@ class TripParserTest {
         return responseData
     }
 
+    private fun getFlightTripJson(withSeatMap: Boolean = true): JSONObject {
+        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trips_summary_with_insurance.json"))).readUtf8()
+        val jsonObject = JSONObject(data)
+        val responseData = jsonObject.getJSONArray("responseData").getJSONObject(0)
+        val flight = responseData.getJSONArray("flights").getJSONObject(0)
+        val legs = flight.getJSONArray("legs").getJSONObject(0)
+        val segments = legs.getJSONArray("segments")
+        val firstSegment = segments.getJSONObject(0)
+        if(!withSeatMap) {
+            firstSegment.put("isSeatMapAvailable", false)
+            firstSegment.remove("seatList")
+        }
+        return flight
+    }
+
+
+
     private fun createFlightTripResponse() {
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trips_summary_with_insurance.json"))).readUtf8()
         val jsonObject = JSONObject(data)
@@ -335,6 +353,35 @@ class TripParserTest {
         val parsedHotelTrip = tripParser.parseTrip(getHotelNoChangeCancelRules(true)).tripComponents[0] as TripHotel
         val rules = parsedHotelTrip.changeAndCancelRules
         assertEquals(true, rules.isEmpty())
+    }
+
+    @Test
+    fun testFlightWithSeatsAndMap() {
+        val tripParser = TripParser()
+        val flightJson = getFlightTripJson()
+        val trip = tripParser.parseTripFlight(flightJson).flightTrip
+        val flight = trip.legs[0].segments[0]
+        assertEquals(flight.isSeatMapAvailable, true)
+        assertEquals(flight.assignedSeats, "15A, 10A")
+        assertEquals(flight.cabinCode, "Economy / Coach")
+        assertNotNull(flight.seats)
+        val seats = flight.seats
+        assertEquals(seats[0].assigned, "15A")
+        assertEquals(seats[0].passenger, "DWAIN HUTCHINSON")
+        assertEquals(seats[1].assigned, "10A")
+        assertEquals(seats[1].passenger, "DWAIN HUTCHINSON")
+    }
+
+    @Test
+    fun testFlightWithoutMap() {
+        val tripParser = TripParser()
+        val flightJson = getFlightTripJson(withSeatMap = false)
+        val trip = tripParser.parseTripFlight(flightJson).flightTrip
+        val flight = trip.legs[0].segments[0]
+        assertEquals(flight.isSeatMapAvailable, false)
+        assertEquals(flight.assignedSeats, "")
+        assertEquals(flight.cabinCode, "Economy / Coach")
+        assertEquals(flight.seats, emptyList())
     }
 
     private fun getHotelNoRoomsJSON(): JSONObject {

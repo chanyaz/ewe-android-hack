@@ -35,6 +35,14 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
     @VisibleForTesting
     val arrivalTerminalGate: TextView by bindView(R.id.flight_itin_arrival_terminal_gate)
 
+    @VisibleForTesting
+    val seats: TextView by bindView(R.id.flight_itin_seating)
+    @VisibleForTesting
+    val cabin: TextView by bindView(R.id.flight_itin_cabin)
+    @VisibleForTesting
+    val seatConfirmation: TextView by bindView(R.id.flight_seating_class)
+
+
     var viewModel: FlightItinSegmentSummaryViewModel by notNullAndObservable { vm ->
         vm.createAirlineWidgetSubject.subscribe { params ->
             if (!params.airlineLogoURL.isNullOrEmpty()) {
@@ -56,6 +64,7 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
             arrivalAirport.text = params.arrivalAirport
         }
 
+
         vm.updateTerminalGateSubject.subscribe { params ->
             if (!params.departureTerminalGate.isNullOrEmpty()) {
                 departureTerminalGate.visibility = View.VISIBLE
@@ -64,6 +73,15 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
             if (!params.arrivalTerminalGate.isNullOrEmpty()) {
                 arrivalTerminalGate.visibility = View.VISIBLE
                 arrivalTerminalGate.text = params.arrivalTerminalGate
+            }
+        }
+
+        vm.createSeatingWidgetSubject.subscribe { params ->
+            seats.text = params.seats
+            cabin.text = params.cabinCode
+            if(params.seatConfirmation != null) {
+                seatConfirmation.visibility = View.VISIBLE
+                seatConfirmation.text = params.seatConfirmation
             }
         }
     }

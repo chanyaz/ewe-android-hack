@@ -2,6 +2,7 @@ package com.mobiata.flightlib.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -12,14 +13,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class Flight implements Comparable<Flight>, JSONable {
 
 	private static final int TIME_CHANGE_THRESHHOLD = DateTimeConstants.MILLIS_PER_MINUTE * 10;
 
+
 	// Flags for adding a flight code
+
+	public boolean isSeatMapAvailable() {
+		return mIsSeatMapAvailable;
+	}
+
+	public void setIsSeatMapAvailable(boolean mIsSeatMapAvailable) {
+		this.mIsSeatMapAvailable = mIsSeatMapAvailable;
+	}
+
 	public static final int F_PRIMARY_AIRLINE_CODE = 1;
 	public static final int F_OPERATING_AIRLINE_CODE = 2;
 
@@ -78,9 +91,12 @@ public class Flight implements Comparable<Flight>, JSONable {
 	private int mTripId = -1;
 	private String mTripName;
 	private String mConfirmationNumber;
-	private String mSeats;
+	private String tripItSeats;
+	private String mCabinCode;
 
 	private String mUniqueFlightId = null;
+	//list of Seats for flight
+	private List<Seat> seatList = new ArrayList<>();
 
 	// General info for FlightTrack
 	public long mLastUpdated = 0;
@@ -90,6 +106,8 @@ public class Flight implements Comparable<Flight>, JSONable {
 	// Determines if this is a repeating flight.
 	private boolean mIsRepeating = false;
 
+	// Determines if seats are available to choose from
+	private boolean mIsSeatMapAvailable = false;
 	// Time the flight was saved
 	private long mTimeCreated;
 
@@ -158,6 +176,61 @@ public class Flight implements Comparable<Flight>, JSONable {
 		arrivalTerminal = terminal;
 	}
 
+	public String getAssignedSeats() {
+		if (seatList != null) {
+			List<String> assignedSeats = new ArrayList<>();
+			for (Seat seat : seatList) {
+				assignedSeats.add(seat.getAssigned());
+			}
+			return TextUtils.join(", ", assignedSeats);
+		}
+		else {
+			return null;
+		}
+	}
+
+	public boolean hasSeats() {
+		return !TextUtils.isEmpty(getAssignedSeats());
+	}
+
+	public boolean hasCabinCode() {
+		return !TextUtils.isEmpty(mCabinCode);
+	}
+
+	public List<Seat> getSeats() {
+		return seatList;
+	}
+
+	public String getFirstSixSeats(String seats) {
+		String mSeats = seats;
+		String[] seatArray = mSeats.split("\\s+");
+		int count = seatArray.length;
+		if (count < 7) {
+			return mSeats;
+		}
+		else {
+			int extraSeats = count - 6;
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < 6; i++) {
+				sb.append(seatArray[i]);
+				sb.append(" ");
+
+			}
+			sb.deleteCharAt(sb.length() - 2);
+			sb.append("+");
+			sb.append(extraSeats);
+			return sb.toString();
+		}
+	}
+
+	public void addSeat(Seat mSeat) {
+		seatList.add(mSeat);
+	}
+
+	public void removeSeat(int index) {
+		seatList.remove(index);
+	}
+
 	/**
 	 * Determines if we should be in "red alert" mode over this flight -
 	 * for example, if it's cancelled, diverted or redirected.
@@ -202,6 +275,13 @@ public class Flight implements Comparable<Flight>, JSONable {
 		return c1.compareTo(c2);
 	}
 
+	public String getCabinCode() {
+		return mCabinCode;
+	}
+
+	public void setCabinCode(String mCabinCode) {
+		this.mCabinCode = mCabinCode;
+	}
 
 	public void setOriginWaypoint(Waypoint origin) {
 		mOrigin = origin;
@@ -329,7 +409,9 @@ public class Flight implements Comparable<Flight>, JSONable {
 		this.mBaggageClaim = another.mBaggageClaim;
 		this.mDistanceToTravel = another.mDistanceToTravel;
 		this.mDistanceTraveled = another.mDistanceTraveled;
-
+		this.mIsSeatMapAvailable = another.mIsSeatMapAvailable;
+		this.mCabinCode = another.mCabinCode;
+		this.seatList = another.seatList;
 		// Only update these fields if the updater has
 		// info - otherwise, we want to preserve what
 		// data we have here.  (For example, if a TripIt
@@ -356,7 +438,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 			// This denotes the update flight as a TripIt flight - thus, update all TripIt items
 			this.mTripId = another.mTripId;
 			this.mConfirmationNumber = another.mConfirmationNumber;
-			this.mSeats = another.mSeats;
+			this.tripItSeats = another.tripItSeats;
 		}
 	}
 
@@ -469,7 +551,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 			obj.putOpt("tripId", mTripId);
 			obj.putOpt("tripName", mTripName);
 			obj.putOpt("confirmationNumber", mConfirmationNumber);
-			obj.putOpt("seats", mSeats);
+			obj.putOpt("seats", tripItSeats);
 
 			if (mRating != null) {
 				JSONArray rating = new JSONArray();
@@ -488,11 +570,13 @@ public class Flight implements Comparable<Flight>, JSONable {
 			obj.putOpt("baggageClaim", mBaggageClaim);
 			obj.putOpt("userLabel", mUserLabel);
 			obj.putOpt("userNotes", mUserNotes);
+			obj.putOpt("cabinCodeLocalized", mCabinCode);
 
 			obj.putOpt("distanceToTravel", mDistanceToTravel);
 			obj.putOpt("distanceTraveled", mDistanceTraveled);
 
 			obj.putOpt("isRepeating", mIsRepeating);
+			obj.putOpt("isSeatMapAvailable", mIsSeatMapAvailable);
 
 			obj.putOpt("timeCreated", mTimeCreated);
 			obj.putOpt("searchMode", mSearchMode);
@@ -501,6 +585,8 @@ public class Flight implements Comparable<Flight>, JSONable {
 
 			obj.putOpt("departureTerminal", departureTerminal);
 			obj.putOpt("arrivalTerminal", arrivalTerminal);
+
+			JSONUtils.putJSONableList(obj, "seatList", seatList);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -573,7 +659,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 			mTripId = obj.optInt("tripId", -1);
 			mTripName = obj.optString("tripName", null);
 			mConfirmationNumber = obj.optString("confirmationNumber", null);
-			mSeats = obj.optString("seats", null);
+			tripItSeats = obj.optString("seats", null);
 
 			if (obj.has("rating")) {
 				ArrayList<String> rating = mRating = new ArrayList<>();
@@ -592,11 +678,15 @@ public class Flight implements Comparable<Flight>, JSONable {
 			mBaggageClaim = obj.optString("baggageClaim", null);
 			mUserLabel = obj.optString("userLabel", null);
 			mUserNotes = obj.optString("userNotes", null);
+			mCabinCode = obj.optString("cabinCodeLocalized", null);
+
+			seatList = JSONUtils.getJSONableList(obj, "seatList", Seat.class);
 
 			mDistanceToTravel = obj.optInt("distanceToTravel", -1);
 			mDistanceTraveled = obj.optInt("distanceTraveled", -1);
 
 			mIsRepeating = obj.optBoolean("isRepeating", false);
+			mIsSeatMapAvailable = obj.optBoolean("isSeatMapAvailable", false);
 
 			//If we lost the time created, we can at least hope to get something from the last updated time
 			// Otherwise it will just default with that to 0.
@@ -616,5 +706,4 @@ public class Flight implements Comparable<Flight>, JSONable {
 			return false;
 		}
 	}
-
 }

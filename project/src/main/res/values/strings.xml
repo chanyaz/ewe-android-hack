@@ -1409,6 +1409,12 @@
     <string name="itin_flight_summary_terminal_TEMPLATE">Terminal {terminal}</string>
     <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
     <string name="itin_flight_summary_gate_TEMPLATE">Gate {gate}</string>
+    <!-- displayed when seats aren't selectable -->
+    <string name="seat_selection_not_available">Seat selection not available</string>
+    <!-- displayed when seats are selectable -->
+    <string name="confirm_seat_selection">Confirm or change seats with airline</string>
+    <!-- displayed when seats can be selected but have not yet -->
+    <string name="select_seat_prompt">No seats selected</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

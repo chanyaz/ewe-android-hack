@@ -216,7 +216,31 @@
                            "flightIdForSeatMap":"3E9915B0-B622-4A5E-9953-95374B242BB2_0_L1_S1_1",
                            "status":"UNKNOWN",
                            "airSegmentStatusCode":"HK",
-                           "isHidden":false
+                          "isHidden":false,
+                          "seatList": [
+                            {
+                              "assigned": "15A",
+                              "seatPreference": "",
+                              "seatPreferenceLocalized": "Unknown",
+                              "smokingAllowed": false,
+                              "seatType": "SEAT_UNPAID",
+                              "statusCode": "Unknown",
+                              "passengerName": "DWAIN HUTCHINSON",
+                              "legIndex": 0,
+                              "segmentIndex": 0
+                            },
+                            {
+                              "assigned": "10A",
+                              "seatPreference": "",
+                              "seatPreferenceLocalized": "Unknown",
+                              "smokingAllowed": false,
+                              "seatType": "SEAT_UNPAID",
+                              "statusCode": "Unknown",
+                              "passengerName": "DWAIN HUTCHINSON",
+                              "legIndex": 0,
+                              "segmentIndex": 0
+                            }
+                          ]
                         }
                      ],
                      "sharableFlightLegURL":"https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1PmiJGMsrgOUFaAzyh7U1HgHxkxn4HJ1FTjqhxO8UAxhw",

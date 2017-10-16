@@ -1,6 +1,8 @@
 package com.expedia.bookings.itin.vm
 
 import android.app.Activity
+import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import org.joda.time.DateTime
@@ -8,6 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
@@ -19,6 +22,7 @@ class FlightItinSegmentSummaryViewModelTest {
 
     val createAirlineWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.AirlineWidgetParams>()
     val createTimingWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.TimingWidgetParams>()
+    val createSeatingWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SeatingWidgetParams>()
     val updateTerminalGateSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.TerminalGateParams>()
 
     @Before
@@ -54,6 +58,20 @@ class FlightItinSegmentSummaryViewModelTest {
                 LocaleBasedDateFormatUtils.dateTimeTohmma(dateTime).toLowerCase(),
                 "San Francisco (SFO)",
                 "Las Vegas (LAS)"
+        ))
+    }
+
+    @Test
+    fun testUpdateWidgetSeatingWidget() {
+        sut.createSeatingWidgetSubject.subscribe(createSeatingWidgetSubscriber)
+        createSeatingWidgetSubscriber.assertNoValues()
+        sut.updateWidget(getSummaryWidgetParams())
+
+        createSeatingWidgetSubscriber.assertValueCount(1)
+        createSeatingWidgetSubscriber.assertValue(FlightItinSegmentSummaryViewModel.SeatingWidgetParams(
+                "No seats selected",
+                "Economy / Coach",
+                null
         ))
     }
 
@@ -153,6 +171,9 @@ class FlightItinSegmentSummaryViewModelTest {
                 null,
                 "",
                 "",
+                null,
+                "No seats selected",
+                "Economy / Coach",
                 null
         )
     }

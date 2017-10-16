@@ -22,7 +22,10 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
             var departureTerminal: String?,
             var departureGate: String?,
             var arrivalTerminal: String?,
-            var arrivalGate: String?
+            var arrivalGate: String?,
+            val seats: String,
+            val cabinCode: String,
+            val seatConfirmation: String?
     )
 
     data class AirlineWidgetParams(
@@ -43,9 +46,16 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
             val arrivalTerminalGate: String?
     )
 
+    data class SeatingWidgetParams(
+            val seats: String,
+            val cabinCode: String,
+            val seatConfirmation: String?
+    )
+
     val createAirlineWidgetSubject: PublishSubject<AirlineWidgetParams> = PublishSubject.create<AirlineWidgetParams>()
     val createTimingWidgetSubject: PublishSubject<TimingWidgetParams> = PublishSubject.create<TimingWidgetParams>()
     val updateTerminalGateSubject: PublishSubject<TerminalGateParams> = PublishSubject.create<TerminalGateParams>()
+    val createSeatingWidgetSubject: PublishSubject<SeatingWidgetParams> = PublishSubject.create<SeatingWidgetParams>()
 
     fun updateWidget(summaryWidgetParams: SummaryWidgetParams) {
         val logoUrl = summaryWidgetParams.airlineLogoURL
@@ -70,9 +80,16 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
                         .put("code", summaryWidgetParams.arrivalAirportCode).format().toString()
         ))
 
+
         val departureTerminalGate = getTerminalGateString(summaryWidgetParams.departureTerminal, summaryWidgetParams.departureGate)
         val arrivalTerminalGate = getTerminalGateString(summaryWidgetParams.arrivalTerminal, summaryWidgetParams.arrivalGate)
         updateTerminalGateSubject.onNext(TerminalGateParams(departureTerminalGate, arrivalTerminalGate))
+
+        createSeatingWidgetSubject.onNext(SeatingWidgetParams(
+                summaryWidgetParams.seats,
+                summaryWidgetParams.cabinCode,
+                summaryWidgetParams.seatConfirmation
+        ))
     }
 
     @VisibleForTesting

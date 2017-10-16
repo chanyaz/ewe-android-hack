@@ -80,4 +80,31 @@ class FlightItinSegmentSummaryWidgetTest {
         assertEquals("Terminal 3, Gate 12A", sut.departureTerminalGate.text.toString())
         assertEquals("Terminal 12", sut.arrivalTerminalGate.text.toString())
     }
+
+    fun testSeatingWidget() {
+        sut.viewModel.createSeatingWidgetSubject.onNext(FlightItinSegmentSummaryViewModel.SeatingWidgetParams(
+                "21A, 23B, 25C",
+                "• Economy / Coach",
+                "Confirm or change seats with airline"
+
+        ))
+        assertEquals("21A, 23B, 25C", sut.seats.text )
+        assertEquals("• Economy / Coach", sut.cabin.text)
+        assertEquals(View.VISIBLE, sut.seatConfirmation.visibility)
+        assertEquals("Confirm or change seats with airline", sut.seatConfirmation.text)
+    }
+
+    @Test
+    fun testSeatingWidgetwithNoSeats() {
+        sut.viewModel.createSeatingWidgetSubject.onNext(FlightItinSegmentSummaryViewModel.SeatingWidgetParams(
+                "No seats selected",
+                "• Economy / Coach",
+                null
+
+        ))
+        assertEquals("No seats selected", sut.seats.text)
+        assertEquals("• Economy / Coach", sut.cabin.text)
+        assertEquals(View.GONE, sut.seatConfirmation.visibility)
+        assertEquals("", sut.seatConfirmation.text)
+    }
 }
