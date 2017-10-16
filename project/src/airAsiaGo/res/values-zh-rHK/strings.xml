@@ -2,4 +2,8 @@
 <resources>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">GO 會員優惠</string>
+    <!-- Label at head of flight results while we're waiting for them to load -->
+    <string name="loading_flights_from_400_airlines">正在搜尋您的亞洲航空航班</string>
+    <!-- package hotel results Go Crazy Deals text label -->
+    <string name="unreal_deal_text">爆抵價</string>
 </resources>
