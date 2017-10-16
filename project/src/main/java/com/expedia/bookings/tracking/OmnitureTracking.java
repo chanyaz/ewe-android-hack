@@ -2435,6 +2435,17 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackItinHotelRedesign() {
+		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
+		s.setEvents("event63");
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppItinHotelRedesign);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUpgrade);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
+		trackAbacusTest(s, AbacusUtils.TripsHotelMap);
+		s.track();
+	}
+
 	public static void trackItinHotelDirections() {
 		internalTrackLink(ITIN_HOTEL_DIRECTIONS);
 	}

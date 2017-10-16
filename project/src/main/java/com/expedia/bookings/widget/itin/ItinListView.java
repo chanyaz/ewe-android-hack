@@ -809,7 +809,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					ActivityOptionsCompat
 						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 						.toBundle());
-				OmnitureTracking.trackItinHotel(getContext());
 			}
 			else if (data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailFeatureOn) {
 				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),

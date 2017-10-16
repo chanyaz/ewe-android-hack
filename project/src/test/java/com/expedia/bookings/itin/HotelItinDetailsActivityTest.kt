@@ -1,15 +1,22 @@
 package com.expedia.bookings.itin
 
 import android.view.View
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinBookingDetails
 import com.expedia.bookings.itin.widget.HotelItinCheckInCheckOutDetails
 import com.expedia.bookings.itin.widget.HotelItinImage
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.junit.Before
 import org.junit.Test
@@ -74,5 +81,16 @@ class HotelItinDetailsActivityTest {
         assertEquals(View.VISIBLE, activity.roomDetailsChevron.visibility)
         assertEquals(true, activity.roomDetailsView.isRowClickable)
         assertEquals(View.GONE, activity.roomDetailsView.changeCancelRulesContainer.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMapABTestTracked() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val bucketedEvar = mapOf(34 to "15383.0.1")
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+        AbacusTestUtils.bucketTests(AbacusUtils.TripsHotelMap)
+        OmnitureTracking.trackItinHotelRedesign()
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(bucketedEvar), mockAnalyticsProvider)
     }
 }
