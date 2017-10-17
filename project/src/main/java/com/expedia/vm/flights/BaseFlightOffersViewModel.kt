@@ -186,6 +186,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         price.differentialPriceFormatted = offer.totalPrice.formattedPrice
         price.packageTotalPriceFormatted = offer.totalPrice.formattedPrice
         price.averageTotalPricePerTicket = offer.averageTotalPricePerTicket
+        price.deltaPrice = offer.deltaPrice
+        price.deltaPricePositive = offer.deltaPricePositive
         price.discountAmount = offer.discountAmount
         price.pricePerPersonFormatted = offer.averageTotalPricePerTicket.formattedWholePrice
         offerModel.urgencyMessage = urgencyMessage
