@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/increase_month_cont_desc"
             android:padding="@dimen/arrow_up_down_click_padding"
-            android:src="@drawable/ic_picker_up" />
+            android:scaleY="-1"
+            android:src="@drawable/ic_picker_down" />
 
         <TextView
             android:id="@+id/month_text"
@@ -64,7 +65,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/increase_year_cont_desc"
             android:padding="@dimen/arrow_up_down_click_padding"
-            android:src="@drawable/ic_picker_up" />
+            android:scaleY="-1"
+            android:src="@drawable/ic_picker_down" />
 
         <TextView
             android:id="@+id/year_text"
