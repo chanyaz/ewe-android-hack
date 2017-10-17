@@ -15,6 +15,7 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -124,13 +125,16 @@ public class SearchScreenSteps {
 	public void incrementAdultCount() throws Throwable {
 		onView(withId(R.id.adults_plus)).perform(click());
 	}
+
 	@And("^I make a packages search with following parameters$")
 	public void packagesSearchCall(Map<String, String> parameters) throws Throwable {
 		TestUtil.dataSet = parameters;
 		clickSourceSearchButton();
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
+		SearchScreen.searchEditText()
+			.perform(waitForViewToDisplay(), typeText(parameters.get("source")));
 		SearchScreen.selectLocation(parameters.get("source_suggest"));
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
+		SearchScreen.searchEditText()
+			.perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
 		SearchScreen.selectLocation(parameters.get("destination_suggest"));
 		pickDates(parameters);
 		selectTravelers(parameters);
@@ -150,9 +154,11 @@ public class SearchScreenSteps {
 
 	@Then("^validate hotels loading on package overview screen$")
 	public void validateHotelsLoading() throws Throwable {
-		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withId(R.id.hotels_card_view_text)))
+		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
+			withId(R.id.hotels_card_view_text)))
 			.check(matches(withText(containsString("Select hotel in"))));
 	}
+
 	@Then("^validate outbound flights loading on package overview screen$")
 	public void validateOutboundFlightsLoading() throws Throwable {
 		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
@@ -160,6 +166,7 @@ public class SearchScreenSteps {
 			.check(matches(allOf(withText(containsString("Select flight to")),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))));
 	}
+
 	@Then("^validate inbound flights loading on package overview screen$")
 	public void validateInboundFlightsLoading() throws Throwable {
 		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
@@ -167,43 +174,58 @@ public class SearchScreenSteps {
 			.check(matches(allOf(withText(containsString("Select flight to")),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))));
 	}
+
 	@Then("^validate HSR screen is displayed with following travel dates and travelers$")
 	public void validateTravelDetailsHsr(Map<String, String> parameters) throws Throwable {
-		validateHotelTravelDatesHSR(getDate(parameters.get("start_date")), getDate(parameters.get("end_date")));
+		validateHotelTravelDatesHSR(getDate(parameters.get("start_date")),
+			getDate(parameters.get("end_date")));
 		validateHotelTravelersHSR(parameters.get("Total_Travelers"));
 	}
+
 	@Then("^validate (outbound|inbound) FSR screen is displayed with following travel date and travelers$")
-	public void validateTravelDetailsFsr(String ignore, Map<String, String> parameters) throws Throwable {
+	public void validateTravelDetailsFsr(String ignore, Map<String, String> parameters)
+		throws Throwable {
 		validateTravelDatesFSR(getDateOnFSR(parameters.get("travel_date")));
 		validateTravelersCountFSR(parameters.get("Total_Travelers"));
 	}
+
 	@Then("^I select hotel at position (\\d+) on HSR screen$")
 	public void selectHotel(int position) throws Throwable {
-		HotelScreen.hotelResultsList().perform(waitForViewToDisplay(), RecyclerViewActions.actionOnItemAtPosition(position + 1, click()));
+		HotelScreen.hotelResultsList().perform(waitForViewToDisplay(),
+			RecyclerViewActions.actionOnItemAtPosition(position + 1, click()));
 	}
+
 	@Then("^I store the hotel name in \"(.*?)\"$")
 	public void saveHotel(String key) throws Throwable {
 		onView(withId(R.id.hotel_details_toolbar)).perform(waitForViewToDisplay());
 		TestUtil.storeDataAtRuntime.put(key, getHotelName());
 	}
+
 	@Then("^I select first room$")
 	public void selectRoom() throws Throwable {
 		PackageScreen.selectFirstRoom();
 	}
+
 	@Then("^I select (outbound?|inbound) flight to (destination|source) at position (\\d+)$")
 	public void clickFlights(String ignore1, String ignore2, int pos) throws Throwable {
-		PackageScreen.flightList().perform(RecyclerViewActions.actionOnItemAtPosition(pos, click()));
+		PackageScreen.flightList()
+			.perform(RecyclerViewActions.actionOnItemAtPosition(pos, click()));
 		clickFlightOnDetails();
 	}
+
 	@Then("^I select (outbound?|inbound) flight to (destination|source) at position (\\d+) and goto details page$")
-	public void selectFlightOnResultsPage(String ignore1, String ignore2, int pos) throws Throwable {
-		PackageScreen.flightList().perform(RecyclerViewActions.actionOnItemAtPosition(pos, click()));
+	public void selectFlightOnResultsPage(String ignore1, String ignore2, int pos)
+		throws Throwable {
+		PackageScreen.flightList()
+			.perform(RecyclerViewActions.actionOnItemAtPosition(pos, click()));
 	}
+
 	@Then("^I click select flight on flight details screen$")
 	public void clickFlightOnDetails() throws Throwable {
 		PackageScreen.selectThisFlight().perform(waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 	}
+
 	@Then("^validate \"(.*?)\" is same as user selected on package overview screen$")
 	public void matchHotelName(String key) throws Throwable {
 		validateHotelName(TestUtil.storeDataAtRuntime.get(key));
@@ -212,14 +234,17 @@ public class SearchScreenSteps {
 	@Then("^validate hotel widget of overview screen with following details$")
 	public void validateHotelWidget(Map<String, String> parameters) throws Throwable {
 		validateTravelersCountHotelWidget(parameters.get("Total_Travelers"));
-		validateTravelDatesHotelWidget(getDate(parameters.get("start_date")), getDate(parameters.get("end_date")));
+		validateTravelDatesHotelWidget(getDate(parameters.get("start_date")),
+			getDate(parameters.get("end_date")));
 	}
+
 	@Then("^validate flight outbound widget of overview screen with following details$")
 	public void validateOutboundFlightWidget(Map<String, String> parameters) throws Throwable {
 		validateOutboundFlightLocation(parameters.get("destination"));
 		validateTravelDatesOutboundFlightWidget(getDate(parameters.get("travel_date")));
 		validateTravelersCountFlightOutboundWidget(parameters.get("Total_Travelers"));
 	}
+
 	@Then("^validate flight inbound widget of overview screen with following details$")
 	public void validateInboundFlightWidget(Map<String, String> parameters) throws Throwable {
 		validateInboundFlightLocation(parameters.get("source"));
@@ -229,7 +254,8 @@ public class SearchScreenSteps {
 
 	@Then("^I validate that checkout screen is displayed$")
 	public void validateCheckoutScreenVisible() throws Throwable {
-		onView(withId(R.id.login_widget)).perform(waitForViewToDisplay()).check(matches(isDisplayed()));
+		onView(withId(R.id.login_widget)).perform(waitForViewToDisplay())
+			.check(matches(isDisplayed()));
 	}
 
 	@Then("^I type \"(.*?)\" and select the location \"(.*?)\"$")
@@ -246,7 +272,8 @@ public class SearchScreenSteps {
 	}
 
 	@Then("^Validate the \"(.*?)\" API request query params for following parameters for packages")
-	public void validateRequestQueryData(String type, Map<String, String> expParameters) throws Throwable {
+	public void validateRequestQueryData(String type, Map<String, String> expParameters)
+		throws Throwable {
 		validateRequestParams(expParameters, apiRequestData);
 	}
 
@@ -267,82 +294,112 @@ public class SearchScreenSteps {
 		}
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
+
 	private String getDate(String travelDate) {
 		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(travelDate));
 		String date = String.valueOf(startDate.getDayOfMonth());
-		String month = com.expedia.bookings.test.stepdefs.phone.flights.SearchScreenSteps.getMonth(startDate.getMonthOfYear());
+		String month = com.expedia.bookings.test.stepdefs.phone.flights.SearchScreenSteps
+			.getMonth(startDate.getMonthOfYear());
 		String monthDate = month + " " + date;
 		return monthDate;
 	}
+
 	private String getDateOnFSR(String travelDate) {
 		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(travelDate));
 		Format dateFormatter = new SimpleDateFormat("MMM dd", Locale.US);
 		String monthDate = dateFormatter.format(startDate.toDate()).toString();
 		return monthDate;
 	}
+
 	private void validateHotelTravelDatesHSR(String startDate, String endDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.hotel_results_toolbar)), withText(Matchers.containsString("guests"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.hotel_results_toolbar)),
+			withText(Matchers.containsString("guests"))))
 			.check(matches(withText(Matchers.containsString(startDate + " - " + endDate))));
 	}
+
 	private void validateTravelDatesHotelWidget(String startDate, String endDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withText(Matchers.containsString("guests"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
+			withText(Matchers.containsString("guests"))))
 			.check(matches(withText(Matchers.containsString(startDate + " - " + endDate))));
 	}
+
 	private void validateHotelTravelersHSR(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.hotel_results_toolbar)), withText(Matchers.containsString("guests"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.hotel_results_toolbar)),
+			withText(Matchers.containsString("guests"))))
 			.check(matches(withText(Matchers.containsString(travelers + " guests"))));
 	}
+
 	private void validateTravelersCountHotelWidget(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)), withText(Matchers.containsString("guests"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
+			withText(Matchers.containsString("guests"))))
 			.check(matches(withText(Matchers.containsString(travelers + " guests"))));
 	}
+
 	private void validateTravelDatesFSR(String travelDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.flights_toolbar)), withText(Matchers.containsString("traveler"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.flights_toolbar)),
+			withText(Matchers.containsString("traveler"))))
 			.check(matches(withText(Matchers.containsString(travelDate))));
 	}
+
 	private void validateTravelDatesOutboundFlightWidget(String travelDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withText(Matchers.containsString("traveler"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
+			withText(Matchers.containsString("traveler"))))
 			.check(matches(withText(Matchers.containsString(travelDate))));
 	}
+
 	private void validateTravelDatesInboundFlightWidget(String travelDate) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withText(Matchers.containsString("traveler"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
+			withText(Matchers.containsString("traveler"))))
 			.check(matches(withText(Matchers.containsString(travelDate))));
 	}
+
 	private void validateTravelersCountFSR(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.flights_toolbar)), withText(Matchers.containsString("travelers"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.flights_toolbar)),
+			withText(Matchers.containsString("travelers"))))
 			.check(matches(withText(Matchers.containsString(travelers + " travelers"))));
 	}
+
 	private void validateTravelersCountFlightOutboundWidget(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withText(Matchers.containsString("travelers"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
+			withText(Matchers.containsString("travelers"))))
 			.check(matches(withText(Matchers.containsString(travelers + " travelers"))));
 	}
+
 	private void validateTravelersCountFlightInboundWidget(String travelers) {
-		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withText(Matchers.containsString("travelers"))))
+		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
+			withText(Matchers.containsString("travelers"))))
 			.check(matches(withText(Matchers.containsString(travelers + " travelers"))));
 	}
+
 	private void validateOutboundFlightLocation(String location) {
 		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
 			withId(R.id.flight_card_view_text)))
 			.check(matches(allOf(withText(containsString("Flight to " + "(" + location + ")")),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))));
 	}
+
 	private void validateInboundFlightLocation(String location) {
 		onView(Matchers.allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
 			withId(R.id.flight_card_view_text)))
 			.check(matches(allOf(withText(containsString("Flight to " + "(" + location + ")")),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))));
 	}
+
 	private String getHotelName() {
 		final AtomicReference<String> value = new AtomicReference<String>();
-		onView(allOf(isDescendantOfA(withId(R.id.hotel_details_toolbar)), withId(R.id.hotel_name_text))).perform(getString(value));
+		onView(allOf(isDescendantOfA(withId(R.id.hotel_details_toolbar)),
+			withId(R.id.hotel_name_text))).perform(getString(value));
 		String hotel = value.get();
 		return hotel;
 	}
+
 	private void validateHotelName(String name) {
-		onView(allOf(withParent(withParent(withParent(withParent(withId(R.id.package_bundle_hotel_widget))))),
+		onView(allOf(withParent(
+			withParent(withParent(withParent(withId(R.id.package_bundle_hotel_widget))))),
 			withId(R.id.hotels_card_view_text)))
 			.check(matches(allOf(withText(containsString(name)))));
 	}
+
 	private String getResultCount() {
 		final AtomicReference<String> value = new AtomicReference<String>();
 		PackageScreen.resultsHeader().perform(getString(value));
@@ -351,32 +408,39 @@ public class SearchScreenSteps {
 	}
 
 	@Then("^Validate the getPackages API request form data for following parameters")
-	public void validateGetPackagesRequestFormData(Map<String, String> expParameters) throws Throwable {
+	public void validateGetPackagesRequestFormData(Map<String, String> expParameters)
+		throws Throwable {
 
 		HashMap<String, String> modifiableExpParameters = new HashMap<>();
 		modifiableExpParameters.putAll(expParameters);
 		Format dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-		if (modifiableExpParameters.get("fromDate") != null ) {
-			LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(expParameters.get("fromDate")));
-			modifiableExpParameters.put("fromDate", dateFormatter.format(stDate.toDate()).toString());
+		if (modifiableExpParameters.get("fromDate") != null) {
+			LocalDate stDate = LocalDate.now()
+				.plusDays(Integer.parseInt(expParameters.get("fromDate")));
+			modifiableExpParameters
+				.put("fromDate", dateFormatter.format(stDate.toDate()).toString());
 		}
-		if (modifiableExpParameters.get("toDate") != null ) {
-			LocalDate returnDate = LocalDate.now().plusDays(Integer.parseInt(expParameters.get("toDate")));
-			modifiableExpParameters.put("toDate", dateFormatter.format(returnDate.toDate()).toString());
+		if (modifiableExpParameters.get("toDate") != null) {
+			LocalDate returnDate = LocalDate.now()
+				.plusDays(Integer.parseInt(expParameters.get("toDate")));
+			modifiableExpParameters
+				.put("toDate", dateFormatter.format(returnDate.toDate()).toString());
 		}
 		for (Map.Entry<String, String> entry : modifiableExpParameters.entrySet()) {
-			Assert.assertEquals(entry.getValue() , apiRequestData.getFormData().get(entry.getKey()));
+			Assert.assertEquals(entry.getValue(), apiRequestData.getFormData().get(entry.getKey()));
 		}
 	}
 
 	@Then("^Validate that Package Overview screen is displayed")
 	public void isDisplayedPackageOverviewScreen() throws Throwable {
-		onView(allOf(withId(R.id.step_one_text), isDescendantOfA(withId(R.id.bundle_widget)))).perform(waitForViewToDisplay()).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.step_one_text), isDescendantOfA(withId(R.id.bundle_widget))))
+			.perform(waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 
 	@And("^Wait for checkout screen to load after createTrip")
 	public void waitForCheckoutToLoadAfterCreateTrip() throws Throwable {
-		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 10, TimeUnit.SECONDS);
+		EspressoUtils
+			.waitForViewNotYetInLayoutToDisplay(withId(R.id.checkout_button), 10, TimeUnit.SECONDS);
 	}
 
 	@Then("^Validate search form retains details of search for packages")
@@ -384,12 +448,14 @@ public class SearchScreenSteps {
 
 		String startDate = getDateInEEEMMMdd(expParameters.get("start_date"));
 		String endDate = getDateInEEEMMMdd(expParameters.get("end_date"));
-		String expectedCalendarDate = startDate + "  -  " + endDate + " " + expParameters.get("numberOfNights");
+		String expectedCalendarDate =
+			startDate + "  -  " + endDate + " " + expParameters.get("numberOfNights");
 
 		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
 		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
 		SearchScreen.calendarCard().check(matches(withText(expectedCalendarDate)));
-		SearchScreen.selectTravelerText().check(matches(withText(expParameters.get("totalTravelers"))));
+		SearchScreen.selectTravelerText()
+			.check(matches(withText(expParameters.get("totalTravelers"))));
 	}
 
 	@Then("^Validate search form default state for packages")
@@ -397,7 +463,8 @@ public class SearchScreenSteps {
 		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
 		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
 		SearchScreen.calendarCard().check(matches(withText(expParameters.get("calendar"))));
-		SearchScreen.selectTravelerText().check(matches(withText(expParameters.get("totalTravelers"))));
+		SearchScreen.selectTravelerText()
+			.check(matches(withText(expParameters.get("totalTravelers"))));
 	}
 
 	@Then("^Validate Search button is disabled")
@@ -407,8 +474,38 @@ public class SearchScreenSteps {
 
 	@Then("^Validate toolbar title is \"(.*?)\" for packages")
 	public void validate(String title) throws Throwable {
-		onView(withId(R.id.title)).check(matches(withText(title)));
+		onView(withId(R.id.title))
+			.check(matches(withText(bundleTitleToolBarText(BuildConfig.brand))));
 	}
+
+	private String bundleTitleToolBarText(String title) throws Throwable {
+
+		if (BuildConfig.brand == "Orbitz") {
+			return title = "Packages";
+		}
+		if (BuildConfig.brand == "CheapTickets") {
+			return title = "Packages";
+		}
+		if (BuildConfig.brand == "Travelocity") {
+			return title = "Vacation Packages";
+		}
+		if (BuildConfig.brand == "ebookers") {
+			return title = "Flight + Hotel";
+		}
+		if (BuildConfig.brand == "Wotif") {
+			return title = "Hotel + Flight Deals";
+		}
+		if (BuildConfig.brand == "LastMinute") {
+			return title = "Hotel + Flight Deals";
+		}
+		if (BuildConfig.brand == "AirAsiaGo") {
+			return title = "Hotel + Flight";
+		}
+		else {
+			return title = "Bundle Deals";
+		}
+	}
+
 
 	@And("^I click on source search button")
 	public void clickSourceSearchButton() throws Throwable {
