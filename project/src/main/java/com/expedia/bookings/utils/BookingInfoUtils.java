@@ -78,10 +78,10 @@ public class BookingInfoUtils {
 
 	public static int getCreditCardIcon(PaymentType type) {
 		type.assertIsCardOrPoints();
-		if (CREDIT_CARD_ICON.containsKey(type)) {
+		if (CREDIT_CARD_ICON.containsKey(type) && type != PaymentType.CARD_UNKNOWN) {
 			return CREDIT_CARD_ICON.get(type);
 		}
-		return R.drawable.generic;
+		return -1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

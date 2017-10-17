@@ -146,7 +146,7 @@ public class CurrencyUtils {
 		else if (type.contains("CarteBleue")) {
 			return PaymentType.CARD_CARTE_BLEUE;
 		}
-		else if (type.contains("CarteSi")) {
+		else if (type.contains("CartaSi")) {
 			return PaymentType.CARD_CARTA_SI;
 		}
 		else if (ProgramName.Companion.valueOf(type) != null) {

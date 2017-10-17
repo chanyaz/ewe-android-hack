@@ -142,10 +142,11 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     }
 
     private fun addCardInValidCardsList(paymentType: PaymentType) {
-        if (!paymentType.isPoints) {
-            val creditCardImage = ImageView(context)
-            creditCardImage.setTag(BookingInfoUtils.getCreditCardIcon(paymentType))
-            creditCardImage.setImageResource(BookingInfoUtils.getCreditCardIcon(paymentType))
+        val creditCardImage = ImageView(context)
+        val cardIcon = BookingInfoUtils.getCreditCardIcon(paymentType)
+        if (cardIcon != -1 && !isCreditCardInList(cardIcon)) {
+            creditCardImage.setTag(cardIcon)
+            creditCardImage.setImageResource(cardIcon)
             val padding = context.resources.getDimensionPixelOffset(R.dimen.default_margin)
             val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             params.setMargins(0, padding, padding, padding)
@@ -189,5 +190,15 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             val cardInList = (validCardsList.getChildAt(i) as ImageView)
             cardInList.setAlpha(AlphaCalculator.getAlphaValue(percentage = 100))
         }
+    }
+
+    private fun isCreditCardInList(cardIcon: Int): Boolean {
+        for (i in 0..validCardsList.childCount - 1) {
+            val cardInList = (validCardsList.getChildAt(i) as ImageView)
+            if (cardInList.tag == cardIcon) {
+                return true
+            }
+        }
+        return false
     }
 }

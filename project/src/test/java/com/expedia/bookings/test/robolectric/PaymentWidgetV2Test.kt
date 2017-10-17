@@ -295,12 +295,7 @@ class PaymentWidgetV2Test {
 
     @Test
     fun testMultipleValidCardsShown() {
-        val validFormsOfPayment = ArrayList<String>()
-        validFormsOfPayment.add("AmericanExpress")
-        validFormsOfPayment.add("CarteBleue")
-        validFormsOfPayment.add("Mastercard")
-        validFormsOfPayment.add("Maestro")
-        val response = getCreateTripResponseWithValidFormsOfPayment(validFormsOfPayment)
+        val response = getCreateTripResponseWithValidFormsOfPayment(createValidFormOfPaymentStringList())
         setupAndShowValidCardsList()
 
         sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
@@ -310,12 +305,7 @@ class PaymentWidgetV2Test {
 
     @Test
     fun testDimAllCardsExceptAmericanExpress() {
-        val validFormsOfPayment = ArrayList<String>()
-        validFormsOfPayment.add("AmericanExpress")
-        validFormsOfPayment.add("CarteBleue")
-        validFormsOfPayment.add("Mastercard")
-        validFormsOfPayment.add("Maestro")
-        val response = getCreateTripResponseWithValidFormsOfPayment(validFormsOfPayment)
+        val response = getCreateTripResponseWithValidFormsOfPayment(createValidFormOfPaymentStringList())
         setupAndShowValidCardsList()
 
         sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
@@ -329,12 +319,7 @@ class PaymentWidgetV2Test {
 
     @Test
     fun testDimNoCards() {
-        val validFormsOfPayment = ArrayList<String>()
-        validFormsOfPayment.add("AmericanExpress")
-        validFormsOfPayment.add("CarteBleue")
-        validFormsOfPayment.add("Mastercard")
-        validFormsOfPayment.add("Maestro")
-        val response = getCreateTripResponseWithValidFormsOfPayment(validFormsOfPayment)
+        val response = getCreateTripResponseWithValidFormsOfPayment(createValidFormOfPaymentStringList())
         setupAndShowValidCardsList()
 
         sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
@@ -345,12 +330,7 @@ class PaymentWidgetV2Test {
 
     @Test
     fun testCreditCardListStateWhenUnknowncardIsEntered() {
-        val validFormsOfPayment = ArrayList<String>()
-        validFormsOfPayment.add("AmericanExpress")
-        validFormsOfPayment.add("CarteBleue")
-        validFormsOfPayment.add("Mastercard")
-        validFormsOfPayment.add("Maestro")
-        val response = getCreateTripResponseWithValidFormsOfPayment(validFormsOfPayment)
+        val response = getCreateTripResponseWithValidFormsOfPayment(createValidFormOfPaymentStringList())
         setupAndShowValidCardsList()
 
         sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
@@ -360,6 +340,23 @@ class PaymentWidgetV2Test {
         sut.creditCardPostalCode.requestFocus()
 
         assertAllCardsAreNotDimmed()
+    }
+
+    @Test
+    fun testWhetherRightCreditCardIsInList() {
+
+        val validFormsOfPayment = createValidFormOfPaymentStringList()
+        validFormsOfPayment.add("Maestro")
+        validFormsOfPayment.add("AA")
+        val response = getCreateTripResponseWithValidFormsOfPayment(validFormsOfPayment)
+        setupAndShowValidCardsList()
+
+        sut.viewmodel.showValidCards.onNext(response.validFormsOfPayment)
+
+        assertEquals(4, sut.validCardsList.childCount)
+
+
+        assertCardTypeDisplayed(createValidFormOfPaymentList())
     }
 
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
@@ -491,4 +488,31 @@ class PaymentWidgetV2Test {
             assertEquals(AlphaCalculator.getAlphaValue(percentage = 100), cardInList.imageAlpha)
         }
     }
+
+    private  fun assertCardTypeDisplayed(validFormsOfPayment: ArrayList<PaymentType>) {
+        for (i in 0..(validCardsList.childCount - 1)) {
+            val cardInList = (validCardsList.getChildAt(i) as ImageView)
+            assertEquals(cardInList.tag, BookingInfoUtils.getCreditCardIcon(validFormsOfPayment.get(i)))
+        }
+    }
+
+    private fun createValidFormOfPaymentStringList(): ArrayList<String> {
+        val validFormsOfPayment = ArrayList<String>()
+        validFormsOfPayment.add("AmericanExpress")
+        validFormsOfPayment.add("CarteBleue")
+        validFormsOfPayment.add("MasterCard")
+        validFormsOfPayment.add("Maestro")
+        return validFormsOfPayment
+    }
+
+    private fun createValidFormOfPaymentList(): ArrayList<PaymentType> {
+        val validFormsOfPayment =  ArrayList<PaymentType>()
+        validFormsOfPayment.add(PaymentType.CARD_AMERICAN_EXPRESS)
+        validFormsOfPayment.add(PaymentType.CARD_CARTE_BLEUE)
+        validFormsOfPayment.add(PaymentType.CARD_MASTERCARD)
+        validFormsOfPayment.add(PaymentType.CARD_MAESTRO)
+        return validFormsOfPayment
+    }
+
 }
+
