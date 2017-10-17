@@ -75,6 +75,7 @@ import com.expedia.vm.hotel.HotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import java.util.Date
@@ -470,8 +471,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     fun onDestroyed() {
-        searchPresenter.shopWithPointsWidget.subscription.unsubscribe()
-        searchPresenter.shopWithPointsWidget.shopWithPointsViewModel.subscription.unsubscribe()
+        searchPresenter.shopWithPointsWidget.subscription.dispose()
+        searchPresenter.shopWithPointsWidget.shopWithPointsViewModel.subscription.dispose()
         hotelDetailViewModel.clearSubscriptions()
     }
 
@@ -974,14 +975,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             handleHotelIdSearch(params, goToResults = true)
         }
 
-        var subscription: Subscription? = null
+        var subscription: Disposable? = null
         handler.hotelIdToDetailsSubject.subscribe { params ->
             updateSearchForDeepLink(params)
             subscription = hotelInfoManager.infoSuccessSubject.subscribe { offerResponse ->
                 if (hotelSearchParams.suggestion.type == "HOTEL") {
                     searchPresenter.getSearchViewModel().locationTextObservable.onNext(offerResponse.hotelName)
                 }
-                subscription?.unsubscribe()
+                subscription?.dispose()
             }
             handleHotelIdSearch(params, goToResults = false)
         }

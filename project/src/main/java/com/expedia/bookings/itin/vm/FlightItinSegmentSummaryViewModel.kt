@@ -5,8 +5,8 @@ import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.squareup.phrase.Phrase
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.DateTime
-import rx.subjects.PublishSubject
 
 class FlightItinSegmentSummaryViewModel(private val context: Context) {
     data class SummaryWidgetParams(

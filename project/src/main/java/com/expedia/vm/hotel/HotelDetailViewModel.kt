@@ -12,6 +12,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelInfoManager
+import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -20,9 +21,9 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelDetailToolbarViewModel
 import com.squareup.phrase.Phrase
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 
 open class HotelDetailViewModel(context: Context,
@@ -32,7 +33,7 @@ open class HotelDetailViewModel(context: Context,
 
     private var swpEnabled = false
     private var cachedParams: HotelSearchParams? = null
-    private var apiSubscriptions = CompositeSubscription()
+    private var apiSubscriptions = CompositeDisposable()
 
     init {
         paramsSubject.subscribe { params ->
@@ -47,8 +48,8 @@ open class HotelDetailViewModel(context: Context,
             swpEnabled = params.shopWithPoints
         }
 
-        apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribe(hotelOffersSubject))
-        apiSubscriptions.add(hotelInfoManager.infoSuccessSubject.subscribe(hotelOffersSubject))
+        apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribeObserver(hotelOffersSubject))
+        apiSubscriptions.add(hotelInfoManager.infoSuccessSubject.subscribeObserver(hotelOffersSubject))
     }
 
     fun fetchOffers(params: HotelSearchParams, hotelId: String) {

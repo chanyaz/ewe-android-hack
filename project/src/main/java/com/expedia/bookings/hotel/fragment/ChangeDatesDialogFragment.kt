@@ -3,20 +3,21 @@ package com.expedia.bookings.hotel.fragment
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
-import android.support.v4.app.DialogFragment
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
+import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
-import com.expedia.bookings.R
-import com.expedia.bookings.hotel.widget.HotelChangeDateCalendarPicker
-import org.joda.time.LocalDate
 import android.view.ViewGroup
 import android.view.Window
+import com.expedia.bookings.R
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
+import com.expedia.bookings.hotel.widget.HotelChangeDateCalendarPicker
 import com.expedia.bookings.widget.TextView
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
+import org.joda.time.LocalDate
 
 class ChangeDatesDialogFragment() : DialogFragment() {
     val datesChangedSubject = PublishSubject.create<Pair<LocalDate, LocalDate>>()

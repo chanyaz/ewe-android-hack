@@ -48,7 +48,7 @@ public class AbacusServices {
 
 	public void downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer, long timeout,
 		TimeUnit timeUnit) {
-		return api.evaluateExperiments(query.guid, query.eapid, query.tpid, query.getEvaluatedExperiments())
+		api.evaluateExperiments(query.guid, query.eapid, query.tpid, query.getEvaluatedExperiments())
 			.observeOn(observeOn)
 			.subscribeOn(subscribeOn)
 			.timeout(timeout, timeUnit)
@@ -64,13 +64,13 @@ public class AbacusServices {
 
 	private final static Observer<AbacusLogResponse> emptyObserver = new DisposableObserver<AbacusLogResponse>() {
 		@Override
-		public void onError(Throwable e) {
+		public void onComplete() {
 			//Ignore
 		}
 
 		@Override
-		public void onComplete() {
-
+		public void onError(Throwable e) {
+			//Ignore
 		}
 
 		@Override

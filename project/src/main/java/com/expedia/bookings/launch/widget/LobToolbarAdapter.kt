@@ -14,7 +14,7 @@ import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.PackageUtil
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class LobToolbarAdapter(val defaultLob: LineOfBusiness) : RecyclerView.Adapter<LobToolbarAdapter.LobTabViewHolder>() {
     val toolbarItemClickedSubject = PublishSubject.create<LineOfBusiness>()

@@ -5,8 +5,8 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitUtils
-import rx.Observer
-import rx.subjects.PublishSubject
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
 open class HotelInfoManager(private val hotelServices: HotelServices) {
 
@@ -26,41 +26,37 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
         hotelServices.info(params, hotelId, infoObserver)
     }
 
-    private val offersObserver = object : Observer<HotelOffersResponse> {
-        override fun onNext(response: HotelOffersResponse?) {
-            response?.let { response ->
-                if (response.hasErrors()
-                        && response.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
-                    soldOutSubject.onNext(Unit)
-                } else if (!response.hasErrors()) {
-                    offerSuccessSubject.onNext(response)
-                }
+    private val offersObserver = object : DisposableObserver<HotelOffersResponse>() {
+        override fun onNext(response: HotelOffersResponse) {
+            if (response.hasErrors()
+                    && response.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
+                soldOutSubject.onNext(Unit)
+            } else if (!response.hasErrors()) {
+                offerSuccessSubject.onNext(response)
             }
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             if (RetrofitUtils.isNetworkError(e)) {
                 offersNoInternetSubject.onNext(Unit)
             }
         }
     }
 
-    private val infoObserver = object : Observer<HotelOffersResponse> {
-        override fun onNext(response: HotelOffersResponse?) {
-            response?.let { response ->
-                if (!response.hasErrors()) {
-                    infoSuccessSubject.onNext(response)
-                }
+    private val infoObserver = object : DisposableObserver<HotelOffersResponse>() {
+        override fun onNext(response: HotelOffersResponse) {
+            if (!response.hasErrors()) {
+                infoSuccessSubject.onNext(response)
             }
         }
 
-        override fun onCompleted() {
+        override fun onComplete() {
         }
 
-        override fun onError(e: Throwable?) {
+        override fun onError(e: Throwable) {
             if (RetrofitUtils.isNetworkError(e)) {
                 infoNoInternetSubject.onNext(Unit)
             }

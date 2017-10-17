@@ -36,6 +36,7 @@ import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.StrUtils
@@ -69,18 +70,6 @@ import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import java.util.Date
 import javax.inject.Inject
-import com.expedia.bookings.widget.shared.WebCheckoutView
-import com.expedia.vm.FlightWebCheckoutViewViewModel
-import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Constants
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.safeSubscribeOptional
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.updateVisibility
-import com.expedia.util.Optional
-import com.expedia.util.subscribeVisibility
-import com.mobiata.android.Log
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
