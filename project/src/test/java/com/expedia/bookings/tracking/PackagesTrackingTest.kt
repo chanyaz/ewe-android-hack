@@ -12,12 +12,14 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.vm.BaseFlightFilterViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import java.util.Locale
 
 //TODO : Add corresponding test case for any new method in PackageTracking
 @RunWith(RobolectricRunner::class)
@@ -26,6 +28,9 @@ class PackagesTrackingTest {
     private lateinit var sut: PackagesTracking
     private lateinit var context: Context
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
+
+    private val dummyPageStartTime = 1509344185763L
+    private val dummyPageEndTime = 1509344186900L
 
     @Before
     fun before() {
@@ -93,9 +98,11 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackDestinationSearchInit() {
-        sut.trackDestinationSearchInit()
-        val controlEvar = mapOf(18 to "App.Package.Dest-Search")
+        val pageName = "App.Package.Dest-Search"
+        sut.trackDestinationSearchInit(getDummyPageUsableData())
+        val controlEvar = mapOf(18 to pageName)
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(pageName, OmnitureMatchers.withEventsString("event220,event221=" + getDummyPageLoadTime()), mockAnalyticsProvider)
     }
 
     @Test
@@ -141,17 +148,21 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightRoundTripLoadWhenOutBound() {
-        sut.trackFlightRoundTripLoad(true, getDummyPackageSearchParams())
+        val pageName = "App.Package.Flight.Search.Roundtrip.Out"
+        sut.trackFlightRoundTripLoad(true, getDummyPackageSearchParams(), getDummyPageUsableData())
         val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(pageName, OmnitureMatchers.withEventsString("event220,event221=" + getDummyPageLoadTime()), mockAnalyticsProvider)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightRoundTripLoadWhenInBound() {
-        sut.trackFlightRoundTripLoad(false, getDummyPackageSearchParams())
+        val pageName = "App.Package.Flight.Search.Roundtrip.In"
+        sut.trackFlightRoundTripLoad(false, getDummyPackageSearchParams(), getDummyPageUsableData())
         val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(pageName, OmnitureMatchers.withEventsString("event220,event221=" + getDummyPageLoadTime()), mockAnalyticsProvider)
     }
 
     @Test
@@ -253,10 +264,12 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelDetailLoad() {
-        sut.trackHotelDetailLoad("1")
-        val controlEvar = mapOf(18 to "App.Package.Hotels.Infosite",
+        val pageName = "App.Package.Hotels.Infosite"
+        sut.trackHotelDetailLoad("1", getDummyPageUsableData())
+        val controlEvar = mapOf(18 to pageName,
                 61 to "1")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(pageName, OmnitureMatchers.withEventsString("event3,event220,event221=" + getDummyPageLoadTime()), mockAnalyticsProvider)
     }
 
     @Test
@@ -565,6 +578,18 @@ class PackagesTrackingTest {
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
+    }
+
+    private fun getDummyPageUsableData(): PageUsableData {
+        val pageUsableData = PageUsableData()
+        pageUsableData.markPageLoadStarted(dummyPageStartTime)
+        pageUsableData.markAllViewsLoaded(dummyPageEndTime)
+        return pageUsableData
+    }
+
+    private fun getDummyPageLoadTime(): String {
+        val loadTimeMillis = (dummyPageEndTime - dummyPageStartTime) / 1000f
+        return String.format(Locale.US, "%.2f", loadTimeMillis)
     }
 
     private fun getDummySuggestion(code: String): SuggestionV4 {

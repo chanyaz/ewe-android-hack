@@ -4148,41 +4148,42 @@ public class OmnitureTracking {
 		s.setProducts(productString.toString());
 	}
 
-	private static ADMS_Measurement createTrackPackagePageLoadEventBase(String pageName) {
+	private static ADMS_Measurement createTrackPackagePageLoadEventBase(String pageName, PageUsableData pageUsableData) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, PACKAGES_LOB);
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		return s;
 	}
 
-	private static void trackPackagePageLoadEventStandard(String pageName) {
+	private static void trackPackagePageLoadEventStandard(String pageName, PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		createTrackPackagePageLoadEventBase(pageName).track();
+		createTrackPackagePageLoadEventBase(pageName, pageUsableData).track();
 	}
 
-	private static void trackPackagePageLoadEventStandard(String pageName, ABTest... abTests) {
+	private static void trackPackagePageLoadEventStandard(String pageName, PageUsableData pageUsableData, ABTest... abTests) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName, pageUsableData);
 		for (ABTest testKey : abTests) {
 			trackAbacusTest(s, testKey);
 		}
 		s.track();
 	}
 
-	public static void trackPackagesDestinationSearchInit() {
+	public static void trackPackagesDestinationSearchInit(PageUsableData pageUsableData) {
 		if (isMidAPIEnabled(sContext)) {
-			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesMidApi);
+			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, AbacusUtils.EBAndroidAppPackagesMidApi);
 		}
 		else {
-			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH);
+			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData);
 		}
 	}
 
 	public static void trackPackagesHSRMapInit() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_SEARCH_MAP_LOAD);
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_SEARCH_MAP_LOAD, null);
 	}
 
-	public static void trackPackagesHSRLoad(BundleSearchResponse response) {
+	public static void trackPackagesHSRLoad(BundleSearchResponse response, PageUsableData pageUsableData) {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		if (response.getHotelResultsCount() > 0) {
@@ -4231,6 +4232,7 @@ public class OmnitureTracking {
 			if (!TextUtils.isEmpty(Db.getPackageParams().getDestination().regionNames.fullName)) {
 				s.setEvar(48, Db.getPackageParams().getDestination().regionNames.fullName);
 			}
+			addPageLoadTimeTrackingEvents(s, pageUsableData);
 		}
 		else {
 			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD + "\"");
@@ -4270,11 +4272,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesPaymentSelect() {
-		trackPackagePageLoadEventStandard(PACKAGES_CHECKOUT_PAYMENT_SELECT);
+		trackPackagePageLoadEventStandard(PACKAGES_CHECKOUT_PAYMENT_SELECT, null);
 	}
 
 	public static void trackPackagesPaymentEdit() {
-		trackPackagePageLoadEventStandard(PACKAGES_CHECKOUT_PAYMENT_EDIT);
+		trackPackagePageLoadEventStandard(PACKAGES_CHECKOUT_PAYMENT_EDIT, null);
 	}
 
 	public static void trackPackagesPaymentStoredCCSelect() {
@@ -4284,7 +4286,7 @@ public class OmnitureTracking {
 	public static void trackPackagesConfirmation(PackageCheckoutResponse response, String hotelSupplierType,
 		PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION + "\" pageLoad");
-		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION);
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION, null);
 		setPackageProducts(s, response.getTotalChargesPrice().amount.doubleValue(), true, true, hotelSupplierType);
 		s.setCurrencyCode(response.getTotalChargesPrice().currencyCode);
 		s.setEvents("purchase");
@@ -4297,32 +4299,36 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static void trackPackagesPageLoadWithDPageName(String pageName) {
+	private static void trackPackagesPageLoadWithDPageName(String pageName, PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName, null);
 		s.setEvar(18, "D=pageName");
+		if (pageUsableData != null) {
+			addPageLoadTimeTrackingEvents(s, pageUsableData);
+		}
 		s.track();
 	}
 
-	public static void trackPackagesFlightRoundTripOutLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_RESULTS);
+	public static void trackPackagesFlightRoundTripOutLoad(PageUsableData pageUsableData) {
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_RESULTS, pageUsableData);
 	}
 
 	public static void trackPackagesFlightRoundTripOutDetailsLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_DETAILS);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, null);
 	}
 
-	public static void trackPackagesFlightRoundTripInLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_RESULTS);
+	public static void trackPackagesFlightRoundTripInLoad(PageUsableData pageUsableData) {
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_RESULTS, pageUsableData);
 	}
 
 	public static void trackPackagesFlightRoundTripInDetailsLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_DETAILS);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_IN_DETAILS, null);
 	}
 
-	public static void trackPackagesHotelInfoLoad(String hotelId) {
-		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_HOTEL_DETAILS_LOAD);
+	public static void trackPackagesHotelInfoLoad(String hotelId, PageUsableData pageUsableData) {
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_HOTEL_DETAILS_LOAD, null);
 		s.setEvents("event3");
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		String product = ";Hotel:" + hotelId + ";;";
 		s.setProducts(product);
 		s.track();
@@ -4357,7 +4363,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelReviewPageLoad() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_REVIEWS);
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_REVIEWS, null);
 	}
 
 	public static void trackPackagesHotelReviewCategoryChange(String category) {
@@ -4366,24 +4372,25 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelResortFeeInfo() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO);
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RESORT_FEE_INFO, null);
 	}
 
 	public static void trackPackagesHotelRenovationInfo() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO);
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_RENOVATION_INFO, null);
 	}
 
 	public static void trackPackagesViewBundleLoad() {
-		trackPackagePageLoadEventStandard(PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD);
+		trackPackagePageLoadEventStandard(PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD, null);
 	}
 
-	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails) {
+	public static void trackPackagesBundlePageLoad(PackageCreateTripResponse.PackageDetails packageDetails, PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_BUNDLE_OVERVIEW_LOAD + "\"");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_BUNDLE_OVERVIEW_LOAD);
 		addPackagesCommonFields(s);
 		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue());
 		s.setEvents("event4");
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		s.track();
 	}
 
@@ -4407,7 +4414,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesFlightSortFilterLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_FLIGHT_SORT_FILTER_LOAD);
+		trackPackagesPageLoadWithDPageName(PACKAGES_FLIGHT_SORT_FILTER_LOAD, null);
 	}
 
 	public static void trackPackagesFlightSortBy(String sortedBy) {
@@ -4435,7 +4442,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelMapViewClick() {
-		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_MAP);
+		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_DETAILS_MAP, null);
 	}
 
 	public static void trackPackagesHotelMapSelectRoomClick() {
@@ -4489,7 +4496,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelFilterPageLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTELS_SEARCH_REFINE);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTELS_SEARCH_REFINE, null);
 	}
 
 	public static void trackPackagesHotelFilterRating(String rating) {
@@ -5271,7 +5278,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPaymentSelect() {
-		trackPackagePageLoadEventStandard(FLIGHTS_V2_CHECKOUT_PAYMENT_SELECT);
+		trackPackagePageLoadEventStandard(FLIGHTS_V2_CHECKOUT_PAYMENT_SELECT, null);
 	}
 
 	public static void trackFlightShowSlideToPurchase(String cardType, String flexStatus) {

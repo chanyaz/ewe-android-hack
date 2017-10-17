@@ -19,12 +19,12 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesCheckoutStart(packageDetails, hotelSupplierType)
     }
 
-    fun trackDestinationSearchInit() {
-        OmnitureTracking.trackPackagesDestinationSearchInit()
+    fun trackDestinationSearchInit(pageUsableData: PageUsableData) {
+        OmnitureTracking.trackPackagesDestinationSearchInit(pageUsableData)
     }
 
-    fun trackHotelSearchResultLoad(response: BundleSearchResponse) {
-        OmnitureTracking.trackPackagesHSRLoad(response)
+    fun trackHotelSearchResultLoad(response: BundleSearchResponse, pageUsableData: PageUsableData) {
+        OmnitureTracking.trackPackagesHSRLoad(response, pageUsableData)
         TuneUtils.trackPackageHotelSearchResults(response)
     }
 
@@ -94,13 +94,13 @@ class PackagesTracking {
         CarnivalUtils.getInstance().trackPackagesConfirmation(packageParams)
     }
 
-    fun trackFlightRoundTripLoad(isOutBound: Boolean, packageParams: PackageSearchParams) {
+    fun trackFlightRoundTripLoad(isOutBound: Boolean, packageParams: PackageSearchParams, pageUsableData: PageUsableData) {
         if (isOutBound) {
-            OmnitureTracking.trackPackagesFlightRoundTripOutLoad()
+            OmnitureTracking.trackPackagesFlightRoundTripOutLoad(pageUsableData)
             TuneUtils.trackPackageOutBoundResults(packageParams)
         }
         else
-            OmnitureTracking.trackPackagesFlightRoundTripInLoad()
+            OmnitureTracking.trackPackagesFlightRoundTripInLoad(pageUsableData)
     }
 
     fun trackFlightRoundTripDetailsLoad(isOutBound: Boolean) {
@@ -110,8 +110,8 @@ class PackagesTracking {
             OmnitureTracking.trackPackagesFlightRoundTripInDetailsLoad()
     }
 
-    fun trackHotelDetailLoad(hotelId: String) {
-        OmnitureTracking.trackPackagesHotelInfoLoad(hotelId)
+    fun trackHotelDetailLoad(hotelId: String, pageUsableData: PageUsableData) {
+        OmnitureTracking.trackPackagesHotelInfoLoad(hotelId, pageUsableData)
     }
 
     fun trackHotelDetailBookPhoneClick() {
@@ -152,8 +152,8 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesViewBundleLoad()
     }
 
-    fun trackBundleOverviewPageLoad(packageDetails: PackageCreateTripResponse.PackageDetails) {
-        OmnitureTracking.trackPackagesBundlePageLoad(packageDetails)
+    fun trackBundleOverviewPageLoad(packageDetails: PackageCreateTripResponse.PackageDetails, pageUsableData: PageUsableData) {
+        OmnitureTracking.trackPackagesBundlePageLoad(packageDetails, pageUsableData)
     }
 
     fun trackBundleOverviewHotelExpandClick(isExpanding: Boolean) {

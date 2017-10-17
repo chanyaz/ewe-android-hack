@@ -11,6 +11,7 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -33,6 +34,7 @@ import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
+
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
     val changeHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
     val changeHotelRoom by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
@@ -262,7 +264,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
         createTripResponse as PackageCreateTripResponse
-        PackagesTracking().trackBundleOverviewPageLoad(createTripResponse.packageDetails)
+        PackagesPageUsableData.RATE_DETAILS.pageUsableData.markAllViewsLoaded()
+        PackagesTracking().trackBundleOverviewPageLoad(createTripResponse.packageDetails, PackagesPageUsableData.RATE_DETAILS.pageUsableData)
     }
 
     override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {

@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
@@ -33,7 +34,6 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
@@ -201,6 +201,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
         searchPresenter.searchViewModel = PackageSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
+            PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markPageLoadStarted()
             // Starting a new search clear previous selection
             Db.clearPackageSelection()
             travelerManager.updateDbTravelers(params)
@@ -288,6 +289,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
+            PackagesPageUsableData.SEARCH.pageUsableData.markAllViewsLoaded()
             trackSearchPageLoad()
         }
     }
@@ -413,7 +415,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     }
 
     fun trackSearchPageLoad() {
-        PackagesTracking().trackDestinationSearchInit()
+        PackagesTracking().trackDestinationSearchInit(PackagesPageUsableData.SEARCH.pageUsableData)
     }
 
     fun trackViewBundlePageLoad() {

@@ -16,6 +16,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
@@ -24,6 +25,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.SlidingBundleWidget
@@ -208,7 +210,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun trackFlightResultsLoad() {
-        PackagesTracking().trackFlightRoundTripLoad(Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false, Db.getPackageParams())
+        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
+        PackagesTracking().trackFlightRoundTripLoad(isOutboundSearch, Db.getPackageParams(), if (isOutboundSearch) PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData else PackagesPageUsableData.FLIGHT_INBOUND.pageUsableData)
     }
 
     private val backFlowDefaultTransition = object : DefaultTransition(FlightResultsListViewPresenter::class.java.name) {

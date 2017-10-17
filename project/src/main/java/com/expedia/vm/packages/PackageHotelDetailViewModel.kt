@@ -7,6 +7,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.tracking.PackagesTracking
@@ -115,7 +116,7 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
     }
 
     override fun trackHotelDetailLoad(isRoomSoldOut: Boolean) {
-        PackagesTracking().trackHotelDetailLoad(hotelOffersResponse.hotelId)
+        PackagesTracking().trackHotelDetailLoad(hotelOffersResponse.hotelId, PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData)
     }
 
     override fun trackHotelDetailGalleryClick() {

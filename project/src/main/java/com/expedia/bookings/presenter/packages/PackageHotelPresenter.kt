@@ -26,6 +26,7 @@ import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.dialog.DialogFactory
@@ -123,7 +124,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView)
 
         val detailsViewModel = PackageHotelDetailViewModel(context)
-
         detailsViewModel.roomSelectedSubject.subscribe(selectedRoomObserver)
         detailsViewModel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         detailsViewModel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
@@ -193,6 +193,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
 
         Observable.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, trackEvent -> packageSearchResponse }).subscribe {
+            PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markAllViewsLoaded()
             trackSearchResult(it)
         }
     }
@@ -243,6 +244,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
+        PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData.markPageLoadStarted()
         selectedPackageHotel = hotel
         val params = Db.getPackageParams()
         params.hotelId = hotel.hotelId
@@ -312,6 +314,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                     detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
                     show(detailPresenter)
                     detailPresenter.showDefault()
+                    PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData.markAllViewsLoaded()
                 }
         ).subscribe(makeErrorSubscriber(true))
     }
@@ -478,7 +481,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private fun trackSearchResult(response: BundleSearchResponse) {
-        PackagesTracking().trackHotelSearchResultLoad(response)
+        PackagesTracking().trackHotelSearchResultLoad(response, PackagesPageUsableData.HOTEL_RESULTS.pageUsableData)
     }
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {

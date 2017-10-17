@@ -17,11 +17,11 @@ open class PageUsableData {
         return null
     }
 
-    fun markPageLoadStarted(time: Long) {
+    fun markPageLoadStarted(time: Long = System.currentTimeMillis()) {
         pageLoadStartedMillis = time
     }
 
-    fun markAllViewsLoaded(time: Long) {
+    fun markAllViewsLoaded(time: Long = System.currentTimeMillis()) {
         viewsUsableTimeMillis = time
     }
 

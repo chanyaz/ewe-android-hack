@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.PackageBundleHotelWidget
@@ -15,7 +16,6 @@ import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.BundleHotelViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -82,8 +82,10 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         vm.flightResultsObservable.subscribe { searchType ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 outboundFlightWidget.handleResultsLoaded()
+                PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData.markAllViewsLoaded()
             } else {
                 inboundFlightWidget.handleResultsLoaded()
+                PackagesPageUsableData.FLIGHT_INBOUND.pageUsableData.markAllViewsLoaded()
             }
         }
         vm.stepOneTextObservable.subscribeText(stepOneText)

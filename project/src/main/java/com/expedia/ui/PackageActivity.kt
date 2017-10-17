@@ -9,6 +9,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
+import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
@@ -30,6 +31,7 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        PackagesPageUsableData.SEARCH.pageUsableData.markPageLoadStarted()
         Ui.getApplication(this).defaultPackageComponents()
         Ui.getApplication(this).defaultTravelerComponent()
         setContentView(R.layout.package_activity)
@@ -98,6 +100,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     } else {
                         //is is change hotel search, call createTrip, otherwise start outbound flight search
                         if (!Db.getPackageParams().isChangePackageSearch()) {
+                            PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData.markPageLoadStarted()
                             packageFlightSearch()
                             val intent = Intent(this, PackageHotelActivity::class.java)
                             intent.putExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM, true)
@@ -114,6 +117,7 @@ class PackageActivity : AbstractAppCompatActivity() {
             }
             Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
+                    PackagesPageUsableData.FLIGHT_INBOUND.pageUsableData.markPageLoadStarted()
                     packageFlightSearch()
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
@@ -134,6 +138,7 @@ class PackageActivity : AbstractAppCompatActivity() {
             Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
                     if (!Db.getPackageParams().isChangePackageSearch()) {
+                        PackagesPageUsableData.RATE_DETAILS.pageUsableData.markPageLoadStarted()
                         val intent = Intent(this, PackageFlightActivity::class.java)
                         intent.putExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT, true)
                         intent.putExtra(Constants.REQUEST, Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE)
