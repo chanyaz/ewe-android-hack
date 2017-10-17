@@ -90,7 +90,6 @@
     <color name="data_review_gray">@color/gray700</color>
     <color name="dialog_background_light">#F5F5F5</color>
     <color name="roboto_light">#fff3f3f3</color>
-    <color name="flights_holo_blue_light">#ff33b5e5</color>
     <color name="spinner_airport">@color/white</color>
     <color name="spinner_airport_details">#777777</color>
     <color name="flight_free_cancellation_text_color">#FFE980</color>
@@ -375,6 +374,7 @@
     <color name="packages_total_duration_text">@color/white_70</color>
     <color name="flights_error_message_infants">@color/error_red</color>
     <color name="flights_cabin_class_radio_button_color">#6A6A6A</color>
+    <color name="packages_dialog_gray_color">#4A4A4A</color>
 
     <!--Rail colors-->
     <color name="rail_primary_color">@color/blue2</color>

@@ -21,13 +21,13 @@
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:text="@string/expiration_date"
-            android:textColor="@color/flights_holo_blue_light"
+            android:textColor="@color/packages_dialog_gray_color"
             android:textSize="22sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/flights_holo_blue_light" />
+            android:background="@color/packages_dialog_gray_color" />
     </LinearLayout>
 
     <com.expedia.bookings.widget.ExpirationPicker
