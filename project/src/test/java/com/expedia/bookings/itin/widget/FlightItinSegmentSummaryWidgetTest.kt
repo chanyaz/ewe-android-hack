@@ -58,4 +58,26 @@ class FlightItinSegmentSummaryWidgetTest {
         assertEquals("San Francisco (SFO)", sut.departureAirport.text.toString())
         assertEquals("Las Vegas (LAS)", sut.arrivalAirport.text.toString())
     }
+
+    @Test
+    fun testTerminalGateNullOrEmpty() {
+        sut.viewModel.updateTerminalGateSubject.onNext(FlightItinSegmentSummaryViewModel.TerminalGateParams(
+                null,
+                ""
+        ))
+        assertEquals(View.GONE, sut.departureTerminalGate.visibility)
+        assertEquals(View.GONE, sut.arrivalTerminalGate.visibility)
+    }
+
+    @Test
+    fun testTerminalGate() {
+        sut.viewModel.updateTerminalGateSubject.onNext(FlightItinSegmentSummaryViewModel.TerminalGateParams(
+                "Terminal 3, Gate 12A",
+                "Terminal 12"
+        ))
+        assertEquals(View.VISIBLE, sut.departureTerminalGate.visibility)
+        assertEquals(View.VISIBLE, sut.arrivalTerminalGate.visibility)
+        assertEquals("Terminal 3, Gate 12A", sut.departureTerminalGate.text.toString())
+        assertEquals("Terminal 12", sut.arrivalTerminalGate.text.toString())
+    }
 }

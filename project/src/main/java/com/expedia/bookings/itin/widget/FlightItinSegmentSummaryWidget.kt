@@ -15,25 +15,29 @@ import com.squareup.picasso.Picasso
 
 class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     val airlineLogo: ImageView by bindView(R.id.flight_itin_airline_logo)
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     val airlineNameAndNumber: TextView by bindView(R.id.flight_itin_airline_name)
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     val operatedByAirlines: TextView by bindView(R.id.flight_itin_airline_operated_by)
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     val departureTime: TextView by bindView(R.id.flight_itin_departure_time)
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     val departureAirport: TextView by bindView(R.id.flight_itin_departure_airport)
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     val arrivalTime: TextView by bindView(R.id.flight_itin_arrival_time)
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     val arrivalAirport: TextView by bindView(R.id.flight_itin_arrival_airport)
+    @VisibleForTesting
+    val departureTerminalGate: TextView by bindView(R.id.flight_itin_departure_terminal_gate)
+    @VisibleForTesting
+    val arrivalTerminalGate: TextView by bindView(R.id.flight_itin_arrival_terminal_gate)
 
     var viewModel: FlightItinSegmentSummaryViewModel by notNullAndObservable { vm ->
         vm.createAirlineWidgetSubject.subscribe { params ->
-            if (params.airlineLogoURL != null) {
+            if (!params.airlineLogoURL.isNullOrEmpty()) {
                 Picasso.with(context).load(params.airlineLogoURL).into(airlineLogo)
             } else {
                 airlineLogo.setImageResource(R.drawable.ic_plane_icon_placeholder_android)
@@ -50,6 +54,17 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
             arrivalTime.text = params.arrivalTime
             departureAirport.text = params.departureAirport
             arrivalAirport.text = params.arrivalAirport
+        }
+
+        vm.updateTerminalGateSubject.subscribe { params ->
+            if (!params.departureTerminalGate.isNullOrEmpty()) {
+                departureTerminalGate.visibility = View.VISIBLE
+                departureTerminalGate.text = params.departureTerminalGate
+            }
+            if (!params.arrivalTerminalGate.isNullOrEmpty()) {
+                arrivalTerminalGate.visibility = View.VISIBLE
+                arrivalTerminalGate.text = params.arrivalTerminalGate
+            }
         }
     }
 

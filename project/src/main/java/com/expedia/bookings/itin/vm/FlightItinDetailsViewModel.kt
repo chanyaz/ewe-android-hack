@@ -6,6 +6,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.utils.FormatUtils
 import rx.subjects.PublishSubject
 
@@ -26,7 +27,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         updateConfirmationWidget()
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     fun updateItinCardDataFlight() {
         val freshItinCardDataFlight = itineraryManager.getItinCardDataFromItinId(itinId) as ItinCardDataFlight?
         if (freshItinCardDataFlight == null) {
@@ -35,6 +36,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
             itinCardDataFlight = freshItinCardDataFlight
         }
     }
+
     fun updateConfirmationWidget() {
         val confirmationStatus = itinCardDataFlight.confirmationStatus
         val confirmationNumbers = itinCardDataFlight.getSpannedConfirmationNumbers(context)
@@ -47,7 +49,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(destinationCity, startDate, !itinCardDataFlight.isSharedItin))
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     fun updateLegSummaryWidget() {
         clearLegSummaryContainerSubject.onNext(Unit)
         val leg = itinCardDataFlight.flightLeg
@@ -65,6 +67,10 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                         operatedBy = operatingFlightCode.mAirlineName
                     }
                 }
+
+                val (departureTerminal, departureGate) = getTerminalAndGate(segment.originWaypoint, segment.departureTerminal)
+                val (arrivalTerminal, arrivalGate) = getTerminalAndGate(segment.destinationWaypoint, segment.arrivalTerminal)
+
                 createSegmentSummaryWidgetsSubject.onNext(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
                         leg.airlineLogoURL,
                         FormatUtils.formatFlightNumber(segment, context),
@@ -74,9 +80,26 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                         segment.originWaypoint.airport.mAirportCode ?: "",
                         segment.originWaypoint.airport.mCity ?: "",
                         segment.destinationWaypoint.airport.mAirportCode ?: "",
-                        segment.destinationWaypoint.airport.mCity ?: ""
+                        segment.destinationWaypoint.airport.mCity ?: "",
+                        departureTerminal,
+                        departureGate,
+                        arrivalTerminal,
+                        arrivalGate
                 ))
             }
+        }
+    }
+
+    @VisibleForTesting
+    fun getTerminalAndGate(wayPoint: Waypoint, fallback: String?): Pair<String?, String?> {
+        return if (wayPoint.terminal.isNullOrEmpty() && wayPoint.gate.isNullOrEmpty()) {
+            Pair(fallback, null)
+        } else if (wayPoint.terminal.isNullOrEmpty()) {
+            Pair(null, wayPoint.gate)
+        } else if (wayPoint.gate.isNullOrEmpty()) {
+            Pair(wayPoint.terminal, null)
+        } else {
+            Pair(wayPoint.terminal, wayPoint.gate)
         }
     }
 }

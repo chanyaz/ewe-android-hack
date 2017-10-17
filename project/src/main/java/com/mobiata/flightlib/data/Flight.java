@@ -66,6 +66,8 @@ public class Flight implements Comparable<Flight>, JSONable {
 	public String mBaggageClaim;
 	public int mDistanceToTravel = -1;
 	private int mDistanceTraveled = -1;
+	private String departureTerminal;
+	private String arrivalTerminal;
 
 	// FlightStats data
 	public int mFlightHistoryId = -1;
@@ -136,6 +138,24 @@ public class Flight implements Comparable<Flight>, JSONable {
 			return mFlightCodes.get(mOperatingAirlineCode);
 		}
 		return null;
+	}
+
+	@Nullable
+	public String getDepartureTerminal() {
+		return departureTerminal;
+	}
+
+	public void setDepartureTerminal(String terminal) {
+		departureTerminal = terminal;
+	}
+
+	@Nullable
+	public String getArrivalTerminal() {
+		return arrivalTerminal;
+	}
+
+	public void setArrivalTerminal(String terminal) {
+		arrivalTerminal = terminal;
 	}
 
 	/**
@@ -478,6 +498,9 @@ public class Flight implements Comparable<Flight>, JSONable {
 			obj.putOpt("searchMode", mSearchMode);
 
 			obj.putOpt("uniqueFlightId", mUniqueFlightId);
+
+			obj.putOpt("departureTerminal", departureTerminal);
+			obj.putOpt("arrivalTerminal", arrivalTerminal);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -583,6 +606,9 @@ public class Flight implements Comparable<Flight>, JSONable {
 			mSearchMode = obj.optInt("searchMode", SEARCH_MODE_ROUTE);
 
 			mUniqueFlightId = obj.optString("uniqueFlightId", null);
+
+			departureTerminal = obj.optString("departureTerminal", null);
+			arrivalTerminal = obj.optString("arrivalTerminal", null);
 
 			return true;
 		}

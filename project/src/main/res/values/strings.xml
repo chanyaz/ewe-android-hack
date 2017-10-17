@@ -1405,6 +1405,10 @@
     <string name="itin_flight_summary_airport_name_code_TEMPLATE">{city} ({code})</string>
     <!--Flight itin summary widget operated by template. Operated by {operatedby} (e.g., Operated by Delta)-->
     <string name="itin_flight_summary_operated_by_TEMPLATE">Operated by {operatedby}</string>
+    <!-- Flight itin summary widget terminal template. Terminal {terminal} (e.g., Terminal 1)-->
+    <string name="itin_flight_summary_terminal_TEMPLATE">Terminal {terminal}</string>
+    <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
+    <string name="itin_flight_summary_gate_TEMPLATE">Gate {gate}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

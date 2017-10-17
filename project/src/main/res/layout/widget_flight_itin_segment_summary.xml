@@ -97,10 +97,22 @@
                     android:id="@+id/flight_itin_departure_airport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="6dp"
                     android:textColor="@color/gray600"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="Seattle (SEA)" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_itin_departure_terminal_gate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray600"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    android:visibility="gone"
+                    tools:text="Terminal 11"
+                    tools:visibility="visible" />
             </LinearLayout>
 
             <ImageView
@@ -134,8 +146,7 @@
                     android:id="@+id/flight_itin_arrival_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:paddingBottom="4dp"
+                    android:paddingBottom="6dp"
                     android:textColor="@color/gray900"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -145,10 +156,22 @@
                     android:id="@+id/flight_itin_arrival_airport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="6dp"
                     android:textColor="@color/gray600"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     tools:text="San Francisco (SFO)" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_itin_arrival_terminal_gate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray600"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    android:visibility="gone"
+                    tools:text="Terminal 12"
+                    tools:visibility="visible" />
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
 
