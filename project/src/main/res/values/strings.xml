@@ -3744,13 +3744,19 @@
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$dh %2$dm</string>
-    <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
+    <!-- Flight min duration template e.g. 42m -->
     <string name="flight_min_duration_template">%1$dm</string>
+    <!-- Flight day duration template e.g. 1d -->
+    <string name="flight_day_duration_TEMPLATE">{d}d</string>
+    <!-- Flight day duration template e.g. 1d 12h 42m -->
+    <string name="flight_d_h_m_duration_template">{d}d {h}h {m}m</string>
 
     <!-- Accessibility label for flight hour duration template e.g. 12 hour 42 minutes -->
     <string name="flight_hour_min_duration_template_cont_desc">{h} hour {m} minutes</string>
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minutes</string>
+    <!-- Flight day duration template e.g. 1 day 12 hours 42 minutes -->
+    <string name="flight_day_duration_template_cont_desc">{d} day {h} hours {m} minutes</string>
 
     <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
     <plurals name="flight_seats_left_urgency_message_TEMPLATE">

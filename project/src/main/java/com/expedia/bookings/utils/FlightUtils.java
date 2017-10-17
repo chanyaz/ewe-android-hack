@@ -67,8 +67,15 @@ public class FlightUtils {
 		String totalDurationContDesc;
 		int minutes = Math.abs(legDuration % 60);
 		int hours = Math.abs(legDuration / 60);
+		int days = Math.abs(hours / 24);
 
-		if (hours > 0) {
+		if (days > 0) {
+			duration = Phrase.from(context, R.string.flight_day_duration_template_cont_desc)
+				.put("h", hours)
+				.put("m", minutes)
+				.format().toString();
+		}
+		else if (hours > 0) {
 			duration = Phrase.from(context, R.string.flight_hour_min_duration_template_cont_desc)
 				.put("h", hours)
 				.put("m", minutes)

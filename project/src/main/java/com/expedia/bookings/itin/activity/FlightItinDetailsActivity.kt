@@ -9,8 +9,10 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinConfirmationViewModel
 import com.expedia.bookings.itin.vm.FlightItinDetailsViewModel
+import com.expedia.bookings.itin.vm.FlightItinDurationViewModel
 import com.expedia.bookings.itin.vm.FlightItinSegmentSummaryViewModel
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
+import com.expedia.bookings.itin.widget.FlightItinDurationWidget
 import com.expedia.bookings.itin.widget.FlightItinSegmentSummaryWidget
 import com.expedia.bookings.itin.widget.ItinConfirmationWidget
 import com.expedia.bookings.itin.widget.ItinToolbar
@@ -51,6 +53,9 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         vm.updateConfirmationSubject.subscribe { params ->
             itinConfirmationWidget.viewModel.updateWidget(params)
         }
+        vm.updateTotalDurationSubject.subscribe { params ->
+            flightDurationWidget.viewModel.updateWidget(params)
+        }
     }
     private val itinConfirmationWidget: ItinConfirmationWidget by lazy {
         findViewById(R.id.widget_itin_flight_confirmation_cardview) as ItinConfirmationWidget
@@ -58,6 +63,11 @@ class FlightItinDetailsActivity : AppCompatActivity() {
     private val itinToolbar: ItinToolbar by lazy {
         findViewById(R.id.widget_flight_itin_toolbar) as ItinToolbar
     }
+
+    private val flightDurationWidget by lazy {
+        findViewById(R.id.widget_itin_flight_duration_cardview) as FlightItinDurationWidget
+    }
+
     var toolbarViewModel: FlightItinToolbarViewModel by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
             finishActivity()
@@ -67,6 +77,8 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         findViewById(R.id.flight_itin_summary_container) as LinearLayout
     }
     private var confirmationViewModel: FlightItinConfirmationViewModel by Delegates.notNull()
+
+    private var durationViewModel: FlightItinDurationViewModel by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +91,9 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         itinToolbar.viewModel = toolbarViewModel
         confirmationViewModel = FlightItinConfirmationViewModel(this)
         itinConfirmationWidget.viewModel = confirmationViewModel
+        durationViewModel = FlightItinDurationViewModel()
+        flightDurationWidget.viewModel = durationViewModel
+
         OmnitureTracking.trackItinFlight(this)
     }
 

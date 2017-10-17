@@ -32,6 +32,7 @@ class FlightItinDetailsViewModelTest {
     val clearLegSummaryContainerSubscriber = TestSubscriber<Unit>()
     val createLegSummaryWidgetsSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
     val updateConfirmationSubscriber = TestSubscriber<ItinConfirmationViewModel.WidgetParams>()
+    val updateTotalDurationSubscriber = TestSubscriber<FlightItinDurationViewModel.WidgetParams>()
 
     @Before
     fun setup() {
@@ -304,6 +305,25 @@ class FlightItinDetailsViewModelTest {
         flight.setIsSeatMapAvailable(false)
         flight.removeSeat(0)
         assertEquals(sut.getSeatString(flight), "Seat selection not available")
+    }
+
+    @Test
+    fun testUpdateTotalDuration() {
+        sut.updateTotalDurationSubject.subscribe(updateTotalDurationSubscriber)
+        val flightItinCardData = ItinCardDataFlightBuilder().build()
+        sut.itinCardDataFlight = flightItinCardData
+        sut.updateTotalDuration()
+        updateTotalDurationSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testNoTotalDuration() {
+        sut.updateTotalDurationSubject.subscribe(updateTotalDurationSubscriber)
+        val flightItinCardData = ItinCardDataFlightBuilder().build()
+        flightItinCardData.flightLeg.setLegDuration(null)
+        sut.itinCardDataFlight = flightItinCardData
+        sut.updateTotalDuration()
+        updateTotalDurationSubscriber.assertNoValues()
     }
 
     class TestWayPoint(val code: String, val city: String, val dateTime: DateTime) : Waypoint(ACTION_UNKNOWN) {

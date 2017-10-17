@@ -50,8 +50,16 @@ public class DateTimeUtils {
 	public static String formatDuration(Resources r, int durationMins) {
 		int minutes = Math.abs(durationMins % 60);
 		int hours = Math.abs(durationMins / 60);
+		int days = Math.abs(hours / 24);
+
+		if (days > 0 && hours > 0 && minutes > 0) {
+			return r.getString(R.string.flight_d_h_m_duration_template, days, hours, minutes);
+		}
 		if (hours > 0 && minutes > 0) {
 			return r.getString(R.string.hours_minutes_template, hours, minutes);
+		}
+		else if (days > 0) {
+			return r.getString(R.string.flight_day_duration_TEMPLATE, hours);
 		}
 		else if (hours > 0) {
 			return r.getString(R.string.hours_template, hours);

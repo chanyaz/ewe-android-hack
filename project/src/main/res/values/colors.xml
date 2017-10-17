@@ -79,6 +79,7 @@
     <color name="itin_summary_button_text_color">@color/exp_launch_blue</color>
     <color name="itin_card_action_item_text_color">@color/exp_launch_blue</color>
     <color name="itin_add_guest_text_button_color">@color/exp_launch_secondary</color>
+    <color name="itin_flight_duration_text_color">@color/gray900</color>
 
     <!-- Old Flights colors -->
     <color name="flight_trip">#0D6599</color>
