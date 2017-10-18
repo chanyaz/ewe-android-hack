@@ -561,7 +561,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
-                backStack.push(searchPresenter)
+
+                //todo add behavior back for certain deeplinks
+//                backStack.push(searchPresenter)
             }
         }
     }

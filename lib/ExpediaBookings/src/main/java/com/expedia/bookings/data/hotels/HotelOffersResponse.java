@@ -42,6 +42,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 	public String locationId;
 
 	public double hotelStarRating;
+	public String percentRecommended;
 
 	public int totalReviews;
 	public int totalRecommendations;

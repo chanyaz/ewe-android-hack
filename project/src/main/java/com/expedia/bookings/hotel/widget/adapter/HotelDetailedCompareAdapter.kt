@@ -49,13 +49,14 @@ class HotelDetailedCompareAdapter(private val context: Context)
         if (holder is DetailedViewHolder) {
             holder.bind(hotels[position])
             holder.selectRoomButton.setOnClickListener {
-                hotelSelectedSubject.onNext(hotels[position].hotelId)
+                hotelSelectedSubject.onNext(hotels[holder.adapterPosition].hotelId)
             }
 
             holder.removeHotelView.setOnClickListener {
-                removeHotelSubject.onNext(hotels[position].hotelId)
-                hotels.removeAt(position)
-                notifyItemRemoved(position)
+                // order matters
+                val removedHotel = hotels.removeAt(holder.adapterPosition)
+                notifyItemRemoved(holder.adapterPosition)
+                removeHotelSubject.onNext(removedHotel.hotelId)
             }
         }
     }
@@ -71,6 +72,8 @@ class HotelDetailedCompareAdapter(private val context: Context)
         private val starRatingBar: StarRatingBar by bindView(R.id.detailed_compare_star_rating)
         private val guestRating: TextView by bindView(R.id.detailed_compare_guest_rating)
         private val superlativeGuestRating: TextView by bindView(R.id.detailed_compare_guest_rating_superlative)
+
+        private val guestsRecommendPercent: TextView by bindView(R.id.detailed_compare_recommend_rating)
         private val ratingCountView: TextView by bindView(R.id.detailed_compare_rating_count)
 
         private val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
@@ -83,6 +86,8 @@ class HotelDetailedCompareAdapter(private val context: Context)
             guestRating.text = offer.hotelGuestRating.toString()
             superlativeGuestRating.text = getSuperlative(offer.hotelGuestRating.toFloat())
             ratingCountView.text = "${offer.totalReviews.toString()} Reviews"
+
+            guestsRecommendPercent.text = "${offer.percentRecommended}%"
 
             val amenityList = arrayListOf<Amenity>()
             if (offer.hotelAmenities != null) {

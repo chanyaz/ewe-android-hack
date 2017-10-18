@@ -33,7 +33,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
     FITNESS_CENTER(6, R.drawable.ic_amenity_fitness_center, R.string.AmenityFitnessCenter),
     ROOM_SERVICE(7, R.drawable.ic_amenity_room_service, R.string.AmenityRoomService),
     SPA(8, R.drawable.ic_amenity_spa, R.string.AmenitySpa),
-//    BUSINESS_CENTER(9, R.drawable.ic_amenity_business, R.string.AmenityBusinessCenter),
+    BUSINESS_CENTER(9, R.drawable.ic_amenity_business, R.string.AmenityBusinessCenter),
     FREE_AIRPORT_SHUTTLE(10, R.drawable.ic_amenity_airport_shuttle, R.string.AmenityFreeAirportShuttle),
     ACCESSIBLE_BATHROOM(11, R.drawable.ic_amenity_accessible_bathroom, R.string.AmenityAccessibleBathroom),
     HOT_TUB(12, R.drawable.ic_amenity_hot_tub, R.string.AmenityHotTub),
@@ -82,7 +82,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
             for (i in 0..list.size - 1) {
 
                 when (list[i].id.toInt()) {
-//                    2065, 2213, 2538 -> amenityTreeSet.add(Amenity.BUSINESS_CENTER)
+                    2065, 2213, 2538 -> amenityTreeSet.add(Amenity.BUSINESS_CENTER)
                     9 -> amenityTreeSet.add(Amenity.FITNESS_CENTER)
                     371 -> amenityTreeSet.add(Amenity.HOT_TUB)
                     2046, 2097, 2100, 2101, 2125, 2126, 2127, 2156, 2191, 2192, 2220, 2390, 2392, 2394, 2403, 2405, 2407 -> amenityTreeSet.add(Amenity.INTERNET)

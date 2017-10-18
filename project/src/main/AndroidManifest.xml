@@ -252,7 +252,7 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Hotels.Default"
+            android:theme="@style/Theme.Hotels.Compare"
             tools:ignore="UnusedAttribute">
             <meta-data
                 android:name="debug"
@@ -265,7 +265,7 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Hotels.Default"
+            android:theme="@style/Theme.Hotels.Compare"
             tools:ignore="UnusedAttribute" />
 
         <activity

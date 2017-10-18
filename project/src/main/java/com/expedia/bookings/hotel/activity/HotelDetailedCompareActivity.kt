@@ -1,6 +1,7 @@
 package com.expedia.bookings.hotel.activity
 
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.DividerItemDecoration.HORIZONTAL
@@ -8,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.dagger.HotelComponentInjector
 import com.expedia.bookings.data.HotelSearchParams
@@ -15,6 +17,7 @@ import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.widget.adapter.HotelDetailedCompareAdapter
+import com.expedia.bookings.hotel.widget.view.HotelCompareEmptyView
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import javax.inject.Inject
@@ -28,6 +31,10 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
 
     private val detailedCompareRecycler: RecyclerView by lazy {
         findViewById(R.id.detailed_compare_recycler) as RecyclerView
+    }
+
+    private val emptyView by lazy {
+        findViewById(R.id.hotel_compare_empty_view) as ConstraintLayout
     }
 
     lateinit var hotelInfoManager: HotelInfoManager
@@ -95,6 +102,10 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
 
         detailedCompareAdapter.removeHotelSubject.subscribe { id ->
             HotelFavoriteCache.removeHotelId(this, id)
+            if (detailedCompareAdapter.itemCount == 0) {
+                emptyView.visibility = View.VISIBLE
+                detailedCompareRecycler.visibility = View.GONE
+            }
         }
     }
 
@@ -111,6 +122,11 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
             for (id in ids) {
                 hotelInfoManager.fetchDatelessInfo(id)
             }
+        }
+
+        if (ids == null || ids.isEmpty()) {
+            emptyView.visibility = View.VISIBLE
+            detailedCompareRecycler.visibility = View.GONE
         }
     }
 }

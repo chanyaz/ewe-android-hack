@@ -91,11 +91,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
+        tools:text="4.3/5"
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_name_divider"
-        tools:text="4.3/5"/>
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_name_divider" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/detailed_compare_guest_rating_superlative"
@@ -103,11 +103,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        tools:text="Excellent"
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_guest_rating"
-        tools:text="Excellent"/>
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_guest_rating" />
 
     <View
         android:id="@+id/detailed_compare_hotel_guest_divider"
@@ -120,6 +120,42 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/detailed_compare_recommend_rating"
+        style="@style/Core.Text.500.Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        tools:text="95%"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_guest_divider" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/detailed_compare_recommend_rating_description"
+        style="@style/Core.Text.300"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="guests recommend"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_recommend_rating" />
+
+    <View
+        android:id="@+id/detailed_compare_hotel_recommended_divider"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginTop="8dp"
+        android:background="@color/app_divider_on_white"
+
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_recommend_rating_description"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/detailed_compare_rating_count"
@@ -128,11 +164,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
+        tools:text="2,413 Reviews"
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_guest_divider"
-        tools:text="2,413 Reviews"/>
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_recommended_divider" />
 
     <View
         android:id="@+id/detailed_compare_hotel_rating_count_divider"
@@ -145,31 +181,22 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <HorizontalScrollView
-        android:id="@+id/amenities_scroll_view"
+
+    <TableLayout
+        android:id="@+id/amenities_table_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:paddingBottom="4dp"
         android:layout_marginTop="8dp"
-        android:scrollbars="none"
 
         app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_rating_count_divider"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <TableLayout
+        <TableRow
+            android:id="@+id/amenities_table_row"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableRow
-                android:id="@+id/amenities_table_row"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layoutAnimation="@anim/layout_wave_scale" />
-        </TableLayout>
-
-    </HorizontalScrollView>
+            android:layout_height="wrap_content" />
+    </TableLayout>
 
     <View
         android:id="@+id/detailed_compare_hotel_amenities_divider"
@@ -178,7 +205,7 @@
         android:layout_marginTop="8dp"
         android:background="@color/app_divider_on_white"
 
-        app:layout_constraintTop_toBottomOf="@+id/amenities_scroll_view"
+        app:layout_constraintTop_toBottomOf="@+id/amenities_table_view"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
