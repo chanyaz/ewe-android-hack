@@ -83,6 +83,9 @@ public class Flight implements Comparable<Flight>, JSONable {
 	private String departureTerminal;
 	private String arrivalTerminal;
 
+	// Parsing the ISOformat layover duration from the API response
+	private String layoverDuration;
+
 	// FlightStats data
 	public int mFlightHistoryId = -1;
 	private ArrayList<String> mRating;
@@ -232,6 +235,15 @@ public class Flight implements Comparable<Flight>, JSONable {
 		seatList.remove(index);
 	}
 
+	@Nullable
+	public String getLayoverDuration() {
+		return layoverDuration;
+	}
+
+	public void setLayoverDuration(String layover) {
+		layoverDuration = layover;
+	}
+
 	/**
 	 * Determines if we should be in "red alert" mode over this flight -
 	 * for example, if it's cancelled, diverted or redirected.
@@ -240,7 +252,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 	 */
 	public boolean isRedAlert() {
 		return (mStatusCode.equals(Flight.STATUS_CANCELLED) || mStatusCode.equals(Flight.STATUS_DIVERTED) || mStatusCode
-				.equals(Flight.STATUS_REDIRECTED));
+			.equals(Flight.STATUS_REDIRECTED));
 	}
 
 	private boolean isTripItFlight() {
@@ -389,11 +401,11 @@ public class Flight implements Comparable<Flight>, JSONable {
 
 		// If the change in times were large enough to set off a notification, update notification times
 		if (Math.abs(mLastNotifiedTakeoffTime - another.mOrigin.getMostRelevantDateTime().getMillis())
-				> TIME_CHANGE_THRESHHOLD) {
+			> TIME_CHANGE_THRESHHOLD) {
 			this.mLastNotifiedTakeoffTime = another.mOrigin.getMostRelevantDateTime().getMillis();
 		}
 		if (Math.abs(mLastNotifiedArrivalTime
-				- another.getArrivalWaypoint().getMostRelevantDateTime().getMillis()) > TIME_CHANGE_THRESHHOLD) {
+			- another.getArrivalWaypoint().getMostRelevantDateTime().getMillis()) > TIME_CHANGE_THRESHHOLD) {
 			this.mLastNotifiedArrivalTime = another.getArrivalWaypoint().getMostRelevantDateTime().getMillis();
 		}
 
@@ -480,8 +492,8 @@ public class Flight implements Comparable<Flight>, JSONable {
 		}
 
 		if (getPrimaryFlightCode().equals(other.getPrimaryFlightCode())
-				&& mOrigin.mAirportCode.equals(other.mOrigin.mAirportCode)
-				&& mDestination.mAirportCode.equals(other.getDestinationWaypoint().mAirportCode)) {
+			&& mOrigin.mAirportCode.equals(other.mOrigin.mAirportCode)
+			&& mDestination.mAirportCode.equals(other.getDestinationWaypoint().mAirportCode)) {
 
 			if (mIsRepeating && other.mIsRepeating) {
 				// If these are both repeating flights, we don't need to verify that the date is correct.
@@ -599,6 +611,7 @@ public class Flight implements Comparable<Flight>, JSONable {
 			obj.putOpt("arrivalTerminal", arrivalTerminal);
 
 			JSONUtils.putJSONableList(obj, "seatList", seatList);
+			obj.putOpt("layoverDuration", layoverDuration);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -711,6 +724,8 @@ public class Flight implements Comparable<Flight>, JSONable {
 
 			departureTerminal = obj.optString("departureTerminal", null);
 			arrivalTerminal = obj.optString("arrivalTerminal", null);
+
+			layoverDuration = obj.optString("layoverDuration", null);
 
 			return true;
 		}

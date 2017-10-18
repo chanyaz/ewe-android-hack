@@ -20,6 +20,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     val itinCardDataNotValidSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
     val updateToolbarSubject: PublishSubject<ItinToolbarViewModel.ToolbarParams> = PublishSubject.create<ItinToolbarViewModel.ToolbarParams>()
     val createSegmentSummaryWidgetsSubject: PublishSubject<FlightItinSegmentSummaryViewModel.SummaryWidgetParams> = PublishSubject.create<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
+    val createLayoverWidgetSubject: PublishSubject<String> = PublishSubject.create<String>()
     val clearLegSummaryContainerSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
     val updateConfirmationSubject: PublishSubject<ItinConfirmationViewModel.WidgetParams> = PublishSubject.create<ItinConfirmationViewModel.WidgetParams>()
     fun onResume() {
@@ -115,6 +116,11 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                         confirmSeats,
                         redEyeDays
                 ))
+
+                val layoverDuration = segment.layoverDuration
+                if (!layoverDuration.isNullOrEmpty()) {
+                    createLayoverWidgetSubject.onNext(layoverDuration)
+                }
             }
         }
     }

@@ -9,8 +9,10 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.vm.FlightItinConfirmationViewModel
 import com.expedia.bookings.itin.vm.FlightItinDetailsViewModel
+import com.expedia.bookings.itin.vm.FlightItinLayoverViewModel
 import com.expedia.bookings.itin.vm.FlightItinSegmentSummaryViewModel
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
+import com.expedia.bookings.itin.widget.ItinTimeDurationWidget
 import com.expedia.bookings.itin.widget.FlightItinSegmentSummaryWidget
 import com.expedia.bookings.itin.widget.ItinConfirmationWidget
 import com.expedia.bookings.itin.widget.ItinToolbar
@@ -47,6 +49,12 @@ class FlightItinDetailsActivity : AppCompatActivity() {
             legSummaryWidget.viewModel = FlightItinSegmentSummaryViewModel(this)
             legSummaryWidget.viewModel.updateWidget(params)
             flightSummaryContainer.addView(legSummaryWidget)
+        }
+        vm.createLayoverWidgetSubject.subscribe { layoverDuration ->
+            val layoverWidget = ItinTimeDurationWidget(this, null)
+            layoverWidget.viewModel = FlightItinLayoverViewModel(this)
+            layoverWidget.viewModel.updateWidget(layoverDuration)
+            flightSummaryContainer.addView(layoverWidget)
         }
         vm.updateConfirmationSubject.subscribe { params ->
             itinConfirmationWidget.viewModel.updateWidget(params)

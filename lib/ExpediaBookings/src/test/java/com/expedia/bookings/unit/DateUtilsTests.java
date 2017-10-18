@@ -112,4 +112,16 @@ public class DateUtilsTests {
 		assertEquals(2, period.getHours());
 		assertEquals(20, period.getMinutes());
 	}
+
+	@Test
+	public void testParseDurationMinutesFromISOFormat() {
+		int actualValue = DateUtils.parseDurationMinutesFromISOFormat("PT2H20M");
+		assertEquals(140, actualValue);
+
+		actualValue = DateUtils.parseDurationMinutesFromISOFormat("PT7H4M");
+		assertEquals(424, actualValue);
+
+		actualValue = DateUtils.parseDurationMinutesFromISOFormat("PT1H16M");
+		assertEquals(76, actualValue);
+	}
 }

@@ -1417,6 +1417,38 @@
     <string name="select_seat_prompt">No seats selected</string>
     <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Arrives on {date}</string>
+    <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
+    <string name="itin_flight_layover_TEMPLATE">{layover} layover</string>
+
+    <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
+    <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}h {minutes}m</string>
+    <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
+    <string name="flight_duration_days_hours_TEMPLATE">{days}d {hours}h</string>
+    <!-- Flight duration format template for days minutes. {days}d {minutes}m (e.g., 1d 4m) -->
+    <string name="flight_duration_days_minutes_TEMPLATE">{days}d {minutes}m</string>
+    <!-- Flight duration format template for days. {days}d (e.g., 1d) -->
+    <string name="flight_duration_days_TEMPLATE">{days}d</string>
+    <!-- Flight duration format template for hours minutes. {hours}h {minutes}m (e.g., 4h 25m) -->
+    <string name="flight_duration_hours_minutes_TEMPLATE">{hours}h {minutes}m</string>
+    <!-- Flight duration format template for hours. {hours}h (e.g., 5h) -->
+    <string name="flight_duration_hours_TEMPLATE">{hours}h</string>
+    <!-- Flight duration format template for minutes. {minutes}m (e.g., 25m) -->
+    <string name="flight_duration_minutes_TEMPLATE">{minutes}m</string>
+
+    <!-- Flight duration format cont desc template for days hours minutes. {days} day {hours} hour {minutes} minutes (e.g., 1 day 4 hour 25 minutes) -->
+    <string name="flight_duration_days_hours_minutes_cont_desc_TEMPLATE">{days} day {hours} hour {minutes} minutes</string>
+    <!-- Flight duration format cont desc template for days hours. {days} day {hours} hour (e.g., 1 day 4 hour) -->
+    <string name="flight_duration_days_hours_cont_desc_TEMPLATE">{days} day {hours} hour</string>
+    <!-- Flight duration format cont desc template for days minutes. {days} day {minutes} minutes (e.g., 1 day 4 minutes) -->
+    <string name="flight_duration_days_minutes_cont_desc_TEMPLATE">{days} day {minutes} minutes</string>
+    <!-- Flight duration format cont desc template for days. {days} day (e.g., 1 day) -->
+    <string name="flight_duration_days_cont_desc_TEMPLATE">{days} day</string>
+    <!-- Flight duration format cont desc template for hours minutes. {hours} hour {minutes} minutes (e.g., 4 hour 25 minutes) -->
+    <string name="flight_duration_hours_minutes_cont_desc_TEMPLATE">{hours} hour {minutes} minutes</string>
+    <!-- Flight duration format cont desc template for hours. {hours} hour (e.g., 5 hour) -->
+    <string name="flight_duration_hours_cont_desc_TEMPLATE">{hours} hour</string>
+    <!-- Flight duration format cont desc template for minutes. {minutes} minutes (e.g., 25 minutes) -->
+    <string name="flight_duration_minutes_cont_desc_TEMPLATE">{minutes} minutes</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

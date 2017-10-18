@@ -16,9 +16,7 @@ import kotlin.test.assertEquals
 @Config(shadows = arrayOf(ShadowDateFormat::class))
 class DateTimeUtilsTest {
 
-    fun getContext(): Context {
-        return RuntimeEnvironment.application
-    }
+    fun getContext(): Context = RuntimeEnvironment.application
 
     @Test
     fun parseFlightStatsDateTimeTest() {
@@ -74,6 +72,36 @@ class DateTimeUtilsTest {
 
         actualValue = DateTimeUtils.getMinutesBetween(DateTime(2018, 11, 29, 23, 14), DateTime(2018, 11, 29, 23, 14))
         assertEquals(0, actualValue)
+    }
+
+    @Test
+    fun  testFormatDurationDaysHoursMinutes() {
+        var actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), 424)
+        assertEquals("7h 4m", actualValue)
+
+        actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), 76)
+        assertEquals("1h 16m", actualValue)
+
+        actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), 10000)
+        assertEquals("6d 22h 40m", actualValue)
+
+        actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), 8680)
+        assertEquals("6d 40m", actualValue)
+
+        actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), 9960)
+        assertEquals("6d 22h", actualValue)
+
+        actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), 1320)
+        assertEquals("22h", actualValue)
+
+        actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), 14)
+        assertEquals("14m", actualValue)
+
+        actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), 0)
+        assertEquals("", actualValue)
+
+        actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), -1)
+        assertEquals("", actualValue)
     }
 }
 

@@ -19,6 +19,8 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
 import org.mockito.Mockito.`when` as whenever
 
 @RunWith(RobolectricRunner::class)
@@ -27,11 +29,13 @@ class FlightItinDetailsViewModelTest {
     lateinit private var sut: FlightItinDetailsViewModel
     lateinit private var context: Context
     lateinit private var dateTime: DateTime
+
     val itinCardDataValidSubscriber = TestSubscriber<Unit>()
     val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
     val clearLegSummaryContainerSubscriber = TestSubscriber<Unit>()
     val createLegSummaryWidgetsSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
     val updateConfirmationSubscriber = TestSubscriber<ItinConfirmationViewModel.WidgetParams>()
+    val createLayoverSubscriber = TestSubscriber<String>()
 
     @Before
     fun setup() {
@@ -291,6 +295,31 @@ class FlightItinDetailsViewModelTest {
                 null,
                 null
         ))
+    }
+
+    @Test
+    fun testLayoverWidget() {
+        sut.createLayoverWidgetSubject.subscribe(createLayoverSubscriber)
+        val testItinCardData = ItinCardDataFlightBuilder().build(multiSegment = true)
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateLegSummaryWidget()
+
+        assertNotNull(testItinCardData.flightLeg.segments[0].layoverDuration)
+        assertNotEquals("", testItinCardData.flightLeg.segments[0].layoverDuration)
+        assertEquals("PT1H21M", testItinCardData.flightLeg.segments[0].layoverDuration)
+        createLayoverSubscriber.assertValueCount(1)
+        createLayoverSubscriber.assertValue(testItinCardData.flightLeg.segments[0].layoverDuration)
+    }
+
+    @Test
+    fun testLayoverWidgetNoLayover() {
+        sut.createLayoverWidgetSubject.subscribe(createLayoverSubscriber)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateLegSummaryWidget()
+
+        assertEquals(null, testItinCardData.flightLeg.segments[0].layoverDuration)
+        createLayoverSubscriber.assertValueCount(0)
     }
 
     @Test

@@ -8,6 +8,7 @@ import org.joda.time.ReadableInstant;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.JodaUtils;
@@ -58,6 +59,52 @@ public class DateTimeUtils {
 		}
 		else if (minutes >= 0) {
 			return r.getString(R.string.minutes_template, minutes);
+		}
+		else {
+			return "";
+		}
+	}
+
+	@NonNull
+	public static String formatDurationDaysHoursMinutes(Context context, int durationMins) {
+		if (durationMins < 0) {
+			return "";
+		}
+		int minutes = Math.abs(durationMins % 60);
+		int hours = Math.abs(durationMins / 60 % 24);
+		int days = Math.abs(durationMins / 24 / 60);
+		if (days > 0 && hours > 0 && minutes > 0) {
+			return Phrase.from(context, R.string.flight_duration_days_hours_minutes_TEMPLATE)
+				.put("days", days)
+				.put("hours", hours)
+				.put("minutes", minutes).format().toString();
+		}
+		else if (days > 0 && hours > 0) {
+			return Phrase.from(context, R.string.flight_duration_days_hours_TEMPLATE)
+				.put("days", days)
+				.put("hours", hours).format().toString();
+		}
+		else if (days > 0 && minutes > 0) {
+			return Phrase.from(context, R.string.flight_duration_days_minutes_TEMPLATE)
+				.put("days", days)
+				.put("minutes", minutes).format().toString();
+		}
+		else if (days > 0) {
+			return Phrase.from(context, R.string.flight_duration_days_TEMPLATE)
+				.put("days", days).format().toString();
+		}
+		else if (hours > 0 && minutes > 0) {
+			return Phrase.from(context, R.string.flight_duration_hours_minutes_TEMPLATE)
+				.put("hours", hours)
+				.put("minutes", minutes).format().toString();
+		}
+		else if (hours > 0) {
+			return Phrase.from(context, R.string.flight_duration_hours_TEMPLATE)
+				.put("hours", hours).format().toString();
+		}
+		else if (minutes > 0) {
+			return Phrase.from(context, R.string.flight_duration_minutes_TEMPLATE)
+				.put("minutes", minutes).format().toString();
 		}
 		else {
 			return "";

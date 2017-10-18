@@ -534,6 +534,7 @@ public class TripParser {
 				segment.mAircraftType = segmentJson.optString("equipmentDescription", null);
 				segment.setDepartureTerminal(segmentJson.optString("departureTerminal", null));
 				segment.setArrivalTerminal(segmentJson.optString("arrivalTerminal", null));
+				segment.setLayoverDuration(segmentJson.optString("layoverDuration", null));
 
 				// We assume all distances are in miles, throw a fit if that's not the case
 				String distanceUnits = segmentJson.optString("distanceUnits");
