@@ -4,9 +4,9 @@ import com.expedia.bookings.data.GaiaSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.services.TestObserver
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
-import com.expedia.bookings.services.TestObserver
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,17 +14,10 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-<<<<<<< HEAD
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-=======
-import java.io.File
-import kotlin.test.assertEquals
->>>>>>> 7df61dae81... WIP
 
 class SuggestionV4ServicesTest {
 
@@ -46,11 +39,7 @@ class SuggestionV4ServicesTest {
         service = SuggestionV4Services("http://localhost:" + server.port,
                 "http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-<<<<<<< HEAD
-                mockInterceptor, essMockInterceptor, gaiaMockInterceptor, Schedulers.immediate(), Schedulers.immediate())
-=======
-                interceptor, interceptor, Schedulers.trampoline(), Schedulers.trampoline())
->>>>>>> 7df61dae81... WIP
+                mockInterceptor, essMockInterceptor, gaiaMockInterceptor, Schedulers.trampoline(), Schedulers.trampoline())
 
         givenExpediaDispatcherPrepared()
     }
@@ -100,24 +89,14 @@ class SuggestionV4ServicesTest {
 
     @Test
     fun testGetLxSuggestionsV4() {
-<<<<<<< HEAD
-        val testObserver = TestSubscriber<List<SuggestionV4>>()
-        service?.getLxSuggestionsV4("lon", testObserver, true)
-=======
         val testObserver = TestObserver<List<SuggestionV4>>()
-        service?.getLxSuggestionsV4("lon","expedia.app.android.phone", testObserver, "en_US", true)
->>>>>>> 7df61dae81... WIP
+        service?.getLxSuggestionsV4("lon", testObserver, true)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertComplete()
         testObserver.assertValueCount(1)
-<<<<<<< HEAD
-        val essSuggestions = testObserver.onNextEvents[0]
-        assertEquals(essSuggestions[0].regionNames.fullName, "San Francisco, CA, United States (SFO-San Francisco Intl.)")
-=======
         val essSuggestions = testObserver.values()[0]
-        assertEquals(essSuggestions.get(0).regionNames.fullName, "San Francisco, CA, United States (SFO-San Francisco Intl.)")
->>>>>>> 5abc89409b... WIP
+        assertEquals(essSuggestions[0].regionNames.fullName, "San Francisco, CA, United States (SFO-San Francisco Intl.)")
     }
 
     @Test
@@ -135,11 +114,11 @@ class SuggestionV4ServicesTest {
 
     @Test
     fun hotelSuggestionsUsesCorrectInterceptors() {
-        val testObserver = TestSubscriber<List<SuggestionV4>>()
+        val testObserver = TestObserver<List<SuggestionV4>>()
 
         service?.getHotelSuggestionsV4("chicago", testObserver, true, "guid")
         testObserver.awaitTerminalEvent()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
 
         assertTrue(mockInterceptor.wasCalled())
         assertTrue(essMockInterceptor.wasCalled())
@@ -148,11 +127,11 @@ class SuggestionV4ServicesTest {
 
     @Test
     fun airportSuggestionsUsesCorrectInterceptors() {
-        val testObserver = TestSubscriber<List<SuggestionV4>>()
+        val testObserver = TestObserver<List<SuggestionV4>>()
 
         service?.getAirports("chicago", true, testObserver, "guid")
         testObserver.awaitTerminalEvent()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
 
         assertTrue(mockInterceptor.wasCalled())
         assertTrue(essMockInterceptor.wasCalled())
@@ -161,11 +140,11 @@ class SuggestionV4ServicesTest {
 
     @Test
     fun packagesSuggestionsUsesCorrectInterceptors() {
-        val testObserver = TestSubscriber<List<SuggestionV4>>()
+        val testObserver = TestObserver<List<SuggestionV4>>()
 
         service?.suggestPackagesV4("chicago", true, testObserver)
         testObserver.awaitTerminalEvent()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
 
         assertTrue(mockInterceptor.wasCalled())
         assertTrue(essMockInterceptor.wasCalled())
@@ -174,11 +153,11 @@ class SuggestionV4ServicesTest {
 
     @Test
     fun railSuggestionsUsesCorrectInterceptors() {
-        val testObserver = TestSubscriber<List<SuggestionV4>>()
+        val testObserver = TestObserver<List<SuggestionV4>>()
 
         service?.suggestRailsV4("chicago", true, testObserver)
         testObserver.awaitTerminalEvent()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
 
         assertTrue(mockInterceptor.wasCalled())
         assertTrue(essMockInterceptor.wasCalled())
@@ -187,11 +166,11 @@ class SuggestionV4ServicesTest {
 
     @Test
     fun lxSuggestionsUsesCorrectInterceptors() {
-        val testObserver = TestSubscriber<List<SuggestionV4>>()
+        val testObserver = TestObserver<List<SuggestionV4>>()
 
         service?.getLxSuggestionsV4("chicago", testObserver, false)
         testObserver.awaitTerminalEvent()
-        testObserver.assertCompleted()
+        testObserver.assertComplete()
 
         assertTrue(mockInterceptor.wasCalled())
         assertTrue(essMockInterceptor.wasCalled())

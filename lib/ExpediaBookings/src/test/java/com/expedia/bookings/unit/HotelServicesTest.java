@@ -94,9 +94,9 @@ public class HotelServicesTest {
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
-		TestObserver testSubscriber = new TestObserver();
-		service.search(hotelSearchParams, null).subscribe(testSubscriber);
-		testSubscriber.awaitTerminalEvent();
+		TestObserver TestObserver = new TestObserver();
+		service.search(hotelSearchParams, null).subscribe(TestObserver);
+		TestObserver.awaitTerminalEvent();
 
 		assertFalse("I don't expect to see longitude or latitude in a request where both are 0", testResult[0]);
 		assertFalse("I don't expect to see regionId param in this request as it's not set", testResult[1]);
@@ -124,9 +124,9 @@ public class HotelServicesTest {
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
-		TestObserver testSubscriber = new TestObserver();
-		service.search(hotelSearchParams, null).subscribe(testSubscriber);
-		testSubscriber.awaitTerminalEvent();
+		TestObserver TestObserver = new TestObserver();
+		service.search(hotelSearchParams, null).subscribe(TestObserver);
+		TestObserver.awaitTerminalEvent();
 
 		assertTrue("Failure: Region Id expected to match neighborhood id if set", testResult[0]);
 	}

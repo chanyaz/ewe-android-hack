@@ -12,6 +12,7 @@
  */
 package com.expedia.bookings.services;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.CompletableObserver;
@@ -364,5 +365,20 @@ implements Observer<T>, Disposable, MaybeObserver<T>, SingleObserver<T>, Complet
         @Override
         public void onComplete() {
         }
+    }
+
+	/**
+	 * Wait until the current committed value count is less than the expected amount
+	 * by sleeping 1 unit at most timeout times and return true if at least
+	 * the required amount of onNext values have been received.
+	 * @param expected the expected number of onNext events
+	 * @param timeout the time to wait for the events
+	 * @param unit the time unit of waiting
+	 * @return true if the expected number of onNext events happened
+	 * @throws RuntimeException if the sleep is interrupted
+	 */
+    public final boolean awaitValueCount(int expected, long timeout, TimeUnit unit) {
+        awaitCount(expected, TestWaitStrategy.SLEEP_1MS, unit.toMillis(timeout));
+        return values.size() >= expected;
     }
 }

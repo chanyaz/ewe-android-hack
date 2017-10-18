@@ -1,6 +1,5 @@
 package com.expedia.bookings.unit;
 
-import com.mobiata.mocke3.FlightApiMockResponseGenerator;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -16,19 +15,20 @@ import com.expedia.bookings.data.flights.FlightSearchParams;
 import com.expedia.bookings.data.flights.FlightSearchResponse;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.FlightServices;
+import com.expedia.bookings.services.TestObserver;
 import com.expedia.bookings.utils.Constants;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
+import com.mobiata.mocke3.FlightApiMockResponseGenerator;
 
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import kotlin.Unit;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import com.expedia.bookings.services.TestObserver;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 
 public class FlightServicesTest {
 	@Rule
@@ -112,9 +112,9 @@ public class FlightServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
 
-		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
-		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
-		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+		TestObserver<FlightSearchResponse> observer = new TestObserver<>();
+		TestObserver resultsResponseReceivedTestObserver = new TestObserver();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestObserver);
 
 		SuggestionV4 origin = getDummySuggestion();
 		origin.hierarchyInfo.airport.airportCode = "cached_bookable";
@@ -132,10 +132,10 @@ public class FlightServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		resultsResponseReceivedTestSubscriber.assertValueCount(1);
-		FlightSearchResponse response = observer.getOnNextEvents().get(0);
+		resultsResponseReceivedTestObserver.assertValueCount(1);
+		FlightSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(4, response.getLegs().size());
 		Assert.assertEquals(2, response.getOffers().size());
 		Assert.assertTrue(response.isResponseCached());
@@ -150,9 +150,9 @@ public class FlightServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
 
-		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
-		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
-		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+		TestObserver<FlightSearchResponse> observer = new TestObserver<>();
+		TestObserver resultsResponseReceivedTestObserver = new TestObserver();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestObserver);
 
 		SuggestionV4 origin = getDummySuggestion();
 		origin.hierarchyInfo.airport.airportCode = "cached_not_found";
@@ -170,10 +170,10 @@ public class FlightServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
-		observer.assertCompleted();
+		observer.assertComplete();
 		observer.assertValueCount(1);
-		resultsResponseReceivedTestSubscriber.assertValueCount(1);
-		FlightSearchResponse response = observer.getOnNextEvents().get(0);
+		resultsResponseReceivedTestObserver.assertValueCount(1);
+		FlightSearchResponse response = observer.values().get(0);
 		Assert.assertEquals(0, response.getLegs().size());
 		Assert.assertEquals(0, response.getOffers().size());
 		Assert.assertTrue(response.isResponseCached());

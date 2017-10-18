@@ -4,6 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.flights.FlightCreateTripParams;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
@@ -16,18 +22,13 @@ import com.expedia.bookings.data.insurance.InsuranceTripParams;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.InsuranceServices;
+import com.expedia.bookings.services.TestObserver;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.MockWebServer;
-import org.joda.time.LocalDate;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import com.expedia.bookings.services.TestObserver;
-import io.reactivex.schedulers.Schedulers;
 
 public class InsuranceServicesTest {
 	@Rule
@@ -103,15 +104,10 @@ public class InsuranceServicesTest {
 		Assert.assertTrue(availableInsuranceProducts.isEmpty());
 	}
 
-	private TestSubscriber<FlightCreateTripResponse> createTrip(String productKey) throws Throwable {
-		TestSubscriber<FlightCreateTripResponse> tripObserver = new TestSubscriber<>();
-		flightServices.createTrip(new FlightCreateTripParams.
-			Builder().productKey(productKey).build(), tripObserver);
-=======
 	private TestObserver<FlightCreateTripResponse> createTrip(String productKey) throws Throwable {
 		TestObserver<FlightCreateTripResponse> tripObserver = new TestObserver<>();
-		flightServices.createTrip(new FlightCreateTripParams(productKey), tripObserver);
->>>>>>> 5abc89409b... WIP
+		flightServices.createTrip(new FlightCreateTripParams.
+			Builder().productKey(productKey).build(), tripObserver);
 		tripObserver.awaitTerminalEvent();
 		tripObserver.assertNoErrors();
 		return tripObserver;
