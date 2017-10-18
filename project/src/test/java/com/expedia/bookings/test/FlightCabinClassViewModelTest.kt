@@ -16,7 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -49,7 +49,7 @@ class FlightCabinClassViewModelTest {
         flightCabinClassWidget.dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick()
 
         val flightCabinClassViewModel: FlightCabinClassViewModel = flightCabinClassWidget.flightCabinClassView.viewmodel
-        val flightSelectedCabinClassIdTestSubscriber = TestSubscriber<Int>()
+        val flightSelectedCabinClassIdTestSubscriber = TestObserver<Int>()
         flightCabinClassViewModel.flightSelectedCabinClassIdObservable.subscribe(flightSelectedCabinClassIdTestSubscriber)
 
         assertEquals(FlightServiceClassType.CabinCode.BUSINESS, flightCabinClassViewModel.flightCabinClassObservable.value)

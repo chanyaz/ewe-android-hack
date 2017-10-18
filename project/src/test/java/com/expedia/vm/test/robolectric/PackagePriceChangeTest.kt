@@ -19,6 +19,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -40,7 +41,6 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -56,8 +56,8 @@ class PackagePriceChangeTest {
     private var overview: PackageOverviewPresenter by Delegates.notNull()
 
     lateinit var travelerValidator: TravelerValidator
-    private val priceChangeAlertSubscriber = TestSubscriber<TripResponse>()
-    private val showPriceChangeAlertSubscriber = TestSubscriber<Boolean>()
+    private val priceChangeAlertSubscriber = TestObserver<TripResponse>()
+    private val showPriceChangeAlertSubscriber = TestObserver<Boolean>()
 
     private val lowPackageTotal = Money(900, "USD")
     private val highPackageTotal = Money(1000, "USD")
@@ -147,7 +147,7 @@ class PackagePriceChangeTest {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal, highBundleTotal, lowBundleTotal))
 
-        assertTrue(showPriceChangeAlertSubscriber.onNextEvents.last())
+        assertTrue(showPriceChangeAlertSubscriber.values().last())
         assertPriceChangeWidgetIsCorrect(highBundleTotal, lowBundleTotal)
     }
 
@@ -157,7 +157,7 @@ class PackagePriceChangeTest {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal, lowBundleTotal, highBundleTotal))
 
-        assertTrue(showPriceChangeAlertSubscriber.onNextEvents.last())
+        assertTrue(showPriceChangeAlertSubscriber.values().last())
         assertPriceChangeWidgetIsCorrect(lowBundleTotal, highBundleTotal)
     }
 
@@ -167,7 +167,7 @@ class PackagePriceChangeTest {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal))
 
-        assertTrue(showPriceChangeAlertSubscriber.onNextEvents.last())
+        assertTrue(showPriceChangeAlertSubscriber.values().last())
         assertPriceChangeWidgetIsCorrect(lowPackageTotal, highPackageTotal)
     }
 
@@ -177,7 +177,7 @@ class PackagePriceChangeTest {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal))
 
-        assertTrue(showPriceChangeAlertSubscriber.onNextEvents.last())
+        assertTrue(showPriceChangeAlertSubscriber.values().last())
         assertPriceChangeWidgetIsCorrect(highPackageTotal, lowPackageTotal)
     }
 
@@ -191,7 +191,7 @@ class PackagePriceChangeTest {
         assertEquals("OK", okButton.text )
     }
 
-    private fun getDummyPackageCreateTripPriceChangeResponse(newTotal: Money, oldTotal: Money, newBundleTotal: Money ?= null, oldBundleTotal: Money ?= null, withCardFee: Boolean = true): PackageCreateTripResponse? {
+    private fun getDummyPackageCreateTripPriceChangeResponse(newTotal: Money, oldTotal: Money, newBundleTotal: Money ?= null, oldBundleTotal: Money ?= null, withCardFee: Boolean = true): PackageCreateTripResponse {
         val trip = PackageCreateTripResponse()
         val packageDetails = PackageCreateTripResponse.PackageDetails()
         val oldPackageDetails = PackageCreateTripResponse.PackageDetails()

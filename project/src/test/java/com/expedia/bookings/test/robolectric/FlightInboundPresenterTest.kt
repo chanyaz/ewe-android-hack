@@ -35,10 +35,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -64,7 +64,7 @@ class FlightInboundPresenterTest {
         val interceptor = MockInterceptor()
         service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
         flightInboundPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_inbound_stub, null) as FlightInboundPresenter
     }
 
@@ -80,19 +80,13 @@ class FlightInboundPresenterTest {
         flightInboundPresenter.toolbarViewModel.isOutboundSearch.onNext(false)
         flightInboundPresenter.toolbarViewModel.travelers.onNext(1)
         flightInboundPresenter.toolbarViewModel.date.onNext(LocalDate.now())
-        val regionName = SuggestionV4.RegionNames()
-        regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
-        regionName.displayName = "Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India"
-        flightInboundPresenter.toolbarViewModel.regionNames.onNext(regionName)
-        flightInboundPresenter.toolbarViewModel.country.onNext("India")
-        flightInboundPresenter.toolbarViewModel.airport.onNext("BLR")
-        flightInboundPresenter.toolbarViewModel.lob.onNext(flightInboundPresenter.getLineOfBusiness())
+        flightInboundPresenter.toolbarViewModel.city.onNext("Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India")
         assertEquals("Select return flight", flightInboundPresenter.toolbar.title.toString())
     }
 
     @Test
     fun testResultsArePopulated() {
-        val isOutboundSearchSubscriber = TestSubscriber<Boolean>()
+        val isOutboundSearchSubscriber = TestObserver<Boolean>()
         flightInboundPresenter.toolbarViewModel.isOutboundSearch.subscribe(isOutboundSearchSubscriber)
         invokeSetupComplete()
 
@@ -117,12 +111,12 @@ class FlightInboundPresenterTest {
         invokeSetupComplete()
 
         var flightSearchParams = setupFlightSearchParams(0, 2)
-        var travellerCountSubscriber = TestSubscriber<Int>()
+        var travellerCountSubscriber = TestObserver<Int>()
         prepareFlightResultObservables(flightSearchParams, travellerCountSubscriber)
         travellerCountSubscriber.assertValue(2)
 
         flightSearchParams = setupFlightSearchParams(1, 2)
-        travellerCountSubscriber = TestSubscriber<Int>()
+        travellerCountSubscriber = TestObserver<Int>()
         prepareFlightResultObservables(flightSearchParams, travellerCountSubscriber)
         travellerCountSubscriber.assertValue(3)
     }
@@ -167,13 +161,8 @@ class FlightInboundPresenterTest {
         flightInboundPresenter.toolbarViewModel.travelers.onNext(1)
         val currentTime = LocalDate.now()
         flightInboundPresenter.toolbarViewModel.date.onNext(currentTime)
-        val regionName = SuggestionV4.RegionNames()
-        regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
-        regionName.displayName = "Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India"
-        flightInboundPresenter.toolbarViewModel.regionNames.onNext(regionName)
-        flightInboundPresenter.toolbarViewModel.country.onNext("India")
-        flightInboundPresenter.toolbarViewModel.airport.onNext("BLR")
-        flightInboundPresenter.toolbarViewModel.lob.onNext(flightInboundPresenter.getLineOfBusiness())
+        flightInboundPresenter.toolbarViewModel.city.onNext("Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India")
+
         val travelDate = DateFormatUtils.formatLocalDateToShortDayAndDate(currentTime)
         assertEquals(View.VISIBLE,flightInboundPresenter.toolbar.visibility)
         assertEquals(travelDate+", 1 traveler",flightInboundPresenter.toolbar.subtitle)
@@ -316,14 +305,14 @@ class FlightInboundPresenterTest {
         return suggestion
     }
 
-    private fun prepareFlightResultObservables(flightSearchParams: FlightSearchParams, travellerCountSubscriber: TestSubscriber<Int>) {
+    private fun prepareFlightResultObservables(flightSearchParams: FlightSearchParams, travellerCountSubscriber: TestObserver<Int>) {
         val flightSelectedSubject = PublishSubject.create<FlightLeg>()
         val isRoundTripSubject = BehaviorSubject.create<Boolean>()
         isRoundTripSubject.onNext(false)
         val flightCabinClassSubject = BehaviorSubject.create<String>()
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
-        val isNonStopSubject = BehaviorSubject.create(false)
-        val isRefundableSubject = BehaviorSubject.create(false)
+        val isNonStopSubject = BehaviorSubject.createDefault(false)
+        val isRefundableSubject = BehaviorSubject.createDefault(false)
         val isOutboundSearch = false
         val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         flightInboundPresenter.resultsPresenter.setAdapter(flightListAdapter)

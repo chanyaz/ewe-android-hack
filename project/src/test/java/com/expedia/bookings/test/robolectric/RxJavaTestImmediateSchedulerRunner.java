@@ -1,39 +1,33 @@
 package com.expedia.bookings.test.robolectric;
 
+import java.util.concurrent.Callable;
+
 import org.junit.runners.model.InitializationError;
 
-import rx.Scheduler;
-import rx.android.plugins.RxAndroidPlugins;
-import rx.android.plugins.RxAndroidSchedulersHook;
-import rx.functions.Func1;
-import rx.plugins.RxJavaHooks;
-import rx.schedulers.Schedulers;
+import io.reactivex.Scheduler;
+import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class RxJavaTestImmediateSchedulerRunner extends RobolectricRunner {
-
-	private final RxAndroidSchedulersHook mRxAndroidSchedulersHook = new RxAndroidSchedulersHook() {
-		@Override
-		public Scheduler getMainThreadScheduler() {
-			return Schedulers.immediate();
-		}
-	};
-
-	private final Func1<Scheduler, Scheduler> mRxJavaImmediateScheduler =
-		new Func1<Scheduler, Scheduler>() {
-			@Override
-			public Scheduler call(Scheduler scheduler) {
-				return Schedulers.immediate();
-			}
-		};
 
 	public RxJavaTestImmediateSchedulerRunner(Class<?> testClass) throws InitializationError {
 		super(testClass);
 
-		RxAndroidPlugins.getInstance().reset();
-		RxAndroidPlugins.getInstance().registerSchedulersHook(mRxAndroidSchedulersHook);
-
-		RxJavaHooks.reset();
-		RxJavaHooks.setOnIOScheduler(mRxJavaImmediateScheduler);
-		RxJavaHooks.setOnNewThreadScheduler(mRxJavaImmediateScheduler);
+		//TODO PUK: to be fixed
+		RxAndroidPlugins.reset();
+		RxAndroidPlugins.setInitMainThreadSchedulerHandler(new Function<Callable<Scheduler>, Scheduler>() {
+			@Override
+			public Scheduler apply(@NonNull Callable<Scheduler> schedulerCallable) throws Exception {
+				return Schedulers.trampoline();
+			}
+		});
+		RxAndroidPlugins.setMainThreadSchedulerHandler(new Function<Scheduler, Scheduler>() {
+			@Override
+			public Scheduler apply(@NonNull Scheduler scheduler) throws Exception {
+				return Schedulers.trampoline();
+			}
+		});
 	}
 }

@@ -15,7 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -99,10 +99,10 @@ class PackageFlightResultTest {
         Db.setPackageResponse(searchResponse)
 
         val resultsVM = FlightResultsViewModel()
-        val testSubscriber = TestSubscriber<List<FlightLeg>>()
+        val testSubscriber = TestObserver<List<FlightLeg>>()
         resultsVM.flightResultsObservable.subscribe(testSubscriber)
         resultsVM.flightResultsObservable.onNext(searchResponse.packageResult.flightsPackage.flights)
-        val testSubscriberResult = testSubscriber.onNextEvents[0]
+        val testSubscriberResult = testSubscriber.values()[0]
 
         for (i in 2..testSubscriberResult.size - 1) {
             val current = testSubscriberResult[i].packageOfferModel.price.packageTotalPrice.amount

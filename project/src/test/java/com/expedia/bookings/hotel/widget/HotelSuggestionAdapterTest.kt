@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -18,11 +18,11 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class HotelSuggestionAdapterTest {
     val testAdapter = HotelSuggestionAdapter()
-    lateinit var testClickObserver: TestSubscriber<SearchSuggestion>
+    lateinit var testClickObserver: TestObserver<SearchSuggestion>
 
     @Before
     fun setup() {
-        testClickObserver = TestSubscriber<SearchSuggestion>()
+        testClickObserver = TestObserver<SearchSuggestion>()
         testAdapter.suggestionClicked.subscribe(testClickObserver)
     }
 
@@ -36,13 +36,13 @@ class HotelSuggestionAdapterTest {
         val testHolder = createAndBindNewHolder(0)
         testHolder.itemView.callOnClick()
 
-        val historyData = testClickObserver.onNextEvents[0].trackingData!!
+        val historyData = testClickObserver.values()[0].trackingData!!
 
         assertEquals(2, historyData.previousSuggestionsShownCount)
 
         testAdapter.setSuggestions(buildSuggestionLists(2))
         testHolder.itemView.callOnClick()
-        val noHistoryData = testClickObserver.onNextEvents[1].trackingData!!
+        val noHistoryData = testClickObserver.values()[1].trackingData!!
         assertEquals(0, noHistoryData.previousSuggestionsShownCount, "FAILURE: Expected History data to reset after getting new list")
     }
 
@@ -57,7 +57,7 @@ class HotelSuggestionAdapterTest {
         val testHolder = createAndBindNewHolder(0)
         testHolder.itemView.callOnClick()
 
-        val data = testClickObserver.onNextEvents[0].trackingData!!
+        val data = testClickObserver.values()[0].trackingData!!
         assertFalse(data.isChild)
         assertTrue(data.isParent, "FAILURE: If the current item is not a child and the next item in the list is a child " +
                 "then the current item must be a parent")
@@ -74,7 +74,7 @@ class HotelSuggestionAdapterTest {
         val testHolder = createAndBindNewHolder(1)
         testHolder.itemView.callOnClick()
 
-        val data = testClickObserver.onNextEvents[0].trackingData!!
+        val data = testClickObserver.values()[0].trackingData!!
         assertFalse(data.isParent, "FAILURE A Suggestion can not be a parent if it is a child.")
     }
 
@@ -86,13 +86,13 @@ class HotelSuggestionAdapterTest {
         val firstItemHolder = createAndBindNewHolder(0)
         firstItemHolder.itemView.callOnClick()
 
-        val firstPositionData = testClickObserver.onNextEvents[0].trackingData!!
+        val firstPositionData = testClickObserver.values()[0].trackingData!!
         assertEquals(1, firstPositionData.selectedSuggestionPosition)
 
         val lastItemHolder = createAndBindNewHolder(2)
         lastItemHolder.itemView.callOnClick()
 
-        val secondPositionData = testClickObserver.onNextEvents[1].trackingData!!
+        val secondPositionData = testClickObserver.values()[1].trackingData!!
         assertEquals(3, secondPositionData.selectedSuggestionPosition)
     }
 
@@ -104,7 +104,7 @@ class HotelSuggestionAdapterTest {
         val firstItemHolder = createAndBindNewHolder(0)
         firstItemHolder.itemView.callOnClick()
 
-        val data = testClickObserver.onNextEvents[0].trackingData!!
+        val data = testClickObserver.values()[0].trackingData!!
         assertEquals(3, data.suggestionsShownCount)
     }
 
@@ -122,7 +122,7 @@ class HotelSuggestionAdapterTest {
         val firstItemHolder = createAndBindNewHolder(0)
         firstItemHolder.itemView.callOnClick()
 
-        val firstPositionData = testClickObserver.onNextEvents[0].trackingData!!
+        val firstPositionData = testClickObserver.values()[0].trackingData!!
         assertEquals(expectedGaiaId, firstPositionData.suggestionGaiaId)
         assertEquals(expectedTypeText, firstPositionData.suggestionType)
         assertEquals(expectedDisplayName, firstPositionData.displayName)

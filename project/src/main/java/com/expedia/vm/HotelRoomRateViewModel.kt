@@ -41,7 +41,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     var priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.displayPrice.toDouble()
     var dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
     var roomHeaderImageObservable = BehaviorSubject.createDefault<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
-    var roomRateInfoTextObservable = BehaviorSubject.createDefault<String>(hotelRoomResponse.roomLongDescription)
+    var roomRateInfoTextObservable = BehaviorSubject.createDefault<String>(hotelRoomResponse.roomLongDescription ?: "")
     var roomInfoVisibilityObservable = roomRateInfoTextObservable.map { roomInfoText -> !roomInfoText.isNullOrBlank() }
 
     val collapsedBedTypeObservable = BehaviorSubject.create<String>()
@@ -127,7 +127,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.displayPrice.toDouble()
         dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
         roomHeaderImageObservable.onNext(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
-        roomRateInfoTextObservable.onNext(hotelRoomResponse.roomLongDescription)
+        roomRateInfoTextObservable.onNext(hotelRoomResponse.roomLongDescription ?: "")
         roomInfoVisibilityObservable = roomRateInfoTextObservable.map { roomInfoText -> !roomInfoText.isNullOrBlank() }
 
         val rateInfo = hotelRoomResponse.rateInfo

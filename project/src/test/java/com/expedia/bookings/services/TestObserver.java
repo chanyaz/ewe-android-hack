@@ -411,4 +411,24 @@ implements Observer<T>, Disposable, MaybeObserver<T>, SingleObserver<T>, Complet
         }
         values.clear();
     }
+    //TODO PUK: below functions to be fixed
+    /**
+     * Allows calling the protected from unit tests.
+     *
+     * @param n the maximum number of items you want the Observable to emit to the Subscriber at this time, or
+     *           {@code Long.MAX_VALUE} if you want the Observable to emit items at its own pace
+     */
+    public void requestMore(long n) {
+
+    }
+    /**
+     * Constructs a TestSubscriber with the initial request to be requested from upstream.
+     *
+     * @param initialRequest the initial request value, negative value will revert to the default unbounded behavior
+     * @since 1.1.0
+     */
+    @SuppressWarnings("unchecked")
+    public TestObserver(long initialRequest) {
+        this();
+    }
 }

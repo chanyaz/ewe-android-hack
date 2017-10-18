@@ -9,7 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -24,14 +24,14 @@ RailTotalPriceViewModelTest {
 
     @Test
     fun testBundleDefaultDisplayStrings() {
-        val bundleTextTestSub = TestSubscriber<String>()
+        val bundleTextTestSub = TestObserver<String>()
         testVM.bundleTextLabelObservable.subscribe(bundleTextTestSub)
 
-        val totalIncludesTestSub = TestSubscriber<String>()
+        val totalIncludesTestSub = TestObserver<String>()
         testVM.bundleTotalIncludesObservable.subscribe(totalIncludesTestSub)
 
-        assertEquals(context.getString(R.string.total), bundleTextTestSub.onNextEvents[0])
-        assertEquals(context.getString(R.string.payment_and_ticket_delivery_fees_may_also_apply), totalIncludesTestSub.onNextEvents[0])
+        assertEquals(context.getString(R.string.total), bundleTextTestSub.values()[0])
+        assertEquals(context.getString(R.string.payment_and_ticket_delivery_fees_may_also_apply), totalIncludesTestSub.values()[0])
     }
 
     @Test
@@ -48,13 +48,13 @@ RailTotalPriceViewModelTest {
         val testResponse = RailCreateTripResponse()
         testResponse.totalPrice = mockTotal
 
-        val priceTestSub = TestSubscriber<String>()
-        val breakdownTestSub = TestSubscriber<Boolean>()
+        val priceTestSub = TestObserver<String>()
+        val breakdownTestSub = TestObserver<Boolean>()
         testVM.totalPriceObservable.subscribe(priceTestSub)
         testVM.costBreakdownEnabledObservable.subscribe(breakdownTestSub)
         testVM.updatePricing(testResponse)
 
-        assertEquals(testTotalString, priceTestSub.onNextEvents[0])
-        assertTrue(breakdownTestSub.onNextEvents[0])
+        assertEquals(testTotalString, priceTestSub.values()[0])
+        assertTrue(breakdownTestSub.values()[0])
     }
 }

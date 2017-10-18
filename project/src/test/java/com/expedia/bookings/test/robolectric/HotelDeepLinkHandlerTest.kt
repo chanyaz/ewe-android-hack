@@ -16,16 +16,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 class HotelDeepLinkHandlerTest {
-    val testGenericSearchSubscriber = TestSubscriber.create<HotelSearchParams>()
-    val testHotelIdToDetailsSubscriber = TestSubscriber.create<HotelSearchParams>()
-    val testHotelIdToResultsSubscriber = TestSubscriber.create<HotelSearchParams>()
-    val testErrorSearchSubscriber = TestSubscriber.create<Unit>()
+    val testGenericSearchSubscriber = TestObserver.create<HotelSearchParams>()
+    val testHotelIdToDetailsSubscriber = TestObserver.create<HotelSearchParams>()
+    val testHotelIdToResultsSubscriber = TestObserver.create<HotelSearchParams>()
+    val testErrorSearchSubscriber = TestObserver.create<Unit>()
 
     lateinit var handlerUnderTest: HotelDeepLinkHandler
     private val testSuggestionManager = TestHotelSuggestionManager(Mockito.mock(SuggestionV4Services::class.java))
@@ -48,8 +48,8 @@ class HotelDeepLinkHandlerTest {
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams, null)
 
 
-        assertNotNull(testGenericSearchSubscriber.onNextEvents[0])
-        val returnedSuggestion = testGenericSearchSubscriber.onNextEvents[0].suggestion
+        assertNotNull(testGenericSearchSubscriber.values()[0])
+        val returnedSuggestion = testGenericSearchSubscriber.values()[0].suggestion
 
         assertEquals(expectedCurrentLocationText, returnedSuggestion.regionNames.displayName)
         assertEquals(expectedCurrentLocationText, returnedSuggestion.regionNames.shortName)
@@ -69,7 +69,7 @@ class HotelDeepLinkHandlerTest {
         testGenericSearchSubscriber.assertNoValues()
         testErrorSearchSubscriber.assertNoValues()
         testHotelIdToResultsSubscriber.assertNoValues()
-        testHotelIdToDetailsSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
+        testHotelIdToDetailsSubscriber.assertValueSequence(listOf(hotelSearchParams))
 	}
 
     @Test fun handleSpecificHotelDeepLink_ResultsLandingPage() {
@@ -84,7 +84,7 @@ class HotelDeepLinkHandlerTest {
         testErrorSearchSubscriber.assertNoValues()
         testHotelIdToDetailsSubscriber.assertNoValues()
 
-        testHotelIdToResultsSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
+        testHotelIdToResultsSubscriber.assertValueSequence(listOf(hotelSearchParams))
     }
 
 	@Test fun handleLocationDeepLink() {
@@ -112,7 +112,7 @@ class HotelDeepLinkHandlerTest {
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams, null)
 
         testHotelIdToDetailsSubscriber.assertNoValues()
-        testGenericSearchSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
+        testGenericSearchSubscriber.assertValueSequence(listOf(hotelSearchParams))
 	}
 
 	@Test fun handleAirAttachDeepLink() {
@@ -125,7 +125,7 @@ class HotelDeepLinkHandlerTest {
         testSuggestionManager.suggestionReturnSubject.onNext(suggestion)
 
         testHotelIdToDetailsSubscriber.assertNoValues()
-        testGenericSearchSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
+        testGenericSearchSubscriber.assertValueSequence(listOf(hotelSearchParams))
 	}
 
     private fun createHotelSearchParamsForSuggestion(suggestion: SuggestionV4): HotelSearchParams {

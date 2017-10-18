@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -186,10 +186,10 @@ class PackageSearchParamsTest {
 
     @Test
     fun testDateAndOriginValidation() {
-        val searchParamsSubscriber = TestSubscriber<PackageSearchParams>()
-        val noOriginSubscriber = TestSubscriber<Unit>()
-        val noDatesSubscriber = TestSubscriber<Unit>()
-        val maxRangeSubscriber = TestSubscriber<String>()
+        val searchParamsSubscriber = TestObserver<PackageSearchParams>()
+        val noOriginSubscriber = TestObserver<Unit>()
+        val noDatesSubscriber = TestObserver<Unit>()
+        val maxRangeSubscriber = TestObserver<String>()
         val expectedSearchParams = arrayListOf<PackageSearchParams>()
         val expectedOrigins = arrayListOf<Unit>()
         val expectedDates = arrayListOf<Unit>()
@@ -242,14 +242,14 @@ class PackageSearchParamsTest {
                 .endDate(LocalDate.now().plusDays(3)).build() as PackageSearchParams)
 
         searchParamsSubscriber.requestMore(LOTS_MORE)
-        assertEquals(expectedSearchParams[0].endDate, searchParamsSubscriber.onNextEvents[0].endDate)
-        assertEquals(expectedSearchParams[1].endDate, searchParamsSubscriber.onNextEvents[1].endDate)
+        assertEquals(expectedSearchParams[0].endDate, searchParamsSubscriber.values()[0].endDate)
+        assertEquals(expectedSearchParams[1].endDate, searchParamsSubscriber.values()[1].endDate)
         noDatesSubscriber.requestMore(LOTS_MORE)
-        noDatesSubscriber.assertReceivedOnNext(expectedDates)
+        noDatesSubscriber.assertValueSequence(expectedDates)
         maxRangeSubscriber.requestMore(LOTS_MORE)
-        maxRangeSubscriber.assertReceivedOnNext(expectedRangeErrors)
+        maxRangeSubscriber.assertValueSequence(expectedRangeErrors)
         noOriginSubscriber.requestMore(LOTS_MORE)
-        noOriginSubscriber.assertReceivedOnNext(expectedOrigins)
+        noOriginSubscriber.assertValueSequence(expectedOrigins)
     }
 
     private fun getDummySuggestion(code: String): SuggestionV4 {

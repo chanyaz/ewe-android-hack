@@ -23,7 +23,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -48,11 +48,11 @@ class FareFamilyViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFareFamilyCardViewStringsForFreshCreateTrip() {
-        val deltaPriceSubscriber = TestSubscriber<String>()
-        val selectedClassSubscriber = TestSubscriber<String>()
-        val fareFamilyTitleSubscriber = TestSubscriber<String>()
-        val fromLabelVisibilitySubscriber = TestSubscriber<Boolean>()
-        val travellerTextSubscriber = TestSubscriber<String>()
+        val deltaPriceSubscriber = TestObserver<String>()
+        val selectedClassSubscriber = TestObserver<String>()
+        val fareFamilyTitleSubscriber = TestObserver<String>()
+        val fromLabelVisibilitySubscriber = TestObserver<Boolean>()
+        val travellerTextSubscriber = TestObserver<String>()
 
         sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
@@ -60,19 +60,19 @@ class FareFamilyViewModelTest {
         sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
         sut.travellerObservable.subscribe(travellerTextSubscriber)
         sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(2))
-        assertEquals("+$2", deltaPriceSubscriber.onNextEvents[0])
-        assertEquals("Economy", selectedClassSubscriber.onNextEvents[0])
-        assertEquals("Upgrade your flights", fareFamilyTitleSubscriber.onNextEvents[0])
-        assertEquals("4 travelers", travellerTextSubscriber.onNextEvents[0])
-        assertTrue(fromLabelVisibilitySubscriber.onNextEvents[0])
+        assertEquals("+$2", deltaPriceSubscriber.values()[0])
+        assertEquals("Economy", selectedClassSubscriber.values()[0])
+        assertEquals("Upgrade your flights", fareFamilyTitleSubscriber.values()[0])
+        assertEquals("4 travelers", travellerTextSubscriber.values()[0])
+        assertTrue(fromLabelVisibilitySubscriber.values()[0])
     }
 
     @Test
     fun testFareFamilyCardViewStringsAfterSelectingFareFamily() {
-        val deltaPriceSubscriber = TestSubscriber<String>()
-        val selectedClassSubscriber = TestSubscriber<String>()
-        val fareFamilyTitleSubscriber = TestSubscriber<String>()
-        val fromLabelVisibilitySubscriber = TestSubscriber<Boolean>()
+        val deltaPriceSubscriber = TestObserver<String>()
+        val selectedClassSubscriber = TestObserver<String>()
+        val fareFamilyTitleSubscriber = TestObserver<String>()
+        val fromLabelVisibilitySubscriber = TestObserver<Boolean>()
 
         sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
@@ -80,38 +80,38 @@ class FareFamilyViewModelTest {
         sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
 
         sut.tripObservable.onNext(tripResponseWithFareFamilySelected(2))
-        assertEquals("",deltaPriceSubscriber.onNextEvents[0])
-        assertEquals("Economy",selectedClassSubscriber.onNextEvents[0])
-        assertEquals("Change your fare",fareFamilyTitleSubscriber.onNextEvents[0])
-        assertFalse(fromLabelVisibilitySubscriber.onNextEvents[0])
+        assertEquals("",deltaPriceSubscriber.values()[0])
+        assertEquals("Economy",selectedClassSubscriber.values()[0])
+        assertEquals("Change your fare",fareFamilyTitleSubscriber.values()[0])
+        assertFalse(fromLabelVisibilitySubscriber.values()[0])
     }
 
     @Test
     fun fareFamilyWidgetVisiblility() {
-        val widgetVisibilitySubscriber = TestSubscriber<Boolean>()
+        val widgetVisibilitySubscriber = TestObserver<Boolean>()
         sut.widgetVisibilityObservable.subscribe(widgetVisibilitySubscriber)
 
         sut.tripObservable.onNext(tripResponseWithoutFareFamilyAvailable())
-        assertFalse(widgetVisibilitySubscriber.onNextEvents[0])
+        assertFalse(widgetVisibilitySubscriber.values()[0])
 
         sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(2))
-        assertTrue(widgetVisibilitySubscriber.onNextEvents[1])
+        assertTrue(widgetVisibilitySubscriber.values()[1])
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun fareFamilyDeltaPricing() {
-        val deltaPriceSubscriber = TestSubscriber<String>()
+        val deltaPriceSubscriber = TestObserver<String>()
         sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
 
         sut.tripObservable.onNext(tripResponseWithoutFareFamilyAvailable())
         deltaPriceSubscriber.assertNoValues()
 
         sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(1))
-        assertEquals("+$1", deltaPriceSubscriber.onNextEvents[0])
+        assertEquals("+$1", deltaPriceSubscriber.values()[0])
 
         sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(2))
-        assertEquals("+$2", deltaPriceSubscriber.onNextEvents[1])
+        assertEquals("+$2", deltaPriceSubscriber.values()[1])
     }
 
     private fun tripResponseWithFareFamilySelected(numberOfObjects: Int): FlightCreateTripResponse {

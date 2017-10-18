@@ -19,7 +19,7 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -43,13 +43,13 @@ class PaymentModelTest {
     }
     var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
 
-    val amountChosenToBePaidWithPointsTestSubscriber = TestSubscriber<BigDecimal>()
-    val paymentSplitsTestSubscriber = TestSubscriber<PaymentSplits>()
-    val currencyToPointsApiResponseTestSubscriber = TestSubscriber<CalculatePointsResponse>()
-    val currencyToPointsApiErrorTestSubscriber = TestSubscriber<ApiError>()
-    val createTripResponseTestSubscriber = TestSubscriber<TripResponse>()
-    val couponChangeTestSubscriber = TestSubscriber<TripResponse>()
-    val priceChangeDuringCheckoutTestSubscriber = TestSubscriber<TripResponse>()
+    val amountChosenToBePaidWithPointsTestSubscriber = TestObserver<BigDecimal>()
+    val paymentSplitsTestSubscriber = TestObserver<PaymentSplits>()
+    val currencyToPointsApiResponseTestSubscriber = TestObserver<CalculatePointsResponse>()
+    val currencyToPointsApiErrorTestSubscriber = TestObserver<ApiError>()
+    val createTripResponseTestSubscriber = TestObserver<TripResponse>()
+    val couponChangeTestSubscriber = TestObserver<TripResponse>()
+    val priceChangeDuringCheckoutTestSubscriber = TestObserver<TripResponse>()
 
     //TODO Mock data for price change and coupon change does not have points in response similar to create trip
     //so leaving the tests for these for now and created mingle card for the same
@@ -97,7 +97,7 @@ class PaymentModelTest {
         //When SWP Opted is true
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[0], expectedPaymentSplits))
 
         //Expected Payment Split when SWP Opted is false
         paymentModel.swpOpted.onNext(false)
@@ -106,7 +106,7 @@ class PaymentModelTest {
 
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(2)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[1], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[1], expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
@@ -130,7 +130,7 @@ class PaymentModelTest {
 
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(2)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[1], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[1], expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
@@ -163,7 +163,7 @@ class PaymentModelTest {
 
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(2)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[1], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[1], expectedPaymentSplits))
     }
 
     @Test
@@ -205,7 +205,7 @@ class PaymentModelTest {
 
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[0], expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
@@ -232,7 +232,7 @@ class PaymentModelTest {
 
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[0], expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
@@ -258,7 +258,7 @@ class PaymentModelTest {
         Assert.assertFalse(paymentModel.pwpOpted.value)
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[0], expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
@@ -286,7 +286,7 @@ class PaymentModelTest {
 
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[0], expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
@@ -310,7 +310,7 @@ class PaymentModelTest {
 
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[0], expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
@@ -337,7 +337,7 @@ class PaymentModelTest {
         Assert.assertFalse(paymentModel.pwpOpted.value)
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[0], expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)

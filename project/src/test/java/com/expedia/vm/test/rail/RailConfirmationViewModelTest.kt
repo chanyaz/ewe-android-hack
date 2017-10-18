@@ -11,7 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -35,40 +35,40 @@ class RailConfirmationViewModelTest {
     fun testOneWay() {
         val oneWayOffer = getMockOneWayOffer()
 
-        val testItinSub = TestSubscriber<String>()
-        val testInboundVisibleSub = TestSubscriber<Boolean>()
+        val testItinSub = TestObserver<String>()
+        val testInboundVisibleSub = TestObserver<Boolean>()
 
         testConfirmationVM.itinNumberObservable.subscribe(testItinSub)
         testConfirmationVM.inboundCardVisibility.subscribe(testInboundVisibleSub)
 
         testConfirmationVM.railOfferObserver.onNext(oneWayOffer)
 
-        assertEquals(getExpectedEmailSent(), testItinSub.onNextEvents[0])
-        assertFalse(testInboundVisibleSub.onNextEvents[0])
+        assertEquals(getExpectedEmailSent(), testItinSub.values()[0])
+        assertFalse(testInboundVisibleSub.values()[0])
     }
 
     @Test
     fun testOpenReturn() {
         val openReturnOffer = getMockOpenReturnOffer()
 
-        val testInboundVisibleSub = TestSubscriber<Boolean>()
+        val testInboundVisibleSub = TestObserver<Boolean>()
         testConfirmationVM.inboundCardVisibility.subscribe(testInboundVisibleSub)
 
         testConfirmationVM.railOfferObserver.onNext(openReturnOffer)
 
-        assertTrue(testInboundVisibleSub.onNextEvents[0])
+        assertTrue(testInboundVisibleSub.values()[0])
     }
 
     @Test
     fun testRoundTrip() {
         val roundTripOffer = getMockRoundTripOffer()
 
-        val testInboundVisibleSub = TestSubscriber<Boolean>()
+        val testInboundVisibleSub = TestObserver<Boolean>()
         testConfirmationVM.inboundCardVisibility.subscribe(testInboundVisibleSub)
 
         testConfirmationVM.railOfferObserver.onNext(roundTripOffer)
 
-        assertTrue(testInboundVisibleSub.onNextEvents[0])
+        assertTrue(testInboundVisibleSub.values()[0])
     }
 
 

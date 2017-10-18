@@ -2,7 +2,6 @@ package com.expedia.bookings.test.robolectric
 
 import android.view.View
 import android.widget.FrameLayout
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
@@ -17,13 +16,12 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.ui.FlightActivity
-import com.mobiata.android.util.SettingUtils
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -47,8 +45,8 @@ class FlightListAdapterTest {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
         isRoundTripSubject = BehaviorSubject.create<Boolean>()
         isRoundTripSubject.onNext(false)
-        isNonStopSubject = BehaviorSubject.create(false)
-        isRefundableSubject = BehaviorSubject.create(false)
+        isNonStopSubject = BehaviorSubject.createDefault(false)
+        isRefundableSubject = BehaviorSubject.createDefault(false)
         flightCabinClassSubject = BehaviorSubject.create()
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
         isOutboundSearch = false

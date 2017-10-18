@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -38,54 +38,54 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testHotels() {
-        val resultsSubscriber = TestSubscriber<PackageSearchType>()
+        val resultsSubscriber = TestObserver<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
 
         sut.hotelParamsObservable.onNext(setUpParams())
 
         resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        resultsSubscriber.assertNoTerminalEvent()
+        resultsSubscriber.assertNotTerminated()
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(1)
 
-        assertEquals(PackageSearchType.HOTEL, resultsSubscriber.onNextEvents[0])
+        assertEquals(PackageSearchType.HOTEL, resultsSubscriber.values()[0])
     }
 
     @Test
     fun testHotelsError() {
         AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
-        val errorSubscriber = TestSubscriber<PackageApiError.Code>()
+        val errorSubscriber = TestObserver<PackageApiError.Code>()
         sut.errorObservable.subscribe(errorSubscriber)
 
         sut.hotelParamsObservable.onNext(setUpParams("error"))
 
         errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        errorSubscriber.assertNoTerminalEvent()
+        errorSubscriber.assertNotTerminated()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.onNextEvents[0])
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0])
     }
 
     @Test
     fun testFlightsInbound() {
-        val resultsSubscriber = TestSubscriber<PackageSearchType>()
+        val resultsSubscriber = TestObserver<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
 
         sut.flightParamsObservable.onNext(setUpParams())
 
         resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        resultsSubscriber.assertNoTerminalEvent()
+        resultsSubscriber.assertNotTerminated()
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(1)
 
-        assertEquals(PackageSearchType.INBOUND_FLIGHT, resultsSubscriber.onNextEvents[0])
+        assertEquals(PackageSearchType.INBOUND_FLIGHT, resultsSubscriber.values()[0])
     }
 
     @Test
     fun testFlightsInboundError() {
         AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
 
-        val errorSubscriber = TestSubscriber<PackageApiError.Code>()
+        val errorSubscriber = TestObserver<PackageApiError.Code>()
         sut.errorObservable.subscribe(errorSubscriber)
 
         val params = setUpParams()
@@ -93,15 +93,15 @@ class BundleOverviewViewModelTests {
         sut.flightParamsObservable.onNext(params)
 
         errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        errorSubscriber.assertNoTerminalEvent()
+        errorSubscriber.assertNotTerminated()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.onNextEvents[0])
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0])
     }
 
     @Test
     fun testFlightsOutbound() {
-        val resultsSubscriber = TestSubscriber<PackageSearchType>()
+        val resultsSubscriber = TestObserver<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
         val params = setUpParams()
         params.packagePIID = "happy_outbound_flight"
@@ -109,18 +109,18 @@ class BundleOverviewViewModelTests {
         sut.flightParamsObservable.onNext(params)
 
         resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        resultsSubscriber.assertNoTerminalEvent()
+        resultsSubscriber.assertNotTerminated()
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(1)
 
-        assertEquals(PackageSearchType.OUTBOUND_FLIGHT, resultsSubscriber.onNextEvents[0])
+        assertEquals(PackageSearchType.OUTBOUND_FLIGHT, resultsSubscriber.values()[0])
     }
 
     @Test
     fun testFlightsOutboundError() {
         AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
 
-        val errorSubscriber = TestSubscriber<PackageApiError.Code>()
+        val errorSubscriber = TestObserver<PackageApiError.Code>()
         sut.errorObservable.subscribe(errorSubscriber)
 
         val params = setUpParams()
@@ -128,10 +128,10 @@ class BundleOverviewViewModelTests {
         sut.flightParamsObservable.onNext(params)
 
         errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        errorSubscriber.assertNoTerminalEvent()
+        errorSubscriber.assertNotTerminated()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.onNextEvents[0])
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0])
     }
 
     private fun setUpParams(originAirportCode: String = ""): PackageSearchParams {

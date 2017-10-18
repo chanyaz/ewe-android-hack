@@ -30,7 +30,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -60,8 +60,8 @@ class HotelSearchTest {
 
     @Test
     fun selectDatesAndSearch() {
-        val testSubscriber = TestSubscriber<HotelSearchParams>()
-        val errorSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<HotelSearchParams>()
+        val errorSubscriber = TestObserver<String>()
         val expected = arrayListOf<HotelSearchParams>()
         val suggestion = getDummySuggestion()
 
@@ -103,15 +103,15 @@ class HotelSearchTest {
 
         testSubscriber.requestMore(LOTS_MORE)
         errorSubscriber.requestMore(LOTS_MORE)
-        assertEquals(testSubscriber.onNextEvents[0].checkOut, expected[0].checkOut)
-        assertEquals(testSubscriber.onNextEvents[1].checkOut, expected[1].checkOut)
+        assertEquals(testSubscriber.values()[0].checkOut, expected[0].checkOut)
+        assertEquals(testSubscriber.values()[1].checkOut, expected[1].checkOut)
         errorSubscriber.assertValue(activity.resources.getString(R.string.error_date_too_far))
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun shopWithPointsSelection() {
-        val testSubscriber = TestSubscriber<HotelSearchParams>()
+        val testSubscriber = TestObserver<HotelSearchParams>()
         val expected = arrayListOf<HotelSearchParams>()
         val suggestion = getDummySuggestion()
 
@@ -141,9 +141,9 @@ class HotelSearchTest {
         vm.searchObserver.onNext(Unit)
         expected.add(builder.shopWithPoints(true).build())
 
-        assertEquals(testSubscriber.onNextEvents[0].shopWithPoints, expected[0].shopWithPoints)
-        assertEquals(testSubscriber.onNextEvents[1].shopWithPoints, expected[1].shopWithPoints)
-        assertEquals(testSubscriber.onNextEvents[2].shopWithPoints, expected[2].shopWithPoints)
+        assertEquals(testSubscriber.values()[0].shopWithPoints, expected[0].shopWithPoints)
+        assertEquals(testSubscriber.values()[1].shopWithPoints, expected[1].shopWithPoints)
+        assertEquals(testSubscriber.values()[2].shopWithPoints, expected[2].shopWithPoints)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -35,7 +35,7 @@ class RailCostSummaryBreakdownViewModelTest {
     fun passengerFareBreakdownIncluded() {
         costBreakdownVM = RailCostSummaryBreakdownViewModel(activity, false)
 
-        val breakdownsSubscriber = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val breakdownsSubscriber = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         costBreakdownVM.addRows.subscribe(breakdownsSubscriber)
         costBreakdownVM.railCostSummaryBreakdownObservable.onNext(buildRailResponseWithPassengerBreakdowns())
 
@@ -44,14 +44,14 @@ class RailCostSummaryBreakdownViewModelTest {
         val breakdown3 = BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total").cost("$120.00").build()
         val expectedBreakdown = listOf(breakdown1, breakdown2, breakdown3)
 
-        breakdownsSubscriber.assertReceivedOnNext(listOf(expectedBreakdown))
+        breakdownsSubscriber.assertValueSequence(listOf(expectedBreakdown))
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun priceBreakdownFeesIncluded() {
         costBreakdownVM = RailCostSummaryBreakdownViewModel(activity, false)
 
-        val breakdownsSubscriber = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val breakdownsSubscriber = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         costBreakdownVM.addRows.subscribe(breakdownsSubscriber)
         costBreakdownVM.railCostSummaryBreakdownObservable.onNext(buildRailResponseWithFees())
 
@@ -63,7 +63,7 @@ class RailCostSummaryBreakdownViewModelTest {
         val breakdown6 = BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total").cost("$131.00").build()
         val expectedBreakdown = listOf(breakdown1, breakdown2, breakdown3, breakdown4, breakdown5, breakdown6)
 
-        breakdownsSubscriber.assertReceivedOnNext(listOf(expectedBreakdown))
+        breakdownsSubscriber.assertValueSequence(listOf(expectedBreakdown))
     }
 
     private fun buildRailResponseWithPassengerBreakdowns(): RailCreateTripResponse {

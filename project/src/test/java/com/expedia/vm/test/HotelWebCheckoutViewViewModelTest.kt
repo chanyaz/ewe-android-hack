@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.data.hotels.RoomInfoFields
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import kotlin.test.assertFalse
@@ -47,7 +47,7 @@ class HotelWebCheckoutViewViewModelTest {
     fun testWebViewURLObservable() {
         SettingUtils.save(getContext(), "point_of_sale_key", PointOfSaleId.INDIA.id.toString())
         PointOfSale.onPointOfSaleChanged(getContext())
-        val webViewURLSubscriber = TestSubscriber<String>()
+        val webViewURLSubscriber = TestObserver<String>()
         hotelWebCheckoutViewViewModel.webViewURLObservable.subscribe(webViewURLSubscriber)
         val hotelCreateTripParams = HotelCreateTripParams("happypath_0", false, 1, arrayListOf())
         hotelWebCheckoutViewViewModel.createTripViewModel.tripParams.onNext(hotelCreateTripParams)
@@ -58,7 +58,7 @@ class HotelWebCheckoutViewViewModelTest {
     @Test
     fun testFunctionalityOfDoCreateTrip() {
         var hotelSearchParams = HotelPresenterTestUtil.getDummyHotelSearchParams(getContext())
-        var testSubscriber = TestSubscriber<HotelCreateTripParams>()
+        var testSubscriber = TestObserver<HotelCreateTripParams>()
         var roomInfoFields = RoomInfoFields(2, listOf(10, 10, 10))
         var hotelOfferResponse = mockHotelServiceTestRule.getHappyOfferResponse()
         var offerResponse = hotelOfferResponse.hotelRoomResponse.first()
@@ -68,9 +68,9 @@ class HotelWebCheckoutViewViewModelTest {
         hotelWebCheckoutViewViewModel.createTripViewModel.tripParams.subscribe(testSubscriber)
         hotelWebCheckoutViewViewModel.doCreateTrip()
 
-        assertEquals(offerResponse.productKey, testSubscriber.onNextEvents[0].productKey)
-        assertFalse(testSubscriber.onNextEvents[0].qualityAirAttach)
-        assertEquals(roomInfoFields.room, testSubscriber.onNextEvents[0].roomInfoFields.room)
+        assertEquals(offerResponse.productKey, testSubscriber.values()[0].productKey)
+        assertFalse(testSubscriber.values()[0].qualityAirAttach)
+        assertEquals(roomInfoFields.room, testSubscriber.values()[0].roomInfoFields.room)
     }
 
 }

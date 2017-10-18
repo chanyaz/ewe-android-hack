@@ -31,7 +31,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
@@ -54,10 +54,10 @@ class BucksViewModelTest {
         return RuntimeEnvironment.application
     }
 
-    private val updateToggleTestSubscriber = TestSubscriber.create<Boolean>()
-    private val pointsAppliedMessageColorTestSubscriber = TestSubscriber.create<Int>()
-    private val bucksWidgetVisibilityTestSubscriber = TestSubscriber.create<Boolean>()
-    private val paymentSplitsTestSubscriber = TestSubscriber<PaymentSplits>()
+    private val updateToggleTestSubscriber = TestObserver.create<Boolean>()
+    private val pointsAppliedMessageColorTestSubscriber = TestObserver.create<Int>()
+    private val bucksWidgetVisibilityTestSubscriber = TestObserver.create<Boolean>()
+    private val paymentSplitsTestSubscriber = TestObserver<PaymentSplits>()
 
     private var enableColor: Int by Delegates.notNull()
     private var disableColor: Int by Delegates.notNull()
@@ -100,7 +100,7 @@ class BucksViewModelTest {
         pointsAppliedMessageColorTestSubscriber.assertValue(enableColor)
         bucksWidgetVisibilityTestSubscriber.assertValue(true)
 
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], fullPayableWithPointsPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[0], fullPayableWithPointsPaymentSplits))
     }
 
     @Test
@@ -109,12 +109,12 @@ class BucksViewModelTest {
         bucksViewModel.bucksOpted.onNext(false)
 
         pointsAppliedMessageColorTestSubscriber.assertValues(enableColor, disableColor)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[1], fullPayableWithCardPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[1], fullPayableWithCardPaymentSplits))
 
         bucksViewModel.bucksOpted.onNext(true)
 
         pointsAppliedMessageColorTestSubscriber.assertValues(enableColor, disableColor, enableColor)
-        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[2], fullPayableWithPointsPaymentSplits))
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.values()[2], fullPayableWithPointsPaymentSplits))
     }
 
     private fun comparePaymentSplits(paymentSplits: PaymentSplits, expectedPaymentSplits: PaymentSplits): Boolean {

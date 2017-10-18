@@ -19,7 +19,7 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
@@ -40,9 +40,9 @@ class FlightAirAttachViewModelTest {
         val expiresInFuture = DateTime.now().plusDays(50).toString()
         val response = getCheckoutResponse(expiresInFuture)
 
-        val crossSellDaysRemaining = TestSubscriber<String>()
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-        val crossSellExpiresFutureView = TestSubscriber<Boolean>()
+        val crossSellDaysRemaining = TestObserver<String>()
+        val crossSellExpiresTodayView = TestObserver<Boolean>()
+        val crossSellExpiresFutureView = TestObserver<Boolean>()
 
         viewModel = HotelCrossSellViewModel(activity)
         viewModel.daysRemainingVisibility.subscribe(crossSellExpiresFutureView)
@@ -60,8 +60,8 @@ class FlightAirAttachViewModelTest {
     fun crossSellExpirationTodayTest() {
         val expiresToday = DateTime.now().toString()
         val response = getCheckoutResponse(expiresToday)
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-        val crossSellExpiresFutureView = TestSubscriber<Boolean>()
+        val crossSellExpiresTodayView = TestObserver<Boolean>()
+        val crossSellExpiresFutureView = TestObserver<Boolean>()
 
         viewModel = HotelCrossSellViewModel(activity)
         viewModel.daysRemainingVisibility.subscribe(crossSellExpiresFutureView)
@@ -78,8 +78,8 @@ class FlightAirAttachViewModelTest {
         val pastExpiration = DateTime.now().minusDays(50).toString()
         val response = getCheckoutResponse(pastExpiration)
 
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-        val crossSellExpiresFutureView = TestSubscriber<Boolean>()
+        val crossSellExpiresTodayView = TestObserver<Boolean>()
+        val crossSellExpiresFutureView = TestObserver<Boolean>()
 
         viewModel = HotelCrossSellViewModel(activity)
         viewModel.daysRemainingVisibility.subscribe(crossSellExpiresFutureView)

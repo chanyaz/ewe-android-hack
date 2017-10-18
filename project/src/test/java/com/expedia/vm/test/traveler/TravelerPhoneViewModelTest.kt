@@ -12,7 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -73,10 +73,10 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val testSubscriber = TestSubscriber<String>(1)
+        val testSubscriber = TestObserver<String>(1)
         phoneVm.phoneViewModel.textSubject.subscribe(testSubscriber)
 
-        assertEquals(TEST_NUMBER, testSubscriber.onNextEvents[0])
+        assertEquals(TEST_NUMBER, testSubscriber.values()[0])
         testSubscriber.assertValueCount(1)
     }
 
@@ -87,11 +87,11 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val testSubscriber = TestSubscriber<Boolean>(1)
+        val testSubscriber = TestObserver<Boolean>(1)
         phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertFalse(phoneVm.validate())
-        assertEquals(true, testSubscriber.onNextEvents[0])
+        assertEquals(true, testSubscriber.values()[0])
         testSubscriber.assertValueCount(1)
     }
 
@@ -100,11 +100,11 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(Phone())
 
-        val testSubscriber = TestSubscriber<Boolean>(1)
+        val testSubscriber = TestObserver<Boolean>(1)
         phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertFalse(phoneVm.validate())
-        assertEquals(true, testSubscriber.onNextEvents[0])
+        assertEquals(true, testSubscriber.values()[0])
         testSubscriber.assertValueCount(1)
     }
 
@@ -115,11 +115,11 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val testSubscriber = TestSubscriber<Boolean>(1)
+        val testSubscriber = TestObserver<Boolean>(1)
         phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertTrue(phoneVm.validate())
-        assertEquals(false, testSubscriber.onNextEvents[0])
+        assertEquals(false, testSubscriber.values()[0])
         testSubscriber.assertValueCount(1)
     }
 }

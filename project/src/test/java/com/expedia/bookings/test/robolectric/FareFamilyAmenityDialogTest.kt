@@ -17,7 +17,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.Locale
 import kotlin.test.assertEquals

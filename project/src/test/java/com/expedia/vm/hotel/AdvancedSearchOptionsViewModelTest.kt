@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -55,12 +55,12 @@ class AdvancedSearchOptionsViewModelTest {
         vm.updateStarRating(starRating)
         vm.isVipAccess(true)
 
-        val testSubject = TestSubscriber<UserFilterChoices>()
+        val testSubject = TestObserver<UserFilterChoices>()
         vm.resetViewsSubject.subscribe(testSubject)
 
         vm.clearObservable.onNext(Unit)
 
-        val searchOption = testSubject.onNextEvents[0]
+        val searchOption = testSubject.values()[0]
         assertNotNull(searchOption)
         assertTrue(searchOption.name.isBlank())
         assertEquals(DisplaySort.RECOMMENDED, searchOption.userSort)
@@ -70,19 +70,19 @@ class AdvancedSearchOptionsViewModelTest {
 
     @Test
     fun testShowClearButton() {
-        val testSubject = TestSubscriber<Boolean>()
+        val testSubject = TestObserver<Boolean>()
         vm.showClearButtonSubject.subscribe(testSubject)
 
         vm.selectHotelName("Hyatt")
-        assertTrue(testSubject.onNextEvents[0])
+        assertTrue(testSubject.values()[0])
 
         vm.clearObservable.onNext(Unit)
-        assertFalse(testSubject.onNextEvents[1])
+        assertFalse(testSubject.values()[1])
 
         vm.selectSortOption(DisplaySort.PRICE)
-        assertTrue(testSubject.onNextEvents[2])
+        assertTrue(testSubject.values()[2])
 
         vm.clearObservable.onNext(Unit)
-        assertFalse(testSubject.onNextEvents[3])
+        assertFalse(testSubject.values()[3])
     }
 }

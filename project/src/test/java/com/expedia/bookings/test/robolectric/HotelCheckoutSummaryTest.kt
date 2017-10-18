@@ -18,7 +18,7 @@ import org.robolectric.Robolectric
 import android.view.View
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

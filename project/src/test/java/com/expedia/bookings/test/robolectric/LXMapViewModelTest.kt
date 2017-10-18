@@ -23,8 +23,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.subjects.PublishSubject
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 import kotlin.test.assertEquals
 
@@ -42,10 +42,10 @@ class LXMapViewModelTest {
         it.redemptionLocationsLatLng.subscribe(redemptionLocationsLatLngTestSubscriber)
     }
 
-    val activityNameTestSubscriber = TestSubscriber<String>()
-    val activityPriceTestSubscriber = TestSubscriber<CharSequence>()
-    val eventLatLngTestSubscriber = TestSubscriber<LatLong>()
-    val redemptionLocationsLatLngTestSubscriber = TestSubscriber<List<LatLong>>()
+    val activityNameTestSubscriber = TestObserver<String>()
+    val activityPriceTestSubscriber = TestObserver<CharSequence>()
+    val eventLatLngTestSubscriber = TestObserver<LatLong>()
+    val redemptionLocationsLatLngTestSubscriber = TestObserver<List<LatLong>>()
 
     @Before fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -77,10 +77,10 @@ class LXMapViewModelTest {
         activityPriceTestSubscriber.assertValueCount(1)
 
         activityNameTestSubscriber.assertValue("New York Pass: Visit up to 80 Attractions, Museums & Tours")
-        compareLocationLatLng(eventLatLngTestSubscriber.onNextEvents[0]
+        compareLocationLatLng(eventLatLngTestSubscriber.values()[0]
                 , ActivityDetailsResponse.LXLocation.getLocation(activityOffersResponse.eventLocation.latLng))
         redemptionLocationsLatLngTestSubscriber.assertValue(emptyList())
-        assertEquals("From $130", activityPriceTestSubscriber.onNextEvents[0].toString())
+        assertEquals("From $130", activityPriceTestSubscriber.values()[0].toString())
 
     }
 

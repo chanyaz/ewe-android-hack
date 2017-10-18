@@ -21,7 +21,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner :: class)
@@ -56,13 +56,13 @@ class PackageOverviewPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBundleTotalTextAfterCreateTrip() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
-        val testSubscriber = TestSubscriber.create<PackageCreateTripResponse>()
+        val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
         val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
         packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
         assertEquals("Bundle total", overviewPresenter.totalPriceWidget.bundleTotalText.text)
         setPointOfSale(PointOfSaleId.JAPAN)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.onNextEvents[0])
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
         assertEquals("Trip total", overviewPresenter.totalPriceWidget.bundleTotalText.text)
         setPointOfSale(initialPOSID)
     }

@@ -13,7 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 
 @RunWith(RobolectricRunner::class)
 class ItinPOSHeaderViewModelTest {
@@ -33,8 +33,8 @@ class ItinPOSHeaderViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun updateSelectedPOS() {
-        val textTestSubscriber = TestSubscriber<String>()
-        val imageTestSubscriber = TestSubscriber<Int>()
+        val textTestSubscriber = TestObserver<String>()
+        val imageTestSubscriber = TestObserver<Int>()
         sut.posTextViewSubject.subscribe(textTestSubscriber)
         sut.posImageViewSubject.subscribe(imageTestSubscriber)
 

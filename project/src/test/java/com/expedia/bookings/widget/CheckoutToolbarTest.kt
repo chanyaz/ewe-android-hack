@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -78,11 +78,11 @@ class CheckoutToolbarTest {
         setUpActivity()
         setSecureIconAbacusAndFeatureToggle()
         getToolbar()
-        val toolbarCustomTitleTestSubscriber = TestSubscriber.create<String>()
+        val toolbarCustomTitleTestSubscriber = TestObserver.create<String>()
         toolbar.viewModel.toolbarCustomTitle.subscribe(toolbarCustomTitleTestSubscriber)
 
         toolbar.viewModel.toolbarTitle.onNext("asdf")
-        assertEquals("asdf", toolbarCustomTitleTestSubscriber.onNextEvents[0])
+        assertEquals("asdf", toolbarCustomTitleTestSubscriber.values()[0])
     }
 
     private fun setSecureIconAbacusAndFeatureToggle() {

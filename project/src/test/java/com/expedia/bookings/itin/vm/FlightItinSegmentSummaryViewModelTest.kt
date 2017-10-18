@@ -11,7 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -20,10 +20,10 @@ class FlightItinSegmentSummaryViewModelTest {
     lateinit private var sut: FlightItinSegmentSummaryViewModel
     lateinit private var dateTime: DateTime
 
-    val createAirlineWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.AirlineWidgetParams>()
-    val createTimingWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.TimingWidgetParams>()
-    val createSeatingWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SeatingWidgetParams>()
-    val updateTerminalGateSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.TerminalGateParams>()
+    val createAirlineWidgetSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.AirlineWidgetParams>()
+    val createTimingWidgetSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.TimingWidgetParams>()
+    val createSeatingWidgetSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.SeatingWidgetParams>()
+    val updateTerminalGateSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.TerminalGateParams>()
 
     @Before
     fun setup() {

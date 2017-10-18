@@ -3,7 +3,6 @@ package com.expedia.bookings.test.robolectric
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
@@ -12,6 +11,7 @@ import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -19,7 +19,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
@@ -30,7 +29,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
 import java.text.DecimalFormat
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -217,7 +215,7 @@ class HotelRoomRateViewModelTest {
     fun roomInformationVisibility() {
         setupNonSoldOutRoomUnderTest()
 
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
 
         sut.roomInfoVisibilityObservable.subscribe(testSubscriber)
         testSubscriber.assertValuesAndClear(true)
@@ -226,9 +224,6 @@ class HotelRoomRateViewModelTest {
         testSubscriber.assertValuesAndClear(false)
 
         sut.roomRateInfoTextObservable.onNext("\n \t \n")
-        testSubscriber.assertValuesAndClear(false)
-
-        sut.roomRateInfoTextObservable.onNext(null)
         testSubscriber.assertValuesAndClear(false)
 
         sut.roomRateInfoTextObservable.onNext("\n \t . \n")

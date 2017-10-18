@@ -4,19 +4,19 @@ import android.app.Application
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelBreakDownViewModel.Breakdown
 import com.expedia.vm.HotelBreakDownViewModel.BreakdownItem
 import com.expedia.vm.HotelCheckoutSummaryViewModel
+import io.reactivex.subjects.PublishSubject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -51,7 +51,7 @@ class HotelBreakdownTest {
     fun verifyCostBreakdownForUserWithNoRewardPoints() {
         givenHappyCreateTripResponse()
 
-        val testSubscriber = TestSubscriber<List<Breakdown>>()
+        val testSubscriber = TestObserver<List<Breakdown>>()
         vm.addRows.subscribe(testSubscriber)
 
         executeTest(testSubscriber)
@@ -63,8 +63,8 @@ class HotelBreakdownTest {
                 Breakdown("Trip Total", "$135.81", BreakdownItem.TRIPTOTAL),
                 Breakdown("Due to Expedia today", "$0", BreakdownItem.OTHER)))
 
-        testSubscriber.assertReceivedOnNext(expected)
-        testSubscriber.unsubscribe()
+        testSubscriber.assertValueSequence(expected)
+        testSubscriber.dispose()
     }
 
     @Test
@@ -72,7 +72,7 @@ class HotelBreakdownTest {
     fun verifyCostBreakdownForUserWithRedeemablePoints() {
         givenLoggedInUserWithEnoughRedeemablePointsResponse()
 
-        val testSubscriber = TestSubscriber<List<Breakdown>>()
+        val testSubscriber = TestObserver<List<Breakdown>>()
         vm.addRows.subscribe(testSubscriber)
 
         executeTest(testSubscriber, Runnable() {
@@ -95,8 +95,8 @@ class HotelBreakdownTest {
                 Breakdown("14,005 points", "$100.00", BreakdownItem.DISCOUNT),
                 Breakdown("Trip Total", "$3.70", BreakdownItem.TRIPTOTAL)))
 
-        testSubscriber.assertReceivedOnNext(expected)
-        testSubscriber.unsubscribe()
+        testSubscriber.assertValueSequence(expected)
+        testSubscriber.dispose()
     }
 
     @Test
@@ -104,7 +104,7 @@ class HotelBreakdownTest {
     fun verifyCostBreakDownForFeesWithIncludedTaxes() {
         givenHotelWithFeesAndIncludedTaxesResponse()
 
-        val testSubscriber = TestSubscriber<List<Breakdown>>()
+        val testSubscriber = TestObserver<List<Breakdown>>()
         vm.addRows.subscribe(testSubscriber)
 
         executeTest(testSubscriber)
@@ -117,15 +117,15 @@ class HotelBreakdownTest {
                 Breakdown("Taxes & Fees", "$19.89", BreakdownItem.OTHER),
                 Breakdown("Trip Total", "$130.32", BreakdownItem.TRIPTOTAL)))
 
-        testSubscriber.assertReceivedOnNext(expected)
-        testSubscriber.unsubscribe()
+        testSubscriber.assertValueSequence(expected)
+        testSubscriber.dispose()
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun verifyCostBreakDownForFeesPaidAtHotel() {
         givenHotelWithFeesPaidAtHotelResponse()
 
-        val testSubscriber = TestSubscriber<List<Breakdown>>()
+        val testSubscriber = TestObserver<List<Breakdown>>()
         vm.addRows.subscribe(testSubscriber)
 
         executeTest(testSubscriber)
@@ -138,15 +138,15 @@ class HotelBreakdownTest {
                 Breakdown("Trip Total", "$190.77", BreakdownItem.TRIPTOTAL),
                 Breakdown("Due to Expedia", "$188.28", BreakdownItem.OTHER)))
 
-        testSubscriber.assertReceivedOnNext(expected)
-        testSubscriber.unsubscribe()
+        testSubscriber.assertValueSequence(expected)
+        testSubscriber.dispose()
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun verifyCostBreakDownForGuestCharge() {
         givenHotelWithGuestChargeResponse()
 
-        val testSubscriber = TestSubscriber<List<Breakdown>>()
+        val testSubscriber = TestObserver<List<Breakdown>>()
         vm.addRows.subscribe(testSubscriber)
 
         executeTest(testSubscriber)
@@ -162,8 +162,8 @@ class HotelBreakdownTest {
                 Breakdown("Trip Total", "$595.94", BreakdownItem.TRIPTOTAL),
                 Breakdown("Due to Expedia", "$528.74", BreakdownItem.OTHER)))
 
-        testSubscriber.assertReceivedOnNext(expected)
-        testSubscriber.unsubscribe()
+        testSubscriber.assertValueSequence(expected)
+        testSubscriber.dispose()
     }
 
     @Test
@@ -171,7 +171,7 @@ class HotelBreakdownTest {
     fun verifyCostBreakDownForIncludedTaxes() {
         givenHotelWithTaxesIncludedResponse()
 
-        val testSubscriber = TestSubscriber<List<Breakdown>>()
+        val testSubscriber = TestObserver<List<Breakdown>>()
         vm.addRows.subscribe(testSubscriber)
 
         executeTest(testSubscriber)
@@ -182,11 +182,11 @@ class HotelBreakdownTest {
                 Breakdown("Taxes & Fees", "Included", BreakdownItem.OTHER),
                 Breakdown("Trip Total", "$72.96", BreakdownItem.TRIPTOTAL)))
 
-        testSubscriber.assertReceivedOnNext(expected)
-        testSubscriber.unsubscribe()
+        testSubscriber.assertValueSequence(expected)
+        testSubscriber.dispose()
     }
 
-    private fun executeTest(testSubscriber: TestSubscriber<List<HotelBreakDownViewModel.Breakdown>>, runBeforeComplete: Runnable? = null) {
+    private fun executeTest(testSubscriber: TestObserver<List<HotelBreakDownViewModel.Breakdown>>, runBeforeComplete: Runnable? = null) {
         val latch = CountDownLatch(1)
         vm.addRows.subscribe { latch.countDown() }
 
@@ -197,7 +197,7 @@ class HotelBreakdownTest {
         runBeforeComplete?.run()
 
         assertTrue(latch.await(10, TimeUnit.SECONDS))
-        vm.addRows.onCompleted()
+        vm.addRows.onComplete()
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
     }
 

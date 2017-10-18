@@ -21,7 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
@@ -45,7 +45,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         setUpFlightSubPubChange()
         givenGoodTripResponse()
 
-        val breakdownRowsTestObservable = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val breakdownRowsTestObservable = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
         sut.flightCostSummaryObservable.onNext(newTripResponse)
         val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
@@ -74,7 +74,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[7]
         )
 
-        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
+        assertEvents(expectedBreakdown, breakdownRowsTestObservable.values()[0])
     }
 
     @Test
@@ -84,7 +84,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         givenGoodTripResponse()
         givenTripResponseHasFees()
 
-        val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val breakdownRowsTestObservable = TestObserver<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
         sut.flightCostSummaryObservable.onNext(newTripResponse)
 
@@ -116,7 +116,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[8],
                 breakdowns[9]
         )
-        val breakdownRows = breakdownRowsTestObservable.onNextEvents[0]
+        val breakdownRows = breakdownRowsTestObservable.values()[0]
         assertEquals(10, breakdownRows.size)
         assertEvents(expectedBreakdown, breakdownRows)
     }
@@ -128,7 +128,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         givenGoodTripResponse()
         setupInsuranceFees()
 
-        val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val breakdownRowsTestObservable = TestObserver<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
         sut.flightCostSummaryObservable.onNext(newTripResponse)
 
@@ -163,7 +163,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[8],
                 breakdowns[9]
         )
-        val breakdownRows = breakdownRowsTestObservable.onNextEvents[0]
+        val breakdownRows = breakdownRowsTestObservable.values()[0]
         assertEquals(10, breakdownRows.size)
         assertEvents(expectedBreakdown, breakdownRows)
     }
@@ -176,7 +176,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         setupInsuranceFees()
         givenTripResponseHasFees()
 
-        val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val breakdownRowsTestObservable = TestObserver<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
         sut.flightCostSummaryObservable.onNext(newTripResponse)
 
@@ -212,7 +212,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[9],
                 breakdowns[10]
         )
-        val breakdownRows = breakdownRowsTestObservable.onNextEvents[0]
+        val breakdownRows = breakdownRowsTestObservable.values()[0]
 
         assertEquals(11, breakdownRows.size)
         assertEvents(expectedBreakdown, breakdownRows)
@@ -224,7 +224,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         givenGoodTripResponse()
         givenTripResponseHasYouthTraveler()
 
-        val breakdownRowsTestObservable = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val breakdownRowsTestObservable = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
         sut.flightCostSummaryObservable.onNext(newTripResponse)
         val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
@@ -255,7 +255,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[10]
         )
 
-        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
+        assertEvents(expectedBreakdown, breakdownRowsTestObservable.values()[0])
     }
 
     private fun setupInsuranceFees()  {

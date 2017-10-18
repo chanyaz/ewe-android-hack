@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -43,7 +43,7 @@ class HotelResultsViewModelTest {
 
     @Test
     fun happySearch() {
-        val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        val resultsSubscriber = TestObserver<HotelSearchResponse>()
 
         sut.hotelResultsObservable.subscribe(resultsSubscriber)
         sut.paramsSubject.onNext(happyParams)
@@ -51,14 +51,14 @@ class HotelResultsViewModelTest {
 
         resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
 
-        resultsSubscriber.assertNoTerminalEvent()
+        resultsSubscriber.assertNotTerminated()
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(1)
     }
 
     @Test
     fun locationSearch() {
-        val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        val resultsSubscriber = TestObserver<HotelSearchResponse>()
         sut.hotelResultsObservable.subscribe(resultsSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
@@ -67,14 +67,14 @@ class HotelResultsViewModelTest {
         mockSearchProvider.successSubject.onNext(happyResponse)
 
         resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        resultsSubscriber.assertNoTerminalEvent()
+        resultsSubscriber.assertNotTerminated()
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(1)
     }
 
     @Test
     fun testLocationSearch_clearPrefetch() {
-        val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        val resultsSubscriber = TestObserver<HotelSearchResponse>()
         sut.hotelResultsObservable.subscribe(resultsSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
@@ -97,7 +97,7 @@ class HotelResultsViewModelTest {
 
     @Test
     fun filteredSearch() {
-        val filteredResultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        val filteredResultsSubscriber = TestObserver<HotelSearchResponse>()
         sut.filterResultsObservable.subscribe(filteredResultsSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
@@ -107,7 +107,7 @@ class HotelResultsViewModelTest {
 
         filteredResultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         filteredResultsSubscriber.assertValueCount(1)
-        filteredResultsSubscriber.assertNoTerminalEvent()
+        filteredResultsSubscriber.assertNotTerminated()
     }
 
     @Test
@@ -124,47 +124,47 @@ class HotelResultsViewModelTest {
 
     @Test
     fun errorResponseCallsErrorObservable() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.searchApiErrorObservable.subscribe(testSubscriber)
 
         mockSearchProvider.errorSubject.onNext(ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS))
 
         testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.HOTEL_SEARCH_NO_RESULTS, testSubscriber.onNextEvents[0].errorCode)
+        assertEquals(ApiError.Code.HOTEL_SEARCH_NO_RESULTS, testSubscriber.values()[0].errorCode)
     }
 
     @Test
     fun titleSubjectSetToRegionShortName() {
         val regionShortName = "New York"
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         sut.titleSubject.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(makeParams("", regionShortName))
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertNoTerminalEvent()
+        testSubscriber.assertNotTerminated()
         testSubscriber.assertValue(regionShortName)
     }
 
     @Test
     fun subtitleSubjectSet() {
         val expectedSubtitle = LocaleBasedDateFormatUtils.localDateToMMMd(checkInDate) + " - " + LocaleBasedDateFormatUtils.localDateToMMMd(checkOutDate) + ", 1 guest"
-        val testSubscriber = TestSubscriber<CharSequence>()
+        val testSubscriber = TestObserver<CharSequence>()
         sut.subtitleSubject.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertNoTerminalEvent()
-        assertEquals(expectedSubtitle, testSubscriber.onNextEvents[0].toString())
+        testSubscriber.assertNotTerminated()
+        assertEquals(expectedSubtitle, testSubscriber.values()[0].toString())
     }
 
     @Test
     fun mapResultsObservable() {
         val regionShortName = context.getString(R.string.visible_map_area)
         val params = makeParams("", regionShortName)
-        val testSubscriber = TestSubscriber<HotelSearchResponse>()
+        val testSubscriber = TestObserver<HotelSearchResponse>()
         sut.mapResultsObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(params)
@@ -172,14 +172,14 @@ class HotelResultsViewModelTest {
 
         testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertNoTerminalEvent()
+        testSubscriber.assertNotTerminated()
     }
 
     @Test
     fun noResultsMap() {
         val regionShortName = context.getString(R.string.visible_map_area)
         val params = makeParams("", regionShortName)
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.searchApiErrorObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(params)
@@ -187,12 +187,12 @@ class HotelResultsViewModelTest {
 
         testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS), testSubscriber.onNextEvents[0])
+        assertEquals(ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS), testSubscriber.values()[0])
     }
 
     @Test
     fun noResultsFilter() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.searchApiErrorObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
@@ -202,12 +202,12 @@ class HotelResultsViewModelTest {
 
         testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError(ApiError.Code.HOTEL_FILTER_NO_RESULTS), testSubscriber.onNextEvents[0])
+        assertEquals(ApiError(ApiError.Code.HOTEL_FILTER_NO_RESULTS), testSubscriber.values()[0])
     }
 
     @Test
     fun noResultsGeneral() {
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         sut.searchApiErrorObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
@@ -216,13 +216,13 @@ class HotelResultsViewModelTest {
 
         testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS), testSubscriber.onNextEvents[0])
+        assertEquals(ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS), testSubscriber.values()[0])
     }
 
     @Test
     fun pinnedSearchSuccessPinnedSearch() {
-        val testErrorSubscriber = TestSubscriber<ApiError>()
-        val testResultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        val testErrorSubscriber = TestObserver<ApiError>()
+        val testResultsSubscriber = TestObserver<HotelSearchResponse>()
 
         sut.searchApiErrorObservable.subscribe(testErrorSubscriber)
         sut.hotelResultsObservable.subscribe(testResultsSubscriber)
@@ -232,15 +232,15 @@ class HotelResultsViewModelTest {
 
         testResultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testResultsSubscriber.assertValueCount(1)
-        assertEquals(pinnedResponse, testResultsSubscriber.onNextEvents[0])
+        assertEquals(pinnedResponse, testResultsSubscriber.values()[0])
 
         testErrorSubscriber.assertValueCount(0)
     }
 
     @Test
     fun pinnedSearchSuccessPinnedSearchNotFound() {
-        val testErrorSubscriber = TestSubscriber<ApiError>()
-        val testResultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        val testErrorSubscriber = TestObserver<ApiError>()
+        val testResultsSubscriber = TestObserver<HotelSearchResponse>()
 
         sut.searchApiErrorObservable.subscribe(testErrorSubscriber)
         sut.hotelResultsObservable.subscribe(testResultsSubscriber)
@@ -252,7 +252,7 @@ class HotelResultsViewModelTest {
 
         testErrorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testErrorSubscriber.assertValueCount(1)
-        assertEquals(ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND), testErrorSubscriber.onNextEvents[0])
+        assertEquals(ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND), testErrorSubscriber.values()[0])
 
     }
 

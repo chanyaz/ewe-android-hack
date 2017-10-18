@@ -11,11 +11,14 @@ import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightCheckoutViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
@@ -26,9 +29,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.Scheduler
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -58,7 +58,7 @@ class FlightCheckoutErrorTest {
         val interceptor = MockInterceptor()
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
 
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.FlightTheme)
@@ -76,61 +76,61 @@ class FlightCheckoutErrorTest {
     @Test
     fun testTripAlreadyBooked() {
         createCheckoutParams("tealeafFlight:trip_already_booked", "trip_already_booked", "")
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.onNextEvents[0].errorCode)
+        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.values()[0].errorCode)
     }
 
     @Test
     fun testPaymentFailed() {
         createCheckoutParams("tealeafFlight:payment_failed", "payment_failed", "")
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.PAYMENT_FAILED, testSubscriber.onNextEvents[0].errorCode)
+        assertEquals(ApiError.Code.PAYMENT_FAILED, testSubscriber.values()[0].errorCode)
     }
 
     @Test
     fun testSessionTimeOut() {
         createCheckoutParams("tealeafFlight:session_timeout", "session_timeout", "")
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.SESSION_TIMEOUT, testSubscriber.onNextEvents[0].errorCode)
+        assertEquals(ApiError.Code.SESSION_TIMEOUT, testSubscriber.values()[0].errorCode)
     }
 
     @Test
     fun testUnknownError() {
         createCheckoutParams("tealeafFlight:UNKNOWN_ERROR", "UNKNOWN_ERROR", "unknownerror")
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.onNextEvents[0].errorCode)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].errorCode)
     }
 
     @Test
     fun testInvalidInput() {
         createCheckoutParams("tealeafFlight:invalid_input", "invalid_input", "")
-        val testSubscriber = TestSubscriber<ApiError>()
+        val testSubscriber = TestObserver<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.INVALID_INPUT, testSubscriber.onNextEvents[0].errorCode)
+        assertEquals(ApiError.Code.INVALID_INPUT, testSubscriber.values()[0].errorCode)
     }
 
     private fun createCheckoutParams(transactionId: String, tripId: String, billingInfo: String) {
@@ -184,7 +184,7 @@ class FlightCheckoutErrorTest {
 
     class TestFlightCheckoutViewModelClass(context: Context) : FlightCheckoutViewModel(context) {
         override fun getScheduler(): Scheduler {
-            return Schedulers.immediate()
+            return Schedulers.trampoline()
         }
     }
 

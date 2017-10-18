@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -58,7 +58,7 @@ class AddGuestItinWidgetTest {
 
     @Test
     fun testValidClick() {
-        val testSubscriber = TestSubscriber.create<Pair<String, String>>()
+        val testSubscriber = TestObserver.create<Pair<String, String>>()
         sut.viewModel.performGuestTripSearch.subscribe(testSubscriber)
         sut.guestEmailEditText.setText("malcolmnguyen@gmail.com")
         sut.itinNumberEditText.setText("123456789")
@@ -69,7 +69,7 @@ class AddGuestItinWidgetTest {
 
     @Test
     fun testInvalidClick() {
-        val testSubscriber = TestSubscriber.create<Pair<String, String>>()
+        val testSubscriber = TestObserver.create<Pair<String, String>>()
         sut.viewModel.performGuestTripSearch.subscribe(testSubscriber)
         sut.guestEmailEditText.setText("")
         sut.itinNumberEditText.setText("")

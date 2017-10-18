@@ -5,8 +5,6 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.presenter.flight.FlightOutboundPresenter
 import com.expedia.bookings.utils.Ui
 import org.joda.time.LocalDate
@@ -43,13 +41,7 @@ class FlightOutboundPresenterTest {
         flightOutboundPresenter.toolbarViewModel.isOutboundSearch.onNext(true)
         flightOutboundPresenter.toolbarViewModel.travelers.onNext(1)
         flightOutboundPresenter.toolbarViewModel.date.onNext(LocalDate.now())
-        val regionName = SuggestionV4.RegionNames()
-        regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
-        regionName.displayName = "Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India"
-        flightOutboundPresenter.toolbarViewModel.regionNames.onNext(regionName)
-        flightOutboundPresenter.toolbarViewModel.country.onNext("India")
-        flightOutboundPresenter.toolbarViewModel.airport.onNext("BLR")
-        flightOutboundPresenter.toolbarViewModel.lob.onNext(flightOutboundPresenter.getLineOfBusiness())
+        flightOutboundPresenter.toolbarViewModel.city.onNext("Bengaluru, India (BLR - Kempegowda Intl.)<I><B> near </B></I>Bangalore Palace, Bengaluru, India")
         assertEquals("Select flight to Bengaluru, India", flightOutboundPresenter.toolbar.title.toString())
     }
 }

@@ -51,7 +51,7 @@ import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
-import rx.observers.TestSubscriber;
+import com.expedia.bookings.services.TestObserver;
 
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
@@ -181,8 +181,8 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testTravelerDialogForInfantErrorInSeat() {
-		TestSubscriber tooManyInfantsInLapTestSubscriber = new TestSubscriber<>();
-		TestSubscriber tooManyInfantsInSeatTestSubscriber = new TestSubscriber<>();
+		TestObserver tooManyInfantsInLapTestSubscriber = new TestObserver<>();
+		TestObserver tooManyInfantsInSeatTestSubscriber = new TestObserver<>();
 		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
 		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
 		travelerCard.performClick();
@@ -281,8 +281,8 @@ public class FlightSearchPresenterTest {
 	public void testRevampFlightTravelerDialogForInfantErrorInSeat() {
 
 		setUpFlightTravelerRevamp(true);
-		TestSubscriber tooManyInfantsInLapTestSubscriber = new TestSubscriber<>();
-		TestSubscriber tooManyInfantsInSeatTestSubscriber = new TestSubscriber<>();
+		TestObserver tooManyInfantsInLapTestSubscriber = new TestObserver<>();
+		TestObserver tooManyInfantsInSeatTestSubscriber = new TestObserver<>();
 		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.findViewById(R.id.traveler_card);
 		travelerCard.performClick();
 		View view = travelerCard.getTravelerDialogView();
@@ -471,7 +471,7 @@ public class FlightSearchPresenterTest {
 	public void testTabsOneWayTripTab() {
 		initializeWidget();
 		selectRoundTripTabAtIndex(1);
-		TestSubscriber<Boolean> isRoundTripSearchSubscriber = new TestSubscriber<>();
+		TestObserver<Boolean> isRoundTripSearchSubscriber = new TestObserver<>();
 		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
 
 		isRoundTripSearchSubscriber.assertValue(false);
@@ -481,7 +481,7 @@ public class FlightSearchPresenterTest {
 	public void testRoundTripTabs() {
 		initializeWidget();
 		selectRoundTripTabAtIndex(0);
-		TestSubscriber<Boolean> isRoundTripSearchSubscriber = new TestSubscriber<>();
+		TestObserver<Boolean> isRoundTripSearchSubscriber = new TestObserver<>();
 		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
 
 		isRoundTripSearchSubscriber.assertValue(true);
@@ -547,9 +547,9 @@ public class FlightSearchPresenterTest {
 	public void testSearchValidationStepByStep() {
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
-		TestSubscriber<Unit> errorNoDestinationTestSubscriber = new TestSubscriber();
-		TestSubscriber<Unit> errorNoOriginObservableTestSubscriber = new TestSubscriber();
-		TestSubscriber<Unit> errorNoDatesObservableTestSubscriber = new TestSubscriber();
+		TestObserver<Unit> errorNoDestinationTestSubscriber = new TestObserver();
+		TestObserver<Unit> errorNoOriginObservableTestSubscriber = new TestObserver();
+		TestObserver<Unit> errorNoDatesObservableTestSubscriber = new TestObserver();
 
 		vm.getErrorNoDestinationObservable().subscribe(errorNoDestinationTestSubscriber);
 		vm.getErrorNoOriginObservable().subscribe(errorNoOriginObservableTestSubscriber);
@@ -570,9 +570,9 @@ public class FlightSearchPresenterTest {
 		RoboTestHelper.INSTANCE.bucketTests(AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
-		TestSubscriber<Unit> errorNoDestinationTestSubscriber = new TestSubscriber();
-		TestSubscriber<Unit> errorNoOriginObservableTestSubscriber = new TestSubscriber();
-		TestSubscriber<Unit> errorNoDatesObservableTestSubscriber = new TestSubscriber();
+		TestObserver<Unit> errorNoDestinationTestSubscriber = new TestObserver();
+		TestObserver<Unit> errorNoOriginObservableTestSubscriber = new TestObserver();
+		TestObserver<Unit> errorNoDatesObservableTestSubscriber = new TestObserver();
 
 		vm.getErrorNoDestinationObservable().subscribe(errorNoDestinationTestSubscriber);
 		vm.getErrorNoOriginObservable().subscribe(errorNoOriginObservableTestSubscriber);
@@ -596,7 +596,7 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testCalendarTooltipContentDescriptionForRoundtrip() {
-		TestSubscriber<String> toolTipContDescTestSubscriber = new TestSubscriber<>();
+		TestObserver<String> toolTipContDescTestSubscriber = new TestObserver<>();
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
 		vm.getCalendarTooltipContDescObservable().subscribe(toolTipContDescTestSubscriber);
@@ -619,7 +619,7 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testCalendarTooltipContentDescriptionForOneWay() {
-		TestSubscriber<String> toolTipContDescTestSubscriber = new TestSubscriber<>();
+		TestObserver<String> toolTipContDescTestSubscriber = new TestObserver<>();
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
 		vm.getCalendarTooltipContDescObservable().subscribe(toolTipContDescTestSubscriber);

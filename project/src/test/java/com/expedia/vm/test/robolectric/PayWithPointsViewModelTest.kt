@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -22,14 +23,13 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PayWithPointsViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -59,10 +59,10 @@ class PayWithPointsViewModelTest {
         it.pointsAppliedMessage.subscribe(payWithPointsViewModelTestSubject)
     }
 
-    private val burnAmountUpdateTestSubscriber = TestSubscriber.create<String>()
-    private val totalPointsAndAmountAvailableToRedeemTestSubscriber = TestSubscriber.create<String>()
-    private val currencySymbolTestSubscriber = TestSubscriber.create<String>()
-    private val pointsAppliedMessageTestSubscriber = TestSubscriber.create<Pair<String, Boolean>>()
+    private val burnAmountUpdateTestSubscriber = TestObserver.create<String>()
+    private val totalPointsAndAmountAvailableToRedeemTestSubscriber = TestObserver.create<String>()
+    private val currencySymbolTestSubscriber = TestObserver.create<String>()
+    private val pointsAppliedMessageTestSubscriber = TestObserver.create<Pair<String, Boolean>>()
 
     @Before
     fun setup() {
@@ -353,10 +353,10 @@ class PayWithPointsViewModelTest {
 
     }
 
-    private fun <T> assertExpectedValuesOfSubscriber(testSubscriber: TestSubscriber<T>, expectedValues: List<T>) {
+    private fun <T> assertExpectedValuesOfSubscriber(testSubscriber: TestObserver<T>, expectedValues: List<T>) {
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(expectedValues.size)
-        testSubscriber.assertReceivedOnNext(expectedValues)
+        testSubscriber.assertValueSequence(expectedValues)
     }
 
     private fun createTripWithShopWithPointsOpted(shopWithPoints: Boolean) {

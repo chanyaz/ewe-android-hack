@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -31,29 +31,29 @@ class HotelSearchManagerTest {
 
     @Test
     fun testHappy() {
-        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val testSuccessSub = TestObserver<HotelSearchResponse>()
         testManager.successSubject.subscribe(testSuccessSub)
 
         testManager.doSearch(makeParams())
 
         testSuccessSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        testSuccessSub.assertNoTerminalEvent()
+        testSuccessSub.assertNotTerminated()
         testSuccessSub.assertNoErrors()
         testSuccessSub.assertValueCount(1)
     }
 
     @Test
     fun testError() {
-        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val testSuccessSub = TestObserver<HotelSearchResponse>()
         testManager.successSubject.subscribe(testSuccessSub)
 
-        val testErrorSub = TestSubscriber<ApiError>()
+        val testErrorSub = TestObserver<ApiError>()
         testManager.errorSubject.subscribe(testErrorSub)
 
         testManager.doSearch(makeParams("mock_error"))
 
         testErrorSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        testErrorSub.assertNoTerminalEvent()
+        testErrorSub.assertNotTerminated()
         testErrorSub.assertNoErrors()
         testErrorSub.assertValueCount(1)
 
@@ -62,16 +62,16 @@ class HotelSearchManagerTest {
 
     @Test
     fun testNoResults() {
-        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val testSuccessSub = TestObserver<HotelSearchResponse>()
         testManager.successSubject.subscribe(testSuccessSub)
 
-        val testErrorSub = TestSubscriber<Unit>()
+        val testErrorSub = TestObserver<Unit>()
         testManager.noResultsSubject.subscribe(testErrorSub)
 
         testManager.doSearch(makeParams("noresults"))
 
         testErrorSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        testErrorSub.assertNoTerminalEvent()
+        testErrorSub.assertNotTerminated()
         testErrorSub.assertNoErrors()
         testErrorSub.assertValueCount(1)
 
@@ -80,34 +80,34 @@ class HotelSearchManagerTest {
 
     @Test
     fun testPrefetch_error() {
-        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val testSuccessSub = TestObserver<HotelSearchResponse>()
         testManager.successSubject.subscribe(testSuccessSub)
 
-        val testErrorSub = TestSubscriber<ApiError>()
+        val testErrorSub = TestObserver<ApiError>()
         testManager.errorSubject.subscribe(testErrorSub)
 
         testManager.doSearch(makeParams("mock_error"), prefetchSearch = true)
 
         testErrorSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        testErrorSub.assertNoTerminalEvent()
-        assertEquals(0, testErrorSub.onNextEvents.size, "Swallow errors for prefetch searches")
+        testErrorSub.assertNotTerminated()
+        assertEquals(0, testErrorSub.valueCount(), "Swallow errors for prefetch searches")
 
         testSuccessSub.assertNoValues()
     }
 
     @Test
     fun testPrefetch_noResults() {
-        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val testSuccessSub = TestObserver<HotelSearchResponse>()
         testManager.successSubject.subscribe(testSuccessSub)
 
-        val testErrorSub = TestSubscriber<Unit>()
+        val testErrorSub = TestObserver<Unit>()
         testManager.noResultsSubject.subscribe(testErrorSub)
 
         testManager.doSearch(makeParams("noresults"), prefetchSearch = true)
 
         testErrorSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        testErrorSub.assertNoTerminalEvent()
-        assertEquals(0, testErrorSub.onNextEvents.size, "Swallow errors for prefetch searches")
+        testErrorSub.assertNotTerminated()
+        assertEquals(0, testErrorSub.valueCount(), "Swallow errors for prefetch searches")
 
         testSuccessSub.assertNoValues()
     }

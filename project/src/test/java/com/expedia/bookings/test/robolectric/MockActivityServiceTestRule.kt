@@ -5,9 +5,9 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXCheckoutParams
 import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.services.LxServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.testrule.ServicesRule
 import org.joda.time.LocalDate
-import rx.observers.TestSubscriber
 
 class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.java) {
 
@@ -18,30 +18,30 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
     }
 
     private fun getActivityOffersResponse(activityId: String): ActivityDetailsResponse {
-        val observer = TestSubscriber<ActivityDetailsResponse>()
+        val observer = TestObserver<ActivityDetailsResponse>()
 
         services?.lxDetails(activityId, activityId, LocalDate.now().plusDays(4),
                 LocalDate.now().plusDays(6), observer)
         observer.awaitTerminalEvent()
-        return observer.onNextEvents[0]
+        return observer.values()[0]
     }
 
     fun getCheckoutError(errorType: String) : ApiError {
-        val observer = TestSubscriber <LXCheckoutResponse>()
+        val observer = TestObserver <LXCheckoutResponse>()
         setCheckoutParams(errorType)
         services?.lxCheckout(lxCheckoutParams, observer)
         observer.awaitTerminalEvent()
-        observer.assertNotCompleted()
-        return observer.onErrorEvents[0] as ApiError
+        observer.assertNotComplete()
+        return observer.errors()[0] as ApiError
     }
 
     fun getCheckoutResponseForPriceChange(errorType: String) : LXCheckoutResponse {
-        val observer = TestSubscriber <LXCheckoutResponse>()
+        val observer = TestObserver <LXCheckoutResponse>()
         setCheckoutParams(errorType)
         services?.lxCheckout(lxCheckoutParams, observer)
         observer.awaitTerminalEvent()
         observer.assertComplete()
-        return observer.onNextEvents[0]
+        return observer.values()[0]
     }
 
 

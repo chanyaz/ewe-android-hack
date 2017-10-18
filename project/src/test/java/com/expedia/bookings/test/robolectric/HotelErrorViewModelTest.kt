@@ -18,7 +18,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -38,7 +38,7 @@ class HotelErrorViewModelTest {
                 RuntimeEnvironment.application.getString(R.string.select_another_room),
                 ApiError.Code.HOTEL_ROOM_UNAVAILABLE)
 
-        val soldOutObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val soldOutObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.soldOutObservable.subscribe(soldOutObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -61,13 +61,13 @@ class HotelErrorViewModelTest {
         val errorMessage = RuntimeEnvironment.application.getString(R.string.error_no_result_message)
         val buttonText = RuntimeEnvironment.application.getString(R.string.edit_search)
 
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        val errorImageObservableTestSubscriber = TestObserver.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         val error = createInvalidInputApiError("field")
@@ -77,7 +77,7 @@ class HotelErrorViewModelTest {
         errorMessageObservableTestSubscriber.assertValues(errorMessage)
         errorButtonObservableTestSubscriber.assertValues(buttonText)
 
-        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val defaultErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -95,7 +95,7 @@ class HotelErrorViewModelTest {
                 RuntimeEnvironment.application.getString(R.string.edit_search),
                 ApiError.Code.INVALID_INPUT)
 
-        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val defaultErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -120,7 +120,7 @@ class HotelErrorViewModelTest {
                 RuntimeEnvironment.application.getString(R.string.edit_search),
                 ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
 
-        val searchErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val searchErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.searchErrorObservable.subscribe(searchErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -130,7 +130,7 @@ class HotelErrorViewModelTest {
     }
 
     @Test fun observableMapSearchNoResultError() {
-        val titleObservableTestSubscriber = TestSubscriber.create<String>()
+        val titleObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.titleObservable.subscribe(titleObservableTestSubscriber)
 
         validateSearchApiImageErrorMessageButtonTextForError(R.drawable.error_search,
@@ -140,7 +140,7 @@ class HotelErrorViewModelTest {
 
         titleObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.visible_map_area))
 
-        val searchErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val searchErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.searchErrorObservable.subscribe(searchErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -155,7 +155,7 @@ class HotelErrorViewModelTest {
                 RuntimeEnvironment.application.getString(R.string.reset_filter),
                 ApiError.Code.HOTEL_FILTER_NO_RESULTS)
 
-        val filterNoResultObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val filterNoResultObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.filterNoResultsObservable.subscribe(filterNoResultObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -170,7 +170,7 @@ class HotelErrorViewModelTest {
                 RuntimeEnvironment.application.getString(R.string.nearby_results),
                 ApiError.Code.HOTEL_PINNED_NOT_FOUND)
 
-        val pinnedNotFoundErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val pinnedNotFoundErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.pinnedNotFoundToNearByHotelObservable.subscribe(pinnedNotFoundErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -192,7 +192,7 @@ class HotelErrorViewModelTest {
                 RuntimeEnvironment.application.getString(R.string.retry),
                 ApiError.Code.UNKNOWN_ERROR)
 
-        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val defaultErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -211,7 +211,7 @@ class HotelErrorViewModelTest {
                 RuntimeEnvironment.application.getString(R.string.retry),
                 ApiError.Code.UNKNOWN_ERROR)
 
-        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val defaultErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -228,13 +228,13 @@ class HotelErrorViewModelTest {
                 .toString()
         val buttonText = RuntimeEnvironment.application.getString(R.string.retry)
 
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        val errorImageObservableTestSubscriber = TestObserver.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         subjectUnderTest.searchApiErrorObserver.onNext(ApiError())
@@ -243,7 +243,7 @@ class HotelErrorViewModelTest {
         errorMessageObservableTestSubscriber.assertValues(errorMessage)
         errorButtonObservableTestSubscriber.assertValues(buttonText)
 
-        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val defaultErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -260,13 +260,13 @@ class HotelErrorViewModelTest {
                 .toString()
         val buttonText = RuntimeEnvironment.application.getString(R.string.retry)
 
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        val errorImageObservableTestSubscriber = TestObserver.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         val error = ApiError()
@@ -284,7 +284,7 @@ class HotelErrorViewModelTest {
         errorMessageObservableTestSubscriber.assertValues(errorMessage)
         errorButtonObservableTestSubscriber.assertValues(buttonText)
 
-        val defaultErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val defaultErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorObservableTestSubscriber)
 
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -294,13 +294,13 @@ class HotelErrorViewModelTest {
     }
 
     private fun validateImageErrorMessageButtonTextForError(imageId: Int, errorMessage: String, buttonText: String, errorCode: ApiError.Code) {
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        val errorImageObservableTestSubscriber = TestObserver.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         subjectUnderTest.apiErrorObserver.onNext(ApiError(errorCode))
@@ -311,13 +311,13 @@ class HotelErrorViewModelTest {
     }
 
     private fun validateSearchApiImageErrorMessageButtonTextForError(imageId: Int, errorMessage: String, buttonText: String, errorCode: ApiError.Code) {
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        val errorImageObservableTestSubscriber = TestObserver.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         subjectUnderTest.searchApiErrorObserver.onNext(ApiError(errorCode))
@@ -362,22 +362,22 @@ class HotelErrorViewModelTest {
     private fun observableEmissionsOnPaymentApiError(field: String, source: String?, sourceErrorId: String?, @StringRes errorMessageId: Int) {
         subjectUnderTest = HotelErrorViewModel(RuntimeEnvironment.application)
 
-        val checkoutCardErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        val checkoutCardErrorObservableTestSubscriber = TestObserver.create<Unit>()
         subjectUnderTest.checkoutCardErrorObservable.subscribe(checkoutCardErrorObservableTestSubscriber)
 
-        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        val errorImageObservableTestSubscriber = TestObserver.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
 
-        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
-        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
-        val titleObservableTestSubscriber = TestSubscriber.create<String>()
+        val titleObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.titleObservable.subscribe(titleObservableTestSubscriber)
 
-        val subtitleObservableTestSubscriber = TestSubscriber.create<String>()
+        val subtitleObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.subTitleObservable.subscribe(subtitleObservableTestSubscriber)
 
         val apiError = ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS)

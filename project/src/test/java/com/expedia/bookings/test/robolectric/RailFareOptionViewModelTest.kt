@@ -11,7 +11,7 @@ import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -23,10 +23,10 @@ class RailFareOptionViewModelTest {
     fun testOneWayFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
-        val testPriceSubscriber = TestSubscriber<String>()
-        val testFareTitleSubscriber = TestSubscriber<String>()
-        val testFareDescriptionSubscriber = TestSubscriber<String>()
-        val testRailCardAppliedSubscriber = TestSubscriber<Boolean>()
+        val testPriceSubscriber = TestObserver<String>()
+        val testFareTitleSubscriber = TestObserver<String>()
+        val testFareDescriptionSubscriber = TestObserver<String>()
+        val testRailCardAppliedSubscriber = TestObserver<Boolean>()
 
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
         railFareOptionViewModel.fareTitleObservable.subscribe(testFareTitleSubscriber)
@@ -35,10 +35,10 @@ class RailFareOptionViewModelTest {
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(null))
-        assertEquals("$10", testPriceSubscriber.onNextEvents[0])
-        assertEquals("Standard Fare class", testFareTitleSubscriber.onNextEvents[0])
-        assertEquals("Fare Description", testFareDescriptionSubscriber.onNextEvents[0])
-        assertTrue(testRailCardAppliedSubscriber.onNextEvents[0])
+        assertEquals("$10", testPriceSubscriber.values()[0])
+        assertEquals("Standard Fare class", testFareTitleSubscriber.values()[0])
+        assertEquals("Fare Description", testFareDescriptionSubscriber.values()[0])
+        assertTrue(testRailCardAppliedSubscriber.values()[0])
     }
 
     @Test
@@ -46,24 +46,24 @@ class RailFareOptionViewModelTest {
     fun testRoundTripOutboundTotalFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
-        val testPriceSubscriber = TestSubscriber<String>()
+        val testPriceSubscriber = TestObserver<String>()
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("15", "USD")))
-        assertEquals("$25", testPriceSubscriber.onNextEvents[0])
+        assertEquals("$25", testPriceSubscriber.values()[0])
     }
 
     @Test
     fun testOutboundOpenReturnFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
-        val testPriceSubscriber = TestSubscriber<String>()
+        val testPriceSubscriber = TestObserver<String>()
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer(true))
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("15", "USD")))
-        assertEquals("$10", testPriceSubscriber.onNextEvents[0])
+        assertEquals("$10", testPriceSubscriber.values()[0])
     }
 
     @Test
@@ -71,12 +71,12 @@ class RailFareOptionViewModelTest {
     fun testInboundOpenReturnFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, true)
 
-        val testPriceSubscriber = TestSubscriber<String>()
+        val testPriceSubscriber = TestObserver<String>()
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer(true))
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("15", "USD")))
-        assertEquals("+$0", testPriceSubscriber.onNextEvents[0])
+        assertEquals("+$0", testPriceSubscriber.values()[0])
     }
 
     @Test
@@ -84,21 +84,21 @@ class RailFareOptionViewModelTest {
     fun testRoundTripInboundDeltaPriceFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, true)
 
-        val testPriceSubscriber = TestSubscriber<String>()
+        val testPriceSubscriber = TestObserver<String>()
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Optional(Money("5", "USD")))
-        assertEquals("+$5", testPriceSubscriber.onNextEvents[0])
+        assertEquals("+$5", testPriceSubscriber.values()[0])
     }
 
     @Test
     fun testFareOptionClickEvents() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
-        val testOfferSelectedSubscriber = TestSubscriber<RailOffer>()
-        val testShowAmenitiesSelectedSubscriber = TestSubscriber<RailOffer>()
-        val testShowFareSelectedSubscriber = TestSubscriber<RailOffer>()
+        val testOfferSelectedSubscriber = TestObserver<RailOffer>()
+        val testShowAmenitiesSelectedSubscriber = TestObserver<RailOffer>()
+        val testShowFareSelectedSubscriber = TestObserver<RailOffer>()
 
         railFareOptionViewModel.offerSelectedObservable.subscribe(testOfferSelectedSubscriber)
         railFareOptionViewModel.amenitiesSelectedObservable.subscribe(testShowAmenitiesSelectedSubscriber)

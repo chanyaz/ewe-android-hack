@@ -18,7 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -38,22 +38,22 @@ class RailTicketDeliveryEntryWidgetTest {
 
     @Test
     fun testInitialization() {
-        val testStationContainerSelectionSubscriber = TestSubscriber.create<TicketDeliverySelectionStatus>()
+        val testStationContainerSelectionSubscriber = TestObserver.create<TicketDeliverySelectionStatus>()
         widget.stationContainer.viewModel.statusChanged.subscribe(testStationContainerSelectionSubscriber)
-        val testMailDeliveryContainerSelectionSubscriber = TestSubscriber.create<TicketDeliverySelectionStatus>()
+        val testMailDeliveryContainerSelectionSubscriber = TestObserver.create<TicketDeliverySelectionStatus>()
         widget.mailDeliveryContainer.viewModel.statusChanged.subscribe(testMailDeliveryContainerSelectionSubscriber)
 
         val viewModel = RailTicketDeliveryEntryViewModel(context)
         widget.viewModel = viewModel
 
-        val testCloseSubscriber = TestSubscriber.create<Unit>()
+        val testCloseSubscriber = TestObserver.create<Unit>()
         widget.closeSubject.subscribe(testCloseSubscriber)
 
         assertEquals(TicketDeliveryMethod.PICKUP_AT_STATION, viewModel.ticketDeliveryObservable.value)
         testStationContainerSelectionSubscriber.assertValueCount(1)
-        assertEquals(TicketDeliverySelectionStatus.SELECTED, testStationContainerSelectionSubscriber.onNextEvents[0])
+        assertEquals(TicketDeliverySelectionStatus.SELECTED, testStationContainerSelectionSubscriber.values()[0])
         testMailDeliveryContainerSelectionSubscriber.assertValueCount(1)
-        assertEquals(TicketDeliverySelectionStatus.UNSELECTED, testMailDeliveryContainerSelectionSubscriber.onNextEvents[0])
+        assertEquals(TicketDeliverySelectionStatus.UNSELECTED, testMailDeliveryContainerSelectionSubscriber.values()[0])
         assertEquals(View.GONE, widget.mailShippingAddressContainer.visibility)
 
         widget.toolbarViewModel.doneClicked.onNext(Unit)
@@ -62,23 +62,23 @@ class RailTicketDeliveryEntryWidgetTest {
 
     @Test
     fun testDeliveryByMail() {
-        val testStationContainerSelectionSubscriber = TestSubscriber.create<TicketDeliverySelectionStatus>()
+        val testStationContainerSelectionSubscriber = TestObserver.create<TicketDeliverySelectionStatus>()
         widget.stationContainer.viewModel.statusChanged.subscribe(testStationContainerSelectionSubscriber)
-        val testMailDeliveryContainerSelectionSubscriber = TestSubscriber.create<TicketDeliverySelectionStatus>()
+        val testMailDeliveryContainerSelectionSubscriber = TestObserver.create<TicketDeliverySelectionStatus>()
         widget.mailDeliveryContainer.viewModel.statusChanged.subscribe(testMailDeliveryContainerSelectionSubscriber)
 
         val viewModel = RailTicketDeliveryEntryViewModel(context)
         widget.viewModel = viewModel
 
-        val testCloseSubscriber = TestSubscriber.create<Unit>()
+        val testCloseSubscriber = TestObserver.create<Unit>()
         widget.closeSubject.subscribe(testCloseSubscriber)
 
         widget.mailDeliveryContainer.performClick()
         assertEquals(TicketDeliveryMethod.DELIVER_BY_MAIL, viewModel.ticketDeliveryObservable.value)
         testStationContainerSelectionSubscriber.assertValueCount(2)
-        assertEquals(TicketDeliverySelectionStatus.UNSELECTED, testStationContainerSelectionSubscriber.onNextEvents[1])
+        assertEquals(TicketDeliverySelectionStatus.UNSELECTED, testStationContainerSelectionSubscriber.values()[1])
         testMailDeliveryContainerSelectionSubscriber.assertValueCount(2)
-        assertEquals(TicketDeliverySelectionStatus.SELECTED, testMailDeliveryContainerSelectionSubscriber.onNextEvents[1])
+        assertEquals(TicketDeliverySelectionStatus.SELECTED, testMailDeliveryContainerSelectionSubscriber.values()[1])
 
         val ticketDeliveryOptionsAll = ArrayList<RailTicketDeliveryOption>()
         val option1 = RailTicketDeliveryOption()

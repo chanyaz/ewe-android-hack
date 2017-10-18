@@ -11,7 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -26,16 +26,16 @@ class PackageHotelResultsViewModelTest {
         Db.setPackageParams(setUpParams())
         val activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
 
-        val titleSubscriber = TestSubscriber<String>()
-        val subtitleSubscriber = TestSubscriber<CharSequence>()
+        val titleSubscriber = TestObserver<String>()
+        val subtitleSubscriber = TestObserver<CharSequence>()
 
         val viewModel = PackageHotelResultsViewModel(activity)
         viewModel.titleSubject.subscribe(titleSubscriber)
         viewModel.subtitleSubject.subscribe(subtitleSubscriber)
 
         viewModel.paramsSubject.onNext(makeHappyParams())
-        assertEquals("DisplayName", titleSubscriber.onNextEvents[0])
-        assert("Aug 18 - Aug 21, 1 guest".equals(subtitleSubscriber.onNextEvents[0].toString(), ignoreCase = true))
+        assertEquals("DisplayName", titleSubscriber.values()[0])
+        assert("Aug 18 - Aug 21, 1 guest".equals(subtitleSubscriber.values()[0].toString(), ignoreCase = true))
     }
 
     private fun setUpParams(): PackageSearchParams {

@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import org.mockito.Mockito.`when` as whenever
 
@@ -27,11 +27,11 @@ class FlightItinDetailsViewModelTest {
     lateinit private var sut: FlightItinDetailsViewModel
     lateinit private var context: Context
     lateinit private var dateTime: DateTime
-    val itinCardDataValidSubscriber = TestSubscriber<Unit>()
-    val updateToolbarSubscriber = TestSubscriber<ItinToolbarViewModel.ToolbarParams>()
-    val clearLegSummaryContainerSubscriber = TestSubscriber<Unit>()
-    val createLegSummaryWidgetsSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
-    val updateConfirmationSubscriber = TestSubscriber<ItinConfirmationViewModel.WidgetParams>()
+    val itinCardDataValidSubscriber = TestObserver<Unit>()
+    val updateToolbarSubscriber = TestObserver<ItinToolbarViewModel.ToolbarParams>()
+    val clearLegSummaryContainerSubscriber = TestObserver<Unit>()
+    val createLegSummaryWidgetsSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
+    val updateConfirmationSubscriber = TestObserver<ItinConfirmationViewModel.WidgetParams>()
 
     @Before
     fun setup() {
@@ -87,7 +87,7 @@ class FlightItinDetailsViewModelTest {
         sut.itinCardDataFlight = testItinCardData
         sut.updateConfirmationWidget()
         updateConfirmationSubscriber.assertValueCount(1)
-        val charSeq = updateConfirmationSubscriber.onNextEvents[0].confirmationNumbers
+        val charSeq = updateConfirmationSubscriber.values()[0].confirmationNumbers
         updateConfirmationSubscriber.assertValue(ItinConfirmationViewModel.WidgetParams(TicketingStatus.COMPLETE, charSeq))
         assertEquals<CharSequence>(charSeq.toString(), "IKQVCR")
     }

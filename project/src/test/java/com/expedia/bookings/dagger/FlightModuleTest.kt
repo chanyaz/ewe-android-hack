@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
@@ -17,7 +18,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class FlightModuleTest {
@@ -43,7 +43,7 @@ class FlightModuleTest {
     fun essDeviceIsMobileForPhone() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.getAirports("chicago", true, TestSubscriber(), "guid")
+        sut.getAirports("chicago", true, TestObserver(), "guid")
 
         kotlin.test.assertEquals("mobile", server.takeRequest().requestUrl.queryParameter("device"))
     }
@@ -53,7 +53,7 @@ class FlightModuleTest {
     fun essDeviceIsTabletForTablet() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.getAirports("chicago", true, TestSubscriber(), "guid")
+        sut.getAirports("chicago", true, TestObserver(), "guid")
 
         kotlin.test.assertEquals("tablet", server.takeRequest().requestUrl.queryParameter("device"))
     }
@@ -62,7 +62,7 @@ class FlightModuleTest {
     fun essCommonParamsAreCorrect() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.getAirports("chicago", true, TestSubscriber(), "guid")
+        sut.getAirports("chicago", true, TestObserver(), "guid")
 
         val requestUrl = server.takeRequest().requestUrl
         kotlin.test.assertEquals(PointOfSale.getSuggestLocaleIdentifier(), requestUrl.queryParameter("locale"))

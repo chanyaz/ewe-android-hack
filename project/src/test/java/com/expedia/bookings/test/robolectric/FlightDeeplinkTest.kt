@@ -18,8 +18,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -39,25 +39,25 @@ class FlightDeeplinkTest {
         Ui.getApplication(activity).defaultTravelerComponent()
         val flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
         flightSearchViewModel = FlightSearchViewModel(activity)
     }
 
     @Test
     fun testIncompleteParams() {
-        val testTransitionSubscriber = TestSubscriber<FlightActivity.Screen>()
+        val testTransitionSubscriber = TestObserver<FlightActivity.Screen>()
         flightSearchViewModel.deeplinkDefaultTransitionObservable.subscribe(testTransitionSubscriber)
         flightSearchViewModel.performDeepLinkFlightSearch(makeDummyFlightSearchParams(false, false, 1))
-        testTransitionSubscriber.assertReceivedOnNext(listOf(FlightActivity.Screen.SEARCH))
+        testTransitionSubscriber.assertValueSequence(listOf(FlightActivity.Screen.SEARCH))
     }
 
     @Test
     fun testCompleteParams() {
-        val testTransitionSubscriber = TestSubscriber<FlightActivity.Screen>()
-        val testOriginSubscriber = TestSubscriber<String>()
-        val testDestinationSubscriber = TestSubscriber<String>()
-        val testTravelersSubscriber = TestSubscriber<TravelerParams>()
-        val roundTripTestSubscriber = TestSubscriber<Boolean>()
+        val testTransitionSubscriber = TestObserver<FlightActivity.Screen>()
+        val testOriginSubscriber = TestObserver<String>()
+        val testDestinationSubscriber = TestObserver<String>()
+        val testTravelersSubscriber = TestObserver<TravelerParams>()
+        val roundTripTestSubscriber = TestObserver<Boolean>()
 
         flightSearchViewModel.formattedOriginObservable.subscribe(testOriginSubscriber)
         flightSearchViewModel.formattedDestinationObservable.subscribe(testDestinationSubscriber)
@@ -68,14 +68,14 @@ class FlightDeeplinkTest {
         val flightSearchParams = makeDummyFlightSearchParams(complete = true, roundTrip = true, numAdults = 1)
         flightSearchViewModel.performDeepLinkFlightSearch(flightSearchParams)
 
-        testTransitionSubscriber.assertReceivedOnNext(listOf(FlightActivity.Screen.RESULTS))
+        testTransitionSubscriber.assertValueSequence(listOf(FlightActivity.Screen.RESULTS))
         assertTrue(flightSearchViewModel.getParamsBuilder().areRequiredParamsFilled())
 
         assertEquals(Pair(flightSearchParams.departureDate, flightSearchParams.returnDate),
                 Pair(flightSearchViewModel.startDate(), flightSearchViewModel.endDate()))
         testOriginSubscriber.assertValue(HtmlCompat.stripHtml(flightSearchParams.departureLocation.destinationId))
         testDestinationSubscriber.assertValue(HtmlCompat.stripHtml(flightSearchParams.arrivalLocation.destinationId))
-        val travelerParams = testTravelersSubscriber.onNextEvents[0]
+        val travelerParams = testTravelersSubscriber.values()[0]
         assertEquals(flightSearchParams.numAdults, travelerParams.numberOfAdults)
         assertEquals(0, travelerParams.childrenAges.size)
         assertEquals(0, travelerParams.seniorAges.size)
@@ -85,7 +85,7 @@ class FlightDeeplinkTest {
 
     @Test
     fun testOneWaySearch() {
-        val roundTripTestSubscriber = TestSubscriber<Boolean>()
+        val roundTripTestSubscriber = TestObserver<Boolean>()
         val flightSearchParams = makeDummyFlightSearchParams(complete = true, roundTrip = false, numAdults = 1)
 
         flightSearchViewModel.isRoundTripSearchObservable.subscribe(roundTripTestSubscriber)
@@ -97,7 +97,7 @@ class FlightDeeplinkTest {
 
     @Test
     fun testRoundTripSearch() {
-        val roundTripTestSubscriber = TestSubscriber<Boolean>()
+        val roundTripTestSubscriber = TestObserver<Boolean>()
         val flightSearchParams = makeDummyFlightSearchParams(complete = true, roundTrip = true, numAdults = 1)
 
         flightSearchViewModel.isRoundTripSearchObservable.subscribe(roundTripTestSubscriber)

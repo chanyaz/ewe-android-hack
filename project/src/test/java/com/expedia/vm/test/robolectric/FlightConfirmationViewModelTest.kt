@@ -27,7 +27,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.properties.Delegates
 
@@ -57,10 +57,10 @@ class FlightConfirmationViewModelTest {
         val destination = "Detroit"
         val userPoints = "100"
 
-        val destinationTestSubscriber= TestSubscriber<String>()
-        val itinNumberTestSubscriber = TestSubscriber<String>()
-        val expediaPointsSubscriber = TestSubscriber<String>()
-        val crossSellWidgetView = TestSubscriber<Boolean>()
+        val destinationTestSubscriber= TestObserver<String>()
+        val itinNumberTestSubscriber = TestObserver<String>()
+        val expediaPointsSubscriber = TestObserver<String>()
+        val crossSellWidgetView = TestObserver<Boolean>()
 
         vm = FlightConfirmationViewModel(activity)
         vm.destinationObservable.subscribe(destinationTestSubscriber)
@@ -81,7 +81,7 @@ class FlightConfirmationViewModelTest {
     fun crossSellNotOfferedTest() {
         val pastExpiration = DateTime.now().minusDays(50).toString()
         val response = getCheckoutResponseWithoutAirAttachOffer(pastExpiration)
-        val crossSellWidgetView = TestSubscriber<Boolean>()
+        val crossSellWidgetView = TestObserver<Boolean>()
 
         vm = FlightConfirmationViewModel(activity)
         vm.crossSellWidgetVisibility.subscribe(crossSellWidgetView)
@@ -139,7 +139,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun zeroFlightLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestSubscriber<String>()
+        val expediaPointsSubscriber = TestObserver<String>()
         val userPoints = "0"
 
         vm = FlightConfirmationViewModel(activity)
@@ -152,7 +152,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun nullFlightLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestSubscriber<String>()
+        val expediaPointsSubscriber = TestObserver<String>()
         val userPoints = null
 
         vm = FlightConfirmationViewModel(activity)
@@ -165,7 +165,7 @@ class FlightConfirmationViewModelTest {
     @Test
     fun noShowFlightLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestSubscriber<String>()
+        val expediaPointsSubscriber = TestObserver<String>()
         val userPoints = "100"
         vm = FlightConfirmationViewModel(activity)
         //adding test POS configuration without rewards enabled
@@ -178,7 +178,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testRewardsPointsStringFlights() {
-        val rewardsString = TestSubscriber<String>()
+        val rewardsString = TestObserver<String>()
         vm = FlightConfirmationViewModel(activity)
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
         vm.rewardPointsObservable.subscribe(rewardsString)
@@ -189,7 +189,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testNumberOfTravelersString() {
-        val travelersString = TestSubscriber<String>()
+        val travelersString = TestObserver<String>()
         val numberOfTravelers = 5
         vm = FlightConfirmationViewModel(activity)
         vm.formattedTravelersStringSubject.subscribe(travelersString)
@@ -201,7 +201,7 @@ class FlightConfirmationViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTripTotalPriceStringWhenToggled() {
-        val priceString = TestSubscriber<String>()
+        val priceString = TestObserver<String>()
         vm = FlightConfirmationViewModel(activity)
         vm.tripTotalPriceSubject.subscribe(priceString)
         vm.confirmationObservable.onNext(Pair(getCheckoutResponse(DateTime.now().toString(), null), customerEmail))
@@ -212,7 +212,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testTripProtectionStringNotVisible() {
-        val showTripProtection = TestSubscriber<Boolean>()
+        val showTripProtection = TestObserver<Boolean>()
         val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
         vm = FlightConfirmationViewModel(activity)
 
@@ -224,7 +224,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun testTripProtectionStringVisible() {
-        val showTripProtection = TestSubscriber<Boolean>()
+        val showTripProtection = TestObserver<Boolean>()
         val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
         setUpInsuranceProductInResponse(checkoutResponse)
 

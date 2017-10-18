@@ -12,7 +12,7 @@ import com.expedia.vm.packages.FlightOverviewViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -130,9 +130,9 @@ class PackagesFlightOverviewViewModelTest {
         setupSystemUnderTest()
         setupFlightLegWithAirlineMessageModel()
 
-        val paymentInfoTestSubscriber = TestSubscriber<String>()
+        val paymentInfoTestSubscriber = TestObserver<String>()
         sut.chargesObFeesTextSubject.subscribe(paymentInfoTestSubscriber)
-        val obFeeDetailsUrlTestSubscriber = TestSubscriber<String>()
+        val obFeeDetailsUrlTestSubscriber = TestObserver<String>()
         sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
 
         sut.selectedFlightLegSubject.onNext(flightLeg)
@@ -148,9 +148,9 @@ class PackagesFlightOverviewViewModelTest {
         setupSystemUnderTest()
         setupFlightLegWithAirlineMessageModel(airlineFeeLink = "")
 
-        val paymentInfoTestSubscriber = TestSubscriber<String>()
+        val paymentInfoTestSubscriber = TestObserver<String>()
         sut.airlineFeesWarningTextSubject.subscribe(paymentInfoTestSubscriber)
-        val obFeeDetailsUrlTestSubscriber = TestSubscriber<String>()
+        val obFeeDetailsUrlTestSubscriber = TestObserver<String>()
         sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
 
         sut.selectedFlightLegSubject.onNext(flightLeg)
@@ -166,9 +166,9 @@ class PackagesFlightOverviewViewModelTest {
         setupSystemUnderTest()
         setupFlightLegWithAirlineMessageModel(mayChargeObFees = false, hasAirlineWithCCfee = false)
 
-        val paymentInfoTestSubscriber = TestSubscriber<String>()
+        val paymentInfoTestSubscriber = TestObserver<String>()
         sut.chargesObFeesTextSubject.subscribe(paymentInfoTestSubscriber)
-        val obFeeDetailsUrlTestSubscriber = TestSubscriber<String>()
+        val obFeeDetailsUrlTestSubscriber = TestObserver<String>()
         sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
 
         sut.selectedFlightLegSubject.onNext(flightLeg)
@@ -184,9 +184,9 @@ class PackagesFlightOverviewViewModelTest {
         setupSystemUnderTest()
         setupFlightLegWithAirlineMessageModel(mayChargeObFees = true, hasAirlineWithCCfee = true)
 
-        val paymentInfoTestSubscriber = TestSubscriber<String>()
+        val paymentInfoTestSubscriber = TestObserver<String>()
         sut.chargesObFeesTextSubject.subscribe(paymentInfoTestSubscriber)
-        val obFeeDetailsUrlTestSubscriber = TestSubscriber<String>()
+        val obFeeDetailsUrlTestSubscriber = TestObserver<String>()
         sut.obFeeDetailsUrlObservable.subscribe(obFeeDetailsUrlTestSubscriber)
 
         sut.selectedFlightLegSubject.onNext(flightLeg)

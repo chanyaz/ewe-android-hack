@@ -5,9 +5,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCard
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.vm.rail.RailSearchViewModel
 import com.squareup.phrase.Phrase
@@ -19,13 +19,11 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
-import kotlin.test.assertNull
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -61,7 +59,7 @@ class RailSearchViewModelTest {
         searchVM.railDestinationObservable.onNext(destination)
         searchVM.datesUpdated(departDate, null)
         searchVM.departTimeSubject.onNext(departTime)
-        searchVM.returnTimeSubject.onNext(null)
+//        searchVM.returnTimeSubject.onNext(null)
         searchVM.isRoundTripSearchObservable.onNext(false)
     }
 
@@ -96,25 +94,25 @@ class RailSearchViewModelTest {
     @Test
     fun testOneWayParams() {
         setupOneWay()
-        val searchParamsSubscriber = TestSubscriber<RailSearchRequest>()
+        val searchParamsSubscriber = TestObserver<RailSearchRequest>()
         searchVM.searchParamsObservable.subscribe(searchParamsSubscriber)
 
         searchVM.searchObserver.onNext(Unit)
-        assertNotNull(searchParamsSubscriber.onNextEvents[0].origin)
-        assertNotNull(searchParamsSubscriber.onNextEvents[0].destination)
-        assertNull(searchParamsSubscriber.onNextEvents[0].returnDate)
-        assertEquals(searchVM.departTimeSubject.value.toString(), searchParamsSubscriber.onNextEvents[0].departDateTimeMillis.toString())
-        assertNull(searchParamsSubscriber.onNextEvents[0].returnDateTimeMillis)
+        assertNotNull(searchParamsSubscriber.values()[0].origin)
+        assertNotNull(searchParamsSubscriber.values()[0].destination)
+        assertNull(searchParamsSubscriber.values()[0].returnDate)
+        assertEquals(searchVM.departTimeSubject.value.toString(), searchParamsSubscriber.values()[0].departDateTimeMillis.toString())
+        assertNull(searchParamsSubscriber.values()[0].returnDateTimeMillis)
         assertFalse(searchVM.isRoundTripSearchObservable.value)
     }
 
     @Test
     fun testDatesValidationOneWay() {
         setupOneWay()
-        val searchParamsSubscriber = TestSubscriber<RailSearchRequest>()
-        val errorNoDatesSubscriber = TestSubscriber<Unit>()
-        val errorMaxDurationSubscriber = TestSubscriber<String>()
-        val errorMaxRangeSubscriber = TestSubscriber<String>()
+        val searchParamsSubscriber = TestObserver<RailSearchRequest>()
+        val errorNoDatesSubscriber = TestObserver<Unit>()
+        val errorMaxDurationSubscriber = TestObserver<String>()
+        val errorMaxRangeSubscriber = TestObserver<String>()
 
         searchVM.searchParamsObservable.subscribe(searchParamsSubscriber)
         searchVM.errorNoDatesObservable.subscribe(errorNoDatesSubscriber)
@@ -125,16 +123,16 @@ class RailSearchViewModelTest {
         searchVM.datesUpdated(departDate, null)
         searchVM.searchObserver.onNext(Unit)
         assertFalse(searchVM.isRoundTripSearchObservable.value)
-        assertEquals("This date is too far out, please choose a closer date.", errorMaxRangeSubscriber.onNextEvents[0].toString())
+        assertEquals("This date is too far out, please choose a closer date.", errorMaxRangeSubscriber.values()[0].toString())
     }
 
     @Test
     fun testDatesValidationRoundTrip() {
         setupRoundTrip()
-        val searchParamsSubscriber = TestSubscriber<RailSearchRequest>()
-        val errorNoDatesSubscriber = TestSubscriber<Unit>()
-        val errorMaxDurationSubscriber = TestSubscriber<String>()
-        val errorMaxRangeSubscriber = TestSubscriber<String>()
+        val searchParamsSubscriber = TestObserver<RailSearchRequest>()
+        val errorNoDatesSubscriber = TestObserver<Unit>()
+        val errorMaxDurationSubscriber = TestObserver<String>()
+        val errorMaxRangeSubscriber = TestObserver<String>()
 
         searchVM.searchParamsObservable.subscribe(searchParamsSubscriber)
         searchVM.errorNoDatesObservable.subscribe(errorNoDatesSubscriber)
@@ -145,74 +143,74 @@ class RailSearchViewModelTest {
         var returnDate = departDate.plusDays(31)
         searchVM.datesUpdated(departDate, returnDate)
         searchVM.searchObserver.onNext(Unit)
-        assertEquals("We're sorry, but we are unable to search for round trip trains more than 30 days apart.", errorMaxDurationSubscriber.onNextEvents[0].toString())
+        assertEquals("We're sorry, but we are unable to search for round trip trains more than 30 days apart.", errorMaxDurationSubscriber.values()[0].toString())
 
         departDate = LocalDate().plusDays(activity.resources.getInteger(R.integer.calendar_max_days_rail_search))
         returnDate = departDate.plusDays(1)
         searchVM.datesUpdated(departDate, returnDate)
         searchVM.searchObserver.onNext(Unit)
         assertTrue(searchVM.isRoundTripSearchObservable.value)
-        assertEquals("This date is too far out, please choose a closer date.", errorMaxRangeSubscriber.onNextEvents[0].toString())
+        assertEquals("This date is too far out, please choose a closer date.", errorMaxRangeSubscriber.values()[0].toString())
     }
 
     @Test
     fun testInvalidRailCardsCount() {
         setupOneWay()
-        val errorRailCardCountSubscriber = TestSubscriber<String>()
+        val errorRailCardCountSubscriber = TestObserver<String>()
 
         searchVM.errorInvalidCardsCountObservable.subscribe(errorRailCardCountSubscriber)
         searchVM.getParamsBuilder().adults(1)
         searchVM.getParamsBuilder().fareQualifierList(listOf(RailCard("", "", ""), RailCard("", "", "")))
         searchVM.searchObserver.onNext(Unit)
-        assertEquals("The number of railcards cannot exceed the number of travelers.", errorRailCardCountSubscriber.onNextEvents[0].toString())
+        assertEquals("The number of railcards cannot exceed the number of travelers.", errorRailCardCountSubscriber.values()[0].toString())
     }
 
     @Test
     fun testCalendarToolTipOneWay() {
-        val testSub = TestSubscriber.create<Pair<String, String>>()
+        val testSub = TestObserver.create<Pair<String, String>>()
         searchVM.calendarTooltipTextObservable.subscribe(testSub)
         searchVM.datesUpdated(startDate, null)
 
-        assertEquals(context.getString(R.string.calendar_drag_to_modify), testSub.onNextEvents[0].second)
+        assertEquals(context.getString(R.string.calendar_drag_to_modify), testSub.values()[0].second)
     }
 
     @Test
     fun testCalendarToolTipRoundTrip() {
-        val testSub = TestSubscriber.create<Pair<String, String>>()
+        val testSub = TestObserver.create<Pair<String, String>>()
         searchVM.calendarTooltipTextObservable.subscribe(testSub)
 
         searchVM.isRoundTripSearchObservable.onNext(true)
         searchVM.datesUpdated(startDate, null)
 
         assertEquals(context.getString(R.string.calendar_instructions_date_range_flight_select_return_date),
-                testSub.onNextEvents[0].second)
+                testSub.values()[0].second)
 
         searchVM.datesUpdated(startDate, startDate.plusDays(1))
-        assertEquals(context.getString(R.string.calendar_drag_to_modify), testSub.onNextEvents[1].second)
+        assertEquals(context.getString(R.string.calendar_drag_to_modify), testSub.values()[1].second)
     }
 
     @Test
     fun testCalendarInstructionTextOneWay() {
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
         searchVM.dateInstructionObservable.subscribe(testSub)
         searchVM.isRoundTripSearchObservable.onNext(false)
 
         searchVM.datesUpdated(null, null)
-        assertEquals(expectedOneWayDateLabel, testSub.onNextEvents[0])
+        assertEquals(expectedOneWayDateLabel, testSub.values()[0])
 
         searchVM.datesUpdated(startDate, null)
-        assertEquals(expectedStartDateString, testSub.onNextEvents[1])
+        assertEquals(expectedStartDateString, testSub.values()[1])
     }
 
     @Test
     fun testCalendarInstructionTextRoundTripEmpty() {
 
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
         searchVM.dateInstructionObservable.subscribe(testSub)
         searchVM.isRoundTripSearchObservable.onNext(true)
 
         searchVM.datesUpdated(null, null)
-        assertEquals(expectedRoundTripDateLabel, testSub.onNextEvents[0])
+        assertEquals(expectedRoundTripDateLabel, testSub.values()[0])
     }
 
     @Test
@@ -221,12 +219,12 @@ class RailSearchViewModelTest {
                 .put("startdate", expectedStartDateString)
                 .format().toString()
 
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
         searchVM.dateInstructionObservable.subscribe(testSub)
         searchVM.isRoundTripSearchObservable.onNext(true)
 
         searchVM.datesUpdated(startDate, null)
-        assertEquals(expectedInstructionText, testSub.onNextEvents[0])
+        assertEquals(expectedInstructionText, testSub.values()[0])
     }
 
     @Test
@@ -236,79 +234,79 @@ class RailSearchViewModelTest {
                 .put("startdate", expectedStartDateString).put("enddate", expectedReturnDateString)
                 .format().toString()
 
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
         searchVM.dateInstructionObservable.subscribe(testSub)
         searchVM.isRoundTripSearchObservable.onNext(true)
 
         searchVM.datesUpdated(startDate, returnDate)
-        assertEquals(expectedInstructionText, testSub.onNextEvents[0])
+        assertEquals(expectedInstructionText, testSub.values()[0])
     }
 
     @Test
     fun testDateTextEmptyOneWay() {
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
 
         searchVM.dateTextObservable.subscribe(testSub)
         searchVM.resetDatesAndTimes()
 
-        assertEquals(expectedOneWayDateLabel, testSub.onNextEvents[0])
+        assertEquals(expectedOneWayDateLabel, testSub.values()[0])
     }
 
     @Test
     fun testDateTextOneWay() {
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
         searchVM.dateTextObservable.subscribe(testSub)
         searchVM.datesUpdated(startDate, null)
         searchVM.onTimesChanged(Pair(0, 0))
 
-        assertEquals(getExpectedStringFormatForDateTime(startDate, null, false), testSub.onNextEvents[0])
+        assertEquals(getExpectedStringFormatForDateTime(startDate, null, false), testSub.values()[0])
     }
 
     @Test
     fun testDateTextOneWayContDesc() {
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
         searchVM.dateAccessibilityObservable.subscribe(testSub)
         searchVM.datesUpdated(startDate, null)
         searchVM.onTimesChanged(Pair(0, 0))
 
         val expectedText = getExpectedAccessibilityText(expectedOneWayDateLabel,
                 getExpectedStringFormatForDateTime(startDate, null, false))
-        assertEquals(expectedText, testSub.onNextEvents[0])
+        assertEquals(expectedText, testSub.values()[0])
     }
 
     @Test
     fun testDateTextEmptyRoundTrip() {
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
         searchVM.isRoundTripSearchObservable.onNext(true)
         searchVM.dateTextObservable.subscribe(testSub)
         searchVM.resetDatesAndTimes()
 
-        assertEquals(expectedRoundTripDateLabel, testSub.onNextEvents[0])
+        assertEquals(expectedRoundTripDateLabel, testSub.values()[0])
     }
 
     @Test
     fun testDateTextEmptyOneWayContDesc() {
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
 
         searchVM.dateAccessibilityObservable.subscribe(testSub)
         searchVM.resetDatesAndTimes()
 
-        assertEquals(getExpectedAccessibilityText(expectedOneWayDateLabel, ""), testSub.onNextEvents[0])
+        assertEquals(getExpectedAccessibilityText(expectedOneWayDateLabel, ""), testSub.values()[0])
     }
 
     @Test
     fun testDateTextEmptyRoundTripContDesc() {
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
         searchVM.isRoundTripSearchObservable.onNext(true)
         searchVM.dateAccessibilityObservable.subscribe(testSub)
         searchVM.resetDatesAndTimes()
 
-        assertEquals(getExpectedAccessibilityText(expectedRoundTripDateLabel, ""), testSub.onNextEvents[0])
+        assertEquals(getExpectedAccessibilityText(expectedRoundTripDateLabel, ""), testSub.values()[0])
     }
 
     @Test
     fun testDateTextRoundTripContDesc() {
-        val testSub = TestSubscriber.create<CharSequence>()
+        val testSub = TestObserver.create<CharSequence>()
         searchVM.isRoundTripSearchObservable.onNext(true)
         searchVM.dateAccessibilityObservable.subscribe(testSub)
         searchVM.datesUpdated(startDate, returnDate)
@@ -317,7 +315,7 @@ class RailSearchViewModelTest {
         val expectedText = getExpectedAccessibilityText(expectedRoundTripDateLabel,
                 getExpectedStringFormatForDateTime(startDate, returnDate, true))
 
-        assertEquals(expectedText, testSub.onNextEvents[0])
+        assertEquals(expectedText, testSub.values()[0])
     }
 
     private fun getExpectedAccessibilityText(expectedLabel: String, expectedDuration: String) : String{

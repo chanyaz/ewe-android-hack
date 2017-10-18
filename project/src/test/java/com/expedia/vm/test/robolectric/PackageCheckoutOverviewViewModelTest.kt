@@ -15,7 +15,7 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -42,11 +42,11 @@ class PackageCheckoutOverviewViewModelTest {
         trip.packageDetails = packageDetails
         packageDetails.hotel = hotel
 
-        val cityTestSubscriber = TestSubscriber<String>()
-        val datesTestSubscriber = TestSubscriber<String>()
-        val travelerTestSubscriber = TestSubscriber<String>()
+        val cityTestSubscriber = TestObserver<String>()
+        val datesTestSubscriber = TestObserver<String>()
+        val travelerTestSubscriber = TestObserver<String>()
 
-        val urlTestSubscriber = TestSubscriber<List<String>>(1)
+        val urlTestSubscriber = TestObserver<List<String>>(1)
 
         viewmodel.cityTitle.subscribe(cityTestSubscriber)
         viewmodel.datesTitle.subscribe(datesTestSubscriber)
@@ -56,11 +56,11 @@ class PackageCheckoutOverviewViewModelTest {
 
         viewmodel.tripResponseSubject.onNext(trip)
 
-        assertEquals("New York, NY", cityTestSubscriber.onNextEvents[0])
-        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTestSubscriber.onNextEvents[0])
-        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTestSubscriber.onNextEvents[1])
-        assertEquals("1 traveler", travelerTestSubscriber.onNextEvents[0])
-        assertEquals("https://media.expedia.com/tes.jpg", urlTestSubscriber.onNextEvents[0][0])
+        assertEquals("New York, NY", cityTestSubscriber.values()[0])
+        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTestSubscriber.values()[0])
+        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTestSubscriber.values()[1])
+        assertEquals("1 traveler", travelerTestSubscriber.values()[0])
+        assertEquals("https://media.expedia.com/tes.jpg", urlTestSubscriber.values()[0][0])
         urlTestSubscriber.assertValueCount(1)
 
         trip.packageDetails.hotel.hotelCity = "Tokyo"
@@ -73,7 +73,7 @@ class PackageCheckoutOverviewViewModelTest {
         viewmodel.tripResponseSubject.onNext(trip)
 
         cityTestSubscriber.assertValueCount(2)
-        assertEquals("Tokyo, Japan", cityTestSubscriber.onNextEvents[1])
+        assertEquals("Tokyo, Japan", cityTestSubscriber.values()[1])
 
         assertEquals("$1,000", trip.bundleTotal.formattedMoney)
         packageDetails.pricing.bundleTotal = null

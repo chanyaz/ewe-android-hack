@@ -15,7 +15,7 @@ import com.expedia.bookings.widget.TextView
 import org.junit.Before
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertTrue
 
@@ -44,14 +44,14 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(TravelerName())
 
-        val testSubscriber = TestSubscriber<String>(1)
+        val testSubscriber = TestObserver<String>(1)
         nameVM.firstNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.middleNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.lastNameViewModel.textSubject.subscribe(testSubscriber)
 
-        assertEquals("", testSubscriber.onNextEvents[0])
-        assertEquals("", testSubscriber.onNextEvents[1])
-        assertEquals("", testSubscriber.onNextEvents[2])
+        assertEquals("", testSubscriber.values()[0])
+        assertEquals("", testSubscriber.values()[1])
+        assertEquals("", testSubscriber.values()[2])
         testSubscriber.assertValueCount(3)
     }
 
@@ -65,14 +65,14 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(name)
 
-        val testSubscriber = TestSubscriber<String>(1)
+        val testSubscriber = TestObserver<String>(1)
         nameVM.firstNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.middleNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.lastNameViewModel.textSubject.subscribe(testSubscriber)
 
-        assertEquals(TEST_FIRST, testSubscriber.onNextEvents[0])
-        assertEquals(TEST_MIDDLE, testSubscriber.onNextEvents[1])
-        assertEquals(TEST_LAST, testSubscriber.onNextEvents[2])
+        assertEquals(TEST_FIRST, testSubscriber.values()[0])
+        assertEquals(TEST_MIDDLE, testSubscriber.values()[1])
+        assertEquals(TEST_LAST, testSubscriber.values()[2])
         testSubscriber.assertValueCount(3)
     }
 
@@ -100,7 +100,7 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(name)
 
-        val testSubscriber = TestSubscriber<Boolean>(1)
+        val testSubscriber = TestObserver<Boolean>(1)
         nameVM.firstNameViewModel.errorSubject.subscribe(testSubscriber)
         nameVM.middleNameViewModel.errorSubject.subscribe(testSubscriber)
         nameVM.lastNameViewModel.errorSubject.subscribe(testSubscriber)

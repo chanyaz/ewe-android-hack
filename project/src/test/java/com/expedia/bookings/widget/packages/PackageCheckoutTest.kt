@@ -58,7 +58,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -157,10 +157,10 @@ class PackageCheckoutTest {
 
     @Test
     fun testCheckoutError() {
-        val errorResponseSubscriber = TestSubscriber<ApiError>()
+        val errorResponseSubscriber = TestObserver<ApiError>()
         checkout.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorResponseSubscriber)
 
-        val checkoutResponseSubscriber = TestSubscriber<Pair<BaseApiResponse, String>>()
+        val checkoutResponseSubscriber = TestObserver<Pair<BaseApiResponse, String>>()
         checkout.getCheckoutViewModel().bookingSuccessResponse.subscribe(checkoutResponseSubscriber)
 
         createTrip()
@@ -182,12 +182,12 @@ class PackageCheckoutTest {
         checkoutResponseSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         checkoutResponseSubscriber.assertValueCount(1)
 
-        assertEquals("malcolmnguyen@gmail.com", checkoutResponseSubscriber.onNextEvents[0].second)
+        assertEquals("malcolmnguyen@gmail.com", checkoutResponseSubscriber.values()[0].second)
     }
 
     @Test
     fun testCheckoutErrorClearsCvv() {
-        val clearCvvSubscriber = TestSubscriber<Unit>()
+        val clearCvvSubscriber = TestObserver<Unit>()
         checkout.getCheckoutViewModel().clearCvvObservable.subscribe(clearCvvSubscriber)
         val billingInfo = getBillingInfo()
         Db.setBillingInfo(billingInfo)
@@ -208,7 +208,7 @@ class PackageCheckoutTest {
 
     @Test
     fun testLoggedInUserPaymentStatusMultipleCards() {
-        val testUserLoggedIn = TestSubscriber<Boolean>()
+        val testUserLoggedIn = TestObserver<Boolean>()
         checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
         createTrip()
 
@@ -233,7 +233,7 @@ class PackageCheckoutTest {
 
     @Test
     fun testLoggedInUserPaymentStatusNoValidCards() {
-        val testUserLoggedIn = TestSubscriber<Boolean>()
+        val testUserLoggedIn = TestObserver<Boolean>()
         checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
         createTrip()
 
@@ -251,14 +251,14 @@ class PackageCheckoutTest {
         checkout.onLoginSuccess()
 
         testUserLoggedIn.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(true, testUserLoggedIn.onNextEvents[0])
+        assertEquals(true, testUserLoggedIn.values()[0])
         assertEquals(checkout.paymentWidget.sectionBillingInfo.billingInfo.storedCard, null)
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
     }
 
     @Test
     fun testGuestPaymentInfoClearedAfterUserLogsIn() {
-        val testUserLoggedIn = TestSubscriber<Boolean>()
+        val testUserLoggedIn = TestObserver<Boolean>()
         checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
 
         createTrip()
@@ -278,7 +278,7 @@ class PackageCheckoutTest {
         checkout.onLoginSuccess()
 
         testUserLoggedIn.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(true, testUserLoggedIn.onNextEvents[0])
+        assertEquals(true, testUserLoggedIn.values()[0])
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
     }
 
@@ -377,7 +377,7 @@ class PackageCheckoutTest {
 
     private fun createTrip() {
         checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
-        val tripResponseSubscriber = TestSubscriber<TripResponse>()
+        val tripResponseSubscriber = TestObserver<TripResponse>()
         checkout.getCreateTripViewModel().createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
 
         val createTripParams = PackageCreateTripParams("create_trip", "", 1, false, emptyList())
@@ -507,7 +507,7 @@ class PackageCheckoutTest {
 
     private fun createTripWithResortFee() {
         checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
-        val tripResponseSubscriber = TestSubscriber<TripResponse>()
+        val tripResponseSubscriber = TestObserver<TripResponse>()
         checkout.getCreateTripViewModel().createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
 
         val createTripParams = PackageCreateTripParams("create_trip_with_resort_fee", "", 1, false, emptyList())

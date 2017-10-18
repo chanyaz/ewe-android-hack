@@ -3,18 +3,18 @@ package com.expedia.bookings.test.robolectric
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
+import io.reactivex.subjects.PublishSubject
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -49,8 +49,8 @@ class HotelMapViewModelTest {
     fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreSame() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelHideStrikethroughPrice)
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
-        val strikeThroughPriceVisibilitySubscriber = TestSubscriber<Boolean>()
-        val selectRoomContDescriptionSubscriber = TestSubscriber<String>()
+        val strikeThroughPriceVisibilitySubscriber = TestObserver<Boolean>()
+        val selectRoomContDescriptionSubscriber = TestObserver<String>()
 
         val subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELS)
         subjectUnderTest.strikethroughPriceVisibility.subscribe(strikeThroughPriceVisibilitySubscriber)
@@ -68,7 +68,7 @@ class HotelMapViewModelTest {
         assertEquals(false, subjectUnderTest.selectARoomInvisibility.value)
         selectRoomContDescriptionSubscriber.assertValue("Select a Room From $109 button")
 
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
         subjectUnderTest.strikethroughPriceVisibility.subscribe(testSubscriber)
         subjectUnderTest.fromPriceVisibility.subscribe(testSubscriber)
         testSubscriber.assertValues(true)
@@ -78,7 +78,7 @@ class HotelMapViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreDifferent() {
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreDifferent()
-        val selectRoomContDescriptionSubscriber = TestSubscriber<String>()
+        val selectRoomContDescriptionSubscriber = TestObserver<String>()
 
         val subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELS)
         subjectUnderTest.selectRoomContDescription.subscribe(selectRoomContDescriptionSubscriber)
@@ -94,7 +94,7 @@ class HotelMapViewModelTest {
         assertEquals(false, subjectUnderTest.selectARoomInvisibility.value)
         selectRoomContDescriptionSubscriber.assertValue("Select a Room From $241 button")
 
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
         subjectUnderTest.strikethroughPriceVisibility.subscribe(testSubscriber)
         subjectUnderTest.fromPriceVisibility.subscribe(testSubscriber)
         testSubscriber.assertValues(true)
@@ -117,7 +117,7 @@ class HotelMapViewModelTest {
         assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value[1])
         assertEquals(false, subjectUnderTest.selectARoomInvisibility.value)
 
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
         subjectUnderTest.strikethroughPriceVisibility.subscribe(testSubscriber)
         subjectUnderTest.fromPriceVisibility.subscribe(testSubscriber)
         testSubscriber.assertValues(true)
@@ -141,7 +141,7 @@ class HotelMapViewModelTest {
         assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value[1])
         assertEquals(true, subjectUnderTest.selectARoomInvisibility.value)
 
-        val testSubscriber = TestSubscriber.create<Boolean>()
+        val testSubscriber = TestObserver.create<Boolean>()
         subjectUnderTest.strikethroughPriceVisibility.subscribe(testSubscriber)
         subjectUnderTest.fromPriceVisibility.subscribe(testSubscriber)
         testSubscriber.assertValues(false)

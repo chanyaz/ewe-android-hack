@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -23,39 +23,39 @@ class HotelTravelerPickerTest {
 
     @Test
     fun defaults() {
-        val testSubscriber = TestSubscriber<TravelerParams>(1)
+        val testSubscriber = TestObserver<TravelerParams>(1)
         vm.travelerParamsObservable.subscribe(testSubscriber)
 
         testSubscriber.assertValueCount(1)
-        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
+        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.values()[0])
     }
 
     @Test
     fun simpleClicks() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
+        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.values()[0])
 
         vm.incrementAdultsObserver.onNext(Unit)
-        assertTravelerParamsEquals(TravelerParams(2, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[1])
+        assertTravelerParamsEquals(TravelerParams(2, emptyList(), emptyList(), emptyList()), testSubscriber.values()[1])
 
         vm.decrementAdultsObserver.onNext(Unit)
-        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[2])
+        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.values()[2])
 
         vm.incrementChildrenObserver.onNext(Unit)
-        assertTravelerParamsEquals(TravelerParams(1, listOf(10), emptyList(), emptyList()), testSubscriber.onNextEvents[3])
+        assertTravelerParamsEquals(TravelerParams(1, listOf(10), emptyList(), emptyList()), testSubscriber.values()[3])
 
         vm.decrementChildrenObserver.onNext(Unit)
-        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[4])
+        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.values()[4])
     }
 
     @Test
     fun lowerBounds() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
+        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.values()[0])
 
         // Don't fire events
         vm.decrementAdultsObserver.onNext(Unit)
@@ -64,14 +64,14 @@ class HotelTravelerPickerTest {
 
     @Test
     fun adultUpperBounds() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
+        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.values()[0])
 
         for (i in 2..6) {
             vm.incrementAdultsObserver.onNext(Unit)
-            assertTravelerParamsEquals(TravelerParams(i, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[i - 1])
+            assertTravelerParamsEquals(TravelerParams(i, emptyList(), emptyList(), emptyList()), testSubscriber.values()[i - 1])
         }
 
         // Hit the max, these should not fire anything
@@ -86,15 +86,15 @@ class HotelTravelerPickerTest {
 
     @Test
     fun childrenUpperBounds() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
+        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.values()[0])
 
         // Max children is 4
         for (i in 1..4) {
             vm.incrementChildrenObserver.onNext(Unit)
-            assertTravelerParamsEquals(TravelerParams(1, Array(i, { 10 }).toList(), emptyList(), emptyList()), testSubscriber.onNextEvents[i])
+            assertTravelerParamsEquals(TravelerParams(1, Array(i, { 10 }).toList(), emptyList(), emptyList()), testSubscriber.values()[i])
         }
 
         vm.incrementChildrenObserver.onNext(Unit)
@@ -102,7 +102,7 @@ class HotelTravelerPickerTest {
 
         // We can add 1 more adult
         vm.incrementAdultsObserver.onNext(Unit)
-        assertTravelerParamsEquals(TravelerParams(2, listOf(10, 10, 10, 10), emptyList(), emptyList()), testSubscriber.onNextEvents[5])
+        assertTravelerParamsEquals(TravelerParams(2, listOf(10, 10, 10, 10), emptyList(), emptyList()), testSubscriber.values()[5])
 
         // But no more adults
         vm.incrementAdultsObserver.onNext(Unit)
@@ -112,23 +112,23 @@ class HotelTravelerPickerTest {
 
     @Test
     fun childrenAgeChange() {
-        val testSubscriber = TestSubscriber<TravelerParams>()
+        val testSubscriber = TestObserver<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.onNextEvents[0])
+        assertTravelerParamsEquals(TravelerParams(1, emptyList(), emptyList(), emptyList()), testSubscriber.values()[0])
 
         for (i in 1..2) {
             vm.incrementChildrenObserver.onNext(Unit)
-            assertTravelerParamsEquals(TravelerParams(1, Array(i, { 10 }).toList(), emptyList(), emptyList()), testSubscriber.onNextEvents[i])
+            assertTravelerParamsEquals(TravelerParams(1, Array(i, { 10 }).toList(), emptyList(), emptyList()), testSubscriber.values()[i])
         }
 
         // Change age of first child
         vm.childAgeSelectedObserver.onNext(Pair(0, 1))
-        assertTravelerParamsEquals(TravelerParams(1, listOf(1, 10), emptyList(), emptyList()), testSubscriber.onNextEvents[3])
+        assertTravelerParamsEquals(TravelerParams(1, listOf(1, 10), emptyList(), emptyList()), testSubscriber.values()[3])
 
         // Change age of second child
         vm.childAgeSelectedObserver.onNext(Pair(1, 5))
-        assertTravelerParamsEquals(TravelerParams(1, listOf(1, 5), emptyList(), emptyList()), testSubscriber.onNextEvents[4])
+        assertTravelerParamsEquals(TravelerParams(1, listOf(1, 5), emptyList(), emptyList()), testSubscriber.values()[4])
     }
 
     private fun assertTravelerParamsEquals(expected: TravelerParams, actual: TravelerParams) {

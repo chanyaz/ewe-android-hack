@@ -20,7 +20,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.io.File
 import java.util.concurrent.TimeUnit
 import com.expedia.bookings.data.Db
@@ -43,7 +43,7 @@ class PackageHotelPresenterTest {
     val packageServiceRule = ServicesRule(PackageServices::class.java)
         @Rule get
 
-    var observer = TestSubscriber<BundleSearchResponse>()
+    var observer = TestObserver<BundleSearchResponse>()
 
     @Before
     fun setup() {
@@ -65,7 +65,7 @@ class PackageHotelPresenterTest {
 
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
-        widget.dataAvailableSubject.onNext(observer.onNextEvents[0])
+        widget.dataAvailableSubject.onNext(observer.values()[0])
         widget.trackEventSubject.onNext(Unit)
 
         val expectedEvars = mapOf(
@@ -87,7 +87,7 @@ class PackageHotelPresenterTest {
 
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
-        widget.dataAvailableSubject.onNext(observer.onNextEvents[0])
+        widget.dataAvailableSubject.onNext(observer.values()[0])
         widget.trackEventSubject.onNext(Unit)
 
         val expectedEvars = mapOf(

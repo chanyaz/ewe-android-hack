@@ -11,6 +11,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -24,7 +25,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
@@ -42,9 +42,9 @@ class FlightFareFamilyViewModelTest {
 
     @Before
     fun setup() {
-        val createTripResponseObserver = TestSubscriber<FlightCreateTripResponse>()
+        val createTripResponseObserver = TestObserver<FlightCreateTripResponse>()
         flightServiceRule.services!!.createTrip( params , createTripResponseObserver)
-        flightCreateTripResponse = createTripResponseObserver.onNextEvents[0]
+        flightCreateTripResponse = createTripResponseObserver.values()[0]
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
@@ -54,7 +54,7 @@ class FlightFareFamilyViewModelTest {
     @Test
     fun testGetAirlinesString() {
         Db.setFlightSearchParams(setupFlightSearchParams(2, 2, true))
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         sut.airlinesObservable.subscribe(testSubscriber)
 
         //validate distinct airline names
@@ -65,25 +65,25 @@ class FlightFareFamilyViewModelTest {
         flightCreateTripResponse.details.getLegs()[0] = createFlightLegWithSegments(segments)
         sut.tripObservable.onNext(flightCreateTripResponse)
         sut.showFareFamilyObservable.onNext(Unit)
-        assertEquals("American Airlines, Delta Airlines, Delta", testSubscriber.onNextEvents[0])
+        assertEquals("American Airlines, Delta Airlines, Delta", testSubscriber.values()[0])
 
         //validate that Multiple carrier is displayed when distinct airlines names are greater than 3
         segments.add("Jet Airlines")
         flightCreateTripResponse.details.legs[0] = createFlightLegWithSegments(segments)
         sut.tripObservable.onNext(flightCreateTripResponse)
         sut.showFareFamilyObservable.onNext(Unit)
-        assertEquals("Multiple Carriers", testSubscriber.onNextEvents[1])
+        assertEquals("Multiple Carriers", testSubscriber.values()[1])
     }
 
     @Test
     fun testWhenFareFamilyIsNull() {
         Db.setFlightSearchParams(setupFlightSearchParams(2, 2, true))
-        val fareFamilyDetailsSubscriber = TestSubscriber<String>()
-        val selectedFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
-        val choosingFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
-        val fareFamilyTripLocationSubscriber = TestSubscriber<String>()
-        val roundTripSubscriber = TestSubscriber<Boolean>()
-        val airlinesSubscriber = TestSubscriber<String>()
+        val fareFamilyDetailsSubscriber = TestObserver<String>()
+        val selectedFareFamilySubscriber = TestObserver<FlightTripResponse.FareFamilyDetails>()
+        val choosingFareFamilySubscriber = TestObserver<FlightTripResponse.FareFamilyDetails>()
+        val fareFamilyTripLocationSubscriber = TestObserver<String>()
+        val roundTripSubscriber = TestObserver<Boolean>()
+        val airlinesSubscriber = TestObserver<String>()
 
         sut.fareFamilyTripLocationObservable.subscribe(fareFamilyDetailsSubscriber)
         sut.selectedFareFamilyObservable.subscribe(selectedFareFamilySubscriber)
@@ -109,18 +109,18 @@ class FlightFareFamilyViewModelTest {
 
         //validate search is round trip
         Db.setFlightSearchParams(flightSearchParam)
-        val testSubscriber = TestSubscriber<Boolean>()
+        val testSubscriber = TestObserver<Boolean>()
         sut.roundTripObservable.subscribe(testSubscriber)
         sut.tripObservable.onNext(flightCreateTripResponse)
         sut.showFareFamilyObservable.onNext(Unit)
-        assertEquals(true, testSubscriber.onNextEvents[0])
+        assertEquals(true, testSubscriber.values()[0])
 
         //validate search is one-way
         flightSearchParam = setupFlightSearchParams(2, 2, false)
         Db.setFlightSearchParams(flightSearchParam)
         sut.tripObservable.onNext(flightCreateTripResponse)
         sut.showFareFamilyObservable.onNext(Unit)
-        assertEquals(false, testSubscriber.onNextEvents[1])
+        assertEquals(false, testSubscriber.values()[1])
     }
 
     @Test
@@ -128,11 +128,11 @@ class FlightFareFamilyViewModelTest {
         var flightSearchParam = setupFlightSearchParams(2, 2, true)
         //validate search is round trip
         Db.setFlightSearchParams(flightSearchParam)
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestObserver<String>()
         sut.fareFamilyTripLocationObservable.subscribe(testSubscriber)
         sut.tripObservable.onNext(flightCreateTripResponse)
         sut.showFareFamilyObservable.onNext(Unit)
-        assertEquals("SFO - LAX - SFO", testSubscriber.onNextEvents[0])
+        assertEquals("SFO - LAX - SFO", testSubscriber.values()[0])
 
         //validate search is one-way
         flightSearchParam = setupFlightSearchParams(2, 2, false)
@@ -140,19 +140,19 @@ class FlightFareFamilyViewModelTest {
         sut.fareFamilyTripLocationObservable.subscribe(testSubscriber)
         sut.tripObservable.onNext(flightCreateTripResponse)
         sut.showFareFamilyObservable.onNext(Unit)
-        assertEquals("SFO - LAX", testSubscriber.onNextEvents[1])
+        assertEquals("SFO - LAX", testSubscriber.values()[1])
 
     }
 
     @Test
     fun testFareFamilyWhenNoClick() {
         Db.setFlightSearchParams(setupFlightSearchParams(2, 2, true))
-        val fareFamilyDetailsSubscriber = TestSubscriber<String>()
-        val selectedFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
-        val choosingFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
-        val fareFamilyTripLocationSubscriber = TestSubscriber<String>()
-        val roundTripSubscriber = TestSubscriber<Boolean>()
-        val airlinesSubscriber = TestSubscriber<String>()
+        val fareFamilyDetailsSubscriber = TestObserver<String>()
+        val selectedFareFamilySubscriber = TestObserver<FlightTripResponse.FareFamilyDetails>()
+        val choosingFareFamilySubscriber = TestObserver<FlightTripResponse.FareFamilyDetails>()
+        val fareFamilyTripLocationSubscriber = TestObserver<String>()
+        val roundTripSubscriber = TestObserver<Boolean>()
+        val airlinesSubscriber = TestObserver<String>()
 
         sut.fareFamilyTripLocationObservable.subscribe(fareFamilyDetailsSubscriber)
         sut.selectedFareFamilyObservable.subscribe(selectedFareFamilySubscriber)
@@ -162,24 +162,24 @@ class FlightFareFamilyViewModelTest {
         sut.airlinesObservable.subscribe(airlinesSubscriber)
         sut.tripObservable.onNext(flightCreateTripResponse)
 
-        assertEquals(0, fareFamilyDetailsSubscriber.valueCount)
-        assertEquals(0, selectedFareFamilySubscriber.valueCount)
-        assertEquals(0, choosingFareFamilySubscriber.valueCount)
-        assertEquals(0, fareFamilyTripLocationSubscriber.valueCount)
-        assertEquals(0, roundTripSubscriber.valueCount)
-        assertEquals(0, airlinesSubscriber.valueCount)
+        assertEquals(0, fareFamilyDetailsSubscriber.valueCount())
+        assertEquals(0, selectedFareFamilySubscriber.valueCount())
+        assertEquals(0, choosingFareFamilySubscriber.valueCount())
+        assertEquals(0, fareFamilyTripLocationSubscriber.valueCount())
+        assertEquals(0, roundTripSubscriber.valueCount())
+        assertEquals(0, airlinesSubscriber.valueCount())
 
     }
 
     @Test
     fun testFareFamilyWhenClick() {
         Db.setFlightSearchParams(setupFlightSearchParams(2, 2, true))
-        val fareFamilyDetailsSubscriber = TestSubscriber<String>()
-        val selectedFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
-        val choosingFareFamilySubscriber = TestSubscriber<FlightTripResponse.FareFamilyDetails>()
-        val fareFamilyTripLocationSubscriber = TestSubscriber<String>()
-        val roundTripSubscriber = TestSubscriber<Boolean>()
-        val airlinesSubscriber = TestSubscriber<String>()
+        val fareFamilyDetailsSubscriber = TestObserver<String>()
+        val selectedFareFamilySubscriber = TestObserver<FlightTripResponse.FareFamilyDetails>()
+        val choosingFareFamilySubscriber = TestObserver<FlightTripResponse.FareFamilyDetails>()
+        val fareFamilyTripLocationSubscriber = TestObserver<String>()
+        val roundTripSubscriber = TestObserver<Boolean>()
+        val airlinesSubscriber = TestObserver<String>()
 
         sut.fareFamilyTripLocationObservable.subscribe(fareFamilyDetailsSubscriber)
         sut.selectedFareFamilyObservable.subscribe(selectedFareFamilySubscriber)
@@ -190,12 +190,12 @@ class FlightFareFamilyViewModelTest {
         sut.tripObservable.onNext(flightCreateTripResponse)
         sut.showFareFamilyObservable.onNext(Unit)
 
-        assertEquals(1, fareFamilyDetailsSubscriber.valueCount)
-        assertEquals(1, selectedFareFamilySubscriber.valueCount)
-        assertEquals(1, choosingFareFamilySubscriber.valueCount)
-        assertEquals(1, fareFamilyTripLocationSubscriber.valueCount)
-        assertEquals(1, roundTripSubscriber.valueCount)
-        assertEquals(1, airlinesSubscriber.valueCount)
+        assertEquals(1, fareFamilyDetailsSubscriber.valueCount())
+        assertEquals(1, selectedFareFamilySubscriber.valueCount())
+        assertEquals(1, choosingFareFamilySubscriber.valueCount())
+        assertEquals(1, fareFamilyTripLocationSubscriber.valueCount())
+        assertEquals(1, roundTripSubscriber.valueCount())
+        assertEquals(1, airlinesSubscriber.valueCount())
 
     }
 

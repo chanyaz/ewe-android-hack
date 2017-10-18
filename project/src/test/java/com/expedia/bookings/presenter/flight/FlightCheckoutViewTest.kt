@@ -45,8 +45,8 @@ import org.joda.time.LocalDate
 import org.junit.Rule
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
+import com.expedia.bookings.services.TestObserver
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.util.ArrayList
 import kotlin.test.assertEquals
@@ -134,10 +134,10 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val tripResponseSubscriber = TestSubscriber<TripResponse>()
-        val testPerformCreateTripSubscriber = TestSubscriber<Unit>()
-        val testShowLoadingSubscriber = TestSubscriber<Unit>()
-        val testUrlSubscriber = TestSubscriber<String>()
+        val tripResponseSubscriber = TestObserver<TripResponse>()
+        val testPerformCreateTripSubscriber = TestObserver<Unit>()
+        val testShowLoadingSubscriber = TestObserver<Unit>()
+        val testUrlSubscriber = TestObserver<String>()
         val webCheckoutViewModel = flightPresenter.webCheckoutView.viewModel as FlightWebCheckoutViewViewModel
         webCheckoutViewModel.flightCreateTripViewModel.createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
         webCheckoutViewModel.flightCreateTripViewModel.performCreateTrip.subscribe(testPerformCreateTripSubscriber)
@@ -150,7 +150,7 @@ class FlightCheckoutViewTest {
         testShowLoadingSubscriber.assertValueCount(1)
         testPerformCreateTripSubscriber.assertValueCount(1)
         tripResponseSubscriber.assertValueCount(1)
-        assertEquals("happy_round_trip", (tripResponseSubscriber.onNextEvents[0] as FlightCreateTripResponse).newTrip?.tripId)
+        assertEquals("happy_round_trip", (tripResponseSubscriber.values()[0] as FlightCreateTripResponse).newTrip?.tripId)
         testUrlSubscriber.assertValue("${PointOfSale.getPointOfSale().flightsWebCheckoutUrl}?tripid=happy_round_trip")
     }
 
@@ -162,8 +162,8 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val bookingTripIDSubscriber = TestSubscriber<String>()
-        val fectchTripIDSubscriber = TestSubscriber<String>()
+        val bookingTripIDSubscriber = TestObserver<String>()
+        val fectchTripIDSubscriber = TestObserver<String>()
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
@@ -280,7 +280,7 @@ class FlightCheckoutViewTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
     }
 
     private fun createTripParams(productKey: String): FlightCreateTripParams {

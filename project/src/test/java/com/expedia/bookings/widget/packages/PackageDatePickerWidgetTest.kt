@@ -14,7 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import rx.subjects.BehaviorSubject
+import io.reactivex.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 

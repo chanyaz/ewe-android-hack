@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import rx.observers.TestSubscriber
+import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -36,7 +36,7 @@ class RailCardPickerViewTest {
     @Before
     fun before() {
         val viewModel = RailCardPickerViewModel(railServicesRule.services!!, context)
-        val testSubscriber = TestSubscriber.create<List<RailCard>>()
+        val testSubscriber = TestObserver.create<List<RailCard>>()
         viewModel.railCardTypes.subscribe(testSubscriber)
         testSubscriber.awaitTerminalEvent(2, TimeUnit.SECONDS)
 
