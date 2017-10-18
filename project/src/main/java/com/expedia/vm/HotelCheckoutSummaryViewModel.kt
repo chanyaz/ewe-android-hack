@@ -63,7 +63,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val isDepositV2 = BehaviorSubject.createDefault<Boolean>(false)
     val feesPaidAtHotel = BehaviorSubject.create<String>()
     val showFeesPaidAtHotel = BehaviorSubject.createDefault<Boolean>(false)
-    val roomHeaderImage = BehaviorSubject.create<String?>()
+    val roomHeaderImage = BehaviorSubject.create<String>()
     val burnAmountShownOnHotelCostBreakdown = BehaviorSubject.create<String>()
     val burnPointsShownOnHotelCostBreakdown = BehaviorSubject.create<String>()
     val isShoppingWithPoints = BehaviorSubject.create<Boolean>()
@@ -103,7 +103,9 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             bedDescriptions.onNext(room.formattedBedNames)
             hasFreeCancellation.onNext(room.hasFreeCancellation)
             freeCancellationText.onNext(HotelUtils.getFreeCancellationText(context, it.newHotelProductResponse.hotelRoomResponse.freeCancellationWindowDate))
-            valueAddsListObservable.onNext(room.valueAdds)
+            room.valueAdds?.let {
+                valueAddsListObservable.onNext(it)
+            }
             currencyCode.onNext(rate.currencyCode)
             nightlyRatesPerRoom.onNext(rate.nightlyRatesPerRoom)
             nightlyRateTotal.onNext(rate.nightlyRateTotal.toString())
@@ -118,12 +120,14 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                 propertyServiceSurcharge.onNext(Optional(null))
             }
             taxStatusType.onNext(rate.taxStatusType)
-            extraGuestFees.onNext(rate.extraGuestFees)
+            rate.extraGuestFees?.let {
+                extraGuestFees.onNext(it)
+            }
 
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee() && room.isMerchant)
 
-            roomHeaderImage.onNext(it.newHotelProductResponse.largeThumbnailUrl)
+            roomHeaderImage.onNext(it.newHotelProductResponse.largeThumbnailUrl ?: "")
             createTripConsumed.onNext(Unit)
         }
 

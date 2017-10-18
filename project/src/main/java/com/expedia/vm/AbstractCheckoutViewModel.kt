@@ -34,7 +34,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val creditCardRequired = PublishSubject.create<Boolean>()
     val travelerCompleted = BehaviorSubject.create<List<Traveler>>()
     val clearTravelers = BehaviorSubject.create<Unit>()
-    val paymentCompleted = BehaviorSubject.create<BillingInfo?>()
+    val paymentCompleted = BehaviorSubject.create<Optional<BillingInfo>>()
     val cvvCompleted = BehaviorSubject.create<String>()
     val createTripResponseObservable = BehaviorSubject.create<Optional<TripResponse>>()
     val checkoutParams = BehaviorSubject.create<BaseCheckoutParams>()
@@ -80,8 +80,8 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
         }
 
         paymentCompleted.subscribe { billingInfo ->
-            builder.billingInfo(billingInfo)
-            builder.cvv(billingInfo?.securityCode)
+            builder.billingInfo(billingInfo.value)
+            builder.cvv(billingInfo.value?.securityCode)
         }
 
         cvvCompleted.subscribe {

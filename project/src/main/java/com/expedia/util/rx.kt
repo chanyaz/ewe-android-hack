@@ -30,7 +30,11 @@ import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 
 fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
-    return object : DisposableObserver<T>() {
+    return object : Observer<T> {
+        override fun onSubscribe(d: Disposable) {
+            //ignore
+        }
+
         override fun onNext(t: T) {
             body(t)
         }

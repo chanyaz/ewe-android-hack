@@ -16,6 +16,7 @@ import android.os.Build;
 import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
+import com.akaita.java.rxjava2debug.RxJava2Debug;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -136,6 +137,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	@Override
 	public void onCreate() {
+		RxJava2Debug.enableRxJava2AssemblyTracking(new String[]{"com.expedia.bookings"});
+
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 
 		// Initialize some parts of the code that require a Context

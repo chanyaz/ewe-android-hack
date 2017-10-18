@@ -538,7 +538,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         addWindowSubscription(travelerManager.travelersUpdated.subscribe { travelersPresenter.resetTravelers() })
         addWindowSubscription(paymentWidget.viewmodel.cardTypeSubject.subscribe { paymentType -> cardType = paymentType.value })
         addWindowSubscription(paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() })
-        addWindowSubscription(paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribeObserver(ckoViewModel.paymentCompleted))
+        addWindowSubscription(paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { Optional(it.first) }.subscribeObserver(ckoViewModel.paymentCompleted))
     }
 
     override fun unsubscribeWindowAtTeardown() {
