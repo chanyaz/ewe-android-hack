@@ -20,9 +20,7 @@ open class NavigationHelper(private var context: Context) {
         if (finishCallingActivity) {
             HotelNavUtils.goToHotels(context, animOptions, NavUtils.FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK)
         } else {
-            val intent = Intent(context, HotelCompareResultsActivity::class.java)
-            context.startActivity(intent)
-//            HotelNavUtils.goToHotels(context, animOptions)
+            HotelNavUtils.goToHotels(context, animOptions)
         }
     }
 

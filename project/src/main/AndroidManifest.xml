@@ -248,12 +248,16 @@
 
         <activity
             android:name="com.expedia.bookings.hotel.activity.HotelCompareResultsActivity"
-            android:label="Hotels"
+            android:label="Compare Hotels"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Hotels.Default"
-            tools:ignore="UnusedAttribute" />
+            tools:ignore="UnusedAttribute">
+            <meta-data
+                android:name="debug"
+                android:value="true" />
+        </activity>
 
         <activity
             android:name="com.expedia.bookings.hotel.activity.HotelDetailedCompareActivity"

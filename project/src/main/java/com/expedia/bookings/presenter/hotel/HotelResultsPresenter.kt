@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Handler
@@ -24,6 +25,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.activity.HotelCompareResultsActivity
 import com.expedia.bookings.hotel.animation.AnimationRunner
 import com.expedia.bookings.hotel.animation.ScaleInRunnable
 import com.expedia.bookings.hotel.animation.ScaleOutRunnable
@@ -410,6 +412,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             shadowViewRef.get()?.visibility = GONE
             Handler(Looper.getMainLooper()).post(scaleInRunnable)
         }
+    }
+
+    private fun launchCompare() {
+        val intent = Intent(context, HotelCompareResultsActivity::class.java)
+        context.startActivity(intent)
     }
 
     private fun showMapLoadingOverlay() {

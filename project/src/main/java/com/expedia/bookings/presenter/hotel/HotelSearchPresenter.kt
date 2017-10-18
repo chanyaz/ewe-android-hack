@@ -104,16 +104,14 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         advancedOptionsViewModel.searchOptionsSubject.subscribe(searchViewModel.advancedOptionsObserver)
 
         searchButton.setOnClickListener {
-            val intent = Intent(context, HotelCompareResultsActivity::class.java)
-            context.startActivity(intent)
-//            searchTrackingBuilder.markSearchClicked()
-//            val lastSuggestionV4 = suggestionViewModel.getLastSelectedSuggestion()
-//            if (lastSuggestionV4 != null) {
-//                suggestionTrackingData.updateData(lastSuggestionV4)
-//            }
-//            suggestionTrackingData.suggestionsFocused = suggestionListFocused
-//            OmnitureTracking.trackHotelSuggestionBehavior(suggestionTrackingData)
-//            vm.searchObserver.onNext(Unit)
+            searchTrackingBuilder.markSearchClicked()
+            val lastSuggestionV4 = suggestionViewModel.getLastSelectedSuggestion()
+            if (lastSuggestionV4 != null) {
+                suggestionTrackingData.updateData(lastSuggestionV4)
+            }
+            suggestionTrackingData.suggestionsFocused = suggestionListFocused
+            OmnitureTracking.trackHotelSuggestionBehavior(suggestionTrackingData)
+            vm.searchObserver.onNext(Unit)
         }
     }
 

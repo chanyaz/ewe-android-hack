@@ -92,6 +92,15 @@
 
         </RelativeLayout>
 
+        <ImageView
+            android:id="@+id/hotel_cell_heart_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/info_icon_white"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="top|right"/>
+
     </FrameLayout>
 
     <LinearLayout
