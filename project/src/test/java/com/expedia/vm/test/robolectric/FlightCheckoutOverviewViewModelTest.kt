@@ -13,7 +13,7 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -35,25 +35,20 @@ class FlightCheckoutOverviewViewModelTest {
                 .adults(1).build() as FlightSearchParams
 
 
-        val titleTestSubscriber = TestObserver<String>(4)
-        val checkInOutTestSubscriber = TestObserver<Pair<String, String>>(1)
-        val urlTestSubscriber = TestObserver<List<String>>(1)
-        val subTitleTestSubscriber = TestObserver<String>()
+        val titleTestSubscriber = TestSubscriber<String>(4)
+        val checkInOutTestSubscriber = TestSubscriber<Pair<String, String>>(1)
+        val urlTestSubscriber = TestSubscriber<List<String>>(1)
+        val subTitleTestSubscriber = TestSubscriber<String>()
 
-        viewmodel.cityTitle.subscribe(titleTestObserver)
-        viewmodel.datesTitle.subscribe(titleTestObserver)
-        viewmodel.datesTitleContDesc.subscribe(titleTestObserver)
-        viewmodel.travelersTitle.subscribe(titleTestObserver)
+        viewmodel.cityTitle.subscribe(titleTestSubscriber)
+        viewmodel.datesTitle.subscribe(titleTestSubscriber)
+        viewmodel.datesTitleContDesc.subscribe(titleTestSubscriber)
+        viewmodel.travelersTitle.subscribe(titleTestSubscriber)
 
-<<<<<<< HEAD
         viewmodel.checkInAndCheckOutDate.subscribe(checkInOutTestSubscriber)
-=======
-        viewmodel.checkIn.subscribe(checkInOutTestObserver)
-        viewmodel.checkOut.subscribe(checkInOutTestObserver)
->>>>>>> 7df61dae81... WIP
 
-        viewmodel.url.subscribe(urlTestObserver)
-        viewmodel.subTitleText.subscribe(subTitleTestObserver)
+        viewmodel.url.subscribe(urlTestSubscriber)
+        viewmodel.subTitleText.subscribe(subTitleTestSubscriber)
 
         viewmodel.params.onNext(params)
 

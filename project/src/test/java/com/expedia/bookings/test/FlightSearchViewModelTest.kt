@@ -25,8 +25,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
-import io.reactivex.schedulers.Schedulers
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
 import java.io.File
 import java.util.Locale
 import kotlin.test.assertEquals
@@ -145,8 +145,8 @@ class FlightSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
 
-        val testPerformSearchSubscriber = TestObserver<Unit>()
-        val testSearchButtonSubscriber = TestObserver<Boolean>()
+        val testPerformSearchSubscriber = TestSubscriber<Unit>()
+        val testSearchButtonSubscriber = TestSubscriber<Boolean>()
 
         sut.searchButtonObservable.subscribe(testSearchButtonSubscriber)
 
@@ -166,7 +166,7 @@ class FlightSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
 
-        val testSubscriber = TestObserver<Unit>()
+        val testSubscriber = TestSubscriber<Unit>()
         sut.errorNoOriginObservable.subscribe(testSubscriber)
         sut.performSearchObserver.onNext(Unit)
 
@@ -179,7 +179,7 @@ class FlightSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
 
-        val testSubscriber = TestObserver<Unit>()
+        val testSubscriber = TestSubscriber<Unit>()
         sut.errorNoDatesObservable.subscribe(testSubscriber)
         givenParamsHaveOrigin()
         givenParamsHaveDestination()
@@ -195,7 +195,7 @@ class FlightSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
 
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         sut.errorOriginSameAsDestinationObservable.subscribe(testSubscriber)
 
         val origin = SuggestionV4()
@@ -215,7 +215,7 @@ class FlightSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
 
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         sut.errorMaxDurationObservable.subscribe(testSubscriber)
 
         val startDate = LocalDate()
@@ -264,7 +264,7 @@ class FlightSearchViewModelTest {
         val destination = getDummySuggestion()
         destination.hierarchyInfo?.airport?.airportCode = "LAS"
 
-        val testSubscriber = TestObserver<Unit>()
+        val testSubscriber = TestSubscriber<Unit>()
         sut.errorNoDatesObservable.subscribe(testSubscriber)
         sut.isRoundTripSearchObservable.onNext(true)
         sut.searchParamsObservable.onNext(makeSearchParams())
@@ -280,7 +280,7 @@ class FlightSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
 
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         val destination = SuggestionV4()
         destination.regionNames = SuggestionV4.RegionNames()
         destination.regionNames.displayName = ""
@@ -447,7 +447,7 @@ class FlightSearchViewModelTest {
         givenValidStartAndEndDates()
         val params = sut.getParamsBuilder().build()
 
-        val testSubscriber = TestObserver<Unit>()
+        val testSubscriber = TestSubscriber<Unit>()
         sut.isReadyForInteractionTracking.subscribe(testSubscriber)
         sut.previousSearchParamsObservable.onNext(params)
         testSubscriber.assertValueCount(1)
@@ -569,6 +569,6 @@ class FlightSearchViewModelTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         service = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 }

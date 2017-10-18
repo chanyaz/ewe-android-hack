@@ -22,8 +22,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
+import rx.schedulers.Schedulers
+import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
@@ -45,7 +45,7 @@ class PackageFlightListAdapterTest {
         val server = MockWebServer()
         val service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().build(), MockInterceptor(),
-                Schedulers.trampoline(), Schedulers.trampoline())
+                Schedulers.immediate(), Schedulers.immediate())
         flightSearchViewModel = FlightSearchViewModel(context)
     }
 

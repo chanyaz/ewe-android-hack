@@ -15,7 +15,7 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -42,35 +42,26 @@ class PackageCheckoutOverviewViewModelTest {
         trip.packageDetails = packageDetails
         packageDetails.hotel = hotel
 
-        val cityTestObserver = TestObserver<String>()
-        val datesTestObserver = TestObserver<String>()
-        val travelerTestObserver = TestObserver<String>()
+        val cityTestSubscriber = TestSubscriber<String>()
+        val datesTestSubscriber = TestSubscriber<String>()
+        val travelerTestSubscriber = TestSubscriber<String>()
 
-        val urlTestObserver = TestObserver<List<String>>(1)
+        val urlTestSubscriber = TestSubscriber<List<String>>(1)
 
-        viewmodel.cityTitle.subscribe(cityTestObserver)
-        viewmodel.datesTitle.subscribe(datesTestObserver)
-        viewmodel.datesTitleContDesc.subscribe(datesTestObserver)
-        viewmodel.travelersTitle.subscribe(travelerTestObserver)
-        viewmodel.url.subscribe(urlTestObserver)
+        viewmodel.cityTitle.subscribe(cityTestSubscriber)
+        viewmodel.datesTitle.subscribe(datesTestSubscriber)
+        viewmodel.datesTitleContDesc.subscribe(datesTestSubscriber)
+        viewmodel.travelersTitle.subscribe(travelerTestSubscriber)
+        viewmodel.url.subscribe(urlTestSubscriber)
 
         viewmodel.tripResponseSubject.onNext(trip)
 
-<<<<<<< HEAD
         assertEquals("New York, NY", cityTestSubscriber.onNextEvents[0])
         assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTestSubscriber.onNextEvents[0])
         assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTestSubscriber.onNextEvents[1])
         assertEquals("1 traveler", travelerTestSubscriber.onNextEvents[0])
         assertEquals("https://media.expedia.com/tes.jpg", urlTestSubscriber.onNextEvents[0][0])
         urlTestSubscriber.assertValueCount(1)
-=======
-        assertEquals("New York, NY", cityTestObserver.onNextEvents[0])
-        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTestObserver.onNextEvents[0])
-        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTestObserver.onNextEvents[1])
-        assertEquals("1 Traveler", travelerTestObserver.onNextEvents[0])
-        assertEquals("https://media.expedia.com/tes.jpg", urlTestObserver.onNextEvents[0][0])
-        urlTestObserver.assertValueCount(1)
->>>>>>> 5abc89409b... WIP
 
         trip.packageDetails.hotel.hotelCity = "Tokyo"
         trip.packageDetails.hotel.hotelCountry = "JPN"
@@ -81,8 +72,8 @@ class PackageCheckoutOverviewViewModelTest {
         Db.getPackageParams().destination?.hierarchyInfo = hierarchyInfo
         viewmodel.tripResponseSubject.onNext(trip)
 
-        cityTestObserver.assertValueCount(2)
-        assertEquals("Tokyo, Japan", cityTestObserver.onNextEvents[1])
+        cityTestSubscriber.assertValueCount(2)
+        assertEquals("Tokyo, Japan", cityTestSubscriber.onNextEvents[1])
 
         assertEquals("$1,000", trip.bundleTotal.formattedMoney)
         packageDetails.pricing.bundleTotal = null

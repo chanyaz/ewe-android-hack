@@ -16,7 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -40,7 +40,7 @@ class RailOutboundResultsViewModelTest {
     @Test
     fun testToolbarTitle() {
         val params = defaultBuilder().build()
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         testViewModel.titleSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -58,7 +58,7 @@ class RailOutboundResultsViewModelTest {
                 .put("searchdates", expectedDateString)
                 .put("travelerspart", expectedTravelerString).format().toString()
 
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.subtitleSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -76,7 +76,7 @@ class RailOutboundResultsViewModelTest {
                 .put("searchdates", expectedDateString)
                 .put("travelerspart", expectedTravelerString).format().toString()
 
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.subtitleSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -87,7 +87,7 @@ class RailOutboundResultsViewModelTest {
     fun testOneWayPriceHeader() {
         val params = defaultBuilder().build()
 
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.priceHeaderSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -99,7 +99,7 @@ class RailOutboundResultsViewModelTest {
         val builder = defaultBuilder()
         val params = builder.endDate(RailSearchRequestMock.returnDate()).build() as RailSearchRequest
 
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.priceHeaderSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -108,7 +108,7 @@ class RailOutboundResultsViewModelTest {
 
     @Test
     fun testDirectionHeader() {
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.directionHeaderSubject.subscribe(testSubscriber)
 
         assertEquals(context.getString(R.string.select_outbound), testSubscriber.onNextEvents[0])
@@ -123,7 +123,7 @@ class RailOutboundResultsViewModelTest {
         responseStatus.warningList = listOf(warning)
         searchResponse.responseStatus = responseStatus
 
-        val testSubscriber = TestObserver<Boolean>()
+        val testSubscriber = TestSubscriber<Boolean>()
         testViewModel.showChildrenWarningObservable.subscribe(testSubscriber)
         testViewModel.railResultsObservable.onNext(searchResponse)
 
@@ -135,7 +135,7 @@ class RailOutboundResultsViewModelTest {
         val builder = defaultBuilder()
         val params = builder.endDate(RailSearchRequestMock.returnDate()).build() as RailSearchRequest
 
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         testViewModel.legalBannerMessageObservable.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -147,7 +147,7 @@ class RailOutboundResultsViewModelTest {
         val builder = defaultBuilder()
         val params = builder.searchType(true).returnDateTimeMillis(RailSearchRequestMock.departTime()).endDate(RailSearchRequestMock.returnDate()).build() as RailSearchRequest
 
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         testViewModel.legalBannerMessageObservable.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 

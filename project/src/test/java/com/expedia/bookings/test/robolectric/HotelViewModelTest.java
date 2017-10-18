@@ -46,8 +46,8 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
 import com.mobiata.android.util.SettingUtils;
 
-import com.expedia.bookings.services.TestObserver;
-import io.reactivex.schedulers.Schedulers;
+import rx.observers.TestSubscriber;
+import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -58,7 +58,7 @@ import static org.junit.Assert.assertTrue;
 @Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class })
 public class HotelViewModelTest {
 	@Rule
-	public ServicesRule<PackageServices> serviceRule = new ServicesRule<>(PackageServices.class, Schedulers.trampoline(),
+	public ServicesRule<PackageServices> serviceRule = new ServicesRule<>(PackageServices.class, Schedulers.immediate(),
 		"../lib/mocked/templates", true);
 
 	HotelViewModel vm;
@@ -149,7 +149,7 @@ public class HotelViewModelTest {
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void strikeThroughPriceShowForPackages() {
-		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -171,7 +171,7 @@ public class HotelViewModelTest {
 
 	@Test
 	public void strikeThroughPriceDontShowForPackages() {
-		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())

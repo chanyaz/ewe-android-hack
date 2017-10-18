@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -39,7 +39,7 @@ class RailFareRulesViewModelTest {
     fun fareNotesIncludedInFareRules() {
         fareRulesVM = RailFareRulesViewModel(activity)
 
-        val fareRulesSubscriber = TestObserver<List<String>>()
+        val fareRulesSubscriber = TestSubscriber<List<String>>()
         fareRulesVM.fareRulesObservable.subscribe(fareRulesSubscriber)
 
         val railProduct = generateRailProduct()
@@ -54,7 +54,7 @@ class RailFareRulesViewModelTest {
     fun refundableRulesIncludedInFareRules() {
         fareRulesVM = RailFareRulesViewModel(activity)
 
-        val fareRulesSubscriber = TestObserver<List<String>>()
+        val fareRulesSubscriber = TestSubscriber<List<String>>()
         fareRulesVM.fareRulesObservable.subscribe(fareRulesSubscriber)
         fareRulesVM.railProductObservable.onNext(generateRailProduct())
 
@@ -66,7 +66,7 @@ class RailFareRulesViewModelTest {
     fun emptyFareRules() {
         fareRulesVM = RailFareRulesViewModel(activity)
 
-        val noFareRulesSubscriber = TestObserver<Boolean>()
+        val noFareRulesSubscriber = TestSubscriber<Boolean>()
         fareRulesVM.noFareRulesObservable.subscribe(noFareRulesSubscriber)
 
         fareRulesVM.railProductObservable.onNext(RailProduct())

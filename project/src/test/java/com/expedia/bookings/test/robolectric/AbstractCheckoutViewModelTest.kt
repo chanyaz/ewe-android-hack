@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -42,7 +42,7 @@ class AbstractCheckoutViewModelTest {
 
     @Test
     fun testTravelersCleared() {
-        val testSubscriber = TestObserver<BaseCheckoutParams>()
+        val testSubscriber = TestSubscriber<BaseCheckoutParams>()
         val expectedResults = arrayListOf(false, true, true, true, false, true)
         testViewModel.checkoutParams.subscribe(testSubscriber)
 
@@ -70,7 +70,7 @@ class AbstractCheckoutViewModelTest {
 
     @Test
     fun testStreetAddress() {
-        val testSubscriber = TestObserver<BaseCheckoutParams>()
+        val testSubscriber = TestSubscriber<BaseCheckoutParams>()
         testViewModel.checkoutParams.subscribe(testSubscriber)
         testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
         testViewModel.paymentCompleted.onNext(getBillingInfo())

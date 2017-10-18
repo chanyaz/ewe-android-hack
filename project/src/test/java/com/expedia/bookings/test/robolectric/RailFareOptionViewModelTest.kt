@@ -11,7 +11,7 @@ import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -23,10 +23,10 @@ class RailFareOptionViewModelTest {
     fun testOneWayFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
-        val testPriceSubscriber = TestObserver<String>()
-        val testFareTitleSubscriber = TestObserver<String>()
-        val testFareDescriptionSubscriber = TestObserver<String>()
-        val testRailCardAppliedSubscriber = TestObserver<Boolean>()
+        val testPriceSubscriber = TestSubscriber<String>()
+        val testFareTitleSubscriber = TestSubscriber<String>()
+        val testFareDescriptionSubscriber = TestSubscriber<String>()
+        val testRailCardAppliedSubscriber = TestSubscriber<Boolean>()
 
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
         railFareOptionViewModel.fareTitleObservable.subscribe(testFareTitleSubscriber)
@@ -46,7 +46,7 @@ class RailFareOptionViewModelTest {
     fun testRoundTripOutboundTotalFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
-        val testPriceSubscriber = TestObserver<String>()
+        val testPriceSubscriber = TestSubscriber<String>()
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
@@ -58,7 +58,7 @@ class RailFareOptionViewModelTest {
     fun testOutboundOpenReturnFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
-        val testPriceSubscriber = TestObserver<String>()
+        val testPriceSubscriber = TestSubscriber<String>()
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer(true))
@@ -71,7 +71,7 @@ class RailFareOptionViewModelTest {
     fun testInboundOpenReturnFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, true)
 
-        val testPriceSubscriber = TestObserver<String>()
+        val testPriceSubscriber = TestSubscriber<String>()
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer(true))
@@ -84,7 +84,7 @@ class RailFareOptionViewModelTest {
     fun testRoundTripInboundDeltaPriceFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, true)
 
-        val testPriceSubscriber = TestObserver<String>()
+        val testPriceSubscriber = TestSubscriber<String>()
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
@@ -96,9 +96,9 @@ class RailFareOptionViewModelTest {
     fun testFareOptionClickEvents() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
-        val testOfferSelectedSubscriber = TestObserver<RailOffer>()
-        val testShowAmenitiesSelectedSubscriber = TestObserver<RailOffer>()
-        val testShowFareSelectedSubscriber = TestObserver<RailOffer>()
+        val testOfferSelectedSubscriber = TestSubscriber<RailOffer>()
+        val testShowAmenitiesSelectedSubscriber = TestSubscriber<RailOffer>()
+        val testShowFareSelectedSubscriber = TestSubscriber<RailOffer>()
 
         railFareOptionViewModel.offerSelectedObservable.subscribe(testOfferSelectedSubscriber)
         railFareOptionViewModel.amenitiesSelectedObservable.subscribe(testShowAmenitiesSelectedSubscriber)

@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -42,7 +42,7 @@ class PackageCheckoutViewModelTest {
 
     @Test
     fun testCheckoutPriceChange() {
-        val testSubscriber = TestObserver.create<TripResponse>()
+        val testSubscriber = TestSubscriber.create<TripResponse>()
         testViewModel.checkoutPriceChangeObservable.subscribe(testSubscriber)
 
         testViewModel.builder.tripId("12312")

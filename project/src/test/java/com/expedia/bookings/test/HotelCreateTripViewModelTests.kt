@@ -14,8 +14,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import io.reactivex.Observer
-import com.expedia.bookings.services.TestObserver
+import rx.Observer
+import rx.observers.TestSubscriber
 import java.io.IOException
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -35,12 +35,12 @@ class HotelCreateTripViewModelTests {
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
     lateinit var sut: HotelCreateTripViewModel
     lateinit var hotelCreateTripParams: HotelCreateTripParams
-    lateinit var testSubscriber: TestObserver<HotelCreateTripResponse>
+    lateinit var testSubscriber: TestSubscriber<HotelCreateTripResponse>
 
     @Before
     fun setup() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        testSubscriber = TestObserver<HotelCreateTripResponse>()
+        testSubscriber = TestSubscriber<HotelCreateTripResponse>()
         sut = HotelCreateTripViewModel(mockHotelServicesTestRule.services!!, paymentModel)
     }
 
@@ -74,7 +74,7 @@ class HotelCreateTripViewModelTests {
 
     @Test
     fun unknownError() {
-        val testSubscriber = TestObserver<ApiError>()
+        val testSubscriber = TestSubscriber<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
         sut.getCreateTripResponseObserver().onNext(mockHotelServicesTestRule.getUnknownErrorResponse())
@@ -85,7 +85,7 @@ class HotelCreateTripViewModelTests {
 
     @Test
     fun productKeyExpired() {
-        val testSubscriber = TestObserver<ApiError>()
+        val testSubscriber = TestSubscriber<ApiError>()
         val happyCreateTripResponse = mockHotelServicesTestRule.getProductKeyExpiredResponse()
         sut.errorObservable.subscribe(testSubscriber)
 
@@ -97,7 +97,7 @@ class HotelCreateTripViewModelTests {
 
     @Test
     fun networkTimeout() {
-        val testSubscriber = TestObserver<Unit>()
+        val testSubscriber = TestSubscriber<Unit>()
 
         sut.noResponseObservable.subscribe(testSubscriber)
         sut.getCreateTripResponseObserver().onError(IOException())
@@ -112,7 +112,7 @@ class HotelCreateTripViewModelTests {
         hotelCreateTripParams = HotelCreateTripParams(redeemableTripMockProductKey, false, 1, listOf(1))
     }
 
-    class TestHotelCreateTripViewModel(val testSubscriber: TestObserver<HotelCreateTripResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>) : HotelCreateTripViewModel(hotelServices, paymentModel) {
+    class TestHotelCreateTripViewModel(val testSubscriber: TestSubscriber<HotelCreateTripResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>) : HotelCreateTripViewModel(hotelServices, paymentModel) {
 
         override fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
             return testSubscriber

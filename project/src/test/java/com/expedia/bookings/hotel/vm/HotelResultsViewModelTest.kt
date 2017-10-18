@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -43,7 +43,7 @@ class HotelResultsViewModelTest {
 
     @Test
     fun happySearch() {
-        val resultsSubscriber = TestObserver<HotelSearchResponse>()
+        val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
 
         sut.hotelResultsObservable.subscribe(resultsSubscriber)
         sut.paramsSubject.onNext(happyParams)
@@ -58,7 +58,7 @@ class HotelResultsViewModelTest {
 
     @Test
     fun locationSearch() {
-        val resultsSubscriber = TestObserver<HotelSearchResponse>()
+        val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
         sut.hotelResultsObservable.subscribe(resultsSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
@@ -97,7 +97,7 @@ class HotelResultsViewModelTest {
 
     @Test
     fun filteredSearch() {
-        val filteredResultsSubscriber = TestObserver<HotelSearchResponse>()
+        val filteredResultsSubscriber = TestSubscriber<HotelSearchResponse>()
         sut.filterResultsObservable.subscribe(filteredResultsSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
@@ -124,13 +124,8 @@ class HotelResultsViewModelTest {
 
     @Test
     fun errorResponseCallsErrorObservable() {
-<<<<<<< HEAD
         val testSubscriber = TestSubscriber<ApiError>()
         sut.searchApiErrorObservable.subscribe(testSubscriber)
-=======
-        val testSubscriber = TestObserver<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
->>>>>>> 7df61dae81... WIP
 
         mockSearchProvider.errorSubject.onNext(ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS))
 
@@ -142,7 +137,7 @@ class HotelResultsViewModelTest {
     @Test
     fun titleSubjectSetToRegionShortName() {
         val regionShortName = "New York"
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         sut.titleSubject.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(makeParams("", regionShortName))
@@ -154,13 +149,8 @@ class HotelResultsViewModelTest {
 
     @Test
     fun subtitleSubjectSet() {
-<<<<<<< HEAD
         val expectedSubtitle = LocaleBasedDateFormatUtils.localDateToMMMd(checkInDate) + " - " + LocaleBasedDateFormatUtils.localDateToMMMd(checkOutDate) + ", 1 guest"
         val testSubscriber = TestSubscriber<CharSequence>()
-=======
-        val expectedSubtitle = DateUtils.localDateToMMMd(checkInDate) + " - " + DateUtils.localDateToMMMd(checkOutDate) + ", 1 Guest"
-        val testSubscriber = TestObserver<CharSequence>()
->>>>>>> 5abc89409b... WIP
         sut.subtitleSubject.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
@@ -174,7 +164,7 @@ class HotelResultsViewModelTest {
     fun mapResultsObservable() {
         val regionShortName = context.getString(R.string.visible_map_area)
         val params = makeParams("", regionShortName)
-        val testSubscriber = TestObserver<HotelSearchResponse>()
+        val testSubscriber = TestSubscriber<HotelSearchResponse>()
         sut.mapResultsObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(params)
@@ -189,13 +179,8 @@ class HotelResultsViewModelTest {
     fun noResultsMap() {
         val regionShortName = context.getString(R.string.visible_map_area)
         val params = makeParams("", regionShortName)
-<<<<<<< HEAD
         val testSubscriber = TestSubscriber<ApiError>()
         sut.searchApiErrorObservable.subscribe(testSubscriber)
-=======
-        val testSubscriber = TestObserver<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
->>>>>>> 7df61dae81... WIP
 
         sut.paramsSubject.onNext(params)
         mockSearchProvider.noResultsSubject.onNext(Unit)
@@ -207,13 +192,8 @@ class HotelResultsViewModelTest {
 
     @Test
     fun noResultsFilter() {
-<<<<<<< HEAD
         val testSubscriber = TestSubscriber<ApiError>()
         sut.searchApiErrorObservable.subscribe(testSubscriber)
-=======
-        val testSubscriber = TestObserver<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
->>>>>>> 7df61dae81... WIP
 
         sut.paramsSubject.onNext(happyParams)
         sut.filterParamsSubject.onNext(filterParams)
@@ -227,13 +207,8 @@ class HotelResultsViewModelTest {
 
     @Test
     fun noResultsGeneral() {
-<<<<<<< HEAD
         val testSubscriber = TestSubscriber<ApiError>()
         sut.searchApiErrorObservable.subscribe(testSubscriber)
-=======
-        val testSubscriber = TestObserver<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
->>>>>>> 7df61dae81... WIP
 
         sut.paramsSubject.onNext(happyParams)
 

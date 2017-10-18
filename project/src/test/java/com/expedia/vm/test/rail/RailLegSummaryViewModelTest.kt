@@ -9,7 +9,7 @@ import com.expedia.vm.rail.RailLegSummaryViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -31,17 +31,17 @@ class RailLegSummaryViewModelTest {
         val railProduct = RailProduct()
         railProduct.aggregatedFareDescription = "Fare Description"
 
-        val overtakenTestObserver = TestObserver.create<Boolean>()
-        viewModel.overtakenSubject.subscribe(overtakenTestObserver)
+        val overtakenTestSubscriber = TestSubscriber.create<Boolean>()
+        viewModel.overtakenSubject.subscribe(overtakenTestSubscriber)
 
         viewModel.railLegOptionObserver.onNext(leg)
-        overtakenTestObserver.assertValueCount(1)
-        assertFalse(overtakenTestObserver.onNextEvents[0])
+        overtakenTestSubscriber.assertValueCount(1)
+        assertFalse(overtakenTestSubscriber.onNextEvents[0])
 
         leg.overtakenJourney = true
         viewModel.railLegOptionObserver.onNext(leg)
-        overtakenTestObserver.assertValueCount(2)
-        assertTrue(overtakenTestObserver.onNextEvents[1])
+        overtakenTestSubscriber.assertValueCount(2)
+        assertTrue(overtakenTestSubscriber.onNextEvents[1])
     }
 
     @Test
@@ -52,10 +52,10 @@ class RailLegSummaryViewModelTest {
         val card2 = RailCard("cat", "prog", "name2")
         railProduct.fareQualifierList = listOf(card1, card2)
 
-        val cardNameTestObserver = TestObserver.create<String>()
-        viewModel.railCardNameObservable.subscribe(cardNameTestObserver)
+        val cardNameTestSubscriber = TestSubscriber.create<String>()
+        viewModel.railCardNameObservable.subscribe(cardNameTestSubscriber)
 
         viewModel.railProductObserver.onNext(railProduct)
-        assertEquals("name1, name2", cardNameTestObserver.onNextEvents[0])
+        assertEquals("name1, name2", cardNameTestSubscriber.onNextEvents[0])
     }
 }

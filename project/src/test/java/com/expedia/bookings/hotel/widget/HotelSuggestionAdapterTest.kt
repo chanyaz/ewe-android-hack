@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -18,11 +18,11 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class HotelSuggestionAdapterTest {
     val testAdapter = HotelSuggestionAdapter()
-    lateinit var testClickObserver: TestObserver<SearchSuggestion>
+    lateinit var testClickObserver: TestSubscriber<SearchSuggestion>
 
     @Before
     fun setup() {
-        testClickObserver = TestObserver<SearchSuggestion>()
+        testClickObserver = TestSubscriber<SearchSuggestion>()
         testAdapter.suggestionClicked.subscribe(testClickObserver)
     }
 

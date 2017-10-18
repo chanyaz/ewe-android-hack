@@ -10,15 +10,15 @@ import org.joda.time.DateTime
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class FlightConfirmationCardViewModelTest {
 
-    val titleSubscriber = TestObserver<String>()
-    val subtitleSubscriber = TestObserver<String>()
-    val urlSubscriber = TestObserver<String>()
-    val secondaryHeaderText = TestObserver.create<String>()
+    val titleSubscriber = TestSubscriber<String>()
+    val subtitleSubscriber = TestSubscriber<String>()
+    val urlSubscriber = TestSubscriber<String>()
+    val secondaryHeaderText = TestSubscriber.create<String>()
 
     val outboundDepartureDateTimeISO = DateTime.now().toString()
     val arrivalDateTimeIso  = DateTime.now().plusDays(2).toString()

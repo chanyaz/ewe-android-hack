@@ -12,7 +12,7 @@ import com.expedia.vm.rail.RailInboundDetailsViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -36,7 +36,7 @@ class RailInboundDetailsViewModelTest {
         //selected inbound leg with legOptionIndex: 8
         val selectedInboundLeg = mockSearchResponse.inboundLeg!!.legOptionList[0] //mockInboundLeg()
 
-        val offerPairSubscriber = TestObserver.create<Pair<List<RailOffer>, Money?>>()
+        val offerPairSubscriber = TestSubscriber.create<Pair<List<RailOffer>, Money?>>()
         viewModel.railOffersAndInboundCheapestPricePairSubject.subscribe(offerPairSubscriber)
 
         viewModel.railResultsObservable.onNext(mockSearchResponse)
@@ -64,7 +64,7 @@ class RailInboundDetailsViewModelTest {
         //selected inbound leg with legOptionIndex: 8
         val selectedInboundLeg = mockSearchResponse.inboundLeg!!.legOptionList[0] //mockInboundLeg()
 
-        val offerPairSubscriber = TestObserver.create<Pair<List<RailOffer>, Money?>>()
+        val offerPairSubscriber = TestSubscriber.create<Pair<List<RailOffer>, Money?>>()
         viewModel.railOffersAndInboundCheapestPricePairSubject.subscribe(offerPairSubscriber)
 
         viewModel.railResultsObservable.onNext(mockSearchResponse)

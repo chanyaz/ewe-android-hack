@@ -25,7 +25,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -121,7 +121,7 @@ class HotelFilterViewTest {
     fun testUpdateNameWithSearchOptions() {
         initViewModel()
 
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         hotelFilterView.hotelNameFilterView.filterNameChangedSubject.subscribe(testSubscriber)
 
         val userFilters = UserFilterChoices()
@@ -136,7 +136,7 @@ class HotelFilterViewTest {
     fun testUpdateStarsWithSearchOptions() {
         initViewModel()
 
-        val testSubscriber = TestObserver<UserFilterChoices.StarRatings>()
+        val testSubscriber = TestSubscriber<UserFilterChoices.StarRatings>()
         hotelFilterView.starRatingView.starRatingsSubject.subscribe(testSubscriber)
 
         val userFilters = UserFilterChoices()
@@ -151,7 +151,7 @@ class HotelFilterViewTest {
     fun testUpdateVipWithSearchOptions() {
         initViewModel()
 
-        val testSubscriber = TestObserver<Boolean>()
+        val testSubscriber = TestSubscriber<Boolean>()
         hotelFilterView.filterVipView.vipCheckedSubject.subscribe(testSubscriber)
 
         val userFilters = UserFilterChoices()

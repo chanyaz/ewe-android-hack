@@ -15,9 +15,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import com.expedia.bookings.services.TestObserver
+import rx.Observer
+import rx.Subscription
+import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -32,7 +32,7 @@ class RailCardPickerViewModelTest {
     val context: Context = RuntimeEnvironment.application
 
     var viewModel by Delegates.notNull<RailCardPickerViewModel>()
-    val testSubscriber = TestObserver.create<List<RailCard>>()
+    val testSubscriber = TestSubscriber.create<List<RailCard>>()
 
     @Before
     fun before() {
@@ -51,19 +51,19 @@ class RailCardPickerViewModelTest {
         assertEquals(viewModel.cardsAndQuantitySelectionDetails.size, 1)
         assertEquals(2, viewModel.cardsAndQuantitySelectionDetails[0]!!.quantity)
 
-        val cardsListForSearchParamsTestObserver = TestObserver.create<List<RailCard>>()
-        val validationSuccessTestObserver = TestObserver.create<Unit>()
-        val selectedCardsTextSubscriber = TestObserver.create<String>()
+        val cardsListForSearchParamsTestSubscriber = TestSubscriber.create<List<RailCard>>()
+        val validationSuccessTestSubscriber = TestSubscriber.create<Unit>()
+        val selectedCardsTextSubscriber = TestSubscriber.create<String>()
 
-        viewModel.cardsListForSearchParams.subscribe(cardsListForSearchParamsTestObserver)
-        viewModel.validationSuccess.subscribe(validationSuccessTestObserver)
+        viewModel.cardsListForSearchParams.subscribe(cardsListForSearchParamsTestSubscriber)
+        viewModel.validationSuccess.subscribe(validationSuccessTestSubscriber)
         viewModel.cardsSelectedTextObservable.subscribe(selectedCardsTextSubscriber)
 
         viewModel.numberOfTravelers.onNext(2)
         viewModel.doneClickedSubject.onNext(Unit)
-        cardsListForSearchParamsTestObserver.assertValueCount(1)
-        validationSuccessTestObserver.assertValueCount(1)
-        assertEquals(2, cardsListForSearchParamsTestObserver.onNextEvents[0].size)
+        cardsListForSearchParamsTestSubscriber.assertValueCount(1)
+        validationSuccessTestSubscriber.assertValueCount(1)
+        assertEquals(2, cardsListForSearchParamsTestSubscriber.onNextEvents[0].size)
         assertEquals("2 Railcards", selectedCardsTextSubscriber.onNextEvents[0])
 
         viewModel.addClickSubject.onNext(Unit)
@@ -73,9 +73,9 @@ class RailCardPickerViewModelTest {
 
         viewModel.numberOfTravelers.onNext(3)
         viewModel.doneClickedSubject.onNext(Unit)
-        cardsListForSearchParamsTestObserver.assertValueCount(2)
-        validationSuccessTestObserver.assertValueCount(2)
-        assertEquals(3, cardsListForSearchParamsTestObserver.onNextEvents[1].size)
+        cardsListForSearchParamsTestSubscriber.assertValueCount(2)
+        validationSuccessTestSubscriber.assertValueCount(2)
+        assertEquals(3, cardsListForSearchParamsTestSubscriber.onNextEvents[1].size)
         assertEquals("3 Railcards", selectedCardsTextSubscriber.onNextEvents[1])
     }
 
@@ -95,7 +95,7 @@ class RailCardPickerViewModelTest {
     @Test
     fun testRailCardsCountGreaterThanTravelers() {
         val incorrectCardsMessage = context.resources.getString(R.string.error_rail_cards_greater_than_number_travelers)
-        val testErrorSubscriber = TestObserver.create<String>()
+        val testErrorSubscriber = TestSubscriber.create<String>()
         viewModel.validationError.subscribe(testErrorSubscriber)
 
         viewModel.addClickSubject.onNext(Unit)
@@ -118,7 +118,7 @@ class RailCardPickerViewModelTest {
     @Test
     fun testRailCardTypeNotSelected() {
         val incompleteDetailsMessage = context.resources.getString(R.string.error_select_rail_card_details)
-        val testErrorSubscriber = TestObserver.create<String>()
+        val testErrorSubscriber = TestSubscriber.create<String>()
         viewModel.validationError.subscribe(testErrorSubscriber)
 
         viewModel.addClickSubject.onNext(Unit)
@@ -133,7 +133,7 @@ class RailCardPickerViewModelTest {
     @Test
     fun testRailCardQuantityNotSelected() {
         val incompleteDetailsMessage = context.resources.getString(R.string.error_select_rail_card_details)
-        val testErrorSubscriber = TestObserver.create<String>()
+        val testErrorSubscriber = TestSubscriber.create<String>()
         viewModel.validationError.subscribe(testErrorSubscriber)
 
         viewModel.addClickSubject.onNext(Unit)
@@ -150,8 +150,8 @@ class RailCardPickerViewModelTest {
         viewModel.addClickSubject.onNext(Unit)
         viewModel.railCardsSelectionChangedObservable.onNext(RailCardSelected(0, mockRailCardTypeOne(), 1))
 
-        val testResetSubscriber = TestObserver.create<Unit>()
-        val testRemoveRowSubscriber = TestObserver.create<Unit>()
+        val testResetSubscriber = TestSubscriber.create<Unit>()
+        val testRemoveRowSubscriber = TestSubscriber.create<Unit>()
         viewModel.resetClicked.subscribe(testResetSubscriber)
         viewModel.removeRow.subscribe(testRemoveRowSubscriber)
 
@@ -173,11 +173,11 @@ class RailCardPickerViewModelTest {
             val args = invocation.arguments
             val cardsObserver = args[1] as Observer<RailCardsResponse>
             cardsObserver.onError(Throwable("404"))
-            Mockito.mock(Disposable::class.java)
+            Mockito.mock(Subscription::class.java)
         }
 
         val errorViewModel = RailCardPickerViewModel(mockServices, context)
-        val testSub = TestObserver<String>()
+        val testSub = TestSubscriber<String>()
         errorViewModel.railCardError.subscribe(testSub)
         assertEquals(context.getString(R.string.no_rail_cards_error_message), testSub.onNextEvents[0])
     }

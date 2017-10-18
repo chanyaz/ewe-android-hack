@@ -19,7 +19,7 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.testrule.ServicesRule
 import org.joda.time.LocalDate
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 
 class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::class.java) {
 
@@ -99,7 +99,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()
         val hotelSearchParams = HotelSearchParams.Builder(0, 0).destination(suggestion).startDate(LocalDate()).endDate(LocalDate()).adults(1).children(emptyList()).build() as HotelSearchParams
-        val observer = TestObserver<HotelOffersResponse>()
+        val observer = TestSubscriber<HotelOffersResponse>()
         services?.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()
         observer.assertComplete()
@@ -148,7 +148,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
 
     private fun getCreateTripResponse(responseFileName: String): HotelCreateTripResponse {
         val productKey = responseFileName
-        val observer = TestObserver<HotelCreateTripResponse>()
+        val observer = TestSubscriber<HotelCreateTripResponse>()
         services?.createTrip(HotelCreateTripParams(productKey, false, 1, emptyList()), true, observer)
         observer.awaitTerminalEvent()
         observer.assertComplete()
@@ -156,7 +156,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
     }
 
     private fun getApplyCouponResponse(responseFileName: String): HotelCreateTripResponse {
-        val observer = TestObserver<HotelCreateTripResponse>()
+        val observer = TestSubscriber<HotelCreateTripResponse>()
         val applyCouponParams = HotelApplyCouponParameters.Builder()
                 .couponCode(responseFileName).isFromNotSignedInToSignedIn(false).tripId("tripId").
                 userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))))
@@ -170,7 +170,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
 
     private fun getCheckoutTripResponse(responseFileName: String): HotelCheckoutResponse {
         val tripId = responseFileName
-        val observer = TestObserver<HotelCheckoutResponse>()
+        val observer = TestSubscriber<HotelCheckoutResponse>()
         val tripDetails = TripDetails(tripId, "42.00", "USD", true)
         val miscParameters = MiscellaneousParams(true, "tealeafHotel:" + tripId, "expedia.app.android.phone:x.x.x")
         val checkoutParams = HotelCheckoutV2Params.Builder()
@@ -202,11 +202,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
     }
 
     private fun getHotelOffersResponse(responseFileName: String): HotelOffersResponse {
-<<<<<<< HEAD
         val observer = TestSubscriber<HotelOffersResponse>()
-=======
-        var observer = TestObserver<HotelOffersResponse>()
->>>>>>> 5abc89409b... WIP
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()
         val hotelSearchParams = HotelSearchParams.Builder(0, 0)

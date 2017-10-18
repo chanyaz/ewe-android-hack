@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
@@ -37,7 +37,7 @@ class InsuranceViewModelTest {
 
     @Test
     fun benefitsDifferBetweenDomesticAndInternational() {
-        val benefitsSubscriber = TestObserver<Spanned>()
+        val benefitsSubscriber = TestSubscriber<Spanned>()
         sut.benefitsObservable.subscribe(benefitsSubscriber)
 
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableButNotSelected(FlightType.DOMESTIC))
@@ -54,7 +54,7 @@ class InsuranceViewModelTest {
 
     @Test
     fun widgetIsNotVisibleWhenInsuranceIsUnavailable() {
-        val widgetVisibilitySubscriber = TestObserver<Boolean>()
+        val widgetVisibilitySubscriber = TestSubscriber<Boolean>()
         sut.widgetVisibilityObservable.subscribe(widgetVisibilitySubscriber)
 
         sut.tripObservable.onNext(tripResponseWithoutInsuranceAvailable(FlightType.DOMESTIC))
@@ -66,7 +66,7 @@ class InsuranceViewModelTest {
 
     @Test
     fun widgetIsVisibleWhenInsuranceIsAvailableAndBucketed() {
-        val widgetVisibilitySubscriber = TestObserver<Boolean>()
+        val widgetVisibilitySubscriber = TestSubscriber<Boolean>()
         sut.widgetVisibilityObservable.subscribe(widgetVisibilitySubscriber)
 
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableButNotSelected(FlightType.DOMESTIC))
@@ -79,16 +79,16 @@ class InsuranceViewModelTest {
     @Test
     fun widgetIsResetOnNewTrip() {
         var insuranceIsSelected: Boolean
-        var toggleSwitchSubscriber: TestObserver<Boolean>
+        var toggleSwitchSubscriber: TestSubscriber<Boolean>
 
-        toggleSwitchSubscriber = TestObserver<Boolean>()
+        toggleSwitchSubscriber = TestSubscriber<Boolean>()
         sut.programmaticToggleObservable.subscribe(toggleSwitchSubscriber)
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableAndSelected(FlightType.DOMESTIC))
         toggleSwitchSubscriber.assertValueCount(1)
         insuranceIsSelected = toggleSwitchSubscriber.onNextEvents[0]
         assertTrue(insuranceIsSelected)
 
-        toggleSwitchSubscriber = TestObserver<Boolean>()
+        toggleSwitchSubscriber = TestSubscriber<Boolean>()
         sut.programmaticToggleObservable.subscribe(toggleSwitchSubscriber)
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableButNotSelected(FlightType.DOMESTIC))
         toggleSwitchSubscriber.assertValueCount(1)

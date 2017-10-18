@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -96,7 +96,7 @@ class RailSearchViewModelTest {
     @Test
     fun testOneWayParams() {
         setupOneWay()
-        val searchParamsSubscriber = TestObserver<RailSearchRequest>()
+        val searchParamsSubscriber = TestSubscriber<RailSearchRequest>()
         searchVM.searchParamsObservable.subscribe(searchParamsSubscriber)
 
         searchVM.searchObserver.onNext(Unit)
@@ -111,10 +111,10 @@ class RailSearchViewModelTest {
     @Test
     fun testDatesValidationOneWay() {
         setupOneWay()
-        val searchParamsSubscriber = TestObserver<RailSearchRequest>()
-        val errorNoDatesSubscriber = TestObserver<Unit>()
-        val errorMaxDurationSubscriber = TestObserver<String>()
-        val errorMaxRangeSubscriber = TestObserver<String>()
+        val searchParamsSubscriber = TestSubscriber<RailSearchRequest>()
+        val errorNoDatesSubscriber = TestSubscriber<Unit>()
+        val errorMaxDurationSubscriber = TestSubscriber<String>()
+        val errorMaxRangeSubscriber = TestSubscriber<String>()
 
         searchVM.searchParamsObservable.subscribe(searchParamsSubscriber)
         searchVM.errorNoDatesObservable.subscribe(errorNoDatesSubscriber)
@@ -131,10 +131,10 @@ class RailSearchViewModelTest {
     @Test
     fun testDatesValidationRoundTrip() {
         setupRoundTrip()
-        val searchParamsSubscriber = TestObserver<RailSearchRequest>()
-        val errorNoDatesSubscriber = TestObserver<Unit>()
-        val errorMaxDurationSubscriber = TestObserver<String>()
-        val errorMaxRangeSubscriber = TestObserver<String>()
+        val searchParamsSubscriber = TestSubscriber<RailSearchRequest>()
+        val errorNoDatesSubscriber = TestSubscriber<Unit>()
+        val errorMaxDurationSubscriber = TestSubscriber<String>()
+        val errorMaxRangeSubscriber = TestSubscriber<String>()
 
         searchVM.searchParamsObservable.subscribe(searchParamsSubscriber)
         searchVM.errorNoDatesObservable.subscribe(errorNoDatesSubscriber)
@@ -158,7 +158,7 @@ class RailSearchViewModelTest {
     @Test
     fun testInvalidRailCardsCount() {
         setupOneWay()
-        val errorRailCardCountSubscriber = TestObserver<String>()
+        val errorRailCardCountSubscriber = TestSubscriber<String>()
 
         searchVM.errorInvalidCardsCountObservable.subscribe(errorRailCardCountSubscriber)
         searchVM.getParamsBuilder().adults(1)
@@ -169,7 +169,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testCalendarToolTipOneWay() {
-        val testSub = TestObserver.create<Pair<String, String>>()
+        val testSub = TestSubscriber.create<Pair<String, String>>()
         searchVM.calendarTooltipTextObservable.subscribe(testSub)
         searchVM.datesUpdated(startDate, null)
 
@@ -178,7 +178,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testCalendarToolTipRoundTrip() {
-        val testSub = TestObserver.create<Pair<String, String>>()
+        val testSub = TestSubscriber.create<Pair<String, String>>()
         searchVM.calendarTooltipTextObservable.subscribe(testSub)
 
         searchVM.isRoundTripSearchObservable.onNext(true)
@@ -193,7 +193,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testCalendarInstructionTextOneWay() {
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
         searchVM.dateInstructionObservable.subscribe(testSub)
         searchVM.isRoundTripSearchObservable.onNext(false)
 
@@ -207,7 +207,7 @@ class RailSearchViewModelTest {
     @Test
     fun testCalendarInstructionTextRoundTripEmpty() {
 
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
         searchVM.dateInstructionObservable.subscribe(testSub)
         searchVM.isRoundTripSearchObservable.onNext(true)
 
@@ -221,7 +221,7 @@ class RailSearchViewModelTest {
                 .put("startdate", expectedStartDateString)
                 .format().toString()
 
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
         searchVM.dateInstructionObservable.subscribe(testSub)
         searchVM.isRoundTripSearchObservable.onNext(true)
 
@@ -236,7 +236,7 @@ class RailSearchViewModelTest {
                 .put("startdate", expectedStartDateString).put("enddate", expectedReturnDateString)
                 .format().toString()
 
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
         searchVM.dateInstructionObservable.subscribe(testSub)
         searchVM.isRoundTripSearchObservable.onNext(true)
 
@@ -246,7 +246,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testDateTextEmptyOneWay() {
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
 
         searchVM.dateTextObservable.subscribe(testSub)
         searchVM.resetDatesAndTimes()
@@ -256,7 +256,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testDateTextOneWay() {
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
         searchVM.dateTextObservable.subscribe(testSub)
         searchVM.datesUpdated(startDate, null)
         searchVM.onTimesChanged(Pair(0, 0))
@@ -266,7 +266,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testDateTextOneWayContDesc() {
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
         searchVM.dateAccessibilityObservable.subscribe(testSub)
         searchVM.datesUpdated(startDate, null)
         searchVM.onTimesChanged(Pair(0, 0))
@@ -278,7 +278,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testDateTextEmptyRoundTrip() {
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
         searchVM.isRoundTripSearchObservable.onNext(true)
         searchVM.dateTextObservable.subscribe(testSub)
         searchVM.resetDatesAndTimes()
@@ -288,7 +288,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testDateTextEmptyOneWayContDesc() {
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
 
         searchVM.dateAccessibilityObservable.subscribe(testSub)
         searchVM.resetDatesAndTimes()
@@ -298,7 +298,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testDateTextEmptyRoundTripContDesc() {
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
         searchVM.isRoundTripSearchObservable.onNext(true)
         searchVM.dateAccessibilityObservable.subscribe(testSub)
         searchVM.resetDatesAndTimes()
@@ -308,7 +308,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testDateTextRoundTripContDesc() {
-        val testSub = TestObserver.create<CharSequence>()
+        val testSub = TestSubscriber.create<CharSequence>()
         searchVM.isRoundTripSearchObservable.onNext(true)
         searchVM.dateAccessibilityObservable.subscribe(testSub)
         searchVM.datesUpdated(startDate, returnDate)

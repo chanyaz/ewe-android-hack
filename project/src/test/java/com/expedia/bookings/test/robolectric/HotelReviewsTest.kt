@@ -8,8 +8,8 @@ import com.expedia.vm.HotelReviewsAdapterViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import io.reactivex.Observable
-import com.expedia.bookings.services.TestObserver
+import rx.Observable
+import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -32,9 +32,9 @@ class HotelReviewsTest {
 
     @Test
     fun reviewsBySortParam() {
-        val numberOfCriticalReviewsSubscriber = TestObserver<Int>()
-        val numberOfNewestReviewsSubscriber = TestObserver<Int>()
-        val numberOfFavorableReviewsSubscriber = TestObserver<Int>()
+        val numberOfCriticalReviewsSubscriber = TestSubscriber<Int>()
+        val numberOfNewestReviewsSubscriber = TestSubscriber<Int>()
+        val numberOfFavorableReviewsSubscriber = TestSubscriber<Int>()
 
         vm.criticalReviewsObservable.take(1).map { it.count() }.subscribe(numberOfCriticalReviewsSubscriber)
         vm.newestReviewsObservable.take(2).map { it.count() }.subscribe(numberOfNewestReviewsSubscriber)
@@ -75,7 +75,7 @@ class HotelReviewsTest {
 
     @Test
     fun reviewsSummary() {
-        val testSubscriber = TestObserver<ReviewSummary>()
+        val testSubscriber = TestSubscriber<ReviewSummary>()
         vm.reviewsSummaryObservable.take(1).subscribe(testSubscriber)
 
         Observable.concat(

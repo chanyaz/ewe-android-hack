@@ -18,7 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -38,7 +38,7 @@ class LXSearchViewModelTests {
 
     @Test
     fun selectDatesAndSearch() {
-        val testSubscriber = TestObserver<LxSearchParams>()
+        val testSubscriber = TestSubscriber<LxSearchParams>()
         val expected = arrayListOf<LxSearchParams>()
         val suggestion = getDummySuggestion()
 
@@ -69,16 +69,16 @@ class LXSearchViewModelTests {
 
     @Test
     fun selectErrorObservablesForLXSearch() {
-        val destinationErrorTestObserver = TestObserver<Unit>()
-        val dateErrorTestObserver = TestObserver<Unit>()
-        val searchParamsTestObserver = TestObserver<LxSearchParams>()
+        val destinationErrorTestSubscriber = TestSubscriber<Unit>()
+        val dateErrorTestSubscriber = TestSubscriber<Unit>()
+        val searchParamsTestSubscriber = TestSubscriber<LxSearchParams>()
 
 
         val suggestion = getDummySuggestion()
 
-        vm.errorNoDestinationObservable.subscribe(destinationErrorTestObserver)
-        vm.errorNoDatesObservable.subscribe(dateErrorTestObserver)
-        vm.searchParamsObservable.subscribe(searchParamsTestObserver)
+        vm.errorNoDestinationObservable.subscribe(destinationErrorTestSubscriber)
+        vm.errorNoDatesObservable.subscribe(dateErrorTestSubscriber)
+        vm.searchParamsObservable.subscribe(searchParamsTestSubscriber)
 
         //Neither Destination nor date is selected
         vm.searchObserver.onNext(Unit)
@@ -87,9 +87,9 @@ class LXSearchViewModelTests {
         vm.destinationLocationObserver.onNext(suggestion)
         vm.searchObserver.onNext(Unit)
 
-        destinationErrorTestObserver.assertValueCount(1)
-        dateErrorTestObserver.assertValueCount(1)
-        searchParamsTestObserver.assertValueCount(0)
+        destinationErrorTestSubscriber.assertValueCount(1)
+        dateErrorTestSubscriber.assertValueCount(1)
+        searchParamsTestSubscriber.assertValueCount(0)
     }
 
 

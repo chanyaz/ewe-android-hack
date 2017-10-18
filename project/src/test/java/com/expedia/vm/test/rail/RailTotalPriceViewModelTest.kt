@@ -9,7 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -24,10 +24,10 @@ RailTotalPriceViewModelTest {
 
     @Test
     fun testBundleDefaultDisplayStrings() {
-        val bundleTextTestSub = TestObserver<String>()
+        val bundleTextTestSub = TestSubscriber<String>()
         testVM.bundleTextLabelObservable.subscribe(bundleTextTestSub)
 
-        val totalIncludesTestSub = TestObserver<String>()
+        val totalIncludesTestSub = TestSubscriber<String>()
         testVM.bundleTotalIncludesObservable.subscribe(totalIncludesTestSub)
 
         assertEquals(context.getString(R.string.total), bundleTextTestSub.onNextEvents[0])
@@ -48,8 +48,8 @@ RailTotalPriceViewModelTest {
         val testResponse = RailCreateTripResponse()
         testResponse.totalPrice = mockTotal
 
-        val priceTestSub = TestObserver<String>()
-        val breakdownTestSub = TestObserver<Boolean>()
+        val priceTestSub = TestSubscriber<String>()
+        val breakdownTestSub = TestSubscriber<Boolean>()
         testVM.totalPriceObservable.subscribe(priceTestSub)
         testVM.costBreakdownEnabledObservable.subscribe(breakdownTestSub)
         testVM.updatePricing(testResponse)

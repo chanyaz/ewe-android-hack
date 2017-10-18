@@ -27,7 +27,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -80,7 +80,7 @@ class PackageHotelDetailViewModelTest {
     fun resortFeeShowsForPackages() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
         val vm = PackageHotelDetailViewModel(RuntimeEnvironment.application)
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         vm.hotelResortFeeObservable.subscribe(testSubscriber)
         vm.paramsSubject.onNext(createSearchParams())
 

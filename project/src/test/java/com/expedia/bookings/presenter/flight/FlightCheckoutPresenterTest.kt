@@ -22,7 +22,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -83,12 +83,7 @@ class FlightCheckoutPresenterTest {
         assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
         assertEquals("ABCDEFG", checkoutPresenter.cardFeeWarningTextView.text.toString())
 
-<<<<<<< HEAD
         var testSubscriber = TestSubscriber<Spanned>()
-=======
-        var testSubscriber = TestObserver<Spanned>()
-        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(true)
->>>>>>> 5abc89409b... WIP
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(100))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
@@ -98,12 +93,7 @@ class FlightCheckoutPresenterTest {
         assertFalse(checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.value)
         assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
 
-<<<<<<< HEAD
         testSubscriber = TestSubscriber<Spanned>()
-=======
-        testSubscriber = TestObserver<Spanned>()
-        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(false)
->>>>>>> 5abc89409b... WIP
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(0))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)

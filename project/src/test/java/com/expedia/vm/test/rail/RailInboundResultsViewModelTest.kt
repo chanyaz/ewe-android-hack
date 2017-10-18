@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -31,7 +31,7 @@ class RailInboundResultsViewModelTest {
     @Test
     fun testToolbarTitle() {
         val params = defaultBuilder().build()
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         testViewModel.titleSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -49,7 +49,7 @@ class RailInboundResultsViewModelTest {
                 .put("searchdates", expectedDateString)
                 .put("travelerspart", expectedTravelerString).format().toString()
 
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.subtitleSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -67,7 +67,7 @@ class RailInboundResultsViewModelTest {
                 .put("searchdates", expectedDateString)
                 .put("travelerspart", expectedTravelerString).format().toString()
 
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.subtitleSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -79,7 +79,7 @@ class RailInboundResultsViewModelTest {
         val builder = defaultBuilder()
         val params = builder.endDate(RailSearchRequestMock.returnDate()).build() as RailSearchRequest
 
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.priceHeaderSubject.subscribe(testSubscriber)
         testViewModel.paramsSubject.onNext(params)
 
@@ -88,7 +88,7 @@ class RailInboundResultsViewModelTest {
 
     @Test
     fun testDirectionHeader() {
-        val testSubscriber = TestObserver<CharSequence>()
+        val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.directionHeaderSubject.subscribe(testSubscriber)
 
         assertEquals(context.getString(R.string.select_return), testSubscriber.onNextEvents[0])

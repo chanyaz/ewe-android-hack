@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -55,7 +55,7 @@ class AdvancedSearchOptionsViewModelTest {
         vm.updateStarRating(starRating)
         vm.isVipAccess(true)
 
-        val testSubject = TestObserver<UserFilterChoices>()
+        val testSubject = TestSubscriber<UserFilterChoices>()
         vm.resetViewsSubject.subscribe(testSubject)
 
         vm.clearObservable.onNext(Unit)
@@ -70,7 +70,7 @@ class AdvancedSearchOptionsViewModelTest {
 
     @Test
     fun testShowClearButton() {
-        val testSubject = TestObserver<Boolean>()
+        val testSubject = TestSubscriber<Boolean>()
         vm.showClearButtonSubject.subscribe(testSubject)
 
         vm.selectHotelName("Hyatt")

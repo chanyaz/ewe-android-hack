@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 import org.mockito.Matchers
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -29,10 +29,10 @@ class ItinSignInViewModelTest {
     lateinit private var mockItinPageUsablePerformanceModel: ItinPageUsableTracking
     lateinit private var notificationManager: NotificationManager
 
-    val statusTextTestObserver = TestObserver<String>()
-    val buttonTextTestObserver = TestObserver<String>()
-    val contDescTestObserver = TestObserver<String>()
-    val imageTestObserver = TestObserver<Drawable>()
+    val statusTextTestSubscriber = TestSubscriber<String>()
+    val buttonTextTestSubscriber = TestSubscriber<String>()
+    val contDescTestSubscriber = TestSubscriber<String>()
+    val imageTestSubscriber = TestSubscriber<Drawable>()
 
     @Before
     fun before() {
@@ -50,63 +50,63 @@ class ItinSignInViewModelTest {
 
     @Test
     fun noUpcomingTripsMessageState() {
-        sut.statusTextSubject.subscribe(statusTextTestObserver)
-        sut.updateButtonTextSubject.subscribe(buttonTextTestObserver)
-        sut.updateButtonContentDescriptionSubject.subscribe(contDescTestObserver)
-        sut.statusImageSubject.subscribe(imageTestObserver)
+        sut.statusTextSubject.subscribe(statusTextTestSubscriber)
+        sut.updateButtonTextSubject.subscribe(buttonTextTestSubscriber)
+        sut.updateButtonContentDescriptionSubject.subscribe(contDescTestSubscriber)
+        sut.statusImageSubject.subscribe(imageTestSubscriber)
 
         sut.setState(ItinSignInViewModel.MessageState.NO_UPCOMING_TRIPS)
 
-        statusTextTestObserver.assertValue("No upcoming trips.")
-        buttonTextTestObserver.assertValue("Refresh your trips")
-        contDescTestObserver.assertValue("Refresh your trips Button")
-        imageTestObserver.assertValueCount(0)
+        statusTextTestSubscriber.assertValue("No upcoming trips.")
+        buttonTextTestSubscriber.assertValue("Refresh your trips")
+        contDescTestSubscriber.assertValue("Refresh your trips Button")
+        imageTestSubscriber.assertValueCount(0)
     }
 
     @Test
     fun failureMessageState() {
-        sut.statusTextSubject.subscribe(statusTextTestObserver)
-        sut.updateButtonTextSubject.subscribe(buttonTextTestObserver)
-        sut.updateButtonContentDescriptionSubject.subscribe(contDescTestObserver)
-        sut.statusImageSubject.subscribe(imageTestObserver)
+        sut.statusTextSubject.subscribe(statusTextTestSubscriber)
+        sut.updateButtonTextSubject.subscribe(buttonTextTestSubscriber)
+        sut.updateButtonContentDescriptionSubject.subscribe(contDescTestSubscriber)
+        sut.statusImageSubject.subscribe(imageTestSubscriber)
 
         sut.setState(ItinSignInViewModel.MessageState.FAILURE)
 
-        statusTextTestObserver.assertValue("Unable to connect at this time.")
-        buttonTextTestObserver.assertValue("Refresh your trips")
-        contDescTestObserver.assertValue("Refresh your trips Button")
-        imageTestObserver.assertValueCount(1)
+        statusTextTestSubscriber.assertValue("Unable to connect at this time.")
+        buttonTextTestSubscriber.assertValue("Refresh your trips")
+        contDescTestSubscriber.assertValue("Refresh your trips Button")
+        imageTestSubscriber.assertValueCount(1)
     }
 
     @Test
     fun tripsErrorMessageState() {
-        sut.statusTextSubject.subscribe(statusTextTestObserver)
-        sut.updateButtonTextSubject.subscribe(buttonTextTestObserver)
-        sut.updateButtonContentDescriptionSubject.subscribe(contDescTestObserver)
-        sut.statusImageSubject.subscribe(imageTestObserver)
+        sut.statusTextSubject.subscribe(statusTextTestSubscriber)
+        sut.updateButtonTextSubject.subscribe(buttonTextTestSubscriber)
+        sut.updateButtonContentDescriptionSubject.subscribe(contDescTestSubscriber)
+        sut.statusImageSubject.subscribe(imageTestSubscriber)
 
         sut.setState(ItinSignInViewModel.MessageState.TRIPS_ERROR)
 
-        statusTextTestObserver.assertValue("Unable to connect at this time.")
-        buttonTextTestObserver.assertValue("Refresh your trips")
-        contDescTestObserver.assertValue("Refresh your trips Button")
-        imageTestObserver.assertValueCount(1)
+        statusTextTestSubscriber.assertValue("Unable to connect at this time.")
+        buttonTextTestSubscriber.assertValue("Refresh your trips")
+        contDescTestSubscriber.assertValue("Refresh your trips Button")
+        imageTestSubscriber.assertValueCount(1)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun notLoggedInMessageState() {
-        sut.statusTextSubject.subscribe(statusTextTestObserver)
-        sut.updateButtonTextSubject.subscribe(buttonTextTestObserver)
-        sut.updateButtonContentDescriptionSubject.subscribe(contDescTestObserver)
-        sut.statusImageSubject.subscribe(imageTestObserver)
+        sut.statusTextSubject.subscribe(statusTextTestSubscriber)
+        sut.updateButtonTextSubject.subscribe(buttonTextTestSubscriber)
+        sut.updateButtonContentDescriptionSubject.subscribe(contDescTestSubscriber)
+        sut.statusImageSubject.subscribe(imageTestSubscriber)
 
         sut.setState(ItinSignInViewModel.MessageState.NOT_LOGGED_IN)
 
-        statusTextTestObserver.assertValue("Sign in to access your upcoming trips")
-        buttonTextTestObserver.assertValue("Sign in with Expedia")
-        contDescTestObserver.assertValue("Sign in with Expedia Button")
-        imageTestObserver.assertValueCount(0)
+        statusTextTestSubscriber.assertValue("Sign in to access your upcoming trips")
+        buttonTextTestSubscriber.assertValue("Sign in with Expedia")
+        contDescTestSubscriber.assertValue("Sign in with Expedia Button")
+        imageTestSubscriber.assertValueCount(0)
     }
 
     @Test

@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -32,7 +32,7 @@ class RailSegmentAmenitiesViewModelTest {
         amenitiesVM = RailSegmentAmenitiesViewModel(activity)
         val segmentFarePair = createSegmentWithNoAmenities()
 
-        val noAmenitiesSubscriber = TestObserver<Boolean>()
+        val noAmenitiesSubscriber = TestSubscriber<Boolean>()
         amenitiesVM.noAmenitiesObservable.subscribe(noAmenitiesSubscriber)
 
         amenitiesVM.segmentAmenitiesObservable.onNext(segmentFarePair)
@@ -45,9 +45,9 @@ class RailSegmentAmenitiesViewModelTest {
         amenitiesVM = RailSegmentAmenitiesViewModel(activity)
         val segmentFarePair = createSegmentWithAmenities()
 
-        val noAmenitiesSubscriber = TestObserver<Boolean>()
+        val noAmenitiesSubscriber = TestSubscriber<Boolean>()
         amenitiesVM.noAmenitiesObservable.subscribe(noAmenitiesSubscriber)
-        val formattedAmenitiesSubscriber = TestObserver<String>()
+        val formattedAmenitiesSubscriber = TestSubscriber<String>()
         amenitiesVM.formattedAmenitiesObservable.subscribe(formattedAmenitiesSubscriber)
 
         amenitiesVM.segmentAmenitiesObservable.onNext(segmentFarePair)

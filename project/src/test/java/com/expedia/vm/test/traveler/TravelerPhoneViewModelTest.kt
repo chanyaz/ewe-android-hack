@@ -12,7 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -73,7 +73,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val testSubscriber = TestObserver<String>(1)
+        val testSubscriber = TestSubscriber<String>(1)
         phoneVm.phoneViewModel.textSubject.subscribe(testSubscriber)
 
         assertEquals(TEST_NUMBER, testSubscriber.onNextEvents[0])
@@ -87,7 +87,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val testSubscriber = TestObserver<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>(1)
         phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertFalse(phoneVm.validate())
@@ -100,7 +100,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(Phone())
 
-        val testSubscriber = TestObserver<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>(1)
         phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertFalse(phoneVm.validate())
@@ -115,7 +115,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        val testSubscriber = TestObserver<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>(1)
         phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertTrue(phoneVm.validate())

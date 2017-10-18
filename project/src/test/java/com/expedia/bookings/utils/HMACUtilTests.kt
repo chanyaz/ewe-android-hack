@@ -11,7 +11,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlin.test.fail
 
 @RunWith(RobolectricRunner::class)
 class HMACUtilTests {
@@ -47,5 +46,12 @@ class HMACUtilTests {
         val expectedDate = "Tue, 26 Sep 2017 19:05:05 UTC"
         val xDate = HMACUtil.getXDate(testDate)
         assertEquals(expectedDate, xDate)
+    }
+
+    @Test
+    fun testSignedKrazyGlueUrl() {
+        val successfulUrl = "/xsell-api/1.0/offers?partnerId=expedia-hot-mobile-conf&outboundEndDateTime=2020-10-10T00:02:06.401Z&destinationTla=LAS&fencedResponse=true&signature=ALBDtYMQWSZO1ctyGsqLJx7VVJU"
+        val testUrl = HMACUtil.getSignedKrazyGlueUrl("/xsell-api/1.0/offers", "99e4957f-c45f-4f90-993f-329b32e53ca1", "LAS", "2020-10-10T00:02:06.401Z")
+        assertEquals(successfulUrl, testUrl)
     }
 }

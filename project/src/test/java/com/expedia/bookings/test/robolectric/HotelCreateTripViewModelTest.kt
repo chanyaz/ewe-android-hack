@@ -11,7 +11,7 @@ import com.expedia.vm.HotelCreateTripViewModel
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
@@ -27,12 +27,12 @@ class HotelCreateTripViewModelTest {
     fun soldOutRoomLeadsToErrorObservableEmission() {
         val subjectUnderTest = HotelCreateTripViewModel(mockHotelServiceTestRule.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
 
-        val errorObservableTestObserver = TestObserver.create<ApiError>()
-        subjectUnderTest.errorObservable.subscribe(errorObservableTestObserver)
+        val errorObservableTestSubscriber = TestSubscriber.create<ApiError>()
+        subjectUnderTest.errorObservable.subscribe(errorObservableTestSubscriber)
 
         subjectUnderTest.tripParams.onNext(HotelCreateTripParams("error_room_unavailable_0", false, 1, emptyList()))
-        errorObservableTestObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+        errorObservableTestSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
-        errorObservableTestObserver.assertValue(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
+        errorObservableTestSubscriber.assertValue(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
     }
 }

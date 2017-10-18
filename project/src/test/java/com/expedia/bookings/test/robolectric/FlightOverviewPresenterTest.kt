@@ -274,15 +274,15 @@ class FlightOverviewPresenterTest {
 //
 //        val flightCheckoutPresenter = widget.getCheckoutPresenter()
 //        val flightSummary = widget.flightSummary
-//        val basicEconomyClickedTestObserver = TestObserver<Unit>()
-//        flightSummary.basicEconomyInfoClickedSubject.subscribe(basicEconomyClickedTestObserver)
+//        val basicEconomyClickedTestSubscriber = TestSubscriber<Unit>()
+//        flightSummary.basicEconomyInfoClickedSubject.subscribe(basicEconomyClickedTestSubscriber)
 //
 //        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
 //
 //        assertEquals(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name, widget.currentState)
 //
 //        flightSummary.basicEconomyMessageTextView.performClick()
-//        basicEconomyClickedTestObserver.awaitValueCount(1, 2, TimeUnit.SECONDS)
+//        basicEconomyClickedTestSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
 //        assertEquals(BasicEconomyInfoWebView::class.java.name, widget.currentState)
 //    }
 

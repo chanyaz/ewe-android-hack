@@ -10,7 +10,7 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -34,7 +34,7 @@ class SearchParamsHistoryUtilTest {
     @Test
     fun testFlightParamsLoadFailure() {
         SearchParamsHistoryUtil.deleteCachedSearchParams(context)
-        val failure = TestObserver<Unit>()
+        val failure = TestSubscriber<Unit>()
         SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, {}, {
             failure.onNext(Unit)
         })

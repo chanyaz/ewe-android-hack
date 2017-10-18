@@ -26,7 +26,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 
@@ -52,7 +52,7 @@ class PackageConfirmationViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun pkgLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestObserver<String>()
+        val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "100"
         vm = PackageConfirmationViewModel(activity)
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
@@ -65,7 +65,7 @@ class PackageConfirmationViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun zeroPkgLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestObserver<String>()
+        val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "0"
         vm = PackageConfirmationViewModel(activity)
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
@@ -77,7 +77,7 @@ class PackageConfirmationViewModelTest {
     @Test
     fun nullPkgLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestObserver<String>()
+        val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = null
         vm = PackageConfirmationViewModel(activity)
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
@@ -89,7 +89,7 @@ class PackageConfirmationViewModelTest {
     @Test
     fun noShowPkgLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        val expediaPointsSubscriber = TestObserver<String>()
+        val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "100"
         vm = PackageConfirmationViewModel(activity)
         //adding test POS configuration without rewards enabled

@@ -19,7 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.Arrays
 import java.util.concurrent.TimeUnit
@@ -302,7 +302,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         val viewModel = PackageCostSummaryBreakdownViewModel(getContext())
         val prodID = if (hasFees) "create_trip_with_resort_fee" else "create_trip_multitraveler"
 
-        val observer = TestObserver<PackageCreateTripResponse>()
+        val observer = TestSubscriber<PackageCreateTripResponse>()
         val params = PackageCreateTripParams(prodID, "6139057", 2, false, Arrays.asList(0, 8, 12))
 
         packageServiceRule.services!!.createTrip(params).subscribe(observer)
@@ -311,7 +311,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         observer.assertNoErrors()
         observer.assertComplete()
 
-        val rowsObserver = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val rowsObserver = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         viewModel.addRows.subscribe(rowsObserver)
         viewModel.packageCostSummaryObservable.onNext(observer.onNextEvents[0])
         return rowsObserver.onNextEvents[0]
@@ -321,7 +321,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         val viewModel = PackageCostSummaryBreakdownViewModel(getContext())
         val prodID = "create_trip_with_negative_savings"
 
-        val observer = TestObserver<PackageCreateTripResponse>()
+        val observer = TestSubscriber<PackageCreateTripResponse>()
         val params = PackageCreateTripParams(prodID, "6139057", 2, false, Arrays.asList(0, 8, 12))
 
         packageServiceRule.services!!.createTrip(params).subscribe(observer)
@@ -330,7 +330,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         observer.assertNoErrors()
         observer.assertComplete()
 
-        val rowsObserver = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val rowsObserver = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         viewModel.addRows.subscribe(rowsObserver)
         viewModel.packageCostSummaryObservable.onNext(observer.onNextEvents[0])
         return rowsObserver.onNextEvents[0]
@@ -340,7 +340,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         val viewModel = PackageCostSummaryBreakdownViewModel(getContext())
         val prodID = "create_trip_with_negative_savings"
 
-        val observer = TestObserver<PackageCreateTripResponse>()
+        val observer = TestSubscriber<PackageCreateTripResponse>()
         val params = PackageCreateTripParams(prodID, "6139057", 2, false, Arrays.asList(0, 8, 12))
 
         packageServiceRule.services!!.createTrip(params).subscribe(observer)
@@ -352,7 +352,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         val createTrip = observer.onNextEvents[0]
         createTrip.selectedCardFees = Money(BigDecimal(airlineFee), "USD")
 
-        val rowsObserver = TestObserver<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        val rowsObserver = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         viewModel.addRows.subscribe(rowsObserver)
         viewModel.packageCostSummaryObservable.onNext(createTrip)
         return rowsObserver.onNextEvents[0]

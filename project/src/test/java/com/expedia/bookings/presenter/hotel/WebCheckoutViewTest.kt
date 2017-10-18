@@ -27,16 +27,16 @@ import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
+import rx.observers.TestSubscriber
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import com.expedia.bookings.services.TestObserver
 
 @RunWith(RobolectricRunner::class)
 class WebCheckoutViewTest {
 
     lateinit var hotelPresenter: HotelPresenter
     lateinit var activity: Activity
-    lateinit var webCheckoutViewObservable: TestObserver<Unit>
+    lateinit var webCheckoutViewObservable: TestSubscriber<Unit>
     var userAccountRefresherMock = Mockito.mock(UserAccountRefresher::class.java)
 
     @Before
@@ -109,14 +109,8 @@ class WebCheckoutViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewTripIDOnSuccessfulBooking() {
-<<<<<<< HEAD
         val bookingTripIDSubscriber = TestSubscriber<String>()
         val fectchTripIDSubscriber = TestSubscriber<String>()
-=======
-        val bookingTripIDSubscriber = TestObserver<String>()
-        val fectchTripIDSubscriber = TestObserver<String>()
-        enableWebCheckout(true)
->>>>>>> 5abc89409b... WIP
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
@@ -167,12 +161,7 @@ class WebCheckoutViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewRefreshUserOnBackPress() {
-<<<<<<< HEAD
         val closeViewSubscriber = TestSubscriber<Unit>()
-=======
-        val closeViewSubscriber = TestObserver<Unit>()
-        enableWebCheckout(true)
->>>>>>> 5abc89409b... WIP
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
@@ -209,8 +198,8 @@ class WebCheckoutViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewClearsPageGoingBack() {
-        val closeViewSubscriber = TestObserver<Unit>()
-        val urlSubscriber = TestObserver<String>()
+        val closeViewSubscriber = TestSubscriber<Unit>()
+        val urlSubscriber = TestSubscriber<String>()
         getToWebCheckoutView()
 
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).webViewURLObservable.subscribe(urlSubscriber)
@@ -260,13 +249,8 @@ class WebCheckoutViewTest {
         hotelPresenter = LayoutInflater.from(activity).inflate(R.layout.activity_hotel, null) as HotelPresenter
         hotelPresenter.hotelSearchParams = getDummyHotelSearchParams()
         hotelPresenter.show(hotelPresenter.detailPresenter)
-<<<<<<< HEAD
         webCheckoutViewObservable = TestSubscriber<Unit>()
         (hotelPresenter.webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).fireCreateTripObservable.subscribe(webCheckoutViewObservable)
-=======
-        webCheckoutViewObservable = TestObserver<Unit>()
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fireCreateTripObservable.subscribe(webCheckoutViewObservable)
->>>>>>> 7df61dae81... WIP
     }
 
     private fun givenHotelDetailsScreen(bucketWebCheckoutABTest: Boolean = false, setPOSWithWebCheckoutABTestEnabled: Boolean = false): Action {

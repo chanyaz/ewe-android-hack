@@ -51,7 +51,7 @@ import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
-import com.expedia.bookings.services.TestObserver;
+import rx.observers.TestSubscriber;
 
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
@@ -181,16 +181,16 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testTravelerDialogForInfantErrorInSeat() {
-		TestObserver tooManyInfantsInLapTestObserver = new TestObserver<>();
-		TestObserver tooManyInfantsInSeatTestObserver = new TestObserver<>();
+		TestSubscriber tooManyInfantsInLapTestSubscriber = new TestSubscriber<>();
+		TestSubscriber tooManyInfantsInSeatTestSubscriber = new TestSubscriber<>();
 		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
 		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
 		travelerCard.performClick();
 		View view = travelerCard.getTravelerDialogView();
 		TravelerPickerView travelerPicker = (TravelerPickerView) view
 			.findViewById(R.id.traveler_view);
-		travelerPicker.getViewmodel().getTooManyInfantsInLap().subscribe(tooManyInfantsInLapTestObserver);
-		travelerPicker.getViewmodel().getTooManyInfantsInSeat().subscribe(tooManyInfantsInSeatTestObserver);
+		travelerPicker.getViewmodel().getTooManyInfantsInLap().subscribe(tooManyInfantsInLapTestSubscriber);
+		travelerPicker.getViewmodel().getTooManyInfantsInSeat().subscribe(tooManyInfantsInSeatTestSubscriber);
 
 		travelerPicker.getChildPlus().performClick();
 		travelerPicker.getChildPlus().performClick();
@@ -199,9 +199,9 @@ public class FlightSearchPresenterTest {
 		travelerPicker.getChild1().setSelection(0);
 		travelerPicker.getChild2().setSelection(0);
 		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
-		int noOfEvents = tooManyInfantsInLapTestObserver.values().size();
-		assertEquals(tooManyInfantsInLapTestObserver.values().get(noOfEvents - 1), false);
-		assertEquals(tooManyInfantsInSeatTestObserver.values().get(noOfEvents - 1), false);
+		int noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), false);
 		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
 
 
@@ -210,17 +210,17 @@ public class FlightSearchPresenterTest {
 		travelerPicker.getChild3().setSelection(0);
 		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
 		assertEquals(View.VISIBLE, travelerPicker.getInfantError().getVisibility());
-		noOfEvents = tooManyInfantsInLapTestObserver.values().size();
-		assertEquals(tooManyInfantsInLapTestObserver.values().get(noOfEvents - 1), false);
-		assertEquals(tooManyInfantsInSeatTestObserver.values().get(noOfEvents - 1), true);
+		noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), true);
 
 		travelerPicker.getChildPlus().performClick();
 		travelerPicker.getChild4().setSelection(15);
 		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
 		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
-		noOfEvents = tooManyInfantsInLapTestObserver.values().size();
-		assertEquals(tooManyInfantsInLapTestObserver.values().get(noOfEvents - 1), false);
-		assertEquals(tooManyInfantsInSeatTestObserver.values().get(noOfEvents - 1), false);
+		noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), false);
 	}
 
 	@Test
@@ -281,40 +281,40 @@ public class FlightSearchPresenterTest {
 	public void testRevampFlightTravelerDialogForInfantErrorInSeat() {
 
 		setUpFlightTravelerRevamp(true);
-		TestObserver tooManyInfantsInLapTestObserver = new TestObserver<>();
-		TestObserver tooManyInfantsInSeatTestObserver = new TestObserver<>();
+		TestSubscriber tooManyInfantsInLapTestSubscriber = new TestSubscriber<>();
+		TestSubscriber tooManyInfantsInSeatTestSubscriber = new TestSubscriber<>();
 		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.findViewById(R.id.traveler_card);
 		travelerCard.performClick();
 		View view = travelerCard.getTravelerDialogView();
 		FlightTravelerPickerView travelerPicker = (FlightTravelerPickerView) view
 			.findViewById(R.id.flight_traveler_view);
-		travelerPicker.getViewmodel().getTooManyInfantsInLap().subscribe(tooManyInfantsInLapTestObserver);
-		travelerPicker.getViewmodel().getTooManyInfantsInSeat().subscribe(tooManyInfantsInSeatTestObserver);
+		travelerPicker.getViewmodel().getTooManyInfantsInLap().subscribe(tooManyInfantsInLapTestSubscriber);
+		travelerPicker.getViewmodel().getTooManyInfantsInSeat().subscribe(tooManyInfantsInSeatTestSubscriber);
 
 		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
 		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
 
 		travelerPicker.getViewmodel().setShowSeatingPreference(true);
 		travelerPicker.getInfantInSeat().setChecked(true);
-		int noOfEvents = tooManyInfantsInLapTestObserver.values().size();
-		assertEquals(tooManyInfantsInLapTestObserver.values().get(noOfEvents - 1), false);
-		assertEquals(tooManyInfantsInSeatTestObserver.values().get(noOfEvents - 1), false);
+		int noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), false);
 		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
 
 		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
 
 		travelerPicker.getInfantInSeat().setChecked(true);
 		assertEquals(View.VISIBLE, travelerPicker.getInfantError().getVisibility());
-		noOfEvents = tooManyInfantsInLapTestObserver.values().size();
-		assertEquals(tooManyInfantsInLapTestObserver.values().get(noOfEvents - 1), false);
-		assertEquals(tooManyInfantsInSeatTestObserver.values().get(noOfEvents - 1), true);
+		noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), true);
 
 		travelerPicker.getYouthCountSelector().getTravelerPlus().performClick();
 		travelerPicker.getInfantInSeat().setChecked(true);
 		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
-		noOfEvents = tooManyInfantsInLapTestObserver.values().size();
-		assertEquals(tooManyInfantsInLapTestObserver.values().get(noOfEvents - 1), false);
-		assertEquals(tooManyInfantsInSeatTestObserver.values().get(noOfEvents - 1), false);
+		noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), false);
 		setUpFlightTravelerRevamp(false);
 	}
 
@@ -471,7 +471,7 @@ public class FlightSearchPresenterTest {
 	public void testTabsOneWayTripTab() {
 		initializeWidget();
 		selectRoundTripTabAtIndex(1);
-		TestObserver<Boolean> isRoundTripSearchSubscriber = new TestObserver<>();
+		TestSubscriber<Boolean> isRoundTripSearchSubscriber = new TestSubscriber<>();
 		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
 
 		isRoundTripSearchSubscriber.assertValue(false);
@@ -481,7 +481,7 @@ public class FlightSearchPresenterTest {
 	public void testRoundTripTabs() {
 		initializeWidget();
 		selectRoundTripTabAtIndex(0);
-		TestObserver<Boolean> isRoundTripSearchSubscriber = new TestObserver<>();
+		TestSubscriber<Boolean> isRoundTripSearchSubscriber = new TestSubscriber<>();
 		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
 
 		isRoundTripSearchSubscriber.assertValue(true);
@@ -547,18 +547,18 @@ public class FlightSearchPresenterTest {
 	public void testSearchValidationStepByStep() {
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
-		TestObserver<Unit> errorNoDestinationTestObserver = new TestObserver();
-		TestObserver<Unit> errorNoOriginObservableTestObserver = new TestObserver();
-		TestObserver<Unit> errorNoDatesObservableTestObserver = new TestObserver();
+		TestSubscriber<Unit> errorNoDestinationTestSubscriber = new TestSubscriber();
+		TestSubscriber<Unit> errorNoOriginObservableTestSubscriber = new TestSubscriber();
+		TestSubscriber<Unit> errorNoDatesObservableTestSubscriber = new TestSubscriber();
 
-		vm.getErrorNoDestinationObservable().subscribe(errorNoDestinationTestObserver);
-		vm.getErrorNoOriginObservable().subscribe(errorNoOriginObservableTestObserver);
-		vm.getErrorNoDatesObservable().subscribe(errorNoDatesObservableTestObserver);
+		vm.getErrorNoDestinationObservable().subscribe(errorNoDestinationTestSubscriber);
+		vm.getErrorNoOriginObservable().subscribe(errorNoOriginObservableTestSubscriber);
+		vm.getErrorNoDatesObservable().subscribe(errorNoDatesObservableTestSubscriber);
 
 		vm.getPerformSearchObserver().onNext(Unit.INSTANCE);
-		errorNoOriginObservableTestObserver.assertValueCount(1);
-		errorNoDestinationTestObserver.assertValueCount(0);
-		errorNoDatesObservableTestObserver.assertValueCount(0);
+		errorNoOriginObservableTestSubscriber.assertValueCount(1);
+		errorNoDestinationTestSubscriber.assertValueCount(0);
+		errorNoDatesObservableTestSubscriber.assertValueCount(0);
 
 		assertNull(widget.getDestinationCardView().getCompoundDrawables()[2]);
 		assertNull(widget.getOriginCardView().getCompoundDrawables()[2]);
@@ -570,18 +570,18 @@ public class FlightSearchPresenterTest {
 		RoboTestHelper.INSTANCE.bucketTests(AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
-		TestObserver<Unit> errorNoDestinationTestObserver = new TestObserver();
-		TestObserver<Unit> errorNoOriginObservableTestObserver = new TestObserver();
-		TestObserver<Unit> errorNoDatesObservableTestObserver = new TestObserver();
+		TestSubscriber<Unit> errorNoDestinationTestSubscriber = new TestSubscriber();
+		TestSubscriber<Unit> errorNoOriginObservableTestSubscriber = new TestSubscriber();
+		TestSubscriber<Unit> errorNoDatesObservableTestSubscriber = new TestSubscriber();
 
-		vm.getErrorNoDestinationObservable().subscribe(errorNoDestinationTestObserver);
-		vm.getErrorNoOriginObservable().subscribe(errorNoOriginObservableTestObserver);
-		vm.getErrorNoDatesObservable().subscribe(errorNoDatesObservableTestObserver);
+		vm.getErrorNoDestinationObservable().subscribe(errorNoDestinationTestSubscriber);
+		vm.getErrorNoOriginObservable().subscribe(errorNoOriginObservableTestSubscriber);
+		vm.getErrorNoDatesObservable().subscribe(errorNoDatesObservableTestSubscriber);
 
 		vm.getPerformSearchObserver().onNext(Unit.INSTANCE);
-		errorNoOriginObservableTestObserver.assertValueCount(1);
-		errorNoDestinationTestObserver.assertValueCount(1);
-		errorNoDatesObservableTestObserver.assertValueCount(1);
+		errorNoOriginObservableTestSubscriber.assertValueCount(1);
+		errorNoDestinationTestSubscriber.assertValueCount(1);
+		errorNoDatesObservableTestSubscriber.assertValueCount(1);
 
 		assertNotNull(widget.getDestinationCardView().getCompoundDrawablesRelative()[2]);
 		assertNotNull(widget.getOriginCardView().getCompoundDrawablesRelative()[2]);
@@ -596,49 +596,44 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testCalendarTooltipContentDescriptionForRoundtrip() {
-		TestObserver<String> toolTipContDescTestObserver = new TestObserver<>();
+		TestSubscriber<String> toolTipContDescTestSubscriber = new TestSubscriber<>();
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
-		vm.getCalendarTooltipContDescObservable().subscribe(toolTipContDescTestObserver);
+		vm.getCalendarTooltipContDescObservable().subscribe(toolTipContDescTestSubscriber);
 
 		//When dates are not selected
 		vm.datesUpdated(null, null);
-		assertEquals("Select dates", toolTipContDescTestObserver.values().get(0));
+		assertEquals("Select dates", toolTipContDescTestSubscriber.values().get(0));
 
 		//When start date is selected
 		LocalDate dateNow = LocalDate.now();
 		vm.datesUpdated(dateNow, null);
 		assertEquals(getExpectedToolTipContDesc(dateNow, null),
-			toolTipContDescTestObserver.values().get(1));
+			toolTipContDescTestSubscriber.values().get(1));
 
 		//When start and end date is selected
 		vm.datesUpdated(dateNow, dateNow.plusDays(3));
 		assertEquals(getExpectedToolTipContDesc(dateNow, dateNow.plusDays(3)),
-			toolTipContDescTestObserver.values().get(2));
+			toolTipContDescTestSubscriber.values().get(2));
 	}
 
 	@Test
 	public void testCalendarTooltipContentDescriptionForOneWay() {
-		TestObserver<String> toolTipContDescTestObserver = new TestObserver<>();
+		TestSubscriber<String> toolTipContDescTestSubscriber = new TestSubscriber<>();
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
-		vm.getCalendarTooltipContDescObservable().subscribe(toolTipContDescTestObserver);
+		vm.getCalendarTooltipContDescObservable().subscribe(toolTipContDescTestSubscriber);
 		vm.isRoundTripSearchObservable().onNext(false);
 
 		//When dates are not selected
 		vm.datesUpdated(null, null);
-		assertEquals("Select dates", toolTipContDescTestObserver.values().get(0));
+		assertEquals("Select dates", toolTipContDescTestSubscriber.values().get(0));
 
 		//When start date is selected
 		LocalDate dateNow = LocalDate.now();
 		vm.datesUpdated(dateNow, null);
-<<<<<<< HEAD
 		assertEquals(LocaleBasedDateFormatUtils.localDateToMMMd(dateNow) + ". Select dates again to modify",
-			toolTipContDescTestSubscriber.getOnNextEvents().get(1));
-=======
-		assertEquals(DateUtils.localDateToMMMd(dateNow) + ". Select dates again to modify",
-			toolTipContDescTestObserver.values().get(1));
->>>>>>> 5abc89409b... WIP
+			toolTipContDescTestSubscriber.values().get(1));
 	}
 
 	private String getExpectedToolTipContDesc(LocalDate startDate, LocalDate endDate) {

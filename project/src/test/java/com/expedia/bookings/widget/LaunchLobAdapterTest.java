@@ -14,21 +14,14 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LobInfo;
-<<<<<<< HEAD:project/src/test/java/com/expedia/bookings/widget/LaunchLobAdapterTest.java
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
 import com.expedia.bookings.launch.widget.LaunchLobAdapter;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 
-=======
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
-import com.expedia.bookings.launch.widget.NewLaunchLobAdapter;
-import com.expedia.bookings.services.TestObserver;
-import com.expedia.bookings.test.robolectric.RobolectricRunner;
-
-import io.reactivex.subjects.BehaviorSubject;
->>>>>>> 7df61dae81... WIP:project/src/test/java/com/expedia/bookings/widget/NewLaunchLobAdapterTest.java
 import kotlin.Pair;
 import kotlin.Unit;
+import rx.observers.TestSubscriber;
+import rx.subjects.BehaviorSubject;
 
 import static org.junit.Assert.assertEquals;
 
@@ -134,7 +127,7 @@ public class LaunchLobAdapterTest {
 			launchLobViewModel);
 
 		for (LobInfo lobInfo : LobInfo.values()) {
-			TestObserver<Pair<LineOfBusiness, View>> testSubscriber = new TestObserver<>();
+			TestSubscriber<Pair<LineOfBusiness, View>> testSubscriber = new TestSubscriber<>();
 			vh.getViewModel().getNavigationSubject().take(1).subscribe(testSubscriber);
 			vh.bind(lobInfo, false, getContext(), true);
 			vh.onClick(mockItemView);
@@ -155,7 +148,7 @@ public class LaunchLobAdapterTest {
 		LaunchLobAdapter.LobViewHolder vh = new LaunchLobAdapter.LobViewHolder(mockItemView,
 			launchLobViewModel);
 		for (LobInfo lobInfo : LobInfo.values()) {
-			TestObserver<Pair<LineOfBusiness, View>> testSubscriber = new TestObserver<>();
+			TestSubscriber<Pair<LineOfBusiness, View>> testSubscriber = new TestSubscriber<>();
 			vh.getViewModel().getNavigationSubject().take(1).subscribe(testSubscriber);
 			vh.bind(lobInfo, false, getContext(), false);
 			vh.onClick(mockItemView);

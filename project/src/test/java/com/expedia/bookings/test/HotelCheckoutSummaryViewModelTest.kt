@@ -23,12 +23,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-<<<<<<< HEAD
 import rx.observers.TestSubscriber
-import io.reactivex.subjects.PublishSubject
-=======
-import com.expedia.bookings.services.TestObserver
->>>>>>> 5abc89409b... WIP
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -70,18 +66,13 @@ class HotelCheckoutSummaryViewModelTest {
     fun happy() {
         givenHappyHotelProductResponse()
         setup()
-<<<<<<< HEAD
         val testTextSubscriber = TestSubscriber<String>()
-=======
-        
-        val testTextSubscriber = TestObserver<String>()
->>>>>>> 7df61dae81... WIP
         sut.freeCancellationText.subscribe(testTextSubscriber)
 
         val checkinFormattedDateSubscriber = TestSubscriber<String>()
         sut.checkinDateFormattedByEEEMMDD.subscribe(checkinFormattedDateSubscriber)
 
-        val testNewDataSubscriber = TestObserver<Unit>()
+        val testNewDataSubscriber = TestSubscriber<Unit>()
         sut.newDataObservable.subscribe(testNewDataSubscriber)
 
         createTripResponseObservable.onNext(createTripResponse)
@@ -213,7 +204,7 @@ class HotelCheckoutSummaryViewModelTest {
         givenHappyHotelProductResponse()
         setup()
 
-        val testTextSubscriber = TestObserver<String>()
+        val testTextSubscriber = TestSubscriber<String>()
         val checkInDate = LocalDate.now().plusDays(10)
         createTripResponse.newHotelProductResponse.hotelRoomResponse.freeCancellationWindowDate = checkInDate.toString() + " 23:59"
         sut.freeCancellationText.subscribe(testTextSubscriber)

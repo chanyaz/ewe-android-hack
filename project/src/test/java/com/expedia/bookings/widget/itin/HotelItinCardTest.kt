@@ -29,8 +29,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import com.expedia.bookings.services.TestObserver
-import io.reactivex.schedulers.Schedulers
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -181,7 +181,7 @@ class HotelItinCardTest {
         setupRoomUpgradeService()
         createSystemUnderTest()
         sut.roomUpgradeService = roomUpgradeService
-        val testSubscriber = TestObserver<Property.RoomUpgradeType>()
+        val testSubscriber = TestSubscriber<Property.RoomUpgradeType>()
         sut.mRoomUpgradeOffersSubject.subscribe(testSubscriber)
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
         sut.bind(itinCardData)
@@ -201,7 +201,7 @@ class HotelItinCardTest {
         createSystemUnderTest()
         sut.roomUpgradeService = roomUpgradeService
 
-        val testSubscriber = TestObserver<Property.RoomUpgradeType>()
+        val testSubscriber = TestSubscriber<Property.RoomUpgradeType>()
         sut.mRoomUpgradeOffersSubject.subscribe(testSubscriber)
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl("https:://www.notarealurl.com").build()
         sut.bind(itinCardData)
@@ -273,6 +273,6 @@ class HotelItinCardTest {
         val interceptor = MockInterceptor()
         roomUpgradeService = RoomUpgradeOffersService("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 }

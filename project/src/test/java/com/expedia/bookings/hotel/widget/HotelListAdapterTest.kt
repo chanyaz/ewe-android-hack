@@ -13,7 +13,7 @@ import com.expedia.testutils.JSONResourceReader
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import io.reactivex.subjects.PublishSubject
+import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

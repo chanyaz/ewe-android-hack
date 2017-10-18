@@ -23,8 +23,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
-import io.reactivex.subjects.PublishSubject
+import rx.observers.TestSubscriber
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import kotlin.test.assertEquals
 
@@ -36,16 +36,16 @@ class LXMapViewModelTest {
 
     lateinit private var activityOffersResponse: ActivityDetailsResponse
     private var lxMapViewModel: LXMapViewModel by notNullAndObservable {
-        it.toolbarDetailText.subscribe(activityNameTestObserver)
-        it.activityPrice.subscribe(activityPriceTestObserver)
-        it.eventLatLng.subscribe(eventLatLngTestObserver)
-        it.redemptionLocationsLatLng.subscribe(redemptionLocationsLatLngTestObserver)
+        it.toolbarDetailText.subscribe(activityNameTestSubscriber)
+        it.activityPrice.subscribe(activityPriceTestSubscriber)
+        it.eventLatLng.subscribe(eventLatLngTestSubscriber)
+        it.redemptionLocationsLatLng.subscribe(redemptionLocationsLatLngTestSubscriber)
     }
 
-    val activityNameTestObserver = TestObserver<String>()
-    val activityPriceTestObserver = TestObserver<CharSequence>()
-    val eventLatLngTestObserver = TestObserver<LatLong>()
-    val redemptionLocationsLatLngTestObserver = TestObserver<List<LatLong>>()
+    val activityNameTestSubscriber = TestSubscriber<String>()
+    val activityPriceTestSubscriber = TestSubscriber<CharSequence>()
+    val eventLatLngTestSubscriber = TestSubscriber<LatLong>()
+    val redemptionLocationsLatLngTestSubscriber = TestSubscriber<List<LatLong>>()
 
     @Before fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -55,10 +55,10 @@ class LXMapViewModelTest {
     }
 
     @Test fun testLXMapViewModelOutputs() {
-        activityNameTestObserver.assertValueCount(0)
-        eventLatLngTestObserver.assertValueCount(0)
-        redemptionLocationsLatLngTestObserver.assertValueCount(0)
-        activityPriceTestObserver.assertValueCount(0)
+        activityNameTestSubscriber.assertValueCount(0)
+        eventLatLngTestSubscriber.assertValueCount(0)
+        redemptionLocationsLatLngTestSubscriber.assertValueCount(0)
+        activityPriceTestSubscriber.assertValueCount(0)
 
         givenActivityHappyDetailsResponse()
         lxMapViewModel.lxState.activity = LXActivity()
@@ -71,24 +71,16 @@ class LXMapViewModelTest {
 
         lxMapViewModel.offersObserver.onNext(activityOffersResponse)
 
-        activityNameTestObserver.assertValueCount(1)
-        eventLatLngTestObserver.assertValueCount(1)
-        redemptionLocationsLatLngTestObserver.assertValueCount(1)
-        activityPriceTestObserver.assertValueCount(1)
+        activityNameTestSubscriber.assertValueCount(1)
+        eventLatLngTestSubscriber.assertValueCount(1)
+        redemptionLocationsLatLngTestSubscriber.assertValueCount(1)
+        activityPriceTestSubscriber.assertValueCount(1)
 
-<<<<<<< HEAD
         activityNameTestSubscriber.assertValue("New York Pass: Visit up to 80 Attractions, Museums & Tours")
         compareLocationLatLng(eventLatLngTestSubscriber.onNextEvents[0]
                 , ActivityDetailsResponse.LXLocation.getLocation(activityOffersResponse.eventLocation.latLng))
         redemptionLocationsLatLngTestSubscriber.assertValue(emptyList())
         assertEquals("From $130", activityPriceTestSubscriber.onNextEvents[0].toString())
-=======
-        activityNameTestObserver.assertValue("New York Pass: Visit up to 80 Attractions, Museums & Tours")
-        compareLocationLatLng(eventLatLngTestObserver.onNextEvents.get(0)
-                , ActivityDetailsResponse.LXLocation.getLocation(activityOffersResponse.eventLocation.latLng))
-        redemptionLocationsLatLngTestObserver.assertValue(emptyList())
-        assertEquals("From $130", activityPriceTestObserver.onNextEvents.get(0).toString())
->>>>>>> 5abc89409b... WIP
 
     }
 

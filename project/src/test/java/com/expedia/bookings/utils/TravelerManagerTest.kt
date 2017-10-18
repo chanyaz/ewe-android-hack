@@ -8,13 +8,11 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
-import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import org.joda.time.LocalDate
 import org.junit.Assert
@@ -30,9 +28,9 @@ import kotlin.test.assertTrue
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class TravelerManagerTest {
     val context: Context = RuntimeEnvironment.application
-    private val notificationManager: NotificationManager = NotificationManager(context)
-    private val travelerManager = TravelerManager(UserStateManager(context, UserLoginStateChangedModel(), notificationManager))
+    private val travelerManager: TravelerManager by lazy { TravelerManager(userStateManager) }
     private val mockTravelerProvider = MockTravelerProvider()
+    private val userStateManager: UserStateManager by lazy { UserLoginTestUtil.getUserStateManager() }
 
     @Test
     fun testGetChildPassengerCategoryInfant() {
@@ -83,7 +81,7 @@ class TravelerManagerTest {
 
         testUser.primaryTraveler.firstName = mockTravelerProvider.testFirstName
 
-        UserLoginTestUtil.setupUserAndMockLogin(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser, userStateManager)
 
         mockTravelerProvider.updateDBWithMockTravelers(1, travelerWithCategory)
         travelerManager.onSignIn()
@@ -121,7 +119,7 @@ class TravelerManagerTest {
         testUser.primaryTraveler = Traveler()
         testUser.primaryTraveler.firstName = mockTravelerProvider.testFirstName
 
-        UserLoginTestUtil.setupUserAndMockLogin(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser, userStateManager)
 
         travelerManager.updateRailTravelers()
         assertTrue(Db.getTravelers().size == 1)

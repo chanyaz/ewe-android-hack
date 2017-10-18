@@ -18,7 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -38,15 +38,15 @@ class RailTicketDeliveryEntryWidgetTest {
 
     @Test
     fun testInitialization() {
-        val testStationContainerSelectionSubscriber = TestObserver.create<TicketDeliverySelectionStatus>()
+        val testStationContainerSelectionSubscriber = TestSubscriber.create<TicketDeliverySelectionStatus>()
         widget.stationContainer.viewModel.statusChanged.subscribe(testStationContainerSelectionSubscriber)
-        val testMailDeliveryContainerSelectionSubscriber = TestObserver.create<TicketDeliverySelectionStatus>()
+        val testMailDeliveryContainerSelectionSubscriber = TestSubscriber.create<TicketDeliverySelectionStatus>()
         widget.mailDeliveryContainer.viewModel.statusChanged.subscribe(testMailDeliveryContainerSelectionSubscriber)
 
         val viewModel = RailTicketDeliveryEntryViewModel(context)
         widget.viewModel = viewModel
 
-        val testCloseSubscriber = TestObserver.create<Unit>()
+        val testCloseSubscriber = TestSubscriber.create<Unit>()
         widget.closeSubject.subscribe(testCloseSubscriber)
 
         assertEquals(TicketDeliveryMethod.PICKUP_AT_STATION, viewModel.ticketDeliveryObservable.value)
@@ -62,15 +62,15 @@ class RailTicketDeliveryEntryWidgetTest {
 
     @Test
     fun testDeliveryByMail() {
-        val testStationContainerSelectionSubscriber = TestObserver.create<TicketDeliverySelectionStatus>()
+        val testStationContainerSelectionSubscriber = TestSubscriber.create<TicketDeliverySelectionStatus>()
         widget.stationContainer.viewModel.statusChanged.subscribe(testStationContainerSelectionSubscriber)
-        val testMailDeliveryContainerSelectionSubscriber = TestObserver.create<TicketDeliverySelectionStatus>()
+        val testMailDeliveryContainerSelectionSubscriber = TestSubscriber.create<TicketDeliverySelectionStatus>()
         widget.mailDeliveryContainer.viewModel.statusChanged.subscribe(testMailDeliveryContainerSelectionSubscriber)
 
         val viewModel = RailTicketDeliveryEntryViewModel(context)
         widget.viewModel = viewModel
 
-        val testCloseSubscriber = TestObserver.create<Unit>()
+        val testCloseSubscriber = TestSubscriber.create<Unit>()
         widget.closeSubject.subscribe(testCloseSubscriber)
 
         widget.mailDeliveryContainer.performClick()

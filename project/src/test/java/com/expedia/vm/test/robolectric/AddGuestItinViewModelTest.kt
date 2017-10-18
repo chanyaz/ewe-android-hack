@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -17,8 +17,8 @@ class AddGuestItinViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: AddGuestItinViewModel
 
-    val hasEmailErrorSubscriber = TestObserver<Boolean>()
-    val hasItinErrorSubscriber = TestObserver<Boolean>()
+    val hasEmailErrorSubscriber = TestSubscriber<Boolean>()
+    val hasItinErrorSubscriber = TestSubscriber<Boolean>()
 
     @Before
     fun before() {

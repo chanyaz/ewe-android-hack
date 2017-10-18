@@ -11,7 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -35,8 +35,8 @@ class RailConfirmationViewModelTest {
     fun testOneWay() {
         val oneWayOffer = getMockOneWayOffer()
 
-        val testItinSub = TestObserver<String>()
-        val testInboundVisibleSub = TestObserver<Boolean>()
+        val testItinSub = TestSubscriber<String>()
+        val testInboundVisibleSub = TestSubscriber<Boolean>()
 
         testConfirmationVM.itinNumberObservable.subscribe(testItinSub)
         testConfirmationVM.inboundCardVisibility.subscribe(testInboundVisibleSub)
@@ -51,7 +51,7 @@ class RailConfirmationViewModelTest {
     fun testOpenReturn() {
         val openReturnOffer = getMockOpenReturnOffer()
 
-        val testInboundVisibleSub = TestObserver<Boolean>()
+        val testInboundVisibleSub = TestSubscriber<Boolean>()
         testConfirmationVM.inboundCardVisibility.subscribe(testInboundVisibleSub)
 
         testConfirmationVM.railOfferObserver.onNext(openReturnOffer)
@@ -63,7 +63,7 @@ class RailConfirmationViewModelTest {
     fun testRoundTrip() {
         val roundTripOffer = getMockRoundTripOffer()
 
-        val testInboundVisibleSub = TestObserver<Boolean>()
+        val testInboundVisibleSub = TestSubscriber<Boolean>()
         testConfirmationVM.inboundCardVisibility.subscribe(testInboundVisibleSub)
 
         testConfirmationVM.railOfferObserver.onNext(roundTripOffer)

@@ -17,7 +17,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -40,8 +40,8 @@ class TravelerTSAViewModelTest {
     val TEST_ADULT_CHILD_ERROR_V2 = "This traveler must be between the ages of 12 and 17 for the entire trip to travel as a youth"
     val TEST_CHILD_ERROR_V2 = "This traveler must be between the ages of 2 and 11 for the entire trip to travel as a child"
 
-    val testErrorTextSubscriber = TestObserver<String>()
-    val testBirthDateErrorSubscriber = TestObserver<Boolean>()
+    val testErrorTextSubscriber = TestSubscriber<String>()
+    val testBirthDateErrorSubscriber = TestSubscriber<Boolean>()
 
     var activity: Activity by Delegates.notNull()
     var travelerValidator: TravelerValidator by Delegates.notNull()
@@ -66,7 +66,7 @@ class TravelerTSAViewModelTest {
     @Test
     fun testUpdateTravelerGenderErrorReset() {
         tsaVM = TravelerTSAViewModel(traveler, activity)
-        val testSubscriber = TestObserver<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>(1)
         tsaVM.genderViewModel.errorSubject.subscribe(testSubscriber)
         tsaVM.genderViewModel.errorSubject.onNext(true)
 
@@ -81,7 +81,7 @@ class TravelerTSAViewModelTest {
         traveler.birthDate = TEST_BIRTH_DATE
         tsaVM = TravelerTSAViewModel(traveler, activity)
 
-        val testSubscriber = TestObserver<LocalDate>(1)
+        val testSubscriber = TestSubscriber<LocalDate>(1)
         tsaVM.dateOfBirthViewModel.birthDateSubject.subscribe(testSubscriber)
 
         assertEquals(TEST_BIRTH_DATE, testSubscriber.onNextEvents[0])
@@ -157,7 +157,7 @@ class TravelerTSAViewModelTest {
         traveler.gender = TEST_GENDER
         tsaVM = TravelerTSAViewModel(traveler, activity)
 
-        val testSubscriber = TestObserver<Traveler.Gender>(1)
+        val testSubscriber = TestSubscriber<Traveler.Gender>(1)
         tsaVM.genderViewModel.genderSubject.subscribe(testSubscriber)
 
         assertEquals(TEST_GENDER, testSubscriber.onNextEvents[0])

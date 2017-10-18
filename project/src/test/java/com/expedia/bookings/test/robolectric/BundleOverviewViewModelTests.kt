@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -38,7 +38,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testHotels() {
-        val resultsSubscriber = TestObserver<PackageSearchType>()
+        val resultsSubscriber = TestSubscriber<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
 
         sut.hotelParamsObservable.onNext(setUpParams())
@@ -68,7 +68,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsInbound() {
-        val resultsSubscriber = TestObserver<PackageSearchType>()
+        val resultsSubscriber = TestSubscriber<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
 
         sut.flightParamsObservable.onNext(setUpParams())
@@ -101,7 +101,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsOutbound() {
-        val resultsSubscriber = TestObserver<PackageSearchType>()
+        val resultsSubscriber = TestSubscriber<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
         val params = setUpParams()
         params.packagePIID = "happy_outbound_flight"

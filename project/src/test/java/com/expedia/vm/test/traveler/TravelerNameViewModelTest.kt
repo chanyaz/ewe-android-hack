@@ -15,7 +15,7 @@ import com.expedia.bookings.widget.TextView
 import org.junit.Before
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertTrue
 
@@ -44,7 +44,7 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(TravelerName())
 
-        val testSubscriber = TestObserver<String>(1)
+        val testSubscriber = TestSubscriber<String>(1)
         nameVM.firstNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.middleNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.lastNameViewModel.textSubject.subscribe(testSubscriber)
@@ -65,7 +65,7 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(name)
 
-        val testSubscriber = TestObserver<String>(1)
+        val testSubscriber = TestSubscriber<String>(1)
         nameVM.firstNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.middleNameViewModel.textSubject.subscribe(testSubscriber)
         nameVM.lastNameViewModel.textSubject.subscribe(testSubscriber)
@@ -100,7 +100,7 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(name)
 
-        val testSubscriber = TestObserver<Boolean>(1)
+        val testSubscriber = TestSubscriber<Boolean>(1)
         nameVM.firstNameViewModel.errorSubject.subscribe(testSubscriber)
         nameVM.middleNameViewModel.errorSubject.subscribe(testSubscriber)
         nameVM.lastNameViewModel.errorSubject.subscribe(testSubscriber)

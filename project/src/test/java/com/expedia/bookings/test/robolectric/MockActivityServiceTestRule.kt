@@ -7,7 +7,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.services.LxServices
 import com.expedia.bookings.testrule.ServicesRule
 import org.joda.time.LocalDate
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 
 class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.java) {
 
@@ -18,11 +18,7 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
     }
 
     private fun getActivityOffersResponse(activityId: String): ActivityDetailsResponse {
-<<<<<<< HEAD
-        val observer = TestObserver<ActivityDetailsResponse>()
-=======
-        var observer = TestObserver<ActivityDetailsResponse>()
->>>>>>> 5abc89409b... WIP
+        val observer = TestSubscriber<ActivityDetailsResponse>()
 
         services?.lxDetails(activityId, activityId, LocalDate.now().plusDays(4),
                 LocalDate.now().plusDays(6), observer)
@@ -31,7 +27,6 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
     }
 
     fun getCheckoutError(errorType: String) : ApiError {
-<<<<<<< HEAD
         val observer = TestSubscriber <LXCheckoutResponse>()
         setCheckoutParams(errorType)
         services?.lxCheckout(lxCheckoutParams, observer)
@@ -45,25 +40,8 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
         setCheckoutParams(errorType)
         services?.lxCheckout(lxCheckoutParams, observer)
         observer.awaitTerminalEvent()
-        observer.assertCompleted()
-        return observer.onNextEvents[0]
-=======
-        var observer = TestObserver <LXCheckoutResponse>()
-        setCheckoutParams(errorType)
-        services?.lxCheckout(lxCheckoutParams, observer)
-        observer.awaitTerminalEvent()
-        observer.assertNotComplete()
-        return observer.onErrorEvents.get(0) as ApiError
-    }
-
-    fun getCheckoutResponseForPriceChange(errorType: String) : LXCheckoutResponse {
-        var observer = TestObserver <LXCheckoutResponse>()
-        setCheckoutParams(errorType)
-        services?.lxCheckout(lxCheckoutParams, observer)
-        observer.awaitTerminalEvent()
         observer.assertComplete()
-        return observer.onNextEvents.get(0)
->>>>>>> 5abc89409b... WIP
+        return observer.onNextEvents[0]
     }
 
 

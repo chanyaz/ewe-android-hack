@@ -11,7 +11,7 @@ import com.expedia.vm.rail.RailTripSummaryViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -23,7 +23,7 @@ class RailTripSummaryViewModelTest {
     fun testOutputs() {
         val viewModel = RailTripSummaryViewModel(RuntimeEnvironment.application)
 
-        val testFormattedDatesSubscriber = TestObserver<String>()
+        val testFormattedDatesSubscriber = TestSubscriber<String>()
 
         viewModel.formattedOutboundDateObservable.subscribe(testFormattedDatesSubscriber)
 

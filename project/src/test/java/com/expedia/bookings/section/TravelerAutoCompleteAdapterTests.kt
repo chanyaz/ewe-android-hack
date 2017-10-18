@@ -4,7 +4,9 @@ import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,11 +22,14 @@ class TravelerAutoCompleteAdapterTests {
 
     lateinit private var sut: TravelerAutoCompleteAdapter
     lateinit private var user: User
+    lateinit private var userStateManager: UserStateManager
 
     @Before
     fun setup() {
         sut = TestTravelerAutoCompleteAdapter(context)
-        Db.setUser(null)
+        userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
+        userStateManager.userSource.user = null
     }
 
     @Test
@@ -100,7 +105,7 @@ class TravelerAutoCompleteAdapterTests {
 
     private fun givenDbHasUser() {
         user = User()
-        Db.setUser(user)
+        userStateManager.userSource.user = user
     }
 
     class TestTravelerAutoCompleteAdapter(context: Context): TravelerAutoCompleteAdapter(context) {

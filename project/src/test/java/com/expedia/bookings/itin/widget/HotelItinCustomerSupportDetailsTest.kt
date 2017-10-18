@@ -8,12 +8,12 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ClipboardUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
 import org.junit.Before
@@ -54,7 +54,10 @@ class HotelItinCustomerSupportDetailsTest {
         val itinNumber = Phrase.from(activity, R.string.itin_hotel_itinerary_number_TEMPLATE).put("itinnumber", itinCardDataHotel.tripNumber).format().toString()
         assertEquals(itinNumber, customerSupportWidget.itineraryNumberTextView.text)
 
-        val phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser())
+        val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
+        val user = userStateManager.userSource.user
+
+        val phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(user)
         assertEquals(phoneNumber, customerSupportWidget.callSupportActionButton.text)
 
         val supportSite = Phrase.from(activity, R.string.itin_hotel_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()

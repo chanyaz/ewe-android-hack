@@ -31,9 +31,9 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import com.expedia.bookings.services.TestObserver
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.TestSubject
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
+import rx.subjects.TestSubject
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -42,7 +42,7 @@ import kotlin.test.assertTrue
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelConfirmationPresenterTest {
-    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
+    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../lib/mocked/templates")
         @Rule get
 
 
@@ -64,7 +64,7 @@ class HotelConfirmationPresenterTest {
 
     @Test
     fun testConfirmationScreenPopulatedByItinsCall() {
-        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
         val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.itinDetailsResponseObservable.subscribe(testObserver)
         serviceRule.services!!.getTripDetails("web_view_hotel_trip_details", makeItinResponseObserver)
@@ -96,8 +96,8 @@ class HotelConfirmationPresenterTest {
     @Test
     fun testHotelConfirmationObservable() {
         var confirmationDetailsAndUISet = false
-        val testDetailsSetSubscriber = TestObserver<Boolean>()
-        val testUISetSubscriber = TestObserver<Boolean>()
+        val testDetailsSetSubscriber = TestSubscriber<Boolean>()
+        val testUISetSubscriber = TestSubscriber<Boolean>()
         setDummyCheckoutResponse()
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable.subscribe(testDetailsSetSubscriber)
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable.subscribe(testUISetSubscriber)

@@ -33,13 +33,13 @@ import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowAlertDialog
-import io.reactivex.Observer
-import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
-import com.expedia.bookings.services.TestObserver
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
+import rx.Observer
+import rx.Scheduler
+import rx.Subscription
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
+import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -70,7 +70,7 @@ class FlightOffersViewModelTest {
 
     @Test
     fun testNetworkErrorDialogCancel() {
-        val testSubscriber = TestObserver<Unit>()
+        val testSubscriber = TestSubscriber<Unit>()
         val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
         givenFlightSearchThrowsIOException()
         sut = FlightOffersViewModel(context, flightServices)
@@ -122,7 +122,7 @@ class FlightOffersViewModelTest {
 
     @Test
     fun testGoodSearchResponse() {
-        val testSubscriber = TestObserver<List<FlightLeg>>()
+        val testSubscriber = TestSubscriber<List<FlightLeg>>()
 
         sut.outboundResultsObservable.subscribe(testSubscriber)
         performFlightSearch(false)
@@ -207,7 +207,7 @@ class FlightOffersViewModelTest {
     @Test
     fun testResponseHasError() {
         val observer = getMakeResultsObserver()
-        val testSubscriber = TestObserver<ApiError>()
+        val testSubscriber = TestSubscriber<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
         val flightSearchResponse = FlightSearchResponse()
@@ -223,7 +223,7 @@ class FlightOffersViewModelTest {
     fun testResponseHasNoResults() {
 
         val observer = getMakeResultsObserver()
-        val testSubscriber = TestObserver<ApiError>()
+        val testSubscriber = TestSubscriber<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 
         val flightSearchResponse = FlightSearchResponse()
@@ -236,25 +236,25 @@ class FlightOffersViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testShowFlightChargesObFees() {
-        val showObChargesTestObserver = TestObserver<Boolean>()
-        val urlTestObserver = TestObserver<String>()
-        sut.showChargesObFeesSubject.subscribe(showObChargesTestObserver)
-        sut.obFeeDetailsUrlObservable.subscribe(urlTestObserver)
+        val showObChargesTestSubscriber = TestSubscriber<Boolean>()
+        val urlTestSubscriber = TestSubscriber<String>()
+        sut.showChargesObFeesSubject.subscribe(showObChargesTestSubscriber)
+        sut.obFeeDetailsUrlObservable.subscribe(urlTestSubscriber)
 
         performFlightSearch(roundTrip = true)
 
         sut.outboundSelected.onNext(makeFlightLegWithOBFees("leg0"))
         sut.inboundSelected.onNext(makeFlightLegWithOBFees("leg1"))
 
-        showObChargesTestObserver.assertValues(true, true)
-        urlTestObserver.assertValue("http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033")
+        showObChargesTestSubscriber.assertValues(true, true)
+        urlTestSubscriber.assertValue("http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033")
     }
 
     @Test
     fun testFlightChargesObFeesText() {
         configurePointOfSaleAirlinesChargeAdditionalFees()
 
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         sut.offerSelectedChargesObFeesSubject.subscribe(testSubscriber)
 
         sut.showChargesObFeesSubject.onNext(true)
@@ -265,7 +265,7 @@ class FlightOffersViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testFlightChargesObFeesPosNotAirlineSpecific() {
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         sut.offerSelectedChargesObFeesSubject.subscribe(testSubscriber)
 
         sut.showChargesObFeesSubject.onNext(true)
@@ -275,8 +275,8 @@ class FlightOffersViewModelTest {
 
     @Test
     fun testRoundTripFlightOfferSelection() {
-        val offerSelectedSubscriber = TestObserver<FlightTripDetails.FlightOffer>()
-        val flightProductIdSubscriber = TestObserver<String>()
+        val offerSelectedSubscriber = TestSubscriber<FlightTripDetails.FlightOffer>()
+        val flightProductIdSubscriber = TestSubscriber<String>()
 
         isRoundTripSearchSubject.onNext(true)
         performFlightSearch(roundTrip = true)
@@ -305,8 +305,8 @@ class FlightOffersViewModelTest {
 
     @Test
     fun testOnewWayFlightOfferSelection() {
-        val offerSelectedSubscriber = TestObserver<FlightTripDetails.FlightOffer>()
-        val flightProductIdSubscriber = TestObserver<String>()
+        val offerSelectedSubscriber = TestSubscriber<FlightTripDetails.FlightOffer>()
+        val flightProductIdSubscriber = TestSubscriber<String>()
 
         isRoundTripSearchSubject.onNext(false)
         performFlightSearch(roundTrip = false)
@@ -328,7 +328,7 @@ class FlightOffersViewModelTest {
 
     @Test
     fun testFlightOfferFiredBeforeConfirmedSelection() {
-        val offerSelectedSubscriber = TestObserver<FlightTripDetails.FlightOffer>()
+        val offerSelectedSubscriber = TestSubscriber<FlightTripDetails.FlightOffer>()
         sut.flightOfferSelected.subscribe(offerSelectedSubscriber)
 
         performFlightSearch(roundTrip = true)
@@ -343,7 +343,7 @@ class FlightOffersViewModelTest {
 
     @Test
     fun testOutboundFlightMap(){
-        val testSubscriber = TestObserver<List<FlightLeg>>()
+        val testSubscriber = TestSubscriber<List<FlightLeg>>()
         sut.outboundResultsObservable.subscribe(testSubscriber)
 
         performFlightSearch(true)
@@ -370,13 +370,13 @@ class FlightOffersViewModelTest {
     fun testInboundFlightMap() {
         val firstOutboundFlightId = "leg1"
         val secondOutboundFlightId = "34fa89938312d0fd8322ee27cb89f8a1"
-        val searchSubscriber = TestObserver<List<FlightLeg>>()
+        val searchSubscriber = TestSubscriber<List<FlightLeg>>()
         sut.outboundResultsObservable.subscribe(searchSubscriber)
 
         performFlightSearch(true)
         searchSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
 
-        val testSubscriber = TestObserver<List<FlightLeg>>()
+        val testSubscriber = TestSubscriber<List<FlightLeg>>()
         sut.inboundResultsObservable.take(2).subscribe(testSubscriber)
 
         sut.confirmedOutboundFlightSelection.onNext(makeFlightLegWithOBFees(firstOutboundFlightId))
@@ -453,7 +453,7 @@ class FlightOffersViewModelTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         flightServices = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 
     private fun getDummySuggestion(): SuggestionV4 {
@@ -478,7 +478,7 @@ class FlightOffersViewModelTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         flightServices = TestFlightServiceSearchThrowsException("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 
     private fun getMakeResultsObserver(): Observer<FlightSearchResponse> {
@@ -490,10 +490,10 @@ class FlightOffersViewModelTest {
     class TestFlightServiceSearchThrowsException(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, observeOn: Scheduler, subscribeOn: Scheduler) : FlightServices(endpoint, okHttpClient, interceptor, observeOn, subscribeOn) {
         var searchCount = 0
 
-        override fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>?): Disposable {
+        override fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>?): Subscription {
             searchCount++
             observer.onError(IOException())
-            return Mockito.mock(Disposable::class.java)
+            return Mockito.mock(Subscription::class.java)
         }
     }
 

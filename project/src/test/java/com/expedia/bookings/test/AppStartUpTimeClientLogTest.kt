@@ -17,7 +17,7 @@ import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
-import io.reactivex.schedulers.Schedulers
+import rx.schedulers.Schedulers
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -37,7 +37,7 @@ class AppStartUpTimeClientLogTest {
         val interceptor = MockInterceptor()
         clientLogServices = ClientLogServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
 
         val dispatcher = object : Dispatcher() {
             @Throws(InterruptedException::class)

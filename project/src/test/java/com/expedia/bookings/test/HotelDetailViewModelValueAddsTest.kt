@@ -20,8 +20,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
-import io.reactivex.schedulers.Schedulers
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
 import java.io.File
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -42,21 +42,16 @@ class HotelDetailViewModelValueAddsTest {
         val interceptor = MockInterceptor()
         service = HotelServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-<<<<<<< HEAD
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
         vm = HotelDetailViewModel(activity.applicationContext,
                 HotelInfoManager(Mockito.mock(HotelServices::class.java)))
-=======
-                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
-        vm = HotelDetailViewModel(activity.applicationContext)
->>>>>>> 0e8f08fc73... WIP
     }
 
-    private fun setUpTest(): TestObserver<HotelOffersResponse> {
+    private fun setUpTest(): TestSubscriber<HotelOffersResponse> {
         val root = File("../lib/mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
         server.setDispatcher(ExpediaDispatcher(opener))
-        val observer = TestObserver<HotelOffersResponse>()
+        val observer = TestSubscriber<HotelOffersResponse>()
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
         val suggestion = SuggestionV4()
         suggestion.coordinates = SuggestionV4.LatLng()
@@ -78,7 +73,7 @@ class HotelDetailViewModelValueAddsTest {
 
         val offerResponse = observer.onNextEvents[0]
 
-        val testSubscriber = TestObserver<String>()
+        val testSubscriber = TestSubscriber<String>()
         val expected = arrayListOf<String>()
         vm.commonAmenityTextObservable.subscribe(testSubscriber)
 
@@ -88,7 +83,7 @@ class HotelDetailViewModelValueAddsTest {
         expected.add("All rooms include free airport shuttle")
 
         testSubscriber.assertReceivedOnNext(expected)
-        testSubscriber.dispose()
+        testSubscriber.unsubscribe()
     }
 
     @Test

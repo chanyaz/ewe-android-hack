@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -76,7 +76,7 @@ class FlightErrorViewModelTest {
     }
 
     private fun assertButtonTextMatchesCheckoutError(apiError: ApiError, errorMessage: String) {
-        val errorButtonTextSubscriber = TestObserver.create<String>()
+        val errorButtonTextSubscriber = TestSubscriber.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonTextSubscriber)
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
@@ -86,23 +86,23 @@ class FlightErrorViewModelTest {
     }
 
     private fun assertErrorMessageMatchesCheckoutError(apiError: ApiError, errorMessage: String) {
-        val errorMessageObservableTestObserver = TestObserver.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestObserver)
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        errorMessageObservableTestObserver.awaitTerminalEvent(100, TimeUnit.MILLISECONDS)
+        errorMessageObservableTestSubscriber.awaitTerminalEvent(100, TimeUnit.MILLISECONDS)
 
-        errorMessageObservableTestObserver.assertValue(errorMessage)
+        errorMessageObservableTestSubscriber.assertValue(errorMessage)
     }
 
     fun observableEmissionsOnSearchError(apiError: ApiError) {
-        val errorMessageObservableTestObserver = TestObserver.create<String>()
-        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestObserver)
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
         subjectUnderTest.searchApiErrorObserver.onNext(apiError)
-        errorMessageObservableTestObserver.awaitTerminalEvent(100, TimeUnit.MILLISECONDS)
+        errorMessageObservableTestSubscriber.awaitTerminalEvent(100, TimeUnit.MILLISECONDS)
 
-        errorMessageObservableTestObserver.assertValue(getContext().getString(R.string.error_no_result_message))
+        errorMessageObservableTestSubscriber.assertValue(getContext().getString(R.string.error_no_result_message))
     }
 
     @Test fun toolBarTitleAndSubTitle() {

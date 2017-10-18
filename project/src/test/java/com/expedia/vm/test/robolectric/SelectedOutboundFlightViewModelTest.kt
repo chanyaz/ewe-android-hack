@@ -12,8 +12,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import com.expedia.bookings.services.TestObserver
-import io.reactivex.subjects.PublishSubject
+import rx.observers.TestSubscriber
+import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -34,7 +34,7 @@ class SelectedOutboundFlightViewModelTest {
 
     @Test
     fun airlineName() {
-        val testSubscriber = TestObserver.create<String>()
+        val testSubscriber = TestSubscriber.create<String>()
         sut.airlineNameObservable.subscribe(testSubscriber)
 
         val flightLeg = createFakeFlightLeg()
@@ -50,7 +50,7 @@ class SelectedOutboundFlightViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
             MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun arrivalDepartureTimeAndDuration() {
-        val testSubscriber = TestObserver.create<String>()
+        val testSubscriber = TestSubscriber.create<String>()
         sut.arrivalDepartureTimeObservable.subscribe(testSubscriber)
 
         mockFlightSelectedSubject.onNext(createFakeFlightLeg())

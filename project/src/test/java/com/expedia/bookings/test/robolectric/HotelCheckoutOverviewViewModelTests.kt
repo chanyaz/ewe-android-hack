@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -71,8 +71,8 @@ class HotelCheckoutOverviewViewModelTest {
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun totalPriceCharged() {
-        val totalPriceChargedSubscriber = TestObserver.create<String>()
-        val paymentSplitsSubscriber = TestObserver.create<PaymentSplits>()
+        val totalPriceChargedSubscriber = TestSubscriber.create<String>()
+        val paymentSplitsSubscriber = TestSubscriber.create<PaymentSplits>()
         sut.priceAboveSlider.subscribe(totalPriceChargedSubscriber)
         sut.paymentModel.paymentSplits.subscribe(paymentSplitsSubscriber)
 

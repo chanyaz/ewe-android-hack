@@ -13,7 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -30,7 +30,7 @@ class PackageSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
         sut.performSearchObserver.onNext(getDummyPackageSearchParams())
-        val testSubscriber = TestObserver.create<Unit>()
+        val testSubscriber = TestSubscriber.create<Unit>()
         SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
             testSubscriber.onNext(Unit)
             assertNotNull(loadedParams)

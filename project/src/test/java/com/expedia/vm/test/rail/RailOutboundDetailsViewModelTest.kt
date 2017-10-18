@@ -13,7 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -30,17 +30,17 @@ class RailOutboundDetailsViewModelTest {
         viewModel.railResultsObservable.onNext(mockSearchResponse)
 
         val leg = mockLegOption()
-        val overtakenTestObserver = TestObserver.create<Boolean>()
-        viewModel.overtaken.subscribe(overtakenTestObserver)
+        val overtakenTestSubscriber = TestSubscriber.create<Boolean>()
+        viewModel.overtaken.subscribe(overtakenTestSubscriber)
 
         viewModel.railLegOptionSubject.onNext(leg)
-        overtakenTestObserver.assertValueCount(1)
-        assertFalse(overtakenTestObserver.onNextEvents[0])
+        overtakenTestSubscriber.assertValueCount(1)
+        assertFalse(overtakenTestSubscriber.onNextEvents[0])
 
         leg.overtakenJourney = true
         viewModel.railLegOptionSubject.onNext(leg)
-        overtakenTestObserver.assertValueCount(2)
-        assertTrue(overtakenTestObserver.onNextEvents[1])
+        overtakenTestSubscriber.assertValueCount(2)
+        assertTrue(overtakenTestSubscriber.onNextEvents[1])
     }
 
     @Test
@@ -48,7 +48,7 @@ class RailOutboundDetailsViewModelTest {
         val OFFERS_FOR_LEG_OPTION = 6
         val EXPECTED_FILTERED_OFFER_LIST_SIZE = 4
 
-        val offerPairSubscriber = TestObserver.create<Pair<List<RailOffer>, Money?>>()
+        val offerPairSubscriber = TestSubscriber.create<Pair<List<RailOffer>, Money?>>()
         viewModel.railOffersAndInboundCheapestPricePairSubject.subscribe(offerPairSubscriber)
 
         val mockSearchResponse = mockSearchResponse()

@@ -54,7 +54,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -73,9 +73,9 @@ class PaymentWidgetV2Test {
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
-    private val travelerFirstNameTestObserver = TestObserver<AccessibleEditText>()
-    private val travelerLastNameTestObserver = TestObserver<AccessibleEditText>()
-    private val populateCardholderTestObserver = TestObserver<String>()
+    private val travelerFirstNameTestSubscriber = TestSubscriber<AccessibleEditText>()
+    private val travelerLastNameTestSubscriber = TestSubscriber<AccessibleEditText>()
+    private val populateCardholderTestSubscriber = TestSubscriber<String>()
 
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
     private var shopWithPointsViewModel: ShopWithPointsViewModel by Delegates.notNull()
@@ -164,7 +164,7 @@ class PaymentWidgetV2Test {
 
         viewModel.travelerFirstName.onNext(firstNameEditText)
         viewModel.travelerLastName.onNext(lastNameEditText)
-        assertEquals("", populateCardholderTestObserver.onNextEvents[0])
+        assertEquals("", populateCardholderTestSubscriber.onNextEvents[0])
         sut.populateCardholderName()
         assertEquals("", sut.creditCardName.text.toString())
     }
@@ -177,7 +177,7 @@ class PaymentWidgetV2Test {
         lastNameEditText.setText("Lee")
         viewModel.travelerFirstName.onNext(firstNameEditText)
         viewModel.travelerLastName.onNext(lastNameEditText)
-        assertEquals("", populateCardholderTestObserver.onNextEvents[0])
+        assertEquals("", populateCardholderTestSubscriber.onNextEvents[0])
         sut.populateCardholderName()
         assertEquals("", sut.creditCardName.text.toString())
     }
@@ -190,8 +190,8 @@ class PaymentWidgetV2Test {
         lastNameEditText.setText("Lee")
         viewModel.travelerFirstName.onNext(firstNameEditText)
         viewModel.travelerLastName.onNext(lastNameEditText)
-        assertTrue(populateCardholderTestObserver.onNextEvents.size == 2)
-        assertEquals("Bob Lee", populateCardholderTestObserver.onNextEvents[1])
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 2)
+        assertEquals("Bob Lee", populateCardholderTestSubscriber.onNextEvents[1])
         sut.populateCardholderName()
         assertEquals("Bob Lee", sut.creditCardName.text.toString())
 
@@ -214,8 +214,8 @@ class PaymentWidgetV2Test {
         lastNameEditText.setText("Lee")
         viewModel.travelerFirstName.onNext(firstNameEditText)
         viewModel.travelerLastName.onNext(lastNameEditText)
-        assertTrue(populateCardholderTestObserver.onNextEvents.size == 2)
-        assertEquals("Lee Bob", populateCardholderTestObserver.onNextEvents[1])
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 2)
+        assertEquals("Lee Bob", populateCardholderTestSubscriber.onNextEvents[1])
         sut.populateCardholderName()
         assertEquals("Lee Bob", sut.creditCardName.text.toString())
         setPOSWithReversedName(false)
@@ -230,8 +230,8 @@ class PaymentWidgetV2Test {
         lastNameEditText.setText("Bob")
         viewModel.travelerFirstName.onNext(firstNameEditText)
         viewModel.travelerLastName.onNext(lastNameEditText)
-        assertTrue(populateCardholderTestObserver.onNextEvents.size == 2)
-        assertEquals("Lee Bob", populateCardholderTestObserver.onNextEvents[1])
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 2)
+        assertEquals("Lee Bob", populateCardholderTestSubscriber.onNextEvents[1])
         sut.populateCardholderName()
         assertEquals("Lee Bob", sut.creditCardName.text.toString())
 
@@ -242,8 +242,8 @@ class PaymentWidgetV2Test {
         lastNameEditText.setText("Shmo")
         viewModel.travelerFirstName.onNext(firstNameEditText)
         viewModel.travelerLastName.onNext(lastNameEditText)
-        assertTrue(populateCardholderTestObserver.onNextEvents.size == 4)
-        assertEquals("Joe Shmo", populateCardholderTestObserver.onNextEvents[2])
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 4)
+        assertEquals("Joe Shmo", populateCardholderTestSubscriber.onNextEvents[2])
         sut.populateCardholderName()
         assertEquals("Joe Shmo", sut.creditCardName.text.toString())
     }
@@ -391,7 +391,9 @@ class PaymentWidgetV2Test {
     private fun setUserWithStoredCard() {
         val user = User()
         user.addStoredCreditCard(getNewCard())
-        Db.setUser(user)
+
+        val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
+        userStateManager.userSource.user = user
 
         sut.viewmodel.isCreditCardRequired.onNext(true)
         sut.sectionBillingInfo.bind(BillingInfo())
@@ -410,15 +412,15 @@ class PaymentWidgetV2Test {
     }
 
     private fun setupCardholderNameSubscriptions() {
-        viewModel.travelerFirstName.subscribe(travelerFirstNameTestObserver)
-        viewModel.travelerLastName.subscribe(travelerLastNameTestObserver)
-        viewModel.populateCardholderNameObservable.subscribe(populateCardholderTestObserver)
+        viewModel.travelerFirstName.subscribe(travelerFirstNameTestSubscriber)
+        viewModel.travelerLastName.subscribe(travelerLastNameTestSubscriber)
+        viewModel.populateCardholderNameObservable.subscribe(populateCardholderTestSubscriber)
 
         firstNameEditText = AccessibleEditText(activity.applicationContext, attributeSet = null)
         lastNameEditText = AccessibleEditText(activity.applicationContext, attributeSet = null)
 
-        assertTrue(populateCardholderTestObserver.onNextEvents.size == 1)
-        assertEquals("", populateCardholderTestObserver.onNextEvents[0])
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 1)
+        assertEquals("", populateCardholderTestSubscriber.onNextEvents[0])
     }
 
     private fun setPOSWithReversedName(enable: Boolean) {

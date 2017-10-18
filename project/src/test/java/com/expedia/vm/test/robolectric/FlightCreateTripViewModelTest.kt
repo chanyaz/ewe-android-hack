@@ -24,9 +24,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
+import rx.subjects.PublishSubject
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -64,15 +64,9 @@ class FlightCreateTripViewModelTest {
         givenGoodCreateTripParams()
         assertNull(Db.getTripBucket().flightV2)
 
-<<<<<<< HEAD
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
         sut.createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
-=======
-        val tripResponseSubscriber = TestObserver<TripResponse>()
-        val showCreateTripDialogSubscriber = TestObserver<Boolean>()
-        sut.createTripResponseObservable.subscribe(tripResponseSubscriber)
->>>>>>> 7df61dae81... WIP
         sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
 
         sut.tripParams.onNext(params)
@@ -88,17 +82,10 @@ class FlightCreateTripViewModelTest {
     fun createTripError() {
         givenCreateTripResponseError()
 
-<<<<<<< HEAD
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
         val errorSubscriber = TestSubscriber<ApiError>()
         sut.createTripResponseObservable.map { it.value }.subscribe(tripResponseSubscriber)
-=======
-        val tripResponseSubscriber = TestObserver<TripResponse>()
-        val showCreateTripDialogSubscriber = TestObserver<Boolean>()
-        val errorSubscriber = TestObserver<ApiError>()
-        sut.createTripResponseObservable.subscribe(tripResponseSubscriber)
->>>>>>> 7df61dae81... WIP
         sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
         sut.createTripErrorObservable.subscribe(errorSubscriber)
 
@@ -114,18 +101,18 @@ class FlightCreateTripViewModelTest {
 
     @Test
     fun networkErrorDialogCancel() {
-        val noInternetTestObserver = TestObserver<Unit>()
+        val noInternetTestSubscriber = TestSubscriber<Unit>()
         givenGoodCreateTripParams()
 
-        sut.showNoInternetRetryDialog.subscribe(noInternetTestObserver)
+        sut.showNoInternetRetryDialog.subscribe(noInternetTestSubscriber)
         givenCreateTripCallWithIOException()
 
-        noInternetTestObserver.assertValueCount(1)
+        noInternetTestSubscriber.assertValueCount(1)
     }
 
     @Test
     fun networkErrorDialogRetry() {
-        val testSubscriber = TestObserver<Unit>()
+        val testSubscriber = TestSubscriber<Unit>()
         givenGoodCreateTripParams()
 
         sut.showNoInternetRetryDialog.subscribe(testSubscriber)
@@ -173,7 +160,7 @@ class FlightCreateTripViewModelTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         flightServices = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 
 }

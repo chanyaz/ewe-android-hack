@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -15,6 +14,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.Ui
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.ShopWithPointsViewModel
 import org.junit.Before
@@ -23,7 +23,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -50,7 +50,7 @@ class ShopWithPointsViewModelTest {
     fun loggedOutUser() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
-        val testObserver: TestObserver<Boolean> = TestObserver.create()
+        val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
         assertTrue(shopWithPointsViewModel.shopWithPointsToggleObservable.value)
@@ -63,7 +63,7 @@ class ShopWithPointsViewModelTest {
         UserLoginTestUtil.setupUserAndMockLogin(getUserEnrolledInRewardsWithNoPoints())
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
-        val testObserver: TestObserver<Boolean> = TestObserver.create()
+        val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
         assertTrue(shopWithPointsViewModel.shopWithPointsToggleObservable.value)
@@ -76,10 +76,10 @@ class ShopWithPointsViewModelTest {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
 
-        val testObserver: TestObserver<Boolean> = TestObserver.create()
+        val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
-        val testPointsDetailStringObserver: TestObserver<String> = TestObserver.create()
+        val testPointsDetailStringObserver: TestSubscriber<String> = TestSubscriber.create()
         shopWithPointsViewModel.pointsDetailStringObservable.subscribe(testPointsDetailStringObserver)
 
         assertTrue(shopWithPointsViewModel.shopWithPointsToggleObservable.value)
@@ -95,24 +95,26 @@ class ShopWithPointsViewModelTest {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
 
-        val testObserver: TestObserver<Boolean> = TestObserver.create()
+        val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
         shopWithPointsViewModel.isShopWithPointsAvailableObservable.subscribe(testObserver)
 
-        val testPointsDetailStringObserver: TestObserver<String> = TestObserver.create()
+        val testPointsDetailStringObserver: TestSubscriber<String> = TestSubscriber.create()
         shopWithPointsViewModel.pointsDetailStringObservable.subscribe(testPointsDetailStringObserver)
 
         assertTrue(shopWithPointsViewModel.shopWithPointsToggleObservable.value)
         assertTrue(testObserver.onNextEvents[0])
         assertEquals("You have 4,444 points", testPointsDetailStringObserver.onNextEvents[0])
 
+        val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
         user.loyaltyMembershipInformation?.loyaltyPointsAvailable = 3600.0
-        Db.setUser(user)
+        userStateManager.userSource.user = user
         userLoginStateChangedModel.userLoginStateChanged.onNext(true)
         assertTrue(testObserver.onNextEvents[1])
         assertEquals("You have 3,600 points", testPointsDetailStringObserver.onNextEvents[1])
 
         user.loyaltyMembershipInformation?.isAllowedToShopWithPoints = false
-        Db.setUser(user)
+        userStateManager.userSource.user = user
         userLoginStateChangedModel.userLoginStateChanged.onNext(true)
         assertFalse(testObserver.onNextEvents[2])
     }
@@ -121,7 +123,7 @@ class ShopWithPointsViewModelTest {
     fun loyaltyHeaderChangeTest() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
-        val headerTestObservable = TestObserver.create<String>()
+        val headerTestObservable = TestSubscriber.create<String>()
         shopWithPointsViewModel.swpHeaderStringObservable.subscribe(headerTestObservable)
 
         assertEquals(context.getString(R.string.swp_on_widget_header), headerTestObservable.onNextEvents[0])

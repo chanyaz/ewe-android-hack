@@ -26,9 +26,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import io.reactivex.Scheduler
-import com.expedia.bookings.services.TestObserver
-import io.reactivex.schedulers.Schedulers
+import rx.Scheduler
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -58,7 +58,7 @@ class FlightCheckoutErrorTest {
         val interceptor = MockInterceptor()
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
 
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.FlightTheme)
@@ -76,7 +76,7 @@ class FlightCheckoutErrorTest {
     @Test
     fun testTripAlreadyBooked() {
         createCheckoutParams("tealeafFlight:trip_already_booked", "trip_already_booked", "")
-        val testSubscriber = TestObserver<ApiError>()
+        val testSubscriber = TestSubscriber<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
@@ -88,7 +88,7 @@ class FlightCheckoutErrorTest {
     @Test
     fun testPaymentFailed() {
         createCheckoutParams("tealeafFlight:payment_failed", "payment_failed", "")
-        val testSubscriber = TestObserver<ApiError>()
+        val testSubscriber = TestSubscriber<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
@@ -100,7 +100,7 @@ class FlightCheckoutErrorTest {
     @Test
     fun testSessionTimeOut() {
         createCheckoutParams("tealeafFlight:session_timeout", "session_timeout", "")
-        val testSubscriber = TestObserver<ApiError>()
+        val testSubscriber = TestSubscriber<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
@@ -112,7 +112,7 @@ class FlightCheckoutErrorTest {
     @Test
     fun testUnknownError() {
         createCheckoutParams("tealeafFlight:UNKNOWN_ERROR", "UNKNOWN_ERROR", "unknownerror")
-        val testSubscriber = TestObserver<ApiError>()
+        val testSubscriber = TestSubscriber<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
@@ -124,7 +124,7 @@ class FlightCheckoutErrorTest {
     @Test
     fun testInvalidInput() {
         createCheckoutParams("tealeafFlight:invalid_input", "invalid_input", "")
-        val testSubscriber = TestObserver<ApiError>()
+        val testSubscriber = TestSubscriber<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
 
@@ -184,7 +184,7 @@ class FlightCheckoutErrorTest {
 
     class TestFlightCheckoutViewModelClass(context: Context) : FlightCheckoutViewModel(context) {
         override fun getScheduler(): Scheduler {
-            return Schedulers.trampoline()
+            return Schedulers.immediate()
         }
     }
 

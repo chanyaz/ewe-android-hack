@@ -34,12 +34,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
-<<<<<<< HEAD
 import rx.subjects.BehaviorSubject
-=======
-import io.reactivex.subjects.BehaviorSubject
-import java.util.ArrayList
->>>>>>> e2a043f747... WIP
 import kotlin.test.assertEquals
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber

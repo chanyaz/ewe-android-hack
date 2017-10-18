@@ -127,7 +127,7 @@ class LXResultsPresenterTest {
         assertEquals("Sort", filterText.text)
         filterText.performClick()
         assertNotNull(lxResultsPresenter.searchSubscription)
-        assertEquals(false, lxResultsPresenter.searchSubscription.isDisposed)
+        assertEquals(false, lxResultsPresenter.searchSubscription.isUnsubscribed)
 
         lxCategoriesABTest(AbacusUtils.DefaultVariant.CONTROL)
 
@@ -188,8 +188,8 @@ class LXResultsPresenterTest {
         assertEquals(View.GONE, errorScreen.visibility)
         assertEquals(View.GONE, themeResultsWidget.visibility)
         assertEquals(View.VISIBLE, filterIcon.visibility)
-        searResultObserver.onComplete()
-        assertEquals(true, lxResultsPresenter.searchSubscription.isDisposed)
+        searResultObserver.onCompleted()
+        assertEquals(true, lxResultsPresenter.searchSubscription.isUnsubscribed)
 
     }
 

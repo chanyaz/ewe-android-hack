@@ -23,7 +23,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
+import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -34,15 +34,9 @@ class LaunchScreenAirAttachViewModelTest {
     lateinit private var view: View
     lateinit private var context: Context
 
-<<<<<<< HEAD
     val firstLineSubscriber = TestSubscriber<String>()
     val secondLineSubscriber = TestSubscriber<String>()
     val offerExpiresSubscriber = TestSubscriber<String>()
-=======
-    val firstLineSubsciber = TestObserver<String>()
-    val secondLineSubsciber = TestObserver<String>()
-    val offerExpiresSubsciber = TestObserver<String>()
->>>>>>> 5abc89409b... WIP
 
     @Before
     fun before() {
