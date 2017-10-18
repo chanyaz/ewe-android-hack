@@ -76,6 +76,14 @@ object LocaleBasedDateFormatUtils {
         }
     }
 
+    @JvmStatic fun dateTimeToEEEMMMd(date: DateTime): String {
+        if (isUserBucketed) {
+            return formatDateTimeBasedOnLocale(date, "EEE, MMM d")
+        } else {
+            return date.toString("EEE, MMM d")
+        }
+    }
+
     private fun formatLocalDateBasedOnLocale(date: LocalDate, pattern: String): String {
         var formattedDate: String
         try {

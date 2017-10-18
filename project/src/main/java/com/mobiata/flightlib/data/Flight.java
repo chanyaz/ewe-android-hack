@@ -17,6 +17,7 @@ import android.text.TextUtils;
 
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.time.util.JodaUtils;
 
 public class Flight implements Comparable<Flight>, JSONable {
 
@@ -431,6 +432,17 @@ public class Flight implements Comparable<Flight>, JSONable {
 		// Set the last updated time
 		mLastUpdated = DateTime.now().getMillis();
 
+	}
+	public boolean hasRedEye() {
+		DateTime originDay = getOriginWaypoint().getBestSearchDateTime();
+		DateTime destinationDay = getDestinationWaypoint().getBestSearchDateTime();
+		return JodaUtils.daysBetween(originDay,destinationDay) != 0;
+	}
+
+	public int daySpan() {
+		DateTime originDay = getOriginWaypoint().getBestSearchDateTime();
+		DateTime destinationDay = getDestinationWaypoint().getBestSearchDateTime();
+		return JodaUtils.daysBetween(originDay,destinationDay);
 	}
 
 	private void updateTripItDataFrom(Flight another) {

@@ -15,33 +15,24 @@ import com.squareup.picasso.Picasso
 
 class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
-    @VisibleForTesting
-    val airlineLogo: ImageView by bindView(R.id.flight_itin_airline_logo)
-    @VisibleForTesting
-    val airlineNameAndNumber: TextView by bindView(R.id.flight_itin_airline_name)
-    @VisibleForTesting
-    val operatedByAirlines: TextView by bindView(R.id.flight_itin_airline_operated_by)
+    @VisibleForTesting val airlineLogo: ImageView by bindView(R.id.flight_itin_airline_logo)
+    @VisibleForTesting val airlineNameAndNumber: TextView by bindView(R.id.flight_itin_airline_name)
+    @VisibleForTesting val operatedByAirlines: TextView by bindView(R.id.flight_itin_airline_operated_by)
 
-    @VisibleForTesting
-    val departureTime: TextView by bindView(R.id.flight_itin_departure_time)
-    @VisibleForTesting
-    val departureAirport: TextView by bindView(R.id.flight_itin_departure_airport)
-    @VisibleForTesting
-    val arrivalTime: TextView by bindView(R.id.flight_itin_arrival_time)
-    @VisibleForTesting
-    val arrivalAirport: TextView by bindView(R.id.flight_itin_arrival_airport)
-    @VisibleForTesting
-    val departureTerminalGate: TextView by bindView(R.id.flight_itin_departure_terminal_gate)
-    @VisibleForTesting
-    val arrivalTerminalGate: TextView by bindView(R.id.flight_itin_arrival_terminal_gate)
+    @VisibleForTesting val departureTime: TextView by bindView(R.id.flight_itin_departure_time)
+    @VisibleForTesting val departureAirport: TextView by bindView(R.id.flight_itin_departure_airport)
+    @VisibleForTesting val arrivalTime: TextView by bindView(R.id.flight_itin_arrival_time)
+    @VisibleForTesting val arrivalAirport: TextView by bindView(R.id.flight_itin_arrival_airport)
+    @VisibleForTesting val departureTerminalGate: TextView by bindView(R.id.flight_itin_departure_terminal_gate)
+    @VisibleForTesting val arrivalTerminalGate: TextView by bindView(R.id.flight_itin_arrival_terminal_gate)
 
-    @VisibleForTesting
-    val seats: TextView by bindView(R.id.flight_itin_seating)
-    @VisibleForTesting
-    val cabin: TextView by bindView(R.id.flight_itin_cabin)
-    @VisibleForTesting
-    val seatConfirmation: TextView by bindView(R.id.flight_seating_class)
+    @VisibleForTesting val seats: TextView by bindView(R.id.flight_itin_seating)
+    @VisibleForTesting val cabin: TextView by bindView(R.id.flight_itin_cabin)
+    @VisibleForTesting val seatConfirmation: TextView by bindView(R.id.flight_seating_class)
 
+    @VisibleForTesting val arrivalRedEye: TextView by bindView(R.id.arrival_red_eye)
+    @VisibleForTesting val departureRedEye: TextView by bindView(R.id.departure_red_eye)
+    @VisibleForTesting val redEyeDays: TextView by bindView(R.id.red_eye_days)
 
     var viewModel: FlightItinSegmentSummaryViewModel by notNullAndObservable { vm ->
         vm.createAirlineWidgetSubject.subscribe { params ->
@@ -62,6 +53,21 @@ class FlightItinSegmentSummaryWidget(context: Context, attrs: AttributeSet?) : L
             arrivalTime.text = params.arrivalTime
             departureAirport.text = params.departureAirport
             arrivalAirport.text = params.arrivalAirport
+        }
+
+        vm.createRedEyeWidgetSubject.subscribe { params ->
+            if(!params.redEyeDays.isNullOrEmpty()){
+                redEyeDays.visibility = View.VISIBLE
+                redEyeDays.text = params.redEyeDays
+            }
+            if(!params.arrivalRedEye.isNullOrEmpty()){
+                arrivalRedEye.visibility = View.VISIBLE
+                arrivalRedEye.text = params.arrivalRedEye
+            }
+            if(!params.departureRedEye.isNullOrEmpty()){
+                departureRedEye.visibility = View.VISIBLE
+                departureRedEye.text = params.departureRedEye
+            }
         }
 
 

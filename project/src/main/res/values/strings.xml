@@ -1415,6 +1415,8 @@
     <string name="confirm_seat_selection">Confirm or change seats with airline</string>
     <!-- displayed when seats can be selected but have not yet -->
     <string name="select_seat_prompt">No seats selected</string>
+    <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
+    <string name="itin_flight_summary_arrives_on_TEMPLATE">Arrives on {date}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

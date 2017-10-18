@@ -84,6 +84,17 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/departure_red_eye"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray600"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:text="Fri, Oct 2"/>
+
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_itin_departure_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -143,14 +154,43 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/flight_itin_arrival_time"
+                    android:id="@+id/arrival_red_eye"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="6dp"
-                    android:textColor="@color/gray900"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    tools:text="8:45am" />
+                    android:gravity="right"
+                    android:textSize="12sp"
+                    android:textColor="@color/error_red"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:text="Arrives on Sat, Oct 3"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="right"
+                    android:layout_marginBottom="4dp">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/flight_itin_arrival_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray900"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="8:45am" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/red_eye_days"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/error_red"
+                        android:textSize="12sp"
+                        android:paddingLeft="3dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        tools:text="+1" />
+                </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_itin_arrival_airport"
@@ -218,6 +258,7 @@
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:visibility="gone"
+                tools:visibility="visible"
                 tools:text="Confirm or change seats with airline"/>
         </RelativeLayout>
     </LinearLayout>

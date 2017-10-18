@@ -25,7 +25,8 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
             var arrivalGate: String?,
             val seats: String,
             val cabinCode: String,
-            val seatConfirmation: String?
+            val seatConfirmation: String?,
+            val redEyeDays: String?
     )
 
     data class AirlineWidgetParams(
@@ -39,6 +40,12 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
             val arrivalTime: String,
             val departureAirport: String,
             val arrivalAirport: String
+    )
+
+    data class RedEyeParams(
+            val departureRedEye: String?,
+            val arrivalRedEye: String?,
+            val redEyeDays: String?
     )
 
     data class TerminalGateParams(
@@ -56,10 +63,18 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
     val createTimingWidgetSubject: PublishSubject<TimingWidgetParams> = PublishSubject.create<TimingWidgetParams>()
     val updateTerminalGateSubject: PublishSubject<TerminalGateParams> = PublishSubject.create<TerminalGateParams>()
     val createSeatingWidgetSubject: PublishSubject<SeatingWidgetParams> = PublishSubject.create<SeatingWidgetParams>()
+    val createRedEyeWidgetSubject: PublishSubject<RedEyeParams> = PublishSubject.create<RedEyeParams>()
 
     fun updateWidget(summaryWidgetParams: SummaryWidgetParams) {
         val logoUrl = summaryWidgetParams.airlineLogoURL
         var operatedBy = summaryWidgetParams.operatedByAirlines
+        var arrivalRedEye: String? = null
+        var departureRedEye: String? = null
+        if(!summaryWidgetParams.redEyeDays.isNullOrEmpty()) {
+            departureRedEye = LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(summaryWidgetParams.departureTime)
+            arrivalRedEye = Phrase.from(context, R.string.itin_flight_summary_arrives_on_TEMPLATE).
+                    put("date", LocaleBasedDateFormatUtils.dateTimeToEEEMMMd(summaryWidgetParams.arrivalTime)).format().toString()
+        }
         if (operatedBy != null) {
             operatedBy = Phrase.from(context, R.string.itin_flight_summary_operated_by_TEMPLATE).put("operatedby", operatedBy).format().toString()
         }
@@ -78,6 +93,12 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
                 Phrase.from(context, R.string.itin_flight_summary_airport_name_code_TEMPLATE)
                         .put("city", summaryWidgetParams.arrivalAirportCity)
                         .put("code", summaryWidgetParams.arrivalAirportCode).format().toString()
+        ))
+
+        createRedEyeWidgetSubject.onNext(RedEyeParams(
+                departureRedEye,
+                arrivalRedEye,
+                summaryWidgetParams.redEyeDays
         ))
 
 

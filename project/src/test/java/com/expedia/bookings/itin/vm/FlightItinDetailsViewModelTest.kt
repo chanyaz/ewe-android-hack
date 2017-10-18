@@ -122,8 +122,8 @@ class FlightItinDetailsViewModelTest {
                 null,
                 "22F",
                 " • Economy / Coach",
-                "Confirm or change seats with airline"
-
+                "Confirm or change seats with airline",
+                null
         ))
     }
     @Test
@@ -159,6 +159,7 @@ class FlightItinDetailsViewModelTest {
                 null,
                 "Seat selection not available",
                 " • Economy / Coach",
+                null,
                 null
         ))
     }
@@ -194,7 +195,45 @@ class FlightItinDetailsViewModelTest {
                 null,
                 "No seats selected",
                 " • Economy / Coach",
+                null,
                 null
+        ))
+    }
+
+    @Test
+    fun testUpdateLegSummaryWithRedEye() {
+        sut.clearLegSummaryContainerSubject.subscribe(clearLegSummaryContainerSubscriber)
+        sut.createSegmentSummaryWidgetsSubject.subscribe(createLegSummaryWidgetsSubscriber)
+
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val dateTime = DateTime.now()
+        testItinCardData.flightLeg.segments[0].originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
+        testItinCardData.flightLeg.segments[0].originWaypoint.gate = "52A"
+        testItinCardData.flightLeg.segments[0].destinationWaypoint = TestWayPoint("LAS", "Las Vegas", dateTime.plusDays(1))
+        testItinCardData.flightLeg.segments[0].removeSeat(0)
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateLegSummaryWidget()
+        clearLegSummaryContainerSubscriber.assertValueCount(1)
+        clearLegSummaryContainerSubscriber.assertValue(Unit)
+        createLegSummaryWidgetsSubscriber.assertValueCount(1)
+        createLegSummaryWidgetsSubscriber.assertValue(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
+                "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+                "United Airlines 681",
+                "COMPASS AIRLINES",
+                dateTime,
+                dateTime.plusDays(1),
+                "SFO",
+                "San Francisco",
+                "LAS",
+                "Las Vegas",
+                null,
+                "52A",
+                "3",
+                null,
+                "No seats selected",
+                " • Economy / Coach",
+                null,
+                "+1"
         ))
     }
 
@@ -231,6 +270,7 @@ class FlightItinDetailsViewModelTest {
                 null,
                 "No seats selected",
                 " • Economy / Coach",
+                null,
                 null
         ), FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
@@ -248,6 +288,7 @@ class FlightItinDetailsViewModelTest {
                 "7A",
                 "No seats selected",
                 " • Economy / Coach",
+                null,
                 null
         ))
     }

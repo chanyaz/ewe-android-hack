@@ -60,6 +60,8 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
             for (segment in segments) {
                 val primaryFlightCode = segment.primaryFlightCode
                 val operatingFlightCode = segment.operatingFlightCode
+                var redEyeDaysSB: StringBuilder?
+                var redEyeDays: String? = null
                 var operatedBy: String? = null
                 var seats: String?
                 var confirmSeats: String? = null
@@ -84,6 +86,16 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                     cabinCodeBuilder.append(segment.cabinCode)
                 }
 
+                if (segment.hasRedEye()){
+                    if(segment.daySpan() > 0){
+                        redEyeDaysSB = StringBuilder("+")
+                    }
+                    else {
+                        redEyeDaysSB = StringBuilder()
+                    }
+                    redEyeDaysSB.append(segment.daySpan())
+                    redEyeDays = redEyeDaysSB.toString()
+                }
                 createSegmentSummaryWidgetsSubject.onNext(FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
                         leg.airlineLogoURL,
                         FormatUtils.formatFlightNumber(segment, context),
@@ -100,7 +112,8 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                         arrivalGate,
                         seats,
                         cabinCodeBuilder.toString(),
-                        confirmSeats
+                        confirmSeats,
+                        redEyeDays
                 ))
             }
         }

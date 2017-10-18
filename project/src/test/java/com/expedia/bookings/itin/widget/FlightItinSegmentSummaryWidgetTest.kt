@@ -107,4 +107,32 @@ class FlightItinSegmentSummaryWidgetTest {
         assertEquals(View.GONE, sut.seatConfirmation.visibility)
         assertEquals("", sut.seatConfirmation.text)
     }
+
+    @Test
+    fun testRedEyeWidgetWithoutRedEye() {
+        sut.viewModel.createRedEyeWidgetSubject.onNext(FlightItinSegmentSummaryViewModel.RedEyeParams(
+                null,
+                null,
+                null
+        ))
+        assertEquals(View.GONE, sut.redEyeDays.visibility)
+        assertEquals(View.GONE, sut.arrivalRedEye.visibility)
+        assertEquals(View.GONE, sut.departureRedEye.visibility)
+    }
+
+    @Test
+    fun testRedEyeWidgetWithRedEye() {
+        sut.viewModel.createRedEyeWidgetSubject.onNext(FlightItinSegmentSummaryViewModel.RedEyeParams(
+                "Wed, Oct 18",
+                "Arrives on Thu, Oct 19",
+                "+1"
+        ))
+        assertEquals(View.VISIBLE, sut.redEyeDays.visibility)
+        assertEquals(View.VISIBLE, sut.arrivalRedEye.visibility)
+        assertEquals(View.VISIBLE, sut.departureRedEye.visibility)
+        assertEquals("Wed, Oct 18", sut.departureRedEye.text)
+        assertEquals("Arrives on Thu, Oct 19", sut.arrivalRedEye.text)
+        assertEquals("+1", sut.redEyeDays.text)
+
+    }
 }

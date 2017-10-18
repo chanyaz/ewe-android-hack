@@ -1292,6 +1292,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.seat_selection_not_available,
 		R.string.confirm_seat_selection,
 		R.string.select_seat_prompt,
+		R.string.itin_flight_summary_arrives_on_TEMPLATE,
 		R.string.error_package_search_red_eye_flight_message,
 		R.string.carnival_sdk_debug_key,
 		//Please add your string above this line to avoid conflicts

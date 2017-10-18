@@ -1,8 +1,8 @@
 package com.expedia.bookings.itin.vm
 
 import android.app.Activity
-import android.content.Context
-import com.expedia.bookings.R
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import org.joda.time.DateTime
@@ -10,7 +10,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 
@@ -19,17 +18,49 @@ class FlightItinSegmentSummaryViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: FlightItinSegmentSummaryViewModel
     lateinit private var dateTime: DateTime
+    lateinit private var frozenTime: DateTime
 
     val createAirlineWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.AirlineWidgetParams>()
     val createTimingWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.TimingWidgetParams>()
     val createSeatingWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SeatingWidgetParams>()
     val updateTerminalGateSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.TerminalGateParams>()
+    var createRedEyeSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.RedEyeParams>()
 
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         sut = FlightItinSegmentSummaryViewModel(activity)
         dateTime = DateTime.now()
+        frozenTime = DateTime(2017, 10, 18, 12, 0)
+    }
+
+    @Test
+    fun testUpdateWidgetRedEyeWidgetWithoutRedEye() {
+        sut.createRedEyeWidgetSubject.subscribe(createRedEyeSubscriber)
+        createRedEyeSubscriber.assertNoValues()
+        sut.updateWidget(getSummaryWidgetParams())
+
+        createRedEyeSubscriber.assertValueCount(1)
+        createRedEyeSubscriber.assertValues(FlightItinSegmentSummaryViewModel.RedEyeParams(
+                null,
+                null,
+                null
+        ))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun testUpdateWidgetRedEyeWidgetWithRedEye() {
+        sut.createRedEyeWidgetSubject.subscribe(createRedEyeSubscriber)
+        createRedEyeSubscriber.assertNoValues()
+        sut.updateWidget(getSummaryWidgetParamsWithRedEye())
+
+        createRedEyeSubscriber.assertValueCount(1)
+        createRedEyeSubscriber.assertValues(FlightItinSegmentSummaryViewModel.RedEyeParams(
+                "Wed, Oct 18",
+                "Arrives on Thu, Oct 19",
+                "+1"
+        ))
     }
 
     @Test
@@ -174,7 +205,29 @@ class FlightItinSegmentSummaryViewModelTest {
                 null,
                 "No seats selected",
                 "Economy / Coach",
+                null,
                 null
+        )
+    }
+    private fun getSummaryWidgetParamsWithRedEye(): FlightItinSegmentSummaryViewModel.SummaryWidgetParams {
+        return FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
+                "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+                "United Airlines 681",
+                "COMPASS AIRLINES",
+                frozenTime,
+                frozenTime.plusDays(1),
+                "SFO",
+                "San Francisco",
+                "LAS",
+                "Las Vegas",
+                null,
+                "",
+                "",
+                null,
+                "No seats selected",
+                "Economy / Coach",
+                null,
+                "+1"
         )
     }
 }
