@@ -2,11 +2,8 @@ package com.expedia.bookings.presenter.shared
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
@@ -15,7 +12,6 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
-import rx.subjects.PublishSubject
 
 class KrazyglueWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 

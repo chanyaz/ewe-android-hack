@@ -67,13 +67,12 @@ class PackageConfirmationViewModel(private val context: Context) {
         }
 
         setRewardsPoints.subscribe { points ->
-            if (points != null)
-                if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
-                    val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance())
-                    if (Strings.isNotEmpty(rewardPointText)) {
-                        rewardPointsObservable.onNext(rewardPointText)
-                    }
+            if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
+                val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance())
+                if (Strings.isNotEmpty(rewardPointText)) {
+                    rewardPointsObservable.onNext(rewardPointText)
                 }
+            }
         }
     }
 
@@ -100,7 +99,7 @@ class PackageConfirmationViewModel(private val context: Context) {
 
     fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {
         return object : DisposableObserver<Unit>() {
-            override fun onNext(t: Unit?) {
+            override fun onNext(t: Unit) {
                 CarNavUtils.goToCars(context, null, NavUtils.FLAG_OPEN_SEARCH)
                 val activity = context as AppCompatActivity
                 activity.setResult(Activity.RESULT_OK)

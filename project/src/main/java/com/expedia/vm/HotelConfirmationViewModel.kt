@@ -274,7 +274,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
 
     fun getAddCarBtnObserver(context: Context): Observer<Unit> {
         return object : DisposableObserver<Unit>() {
-            override fun onNext(t: Unit?) {
+            override fun onNext(t: Unit) {
                 CarNavUtils.goToCars(context, null, NavUtils.FLAG_OPEN_SEARCH)
                 HotelTracking.trackHotelCrossSellCar()
             }

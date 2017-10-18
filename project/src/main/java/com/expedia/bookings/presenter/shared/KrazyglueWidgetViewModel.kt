@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.squareup.phrase.Phrase
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class KrazyglueWidgetViewModel(context: Context) {
     val cityObservable = PublishSubject.create<String>()

@@ -116,7 +116,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             show(confirmationPresenter)
             pageUsableData.markAllViewsLoaded(Date().time)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
-            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
+            expediaRewards?.let {
+                confirmationPresenter.viewModel.setRewardsPoints.onNext(it)
+            }
             PackagesTracking().trackCheckoutPaymentConfirmation(context, response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType), pageUsableData, Db.getPackageParams())
         }
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)

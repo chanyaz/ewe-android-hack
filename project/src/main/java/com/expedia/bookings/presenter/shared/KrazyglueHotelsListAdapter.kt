@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
-import rx.subjects.PublishSubject
+import io.reactivex.subjects.PublishSubject
 
 class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Hotel>>) : RecyclerView.Adapter<KrazyglueHotelViewHolder>() {
     override fun onBindViewHolder(holder: KrazyglueHotelViewHolder, position: Int) {
