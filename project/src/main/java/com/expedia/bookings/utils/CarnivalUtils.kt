@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import org.joda.time.Days
 import org.joda.time.LocalDate
 
@@ -86,6 +87,17 @@ open class CarnivalUtils {
             attributes.putDate("confirmation_pkg_departure_date", packageParams.startDate.toDate())
             attributes.putInt("confirmation_pkg_length_of_stay", Days.daysBetween(packageParams.startDate, packageParams.endDate).days)
             setAttributes(attributes, "confirmation_pkg")
+        }
+    }
+
+    fun trackRailConfirmation(railCheckoutResponse: RailCheckoutResponse) {
+        if (isFeatureToggledOn() && initialized) {
+            val attributes = AttributeMap()
+            attributes.putString("confirmation_rail_destination", railCheckoutResponse.railDomainProduct.railOffer
+                    .railProductList.first()?.legOptionList?.first()?.arrivalStation?.stationDisplayName)
+            attributes.putDate("confirmation_rail_departure_date", railCheckoutResponse.railDomainProduct.railOffer
+                    .railProductList.first()?.legOptionList?.first()?.departureDateTime?.toDateTime()?.toDate())
+            setAttributes(attributes, "confirmation_rail")
         }
     }
 

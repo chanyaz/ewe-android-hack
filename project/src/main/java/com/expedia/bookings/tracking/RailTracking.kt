@@ -5,6 +5,7 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLeg
+import com.expedia.bookings.utils.CarnivalUtils
 
 class RailTracking {
 
@@ -54,6 +55,7 @@ class RailTracking {
 
     fun trackRailConfirmation(checkoutResponse: RailCheckoutResponse) {
         OmnitureTracking.trackAppRailsCheckoutConfirmation(checkoutResponse)
+        CarnivalUtils.getInstance().trackRailConfirmation(checkoutResponse)
     }
 
     fun trackRailDetails(railCreateTripResponse: RailCreateTripResponse) {

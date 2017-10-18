@@ -6,6 +6,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.rail.responses.*
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -101,6 +102,30 @@ class CarnivalUtilsTest : CarnivalUtils() {
         assertEquals(attributesToSend.get("confirmation_pkg_destination"), "New York")
         assertEquals(attributesToSend.get("confirmation_pkg_departure_date"), LocalDate.now().toDate())
         assertEquals(attributesToSend.get("confirmation_pkg_length_of_stay"), 3)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackRailConfirmation() {
+        reset()
+
+        val railResponse = RailCheckoutResponse()
+        val railProduct = RailTripProduct()
+        val railLeg = RailLegOption()
+        railLeg.departureDateTime = RailDateTime()
+        railLeg.departureDateTime.raw = "2016-12-10T08:30:00"
+        railLeg.arrivalStation = RailStation("KSC", "King's Cross", "Station", "London")
+        railProduct.legOptionList = listOf(railLeg)
+        railResponse.railDomainProduct = RailDomainProduct()
+        railResponse.railDomainProduct.railOffer = RailTripOffer()
+        railResponse.railDomainProduct.railOffer.railProductList = mutableListOf(railProduct)
+
+        this.trackRailConfirmation(railResponse)
+        val formattedRailDate = railLeg.departureDateTime.toDateTime().toDate()
+
+        assertEquals(eventNameToLog, "confirmation_rail")
+        assertEquals(attributesToSend.get("confirmation_rail_destination"), "King's Cross")
+        assertEquals(attributesToSend.get("confirmation_rail_departure_date"), formattedRailDate)
     }
 
     private fun reset() {

@@ -89,7 +89,7 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesPaymentStoredCCSelect()
     }
     
-    fun trackCheckoutPaymentConfirmation(context: Context, response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData, packageParams: PackageSearchParams) {
+    fun trackCheckoutPaymentConfirmation(response: PackageCheckoutResponse, hotelSupplierType: String, pageUsableData: PageUsableData, packageParams: PackageSearchParams) {
         OmnitureTracking.trackPackagesConfirmation(response, hotelSupplierType, pageUsableData)
         CarnivalUtils.getInstance().trackPackagesConfirmation(packageParams)
     }
