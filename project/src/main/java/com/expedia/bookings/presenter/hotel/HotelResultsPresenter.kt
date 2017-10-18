@@ -5,11 +5,13 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.MenuItemCompat
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.MenuItem
@@ -71,6 +73,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
         filterBtnWithCountWidget.showNumberOfFilters(numberOfFilters)
     }
+
+    val compareMenuItem by lazy { toolbar.menu.findItem(R.id.menu_compare_hotels) }
 
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
@@ -165,6 +169,15 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
 
         vm.errorObservable.subscribe { hideMapLoadingOverlay() }
+    }
+
+    override fun inflateAndSetupToolbarMenu() {
+        super.inflateAndSetupToolbarMenu()
+
+        compareMenuItem.setOnMenuItemClickListener {
+            launchCompare()
+            true
+        }
     }
 
     private fun showSortAndFilter() {

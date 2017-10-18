@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.shared
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -9,12 +10,14 @@ import android.graphics.drawable.PaintDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.support.annotation.CallSuper
+import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -22,6 +25,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
@@ -56,6 +60,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     val pinnedHotelTextView: TextView by bindView(R.id.pinned_hotel_view)
     val imageView: ImageView by bindView(R.id.background)
     val gradient: View by bindView(R.id.foreground)
+    val heartIconTouchTarget: FrameLayout by bindView(R.id.hotel_cell_heart_touch_target)
+    val heartIconView: ImageView by bindView(R.id.hotel_cell_heart_icon)
     val hotelNameStarAmenityDistance: HotelCellNameStarAmenityDistance by bindView(R.id.hotel_name_star_amenity_distance)
     val hotelPriceTopAmenity: HotelCellPriceTopAmenity by bindView(R.id.hotel_price_top_amenity)
     val guestRating: TextView by bindView(R.id.guest_rating)
@@ -104,6 +110,26 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         loadHotelImage()
 
         cardView.contentDescription = viewModel.getHotelContentDesc()
+
+        // todo can we be smarter than hitting shared pref so much?
+        if (HotelFavoriteCache.isHotelIdFavorited(root.context, hotelId)) {
+            heartIconView.setImageDrawable(ContextCompat.getDrawable(root.context,
+                    R.drawable.ic_favorite_red))
+        } else {
+            heartIconView.setImageDrawable(ContextCompat.getDrawable(root.context,
+                    R.drawable.ic_favorite_white))
+        }
+
+        heartIconTouchTarget.setOnClickListener {
+            val context = root.context
+            if (HotelFavoriteCache.isHotelIdFavorited(context, hotelId)) {
+                HotelFavoriteCache.removeHotelId(context, hotelId)
+                heartIconView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white))
+            } else {
+                HotelFavoriteCache.saveHotelId(context, hotelId)
+                heartIconView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_red))
+            }
+        }
     }
 
     override fun onClick(view: View) {

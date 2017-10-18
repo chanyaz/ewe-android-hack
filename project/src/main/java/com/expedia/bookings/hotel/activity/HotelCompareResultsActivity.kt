@@ -6,12 +6,14 @@ import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.dagger.HotelComponentInjector
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
+import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.widget.adapter.HotelCompareAdapter
 import com.expedia.bookings.hotel.widget.adapter.HotelCompareThumbnailAdapter
@@ -23,23 +25,25 @@ import com.expedia.vm.hotel.HotelDetailViewModel
 import javax.inject.Inject
 
 class HotelCompareResultsActivity : AppCompatActivity(), HotelCompareAdapter.CompareCheckListener {
+    private val toolbar by lazy {
+        findViewById(R.id.hotel_compare_results_toolbar) as Toolbar
+    }
 
-    private val compareResultsRecycler: RecyclerView by lazy {
+    private val compareResultsRecycler by lazy {
         findViewById(R.id.hotel_compare_recycler_view) as RecyclerView
     }
 
-    private val thumbnailRecycler: RecyclerView by lazy {
+    private val thumbnailRecycler by lazy {
         findViewById(R.id.compare_thumbnail_recycler_view) as RecyclerView
     }
-    private val thumbnailCompareButton: TextView by lazy {
+    private val thumbnailCompareButton by lazy {
         findViewById(R.id.compare_button) as TextView
     }
 
     private lateinit var compareAdapter: HotelCompareAdapter
     private lateinit var thumbnailAdapter: HotelCompareThumbnailAdapter
 
-    private val hotelIdList = listOf("875099", "12105", "3982675",
-            "14937343", "1503825", "3383521")
+    private var hotelIdList = ArrayList<String>()
 
     private val mockIdList = listOf("happy1", "happy2", "happy3",
             "happy4", "happy5", "happy6")
@@ -80,6 +84,12 @@ class HotelCompareResultsActivity : AppCompatActivity(), HotelCompareAdapter.Com
         compareAdapter.fetchPricesSubject.subscribe {
             showChangeDatesDialog()
         }
+
+        toolbar.setNavigationOnClickListener { view ->
+            onBackPressed()
+        }
+
+        hotelIdList = HotelFavoriteCache.getFavorites(this) ?: ArrayList<String>()
     }
 
     override fun onResume() {

@@ -7,7 +7,7 @@
     android:background="@color/white">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/hotel_compare_toolbar"
+        android:id="@+id/hotel_detailed_compare_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/new_launch_toolbar_background_color"

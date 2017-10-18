@@ -506,7 +506,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 mapViewModel.carouselSwipedObservable.onNext(marker)
             }
         }
-        toolbar.inflateMenu(R.menu.menu_filter_item)
+        if (getLineOfBusiness() == LineOfBusiness.PACKAGES) {
+            toolbar.inflateMenu(R.menu.menu_filter_item)
+        } else {
+            toolbar.inflateMenu(R.menu.compare_hotels_menu_item)
+        }
 
         filterMenuItem.isVisible = false
 
@@ -542,7 +546,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    private fun inflateAndSetupToolbarMenu() {
+    open protected fun inflateAndSetupToolbarMenu() {
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
         filterCountText = toolbarFilterItemActionView.findViewById<TextView>(R.id.filter_count_text)
         filterPlaceholderImageView = toolbarFilterItemActionView.findViewById<ImageView>(R.id.filter_placeholder_icon)

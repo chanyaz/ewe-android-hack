@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.dagger.HotelComponentInjector
@@ -22,6 +23,10 @@ import org.joda.time.LocalDate
 
 
 class HotelDetailedCompareActivity : AppCompatActivity() {
+    private val toolbar by lazy {
+        findViewById(R.id.hotel_detailed_compare_toolbar) as Toolbar
+    }
+
     private val detailedCompareRecycler: RecyclerView by lazy {
         findViewById(R.id.detailed_compare_recycler) as RecyclerView
     }
@@ -39,6 +44,9 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
         HotelComponentInjector().inject(this)
         Ui.getApplication(this).hotelComponent().inject(this)
 
+        toolbar.setNavigationOnClickListener { view ->
+            onBackPressed()
+        }
 
         detailedCompareAdapter = HotelDetailedCompareAdapter(this)
 
