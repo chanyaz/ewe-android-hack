@@ -36,11 +36,13 @@ class FlightConfirmationViewModel(val context: Context) {
     val numberOfTravelersSubject = PublishSubject.create<Int>()
     val formattedTravelersStringSubject = PublishSubject.create<String>()
     val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
+    val krazyglueDestinationObservable = PublishSubject.create<String>()
+    val krazyglueHotelsObservable = PublishSubject.create<List<KrazyglueResponse.KrazyglueHotel>>()
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
-    private val krazyGlueService: KrazyglueServices by lazy {
-        Ui.getApplication(context).flightComponent().krazyGlueService()
+    private val krazyglueService: KrazyglueServices by lazy {
+        Ui.getApplication(context).flightComponent().krazyglueService()
     }
     private val isKrazyglueEnabled = isKrazyglueOnFlightsConfirmationEnabled(context)
 
@@ -77,7 +79,7 @@ class FlightConfirmationViewModel(val context: Context) {
                 val apiKey = context.getString(R.string.exp_krazy_glue_prod_key)
                 val baseUrl = context.getString(R.string.exp_krazy_glue_base_url)
                 val signedUrl = HMACUtil.getSignedKrazyglueUrl(baseUrl, apiKey, destinationCode, destinationArrivalDateTime)
-                krazyGlueService.getKrazyglueHotels(signedUrl, makeNewKrazyglueObserver())
+                krazyglueService.getKrazyglueHotels(signedUrl, makeNewKrazyglueObserver())
             }
         }
 
@@ -100,7 +102,10 @@ class FlightConfirmationViewModel(val context: Context) {
     private fun makeNewKrazyglueObserver(): Observer<KrazyglueResponse> {
         return object : Observer<KrazyglueResponse> {
             override fun onNext(response: KrazyglueResponse) {
-//                TODO: if response is successful & hotel list is not null, pass to UI & show KG widget
+                if (response.success) {
+                    krazyglueDestinationObservable.onNext(response.destinationName)
+                    krazyglueHotelsObservable.onNext(response.krazyglueHotels)
+                }
             }
 
             override fun onCompleted() {

@@ -6,7 +6,7 @@ class KrazyglueResponse {
     var success: Boolean = false
     lateinit var destinationName: String
     @SerializedName("xsellHotels")
-    var krazyglueHotels: List<KrazyglueHotel> ?= null
+    lateinit var krazyglueHotels: List<KrazyglueHotel>
 
     class KrazyglueHotel {
         lateinit var hotelId: String

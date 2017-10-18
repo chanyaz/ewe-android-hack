@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.presenter.shared.KrazyglueHotelViewHolder
 import com.expedia.bookings.presenter.shared.KrazyglueWidget
-import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.TextView
 import com.mobiata.android.util.SettingUtils
@@ -29,7 +29,7 @@ class KrazyglueWidgetTest {
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
         assertEquals(View.GONE, krazyglueWidget.visibility)
-        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(Hotel()))
+        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(KrazyglueResponse.KrazyglueHotel()))
         assertEquals(View.GONE, krazyglueWidget.visibility)
     }
 
@@ -42,7 +42,7 @@ class KrazyglueWidgetTest {
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
         assertEquals(View.GONE, krazyglueWidget.visibility)
-        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(Hotel()))
+        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(KrazyglueResponse.KrazyglueHotel()))
         assertEquals(View.GONE, krazyglueWidget.visibility)
     }
 
@@ -55,7 +55,17 @@ class KrazyglueWidgetTest {
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
         assertEquals(View.GONE, krazyglueWidget.visibility)
-        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(Hotel()))
+        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(KrazyglueResponse.KrazyglueHotel()))
+        assertEquals(View.GONE, krazyglueWidget.visibility)
+    }
+
+    @Test
+    fun testVisibilityGONEWhenFeatureToggleONAndBucketingONwithoutHotelResults() {
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        enableKrazyglueTest(activity)
+        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
+        assertEquals(View.GONE, krazyglueWidget.visibility)
+        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf())
         assertEquals(View.GONE, krazyglueWidget.visibility)
     }
 
@@ -63,20 +73,12 @@ class KrazyglueWidgetTest {
     fun testVisibilityVISIBLEWhenFeatureToggleONAndBucketingON() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         enableKrazyglueTest(activity)
-        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
-        assertEquals(View.VISIBLE, krazyglueWidget.visibility)
-    }
-
-    @Test
-    fun testVisibilityGONEWhenNoHotelsInKrazyglueSearch() {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        enableKrazyglueTest(activity)
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
-        assertEquals(View.VISIBLE, krazyglueWidget.visibility)
-        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf())
         assertEquals(View.GONE, krazyglueWidget.visibility)
+        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(KrazyglueResponse.KrazyglueHotel()))
+        assertEquals(View.VISIBLE, krazyglueWidget.visibility)
     }
 
     @Test
@@ -97,7 +99,7 @@ class KrazyglueWidgetTest {
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
-        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(Hotel(), Hotel(), Hotel(), Hotel()))
+        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(KrazyglueResponse.KrazyglueHotel(), KrazyglueResponse.KrazyglueHotel(), KrazyglueResponse.KrazyglueHotel(), KrazyglueResponse.KrazyglueHotel()))
         assertEquals(4, krazyglueWidget.hotelsRecyclerView.adapter.itemCount)
     }
 
@@ -107,8 +109,8 @@ class KrazyglueWidgetTest {
         val hotelView = LayoutInflater.from(activity).inflate(R.layout.krazyglue_hotel_view, null)
 
         val viewHolder = KrazyglueHotelViewHolder(hotelView)
-        val hotel = Hotel()
-        hotel.localizedName = "San Francisco Hotel"
+        val hotel = KrazyglueResponse.KrazyglueHotel()
+        hotel.hotelName = "San Francisco Hotel"
         viewHolder.bindData(hotel)
 
         assertEquals("San Francisco Hotel", hotelView.findViewById<TextView>(R.id.hotel_name_text_view).text)

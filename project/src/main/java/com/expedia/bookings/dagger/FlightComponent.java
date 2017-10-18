@@ -29,5 +29,5 @@ public interface FlightComponent {
 
 	SuggestionV4Services suggestionsService();
 	ItinTripServices itinTripService();
-	KrazyglueServices krazyGlueService();
+	KrazyglueServices krazyglueService();
 }

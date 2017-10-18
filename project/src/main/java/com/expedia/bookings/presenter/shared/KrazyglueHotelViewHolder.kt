@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.utils.bindView
 
 
@@ -12,8 +12,8 @@ class KrazyglueHotelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
 
     val hotelNameTextView: TextView by bindView(R.id.hotel_name_text_view)
 
-    fun bindData(hotel: Hotel) {
-        hotelNameTextView.text = hotel.localizedName
+    fun bindData(hotel: KrazyglueResponse.KrazyglueHotel) {
+        hotelNameTextView.text = hotel.hotelName
     }
 
 }

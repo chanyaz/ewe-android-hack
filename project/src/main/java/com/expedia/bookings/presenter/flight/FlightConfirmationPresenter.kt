@@ -10,10 +10,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.shared.KrazyglueWidget
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.widget.ConfirmationRowCardView
 import com.expedia.bookings.widget.ConfirmationSummaryCardView
 import com.expedia.bookings.widget.HotelCrossSellView
@@ -44,6 +44,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     val toolbar: FlightConfirmationToolbar by bindView(R.id.confirmation_toolbar)
     val tripProtectionLabel: TextView by bindView(R.id.trip_protection)
     val tripProtectionDivider: View by bindView(R.id.trip_protection_divider)
+    val krazyglueWidget: KrazyglueWidget by bindView(R.id.krazyglue_widget)
 
     var viewModel: FlightConfirmationViewModel by notNullAndObservable { vm ->
         vm.itinNumContentDescriptionObservable.subscribeContentDescription(itinNumber)
@@ -57,6 +58,11 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.showTripProtectionMessage.subscribeVisibility(tripProtectionDivider)
         vm.showTripProtectionMessage.subscribeVisibility(tripProtectionLabel)
         vm.rewardPointsObservable.subscribeTextAndVisibility(flightSummary.pointsEarned)
+
+        if (isKrazyglueOnFlightsConfirmationEnabled(context)) {
+            vm.krazyglueHotelsObservable.subscribe(krazyglueWidget.viewModel.hotelsObservable)
+            vm.krazyglueDestinationObservable.subscribe(krazyglueWidget.viewModel.cityObservable)
+        }
     }
 
     init {

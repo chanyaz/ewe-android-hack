@@ -4,15 +4,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.flights.KrazyglueResponse
 import rx.subjects.PublishSubject
 
-class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Hotel>>) : RecyclerView.Adapter<KrazyglueHotelViewHolder>() {
+class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>) : RecyclerView.Adapter<KrazyglueHotelViewHolder>() {
     override fun onBindViewHolder(holder: KrazyglueHotelViewHolder, position: Int) {
         holder.bindData(hotels[position])
     }
 
-    var hotels = arrayListOf<Hotel>()
+    var hotels = arrayListOf<KrazyglueResponse.KrazyglueHotel>()
 
     init {
         hotelsObservable.subscribe { newHotels ->

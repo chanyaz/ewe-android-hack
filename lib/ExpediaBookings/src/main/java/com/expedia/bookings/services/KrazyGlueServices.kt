@@ -29,16 +29,16 @@ class KrazyglueServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
         adapter.create(KrazyglueApi::class.java)
     }
 
-    var krazyGlueSubscription: Subscription? = null
+    var krazyglueSubscription: Subscription? = null
 
     open fun getKrazyglueHotels(signedUrl: String, observer: Observer<KrazyglueResponse>) : Subscription {
-        krazyGlueSubscription?.unsubscribe()
+        krazyglueSubscription?.unsubscribe()
 
-        krazyGlueSubscription = krazyglueApi.getKrazyglueHotels(signedUrl)
+        krazyglueSubscription = krazyglueApi.getKrazyglueHotels(signedUrl)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
 
-        return krazyGlueSubscription as Subscription
+        return krazyglueSubscription as Subscription
     }
 }

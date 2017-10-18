@@ -93,18 +93,19 @@
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
-            
+
             <com.expedia.bookings.widget.HotelCrossSellView
                 android:id="@+id/hotel_cross_sell_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:layout_marginTop="9dp"
                 android:layout_marginLeft="@dimen/card_view_container_margin"
                 android:layout_marginRight="@dimen/card_view_container_margin"
-                app:cardPreventCornerOverlap="false"/>
+                android:layout_marginTop="9dp"
+                android:focusable="true"
+                app:cardPreventCornerOverlap="false" />
 
-            <include layout="@layout/krazyglue_widget" />
+            <include
+                layout="@layout/krazyglue_widget" />
 
         </LinearLayout>
 

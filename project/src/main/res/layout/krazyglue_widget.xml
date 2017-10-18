@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.shared.KrazyglueWidget xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.shared.KrazyglueWidget android:id="@+id/krazyglue_widget"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="gone">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/header_text_view"
