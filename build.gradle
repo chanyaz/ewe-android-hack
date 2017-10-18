@@ -10,6 +10,8 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.google.com' }
+        maven { url 'http://mobile-sdk.jumio.com' }
+
     }
     dependencies {
         classpath 'io.fabric.tools:gradle:1.22.1'

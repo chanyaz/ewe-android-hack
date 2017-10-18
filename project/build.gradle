@@ -97,6 +97,8 @@ dependencies {
 
     // Dagger 2.6.1
     compile 'com.google.dagger:dagger:2.6.1'
+    compile 'com.jumio.android:bam:2.8.0@aar'
+
     annotationProcessor 'com.google.dagger:dagger-compiler:2.6.1'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
@@ -221,6 +223,10 @@ android {
         versionCode GradleUtil.versionCode(major, minor, patch, build)
         versionName GradleUtil.versionName(major, minor, patch, build)
 
+        ndk {
+            abiFilters "armeabi","armeabi-v7a","arm64-v8a","mips","mips64","x86","x86_64"
+        }
+
         minSdkVersion 21
         targetSdkVersion 25
 
@@ -241,6 +247,15 @@ android {
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
         buildConfigField "boolean", "IS_SCREENSHOT_BUILD", project.hasProperty("SCREENSHOT_BUILD") ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
         buildConfigField "boolean", "ITIN_SCREENSHOT_BUILD", project.hasProperty("ITIN_SCREENSHOT_BUILD") ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include "armeabi","armeabi-v7a","arm64-v8a","mips","mips64","x86","x86_64"
+            universalApk true
+        }
     }
 
     productFlavors {

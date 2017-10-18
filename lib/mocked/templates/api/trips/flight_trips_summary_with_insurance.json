@@ -1,296 +1,294 @@
 {
-   "apiVersion":"1.0",
-   "responseType":"TRIP_SUMMARY",
-   "responseData":[
-      {
-         "levelOfDetail":"FULL",
-         "tripId":"e252dea4-1373-4278-b61b-f910bd99d446",
-         "webDetailsURL":"https://www.expedia.com/trips/1102138068718",
-         "tripNumber":1102138068718,
-         "title":"Detroit",
-         "description":"",
-         "startTime":{
-            "epochSeconds":"1479497520",
-            "timeZoneOffsetSeconds":"-28800"
-         },
-         "endTime":{
-            "epochSeconds":"1480227060",
-            "timeZoneOffsetSeconds":"-28800"
-         },
-         "airAttachQualificationInfo":{
-            "airAttachQualified":true,
-            "offerExpires":{
-               "epochSeconds":"1478329200",
-               "timeZoneOffsetSeconds":"-25200"
-            }
-         },
-         "bookingStatus":"BOOKED",
-         "sharableDetailsURL":"https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXrl-0ktkRBF5hmKJR5jCRVF",
-         "customerSupport":{
-            "customerSupportURL":"http://support.expedia.com/app/home",
-            "customerSupportPhoneInfo":[
-               "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
-               "For faster service, mention itinerary # <strong> 1102138068718 </strong>"
-            ],
-            "customerSupportPhoneNumberDomestic":"+1-866-230-3837",
-            "customerSupportPhoneNumberInternational":"+1-417-520-5298",
-            "customerSupportPhoneInfoForEmail":[
-               "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
-               "For faster service, mention itinerary # <strong> 1102138068718 </strong>"
-            ],
-            "termsAndConditionsURL":""
-         },
-         "insurance": [
+  "apiVersion": "1.0",
+  "responseType": "TRIP_SUMMARY",
+  "responseData": [
+    {
+      "levelOfDetail": "FULL",
+      "tripId": "e252dea4-1373-4278-b61b-f910bd99d446",
+      "webDetailsURL": "https://www.expedia.com/trips/1102138068718",
+      "tripNumber": 1102138068718,
+      "title": "Detroit",
+      "description": "",
+      "startTime": {
+        "epochSeconds": "1479497520",
+        "timeZoneOffsetSeconds": "-28800"
+      },
+      "endTime": {
+        "epochSeconds": "1480227060",
+        "timeZoneOffsetSeconds": "-28800"
+      },
+      "airAttachQualificationInfo": {
+        "airAttachQualified": true,
+        "offerExpires": {
+          "epochSeconds": "1478329200",
+          "timeZoneOffsetSeconds": "-25200"
+        }
+      },
+      "bookingStatus": "BOOKED",
+      "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXrl-0ktkRBF5hmKJR5jCRVF",
+      "customerSupport": {
+        "customerSupportURL": "http://support.expedia.com/app/home",
+        "customerSupportPhoneInfo": [
+          "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+          "For faster service, mention itinerary # <strong> 1102138068718 </strong>"
+        ],
+        "customerSupportPhoneNumberDomestic": "+1-866-230-3837",
+        "customerSupportPhoneNumberInternational": "+1-417-520-5298",
+        "customerSupportPhoneInfoForEmail": [
+          "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+          "For faster service, mention itinerary # <strong> 1102138068718 </strong>"
+        ],
+        "termsAndConditionsURL": ""
+      },
+      "insurance": [
+        {
+          "bookingStatus": "BOOKED",
+          "displayName": "Travel Protection - Total Protection Plan",
+          "name": "Expedia Flight Protection: Comprehensive",
+          "lineOfBusiness": "Air"
+        }
+      ],
+      "flights": [
+        {
+          "uniqueID": "3E9915B0-B622-4A5E-9953-95374B242BB2_0",
+          "bookingStatus": "BOOKED",
+          "orderNumber": "8106875184294",
+          "confirmationNumbers": [
             {
-               "bookingStatus": "BOOKED",
-               "displayName": "Travel Protection - Total Protection Plan",
-               "name": "Expedia Flight Protection: Comprehensive",
-               "lineOfBusiness": "Air"
+              "airlineName": "Delta",
+              "number": "GWF4NY"
             }
-         ],
-         "flights":[
+          ],
+          "fareTotal": {
+            "subTotal": "1112.4",
+            "subTotalFormatted": "$1,112.40",
+            "currency": "USD",
+            "base": "982.32",
+            "baseFormatted": "$982.32",
+            "taxes": "130.08",
+            "taxesFormatted": "$130.08",
+            "total": "1112.4",
+            "totalFormatted": "$1,112.40"
+          },
+          "passengers": [
             {
-               "uniqueID":"3E9915B0-B622-4A5E-9953-95374B242BB2_0",
-               "bookingStatus":"BOOKED",
-               "orderNumber":"8106875184294",
-               "confirmationNumbers":[
-                  {
-                     "airlineName":"Delta",
-                     "number":"GWF4NY"
-                  }
-               ],
-               "fareTotal":{
-                  "subTotal":"1112.4",
-                  "subTotalFormatted":"$1,112.40",
-                  "currency":"USD",
-                  "base":"982.32",
-                  "baseFormatted":"$982.32",
-                  "taxes":"130.08",
-                  "taxesFormatted":"$130.08",
-                  "total":"1112.4",
-                  "totalFormatted":"$1,112.40"
-               },
-               "passengers":[
-                  {
-                     "typeCode":"ADULT",
-                     "typeLocalized":"Adult",
-                     "firstName":"Philip",
-                     "middleName":"J",
-                     "lastName":"Fry",
-                     "fullName":"Philip J. Fry",
-                     "age":26,
-                     "gender":"Male",
-                     "dateOfBirth":"1989-4-12",
-                     "TSARedressNumber":"",
-                     "phoneNumbers":[
-                        {
-                           "countryCode":"1",
-                           "phone":"9899482855"
-                        }
-                     ],
-                     "ticketNumbers":[
-                        "0067586790127"
-                     ],
-                     "frequentFlyerPlans":[
-                        {
-                           "airlineCode":"DL",
-                           "programCode":"DL-SKY",
-                           "programName":"Delta SkyMiles",
-                           "membershipNumber":"9304336499"
-                        }
-                     ],
-                     "seats":[
-                        {
-                           "assigned":"30C",
-                           "seatPreference":"",
-                           "seatPreferenceLocalized":"Unknown",
-                           "smokingAllowed":false,
-                           "legIndex":0,
-                           "segmentIndex":0
-                        },
-                        {
-                           "assigned":"36F",
-                           "seatPreference":"",
-                           "seatPreferenceLocalized":"Unknown",
-                           "smokingAllowed":false,
-                           "legIndex":1,
-                           "segmentIndex":0
-                        }
-                     ]
-                  },
-                  {
-                     "typeCode":"ADULT",
-                     "typeLocalized":"Adult",
-                     "firstName":"Turanga",
-                     "lastName":"Leela",
-                     "fullName":"Turanga Leela",
-                     "age":25,
-                     "gender":"Female",
-                     "dateOfBirth":"1990-1-14",
-                     "TSARedressNumber":"",
-                     "phoneNumbers":[
-
-                     ],
-                     "ticketNumbers":[
-                        "0067586790128"
-                     ],
-                     "frequentFlyerPlans":[
-
-                     ],
-                     "seats":[
-                        {
-                           "assigned":"30B",
-                           "seatPreference":"",
-                           "seatPreferenceLocalized":"Unknown",
-                           "smokingAllowed":false,
-                           "legIndex":0,
-                           "segmentIndex":0
-                        },
-                        {
-                           "assigned":"36G",
-                           "seatPreference":"",
-                           "seatPreferenceLocalized":"Unknown",
-                           "smokingAllowed":false,
-                           "legIndex":1,
-                           "segmentIndex":0
-                        }
-                     ]
-                  }
-               ],
-               "legs":[
-                  {
-                     "type":"NONSTOP",
-                     "state":"PRE_START_4",
-                     "numberOfStops":0,
-                     "airlineLogoURL":"http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smDL.gif",
-                     "segments":[
-                        {
-                           "transportationType":"FLIGHT",
-                           "departureType":"FLIGHT_DEPARTURE",
-                           "departureLocation":{
-                              "latitude":37.61594,
-                              "longitude":-122.387996,
-                              "name":"San Francisco Intl.",
-                              "longName":"San Francisco, CA (SFO-San Francisco Intl.)",
-                              "airportCode":"SFO",
-                              "airportMetroCode":"QSF",
-                              "city":"San Francisco",
-                              "countryCode":"USA"
-                           },
-                           "departureTime":{
-                              "epochSeconds":"1479497520",
-                              "timeZoneOffsetSeconds":"-28800"
-                           },
-                           "arrivalType":"FLIGHT_ARRIVAL",
-                           "arrivalLocation":{
-                              "latitude":42.221613,
-                              "longitude":-83.348916,
-                              "name":"Detroit Metropolitan Wayne County",
-                              "longName":"Detroit, MI (DTW-Detroit Metropolitan Wayne County)",
-                              "airportCode":"DTW",
-                              "airportMetroCode":"DTT",
-                              "city":"Detroit",
-                              "countryCode":"USA"
-                           },
-                           "arrivalTime":{
-                              "epochSeconds":"1479510240",
-                              "timeZoneOffsetSeconds":"-18000"
-                           },
-                           "airlineCode":"DL",
-                           "externalAirlineCode":"DL",
-                           "airlineName":"Delta",
-                           "operatedByAirCarrierName":"",
-                           "confirmationAirline":"Delta",
-                           "confirmationNUmber":"GWF4NY",
-                           "flightNumber":"745",
-                           "equipmentCode":"739",
-                           "equipmentDescription":"Boeing 737-900",
-                           "distance":2083,
-                           "distanceUnits":"mi",
-                           "duration":"PT4H32M",
-                           "formattedDuration":"4h 32m",
-                           "bookingCode":"V",
-                           "cabinCode":"coach",
-                           "cabinCodeLocalized":"Economy / Coach",
-                           "isSeatMapAvailable":true,
-                           "flightIdForSeatMap":"3E9915B0-B622-4A5E-9953-95374B242BB2_0_L1_S1_1",
-                           "status":"UNKNOWN",
-                           "airSegmentStatusCode":"HK",
-                           "isHidden":false
-                        }
-                     ],
-                     "sharableFlightLegURL":"https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1PmiJGMsrgOUFaAzyh7U1HgHxkxn4HJ1FTjqhxO8UAxhw",
-                     "duration":"PT4H32M"
-                  },
-                  {
-                     "type":"NONSTOP",
-                     "state":"PRE_START_4",
-                     "numberOfStops":0,
-                     "airlineLogoURL":"http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smDL.gif",
-                     "segments":[
-                        {
-                           "transportationType":"FLIGHT",
-                           "departureType":"FLIGHT_DEPARTURE",
-                           "departureLocation":{
-                              "latitude":42.221613,
-                              "longitude":-83.348916,
-                              "name":"Detroit Metropolitan Wayne County",
-                              "longName":"Detroit, MI (DTW-Detroit Metropolitan Wayne County)",
-                              "airportCode":"DTW",
-                              "airportMetroCode":"DTT",
-                              "city":"Detroit",
-                              "countryCode":"USA"
-                           },
-                           "departureTime":{
-                              "epochSeconds":"1480204740",
-                              "timeZoneOffsetSeconds":"-18000"
-                           },
-                           "arrivalType":"FLIGHT_ARRIVAL",
-                           "arrivalLocation":{
-                              "latitude":37.61594,
-                              "longitude":-122.387996,
-                              "name":"San Francisco Intl.",
-                              "longName":"San Francisco, CA (SFO-San Francisco Intl.)",
-                              "airportCode":"SFO",
-                              "airportMetroCode":"QSF",
-                              "city":"San Francisco",
-                              "countryCode":"USA"
-                           },
-                           "arrivalTime":{
-                              "epochSeconds":"1480227060",
-                              "timeZoneOffsetSeconds":"-28800"
-                           },
-                           "airlineCode":"DL",
-                           "externalAirlineCode":"DL",
-                           "airlineName":"Delta",
-                           "operatedByAirCarrierName":"",
-                           "confirmationAirline":"Delta",
-                           "confirmationNUmber":"GWF4NY",
-                           "flightNumber":"373",
-                           "equipmentCode":"763",
-                           "equipmentDescription":"Boeing 767-300",
-                           "distance":2083,
-                           "distanceUnits":"mi",
-                           "duration":"PT5H12M",
-                           "formattedDuration":"5h 12m",
-                           "bookingCode":"V",
-                           "cabinCode":"coach",
-                           "cabinCodeLocalized":"Economy / Coach",
-                           "isSeatMapAvailable":true,
-                           "flightIdForSeatMap":"3E9915B0-B622-4A5E-9953-95374B242BB2_0_L2_S1_1",
-                           "status":"UNKNOWN",
-                           "airSegmentStatusCode":"HK",
-                           "isHidden":false
-                        }
-                     ],
-                     "sharableFlightLegURL":"https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1MzAaePZYDF9ZAe9O6tHZlBAe1IRdXeg5mWRPx6mvvzlQ",
-                     "duration":"PT5H12M"
-                  }
-               ],
-               "airlineCheckInURL":"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=WW&firstName=sandi&lastName=ma&confirmation=DL5HBGT&departureAirport=BOS&flightNumber=126&email=sptest%40expedia.com&ticketNumber=&flightDay=27&flightMonth=1",
-               "sharableItemDetailURL":"https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1M7nkfGMpNuW45-jpNeURf3"
+              "typeCode": "ADULT",
+              "typeLocalized": "Adult",
+              "firstName": "Philip",
+              "middleName": "J",
+              "lastName": "Fry",
+              "fullName": "Philip J. Fry",
+              "age": 26,
+              "gender": "Male",
+              "dateOfBirth": "1989-4-12",
+              "TSARedressNumber": "",
+              "phoneNumbers": [
+                {
+                  "countryCode": "1",
+                  "phone": "9899482855"
+                }
+              ],
+              "ticketNumbers": [
+                "0067586790127"
+              ],
+              "frequentFlyerPlans": [
+                {
+                  "airlineCode": "DL",
+                  "programCode": "DL-SKY",
+                  "programName": "Delta SkyMiles",
+                  "membershipNumber": "9304336499"
+                }
+              ],
+              "seats": [
+                {
+                  "assigned": "30C",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 0,
+                  "segmentIndex": 0
+                },
+                {
+                  "assigned": "36F",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 1,
+                  "segmentIndex": 0
+                }
+              ]
+            },
+            {
+              "typeCode": "ADULT",
+              "typeLocalized": "Adult",
+              "firstName": "Turanga",
+              "lastName": "Leela",
+              "fullName": "Turanga Leela",
+              "age": 25,
+              "gender": "Female",
+              "dateOfBirth": "1990-1-14",
+              "TSARedressNumber": "",
+              "phoneNumbers": [
+              ],
+              "ticketNumbers": [
+                "0067586790128"
+              ],
+              "frequentFlyerPlans": [
+              ],
+              "seats": [
+                {
+                  "assigned": "30B",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 0,
+                  "segmentIndex": 0
+                },
+                {
+                  "assigned": "36G",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 1,
+                  "segmentIndex": 0
+                }
+              ]
             }
-         ]
-      }
-   ]
+          ],
+          "legs": [
+            {
+              "type": "NONSTOP",
+              "state": "PRE_START_4",
+              "numberOfStops": 0,
+              "airlineLogoURL": "http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smDL.gif",
+              "segments": [
+                {
+                  "transportationType": "FLIGHT",
+                  "departureType": "FLIGHT_DEPARTURE",
+                  "departureLocation": {
+                    "latitude": 37.61594,
+                    "longitude": -122.387996,
+                    "name": "San Francisco Intl.",
+                    "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                    "airportCode": "SFO",
+                    "airportMetroCode": "QSF",
+                    "city": "San Francisco",
+                    "countryCode": "USA"
+                  },
+                  "departureTime": {
+                    "epochSeconds": "1479497520",
+                    "timeZoneOffsetSeconds": "-28800"
+                  },
+                  "arrivalType": "FLIGHT_ARRIVAL",
+                  "arrivalLocation": {
+                    "latitude": 42.221613,
+                    "longitude": -83.348916,
+                    "name": "Detroit Metropolitan Wayne County",
+                    "longName": "Detroit, MI (DTW-Detroit Metropolitan Wayne County)",
+                    "airportCode": "DTW",
+                    "airportMetroCode": "DTT",
+                    "city": "Detroit",
+                    "countryCode": "USA"
+                  },
+                  "arrivalTime": {
+                    "epochSeconds": "1479510240",
+                    "timeZoneOffsetSeconds": "-18000"
+                  },
+                  "airlineCode": "DL",
+                  "externalAirlineCode": "DL",
+                  "airlineName": "Delta",
+                  "operatedByAirCarrierName": "",
+                  "confirmationAirline": "Delta",
+                  "confirmationNUmber": "GWF4NY",
+                  "flightNumber": "745",
+                  "equipmentCode": "739",
+                  "equipmentDescription": "Boeing 737-900",
+                  "distance": 2083,
+                  "distanceUnits": "mi",
+                  "duration": "PT4H32M",
+                  "formattedDuration": "4h 32m",
+                  "bookingCode": "V",
+                  "cabinCode": "coach",
+                  "cabinCodeLocalized": "Economy / Coach",
+                  "isSeatMapAvailable": true,
+                  "flightIdForSeatMap": "3E9915B0-B622-4A5E-9953-95374B242BB2_0_L1_S1_1",
+                  "status": "UNKNOWN",
+                  "airSegmentStatusCode": "HK",
+                  "isHidden": false
+                }
+              ],
+              "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1PmiJGMsrgOUFaAzyh7U1HgHxkxn4HJ1FTjqhxO8UAxhw",
+              "duration": "PT4H32M"
+            },
+            {
+              "type": "NONSTOP",
+              "state": "PRE_START_4",
+              "numberOfStops": 0,
+              "airlineLogoURL": "http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smDL.gif",
+              "segments": [
+                {
+                  "transportationType": "FLIGHT",
+                  "departureType": "FLIGHT_DEPARTURE",
+                  "departureLocation": {
+                    "latitude": 42.221613,
+                    "longitude": -83.348916,
+                    "name": "Detroit Metropolitan Wayne County",
+                    "longName": "Detroit, MI (DTW-Detroit Metropolitan Wayne County)",
+                    "airportCode": "DTW",
+                    "airportMetroCode": "DTT",
+                    "city": "Detroit",
+                    "countryCode": "USA"
+                  },
+                  "departureTime": {
+                    "epochSeconds": "1480204740",
+                    "timeZoneOffsetSeconds": "-18000"
+                  },
+                  "arrivalType": "FLIGHT_ARRIVAL",
+                  "arrivalLocation": {
+                    "latitude": 37.61594,
+                    "longitude": -122.387996,
+                    "name": "San Francisco Intl.",
+                    "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                    "airportCode": "SFO",
+                    "airportMetroCode": "QSF",
+                    "city": "San Francisco",
+                    "countryCode": "USA"
+                  },
+                  "arrivalTime": {
+                    "epochSeconds": "1480227060",
+                    "timeZoneOffsetSeconds": "-28800"
+                  },
+                  "airlineCode": "DL",
+                  "externalAirlineCode": "DL",
+                  "airlineName": "Delta",
+                  "operatedByAirCarrierName": "",
+                  "confirmationAirline": "Delta",
+                  "confirmationNUmber": "GWF4NY",
+                  "flightNumber": "373",
+                  "equipmentCode": "763",
+                  "equipmentDescription": "Boeing 767-300",
+                  "distance": 2083,
+                  "distanceUnits": "mi",
+                  "duration": "PT5H12M",
+                  "formattedDuration": "5h 12m",
+                  "bookingCode": "V",
+                  "cabinCode": "coach",
+                  "cabinCodeLocalized": "Economy / Coach",
+                  "isSeatMapAvailable": true,
+                  "flightIdForSeatMap": "3E9915B0-B622-4A5E-9953-95374B242BB2_0_L2_S1_1",
+                  "status": "UNKNOWN",
+                  "airSegmentStatusCode": "HK",
+                  "isHidden": false
+                }
+              ],
+              "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1MzAaePZYDF9ZAe9O6tHZlBAe1IRdXeg5mWRPx6mvvzlQ",
+              "duration": "PT5H12M"
+            }
+          ],
+          "airlineCheckInURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=WW&firstName=sandi&lastName=ma&confirmation=DL5HBGT&departureAirport=BOS&flightNumber=126&email=sptest%40expedia.com&ticketNumber=&flightDay=27&flightMonth=1",
+          "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1M7nkfGMpNuW45-jpNeURf3"
+        }
+      ]
+    }
+  ]
 }
