@@ -21,6 +21,7 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
@@ -46,7 +47,7 @@ class RailCheckoutViewModel(val context: Context) {
 
     var createTripId: String? = null
 
-    val selectedCardFeeObservable = BehaviorSubject.create<Money>()
+    val selectedCardFeeObservable = BehaviorSubject.create<Optional<Money>>()
     val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
     val cardFeeTextSubject = PublishSubject.create<Spanned>()
     val tripResponseObservable = BehaviorSubject.create<RailCreateTripResponse>()
@@ -104,7 +105,8 @@ class RailCheckoutViewModel(val context: Context) {
         builder.clearTravelers()
     }
 
-    val paymentCompleteObserver = endlessObserver<BillingInfo?> { billingInfo ->
+    val paymentCompleteObserver = endlessObserver<Optional<BillingInfo>> { billingInfoOptional ->
+        val billingInfo = billingInfoOptional.value
         val cardDetails = RailCheckoutParams.CardDetails(billingInfo?.number.toString(),
                 billingInfo?.expirationDate?.year.toString(), billingInfo?.expirationDate?.monthOfYear.toString(),
                 billingInfo?.securityCode, billingInfo?.nameOnCard,
@@ -153,7 +155,8 @@ class RailCheckoutViewModel(val context: Context) {
     }
 
     private fun setupCardFeeSubjects() {
-        selectedCardFeeObservable.subscribe { selectedCardFee ->
+        selectedCardFeeObservable.subscribe { selectedCardFeeOptional ->
+            val selectedCardFee = selectedCardFeeOptional.value
             if (selectedCardFee != null && !selectedCardFee.isZero) {
                 val cardFeeText = Phrase.from(context, R.string.rail_cc_processing_fee_TEMPLATE)
                         .put("card_fee", selectedCardFee.formattedPrice)
@@ -194,7 +197,7 @@ class RailCheckoutViewModel(val context: Context) {
         newTripResponse.ticketDeliveryFees = newTripResponse.getTicketDeliveryFeeForOption(currentTicketDeliveryToken)
 
         cardFeeTripResponseSubject.onNext(newTripResponse)
-        selectedCardFeeObservable.onNext(cardFee!!) //TODO PUK
+        selectedCardFeeObservable.onNext(Optional(cardFee))
         updatePricingSubject.onNext(newTripResponse)
     }
 

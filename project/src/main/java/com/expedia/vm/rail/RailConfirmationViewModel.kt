@@ -42,7 +42,7 @@ class RailConfirmationViewModel(val context: Context) {
 
         railOfferObserver.subscribe { offer ->
             val outbound = offer.outboundLegOption
-            destinationObservable.onNext(outbound?.arrivalStation!!.stationDisplayName) //TODO PUK
+            destinationObservable.onNext(outbound?.arrivalStation?.stationDisplayName ?: "")
             outboundCardTitleObservable.onNext(getCardTitle(outbound))
             outboundCardSubTitleObservable.onNext(getCardSubtitle(outbound, offer.passengerList.size))
 

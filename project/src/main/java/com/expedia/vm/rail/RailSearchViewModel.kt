@@ -140,8 +140,8 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         val (startMillis, endMillis) = times
         getParamsBuilder().departDateTimeMillis(startMillis)
         getParamsBuilder().returnDateTimeMillis(endMillis)
-        dateTextObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, false)!!) //TODO PUK
-        dateAccessibilityObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, true)!!) //TODO PUK
+        dateTextObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, false) ?: "")
+        dateAccessibilityObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, true) ?: "")
     }
 
     // Reset times if the start is equal to today and the selected time is before the current time

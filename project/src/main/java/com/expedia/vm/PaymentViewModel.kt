@@ -162,8 +162,8 @@ open class PaymentViewModel(val context: Context) {
 
         cardTypeSubject
                 .debounce(1, TimeUnit.SECONDS, getScheduler())
-                .map { it.value }
-                .subscribe { cardType ->
+                .subscribe { cardTypeOptional ->
+                    val cardType = cardTypeOptional.value
                     val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
                     val showingPaymentFeeWarning = tripItem?.hasPaymentFee(cardType) ?: false
                     var invalidPaymentWarningMsg = ""

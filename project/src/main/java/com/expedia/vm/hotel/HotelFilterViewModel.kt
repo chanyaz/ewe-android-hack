@@ -19,7 +19,9 @@ class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context)
         doneObservable.subscribe {
             filterCountObservable.onNext(userFilterChoices.filterCount())
             if (defaultFilterOptions() && !withSearchOptions) {
-                filterObservable.onNext(originalResponse!!) // TODO PUK
+                originalResponse?.let {
+                    filterObservable.onNext(it)
+                }
             } else if (sameFilterOptions()) {
                 showPreviousResultsObservable.onNext(Unit)
             } else {

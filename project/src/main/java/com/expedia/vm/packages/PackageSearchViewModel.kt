@@ -57,8 +57,12 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (!invalidDates) {
             datesUpdated(pastSearchParams.startDate, pastSearchParams.endDate)
         }
-        originLocationObserver.onNext(pastSearchParams.origin!!) //TODO PUK
-        destinationLocationObserver.onNext(pastSearchParams.destination!!) //TODO PUK
+        pastSearchParams.origin?.let {
+            originLocationObserver.onNext(it)
+        }
+        pastSearchParams.destination?.let {
+            destinationLocationObserver.onNext(it)
+        }
     }
 
     val searchObserver = endlessObserver<Unit> {

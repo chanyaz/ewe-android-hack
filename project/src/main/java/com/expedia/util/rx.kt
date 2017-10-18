@@ -110,8 +110,8 @@ fun <T : Any?> Observable<T>.safeSubscribe(observer: Observer<T>): Disposable {
 fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(observer: Observer<T>): Disposable {
     return this.subscribeObserver(object : DisposableObserver<Optional<T>>() {
         override fun onNext(t: Optional<T>) {
-            if (t.value != null) {
-                observer.onNext(t.value as T)
+            t.value?.let {
+                observer.onNext(it as T)
             }
         }
 
@@ -134,8 +134,8 @@ fun <T : Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Disposable 
 }
 
 fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(onNextFunc: (T) -> Unit): Disposable {
-    return this.map { it.value }.subscribe {
-        if (it != null) {
+    return this.subscribe {
+        it.value?.let {
             onNextFunc.invoke(it as T)
         }
     }

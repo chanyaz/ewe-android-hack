@@ -108,8 +108,8 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     //Intermediate Stream to ensure side-effects like `doOnNext` execute only once even if the stream is subscribe to multiple times!
     //This Intermediate Stream is ultimately poured into `restoredPaymentSplitsInCaseOfDiscardedApiCall` which the clients can absorb.
     private val restoredPaymentSplitsInCaseOfDiscardedApiCallIntermediateStream = discardPendingCurrencyToPointsAPISubscription
-            .withLatestFrom(burnAmountToPointsApiSubscriptions, { unit, burnAmountToPointsApiSubscription -> burnAmountToPointsApiSubscription.value })
-            .doOnNext { it?.dispose() }
+            .withLatestFrom(burnAmountToPointsApiSubscriptions, { unit, burnAmountToPointsApiSubscription -> burnAmountToPointsApiSubscription })
+            .doOnNext { it.value?.dispose() }
             .withLatestFrom(paymentSplits, { unit, paymentSplits -> paymentSplits })
 
     //Facade to ensure there are no glitches!
@@ -131,7 +131,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         }
 
         burnAmountToPointsApiResponse.subscribe {
-            tripTotalPayable.onNext(it.tripTotalPayable!!)//TODO PUK
+            tripTotalPayable.onNext(it.tripTotalPayable!!)
             paymentSplitsFromBurnAmountUpdates.onNext(PaymentSplits(it.conversion!!, it.remainingPayableByCard!!))
         }
 
@@ -142,7 +142,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
             }
         }).subscribe {
             if (it.togglePaymentByPoints) {
-                tripTotalPayable.onNext(it.latestTripResponse.rewardsUserAccountDetails().tripTotalPayable!!)//TODO PUK
+                tripTotalPayable.onNext(it.latestTripResponse.rewardsUserAccountDetails().tripTotalPayable!!)
                 togglePaymentByPointsIntermediateStream.onNext(it.latestTripResponse.paymentSplitsWhenMaxPayableWithPoints())
             } else {
                 tripTotalPayable.onNext(it.latestTripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints())

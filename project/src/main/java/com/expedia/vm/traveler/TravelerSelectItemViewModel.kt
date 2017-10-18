@@ -100,7 +100,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
 
     private fun setTravelerSummaryInfo(title: String, subTitle: String?, completenessStatus: ContactDetailsCompletenessStatus, font: FontCache.Font) {
         titleObservable.onNext(title)
-        subtitleObservable.onNext(subTitle!!)//TODO PUK
+        subtitleObservable.onNext(subTitle ?: "")
         iconStatusObservable.onNext(completenessStatus)
         titleFontObservable.onNext(font)
     }
