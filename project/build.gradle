@@ -103,7 +103,6 @@ dependencies {
     compile ('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
         transitive = true
     }
-    debugCompile 'com.akaita.java:rxjava2-debug:1.2.0'
 
     // Debug dependencies
 //    def leakCanaryVersion = '1.3.1'
@@ -126,6 +125,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     debugCompile "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
+    debugCompile 'com.akaita.java:rxjava2-debug:1.2.0'
 
     // Test dependencies
     testCompile 'junit:junit:4.12'
