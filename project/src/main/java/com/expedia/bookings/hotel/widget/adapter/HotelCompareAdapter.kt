@@ -14,6 +14,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView

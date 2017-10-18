@@ -62,29 +62,8 @@ class HotelCompareResultsActivity : AppCompatActivity(), HotelCompareAdapter.Com
 
         setContentView(R.layout.hotel_compare_activity)
 
-        compareAdapter = HotelCompareAdapter(this, this)
-        thumbnailAdapter = HotelCompareThumbnailAdapter(this)
-
-        compareResultsRecycler.layoutManager = LinearLayoutManager(this)
-        compareResultsRecycler.adapter = compareAdapter
-
-        val horizontalLayoutManager = LinearLayoutManager(this)
-        horizontalLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        thumbnailRecycler.layoutManager = horizontalLayoutManager
-        thumbnailRecycler.adapter = thumbnailAdapter
-
-        thumbnailCompareButton.setOnClickListener {
-            if (compareMap.size >= 2) {
-                val intent = Intent(this, HotelDetailedCompareActivity::class.java)
-                intent.putExtra(HotelExtras.COMPARE_HOTEL_IDS, compareMap.keys.toTypedArray())
-                startActivity(intent)
-            }
-        }
-
-        compareAdapter.fetchPricesSubject.subscribe {
-            showChangeDatesDialog()
-        }
-
+        initThumbnailView()
+        initResultsView()
         toolbar.setNavigationOnClickListener { view ->
             onBackPressed()
         }
@@ -103,32 +82,86 @@ class HotelCompareResultsActivity : AppCompatActivity(), HotelCompareAdapter.Com
             hotelInfoManager.offerSuccessSubject.subscribe { response ->
                 hotelHashMap.put(response.hotelId, response)
                 compareAdapter.updateHotels(hotelHashMap.values.toList())
-
             }
 
-            fetchIdsInfo()
+            fetchHotelData()
         }
     }
 
     override fun compareCheckChanged(hotelId: String, checked: Boolean) {
         if (checked) {
-            compareMap.put(hotelId, hotelHashMap.get(hotelId)!!)
-            thumbnailAdapter.updateThumbnails(compareMap.values.toList())
-            thumbnailRecycler.visibility = View.VISIBLE
-            thumbnailCompareButton.visibility = View.VISIBLE
+            addThumbnail(hotelId)
         } else {
-            compareMap.remove(hotelId)
-            thumbnailAdapter.updateThumbnails(compareMap.values.toList())
-            if (compareMap.isEmpty()) {
-                thumbnailRecycler.visibility = View.GONE
-                thumbnailCompareButton.visibility = View.GONE
+            removeThumbnail(hotelId)
+        }
+    }
+
+    private fun addThumbnail(hotelId: String) {
+        compareMap.put(hotelId, hotelHashMap[hotelId]!!)
+        thumbnailAdapter.updateThumbnails(compareMap.values.toList())
+        thumbnailRecycler.visibility = View.VISIBLE
+        thumbnailCompareButton.visibility = View.VISIBLE
+    }
+
+    private fun removeThumbnail(hotelId: String) {
+        compareMap.remove(hotelId)
+        thumbnailAdapter.updateThumbnails(compareMap.values.toList())
+        if (compareMap.isEmpty()) {
+            thumbnailRecycler.visibility = View.GONE
+            thumbnailCompareButton.visibility = View.GONE
+        }
+    }
+
+    private fun initResultsView() {
+        compareAdapter = HotelCompareAdapter(this, this)
+
+        compareResultsRecycler.layoutManager = LinearLayoutManager(this)
+        compareResultsRecycler.adapter = compareAdapter
+
+        compareAdapter.fetchPricesSubject.subscribe {
+            showChangeDatesDialog()
+        }
+    }
+
+    private fun initThumbnailView() {
+        thumbnailAdapter = HotelCompareThumbnailAdapter(this)
+        val horizontalLayoutManager = LinearLayoutManager(this)
+        horizontalLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        thumbnailRecycler.layoutManager = horizontalLayoutManager
+        thumbnailRecycler.adapter = thumbnailAdapter
+
+        thumbnailCompareButton.setOnClickListener {
+            if (compareMap.size >= 2) {
+                val detailedCompareIntent = Intent(this, HotelDetailedCompareActivity::class.java)
+                detailedCompareIntent.putExtra(HotelExtras.COMPARE_HOTEL_IDS, compareMap.keys.toTypedArray())
+                if (intent.extras != null) {
+                    detailedCompareIntent.putExtras(intent.extras)
+                }
+                startActivity(detailedCompareIntent)
             }
+        }
+    }
+
+    private fun fetchHotelData() {
+        val checkIn = intent.getStringExtra(HotelExtras.HOTEL_SEARCH_CHECK_IN)
+        val checkOut = intent.getStringExtra(HotelExtras.HOTEL_SEARCH_CHECK_OUT)
+
+        if (checkIn != null && checkOut != null) {
+            fetchIdsOffers(checkIn, checkOut)
+        } else {
+            fetchIdsInfo()
         }
     }
 
     private fun fetchIdsInfo() {
         for (id in hotelIdList) {
             hotelInfoManager.fetchDatelessInfo(id)
+        }
+    }
+
+    private fun fetchIdsOffers(checkInDate: String, checkOutDate: String) {
+        for (id in hotelIdList) {
+            hotelInfoManager.fetchOffers(checkInDate, checkOutDate, id)
         }
     }
 
@@ -143,5 +176,4 @@ class HotelCompareResultsActivity : AppCompatActivity(), HotelCompareAdapter.Com
 
         dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
     }
-
 }

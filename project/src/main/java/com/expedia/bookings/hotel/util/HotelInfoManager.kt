@@ -31,6 +31,11 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
         hotelServices.datelessInfo(hotelId, infoObserver)
     }
 
+    //todo need to standardize params to offers call
+    open fun fetchOffers(startDate: String, endDate: String, hotelId: String) {
+        hotelServices.offers(startDate, endDate, hotelId, offersObserver)
+    }
+
     open fun fetchOffers(startDate: LocalDate, endDate: LocalDate, hotelId: String) {
         hotelServices.offers(startDate, endDate, hotelId, offersObserver)
     }

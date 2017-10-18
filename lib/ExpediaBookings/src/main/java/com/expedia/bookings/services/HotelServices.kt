@@ -87,15 +87,20 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                     .subscribe(observer)
     }
 
-    fun offers(checkInDate: LocalDate, checkoutDate: LocalDate, hotelId: String,
+    fun offers(checkInDate: String, checkoutDate: String, hotelId: String,
                observer: Observer<HotelOffersResponse>) : Subscription {
-        return hotelApi.offers(checkInDate.toString(), checkoutDate.toString(), "1", hotelId, false, null)
+        return hotelApi.offers(checkInDate, checkoutDate, "1", hotelId, false, null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { response ->
                     doPostOffersClientSideWork(response)
                 }
                 .subscribe(observer)
+    }
+
+    fun offers(checkInDate: LocalDate, checkoutDate: LocalDate, hotelId: String,
+               observer: Observer<HotelOffersResponse>) : Subscription {
+        return offers(checkInDate.toString(), checkoutDate.toString(), hotelId, observer)
     }
 
     fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {

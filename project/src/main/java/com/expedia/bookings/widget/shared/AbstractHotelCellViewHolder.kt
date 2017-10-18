@@ -85,7 +85,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     }
 
     @CallSuper
-    open fun bindHotelData(hotel: Hotel) {
+    open fun bindHotelData(hotel: Hotel, isFavorite: Boolean) {
         viewModel.bindHotelData(hotel)
 
         this.hotelId = hotel.hotelId
@@ -112,19 +112,19 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         cardView.contentDescription = viewModel.getHotelContentDesc()
 
         // todo can we be smarter than hitting shared pref so much?
-        if (HotelFavoriteCache.isHotelIdFavorited(root.context, hotelId)) {
+        if (isFavorite) {
             heartIconView.setImageDrawable(ContextCompat.getDrawable(root.context,
                     R.drawable.ic_favorite_red))
         } else {
             heartIconView.setImageDrawable(ContextCompat.getDrawable(root.context,
-                    R.drawable.ic_favorite_white))
+                    R.drawable.ic_favorite_black))
         }
 
         heartIconTouchTarget.setOnClickListener {
             val context = root.context
             if (HotelFavoriteCache.isHotelIdFavorited(context, hotelId)) {
                 HotelFavoriteCache.removeHotelId(context, hotelId)
-                heartIconView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white))
+                heartIconView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_black))
             } else {
                 HotelFavoriteCache.saveHotelId(context, hotelId)
                 heartIconView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_red))

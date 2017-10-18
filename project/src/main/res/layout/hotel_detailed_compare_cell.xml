@@ -12,7 +12,7 @@
         android:id="@+id/detailed_compare_hotel_image"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
         android:background="@color/app_primary_light"
 
@@ -20,34 +20,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/detailed_compare_hotel_name"
-        style="@style/Core.Text.400.Medium"
-        android:layout_width="0dp"
+    <ImageView
+        android:id="@+id/detailed_compare_remove_hotel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_close_white_24dp"
         android:layout_marginTop="8dp"
-        android:gravity="top|center_horizontal"
-        android:lines="2"
-        android:maxLines="2"
-        android:ellipsize="end"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="16dp"
 
-        tools:text="San Franscisco Marriott Marguis"
-
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_image"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <View
-        android:id="@+id/detailed_compare_hotel_name_divider"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/app_divider_on_white"
-
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_name"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
         android:id="@+id/detailed_compare_star_rating_container"
@@ -56,30 +41,45 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
 
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_name_divider"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_image">
 
         <!--TODO why won't this draw in the center-->
-            <com.expedia.bookings.widget.StarRatingBar
-                android:id="@+id/detailed_compare_star_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
-                app:star_color="@color/hotelsv2_detail_star_color"
-                app:star_drawable="@drawable/results_map_preview_star"
-                app:star_spacing="4dp"
-                tools:background="@color/hotelsv2_detail_star_color"/>
+        <com.expedia.bookings.widget.StarRatingBar
+            android:id="@+id/detailed_compare_star_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:star_color="@color/hotelsv2_detail_star_color"
+            app:star_drawable="@drawable/results_map_preview_star"
+            app:star_spacing="4dp"
+            tools:background="@color/hotelsv2_detail_star_color"/>
     </LinearLayout>
 
-    <View
-        android:id="@+id/detailed_compare_star_rating_divider"
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/detailed_compare_hotel_name"
+        style="@style/Core.Text.300"
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="top|center_horizontal"
+        android:lines="2"
+        android:maxLines="2"
+        android:ellipsize="end"
+        tools:text="San Franscisco Marriott Marguis"
+
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_star_rating_container"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <View
+        android:id="@+id/detailed_compare_name_divider"
+        android:layout_width="0dp"
+        android:layout_height="1px"
         android:layout_marginTop="8dp"
         android:background="@color/app_divider_on_white"
 
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_star_rating_container"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -91,13 +91,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:lines="2"
-        android:maxLines="2"
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_star_rating_divider"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_name_divider"
         tools:text="4.3/5"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/detailed_compare_guest_rating_superlative"
+        style="@style/Core.Text.300"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_guest_rating"
+        tools:text="Excellent"/>
 
     <View
         android:id="@+id/detailed_compare_hotel_guest_divider"
@@ -106,7 +116,32 @@
         android:layout_marginTop="8dp"
         android:background="@color/app_divider_on_white"
 
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_guest_rating"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_guest_rating_superlative"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/detailed_compare_rating_count"
+        style="@style/Core.Text.300"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_guest_divider"
+        tools:text="2,413 Reviews"/>
+
+    <View
+        android:id="@+id/detailed_compare_hotel_rating_count_divider"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginTop="8dp"
+        android:background="@color/app_divider_on_white"
+
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_rating_count"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -116,11 +151,10 @@
         android:layout_height="wrap_content"
         android:fillViewport="true"
         android:paddingBottom="4dp"
-        android:paddingTop="10dp"
         android:layout_marginTop="8dp"
         android:scrollbars="none"
 
-        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_guest_divider"
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_rating_count_divider"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
@@ -137,18 +171,40 @@
 
     </HorizontalScrollView>
 
+    <View
+        android:id="@+id/detailed_compare_hotel_amenities_divider"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginTop="8dp"
+        android:background="@color/app_divider_on_white"
+
+        app:layout_constraintTop_toBottomOf="@+id/amenities_scroll_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/detailed_compare_price"
+        style="@style/Core.Text.500.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="$400"
+
+        app:layout_constraintTop_toBottomOf="@+id/detailed_compare_hotel_amenities_divider"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
     <com.expedia.bookings.widget.TextView
         android:id="@+id/detailed_compare_select_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/new_hotel_book_background_selector"
+        android:background="@drawable/rounded_ripple_primary"
         android:text="Select"
         android:textColor="@color/white"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
-        android:layout_marginBottom="16dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

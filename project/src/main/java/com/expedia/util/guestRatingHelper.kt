@@ -21,3 +21,19 @@ fun getGuestRatingText(rating: Float, resources: Resources) : String {
         resources.getString(R.string.hotel_guest_recommend_exceptional_superlative)
     }
 }
+
+fun getSuperlative(rating: Float) : String {
+    return if (rating < 3.5f) {
+        "Guest Rating"
+    } else if (rating < 4f) {
+        "Good!"
+    } else if (rating < 4.3f) {
+        "Very Good!"
+    } else if (rating < 4.5f) {
+        "Excellent!"
+    } else if (rating < 4.7f) {
+        "Wonderful!"
+    } else {
+        "Exceptional!"
+    }
+}

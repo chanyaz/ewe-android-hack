@@ -11,6 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -25,7 +26,8 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
+abstract class BaseHotelListAdapter(private val context: Context,
+                                    val hotelSelectedSubject: PublishSubject<Hotel>,
                                     val headerSubject: PublishSubject<Unit>,
                                     val pricingHeaderSelectedSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -56,6 +58,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
 
     private var hotels: ArrayList<Hotel> = ArrayList()
+    private var favoredHotels = ArrayList<String>()
 
     private fun getHotel(rawAdapterPosition: Int): Hotel {
         return hotels[rawAdapterPosition - numHeaderItemsInHotelsList()]
@@ -76,6 +79,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         loadingSubject.subscribe {
             loading = true
         }
+
+        favoredHotels = HotelFavoriteCache.getFavorites(context) ?: ArrayList<String>()
     }
 
     fun isLoading(): Boolean {
@@ -122,7 +127,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         when (holder) {
             is AbstractHotelCellViewHolder -> {
                 val hotel = hotels[fixedPosition]
-                holder.bindHotelData(hotel)
+                holder.bindHotelData(hotel, favoredHotels.contains(hotel.hotelId))
                 hotelListItemsMetadata.add(HotelListItemMetadata(holder.hotelId, holder.viewModel.soldOut))
                 if (!newResultsConsumed) {
                     newResultsConsumed = true

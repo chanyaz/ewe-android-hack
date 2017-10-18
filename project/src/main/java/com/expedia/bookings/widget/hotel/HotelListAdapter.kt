@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.hotel
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
@@ -7,8 +8,8 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import rx.subjects.PublishSubject
 
-class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>) :
-        BaseHotelListAdapter(hotelSelectedSubject, headerSubject, pricingHeaderSelectedSubject) {
+class HotelListAdapter(context: Context, hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>) :
+        BaseHotelListAdapter(context, hotelSelectedSubject, headerSubject, pricingHeaderSelectedSubject) {
 
     override fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)

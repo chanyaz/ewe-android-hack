@@ -28,10 +28,13 @@ import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.activity.HotelCompareResultsActivity
+import com.expedia.bookings.hotel.activity.HotelDetailedCompareActivity
 import com.expedia.bookings.hotel.animation.AnimationRunner
 import com.expedia.bookings.hotel.animation.ScaleInRunnable
 import com.expedia.bookings.hotel.animation.ScaleOutRunnable
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
+import com.expedia.bookings.hotel.deeplink.HotelExtras
+import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
@@ -347,7 +350,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun getHotelListAdapter(): BaseHotelListAdapter {
-        return HotelListAdapter(hotelSelectedSubject, headerClickedSubject, pricingHeaderSelectedSubject)
+        return HotelListAdapter(context, hotelSelectedSubject, headerClickedSubject, pricingHeaderSelectedSubject)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
@@ -428,7 +431,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun launchCompare() {
-        val intent = Intent(context, HotelCompareResultsActivity::class.java)
+        val intent = Intent(context, HotelDetailedCompareActivity::class.java)
+
+        val ids = HotelFavoriteCache.getFavorites(context)
+        intent.putExtra(HotelExtras.COMPARE_HOTEL_IDS, ids?.toTypedArray())
+        intent.putExtra(HotelExtras.HOTEL_SEARCH_CHECK_IN, viewModel.getSearchParams()?.checkIn.toString())
+        intent.putExtra(HotelExtras.HOTEL_SEARCH_CHECK_OUT, viewModel.getSearchParams()?.checkOut.toString())
+
         context.startActivity(intent)
     }
 
