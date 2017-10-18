@@ -9,6 +9,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
+import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -154,6 +155,14 @@ object FlightsV2Tracking {
 
     fun trackConfirmationShareItinClicked() {
         OmnitureTracking.trackFlightConfirmationShareItinClicked()
+    }
+
+    fun trackKrazyglueExposure(krazyGlueHotels: List<KrazyglueResponse.KrazyglueHotel>?) {
+        OmnitureTracking.trackFlightsKrazyglueExposure(krazyGlueHotels)
+    }
+
+    fun trackKrazyglueHotelClicked(position: Int) {
+        OmnitureTracking.trackFlightsKrazyglueClick(position)
     }
 
     @JvmStatic fun trackCheckoutSelectTraveler() {

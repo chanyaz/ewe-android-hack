@@ -52,6 +52,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightItineraryType;
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
+import com.expedia.bookings.data.flights.KrazyglueResponse;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
@@ -90,6 +91,7 @@ import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.PageUsableData;
 import com.expedia.bookings.utils.CollectionUtils;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
@@ -4526,6 +4528,10 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_ITIN_SHARE_CLICK = "App.Flight.CKO.Share.Start";
 	private static final String FLIGHTS_V2_SHARE = "App.Flight.CKO.Share";
 	private static final String FLIGHTS_V2_SWITCH_TO_FROM = "App.Flight.DS.SwitchFields.Clicked";
+	private static final String FLIGHTS_V2_KRAZY_GLUE_PAGE_NAME = "App.Kg.expedia.conf";
+	private static final String FLIGHTS_V2_KRAZY_GLUE_WEB_TRACKING_LINK = "mip.hot.kg.expedia.conf";
+	private static final String FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK = "Krazyglue Click";
+	private static final String FLIGHTS_V2_KRAZY_GLUE_HOTEL_CLICKED = "mip.hot.app.kg.flight.conf.HSR.tile";
 
 	private static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -4769,6 +4775,42 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
 		}
 
+		s.track();
+	}
+
+	public static void trackFlightsKrazyglueClick(int position) {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK + "\" interaction...");
+		final String rfrrString = FLIGHTS_V2_KRAZY_GLUE_HOTEL_CLICKED + position;
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, rfrrString);
+		s.setProp(16, rfrrString);
+		s.setEvar(65, Constants.KRAZY_GLUE_PARTNER_ID);
+		s.setEvents("event83");
+
+		s.trackLink(null, "o", FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK, null, null);
+	}
+
+	public static void trackFlightsKrazyglueExposure(List<KrazyglueResponse.KrazyglueHotel> krazyGlueHotels) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(FLIGHTS_V2_KRAZY_GLUE_PAGE_NAME);
+		s.setEvar(28, FLIGHTS_V2_KRAZY_GLUE_WEB_TRACKING_LINK);
+		s.setProp(16, FLIGHTS_V2_KRAZY_GLUE_WEB_TRACKING_LINK);
+		s.setEvar(43, FLIGHTS_V2_KRAZY_GLUE_WEB_TRACKING_LINK);
+		s.setEvar(65, Constants.KRAZY_GLUE_PARTNER_ID);
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "krazyglue");
+		s.setEvar(4, "D=c4");
+		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+		s.setProp(4, airportCodes.second);
+		String krazyGlueProductString = "";
+		for (int i = 0; i < krazyGlueHotels.size(); i++) {
+			KrazyglueResponse.KrazyglueHotel hotel = krazyGlueHotels.get(i);
+			krazyGlueProductString += ("Hotel:" + hotel.getHotelId() + ";;");
+			if (i < krazyGlueHotels.size() - 1) {
+				krazyGlueProductString += ",";
+			}
+		}
+		s.setProducts(krazyGlueProductString);
 		s.track();
 	}
 

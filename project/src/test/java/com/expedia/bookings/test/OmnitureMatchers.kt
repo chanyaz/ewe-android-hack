@@ -18,6 +18,10 @@ class OmnitureMatchers {
                 CustomMatchers.hasEntries(data.map { Pair("&&c" + it.key, it.value) }.toMap())
 
         @JvmStatic
+        fun withProductsString(products: String): Matcher<Map<String, Any>> =
+                Matchers.hasEntry("&&products", products) as Matcher<Map<String, Any>>
+
+        @JvmStatic
         fun withEventsString(events: String): Matcher<Map<String, Any>> =
                 Matchers.hasEntry("&&events", events) as Matcher<Map<String, Any>>
 

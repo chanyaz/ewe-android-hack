@@ -98,4 +98,6 @@ public class Constants {
 	
 	//Location Permission Prompt Limit
 	public static final int LOCATION_PROMPT_LIMIT = 3;
+
+	public static final String KRAZY_GLUE_PARTNER_ID = "expedia-hot-mobile-conf";
 }

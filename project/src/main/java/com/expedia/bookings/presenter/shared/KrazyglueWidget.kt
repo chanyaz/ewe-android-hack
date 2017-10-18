@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.util.subscribeText
@@ -22,6 +23,7 @@ class KrazyglueWidget(context: Context, attr: AttributeSet?) : LinearLayout(cont
                 visibility = View.GONE
             } else {
                 visibility = View.VISIBLE
+                FlightsV2Tracking.trackKrazyglueExposure(it)
             }
         }
         krazyglueWidgetViewModel
