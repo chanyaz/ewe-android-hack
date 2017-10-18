@@ -6,6 +6,8 @@ import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Carnival
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.Days
 import org.joda.time.LocalDate
@@ -29,14 +31,14 @@ open class CarnivalUtils {
 
     fun initialize(context: Context) {
         appContext = context
-        initialized = true
         if (isFeatureToggledOn()) {
+            initialized = true
             Carnival.startEngine(appContext, appContext.getString(R.string.carnival_sdk_debug_key))
         }
     }
 
     fun trackFlightSearch(destination: String?, adults: Int, departure_date: LocalDate) {
-        if (isFeatureToggledOn()) {
+        if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
             attributes.putString("search_flight_destination", destination)
             attributes.putInt("search_flight_number_of_adults", adults)
@@ -46,7 +48,7 @@ open class CarnivalUtils {
     }
 
     fun trackHotelSearch(trackingParams: HotelSearchTrackingData) {
-        if (isFeatureToggledOn()) {
+        if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
             attributes.putString("search_hotel_destination", trackingParams.city + ", " + trackingParams.stateProvinceCode)
             attributes.putInt("search_hotel_number_of_adults", trackingParams.numberOfAdults)
@@ -56,8 +58,20 @@ open class CarnivalUtils {
         }
     }
 
+    fun trackHotelInfoSite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams) {
+        if (isFeatureToggledOn() && initialized) {
+            val attributes = AttributeMap()
+            attributes.putString("product_view_hotel_destination", hotelOffersResponse.hotelCity)
+            attributes.putString("product_view_hotel_hotel_name", hotelOffersResponse.hotelName)
+            attributes.putInt("product_view_hotel_number_of_adults", searchParams.adults)
+            attributes.putDate("product_view_hotel_check-in_date", searchParams.checkIn.toDate())
+            attributes.putInt("product_view_hotel_length_of_stay", JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut))
+            setAttributes(attributes, "product_view_hotel")
+        }
+    }
+
     fun trackLxConfirmation(activityTitle: String, activityDate: String) {
-        if (isFeatureToggledOn()) {
+        if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
             attributes.putString("confirmation_lx_activity_name", activityTitle)
             attributes.putDate("confirmation_lx_date_of_activity", DateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate())
@@ -66,7 +80,7 @@ open class CarnivalUtils {
     }
 
     fun trackPackagesConfirmation(packageParams: PackageSearchParams) {
-        if (isFeatureToggledOn()) {
+        if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
             attributes.putString("confirmation_pkg_destination", packageParams.destination?.regionNames?.fullName)
             attributes.putDate("confirmation_pkg_departure_date", packageParams.startDate.toDate())
@@ -75,7 +89,7 @@ open class CarnivalUtils {
         }
     }
 
-    private fun isFeatureToggledOn() : Boolean = initialized && FeatureToggleUtil.isFeatureEnabled(appContext, R.string.preference_new_carnival_notifications)
+    private fun isFeatureToggledOn() : Boolean = FeatureToggleUtil.isFeatureEnabled(appContext, R.string.preference_new_carnival_notifications)
 
     open fun setAttributes(attributes: AttributeMap, eventName: String) {
         Carnival.logEvent(eventName)

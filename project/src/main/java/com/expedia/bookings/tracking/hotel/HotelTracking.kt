@@ -152,6 +152,7 @@ open class HotelTracking {
             OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut, pageLoadTime, swpEnabled)
             TuneUtils.trackHotelV2InfoSite(hotelOffersResponse)
             FacebookEvents().trackHotelV2InfoSite(searchParams, hotelOffersResponse)
+            CarnivalUtils.getInstance().trackHotelInfoSite(hotelOffersResponse, searchParams)
         }
 
         fun trackHotelNarrowPrompt(){
