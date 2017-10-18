@@ -4766,7 +4766,7 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_krazy_glue_on_flights_confirmation)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyGlue);
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
 		}
 
 		s.track();

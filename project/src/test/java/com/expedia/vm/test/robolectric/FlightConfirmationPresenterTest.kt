@@ -28,7 +28,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isKrazyGlueOnFlightsConfirmationEnabled
+import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
@@ -196,27 +196,27 @@ class FlightConfirmationPresenterTest {
     }
 
     @Test
-    fun testKrazyGlueEnabled() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+    fun testKrazyglueEnabled() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
         SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
 
-        assertTrue(isKrazyGlueOnFlightsConfirmationEnabled(activity))
+        assertTrue(isKrazyglueOnFlightsConfirmationEnabled(activity))
     }
 
     @Test
-    fun testKrazyGlueDisabledBucketedFeatureToggleOff() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+    fun testKrazyglueDisabledBucketedFeatureToggleOff() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
         SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), false)
 
-        assertFalse(isKrazyGlueOnFlightsConfirmationEnabled(activity))
+        assertFalse(isKrazyglueOnFlightsConfirmationEnabled(activity))
     }
 
     @Test
-    fun testKrazyGlueDisabledFeatureToggleEnabledNotBucketed() {
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+    fun testKrazyglueDisabledFeatureToggleEnabledNotBucketed() {
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
         SettingUtils.save(activity, activity.getString(R.string.preference_enable_krazy_glue_on_flights_confirmation), true)
 
-        assertFalse(isKrazyGlueOnFlightsConfirmationEnabled(activity))
+        assertFalse(isKrazyglueOnFlightsConfirmationEnabled(activity))
     }
 
     private fun setupPresenter() {

@@ -229,7 +229,7 @@ public class EndpointProvider {
 
 	private static final String PROD_KRAZY_GLUE_URL = "https://xsell.expedia.com";
 
-	public String getKrazyGlueEndpointUrl() {
+	public String getKrazyglueEndpointUrl() {
 		return PROD_KRAZY_GLUE_URL;
 	}
 

@@ -24,7 +24,7 @@ class KrazyglueWidgetTest {
     fun testVisibilityGONEWhenFeatureToggleONAndBucketingOFF() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
@@ -37,7 +37,7 @@ class KrazyglueWidgetTest {
     fun testVisibilityGONEWhenFeatureToggleOFFAndBucketingOFF() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, false)
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
@@ -50,7 +50,7 @@ class KrazyglueWidgetTest {
     fun testVisibilityGONEWhenFeatureToggleOFFAndBucketingON() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, false)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
 
@@ -117,6 +117,6 @@ class KrazyglueWidgetTest {
 
     private fun enableKrazyglueTest(activity: Activity?) {
         SettingUtils.save(activity, R.string.preference_enable_krazy_glue_on_flights_confirmation, true)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyGlue)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
     }
 }

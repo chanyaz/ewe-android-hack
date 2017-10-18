@@ -19,7 +19,7 @@ import rx.subjects.PublishSubject
 
 class KrazyglueWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
-    fun isWidgetEnabled() = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsKrazyGlue, R.string.preference_enable_krazy_glue_on_flights_confirmation)
+    fun isWidgetEnabled() = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsKrazyglue, R.string.preference_enable_krazy_glue_on_flights_confirmation)
 
     val viewModel by lazy {
         val krazyGlueWidgetViewModel = KrazyglueWidgetViewModel(context)

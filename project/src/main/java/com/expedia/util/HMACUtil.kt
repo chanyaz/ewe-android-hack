@@ -58,7 +58,7 @@ class HMACUtil {
             return key.toString()
         }
 
-        @JvmStatic fun getSignedKrazyGlueUrl(baseUrl: String, key: String, destinationCode: String, destinationDateTime: String) : String {
+        @JvmStatic fun getSignedKrazyglueUrl(baseUrl: String, key: String, destinationCode: String, destinationDateTime: String) : String {
             val urlWithParams = "$baseUrl?partnerId=expedia-hot-mobile-conf&outboundEndDateTime=$destinationDateTime&destinationTla=$destinationCode&fencedResponse=true"
             val signature = createHmac(key, urlWithParams).replace("+", "-").replace("/", "_").removeSuffix("=")
             val signedUrl = "$urlWithParams&signature=$signature"

@@ -8,7 +8,7 @@ import com.expedia.bookings.presenter.flight.FlightOverviewPresenter;
 import com.expedia.bookings.presenter.flight.FlightPresenter;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.services.ItinTripServices;
-import com.expedia.bookings.services.KrazyGlueServices;
+import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
@@ -29,5 +29,5 @@ public interface FlightComponent {
 
 	SuggestionV4Services suggestionsService();
 	ItinTripServices itinTripService();
-	KrazyGlueServices krazyGlueService();
+	KrazyglueServices krazyGlueService();
 }

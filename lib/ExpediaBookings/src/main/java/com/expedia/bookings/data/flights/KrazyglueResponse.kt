@@ -2,13 +2,13 @@ package com.expedia.bookings.data.flights
 
 import com.google.gson.annotations.SerializedName
 
-class KrazyGlueResponse {
+class KrazyglueResponse {
     var success: Boolean = false
     lateinit var destinationName: String
     @SerializedName("xsellHotels")
-    var krazyGlueHotels: List<KrazyGlueHotel> ?= null
+    var krazyglueHotels: List<KrazyglueHotel> ?= null
 
-    class KrazyGlueHotel {
+    class KrazyglueHotel {
         lateinit var hotelId: String
         lateinit var hotelName: String
         lateinit var starRating: String

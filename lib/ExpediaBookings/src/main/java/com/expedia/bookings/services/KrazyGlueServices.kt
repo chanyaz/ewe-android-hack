@@ -1,6 +1,6 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.flights.KrazyGlueResponse
+import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -12,9 +12,9 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class KrazyGlueServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class KrazyglueServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
-    val krazyGlueApi: KrazyGlueApi by lazy {
+    val krazyglueApi: KrazyglueApi by lazy {
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                 .create()
@@ -26,15 +26,15 @@ class KrazyGlueServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
-        adapter.create(KrazyGlueApi::class.java)
+        adapter.create(KrazyglueApi::class.java)
     }
 
     var krazyGlueSubscription: Subscription? = null
 
-    open fun getKrazyGlueHotels(signedUrl: String, observer: Observer<KrazyGlueResponse>) : Subscription {
+    open fun getKrazyglueHotels(signedUrl: String, observer: Observer<KrazyglueResponse>) : Subscription {
         krazyGlueSubscription?.unsubscribe()
 
-        krazyGlueSubscription = krazyGlueApi.getKrazyGlueHotels(signedUrl)
+        krazyGlueSubscription = krazyglueApi.getKrazyglueHotels(signedUrl)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
