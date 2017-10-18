@@ -790,8 +790,8 @@
     <!-- "Done" list header label -->
     <string name="Done">완료</string>
 
-    <!-- Cabin Class label -->
-    <string name="cabin_class">좌석 등급</string>
+    <!-- Select your fare label -->
+    <string name="select_your_fare">요금 선택</string>
 
     <!-- Cabin: Economy -->
     <string name="cabin_code_TEMPLATE">좌석: {cabincode}</string>
@@ -1062,10 +1062,14 @@
     <string name="check_in_notification_title">호텔 체크인 다시 알림</string>
     <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
     <string name="check_in_notification_body_TEMPLATE">내일 {hotel} 체크인이 {checkin}에 시작됩니다. 예약 세부 정보를 확인해 보세요.</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out at 3 PM")-->
-    <string name="check_out_notification_title_TEMPLATE">체크아웃 시간: {checkout}</string>
-    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. Check out time your hotel booking for Caesars Palace is at 2 AM. View your booking for details.-->
-    <string name="check_out_notification_body_TEMPLATE">{hotel}에서 체크아웃하는 시간은 {checkout}입니다. 예약 세부 정보를 확인해 보세요.</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
+    <string name="check_out_notification_title_day_of_TEMPLATE">오늘 {checkout} 체크아웃</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
+    <string name="check_out_notification_title_day_before_TEMPLATE">내일 {checkout} 체크아웃</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is today at 11 PM. Tap for details.")-->
+    <string name="check_out_notification_body_day_of_TEMPLATE">{hotel}에서 체크아웃하실 시간은 오늘 {checkout}입니다. 자세히 보려면 탭하세요.</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is tomorrow at 11 PM. Tap for details.")-->
+    <string name="check_out_notification_body_day_before_TEMPLATE">{hotel}에서 체크아웃하실 시간은 내일 {checkout}입니다. 자세히 보려면 탭하세요.</string>
     <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination} 즐길거리</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
@@ -1600,6 +1604,12 @@
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
     <string name="itin_flight_toolbar_title_TEMPLATE">{destination}행 항공편</string>
+    <!--Flight itin summary widget - to arrow content description-->
+    <string name="itin_flight_summary_arrow_cont_desc">부터</string>
+    <!--Flight itin summary widget airport name template. {city} ({code}) (e.g., San Francisco (SFO))-->
+    <string name="itin_flight_summary_airport_name_code_TEMPLATE">{city} ({code})</string>
+    <!--Flight itin summary widget operated by template. Operated by {operatedby} (e.g., Operated by Delta)-->
+    <string name="itin_flight_summary_operated_by_TEMPLATE">{operatedby}에서 운항</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3일 후 체크인</string>
@@ -4214,7 +4224,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} 출발 {arrival} 도착</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4609,11 +4619,11 @@
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">지원 불가</string>
 
-    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
-    <string name="activity_price_without_discount_cont_desc_TEMPLATE">요금은 {activity_price}입니다.</string>
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
+    <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">요금은 {ticket_type} {activity_price}입니다.</string>
 
-    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
-    <string name="activity_price_with_discount_cont_desc_TEMPLATE">요금은 {activity_price}입니다. 할인 전 요금은 {activity_original_price}입니다.</string>
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180 per adult. Price before discount was $230 per adult-->
+    <string name="activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE">요금은 {ticket_type} {activity_price}입니다. 할인 전 요금은 {ticket_type} {activity_original_price}입니다.</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">확인란. 체크됨.</string>
     <!-- Content description for Checkbox types, state Unchecked -->
@@ -4825,7 +4835,7 @@
 
     <!-- Amenities String -->
     <string name="amenity_checked_bags">위탁 수하물</string>
-    <string name="amenity_cancellation">취소</string>
+    <string name="amenity_carry_on_bag">휴대 수하물</string>
     <string name="amenity_seat_choice">좌석 선택</string>
 
     <!-- Amenity Show More String -->
@@ -4836,5 +4846,13 @@
     <string name="fare_family_fee_applies">요금 적용 항목</string>
     <string name="fare_family_not_available">불포함 항목</string>
     <string name="fare_family_unknown">알 수 없음</string>
+    <!-- Error message that user is not connected to the internet -->
+    <string name="error_no_internet">인터넷이 연결되어 있지 않습니다. 연결 상태를 확인하고 다시 시도해 주세요.</string>
+
+    <!-- Confirmation widget Strings -->
+    <string name="flight_itin_confirmation_status_label">확인</string>
+    <string name="flight_itin_cancelled_status_label">결항됨</string>
+    <string name="flight_itin_in_progress_status_label">발권 진행 중</string>
+
 
 </resources>

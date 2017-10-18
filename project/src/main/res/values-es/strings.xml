@@ -790,8 +790,8 @@
     <!-- "Done" list header label -->
     <string name="Done">Listo</string>
 
-    <!-- Cabin Class label -->
-    <string name="cabin_class">Clase de cabina</string>
+    <!-- Select your fare label -->
+    <string name="select_your_fare">Selecciona una tarifa</string>
 
     <!-- Cabin: Economy -->
     <string name="cabin_code_TEMPLATE">Clase: {cabincode}</string>
@@ -1062,10 +1062,14 @@
     <string name="check_in_notification_title">Recordatorio de check-in en el hotel</string>
     <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
     <string name="check_in_notification_body_TEMPLATE">El check-in de tu reservación en {hotel} comienza mañana a las {checkin}. Consulta tu reservación para ver los detalles.</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out at 3 PM")-->
-    <string name="check_out_notification_title_TEMPLATE">Check-out: {checkout}</string>
-    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. Check out time your hotel booking for Caesars Palace is at 2 AM. View your booking for details.-->
-    <string name="check_out_notification_body_TEMPLATE">El check-out de tu reservación en {hotel} se hace a las {checkout}. Consulta tu reservación para ver los detalles.</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
+    <string name="check_out_notification_title_day_of_TEMPLATE">Check-out hoy a las {checkout}</string>
+    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
+    <string name="check_out_notification_title_day_before_TEMPLATE">Check-out mañana a las {checkout}</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is today at 11 PM. Tap for details.")-->
+    <string name="check_out_notification_body_day_of_TEMPLATE">El check-out en {hotel} es hoy a las {checkout}. Toca para ver más información.</string>
+    <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is tomorrow at 11 PM. Tap for details.")-->
+    <string name="check_out_notification_body_day_before_TEMPLATE">El check-out en {hotel} es mañana a las {checkout}. Toca para ver más información.</string>
     <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Actividades en {destination}</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
@@ -1600,6 +1604,12 @@
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
     <string name="itin_flight_toolbar_title_TEMPLATE">Vuelo a {destination}</string>
+    <!--Flight itin summary widget - to arrow content description-->
+    <string name="itin_flight_summary_arrow_cont_desc">a</string>
+    <!--Flight itin summary widget airport name template. {city} ({code}) (e.g., San Francisco (SFO))-->
+    <string name="itin_flight_summary_airport_name_code_TEMPLATE">{city} ({code})</string>
+    <!--Flight itin summary widget operated by template. Operated by {operatedby} (e.g., Operated by Delta)-->
+    <string name="itin_flight_summary_operated_by_TEMPLATE">Operado por {operatedby}</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in en 3 días</string>
@@ -4609,11 +4619,11 @@
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">deshabilitada</string>
 
-    <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
-    <string name="activity_price_without_discount_cont_desc_TEMPLATE">El precio es {activity_price}</string>
+    <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
+    <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">El precio es de {activity_price} {ticket_type}</string>
 
-    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
-    <string name="activity_price_with_discount_cont_desc_TEMPLATE">El precio es {activity_price}. El precio antes del descuento era {activity_original_price}</string>
+    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180 per adult. Price before discount was $230 per adult-->
+    <string name="activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE">El precio es de {activity_price} {ticket_type}. El precio antes del descuento era {activity_original_price} {ticket_type}</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">Casilla de verificación. Seleccionada.</string>
     <!-- Content description for Checkbox types, state Unchecked -->
@@ -4825,7 +4835,7 @@
 
     <!-- Amenities String -->
     <string name="amenity_checked_bags">Equipaje en la bodega del avión</string>
-    <string name="amenity_cancellation">Cancelación</string>
+    <string name="amenity_carry_on_bag">Equipaje de mano</string>
     <string name="amenity_seat_choice">Selección de asientos</string>
 
     <!-- Amenity Show More String -->
@@ -4836,5 +4846,13 @@
     <string name="fare_family_fee_applies">Con cargo</string>
     <string name="fare_family_not_available">No incluidos</string>
     <string name="fare_family_unknown">Información desconocida</string>
+    <!-- Error message that user is not connected to the internet -->
+    <string name="error_no_internet">Tu equipo no está conectado a internet.  Verifica la conexión e inténtalo de nuevo.</string>
+
+    <!-- Confirmation widget Strings -->
+    <string name="flight_itin_confirmation_status_label">Confirmación</string>
+    <string name="flight_itin_cancelled_status_label">Cancelado</string>
+    <string name="flight_itin_in_progress_status_label">Emisión de boletos en proceso</string>
+
 
 </resources>
