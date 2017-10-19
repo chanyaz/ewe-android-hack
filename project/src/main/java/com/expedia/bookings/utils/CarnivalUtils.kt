@@ -7,12 +7,16 @@ import com.carnival.sdk.Carnival
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LoyaltyMembershipTier
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import org.joda.time.Days
 import org.joda.time.LocalDate
+import com.carnival.sdk.Carnival.CarnivalHandler
+import com.expedia.bookings.data.trips.Trip
 
 open class CarnivalUtils {
 
@@ -36,6 +40,25 @@ open class CarnivalUtils {
         if (isFeatureToggledOn()) {
             initialized = true
             Carnival.startEngine(appContext, appContext.getString(R.string.carnival_sdk_debug_key))
+        }
+    }
+
+    fun trackLaunch(isLocationEnabled: Boolean, isSignedIn: Boolean, traveler: Traveler?, bookedProducts: MutableCollection<Trip>, loyaltyTier: LoyaltyMembershipTier?, latitude: Double?, longitude: Double?) {
+        if (isFeatureToggledOn() && initialized) {
+            val attributes = AttributeMap()
+            val coordinates = latitude.toString() + ", " + longitude.toString()
+            val bookedTrips = hashSetOf<String>()
+            bookedProducts.mapTo(bookedTrips) { it.tripComponents.first()?.type.toString() }
+
+            attributes.putBoolean("app_open_launch_relaunch_location_enabled", isLocationEnabled)
+            traveler?.tuid?.toInt()?.let { attributes.putInt("app_open_launch_relaunch_userid", it) }
+            attributes.putString("app_open_launch_relaunch_user_email", traveler?.email)
+            attributes.putBoolean("app_open_launch_relaunch_sign-in", isSignedIn)
+            attributes.putStringArray("app_open_launch_relaunch_booked_product", ArrayList(bookedTrips.distinct()))
+            attributes.putString("app_open_launch_relaunch_loyalty_tier", loyaltyTier?.toApiValue())
+            attributes.putString("app_open_launch_relaunch_last_location", coordinates)
+            attributes.putStringArray("app_open_launch_relaunch_notification_type", arrayListOf("MKTG", "SERV", "PROMO")) //by default give them all types until the control is created to set these values
+            setAttributes(attributes, "app_open_launch_relaunch")
         }
     }
 
@@ -107,10 +130,10 @@ open class CarnivalUtils {
     fun trackRailConfirmation(railCheckoutResponse: RailCheckoutResponse) {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
-            attributes.putString("confirmation_rail_destination", railCheckoutResponse.railDomainProduct.railOffer
-                    .railProductList.first()?.legOptionList?.first()?.arrivalStation?.stationDisplayName)
-            attributes.putDate("confirmation_rail_departure_date", railCheckoutResponse.railDomainProduct.railOffer
-                    .railProductList.first()?.legOptionList?.first()?.departureDateTime?.toDateTime()?.toDate())
+            val railLeg = railCheckoutResponse.railDomainProduct.railOffer.railProductList.first()?.legOptionList?.first()
+
+            attributes.putString("confirmation_rail_destination", railLeg?.arrivalStation?.stationDisplayName + ", " + railLeg?.arrivalStation?.stationCity)
+            attributes.putDate("confirmation_rail_departure_date", railLeg?.departureDateTime?.toDateTime()?.toDate())
             setAttributes(attributes, "confirmation_rail")
         }
     }
@@ -128,6 +151,34 @@ open class CarnivalUtils {
                 Log.d(TAG, error.message)
             }
         })
+    }
+
+    open fun setUserInfo(userId: String?, userEmail: String?) {
+        if (isFeatureToggledOn() && initialized) {
+            Carnival.setUserId(userId, object : CarnivalHandler<Void> {
+                override fun onSuccess(value: Void) {
+                    Log.d(TAG, "Carnival UserId set successfully.")
+                }
+
+                override fun onFailure(error: Error) {
+                    Log.d(TAG, error.message)
+                }
+            })
+
+            Carnival.setUserEmail(userEmail, object : CarnivalHandler<Void> {
+                override fun onSuccess(value: Void) {
+                    Log.d(TAG, "Carnival User Email set successfully.")
+                }
+
+                override fun onFailure(error: Error) {
+                    Log.d(TAG, error.message)
+                }
+            })
+        }
+    }
+
+    fun clearUserInfo() {
+        setUserInfo(null, null)
     }
 
     private fun getAllAirlinesInTrip(outboundLeg: FlightLeg?, inboundLeg: FlightLeg?, isRoundTrip: Boolean) : ArrayList<String> {

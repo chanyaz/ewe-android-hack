@@ -17,6 +17,7 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.server.ExpediaServices
+import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.model.UserLoginStateChangedModel
 
@@ -78,6 +79,7 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
         logger.dumpToLog()
 
         userLoginStateChangedModel.userLoginStateChanged.onNext(false)
+        CarnivalUtils.getInstance().clearUserInfo()
     }
 
     fun isUserAuthenticated(): Boolean {

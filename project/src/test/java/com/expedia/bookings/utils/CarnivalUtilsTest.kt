@@ -3,11 +3,14 @@ package com.expedia.bookings.utils
 import com.carnival.sdk.AttributeMap
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.rail.responses.*
+import com.expedia.bookings.data.trips.Trip
+import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -24,7 +27,9 @@ import kotlin.test.assertEquals
 class CarnivalUtilsTest : CarnivalUtils() {
 
     private lateinit var attributesToSend : AttributeMap
-    private lateinit var eventNameToLog: String
+    private var eventNameToLog: String? = null
+    private var userIdToLog: String? = null
+    private var userEmailToLog: String? = null
     private val context = RuntimeEnvironment.application
 
     @Before
@@ -181,8 +186,52 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val formattedRailDate = railLeg.departureDateTime.toDateTime().toDate()
 
         assertEquals(eventNameToLog, "confirmation_rail")
-        assertEquals(attributesToSend.get("confirmation_rail_destination"), "King's Cross")
+        assertEquals(attributesToSend.get("confirmation_rail_destination"), "King's Cross, London")
         assertEquals(attributesToSend.get("confirmation_rail_departure_date"), formattedRailDate)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackAppLaunch() {
+        reset()
+
+        val traveler = Traveler()
+        traveler.tuid = 12345
+        traveler.email = "Tester@Test.com"
+        val tripComponent = TripComponent(TripComponent.Type.HOTEL)
+        val hotelTrip = Trip()
+        hotelTrip.addTripComponent(tripComponent)
+        val trips = arrayListOf(hotelTrip)
+
+        this.trackLaunch(true, true, traveler, trips, com.expedia.bookings.data.LoyaltyMembershipTier.TOP, 100.1, 75.2)
+
+        assertEquals(eventNameToLog, "app_open_launch_relaunch")
+        assertEquals(attributesToSend.get("app_open_launch_relaunch_location_enabled"), true)
+        assertEquals(attributesToSend.get("app_open_launch_relaunch_userid"), 12345)
+        assertEquals(attributesToSend.get("app_open_launch_relaunch_user_email"), "Tester@Test.com")
+        assertEquals(attributesToSend.get("app_open_launch_relaunch_sign-in"), true)
+        assertEquals(attributesToSend.get("app_open_launch_relaunch_booked_product"), arrayListOf("HOTEL"))
+        assertEquals(attributesToSend.get("app_open_launch_relaunch_loyalty_tier"), "GOLD")
+        assertEquals(attributesToSend.get("app_open_launch_relaunch_last_location"), "100.1, 75.2")
+        assertEquals(attributesToSend.get("app_open_launch_relaunch_notification_type"), arrayListOf("MKTG", "SERV", "PROMO"))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testSetUserInfo() {
+        this.setUserInfo("123456", "Tester@Test.com")
+
+        assertEquals(userIdToLog, "123456")
+        assertEquals(userEmailToLog, "Tester@Test.com")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testClearUserInfo() {
+        this.clearUserInfo()
+
+        assertEquals(userIdToLog, null)
+        assertEquals(userEmailToLog, null)
     }
 
     private fun reset() {
@@ -194,5 +243,11 @@ class CarnivalUtilsTest : CarnivalUtils() {
         //Don't actually send anything up to carnival
         eventNameToLog = eventName
         attributesToSend = attributes
+    }
+
+    override fun setUserInfo(userId: String?, userEmail: String?) {
+        //Don't actually set these user values on carnival
+        userIdToLog = userId
+        userEmailToLog = userEmail
     }
 }

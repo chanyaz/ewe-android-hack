@@ -52,6 +52,7 @@ import com.expedia.bookings.tracking.AppStartupTimeLogger
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
+import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
@@ -68,6 +69,7 @@ import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
 import com.expedia.util.PermissionsUtils.isFirstTimeAskingLocationPermission
 import com.expedia.util.PermissionsUtils.requestLocationPermission
+import com.mobiata.android.LocationServices
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -203,6 +205,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 requestLocationPermission(this)
             }
         }
+
+        val lastLocation = LocationServices.getLastBestLocation(this, 0)
+        CarnivalUtils.getInstance().trackLaunch(
+                havePermissionToAccessLocation(this), userStateManager.isUserAuthenticated(),
+                userStateManager.userSource.user?.primaryTraveler, ItineraryManager.getInstance().trips,
+                userStateManager.getCurrentUserLoyaltyTier(), lastLocation?.latitude, lastLocation?.longitude)
     }
 
     private fun requestLocationPermissionViaSoftPrompt() {

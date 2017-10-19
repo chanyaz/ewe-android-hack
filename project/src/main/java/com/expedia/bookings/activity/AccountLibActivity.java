@@ -27,6 +27,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CarnivalUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -211,6 +212,10 @@ public class AccountLibActivity extends AppCompatActivity
 				loginExtenderContainer.setVisibility(View.VISIBLE);
 				loginExtender.onLoginComplete(this, this, loginExtenderContainer);
 				return;
+			}
+
+			if (user != null) {
+				CarnivalUtils.getInstance().setUserInfo(user.getTuidString(),user.getPrimaryTraveler().getEmail());
 			}
 		}
 
