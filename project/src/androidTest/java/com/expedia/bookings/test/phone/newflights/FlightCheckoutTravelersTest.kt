@@ -86,7 +86,6 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.last_name_input, R.drawable.invalid)
         Common.pressBack()
 
-        onView(withText("Save")).perform(click())
         onView(withText("Traveler details")).perform(waitForViewToDisplay())
         onView(withId(R.id.additional_traveler_container)).perform(click())
         Espresso.closeSoftKeyboard()

@@ -3,6 +3,7 @@ package com.expedia.vm.test.traveler
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -10,12 +11,16 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.vm.traveler.FlightTravelersViewModel
+import com.expedia.vm.traveler.TravelerSelectItemViewModel
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
@@ -87,6 +92,43 @@ class TravelersPresenterTest {
         assertEquals(View.VISIBLE, flightTravelerEntryWidget.advancedButton.visibility)
         assertEquals(View.GONE, flightTravelerEntryWidget.frequentFlyerButton?.visibility)
         assertEquals(View.GONE, flightTravelerEntryWidget.frequentFlyerRecycler?.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRightDataShownInAdvancedOptionsWhenMultipleTravelerIsPresent() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.EBAndroidAppFlightFrequentFlyerNumber)
+        var travelers = getMockTravelers(2)
+        Db.setTravelers(travelers)
+        setupPresenterAndViewModel(LineOfBusiness.FLIGHTS_V2)
+        resetAndUpdateTravelers()
+
+        travelersPresenter.travelerPickerWidget.refresh(Db.getTravelers())
+        var travelerToSelect = TravelerSelectItemViewModel(activity, 0, travelers[0].age, PassengerCategory.ADULT)
+        travelersPresenter.travelerPickerWidget.viewModel.selectedTravelerSubject.onNext(travelerToSelect)
+        var travelerEntryWidget = (travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget)
+
+        assertEquals(View.VISIBLE, travelerEntryWidget.visibility)
+        assertEquals("", travelerEntryWidget.advancedOptionsWidget.travelerNumber.text.toString())
+        assertEquals("", travelerEntryWidget.advancedOptionsWidget.redressNumber.text.toString())
+
+        travelerEntryWidget.advancedOptionsWidget.travelerNumber.viewModel.textSubject.onNext("123456")
+        travelerEntryWidget.advancedOptionsWidget.redressNumber.viewModel.textSubject.onNext("456")
+
+        assertEquals("123456", travelers[0].knownTravelerNumber)
+        assertEquals("456", travelers[0].redressNumber)
+        assertEquals("123456", travelerEntryWidget.advancedOptionsWidget.travelerNumber.text.toString())
+        assertEquals("456", travelerEntryWidget.advancedOptionsWidget.redressNumber.text.toString())
+
+
+        travelerToSelect = TravelerSelectItemViewModel(activity, 1, travelers[1].age, PassengerCategory.ADULT)
+        travelersPresenter.travelerPickerWidget.viewModel.selectedTravelerSubject.onNext(travelerToSelect)
+
+        assertEquals(View.VISIBLE, travelerEntryWidget.visibility)
+        assertEquals("", travelerEntryWidget.advancedOptionsWidget.travelerNumber.text.toString())
+        assertEquals("", travelerEntryWidget.advancedOptionsWidget.redressNumber.text.toString())
+        assertEquals("", travelerEntryWidget.advancedOptionsWidget.travelerNumber.text.toString())
+        assertEquals("", travelerEntryWidget.advancedOptionsWidget.redressNumber.text.toString())
     }
 
     private fun resetAndUpdateTravelers() {
