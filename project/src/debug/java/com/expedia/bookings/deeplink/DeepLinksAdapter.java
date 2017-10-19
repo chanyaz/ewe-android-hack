@@ -43,7 +43,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Las Vegas, NV", "expda://hotelSearch?location=Las%20Vegas,%20NV"),
 		new DeepLink("New York, NY", "expda://hotelSearch?location=New%20York%2C%20NY"),
 		new DeepLink("Portland, Maine", "expda://hotelSearch?location=Portland,%20Maine"),
-		new DeepLink("Selected ID", "expda://hotelSearch?location=ID800103&selected=2369616"),
+		new DeepLink("Selected ID", "expda://hotelSearch?selected=2369616"),
 		new DeepLink("Region (Arc de Triomphe)", "expda://hotelSearch?location=Arc%20de%20Triomphe%20-%20Palais%20des%20Congres%20(17%20arr.)%2C%20Paris%2C%20France"),
 		new DeepLink("Region (ID800103)", "expda://hotelSearch?location=ID800103"),
 		new DeepLink("Attraction (Academy of Paris)", "expda://hotelSearch?location=Academy%20of%20Paris%2C%20Paris%2C%20France"),
@@ -123,7 +123,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Member Only Deals Search", "https://www.expedia.com/mobile/deeplink/Hotels?sort=discounts"),
 		new DeepLink("Member Only Deals Search Results", "https://www.expedia.com/mobile/deeplink/Hotels?regionId=6119916&sort=discounts", "startDate", 90, "endDate", 97, "MM/dd/yyyy"),
 		new DeepLink("MCTC - Search Paris", "https://www.expedia.com/mobile/deeplink/Hotel-Search?paandi=true&trv_tax=18.66&trv_di=B&ICMDTL=htl.1808319.taid.678590.geoid.187147.testslice..clickid.WLhB8goQHIEAAaxKd8cAAADk.AUDID.10532&trv_curr=USD&ICMCID=Meta.tripa.Expedia_US-DM&SC=2&mctc=9&trv_mbl=L&trv_bp=151.82&startDate=4%2F26%2F2017&endDate=4%2F30%2F2017&adults=2&regionId=179898"),
-		new DeepLink("MCTC - Search (Hotel d'Aubusson)", "https://www.expedia.com/mobile/deeplink/Hotel-Search?paandi=true&trv_tax=18.66&trv_di=B&ICMDTL=htl.1808319.taid.678590.geoid.187147.testslice..clickid.WLhB8goQHIEAAaxKd8cAAADk.AUDID.10532&trv_curr=USD&ICMCID=Meta.tripa.Expedia_US-DM&SC=2&mctc=9&trv_mbl=L&trv_bp=151.82&startDate=4%2F26%2F2017&endDate=4%2F30%2F2017&adults=2&selected=564481&regionId=179898"),
+		new DeepLink("MCTC - Search (Hotel d'Aubusson)", "https://www.expedia.com/mobile/deeplink/Hotel-Search?paandi=true&trv_tax=18.66&trv_di=B&ICMDTL=htl.1808319.taid.678590.geoid.187147.testslice..clickid.WLhB8goQHIEAAaxKd8cAAADk.AUDID.10532&trv_curr=USD&ICMCID=Meta.tripa.Expedia_US-DM&SC=2&mctc=9&trv_mbl=L&trv_bp=151.82&startDate=4%2F26%2F2017&endDate=4%2F30%2F2017&adults=2&selected=564481"),
 		new DeepLink("MCTC - InfoSite", "https://www.expedia.com/mobile/deeplink/Paris-Hotels-Hotel-Wilson-Opera.h1808319.Hotel-Information?langid=1033&mctc=5&chid=5bb6a8b1-86c6-4340-9ba1-fd3ef6906566&mrp=1&mdpcid=US.META.TRIVAGO.HOTELSCORESEARCH.HOTEL&mdpdtl=HTL.1808319.PARIS&trv_curr=USD&chkin=4/26/2017&chkout=4/30/2017&rateplanid=200803984_200803984_24&trv_dp=147&rm1=a2&paandi=true"),
 		new DeepLink("SEMDTL param search", "https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=6119916&semdtl=a1416242820.b127031966820.d1115895306900.e1c.f11t1.g1kwd-275058426.h1e.i16139906654.j19033253.k1.l1g.m1.n1"),
 

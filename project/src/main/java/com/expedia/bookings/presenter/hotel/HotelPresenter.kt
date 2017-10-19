@@ -118,6 +118,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val pageUsableData = PageUsableData()
 
+    private var resultsViewModel: HotelResultsViewModel by Delegates.notNull()
+
     val bookingSuccessDialog: android.app.AlertDialog by lazy {
         val builder = android.app.AlertDialog.Builder(context)
         builder.setTitle(context.getString(R.string.booking_successful))
@@ -182,19 +184,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewModel = HotelResultsViewModel(getContext(), hotelSearchManager)
 
-        presenter.viewModel.searchingForHotelsDateTime.subscribe {
-            searchTrackingBuilder.markSearchApiCallMade()
-        }
-        presenter.viewModel.hotelResultsObservable.subscribe { hotelSearchResponse ->
-            searchTrackingBuilder.markResultsProcessed()
-            searchTrackingBuilder.searchParams(hotelSearchParams)
-            searchTrackingBuilder.searchResponse(hotelSearchResponse)
-        }
-        presenter.viewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
-            searchTrackingBuilder.markApiResponseReceived()
-        }
+        initResultsViewModel()
+        presenter.viewModel = resultsViewModel
+
         presenter.adapter.allViewsLoadedTimeObservable.subscribe {
             searchTrackingBuilder.markResultsUsable()
             if (searchTrackingBuilder.isWorkComplete()) {
@@ -204,9 +197,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
         }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
-        presenter.viewModel.searchApiErrorObservable.subscribe(errorPresenter.viewmodel.searchApiErrorObserver)
-        presenter.viewModel.searchApiErrorObservable.subscribe { show(errorPresenter) }
-        presenter.viewModel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
         presenter.showDefault()
         presenter
     }
@@ -884,7 +874,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         resultsPresenter.resetListOffset()
         show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
-        resultsPresenter.viewModel.paramsSubject.onNext(params)
+        resultsViewModel.paramsSubject.onNext(params)
     }
 
     private fun handleHotelIdSearch(params: HotelSearchParams, goToResults: Boolean = false) {
@@ -894,7 +884,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             setDefaultTransition(Screen.RESULTS)
             resultsPresenter.resetListOffset()
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
-            resultsPresenter.viewModel.paramsSubject.onNext(params)
+            resultsViewModel.paramsSubject.onNext(params)
         } else {
             setDefaultTransition(Screen.DETAILS)
             showDetails(params.suggestion.hotelId)
@@ -955,6 +945,37 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
+    private fun initResultsViewModel() {
+        resultsViewModel = HotelResultsViewModel(getContext(), hotelSearchManager)
+
+        resultsViewModel.searchingForHotelsDateTime.subscribe {
+            searchTrackingBuilder.markSearchApiCallMade()
+        }
+        resultsViewModel.hotelResultsObservable.subscribe { hotelSearchResponse ->
+            searchTrackingBuilder.markResultsProcessed()
+            searchTrackingBuilder.searchParams(hotelSearchParams)
+            searchTrackingBuilder.searchResponse(hotelSearchResponse)
+        }
+        resultsViewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
+            searchTrackingBuilder.markApiResponseReceived()
+        }
+
+        resultsViewModel.searchApiErrorObservable.subscribe(errorPresenter.viewmodel.searchApiErrorObserver)
+        resultsViewModel.searchApiErrorObservable.subscribe { show(errorPresenter) }
+        resultsViewModel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
+
+        resultsViewModel.hotelResultsObservable.subscribe { response ->
+            if (!searchPresenter.searchViewModel.hasDestination() && response.hasPinnedHotel()) {
+                val destination = resultsViewModel.getSearchParams()?.suggestion
+                destination?.let {
+                    destination.regionNames.displayName = response.hotelList[0].localizedName
+                    destination.regionNames.shortName = response.hotelList[0].localizedName
+                    searchPresenter.searchViewModel.destinationLocationObserver.onNext(destination)
+                }
+            }
+        }
+    }
+
     private fun showDetails(hotelId: String) {
         hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
     }
@@ -969,7 +990,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             handleGenericSearch(params)
         }
         handler.hotelIdToResultsSubject.subscribe { params ->
-            updateSearchForDeepLink(params)
+            updateSearchForDeepLink(params, updateDestination = false)
             handleHotelIdSearch(params, goToResults = true)
         }
 
@@ -991,8 +1012,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         handler
     }
 
-    private fun updateSearchForDeepLink(params: HotelSearchParams) {
-        searchPresenter.searchViewModel.destinationLocationObserver.onNext(params.suggestion)
+    private fun updateSearchForDeepLink(params: HotelSearchParams, updateDestination: Boolean = true) {
+        if (updateDestination) {
+            searchPresenter.searchViewModel.destinationLocationObserver.onNext(params.suggestion)
+        }
         searchPresenter.selectTravelers(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
         searchPresenter.searchViewModel.datesUpdated(params.checkIn, params.checkOut)
         searchPresenter.selectDates(params.checkIn, params.checkOut)

@@ -5,6 +5,7 @@ import android.content.Intent
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.HotelSearchParams.SearchType
 import com.expedia.bookings.deeplink.HotelDeepLink
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.HotelActivity
@@ -41,7 +42,7 @@ class HotelIntentBuilder() {
         // Determine the search location.  Defaults to "current location" if none supplied
         // or the supplied variables could not be parsed.
         if (deepLink.hotelId != null) {
-            hotelSearchParams.searchType = com.expedia.bookings.data.HotelSearchParams.SearchType.HOTEL
+            hotelSearchParams.searchType = SearchType.HOTEL
             val hotelId = deepLink.hotelId
             hotelSearchParams.query = context.getString(R.string.search_hotel_id_TEMPLATE, hotelId)
             hotelSearchParams.hotelId = hotelId
@@ -49,13 +50,13 @@ class HotelIntentBuilder() {
 
             Log.d(TAG, "Setting hotel search id: " + hotelSearchParams.regionId)
         } else if (deepLink.regionId != null) {
-            hotelSearchParams.searchType = com.expedia.bookings.data.HotelSearchParams.SearchType.CITY
+            hotelSearchParams.searchType = SearchType.CITY
             hotelSearchParams.regionId = deepLink.regionId
             hotelSearchParams.setQuery("", false)
 
             Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.regionId)
         } else if (deepLink.location != null) {
-            hotelSearchParams.searchType = com.expedia.bookings.data.HotelSearchParams.SearchType.CITY
+            hotelSearchParams.searchType = SearchType.CITY
             hotelSearchParams.query = deepLink.location
 
             Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.query)
@@ -67,6 +68,7 @@ class HotelIntentBuilder() {
         }
 
         if (deepLink.selectedHotelId != null) {
+            hotelSearchParams.searchType = SearchType.HOTEL
             hotelSearchParams.hotelId = deepLink.selectedHotelId
             landingPage = HotelLandingPage.RESULTS
         }

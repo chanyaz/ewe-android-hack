@@ -122,6 +122,10 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         return calendarInstructions.getCompleteDateText(start, end, forContentDescription)
     }
 
+    fun hasDestination() : Boolean {
+        return hotelParamsBuilder.hasDestinationLocation()
+    }
+
     private fun validateAndSearch() {
         if (!getParamsBuilder().hasValidDateDuration()) {
             errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE,
