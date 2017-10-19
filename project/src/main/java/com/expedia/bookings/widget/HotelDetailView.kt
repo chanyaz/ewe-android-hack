@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
+import android.support.v4.content.ContextCompat
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
@@ -21,6 +22,7 @@ import com.expedia.bookings.animation.TransitionListenerAdapter
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AlphaCalculator
+import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.hotel.widget.HotelDetailContentView
 import com.expedia.bookings.hotel.widget.HotelDetailGalleryView
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -45,6 +47,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val screenSize by lazy { Ui.getScreenSize(context) }
 
     val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
+    private val compareMenuItem by lazy { hotelDetailsToolbar.toolbar.menu.findItem(R.id.menu_compare_hotels) }
     private var toolBarHeight = 0
 
     val galleryView: HotelDetailGalleryView by bindView(R.id.detail_hotel_gallery)
@@ -72,6 +75,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private var alreadyTrackedGalleryClick = false
 
+    var favorited = false
+
     var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
         resortFeeWidget.feeDescriptionText.setText(vm.getResortFeeText())
         resortFeeWidget.feesIncludedNotIncluded.visibility = if (vm.showFeesIncludedNotIncluded()) View.VISIBLE else View.GONE
@@ -80,6 +85,12 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         vm.hotelOffersSubject.subscribe {
             hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
+            favorited = HotelFavoriteCache.isHotelIdFavorited(context, vm.hotelId)
+            if (favorited) {
+                compareMenuItem.icon = ContextCompat.getDrawable(context, R.drawable.ic_favorite_red)
+            } else {
+                compareMenuItem.icon = ContextCompat.getDrawable(context, R.drawable.ic_favorite_black)
+            }
         }
 
         vm.hotelSoldOut.subscribe { soldOut ->
@@ -162,6 +173,19 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     override fun onFinishInflate() {
         super.onFinishInflate()
 
+        hotelDetailsToolbar.toolbar.inflateMenu(R.menu.compare_hotels_menu_detail_item)
+        compareMenuItem.setOnMenuItemClickListener {
+            if (favorited) {
+                compareMenuItem.icon = ContextCompat.getDrawable(context, R.drawable.ic_favorite_black)
+                viewmodel.hotelId.let { HotelFavoriteCache.removeHotelId(context, it) }
+                favorited = false
+            } else {
+                compareMenuItem.icon = ContextCompat.getDrawable(context, R.drawable.ic_favorite_red)
+                viewmodel.hotelId.let { HotelFavoriteCache.saveHotelId(context, it) }
+                favorited = true
+            }
+            true
+        }
         galleryCollapsedConstraintSet.clone(constraintView)
         galleryFullScreenConstraintSet.clone(context, R.layout.hotel_detail_view_expanded_gallery)
     }

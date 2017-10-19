@@ -661,7 +661,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             } else {
-                resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
+                resultsPresenter.onReturnFromCompare()
             }
         }
     }

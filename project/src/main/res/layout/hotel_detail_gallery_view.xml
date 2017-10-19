@@ -10,9 +10,9 @@
         android:id="@+id/gallery_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:importantForAccessibility="no"
+        android:layout_above="@+id/hotel_gallery_description_container"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/hotel_gallery_description_container">
+        android:importantForAccessibility="no">
 
         <com.expedia.bookings.hotel.widget.HotelDetailGalleryRecyclerView
             android:id="@+id/images_gallery"
@@ -38,12 +38,12 @@
             android:drawableLeft="@drawable/gallery_picture"
             android:drawablePadding="8dp"
             android:gravity="center"
+            android:importantForAccessibility="no"
             android:paddingBottom="8dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="8dp"
-            android:textColor="@color/white"
-            android:importantForAccessibility="no"/>
+            android:textColor="@color/white" />
     </com.expedia.bookings.widget.FrameLayout>
 
     <LinearLayout
@@ -74,6 +74,6 @@
             android:paddingLeft="23dp"
             android:textColor="@color/white"
             android:textSize="15sp"
-            tools:text="Featured Image"/>
+            tools:text="Featured Image" />
     </LinearLayout>
 </merge>
