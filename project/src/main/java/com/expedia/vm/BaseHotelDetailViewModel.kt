@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
@@ -123,6 +122,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val totalPriceObservable = BehaviorSubject.create<String>()
     val priceToShowCustomerObservable = BehaviorSubject.create<String>()
     val searchInfoObservable = BehaviorSubject.create<String>()
+    val searchInfoTextColorObservable = BehaviorSubject.create<Int>()
+    val searchInfoGuestsObservable = BehaviorSubject.create<String>()
     val searchDatesObservable = BehaviorSubject.create<String>()
     val userRatingObservable = BehaviorSubject.create<String>()
     val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()

@@ -211,7 +211,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		float detailsHotelRating = EspressoUtils.getStarRatingValue(HotelScreen.hotelDetailsStarRating());
 		assertEquals(4.0f, detailsHotelRating);
 		onView(allOf(withId(R.id.user_rating), withText("4.4"))).check(matches(isDisplayed()));
-		onView(withId(R.id.hotel_search_info)).check(matches(withText("Feb 3 - Feb 4, 1 guest")));
+		onView(withId(R.id.hotel_search_info)).check(matches(withText("Feb 3 - Feb 4")));
+		onView(withId(R.id.hotel_search_info_guests)).check(matches(withText("1 guest")));
 	}
 
 	private void assertCheckout() {

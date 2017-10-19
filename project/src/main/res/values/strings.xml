@@ -1760,6 +1760,8 @@
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text hotels number of guests template. %1$s = Formatted number of guests. E.g. 1 guest -->
+
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 

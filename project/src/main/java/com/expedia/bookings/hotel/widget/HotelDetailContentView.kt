@@ -9,6 +9,7 @@ import android.support.annotation.VisibleForTesting
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -92,6 +93,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val pricePerDescriptor: TextView by bindView(R.id.price_per_descriptor)
     @VisibleForTesting val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     @VisibleForTesting val searchInfo: TextView by bindView(R.id.hotel_search_info)
+    private val searchInfoGuests: TextView by bindView(R.id.hotel_search_info_guests)
     private val earnMessage: TextView by bindView(R.id.earn_message)
     private val taxFeeDescriptor: TextView by bindView(R.id.tax_fee_descriptor)
 
@@ -234,6 +236,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.priceToShowCustomerObservable.subscribeText(price)
         vm.roomPriceToShowCustomer.subscribeText(price)
         vm.searchInfoObservable.subscribeText(searchInfo)
+        vm.searchInfoTextColorObservable.subscribeTextColor(searchInfo)
+        vm.searchInfoGuestsObservable.subscribeText(searchInfoGuests)
         vm.perNightVisibility.subscribeVisibility(pricePerDescriptor)
         vm.pricePerDescriptorObservable.subscribeText(pricePerDescriptor)
 
@@ -315,6 +319,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
 
         if (vm.isChangeDatesEnabled()) {
+            searchInfo.setTintedDrawable(context.getDrawable(R.drawable.ic_edit_icon), ContextCompat.getColor(context, R.color.hotel_search_info_selectable_color))
+            searchInfo.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, resources.displayMetrics).toInt()
             searchInfo.setOnClickListener {
                 showDialog()
             }
@@ -664,8 +670,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         pricePerDescriptor.alpha = ratio
         price.alpha = ratio
         searchInfo.alpha = ratio
+        searchInfoGuests.alpha = ratio
         strikeThroughPrice.alpha = ratio
-        searchInfo.alpha = ratio
         earnMessage.alpha = ratio
         roomRateRegularLoyaltyAppliedView.alpha = ratio
         roomRateVIPLoyaltyAppliedContainer.alpha = ratio

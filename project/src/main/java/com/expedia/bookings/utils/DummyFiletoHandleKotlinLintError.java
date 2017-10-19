@@ -1307,6 +1307,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_flight_summary_arrives_on_TEMPLATE,
 		R.string.error_package_search_red_eye_flight_message,
 		R.string.carnival_sdk_debug_key,
+		R.color.hotel_search_info_selectable_color,
+		R.color.hotel_search_info_color,
+		R.drawable.ic_edit_icon,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt
 	};

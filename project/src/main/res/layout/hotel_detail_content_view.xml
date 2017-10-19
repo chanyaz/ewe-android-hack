@@ -127,9 +127,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:textColor="@color/gray700"
             android:focusable="false"
             android:importantForAccessibility="no"
+            android:textColor="@color/gray700"
             android:visibility="gone" />
 
         <LinearLayout
@@ -148,8 +148,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:textColor="@color/gray900"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:textColor="@color/gray900" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/price_per_descriptor"
@@ -183,14 +183,32 @@
             android:drawablePadding="@dimen/earn_message_icon_dimen"
             android:textColor="@color/hotel_detail_earn_message_text_color" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/hotel_search_info"
-            style="@style/Core.Text.300.Medium"
+        <LinearLayout
+            android:id="@+id/hotel_search_info_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:textColor="@color/gray900"/>
+            android:layout_centerVertical="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_search_info"
+                style="@style/Core.Text.300.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_search_info_guests"
+                style="@style/Core.Text.300.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray600"
+                android:gravity="right"/>
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -198,8 +216,8 @@
         android:id="@+id/divider_between_price_and_rating"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/app_divider_on_gray"
-        android:layout_below="@id/price_widget"/>
+        android:layout_below="@id/price_widget"
+        android:background="@color/app_divider_on_gray" />
 
     <LinearLayout
         android:id="@+id/rating_container"
@@ -322,7 +340,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/free_cancellation"
-                android:textColor="@color/light_text_color"/>
+                android:textColor="@color/light_text_color" />
 
             <View
                 android:id="@+id/horizontal_divider_bw_etp_and_free_cancellation"
@@ -337,7 +355,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/pay_later_info_text"
-                android:textColor="@color/light_text_color"/>
+                android:textColor="@color/light_text_color" />
         </LinearLayout>
 
 
@@ -571,8 +589,8 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/property_info_container"
-        android:paddingTop="10dp"
-        android:background="@color/gray200" />
+        android:background="@color/gray200"
+        android:paddingTop="10dp" />
 
     <RelativeLayout
         android:id="@+id/renovation_container"

@@ -56,7 +56,8 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
 		onView(allOf(withId(R.id.price_per_descriptor), withText(" per person")));
-		onView(withId(R.id.hotel_search_info)).check(matches(withText("Feb 3 - Feb 4, 3 guests")));
+		onView(withId(R.id.hotel_search_info)).check(matches(withText("Feb 3 - Feb 4")));
+		onView(withId(R.id.hotel_search_info_guests)).check(matches(withText("3 guests")));
 	}
 
 	@Test

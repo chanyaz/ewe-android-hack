@@ -1,6 +1,7 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -37,16 +38,18 @@ open class HotelDetailViewModel(context: Context,
     init {
         paramsSubject.subscribe { params ->
             cachedParams = params
-            searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
+            searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate",
                     LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn)).put("enddate",
-                    LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests))
+                    LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut))
                     .format()
                     .toString())
+
+            searchInfoGuestsObservable.onNext(StrUtils.formatGuestString(context, params.guests))
 
             isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
             swpEnabled = params.shopWithPoints
         }
-
+        searchInfoTextColorObservable.onNext(getSearchInfoTextColor())
         apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribe(hotelOffersSubject))
         apiSubscriptions.add(hotelInfoManager.infoSuccessSubject.subscribe(hotelOffersSubject))
     }
@@ -179,10 +182,18 @@ open class HotelDetailViewModel(context: Context,
     }
 
     companion object {
-        @JvmStatic fun convertToToolbarViewModel(detailViewModel: BaseHotelDetailViewModel): HotelDetailToolbarViewModel {
+        @JvmStatic
+        fun convertToToolbarViewModel(detailViewModel: BaseHotelDetailViewModel): HotelDetailToolbarViewModel {
             val viewModel = HotelDetailToolbarViewModel(detailViewModel.context, detailViewModel.hotelNameObservable.value, detailViewModel.hotelRatingObservable.value, detailViewModel.hotelSoldOut.value)
             return viewModel
         }
+    }
+
+    private fun getSearchInfoTextColor(): Int {
+        if (isChangeDatesEnabled()) {
+            return ContextCompat.getColor(context, R.color.hotel_search_info_selectable_color)
+        }
+        return ContextCompat.getColor(context, R.color.hotel_search_info_color)
     }
 
     private fun handleNoInternet(retryFun: () -> Unit) {
