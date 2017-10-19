@@ -83,6 +83,11 @@ abstract class BaseHotelListAdapter(private val context: Context,
         favoredHotels = HotelFavoriteCache.getFavorites(context) ?: ArrayList<String>()
     }
 
+    fun updateFavoredHotels() {
+        favoredHotels = HotelFavoriteCache.getFavorites(context) ?: ArrayList<String>()
+        notifyDataSetChanged()
+    }
+
     fun isLoading(): Boolean {
         return loading
     }
@@ -179,6 +184,13 @@ abstract class BaseHotelListAdapter(private val context: Context,
             val holder: AbstractHotelCellViewHolder = getHotelCellHolder(parent)
             holder.hotelClickedSubject.subscribe { position ->
                 hotelSelected(holder.itemView.context, position)
+            }
+
+            holder.favoriteEnabledSubject.subscribe { id ->
+                favoredHotels.add(id)
+            }
+            holder.favoriteRemovedSubject.subscribe { id ->
+                favoredHotels.remove(id)
             }
             return holder
         }

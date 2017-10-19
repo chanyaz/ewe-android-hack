@@ -1,5 +1,6 @@
 package com.expedia.bookings.hotel.activity
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
@@ -22,6 +23,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import javax.inject.Inject
 import org.joda.time.LocalDate
+import android.content.Intent
 
 
 class HotelDetailedCompareActivity : AppCompatActivity() {
@@ -42,6 +44,7 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
 
     private lateinit var detailedCompareAdapter: HotelDetailedCompareAdapter
 
+    private var favoriteWasRemoved = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +68,13 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
         }
 
         fetchHotelData()
+    }
+
+    override fun onBackPressed() {
+        val mIntent = Intent()
+        mIntent.putExtra(HotelExtras.HOTEL_FAVORITE_CHANGED, favoriteWasRemoved)
+        setResult(Activity.RESULT_OK, mIntent)
+        super.onBackPressed()
     }
 
     private fun initDetailedList() {
@@ -106,6 +116,7 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
                 emptyView.visibility = View.VISIBLE
                 detailedCompareRecycler.visibility = View.GONE
             }
+            favoriteWasRemoved = true
         }
     }
 

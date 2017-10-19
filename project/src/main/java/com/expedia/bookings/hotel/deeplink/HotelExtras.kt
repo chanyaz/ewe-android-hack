@@ -9,5 +9,8 @@ class HotelExtras {
 
         const val HOTEL_SEARCH_CHECK_IN = "hotelSearchCheckIn"
         const val HOTEL_SEARCH_CHECK_OUT = "hotelSearchCheckOut"
+
+        const val HOTEL_FAVORITE_CHANGED = "hotelFavoriteChanged"
+        const val HOTEL_FAVORITES_REMOVED_REQUEST = 4848
     }
 }

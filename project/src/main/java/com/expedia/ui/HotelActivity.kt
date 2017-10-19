@@ -1,5 +1,6 @@
 package com.expedia.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -111,6 +112,13 @@ class HotelActivity : AbstractAppCompatActivity() {
             AddToCalendarUtils.requestCodeAddCheckInToCalendarActivity -> {
                 // show add to calendar for checkOut date
                 hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.showAddToCalendarIntent(false, this)
+            }
+            HotelExtras.HOTEL_FAVORITES_REMOVED_REQUEST -> {
+                if (resultCode == Activity.RESULT_OK && data != null
+                        && data.getBooleanExtra(HotelExtras.HOTEL_FAVORITE_CHANGED, false)) {
+                    //todo is there a better way to do this?
+                    hotelPresenter.resultsPresenter.onReturnFromCompare()
+                }
             }
         }
     }

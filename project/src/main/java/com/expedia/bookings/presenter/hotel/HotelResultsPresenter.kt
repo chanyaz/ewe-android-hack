@@ -13,6 +13,7 @@ import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.view.ViewCompat
+import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
@@ -361,6 +362,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return HotelFilterViewModel(context)
     }
 
+    fun onReturnFromCompare() {
+        (recyclerView.adapter as BaseHotelListAdapter).updateFavoredHotels()
+    }
+
     fun showFilterCachedResults() {
         filterView.viewModel.clearObservable.onNext(Unit)
         val cachedFilterResponse = filterView.viewModel.originalResponse ?: adapter.resultsSubject.value
@@ -438,7 +443,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         intent.putExtra(HotelExtras.HOTEL_SEARCH_CHECK_IN, viewModel.getSearchParams()?.checkIn.toString())
         intent.putExtra(HotelExtras.HOTEL_SEARCH_CHECK_OUT, viewModel.getSearchParams()?.checkOut.toString())
 
-        context.startActivity(intent)
+        (context as AppCompatActivity).startActivityForResult(intent,
+                HotelExtras.HOTEL_FAVORITES_REMOVED_REQUEST)
     }
 
     private fun showMapLoadingOverlay() {
