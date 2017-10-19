@@ -15,11 +15,9 @@ class TravelerAdvancedOptionsViewModel(val context: Context) {
     }
 
     val travelerNumberViewModel by lazy {
-        TravelerNumberViewModel(context)
+        TravelerNumberViewModel()
     }
 
-    val redressNumberSubject = BehaviorSubject.create<String>()
-    val travelerNumberSubject = BehaviorSubject.create<String>()
     val seatPreferenceSubject = BehaviorSubject.create<Traveler.SeatPreference>()
     val assistancePreferenceSubject = BehaviorSubject.create<Traveler.AssistanceType>()
     val materialFormTestEnabled = isMaterialFormsEnabled()
@@ -36,14 +34,14 @@ class TravelerAdvancedOptionsViewModel(val context: Context) {
         redressViewModel.traveler = traveler
         travelerNumberViewModel.traveler = traveler
         if (traveler.redressNumber?.isNotEmpty() ?: false) {
-            redressNumberSubject.onNext(traveler.redressNumber)
+            redressViewModel.textSubject.onNext(traveler.redressNumber)
         } else {
-            redressNumberSubject.onNext("")
+            redressViewModel.textSubject.onNext("")
         }
         if (traveler.knownTravelerNumber?.isNotEmpty() ?: false) {
-            travelerNumberSubject.onNext(traveler.knownTravelerNumber)
+            travelerNumberViewModel.textSubject.onNext(traveler.knownTravelerNumber)
         } else {
-            travelerNumberSubject.onNext("")
+            travelerNumberViewModel.textSubject.onNext("")
         }
         assistancePreferenceSubject.onNext(traveler.assistance)
         seatPreferenceSubject.onNext(traveler.safeSeatPreference)

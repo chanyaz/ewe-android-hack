@@ -108,10 +108,8 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
 
         if (PointOfSale.getPointOfSale().shouldShowKnownTravelerNumber()) {
             travelerNumber.viewModel = vm.travelerNumberViewModel
-            vm.travelerNumberSubject.subscribeEditText(travelerNumber)
         }
         redressNumber.viewModel = vm.redressViewModel
-        vm.redressNumberSubject.subscribeEditText(redressNumber)
 
         vm.seatPreferenceSubject.subscribe { seatPref ->
             if (materialFormTestEnabled) {
