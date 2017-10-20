@@ -9,6 +9,7 @@
             android:key="@string/preference_dateless_infosite"
             android:summary="Enable change date functionality"
             android:title="Enable Hotel Dateless Infosite" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -92,6 +93,11 @@
             android:key="@string/preference_enable_krazy_glue_on_flights_confirmation"
             android:summary="Enable Krazy Glue on Flights Confirmation"
             android:title="Enable Krazy Glue on Flights Confirmation" />
+
+        <CheckBoxPreference
+            android:key="@string/pay_later_credit_card_messaging"
+            android:summary="Enable credit card messaging for pay later"
+            android:title="Enable credit card messaging pay later" />
 
     </PreferenceCategory>
 

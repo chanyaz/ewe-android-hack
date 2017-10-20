@@ -56,3 +56,9 @@ fun isKrazyglueOnFlightsConfirmationEnabled(context: Context) : Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsKrazyglue)
             && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_krazy_glue_on_flights_confirmation)
 }
+
+fun isCreditCardMessagingForPayLaterEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging) &&
+            FeatureToggleUtil.isFeatureEnabled(context, R.string.pay_later_credit_card_messaging)
+}
+

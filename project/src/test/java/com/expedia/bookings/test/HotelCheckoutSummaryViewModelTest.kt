@@ -339,6 +339,25 @@ class HotelCheckoutSummaryViewModelTest {
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCheckOmnitureTrackingForHotelPayLaterMessaging() {
+        Db.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key,
+                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+        SettingUtils.save(context, context.getString(R.string.pay_later_credit_card_messaging), true)
+
+        createTripResponse = mockHotelServiceTestRule.getPriceChangeDownCreateTripResponse()
+        val params = HotelPresenterTestUtil.getDummyHotelSearchParams(context)
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        HotelTracking.trackPageLoadHotelCheckoutInfo(createTripResponse, params, PageUsableData())
+
+        val expectedEvars = mapOf(34 to "15344.0.0|15925.0.1")
+
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
     private fun setPOS(pos: PointOfSaleId) {
         SettingUtils.save(context, R.string.PointOfSaleKey, pos.id.toString())
         PointOfSale.onPointOfSaleChanged(context)
