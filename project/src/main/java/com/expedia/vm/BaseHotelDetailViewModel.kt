@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
@@ -516,7 +515,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         val packageLoyaltyInformation = offerResponse.hotelRoomResponse?.firstOrNull()?.packageLoyaltyInformation
         val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
         val discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
-        discountPercentageObservable.onNext(Pair(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
+        discountPercentageObservable.onNext(Pair(Phrase.from(context.resources, R.string.hotel_percentage_TEMPLATE)
                 .put("discount", discountPercentage ?: 0).format().toString(),
                 Phrase.from(context, R.string.hotel_discount_cont_desc_TEMPLATE)
                         .put("percent", Math.abs(discountPercentage ?: 0)).format().toString()))

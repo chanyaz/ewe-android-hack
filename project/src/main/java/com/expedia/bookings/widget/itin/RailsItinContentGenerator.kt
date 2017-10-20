@@ -42,7 +42,7 @@ class RailsItinContentGenerator(context: Context, val railItinCardData: ItinCard
     }
 
     override fun getHeaderImagePlaceholderResId(): Int {
-        return R.drawable.confirmation_background
+        return R.drawable.generic_pattern_background
     }
 
     override fun getHeaderBitmapDrawable(): List<IMedia> {

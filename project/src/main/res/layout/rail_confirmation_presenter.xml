@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/confirmation_background"
+        android:background="@drawable/generic_pattern_background"
         android:fillViewport="true"
         android:focusable="false">
 

@@ -53,7 +53,7 @@ class HotelDetailContentViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDiscountText() {
-        val expectedDiscountMessage = Phrase.from(activity.resources, R.string.hotel_discount_percent_Template)
+        val expectedDiscountMessage = Phrase.from(activity.resources, R.string.hotel_percentage_TEMPLATE)
                 .put("discount", 20).format().toString()
         val expectedContDesc = "ACCESSIBILITY IS AWESOME"
         testVM.discountPercentageObservable.onNext(Pair(expectedDiscountMessage, expectedContDesc))

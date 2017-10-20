@@ -736,7 +736,7 @@
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} Due Now</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
-    <string name="n_reviews_TEMPLATE">%1$s reviews</string>
+    <string name="n_reviews_TEMPLATE">{review_count} reviews</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Total with Tax</string>
@@ -837,6 +837,24 @@
     <!-- New launch screen -->
     <!-- Search screen title -->
     <string name="search_title">Search</string>
+
+    <!-- Toolbar Title for saved hotels screen. -->
+    <string name="my_saved_hotels">My save items</string>
+
+    <!-- Shown below a percentage which represents number of guests that recommend a hotel ex. 85% guests recommend-->
+    <string name="guests_recommend">guests recommend</string>
+    <!-- Generic Superlative to describe guest ratings Ex. 4.5/5.0 Guest Rating-->
+    <string name="generic_guest_rating_description">Guest Rating</string>
+    <!-- Superlative for guest ratings meant to be the first of five superlatives, increasing in quality -->
+    <string name="good_guest_rating_description">Good!</string>
+    <!-- Superlative for guest ratings meant to be the second of five superlatives, increasing in quality -->
+    <string name="very_good_guest_rating_description">Very Good!</string>
+    <!-- Superlative for guest ratings meant to be the third of five superlatives, increasing in quality -->
+    <string name="excellent_guest_rating_description">Excellent!</string>
+    <!-- Superlative for guest ratings meant to be the fourth of five superlatives, increasing in quality -->
+    <string name="wonderful_guest_rating_description">Wonderful!</string>
+    <!-- Superlative for guest ratings meant to be the fifth of five superlatives, increasing in quality -->
+    <string name="exceptional_guest_rating_description">Exceptional!</string>
 
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Recommended Tonight</string>
@@ -2491,8 +2509,8 @@
     <string name="hotel_guest_recommend_wonderful_superlative">of 5 - Wonderful!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">of 5 - Exceptional!</string>
 
-    <!-- new material Hotel results cell discount percentage -->
-    <string name="hotel_discount_percent_Template">{discount}%</string>
+    <!-- Used to display values as a percentage, sometimes as discounts, sometimes as recommended percentage. Ex. 50% -->
+    <string name="hotel_percentage_TEMPLATE">{discount}%</string>
 
     <!-- The label for the hotel cell of the hotel you selected on results. -->
     <string name="you_picked_this_hotel_label">You picked this hotel</string>

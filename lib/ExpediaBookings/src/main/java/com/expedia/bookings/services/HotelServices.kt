@@ -98,6 +98,13 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 .subscribe(observer)
     }
 
+    fun datelessInfo(hotelId: String, observer: Observer<HotelOffersResponse>) : Subscription {
+        return hotelApi.info(hotelId)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+    }
+
     fun createTrip(body: HotelCreateTripParams, isRewardsEnabledForCurrentPOS: Boolean, observer: Observer<HotelCreateTripResponse>): Subscription {
         return hotelApi.createTrip(body.toQueryMap())
                 .observeOn(observeOn)

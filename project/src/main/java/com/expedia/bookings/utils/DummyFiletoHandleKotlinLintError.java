@@ -199,7 +199,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_rating_service_and_staff,
 		R.string.hotel_rating_room_comfort,
 		R.string.hotel_rating_summary_Template,
-		R.string.hotel_discount_percent_Template,
+		R.string.hotel_percentage_TEMPLATE,
 		R.string.itin_sign_in_message,
 		R.string.packages_hotel_details_cont_desc_TEMPLATE,
 		R.string.hotel_discount_cont_desc_TEMPLATE,

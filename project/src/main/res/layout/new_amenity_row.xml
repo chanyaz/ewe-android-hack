@@ -23,6 +23,7 @@
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="2"
+        android:lines="2"
         android:textColor="@color/light_text_color"
         android:textSize="9sp" />
 </LinearLayout>

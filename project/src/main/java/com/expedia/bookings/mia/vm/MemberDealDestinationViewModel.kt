@@ -101,7 +101,7 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
         if (percentSavings == null) {
             return ""
         }
-        return Phrase.from(context, R.string.hotel_discount_percent_Template).put("discount", percentSavings.toInt().toString()).format().toString()
+        return Phrase.from(context, R.string.hotel_percentage_TEMPLATE).put("discount", percentSavings.toInt().toString()).format().toString()
     }
 
     fun getFormattedPriceText(resources: Resources, price: Double?, strikeOut: Boolean): CharSequence {

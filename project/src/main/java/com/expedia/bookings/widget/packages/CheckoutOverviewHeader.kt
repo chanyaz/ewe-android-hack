@@ -41,8 +41,8 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
         vm.travelersTitle.subscribeText(travelers)
         vm.url.subscribe { urls ->
             PicassoHelper.Builder(context)
-                    .setPlaceholder(R.drawable.confirmation_background)
-                    .setError(R.drawable.confirmation_background)
+                    .setPlaceholder(R.drawable.generic_pattern_background)
+                    .setError(R.drawable.generic_pattern_background)
                     .setTarget(picassoTarget)
                     .build()
                     .load(urls)

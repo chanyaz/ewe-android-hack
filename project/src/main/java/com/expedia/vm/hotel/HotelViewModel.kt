@@ -7,7 +7,6 @@ import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.text.Spanned
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -51,7 +50,7 @@ open class HotelViewModel(private val context: Context) {
     val topAmenityTitle: String get() = getTopAmenityTitle(resources)
     val loyaltyAvailable: Boolean get() = hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false
     val showDiscount: Boolean get() = (hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && !(hotel.lowRateInfo?.airAttached ?: false) && !loyaltyAvailable
-    val hotelDiscountPercentage: String get() = Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString()
+    val hotelDiscountPercentage: String get() = Phrase.from(resources, R.string.hotel_percentage_TEMPLATE).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString()
 
     val hotelStarRating: Float get() = hotel.hotelStarRating
     val showStarRating: Boolean get() = hotelStarRating > 0
@@ -207,7 +206,7 @@ open class HotelViewModel(private val context: Context) {
         }
 
         if (showDiscount) {
-            val discountPercentage = Phrase.from(context, R.string.hotel_discount_percent_Template)
+            val discountPercentage = Phrase.from(context, R.string.hotel_percentage_TEMPLATE)
                     .put("discount", Math.abs(hotel.lowRateInfo?.discountPercent?.toInt() ?: 0))
                     .format()
                     .toString()

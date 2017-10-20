@@ -69,6 +69,10 @@
     </style>
 
     <style name="Theme.Hotels.Default" parent="Base.Hotels.Default"/>
+    <style name="Theme.Hotels.WhiteBack" parent="Base.Hotels.Default">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
 
     <style name="Theme.Hotels.Default.Crystal">
         <item name="itin_hotel_gallery_bg">@android:color/white</item>

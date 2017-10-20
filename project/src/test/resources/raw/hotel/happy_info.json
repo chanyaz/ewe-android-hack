@@ -1,0 +1,123 @@
+{
+  "checkInInstructions": "",
+  "deepLinkUrl": "https://www.expedia.com/Vail-Hotels-Four-Seasons-Resort-Vail.h3383521.Hotel-Information",
+  "deskTopOverrideNumber": false,
+  "firstHotelOverview": "Located near the slopes.",
+  "hotelAmenities": [{
+    "id": "3",
+    "description": "Bar/lounge"
+  }, {
+    "id": "2123",
+    "description": "Full-service spa"
+  }, {
+    "id": "2390",
+    "description": "Free WiFi"
+  }],
+  "hotelAmenitiesText": {
+    "name": "Property Amenities",
+    "content": "<p>Indulge in a treatment at the full-service spa.</p><p>Dining options at the resort.</p><p></p><p>Four Seasons Resort Vail is a smoke-free property.</p><p></p><ul><li>Bar/lounge</li><li>Elevator/lift</li></ul>"
+  },
+  "hotelCity": "Vail",
+  "hotelCountry": "USA",
+  "hotelFeesText": {
+    "name": "Fees",
+    "content": "<ul><li>The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul> <li>Breakfast fee: between USD 10 and USD 30 per person (approximately)</li>         <li>Valet parking fee: USD 45 per night (in/out privileges)</li>                      </ul></li><li>The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change.</li></ul>"
+  },
+  "hotelGuestRating": "4.8",
+  "hotelId": "3383521",
+  "hotelMandatoryFeesText": {
+    "name": "Mandatory Fees and Taxes",
+    "content": "<ul><li>The charges below are included in your overall room price:<ul><li>Resort fee</li></ul></li><li>The resort fee includes:<ul><li>Fitness/yoga classes</li><li>Ski shuttle</li><li>Ski storage</li><li>Phone calls</li><li>In-room bottled water</li><li>Additional inclusions</li></ul></li><li>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book.</li></ul>"
+  },
+  "hotelName": "Four Seasons Resort Vail",
+  "hotelOverviewText": [{
+    "name": "Location",
+    "content": "Located near the slopes, this Vail resort is within a 10-minute walk of Vail Valley Medical Center and Vail Ski Resort and close to winter sports such as cross-country skiing and snowshoeing. Betty Ford Alpine Gardens and Gerald R. Ford Amphitheater are also within 1 mi (2 km)."
+  }, {
+    "name": "Resort Features",
+    "content": "After a day on the slopes, return to Four Seasons Resort Vail to dine at the restaurant, drink at the bar/lounge, and enjoy comforts including an outdoor pool and a full-service spa."
+  }, {
+    "name": "Room Amenities",
+    "content": "All 121 rooms boast fireplaces and deep soaking tubs, plus free WiFi and LCD TVs with cable channels. Guests will also find balconies or patios, iPod docks, and DVD players."
+  }],
+  "hotelPoliciesText": {
+    "name": "Policies",
+    "content": "<ul><li>Extra-person charges may apply and vary depending on property policy.</li><li>Government-issued photo identification and a credit card or cash deposit are required at check-in for incidental charges.</li><li>Special requests are subject to availability upon check-in and may incur additional charges. Special requests cannot be guaranteed.</li><li>Check-in time starts at 4 PM</li><li>Check-out time is noon</li><li>American Express</li><li>No rollaway/extra beds available</li><li>No cribs (infant beds) available</li><li>Pets allowed</li><li>Diners Club</li><li>Discover</li><li>Pet maximum weight in lb is 20</li><li>Minimum check-in age is 18</li><li>JCB International</li><li>MasterCard</li><li>Visa</li></ul>"
+  },
+  "hotelStarRating": "5.0",
+  "hotelStarRatingCssClassName": "5-0",
+  "hotelStateProvince": "CO",
+  "isVipAccess": false,
+  "latitude": "39.64332",
+  "localizedHotelName": "Four Seasons Resort Vail",
+  "locationDescription": "Vail",
+  "locationId": "6056742",
+  "longDescription": "long descruption",
+  "longitude": "-106.37816",
+  "nonLocalizedHotelName": "Four Seasons Resort Vail",
+  "percentRecommended": "94",
+  "photos": [{
+    "url": "/hotels/4000000/3390000/3383600/3383521/3383521_58_z.jpg",
+    "thumbnailUrl": "/hotels/4000000/3390000/3383600/3383521/3383521_58_t.jpg",
+    "featured": true,
+    "displayText": "Featured Image"
+  }, {
+    "url": "/hotels/4000000/3390000/3383600/3383521/3383521_11_l.jpg",
+    "thumbnailUrl": "/hotels/4000000/3390000/3383600/3383521/3383521_11_t.jpg",
+    "displayText": "In-Room Business Center"
+  }],
+  "regions": [{
+    "id": 201,
+    "type": "COUNTRY",
+    "name": "United States of America",
+    "description": "",
+    "latitude": 45.920785,
+    "longitude": -116.638707
+  }, {
+    "id": 207,
+    "type": "PROVINCESTATE",
+    "name": "Colorado",
+    "description": "",
+    "latitude": 38.99882,
+    "longitude": -105.548298
+  }, {
+    "id": 7053,
+    "type": "CITY",
+    "name": "Vail",
+    "description": "",
+    "latitude": 39.643551,
+    "longitude": -106.378143
+  }, {
+    "id": 180057,
+    "type": "MULTICITYVICINITY",
+    "name": "Vail - Beaver Creek (ski area)",
+    "description": "",
+    "latitude": 39.641303,
+    "longitude": -106.382835
+  }, {
+    "id": 6056729,
+    "type": "MULTIREGIONWITHINACOUNTRY",
+    "name": "Northwest Colorado",
+    "description": "",
+    "latitude": 39.977917,
+    "longitude": -107.487077
+  }, {
+    "id": 6056742,
+    "type": "NEIGHBORHOOD",
+    "name": "Vail",
+    "description": "",
+    "latitude": 39.63329261,
+    "longitude": -106.36131355
+  }, {
+    "id": 6229634,
+    "type": "MULTIREGIONWITHINACOUNTRY",
+    "name": "Colorado Western Slope",
+    "description": "",
+    "latitude": 39.111478,
+    "longitude": -107.507516
+  }],
+  "telesalesNumber": "1-800-267-9604",
+  "packageTelesalesNumber": "1-800-661-6408",
+  "totalRecommendations": "320",
+  "totalReviews": "341"
+}

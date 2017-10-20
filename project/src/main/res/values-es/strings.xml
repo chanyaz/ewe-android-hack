@@ -2480,7 +2480,7 @@
     <string name="hotel_guest_recommend_exceptional_superlative">de 5 - ¡Excepcional!</string>
 
     <!-- new material Hotel results cell discount percentage -->
-    <string name="hotel_discount_percent_Template">{discount}%</string>
+    <string name="hotel_percentage_TEMPLATE">{discount}%</string>
 
     <!-- The label for the hotel cell of the hotel you selected on results. -->
     <string name="you_picked_this_hotel_label">Elegiste este hotel</string>

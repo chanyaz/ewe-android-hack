@@ -8,6 +8,7 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.util.endlessObserver
+import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 
@@ -19,7 +20,9 @@ class HotelReviewsViewModel(val context: Context, val lob: LineOfBusiness = Line
 
     var hotelObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
         toolbarTitleObservable.onNext(hotel.hotelName)
-        toolbarSubtitleObservable.onNext(context.resources.getString(R.string.n_reviews_TEMPLATE, HotelUtils.formattedReviewCount(hotel.totalReviews)))
+        toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.n_reviews_TEMPLATE)
+                .put("review_count", HotelUtils.formattedReviewCount(hotel.totalReviews))
+                .toString())
         hotelReviewsObservable.onNext(hotel.hotelId)
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelReviewPageLoad()
