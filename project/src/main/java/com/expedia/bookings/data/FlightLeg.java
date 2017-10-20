@@ -102,6 +102,10 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mDuration = duration;
 	}
 
+	public String getLegDuration() {
+		return mDuration;
+	}
+
 	public int durationMinutes() {
 		try {
 			if (Strings.isNotEmpty(mDuration)) {

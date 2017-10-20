@@ -16,7 +16,7 @@ class ItinTimeDurationViewModelTest {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        sut = FlightItinLayoverViewModel(activity)
+        sut = FlightItinLayoverViewModel(activity) //using FlightItinLayoverViewModel since ItinTimeDurationViewModel is abstract
     }
 
     @Test

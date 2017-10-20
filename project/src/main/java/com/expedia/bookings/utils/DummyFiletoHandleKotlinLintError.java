@@ -44,6 +44,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_detail_content_view,
 		R.layout.add_guest_itin_activity,
 		R.layout.hotel_itin_manage_booking,
+		R.string.itin_flight_total_duration_TEMPLATE,
 		R.string.itin_hotel_manage_booking_header,
 		R.string.itin_hotel_customer_support_header_text_TEMPLATE,
 		R.string.itin_hotel_itinerary_number_TEMPLATE,

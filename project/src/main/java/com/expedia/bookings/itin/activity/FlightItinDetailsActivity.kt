@@ -12,12 +12,14 @@ import com.expedia.bookings.itin.vm.FlightItinDetailsViewModel
 import com.expedia.bookings.itin.vm.FlightItinLayoverViewModel
 import com.expedia.bookings.itin.vm.FlightItinSegmentSummaryViewModel
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
+import com.expedia.bookings.itin.vm.FlightItinTotalDurationViewModel
 import com.expedia.bookings.itin.widget.ItinTimeDurationWidget
 import com.expedia.bookings.itin.widget.FlightItinSegmentSummaryWidget
 import com.expedia.bookings.itin.widget.ItinConfirmationWidget
 import com.expedia.bookings.itin.widget.ItinToolbar
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import kotlin.properties.Delegates
 
@@ -56,6 +58,10 @@ class FlightItinDetailsActivity : AppCompatActivity() {
             layoverWidget.viewModel.updateWidget(layoverDuration)
             flightSummaryContainer.addView(layoverWidget)
         }
+        vm.createTotalDurationWidgetSubject.subscribe { totalDuration ->
+            flightTotalDurationWidget.viewModel = FlightItinTotalDurationViewModel(this)
+            flightTotalDurationWidget.viewModel.updateWidget(totalDuration)
+        }
         vm.updateConfirmationSubject.subscribe { params ->
             itinConfirmationWidget.viewModel.updateWidget(params)
         }
@@ -74,6 +80,9 @@ class FlightItinDetailsActivity : AppCompatActivity() {
     private val flightSummaryContainer: LinearLayout by lazy {
         findViewById(R.id.flight_itin_summary_container) as LinearLayout
     }
+
+    private val flightTotalDurationWidget: ItinTimeDurationWidget by bindView(R.id.widget_itin_flight_total_duration_cardview)
+
     private var confirmationViewModel: FlightItinConfirmationViewModel by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
