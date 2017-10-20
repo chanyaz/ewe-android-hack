@@ -2,14 +2,18 @@ package com.expedia.bookings.tracking
 
 import android.content.Context
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.BaseFlightFilterViewModel
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -137,7 +141,7 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightRoundTripLoadWhenOutBound() {
-        sut.trackFlightRoundTripLoad(true)
+        sut.trackFlightRoundTripLoad(true, getDummyPackageSearchParams())
         val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
@@ -145,7 +149,7 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightRoundTripLoadWhenInBound() {
-        sut.trackFlightRoundTripLoad(false)
+        sut.trackFlightRoundTripLoad(false, getDummyPackageSearchParams())
         val controlEvar = mapOf(18 to "D=pageName")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
@@ -550,4 +554,33 @@ class PackagesTrackingTest {
         val controlEvar = mapOf(28 to "App.Package.RD.Edit.Item")
         OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.Edit.Item", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
+
+    private fun getDummyPackageSearchParams(): PackageSearchParams {
+        return PackageSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                context.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+    }
+
+    private fun getDummySuggestion(code: String): SuggestionV4 {
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = "1011"
+        suggestion.regionNames = SuggestionV4.RegionNames()
+        suggestion.regionNames.displayName = ""
+        suggestion.regionNames.fullName = ""
+        suggestion.regionNames.shortName = ""
+        val hierarchyInfo = SuggestionV4.HierarchyInfo()
+        val airport =  SuggestionV4.Airport();
+        airport.airportCode = "";
+        airport.multicity = code;
+        hierarchyInfo.airport = airport
+        suggestion.hierarchyInfo = hierarchyInfo;
+        return suggestion
+    }
+
 }
