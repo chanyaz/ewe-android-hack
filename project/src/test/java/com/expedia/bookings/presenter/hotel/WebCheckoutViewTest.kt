@@ -15,6 +15,7 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
+import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.vm.HotelWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.mobiata.android.util.SettingUtils
@@ -27,7 +28,9 @@ import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
+import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -210,6 +213,23 @@ class WebCheckoutViewTest {
         closeViewSubscriber.assertValueCount(1)
         urlSubscriber.assertValueCount(1)
         urlSubscriber.assertValue("about:blank")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Config(qualifiers = "sw600dp")
+    fun testUserAgentStringHasTabletInfo() {
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.tablet", hotelPresenter.webCheckoutView.webView.settings.userAgentString)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testUserAgentStringHasPhoneInfo() {
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.phone", hotelPresenter.webCheckoutView.webView.settings.userAgentString)
     }
 
     private fun getToWebCheckoutView() {

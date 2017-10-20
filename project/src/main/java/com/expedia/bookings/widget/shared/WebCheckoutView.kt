@@ -10,11 +10,13 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.updateVisibility
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.WebViewViewModel
+import com.mobiata.android.util.AndroidUtils
 
 class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
@@ -41,6 +43,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         super.onFinishInflate()
         toolbar.title = context.getString(R.string.secure_checkout)
         toolbar.navigationIcon = context.getDrawable(R.drawable.ic_arrow_back_white_24dp)
+        setUserAgentString(AndroidUtils.isTablet(context))
     }
 
     override fun toggleLoading(loading: Boolean) {
@@ -92,5 +95,10 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
                 && url.startsWith(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL)) ||
                 (!PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL.isNullOrBlank()
                 && url.startsWith(PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL))
+    }
+
+    private fun setUserAgentString(isTabletDevice: Boolean) {
+        val userAgentString = WebViewUtils.userAgentString
+        webView.settings.userAgentString = WebViewUtils.generateUserAgentStringWithDeviceType(userAgentString, isTabletDevice)
     }
 }

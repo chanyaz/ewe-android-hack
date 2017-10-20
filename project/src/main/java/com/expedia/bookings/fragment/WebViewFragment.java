@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -34,6 +33,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.RailWebViewTracking;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.WebViewUtils;
 import com.expedia.bookings.webview.BaseWebViewClient;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -311,7 +311,7 @@ public class WebViewFragment extends DialogFragment {
 
 		boolean isTabletDevice = AndroidUtils.isTablet(getContext());
 		mWebView.getSettings().setUserAgentString(
-			generateUserAgentString(mWebView.getSettings().getUserAgentString(), isTabletDevice));
+			WebViewUtils.generateUserAgentStringWithDeviceType(mWebView.getSettings().getUserAgentString(), isTabletDevice));
 
 		mWebView.getSettings().setDisplayZoomControls(false);
 
@@ -415,20 +415,6 @@ public class WebViewFragment extends DialogFragment {
 			}
 
 		});
-	}
-
-	@VisibleForTesting
-	protected String generateUserAgentString(String currentUserAgentString, boolean isTabletDevice) {
-		StringBuilder sb = new StringBuilder("Android ");
-		sb.append(currentUserAgentString);
-		sb.append(" app.webview");
-		if (isTabletDevice) {
-			sb.append(".tablet");
-		}
-		else {
-			sb.append(".phone");
-		}
-		return sb.toString();
 	}
 
 	private void attachWebView() {

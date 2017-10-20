@@ -6,15 +6,12 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.interceptors.MockInterceptor
@@ -25,9 +22,9 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
+import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.vm.FlightWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import org.junit.Before
@@ -51,7 +48,6 @@ import java.io.File
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class))
@@ -202,7 +198,29 @@ class FlightCheckoutViewTest {
         flightPresenter.errorPresenter.getViewModel().fireRetryCreateTrip.onNext(Unit)
 
         assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
+    }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Config(qualifiers = "sw600dp")
+    fun testUserAgentStringHasTabletInfo() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.tablet", flightPresenter.webCheckoutView.webView.settings.userAgentString)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testUserAgentStringHasPhoneInfo() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        
+        assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.phone", flightPresenter.webCheckoutView.webView.settings.userAgentString)
     }
 
     private fun setFlightPresenterAndFlightServices() {
