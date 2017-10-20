@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -46,6 +47,10 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         vm.remainingBalanceDueOnCardVisibility.subscribeVisibility(remainingBalance)
         vm.paymentSplitsWithTripTotalAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
         vm.paymentSplitsWithTripTotalAndTripResponse.subscribe {
+            var hotelResponse = (it.tripResponse as HotelCreateTripResponse)
+            val shouldShowPayLater = hotelResponse.newHotelProductResponse.hotelRoomResponse.isPayLater &&
+            !hotelResponse.newHotelProductResponse.hotelRoomResponse.depositRequired
+            viewmodel.shouldShowPayLaterMessaging.onNext(shouldShowPayLater)
             viewmodel.isRedeemable.onNext(it.tripResponse.isRewardsRedeemable())
             viewmodel.splitsType.onNext(it.paymentSplits.paymentSplitsType())
             isRewardsRedeemable = it.tripResponse.isRewardsRedeemable()

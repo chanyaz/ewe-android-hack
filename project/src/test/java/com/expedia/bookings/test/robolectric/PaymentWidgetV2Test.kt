@@ -140,6 +140,23 @@ class PaymentWidgetV2Test {
     }
 
     @Test
+    fun testPaymentTitleWithPayWithPointsHotelWithDepositRequirement() {
+        sut.validateAndBind()
+        paymentModel.createTripSubject.onNext(getPayLaterResponse())
+        sut.viewmodel.shouldShowPayLaterMessaging.onNext(true)
+
+        testPaymentTileInfo("Enter payment details", "Only needed to confirm your booking",  ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
+    }
+
+    @Test
+    fun testPaymentTitleWithPayWithPointsHotelWithNoDepositRequirement() {
+        sut.validateAndBind()
+        paymentModel.createTripSubject.onNext(getPayLaterResponse())
+        
+        testPaymentTileInfo("Enter payment details", "",  ContextCompat.getDrawable(getContext(), R.drawable.ic_checkout_default_creditcard), View.GONE)
+    }
+
+    @Test
     fun testUnsupportedCardIsNotSelected() {
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         sut.validateAndBind()
@@ -351,7 +368,6 @@ class PaymentWidgetV2Test {
 
         assertEquals(4, sut.validCardsList.childCount)
 
-
         assertCardTypeDisplayed(createValidFormOfPaymentList())
     }
 
@@ -398,6 +414,18 @@ class PaymentWidgetV2Test {
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         else
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
+
+        createTripResponse.tripId = "happy"
+        Db.getTripBucket().clearHotelV2()
+        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+
+        return createTripResponse
+    }
+
+    private fun getPayLaterResponse(): HotelCreateTripResponse {
+        val createTripResponse: HotelCreateTripResponse
+
+        createTripResponse = mockHotelServiceTestRule.getPayLaterOfferCreateTripResponse()
 
         createTripResponse.tripId = "happy"
         Db.getTripBucket().clearHotelV2()

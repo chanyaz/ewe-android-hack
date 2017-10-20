@@ -46,6 +46,7 @@ open class PaymentViewModel(val context: Context) {
     val enableMenuItem = PublishSubject.create<Boolean>()
     val menuVisibility = PublishSubject.create<Boolean>()
     val updateBackgroundColor = PublishSubject.create<Boolean>()
+    val shouldShowPayLaterMessaging = BehaviorSubject.create<Boolean>(false)
 
     val cardTypeSubject = PublishSubject.create<Optional<PaymentType>>()
     val cardBIN = BehaviorSubject.create<String>("")
@@ -90,36 +91,41 @@ open class PaymentViewModel(val context: Context) {
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
+    private class PaymentTileInfo(val paymentType: PaymentType?, val title: String, var subTitle: String,
+                                      val splitType: PaymentSplitsType, val completionStatus: ContactDetailsCompletenessStatus)
+
     init {
-        Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
-            infoAndStatus, isRedeemable, splitsType ->
+        Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType, shouldShowPayLaterMessaging) {
+            infoAndStatus, isRedeemable, splitsType, shouldShowPayLaterMessaging ->
             object {
                 val info = infoAndStatus.first
                 val status = infoAndStatus.second
                 val isRedeemable = isRedeemable
                 val splitsType = splitsType
+                val shouldShowPayLaterMessaging = shouldShowPayLaterMessaging
             }
         }.subscribe {
+            val paymentTile: PaymentTileInfo
             subtitleColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
 
             if (it.isRedeemable && it.splitsType == PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT) {
-                setPaymentTileInfo(PaymentType.POINTS_REWARDS,
+                paymentTile = PaymentTileInfo(PaymentType.POINTS_REWARDS,
                         resources.getString(R.string.checkout_paying_with_points_only_line1),
                         resources.getString(R.string.checkout_tap_to_edit), it.splitsType, ContactDetailsCompletenessStatus.COMPLETE)
             } else if (it.info == null) {
                 val titleSubtitlePair = getTitleAndSubtitleNoInfo(it.isRedeemable)
                 tempCard.onNext(Pair("", getCardIcon(null)))
-                setPaymentTileInfo(null, titleSubtitlePair.first, titleSubtitlePair.second, it.splitsType, it.status)
+                paymentTile = PaymentTileInfo(null, titleSubtitlePair.first, titleSubtitlePair.second, it.splitsType, it.status)
             } else if (it.info.isTempCard && it.info.saveCardToExpediaAccount) {
                 val title = getCardTypeAndLast4Digits(it.info.getPaymentType(context), it.info.number)
                 tempCard.onNext(Pair("", getCardIcon(it.info.getPaymentType(context))))
-                setPaymentTileInfo(it.info.getPaymentType(context), title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
+                paymentTile = PaymentTileInfo(it.info.getPaymentType(context), title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             } else if (it.info.hasStoredCard()) {
                 val card = it.info.storedCard
                 val title = card.description
                 tempCard.onNext(Pair("", getCardIcon(card.type)))
-                setPaymentTileInfo(card.type, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
+                paymentTile = PaymentTileInfo(card.type, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
             } else {
                 val card = it.info
                 val cardNumber = card.number
@@ -127,9 +133,13 @@ open class PaymentViewModel(val context: Context) {
                 if (card.isTempCard && !card.saveCardToExpediaAccount) {
                     tempCard.onNext(Pair(title, getCardIcon(card.getPaymentType(context))))
                 }
-                setPaymentTileInfo(card.getPaymentType(context), title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
+                paymentTile = PaymentTileInfo(card.getPaymentType(context), title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             }
+            if (it.shouldShowPayLaterMessaging) {
+                paymentTile.subTitle = resources.getString(R.string.checkout_pay_later_only_to_confirm)
+            }
+            setPaymentTileInfo(paymentTile.paymentType, paymentTile.title, paymentTile.subTitle, paymentTile.splitType, paymentTile.completionStatus)
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
         }
 
@@ -282,3 +292,4 @@ open class PaymentViewModel(val context: Context) {
                 .format().toString()
     }
 }
+

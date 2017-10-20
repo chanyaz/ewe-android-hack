@@ -13,6 +13,7 @@ public class DummyFiletoHandleKotlinLintError {
 	 */
 	private static final int[] USED_RESOURCES = {
 		R.layout.widget_phone_launch,
+		R.string.checkout_pay_later_only_to_confirm,
 		R.string.flight_cabin_mixed_classes,
 		R.string.flight_cabin_class_for_two_segment_TEMPLATE,
 		R.drawable.hotel_suggest,

@@ -124,6 +124,8 @@
     <string name="checkout_tap_to_edit">Tap to edit</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">Credit card, pay with points</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_pay_later_only_to_confirm">Only needed to confirm your booking</string>
     <!--Text for selected card -->
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
