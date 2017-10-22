@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.shared
 
 import android.content.Context
+import android.os.Handler
 import android.support.annotation.UiThread
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -102,6 +103,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
                     allViewsLoadedTimeObservable.onNext(Unit)
                 }
                 holder.bind(makeFlightViewModel(holder.itemView.context, flights[position - adjustPosition()]))
+                selectFirstFlight(flights)
             }
 
             is LoadingViewHolder -> {
@@ -118,6 +120,18 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             }
         }
     }
+
+    fun selectFirstFlight(allFlights: List<FlightLeg>) {
+        val handler = Handler()
+        val runnableCode = object : Runnable {
+            override fun run() {
+                flightSelectedSubject.onNext(allFlights[0])
+            }
+        }
+        handler.postDelayed(runnableCode, 2000)
+    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         when (viewType) {
