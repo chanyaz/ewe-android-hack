@@ -113,6 +113,11 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentbreakdowns)
             selectFlightButton.subscribeOnClick(vm.selectFlightClickObserver)
+            selectFlight()
         }
+    }
+
+    private fun selectFlight() {
+        vm.selectFlightClickObserver.onNext(Unit)
     }
 }
