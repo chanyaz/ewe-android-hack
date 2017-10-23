@@ -29,6 +29,10 @@
         <item name="android:textColor">@color/gray700</item>
         <item name="android:textSize">12sp</item>
     </style>
+    <style name="FlightItinMock">
+        <item name="android:textColor">@color/gray900</item>
+        <item name="android:textSize">13sp</item>
+    </style>
     <style name="FlightItinSeating">
         <item name="android:textColor">@color/gray900</item>
         <item name="android:textSize">12sp</item>

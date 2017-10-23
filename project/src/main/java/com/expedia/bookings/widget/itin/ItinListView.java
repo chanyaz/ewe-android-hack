@@ -11,6 +11,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -28,7 +29,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightMockerActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -45,6 +48,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
 
 @SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -811,10 +815,17 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 						.toBundle());
 			}
 			else if (data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailFeatureOn) {
-				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),
-					ActivityOptionsCompat
-						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
-						.toBundle());
+				if (BuildConfig.DEBUG && SettingUtils
+					.get(getContext(), getContext().getString(R.string.preference_mock_flights), false)) {
+					getContext().startActivity(new Intent(getContext(), FlightMockerActivity.class));
+				}
+				else {
+					getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),
+						ActivityOptionsCompat
+							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
+							.toBundle());
+				}
+
 			}
 			else if (data.hasDetailData()) {
 				showDetails(position, true);

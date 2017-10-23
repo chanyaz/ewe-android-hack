@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray100"
+    android:padding="15dp"
+    tools:context="com.expedia.bookings.activity.FlightMockerActivity">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/confirmation_flight_mock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Confirmations"
+        android:textColor="@color/gray900"
+        android:textSize="18sp" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/confirmation_code_text_view"
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/confirmation_status_spinner"
+        android:layout_below="@+id/confirmation_flight_mock"
+        android:gravity="center"
+        android:text="Status" />
+
+    <Spinner
+        android:id="@+id/confirmation_status_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/confirmation_flight_mock" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/multi_confirmation_cb"
+        android:layout_below="@+id/confirmation_code_text_view"
+        android:gravity="center"
+        android:text="Multi Confirmation" />
+
+    <CheckBox
+        android:id="@+id/multi_confirmation_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/confirmation_status_spinner" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/summary_widget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/multi_confirmation_cb"
+        android:layout_centerHorizontal="true"
+        android:text="Summary"
+        android:textColor="@color/gray900"
+        android:textSize="18sp" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/red_eye_cb"
+        android:layout_below="@+id/summary_widget"
+        android:gravity="center"
+        android:text="Red eye" />
+
+    <CheckBox
+        android:id="@+id/red_eye_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/summary_widget" />
+
+    <CheckBox
+        android:id="@+id/layover_24_hours_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/multi_segment_cb"
+        android:enabled="false" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/layover_24_hours_cb"
+        android:layout_below="@+id/multi_segment_cb"
+        android:gravity="center"
+        android:text="Layover over 24 hours" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/multi_segment_cb"
+        android:layout_below="@+id/red_eye_cb"
+        android:gravity="center"
+        android:text="Multi segment" />
+
+    <CheckBox
+        android:id="@+id/multi_segment_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/red_eye_cb" />
+
+    <CheckBox
+        android:id="@+id/seating_available_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/layover_24_hours_cb"
+        android:checked="true" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/seating_available_cb"
+        android:layout_below="@+id/layover_24_hours_cb"
+        android:gravity="center"
+        android:text="Seating Available" />
+
+    <CheckBox
+        android:id="@+id/seats_selected_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/seating_available_cb" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/seats_selected_cb"
+        android:layout_below="@+id/seating_available_cb"
+        android:gravity="center"
+        android:text="Seats selected" />
+
+    <CheckBox
+        android:id="@+id/multi_seats_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/seats_selected_cb"
+        android:enabled="false" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/multi_seats_cb"
+        android:layout_below="@+id/seats_selected_cb"
+        android:gravity="center"
+        android:text="Multi seats" />
+
+    <CheckBox
+        android:id="@+id/arrival_terminal_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/multi_seats_cb"
+        android:checked="true" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/arrival_terminal_cb"
+        android:layout_below="@+id/multi_seats_cb"
+        android:gravity="center"
+        android:text="arrival terminal" />
+
+    <CheckBox
+        android:id="@+id/depart_terminal_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/arrival_terminal_cb"
+        android:checked="true" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/FlightItinMock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/depart_terminal_cb"
+        android:layout_below="@+id/arrival_terminal_cb"
+        android:gravity="center"
+        android:text="departure terminal" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/flight_mock_build_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:text="Do Magic"
+        android:textColor="@color/error_red"
+        android:textSize="26sp" />
+</RelativeLayout>
