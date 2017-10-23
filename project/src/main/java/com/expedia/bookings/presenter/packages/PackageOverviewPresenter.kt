@@ -6,7 +6,9 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
+import android.widget.Toast
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Bookmark
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
@@ -16,11 +18,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.safeSubscribeOptional
@@ -31,9 +29,11 @@ import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
+import java.util.Calendar
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
+    val bookmarkHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.bookmark_package) }
     val changeHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
     val changeHotelRoom by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
     val changeFlight by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_flight) }
@@ -116,6 +116,13 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             bundleWidget.viewModel.hotelParamsObservable.onNext(params)
             bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
             PackagesTracking().trackBundleEditItemClick("Hotel")
+            true
+        })
+
+        bookmarkHotel.setOnMenuItemClickListener({
+            Toast.makeText(context, "Your trip has been bookmarked. Please check the bookmark screen to revisit this trip", Toast.LENGTH_LONG).show()
+            val bookmark = Bookmark("Package to Hawaiii", Calendar.getInstance().time, 5, "expda://hotelSearch?location=Miami")
+            BookmarkUtils.saveBookmark(context, bookmark)
             true
         })
 
@@ -220,12 +227,11 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidget.toggleMenuObservable.onNext(!forward)
     }
 
-    override fun setToolbarNavIcon(forward : Boolean) {
-        if(forward) {
+    override fun setToolbarNavIcon(forward: Boolean) {
+        if (forward) {
             toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
-        }
-        else {
+        } else {
             toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_close_cont_desc))
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         }
@@ -269,3 +275,4 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         return PackageTotalPriceViewModel(context)
     }
 }
+
