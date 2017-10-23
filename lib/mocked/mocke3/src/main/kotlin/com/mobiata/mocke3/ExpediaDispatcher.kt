@@ -22,6 +22,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val satelliteServiceRequestDispatcher = SatelliteApiRequestDispatcher(fileOpener)
     private val cardFeeServiceRequestDispatcher = CardFeeServiceRequestDispatcher(fileOpener)
     private val sosApiRequestDispatcher = SOSApiRequestDispatcher(fileOpener)
+    private val trendingApiRequestDispatcher = TrendingPlacesRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -77,6 +78,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         //SOS Member Only Deals
         if (request.path.contains("sos/offers/member-only-deals")) {
             return sosApiRequestDispatcher.dispatch(request)
+        }
+
+        // Trending Places API
+        if (request.path.contains("static/mobile/trendingdestination")) {
+            return trendingApiRequestDispatcher.dispatch(request)
         }
 
         // AbacusV2 API

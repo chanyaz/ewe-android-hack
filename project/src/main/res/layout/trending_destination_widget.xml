@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/HomeScreenCardViewStyle"
+    app:cardPreventCornerOverlap="false">
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content">
+
+        <ImageView
+            android:id="@+id/big_image_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:layout_alignTop="@+id/big_image_container"
+            android:layout_alignBottom="@+id/big_image_container"
+            tools:src="@color/app_primary"/>
+
+        <LinearLayout
+            android:id="@+id/big_image_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/big_image_icons"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:tint="@color/white"
+                tools:src="@drawable/ic_member_deals_icon"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/big_image_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                style="@style/Core.Text.600"
+                app:textStyle="medium"
+                tools:text="@string/member_deal_title"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/big_image_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                style="@style/Core.Text.300"
+                tools:text="@string/member_deal_subtitle"/>
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,22 @@
+{
+  "trendinglocations": [
+    {
+      "imageurl": "https://thumbnails.trvl-media.com/UKjNBqNr12CTtrM9CA0-PTlo6po=/768x432/images.trvl-media.com/media/content/shared/images/travelguides/destination/178276/Forum-Shops-20189.jpg",
+      "regionid": "178276",
+      "title": "Las Vegas",
+      "subtitle": "United States of America",
+      "hasVideoURL": true,
+      "videolink": "https://www.youtube.com/watch?v=gasI6cyjkvM",
+      "rank": 1
+    },
+    {
+      "imageurl": "https://thumbnails.trvl-media.com/EjMEx3i46ploY-v42JdVDFiIS3Q=/768x432/images.trvl-media.com/media/content/shared/images/travelguides/destination/178256/Trinity-College-21638.jpg",
+      "regionid": "178256",
+      "title": "Dublin",
+      "subtitle": "Ireland",
+      "hasVideoURL": true,
+      "videolink": "https://www.youtube.com/watch?v=LcKnx7I97yk",
+      "rank": 2
+    }
+  ]
+}

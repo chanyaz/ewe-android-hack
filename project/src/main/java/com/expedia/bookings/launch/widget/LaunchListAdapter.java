@@ -33,7 +33,9 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
+import com.expedia.bookings.launch.vm.TrendingDestinationViewModel;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
+import com.expedia.bookings.mia.activity.TrendingDestinationActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
@@ -66,6 +68,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
 			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
 			|| itemViewKey == LaunchDataItem.ITIN_VIEW
+			|| itemViewKey == LaunchDataItem.TRENDING_DESTINATION
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
 	}
 
@@ -164,6 +167,17 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			BigImageLaunchViewModel vm = getMemberDealViewModel();
 			vm.setBackgroundUrl(getMemberDealHomeScreenImageUrl());
 			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
+			memberDealBackgroundUrlSubject.subscribe(vm.getBackgroundUrlChangeSubject());
+			holder.bind(vm);
+			return holder;
+		}
+
+		if (viewType == LaunchDataItem.TRENDING_DESTINATION) {
+			View view = LayoutInflater.from(context).inflate(R.layout.trending_destination_widget, parent, false);
+			view.setOnClickListener(new PupularDestinationClickListener());
+			TrendingDestinationViewModel vm = getTrendingDestinationViewModel();
+			vm.setBackgroundUrl(getMemberDealHomeScreenImageUrl());
+			TrendingDestinationViewHolder holder = new TrendingDestinationViewHolder(view);
 			memberDealBackgroundUrlSubject.subscribe(vm.getBackgroundUrlChangeSubject());
 			holder.bind(vm);
 			return holder;
@@ -298,9 +312,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (showAirAttachMessage()) {
 				items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
 			}
+			items.add(new LaunchDataItem(LaunchDataItem.TRENDING_DESTINATION));
 			if (showMemberDeal()) {
 				items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
 			}
+
 			items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
 		}
 		return items;
@@ -401,6 +417,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			R.string.member_deal_subtitle);
 	}
 
+	private TrendingDestinationViewModel getTrendingDestinationViewModel() {
+		return new TrendingDestinationViewModel(R.drawable.ic_material_location_pin,
+			R.color.member_deal_background_gradient,
+			R.string.trending_destination_title,
+			R.string.trending_destination_sub_title);
+	}
+
 	private String getMemberDealHomeScreenImageUrl() {
 		Akeakamai akeakamai = new Akeakamai(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl());
 		akeakamai.resizeExactly(context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_width),
@@ -499,6 +522,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Intent intent = new Intent(context, MemberDealActivity.class);
 			context.startActivity(intent);
 			OmnitureTracking.trackLaunchMemberPricing();
+		}
+	}
+
+	private class PupularDestinationClickListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(context, TrendingDestinationActivity.class);
+			context.startActivity(intent);
 		}
 	}
 

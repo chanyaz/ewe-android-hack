@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/trending_destination_cardview"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/MaterialCardView"
+    android:layout_marginBottom="12dp"
+    android:layout_marginLeft="@dimen/card_view_container_margin"
+    android:layout_marginRight="@dimen/card_view_container_margin"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/upper_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/trending_destination_background"
+                android:layout_width="match_parent"
+                android:layout_height="134dp"
+                android:scaleType="matrix"
+                tool:background="@color/exp_launch_blue"/>
+
+            <View
+                android:id="@+id/trending_destination_foreground"
+                android:layout_width="match_parent"
+                android:layout_height="134dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="bottom|left"
+                android:paddingBottom="8dp"
+                android:paddingLeft="11dp"
+                android:paddingRight="25dp">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/trending_destination_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:textColor="@color/white"
+                    style="@style/Core.Text.300.Medium"
+                    tool:text="New York"/>
+
+                <TextView
+                    android:id="@+id/trending_destination_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    style="@style/Core.Text.300.Medium"
+                    tool:text="United States"/>
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/trending_destination_rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/guest_rating_background"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:layout_marginRight="11dp"
+                android:layout_gravity="bottom|right"
+                android:textColor="@color/white"
+                style="@style/Core.Text.100"
+                tool:text="#1"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

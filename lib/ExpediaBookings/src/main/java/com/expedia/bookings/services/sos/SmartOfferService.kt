@@ -2,6 +2,8 @@ package com.expedia.bookings.services.sos
 
 import com.expedia.bookings.data.sos.MemberDealRequest
 import com.expedia.bookings.data.sos.MemberDealResponse
+import com.expedia.bookings.data.sos.TrendingDestinationRequest
+import com.expedia.bookings.data.sos.TrendingDestinationResponse
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -30,6 +32,16 @@ class SmartOfferService(endpoint: String, okHttpClient: OkHttpClient, intercepto
                          dealsObserver: Observer<MemberDealResponse>) : Subscription {
 
         return api.memberDeals(request.siteId, request.locale, request.productType, request.groupBy,
+                request.destinationLimit, request.clientId)
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe(dealsObserver)
+    }
+
+    fun fetchTrendingDestination(request: TrendingDestinationRequest,
+                                 dealsObserver: Observer<TrendingDestinationResponse>) : Subscription {
+
+        return api.trendingDestinations(request.siteId, request.locale, request.productType, request.groupBy,
                 request.destinationLimit, request.clientId)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
