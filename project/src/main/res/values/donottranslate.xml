@@ -122,7 +122,6 @@
     <string name="preference_enable_secure_icon">preference_enable_secure_icon</string>
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
-    <string name="preference_flight_enable_search_suggestion_label">preference_flight_enable_search_suggestion_label</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
     <string name="preference_trips_new_flights_design">preference_trips_new_flights_design</string>
     <string name="preference_dateless_infosite">preference_dateless_infosite</string>

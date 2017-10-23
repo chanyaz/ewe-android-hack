@@ -14,9 +14,7 @@ import rx.Observable
 
 class AirportSuggestionViewModel(context: Context, suggestionsService: SuggestionV4Services, private val isDest: Boolean, locationObservable: Observable<Location>?) : SuggestionAdapterViewModel(context, suggestionsService, locationObservable, false, false) {
 
-    private val showSuggestionLabel: Boolean = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel,
-            R.string.preference_flight_enable_search_suggestion_label)
+    private val showSuggestionLabel: Boolean = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
     override fun getSuggestionService(query: String) {
         suggestionsService.getAirports(query, isDest, generateSuggestionServiceCallback(), Db.getAbacusGuid())

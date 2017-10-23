@@ -89,9 +89,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         else
             travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
     }
-    val isShowSuggestionLabelTestEnabled: Boolean = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel,
-            R.string.preference_flight_enable_search_suggestion_label)
+    val isShowSuggestionLabelTestEnabled: Boolean = AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm

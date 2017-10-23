@@ -118,17 +118,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Material Flight Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_flight_enable_search_suggestion_label"
-            android:summary="Show search suggestion label"
-            android:title="Enable search with suggestion label" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
     android:layout="@layout/preference_category_title"
     android:title="Soft Prompt Permission">
 
