@@ -446,6 +446,11 @@
                 android:resource="@xml/hotel_price_appwidget_provider" />
         </receiver>
 
+        <service android:name=".hotel.service.HotelPriceJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name=".hotel.service.HotelRemoteViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 
 </manifest>

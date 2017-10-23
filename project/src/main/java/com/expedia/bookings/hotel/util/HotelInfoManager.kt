@@ -8,6 +8,7 @@ import com.expedia.bookings.utils.RetrofitUtils
 import org.joda.time.LocalDate
 import rx.Observer
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 
 open class HotelInfoManager(private val hotelServices: HotelServices) {
 
@@ -19,25 +20,31 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
 
     val soldOutSubject = PublishSubject.create<Unit>()
 
+    val subscriptions = CompositeSubscription()
+
     open fun fetchOffers(params: HotelSearchParams, hotelId: String) {
-        hotelServices.offers(params, hotelId, offersObserver)
+        subscriptions.add(hotelServices.offers(params, hotelId, offersObserver))
     }
 
     open fun fetchInfo(params: HotelSearchParams, hotelId: String) {
-        hotelServices.info(params, hotelId, infoObserver)
+        subscriptions.add(hotelServices.info(params, hotelId, infoObserver))
     }
 
     open fun fetchDatelessInfo(hotelId: String) {
-        hotelServices.datelessInfo(hotelId, infoObserver)
+        subscriptions.add(hotelServices.datelessInfo(hotelId, infoObserver))
     }
 
     //todo need to standardize params to offers call
     open fun fetchOffers(startDate: String, endDate: String, hotelId: String) {
-        hotelServices.offers(startDate, endDate, hotelId, offersObserver)
+        subscriptions.add(hotelServices.offers(startDate, endDate, hotelId, offersObserver))
     }
 
     open fun fetchOffers(startDate: LocalDate, endDate: LocalDate, hotelId: String) {
         hotelServices.offers(startDate, endDate, hotelId, offersObserver)
+    }
+
+    fun clearSubscriptions() {
+        subscriptions.clear()
     }
 
     private val offersObserver = object : Observer<HotelOffersResponse> {
