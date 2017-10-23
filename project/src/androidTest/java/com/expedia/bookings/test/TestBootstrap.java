@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.support.test.espresso.Espresso;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 
@@ -84,6 +85,7 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		}
 
 		Settings.setMockModeEndPoint();
+		Espresso.closeSoftKeyboard();
 		super.tearDown();
 	}
 
