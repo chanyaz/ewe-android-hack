@@ -23,8 +23,8 @@ class HotelRemoteViewService : RemoteViewsService() {
             //nothing
         }
 
-        override fun getLoadingView(): RemoteViews {
-            return RemoteViews(context.getPackageName(), R.layout.hotel_price_appwidget_empty_view)
+        override fun getLoadingView(): RemoteViews? {
+            return null
         }
 
         override fun getItemId(position: Int): Long {
@@ -46,8 +46,13 @@ class HotelRemoteViewService : RemoteViewsService() {
 
         override fun getViewAt(position: Int): RemoteViews {
             Log.v("HotelRemoteViewService", ": getViewAt:${position}")
+
+            val hotel = hotelData[position]
             val rv = RemoteViews(context.getPackageName(), R.layout.hotel_price_appwidget_cell);
-            rv.setTextViewText(R.id.hotel_appwidget_name, hotelData[position].price.price.toString())
+            rv.setTextViewText(R.id.hotel_appwidget_name, "Hotel ${hotel.hotelId}")
+            rv.setTextViewText(R.id.hotel_appwidget_new_price, hotel.price.price.toString()) //todo fix formatting
+            rv.setTextViewText(R.id.hotel_appwidget_old_price, (hotel.price.price + 10).toString()) //todo add support for delta
+
             return rv
         }
 

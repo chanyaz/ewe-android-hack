@@ -1,13 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_background"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
 
-    <TextView
-        style="@style/Core.Text.500.Medium"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Your favorite hotels will appear here"
-        android:textColor="@color/white"/>
+        android:layout_height="wrap_content"
+        android:background="@color/brand_secondary">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/brand_logo"
+            android:layout_margin="16dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                style="@style/Core.Text.300"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your saved Hotels"/>
+
+            <!--TODO fix with real dates-->
+            <TextView
+                android:id="@+id/hotel_appwidget_header_dates"
+                style="@style/Core.Text.300"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Oct 17 - Oct 20"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+        <TextView
+            style="@style/Core.Text.500"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text="Fetching Latest Data"/>
+
+        <ProgressBar
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:progressTint="@color/app_primary"/>
+    </LinearLayout>
 </LinearLayout>

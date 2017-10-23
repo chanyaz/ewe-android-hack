@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_background"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_upward"
+        android:tint="@color/success_green" />
+
+    <TextView
+        android:id="@+id/hotel_appwidget_new_price"
+        style="@style/Core.Text.400"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:textColor="@color/success_green"
+        android:textStyle="bold"
+        tools:text="$147" />
+
+    <TextView
+        android:id="@+id/hotel_appwidget_old_price"
+        style="@style/Core.Text.400"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/light_text_color"
+        tools:text="$150" />
 
     <TextView
         android:id="@+id/hotel_appwidget_name"
+        style="@style/Core.Text.300"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Hotel California"/>
+        android:layout_marginLeft="8dp"
+        android:gravity="center"
+        android:lines="2"
+        tools:text="Hotel California" />
 
 </LinearLayout>

@@ -77,6 +77,7 @@ class HotelPriceJobService : JobService() {
 
         remoteViews.setRemoteAdapter(R.id.hotel_price_appwidget_list, intent);
         remoteViews.setEmptyView(R.id.hotel_price_appwidget_list, R.id.hotel_price_appwidget_empty_view)
+
         val thisWidget = ComponentName(this, HotelPriceAppWidgetProvider::class.java)
         val manager = AppWidgetManager.getInstance(this)
         manager.updateAppWidget(thisWidget, remoteViews)
