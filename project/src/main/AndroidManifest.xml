@@ -438,6 +438,14 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".hotel.provider.HotelPriceAppWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/hotel_price_appwidget_provider" />
+        </receiver>
+
     </application>
 
 </manifest>
