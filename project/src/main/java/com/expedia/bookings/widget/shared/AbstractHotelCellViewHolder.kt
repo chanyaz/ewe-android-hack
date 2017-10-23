@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.shared
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.LinearGradient
 import android.graphics.Shader

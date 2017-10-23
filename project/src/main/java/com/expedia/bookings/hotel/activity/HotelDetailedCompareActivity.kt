@@ -1,12 +1,12 @@
 package com.expedia.bookings.hotel.activity
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.DividerItemDecoration.HORIZONTAL
-import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -18,12 +18,10 @@ import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.widget.adapter.HotelDetailedCompareAdapter
-import com.expedia.bookings.hotel.widget.view.HotelCompareEmptyView
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.navigation.HotelNavUtils
-import javax.inject.Inject
 import org.joda.time.LocalDate
-import android.content.Intent
+import javax.inject.Inject
 
 
 class HotelDetailedCompareActivity : AppCompatActivity() {
@@ -65,6 +63,10 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
 
         hotelInfoManager.offerSuccessSubject.subscribe { offer ->
             detailedCompareAdapter.addHotel(offer)
+            val checkIn = intent.getStringExtra(HotelExtras.HOTEL_SEARCH_CHECK_IN)
+            val checkOut = intent.getStringExtra(HotelExtras.HOTEL_SEARCH_CHECK_OUT)
+
+            HotelFavoriteCache.saveHotelData(this, offer, checkIn, checkOut)
         }
 
         fetchHotelData()

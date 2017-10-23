@@ -17,11 +17,9 @@ import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.widget.adapter.HotelCompareAdapter
 import com.expedia.bookings.hotel.widget.adapter.HotelCompareThumbnailAdapter
-import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.hotel.HotelDetailViewModel
 import javax.inject.Inject
 
 class HotelCompareResultsActivity : AppCompatActivity(), HotelCompareAdapter.CompareCheckListener {
