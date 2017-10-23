@@ -173,4 +173,10 @@ public class DateUtils {
 		DateTime dateTime = localDateAndMillisToDateTime(date, millis);
 		return dateTimeToHHmmss(dateTime);
 	}
+
+	public static String toMMddyyyy(String dateTimeString) {
+		DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm:ss a");
+		DateTime dateTime = dateTimeFormat.parseDateTime(dateTimeString);
+		return dateTime.toString("MM/dd/yyyy");
+	}
 }

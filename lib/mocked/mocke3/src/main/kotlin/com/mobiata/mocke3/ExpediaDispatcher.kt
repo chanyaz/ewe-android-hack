@@ -59,6 +59,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return hotelRequestDispatcher.dispatch(request)
         }
 
+        //Flight Baggage Info API
+        if (request.path.contains("/api/flight/baggagefees")) {
+            return dispatchBaggageInfo(request)
+        }
+
         // Flights API
         if (request.path.contains("/api/flight")) {
             return flightApiRequestDispatcher.dispatch(request)
@@ -389,6 +394,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
 
         return make404()
+    }
+
+    private fun dispatchBaggageInfo(request: RecordedRequest): MockResponse {
+       return makeResponse("api/flight/baggeFeeInfo.json")
     }
 
     private fun dispatchGaiaSuggest(request: RecordedRequest): MockResponse {
