@@ -23,6 +23,7 @@ repositories {
         }
     }
     maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -162,6 +163,8 @@ dependencies {
     androidTestCompile "tools.fastlane:screengrab:0.5.5"
     androidTestCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestCompile 'com.linkedin.testbutler:test-butler-library:1.2.0'
+
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 }
 
 if (!project.ext.has("cucumberInstrumentation")) {
