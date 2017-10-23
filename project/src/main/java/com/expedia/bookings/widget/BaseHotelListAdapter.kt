@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.os.Handler
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +24,7 @@ import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList
+import java.util.*
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
                                     val headerSubject: PublishSubject<Unit>,
@@ -132,9 +133,22 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                 if (fixedPosition == FILTER_PROMPT) {
                     filterPromptSubject.onNext(Unit)
                 }
+
+                selectFirstHotel()
+
             }
             is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, fixedPosition % 2 == 0))
         }
+    }
+
+    private fun selectFirstHotel() {
+        val handler = Handler()
+        val runnableCode = object : Runnable {
+            override fun run() {
+                hotelSelectedSubject.onNext(hotels[0])
+            }
+        }
+        handler.postDelayed(runnableCode,2000)
     }
 
     private fun hotelSelected(context: Context, adapterPosition: Int) {

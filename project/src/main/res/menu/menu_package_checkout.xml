@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
-        android:id = "@+id/package_change_menu"
+        android:id="@+id/package_change_menu"
         android:visible="false">
-    <item
-        android:id="@+id/package_change_hotel"
-        android:showAsAction="always"
-        android:title="@string/package_change_hotel"/>
-    <item
-        android:id="@+id/package_change_hotel_room"
-        android:showAsAction="always"
-        android:title="@string/package_change_hotel_room"/>
-    <item
-        android:id="@+id/package_change_flight"
-        android:showAsAction="always"
-        android:title="@string/package_change_flight"/>
+        <item
+            android:id="@+id/bookmark_package"
+            android:showAsAction="always"
+            android:title="@string/bookmark_package" />
+
+        <item
+            android:id="@+id/package_change_hotel"
+            android:showAsAction="always"
+            android:title="@string/package_change_hotel" />
+        <item
+            android:id="@+id/package_change_hotel_room"
+            android:showAsAction="always"
+            android:title="@string/package_change_hotel_room" />
+        <item
+            android:id="@+id/package_change_flight"
+            android:showAsAction="always"
+            android:title="@string/package_change_flight" />
     </group>
 </menu>

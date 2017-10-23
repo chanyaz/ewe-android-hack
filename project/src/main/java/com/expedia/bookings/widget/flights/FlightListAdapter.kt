@@ -1,8 +1,10 @@
 package com.expedia.bookings.widget.flights
 
 import android.content.Context
+import android.os.Handler
 import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightServiceClassType

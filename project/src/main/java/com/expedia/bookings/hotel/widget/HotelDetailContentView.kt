@@ -59,7 +59,6 @@ import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseHotelDetailViewModel
@@ -600,8 +599,20 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         viewModel.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
         roomContainer.startAnimation(fadeInRoomsAnimation)
 
+        selectFirstRoom(roomList)
+
         //set focus on first room row for accessibility
         (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
+    }
+
+    private fun selectFirstRoom(hotelRoomResponse: List<HotelOffersResponse.HotelRoomResponse>) {
+        val handler = Handler()
+        val runnableCode = object : Runnable {
+            override fun run() {
+                viewModel.roomSelectedSubject.onNext(hotelRoomResponse[0])
+            }
+        }
+        handler.postDelayed(runnableCode, 2000)
     }
 
     private fun getHotelRoomRowView(roomIndex: Int, roomResponse: HotelOffersResponse.HotelRoomResponse,
