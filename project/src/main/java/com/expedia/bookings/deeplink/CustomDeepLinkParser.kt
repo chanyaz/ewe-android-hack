@@ -220,8 +220,9 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
 
         val outboundPrefix = "outbound_"
 
-        val flightOutboundParamList = getFlightParams(inboundCount, data, queryParameterNames, outboundPrefix)
-        DeeplinkSharedPrefParserUtils.saveOutboundFlightSelectionParams(flightInboundParamList, context)
+        val flightOutboundParamList = getFlightParams(outboundCount, data, queryParameterNames, outboundPrefix)
+
+        DeeplinkSharedPrefParserUtils.saveOutboundFlightSelectionParams(flightOutboundParamList, context)
 
     }
 
@@ -232,7 +233,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
             val flightInboundParams = FlightInboundParams()
             flightInboundParams.airlineCode = getQueryParameterIfExists(data, queryParameterNames, prefix + "airlineCode_" + i) ?: ""
             flightInboundParams.flightNumber = getQueryParameterIfExists(data, queryParameterNames, prefix + "flight_number_" + i) ?: ""
-            flightInboundParamList.add(flightInboundParams)
+            flightParamList.add(flightInboundParams)
         }
         return flightParamList
     }
