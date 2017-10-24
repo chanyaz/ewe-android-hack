@@ -5,13 +5,13 @@ import android.content.SharedPreferences
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.google.gson.Gson
 
-
 class HotelFavoriteCache {
     companion object {
         private val FAVORITE_FILE_NAME = "exp_favorite_prefs"
         private val PREFS_FAVORITE_HOTEL_IDS = "favorite_hotel_ids"
         private val PREFS_APPWIDGET_META_DATA = "prefs_appwidget_meta_data"
         private val PREFS_FAVORITE_HOTEL_DATA = "favorite_hotel_data_"
+        private val PREFS_PAST_HOTEL_DATA = "past_hotel_data_"
 
         private val gson = Gson()
 
@@ -29,6 +29,8 @@ class HotelFavoriteCache {
 
                 val cacheItem = HotelCacheItem(offer.hotelId, offer.hotelName, HotelRate(rate.averageRate, rate.currencyCode), previousHotel?.rate, offer.hotelRoomResponse[0].currentAllotment)
                 saveHotel(context, cacheItem)
+
+                savePastData(context, offer)
             }
         }
 
@@ -62,6 +64,7 @@ class HotelFavoriteCache {
             favorites.remove(hotelId)
             saveFavorites(context, favorites)
             removeHotelData(context, hotelId)
+            removePastData(context, hotelId)
         }
 
         fun isHotelIdFavorited(context: Context, hotelId: String): Boolean {
@@ -80,7 +83,6 @@ class HotelFavoriteCache {
                 return ArrayList<String>(favorites)
             } else
                 return ArrayList<String>()
-
         }
 
         fun getFavoriteHotelData(context: Context, hotelId: String): HotelCacheItem? {
@@ -109,6 +111,54 @@ class HotelFavoriteCache {
             val settings =  context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
             val metaData = getAppWidgetMetaData(settings)
             return metaData.checkOutDate
+        }
+
+        fun savePastData(context: Context, offer: HotelOffersResponse) {
+            if (offer.hotelRoomResponse == null || offer.hotelRoomResponse.isEmpty()) {
+                return
+            }
+            var pastData = getPastData(context, offer.hotelId)
+            val rate = offer.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+            val pastRateToAdd = PastRate(rate.averageRate, offer.checkInDate)
+            if (pastData != null) {
+                val existingPastData = pastData.rates.filter { it.date == offer.checkInDate }
+                if (existingPastData.count() > 0) {
+                    pastData.rates.removeAll(existingPastData)
+                }
+                pastData.rates.add(pastRateToAdd)
+                pastData.rates.sortBy { it.date }
+            } else {
+                val rates = ArrayList<PastRate>()
+                rates.add(pastRateToAdd)
+
+                pastData = HotelPastData(offer.hotelId, offer.hotelName, rate.currencyCode, rates)
+            }
+
+            val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+            val editor = settings.edit()
+
+            val jsonPastData = gson.toJson(pastData)
+
+            editor.putString(getPastDataKey(offer.hotelId), jsonPastData)
+
+            editor.apply()
+        }
+
+        fun removePastData(context: Context, hotelId: String) {
+            val editor = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE).edit()
+            editor.remove(getPastDataKey(hotelId))
+            editor.apply()
+        }
+
+        fun getPastData(context: Context, hotelId: String): HotelPastData? {
+            val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+            if (settings.contains(getPastDataKey(hotelId))) {
+                val jsonPastData = settings.getString(getPastDataKey(hotelId), null)
+                val gson = Gson()
+                return gson.fromJson(jsonPastData, HotelPastData::class.java)
+            } else {
+                return null
+            }
         }
 
         private fun saveFavorites(context: Context, favorites: List<String>) {
@@ -140,6 +190,7 @@ class HotelFavoriteCache {
         }
 
         private fun getCacheKey(hotelId: String): String = PREFS_FAVORITE_HOTEL_DATA + hotelId
+        private fun getPastDataKey(hotelId: String): String = PREFS_PAST_HOTEL_DATA + hotelId
 
         private fun getAppWidgetMetaData(settings: SharedPreferences) : AppWidgetMetaData {
             val metaDataJson = settings.getString(PREFS_APPWIDGET_META_DATA, "")
@@ -150,6 +201,7 @@ class HotelFavoriteCache {
     data class HotelCacheItem(val hotelId: String, val hotelName: String, val rate: HotelRate,
                               val oldRate: HotelRate?, val roomsLeft: String)
     data class HotelRate(val amount: Float, val currency: String)
-
     data class AppWidgetMetaData(var checkInDate: String?, var checkOutDate: String?, var lastUpdatedMillis: Long?)
+    data class HotelPastData(val hotelId: String, val hotelName: String, val currency: String, val rates: ArrayList<PastRate>)
+    data class PastRate(val amount: Float, val date: String)
 }
