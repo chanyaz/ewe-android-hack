@@ -42,22 +42,14 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
+        style="@style/Core.Text.500"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
-        <TextView
-            style="@style/Core.Text.500"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left|center_vertical"
-            android:text="Fetching Latest Data"/>
-
-        <ProgressBar
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:progressTint="@color/app_primary"/>
-    </LinearLayout>
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:gravity="center"
+        android:text="Your favorite hotels will appear here"/>
 </LinearLayout>

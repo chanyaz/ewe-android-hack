@@ -9,6 +9,7 @@ import android.content.Context
 import com.expedia.bookings.hotel.service.HotelPriceJobService
 import android.content.ComponentName
 import android.os.PersistableBundle
+import android.util.Log
 
 
 class HotelPriceAppWidgetProvider : AppWidgetProvider() {
@@ -16,6 +17,7 @@ class HotelPriceAppWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
+        Log.v("HotelPriceAppWidgetProvider", ": onUpdate")
         runPriceJob(context, appWidgetIds[0])
     }
 

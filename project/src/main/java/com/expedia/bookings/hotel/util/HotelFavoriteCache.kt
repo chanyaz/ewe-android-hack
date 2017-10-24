@@ -25,7 +25,7 @@ class HotelFavoriteCache {
 
                 val previousHotel = getFavoriteHotelData(context, offer.hotelId)
 
-                val cacheItem = HotelCacheItem(offer.hotelId, offer.hotelName, HotelRate(rate.averageRate, rate.currencyCode), previousHotel?.rate)
+                val cacheItem = HotelCacheItem(offer.hotelId, offer.hotelName, HotelRate(rate.averageRate, rate.currencyCode), previousHotel?.rate, offer.hotelRoomResponse[0].currentAllotment)
                 saveHotel(context, cacheItem)
             }
         }
@@ -120,6 +120,7 @@ class HotelFavoriteCache {
 
     }
 
-    data class HotelCacheItem(val hotelId: String, val hotelName: String, val rate: HotelRate, val oldRate: HotelRate?)
+    data class HotelCacheItem(val hotelId: String, val hotelName: String, val rate: HotelRate,
+                              val oldRate: HotelRate?, val roomsLeft: String)
     data class HotelRate(val amount: Float, val currency: String)
 }
