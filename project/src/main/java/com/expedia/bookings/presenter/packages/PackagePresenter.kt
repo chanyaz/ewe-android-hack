@@ -31,13 +31,7 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.SearchParamsHistoryUtil
-import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.TravelerManager
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.*
 import com.expedia.ui.PackageActivity
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -228,6 +222,18 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
 
         SearchParamsHistoryUtil.loadPreviousPackageSearchParams(context, loadSuccess)
+
+        //TODO: If inflated from deeplink, pass real HotelSearchParams from sharedPreferences
+        val hotelSearchParams = HotelSearchParams()
+        hotelSearchParams.origin = "San Francisco"
+        hotelSearchParams.originID = "178305"
+        hotelSearchParams.destination = "Los Angeles"
+        hotelSearchParams.destinationID = "178280"
+        hotelSearchParams.startDate = DeeplinkCreatorUtils.DATE_FORMATTER.parseLocalDate("02/12/2017")
+        hotelSearchParams.endDate = DeeplinkCreatorUtils.DATE_FORMATTER.parseLocalDate("04/12/2017")
+        hotelSearchParams.originAirportCode = "SFO"
+        hotelSearchParams.destinationAirportCode = "QLA"
+        searchPresenter.searchViewModel.hotelSearchParamsObservable.onNext(hotelSearchParams)
     }
 
     private val loadSuccess: (PackageSearchParams) -> Unit = { params ->
