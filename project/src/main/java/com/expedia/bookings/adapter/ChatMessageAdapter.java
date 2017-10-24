@@ -1,10 +1,12 @@
 package com.expedia.bookings.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
@@ -47,9 +49,13 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
             TextView textView = (TextView) convertView.findViewById(R.id.text);
             textView.setText(getItem(position).getContent());
         } else if (viewType == MY_IMAGE) {
-            //convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_mine_image, parent, false);
+//            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_mine_image, parent, false);
         } else {
-            // convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_other_image, parent, false);
+             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_other_message, parent, false);
+             convertView.findViewById(R.id.text).setVisibility(View.INVISIBLE);
+            ImageView weather = (ImageView) convertView.findViewById(R.id.weather_image);
+            weather.setVisibility(View.VISIBLE);
+            weather.setImageDrawable(getContext().getResources().getDrawable(R.drawable.weather));
         }
         convertView.findViewById(R.id.chatMessageView).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.MutableDateTime;
 
@@ -272,22 +273,23 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		String itinId = data.getId();
 
-		MutableDateTime trigger = data.getValidDate().toMutableDateTime();
+		MutableDateTime trigger = DateTime.now().toMutableDateTime();
+		DateTimeZone.setDefault(DateTimeZone.forOffsetHoursMinutes(5, 30));
 		trigger.setZoneRetainFields(DateTimeZone.getDefault());
 		trigger.setRounding(trigger.getChronology().minuteOfHour());
-		trigger.addDays(-1);
-		trigger.setHourOfDay(12);
+//		trigger.addDays(-1);
+		trigger.setHourOfDay(16);
 		long triggerTimeMillis = trigger.getMillis();
 
-		trigger.setHourOfDay(23);
-		trigger.setMinuteOfHour(59);
+		trigger.setHourOfDay(16);
+		trigger.setMinuteOfHour(10);
 		long expirationTimeMillis = trigger.getMillis();
 
 		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.ACTIVITY_START);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setImageType(ImageType.ACTIVITY);
-		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_REDEEM | Notification.FLAG_CALL);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_CALL | Notification.FLAG_REDEEM);
 
 		String title = getContext().getString(R.string.Activity_starting_soon);
 		notification.setTicker(title);

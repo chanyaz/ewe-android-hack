@@ -407,7 +407,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".launch.activity.ChatBotActivity"></activity>
+        <activity android:name=".launch.activity.ChatBotActivity"
+            android:theme="@style/Theme.AppCompat"></activity>
     </application>
 
 </manifest>

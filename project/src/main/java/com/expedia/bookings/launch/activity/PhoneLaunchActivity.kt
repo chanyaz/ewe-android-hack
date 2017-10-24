@@ -732,14 +732,14 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         /** Create intent to open this activity and jump straight to a particular itin item.
          */
         @JvmStatic fun createIntent(context: Context, notification: Notification): Intent {
-            val intent = Intent(context, PhoneLaunchActivity::class.java)
-            intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString())
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-
-            // Even though we don't use the url directly anywhere, Android OS needs a way
-            // to differentiate multiple intents to this same activity.
-            // http://developer.android.com/reference/android/content/Intent.html#filterEquals(android.content.Intent)
-            intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
+            val intent = Intent(Intent(context, ChatBotActivity::class.java))
+//            intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString())
+//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+//
+//            // Even though we don't use the url directly anywhere, Android OS needs a way
+//            // to differentiate multiple intents to this same activity.
+//            // http://developer.android.com/reference/android/content/Intent.html#filterEquals(android.content.Intent)
+//            intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
 
             return intent
         }

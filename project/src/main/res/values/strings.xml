@@ -905,9 +905,9 @@
     <!-- Notification text for car drop off -->
     <string name="Your_rental_is_due_returned">Your rental car is due to be returned in two hours.</string>
     <!-- Notification title for activity start -->
-    <string name="Activity_starting_soon">Activity starting soon</string>
+    <string name="Activity_starting_soon">It\'s raining!!</string>
     <!-- Notification text for activity start -->
-    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Your %s ticket can be redeemed starting tomorrow.</string>
+    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Activities recommended for today\'s weather.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Itinerary ready</string>
     <!-- Notification title text for get ready for your trip -->
@@ -1492,10 +1492,10 @@
     <string name="itin_action_call_hotel">Call Hotel</string>
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
     <string name="itin_action_call_agency_cont_desc_TEMPLATE">Call {agency}</string>
-    <string name="itin_action_redeem">Redeem</string>
+    <string name="itin_action_redeem">Dismiss</string>
     <!-- Content description for the Support button on itinerary card that will call the customer support phone number. Example: Call Support Button -->
     <string name="itin_action_call_support_cont_desc">Call Support</string>
-    <string name="itin_action_support">Support</string>
+    <string name="itin_action_support">Chat</string>
     <string name="itin_action_share">Share</string>
     <string name="share_action_content_description">Share Button</string>
     <string name="itin_action_view">View Itinerary</string>

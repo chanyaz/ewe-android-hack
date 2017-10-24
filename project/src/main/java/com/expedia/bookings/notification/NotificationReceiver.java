@@ -397,7 +397,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				if (intent != null) {
 					PendingIntent redeemPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 					String redeem = mContext.getString(R.string.itin_action_redeem);
-					builder = builder.addAction(R.drawable.ic_printer_redeem, redeem, redeemPendingIntent);
+					builder = builder.addAction(R.drawable.itin_cancel_icon, redeem, redeemPendingIntent);
 				}
 			}
 
@@ -417,15 +417,18 @@ public class NotificationReceiver extends BroadcastReceiver {
 					label = mContext.getString(R.string.itin_action_call_hotel);
 				}
 
-				if (phoneNumber != null) {
-					Intent intent = SocialUtils.getCallIntent(mContext, phoneNumber);
-
-					// #1689: Ensure we have an activity that can handle the intent
-					if (NavUtils.canHandleIntent(mContext, intent)) {
-						PendingIntent callPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
-						builder = builder.addAction(R.drawable.ic_phone, label, callPendingIntent);
-					}
-				}
+				Intent clickIntent2 = PhoneLaunchActivity.createIntent(mContext, mNotification);
+				PendingIntent clickPendingIntent2 = PendingIntent.getActivity(mContext, 0, clickIntent2, 0);
+				builder = builder.addAction(R.drawable.ic_share_short, label, clickPendingIntent2);
+//				if (phoneNumber != null) {
+//					Intent intent = SocialUtils.getCallIntent(mContext, phoneNumber);
+//
+//					// #1689: Ensure we have an activity that can handle the intent
+//					if (NavUtils.canHandleIntent(mContext, intent)) {
+//						PendingIntent callPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+//						builder = builder.addAction(R.drawable.ic_share_short, label, callPendingIntent);
+//					}
+//				}
 			}
 
 			if ((flags & Notification.FLAG_VIEW) != 0) {

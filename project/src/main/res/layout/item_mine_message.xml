@@ -18,7 +18,7 @@
         app:cmv_cornerRadius="3dp"
         app:cmv_showArrow="true">
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
