@@ -431,12 +431,13 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	@VisibleForTesting
 	protected void handleMemberPricing() {
-		if (userStateManager.isUserAuthenticated()) {
+
+//		if (userStateManager.isUserAuthenticated()) {
 			NavUtils.goToMemberPricing(this);
-		}
-		else {
-			NavUtils.goToSignIn(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH);
-		}
+//		}
+//		else {
+//			NavUtils.goToSignIn(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH);
+//		}
 	}
 
 	protected ItineraryManager getItineraryManagerInstance() {

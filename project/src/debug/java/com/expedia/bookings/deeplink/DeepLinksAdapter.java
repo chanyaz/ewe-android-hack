@@ -146,7 +146,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Trips in Mock Web Server", "https://www.expedia.com/mobile/deeplink/trips/1103274148635"),
 		new DeepLinkTrips(),
 
-		new DeepLink("Member Pricing", "https://www.expedia.com/mobile/deeplink/member-pricing")
+		new DeepLink("Gift a get away", "https://www.expedia.com/mobile/deeplink/gift-a-getaway")
 	};
 
 	@Override

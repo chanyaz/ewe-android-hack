@@ -46,7 +46,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
             "shareditin" -> return parseSharedItineraryUniversalDeepLink(data)
             "shorturl" -> return parseShortUrlDeepLink(data)
             "/signin" -> return SignInDeepLink()
-            "/member-pricing" -> return MemberPricingDeepLink()
+            "/gift-a-getaway" -> return MemberPricingDeepLink()
             "/trips" -> return parseTripUniversalDeepLink(data)
             else ->
                 return HomeDeepLink()

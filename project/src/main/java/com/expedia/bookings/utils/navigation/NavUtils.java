@@ -115,6 +115,7 @@ public class NavUtils {
 	public static void goToMemberPricing(Context context) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, MemberDealActivity.class);
+		intent.putExtra("isDeeplink", true);
 		context.startActivity(intent);
 	}
 
