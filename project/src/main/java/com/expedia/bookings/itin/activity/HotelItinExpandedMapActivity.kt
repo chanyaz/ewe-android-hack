@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.EBRequestParams
@@ -33,6 +35,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
@@ -69,7 +72,6 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
     }
 
-
     fun checkForPan(): Boolean {
         return !panTracked && currentZoom == googleMap?.cameraPosition?.zoom
                 && googleMap?.cameraPosition?.target != startPosition
@@ -92,6 +94,18 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     }
     private val directionsButtonText: TextView by lazy {
         findViewById(R.id.directions_button_text) as TextView
+    }
+
+    val musicButton: Button by lazy {
+        findViewById(R.id.music_button) as Button
+    }
+
+    val trailButton: Button by lazy {
+        findViewById(R.id.trails_button) as Button
+    }
+
+    val landmarkButton: Button by lazy {
+        findViewById(R.id.landmark_button) as Button
     }
 
     private var googleMap: GoogleMap? = null
