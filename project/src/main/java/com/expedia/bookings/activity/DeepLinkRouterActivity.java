@@ -326,7 +326,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private void handleFlightSearch(FlightDeepLink flightDeepLink) {
 
-		// Fill FlightSearchParams with query data
+		// Fill flightSearchParams with query data
 		FlightSearchParams params = new FlightSearchParams();
 
 		if (flightDeepLink.getOrigin() != null) {

@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -16,9 +17,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.*
 import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
@@ -141,6 +140,9 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
     protected fun setupFlightSelectionObservables() {
         confirmedOutboundFlightSelection.subscribe { flight ->
+
+            // Add OutBoundFlight
+            addOutBoundFlightDeepLinkParams(flight)
             if (isRoundTripSearch) {
                 selectOutboundFlight(flight.legId)
             } else {
@@ -153,6 +155,8 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
         // return trip flights
         confirmedInboundFlightSelection.subscribe {
+            addInBoundFlightDeepLinkParams(it)
+//            DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.FLIGHTS)
             val inboundLegId = it.legId
             val outboundLegId = confirmedOutboundFlightSelection.value.legId
             selectFlightOffer(outboundLegId, inboundLegId)
@@ -254,6 +258,28 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             override fun onCompleted() {
             }
         }
+    }
+
+    private fun addOutBoundFlightDeepLinkParams(flight: FlightLeg) {
+        var flightOutBoundParams : MutableList<FlightOutboundParams> = arrayListOf()
+        flight.segments.forEach { it ->
+            var params = FlightOutboundParams()
+            params.airlineCode = it.airlineCode
+            params.flightNumber = it.flightNumber
+            flightOutBoundParams.add(params)
+        }
+        DeeplinkCreatorUtils.flightOutboundParams = flightOutBoundParams
+    }
+
+    private fun addInBoundFlightDeepLinkParams(flight: FlightLeg) {
+        var flightInBoundParams : MutableList<FlightInboundParams> = arrayListOf()
+        flight.segments.forEach { it ->
+            var params = FlightInboundParams()
+            params.airlineCode = it.airlineCode
+            params.flightNumber = it.flightNumber
+            flightInBoundParams.add(params)
+        }
+        DeeplinkCreatorUtils.flightInboundParams = flightInBoundParams
     }
 
     // Adding Toast to make it easier for testing cached results on debug builds.

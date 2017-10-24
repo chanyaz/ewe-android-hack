@@ -30,16 +30,10 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
-import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.SearchParamsHistoryUtil
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.TravelerManager
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isFlexEnabled
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.vm.FlightCheckoutOverviewViewModel
@@ -56,9 +50,6 @@ import rx.Observable
 import javax.inject.Inject
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.vm.FlightWebCheckoutViewViewModel
-import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Constants
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.setInverseVisibility
@@ -431,11 +422,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         searchPresenter.searchViewModel = vm
         vm.searchParamsObservable.subscribe { params ->
+
             announceForAccessibility(context.getString(R.string.accessibility_announcement_searching_flights))
             flightOfferViewModel.searchParamsObservable.onNext(params)
             flightOfferViewModel.isOutboundSearch = true
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             travelerManager.updateDbTravelers(params)
+            addDeepLinkFlightSearchParams(params)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
             outBoundPresenter.clearBackStack()
@@ -814,6 +807,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 //                TODO: handle failed itin request
             }
         }
+    }
+
+    private fun addDeepLinkFlightSearchParams(params: FlightSearchParams) {
+        val flightSearchParams = FlightSearchParams()
+        flightSearchParams.origin = params.origin!!.regionNames.displayName
+        flightSearchParams.destination = params.destination!!.regionNames.displayName
+        flightSearchParams.startDate = params.startDate!!
+        flightSearchParams.endDate = params.endDate!!
+        flightSearchParams.cabinClass = params.flightCabinClass!!
+        flightSearchParams.noOfTravelers = params.adults.toString()
+        DeeplinkCreatorUtils.flightSearchParams = flightSearchParams
     }
 
     override fun back(): Boolean {
