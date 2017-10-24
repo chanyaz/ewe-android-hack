@@ -1,10 +1,13 @@
 package com.expedia.bookings.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,14 +22,27 @@ import java.util.List;
  */
 
 public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
+    List<ChatMessage> data;
+    private LinearLayoutManager layoutManager;
+    private GalleryAdapter adapter;
+    private RecyclerView recyclerView;
+    private int count = 0;
 
     private static final int MY_MESSAGE = 0, OTHER_MESSAGE = 1, MY_IMAGE = 2, OTHER_IMAGE = 3;
 
     public ChatMessageAdapter(Context context, List<ChatMessage> data) {
         super(context, R.layout.item_mine_message, data);
+        this.data = data;
     }
 
-    @Override
+    public ChatMessageAdapter(Context context, List<ChatMessage> data, LinearLayoutManager layoutManager, GalleryAdapter adapter) {
+        super(context, R.layout.item_mine_message, data);
+        this.data = data;
+        this.layoutManager = layoutManager;
+        this.adapter = adapter;
+    }
+
+        @Override
     public int getViewTypeCount() {
         // my message, other message, my image, other image
         return 4;
@@ -56,6 +72,16 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
             textView.setText(getItem(position).getContent());
             if ("Here are the Expedia recommended Things to Do for you.".equals(getItem(position).getContent())) {
                 convertView.findViewById(R.id.sort_buttons).setVisibility(View.VISIBLE);
+                convertView.findViewById(R.id.search_btn_hack).setOnClickListener(mOnClickListener);
+                convertView.findViewById(R.id.search_btn_hack2).setOnClickListener(mOnClickListener);
+                convertView.findViewById(R.id.search_btn_hack3).setOnClickListener(mOnClickListener);
+                convertView.findViewById(R.id.lx_carousel).setVisibility(View.VISIBLE);
+                recyclerView = (RecyclerView)convertView.findViewById(R.id.recycle);
+                if(count == 0){
+                    recyclerView.setLayoutManager(layoutManager);
+                    count++;
+                }
+                recyclerView.setAdapter(adapter);
             }
         }
         else if (viewType == MY_IMAGE) {
@@ -68,12 +94,15 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
             weather.setVisibility(View.VISIBLE);
             weather.setImageDrawable(getContext().getResources().getDrawable(Integer.parseInt(getItem(position).getContent())));
         }
-        convertView.findViewById(R.id.chatMessageView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "onClick", Toast.LENGTH_LONG).show();
-            }
-        });
         return convertView;
     }
+
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            data.add(new ChatMessage(((Button)v).getText().toString(), true, false));
+            notifyDataSetChanged();
+
+        }
+    };
 }

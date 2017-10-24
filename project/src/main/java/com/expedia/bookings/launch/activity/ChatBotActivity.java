@@ -5,6 +5,8 @@ import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,7 +15,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.adapter.ChatMessageAdapter;
+import com.expedia.bookings.adapter.GalleryAdapter;
 import com.expedia.bookings.data.ChatMessage;
+import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
+import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.RecyclerGallery;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -29,37 +35,38 @@ public class ChatBotActivity extends AppCompatActivity {
     private ChatMessageAdapter mAdapter;
     private CarouselView carouselView;
 
+    private GalleryAdapter adapter;
+
     int[] sampleImages = {R.drawable.i1, R.drawable.i2, R.drawable.i3, R.drawable.i4, R.drawable.i5};
     String[] sampleTitles = {"New York City Explorer Pass", "Empire State Building", "Statue of Liberty & Ellis Island Tour with Pedestal Access", "Hop-On Hop-Off Bus Tour", "National September 11 Memorial & Museum"};
     String[] price = {"$84", "$34", "$57", "$54", "$26"};
+    String[] activityIds = {"182983", "183589", "269114", "278043", "266375"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_bot);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        layoutManager.scrollToPosition(0);
 
         mListView = (ListView) findViewById(R.id.listView);
         mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
         mEditTextMessage = (EditText) findViewById(R.id.et_message);
         mImageView = (ImageView) findViewById(R.id.iv_image);
-        mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>());
+        adapter = new GalleryAdapter();
+        mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>(), layoutManager, adapter);
         mAdapter.add(new ChatMessage("Hi Silvy", false, false));
         mAdapter.add(new ChatMessage("The day will be rainy today." + System.getProperty("line.separator") +
                 "Would you like to find some Things to Do in this weather.", false, false));
 
-        carouselView = (CarouselView) findViewById(R.id.carouselView);
-        carouselView.setPageCount(sampleImages.length);
-        carouselView.setImageListener(imageListener);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            carouselView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-                    int position = ((CarouselView)view).getCurrentItem();
-                    ((TextView)findViewById(R.id.act_title)).setText(sampleTitles[position]);
-                    ((TextView)findViewById(R.id.act_price)).setText(price[position]);
-                }
-            });
-        }
+//        recyclerView = (RecyclerView) findViewById(R.id.recycle);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setAdapter(adapter);
+
+//        carouselView = (CarouselView) findViewById(R.id.carouselView);
+//        carouselView.setPageCount(sampleImages.length);
+//        carouselView.setImageListener(imageListener);
 
         mAdapter.add(new ChatMessage(String.valueOf(R.drawable.weather), false, true));
         mListView.setAdapter(mAdapter);
@@ -72,11 +79,15 @@ public class ChatBotActivity extends AppCompatActivity {
                 sendMessage(message.trim());
                 mEditTextMessage.setText("");
                 mListView.setSelection(mAdapter.getCount() - 1);
+                Ui.hideKeyboard(ChatBotActivity.this);
             }
         });
     }
 
     private void sendMessage(String message) {
+        if ("".equals(message)) {
+            return;
+        }
         ChatMessage chatMessage = new ChatMessage(message, true, false);
         mAdapter.add(chatMessage);
         mimicOtherMessage(chatMessage.getContent());
@@ -106,14 +117,14 @@ public class ChatBotActivity extends AppCompatActivity {
 
     }
 
-    ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            imageView.setImageResource(sampleImages[position]);
-            ((TextView)findViewById(R.id.act_title)).setText(sampleTitles[0]);
-            ((TextView)findViewById(R.id.act_price)).setText(price[0]);
-        }
-    };
+//    ImageListener imageListener = new ImageListener() {
+//        @Override
+//        public void setImageForPosition(int position, ImageView imageView) {
+//            imageView.setImageResource(sampleImages[position]);
+//            ((TextView)findViewById(R.id.act_title)).setText(sampleTitles[0]);
+//            ((TextView)findViewById(R.id.act_price)).setText(price[0]);
+//        }
+//    };
 
     private void sendMessage() {
         ChatMessage chatMessage = new ChatMessage(null, true, true);

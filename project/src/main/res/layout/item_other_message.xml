@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="3dp">
 
@@ -80,5 +81,21 @@
         android:minHeight="0dp"
         android:minWidth="0dp"/>
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/lx_carousel"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/gallery_item">
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+
 
 </LinearLayout>
