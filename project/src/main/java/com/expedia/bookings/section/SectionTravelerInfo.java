@@ -624,7 +624,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	private FlightSearchParams getFlightSearchParams() {
 		if (mFlightSearchParams == null) {
-			throw new RuntimeException("Tried to get nonexistent FlightSearchParams. Should have been set in the bind() method!");
+			throw new RuntimeException("Tried to get nonexistent flightSearchParams. Should have been set in the bind() method!");
 		}
 		return mFlightSearchParams;
 	}
