@@ -60,9 +60,11 @@ class DeeplinkSharedPrefParserUtils {
             val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LOCAL_DATE_TYPE).create()
             val json = bookmarksSharedPref.getString(PACKAGE_SEARCH_PARAMS_KEY, "")
             if (json.isEmpty()) {
+                isDeeplink = false
                 return null
             }
             bookmarksSharedPref.edit().remove(PACKAGE_SEARCH_PARAMS_KEY).apply()
+            isDeeplink = true
 
             return gson.fromJson<HotelSearchParams>(json, HOTEL_SEARCH_PARAMS_TYPE)
         }
@@ -93,6 +95,8 @@ class DeeplinkSharedPrefParserUtils {
 
             return gson.fromJson<HotelRoomSelectionParams>(json, HOTEL_ROOM_SELECTED_TYPE)
         }
+
+        var isDeeplink: Boolean = false
     }
 
 }
