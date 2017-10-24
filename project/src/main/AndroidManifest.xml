@@ -52,7 +52,7 @@
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/launcher_name"
+        android:label="@string/app_name"
         android:theme="@style/Theme"
         tools:replace="android:allowBackup">
 

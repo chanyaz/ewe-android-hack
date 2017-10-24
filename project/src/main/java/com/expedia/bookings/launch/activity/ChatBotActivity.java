@@ -21,6 +21,7 @@ import android.widget.ListView;
 //import com.hariofspades.chatbot.Adapter.ChatMessageAdapter;
 //import com.hariofspades.chatbot.Pojo.ChatMessage;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.adapter.ChatMessageAdapter;
 import com.expedia.bookings.data.ChatMessage;
 
@@ -43,7 +44,7 @@ public class ChatBotActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chat_bot);
         mListView = (ListView) findViewById(R.id.listView);
         mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
         mEditTextMessage = (EditText) findViewById(R.id.et_message);

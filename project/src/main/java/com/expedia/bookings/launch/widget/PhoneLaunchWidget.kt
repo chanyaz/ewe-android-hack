@@ -2,6 +2,7 @@ package com.expedia.bookings.launch.widget
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
@@ -29,6 +30,7 @@ import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
+import com.expedia.bookings.launch.activity.ChatBotActivity
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
 import com.expedia.bookings.otto.Events
@@ -74,6 +76,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     private var isPOSChanged = false
 
     val fab: FloatingActionButton  by bindView(R.id.fab)
+    val chat: FloatingActionButton by bindView(R.id.chat)
 
     private val fabAnimIn: ObjectAnimator by lazy {
         val fabAnimIn = ObjectAnimator.ofFloat(fab, "translationY", 0f)
@@ -141,6 +144,10 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         }
 
         // TODO add onclick for chat bot button
+
+        chat.setOnClickListener {
+            context.startActivity(Intent(Intent(context, ChatBotActivity::class.java)))
+        }
 
 
         val gestureDetector: GestureDetector = GestureDetector(context, gestureListener)
