@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-BRAND_PATH_NAME=("main" "airAsiaGo" "cheapTickets" "ebookers" "lastMinute" "mrjet" "orbitz" "samsung" "travelocity" "voyages" "wotif")
+BRAND_PATH_NAME=("main" "airAsiaGo" "cheapTickets" "ebookers" "lastMinute" "mrjet" "orbitz" "travelocity" "voyages" "wotif")
 DENSITY_PATHS=("hdpi" "mdpi" "xhdpi" "xxhdpi" "xxxhdpi")
 asset_name=$1
 

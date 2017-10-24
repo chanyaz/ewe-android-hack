@@ -321,23 +321,6 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	@RunForBrands(brands = { MultiBrand.SAMSUNG })
-	public void urgencyMessageMobileExclusiveImageShown() {
-		givenHotelMobileExclusive();
-
-		setupSystemUnderTest();
-
-		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
-
-		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(
-			ProductFlavorFeatureConfiguration.getInstance().getHotelDealImageDrawable(),
-			R.color.hotel_mobile_exclusive_color, "",
-			R.color.white);
-
-		assertEquals(compareTo, msg);
-	}
-
-	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void vipMessageWithNoLoyaltyMessage() {
 		givenHotelWithVipAccess();

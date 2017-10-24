@@ -9,7 +9,6 @@ This is the code base that builds:
  * [AirAsiaGo](https://play.google.com/store/apps/details?id=com.airasiago.android)
  * [Wotif](https://play.google.com/store/apps/details?id=com.wotif.android)
  * [Lastminute AU & NZ](https://play.google.com/store/apps/details?id=com.lastminute.android)
- * [Expedia for Samsung](#)
  * [Orbitz](https://play.google.com/store/apps/details?id=com.orbitz)
  * [CheapTickets](https://play.google.com/store/apps/details?id=com.cheaptickets)
  * [EBookers](https://play.google.com/store/apps/details?id=com.ebookers)

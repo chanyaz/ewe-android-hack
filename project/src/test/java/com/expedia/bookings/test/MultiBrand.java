@@ -10,7 +10,6 @@ public final class MultiBrand {
 	public static final String AIRASIAGO = "com.airasiago.android.debug";
 	public static final String WOTIF = "com.wotif.android.debug";
 	public static final String LASTMINUTE = "com.lastminute.android.debug";
-	public static final String SAMSUNG = "com.samsung.travel.android.debug";
 	public static final String CHEAPTICKETS = "com.cheaptickets.debug";
 	public static final String MRJET = "se.mrjet.debug";
 

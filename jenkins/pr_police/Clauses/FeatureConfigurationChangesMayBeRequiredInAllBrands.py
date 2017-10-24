@@ -9,7 +9,7 @@ class FeatureConfigurationChangesMayBeRequiredInAllBrands(IClause):
         self.type = ClauseType.prLevel
 
     def getBrands(self):
-        return ['expedia','airAsiaGo','cheapTickets','ebookers','lastMinute','orbitz','samsung','travelocity','voyages','wotif']
+        return ['expedia','airAsiaGo','cheapTickets','ebookers','lastMinute','orbitz','travelocity','voyages','wotif']
 
     def wantsToScanFile(self, filepath):
         return True if re.search("/FeatureConfiguration\.java", filepath, re.I) else False

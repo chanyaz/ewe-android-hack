@@ -315,16 +315,6 @@ android {
             resConfigs "en"
         }
 
-        samsung {
-            buildConfigField "String", "brand", "\"Expedia\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
-            buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
-            buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
-            applicationId "com.samsung.travel.android"
-
-            resConfigs "ko", "fr", "fr_CA", "en_CA"
-        }
-
         orbitz {
             buildConfigField "String", "brand", "\"Orbitz\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
