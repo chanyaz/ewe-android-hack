@@ -15,6 +15,37 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/send_message_layout"
         android:divider="@null" />
+
+    <RelativeLayout
+        android:id="@+id/lx_carousel"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignBottom="@+id/listView"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible">
+
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/carouselView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:fillColor="#FFFFFFFF"
+            app:pageColor="#00000000"
+            app:radius="0dp"
+            app:slideInterval="3000"
+            app:strokeColor="#FF777777"
+            app:strokeWidth="1dp"
+            android:layout_alignParentBottom="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activity Title"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+
+    </RelativeLayout>
+
     <!--To type and send the message-->
     <LinearLayout
         android:id="@+id/send_message_layout"

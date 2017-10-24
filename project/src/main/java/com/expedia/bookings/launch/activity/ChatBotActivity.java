@@ -1,37 +1,20 @@
 package com.expedia.bookings.launch.activity;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-//import org.alicebot.ab.AIMLProcessor;
-//import org.alicebot.ab.Bot;
-//import org.alicebot.ab.Chat;
-//import org.alicebot.ab.Graphmaster;
-//import org.alicebot.ab.MagicBooleans;
-//import org.alicebot.ab.MagicStrings;
-//import org.alicebot.ab.PCAIMLProcessorExtension;
-//import org.alicebot.ab.Timer;
-//import com.hariofspades.chatbot.Adapter.ChatMessageAdapter;
-//import com.hariofspades.chatbot.Pojo.ChatMessage;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.adapter.ChatMessageAdapter;
 import com.expedia.bookings.data.ChatMessage;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class ChatBotActivity extends AppCompatActivity {
@@ -42,11 +25,15 @@ public class ChatBotActivity extends AppCompatActivity {
     private EditText mEditTextMessage;
     private ImageView mImageView;
     private ChatMessageAdapter mAdapter;
+    private CarouselView carouselView;
+
+    int[] sampleImages = {R.drawable.i1, R.drawable.i2, R.drawable.i3, R.drawable.i4, R.drawable.i5};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_bot);
+
         mListView = (ListView) findViewById(R.id.listView);
         mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
         mEditTextMessage = (EditText) findViewById(R.id.et_message);
@@ -55,6 +42,11 @@ public class ChatBotActivity extends AppCompatActivity {
         mAdapter.add(new ChatMessage("Hi Silvy", false, false));
         mAdapter.add(new ChatMessage("The day will be rainy today." + System.getProperty("line.separator") +
                 "Would you like to find some Things to Do in this weather.", false, false));
+
+        carouselView = (CarouselView) findViewById(R.id.carouselView);
+        carouselView.setPageCount(sampleImages.length);
+        carouselView.setImageListener(imageListener);
+
         mAdapter.add(new ChatMessage(String.valueOf(R.drawable.weather), false, true));
         mListView.setAdapter(mAdapter);
 
@@ -90,6 +82,7 @@ public class ChatBotActivity extends AppCompatActivity {
             case "yes":
             case "YES":
                 reply = "Here are the Expedia recommended Things to Do for you.";
+                findViewById(R.id.lx_carousel).setVisibility(View.VISIBLE);
                 break;
             default:
                 reply = "Sorry, We could not understand what you said.";
@@ -98,6 +91,13 @@ public class ChatBotActivity extends AppCompatActivity {
         mAdapter.add(chatMessage);
 
     }
+
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageResource(sampleImages[position]);
+        }
+    };
 
     private void sendMessage() {
         ChatMessage chatMessage = new ChatMessage(null, true, true);
