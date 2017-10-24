@@ -200,12 +200,12 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
         DeeplinkSharedPrefParserUtils.saveHotelSearchDeeplinkParams(hotelSearchParams, context)
 
         val hotelRoomSelectionParams = HotelRoomSelectionParams()
-        hotelRoomSelectionParams.selectedRoomTypeCode = getQueryParameterIfExists(data, queryParameterNames, "selectedRoomTypeCode") ?: ""
+        hotelRoomSelectionParams.selectedRoomTypeCode = getQueryParameterIfExists(data, queryParameterNames, "hotelRoomTypeCode") ?: ""
 
         DeeplinkSharedPrefParserUtils.saveHotelRoomSelectionParams(hotelRoomSelectionParams, context)
 
         val hotelSelectionParams = HotelSelectionParams()
-        hotelSelectionParams.selectedHotelID = getQueryParameterIfExists(data, queryParameterNames, "selectedHotelID") ?: ""
+        hotelSelectionParams.selectedHotelID = getQueryParameterIfExists(data, queryParameterNames, "hotelID") ?: ""
 
         DeeplinkSharedPrefParserUtils.saveHotelSelectionParams(hotelSelectionParams, context)
     }
