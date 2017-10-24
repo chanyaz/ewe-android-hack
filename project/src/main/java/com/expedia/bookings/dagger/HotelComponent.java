@@ -1,11 +1,13 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
+import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
 import com.expedia.bookings.presenter.hotel.HotelPresenter;
 import com.expedia.bookings.presenter.hotel.HotelResultsPresenter;
 import com.expedia.bookings.presenter.hotel.HotelSearchPresenter;
+import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.BucksWidget;
@@ -36,8 +38,10 @@ public interface HotelComponent {
 	void inject(ShopWithPointsWidget shopWithPointsWidget);
 	void inject(HotelSearchViewModel hotelSearchViewModel);
 	void inject(HotelResultsPresenter hotelResultsPresenter);
+//	void inject(MemberDealActivity memberDealActivity);
 
 	SuggestionV4Services suggestionsService();
 	ReviewsServices reviewsServices();
 	IPayWithPointsViewModel payWithPointsViewModel();
+	LoyaltyServices loyaltyServices();
 }

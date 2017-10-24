@@ -20,6 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
@@ -39,6 +40,7 @@ import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionViewHolder;
@@ -61,6 +63,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
 
 	private final int contentStartPosition;
+	static boolean entry = true;
+
 
 	public static boolean isStaticCard(int itemViewKey) {
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
@@ -496,8 +500,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private class MemberDealClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(context, MemberDealActivity.class);
-			context.startActivity(intent);
+//			if (entry) {
+//				LXNavUtils.goToActivities(context, null, 0);
+//			}
+//			else
+				{
+				Intent intent = new Intent(context, MemberDealActivity.class);
+				context.startActivity(intent);
+				entry = false;
+			}
 			OmnitureTracking.trackLaunchMemberPricing();
 		}
 	}

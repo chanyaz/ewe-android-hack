@@ -11,6 +11,7 @@
         android:textColor="@color/lx_details_content_text_color"
         android:lineSpacingExtra="3dp"
         android:textSize="12sp"
+        android:text="Description"
         android:layout_marginTop="2dp"
         android:layout_weight="0.9"
         app:textStyle="normal"/>
