@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionViewHolder;
@@ -185,7 +186,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		boolean fullWidthTile;
-		if(holder instanceof BigImageLaunchViewHolder) {
+		if (holder instanceof BigImageLaunchViewHolder) {
 			BigImageLaunchViewModel vm = getMemberDealViewModel();
 			vm.setBackgroundUrl(getMemberDealHomeScreenImageUrl());
 			memberDealBackgroundUrlSubject.subscribe(vm.getBackgroundUrlChangeSubject());
@@ -507,16 +508,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private class MemberDealClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
-//			if (entry) {
-//				Intent intent = new Intent(context, LXBaseActivity.class);
-//				context.startActivity(intent);
-//			}
-//			else {
-			Intent intent = new Intent(context, MemberDealActivity.class);
-			intent.putExtra("isDeeplink", false);
-			context.startActivity(intent);
+			if (Db.getTripId() == null) {
+				LXNavUtils.goToActivities(context, null, 0);
+			}
+			else {
+				Intent intent = new Intent(context, MemberDealActivity.class);
+				context.startActivity(intent);
+
+			}
 			entry = false;
-//			}
 			OmnitureTracking.trackLaunchMemberPricing();
 		}
 	}
