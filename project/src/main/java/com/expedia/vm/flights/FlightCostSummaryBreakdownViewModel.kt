@@ -10,6 +10,7 @@ import com.expedia.bookings.data.flights.FlightTripDetails.PassengerCategory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
@@ -74,7 +75,12 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
             }
 
             if (flightOffer.fees != null) {
-                title = Phrase.from(context, R.string.brand_booking_fee).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
+                val flightLeg = flightDetails.legs?.firstOrNull()
+                if (flightLeg != null && flightLeg.isEvolable && isEvolableEnabled()) {
+                    title = context.getString(R.string.booking_fee)
+                } else {
+                    title = Phrase.from(context, R.string.brand_booking_fee).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
+                }
                 breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(flightOffer.bookingFee.formattedMoneyFromAmountAndCurrencyCode).build())
 
                 // insurance
@@ -123,5 +129,10 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
 
     override fun trackBreakDownClicked() {
         FlightsV2Tracking.trackFlightCostBreakdownClick()
+    }
+
+    fun isEvolableEnabled(): Boolean {
+        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+                AbacusUtils.EBAndroidAppFlightsEvolable, R.string.preference_flights_evolable)
     }
 }

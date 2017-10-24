@@ -34,6 +34,8 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     val scrollSpaceView: View by bindView(R.id.scroll_space_flight)
     val airlineFeeWarningTextView: android.widget.TextView by bindView(R.id.airline_fee_warning_text)
     val basicEconomyMessageTextView: View by bindView(R.id.basic_economy_info)
+    val evolableTermsConditionTextView: android.widget.TextView by bindView(R.id.evolable_terms_condition_text)
+
     val basicEconomyInfoClickedSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
 
     init {

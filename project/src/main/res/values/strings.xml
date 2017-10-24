@@ -1917,6 +1917,8 @@
     <string name="cost_summary">Cost Summary</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} Booking Fee</string>
+    <!-- Booking Fee -->
+    <string name="booking_fee">Booking Fee</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="payment_method_fee">Payment Method Fee</string>
     <!-- Flight -->
@@ -2251,6 +2253,8 @@
     <string name="split_ticket_rules_cancellation_policy">If one of your flights is changed or cancelled, it will not automatically alter the other flight. Changes to the other flight may incur a charge.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Departure&lt;/a&gt; and &lt;a href=\"{returnlink}\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
+    <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
+    <string name="evolable_terms_condition_TEMPLATE">This flight booking is made through &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Supplier\'s &lt;a href=\"{evolable_terms_condition_link}\"&gt;terms and conditions&lt;/a&gt; apply.</string>
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">Cancel</string>

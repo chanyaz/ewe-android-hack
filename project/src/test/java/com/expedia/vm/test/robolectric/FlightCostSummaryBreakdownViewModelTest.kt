@@ -8,15 +8,18 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -258,6 +261,39 @@ class FlightCostSummaryBreakdownViewModelTest {
         assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
     }
 
+    @Test
+    fun testBookingFeeTitleForEvolable() {
+        setupSystemUnderTest()
+        SettingUtils.save(activity, R.string.preference_flights_evolable, true)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsEvolable)
+        givenGoodTripResponse()
+
+        val breakdownRowsTestObservable = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        sut.addRows.subscribe(breakdownRowsTestObservable)
+        sut.flightCostSummaryObservable.onNext(newTripResponse)
+
+        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Adult 1 details").cost("$55.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Flight").cost("$50.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Taxes & Fees").cost("$5.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Booking Fee").cost("$0.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total Due Today").cost("$55.00").build())
+
+        val expectedBreakdown = listOf(
+                breakdowns[0],
+                breakdowns[1],
+                breakdowns[2],
+                breakdowns[3],
+                breakdowns[4],
+                breakdowns[5],
+                breakdowns[6]
+        )
+
+        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
+    }
+
     private fun setupInsuranceFees()  {
        val insurance = Money("10.00", "USD")
 
@@ -279,7 +315,6 @@ class FlightCostSummaryBreakdownViewModelTest {
         val taxesPrice = Money("5.00", "USD")
         val basePrice = Money("50.00", "USD")
         val discountAmount = Money("-6.24", "USD")
-
 
         newTripResponse = FlightCreateTripResponse()
         newTripResponse.tripId = tripId
@@ -306,6 +341,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         newTripResponse.details.offer.pricePerPassengerCategory[0].totalPrice.formattedPrice = totalPrice.formattedMoneyFromAmountAndCurrencyCode
         newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice = basePrice
         newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice.formattedPrice = basePrice.formattedMoneyFromAmountAndCurrencyCode
+        newTripResponse.details.legs = listOf(getFlightLeg())
     }
 
     private fun assertEvents(expectedBreakdownList: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>,
@@ -336,6 +372,16 @@ class FlightCostSummaryBreakdownViewModelTest {
         newTripResponse.details.offer.pricePerPassengerCategory[1].totalPrice.formattedPrice = totalPrice.formattedMoneyFromAmountAndCurrencyCode
         newTripResponse.details.offer.pricePerPassengerCategory[1].basePrice = basePrice
         newTripResponse.details.offer.pricePerPassengerCategory[1].basePrice.formattedPrice = basePrice.formattedMoneyFromAmountAndCurrencyCode
+    }
+
+    private fun getFlightLeg(): FlightLeg {
+        val flightLeg = FlightLeg()
+        flightLeg.isEvolable = true
+        flightLeg.evolablePenaltyRulesUrl = "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html"
+        flightLeg.evolableTermsAndConditionsUrl = "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041"
+        flightLeg.evolableAsiaUrl = "https://www.expedia.co.jp/g/rf/evolable?langid=1041"
+        flightLeg.evolableCancellationChargeUrl = "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
+        return flightLeg
     }
 
     private fun setUpFlightSubPubChange() {

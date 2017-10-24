@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge android:id="@+id/bundle_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/outbound_flight_title"
@@ -154,6 +155,23 @@
         android:textColor="@color/defaultTextColor"
         android:textSize="10sp"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/evolable_terms_condition_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="@dimen/card_view_container_margin"
+        android:layout_marginTop="5dp"
+        android:lineSpacingExtra="1dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="@color/defaultTextColor"
+        android:textSize="10sp"
+        android:visibility="gone"
+        tools:text="@string/evolable_terms_condition_TEMPLATE"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/basic_economy_info"

@@ -29,6 +29,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
@@ -39,6 +40,7 @@ import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import com.expedia.vm.packages.PackageSearchType
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
@@ -471,6 +473,23 @@ class FlightOverviewPresenterTest {
         assertEquals(View.GONE, widget.paymentFeeInfoWebView.visibility)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testEvolableTermsConditionInfo() {
+        SettingUtils.save(context, R.string.preference_flights_evolable, true)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsEvolable)
+        createExpectedFlightLeg()
+        val createTripResponse = getFlightCreateTripResponse()
+        createTripResponse.details.legs = listOf(flightLeg)
+        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(createTripResponse)
+
+        val evolableTermsConditionView = widget.flightSummary.evolableTermsConditionTextView
+        assertEquals(View.VISIBLE, evolableTermsConditionView.visibility)
+
+        assertEquals("This flight booking is made through Evolable Asia. Supplier's terms and conditions apply.",
+                HtmlCompat.stripHtml(evolableTermsConditionView.text.toString()))
+    }
+
     private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {
         val departureSuggestion = SuggestionV4()
         departureSuggestion.gaiaId = "1234"
@@ -513,7 +532,7 @@ class FlightOverviewPresenterTest {
         val checkIn = LocalDate().plusDays(2)
         val checkOut = if (isRoundTrip) LocalDate().plusDays(3) else null
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null,null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null, null)
     }
 
     private fun getFlightCreateTripResponse(): FlightCreateTripResponse {
@@ -578,6 +597,12 @@ class FlightOverviewPresenterTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(201)
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
 
+        flightLeg.isEvolable = true
+        flightLeg.evolablePenaltyRulesUrl = "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html"
+        flightLeg.evolableTermsAndConditionsUrl = "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041"
+        flightLeg.evolableAsiaUrl = "https://www.expedia.co.jp/g/rf/evolable?langid=1041"
+        flightLeg.evolableCancellationChargeUrl = "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
+
         val airlines = ArrayList<Airline>()
         val airline1 = Airline("United", null)
         val airline2 = Airline("Delta", null)
@@ -611,7 +636,7 @@ class FlightOverviewPresenterTest {
         return airlineSegment
     }
 
-    private fun getDummySuggestion(airportCode: String) : SuggestionV4 {
+    private fun getDummySuggestion(airportCode: String): SuggestionV4 {
         val suggestion = SuggestionV4()
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         val airport = SuggestionV4.Airport()

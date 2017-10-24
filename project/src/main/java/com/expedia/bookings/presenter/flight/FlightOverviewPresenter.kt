@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
+import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -34,6 +35,7 @@ import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
 import com.expedia.util.Optional
 import com.expedia.util.safeSubscribeOptional
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FareFamilyViewModel
 import com.expedia.vm.FlightCheckoutOverviewViewModel
@@ -55,7 +57,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         @Inject set
 
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
-    val viewModel = FlightCheckoutSummaryViewModel()
+    val viewModel = FlightCheckoutSummaryViewModel(getContext())
     val isBucketedForShowMoreDetailsOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
     val showCollapsedToolbar = isBucketedForShowMoreDetailsOnOverview
 
@@ -138,7 +140,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
         fareFamilyCardView.viewModel.fareFamilyCardClickObserver.withLatestFrom(
                 fareFamilyCardView.viewModel.tripObservable, {
-            unit, trip -> trip
+            unit, trip ->
+            trip
         }).subscribe {
             FlightsV2Tracking.trackFareFamilyCardViewClick(it.isFareFamilyUpgraded)
         }
@@ -149,7 +152,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
                 val tripResponse = tripResponse
                 val selectedFareFamily = selectedFareFamily
             }
-        }).filter { it.tripResponse.createTripStatus == FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE && currentState == BundleDefault::class.java.name
+        }).filter {
+            it.tripResponse.createTripStatus == FlightTripResponse.CreateTripError.FARE_FAMILY_UNAVAILABLE && currentState == BundleDefault::class.java.name
         }.subscribe {
             showFareFamilyUnavailableAlertDialog(it.selectedFareFamily.fareFamilyName)
         }
@@ -177,6 +181,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         viewModel.showFreeCancellationObservable.subscribeVisibility(flightSummary.freeCancellationInfoContainer)
         viewModel.showSplitTicketMessagingObservable.subscribeVisibility(flightSummary.splitTicketInfoContainer)
         viewModel.splitTicketBaggageFeesLinksObservable.subscribeText(flightSummary.splitTicketBaggageFeesTextView)
+        viewModel.evolableTermsConditionTextObservable.subscribeTextAndVisibility(flightSummary.evolableTermsConditionTextView)
+        flightSummary.evolableTermsConditionTextView.movementMethod = LinkMovementMethod.getInstance()
         viewModel.showAirlineFeeWarningObservable.subscribeVisibility(flightSummary.airlineFeeWarningTextView)
         viewModel.showBasicEconomyMessageObservable.subscribeVisibility(flightSummary.basicEconomyMessageTextView)
         viewModel.airlineFeeWarningTextObservable.subscribeText(flightSummary.airlineFeeWarningTextView)
@@ -281,6 +287,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
             totalPriceWidget.viewModel.priceAvailableObservable.onNext(true)
         }
+        viewModel.evolableTermsConditionSubject.onNext(tripResponse.details.legs)
         bottomCheckoutContainer.viewModel.checkoutButtonEnableObservable.onNext(true)
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
