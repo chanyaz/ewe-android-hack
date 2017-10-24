@@ -64,7 +64,6 @@ class MemberDealActivity : AppCompatActivity() {
         }
 
         container = findViewById(R.id.registry_card) as LinearLayout
-        container.removeAllViews()
         Ui.getApplication(this).defaultHotelComponents();
         loyaltyServices = Ui.getApplication(this).hotelComponent().getLoyaltyServices();
         if (tripId.isNotEmpty())
@@ -81,6 +80,7 @@ class MemberDealActivity : AppCompatActivity() {
         return object : Observer<CampaignDetails> {
             override fun onNext(response: CampaignDetails) {
                 campaignDetails = response
+                container.removeAllViews()
                 container.addView(createRow())
             }
 
@@ -96,6 +96,7 @@ class MemberDealActivity : AppCompatActivity() {
     fun makeDonateObserver(): Observer<ContributeResponse> {
         return object : Observer<ContributeResponse> {
             override fun onNext(response: ContributeResponse) {
+                loyaltyServices.getCampainDetails(tripId, makeCampaignDetailsObserver());
                 Toast.makeText(context, "Thanks for your gift !!", Toast.LENGTH_SHORT).show()
                 Log.d("donate done")
             }
@@ -107,29 +108,6 @@ class MemberDealActivity : AppCompatActivity() {
                 // ignore
             }
         }
-    }
-
-    private fun createRow(headerText: String, image: Int): View {
-        val row = LayoutInflater.from(this).inflate(R.layout.registry_card, null)
-        val headerTextView = row.findViewById<TextView>(R.id.header_text_view)
-        val backgroundImage = row.findViewById<ImageView>(R.id.header_background)
-        var offerDescription = row.findViewById<LXDetailSectionDataWidget>(R.id.description)
-
-        var editTextView = row.findViewById<EditText>(R.id.edit_amount_view)
-
-        var donateButton = row.findViewById<AutoResizeTextView>(R.id.donate)
-
-        val clearBtn = row.findViewById<View>(R.id.clear_btn)
-        headerTextView.text = headerText
-        backgroundImage.setImageResource(R.drawable.london_eye)
-        offerDescription.bindData("Description", "Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty ", 2)
-        clearBtn.setOnClickListener { view ->
-            editTextView.text.clear()
-        }
-        donateButton.setOnClickListener { view ->
-            loyaltyServices.contribute(getTuid(), "", editTextView.text.toString(), campaignDetails.tuid, campaignDetails.tripId, makeDonateObserver())
-        }
-        return row
     }
 
     private fun createRow(): View {
