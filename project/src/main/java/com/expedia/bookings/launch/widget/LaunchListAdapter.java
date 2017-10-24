@@ -34,6 +34,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
+import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
@@ -501,14 +502,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		@Override
 		public void onClick(View v) {
 //			if (entry) {
-//				LXNavUtils.goToActivities(context, null, 0);
+//				Intent intent = new Intent(context, LXBaseActivity.class);
+//				context.startActivity(intent);
 //			}
-//			else
-				{
+//			else {
 				Intent intent = new Intent(context, MemberDealActivity.class);
+				intent.putExtra("isDeeplink", false);
 				context.startActivity(intent);
 				entry = false;
-			}
+//			}
 			OmnitureTracking.trackLaunchMemberPricing();
 		}
 	}
