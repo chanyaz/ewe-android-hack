@@ -6,6 +6,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.packages.PackageFlightPresenter
 import com.expedia.bookings.utils.AlertDialogUtils
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.DeeplinkSharedPrefParserUtils
 import com.expedia.bookings.utils.Ui
 
 class PackageFlightActivity : AbstractAppCompatActivity() {
@@ -24,7 +25,9 @@ class PackageFlightActivity : AbstractAppCompatActivity() {
         }
         setContentView(R.layout.package_flight_activity)
         Ui.showTransparentStatusBar(this)
-        AlertDialogUtils.showBookmarkDialog(this)
+        if (DeeplinkSharedPrefParserUtils.isDeeplink) {
+            AlertDialogUtils.showBookmarkDialog(this)
+        }
     }
 
     override fun onBackPressed() {
