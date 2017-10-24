@@ -4664,6 +4664,10 @@
     <string name="flight_itin_in_progress_status_label">Ticketing in progress</string>
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
     <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Because you booked a flight, save on select hotels in {city}</string>
+    <string name="hotel_price_drop_title">Hotel Price Drop</string>
+    <string name="notification_price_down_TEMPLATE">Guess what? {hotelname} just went down to {price} per night. Consider booking now before it\'s too late!</string>
+    <string name="notification_price_up_TEMPLATE">Looks like {hotelname} increased to {price} per night. But no worries! We\'re still tracking price changes for you!</string>
+    <string name="hotel_price_increase_title">Hotel Price Increase</string>
 
 
 </resources>

@@ -2,11 +2,13 @@ package com.expedia.bookings.hotel.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.google.gson.Gson
-import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
-import java.util.*
+import java.math.BigDecimal
+import java.util.ArrayList
+import java.util.Random
 
 class HotelFavoriteCache {
     companion object {
@@ -24,7 +26,7 @@ class HotelFavoriteCache {
             saveFavorites(context, favorites)
         }
 
-        fun saveHotelData(context: Context, offer: HotelOffersResponse) {
+        fun saveHotelData(context: Context, offer: HotelOffersResponse, sendPush : Boolean = false) {
             if (offer.hotelRoomResponse != null && offer.hotelRoomResponse.isNotEmpty()) {
                 val rate = offer.hotelRoomResponse[0].rateInfo.chargeableRateInfo
 
@@ -32,8 +34,11 @@ class HotelFavoriteCache {
 
                 val cacheItem = HotelCacheItem(offer.hotelId, offer.hotelName, HotelRate(rate.averageRate, rate.currencyCode), previousHotel?.rate, offer.hotelRoomResponse[0].currentAllotment)
                 saveHotel(context, cacheItem)
-
                 savePastData(context, offer)
+
+                if (sendPush) {
+                    HotelFavoriteNotificationManager.sendPush(context, cacheItem)
+                }
             }
         }
 
@@ -98,20 +103,20 @@ class HotelFavoriteCache {
             }
         }
 
-        fun getLastUpdated(context: Context) : Long? {
-            val settings =  context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+        fun getLastUpdated(context: Context): Long? {
+            val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
             val metaData = getAppWidgetMetaData(settings)
             return metaData.lastUpdatedMillis
         }
 
-        fun getCheckInDate(context: Context) : String? {
-            val settings =  context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+        fun getCheckInDate(context: Context): String? {
+            val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
             val metaData = getAppWidgetMetaData(settings)
             return metaData.checkInDate
         }
 
-        fun getCheckOutDate(context: Context) : String? {
-            val settings =  context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+        fun getCheckOutDate(context: Context): String? {
+            val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
             val metaData = getAppWidgetMetaData(settings)
             return metaData.checkOutDate
         }
@@ -269,15 +274,41 @@ class HotelFavoriteCache {
         private fun getCacheKey(hotelId: String): String = PREFS_FAVORITE_HOTEL_DATA + hotelId
         private fun getPastDataKey(hotelId: String): String = PREFS_PAST_HOTEL_DATA + hotelId
 
-        private fun getAppWidgetMetaData(settings: SharedPreferences) : AppWidgetMetaData {
+        private fun getAppWidgetMetaData(settings: SharedPreferences): AppWidgetMetaData {
             val metaDataJson = settings.getString(PREFS_APPWIDGET_META_DATA, "")
             return gson.fromJson(metaDataJson, AppWidgetMetaData::class.java) ?: AppWidgetMetaData(null, null, null)
         }
     }
 
     data class HotelCacheItem(val hotelId: String, val hotelName: String, val rate: HotelRate,
-                              val oldRate: HotelRate?, val roomsLeft: String)
-    data class HotelRate(val amount: Float, val currency: String)
+                              val oldRate: HotelRate?, val roomsLeft: String) {
+
+        fun isPriceUp(): Boolean {
+            if (oldRate == null) return false
+
+            return rate.getAmountAsInt() > oldRate.getAmountAsInt()
+        }
+
+        fun isPriceDown(): Boolean {
+            if (oldRate == null) return false
+            return rate.getAmountAsInt() < oldRate.getAmountAsInt()
+        }
+
+        fun isSamePrice() : Boolean {
+            if (oldRate == null) return false
+            return rate.getAmountAsInt() == oldRate.getAmountAsInt()
+        }
+    }
+
+    data class HotelRate(val amount: Float, val currency: String) {
+        fun getAmountAsInt(): Int = BigDecimal(amount.toDouble()).toInt()
+
+        fun formattedRate(): String {
+            val money = Money(java.lang.Float.toString(amount), currency)
+            return money.formattedMoney
+        }
+    }
+
     data class AppWidgetMetaData(var checkInDate: String?, var checkOutDate: String?, var lastUpdatedMillis: Long?)
     data class HotelPastData(val hotelId: String, val hotelName: String, val currency: String, val rates: ArrayList<PastRate>)
     data class PastRate(val amount: Float, val date: String)

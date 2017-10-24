@@ -2,14 +2,14 @@ package com.expedia.bookings.hotel.service
 
 import android.app.job.JobParameters
 import android.app.job.JobService
+import android.content.Context
 import android.util.Log
+import com.expedia.bookings.hotel.deeplink.HotelExtras
+import com.expedia.bookings.hotel.util.HotelAppWidgetUtil
 import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.utils.Ui
 import javax.inject.Inject
-import android.content.Context
-import com.expedia.bookings.hotel.deeplink.HotelExtras
-import com.expedia.bookings.hotel.util.HotelAppWidgetUtil
 
 
 class HotelPriceJobService : JobService() {
@@ -40,7 +40,7 @@ class HotelPriceJobService : JobService() {
         val favorites = HotelFavoriteCache.getFavorites(context)
 
         hotelInfoManager.offerSuccessSubject.subscribe { response ->
-            HotelFavoriteCache.saveHotelData(context, response)
+            HotelFavoriteCache.saveHotelData(context, response, true)
             hotelsRefreshed++
 
             if (hotelsRefreshed == favorites.size) {
