@@ -5,10 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.sos.*
-import com.expedia.bookings.mia.activity.MemberDealActivity
+import com.expedia.bookings.data.sos.TrendingDestinationResponse
+import com.expedia.bookings.data.sos.TrendingLocation
 import com.expedia.bookings.mia.activity.TrendingDestinationActivity
-import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
 import com.expedia.bookings.mia.vm.TrendingDestinationsViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.widget.LoadingViewHolder
@@ -19,7 +18,6 @@ import java.util.ArrayList
 class TrendingDestinationListAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listData: List<TrendingLocation> = emptyList()
-    private var currency: String? = null
     private var loading = true
     val resultSubject = BehaviorSubject.create<TrendingDestinationResponse>()
     val headerTextChangeSubject = BehaviorSubject.create<String>()

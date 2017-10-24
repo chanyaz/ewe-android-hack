@@ -1,5 +1,6 @@
 package com.expedia.bookings.mia
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -17,13 +18,14 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.mia.activity.TrendingDestinationDetailActivity
 import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
 import com.expedia.bookings.mia.vm.TrendingDestinationsViewModel
 import com.expedia.bookings.utils.*
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
-class TrendingDestinationViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+class TrendingDestinationViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     val cityView: TextView by bindView(R.id.trending_destination_city)
     val countryView: TextView by bindView(R.id.trending_destination_country)
     val rankView: TextView by bindView(R.id.trending_destination_rank)
@@ -38,6 +40,18 @@ class TrendingDestinationViewHolder(private val view: View): RecyclerView.ViewHo
         countryView.text = vm.countryName
         rankView.text = "#1"
         Picasso.with(view.context).load(vm.backgroundUrl).into(target)
+
+        view.setOnClickListener {
+            navigateToDetailPage(vm)
+        }
+    }
+
+    private fun navigateToDetailPage(vm: TrendingDestinationsViewModel) {
+        val intent = Intent(view.context, TrendingDestinationDetailActivity::class.java)
+        intent.putExtra("COUNTRY_NAME", vm.countryName)
+        intent.putExtra("CITY_NAME", vm.cityName)
+        intent.putExtra("REGION_ID", vm.regionId)
+        view.context.startActivity(intent)
     }
 
     private val target = object : PicassoTarget() {
@@ -46,7 +60,7 @@ class TrendingDestinationViewHolder(private val view: View): RecyclerView.ViewHo
             super.onBitmapLoaded(bitmap, from)
             bgImageView.scaleType = ImageView.ScaleType.MATRIX
             bgImageView.setImageBitmap(bitmap)
-            bgImageView.viewTreeObserver.addOnPreDrawListener(object: ViewTreeObserver.OnPreDrawListener{
+            bgImageView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
                 override fun onPreDraw(): Boolean {
                     bgImageView.viewTreeObserver.removeOnPreDrawListener(this)
                     val matrix = bgImageView.imageMatrix
