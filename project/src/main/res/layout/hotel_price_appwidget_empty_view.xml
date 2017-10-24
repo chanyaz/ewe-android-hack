@@ -31,14 +31,12 @@
                 android:layout_height="wrap_content"
                 android:text="Your saved Hotels"/>
 
-            <!--TODO fix with real dates-->
             <TextView
                 android:id="@+id/hotel_appwidget_header_dates"
                 style="@style/Core.Text.300"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Oct 17 - Oct 20"/>
+                android:layout_marginTop="4dp"/>
         </LinearLayout>
     </LinearLayout>
 

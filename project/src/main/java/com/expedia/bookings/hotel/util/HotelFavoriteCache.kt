@@ -1,6 +1,7 @@
 package com.expedia.bookings.hotel.util
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.google.gson.Gson
 
@@ -9,9 +10,10 @@ class HotelFavoriteCache {
     companion object {
         private val FAVORITE_FILE_NAME = "exp_favorite_prefs"
         private val PREFS_FAVORITE_HOTEL_IDS = "favorite_hotel_ids"
-        private val PREFS_FAVORITE_CHECKIN = "favorite_checkin_date"
-        private val PREFS_FAVORITE_CHECKOUT = "favorite_checkout_date"
+        private val PREFS_APPWIDGET_META_DATA = "prefs_appwidget_meta_data"
         private val PREFS_FAVORITE_HOTEL_DATA = "favorite_hotel_data_"
+
+        private val gson = Gson()
 
         fun saveHotelId(context: Context, hotelId: String) {
             val favorites = getFavorites(context)
@@ -31,9 +33,26 @@ class HotelFavoriteCache {
         }
 
         fun saveDates(context: Context, checkIn: String, checkOut: String) {
-            val editor = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE).edit()
-            editor.putString(PREFS_FAVORITE_CHECKIN, checkIn)
-            editor.putString(PREFS_FAVORITE_CHECKOUT, checkOut)
+            val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+            val metaData = getAppWidgetMetaData(settings)
+
+            metaData.checkInDate = checkIn
+            metaData.checkOutDate = checkOut
+
+            val editor = settings.edit()
+            val newMetaDataJson = gson.toJson(metaData)
+            editor.putString(PREFS_APPWIDGET_META_DATA, newMetaDataJson)
+            editor.apply()
+        }
+
+        fun saveLastUpdateTime(context: Context, timeInMillis: Long) {
+            val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+            val metaData = getAppWidgetMetaData(settings)
+            metaData.lastUpdatedMillis = timeInMillis
+
+            val editor = settings.edit()
+            val newMetaDataJson = gson.toJson(metaData)
+            editor.putString(PREFS_APPWIDGET_META_DATA, newMetaDataJson)
             editor.apply()
         }
 
@@ -55,7 +74,6 @@ class HotelFavoriteCache {
 
             if (settings.contains(PREFS_FAVORITE_HOTEL_IDS)) {
                 val jsonFavorites = settings.getString(PREFS_FAVORITE_HOTEL_IDS, "")
-                val gson = Gson()
                 val favoriteItems = gson.fromJson(jsonFavorites, Array<String>::class.java)
 
                 val favorites: List<String> = favoriteItems.toList()
@@ -69,28 +87,34 @@ class HotelFavoriteCache {
             val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
             if (settings.contains(getCacheKey(hotelId))) {
                 val jsonHotel = settings.getString(getCacheKey(hotelId), null)
-                val gson = Gson()
                 return gson.fromJson(jsonHotel, HotelCacheItem::class.java)
             } else {
                 return null
             }
         }
 
+        fun getLastUpdated(context: Context) : Long? {
+            val settings =  context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+            val metaData = getAppWidgetMetaData(settings)
+            return metaData.lastUpdatedMillis
+        }
+
         fun getCheckInDate(context: Context) : String? {
             val settings =  context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
-            return settings.getString(PREFS_FAVORITE_CHECKIN, null)
+            val metaData = getAppWidgetMetaData(settings)
+            return metaData.checkInDate
         }
 
         fun getCheckOutDate(context: Context) : String? {
             val settings =  context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
-            return settings.getString(PREFS_FAVORITE_CHECKOUT, null)
+            val metaData = getAppWidgetMetaData(settings)
+            return metaData.checkOutDate
         }
 
         private fun saveFavorites(context: Context, favorites: List<String>) {
             val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
             val editor = settings.edit()
 
-            val gson = Gson()
             val jsonFavorites = gson.toJson(favorites)
 
             editor.putString(PREFS_FAVORITE_HOTEL_IDS, jsonFavorites)
@@ -108,7 +132,6 @@ class HotelFavoriteCache {
             val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
             val editor = settings.edit()
 
-            val gson = Gson()
             val jsonHotel = gson.toJson(cacheItem)
 
             editor.putString(getCacheKey(cacheItem.hotelId), jsonHotel)
@@ -118,9 +141,15 @@ class HotelFavoriteCache {
 
         private fun getCacheKey(hotelId: String): String = PREFS_FAVORITE_HOTEL_DATA + hotelId
 
+        private fun getAppWidgetMetaData(settings: SharedPreferences) : AppWidgetMetaData {
+            val metaDataJson = settings.getString(PREFS_APPWIDGET_META_DATA, "")
+            return gson.fromJson(metaDataJson, AppWidgetMetaData::class.java) ?: AppWidgetMetaData(null, null, null)
+        }
     }
 
     data class HotelCacheItem(val hotelId: String, val hotelName: String, val rate: HotelRate,
                               val oldRate: HotelRate?, val roomsLeft: String)
     data class HotelRate(val amount: Float, val currency: String)
+
+    data class AppWidgetMetaData(var checkInDate: String?, var checkOutDate: String?, var lastUpdatedMillis: Long?)
 }

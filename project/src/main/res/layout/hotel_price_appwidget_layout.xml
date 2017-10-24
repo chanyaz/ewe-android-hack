@@ -36,15 +36,15 @@
                 style="@style/Core.Text.300"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Oct 17 - Oct 20"/>
+                android:layout_marginTop="4dp"/>
         </LinearLayout>
     </LinearLayout>
 
     <ListView
         android:id="@+id/hotel_price_appwidget_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:dividerHeight="8dp"
         android:divider="@null"
         android:clipToPadding="false"
@@ -54,12 +54,22 @@
         android:paddingBottom="8dp"/>
 
     <TextView
+        android:id="@+id/hotel_price_appwidget_last_updated"
+        style="@style/Core.Text.200"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        tools:text="Last Updated: Oct, 15"/>
+
+    <TextView
         android:id="@+id/hotel_price_appwidget_empty_view"
         style="@style/Core.Text.500.Medium"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="Your favorite hotels will appear here"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:visibility="gone"/>
 
 </LinearLayout>

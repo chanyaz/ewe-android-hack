@@ -22,12 +22,24 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
 
     val subscriptions = CompositeSubscription()
 
+    fun fetchOffers(startDate: String, endDate: String, hotelIds: List<String>) {
+        for (id in hotelIds) {
+            fetchOffers(startDate, endDate, id)
+        }
+    }
+
     open fun fetchOffers(params: HotelSearchParams, hotelId: String) {
         subscriptions.add(hotelServices.offers(params, hotelId, offersObserver))
     }
 
     open fun fetchInfo(params: HotelSearchParams, hotelId: String) {
         subscriptions.add(hotelServices.info(params, hotelId, infoObserver))
+    }
+
+    fun fetchDatelessInfo(hotelIds: List<String>) {
+        for (id in hotelIds) {
+            fetchDatelessInfo(id)
+        }
     }
 
     open fun fetchDatelessInfo(hotelId: String) {
