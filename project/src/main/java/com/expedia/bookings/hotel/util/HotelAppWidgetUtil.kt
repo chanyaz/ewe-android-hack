@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.RemoteViews
 import com.expedia.bookings.R
 import com.expedia.bookings.hotel.activity.HotelAppWidgetConfigureActivity
+import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.provider.HotelPriceAppWidgetProvider
 import com.expedia.bookings.hotel.service.HotelPriceJobService
 import com.expedia.bookings.hotel.service.HotelRemoteViewService
@@ -31,14 +32,14 @@ class HotelAppWidgetUtil {
 
 
             val bundle = PersistableBundle()
-            bundle.putInt("PRICE_APP_WIDGET_KEY", appWidgetId)
+            bundle.putInt(HotelExtras.PRICE_APPWIDGET_KEY, appWidgetId)
             jobInfoBuilder.setExtras(bundle)
 
             jobScheduler.schedule(jobInfoBuilder.build())
         }
 
 
-        fun updateRemoteViews(context: Context) {
+        fun updateRemoteViews(appWidgetId: Int, context: Context) {
             Log.v("HotelPriceJobService", ": sendViews")
             val remoteViews = RemoteViews(context.packageName, R.layout.hotel_price_appwidget_layout)
             val intent = Intent(context, HotelRemoteViewService::class.java)
@@ -53,7 +54,7 @@ class HotelAppWidgetUtil {
             val thisWidget = ComponentName(context, HotelPriceAppWidgetProvider::class.java)
             val manager = AppWidgetManager.getInstance(context)
             manager.updateAppWidget(thisWidget, remoteViews)
-            manager.notifyAppWidgetViewDataChanged(intent.getIntExtra("PRICE_APP_WIDGET_KEY", 0), R.id.hotel_price_appwidget_list)
+            manager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.hotel_price_appwidget_list)
         }
 
         private fun updateEditView(context: Context, rv: RemoteViews) {

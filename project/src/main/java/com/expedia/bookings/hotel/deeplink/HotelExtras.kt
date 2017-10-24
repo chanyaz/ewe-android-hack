@@ -12,5 +12,7 @@ class HotelExtras {
 
         const val HOTEL_FAVORITE_CHANGED = "hotelFavoriteChanged"
         const val HOTEL_FAVORITES_REMOVED_REQUEST = 4848
+
+        const val PRICE_APPWIDGET_KEY = "priceAppwidgetKey"
     }
 }
