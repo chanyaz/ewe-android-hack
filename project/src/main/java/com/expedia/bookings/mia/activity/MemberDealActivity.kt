@@ -6,16 +6,19 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
-import com.expedia.account.data.Db
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RatingBar
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.payment.CampaignDetails
 import com.expedia.bookings.data.payment.ContributeResponse
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.AutoResizeTextView
 import com.expedia.bookings.widget.LXDetailSectionDataWidget
 import com.expedia.bookings.widget.TextView
@@ -114,7 +117,7 @@ class MemberDealActivity : AppCompatActivity() {
             editTextView.text.clear()
         }
         donateButton.setOnClickListener { view ->
-            loyaltyServices.contribute(getTuid(), Db.getNewUser().firstName, editTextView.text.toString(), campaignDetails.tuid, campaignDetails.tripId, makeDonateObserver())
+            loyaltyServices.contribute(getTuid(), "firstName", editTextView.text.toString(), campaignDetails.tuid, campaignDetails.tripId, makeDonateObserver())
         }
         return row
     }
