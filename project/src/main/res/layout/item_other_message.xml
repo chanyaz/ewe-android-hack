@@ -32,4 +32,49 @@
 
     </me.himanshusoni.chatmessageview.ChatMessageView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+    <Button
+        android:id="@+id/search_btn"
+        android:background="@drawable/custom_shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Near me"
+        android:layout_weight="1"
+        android:textColor="@color/background_holo_dark"
+        android:layout_margin="5dp"
+        android:padding="0dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp" />
+
+    <Button
+        android:id="@+id/search_btn2"
+        android:background="@drawable/custom_shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price Sort"
+        android:layout_weight="1"
+        android:textColor="@color/background_holo_dark"
+        android:layout_margin="5dp"
+        android:padding="0dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"/>
+
+    <Button
+        android:id="@+id/search_btn3"
+        android:background="@drawable/custom_shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Most popular"
+        android:layout_weight="1"
+        android:textColor="@color/background_holo_dark"
+        android:layout_margin="5dp"
+        android:padding="0dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"/>
+    </LinearLayout>
+
 </LinearLayout>
