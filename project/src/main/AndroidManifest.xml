@@ -269,6 +269,19 @@
             tools:ignore="UnusedAttribute" />
 
         <activity
+            android:name="com.expedia.bookings.hotel.activity.HotelAppWidgetConfigureActivity"
+            android:label="Hotels"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Hotels.Compare"
+            tools:ignore="UnusedAttribute">
+                <intent-filter>
+                    <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                </intent-filter>
+            </activity>
+
+        <activity
             android:name="com.expedia.bookings.rail.activity.RailActivity"
             android:label="Trains"
             android:launchMode="singleTop"

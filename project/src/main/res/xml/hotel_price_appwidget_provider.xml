@@ -5,6 +5,7 @@
     android:updatePeriodMillis="86400000"
     android:previewImage="@drawable/ic_hotel_attach"
     android:initialLayout="@layout/hotel_price_appwidget_empty_view"
+    android:configure="com.expedia.bookings.hotel.activity.HotelAppWidgetConfigureActivity"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen">
 </appwidget-provider>

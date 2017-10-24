@@ -120,6 +120,17 @@ public class DateFormatUtils {
 			.format().toString();
 	}
 
+	public static String formatAppWidgetDate(Context context, String checkinDate, String checkoutDate) {
+		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTime checkinDateTime = parser.parseDateTime(checkinDate);
+		DateTime checkoutDateTime = parser.parseDateTime(checkoutDate);
+
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("MMM dd");
+		return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+				.put("startdate", formatter.print(checkinDateTime)).put("enddate", formatter.print(checkoutDateTime))
+				.format().toString();
+	}
+
 	public static String formatPackageDateRangeContDesc(Context context, String checkinDate, String checkoutDate) {
 		return formatPackageDateRangeTemplate(context, checkinDate, checkoutDate,
 			R.string.calendar_instructions_date_range_cont_desc_TEMPLATE);

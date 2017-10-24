@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_50">
+    android:background="@color/white_70">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -19,10 +19,12 @@
             android:layout_margin="16dp"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:gravity="center_vertical">
 
             <TextView
                 style="@style/Core.Text.300"
@@ -30,14 +32,22 @@
                 android:layout_height="wrap_content"
                 android:text="Your saved Hotels"/>
 
-            <!--TODO fix with real dates-->
             <TextView
                 android:id="@+id/hotel_appwidget_header_dates"
                 style="@style/Core.Text.300"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"/>
+                tools:text="Oct 15 - Oct 17"/>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/hotel_appwidget_edit_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical|right"
+            android:src="@drawable/ic_edit_icon"
+            android:tint="@color/app_primary"
+            android:padding="16dp"/>
     </LinearLayout>
 
     <ListView
@@ -54,6 +64,17 @@
         android:paddingBottom="8dp"/>
 
     <TextView
+        android:id="@+id/hotel_price_appwidget_empty_view"
+        style="@style/Core.Text.500.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Your favorite hotels will appear here"
+        android:textColor="@color/white"
+        android:visibility="gone"/>
+
+    <TextView
         android:id="@+id/hotel_price_appwidget_last_updated"
         style="@style/Core.Text.200"
         android:layout_width="match_parent"
@@ -61,15 +82,4 @@
         android:gravity="center"
         android:padding="8dp"
         tools:text="Last Updated: Oct, 15"/>
-
-    <TextView
-        android:id="@+id/hotel_price_appwidget_empty_view"
-        style="@style/Core.Text.500.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Your favorite hotels will appear here"
-        android:textColor="@color/white"
-        android:visibility="gone"/>
-
 </LinearLayout>
