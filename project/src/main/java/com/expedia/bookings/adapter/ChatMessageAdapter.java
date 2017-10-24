@@ -19,15 +19,19 @@ import java.util.List;
  */
 
 public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
+
     private static final int MY_MESSAGE = 0, OTHER_MESSAGE = 1, MY_IMAGE = 2, OTHER_IMAGE = 3;
+
     public ChatMessageAdapter(Context context, List<ChatMessage> data) {
         super(context, R.layout.item_mine_message, data);
     }
+
     @Override
     public int getViewTypeCount() {
         // my message, other message, my image, other image
         return 4;
     }
+
     @Override
     public int getItemViewType(int position) {
         ChatMessage item = getItem(position);
@@ -36,6 +40,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
         else if (item.isMine() && item.isImage()) return MY_IMAGE;
         else return OTHER_IMAGE;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         int viewType = getItemViewType(position);

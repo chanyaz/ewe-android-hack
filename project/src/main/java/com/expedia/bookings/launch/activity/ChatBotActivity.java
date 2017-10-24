@@ -1,6 +1,7 @@
 package com.expedia.bookings.launch.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.adapter.ChatMessageAdapter;
@@ -28,6 +30,8 @@ public class ChatBotActivity extends AppCompatActivity {
     private CarouselView carouselView;
 
     int[] sampleImages = {R.drawable.i1, R.drawable.i2, R.drawable.i3, R.drawable.i4, R.drawable.i5};
+    String[] sampleTitles = {"New York City Explorer Pass", "Empire State Building", "Statue of Liberty & Ellis Island Tour with Pedestal Access", "Hop-On Hop-Off Bus Tour", "National September 11 Memorial & Museum"};
+    String[] price = {"$84", "$34", "$57", "$54", "$26"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,16 @@ public class ChatBotActivity extends AppCompatActivity {
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            carouselView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    int position = ((CarouselView)view).getCurrentItem();
+                    ((TextView)findViewById(R.id.act_title)).setText(sampleTitles[position]);
+                    ((TextView)findViewById(R.id.act_price)).setText(price[position]);
+                }
+            });
+        }
 
         mAdapter.add(new ChatMessage(String.valueOf(R.drawable.weather), false, true));
         mListView.setAdapter(mAdapter);
@@ -96,6 +110,8 @@ public class ChatBotActivity extends AppCompatActivity {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
             imageView.setImageResource(sampleImages[position]);
+            ((TextView)findViewById(R.id.act_title)).setText(sampleTitles[0]);
+            ((TextView)findViewById(R.id.act_price)).setText(price[0]);
         }
     };
 

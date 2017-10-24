@@ -73,9 +73,9 @@
         android:layout_marginBottom="@dimen/new_launch_screen_fab_bottom_margin"
         android:layout_marginLeft="@dimen/new_launch_screen_fab_bottom_margin"
         android:contentDescription="Start Chat"
-        android:src="@drawable/fab_search"
+        android:src="@drawable/ic_share_short"
         android:visibility="visible"
-        app:backgroundTint="@color/new_launch_fab_color" />
+        app:backgroundTint="@color/white" />
 
     <include
         android:id="@+id/launch_error"
