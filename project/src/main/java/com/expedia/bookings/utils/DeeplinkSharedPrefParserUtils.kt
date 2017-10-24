@@ -32,7 +32,7 @@ class DeeplinkSharedPrefParserUtils {
             val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LOCAL_DATE_TYPE).create()
             val toJson = gson.toJson(hotelSearchParams, HOTEL_SEARCH_PARAMS_TYPE)
 
-            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
+             val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
 
             bookmarksSharedPref.edit().putString(PACKAGE_SEARCH_PARAMS_KEY, toJson).apply()
         }
