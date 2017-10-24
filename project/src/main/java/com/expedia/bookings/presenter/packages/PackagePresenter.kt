@@ -224,16 +224,10 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         SearchParamsHistoryUtil.loadPreviousPackageSearchParams(context, loadSuccess)
 
         //TODO: If inflated from deeplink, pass real HotelSearchParams from sharedPreferences
-        val hotelSearchParams = HotelSearchParams()
-        hotelSearchParams.origin = "San Francisco"
-        hotelSearchParams.originID = "178305"
-        hotelSearchParams.destination = "Los Angeles"
-        hotelSearchParams.destinationID = "178280"
-        hotelSearchParams.startDate = DeeplinkCreatorUtils.DATE_FORMATTER.parseLocalDate("02/12/2017")
-        hotelSearchParams.endDate = DeeplinkCreatorUtils.DATE_FORMATTER.parseLocalDate("04/12/2017")
-        hotelSearchParams.originAirportCode = "SFO"
-        hotelSearchParams.destinationAirportCode = "QLA"
-        searchPresenter.searchViewModel.hotelSearchParamsObservable.onNext(hotelSearchParams)
+        val hotelSearchParams = DeeplinkSharedPrefParserUtils.getHotelSearchDeeplinkParams(context)
+        if (hotelSearchParams != null) {
+            searchPresenter.searchViewModel.hotelSearchParamsObservable.onNext(hotelSearchParams)
+        }
     }
 
     private val loadSuccess: (PackageSearchParams) -> Unit = { params ->

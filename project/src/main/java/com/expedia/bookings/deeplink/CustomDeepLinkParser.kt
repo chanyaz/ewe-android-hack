@@ -3,19 +3,14 @@ package com.expedia.bookings.deeplink
 import android.content.Context
 import android.content.res.AssetManager
 import android.net.Uri
-import com.expedia.bookings.data.Bookmark
 import com.expedia.bookings.data.ChildTraveler
-import com.expedia.bookings.utils.HotelRoomSelectionParams
-import com.expedia.bookings.utils.HotelSelectionParams
-import com.expedia.bookings.utils.HotelSearchParams
+import com.expedia.bookings.utils.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mobiata.android.Log
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
-import java.util.ArrayList
-import java.util.Arrays
-import java.util.Locale
+import java.util.*
 import java.util.regex.Pattern
 
 class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
@@ -39,7 +34,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
             "packagesearch" -> return parsePackagesSearchCustomDeepLink(data)
             "railsearch" -> return parseRailSearchCustomDeepLink(data)
             "flightshare" -> return parseFlightShareCustomDeepLink(data)
-            "replayPackages" -> return parsePackagesReplayCustomDeepLink(data, context)
+            "replaypackages" -> return parsePackagesReplayCustomDeepLink(data, context)
             else -> return HomeDeepLink()
         }
     }
@@ -197,69 +192,21 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
         hotelSearchParams.destination = getQueryParameterIfExists(data, queryParameterNames, "destination")?: ""
         hotelSearchParams.originID = getQueryParameterIfExists(data, queryParameterNames, "originID")?: ""
         hotelSearchParams.destinationID = getQueryParameterIfExists(data, queryParameterNames, "destinationID")?: ""
-        hotelSearchParams.startDate = LocalDate(getQueryParameterIfExists(data, queryParameterNames, "startDate")?: "")
-        hotelSearchParams.endDate = LocalDate(getQueryParameterIfExists(data, queryParameterNames, "endDate")?: "")
+        hotelSearchParams.startDate = DeeplinkCreatorUtils.DATE_FORMATTER.parseLocalDate(getQueryParameterIfExists(data, queryParameterNames, "startDate")?: "")
+        hotelSearchParams.endDate = DeeplinkCreatorUtils.DATE_FORMATTER.parseLocalDate(getQueryParameterIfExists(data, queryParameterNames, "endDate")?: "")
+        hotelSearchParams.originAirportCode = getQueryParameterIfExists(data, queryParameterNames, "originAirportCode")?: ""
+        hotelSearchParams.destinationAirportCode = getQueryParameterIfExists(data, queryParameterNames, "destinationAirportCode")?: ""
 
         DeeplinkSharedPrefParserUtils.saveHotelSearchDeeplinkParams(hotelSearchParams, context)
 
         val hotelRoomSelectionParams = HotelRoomSelectionParams()
-        hotelRoomSelectionParams.selectedRoomTypeCode = getQueryParameterIfExists(data, queryParameterNames, "selectedRoomTypeCode") ?: ""
+        hotelRoomSelectionParams.selectedRoomTypeCode = getQueryParameterIfExists(data, queryParameterNames, "hotelRoomTypeCode") ?: ""
 
         DeeplinkSharedPrefParserUtils.saveHotelRoomSelectionParams(hotelRoomSelectionParams, context)
 
         val hotelSelectionParams = HotelSelectionParams()
-        hotelSelectionParams.selectedHotelID = getQueryParameterIfExists(data, queryParameterNames, "selectedHotelID") ?: ""
+        hotelSelectionParams.selectedHotelID = getQueryParameterIfExists(data, queryParameterNames, "hotelID") ?: ""
 
         DeeplinkSharedPrefParserUtils.saveHotelSelectionParams(hotelSelectionParams, context)
     }
-}
-
-class DeeplinkSharedPrefParserUtils {
-
-    companion object {
-        val DEEPLINK_SHARED_PREFERENCE_KEY = "com.expedia.bookings.utils.DeeplinkSharedPrefParserUtils"
-
-        val PACKAGE_SEARCH_PARAMS_KEY = "PACKAGES_REPLAY.PACKAGE_SEARCH_PARAMS"
-
-        val PACKAGE_HOTEL_SELECTED_SEARCH_PARAMS_KEY = "PACKAGES_REPLAY.HOTEL_SELECTED"
-
-        val PACKAGE_HOTEL_ROOM_SELECTED_SEARCH_PARAMS_KEY = "PACKAGES_REPLAY.HOTEL_ROOM_SELECTED"
-
-
-        val HOTEL_SEARCH_PARAMS_TYPE = object : TypeToken<HotelSearchParams>() {}.type
-
-        val HOTEL_ROOM_SELECTED_TYPE = object : TypeToken<HotelRoomSelectionParams>() {}.type
-
-        val HOTEL_SELECTED_TYPE = object : TypeToken<HotelSelectionParams>() {}.type
-
-
-        fun saveHotelSearchDeeplinkParams(hotelSearchParams: HotelSearchParams, context: Context) {
-
-            val gson = Gson()
-            val toJson = gson.toJson(hotelSearchParams, HOTEL_SEARCH_PARAMS_TYPE)
-
-            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
-
-            bookmarksSharedPref.edit().putString(PACKAGE_SEARCH_PARAMS_KEY, toJson).apply()
-        }
-
-        fun saveHotelRoomSelectionParams(hotelRoomSelectionParams: HotelRoomSelectionParams, context: Context) {
-            val gson = Gson()
-            val toJson = gson.toJson(hotelRoomSelectionParams, HOTEL_ROOM_SELECTED_TYPE)
-
-            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
-
-            bookmarksSharedPref.edit().putString(PACKAGE_HOTEL_ROOM_SELECTED_SEARCH_PARAMS_KEY, toJson).apply()
-        }
-
-        fun saveHotelSelectionParams(hotelSelectionParams: HotelSelectionParams, context: Context) {
-            val gson = Gson()
-            val toJson = gson.toJson(hotelSelectionParams, HOTEL_SELECTED_TYPE)
-
-            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
-
-            bookmarksSharedPref.edit().putString(PACKAGE_HOTEL_SELECTED_SEARCH_PARAMS_KEY, toJson).apply()
-        }
-    }
-
 }

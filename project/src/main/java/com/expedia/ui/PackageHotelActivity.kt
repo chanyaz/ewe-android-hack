@@ -8,10 +8,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.PackageResponseUtils
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.*
 import com.google.android.gms.maps.MapView
 
 class PackageHotelActivity : AbstractAppCompatActivity() {
@@ -40,6 +37,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
         Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)
         detailsMapView.onCreate(savedInstanceState)
+        AlertDialogUtils.showBookmarkDialog(this)
 
         if (intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
             // back to hotel room, should also be able to back to hotel results

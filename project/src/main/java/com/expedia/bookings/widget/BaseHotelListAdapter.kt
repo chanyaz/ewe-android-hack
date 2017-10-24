@@ -16,6 +16,8 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.DeeplinkSharedPrefParserUtils
+import com.expedia.bookings.utils.HotelSelectionParams
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.util.endlessObserver
@@ -145,10 +147,13 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         val handler = Handler()
         val runnableCode = object : Runnable {
             override fun run() {
-                val deeplinkHotelID = ""
-                val deeplinkhotel = hotels.filter { it.hotelId == deeplinkHotelID }.firstOrNull()
-                if(deeplinkhotel!=null) {
-                    hotelSelectedSubject.onNext(deeplinkhotel)
+                val deeplinkHotelParams = DeeplinkSharedPrefParserUtils.getHotelSelectionDeeplinkParams(context!!)
+                if (deeplinkHotelParams != null) {
+                    val deeplinkHotelID = deeplinkHotelParams!!.selectedHotelID
+                    val deeplinkhotel = hotels.filter { it.hotelId == deeplinkHotelID }.firstOrNull()
+                    if (deeplinkhotel != null) {
+                        hotelSelectedSubject.onNext(deeplinkhotel)
+                    }
                 }
             }
         }
@@ -164,7 +169,11 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         }
     }
 
+
+    private var context: Context? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+        context = parent.context
         if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.context)
             val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

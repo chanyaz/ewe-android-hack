@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils
 
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.data.LineOfBusiness
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -16,10 +17,9 @@ class DeeplinkCreatorUtils() {
         var flightInboundParams: List<FlightInboundParams>? = null
         var flightOutboundParams: List<FlightOutboundParams>? = null
 
+        val PACKAGES_DEEPLINK_SUFFIX = BuildConfig.DEEPLINK_SCHEME+ "://replayPackages?"
 
-        val PACKAGES_DEEPLINK_SUFFIX = "expda:\\replayPackages?"
-
-        val FLIGHT_DEEPLINK_SUFFIX = "expa:\\replayFlights?"
+        val FLIGHT_DEEPLINK_SUFFIX = BuildConfig.DEEPLINK_SCHEME+ "://replayFlights?"
 
         val DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy")
 
