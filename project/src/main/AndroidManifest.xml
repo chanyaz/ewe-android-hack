@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest package="com.expedia.bookings"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
@@ -47,7 +48,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name="com.expedia.bookings.activity.ExpediaBookingApp"
+        android:name=".activity.ExpediaBookingApp"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
@@ -80,17 +81,19 @@
 
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
+
         <!-- Our main launcher activity -->
 
         <activity
-            android:name="com.expedia.bookings.activity.RouterActivity"
+            android:name=".activity.RouterActivity"
             android:exported="true"
             android:resizeableActivity="false"
             android:theme="@style/SplashTheme"
             tools:ignore="UnusedAttribute" />
+
         <activity-alias
-            android:name="com.expedia.bookings.activity.SearchActivity"
-            android:targetActivity="com.expedia.bookings.activity.RouterActivity">
+            android:name=".activity.SearchActivity"
+            android:targetActivity=".activity.RouterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,7 +103,7 @@
         </activity-alias>
 
         <activity
-            android:name="com.expedia.bookings.onboarding.activity.OnboardingActivity"
+            android:name=".onboarding.activity.OnboardingActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
@@ -111,7 +114,7 @@
         <!-- Phone New launch -->
 
         <activity
-            android:name="com.expedia.bookings.launch.activity.PhoneLaunchActivity"
+            android:name=".launch.activity.PhoneLaunchActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
@@ -122,64 +125,60 @@
         <!-- Itineraries -->
 
         <activity
-            android:name="com.expedia.bookings.activity.TerminalMapActivity"
+            android:name=".activity.TerminalMapActivity"
             android:label="@string/Terminal_Map"
             android:resizeableActivity="false"
             android:theme="@style/Material.WebView.Theme"
             tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.activity.StandaloneShareActivity"
+            android:name=".activity.StandaloneShareActivity"
             android:resizeableActivity="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.activity.FacebookShareActivity"
+            android:name=".activity.FacebookShareActivity"
             android:icon="@drawable/ic_share_facebook"
             android:label="@string/Facebook"
             android:resizeableActivity="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:ignore="UnusedAttribute" />
-        <activity android:name="com.expedia.ui.GalleryActivity"
+        <activity
+            android:name="com.expedia.ui.GalleryActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Hotels.Default.Crystal"
             tools:ignore="UnusedAttribute" />
-
         <activity
-            android:name="com.expedia.bookings.itin.activity.HotelItinDetailsActivity"
+            android:name=".itin.activity.HotelItinDetailsActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
             android:theme="@style/ItinTheme"
-            tools:ignore="UnusedAttribute"
-            android:screenOrientation="portrait"/>
-
+            tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.itin.activity.HotelItinManageBookingActivity"
+            android:name=".itin.activity.HotelItinManageBookingActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
             android:theme="@style/ItinTheme"
-            tools:ignore="UnusedAttribute"
-            android:screenOrientation="portrait"/>
-
+            tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity"
+            android:name=".itin.activity.HotelItinExpandedMapActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
             android:theme="@style/ItinTheme"
-            tools:ignore="UnusedAttribute"
-            android:screenOrientation="portrait"/>
-
+            tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.itin.activity.FlightItinDetailsActivity"
+            android:name=".itin.activity.FlightItinDetailsActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
             android:theme="@style/ItinTheme"
-            tools:ignore="UnusedAttribute"
-            android:screenOrientation="portrait"/>
-
+            tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.itin.activity.NewAddGuestItinActivity"
+            android:name=".itin.activity.NewAddGuestItinActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
@@ -188,7 +187,7 @@
 
         <!-- Hotels activities -->
         <activity
-            android:name="com.expedia.bookings.activity.HotelRulesActivity"
+            android:name=".activity.HotelRulesActivity"
             android:label="@string/legal_information"
             android:resizeableActivity="false"
             android:theme="@style/Theme.Phone.Rules"
@@ -196,30 +195,27 @@
 
         <!-- Flights activities -->
         <activity
-            android:name="com.expedia.bookings.activity.FlightAndPackagesRulesActivity"
+            android:name=".activity.FlightAndPackagesRulesActivity"
             android:label="@string/legal_information"
-            android:theme="@style/Material.WebView.Theme"
             android:resizeableActivity="false"
+            android:theme="@style/Material.WebView.Theme"
             tools:ignore="UnusedAttribute" />
-
         <activity
-            android:name="com.expedia.bookings.activity.AccountLibActivity"
+            android:name=".activity.AccountLibActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/Theme.AccountLib"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="UnusedAttribute" />
-
         <activity
-            android:name="com.expedia.bookings.mia.activity.MemberDealActivity"
+            android:name=".mia.activity.MemberDealActivity"
             android:label="Member Deals"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Rail"
-            tools:ignore="UnusedAttribute"/>
-
+            tools:ignore="UnusedAttribute" />
         <activity
             android:name="com.expedia.ui.LOBWebViewActivity"
             android:resizeableActivity="false"
@@ -245,16 +241,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Hotels.Default"
             tools:ignore="UnusedAttribute" />
-
         <activity
-            android:name="com.expedia.bookings.rail.activity.RailActivity"
+            android:name=".rail.activity.RailActivity"
             android:label="Trains"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Rail"
-            tools:ignore="UnusedAttribute"/>
-
+            tools:ignore="UnusedAttribute" />
         <activity
             android:name="com.expedia.ui.FlightActivity"
             android:label="Flights"
@@ -267,17 +261,15 @@
         <activity
             android:name="com.expedia.ui.PackageActivity"
             android:label="Packages"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/V2.Theme.Packages" />
-
         <activity
             android:name="com.expedia.ui.PackageHotelActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@style/V2.Theme.Packages"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name="com.expedia.ui.PackageFlightActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
@@ -287,15 +279,15 @@
         <!-- About/Preferences/WebView activities -->
 
         <activity
-            android:name="com.expedia.bookings.activity.WebViewActivity"
+            android:name=".activity.WebViewActivity"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity"
+            android:name=".activity.OpenSourceLicenseWebViewActivity"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.activity.AboutWebViewActivity"
+            android:name=".activity.AboutWebViewActivity"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
 
@@ -311,26 +303,34 @@
             android:resizeableActivity="false"
             android:theme="@style/com_facebook_activity_theme"
             tools:ignore="UnusedAttribute" />
-
         <activity
-            android:name="com.expedia.bookings.activity.RestrictedProfileActivity"
+            android:name=".activity.RestrictedProfileActivity"
             android:resizeableActivity="false"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="UnusedAttribute" />
+        <activity
+            android:name=".lob.lx.ui.activity.CrowdFundActivity"
+            android:label="Activities"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/V2.Theme.LX"
+            tools:ignore="UnusedAttribute" >
+        </activity>
 
         <!-- Notifications -->
 
         <receiver
-            android:name="com.expedia.bookings.notification.NotificationReceiver"
+            android:name=".notification.NotificationReceiver"
             android:exported="false" />
 
         <!-- Push Notifications -->
 
-        <service android:name="com.expedia.bookings.notification.GCMIntentService" />
+        <service android:name=".notification.GCMIntentService" />
 
         <receiver
-            android:name="com.expedia.bookings.notification.GCMReceiver"
+            android:name=".notification.GCMReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
 
@@ -342,13 +342,13 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
@@ -356,22 +356,23 @@
         <!-- Search autocomplete components -->
 
         <provider
-            android:name="com.expedia.bookings.content.AutocompleteProvider"
+            android:name=".content.AutocompleteProvider"
             android:authorities="@string/authority_autocomplete_hotel"
             android:exported="false" />
         <provider
-            android:name="com.expedia.bookings.content.AirportAutocompleteProvider"
+            android:name=".content.AirportAutocompleteProvider"
             android:authorities="@string/authority_autocomplete_airport"
             android:exported="false" />
 
         <!-- Tracking -->
+
 
         <!-- Google Play Campaign Tracking -->
         <!-- Note: Only the first defined INSTALL_REFERRER BroadcastReceiver receives the Broadcast from the system -->
         <!-- InstallReceiver then broadcasts the message again to reach the other BroadcastReceivers -->
 
         <receiver
-            android:name="com.expedia.bookings.tracking.InstallReceiver"
+            android:name=".tracking.InstallReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
@@ -380,7 +381,7 @@
 
         <!-- Account Manager -->
 
-        <service android:name="com.expedia.bookings.account.ExpediaAuthenticatationService">
+        <service android:name=".account.ExpediaAuthenticatationService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -389,7 +390,7 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/expedia_authenticator" />
         </service>
-        <service android:name="com.expedia.bookings.account.AccountSyncService">
+        <service android:name=".account.AccountSyncService">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -400,17 +401,16 @@
         </service>
 
         <provider
-            android:name="com.expedia.bookings.account.AccountSyncContentProvider"
+            android:name=".account.AccountSyncContentProvider"
             android:authorities="@string/authority_account_sync"
             android:exported="false" />
 
-        <receiver android:name="com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver">
+        <receiver android:name=".itin.ItinShareTargetBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.extra.CHOSEN_COMPONENT" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name="com.expedia.bookings.widget.flights.FlightConfirmationShareBroadcastReceiver">
+        <receiver android:name=".widget.flights.FlightConfirmationShareBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.extra.CHOSEN_COMPONENT" />
             </intent-filter>

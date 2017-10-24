@@ -2,6 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.payment.CalculatePointsParams
 import com.expedia.bookings.data.payment.CalculatePointsResponse
+import com.expedia.bookings.data.payment.ContributeResponse
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -27,8 +28,28 @@ class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
         adapter.create(LoyaltyApi::class.java)
     }
 
+    val contributeApi: LoyaltyApi by lazy {
+        val gson = GsonBuilder().create()
+
+        val adapter = Retrofit.Builder()
+                .baseUrl("http://172.26.64.21:8080")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(OkHttpClient().newBuilder().build())
+                .build()
+
+        adapter.create(LoyaltyApi::class.java)
+    }
+
     fun currencyToPoints(calculatePointsParams: CalculatePointsParams, observer: Observer<CalculatePointsResponse>): Subscription {
         return loyaltyApi.currencyToPoints(calculatePointsParams.tripId, calculatePointsParams.programName, calculatePointsParams.amount, calculatePointsParams.rateId)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+    }
+
+    fun contribute(donorTUID: String, donorName: String, recieverTUID: String, amount: String, tripID: String, observer: Observer<ContributeResponse>): Subscription {
+        return contributeApi.contribute(donorTUID, donorName, recieverTUID, amount, tripID)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)

@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.hotel
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Rect
@@ -11,7 +12,6 @@ import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
@@ -84,6 +84,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
+        val b = AlertDialog.Builder(context)
+        b.setView(R.layout.activity_crowd_fund)
+        b.show()
     }
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->

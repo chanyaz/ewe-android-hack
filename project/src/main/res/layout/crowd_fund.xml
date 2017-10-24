@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top|center"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context="com.expedia.bookings.lob.lx.ui.activity.CrowdFundActivity">
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="Activity name"
+        android:maxLines="1"
+        android:paddingBottom="12dp" />
+
+    <EditText
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:hint="Let us know the reason"
+        android:inputType="textMultiLine"
+        android:paddingBottom="12dp" />
+
+    <TextView
+        android:id="@+id/fund_total"
+        style="@style/FilterSortValueTheme"
+        android:text="How much funds you want to raise: " />
+
+    <include
+        layout="@layout/flight_departure_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/raise_funds"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/new_hotel_book_background_selector"
+        android:focusable="true"
+        android:padding="5dp"
+        android:text="Raise funds"
+        android:textAppearance="@style/Core.Text.400"
+        android:textColor="@color/white" />
+<!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/total_points"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:hint="x" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/3000points" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/hint_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="9dp"
+            android:layout_weight="1"
+            android:background="#979797" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/or"
+            android:textColor="@color/defaultTextColor" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="9dp"
+            android:layout_weight="1"
+            android:background="#979797" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/total_value"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:hint="$x" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/$200" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/donate"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:background="@drawable/new_hotel_book_background_selector"
+        android:focusable="true"
+        android:padding="5dp"
+        android:text="Donate"
+        android:textAppearance="@style/Core.Text.400"
+        android:textColor="@color/white" />-->
+
+</LinearLayout>

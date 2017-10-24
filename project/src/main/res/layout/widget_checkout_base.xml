@@ -71,25 +71,37 @@
                         android:background="#979797" />
                 </LinearLayout>
 
-                <com.expedia.bookings.widget.TravelerContactDetailsWidget
-                    android:id="@+id/main_contact_info_card_view"
-                    style="?attr/checkout_card_view_style"
+                <com.expedia.bookings.lob.lx.ui.presenter.CrowdFundView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"/>
+                    android:layout_height="match_parent" />
 
-                <ViewStub
-                    android:id="@+id/payment_info_card_view_stub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inflatedId="@+id/payment_info_card_view"
-                    android:layout_marginTop="12dp"
-                    android:layout="?attr/paymentWidgetLayout" />
+                <FrameLayout
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:visibility="gone">
 
-                <com.expedia.bookings.widget.FrameLayout
-                    android:id="@+id/coupon_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    <com.expedia.bookings.widget.TravelerContactDetailsWidget
+                        android:id="@+id/main_contact_info_card_view"
+                        style="?attr/checkout_card_view_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:visibility="gone" />
+
+                    <ViewStub
+                        android:id="@+id/payment_info_card_view_stub"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:inflatedId="@+id/payment_info_card_view"
+                        android:layout="?attr/paymentWidgetLayout"
+                        android:visibility="gone" />
+
+                    <com.expedia.bookings.widget.FrameLayout
+                        android:id="@+id/coupon_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </FrameLayout>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/legal_information_text_view"
@@ -166,10 +178,10 @@
                 android:id="@+id/purchase_total_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/primary_color"
+                android:gravity="center"
                 android:padding="8dp"
-                android:textSize="@dimen/slide_to_purchase_price_text_size"
-                android:gravity="center" />
+                android:textColor="?attr/primary_color"
+                android:textSize="@dimen/slide_to_purchase_price_text_size" />
 
             <com.expedia.bookings.widget.SlideToWidgetLL
                 android:id="@+id/slide_to_purchase_widget"
@@ -193,8 +205,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/primary_color"
             android:minHeight="?attr/actionBarSize"
-            app:titleTextAppearance="?attr/toolbar_title_style"
-            app:contentInsetStartWithNavigation="0dp" />
+            app:contentInsetStartWithNavigation="0dp"
+            app:titleTextAppearance="?attr/toolbar_title_style" />
 
         <View
             android:id="@+id/toolbar_dropshadow"
