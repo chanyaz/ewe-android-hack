@@ -1,51 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="orbitz_best_price_guarantee">Orbitz Price Guarantee</string>
-    <string name="customer_support_text">Call Orbitz Customer Support</string>
-
-    <!-- Content description for action: Press to log in with your Orbitz account -->
-    <string name="cd_checkout_log_in_with_orbitz">Press to log in to your Orbitz account</string>
-    <string name="contact_orbitz">Contact Orbitz</string>
-    <string name="orbitz_info_url">http://www.orbitz.com/</string>
-
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_orbitz">Are you sure you want to log out of your Orbitz account?</string>
-
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_orbitz_email_subject">Orbitz Reservations Support</string>
-
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_orbitz">We\&apos;re sorry but this room is no longer available from Orbitz.</string>
-    <!--A message stating this hotel is Not currently available on Orbitz -->
-    <string name="not_currently_available_orbitz">Not currently available from Orbitz</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Orbitz Nov. 3-4" -->
-    <string name="not_currently_available_orbitz_TEMPLATE">Not available from Orbitz %s</string>
-
-    <!-- Missing strings for Orbitz from Expedia-->
-    <string name="tell_a_friend_body_orbitz">Hi there,\n\nCheck out Orbitz Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
-    <string name="cd_log_in_email_edit_text_orbitz">Enter Orbitz account email address</string>
-    <string name="tell_a_friend_subject_orbitz">Orbitz Hotels</string>
-    <string name="cd_log_in_password_edit_text_orbitz">Enter Orbitz account password</string>
-    <string name="cd_launch_open_eb_info_screen_orbitz">Open Orbitz Bookings information screen</string>
-    <string name="loading_orbitz_account">Loading Orbitz Account</string>
-    <string name="orbitz_password_hint">Orbitz Password</string>
-    <string name="dialog_message_launch_orbitz_mobile_site">Launch the Orbitz mobile website?</string>
-    <!-- Orbitz App download link -->
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Total Due to Orbitz Today:</string>
-    <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all Orbitz sites.&lt;br>Please reset your password using the ‘Forgot your password?’ link below.</string>
-
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Due to Orbitz Today</string>
 
     <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_a_Orbitz_account">Create a Orbitz account</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Orbitz">Welcome to Orbitz</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Orbitz_account_already_exists">A Orbitz account already exists with this email</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
     <string name="account_creation_legal_rewards_TEMPLATE">Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all {terms_and_conditions}</string>
 
@@ -82,8 +39,6 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">At VIP Access hotels, gold and platinum members receive free room upgrades and other perks on availability at check-in.</string>
-    <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">VIP Access Only</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in Orbucks</string>
@@ -142,8 +97,6 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Package total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Cost Breakdown dialog. Button.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Package price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view package.</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">Showing package details. Button to close.</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Insider Prices</string>
     <!-- Orbitz Rewards members get more! -->

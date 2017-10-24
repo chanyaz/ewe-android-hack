@@ -7,13 +7,10 @@
     <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_logo_dark</item>
     <item name="app_copyright_logo" type="drawable">@drawable/brand_logo_large</item>
 
-    <item name="orb" type="drawable">@drawable/brand_phone_checkout_logo_drawable</item>
-
     <item name="old_checkout_account_logo" type="drawable">@drawable/brand_logo_white</item>
     <item name="checkout_logout_logo" type="drawable">@drawable/brand_phone_checkout_logo_drawable</item>
     <item name="itin_sign_in_logo" type="drawable">@drawable/brand_logo</item>
     <item name="old_checkout_account_button_background" type="drawable">@drawable/btn_signin</item>
-    <item name="tablet_checkout_login_logo" type="drawable">@drawable/ic_tablet_checkout_logo</item>
     <item name="ic_toolbar_filter_sort" type="drawable">@drawable/ic_sort</item>
     <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/bg_breakdown_candycane</item>
     <item name="flight_cko_acct_btn_rewards_bg" type="drawable">@color/loyalty_earn_color</item>

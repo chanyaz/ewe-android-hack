@@ -10,7 +10,6 @@
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_orbitz</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
-        <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_orb_white_logo_small</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
@@ -18,7 +17,6 @@
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color_orbitz</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_traveller_info_page_logo</item>
-        <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_orb_white_logo_small</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>

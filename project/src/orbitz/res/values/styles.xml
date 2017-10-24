@@ -31,13 +31,4 @@
         <item name="android:background">@drawable/bg_action_bar</item>
     </style>
 
-    <style name="DestinationTileUpperTextAppearance">
-        <item name="android:textColor">@color/action_bar_bg_color</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="DestinationTileLowerTextAppearance">
-        <item name="android:textColor">@color/action_bar_bg_color</item>
-        <item name="android:textSize">14sp</item>
-    </style>
 </resources>

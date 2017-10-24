@@ -3,38 +3,20 @@
     <color name="app_primary">#004d7c</color>
     <color name="app_primary_dark">#003D69</color>
     <color name="action_bar_bg_color">#00253C</color>
-    <color name="actionbar_button_background_pressed">#004888</color>
     <color name="hotels_primary_color">@color/lob_btn_color</color>
     <color name="lob_btn_color">#004D7C</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#8d1598</color>
     <color name="pay_now_earn_text_color">#8E0099</color>
-    <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/lob_btn_color</color>
     <color name="launch_tab_indicator">#00B1FF</color>
 
-    <color name="launch_actionbar_color_orbitz">@color/action_bar_bg_color</color>
     <color name="action_bar_text_blue_orbitz">#7baed4</color>
-    <color name="review_screen_tab_indicator">#00B1FF</color>
     <color name="action_bar_text_color">#00B1FF</color>
-    <color name="bg_btn_color_orbitz">#7bae00</color>
-    <color name="bg_btn_pressed_color_orbitz">#295600</color>
     <color name="itin_flight_line_color">#0065A2</color>
-    <color name="login_text_flight">#FFFFFF</color>
     <color name="coupon_success_message_color_orbitz">#7baed4</color>
-    <color name="collection_overlay_color">#56a1d5</color>
-    <color name="tablet_book_button_text_color_orbitz">#57B3FF</color>
-    <color name="tablet_results_search_blue_orbitz">#608405</color>
-    <color name="launch_pin_detail_button_text_orbitz">#D1EAFF</color>
-    <color name="calendar_cell_selected_date_text">#ffffff</color>
-    <color name="hotel_promo_background">#00253C</color>
-    <color name="launch_card_back_container_color">#393939</color>
-    <color name="launch_card_explore_now_background_color">#4791C0</color>
-    <color name="destination_list_launch_card_title_text_color">#003E6F</color>
-    <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
-    <color name="destination_list_detail_container_background">#ff070f24</color>
     <color name="preferences_text">#495863</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="hotel_member_pricing_bg_color">#00253c</color>
@@ -62,7 +44,6 @@
     <color name="hotelsv2_coupon_applied_color">#477A00</color>
 
     <!-- flight color-->
-    <color name="flight_edit_search_button_color">@color/white</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
 
@@ -71,9 +52,6 @@
     <color name="lx_ripple_color">#0065B8</color>
     <color name="lx_secondary_color_disabled">#00B1FF</color>
     <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
-    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
-    <color name="lx_primary_disabled_color">#dde5ec</color>
-    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#C4204B</color>
