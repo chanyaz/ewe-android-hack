@@ -8,10 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Bookmark
-import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.*
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -121,7 +118,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
         bookmarkHotel.setOnMenuItemClickListener({
             Toast.makeText(context, "Your trip has been bookmarked. Please check the bookmark screen to revisit this trip", Toast.LENGTH_LONG).show()
-            val bookmark = Bookmark("Package to Hawaiii", Calendar.getInstance().time, 5, "expda://hotelSearch?location=Miami")
+            val bookmark = Bookmark("Package to Hawaiii", Calendar.getInstance().time, 5, DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.PACKAGES))
             BookmarkUtils.saveBookmark(context, bookmark)
             true
         })

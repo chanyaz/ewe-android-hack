@@ -116,7 +116,7 @@ public class StrUtils {
 	private static final int SEPARATOR_NEWLINE = 3;
 
 	/**
-	 * This is an all-purpose address formatter.  Provide flags for what
+	 * This is an all-purpose address DATE_FORMATTER.  Provide flags for what
 	 * information you want to display (if it is available)
 	 */
 	public static String formatAddress(Location location, int flags) {
