@@ -1,5 +1,6 @@
 package com.expedia.bookings.mia.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -7,11 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RatingBar
+import android.widget.*
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.payment.CampaignDetails
@@ -31,7 +28,9 @@ class MemberDealActivity : AppCompatActivity() {
     lateinit var loyaltyServices: LoyaltyServices
     lateinit var campaignDetails: CampaignDetails
     lateinit var container: LinearLayout
-    var isDeeplink = false;
+    var isDeepLink = false
+    var tripId = "";
+    var context: Context = this
 
 
     private fun share() {
@@ -45,9 +44,8 @@ class MemberDealActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.member_deal_activity)
         val intent = intent
-        isDeeplink = intent.getBooleanExtra("isDeeplink", false)
-
-        val tripId = intent.getStringExtra("tripid")
+        isDeepLink = if (!intent.getStringExtra("tripid").isNullOrEmpty()) true else false
+        tripId = intent.getStringExtra("tripid") ?: Db.getTripId().tripId
         if (tripId == null && Db.getTripId()?.tripId != null) {
             share()
         }
@@ -66,7 +64,11 @@ class MemberDealActivity : AppCompatActivity() {
         container.removeAllViews()
         Ui.getApplication(this).defaultHotelComponents();
         loyaltyServices = Ui.getApplication(this).hotelComponent().getLoyaltyServices();
-        loyaltyServices.getCampainDetails("64e2874f-bc4f-4e5a-9630-6d451d2355d8", makeCampaignDetailsObserver());
+        if (tripId.isNotEmpty())
+            loyaltyServices.getCampainDetails(tripId, makeCampaignDetailsObserver());
+        else
+            loyaltyServices.getCampainDetails(Db.getTripId().tripId, makeCampaignDetailsObserver());
+
         //container.addView(createRow(breakdown))
 
 //        container.addView(createRow("The London Eye Experience", 0))
@@ -91,6 +93,7 @@ class MemberDealActivity : AppCompatActivity() {
     fun makeDonateObserver(): Observer<ContributeResponse> {
         return object : Observer<ContributeResponse> {
             override fun onNext(response: ContributeResponse) {
+                Toast.makeText(context, "Thanks for your gift !!", Toast.LENGTH_SHORT).show()
                 Log.d("donate done")
             }
 
@@ -121,7 +124,7 @@ class MemberDealActivity : AppCompatActivity() {
             editTextView.text.clear()
         }
         donateButton.setOnClickListener { view ->
-            loyaltyServices.contribute(getTuid(), "firstName", editTextView.text.toString(), campaignDetails.tuid, campaignDetails.tripId, makeDonateObserver())
+            loyaltyServices.contribute(getTuid(), "", editTextView.text.toString(), campaignDetails.tuid, campaignDetails.tripId, makeDonateObserver())
         }
         return row
     }
@@ -132,7 +135,7 @@ class MemberDealActivity : AppCompatActivity() {
         val raisedFunds = row.findViewById<TextView>(R.id.raised_funds)
         val backgroundImage = row.findViewById<ImageView>(R.id.header_background)
         var offerDescription = row.findViewById<LXDetailSectionDataWidget>(R.id.description)
-
+        var editBoxContainer = row.findViewById<RelativeLayout>(R.id.edit_box_container)
         var editTextView = row.findViewById<EditText>(R.id.edit_amount_view)
         val ratingBar = row.findViewById<RatingBar>(R.id.user_rating_bar)
         var availablePoints = 0
@@ -143,30 +146,29 @@ class MemberDealActivity : AppCompatActivity() {
 
         val clearBtn = row.findViewById<View>(R.id.clear_btn)
         headerTextView.text = campaignDetails.title
-//        raisedFunds.text = "Raised Funds - $" + availablePoints + "/" + campaignDetails.fundsRequested
-        raisedFunds.text = "Raised Funds - $" + availablePoints + "/" + 100
+        raisedFunds.text = "Raised Funds - $" + availablePoints + "/" + campaignDetails.fundsRequested
 
         raisedFunds.setOnClickListener {
             donationDialog.show()
         }
 
         backgroundImage.setImageResource(R.drawable.london_eye)
-//        ratingBar.rating = (availablePoints / campaignDetails.fundsRequested).toFloat()
-//        offerDescription.bindData("Description", campaignDetails.message, 2)
-        offerDescription.bindData("Description", "", 2)
+        ratingBar.rating = (availablePoints.toFloat() / campaignDetails.fundsRequested.toFloat()) * 10
+        if (campaignDetails.message != null)
+            offerDescription.bindData("Description", campaignDetails.message, 2)
 
         clearBtn.setOnClickListener { view ->
             editTextView.text.clear()
         }
         donateButton.setOnClickListener { view ->
-            loyaltyServices.contribute(getTuid(), "Neha", campaignDetails.tuid, editTextView.text.toString(), campaignDetails.tripId, makeDonateObserver())
+            loyaltyServices.contribute(getTuid(), getUserName(), campaignDetails.tuid, editTextView.text.toString(), campaignDetails.tripId, makeDonateObserver())
 
         }
-        if (isDeeplink) {
-            editTextView.visibility = View.GONE
+        if (isDeepLink) {
+            editBoxContainer.visibility = View.VISIBLE
             donateButton.text = "DONATE"
         } else {
-            editTextView.visibility = View.VISIBLE
+            editBoxContainer.visibility = View.GONE
             donateButton.text = "REDEEM"
         }
         return row
@@ -216,6 +218,13 @@ class MemberDealActivity : AppCompatActivity() {
         val user = userStateManager.userSource.user
 
         return user?.tuidString ?: ""
+    }
+
+    fun getUserName(): String {
+        val userStateManager = Ui.getApplication(this).appComponent().userStateManager()
+        val user = userStateManager.userSource.user
+
+        return user?.primaryTraveler?.firstName ?: ""
     }
 
     override fun onStart() {
