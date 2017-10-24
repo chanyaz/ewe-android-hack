@@ -2,7 +2,10 @@ package com.expedia.bookings.launch.widget;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+
+import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.content.Intent;
@@ -145,6 +148,34 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 		if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
+
+			PriceGraphView priceGraphView = view.findViewById(R.id.price_graph_view);
+
+			// data: HashMap<String, ArrayList<Float>>, startDate: LocalDate
+
+			HashMap<String, ArrayList<Float>> data = new HashMap<>();
+			ArrayList<Float> hotelAPrices = new ArrayList<>();
+			hotelAPrices.add(new Float(9));
+			hotelAPrices.add(new Float(18));
+			hotelAPrices.add(new Float(27));
+			hotelAPrices.add(new Float(36));
+			hotelAPrices.add(new Float(45));
+			hotelAPrices.add(new Float(54));
+			hotelAPrices.add(new Float(63));
+			data.put("Hotel A", hotelAPrices);
+
+			ArrayList<Float> hotelBPrices = new ArrayList<>();
+			hotelBPrices.add(new Float(4));
+			hotelBPrices.add(new Float(8));
+			hotelBPrices.add(new Float(16));
+			hotelBPrices.add(new Float(32));
+			hotelBPrices.add(new Float(64));
+			hotelBPrices.add(new Float(128));
+			hotelBPrices.add(new Float(256));
+			data.put("Hotel B", hotelBPrices);
+
+			priceGraphView.setData(data, new LocalDate());
+
 			return new SignInPlaceholderCard(view, context);
 		}
 
