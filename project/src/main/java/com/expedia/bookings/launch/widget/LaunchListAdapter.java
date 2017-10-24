@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +35,7 @@ import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.hotel.util.HotelFavoriteCache;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
@@ -149,33 +152,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
 
-			PriceGraphView priceGraphView = view.findViewById(R.id.price_graph_view);
-
-			// data: HashMap<String, ArrayList<Float>>, startDate: LocalDate
-
-			HashMap<String, ArrayList<Float>> data = new HashMap<>();
-			ArrayList<Float> hotelAPrices = new ArrayList<>();
-			hotelAPrices.add(new Float(9));
-			hotelAPrices.add(new Float(18));
-			hotelAPrices.add(new Float(27));
-			hotelAPrices.add(new Float(36));
-			hotelAPrices.add(new Float(45));
-			hotelAPrices.add(new Float(54));
-			hotelAPrices.add(new Float(63));
-			data.put("Hotel A", hotelAPrices);
-
-			ArrayList<Float> hotelBPrices = new ArrayList<>();
-			hotelBPrices.add(new Float(4));
-			hotelBPrices.add(new Float(8));
-			hotelBPrices.add(new Float(16));
-			hotelBPrices.add(new Float(32));
-			hotelBPrices.add(new Float(64));
-			hotelBPrices.add(new Float(128));
-			hotelBPrices.add(new Float(256));
-			data.put("Hotel B", hotelBPrices);
-
-			priceGraphView.setData(data, new LocalDate());
-
 			return new SignInPlaceholderCard(view, context);
 		}
 
@@ -237,6 +213,24 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 					new LaunchLobViewModel(context, hasInternetConnectionChangeSubject, posSubject));
 		}
 		else if (holder instanceof SignInPlaceholderCard) {
+			PriceGraphView priceGraphView = holder.itemView.findViewById(R.id.price_graph_view);
+
+			HashMap<String, ArrayList<Float>> data = new HashMap<>();
+
+			ArrayList<String> favoriteHotels = HotelFavoriteCache.Companion.getFavorites(context);
+			LocalDate date = new LocalDate();
+			for (String hotelId : favoriteHotels) {
+
+				HotelFavoriteCache.HotelPastData pastData = HotelFavoriteCache.Companion.getPastDataWithMock(context, hotelId);//16110930//921745
+				ArrayList<Float> hotelPrices = new ArrayList<>();
+				for (HotelFavoriteCache.PastRate rate : pastData.getRates()) {
+					hotelPrices.add(rate.getAmount());
+				}
+				data.put(pastData.getHotelName(), hotelPrices);
+				DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+				date = dtf.parseLocalDate(pastData.getRates().get(0).getDate());
+			}
+			priceGraphView.setData(data, date);
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
 		}
 		else if (holder instanceof LaunchScreenAirAttachCard) {
