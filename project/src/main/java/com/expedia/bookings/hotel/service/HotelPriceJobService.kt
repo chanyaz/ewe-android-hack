@@ -2,6 +2,7 @@ package com.expedia.bookings.hotel.service
 
 import android.app.job.JobParameters
 import android.app.job.JobService
+import android.appwidget.AppWidgetManager
 import android.util.Log
 import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.hotel.util.HotelInfoManager
@@ -17,6 +18,7 @@ class HotelPriceJobService : JobService() {
         @Inject set
 
     private var hotelsRefreshed = 0
+    private var appWidgetId = 0
 
     override fun onStopJob(params: JobParameters?): Boolean {
         Log.v("HotelPriceJobService", ": onStopJob")
@@ -29,6 +31,8 @@ class HotelPriceJobService : JobService() {
         app.defaultHotelComponents()
         app.hotelComponent().inject(this)
 
+        val bundle = params?.extras
+        appWidgetId = bundle?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, 0) ?: 0
         refresh(applicationContext, params)
         return true
     }
@@ -72,9 +76,7 @@ class HotelPriceJobService : JobService() {
     private fun hotelRefreshFinished(context: Context, params: JobParameters?) {
         HotelFavoriteCache.saveLastUpdateTime(context, System.currentTimeMillis())
 
-        val bundle = params?.extras
-        val id = bundle?.getInt(HotelExtras.PRICE_APPWIDGET_KEY, 0) ?: 0
-        HotelAppWidgetUtil.updateRemoteViews(id, applicationContext)
+        HotelAppWidgetUtil.updateRemoteViews(appWidgetId, applicationContext)
         jobFinished(params, false)
     }
 }

@@ -13,7 +13,6 @@ import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder
 import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.text.HtmlCompat
 import com.mobiata.android.text.StrikethroughTagHandler
-import java.math.BigDecimal
 import android.os.Bundle
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.hotel.deeplink.HotelExtras
@@ -61,7 +60,7 @@ class HotelRemoteViewService : RemoteViewsService() {
             val rv = RemoteViews(context.getPackageName(), R.layout.hotel_price_appwidget_cell);
             rv.setTextViewText(R.id.hotel_appwidget_name, hotel.hotelName)
 
-            updatePrices(rv, hotel.rate, hotel.oldRate ?: hotel.rate)
+            updatePrices(rv, hotel.oldRate, hotel.rate)
             setPriceDeltaIcon(rv, hotel.oldRate?.amount, hotel.rate.amount)
             setUrgency(rv, hotel.roomsLeft.toInt())
 
@@ -86,40 +85,37 @@ class HotelRemoteViewService : RemoteViewsService() {
             //nothing
         }
 
-        private fun updatePrices(rv: RemoteViews, newRate: HotelFavoriteCache.HotelRate,
-                                 oldRate:  HotelFavoriteCache.HotelRate?) {
+        private fun updatePrices(rv: RemoteViews, oldRate: HotelFavoriteCache.HotelRate?,
+                                 newRate: HotelFavoriteCache.HotelRate) {
             val newMoney = Money(java.lang.Float.toString(newRate.amount), newRate.currency)
             rv.setTextViewText(R.id.hotel_appwidget_new_price, newMoney.formattedMoney)
 
             if (oldRate != null) {
-                val oldMoney = Money(BigDecimal(oldRate.amount.toDouble()), oldRate.currency)
-                val oldPrice = oldMoney?.formattedPrice
-                if (oldPrice != null)  {
-                    val oldText = HtmlCompat.fromHtml(context.getString(R.string.strike_template,
-                            oldPrice), null, StrikethroughTagHandler())
-                    rv.setTextViewText(R.id.hotel_appwidget_old_price, oldText)
-                }
-                else {
-                    rv.setTextViewText(R.id.hotel_appwidget_old_price, newMoney.formattedMoney)
-
-                }
+                rv.setViewVisibility(R.id.hotel_appwidget_old_price, View.VISIBLE)
+                val oldMoney = Money(java.lang.Float.toString(oldRate.amount), oldRate.currency)
+                val oldPrice = oldMoney.formattedMoney
+                val oldText = HtmlCompat.fromHtml(context.getString(R.string.strike_template,
+                        oldPrice), null, StrikethroughTagHandler())
+                rv.setTextViewText(R.id.hotel_appwidget_old_price, oldText)
+            } else {
+                rv.setViewVisibility(R.id.hotel_appwidget_old_price, View.INVISIBLE)
             }
         }
 
         private fun setPriceDeltaIcon(rv: RemoteViews, oldPrice: Float?, newPrice: Float) {
             rv.setImageViewResource(R.id.hotel_appwidget_price_icon,
-                    R.drawable.neutral_price_change)
+                    R.drawable.ic_neutral_icon)
             rv.setTextColor(R.id.hotel_appwidget_new_price,
                     ContextCompat.getColor(context, R.color.light_text_color))
             oldPrice?.let {
                 if (oldPrice < newPrice) {
                     rv.setTextColor(R.id.hotel_appwidget_new_price,
                             ContextCompat.getColor(context, R.color.error_red))
-                    rv.setImageViewResource(R.id.hotel_appwidget_price_icon, R.drawable.red_arrow)
+                    rv.setImageViewResource(R.id.hotel_appwidget_price_icon, R.drawable.ic_red_arrow)
                 } else if (oldPrice > newPrice) {
                     rv.setTextColor(R.id.hotel_appwidget_new_price,
                             ContextCompat.getColor(context,R.color.success_green))
-                    rv.setImageViewResource(R.id.hotel_appwidget_price_icon, R.drawable.green_arrow)
+                    rv.setImageViewResource(R.id.hotel_appwidget_price_icon, R.drawable.ic_green_arrow)
                 }
             }
         }

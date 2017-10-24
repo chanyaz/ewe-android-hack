@@ -79,5 +79,5 @@
         android:layout_alignBottom="@+id/hotel_appwidget_new_price"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="4dp"
-        android:src="@drawable/red_arrow" />
+        tools:src="@drawable/ic_red_arrow" />
 </RelativeLayout>
