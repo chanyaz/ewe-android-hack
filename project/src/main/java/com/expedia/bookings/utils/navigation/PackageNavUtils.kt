@@ -25,5 +25,14 @@ class PackageNavUtils : NavUtils() {
             }
             startActivityForResult(context, intent, animOptions, requestCode)
         }
+
+        @JvmStatic fun goToPackagesForReplaySearch(context: Context, data: Bundle?, animOptions: Bundle?) {
+            sendKillActivityBroadcast(context)
+            val intent = Intent(context, PackageActivity::class.java)
+            if (data != null) {
+                intent.putExtras(data)
+            }
+            startActivity(context, intent, animOptions)
+        }
     }
 }

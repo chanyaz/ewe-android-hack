@@ -181,7 +181,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
 		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, data, queryData);
 
-		DeepLink deepLink = deepLinkParser.parseDeepLink(data);
+		DeepLink deepLink = deepLinkParser.parseDeepLink(data, getBaseContext());
 
 		boolean finish;
 
@@ -235,9 +235,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		else if (deepLink instanceof HomeDeepLink) {
 			NavUtils.goToLaunchScreen(this, true);
 			finish = true;
-		}
-		else if (deepLink instanceof PackageDeepLink) {
-			handlePackageSearch((PackageDeepLink) deepLink);
+		} else if (deepLink instanceof PackageDeepLink) {
+			handleReplayPackage((PackageDeepLink) deepLink);
 			finish = true;
 		}
 		else if (deepLink instanceof RailDeepLink) {
@@ -402,6 +401,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private void handlePackageSearch(PackageDeepLink packageDeepLink) {
 		PackageNavUtils.goToPackages(this, null, null, 0);
+	}
+
+	private void handleReplayPackage(PackageDeepLink packageDeepLink) {
+		PackageNavUtils.goToPackagesForReplaySearch(this, null, null);
 	}
 
 	private void handleRailSearch(RailDeepLink deepLink) {
