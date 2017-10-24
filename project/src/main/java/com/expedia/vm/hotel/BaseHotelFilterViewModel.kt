@@ -246,7 +246,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     }
 
     protected open fun getDefaultSort(): DisplaySort {
-        return ProductFlavorFeatureConfiguration.getInstance().defaultSort
+        return DisplaySort.getDefaultSort()
     }
 
     private fun trackHotelFilterVIP(vipOnly: Boolean) {

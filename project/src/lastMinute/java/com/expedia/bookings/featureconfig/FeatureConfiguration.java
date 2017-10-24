@@ -13,7 +13,6 @@ import android.text.format.DateUtils;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.hotel.DisplaySort;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
@@ -242,34 +241,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public void launchAppIntroScreen(Context context) {
 		throw new UnsupportedOperationException("App intro not supported.");
-	}
-
-	public boolean shouldSendSiteIdInRequests() {
-		return false;
-	}
-
-	public String getPhoneCollectionId() {
-		return "PhoneDestinations";
-	}
-
-	public int getHotelDealImageDrawable() {
-		//No deal image
-		return 0;
-	}
-
-	public int getCollectionCount() {
-		// No need to hard code count
-		return 0;
-	}
-
-	@Override
-	public DisplaySort getDefaultSort() {
-		return DisplaySort.RECOMMENDED;
-	}
-
-	@Override
-	public boolean sortByDistanceForCurrentLocation() {
-		return true;
 	}
 
 	@Override

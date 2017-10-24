@@ -285,8 +285,7 @@ public class EndpointProvider {
 	}
 
 	public boolean requestRequiresSiteId() {
-		return ProductFlavorFeatureConfiguration.getInstance().shouldSendSiteIdInRequests() || (BuildConfig.DEBUG
-			&& getEndPoint() == EndPoint.PUBLIC_INTEGRATION);
+		return (BuildConfig.DEBUG && getEndPoint() == EndPoint.PUBLIC_INTEGRATION);
 	}
 
 }

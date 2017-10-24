@@ -26,21 +26,8 @@ class CollectionServices(endpoint: String, okHttpClient: OkHttpClient, intercept
         adapter.create(CollectionApi::class.java)
     }
 
-    // On tablet, we want to get all of the collections at once.
-    // TODO - implement "Your Search" and "Nearby Hotels" tile logic into this stream
-
-    fun getTabletCollections(twoLetterCountryCode: String, localeCode: String, observer: Observer<MutableList<Collection>>): Subscription {
-        return collectionApi.collections(twoLetterCountryCode, localeCode)
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .map { response -> response.collections }
-                .subscribe(observer)
-    }
-
-    // On tablet, we want to get only the phone collection and display it.
-
-    fun getPhoneCollection(phoneCollectionId: String, twoLetterCountryCode: String, localeCode: String, observer: Observer<Collection>): Subscription {
-        return collectionApi.phoneCollection(phoneCollectionId, twoLetterCountryCode, localeCode)
+    fun getPhoneCollection(twoLetterCountryCode: String, localeCode: String, observer: Observer<Collection>): Subscription {
+        return collectionApi.phoneCollection(twoLetterCountryCode, localeCode)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)

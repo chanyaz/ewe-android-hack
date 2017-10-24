@@ -79,7 +79,7 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
             addField(sb, context.getString(R.string.vip_only))
         }
 
-        if (searchOptions.userSort != ProductFlavorFeatureConfiguration.getInstance().defaultSort) {
+        if (searchOptions.userSort != DisplaySort.getDefaultSort()) {
             val sortBy = Phrase.from(context, R.string.hotel_sort_by_search_option_TEMPLATE)
                     .put("sortby", context.getString(searchOptions.userSort.resId))
                     .format()

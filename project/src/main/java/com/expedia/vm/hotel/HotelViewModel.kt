@@ -283,13 +283,8 @@ open class HotelViewModel(private val context: Context) {
 
     private fun getMobileExclusiveUrgencyMessage(): UrgencyMessage? {
         if (hotel.isDiscountRestrictedToCurrentSourceType) {
-            if (ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable == 0) {
-                return UrgencyMessage(R.drawable.mobile_exclusive, R.color.hotel_mobile_exclusive_color,
-                        resources.getString(R.string.mobile_exclusive))
-            } else {
-                return UrgencyMessage(ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable,
-                        R.color.hotel_mobile_exclusive_color, "")
-            }
+            return UrgencyMessage(R.drawable.mobile_exclusive, R.color.hotel_mobile_exclusive_color,
+                    resources.getString(R.string.mobile_exclusive))
         }
         return null
     }

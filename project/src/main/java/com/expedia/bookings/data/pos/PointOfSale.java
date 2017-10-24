@@ -236,7 +236,6 @@ public class PointOfSale {
 
 	private boolean isSWPEnabledForHotels;
 	private boolean isEarnMessageEnabledForHotels;
-	private boolean isEarnMessageEnabledForHotelsV2;
 	private boolean isEarnMessageEnabledForFlights;
 	private boolean isEarnMessageEnabledForPackages;
 
@@ -949,7 +948,7 @@ public class PointOfSale {
 	}
 
 	public boolean isEarnMessageEnabledForHotels() {
-		return isEarnMessageEnabledForHotels || isEarnMessageEnabledForHotelsV2;
+		return isEarnMessageEnabledForHotels;
 	}
 
 	public boolean isEarnMessageEnabledForFlights() {
@@ -1403,7 +1402,6 @@ public class PointOfSale {
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
 		pos.isEarnMessageEnabledForPackages = data.optBoolean("earnMessageEnabled:packages", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
-		pos.isEarnMessageEnabledForHotelsV2 = data.optBoolean("earnMessageEnabledV2:hotels", false);
 		pos.shouldUseWebViewSyncCookieStore = data.optBoolean("shouldUseWebViewSyncCookieStore", false);
 		pos.shouldShowWebCheckout = data.optBoolean("shouldShowWebCheckout", false);
 		pos.abTestHotelsWebCheckout = data.optBoolean("abTestHotelsWebCheckout", false);

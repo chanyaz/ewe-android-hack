@@ -5,6 +5,7 @@ import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -189,7 +190,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         searchBuilder.hotelName(searchOptions.name)
         searchBuilder.starRatings(searchOptions.hotelStarRating.getStarRatingParamsAsList())
         searchBuilder.vipOnly(searchOptions.isVipOnlyAccess)
-        if (searchOptions.userSort != ProductFlavorFeatureConfiguration.getInstance().defaultSort) {
+        if (searchOptions.userSort != DisplaySort.getDefaultSort()) {
             searchBuilder.userSort(searchOptions.userSort.toServerSort())
         } else {
             searchBuilder.clearUserSort()

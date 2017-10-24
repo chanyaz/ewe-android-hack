@@ -6,7 +6,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import java.util.ArrayList
 import java.util.HashSet
 
-data class UserFilterChoices(var userSort: DisplaySort = ProductFlavorFeatureConfiguration.getInstance().defaultSort,
+data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultSort(),
                              var isVipOnlyAccess: Boolean = false,
                              var hotelStarRating: StarRatings = StarRatings(),
                              var name: String = "",

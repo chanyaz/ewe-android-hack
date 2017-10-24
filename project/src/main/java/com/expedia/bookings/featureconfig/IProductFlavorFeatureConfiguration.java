@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import android.content.Context;
 import android.view.View;
 
-import com.expedia.bookings.data.hotel.DisplaySort;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -86,14 +85,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	void launchAppIntroScreen(Context context);
 
-	boolean shouldSendSiteIdInRequests();
-
-	String getPhoneCollectionId();
-
-	int getHotelDealImageDrawable();
-
-	int getCollectionCount();
-
 	boolean isLOBIconCenterAligned();
 
 	//return 0 if logo is not required on launch screen
@@ -102,9 +93,6 @@ public interface IProductFlavorFeatureConfiguration {
 	int updatePOSSpecificActionBarLogo();
 
 	String getPOSSpecificBrandName(Context context);
-	DisplaySort getDefaultSort();
-
-	boolean sortByDistanceForCurrentLocation();
 
 	boolean isFacebookTrackingEnabled();
 

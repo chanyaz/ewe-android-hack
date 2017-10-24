@@ -245,9 +245,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         val country = PointOfSale.getPointOfSale().twoLetterCountryCode.toLowerCase(Locale.US)
         val localeCode = PointOfSale.getPointOfSale().localeIdentifier
         launchDataTimeStamp = null
-        downloadSubscription = collectionServices.getPhoneCollection(
-                ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
-                collectionDownloadListener)
+        downloadSubscription = collectionServices.getPhoneCollection(country, localeCode, collectionDownloadListener)
     }
 
     private fun adjustLobViewHeight() {
@@ -441,8 +439,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         override fun onError(e: Throwable) {
             Log.d(TAG, "Error downloading locale/POS specific Collections. Kicking off default download.")
             val country = PointOfSale.getPointOfSale().twoLetterCountryCode.toLowerCase(Locale.US)
-            downloadSubscription = collectionServices.getPhoneCollection(ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country,
-                    "default", getCollectionObserver())
+            downloadSubscription = collectionServices.getPhoneCollection(country, "default", getCollectionObserver())
         }
 
         override fun onNext(collection: Collection) {

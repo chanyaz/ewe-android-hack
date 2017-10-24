@@ -12,7 +12,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -301,8 +300,7 @@ public class HotelFilter implements JSONable {
 		mSearchRadius = SearchRadius.valueOf(obj.optString("searchRadius", SearchRadius.ALL.toString()));
 		mMinStarRating = obj.optDouble("minStarRating", 0);
 		mHotelName = obj.optString("hotelName", null);
-		mSort = Sort.valueOf(
-			obj.optString("sort", ProductFlavorFeatureConfiguration.getInstance().getDefaultSort().toString()));
+		mSort = Sort.valueOf(obj.optString("sort", Sort.RECOMMENDED.toString()));
 		mVipAccessOnly = obj.optBoolean("vipAccess", false);
 		if (obj.has("neighborhoods")) {
 			JSONArray neighborhoods = obj.optJSONArray("neighborhoods");

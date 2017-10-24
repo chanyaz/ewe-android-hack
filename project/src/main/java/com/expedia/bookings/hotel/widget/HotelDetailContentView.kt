@@ -274,10 +274,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.taxFeeDescriptorObservable.subscribeText(taxFeeDescriptor)
         vm.taxFeeDescriptorVisibilityObservable.subscribeVisibility(taxFeeDescriptor)
 
-        vm.promoImageObservable.subscribe { promoImage ->
-            promoMessage.setCompoundDrawablesWithIntrinsicBounds(promoImage, 0, 0, 0)
-        }
-
         vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
 
         vm.hasETPObservable.subscribeVisibility(etpInfoText)

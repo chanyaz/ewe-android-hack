@@ -408,62 +408,6 @@ class HotelDetailViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.SAMSUNG))
-    fun testPromoImageForMobileExclusiveShown() {
-        setMemberDeal(false, false)
-        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = true
-        offer1.hotelRoomResponse[0].currentAllotment = "8"
-        offer1.hotelRoomResponse[0].isSameDayDRR = false
-        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
-        assertEquals(ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable, vm.promoImageObservable.value)
-    }
-
-    @Test fun testPromoImageForMemberDealNotShown() {
-        setMemberDeal(true, true)
-        offer1.hotelRoomResponse[0].currentAllotment = "8"
-        offer1.hotelRoomResponse[0].isSameDayDRR = false
-        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = false
-        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
-        assertEquals(0, vm.promoImageObservable.value)
-    }
-
-    @Test fun testPromoImageForRoomLeftNotShown() {
-        setMemberDeal(false, false)
-        offer1.hotelRoomResponse[0].currentAllotment = "2"
-        offer1.hotelRoomResponse[0].isSameDayDRR = false
-        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = false
-        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
-        assertEquals(0, vm.promoImageObservable.value)
-    }
-
-    @Test fun testPromoImageForAllDealsNotShown() {
-        setMemberDeal(false, false)
-        offer1.hotelRoomResponse[0].currentAllotment = "2"
-        offer1.hotelRoomResponse[0].isSameDayDRR = true
-        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = true
-        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
-        assertEquals(0, vm.promoImageObservable.value)
-    }
-
-    @Test fun testPromoImageForTonightOnlyNotShown() {
-        setMemberDeal(false, false)
-        offer1.hotelRoomResponse[0].isSameDayDRR = true
-        offer1.hotelRoomResponse[0].currentAllotment = "10"
-        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = false
-        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
-        assertEquals(0, vm.promoImageObservable.value)
-    }
-
-    @Test fun testPromoImageForNoDealsNotShown() {
-        setMemberDeal(false, false)
-        offer1.hotelRoomResponse[0].currentAllotment = "8"
-        offer1.hotelRoomResponse[0].isSameDayDRR = false
-        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = false
-        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
-        assertEquals(0, vm.promoImageObservable.value)
-    }
-
-    @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun priceShownToCustomerIncludesCustomerFees() {
         vm.hotelOffersSubject.onNext(offer2)
