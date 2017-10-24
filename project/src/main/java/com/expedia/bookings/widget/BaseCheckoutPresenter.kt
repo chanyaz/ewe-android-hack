@@ -30,14 +30,7 @@ import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.TravelerManager
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.UserAccountRefresher
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMaterialFormsEnabled
-import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.Optional
@@ -239,6 +232,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                     AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.progress_dialog_container), 0)
                     createTripDialog.findViewById<View>(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
                     createTripDialog.findViewById<TextView>(R.id.fetching_your_bookmark_tv).text = "Almost done!"
+                    DeeplinkSharedPrefParserUtils.isDeeplink = false
                     announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
                 }
             } else {
