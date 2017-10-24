@@ -38,7 +38,7 @@
         android:orientation="horizontal"
         android:visibility="invisible">
     <Button
-        android:id="@+id/search_btn"
+        android:id="@+id/search_btn_hack"
         android:background="@drawable/custom_shape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:minWidth="0dp" />
 
     <Button
-        android:id="@+id/search_btn2"
+        android:id="@+id/search_btn_hack2"
         android:background="@drawable/custom_shape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
         android:minWidth="0dp"/>
 
     <Button
-        android:id="@+id/search_btn3"
+        android:id="@+id/search_btn_hack3"
         android:background="@drawable/custom_shape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

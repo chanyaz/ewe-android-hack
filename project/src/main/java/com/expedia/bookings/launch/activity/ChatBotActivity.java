@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -40,6 +41,9 @@ public class ChatBotActivity extends AppCompatActivity {
     private EditText mEditTextMessage;
     private ImageView mImageView;
     private ChatMessageAdapter mAdapter;
+    private Button mNearMeButton;
+    private Button mMostPopularActivitiesButton;
+    private Button mSortByPriceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,9 @@ public class ChatBotActivity extends AppCompatActivity {
         mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
         mEditTextMessage = (EditText) findViewById(R.id.et_message);
         mImageView = (ImageView) findViewById(R.id.iv_image);
+        mNearMeButton = (Button) findViewById(R.id.search_btn_hack);
+        mMostPopularActivitiesButton = (Button) findViewById(R.id.search_btn_hack2);
+        mSortByPriceButton = (Button) findViewById(R.id.search_btn_hack3);
         mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>());
         mAdapter.add(new ChatMessage("Hi Silvy", false, false));
         mAdapter.add(new ChatMessage("The day will be rainy today. Would ", false, false));
@@ -79,11 +86,18 @@ public class ChatBotActivity extends AppCompatActivity {
         String reply;
         switch (message)
         {
-            case "hello":
-                reply = "";
+            case "yes":
+                reply = "Here are the Expedia recommended things to do for you.";
+                mSortByPriceButton.setVisibility(View.VISIBLE);
+                mMostPopularActivitiesButton.setVisibility(View.VISIBLE);
+                mNearMeButton.setVisibility(View.VISIBLE);
+
+
                 break;
+            case "no":
+                reply = "Sure. Have a nice day. We hope you enjoy your activity.";
             default:
-                reply = "Sorry, I could not understand what you said";
+                reply = "Sorry, We could not understand what you said";
         }
         ChatMessage chatMessage = new ChatMessage(reply, false, false);
         mAdapter.add(chatMessage);
