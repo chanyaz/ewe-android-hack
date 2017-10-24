@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.google.gson.Gson
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import java.util.*
 
 class HotelFavoriteCache {
     companion object {
@@ -159,6 +162,80 @@ class HotelFavoriteCache {
             } else {
                 return null
             }
+        }
+
+        fun getPastDataWithMock(context: Context, hotelId: String): HotelPastData? {
+            val pastData = getPastData(context, hotelId)
+            if (pastData == null || pastData.rates.count() == 0) {
+                return null
+            }
+
+            val cachedFavorite = getFavoriteHotelData(context, hotelId)
+            if (cachedFavorite == null) {
+                return null
+            }
+
+            val numDays = 7
+
+            val baseRate = cachedFavorite.rate
+            val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
+            val baseDate = dtf.parseLocalDate(pastData.rates.last().date)
+            val mockRates = ArrayList<PastRate>()
+            when (hotelId.hashCode() % 4) {
+                0 -> {
+                    // flat rate
+                    for (i in 1..numDays) {
+                        val mockRate = PastRate(baseRate.amount, baseDate.plusDays(-i).toString("yyyy-MM-dd"))
+                        mockRates.add(mockRate)
+                    }
+                }
+                1 -> {
+                    // price increase to current
+                    val random = Random()
+                    for (i in 1..numDays) {
+                        val delta = 1 - (numDays - i + 1) * random.nextInt(5) / 100.0f
+                        val mockRate = PastRate(delta * baseRate.amount, baseDate.plusDays(-i).toString("yyyy-MM-dd"))
+                        mockRates.add(mockRate)
+                    }
+                }
+                2 -> {
+                    // price decrease to current
+                    val random = Random()
+                    for (i in 1..numDays) {
+                        val delta = 1 + (numDays - i + 1) * random.nextInt(5) / 100.0f
+                        val mockRate = PastRate(delta * baseRate.amount, baseDate.plusDays(-i).toString("yyyy-MM-dd"))
+                        mockRates.add(mockRate)
+                    }
+                }
+                else -> {
+                    // fluctuate
+                    val random = Random()
+                    for (i in 1..numDays) {
+                        val delta = 1 + random.nextInt(20) / 100.0f - 0.1f
+                        val mockRate = PastRate(delta * baseRate.amount, baseDate.plusDays(-i).toString("yyyy-MM-dd"))
+                        mockRates.add(mockRate)
+                    }
+                 }
+            }
+
+            if (cachedFavorite?.oldRate != null) {
+                val previousRate = mockRates[numDays - 2]
+                mockRates[numDays - 2] = PastRate(cachedFavorite.oldRate.amount, previousRate.date)
+            }
+            mockRates[numDays - 1] = PastRate(baseRate.amount, baseDate.toString("yyyy-MM-dd"))
+
+            val mockPastData = HotelPastData(pastData.hotelId, pastData.hotelName, pastData.currency, mockRates)
+
+            val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+            val editor = settings.edit()
+
+            val jsonPastData = gson.toJson(mockPastData)
+
+            editor.putString(getPastDataKey(pastData.hotelId), jsonPastData)
+
+            editor.apply()
+
+            return mockPastData
         }
 
         private fun saveFavorites(context: Context, favorites: List<String>) {
