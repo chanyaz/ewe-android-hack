@@ -295,7 +295,7 @@ class HotelFavoriteCache {
         }
 
         fun isSamePrice() : Boolean {
-            if (oldRate == null) return false
+            if (oldRate == null) return true
             return rate.getAmountAsInt() == oldRate.getAmountAsInt()
         }
     }

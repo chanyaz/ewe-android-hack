@@ -5,10 +5,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-
+import com.expedia.bookings.R
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder
