@@ -1,5 +1,6 @@
 package com.expedia.bookings.launch.activity;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -41,9 +42,6 @@ public class ChatBotActivity extends AppCompatActivity {
     private EditText mEditTextMessage;
     private ImageView mImageView;
     private ChatMessageAdapter mAdapter;
-    private Button mNearMeButton;
-    private Button mMostPopularActivitiesButton;
-    private Button mSortByPriceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +51,11 @@ public class ChatBotActivity extends AppCompatActivity {
         mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
         mEditTextMessage = (EditText) findViewById(R.id.et_message);
         mImageView = (ImageView) findViewById(R.id.iv_image);
-        mNearMeButton = (Button) findViewById(R.id.search_btn_hack);
-        mMostPopularActivitiesButton = (Button) findViewById(R.id.search_btn_hack2);
-        mSortByPriceButton = (Button) findViewById(R.id.search_btn_hack3);
         mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>());
         mAdapter.add(new ChatMessage("Hi Silvy", false, false));
-        mAdapter.add(new ChatMessage("The day will be rainy today. Would ", false, false));
-        mAdapter.add(new ChatMessage("", false, true));
-        mAdapter.add(new ChatMessage("Here are the Expedia Recomended Things to Do in this weather", false, false));
+        mAdapter.add(new ChatMessage("The day will be rainy today." + System.getProperty("line.separator") +
+                "Would you like to find some Things to Do in this weather.", false, false));
+        mAdapter.add(new ChatMessage(String.valueOf(R.drawable.weather), false, true));
         mListView.setAdapter(mAdapter);
 
 //code for sending the message
@@ -78,7 +73,6 @@ public class ChatBotActivity extends AppCompatActivity {
     private void sendMessage(String message) {
         ChatMessage chatMessage = new ChatMessage(message, true, false);
         mAdapter.add(chatMessage);
-        //respond as Helloworld
         mimicOtherMessage(chatMessage.getContent());
     }
 
@@ -86,21 +80,23 @@ public class ChatBotActivity extends AppCompatActivity {
         String reply;
         switch (message)
         {
-            case "yes":
-                reply = "Here are the Expedia recommended things to do for you.";
-                mSortByPriceButton.setVisibility(View.VISIBLE);
-                mMostPopularActivitiesButton.setVisibility(View.VISIBLE);
-                mNearMeButton.setVisibility(View.VISIBLE);
-
-
-                break;
             case "no":
+            case "NO":
                 reply = "Sure. Have a nice day. We hope you enjoy your activity.";
+                Intent intent = new Intent(getApplicationContext(), PhoneLaunchActivity.class);
+                intent.putExtra("ARG_FORCE_SHOW_WATERFALL", true);
+                startActivity(intent);
+                break;
+            case "yes":
+            case "YES":
+                reply = "Here are the Expedia recommended Things to Do for you.";
+                break;
             default:
-                reply = "Sorry, We could not understand what you said";
+                reply = "Sorry, We could not understand what you said.";
         }
         ChatMessage chatMessage = new ChatMessage(reply, false, false);
         mAdapter.add(chatMessage);
+
     }
 
     private void sendMessage() {
