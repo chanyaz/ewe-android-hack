@@ -26,7 +26,8 @@ class DeeplinkCreatorUtils() {
                         val searchParams = hotelSearchParams!!
                         deeplinkURL += "origin=" + searchParams.origin + "&originID=" + searchParams.originID + "&destination=" + searchParams.destination +
                                 "&destinationID=" + searchParams.destinationID + "&startDate=" + DATE_FORMATTER.print(searchParams.startDate) +
-                                "&endDate=" + DATE_FORMATTER.print(searchParams.endDate)
+                                "&endDate=" + DATE_FORMATTER.print(searchParams.endDate) + "&originAirportCode=" + searchParams.originAirportCode +
+                                "&destinationAirportCode=" + searchParams.destinationAirportCode
                     }
                     if (hotelSelectionParams !=null){
                         deeplinkURL+= "&hotelID=" + hotelSelectionParams!!.selectedHotelID
@@ -60,6 +61,8 @@ class HotelSearchParams {
     lateinit var endDate: LocalDate
     lateinit var originID: String
     lateinit var destinationID: String
+    lateinit var originAirportCode: String
+    lateinit var destinationAirportCode: String
 }
 
 class HotelSelectionParams {

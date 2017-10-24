@@ -118,6 +118,8 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         hotelSearchParams.destinationID = params.destinationId!!
         hotelSearchParams.endDate = params.endDate!!
         hotelSearchParams.startDate = params.startDate!!
+        hotelSearchParams.originAirportCode = params.originAirportID!!
+        hotelSearchParams.destinationAirportCode = params.destinationAirportID!!
         DeeplinkCreatorUtils.hotelSearchParams = hotelSearchParams
     }
 
