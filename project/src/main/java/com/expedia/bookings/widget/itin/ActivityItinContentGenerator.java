@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.MutableDateTime;
 
@@ -272,15 +273,16 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		String itinId = data.getId();
 
-		MutableDateTime trigger = data.getValidDate().toMutableDateTime();
+		MutableDateTime trigger = DateTime.now().toMutableDateTime();
+		DateTimeZone.setDefault(DateTimeZone.forOffsetHoursMinutes(5, 30));
 		trigger.setZoneRetainFields(DateTimeZone.getDefault());
 		trigger.setRounding(trigger.getChronology().minuteOfHour());
-		trigger.addDays(-1);
-		trigger.setHourOfDay(12);
+//		trigger.addDays(-1);
+		trigger.setHourOfDay(14);
 		long triggerTimeMillis = trigger.getMillis();
 
-		trigger.setHourOfDay(23);
-		trigger.setMinuteOfHour(59);
+		trigger.setHourOfDay(14);
+		trigger.setMinuteOfHour(05);
 		long expirationTimeMillis = trigger.getMillis();
 
 		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);

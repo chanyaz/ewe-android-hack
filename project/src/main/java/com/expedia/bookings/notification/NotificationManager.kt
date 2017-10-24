@@ -87,7 +87,7 @@ class NotificationManager(private val context: Context) {
     }
 
     /**
-     * Schedules all new or notified notifications.
+         * Schedules all new or notified notifications.
      */
     fun scheduleAll() {
         val notifications = Select()
