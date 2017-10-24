@@ -18,7 +18,6 @@ import com.expedia.bookings.data.payment.CampaignDetails
 import com.expedia.bookings.data.payment.ContributeResponse
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.AutoResizeTextView
 import com.expedia.bookings.widget.LXDetailSectionDataWidget
@@ -48,18 +47,19 @@ class MemberDealActivity : AppCompatActivity() {
         isDeeplink = intent.getBooleanExtra("isDeeplink", false)
 
         val tripId = intent.getStringExtra("tripid")
-        if (tripId == null && Db.getTripId()?.tripId != null) {
-            share()
-        }
         val toolBar = findViewById(R.id.mod_search_toolbar) as Toolbar
         toolBar.setNavigationOnClickListener { view ->
             onBackPressed()
         }
 
         val shopButton = findViewById(R.id.mod_shop_button) as Button
+        if (Db.getTripId()?.tripId == null) {
+            shopButton.visibility = View.GONE
+        }
         shopButton.setOnClickListener { view ->
-            LXNavUtils.goToActivities(this, null, 0)
-            OmnitureTracking.trackMemberPricingShop()
+            if (tripId == null && Db.getTripId()?.tripId != null) {
+                share()
+            }
         }
 
         container = findViewById(R.id.registry_card) as LinearLayout
@@ -181,7 +181,7 @@ class MemberDealActivity : AppCompatActivity() {
         for (donation in campaignDetails.donationList!!) {
             val donationView = LayoutInflater.from(this).inflate(R.layout.donation_row_view, null) as LinearLayout
             val by = donationView.findViewById<TextView>(R.id.donated_by)
-            val amount  = donationView.findViewById<TextView>(R.id.donated_amount)
+            val amount = donationView.findViewById<TextView>(R.id.donated_amount)
             by.text = donation.donorName
             amount.text = "$" + donation.amount
             view.addView(donationView)
