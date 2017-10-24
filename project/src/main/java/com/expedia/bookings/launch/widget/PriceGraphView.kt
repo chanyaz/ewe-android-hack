@@ -38,7 +38,7 @@ class PriceGraphView(context: Context, val attrs: AttributeSet) : FrameLayout(co
 //        setUpGraph(priceGraph)
     }
 
-    fun setData(data: HashMap<String, ArrayList<Float>>, startDate: LocalDate) {
+    fun setData(data: LinkedHashMap<String, ArrayList<Float>>, startDate: LocalDate) {
         priceGraphContainer.removeAllViews()
         if (data.count() <= 0) {
             return
@@ -62,6 +62,9 @@ class PriceGraphView(context: Context, val attrs: AttributeSet) : FrameLayout(co
 
             val lineDataSet = LineDataSet(prices, name)
             lineDataSet.valueTextSize = 11F
+            lineDataSet.setValueFormatter( { value, _, _, _ ->
+                "$" + Math.round(value)
+            })
 
             val color = lineColors[dataCount % lineColors.size]
             lineDataSet.setColor(color)

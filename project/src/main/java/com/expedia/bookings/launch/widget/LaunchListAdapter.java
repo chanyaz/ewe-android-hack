@@ -3,6 +3,7 @@ package com.expedia.bookings.launch.widget;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -216,7 +217,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder instanceof SignInPlaceholderCard) {
 			PriceGraphView priceGraphView = holder.itemView.findViewById(R.id.price_graph_view);
 
-			HashMap<String, ArrayList<Float>> data = new HashMap<>();
+			LinkedHashMap<String, ArrayList<Float>> data = new LinkedHashMap<>();
 
 			ArrayList<String> favoriteHotels = HotelFavoriteCache.Companion.getFavorites(context);
 			LocalDate date = new LocalDate();
