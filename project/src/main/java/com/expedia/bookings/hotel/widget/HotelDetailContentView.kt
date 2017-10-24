@@ -533,7 +533,6 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         val detail = HotelRoomDetailView(context, detailViewModel)
 
         detail.hotelRoomRowClickedSubject.subscribe {
-            addDeeplinkHotelRoomSelectionInformation(detail.viewModel.hotelRoomResponse)
             viewModel.roomSelectedSubject.onNext(detail.viewModel.hotelRoomResponse)
             viewModel.selectedRoomIndex = detail.viewModel.rowIndex
 
@@ -600,21 +599,24 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         viewModel.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
         roomContainer.startAnimation(fadeInRoomsAnimation)
 
-        selectDeelinkRoom(roomList)
+        selectDeeplinkRoom(context, roomList)
 
         //set focus on first room row for accessibility
         (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
     }
 
-    private fun selectDeelinkRoom(hotelRoomResponse: List<HotelOffersResponse.HotelRoomResponse>) {
+    private fun selectDeeplinkRoom(context: Context, hotelRoomResponse: List<HotelOffersResponse.HotelRoomResponse>) {
         val handler = Handler()
         val runnableCode = object : Runnable {
             override fun run() {
-                val givenRoomTypeCode = ""
-                val roomResponse = hotelRoomResponse.filter { it.roomTypeCode == givenRoomTypeCode }.firstOrNull()
-                if (roomResponse != null) {
-                    addDeeplinkHotelRoomSelectionInformation(roomResponse)
-                    viewModel.roomSelectedSubject.onNext(roomResponse)
+                val hotelRoomSelectionDeeplinkParams = DeeplinkSharedPrefParserUtils.getHotelRoomSelectionDeeplinkParams(context)
+                if (hotelRoomSelectionDeeplinkParams != null) {
+                    val givenRoomTypeCode = hotelRoomSelectionDeeplinkParams.selectedRoomTypeCode
+                    val roomResponse = hotelRoomResponse.filter { it.roomTypeCode == givenRoomTypeCode }.firstOrNull()
+                    if (roomResponse != null) {
+                        addDeeplinkHotelRoomSelectionInformation(roomResponse)
+                        viewModel.roomSelectedSubject.onNext(roomResponse)
+                    }
                 }
             }
         }
@@ -634,6 +636,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         }
         view.viewModel.roomSelectedObservable.subscribe { roomPair ->
             val (index, roomResponse) = roomPair
+            addDeeplinkHotelRoomSelectionInformation(roomResponse)
             viewModel.roomSelectedSubject.onNext(roomResponse)
             viewModel.selectedRoomIndex = index
         }
