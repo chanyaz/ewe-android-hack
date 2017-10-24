@@ -15,7 +15,6 @@ import com.expedia.bookings.data.trips.TcsRequestParams
 import com.expedia.bookings.data.trips.TcsResponse
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
-import com.expedia.bookings.services.EventbriteService
 import com.expedia.bookings.services.TripsHotelMapServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -106,10 +105,6 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     }
     var compositeSubscription: CompositeSubscription = CompositeSubscription()
 
-    private val ebService: EventbriteService by lazy {
-        EventbriteService(Schedulers.io(), AndroidSchedulers.mainThread())
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultTripComponents()
@@ -134,7 +129,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                         true),
                 poiObserver))
 
-        compositeSubscription.add(ebService.getEvents(EBRequestParams(
+        compositeSubscription.add(tripsHotelMapServices.getEvents(EBRequestParams(
                 itinCardDataHotel.propertyLocation.latitude,
                 itinCardDataHotel.propertyLocation.longitude,
                 "5mi",
