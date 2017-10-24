@@ -58,13 +58,11 @@
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">预订</string>
 
-    <!-- Cars -->
-    <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="date_time_range_TEMPLATE">{from_date_time}- {to_date_time}</string>
-    <!-- Cars Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
-    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time}- {to_date_time}</string>
-    <!-- Cars Calendar Strings -->
-    <!-- Slide to reserve -->
+    <!-- Date/Time Range e.g. May 5, 11:00am - May 10, 11:00am -->
+    <string name="date_time_range_TEMPLATE">{from_date_time}– {to_date_time}</string>
+    <!-- Date/Time Range content description, e.g. May 5, 11:00am to May 10, 11:00am -->
+    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time} 到 {to_date_time}</string>
+    <!-- Label for checkout button where user slides the button in order to reserve the activity -->
     <string name="lx_slide_to_reserve">滑动屏幕，开始预订</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_reserve_button">预订</string>
@@ -78,6 +76,7 @@
     <string name="price_changed_text">价格有变动</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">选择保存的联系人</string>
+
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">谷歌地图显示的活动地点</string>
 
@@ -85,7 +84,7 @@
     <string name="hotel_search_toolbar_title">酒店</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} - 选择回程日期</string>
-    <!-- Car search error -->
+    <!-- search error -->
     <string name="error_no_result_message">很抱歉，我们找不到任何结果。请使用不同的搜索组合，再试一次。</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">清除筛选条件</string>
@@ -97,7 +96,7 @@
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">筛选出 {number} 个结果</item>
-        <item quantity="other">筛选出 {number}个结果</item>
+        <item quantity="other">筛选出 {number} 个结果</item>
     </plurals>
 
     <!-- Checkout -->
@@ -105,7 +104,7 @@
     <string name="successful_checkout_TEMPLATE">行程编号 %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">缺少付款参数。</string>
-    <!-- Car confirmation itin text -->
+    <!-- confirmation itin text -->
     <string name="successful_checkout_email_label">行程单已发送至</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">输入新的借记卡或信用卡信息</string>
@@ -143,6 +142,7 @@
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">锁图标，安全付款</string>
 
+    <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
     <string name="error_date_too_far">日期距离太远了，请选择较近的日期。</string>
     <!-- Shown to user in case the reservation timed out -->
@@ -1405,6 +1405,50 @@
     <string name="itin_flight_summary_airport_name_code_TEMPLATE">{city} ({code})</string>
     <!--Flight itin summary widget operated by template. Operated by {operatedby} (e.g., Operated by Delta)-->
     <string name="itin_flight_summary_operated_by_TEMPLATE">由 {operatedby} 运营</string>
+    <!-- Flight itin summary widget terminal template. Terminal {terminal} (e.g., Terminal 1)-->
+    <string name="itin_flight_summary_terminal_TEMPLATE">航站楼 {terminal}</string>
+    <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
+    <string name="itin_flight_summary_gate_TEMPLATE">登机口 {gate}</string>
+    <!-- displayed when seats aren't selectable -->
+    <string name="seat_selection_not_available">不可选择座位</string>
+    <!-- displayed when seats are selectable -->
+    <string name="confirm_seat_selection">与航空公司确认或变更座位</string>
+    <!-- displayed when seats can be selected but have not yet -->
+    <string name="select_seat_prompt">未选择座位</string>
+    <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
+    <string name="itin_flight_summary_arrives_on_TEMPLATE">到达时间：{date}</string>
+    <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
+    <string name="itin_flight_layover_TEMPLATE">中途停留 {layover}</string>
+
+    <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
+    <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} 天 {hours} 小时 {minutes} 分钟</string>
+    <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
+    <string name="flight_duration_days_hours_TEMPLATE">{days} 天 {hours} 小时</string>
+    <!-- Flight duration format template for days minutes. {days}d {minutes}m (e.g., 1d 4m) -->
+    <string name="flight_duration_days_minutes_TEMPLATE">{days} 天 {minutes} 分钟</string>
+    <!-- Flight duration format template for days. {days}d (e.g., 1d) -->
+    <string name="flight_duration_days_TEMPLATE">{days} 天</string>
+    <!-- Flight duration format template for hours minutes. {hours}h {minutes}m (e.g., 4h 25m) -->
+    <string name="flight_duration_hours_minutes_TEMPLATE">{hours} 小时 {minutes} 分钟</string>
+    <!-- Flight duration format template for hours. {hours}h (e.g., 5h) -->
+    <string name="flight_duration_hours_TEMPLATE">{hours} 小时</string>
+    <!-- Flight duration format template for minutes. {minutes}m (e.g., 25m) -->
+    <string name="flight_duration_minutes_TEMPLATE">{minutes} 分钟</string>
+
+    <!-- Flight duration format cont desc template for days hours minutes. {days} day {hours} hour {minutes} minutes (e.g., 1 day 4 hour 25 minutes) -->
+    <string name="flight_duration_days_hours_minutes_cont_desc_TEMPLATE">{days} 天 {hours} 小时 {minutes} 分钟</string>
+    <!-- Flight duration format cont desc template for days hours. {days} day {hours} hour (e.g., 1 day 4 hour) -->
+    <string name="flight_duration_days_hours_cont_desc_TEMPLATE">{days} 天 {hours} 小时</string>
+    <!-- Flight duration format cont desc template for days minutes. {days} day {minutes} minutes (e.g., 1 day 4 minutes) -->
+    <string name="flight_duration_days_minutes_cont_desc_TEMPLATE">{days} 天 {minutes} 分钟</string>
+    <!-- Flight duration format cont desc template for days. {days} day (e.g., 1 day) -->
+    <string name="flight_duration_days_cont_desc_TEMPLATE">{days} 天</string>
+    <!-- Flight duration format cont desc template for hours minutes. {hours} hour {minutes} minutes (e.g., 4 hour 25 minutes) -->
+    <string name="flight_duration_hours_minutes_cont_desc_TEMPLATE">{hours} 小时 {minutes} 分钟</string>
+    <!-- Flight duration format cont desc template for hours. {hours} hour (e.g., 5 hour) -->
+    <string name="flight_duration_hours_cont_desc_TEMPLATE">{hours} 小时</string>
+    <!-- Flight duration format cont desc template for minutes. {minutes} minutes (e.g., 25 minutes) -->
+    <string name="flight_duration_minutes_cont_desc_TEMPLATE">{minutes} 分钟</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">入住 - 3 天</string>
@@ -1968,7 +2012,7 @@
     <!--Address Province hint-->
     <string name="address_province_hint">省/市/自治区</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">县/州/省（可选）</string>
+    <string name="address_county_hint">县（可选）</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -3778,6 +3822,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">显示飞往{city}的去程航班</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">选择飞往%1$s的航班</string>
+    <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
+    <string name="package_flight_outbound_toolbar_title_TEMPLATE">飞往{cityname}，{stateorcountry}（{airportcode}）</string>
     <!-- Flight to template -->
     <string name="flight_to">飞往%1$s的航班</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3788,6 +3834,8 @@
     <string name="select_return_flight">选择回程航班</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">飞往%1$s的航班</string>
+    <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
+    <string name="package_flight_inbound_toolbar_title_TEMPLATE">返回{cityname}，{stateorcountry}（{airportcode}）</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}，{travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4614,6 +4662,8 @@
     <string name="flight_itin_confirmation_status_label">确认代码</string>
     <string name="flight_itin_cancelled_status_label">已取消</string>
     <string name="flight_itin_in_progress_status_label">正在出票</string>
+    <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
+    <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">由于您预订了机票，同时预订{city}精选酒店可享优惠</string>
 
 
 </resources>

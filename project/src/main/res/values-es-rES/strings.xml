@@ -58,13 +58,11 @@
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Comprar</string>
 
-    <!-- Cars -->
-    <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
+    <!-- Date/Time Range e.g. May 5, 11:00am - May 10, 11:00am -->
     <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
-    <!-- Cars Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <!-- Date/Time Range content description, e.g. May 5, 11:00am to May 10, 11:00am -->
     <string name="date_time_range_cont_desc_TEMPLATE">De {from_date_time} a {to_date_time}</string>
-    <!-- Cars Calendar Strings -->
-    <!-- Slide to reserve -->
+    <!-- Label for checkout button where user slides the button in order to reserve the activity -->
     <string name="lx_slide_to_reserve">Desliza para reservar</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_reserve_button">Reservar</string>
@@ -78,6 +76,7 @@
     <string name="price_changed_text">El precio ha cambiado</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Seleccionar de la lista de contactos</string>
+
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">Ubicación de la actividad usando la vista de mapa de Google</string>
 
@@ -85,7 +84,7 @@
     <string name="hotel_search_toolbar_title">Hoteles</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} – Selecciona la fecha de vuelta</string>
-    <!-- Car search error -->
+    <!-- search error -->
     <string name="error_no_result_message">No hemos encontrado ningún resultado. Cambia los criterios de búsqueda y vuelve a intentarlo.</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Eliminar filtros</string>
@@ -105,7 +104,7 @@
     <string name="successful_checkout_TEMPLATE">Nº de itinerario: %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">Faltan los parámetros de salida.</string>
-    <!-- Car confirmation itin text -->
+    <!-- confirmation itin text -->
     <string name="successful_checkout_email_label">Itinerario enviado a</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">Introduce la nueva tarjeta de débito o crédito</string>
@@ -143,6 +142,7 @@
     <!--Accessibility content description for lock icon on checkout. -->
     <string name="secure_lock_accessibility">Icono de un candado, pago seguro</string>
 
+    <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
     <string name="error_date_too_far">La fecha está demasiado lejana en el tiempo, elige otra más cercana.</string>
     <!-- Shown to user in case the reservation timed out -->
@@ -1405,6 +1405,50 @@
     <string name="itin_flight_summary_airport_name_code_TEMPLATE">{city} ({code})</string>
     <!--Flight itin summary widget operated by template. Operated by {operatedby} (e.g., Operated by Delta)-->
     <string name="itin_flight_summary_operated_by_TEMPLATE">Operado por {operatedby}</string>
+    <!-- Flight itin summary widget terminal template. Terminal {terminal} (e.g., Terminal 1)-->
+    <string name="itin_flight_summary_terminal_TEMPLATE">Terminal {terminal}</string>
+    <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
+    <string name="itin_flight_summary_gate_TEMPLATE">Puerta {gate}</string>
+    <!-- displayed when seats aren't selectable -->
+    <string name="seat_selection_not_available">Selección de asientos no disponible</string>
+    <!-- displayed when seats are selectable -->
+    <string name="confirm_seat_selection">Confirma o modifica el asiento con la aerolínea</string>
+    <!-- displayed when seats can be selected but have not yet -->
+    <string name="select_seat_prompt">No se ha seleccionado ningún asiento</string>
+    <!--Flight itin summary widget redeye arrives on (e.g., Arrives on Thu, Oct 19)-->
+    <string name="itin_flight_summary_arrives_on_TEMPLATE">Llega el {date}</string>
+    <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
+    <string name="itin_flight_layover_TEMPLATE">Escala de {layover}</string>
+
+    <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
+    <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} d {hours} h {minutes} min</string>
+    <!-- Flight duration format template for days hours. {days}d {hours}h (e.g., 1d 4h) -->
+    <string name="flight_duration_days_hours_TEMPLATE">{days} d {hours} h</string>
+    <!-- Flight duration format template for days minutes. {days}d {minutes}m (e.g., 1d 4m) -->
+    <string name="flight_duration_days_minutes_TEMPLATE">{days} d {minutes} min</string>
+    <!-- Flight duration format template for days. {days}d (e.g., 1d) -->
+    <string name="flight_duration_days_TEMPLATE">{days} d</string>
+    <!-- Flight duration format template for hours minutes. {hours}h {minutes}m (e.g., 4h 25m) -->
+    <string name="flight_duration_hours_minutes_TEMPLATE">{hours} h {minutes} min</string>
+    <!-- Flight duration format template for hours. {hours}h (e.g., 5h) -->
+    <string name="flight_duration_hours_TEMPLATE">{hours} h</string>
+    <!-- Flight duration format template for minutes. {minutes}m (e.g., 25m) -->
+    <string name="flight_duration_minutes_TEMPLATE">{minutes} min</string>
+
+    <!-- Flight duration format cont desc template for days hours minutes. {days} day {hours} hour {minutes} minutes (e.g., 1 day 4 hour 25 minutes) -->
+    <string name="flight_duration_days_hours_minutes_cont_desc_TEMPLATE">{days} día {hours} hora y {minutes} minutos</string>
+    <!-- Flight duration format cont desc template for days hours. {days} day {hours} hour (e.g., 1 day 4 hour) -->
+    <string name="flight_duration_days_hours_cont_desc_TEMPLATE">{days} día {hours} hora</string>
+    <!-- Flight duration format cont desc template for days minutes. {days} day {minutes} minutes (e.g., 1 day 4 minutes) -->
+    <string name="flight_duration_days_minutes_cont_desc_TEMPLATE">{days} día {minutes} minutos</string>
+    <!-- Flight duration format cont desc template for days. {days} day (e.g., 1 day) -->
+    <string name="flight_duration_days_cont_desc_TEMPLATE">{days} día</string>
+    <!-- Flight duration format cont desc template for hours minutes. {hours} hour {minutes} minutes (e.g., 4 hour 25 minutes) -->
+    <string name="flight_duration_hours_minutes_cont_desc_TEMPLATE">{hours} hora y {minutes} minutos</string>
+    <!-- Flight duration format cont desc template for hours. {hours} hour (e.g., 5 hour) -->
+    <string name="flight_duration_hours_cont_desc_TEMPLATE">{hours} hora</string>
+    <!-- Flight duration format cont desc template for minutes. {minutes} minutes (e.g., 25 minutes) -->
+    <string name="flight_duration_minutes_cont_desc_TEMPLATE">{minutes} minutos</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Entrada dentro de 3 días</string>
@@ -3778,6 +3822,8 @@
     <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Mostrando vuelos de ida a {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Seleccionar vuelo a %1$s</string>
+    <!-- Outbound to template, E.g. Outbound to Delhi, India (DEL) -->
+    <string name="package_flight_outbound_toolbar_title_TEMPLATE">Ida a {cityname}, {stateorcountry} ({airportcode})</string>
     <!-- Flight to template -->
     <string name="flight_to">Vuelo a %1$s</string>
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
@@ -3788,6 +3834,8 @@
     <string name="select_return_flight">Seleccionar vuelo de vuelta</string>
     <!-- Flight overview - flight to template -->
     <string name="flight_to_template">Vuelo a %1$s</string>
+    <!-- Inbound to template, E.g. Inbound to Kathmandu, Nepal (KTM) -->
+    <string name="package_flight_inbound_toolbar_title_TEMPLATE">Vuelta a {cityname}{stateorcountry}{airportcode}</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
@@ -4614,6 +4662,8 @@
     <string name="flight_itin_confirmation_status_label">Confirmación</string>
     <string name="flight_itin_cancelled_status_label">Cancelado</string>
     <string name="flight_itin_in_progress_status_label">Emisión de billetes en curso</string>
+    <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
+    <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Ahora que has reservado tu vuelo, ahorra en hoteles seleccionados de {city}</string>
 
 
 </resources>
