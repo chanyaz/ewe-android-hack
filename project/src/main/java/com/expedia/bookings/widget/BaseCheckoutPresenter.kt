@@ -235,9 +235,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             if (show) {
                 if (!createTripDialog.isShowing) {
                     createTripDialog.show()
-                    createTripDialog.setContentView(R.layout.process_dialog_layout)
+                    createTripDialog.setContentView(R.layout.processing_bookmark_layout)
                     AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.progress_dialog_container), 0)
                     createTripDialog.findViewById<View>(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
+                    createTripDialog.findViewById<TextView>(R.id.fetching_your_bookmark_tv).text = "Almost done!"
                     announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
                 }
             } else {

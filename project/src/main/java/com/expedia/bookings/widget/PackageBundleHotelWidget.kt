@@ -146,6 +146,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         val activity = context as Activity
         activity.startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
         activity.overridePendingTransition(0, 0)
+        viewModel.showBookmarkedLoadingState.onNext(true)
     }
 
     fun expandSelectedHotel() {
