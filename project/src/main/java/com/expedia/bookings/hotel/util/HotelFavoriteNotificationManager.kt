@@ -4,10 +4,9 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import com.expedia.bookings.R
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder
@@ -60,13 +59,13 @@ class HotelFavoriteNotificationManager {
 
             if (checkIn != null && checkOut != null) {
                 val params = HotelIntentBuilder().buildParams(context, checkIn, checkOut, hotelId)
-                val extras = Bundle()
-                val gson = HotelsV2DataUtil.generateGson()
-                extras.putString(HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(params))
-                extras.putBoolean(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
+
                 val intent = Intent()
+                val gson = HotelsV2DataUtil.generateGson()
+                intent.putExtra(HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(params))
+                intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
+
                 intent.setClass(context, HotelActivity::class.java)
-                intent.putExtras(extras)
                 return intent
             }
             return null
