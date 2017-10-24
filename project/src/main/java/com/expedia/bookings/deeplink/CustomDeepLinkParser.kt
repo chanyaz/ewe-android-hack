@@ -3,19 +3,14 @@ package com.expedia.bookings.deeplink
 import android.content.Context
 import android.content.res.AssetManager
 import android.net.Uri
-import com.expedia.bookings.data.Bookmark
 import com.expedia.bookings.data.ChildTraveler
-import com.expedia.bookings.utils.HotelRoomSelectionParams
-import com.expedia.bookings.utils.HotelSelectionParams
-import com.expedia.bookings.utils.HotelSearchParams
+import com.expedia.bookings.utils.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mobiata.android.Log
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
-import java.util.ArrayList
-import java.util.Arrays
-import java.util.Locale
+import java.util.*
 import java.util.regex.Pattern
 
 class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
@@ -39,7 +34,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
             "packagesearch" -> return parsePackagesSearchCustomDeepLink(data)
             "railsearch" -> return parseRailSearchCustomDeepLink(data)
             "flightshare" -> return parseFlightShareCustomDeepLink(data)
-            "replayPackages" -> return parsePackagesReplayCustomDeepLink(data, context)
+            "replaypackages" -> return parsePackagesReplayCustomDeepLink(data, context)
             else -> return HomeDeepLink()
         }
     }
@@ -197,8 +192,8 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
         hotelSearchParams.destination = getQueryParameterIfExists(data, queryParameterNames, "destination")?: ""
         hotelSearchParams.originID = getQueryParameterIfExists(data, queryParameterNames, "originID")?: ""
         hotelSearchParams.destinationID = getQueryParameterIfExists(data, queryParameterNames, "destinationID")?: ""
-        hotelSearchParams.startDate = LocalDate(getQueryParameterIfExists(data, queryParameterNames, "startDate")?: "")
-        hotelSearchParams.endDate = LocalDate(getQueryParameterIfExists(data, queryParameterNames, "endDate")?: "")
+        hotelSearchParams.startDate = DeeplinkCreatorUtils.DATE_FORMATTER.parseLocalDate(getQueryParameterIfExists(data, queryParameterNames, "startDate")?: "")
+        hotelSearchParams.endDate = DeeplinkCreatorUtils.DATE_FORMATTER.parseLocalDate(getQueryParameterIfExists(data, queryParameterNames, "endDate")?: "")
 
         DeeplinkSharedPrefParserUtils.saveHotelSearchDeeplinkParams(hotelSearchParams, context)
 
