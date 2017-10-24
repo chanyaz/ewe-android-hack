@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -155,6 +156,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         // return trip flights
         confirmedInboundFlightSelection.subscribe {
             addInBoundFlightDeepLinkParams(it)
+//            DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.FLIGHTS)
             val inboundLegId = it.legId
             val outboundLegId = confirmedOutboundFlightSelection.value.legId
             selectFlightOffer(outboundLegId, inboundLegId)

@@ -47,7 +47,7 @@ class DeeplinkCreatorUtils() {
                     if (flightSearchParams != null) {
                         val searchParams = flightSearchParams!!
                         deeplinkURL += "origin=" + searchParams.origin + "&destination=" + searchParams.destination + "&startDate=" + DATE_FORMATTER.print(searchParams.startDate) +
-                                "&endDate=" + DATE_FORMATTER.print(searchParams.endDate) + "&cabin=" + searchParams.cabinClass + "&traveler" + searchParams.noOfTravelers
+                                "&endDate=" + DATE_FORMATTER.print(searchParams.endDate) + "&cabin=" + searchParams.cabinClass + "&traveler=" + searchParams.noOfTravelers
                     }
                     if (flightOutboundParams != null) {
                         deeplinkURL += "&outboundCount=" + flightOutboundParams!!.size
@@ -59,7 +59,7 @@ class DeeplinkCreatorUtils() {
                     }
 
                     if (flightInboundParams != null) {
-                        deeplinkURL += "&inboundCount=" + flightOutboundParams!!.size
+                        deeplinkURL += "&inboundCount=" + flightInboundParams!!.size
                         var count = 0
                         flightInboundParams!!.forEach { it ->
                             deeplinkURL += "&inbound_flight_number_" +count +"=" +it.flightNumber +"&inbound_airlineCode_" +count +"=" +it.airlineCode
