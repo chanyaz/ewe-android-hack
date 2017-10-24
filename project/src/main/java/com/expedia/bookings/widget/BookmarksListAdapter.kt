@@ -35,7 +35,7 @@ class BookmarksListAdapter(val bookmarksList: ArrayList<Bookmark>) : RecyclerVie
 
         fun bindItems(bookmark: Bookmark) {
             titleTextView.text = bookmark.title
-            tripDateText.text = bookmark.dateOfTrip.toString()
+            tripDateText.text = bookmark.startDate.toString()
             numTravelersText.text = bookmark.numberOfGuests.toString()
             itemView.setOnClickListener {
                 Toast.makeText(itemView.context, bookmark.deeplinkURL, Toast.LENGTH_SHORT).show()

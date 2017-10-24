@@ -18,7 +18,6 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
 import rx.Observable
-import java.util.*
 import kotlin.properties.Delegates
 
 class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs), ToolbarListener {
@@ -112,7 +111,8 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         bookmarkIcon.isEnabled = false
         bookmarkIcon.setOnMenuItemClickListener {
             Toast.makeText(context, "Your trip has been bookmarked. Please check the bookmark screen to revisit this trip", Toast.LENGTH_LONG).show()
-            val bookmark = Bookmark("Package to Hawaiii", Calendar.getInstance().time, 5, DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.PACKAGES))
+            val hotelSearchParams = DeeplinkCreatorUtils.hotelSearchParams!!
+            val bookmark = Bookmark("Trip to "+ hotelSearchParams.destination, hotelSearchParams.startDate, hotelSearchParams.endDate, 1, DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.PACKAGES), LineOfBusiness.PACKAGES)
             BookmarkUtils.saveBookmark(context, bookmark)
             true
         }
