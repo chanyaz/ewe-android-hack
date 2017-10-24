@@ -7,17 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FlightV2Utils
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.AccessibleCardView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
@@ -34,6 +29,7 @@ import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.expedia.vm.flights.FlightOverviewRowViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
+import com.mobiata.flightlib.data.Flight
 import com.squareup.phrase.Phrase
 import rx.Observable
 
@@ -145,6 +141,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         }
 
         vm.selectedFlightLegObservable.subscribe { selectedFlight ->
+            createFlightDeepLinkParams(selectedFlight)
             showCollapseIcon = vm.showRowContainerWithMoreInfo.value
             val segmentBreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
@@ -308,6 +305,28 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             PackagesTracking().trackBundleOverviewFlightExpandClick(isExpanding)
         } else if (viewModel.lob == LineOfBusiness.FLIGHTS_V2) {
             FlightsV2Tracking.trackOverviewFlightExpandClick(isExpanding)
+        }
+    }
+
+    fun createFlightDeepLinkParams(flightLeg: com.expedia.bookings.data.flights.FlightLeg) {
+        if (isInboundFlight()) {
+            var flightInBoundParams : MutableList<FlightInboundParams> = arrayListOf()
+            flightLeg.segments.forEach { it ->
+                var params = FlightInboundParams()
+                params.airlineCode = it.airlineCode
+                params.flightNumber = it.flightNumber
+                flightInBoundParams.add(params)
+            }
+            DeeplinkCreatorUtils.flightInboundParams = flightInBoundParams
+        } else {
+            var flightOutBoundParams : MutableList<FlightOutboundParams> = arrayListOf()
+            flightLeg.segments.forEach { it ->
+                var params = FlightOutboundParams()
+                params.airlineCode = it.airlineCode
+                params.flightNumber = it.flightNumber
+                flightOutBoundParams.add(params)
+            }
+            DeeplinkCreatorUtils.flightOutboundParams = flightOutBoundParams
         }
     }
 }

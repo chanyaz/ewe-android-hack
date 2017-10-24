@@ -24,7 +24,7 @@ class PackageFlightActivity : AbstractAppCompatActivity() {
         }
         setContentView(R.layout.package_flight_activity)
         Ui.showTransparentStatusBar(this)
-        AlertDialogUtils.showBookmarkDialog(this)
+//        AlertDialogUtils.showBookmarkDialog(this)
     }
 
     override fun onBackPressed() {

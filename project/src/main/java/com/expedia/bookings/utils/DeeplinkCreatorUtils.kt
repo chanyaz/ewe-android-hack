@@ -42,6 +42,21 @@ class DeeplinkCreatorUtils() {
                     if (hotelRoomSelectionParams!=null){
                         deeplinkURL+= "&hotelRoomTypeCode=" + hotelRoomSelectionParams!!.selectedRoomTypeCode
                     }
+                    if (flightOutboundParams != null) {
+                        deeplinkURL += "&outboundCount=" + flightOutboundParams!!.size
+                        var count = 0
+                        flightOutboundParams!!.forEach { it ->
+                            deeplinkURL += "&outbound_flight_number_" +count +"=" +it.flightNumber +"&outbound_airlineCode_" +count +"=" +it.airlineCode
+                            count++
+                        }
+                    }
+                    if (flightInboundParams != null) {
+                        deeplinkURL += "&inboundCount=" + flightInboundParams!!.size
+                        var count = 0
+                        flightInboundParams!!.forEach { it ->
+                            deeplinkURL += "&inbound_flight_number_" +count +"=" +it.flightNumber +"&inbound_airlineCode_" +count +"=" +it.airlineCode
+                        }
+                    }
                 }
                 LineOfBusiness.FLIGHTS -> {
                     deeplinkURL += FLIGHT_DEEPLINK_SUFFIX

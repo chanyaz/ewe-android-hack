@@ -37,7 +37,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
         Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)
         detailsMapView.onCreate(savedInstanceState)
-        AlertDialogUtils.showBookmarkDialog(this)
+//        AlertDialogUtils.showBookmarkDialog(this)
 
         if (intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
             // back to hotel room, should also be able to back to hotel results
