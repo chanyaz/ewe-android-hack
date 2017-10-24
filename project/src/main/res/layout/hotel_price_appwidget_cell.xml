@@ -27,8 +27,9 @@
         android:gravity="center"
         android:visibility="invisible"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/hotel_appwidget_name"
-        android:layout_marginLeft="8dp">
+        android:layout_alignBottom="@+id/hotel_appwidget_new_price"
+        android:layout_marginLeft="8dp"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/hotel_appwidget_urgency_icon"
@@ -39,7 +40,7 @@
 
         <TextView
             android:id="@+id/hotel_appwidget_urgency"
-            style="@style/Core.Text.200"
+            style="@style/Core.Text.100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
@@ -79,5 +80,5 @@
         android:layout_alignBottom="@+id/hotel_appwidget_new_price"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="4dp"
-        android:src="@drawable/red_arrow" />
+        tools:src="@drawable/ic_red_arrow" />
 </RelativeLayout>

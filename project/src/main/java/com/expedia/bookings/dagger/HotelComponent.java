@@ -4,6 +4,7 @@ import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.hotel.activity.HotelAppWidgetConfigureActivity;
 import com.expedia.bookings.hotel.activity.HotelCompareResultsActivity;
 import com.expedia.bookings.hotel.activity.HotelDetailedCompareActivity;
+import com.expedia.bookings.hotel.service.HotelPriceIntentService;
 import com.expedia.bookings.hotel.service.HotelPriceJobService;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
@@ -49,8 +50,7 @@ public interface HotelComponent {
 
     void inject(@NotNull HotelCompareResultsActivity hotelCompareResultsActivity);
     void inject(@NotNull HotelDetailedCompareActivity hotelDetailedCompareActivity);
-
     void inject(@NotNull HotelPriceJobService hotelPriceJobService);
-
     void inject(@NotNull HotelAppWidgetConfigureActivity hotelAppWidgetConfigureActivity);
+    void inject(@NotNull HotelPriceIntentService hotelPriceIntentService);
 }

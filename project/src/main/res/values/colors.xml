@@ -7,6 +7,8 @@
     <color name="app_primary_dark">@color/blue3</color>
     <color name="app_primary_light">@color/blue1</color>
     <color name="app_status_bar_color">@color/blue4</color>
+
+    <color name="brand_primary">#04365E</color>
     <color name="brand_secondary">@color/exp_yellow</color>
 
     <color name="app_divider_on_white">@color/gray300</color>

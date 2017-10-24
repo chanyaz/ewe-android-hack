@@ -28,6 +28,12 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
         }
     }
 
+    fun fetchOffersFromIntentService(startDate: String, endDate: String, hotelIds: List<String>) {
+        for (id in hotelIds) {
+            subscriptions.add(hotelServices.offersFromIntentService(startDate, endDate, id, offersObserver))
+        }
+    }
+
     open fun fetchOffers(params: HotelSearchParams, hotelId: String) {
         subscriptions.add(hotelServices.offers(params, hotelId, offersObserver))
     }

@@ -26,6 +26,7 @@ class HotelAppWidgetUtil {
         val MY_JOB_ID = 265
 
         fun scheduleUpdate(context: Context, appWidgetId: Int) {
+            Log.v("HotelAppWidgetUtil", ": scheduleUpdate id:$appWidgetId")
             val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
             val jobInfoBuilder = JobInfo.Builder(MY_JOB_ID + appWidgetId, ComponentName(context, HotelPriceJobService::class.java))
             jobInfoBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
@@ -33,25 +34,38 @@ class HotelAppWidgetUtil {
 
 
             val bundle = PersistableBundle()
-            bundle.putInt(HotelExtras.PRICE_APPWIDGET_KEY, appWidgetId)
+            bundle.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             jobInfoBuilder.setExtras(bundle)
 
             jobScheduler.schedule(jobInfoBuilder.build())
         }
 
+        fun showLoading(appWidgetId: Int, context: Context) {
+            Log.v("HotelAppWidgetUtil", ": showLoading id:$appWidgetId")
+            val remoteViews = RemoteViews(context.packageName, R.layout.hotel_price_appwidget_layout)
+            remoteViews.setViewVisibility(R.id.hotel_price_appwidget_empty_view, View.VISIBLE)
+
+            remoteViews.setViewVisibility(R.id.hotel_price_appwidget_list, View.GONE)
+            remoteViews.setViewVisibility(R.id.hotel_appwidget_header_dates, View.GONE)
+            remoteViews.setViewVisibility(R.id.hotel_price_appwidget_last_updated, View.GONE)
+            updateEditView(context, appWidgetId, remoteViews)
+
+            val manager = AppWidgetManager.getInstance(context)
+            manager.updateAppWidget(appWidgetId, remoteViews)
+        }
 
         fun updateRemoteViews(appWidgetId: Int, context: Context) {
-            Log.v("HotelPriceJobService", ": sendViews")
+            Log.v("HotelAppWidgetUtil", ": updateRemoteViews id:$appWidgetId")
             val remoteViews = RemoteViews(context.packageName, R.layout.hotel_price_appwidget_layout)
 
+            remoteViews.setViewVisibility(R.id.hotel_price_appwidget_empty_view, View.GONE)
             updateListView(context, remoteViews)
-            updateEditView(context, remoteViews)
+            updateEditView(context, appWidgetId, remoteViews)
             updateDateView(context, remoteViews)
             updateLastUpdated(context, remoteViews)
 
-            val thisWidget = ComponentName(context, HotelPriceAppWidgetProvider::class.java)
             val manager = AppWidgetManager.getInstance(context)
-            manager.updateAppWidget(thisWidget, remoteViews)
+            manager.updateAppWidget(appWidgetId, remoteViews)
             manager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.hotel_price_appwidget_list)
         }
 
@@ -62,13 +76,15 @@ class HotelAppWidgetUtil {
             rv.setPendingIntentTemplate(R.id.hotel_price_appwidget_list, pendingIntent)
 
             val remoteViewServiceIntent = Intent(context, HotelRemoteViewService::class.java)
+            rv.setViewVisibility(R.id.hotel_price_appwidget_list, View.VISIBLE)
             rv.setRemoteAdapter(R.id.hotel_price_appwidget_list, remoteViewServiceIntent);
             rv.setEmptyView(R.id.hotel_price_appwidget_list, R.id.hotel_price_appwidget_empty_view)
         }
 
-        private fun updateEditView(context: Context, rv: RemoteViews) {
+        private fun updateEditView(context: Context, appWidgetId: Int, rv: RemoteViews) {
             val intent = Intent(context, HotelAppWidgetConfigureActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            val pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0)
             rv.setOnClickPendingIntent(R.id.hotel_appwidget_edit_icon, pendingIntent)
         }
 

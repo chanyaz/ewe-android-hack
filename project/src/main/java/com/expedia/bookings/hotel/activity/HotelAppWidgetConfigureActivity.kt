@@ -12,6 +12,8 @@ import com.expedia.bookings.widget.CalendarWidgetV2
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.widget.FrameLayout
+import com.expedia.bookings.hotel.deeplink.HotelExtras
+import com.expedia.bookings.hotel.service.HotelPriceIntentService
 import com.expedia.bookings.hotel.util.HotelAppWidgetUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
@@ -37,10 +39,8 @@ class HotelAppWidgetConfigureActivity: AppCompatActivity() {
 
         setContentView(R.layout.hotel_appwidget_configure_activity)
 
-        val intent = intent
-        val extras = intent.extras
-        if (extras != null) {
-            appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
+        if (intent != null) {
+            appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID)
         }
 
@@ -49,11 +49,16 @@ class HotelAppWidgetConfigureActivity: AppCompatActivity() {
         }
 
         doneButton.setOnClickListener {
-            HotelAppWidgetUtil.scheduleUpdate(this, appWidgetId)
+            val intent = Intent(this, HotelPriceIntentService::class.java)
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
 
             val resultValue = Intent()
+
+            AppWidgetManager.getInstance(this).getAppWidgetInfo(appWidgetId).updatePeriodMillis = 60000
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             setResult(Activity.RESULT_OK, resultValue)
+
+            startService(intent)
             finish()
         }
     }
