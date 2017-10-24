@@ -9,6 +9,8 @@ class HotelFavoriteCache {
     companion object {
         private val FAVORITE_FILE_NAME = "exp_favorite_prefs"
         private val PREFS_FAVORITE_HOTEL_IDS = "favorite_hotel_ids"
+        private val PREFS_FAVORITE_CHECKIN = "favorite_checkin_date"
+        private val PREFS_FAVORITE_CHECKOUT = "favorite_checkout_date"
         private val PREFS_FAVORITE_HOTEL_DATA = "favorite_hotel_data_"
 
         fun saveHotelId(context: Context, hotelId: String) {
@@ -17,12 +19,22 @@ class HotelFavoriteCache {
             saveFavorites(context, favorites)
         }
 
-        fun saveHotelData(context: Context, offer: HotelOffersResponse, checkIn: String, checkOut: String) {
+        fun saveHotelData(context: Context, offer: HotelOffersResponse) {
             if (offer.hotelRoomResponse != null && offer.hotelRoomResponse.isNotEmpty()) {
                 val rate = offer.hotelRoomResponse[0].rateInfo.chargeableRateInfo
-                val cacheItem = HotelCacheItem(offer.hotelId, HotelPrice(rate.averageRate, rate.currencyCode), checkIn, checkOut)
+
+                val previousHotel = getFavoriteHotelData(context, offer.hotelId)
+
+                val cacheItem = HotelCacheItem(offer.hotelId, offer.hotelName, HotelRate(rate.averageRate, rate.currencyCode), previousHotel?.rate)
                 saveHotel(context, cacheItem)
             }
+        }
+
+        fun saveDates(context: Context, checkIn: String, checkOut: String) {
+            val editor = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE).edit()
+            editor.putString(PREFS_FAVORITE_CHECKIN, checkIn)
+            editor.putString(PREFS_FAVORITE_CHECKOUT, checkOut)
+            editor.apply()
         }
 
         fun removeHotelId(context: Context, hotelId: String) {
@@ -53,7 +65,7 @@ class HotelFavoriteCache {
 
         }
 
-        fun getFavoriteHotelData(context: Context, hotelId: String) : HotelCacheItem? {
+        fun getFavoriteHotelData(context: Context, hotelId: String): HotelCacheItem? {
             val settings = context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
             if (settings.contains(getCacheKey(hotelId))) {
                 val jsonHotel = settings.getString(getCacheKey(hotelId), null)
@@ -62,6 +74,16 @@ class HotelFavoriteCache {
             } else {
                 return null
             }
+        }
+
+        fun getCheckInDate(context: Context) : String? {
+            val settings =  context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+            return settings.getString(PREFS_FAVORITE_CHECKIN, null)
+        }
+
+        fun getCheckOutDate(context: Context) : String? {
+            val settings =  context.getSharedPreferences(FAVORITE_FILE_NAME, Context.MODE_PRIVATE)
+            return settings.getString(PREFS_FAVORITE_CHECKOUT, null)
         }
 
         private fun saveFavorites(context: Context, favorites: List<String>) {
@@ -95,8 +117,9 @@ class HotelFavoriteCache {
         }
 
         private fun getCacheKey(hotelId: String): String = PREFS_FAVORITE_HOTEL_DATA + hotelId
+
     }
 
-    data class HotelCacheItem(val hotelId: String, val price: HotelPrice, val checkInDate: String, val checkOutDate: String)
-    data class HotelPrice(val price: Float, val currency: String)
+    data class HotelCacheItem(val hotelId: String, val hotelName: String, val rate: HotelRate, val oldRate: HotelRate?)
+    data class HotelRate(val amount: Float, val currency: String)
 }

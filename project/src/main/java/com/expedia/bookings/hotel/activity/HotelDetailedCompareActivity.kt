@@ -63,10 +63,7 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
 
         hotelInfoManager.offerSuccessSubject.subscribe { offer ->
             detailedCompareAdapter.addHotel(offer)
-            val checkIn = intent.getStringExtra(HotelExtras.HOTEL_SEARCH_CHECK_IN)
-            val checkOut = intent.getStringExtra(HotelExtras.HOTEL_SEARCH_CHECK_OUT)
-
-            HotelFavoriteCache.saveHotelData(this, offer, checkIn, checkOut)
+            HotelFavoriteCache.saveHotelData(this, offer)
         }
 
         fetchHotelData()
@@ -128,6 +125,7 @@ class HotelDetailedCompareActivity : AppCompatActivity() {
         val ids = intent.getStringArrayExtra(HotelExtras.COMPARE_HOTEL_IDS)
 
         if (checkIn != null && checkOut != null) {
+            HotelFavoriteCache.saveDates(this, checkIn, checkOut)
             for (id in ids) {
                 hotelInfoManager.fetchOffers(checkIn, checkOut, id)
             }

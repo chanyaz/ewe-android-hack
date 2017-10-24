@@ -1,8 +1,5 @@
 package com.expedia.bookings.hotel.service
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -49,9 +46,9 @@ class HotelRemoteViewService : RemoteViewsService() {
 
             val hotel = hotelData[position]
             val rv = RemoteViews(context.getPackageName(), R.layout.hotel_price_appwidget_cell);
-            rv.setTextViewText(R.id.hotel_appwidget_name, "Hotel ${hotel.hotelId}")
-            rv.setTextViewText(R.id.hotel_appwidget_new_price, hotel.price.price.toString()) //todo fix formatting
-            rv.setTextViewText(R.id.hotel_appwidget_old_price, (hotel.price.price + 10).toString()) //todo add support for delta
+            rv.setTextViewText(R.id.hotel_appwidget_name, hotel.hotelName)
+            rv.setTextViewText(R.id.hotel_appwidget_new_price, hotel.rate.amount.toString()) //todo fix formatting
+            rv.setTextViewText(R.id.hotel_appwidget_old_price, (hotel.oldRate?.amount ?: hotel.rate.amount).toString())
 
             return rv
         }
