@@ -19,6 +19,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -229,6 +230,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				data.put(pastData.getHotelName(), hotelPrices);
 				DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 				date = dtf.parseLocalDate(pastData.getRates().get(0).getDate());
+			}
+			LinearLayout signInContainer = holder.itemView.findViewById(R.id.sign_in_container);
+			if (data.isEmpty()) {
+				signInContainer.setVisibility(View.VISIBLE);
+			} else {
+				signInContainer.setVisibility(View.GONE);
 			}
 			priceGraphView.setData(data, date);
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
