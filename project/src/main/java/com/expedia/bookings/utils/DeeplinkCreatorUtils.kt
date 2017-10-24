@@ -12,7 +12,7 @@ class DeeplinkCreatorUtils() {
         var hotelSelectionParams: HotelSelectionParams? = null
         var hotelRoomSelectionParams: HotelRoomSelectionParams? = null
 
-        val PACKAGES_DEEPLINK_SUFFIX = "expda:\\replayPackages"
+        val PACKAGES_DEEPLINK_SUFFIX = "expda:\\replayPackages?"
 
         val DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy")
 
@@ -27,6 +27,12 @@ class DeeplinkCreatorUtils() {
                         deeplinkURL += "origin=" + searchParams.origin + "&originID=" + searchParams.originID + "&destination=" + searchParams.destination +
                                 "&destinationID=" + searchParams.destinationID + "&startDate=" + DATE_FORMATTER.print(searchParams.startDate) +
                                 "&endDate=" + DATE_FORMATTER.print(searchParams.endDate)
+                    }
+                    if (hotelSelectionParams !=null){
+                        deeplinkURL+= "&hotelID=" + hotelSelectionParams!!.selectedHotelID
+                    }
+                    if (hotelRoomSelectionParams!=null){
+                        deeplinkURL+= "&hotelRoomTypeCode=" + hotelRoomSelectionParams!!.selectedRoomTypeCode
                     }
                 }
                 LineOfBusiness.FLIGHTS -> {
