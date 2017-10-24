@@ -9,10 +9,13 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.widget.FrameLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.trips.EBRequestParams
+import com.expedia.bookings.data.trips.EventbriteResponse
 import com.expedia.bookings.data.trips.TcsRequestParams
 import com.expedia.bookings.data.trips.TcsResponse
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
+import com.expedia.bookings.services.EventbriteService
 import com.expedia.bookings.services.TripsHotelMapServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -102,6 +106,10 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     }
     var compositeSubscription: CompositeSubscription = CompositeSubscription()
 
+    private val ebService: EventbriteService by lazy {
+        EventbriteService(Schedulers.io(), AndroidSchedulers.mainThread())
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultTripComponents()
@@ -125,6 +133,15 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                         2,
                         true),
                 poiObserver))
+
+        compositeSubscription.add(ebService.getEvents(EBRequestParams(
+                itinCardDataHotel.propertyLocation.latitude,
+                itinCardDataHotel.propertyLocation.longitude,
+                "5mi",
+                itinCardDataHotel.startDate.toString(ISODateTimeFormat.dateHourMinuteSecond()),
+                itinCardDataHotel.endDate.plusDays(1).toString(ISODateTimeFormat.dateHourMinuteSecond()),
+                "venue"),
+                ebObserver))
     }
 
     companion object {
@@ -212,6 +229,20 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 
         override fun onCompleted() {
         }
+    }
+
+    private val ebObserver: Observer<EventbriteResponse> = object : Observer<EventbriteResponse> {
+        override fun onError(e: Throwable?) {
+            Log.d("EBRESPONSE: ", e?.toString())
+        }
+
+        override fun onNext(t: EventbriteResponse?) {
+            if(t != null) Log.d("EBRESPONSE: ", t.events[0].name.text)
+        }
+
+        override fun onCompleted() {
+        }
+
     }
 
     override fun onDestroy() {
