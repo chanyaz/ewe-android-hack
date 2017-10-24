@@ -7,10 +7,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.SearchParamsHistoryUtil
-import com.expedia.bookings.utils.SpannableBuilder
-import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.PackageCalendarRules
 import com.expedia.util.endlessObserver
@@ -44,11 +41,48 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         SearchParamsHistoryUtil.savePackageParams(context, params)
     }
 
+    val hotelSearchParamsObservable = PublishSubject.create<HotelSearchParams>()
+
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
         previousSearchParamsObservable.subscribe { params ->
             setupViewModelFromPastSearch(params)
         }
+        hotelSearchParamsObservable.subscribe { params ->
+            val origin = getSuggestion(params, isOrigin = true)
+            val destination = getSuggestion(params, isOrigin = false)
+            val infantSeatingInLap = false //TODO: Work on later
+            val numOfAdults = 1 //TODO: Work on later
+            val children = ArrayList<Int>() //TODO: Work on later
+
+            val packageParams = getParamsBuilder()
+                    .infantSeatingInLap(infantSeatingInLap)
+                    .origin(origin)
+                    .destination(destination)
+                    .startDate(params.startDate)
+                    .endDate(params.endDate)
+                    .adults(numOfAdults)
+                    .children(children)
+                    .build() as PackageSearchParams
+            previousSearchParamsObservable.onNext(packageParams)
+
+            //TODO: Call when ready to go to hotel results
+//            searchObserver.onNext(Unit)
+        }
+    }
+
+    private fun getSuggestion(params: HotelSearchParams, isOrigin: Boolean): SuggestionV4 {
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = if (isOrigin) params.originID else params.destinationID
+        suggestion.regionNames = SuggestionV4.RegionNames()
+        suggestion.regionNames.displayName = if (isOrigin) params.origin else params.destination
+        suggestion.regionNames.fullName = if (isOrigin) params.origin else params.destination
+        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
+        suggestion.hierarchyInfo!!.airport!!.airportCode = if (isOrigin) params.originAirportCode else params.destinationAirportCode
+        suggestion.hierarchyInfo?.airport?.regionId = if (isOrigin) params.originID else params.destinationID
+
+        return suggestion
     }
 
     private fun setupViewModelFromPastSearch(pastSearchParams: PackageSearchParams) {
@@ -164,4 +198,5 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
         return context.getString(R.string.calendar_drag_to_modify)
     }
+
 }
