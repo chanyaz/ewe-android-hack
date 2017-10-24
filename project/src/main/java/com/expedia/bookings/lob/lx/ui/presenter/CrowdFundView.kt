@@ -50,6 +50,13 @@ class CrowdFundView(context: Context, attr: AttributeSet?) : FrameLayout(context
         return "" + (user?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.amount ?: BigDecimal.ZERO).setScale(0, RoundingMode.DOWN).intValueExact()
     }
 
+    fun getTuid(): String {
+        val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+        val user = userStateManager.userSource.user
+
+        return user?.tuidString ?: ""
+    }
+
     private var fundRequested: String = "0"
 
     @Subscribe

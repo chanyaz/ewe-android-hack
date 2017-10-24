@@ -56,14 +56,14 @@ class LoyaltyServices(endpoint: String, val okHttpClient: OkHttpClient, intercep
                 .subscribe(observer)
     }
 
-    fun register(tripID: String, title: String, message: String, fundsRequested: String, fundsAvailable: String, imageURL: String, observer: Observer<ContributeResponse>) {
-        contributeApi.register(tripID, title, message, fundsRequested, fundsAvailable, imageURL)
+    fun register(tuid: String, tripID: String, title: String, message: String, fundsRequested: String, fundsAvailable: String, imageURL: String, observer: Observer<ContributeResponse>) {
+        contributeApi.register(tuid, tripID, title, message, fundsRequested, fundsAvailable, imageURL)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
     }
 
-    fun getCampainDetails(tripID: String, observer: Observer<CampaignDetails>) : Subscription {
+    fun getCampainDetails(tripID: String, observer: Observer<CampaignDetails>): Subscription {
         return contributeApi.campaignDetails(tripID)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

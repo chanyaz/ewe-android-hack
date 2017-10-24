@@ -30,6 +30,7 @@ public interface LoyaltyApi {
 
 	@GET("service/campaign/registration")
 	Observable<ContributeResponse> register(
+		@Query("tuid") String tuid,
 		@Query("tripID") String tripID,
 		@Query("title") String title,
 		@Query("message") String message,

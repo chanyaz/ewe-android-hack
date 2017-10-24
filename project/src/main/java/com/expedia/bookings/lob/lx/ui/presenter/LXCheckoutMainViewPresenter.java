@@ -146,7 +146,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 		LoyaltyServices loyaltyServices = Ui.getApplication(getContext()).hotelComponent().getLoyaltyServices();
 		final ProgressDialog progressDialog = new ProgressDialog(getContext());
 		progressDialog.show();
-		loyaltyServices.register(tripId, lxState.activity.title, crowdFundView.getMessage().getText().toString(),
+		loyaltyServices.register(crowdFundView.getTuid(), tripId, lxState.activity.title, crowdFundView.getMessage().getText().toString(),
 			crowdFundView.getFundRequested(), crowdFundView.getFundAvailable(), lxState.activity.mediumImageURL,
 			new Observer<ContributeResponse>() {
 				@Override
