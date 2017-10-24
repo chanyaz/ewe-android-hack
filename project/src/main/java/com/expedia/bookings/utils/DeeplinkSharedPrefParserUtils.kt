@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import com.expedia.bookings.data.HotelSearch
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -51,8 +52,35 @@ class DeeplinkSharedPrefParserUtils {
             bookmarksSharedPref.edit().putString(PACKAGE_HOTEL_SELECTED_SEARCH_PARAMS_KEY, toJson).apply()
         }
 
-        fun getHotelSearchDeeplinkParams(context: Context){
+        fun getHotelSearchDeeplinkParams(context: Context): HotelSearchParams? {
+            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
+            val gson = Gson()
+            val json = bookmarksSharedPref.getString(PACKAGE_SEARCH_PARAMS_KEY, "")
+            if (json.isEmpty()) {
+                return null
+            }
+            return gson.fromJson<HotelSearchParams>(json, HOTEL_SEARCH_PARAMS_TYPE)
+        }
 
+
+        fun getHotelSelectionDeeplinkParams(context: Context): HotelSelectionParams? {
+            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
+            val gson = Gson()
+            val json = bookmarksSharedPref.getString(PACKAGE_HOTEL_SELECTED_SEARCH_PARAMS_KEY, "")
+            if (json.isEmpty()) {
+                return null
+            }
+            return gson.fromJson<HotelSelectionParams>(json, HOTEL_SELECTED_TYPE)
+        }
+
+        fun getHotelRoomSelectionDeeplinkParams(context: Context): HotelRoomSelectionParams? {
+            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
+            val gson = Gson()
+            val json = bookmarksSharedPref.getString(PACKAGE_HOTEL_ROOM_SELECTED_SEARCH_PARAMS_KEY, "")
+            if (json.isEmpty()) {
+                return null
+            }
+            return gson.fromJson<HotelRoomSelectionParams>(json, HOTEL_ROOM_SELECTED_TYPE)
         }
     }
 
