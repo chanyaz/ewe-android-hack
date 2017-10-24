@@ -151,7 +151,8 @@
                         android:padding="8dp"
                         android:text="Raised Funds - $ 330/500"
                         android:textColor="@color/gray700"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:drawableRight="@drawable/info" />
 
                     <com.expedia.bookings.widget.BoxRatingBar
                         android:id="@+id/user_rating_bar"
