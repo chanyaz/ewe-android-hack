@@ -40,16 +40,7 @@ import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.PackageResponseUtils
-import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.SlidingBundleWidget
@@ -244,6 +235,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         selectedPackageHotel = hotel
+
+        addPackageHotelSelectedParams(hotel.hotelId)
         val params = Db.getPackageParams()
         params.hotelId = hotel.hotelId
         params.latestSelectedProductTotalPrice = hotel.packageOfferModel.price.packageTotalPrice
@@ -255,6 +248,12 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         getDetails(hotel.hotelId, packageHotelOffers)
         PackagesTracking().trackHotelMapCarouselPropertyClick()
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_HOTEL)
+    }
+
+    fun addPackageHotelSelectedParams(hotelID: String){
+        val hotelSelectionParams = HotelSelectionParams()
+        hotelSelectionParams.selectedHotelID = hotelID
+        DeeplinkCreatorUtils.hotelSelectionParams = hotelSelectionParams
     }
 
     fun isShowingBundle(): Boolean {
