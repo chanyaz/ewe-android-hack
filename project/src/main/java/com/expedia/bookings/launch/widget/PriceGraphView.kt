@@ -108,7 +108,7 @@ class PriceGraphView(context: Context, val attrs: AttributeSet) : FrameLayout(co
 
         graph.xAxis.setDrawAxisLine(true)
         graph.xAxis.setDrawGridLines(false)
-        graph.xAxis.setTextSize(10f)
+        graph.xAxis.setTextSize(7f)
         graph.xAxis.position = XAxis.XAxisPosition.BOTTOM
 
         graph.xAxis.setValueFormatter( { value, _ ->
@@ -147,7 +147,7 @@ class PriceGraphView(context: Context, val attrs: AttributeSet) : FrameLayout(co
 
         val l = graph.legend
         l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-        l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+        l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
         l.orientation = Legend.LegendOrientation.HORIZONTAL
         l.setDrawInside(false)
     }
