@@ -2,6 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.payment.CalculatePointsParams
 import com.expedia.bookings.data.payment.CalculatePointsResponse
+import com.expedia.bookings.data.payment.CampaignDetails
 import com.expedia.bookings.data.payment.ContributeResponse
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
@@ -54,4 +55,19 @@ class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
     }
+
+    fun register(tripID: String, title: String, message: String, fundsRequested: String, fundsAvailable: String, imageURL: String, observer: Observer<String>) {
+        contributeApi.register(tripID, title, message, fundsRequested, fundsAvailable, imageURL)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+    }
+
+    fun getCampainDetails(tripID: String, observer: Observer<CampaignDetails>) : Subscription {
+        return contributeApi.campaignDetails(tripID)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+    }
+
 }
