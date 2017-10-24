@@ -6,6 +6,7 @@ import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
 import com.expedia.bookings.presenter.hotel.HotelPresenter;
 import com.expedia.bookings.presenter.hotel.HotelResultsPresenter;
 import com.expedia.bookings.presenter.hotel.HotelSearchPresenter;
+import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.BucksWidget;
@@ -40,4 +41,5 @@ public interface HotelComponent {
 	SuggestionV4Services suggestionsService();
 	ReviewsServices reviewsServices();
 	IPayWithPointsViewModel payWithPointsViewModel();
+	LoyaltyServices getLoyaltyServices();
 }

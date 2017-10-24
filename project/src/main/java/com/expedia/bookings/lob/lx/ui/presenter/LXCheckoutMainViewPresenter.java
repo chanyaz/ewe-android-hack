@@ -4,10 +4,12 @@ import javax.inject.Inject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ApiError;
@@ -19,10 +21,12 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXBookableItem;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
+import com.expedia.bookings.data.payment.ContributeResponse;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -93,11 +97,10 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	}
 
 	/**
-	 *
 	 * @param originalPrice - In case there was a Price Change [during CreateTrip/Checkout], this is non-null
-	 *                        and contains the original price. Otherwise it is null.
-	 * @param newPrice - Always non-null. Contains the up-to-date price of the selected offer(s) to be displayed to the user
-	 *                 and deducted during Payment.
+	 *                      and contains the original price. Otherwise it is null.
+	 * @param newPrice      - Always non-null. Contains the up-to-date price of the selected offer(s) to be displayed to the user
+	 *                      and deducted during Payment.
 	 */
 	private void bind(String tripId, Money originalPrice, Money newPrice, LXBookableItem lxBookableItem) {
 		this.tripId = tripId;
@@ -137,8 +140,35 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 //		BillingInfo billingInfo = Db.getBillingInfo();
 //		Events.post(new Events.ShowCVV(billingInfo));
 //		slideWidget.resetSlider();
-		Events.post(new Events.LXTripID(tripId));
-		((Activity) getContext()).finish();
+		final CrowdFundView crowdFundView = findViewById(R.id.crowd_fund);
+
+		Ui.getApplication(getContext()).defaultHotelComponents();
+		LoyaltyServices loyaltyServices = Ui.getApplication(getContext()).hotelComponent().getLoyaltyServices();
+		final ProgressDialog progressDialog = new ProgressDialog(getContext());
+		progressDialog.show();
+		loyaltyServices.register(tripId, lxState.activity.title, crowdFundView.getMessage().getText().toString(),
+			crowdFundView.getFundRequested(), crowdFundView.getFundAvailable(), lxState.activity.mediumImageURL,
+			new Observer<ContributeResponse>() {
+				@Override
+				public void onCompleted() {
+				}
+
+				@Override
+				public void onError(Throwable e) {
+					progressDialog.hide();
+				}
+
+				@Override
+				public void onNext(ContributeResponse s) {
+					progressDialog.hide();
+					Events.post(new Events.LXTripID(tripId, lxState.activity.title,
+						crowdFundView.getMessage().getText().toString(),
+						crowdFundView.getFundRequested(), crowdFundView.getFundAvailable(),
+						lxState.activity.mediumImageURL));
+					Toast.makeText(getContext(), "A link has been generated for your pitch!", Toast.LENGTH_LONG).show();
+					((Activity) getContext()).finish();
+				}
+			});
 	}
 
 	@Override
@@ -158,7 +188,8 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 		LXCheckoutParams checkoutParams = new LXCheckoutParams()
 			.firstName(mainContactInfoCardView.firstName.getText().toString())
 			.lastName(mainContactInfoCardView.lastName.getText().toString())
-			.email(userStateManager.isUserAuthenticated() ? email : mainContactInfoCardView.emailAddress.getText().toString())
+			.email(userStateManager.isUserAuthenticated() ? email
+				: mainContactInfoCardView.emailAddress.getText().toString())
 			.expectedTotalFare(lxState.latestTotalPrice().getAmount().setScale(2).toString())
 			.phoneCountryCode(
 				Integer.toString(mainContactInfoCardView.phoneSpinner.getSelectedTelephoneCountryCode()))
@@ -247,7 +278,8 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	@Override
 	public void doCreateTrip() {
 		cleanup();
-		createTripSubscription = lxServices.createTrip(lxState.createTripParams(), lxState.originalTotalPrice(), createTripObserver);
+		createTripSubscription = lxServices
+			.createTrip(lxState.createTripParams(), lxState.originalTotalPrice(), createTripObserver);
 	}
 
 	@Override

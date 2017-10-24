@@ -14,7 +14,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class LoyaltyServices(endpoint: String, val okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val loyaltyApi: LoyaltyApi by lazy {
         val gson = GsonBuilder().create()
@@ -36,7 +36,7 @@ class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 .baseUrl("http://172.26.64.21:8080")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(OkHttpClient().newBuilder().build())
+                .client(OkHttpClient().newBuilder().addNetworkInterceptor(okHttpClient.networkInterceptors()[0]).build())
                 .build()
 
         adapter.create(LoyaltyApi::class.java)
@@ -56,7 +56,7 @@ class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 .subscribe(observer)
     }
 
-    fun register(tripID: String, title: String, message: String, fundsRequested: String, fundsAvailable: String, imageURL: String, observer: Observer<String>) {
+    fun register(tripID: String, title: String, message: String, fundsRequested: String, fundsAvailable: String, imageURL: String, observer: Observer<ContributeResponse>) {
         contributeApi.register(tripID, title, message, fundsRequested, fundsAvailable, imageURL)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

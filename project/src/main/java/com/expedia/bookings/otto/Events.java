@@ -205,7 +205,7 @@ public class Events {
 		public LXNewSearchParamsAvailable(String locationName, String airportCode, LocalDate startDate,
 			LocalDate endDate,
 			SearchType searchType) {
-			lxSearchParams = (LxSearchParams)new LxSearchParams.Builder()
+			lxSearchParams = (LxSearchParams) new LxSearchParams.Builder()
 				.searchType(SearchType.EXPLICIT_SEARCH).imageCode(airportCode)
 				.location(locationName).startDate(startDate).endDate(endDate).build();
 		}
@@ -220,7 +220,7 @@ public class Events {
 			if (filters == null) {
 				filters = "";
 			}
-			lxSearchParams = (LxSearchParams)new LxSearchParams.Builder()
+			lxSearchParams = (LxSearchParams) new LxSearchParams.Builder()
 				.searchType(SearchType.EXPLICIT_SEARCH).filters(
 					filters).location(locationName).startDate(startDate).endDate(endDate).build();
 		}
@@ -338,9 +338,20 @@ public class Events {
 
 	public static class LXTripID {
 		public String tripId;
+		public String title;
+		public String message;
+		public String fundsRequested;
+		public String fundsAvailable;
+		public String imageURL;
 
-		public LXTripID(String tripId) {
+		public LXTripID(String tripId, String title, String message, String fundsRequested, String fundsAvailable,
+			String imageURL) {
 			this.tripId = tripId;
+			this.title = title;
+			this.message = message;
+			this.fundsRequested = fundsRequested;
+			this.fundsAvailable = fundsAvailable;
+			this.imageURL = imageURL;
 		}
 	}
 

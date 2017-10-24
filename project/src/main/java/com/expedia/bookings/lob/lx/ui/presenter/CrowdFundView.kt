@@ -3,6 +3,7 @@ package com.expedia.bookings.lob.lx.ui.presenter
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LXState
@@ -27,6 +28,7 @@ class CrowdFundView(context: Context, attr: AttributeSet?) : FrameLayout(context
     val availableBalance: TextView by bindView(R.id.available_balance)
     val requiredBalance: TextView by bindView(R.id.required_balance)
     val fundMaxLimit: TextView by bindView(R.id.fund_max_limit)
+    val message: EditText by bindView(R.id.message)
 
     lateinit var lxState: LXState
         @Inject set
@@ -38,6 +40,18 @@ class CrowdFundView(context: Context, attr: AttributeSet?) : FrameLayout(context
         Events.register(this)
     }
 
+    fun getFundRequested(): String {
+        return fundRequested
+    }
+
+    fun getFundAvailable(): String {
+        val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+        val user = userStateManager.userSource.user
+        return "" + (user?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.amount ?: BigDecimal.ZERO).setScale(0, RoundingMode.DOWN).intValueExact()
+    }
+
+    private var fundRequested: String = "0"
+
     @Subscribe
     fun onCreateTripSucceeded(event: Events.LXCreateTripSucceeded) {
         activityName.text = lxState.activity.title
@@ -47,9 +61,9 @@ class CrowdFundView(context: Context, attr: AttributeSet?) : FrameLayout(context
         val maxValue = 5000
         val minValue = user?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.amount?.setScale(0, RoundingMode.DOWN)?.intValueExact() ?: 0
 
-        availableBalance.text = user?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.formattedMoney
+        availableBalance.text = "Your available balance: ${user?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.formattedMoney}"
         requiredBalance.text = BigDecimal(lxState.activity.fromPriceValue).minus(user?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.amount ?: BigDecimal.ZERO).toPlainString()
-        fundMaxLimit.text = requiredBalance.text
+        fundMaxLimit.text = "$${requiredBalance.text}"
 
         val timeRange = TimeRange(context, 0, maxValue)
         departureRangeBar.currentA11yStartValue = timeRange.defaultMinText
@@ -82,6 +96,7 @@ class CrowdFundView(context: Context, attr: AttributeSet?) : FrameLayout(context
         durationSeekBar.upperLimit = BigDecimal(lxState.activity.fromPriceValue).minus(user?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.amount ?: BigDecimal.ZERO).setScale(0, RoundingMode.DOWN).intValueExact()
 
         durationSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
+            this.fundRequested = progress.toString()
             requiredBalance.text = "$" + progress.toString()
         }
     }
