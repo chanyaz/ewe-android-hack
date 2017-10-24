@@ -7,10 +7,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Bookmark
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.bindView
+import java.util.ArrayList
 
 class BookmarksListAdapter(val bookmarksList: ArrayList<Bookmark>) : RecyclerView.Adapter<BookmarksListAdapter.BookmarkViewHolder>() {
 
@@ -30,18 +34,45 @@ class BookmarksListAdapter(val bookmarksList: ArrayList<Bookmark>) : RecyclerVie
     class BookmarkViewHolder(val context: Context, itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val titleTextView: TextView by bindView(R.id.trip_title)
-        val numTravelersText: TextView by bindView(R.id.number_of_travelers)
-        val tripDateText: TextView by bindView(R.id.trip_date)
+        val subtitleTextView: TextView by bindView(R.id.bookmark_subtitle)
+        val bookmarkTypeIcon: ImageView by bindView(R.id.bookmark_icon)
+        val lineOfBusinessTextView: TextView by bindView(R.id.bookmark_type_textView)
 
         fun bindItems(bookmark: Bookmark) {
             titleTextView.text = bookmark.title
-            tripDateText.text = bookmark.startDate.toString()
-            numTravelersText.text = bookmark.numberOfGuests.toString()
+            setBookmarkSubtitleText(bookmark)
+            setBookmarkIcon(bookmark)
+            setLobString(bookmark)
             itemView.setOnClickListener {
                 Toast.makeText(itemView.context, bookmark.deeplinkURL, Toast.LENGTH_SHORT).show()
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(bookmark.deeplinkURL))
                 context.startActivity(intent)
+            }
+        }
 
+        private fun setBookmarkSubtitleText(bookmark: Bookmark) {
+            val numOfTravelersString = if (bookmark.numberOfGuests > 1) "travelers" else "traveler"
+            val formattedStartDate = LocaleBasedDateFormatUtils.localDateToMMMd(bookmark.startDate)
+            val formattedEndDate = LocaleBasedDateFormatUtils.localDateToMMMd(bookmark.endDate)
+            subtitleTextView.text = "$formattedStartDate - $formattedEndDate, ${bookmark.numberOfGuests} $numOfTravelersString"
+        }
+
+        private fun setBookmarkIcon(bookmark: Bookmark) {
+            val icon = when (bookmark.lineOfBusiness) {
+                LineOfBusiness.FLIGHTS_V2 -> R.drawable.flights_details_icon_flight
+                LineOfBusiness.HOTELS -> R.drawable.ic_lob_hotels
+                LineOfBusiness.PACKAGES -> R.drawable.ic_lob_packages
+                else -> R.drawable.ic_stat_expedia
+            }
+            bookmarkTypeIcon.setImageDrawable(context.getDrawable(icon))
+        }
+
+        private fun setLobString(bookmark: Bookmark) {
+            lineOfBusinessTextView.text = when (bookmark.lineOfBusiness) {
+                LineOfBusiness.FLIGHTS_V2 -> "Flights"
+                LineOfBusiness.HOTELS -> "Hotels"
+                LineOfBusiness.PACKAGES -> "Hotel + Flights"
+                else -> "Trip"
             }
         }
     }
