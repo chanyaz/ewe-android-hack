@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils
 
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.data.LineOfBusiness
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -12,7 +13,7 @@ class DeeplinkCreatorUtils() {
         var hotelSelectionParams: HotelSelectionParams? = null
         var hotelRoomSelectionParams: HotelRoomSelectionParams? = null
 
-        val PACKAGES_DEEPLINK_SUFFIX = "expda:\\replayPackages?"
+        val PACKAGES_DEEPLINK_SUFFIX = BuildConfig.DEEPLINK_SCHEME+ "://replayPackages?"
 
         val DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy")
 
