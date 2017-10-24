@@ -156,7 +156,7 @@
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">Phone number length must be between 4 and 20.</string>
     <!-- Error button text indicating that the user should search again -->
-    <string name= "search_again">Search Again</string>
+    <string name="search_again">Search Again</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm&#8230;Your payment didn\'t go through. Please double check your payment details and try again.</string>
@@ -2364,7 +2364,7 @@
     <!-- Title for "flight type" view -->
     <string name="flight_type">Flight Type</string>
     <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
-    <string name= "advance_search_cont_desc_TEMPLATE">Advanced Search {expandstate}</string>
+    <string name="advance_search_cont_desc_TEMPLATE">Advanced Search {expandstate}</string>
     <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
     <string name="row_collapse_button_description">Expand button. Double tap to collapse.</string>
     <!-- Title for non stop filter on advance search view -->
@@ -4101,9 +4101,9 @@
     <!--Rails content description for results card Railcard applied portion -->
     <string name="rail_railcard_applied_cont_desc">Railcard Applied</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
-   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Fares from {price}</string>
-   <!-- Rail selected outbound content description on the outbound results -->
-   <string name="rail_selected_outbound_cont_desc">Selected outbound:</string>
+    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Fares from {price}</string>
+    <!-- Rail selected outbound content description on the outbound results -->
+    <string name="rail_selected_outbound_cont_desc">Selected outbound:</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">Railcard Applied: {railcards}</string>
@@ -4112,11 +4112,11 @@
         Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
     <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. Cost breakdown dialog. Button.</string>
 
-   <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
-   <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
-   <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
+    <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
+    <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
+    <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
 
-   <!-- New Hotel Search screen -->
+    <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Enter Destination</string>
     <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
     <string name="enter_destination_cont_desc">Enter Destination. Button</string>

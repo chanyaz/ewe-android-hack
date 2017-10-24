@@ -65,6 +65,18 @@
         android:visibility="invisible"
         app:backgroundTint="@color/new_launch_fab_color" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chat"
+        android:layout_width="@dimen/new_launch_fab_width"
+        android:layout_height="@dimen/new_launch_fab_height"
+        android:layout_gravity="bottom|left|end"
+        android:layout_marginBottom="@dimen/new_launch_screen_fab_bottom_margin"
+        android:layout_marginLeft="@dimen/new_launch_screen_fab_bottom_margin"
+        android:contentDescription="Start Chat"
+        android:src="@drawable/fab_search"
+        android:visibility="visible"
+        app:backgroundTint="@color/new_launch_fab_color" />
+
     <include
         android:id="@+id/launch_error"
         layout="@layout/section_launch_error"

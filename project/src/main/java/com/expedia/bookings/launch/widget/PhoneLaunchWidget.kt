@@ -139,6 +139,10 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
                 hideLobAndDarkView()
             }
         }
+
+        // TODO add onclick for chat bot button
+
+
         val gestureDetector: GestureDetector = GestureDetector(context, gestureListener)
 
         darkView.setOnTouchListener { view, motionEvent ->
