@@ -600,19 +600,22 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         viewModel.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
         roomContainer.startAnimation(fadeInRoomsAnimation)
 
-        selectFirstRoom(roomList)
+        selectDeelinkRoom(roomList)
 
         //set focus on first room row for accessibility
         (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
     }
 
-    private fun selectFirstRoom(hotelRoomResponse: List<HotelOffersResponse.HotelRoomResponse>) {
+    private fun selectDeelinkRoom(hotelRoomResponse: List<HotelOffersResponse.HotelRoomResponse>) {
         val handler = Handler()
         val runnableCode = object : Runnable {
             override fun run() {
-                val roomResponse = hotelRoomResponse[0]
-                addDeeplinkHotelRoomSelectionInformation(roomResponse)
-                viewModel.roomSelectedSubject.onNext(roomResponse)
+                val givenRoomTypeCode = ""
+                val roomResponse = hotelRoomResponse.filter { it.roomTypeCode == givenRoomTypeCode }.firstOrNull()
+                if (roomResponse != null) {
+                    addDeeplinkHotelRoomSelectionInformation(roomResponse)
+                    viewModel.roomSelectedSubject.onNext(roomResponse)
+                }
             }
         }
         handler.postDelayed(runnableCode, 2000)
