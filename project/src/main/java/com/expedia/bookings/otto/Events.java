@@ -336,6 +336,14 @@ public class Events {
 		}
 	}
 
+	public static class LXTripID {
+		public String tripId;
+
+		public LXTripID(String tripId) {
+			this.tripId = tripId;
+		}
+	}
+
 	public static class LXOfferExpanded {
 		public Offer offer;
 

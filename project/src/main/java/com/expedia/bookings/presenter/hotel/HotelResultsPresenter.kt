@@ -84,9 +84,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
-        val b = AlertDialog.Builder(context)
-        b.setView(R.layout.activity_crowd_fund)
-        b.show()
     }
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->

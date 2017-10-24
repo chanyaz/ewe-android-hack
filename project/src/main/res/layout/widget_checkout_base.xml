@@ -31,54 +31,98 @@
 
                 </com.expedia.bookings.widget.FrameLayout>
 
-                <com.expedia.bookings.widget.AccountButton
-                    android:id="@+id/login_widget"
-                    style="?attr/checkout_card_view_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="12dp"
-                    android:orientation="vertical" />
-
-                <LinearLayout
-                    android:id="@+id/hint_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="9dp"
-                        android:layout_weight="1"
-                        android:background="#979797" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/or"
-                        android:textColor="@color/defaultTextColor" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="9dp"
-                        android:layout_weight="1"
-                        android:background="#979797" />
-                </LinearLayout>
-
                 <com.expedia.bookings.lob.lx.ui.presenter.CrowdFundView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/card_background" />
 
                 <FrameLayout
                     android:layout_width="1dp"
                     android:layout_height="1dp"
                     android:visibility="gone">
+
+                    <com.expedia.bookings.widget.AccountButton
+                        android:id="@+id/login_widget"
+                        style="?attr/checkout_card_view_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="12dp"
+                        android:orientation="vertical" />
+
+                    <LinearLayout
+                        android:id="@+id/hint_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="9dp"
+                            android:layout_weight="1"
+                            android:background="#979797" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/or"
+                            android:textColor="@color/defaultTextColor" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="9dp"
+                            android:layout_weight="1"
+                            android:background="#979797" />
+                    </LinearLayout>
+
+                    <com.expedia.bookings.lob.lx.ui.presenter.CrowdFunBarWidget
+                        android:id="@+id/traveler_contact_info_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/card_background"
+                        android:orientation="horizontal">
+
+                        <com.expedia.bookings.widget.ContactInitialsImageView
+                            android:id="@+id/travelerNameIcon"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingLeft="15dp">
+
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/enter_details_text"
+                                style="@style/CheckoutWidgetPrimaryTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Enter fund details" />
+
+                        </LinearLayout>
+
+                        <com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView
+                            android:id="@+id/funds_setting"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="16dp" />
+
+                    </com.expedia.bookings.lob.lx.ui.presenter.CrowdFunBarWidget>
 
                     <com.expedia.bookings.widget.TravelerContactDetailsWidget
                         android:id="@+id/main_contact_info_card_view"

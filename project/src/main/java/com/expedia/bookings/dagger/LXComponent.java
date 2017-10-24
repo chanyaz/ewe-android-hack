@@ -2,6 +2,7 @@ package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.LXScope;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.lob.lx.ui.presenter.CrowdFundView;
 import com.expedia.bookings.lob.lx.ui.presenter.LXCheckoutMainViewPresenter;
 import com.expedia.bookings.presenter.lx.LXCheckoutPresenter;
 import com.expedia.bookings.presenter.lx.LXDetailsPresenter;
@@ -36,6 +37,7 @@ public interface LXComponent {
 	void inject(LxCheckoutPresenterV2 lxCheckoutPresenterV2);
 	void inject(LXCheckoutViewModel lxCheckoutViewModel);
 	void inject(LXCreateTripViewModel lxCreateTripViewModel);
+	void inject(CrowdFundView crowdFundView);
 
 	Observable<SuggestionV4> currentLocationSuggestionObservable();
 	SuggestionV4Services suggestionsService();

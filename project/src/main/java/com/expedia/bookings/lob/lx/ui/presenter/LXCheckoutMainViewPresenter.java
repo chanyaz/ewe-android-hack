@@ -2,6 +2,7 @@ package com.expedia.bookings.lob.lx.ui.presenter;
 
 import javax.inject.Inject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -133,9 +134,11 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 
 	@Override
 	public void onSlideAllTheWay() {
-		BillingInfo billingInfo = Db.getBillingInfo();
-		Events.post(new Events.ShowCVV(billingInfo));
-		slideWidget.resetSlider();
+//		BillingInfo billingInfo = Db.getBillingInfo();
+//		Events.post(new Events.ShowCVV(billingInfo));
+//		slideWidget.resetSlider();
+		Events.post(new Events.LXTripID(tripId));
+		((Activity) getContext()).finish();
 	}
 
 	@Override
