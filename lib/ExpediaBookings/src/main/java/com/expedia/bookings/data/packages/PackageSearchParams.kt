@@ -37,7 +37,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
     val originId: String?
         get() {
-            return  origin?.hierarchyInfo?.airport?.multicity ?: origin?.gaiaId ?: origin?.hierarchyInfo?.airport?.regionId
+            return origin?.hierarchyInfo?.airport?.multicity ?: origin?.gaiaId ?: origin?.hierarchyInfo?.airport?.regionId
         }
 
     val destinationId: String?
@@ -51,6 +51,17 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
                 return destination?.gaiaId ?: destination?.hierarchyInfo?.airport?.regionId
             }
         }
+
+    val originAirportID: String?
+        get(){
+            return origin?.hierarchyInfo?.airport?.airportCode
+        }
+
+    val destinationAirportID: String?
+        get(){
+            return destination?.hierarchyInfo?.airport?.airportCode
+        }
+
 
     val childAges: String?
         get() {
