@@ -8,19 +8,22 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Bookmark
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.interfaces.ToolbarListener
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.isSecureIconEnabled
+import com.expedia.bookings.utils.*
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
 import rx.Observable
+import java.util.*
 import kotlin.properties.Delegates
 
 class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs), ToolbarListener {
     var menuItem: MenuItem by Delegates.notNull()
+    var bookmarkIcon: MenuItem by Delegates.notNull()
     var currentFocus: View? = null
     var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
 
@@ -78,7 +81,10 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
                 .subscribe {
                     AccessibilityUtil.setMenuItemContentDescription(this, if (it.second) context.getString(R.string.done_cont_desc) else context.getString(R.string.next_cont_desc))
                 }
-
+        vm.enableBookmarkIcon.subscribe { enable ->
+            bookmarkIcon.isVisible = enable
+            bookmarkIcon.isEnabled = enable
+        }
     }
 
     init {
@@ -101,6 +107,16 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             true
         }
 
+        bookmarkIcon = menu.findItem(R.id.menu_bookmark)
+        bookmarkIcon.isVisible = false
+        bookmarkIcon.isEnabled = false
+        bookmarkIcon.setOnMenuItemClickListener {
+            Toast.makeText(context, "Your trip has been bookmarked. Please check the bookmark screen to revisit this trip", Toast.LENGTH_LONG).show()
+            val bookmark = Bookmark("Package to Hawaiii", Calendar.getInstance().time, 5, DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.PACKAGES))
+            BookmarkUtils.saveBookmark(context, bookmark)
+            true
+        }
+
         toolbarNavIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         navigationIcon = toolbarNavIcon
         setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
@@ -108,6 +124,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
 
     val toggleMenuObserver = endlessObserver<Boolean> { visible ->
         menu.setGroupVisible(R.id.package_change_menu, visible)
+        viewModel.enableBookmarkIcon.onNext(visible)
     }
 
     override fun setActionBarTitle(title: String?) {

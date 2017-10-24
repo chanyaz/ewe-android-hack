@@ -4,11 +4,6 @@
         android:id="@+id/package_change_menu"
         android:visible="false">
         <item
-            android:id="@+id/bookmark_package"
-            android:showAsAction="always"
-            android:title="@string/bookmark_package" />
-
-        <item
             android:id="@+id/package_change_hotel"
             android:showAsAction="always"
             android:title="@string/package_change_hotel" />
