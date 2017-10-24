@@ -1,6 +1,7 @@
 package com.expedia.bookings.services;
 
 import com.expedia.bookings.data.payment.CalculatePointsResponse;
+import com.expedia.bookings.data.payment.CampaignDetails;
 import com.expedia.bookings.data.payment.ContributeResponse;
 import com.expedia.bookings.data.payment.ProgramName;
 
@@ -18,12 +19,27 @@ public interface LoyaltyApi {
 		@Query("rateId") String rateId
 	);
 
-	@GET("/campaign/contribute")
+	@GET("service/campaign/contribute")
 	Observable<ContributeResponse> contribute(
 		@Query("donorTUID") String donorTUID,
 		@Query("donorName") String donorName,
 		@Query("recieverTUID") String recieverTUID,
 		@Query("amount") String amount,
+		@Query("tripID") String tripID
+	);
+
+	@GET("service/campaign/registration")
+	Observable<String> register(
+		@Query("tripID") String tripID,
+		@Query("title") String title,
+		@Query("message") String message,
+		@Query("fundsRequested") String fundsRequested,
+		@Query("fundsAvailable") String fundsAvailable,
+		@Query("imageURL") String imageURL
+	);
+
+	@GET("service/campaign/details")
+	Observable<CampaignDetails> campaignDetails(
 		@Query("tripID") String tripID
 	);
 }

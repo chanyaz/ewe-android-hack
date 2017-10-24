@@ -12,6 +12,8 @@ import org.junit.Test;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.payment.CalculatePointsParams;
 import com.expedia.bookings.data.payment.CalculatePointsResponse;
+import com.expedia.bookings.data.payment.CampaignDetails;
+import com.expedia.bookings.data.payment.ContributeResponse;
 import com.expedia.bookings.data.payment.ProgramName;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.LoyaltyServices;
@@ -81,6 +83,30 @@ public class LoyaltyServicesTest {
 		Assert.assertEquals(ApiError.Code.POINTS_CONVERSION_UNAUTHENTICATED_ACCESS,
 			getCalculatePointsError(observer));
 	}
+
+	/*@Test
+	public void test() {
+		TestSubscriber<CampaignDetails> observer = new TestSubscriber<>();
+		service.getCampainDetails("12345-67890", observer);
+		observer.awaitValueCount(1, 10, TimeUnit.SECONDS);
+		observer.assertValueCount(1);
+	}
+
+	@Test
+	public void testRegister() {
+		TestSubscriber<String> observer = new TestSubscriber<>();
+		service.register("12345-99999", "Title added", "Message Added", "989", "55", "83e27cb0bcf7532f78040f0b151954747524b807.jpeg", observer);
+		observer.awaitValueCount(1, 10, TimeUnit.SECONDS);
+		observer.assertValueCount(1);
+	}*/
+
+	/*@Test
+	public void testDonate() {
+		TestSubscriber<ContributeResponse> observer = new TestSubscriber<>();
+		service.contribute("340508", "Unit test", "6429319", "77", "12345-99999", observer);
+		observer.awaitValueCount(1, 10, TimeUnit.SECONDS);
+		observer.assertValueCount(1);
+	}*/
 
 	private ApiError.Code getCalculatePointsError(TestSubscriber<CalculatePointsResponse> observer) {
 		return observer.getOnNextEvents().get(0).getFirstError().errorCode;
