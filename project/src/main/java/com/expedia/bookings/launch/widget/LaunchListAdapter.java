@@ -187,6 +187,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		boolean fullWidthTile;
 		if(holder instanceof BigImageLaunchViewHolder) {
 			BigImageLaunchViewModel vm = getMemberDealViewModel();
+			vm.setBackgroundUrl(getMemberDealHomeScreenImageUrl());
 			memberDealBackgroundUrlSubject.subscribe(vm.getBackgroundUrlChangeSubject());
 			((BigImageLaunchViewHolder) holder).bind(vm);
 		}
