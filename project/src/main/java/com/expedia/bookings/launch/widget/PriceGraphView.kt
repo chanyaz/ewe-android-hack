@@ -74,8 +74,10 @@ class PriceGraphView(context: Context, val attrs: AttributeSet) : FrameLayout(co
             val priceGraph = LineChart(context, attrs)
             priceGraphContainer.addView(priceGraph)
 
-            val params = priceGraph.layoutParams
+            val params = priceGraph.layoutParams as MarginLayoutParams
             params.height = resources.getDimensionPixelSize(R.dimen.graph_height)
+            val margin = resources.getDimensionPixelSize(R.dimen.graph_margin)
+            params.setMargins(margin, 0, margin, margin)
             priceGraph.layoutParams = params
 
             setUpGraph(priceGraph, priceData[0])

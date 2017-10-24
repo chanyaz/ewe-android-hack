@@ -351,5 +351,6 @@
     <dimen name="terminal_menu_padding">8dp</dimen>
 
     <dimen name="graph_height">100dp</dimen>
+    <dimen name="graph_margin">8dp</dimen>
 
 </resources>
