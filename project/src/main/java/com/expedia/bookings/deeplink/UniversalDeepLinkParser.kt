@@ -31,6 +31,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
     private val HOTEL_INFO_SITE = Pattern.compile("/[^\\.]+\\.h(\\d+)\\.hotel-information")
     private val TRIPS_ITIN_NUM = Pattern.compile("/trips/([0-9]+)")
     private val SIGN_IN = Pattern.compile(".+(?=\\/signin/?$).+")
+    private val TRIPID = Pattern.compile("/gift-a-getaway/(\\s)")
 
      fun parseUniversalDeepLink(data: Uri): DeepLink {
          val routingDestination = getRoutingDestination(data)
@@ -46,7 +47,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
             "shareditin" -> return parseSharedItineraryUniversalDeepLink(data)
             "shorturl" -> return parseShortUrlDeepLink(data)
             "/signin" -> return SignInDeepLink()
-            "/gift-a-getaway" -> return MemberPricingDeepLink()
+            "/gift-a-getaway" -> return parseTripIDUniversalDeepLink(data)
             "/trips" -> return parseTripUniversalDeepLink(data)
             else ->
                 return HomeDeepLink()
@@ -67,7 +68,9 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
                     .toLowerCase(Locale.US)
             if (HOTEL_INFO_SITE.matcher(routingDestination).find()) {
                 routingDestination = "hotel-infosite"
-            } else if (TRIPS_ITIN_NUM.matcher(routingDestination).find()) {
+            } else if (routingDestination.startsWith("/gift-a-getaway")) {
+                routingDestination = "/gift-a-getaway"
+            }else if (TRIPS_ITIN_NUM.matcher(routingDestination).find()) {
                 routingDestination = "/trips"
             } else if (SIGN_IN.matcher(routingDestination).find()) {
                 routingDestination = "/signin"
@@ -317,6 +320,12 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
         if (matcher.find()) {
             tripDeepLink.itinNum = matcher.group(1)
         }
+        return tripDeepLink
+    }
+
+    private fun parseTripIDUniversalDeepLink(data: Uri): TripDeepLink {
+        val tripDeepLink = TripDeepLink()
+        tripDeepLink.itinNum = data.path.removePrefix("/mobile/deeplink/gift-a-getaway/")
         return tripDeepLink
     }
 }

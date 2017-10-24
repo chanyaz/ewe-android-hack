@@ -1,5 +1,6 @@
 package com.expedia.bookings.mia.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -10,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.LXNavUtils
@@ -23,10 +25,18 @@ class MemberDealActivity : AppCompatActivity() {
     lateinit var loyaltyServices: LoyaltyServices
 
 
+    private fun share() {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Please use this link below to check my travel plan\nYou can contribute funds to make it come true! :) \nhttps://www.expedia.com/mobile/deeplink/gift-a-getaway/${Db.getTripId().tripId}")
+        startActivity(Intent.createChooser(sharingIntent, "Give a get away"))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.member_deal_activity)
 
+        val tripId = intent.getStringExtra("tripid")
         val toolBar = findViewById(R.id.mod_search_toolbar) as Toolbar
         toolBar.setNavigationOnClickListener { view ->
             onBackPressed()

@@ -37,6 +37,7 @@ import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.CVVEntryWidget;
 import com.expedia.bookings.widget.CheckoutBasePresenter;
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
@@ -161,12 +162,14 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 				@Override
 				public void onNext(ContributeResponse s) {
 					progressDialog.hide();
-					Events.post(new Events.LXTripID(tripId, lxState.activity.title,
+					Events.LXTripID lxTripID = new Events.LXTripID(tripId, lxState.activity.title,
 						crowdFundView.getMessage().getText().toString(),
 						crowdFundView.getFundRequested(), crowdFundView.getFundAvailable(),
-						lxState.activity.mediumImageURL));
-					Toast.makeText(getContext(), "A link has been generated for your pitch!", Toast.LENGTH_LONG).show();
+						lxState.activity.mediumImageURL);
+					Db.setTripId(lxTripID);
 					((Activity) getContext()).finish();
+					NavUtils.goToMemberPricing(getContext());
+					Toast.makeText(getContext(), "A link has been generated for your pitch!", Toast.LENGTH_LONG).show();
 				}
 			});
 	}

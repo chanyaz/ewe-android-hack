@@ -23,6 +23,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
+import com.expedia.bookings.otto.Events;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -49,6 +50,7 @@ public class Db {
 	// to set things up this way.
 
 	private static final Db sDb = new Db();
+	private static Events.LXTripID tripId;
 
 	private Db() {
 		// Cannot be instantiated
@@ -119,6 +121,14 @@ public class Db {
 	private Pair<FlightLeg, FlightLeg> mPackageFlightBundle;
 
 	private SignInTypeEnum signInTypeEnum = null;
+
+	public static void setTripId(Events.LXTripID tripId) {
+		Db.tripId = tripId;
+	}
+
+	public static Events.LXTripID getTripId() {
+		return tripId;
+	}
 
 	public enum SignInTypeEnum {
 		BRAND_SIGN_IN,

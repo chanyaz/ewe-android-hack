@@ -95,11 +95,11 @@ public class NavUtils {
 	}
 
 	public static void goToItin(Context context, String itinNum) {
-		Intent intent = getLaunchIntent(context);
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, MemberDealActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
 		if (itinNum != null) {
-			intent.putExtra(PhoneLaunchActivity.ARG_ITIN_NUM, itinNum);
+			intent.putExtra("tripid", itinNum);
 		}
 		context.startActivity(intent);
 	}
