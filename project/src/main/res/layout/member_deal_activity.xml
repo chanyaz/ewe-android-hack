@@ -13,7 +13,7 @@
         android:minHeight="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_close_white_24dp"
         app:navigationContentDescription="@string/member_deal_toolbar_close_cont_desc"
-        app:title="@string/member_deals_toolbar_title"
+        app:title="Travel Registry"
         app:titleTextColor="@color/white"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
         app:contentInsetStartWithNavigation="0dp">
@@ -22,7 +22,7 @@
             android:id="@+id/mod_shop_button"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/shop"
+            android:text="Start"
             android:textAllCaps="true"
             style="?android:attr/borderlessButtonStyle"
             android:background="@color/new_launch_toolbar_background_color"
@@ -36,5 +36,12 @@
         android:id="@+id/member_deal_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/registry_card"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>

@@ -2,25 +2,26 @@ package com.expedia.bookings.mia.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.mia.MemberDealListAdapter
-import com.expedia.bookings.mia.MemberDealResponseProvider
+import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.navigation.NavUtils
+import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.navigation.HotelNavUtils
+import com.expedia.bookings.widget.AutoResizeTextView
+import com.expedia.bookings.widget.LXDetailSectionDataWidget
+import com.expedia.bookings.widget.TextView
 
 class MemberDealActivity : AppCompatActivity() {
+    //    val clearSubject
+    lateinit var loyaltyServices: LoyaltyServices
 
-    private lateinit var memberDealResponseProvider: MemberDealResponseProvider
-    private lateinit var adapter: MemberDealListAdapter
-    val recyclerView: RecyclerView by lazy {
-        findViewById(R.id.member_deal_recycler_view) as RecyclerView
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,15 +34,39 @@ class MemberDealActivity : AppCompatActivity() {
 
         val shopButton = findViewById(R.id.mod_shop_button) as Button
         shopButton.setOnClickListener { view ->
-            HotelNavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
+            LXNavUtils.goToActivities(this, null, 0)
             OmnitureTracking.trackMemberPricingShop()
         }
-        adapter = MemberDealListAdapter(this)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
 
-        memberDealResponseProvider = MemberDealResponseProvider(Ui.getApplication(this).appComponent().smartOfferService())
-        memberDealResponseProvider.memberDealResponseSubject.subscribe(adapter.resultSubject)
+        val container = findViewById(R.id.registry_card) as LinearLayout
+        container.removeAllViews()
+        container.addView(createRow("The London Eye Experience", 0))
+        Ui.getApplication(this).defaultHotelComponents();
+        loyaltyServices = Ui.getApplication(this).hotelComponent().getLoyaltyServices();
+        //container.addView(createRow(breakdown))
+    }
+
+    private fun createRow(headerText: String, image: Int): View {
+        val row = LayoutInflater.from(this).inflate(R.layout.registry_card, null)
+        val headerTextView = row.findViewById<TextView>(R.id.header_text_view)
+        val backgroundImage = row.findViewById<ImageView>(R.id.header_background)
+        var offerDescription = row.findViewById<LXDetailSectionDataWidget>(R.id.description)
+
+        var editTextView = row.findViewById<EditText>(R.id.edit_amount_view)
+
+        var donateButton = row.findViewById<AutoResizeTextView>(R.id.donate)
+
+        val clearBtn = row.findViewById<View>(R.id.clear_btn)
+        headerTextView.text = headerText
+        backgroundImage.setImageResource(R.drawable.london_eye)
+        offerDescription.bindData("Description", "Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty Discover amazing beauty ", 2)
+        clearBtn.setOnClickListener { view ->
+            editTextView.text.clear()
+        }
+        donateButton.setOnClickListener { view ->
+
+        }
+        return row
     }
 
     override fun onStart() {
@@ -50,7 +75,7 @@ class MemberDealActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        memberDealResponseProvider.fetchDeals()
+        // memberDealResponseProvider.fetchDeals()
         OmnitureTracking.trackMemberPricingPageLoad()
     }
 
