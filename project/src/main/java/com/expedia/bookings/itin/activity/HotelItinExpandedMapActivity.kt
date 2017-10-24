@@ -3,6 +3,8 @@ package com.expedia.bookings.itin.activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -194,7 +197,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap?.isMyLocationEnabled = havePermissionToAccessLocation(this)
         googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(getHotelLatLong(), MAP_ZOOM_LEVEL))
-        addMarker(map)
+        addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
         googleMap?.setOnCameraMoveStartedListener(this)
         googleMap?.setOnCameraIdleListener(this)
         startPosition = googleMap?.cameraPosition!!.target
@@ -212,11 +215,11 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
     }
 
-    private fun addMarker(map: GoogleMap) {
+    private fun addMarker(icon: Int, latlong: LatLng) {
         val marker = MarkerOptions()
-        marker.position(getHotelLatLong())
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_blue))
-        map.addMarker(marker)
+        marker.position(latlong)
+        marker.icon(bitmapDescriptorFromVector(this, icon))
+        googleMap?.addMarker(marker)
     }
 
     private fun getHotelLatLong(): LatLng {
@@ -228,7 +231,16 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     private val poiObserver: Observer<TcsResponse> = object : Observer<TcsResponse> {
         override fun onNext(t: TcsResponse?) {
             //Example: fetching the description of the first item from the response
-            if (t != null) Log.d("TCSRESPONSE: ", t.sections.poi.data[0].descriptions.data[0].value)
+            if (t != null) {
+                val pointsOfInterest = t.sections.poi.data
+                for (poi in pointsOfInterest) {
+                    val lat = poi.geo.latitude.toDouble()
+                    val long = poi.geo.longitude.toDouble()
+                    val latLong = LatLng(lat, long)
+                    addMarker(R.drawable.ic_landmark_pin, latLong)
+                }
+                Log.d("TCSRESPONSE: ", t.sections.poi.data[0].descriptions.data[0].value)
+            }
         }
 
         override fun onError(e: Throwable?) {
@@ -245,12 +257,20 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
 
         override fun onNext(t: EventbriteResponse?) {
-            if (t != null) Log.d("EBRESPONSE: ", t.events[0].name.text)
+            if (t != null) {
+                val events = t.events
+                for (event in events) {
+                    val lat = event.venue.latitude
+                    val long = event.venue.longitude
+                    val latLong = LatLng(lat, long)
+                    addMarker(R.drawable.ic_music_pin, latLong)
+                }
+                Log.d("EBRESPONSE: ", t.events[0].name.text)
+            }
         }
 
         override fun onCompleted() {
         }
-
     }
 
     private val trailsObserver: Observer<Array<Trail>> = object : Observer<Array<Trail>> {
@@ -261,6 +281,10 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         override fun onNext(trails: Array<Trail>?) {
             if (trails != null) {
                 for (trail: Trail in trails) {
+                    val lat = trail.latitude.toDouble()
+                    val long = trail.longitude.toDouble()
+                    val latLong = LatLng(lat, long)
+                    addMarker(R.drawable.ic_trail_pin, latLong)
                     Log.d("TRAILSRESPONSE: ", trail.id)
                 }
             }
@@ -270,6 +294,16 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
 
     }
+
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor {
+        val vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        val bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        val canvas = Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
