@@ -52,6 +52,17 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
             }
         }
 
+    val originAirportID: String?
+        get(){
+            return origin?.hierarchyInfo?.airport?.airportCode
+        }
+
+    val destinationAirportID: String?
+        get(){
+            return destination?.hierarchyInfo?.airport?.airportCode
+        }
+
+
     val childAges: String?
         get() {
             if (children.isEmpty()) {
