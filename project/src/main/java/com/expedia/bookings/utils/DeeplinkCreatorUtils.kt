@@ -15,7 +15,7 @@ class DeeplinkCreatorUtils() {
 }
 
 class HotelRoomSelectionParams {
-    lateinit var selectedRoomID: String
+    lateinit var selectedRoomTypeCode: String
 }
 
 class HotelSearchParams {
