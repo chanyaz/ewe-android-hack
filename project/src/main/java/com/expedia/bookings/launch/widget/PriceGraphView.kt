@@ -36,6 +36,7 @@ class PriceGraphView(context: Context, val attrs: AttributeSet) : FrameLayout(co
     }
 
     fun setData(data: HashMap<String, ArrayList<Float>>, startDate: LocalDate) {
+        priceGraphContainer.removeAllViews()
         if (data.count() <= 0) {
             return
         }
