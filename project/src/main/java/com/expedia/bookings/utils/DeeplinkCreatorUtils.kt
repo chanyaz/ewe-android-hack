@@ -42,6 +42,14 @@ class DeeplinkCreatorUtils() {
                     if (hotelRoomSelectionParams!=null){
                         deeplinkURL+= "&hotelRoomTypeCode=" + hotelRoomSelectionParams!!.selectedRoomTypeCode
                     }
+
+                    if (flightOutboundParams != null) {
+                        deeplinkURL += createFlightOutBoundParams()
+                    }
+
+                    if (flightInboundParams != null) {
+                        deeplinkURL += createFlightInboundParams()
+                    }
                 }
                 LineOfBusiness.FLIGHTS -> {
                     deeplinkURL += FLIGHT_DEEPLINK_SUFFIX
@@ -51,20 +59,11 @@ class DeeplinkCreatorUtils() {
                                 "&endDate=" + DATE_FORMATTER.print(searchParams.endDate) + "&cabin=" + searchParams.cabinClass + "&traveler=" + searchParams.noOfTravelers
                     }
                     if (flightOutboundParams != null) {
-                        deeplinkURL += "&outboundCount=" + flightOutboundParams!!.size
-                        var count = 0
-                        flightOutboundParams!!.forEach { it ->
-                            deeplinkURL += "&outbound_flight_number_" +count +"=" +it.flightNumber +"&outbound_airlineCode_" +count +"=" +it.airlineCode
-                            count++
-                        }
+                        deeplinkURL += createFlightOutBoundParams()
                     }
 
                     if (flightInboundParams != null) {
-                        deeplinkURL += "&inboundCount=" + flightInboundParams!!.size
-                        var count = 0
-                        flightInboundParams!!.forEach { it ->
-                            deeplinkURL += "&inbound_flight_number_" +count +"=" +it.flightNumber +"&inbound_airlineCode_" +count +"=" +it.airlineCode
-                        }
+                        deeplinkURL += createFlightInboundParams()
                     }
 
                 }
@@ -73,6 +72,27 @@ class DeeplinkCreatorUtils() {
                 }
             }
             return deeplinkURL
+        }
+
+        fun createFlightInboundParams(): String {
+            var flightParamString = ""
+            flightParamString += "&inboundCount=" + flightInboundParams!!.size
+            var count = 0
+            flightInboundParams!!.forEach { it ->
+                flightParamString += "&inbound_flight_number_" + count + "=" + it.flightNumber + "&inbound_airlineCode_" + count + "=" + it.airlineCode
+            }
+            return flightParamString
+        }
+
+        fun createFlightOutBoundParams(): String {
+            var flightParamString = ""
+            flightParamString += "&outboundCount=" + flightOutboundParams!!.size
+            var count = 0
+            flightOutboundParams!!.forEach { it ->
+                flightParamString += "&outbound_flight_number_" + count + "=" + it.flightNumber + "&outbound_airlineCode_" + count + "=" + it.airlineCode
+                count++
+            }
+            return flightParamString
         }
     }
 
