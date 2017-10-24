@@ -9,6 +9,7 @@ import com.expedia.bookings.deeplink.HotelDeepLink
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.HotelActivity
 import com.mobiata.android.Log
+import org.joda.time.LocalDate
 
 class HotelIntentBuilder() {
     private val TAG = "HotelIntentBuilder"
@@ -77,6 +78,25 @@ class HotelIntentBuilder() {
         return this
     }
 
+    fun buildParams(context: Context, checkIn: String, checkOut: String, hotelId: String) : HotelSearchParams {
+        val oldParams = com.expedia.bookings.data.HotelSearchParams()
+        oldParams.hotelId = hotelId
+        oldParams.query = hotelId
+        oldParams.searchType = com.expedia.bookings.data.HotelSearchParams.SearchType.HOTEL
+
+        if (checkIn != null && checkOut != null) {
+            oldParams.checkInDate = LocalDate.parse(checkIn)
+            oldParams.checkOutDate = LocalDate.parse(checkOut)
+        } else {
+            val now = LocalDate.now()
+            oldParams.checkInDate = now
+            oldParams.checkOutDate = now.plusDays(1)
+        }
+
+        oldParams.numAdults = 2
+        oldParams.children = null
+        return HotelsV2DataUtil.getHotelV2SearchParams(context, oldParams)
+    }
 
     fun build(context: Context) : Intent {
         val intent = Intent()

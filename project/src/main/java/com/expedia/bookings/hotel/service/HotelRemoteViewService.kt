@@ -9,11 +9,16 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder
 import com.expedia.bookings.hotel.util.HotelFavoriteCache
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.widget.priceFormatter
 import com.mobiata.android.text.StrikethroughTagHandler
 import java.math.BigDecimal
+import android.os.Bundle
+import com.expedia.bookings.data.Codes
+import com.expedia.bookings.hotel.deeplink.HotelExtras
+import com.expedia.bookings.utils.HotelsV2DataUtil
+
 
 class HotelRemoteViewService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory {
@@ -37,6 +42,7 @@ class HotelRemoteViewService : RemoteViewsService() {
 
         override fun onDataSetChanged() {
             Log.v("HotelRemoteViewService", ": onDataSetChanged")
+            hotelData.clear()
             val favoriteIds = HotelFavoriteCache.getFavorites(context)
             for (id in favoriteIds) {
                 val item = HotelFavoriteCache.getFavoriteHotelData(context, id)
@@ -58,6 +64,12 @@ class HotelRemoteViewService : RemoteViewsService() {
             updatePrices(rv, hotel.rate, hotel.oldRate ?: hotel.rate)
             setPriceDeltaIcon(rv, hotel.oldRate?.amount, hotel.rate.amount)
             setUrgency(rv, hotel.roomsLeft.toInt())
+
+            val fillInIntent = buildHotelDetailIntent(context, hotel.hotelId)
+            fillInIntent?.let {
+                Log.v("HotelRemoteViewService", ": Set Click on AppWidgetContainer")
+                rv.setOnClickFillInIntent(R.id.hotel_appwidget_container, fillInIntent)
+            }
 
             return rv
         }
@@ -119,6 +131,23 @@ class HotelRemoteViewService : RemoteViewsService() {
             } else {
                 rv.setViewVisibility(R.id.hotel_appwidget_urgency_container, View.INVISIBLE)
             }
+        }
+
+        private fun buildHotelDetailIntent(context: Context, hotelId: String) : Intent? {
+            val checkIn = HotelFavoriteCache.getCheckInDate(context)
+            val checkOut = HotelFavoriteCache.getCheckOutDate(context)
+
+            if (checkIn != null && checkOut != null) {
+                val params = HotelIntentBuilder().buildParams(context, checkIn, checkOut, hotelId)
+                val extras = Bundle()
+                val gson = HotelsV2DataUtil.generateGson()
+                extras.putString(HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(params))
+                extras.putBoolean(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
+                val fillInIntent = Intent()
+                fillInIntent.putExtras(extras)
+                return fillInIntent
+            }
+            return null
         }
     }
 }

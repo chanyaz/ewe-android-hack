@@ -18,6 +18,7 @@ import com.expedia.bookings.hotel.provider.HotelPriceAppWidgetProvider
 import com.expedia.bookings.hotel.service.HotelPriceJobService
 import com.expedia.bookings.hotel.service.HotelRemoteViewService
 import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.ui.HotelActivity
 import org.joda.time.LocalDate
 
 class HotelAppWidgetUtil {
@@ -42,11 +43,8 @@ class HotelAppWidgetUtil {
         fun updateRemoteViews(appWidgetId: Int, context: Context) {
             Log.v("HotelPriceJobService", ": sendViews")
             val remoteViews = RemoteViews(context.packageName, R.layout.hotel_price_appwidget_layout)
-            val intent = Intent(context, HotelRemoteViewService::class.java)
 
-            remoteViews.setRemoteAdapter(R.id.hotel_price_appwidget_list, intent);
-            remoteViews.setEmptyView(R.id.hotel_price_appwidget_list, R.id.hotel_price_appwidget_empty_view)
-
+            updateListView(context, remoteViews)
             updateEditView(context, remoteViews)
             updateDateView(context, remoteViews)
             updateLastUpdated(context, remoteViews)
@@ -55,6 +53,17 @@ class HotelAppWidgetUtil {
             val manager = AppWidgetManager.getInstance(context)
             manager.updateAppWidget(thisWidget, remoteViews)
             manager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.hotel_price_appwidget_list)
+        }
+
+        private fun updateListView(context: Context, rv: RemoteViews) {
+            val hotelIntent = Intent(context, HotelActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(context, 0, hotelIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT)
+            rv.setPendingIntentTemplate(R.id.hotel_price_appwidget_list, pendingIntent)
+
+            val remoteViewServiceIntent = Intent(context, HotelRemoteViewService::class.java)
+            rv.setRemoteAdapter(R.id.hotel_price_appwidget_list, remoteViewServiceIntent);
+            rv.setEmptyView(R.id.hotel_price_appwidget_list, R.id.hotel_price_appwidget_empty_view)
         }
 
         private fun updateEditView(context: Context, rv: RemoteViews) {
