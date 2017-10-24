@@ -134,18 +134,22 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                     filterPromptSubject.onNext(Unit)
                 }
 
-                selectFirstHotel()
+                selectDeeplinkHotel()
 
             }
             is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, fixedPosition % 2 == 0))
         }
     }
 
-    private fun selectFirstHotel() {
+    private fun selectDeeplinkHotel() {
         val handler = Handler()
         val runnableCode = object : Runnable {
             override fun run() {
-                hotelSelectedSubject.onNext(hotels[0])
+                val deeplinkHotelID = ""
+                val deeplinkhotel = hotels.filter { it.hotelId == deeplinkHotelID }.firstOrNull()
+                if(deeplinkhotel!=null) {
+                    hotelSelectedSubject.onNext(deeplinkhotel)
+                }
             }
         }
         handler.postDelayed(runnableCode,2000)

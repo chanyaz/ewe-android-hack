@@ -533,7 +533,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         val detail = HotelRoomDetailView(context, detailViewModel)
 
         detail.hotelRoomRowClickedSubject.subscribe {
-            addDeeplinkHotelRoomSelectionInformation(detail)
+            addDeeplinkHotelRoomSelectionInformation(detail.viewModel.hotelRoomResponse)
             viewModel.roomSelectedSubject.onNext(detail.viewModel.hotelRoomResponse)
             viewModel.selectedRoomIndex = detail.viewModel.rowIndex
 
@@ -555,9 +555,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         return detail
     }
 
-    private fun addDeeplinkHotelRoomSelectionInformation(detail: HotelRoomDetailView) {
+    private fun addDeeplinkHotelRoomSelectionInformation(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse) {
         val hotelRoomSelectionParams = HotelRoomSelectionParams()
-        hotelRoomSelectionParams.selectedRoomTypeCode = detail.viewModel.hotelRoomResponse.roomTypeCode
+        hotelRoomSelectionParams.selectedRoomTypeCode = hotelRoomResponse.roomTypeCode
         DeeplinkCreatorUtils.hotelRoomSelectionParams = hotelRoomSelectionParams
     }
 
@@ -600,17 +600,22 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         viewModel.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
         roomContainer.startAnimation(fadeInRoomsAnimation)
 
-        selectFirstRoom(roomList)
+        selectDeelinkRoom(roomList)
 
         //set focus on first room row for accessibility
         (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
     }
 
-    private fun selectFirstRoom(hotelRoomResponse: List<HotelOffersResponse.HotelRoomResponse>) {
+    private fun selectDeelinkRoom(hotelRoomResponse: List<HotelOffersResponse.HotelRoomResponse>) {
         val handler = Handler()
         val runnableCode = object : Runnable {
             override fun run() {
-                viewModel.roomSelectedSubject.onNext(hotelRoomResponse[0])
+                val givenRoomTypeCode = ""
+                val roomResponse = hotelRoomResponse.filter { it.roomTypeCode == givenRoomTypeCode }.firstOrNull()
+                if (roomResponse != null) {
+                    addDeeplinkHotelRoomSelectionInformation(roomResponse)
+                    viewModel.roomSelectedSubject.onNext(roomResponse)
+                }
             }
         }
         handler.postDelayed(runnableCode, 2000)
