@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/btn_hotel_attach_normal_samsung" android:state_enabled="true" android:state_window_focused="false"/>
-    <item android:drawable="@drawable/btn_hotel_attach_pressed_samsung" android:state_pressed="true"/>
-    <item android:drawable="@drawable/btn_hotel_attach_focused_samsung" android:state_enabled="true" android:state_focused="true"/>
-    <item android:drawable="@drawable/btn_hotel_attach_normal_samsung" android:state_enabled="true"/>
-
-</selector>
