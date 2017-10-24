@@ -2,6 +2,7 @@ package com.expedia.bookings.mia.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
@@ -145,6 +146,10 @@ class MemberDealActivity : AppCompatActivity() {
 //        raisedFunds.text = "Raised Funds - $" + availablePoints + "/" + campaignDetails.fundsRequested
         raisedFunds.text = "Raised Funds - $" + availablePoints + "/" + 100
 
+        raisedFunds.setOnClickListener {
+            donationDialog.show()
+        }
+
         backgroundImage.setImageResource(R.drawable.london_eye)
 //        ratingBar.rating = (availablePoints / campaignDetails.fundsRequested).toFloat()
 //        offerDescription.bindData("Description", campaignDetails.message, 2)
@@ -165,6 +170,45 @@ class MemberDealActivity : AppCompatActivity() {
             donateButton.text = "REDEEM"
         }
         return row
+    }
+
+    val donationDialogView: View by lazy {
+        val view = LayoutInflater.from(this).inflate(R.layout.donation_dialog_view, null) as LinearLayout
+        /*val test = android.widget.TextView(this)
+        test.text = "Testingggg"
+        view.addView(test)*/
+
+        for (donation in campaignDetails.donationList!!) {
+            val donationView = LayoutInflater.from(this).inflate(R.layout.donation_row_view, null) as LinearLayout
+            val by = donationView.findViewById<TextView>(R.id.donated_by)
+            val amount  = donationView.findViewById<TextView>(R.id.donated_amount)
+            by.text = donation.donorName
+            amount.text = "$" + donation.amount
+            view.addView(donationView)
+        }
+
+        view
+    }
+
+    val donationDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(this, R.style.Theme_AlertDialog)
+
+        builder.setView(donationDialogView)
+        builder.setPositiveButton(this.getString(R.string.DONE), null)
+        val dialog: AlertDialog = builder.create()
+        /*dialog.setOnShowListener {
+            cardsPickerDialog.setCancelable(false)
+            val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            positiveButton.setOnClickListener {
+                railCardPickerViewModel.doneClickedSubject.onNext(Unit)
+                this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
+            }
+            dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        }*/
+        /*dialog.setOnDismissListener {
+            this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
+        }*/
+        dialog
     }
 
     fun getTuid(): String {
