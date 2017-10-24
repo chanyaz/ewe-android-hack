@@ -36,7 +36,7 @@ class MemberDealActivity : AppCompatActivity() {
     private fun share() {
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Please use this link below to check my travel plan\nYou can contribute funds to make it come true! :) \nhttps://www.expedia.com/mobile/deeplink/gift-a-getaway/${Db.getTripId().tripId}")
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Please use this link below to check my travel plan\nYou can contribute funds to make it come true! :) \nhttps://www.expedia.com/mobile/deeplink/gift-a-getaway/${Db.getTripId()?.tripId}")
         startActivity(Intent.createChooser(sharingIntent, "Give a get away"))
     }
 
@@ -47,6 +47,9 @@ class MemberDealActivity : AppCompatActivity() {
         isDeeplink = intent.getBooleanExtra("isDeeplink", false)
 
         val tripId = intent.getStringExtra("tripid")
+        if (tripId == null && Db.getTripId()?.tripId != null) {
+            share()
+        }
         val toolBar = findViewById(R.id.mod_search_toolbar) as Toolbar
         toolBar.setNavigationOnClickListener { view ->
             onBackPressed()

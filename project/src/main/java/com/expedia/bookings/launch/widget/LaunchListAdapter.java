@@ -17,10 +17,10 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
-import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
@@ -34,14 +34,12 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
-import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.ProWizardBucketCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionViewHolder;
@@ -49,11 +47,11 @@ import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.util.PermissionsUtils;
 import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
-import com.expedia.util.PermissionsUtils;
 
 import butterknife.ButterKnife;
 import kotlin.Unit;
@@ -187,6 +185,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		boolean fullWidthTile;
+		if(holder instanceof BigImageLaunchViewHolder) {
+			BigImageLaunchViewModel vm = getMemberDealViewModel();
+			memberDealBackgroundUrlSubject.subscribe(vm.getBackgroundUrlChangeSubject());
+			((BigImageLaunchViewHolder) holder).bind(vm);
+		}
 
 		// NOTE: All the code below is for staggered views.
 		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
@@ -402,7 +405,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private BigImageLaunchViewModel getMemberDealViewModel() {
 		return new BigImageLaunchViewModel(R.drawable.ic_member_deals_icon,
 			R.color.member_deal_background_gradient,
-			R.string.member_deal_title,
+			Db.getTripId() != null ? R.string.member_deal_title1 : R.string.member_deal_title,
 			R.string.member_deal_subtitle);
 	}
 
@@ -449,12 +452,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean userBucketedForAirAttach() {
-		return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
+		return AbacusFeatureConfigManager
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 	}
 
 	private boolean showMemberDeal() {
 		return userStateManager.isUserAuthenticated() &&
-			AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
+			AbacusFeatureConfigManager
+				.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 	}
 
 	private boolean showProWizard() {
@@ -506,10 +511,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //				context.startActivity(intent);
 //			}
 //			else {
-				Intent intent = new Intent(context, MemberDealActivity.class);
-				intent.putExtra("isDeeplink", false);
-				context.startActivity(intent);
-				entry = false;
+			Intent intent = new Intent(context, MemberDealActivity.class);
+			intent.putExtra("isDeeplink", false);
+			context.startActivity(intent);
+			entry = false;
 //			}
 			OmnitureTracking.trackLaunchMemberPricing();
 		}
