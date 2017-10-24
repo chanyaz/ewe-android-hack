@@ -67,7 +67,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             previousSearchParamsObservable.onNext(packageParams)
 
             //TODO: Call when ready to go to hotel results
-//            searchObserver.onNext(Unit)
+            searchObserver.onNext(Unit)
         }
     }
 
