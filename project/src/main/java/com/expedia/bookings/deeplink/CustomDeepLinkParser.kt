@@ -229,7 +229,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
     private fun getFlightParams(inboundCount: Int, data: Uri, queryParameterNames: MutableSet<String>, prefix: String): ArrayList<FlightInboundParams> {
         val flightParamList = ArrayList<FlightInboundParams>()
 
-        for (i in 0..inboundCount) {
+        for (i in 1..inboundCount) {
             val flightInboundParams = FlightInboundParams()
             flightInboundParams.airlineCode = getQueryParameterIfExists(data, queryParameterNames, prefix + "airlineCode_" + i) ?: ""
             flightInboundParams.flightNumber = getQueryParameterIfExists(data, queryParameterNames, prefix + "flight_number_" + i) ?: ""
