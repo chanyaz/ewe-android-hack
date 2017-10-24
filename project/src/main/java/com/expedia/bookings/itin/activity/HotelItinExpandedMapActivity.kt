@@ -13,6 +13,8 @@ import com.expedia.bookings.data.trips.EBRequestParams
 import com.expedia.bookings.data.trips.EventbriteResponse
 import com.expedia.bookings.data.trips.TcsRequestParams
 import com.expedia.bookings.data.trips.TcsResponse
+import com.expedia.bookings.data.trips.Trail
+import com.expedia.bookings.data.trips.TrailsRequestParams
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
 import com.expedia.bookings.services.TripsHotelMapServices
@@ -52,8 +54,8 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                 }
             }
             if (checkForPan()) {
-                    OmnitureTracking.trackItinExpandedMapZoomPan()
-                    panTracked = true
+                OmnitureTracking.trackItinExpandedMapZoomPan()
+                panTracked = true
 
             }
             if (panTracked && zoomTracked) {
@@ -69,6 +71,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         return !panTracked && currentZoom == googleMap?.cameraPosition?.zoom
                 && googleMap?.cameraPosition?.target != startPosition
     }
+
     override fun onCameraMoveStarted(reason: Int) {
         if (reason == OnCameraMoveStartedListener.REASON_GESTURE && !fullyTracked) {
             moveStarted = true
@@ -122,7 +125,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         compositeSubscription.add(tripsHotelMapServices.getPoiNearby(
                 TcsRequestParams(itinCardDataHotel.propertyLocation.latitude.toString(),
                         itinCardDataHotel.propertyLocation.longitude.toString(),
-                        tripsHotelMapServices.tcsApkKey,
+                        TripsHotelMapServices.Keys.TCS.value,
                         "EN",
                         arrayOf("POI"),
                         2,
@@ -137,6 +140,16 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                 itinCardDataHotel.endDate.plusDays(1).toString(ISODateTimeFormat.dateHourMinuteSecond()),
                 "venue"),
                 ebObserver))
+
+        compositeSubscription.add(tripsHotelMapServices.getTrails(
+                TrailsRequestParams(
+                        itinCardDataHotel.propertyLocation.latitude.toString(),
+                        itinCardDataHotel.propertyLocation.longitude.toString(),
+                        TripsHotelMapServices.Keys.TRAILS.value,
+                        "50",
+                        "75"
+                ), trailsObserver)
+        )
     }
 
     companion object {
@@ -232,7 +245,25 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
 
         override fun onNext(t: EventbriteResponse?) {
-            if(t != null) Log.d("EBRESPONSE: ", t.events[0].name.text)
+            if (t != null) Log.d("EBRESPONSE: ", t.events[0].name.text)
+        }
+
+        override fun onCompleted() {
+        }
+
+    }
+
+    private val trailsObserver: Observer<Array<Trail>> = object : Observer<Array<Trail>> {
+        override fun onError(e: Throwable?) {
+            Log.d("TRAILSRESPONSE: ", e?.toString())
+        }
+
+        override fun onNext(trails: Array<Trail>?) {
+            if (trails != null) {
+                for (trail: Trail in trails) {
+                    Log.d("TRAILSRESPONSE: ", trail.id)
+                }
+            }
         }
 
         override fun onCompleted() {

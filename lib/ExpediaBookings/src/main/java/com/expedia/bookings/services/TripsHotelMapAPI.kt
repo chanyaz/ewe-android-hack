@@ -2,6 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.trips.EventbriteResponse
 import com.expedia.bookings.data.trips.TcsResponse
+import com.expedia.bookings.data.trips.Trail
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -38,4 +39,14 @@ interface TripsHotelMapAPI {
             @Query("expand") expand: String
 
     ): Observable<EventbriteResponse>
+
+    //Trails
+    @GET("/api/v1/trailheads.json")
+    fun trailHeadsNearby(
+            @Query("key") key: String,
+            @Query("latitude") latitude: String,
+            @Query("longitude") longitude: String,
+            @Query("limit") limit: String,
+            @Query("distance") distance: String
+    ): Observable<Array<Trail>>
 }
