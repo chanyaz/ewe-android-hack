@@ -208,5 +208,32 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
         hotelSelectionParams.selectedHotelID = getQueryParameterIfExists(data, queryParameterNames, "hotelID") ?: ""
 
         DeeplinkSharedPrefParserUtils.saveHotelSelectionParams(hotelSelectionParams, context)
+
+        val inboundCount = (getQueryParameterIfExists(data, queryParameterNames, "inboundCount") ?: "0").toInt()
+
+        val inboundPrefix = "inbound_"
+
+        val flightInboundParamList = getFlightParams(inboundCount, data, queryParameterNames, inboundPrefix)
+        DeeplinkSharedPrefParserUtils.saveInboundFlightSelectionParams(flightInboundParamList, context)
+
+        val outboundCount = (getQueryParameterIfExists(data, queryParameterNames, "outboundCount") ?: "0").toInt()
+
+        val outboundPrefix = "outbound_"
+
+        val flightOutboundParamList = getFlightParams(inboundCount, data, queryParameterNames, outboundPrefix)
+        DeeplinkSharedPrefParserUtils.saveOutboundFlightSelectionParams(flightInboundParamList, context)
+
+    }
+
+    private fun getFlightParams(inboundCount: Int, data: Uri, queryParameterNames: MutableSet<String>, prefix: String): ArrayList<FlightInboundParams> {
+        val flightParamList = ArrayList<FlightInboundParams>()
+
+        for (i in 0..inboundCount) {
+            val flightInboundParams = FlightInboundParams()
+            flightInboundParams.airlineCode = getQueryParameterIfExists(data, queryParameterNames, prefix + "airlineCode_" + i) ?: ""
+            flightInboundParams.flightNumber = getQueryParameterIfExists(data, queryParameterNames, prefix + "flight_number_" + i) ?: ""
+            flightInboundParamList.add(flightInboundParams)
+        }
+        return flightParamList
     }
 }

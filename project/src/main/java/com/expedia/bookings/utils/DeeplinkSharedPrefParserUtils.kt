@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.joda.time.LocalDate
+import java.util.ArrayList
 
 class DeeplinkSharedPrefParserUtils {
 
@@ -18,12 +19,19 @@ class DeeplinkSharedPrefParserUtils {
 
         val PACKAGE_HOTEL_ROOM_SELECTED_SEARCH_PARAMS_KEY = "PACKAGES_REPLAY.HOTEL_ROOM_SELECTED"
 
+        val PACKAGES_FLIGHT_INBOUND_PARAMS = "PACKAGES_REPLAY.FLIGHT_INBOUND_PARAMS"
+
+        val PACKAGES_FLIGHT_OUTBOUND_PARAMS = "PACKAGES_REPLAY.FLIGHT_OUTBOUND_PARAMS"
 
         val HOTEL_SEARCH_PARAMS_TYPE = object : TypeToken<HotelSearchParams>() {}.type
 
         val HOTEL_ROOM_SELECTED_TYPE = object : TypeToken<HotelRoomSelectionParams>() {}.type
 
         val HOTEL_SELECTED_TYPE = object : TypeToken<HotelSelectionParams>() {}.type
+
+        val FLIGHT_INBOUND_SELECTION_PARAMS_TYPE = object : TypeToken<List<FlightInboundParams>>() {}.type
+
+        val FLIGHT_OUTBOUND_SELECTION_PARAMS_TYPE = object : TypeToken<List<FlightOutboundParams>>() {}.type
 
         val LOCAL_DATE_TYPE = LocalDateTypeAdapter("dd/MM/yyyy")
 
@@ -97,6 +105,18 @@ class DeeplinkSharedPrefParserUtils {
         }
 
         var isDeeplink: Boolean = false
+
+        fun saveInboundFlightSelectionParams(flightInboundParamList: ArrayList<FlightInboundParams>, context: Context) {
+            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
+            val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LOCAL_DATE_TYPE).create()
+            bookmarksSharedPref.edit().putString(PACKAGES_FLIGHT_INBOUND_PARAMS, gson.toJson(flightInboundParamList, FLIGHT_INBOUND_SELECTION_PARAMS_TYPE)).apply()
+        }
+
+        fun saveOutboundFlightSelectionParams(flightOutboundParamList: ArrayList<FlightInboundParams>, context: Context) {
+            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
+            val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LOCAL_DATE_TYPE).create()
+            bookmarksSharedPref.edit().putString(PACKAGES_FLIGHT_OUTBOUND_PARAMS, gson.toJson(flightOutboundParamList, FLIGHT_INBOUND_SELECTION_PARAMS_TYPE)).apply()
+        }
     }
 
 }
