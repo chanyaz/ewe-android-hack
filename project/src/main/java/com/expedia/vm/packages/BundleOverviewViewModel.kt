@@ -12,11 +12,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
-import com.expedia.bookings.utils.PackageResponseUtils
-import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.*
 import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
@@ -73,6 +69,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
             val type = if (params.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            addDeeplinkHotelSearchParams(params)
 
             searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled(context))))?.subscribe(makeResultsObserver(type))
         }
@@ -111,6 +108,17 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 cancelSearchSubject.onNext(Unit)
             }
         }
+    }
+
+    private fun addDeeplinkHotelSearchParams(params: PackageSearchParams) {
+        val hotelSearchParams = HotelSearchParams()
+        hotelSearchParams.origin = params.origin!!.regionNames.displayName
+        hotelSearchParams.originID = params.originId!!
+        hotelSearchParams.destination = params.destination!!.regionNames.displayName
+        hotelSearchParams.destinationID = params.destinationId!!
+        hotelSearchParams.endDate = params.endDate!!
+        hotelSearchParams.startDate = params.startDate!!
+        DeeplinkCreatorUtils.hotelSearchParams = hotelSearchParams
     }
 
     private fun getProductSearchType(isOutboundSearch: Boolean): ProductSearchType {

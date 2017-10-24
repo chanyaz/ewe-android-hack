@@ -34,13 +34,7 @@ import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Amenity
-import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.CollectionUtils
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.DESCRIPTION_ANIMATION
 import com.expedia.bookings.widget.HOTEL_DESC_COLLAPSE_LINES
 import com.expedia.bookings.widget.HotelInfoView
@@ -539,6 +533,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         val detail = HotelRoomDetailView(context, detailViewModel)
 
         detail.hotelRoomRowClickedSubject.subscribe {
+            addDeeplinkHotelRoomSelectionInformation(detail)
             viewModel.roomSelectedSubject.onNext(detail.viewModel.hotelRoomResponse)
             viewModel.selectedRoomIndex = detail.viewModel.rowIndex
 
@@ -558,6 +553,12 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         }
 
         return detail
+    }
+
+    private fun addDeeplinkHotelRoomSelectionInformation(detail: HotelRoomDetailView) {
+        val hotelRoomSelectionParams = HotelRoomSelectionParams()
+        hotelRoomSelectionParams.selectedRoomTypeCode = detail.viewModel.hotelRoomResponse.roomTypeCode
+        DeeplinkCreatorUtils.hotelRoomSelectionParams = hotelRoomSelectionParams
     }
 
     private fun getRoomAnimationListener(roomList: List<HotelOffersResponse.HotelRoomResponse>, topValueAddList: List<String>,
