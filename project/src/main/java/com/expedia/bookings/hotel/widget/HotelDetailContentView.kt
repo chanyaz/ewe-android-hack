@@ -533,7 +533,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         val detail = HotelRoomDetailView(context, detailViewModel)
 
         detail.hotelRoomRowClickedSubject.subscribe {
-            addDeeplinkHotelRoomSelectionInformation(detail)
+            addDeeplinkHotelRoomSelectionInformation(detail.viewModel.hotelRoomResponse)
             viewModel.roomSelectedSubject.onNext(detail.viewModel.hotelRoomResponse)
             viewModel.selectedRoomIndex = detail.viewModel.rowIndex
 
@@ -555,9 +555,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         return detail
     }
 
-    private fun addDeeplinkHotelRoomSelectionInformation(detail: HotelRoomDetailView) {
+    private fun addDeeplinkHotelRoomSelectionInformation(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse) {
         val hotelRoomSelectionParams = HotelRoomSelectionParams()
-        hotelRoomSelectionParams.selectedRoomTypeCode = detail.viewModel.hotelRoomResponse.roomTypeCode
+        hotelRoomSelectionParams.selectedRoomTypeCode = hotelRoomResponse.roomTypeCode
         DeeplinkCreatorUtils.hotelRoomSelectionParams = hotelRoomSelectionParams
     }
 
@@ -610,7 +610,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         val handler = Handler()
         val runnableCode = object : Runnable {
             override fun run() {
-                viewModel.roomSelectedSubject.onNext(hotelRoomResponse[0])
+                val roomResponse = hotelRoomResponse[0]
+                addDeeplinkHotelRoomSelectionInformation(roomResponse)
+                viewModel.roomSelectedSubject.onNext(roomResponse)
             }
         }
         handler.postDelayed(runnableCode, 2000)
