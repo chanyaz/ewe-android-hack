@@ -6,10 +6,14 @@ import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.widget.FrameLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.trips.TcsRequestParams
+import com.expedia.bookings.data.trips.TcsResponse
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
+import com.expedia.bookings.services.TripsHotelMapServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
@@ -23,6 +27,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import rx.Observer
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
+import rx.subscriptions.CompositeSubscription
 import java.util.Locale
 
 
@@ -52,7 +60,6 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 
         }
     }
-
 
 
     fun checkForPan(): Boolean {
@@ -90,6 +97,11 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
     }
 
+    private val tripsHotelMapServices: TripsHotelMapServices by lazy {
+        TripsHotelMapServices(Schedulers.io(), AndroidSchedulers.mainThread())
+    }
+    var compositeSubscription: CompositeSubscription = CompositeSubscription()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultTripComponents()
@@ -103,6 +115,16 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     override fun onResume() {
         super.onResume()
         updateItinCardDataHotel()
+
+        compositeSubscription.add(tripsHotelMapServices.getPoiNearby(
+                TcsRequestParams(itinCardDataHotel.propertyLocation.latitude.toString(),
+                        itinCardDataHotel.propertyLocation.longitude.toString(),
+                        tripsHotelMapServices.tcsApkKey,
+                        "EN",
+                        arrayOf("POI"),
+                        2,
+                        true),
+                poiObserver))
     }
 
     companion object {
@@ -176,5 +198,24 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         val hotelLat = itinCardDataHotel.propertyLocation.latitude
         val hotelLong = itinCardDataHotel.propertyLocation.longitude
         return LatLng(hotelLat, hotelLong)
+    }
+
+    private val poiObserver: Observer<TcsResponse> = object : Observer<TcsResponse> {
+        override fun onNext(t: TcsResponse?) {
+            //Example: fetching the description of the first item from the response
+            if (t != null) Log.d("TCSRESPONSE: ", t.sections.poi.data[0].descriptions.data[0].value)
+        }
+
+        override fun onError(e: Throwable?) {
+            Log.d("TCSRESPONSE: ", e?.toString())
+        }
+
+        override fun onCompleted() {
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeSubscription.unsubscribe()
     }
 }
