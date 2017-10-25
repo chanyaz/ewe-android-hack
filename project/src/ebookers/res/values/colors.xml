@@ -16,11 +16,7 @@
     <!-- Launch colors -->
     <color name="launch_tab_indicator">#003366</color>
     <color name="action_menu_text_color">#FFFFFF</color>
-    <color name="action_bar_text">#FFFFFF</color>
-    <color name="bg_air_attach_banner_default">@color/lob_btn_color</color>
-    <color name="bg_air_attach_phone_launch">@color/lob_btn_color</color>
     <color name="bg_air_attach_banner_divider">@color/white</color>
-    <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
     <color name="placeholder_card_background_color">@color/lob_btn_color</color>
     <color name="placeholder_card_button_text_color">@color/lob_btn_color</color>
 
@@ -37,11 +33,7 @@
     <color name="flight_free_cancellation_text_color">#0099CC</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
-    <!-- Calendar text colors -->
-    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
-
     <color name="hotels_primary_color">#0099CC</color>
-    <color name="review_screen_tab_indicator">#003366</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">@color/ebk_promo_color</color>
@@ -53,7 +45,6 @@
     <color name="hotel_mobile_exclusive_color">#F60B61</color>
     <color name="hotelsv2_discount_green">@color/ebk_promo_color</color>
 
-    <color name="hotel_promo_background">#6AC4E9</color>
     <color name="hotel_coupon_code_error_message_color">#B80000</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
@@ -76,9 +67,6 @@
     <color name="lx_ripple_color">#6AC4E9</color>
     <color name="lx_secondary_color_disabled">#003366</color>
     <color name="lx_unchecked_toggle_text_color">#6AC4E9</color>
-    <color name="lx_primary_disabled_color">#400099CC</color>
-    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
-    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">#B80000</color>

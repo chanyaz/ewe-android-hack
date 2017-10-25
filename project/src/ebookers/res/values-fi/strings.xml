@@ -1,47 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-    <string name="ebookers_best_price_guarantee">ebookersin hintatakuu</string>
-
-    <string name="customer_support_text">Soita ebookersin asiakaspalveluun</string>
-
-    <!-- Content description for action: Press to log in with your ebookers account -->
-    <string name="cd_checkout_log_in_with_ebookers">Napauta kirjautuaksesi sisään ebookersin tilillesi</string>
-
-    <string name="contact_ebookers">Ota yhteyttä ebookersiin</string>
-    <string name="ebookers_info_url">http://www.ebookers.fi/</string>
-
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_ebookers">Haluatko varmasti kirjautua ulos ebookersin tililtäsi?</string>
-
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_ebookers_email_subject">ebookersin asiakaspalvelu</string>
-
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_ebookers">Valitettavasti tämä huone ei ole enää saatavilla ebookersin kautta.</string>
-    <!--A message stating this hotel is Not currently available on ebookers -->
-    <string name="not_currently_available_ebookers">Ei saatavilla ebookersin kautta tällä hetkellä</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from ebookers Nov. 3-4" -->
-    <string name="not_currently_available_ebookers_TEMPLATE">Ei saatavilla ebookersin kautta %s</string>
-
-    <!-- Missing strings for ebookers from Expedia-->
-    <string name="tell_a_friend_body_ebookers">Hei,\n\nTutustu ebookersin iPhone- ja Android-hotellisovellukseen. Se on ILMAINEN ja voit helposti etsiä ja varata huoneita yli 140 000 hotellista ympäri maailman. Se on helpoin tapa varata hotellihuoneita puhelimesi kautta.</string>
-    <string name="cd_log_in_email_edit_text_ebookers">Anna ebookersin tilin sähköpostiosoite</string>
-    <string name="tell_a_friend_subject_ebookers">ebookers-hotellit</string>
-    <string name="cd_log_in_password_edit_text_ebookers">Anna ebookersin salasana</string>
-    <string name="cd_launch_open_eb_info_screen_ebookers">Avaa varauksen tietonäyttö</string>
-    <string name="loading_ebookers_account">ebookersin tiliä ladataan</string>
-    <string name="ebookers_password_hint">ebookersin salasana</string>
-    <string name="dialog_message_launch_ebookers_mobile_site">Haluatko avata ebookersin mobiilisivuston?</string>
-    <!-- ebookers App download link -->
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Nyt ebookersille maksettava summa:</string>
-    <!-- User needs to reset password -->
-    <string name="login_reset_password">Sinun tulee luoda uudet kaikilla ebookersin sivustoilla käytettävät sisäänkirjautumistiedot.&lt;br&gt;Ole hyvä ja aseta salasanasi uudelleen käyttäen Unohditko salasanasi? -linkkiä</string>
-
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Nyt ebookersille maksettava summa</string>
-
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} BONUS+-etuna</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
@@ -68,8 +27,6 @@
     <string name="vip_access_message">VIP-hotelleissa, silver- ja gold-jäsenet saavat ilmaisen huoneluokan korotuksen ja muita sisäänkirjautumishetkellä saatavilla olevia etuja.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Vain VIP-hotellit</string>
-    <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">Vain VIP-hotellit</string>
     <!-- Title for VIP Access message for Hotel Results -->
     <string name="vip">VIP</string>
 
@@ -137,8 +94,6 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Lento + hotelli yhteensä {totalprice}. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. {savings}. Hintaerittelyn dialogi. Painike.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Lento + hotelli -paketin hinta on {price_per_person} per henki. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. Painike lento + hotelli -paketin tarkasteluun.</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">Näytetään lento + hotelli -paketin tiedot Painike sulkemiseen.</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Sisäpiirihinnat</string>
     <!-- Shop as a BONUS+ member! -->

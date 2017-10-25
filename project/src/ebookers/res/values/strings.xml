@@ -1,47 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="ebookers_best_price_guarantee">ebookers Price Guarantee</string>
-
-    <string name="customer_support_text">Call ebookers Customer Support</string>
-
-    <!-- Content description for action: Press to log in with your ebookers account -->
-    <string name="cd_checkout_log_in_with_ebookers">Press to log in to your ebookers account</string>
-
-    <string name="contact_ebookers">Contact ebookers</string>
-    <string name="ebookers_info_url">http://www.ebookers.com/</string>
-
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_ebookers">Are you sure you want to log out of your ebookers account?</string>
-
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_ebookers_email_subject">ebookers Reservations Support</string>
-
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_ebookers">We\&apos;re sorry but this room is no longer available from ebookers.</string>
-    <!--A message stating this hotel is Not currently available on ebookers -->
-    <string name="not_currently_available_ebookers">Not currently available from ebookers</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from ebookers Nov. 3-4" -->
-    <string name="not_currently_available_ebookers_TEMPLATE">Not available from ebookers %s</string>
-
-    <!-- Missing strings for ebookers from Expedia-->
-    <string name="tell_a_friend_body_ebookers">Hi there,\n\nCheck out ebookers Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
-    <string name="cd_log_in_email_edit_text_ebookers">Enter ebookers account email address</string>
-    <string name="tell_a_friend_subject_ebookers">ebookers Hotels</string>
-    <string name="cd_log_in_password_edit_text_ebookers">Enter ebookers account password</string>
-    <string name="cd_launch_open_eb_info_screen_ebookers">Open ebookers Bookings information screen</string>
-    <string name="loading_ebookers_account">Loading ebookers Account</string>
-    <string name="ebookers_password_hint">ebookers Password</string>
-    <string name="dialog_message_launch_ebookers_mobile_site">Launch the ebookers mobile website?</string>
-    <!-- ebookers App download link -->
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Total Due to ebookers Today:</string>
-    <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all ebookers sites.&lt;br>Please reset your password using the ‘Forgot your password?’ link below.</string>
-
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Due to ebookers Today</string>
-
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in BONUS+</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
@@ -68,8 +27,6 @@
     <string name="vip_access_message">At VIP hotels, gold and platinum members receive free room upgrades and other perks on availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Only VIP Hotels</string>
-    <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">VIP Hotels Only</string>
     <!-- Title for VIP Access message for Hotel Results -->
     <string name="vip">VIP</string>
 
@@ -137,8 +94,6 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Flight + Hotel total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Cost Breakdown dialog. Button.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Flight + Hotel price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view Flight + Hotel.</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">Showing Flight + Hotel details. Button to close.</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Insider Prices</string>
     <!-- Shop as a BONUS+ member! -->
