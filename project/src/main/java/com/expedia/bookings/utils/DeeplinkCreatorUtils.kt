@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.data.LineOfBusiness
+import io.fabric.sdk.android.services.network.UrlUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
@@ -17,7 +18,7 @@ class DeeplinkCreatorUtils() {
         var flightInboundParams: List<FlightInboundParams>? = null
         var flightOutboundParams: List<FlightOutboundParams>? = null
 
-        val PACKAGES_DEEPLINK_SUFFIX = BuildConfig.DEEPLINK_SCHEME+ "://replayPackages?"
+        val PACKAGES_DEEPLINK_SUFFIX = "https://www.expedia.com/replayPackages?"
 
         val FLIGHT_DEEPLINK_SUFFIX = BuildConfig.DEEPLINK_SCHEME+ "://replayFlights?"
 
@@ -31,7 +32,7 @@ class DeeplinkCreatorUtils() {
                     deeplinkURL += PACKAGES_DEEPLINK_SUFFIX
                     if (hotelSearchParams != null) {
                         val searchParams = hotelSearchParams!!
-                        deeplinkURL += "origin=" + searchParams.origin + "&originID=" + searchParams.originID + "&destination=" + searchParams.destination +
+                        deeplinkURL += "origin=" + UrlUtils.urlEncode(searchParams.origin) + "&originID=" + searchParams.originID + "&destination=" + UrlUtils.urlEncode(searchParams.destination) +
                                 "&destinationID=" + searchParams.destinationID + "&startDate=" + DATE_FORMATTER.print(searchParams.startDate) +
                                 "&endDate=" + DATE_FORMATTER.print(searchParams.endDate) + "&originAirportCode=" + searchParams.originAirportCode +
                                 "&destinationAirportCode=" + searchParams.destinationAirportCode + "&noOfTravelers=" + searchParams.noOfTravelers

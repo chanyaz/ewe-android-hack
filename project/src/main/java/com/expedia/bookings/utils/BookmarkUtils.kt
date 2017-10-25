@@ -5,6 +5,7 @@ import com.expedia.bookings.data.Bookmark
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.joda.time.LocalDate
+import java.util.ArrayList
 
 class BookmarkUtils {
     companion object {

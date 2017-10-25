@@ -1,6 +1,7 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
@@ -12,6 +13,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.*
 import com.google.gson.Gson
 import com.mobiata.android.Log
@@ -112,9 +114,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
 
     private fun addDeeplinkHotelSearchParams(params: PackageSearchParams) {
         val hotelSearchParams = HotelSearchParams()
-        hotelSearchParams.origin = params.origin!!.regionNames.displayName
+        hotelSearchParams.origin = HtmlCompat.stripHtml(params.origin!!.regionNames.displayName)
         hotelSearchParams.originID = params.originId!!
-        hotelSearchParams.destination = params.destination!!.regionNames.displayName
+        hotelSearchParams.destination = HtmlCompat.stripHtml(params.destination!!.regionNames.displayName)
         hotelSearchParams.destinationID = params.destinationId!!
         hotelSearchParams.endDate = params.endDate!!
         hotelSearchParams.startDate = params.startDate!!
