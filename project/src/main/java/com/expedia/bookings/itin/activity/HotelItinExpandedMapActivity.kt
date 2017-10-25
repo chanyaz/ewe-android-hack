@@ -199,6 +199,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(musicButton, musicText)
             if (musicList.isNotEmpty()) {
                 googleMap?.clear()
+                markerList = HashMap()
                 markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),itinCardDataHotel.propertyName), itinCardDataHotel)
                 for (event in musicList) {
                     markerList.put(addMarker(R.drawable.ic_music_pin, LatLng(
@@ -213,6 +214,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(sportsButton, sportsText)
             if (sportsList.isNotEmpty()) {
                 googleMap?.clear()
+                markerList = HashMap()
                 markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
                         itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (event in sportsList) {
@@ -228,6 +230,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(trailsButton, trailsText)
             if (trailsList.isNotEmpty()) {
                 googleMap?.clear()
+                markerList = HashMap()
                 markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
                         itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (trail in trailsList) {
@@ -243,6 +246,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(poiButton, poiText)
             if (poiList.isNotEmpty()) {
                 googleMap?.clear()
+                markerList = HashMap()
                 markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
                         itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (poi in poiList) {
@@ -258,6 +262,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(foodButton, foodText)
             if (foodList.isNotEmpty()) {
                 googleMap?.clear()
+                markerList = HashMap()
                 markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
                         itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (food in foodList) {
@@ -273,6 +278,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(drinksButton, drinksText)
             if (drinksList.isNotEmpty()) {
                 googleMap?.clear()
+                markerList = HashMap()
                 markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
                         itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (drink in drinksList) {
