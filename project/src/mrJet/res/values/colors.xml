@@ -14,9 +14,6 @@
     <!-- Launch colors -->
     <color name="launch_tab_indicator">#D6682D</color>
     <color name="action_menu_text_color">#FFFFFF</color>
-    <color name="action_bar_text">#FFFFFF</color>
-    <color name="bg_air_attach_banner_default">@color/action_bar_bg_color</color>
-    <color name="bg_air_attach_phone_launch">@color/action_bar_bg_color</color>
     <color name="placeholder_card_background_color">@color/app_primary</color>
     <color name="placeholder_card_button_text_color">@color/app_primary</color>
 
@@ -28,18 +25,12 @@
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
     <color name="flight_free_cancellation_text_color">@color/hotels_primary_color</color>
-    <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
 
     <color name="flight_trip">#D6682D</color>
     <color name="splash_screen_bg">#26344F</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
-    <!-- Calendar text colors -->
-    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
-
     <color name="hotels_primary_color">#26344F</color>
-    <color name="review_screen_tab_indicator">#D6682D</color>
-    <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#9E0089</color>
@@ -51,7 +42,6 @@
     <color name="hotel_mobile_exclusive_color">#F60B61</color>
     <color name="hotelsv2_discount_green">#9E0089</color>
 
-    <color name="hotel_promo_background">#2d3e5e</color>
     <color name="hotel_coupon_code_error_message_color">#B80000</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="hotel_member_pricing_bg_color">#1f2a40</color>
@@ -73,9 +63,6 @@
     <color name="lx_ripple_color">#8f3f14</color>
     <color name="lx_secondary_color_disabled">#D6682D</color>
     <color name="lx_unchecked_toggle_text_color">#70ffffff</color>
-    <color name="lx_primary_disabled_color">#4026344F</color>
-    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
-    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
 
     <!-- Itin Colors -->
     <color name="itin_unable_to_find_error_color">#B80000</color>

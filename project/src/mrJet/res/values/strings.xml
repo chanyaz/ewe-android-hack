@@ -1,45 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="customer_support_text">Call MrJet Customer Support</string>
-
-    <!-- Content description for action: Press to log in with your MrJet account -->
-    <string name="cd_checkout_log_in_with_mrjet">Press to log in to your MrJet account</string>
-
-    <string name="contact_mrjet">Contact MrJet</string>
-    <string name="mrjet_info_url">http://www.MrJet.com/</string>
-
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_mrjet">Are you sure you want to log out of your MrJet account?</string>
-
-    <!-- Contact MrJet via email subject -->
-    <string name="contact_mrjet_email_subject">MrJet Reservations Support</string>
-
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_mrjet">We\&apos;re sorry but this room is no longer available from MrJet.</string>
-    <!--A message stating this hotel is Not currently available on MrJet -->
-    <string name="not_currently_available_mrjet">Not currently available from MrJet</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from MrJet Nov. 3-4" -->
-    <string name="not_currently_available_mrjet_TEMPLATE">Not available from MrJet %s</string>
-
-    <!-- Missing strings for MrJet from Expedia-->
-    <string name="tell_a_friend_body_mrjet">Hi there,\n\nCheck out MrJet Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
-    <string name="cd_log_in_email_edit_text_mrjet">Enter MrJet account email address</string>
-    <string name="tell_a_friend_subject_mrjet">MrJet Hotels</string>
-    <string name="cd_log_in_password_edit_text_mrjet">Enter MrJet account password</string>
-    <string name="cd_launch_open_eb_info_screen_mrjet">Open MrJet Bookings information screen</string>
-    <string name="loading_mrjet_account">Loading MrJet Account</string>
-    <string name="mrjet_password_hint">MrJet Password</string>
-    <string name="dialog_message_launch_mrjet_mobile_site">Launch the MrJet mobile website?</string>
-    <!-- MrJet App download link -->
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Total Due to MrJet Today:</string>
-    <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all MrJet sites.&lt;br>Please reset your password using the ‘Forgot your password?’ link below.</string>
-
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Due to MrJet Today</string>
-
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in MrJet Rewards</string>
@@ -67,8 +28,6 @@
     <string name="vip_access_message">At VIP hotels, gold and platinum members receive free room upgrades and other perks on availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Only VIP Hotels</string>
-    <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">VIP Hotels Only</string>
     <!-- Title for VIP Access message for Hotel Results -->
     <string name="vip">VIP</string>
 

@@ -1,45 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-    <string name="customer_support_text">Ring MrJets kundtjänst</string>
-
-    <!-- Content description for action: Press to log in with your MrJet account -->
-    <string name="cd_checkout_log_in_with_mrjet">Tryck för att logga in på ditt MrJet-konto</string>
-
-    <string name="contact_mrjet">Kontakta MrJet</string>
-    <string name="mrjet_info_url">http://www.MrJet.com/</string>
-
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_mrjet">Är du säker på att du vill logga ut från ditt MrJet-konto?</string>
-
-    <!-- Contact MrJet via email subject -->
-    <string name="contact_mrjet_email_subject">MrJets kundtjänst för bokningar</string>
-
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_mrjet">Vi ber om ursäkt, men rummet är tyvärr inte tillgängligt på MrJet längre.</string>
-    <!--A message stating this hotel is Not currently available on MrJet -->
-    <string name="not_currently_available_mrjet">För tillfället inte tillgängligt på MrJet</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from MrJet Nov. 3-4" -->
-    <string name="not_currently_available_mrjet_TEMPLATE">Inte tillgängligt på MrJet %s</string>
-
-    <!-- Missing strings for MrJet from Expedia-->
-    <string name="tell_a_friend_body_mrjet">Hej,\n\nKolla in vår hotellapp MrJet Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
-    <string name="cd_log_in_email_edit_text_mrjet">Ange e-postadress för ditt MrJet-konto</string>
-    <string name="tell_a_friend_subject_mrjet">MrJet Hotels</string>
-    <string name="cd_log_in_password_edit_text_mrjet">Ange lösenord för MrJet-kontot</string>
-    <string name="cd_launch_open_eb_info_screen_mrjet">Öppna MrJets bokningsinfoskärm</string>
-    <string name="loading_mrjet_account">Öppnar MrJet-konto</string>
-    <string name="mrjet_password_hint">Lösenord på MrJet</string>
-    <string name="dialog_message_launch_mrjet_mobile_site">Gå till MrJets mobilsida?</string>
-    <!-- MrJet App download link -->
-    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Totalbelopp att betala MrJet idag:</string>
-    <!-- User needs to reset password -->
-    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga MrJets sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
-
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Att betala MrJet idag</string>
-
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">Logga in för att tjäna {reward} i MrJet Rewards</string>
@@ -67,8 +28,6 @@
     <string name="vip_access_message">På VIP-hotell får Guld- och Platina-medlemmar gratis rumsuppgraderingar och andra förmåner som är tillgängliga vid incheckning.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Endast VIP-hotell</string>
-    <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">Endast VIP-hotell</string>
     <!-- Title for VIP Access message for Hotel Results -->
     <string name="vip">VIP</string>
 
