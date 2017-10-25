@@ -10,10 +10,7 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FlightV2Utils
-import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.FlightCellWidget
@@ -33,6 +30,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     private var newResultsConsumed = false
     val allViewsLoadedTimeObservable = PublishSubject.create<Unit>()
     protected var isCrossSellPackageOnFSR = false
+    var IsInboundResultDisplay = true
 
     enum class ViewTypes {
         PRICING_STRUCTURE_HEADER_VIEW,
@@ -125,13 +123,25 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val handler = Handler()
         val runnableCode = object : Runnable {
             override fun run() {
-                flightSelectedSubject.onNext(allFlights[0])
+                var flightToSelect: FlightLeg? = null
+                if(IsInboundResultDisplay) {
+                    var inboundParams = DeeplinkSharedPrefParserUtils.getInboundFlightSelectionParams(context)
+                    if (inboundParams != null) {
+                        flightToSelect = allFlights.filter { it.flightSegments[0].flightNumber == inboundParams[0].flightNumber }.firstOrNull()
+                    }
+                } else {
+                    var outBoundParams = DeeplinkSharedPrefParserUtils.getOutboundFlightSelectionParams(context)
+                    if (outBoundParams != null) {
+                        flightToSelect = allFlights.filter { it.flightSegments[0].flightNumber == outBoundParams[0].flightNumber }.firstOrNull()
+                    }
+                }
+                if (flightToSelect != null) {
+                    flightSelectedSubject.onNext(flightToSelect)
+                }
             }
         }
         handler.postDelayed(runnableCode, 2000)
     }
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         when (viewType) {

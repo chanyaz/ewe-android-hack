@@ -112,10 +112,10 @@ class DeeplinkSharedPrefParserUtils {
             bookmarksSharedPref.edit().putString(PACKAGES_FLIGHT_INBOUND_PARAMS, gson.toJson(flightInboundParamList, FLIGHT_INBOUND_SELECTION_PARAMS_TYPE)).apply()
         }
 
-        fun saveOutboundFlightSelectionParams(flightOutboundParamList: ArrayList<FlightInboundParams>, context: Context) {
+        fun saveOutboundFlightSelectionParams(flightOutboundParamList: ArrayList<FlightOutboundParams>, context: Context) {
             val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
             val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LOCAL_DATE_TYPE).create()
-            bookmarksSharedPref.edit().putString(PACKAGES_FLIGHT_OUTBOUND_PARAMS, gson.toJson(flightOutboundParamList, FLIGHT_INBOUND_SELECTION_PARAMS_TYPE)).apply()
+            bookmarksSharedPref.edit().putString(PACKAGES_FLIGHT_OUTBOUND_PARAMS, gson.toJson(flightOutboundParamList, FLIGHT_OUTBOUND_SELECTION_PARAMS_TYPE)).apply()
         }
 
         fun getInboundFlightSelectionParams(context: Context): List<FlightInboundParams>? {
@@ -125,6 +125,9 @@ class DeeplinkSharedPrefParserUtils {
             if (json.isEmpty()) {
                 return null
             }
+
+            bookmarksSharedPref.edit().remove(PACKAGES_FLIGHT_INBOUND_PARAMS).apply()
+
             return gson.fromJson<List<FlightInboundParams>>(json, FLIGHT_INBOUND_SELECTION_PARAMS_TYPE)
         }
 
@@ -135,7 +138,10 @@ class DeeplinkSharedPrefParserUtils {
             if (json.isEmpty()) {
                 return null
             }
-            return gson.fromJson<List<FlightOutboundParams>>(json, FLIGHT_INBOUND_SELECTION_PARAMS_TYPE)
+
+            bookmarksSharedPref.edit().remove(PACKAGES_FLIGHT_OUTBOUND_PARAMS).apply()
+
+            return gson.fromJson<List<FlightOutboundParams>>(json, FLIGHT_OUTBOUND_SELECTION_PARAMS_TYPE)
         }
 
     }

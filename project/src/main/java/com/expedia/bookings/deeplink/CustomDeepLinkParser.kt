@@ -5,10 +5,7 @@ import android.content.res.AssetManager
 import android.net.Uri
 import com.expedia.bookings.data.ChildTraveler
 import com.expedia.bookings.utils.*
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.mobiata.android.Log
-import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -213,28 +210,43 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
 
         val inboundPrefix = "inbound_"
 
-        val flightInboundParamList = getFlightParams(inboundCount, data, queryParameterNames, inboundPrefix)
+        val flightInboundParamList = getFlightInboundParams(inboundCount, data, queryParameterNames, inboundPrefix)
         DeeplinkSharedPrefParserUtils.saveInboundFlightSelectionParams(flightInboundParamList, context)
 
         val outboundCount = (getQueryParameterIfExists(data, queryParameterNames, "outboundCount") ?: "0").toInt()
 
         val outboundPrefix = "outbound_"
 
-        val flightOutboundParamList = getFlightParams(outboundCount, data, queryParameterNames, outboundPrefix)
+        val flightOutboundParamList = getFlightOutboundParams(outboundCount, data, queryParameterNames, outboundPrefix)
 
         DeeplinkSharedPrefParserUtils.saveOutboundFlightSelectionParams(flightOutboundParamList, context)
 
     }
 
-    private fun getFlightParams(inboundCount: Int, data: Uri, queryParameterNames: MutableSet<String>, prefix: String): ArrayList<FlightInboundParams> {
+    private fun getFlightInboundParams(inboundCount: Int, data: Uri, queryParameterNames: MutableSet<String>, prefix: String): ArrayList<FlightInboundParams> {
         val flightParamList = ArrayList<FlightInboundParams>()
 
         for (i in 1..inboundCount) {
             val flightInboundParams = FlightInboundParams()
-            flightInboundParams.airlineCode = getQueryParameterIfExists(data, queryParameterNames, prefix + "airlineCode_" + i) ?: ""
-            flightInboundParams.flightNumber = getQueryParameterIfExists(data, queryParameterNames, prefix + "flight_number_" + i) ?: ""
+            val index = i - 1
+            flightInboundParams.airlineCode = getQueryParameterIfExists(data, queryParameterNames, prefix + "airlineCode_" + index) ?: ""
+            flightInboundParams.flightNumber = getQueryParameterIfExists(data, queryParameterNames, prefix + "flight_number_" + index) ?: ""
             flightParamList.add(flightInboundParams)
         }
         return flightParamList
     }
+
+    private fun getFlightOutboundParams(inboundCount: Int, data: Uri, queryParameterNames: MutableSet<String>, prefix: String): ArrayList<FlightOutboundParams> {
+        val flightParamList = ArrayList<FlightOutboundParams>()
+
+        for (i in 1..inboundCount) {
+            val flightInboundParams = FlightOutboundParams()
+            val index = i -1
+            flightInboundParams.airlineCode = getQueryParameterIfExists(data, queryParameterNames, prefix + "airlineCode_" + index) ?: ""
+            flightInboundParams.flightNumber = getQueryParameterIfExists(data, queryParameterNames, prefix + "flight_number_" + index) ?: ""
+            flightParamList.add(flightInboundParams)
+        }
+        return flightParamList
+    }
+
 }
