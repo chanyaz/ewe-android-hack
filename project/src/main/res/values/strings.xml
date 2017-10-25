@@ -4670,5 +4670,6 @@
     <string name="bookmark_package">Bookmark</string>
 
     <string name="bookmarks_menu_label">Bookmarks</string>
+    <string name="itin_rebook_button">REBOOK</string>
 
 </resources>

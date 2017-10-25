@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.animation.Animator;
@@ -30,10 +31,12 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.Bookmark;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -44,6 +47,7 @@ import com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.DeeplinkCreatorUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.ItinActionsSection;
@@ -226,6 +230,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		else {
 			mChevronImageView.setVisibility(View.VISIBLE);
 		}
+		Ui.setOnClickListener(this, R.id.bookmark_button, mOnClickListener);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -1049,6 +1054,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 					mOnItinCardClickListener.onCloseButtonClicked();
 				}
 				break;
+			}
+			case R.id.bookmark_button: {
+				//TODO: Do the rebooking
+				Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
 			}
 			}
 		}

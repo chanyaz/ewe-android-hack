@@ -62,6 +62,23 @@
                     android:layout_marginRight="3dp"
                     android:layout_weight="1" />
 
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/bookmark_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="6dp"
+                    android:maxLines="1"
+                    android:text="@string/itin_rebook_button"
+                    android:textAllCaps="true"
+                    android:textColor="@color/app_primary"
+                    android:textSize="16sp"
+                    app:textStyle="bold" />
+
                 <FrameLayout
                     android:id="@+id/title_menu_layout"
                     android:layout_width="wrap_content"
