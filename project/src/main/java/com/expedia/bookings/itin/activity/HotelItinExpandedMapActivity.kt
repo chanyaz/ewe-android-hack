@@ -159,10 +159,10 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     val drinksButton: LinearLayout by bindView(R.id.drinks_button)
     val drinksList = mutableListOf<YelpBusiness>()
     val drinksText: TextView by bindView(R.id.drinks_text)
+    val activitiesList: MutableList<YelpBusiness>? = null
+    val activitiesButton: LinearLayout by bindView(R.id.activities_button)
+    val activitiesText: TextView by bindView(R.id.activities_text)
 
-    //TODO
-    //val activitiesButton: LinearLayout by bindView(R.id.activities_button)
-    //val activitiesMarkerMap: MutableList<YelpBusiness>? = null
 
     private var googleMap: GoogleMap? = null
     private val MAP_ZOOM_LEVEL = 14f
@@ -282,10 +282,23 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                 markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
                         itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (drink in drinksList) {
-                    markerList.put(addMarker(R.drawable.ic_restaurant_pin, LatLng(
+                    markerList.put(addMarker(R.drawable.ic_drinks_pin, LatLng(
                             drink.coordinates.latitude,
                             drink.coordinates.longitude
                     ),drink.name),drink)
+                }
+            }
+        }
+        activitiesButton.setOnClickListener {
+            turnAllButtonsOff()
+            changeButtonColorOn(activitiesButton, activitiesText)
+            if (activitiesList!!.isNotEmpty()) {
+                googleMap?.clear()
+                markerList = HashMap()
+                markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
+                        itinCardDataHotel.propertyName),itinCardDataHotel)
+                for (activity in activitiesList) {
+//                    markerList.put(addMarker(R.drawable.ic_activity_pin)
                 }
             }
         }
@@ -308,7 +321,8 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                 Pair(poiButton, poiText),
                 Pair(trailsButton, trailsText),
                 Pair(foodButton, foodText),
-                Pair(drinksButton, drinksText)
+                Pair(drinksButton, drinksText),
+                Pair(activitiesButton, activitiesText)
         )
         for (buttonText in buttonTexts) {
             changeButtonColorOff(buttonText.first, buttonText.second)

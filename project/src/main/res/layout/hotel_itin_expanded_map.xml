@@ -54,7 +54,7 @@
                     android:id="@+id/poi_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="POI"
+                    android:text="Landmark"
                     android:textColor="@color/exp_launch_blue" />
             </LinearLayout>
 
