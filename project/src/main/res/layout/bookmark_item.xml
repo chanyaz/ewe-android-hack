@@ -114,27 +114,33 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/bookmark_right_side"
                         android:layout_alignParentRight="true">
-
-                        <com.expedia.bookings.widget.TextView
+                        <ImageView
                             android:id="@+id/remove_bookmark_button"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:clickable="true"
                             android:textStyle="bold"
-                            android:textColor="@color/packages_primary_color"
-                            android:text="REMOVE" />
-
+                            android:background="?android:attr/selectableItemBackground"
+                            android:tint="@color/blue1"
+                            android:src="@drawable/ic_itin_share_delete" />
                         <ImageView
-                            android:id="@+id/bookmark_share_button"
+                            android:id="@+id/edit_traveler_button"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:textColor="@color/packages_primary_color"
                             android:clickable="true"
                             android:textStyle="bold"
+                            android:layout_marginLeft="8dp"
+                            android:src="@drawable/edit_query" />
+
+                        <ImageView
+                            android:id="@+id/bookmark_share_button"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:clickable="true"
                             android:backgroundTint="@color/blue1"
                             android:layout_marginLeft="8dp"
-                            android:src="@drawable/ic_itin_share"
-                            android:text="SHARE" />
+                            android:src="@drawable/ic_itin_share"/>
                     </LinearLayout>
 
                 </RelativeLayout>

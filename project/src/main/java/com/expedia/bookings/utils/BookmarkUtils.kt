@@ -24,7 +24,7 @@ class BookmarkUtils {
             saveAllBookmarks(context, allBookmarks)
         }
 
-        private fun saveAllBookmarks(context: Context, bookmarks: ArrayList<Bookmark>) {
+        fun saveAllBookmarks(context: Context, bookmarks: ArrayList<Bookmark>) {
             val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, DeeplinkSharedPrefParserUtils.LOCAL_DATE_TYPE).create()
             val toJson = gson.toJson(bookmarks, BOOKMARKS_TYPE)
             val bookmarksSharedPref = context.getSharedPreferences(BOOKMARK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
@@ -34,6 +34,7 @@ class BookmarkUtils {
 
         fun getAllBookmarks(context: Context): ArrayList<Bookmark> {
             val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, DeeplinkSharedPrefParserUtils.LOCAL_DATE_TYPE).create()
+
             val bookmarksSharedPref = context.getSharedPreferences(BOOKMARK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
             val fromJson = gson.fromJson<ArrayList<Bookmark>>(bookmarksSharedPref.getString(BOOKMARKS, "")
                     , BOOKMARKS_TYPE) ?: arrayListOf()
@@ -61,6 +62,5 @@ class BookmarkUtils {
                     , BOOKEDMARKS_TYPE) ?: hashMapOf<String, Bookmark>()
             return fromJson
         }
-
     }
 }

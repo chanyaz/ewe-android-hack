@@ -115,7 +115,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             val bookmark = Bookmark("Trip to "+ HtmlCompat.stripHtml(hotelSearchParams.destination),
                     hotelSearchParams.startDate,
                     hotelSearchParams.endDate,
-                    1,
+                    Integer.parseInt(hotelSearchParams.noOfTravelers),
                     DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.PACKAGES),
                     LineOfBusiness.PACKAGES)
             BookmarkUtils.saveBookmark(context, bookmark)
