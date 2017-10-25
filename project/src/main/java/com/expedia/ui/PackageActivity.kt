@@ -1,6 +1,7 @@
 package com.expedia.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -14,9 +15,7 @@ import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isFlexEnabled
+import com.expedia.bookings.utils.*
 import com.expedia.vm.packages.PackageSearchType
 
 class PackageActivity : AbstractAppCompatActivity() {

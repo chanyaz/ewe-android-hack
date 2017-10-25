@@ -39,6 +39,9 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         travelerValidator.updateForNewSearch(params)
         searchParamsObservable.onNext(params)
         SearchParamsHistoryUtil.savePackageParams(context, params)
+        //  user is in the middle of a booking session
+        val sharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.BOOKING_IS_INCOMPLETE, Context.MODE_PRIVATE)
+        sharedPref.edit().putBoolean("isComplete", false).apply()
     }
 
     val hotelSearchParamsObservable = PublishSubject.create<HotelSearchParams>()

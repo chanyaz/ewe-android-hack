@@ -118,6 +118,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
             PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType), pageUsableData, Db.getPackageParams())
+            val sharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.BOOKING_IS_INCOMPLETE, Context.MODE_PRIVATE)
+            sharedPref.edit().putBoolean("isComplete", true).apply()
         }
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)

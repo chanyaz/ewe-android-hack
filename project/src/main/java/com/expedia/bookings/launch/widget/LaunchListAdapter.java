@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
@@ -37,6 +38,7 @@ import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.DeeplinkSharedPrefParserUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.ProWizardBucketCache;
@@ -47,6 +49,7 @@ import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.launch.ActiveItinViewModel;
+import com.expedia.vm.launch.ContinueBookingHolderViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
@@ -66,7 +69,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
 			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
 			|| itemViewKey == LaunchDataItem.ITIN_VIEW
-			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
+			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS
+			|| itemViewKey == LaunchDataItem.CONTINUE_BOOKING;
 	}
 
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
@@ -141,6 +145,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_launch_list_card, parent, false);
 			return new HotelViewHolder(view);
+		}
+
+		if (viewType == LaunchDataItem.CONTINUE_BOOKING) {
+			View view = LayoutInflater.from(context).inflate(R.layout.continue_booking_card, parent, false);
+			return new ContinueBookingCard(view, context);
 		}
 
 		if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
@@ -250,6 +259,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 			((CollectionViewHolder) holder).bindListData(locationDataItem.getCollection(), fullWidthTile, false);
 		}
+		else if (holder instanceof ContinueBookingCard) {
+			((ContinueBookingCard) holder).bind(makeContinueBookingHolderViewModel());
+		}
 	}
 
 	@Override
@@ -289,6 +301,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			items.add(new LaunchDataItem(LaunchDataItem.LOB_VIEW));
 		}
 		if (!showOnlyLOBView) {
+			if (showContinueBookingCard()) {
+				items.add(new LaunchDataItem(LaunchDataItem.CONTINUE_BOOKING));
+			}
 			if (showSignInCard()) {
 				items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
 			}
@@ -414,8 +429,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			context.getString(R.string.launch_upcoming_trips_subtext_signed_in));
 	}
 
+	private ContinueBookingHolderViewModel makeContinueBookingHolderViewModel() {
+		return new ContinueBookingHolderViewModel(context.getString(R.string.continue_booking),
+			context.getString(R.string.continue_booking_subtitle));
+	}
+
 	private boolean showSignInCard() {
 		return !userStateManager.isUserAuthenticated();
+	}
+
+	private boolean showContinueBookingCard() {
+		SharedPreferences sharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.Companion.getBOOKING_IS_INCOMPLETE(), Context.MODE_PRIVATE);
+		Boolean shouldShow = !sharedPref.getBoolean("isComplete", true);
+		return shouldShow;
 	}
 
 	private boolean showAirAttachMessage() {
