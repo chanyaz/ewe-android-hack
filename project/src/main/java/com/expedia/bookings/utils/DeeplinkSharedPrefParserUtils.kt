@@ -146,6 +146,15 @@ class DeeplinkSharedPrefParserUtils {
             return gson.fromJson<List<FlightOutboundParams>>(json, FLIGHT_OUTBOUND_SELECTION_PARAMS_TYPE)
         }
 
+        fun removeSharedPref(context: Context) {
+            val bookmarksSharedPref = context.getSharedPreferences(DeeplinkSharedPrefParserUtils.DEEPLINK_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
+            bookmarksSharedPref.edit().remove(PACKAGES_FLIGHT_INBOUND_PARAMS).apply()
+            bookmarksSharedPref.edit().remove(PACKAGES_FLIGHT_OUTBOUND_PARAMS).apply()
+            bookmarksSharedPref.edit().remove(PACKAGE_SEARCH_PARAMS_KEY).apply()
+            bookmarksSharedPref.edit().remove(PACKAGE_HOTEL_SELECTED_SEARCH_PARAMS_KEY).apply()
+            bookmarksSharedPref.edit().remove(PACKAGE_HOTEL_ROOM_SELECTED_SEARCH_PARAMS_KEY).apply()
+        }
+
     }
 
 }
