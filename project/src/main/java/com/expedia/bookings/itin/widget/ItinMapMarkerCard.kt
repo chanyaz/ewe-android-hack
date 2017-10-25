@@ -44,7 +44,7 @@ class ItinMapMarkerCard (context: Context, attr: AttributeSet?) : LinearLayout(c
     }
 
     fun hideImage(bool: Boolean) = if (bool) {
-        image.visibility = View.INVISIBLE
+        image.visibility = View.GONE
     }
     else {
         chev.visibility = View.VISIBLE

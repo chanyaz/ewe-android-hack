@@ -69,10 +69,10 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             }
             is Trail -> {
                 markerWidget.visibility = View.VISIBLE
-                markerWidget.setTitle(x.name)
-                markerWidget.setBody(x.description)
+                markerWidget.setTitle(x.park_name)
+                markerWidget.setBody(x.name)
                 markerWidget.hideImage(true)
-                markerWidget.hideChev(true)
+                markerWidget.hideChev(false)
             }
             is ItinCardDataHotel -> {
                 markerWidget.setTitle(x.propertyName)
@@ -335,6 +335,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                 when(focused) {
                     is Event -> startActivity(buildWebViewIntent(focused.name.text, focused.url).intent)
                     is YelpBusiness ->  startActivity(buildWebViewIntent(focused.name, focused.url).intent)
+                    is Trail -> startActivity(buildWebViewIntent(focused.park_name, focused.park_agency_website).intent)
                 }
             }
         })
