@@ -6,10 +6,12 @@ import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.EBRequestParams
 import com.expedia.bookings.data.trips.Event
@@ -47,7 +49,12 @@ import rx.subscriptions.CompositeSubscription
 
 
 
-class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener {
+class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMyLocationButtonClickListener {
+    override fun onMyLocationButtonClick(): Boolean {
+        googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(getHotelLatLong(), MAP_ZOOM_LEVEL))
+        return true
+    }
+
     override fun onMarkerClick(p0: Marker?): Boolean {
         val x = markerList[p0]
         selectedMarker = x!!
@@ -429,9 +436,23 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(), itinCardDataHotel.propertyName),itinCardDataHotel)
         googleMap?.setOnCameraMoveStartedListener(this)
         googleMap?.setOnCameraIdleListener(this)
+        googleMap?.setOnMyLocationButtonClickListener(this)
+        googleMap?.uiSettings?.isMyLocationButtonEnabled = true
         startPosition = googleMap?.cameraPosition!!.target
         currentZoom = MAP_ZOOM_LEVEL
         googleMap?.setOnMarkerClickListener(this)
+       if (mapView != null &&
+                mapView.findViewById<View>(Integer.parseInt("1")) != null) {
+            // Get the button view
+            val locationButton = ( mapView.findViewById<View>(Integer.parseInt("1")).parent as View).findViewById<View>(Integer.parseInt("2"))
+            // and next place it, on bottom right (as Google Maps app)
+            val layoutParams = (locationButton.layoutParams as RelativeLayout.LayoutParams)
+
+            // position on right bottom
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
+           layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+           layoutParams.setMargins(0, 0, 30, 235)
+       }
 
     }
 
@@ -611,12 +632,12 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     }
 
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor {
-        val vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        val bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        val canvas = Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
+        val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
+        vectorDrawable.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
+        val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        vectorDrawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
 
