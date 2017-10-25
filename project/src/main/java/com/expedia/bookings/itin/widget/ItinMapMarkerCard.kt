@@ -29,16 +29,22 @@ class ItinMapMarkerCard (context: Context, attr: AttributeSet?) : LinearLayout(c
         }
     }
 
-    fun setTitle(titleText: String) {
+    fun setTitle(titleText: String?) {
         title.text = titleText
     }
 
-    fun setBody(bodyText: String) {
+    fun setBody(bodyText: String?) {
         body.text = bodyText
     }
 
     fun hideChev(bool: Boolean) = if (bool) {
         chev.visibility = View.INVISIBLE
+    } else {
+        chev.visibility = View.VISIBLE
+    }
+
+    fun hideImage(bool: Boolean) = if (bool) {
+        image.visibility = View.INVISIBLE
     }
     else {
         chev.visibility = View.VISIBLE

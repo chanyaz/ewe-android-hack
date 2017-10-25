@@ -168,16 +168,6 @@
 
         </com.nex3z.flowlayout.FlowLayout>
 
-        <FrameLayout
-            android:id="@+id/directions_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/app_primary"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
-
             <com.expedia.bookings.itin.widget.ItinMapMarkerCard
                 android:id="@+id/marker_card"
                 android:layout_width="368dp"
@@ -214,7 +204,7 @@
                 <!--android:textSize="16sp"-->
                 <!--app:textStyle="medium" />-->
 
-        </FrameLayout>
+        <!--</FrameLayout>-->
 
     </android.support.constraint.ConstraintLayout>
 

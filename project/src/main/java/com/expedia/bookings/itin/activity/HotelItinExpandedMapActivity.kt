@@ -5,12 +5,10 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.EBRequestParams
@@ -25,12 +23,12 @@ import com.expedia.bookings.data.trips.YelpAccessToken
 import com.expedia.bookings.data.trips.YelpBusiness
 import com.expedia.bookings.data.trips.YelpRequestParams
 import com.expedia.bookings.data.trips.YelpResponse
+import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
 import com.expedia.bookings.itin.widget.ItinMapMarkerCard
 import com.expedia.bookings.services.TripsHotelMapServices
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -40,10 +38,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
@@ -51,8 +46,51 @@ import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 
 
-class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener {
 
+class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener {
+    override fun onMarkerClick(p0: Marker?): Boolean {
+        val x = markerList[p0]
+        selectedMarker = x!!
+        when(x)
+        {
+            is Event -> {
+                markerWidget.visibility = View.VISIBLE
+                markerWidget.setTitle(x.name.text)
+                markerWidget.setBody(x.description.text)
+                markerWidget.setImage(x.logo.url)
+                markerWidget.hideChev(false)
+            }
+            is TcsData -> {
+                markerWidget.visibility = View.VISIBLE
+                markerWidget.setTitle(x.images.data[0].alt)
+                markerWidget.setBody(x.descriptions.data[0].value)
+                markerWidget.setImage(x.images.data[0].url)
+                markerWidget.hideChev(true)
+            }
+            is Trail -> {
+                markerWidget.visibility = View.VISIBLE
+                markerWidget.setTitle(x.name)
+                markerWidget.setBody(x.description)
+                markerWidget.hideImage(true)
+                markerWidget.hideChev(true)
+            }
+            is ItinCardDataHotel -> {
+                markerWidget.setTitle(x.propertyName)
+                markerWidget.setBody(x.property.localPhone)
+                markerWidget.setImage(x.headerImageUrls[0])
+            }
+            is YelpBusiness -> {
+                markerWidget.visibility = View.VISIBLE
+                markerWidget.setTitle(x.name)
+                //markerWidget.setBody(x.snippet_text)
+                markerWidget.setImage(x.image_url)
+                markerWidget.hideChev(false)
+            }
+
+        }
+        return false
+    }
+    lateinit var selectedMarker: Any
 
     override fun onCameraIdle() {
         if (moveStarted) {
@@ -134,7 +172,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     private var panTracked = false
     private var moveStarted = false
     private var currentZoom = 0f
-
+    private lateinit var markerList: HashMap<Marker?, Any>
     private lateinit var markerWidget: ItinMapMarkerCard
     private val toolbar: HotelItinToolbar by lazy {
         findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
@@ -153,6 +191,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
         mapView.getMapAsync(this)
+        markerList = HashMap()
         markerWidget = findViewById(R.id.marker_card) as ItinMapMarkerCard
 
         musicButton.setOnClickListener {
@@ -160,12 +199,12 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(musicButton, musicText)
             if (musicList.isNotEmpty()) {
                 googleMap?.clear()
-                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),itinCardDataHotel.propertyName), itinCardDataHotel)
                 for (event in musicList) {
-                    addMarker(R.drawable.ic_music_pin, LatLng(
+                    markerList.put(addMarker(R.drawable.ic_music_pin, LatLng(
                             event.venue.latitude,
                             event.venue.longitude
-                    ))
+                    ),event.name.text),event)
                 }
             }
         }
@@ -174,12 +213,13 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(sportsButton, sportsText)
             if (sportsList.isNotEmpty()) {
                 googleMap?.clear()
-                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
+                        itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (event in sportsList) {
-                    addMarker(R.drawable.ic_sports_pin, LatLng(
+                    markerList.put(addMarker(R.drawable.ic_sports_pin, LatLng(
                             event.venue.latitude,
                             event.venue.longitude
-                    ))
+                    ),event.name.text),event)
                 }
             }
         }
@@ -188,12 +228,13 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(trailsButton, trailsText)
             if (trailsList.isNotEmpty()) {
                 googleMap?.clear()
-                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
+                        itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (trail in trailsList) {
-                    addMarker(R.drawable.ic_trail_pin, LatLng(
+                    markerList.put(addMarker(R.drawable.ic_trail_pin, LatLng(
                             trail.latitude.toDouble(),
                             trail.longitude.toDouble()
-                    ))
+                    ),trail.name),trail)
                 }
             }
         }
@@ -202,12 +243,13 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(poiButton, poiText)
             if (poiList.isNotEmpty()) {
                 googleMap?.clear()
-                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
+                        itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (poi in poiList) {
-                    addMarker(R.drawable.ic_landmark_pin, LatLng(
+                    markerList.put(addMarker(R.drawable.ic_landmark_pin, LatLng(
                             poi.geo.latitude.toDouble(),
                             poi.geo.longitude.toDouble()
-                    ))
+                    ),poi.images.data[0].alt),poi)
                 }
             }
         }
@@ -216,12 +258,13 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(foodButton, foodText)
             if (foodList.isNotEmpty()) {
                 googleMap?.clear()
-                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
+                        itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (food in foodList) {
-                    addMarker(R.drawable.ic_restaurant_pin, LatLng(
+                    markerList.put(addMarker(R.drawable.ic_restaurant_pin, LatLng(
                             food.coordinates.latitude,
                             food.coordinates.longitude
-                    ))
+                    ),food.name), food)
                 }
             }
         }
@@ -230,12 +273,13 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             changeButtonColorOn(drinksButton, drinksText)
             if (drinksList.isNotEmpty()) {
                 googleMap?.clear()
-                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(),
+                        itinCardDataHotel.propertyName),itinCardDataHotel)
                 for (drink in drinksList) {
-                    addMarker(R.drawable.ic_restaurant_pin, LatLng(
+                    markerList.put(addMarker(R.drawable.ic_restaurant_pin, LatLng(
                             drink.coordinates.latitude,
                             drink.coordinates.longitude
-                    ))
+                    ),drink.name),drink)
                 }
             }
         }
@@ -263,6 +307,16 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         for (buttonText in buttonTexts) {
             changeButtonColorOff(buttonText.first, buttonText.second)
         }
+
+        markerWidget.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val focused = selectedMarker
+                when(focused) {
+                    is Event -> startActivity(buildWebViewIntent(focused.name.text, focused.url).intent)
+                    is YelpBusiness ->  startActivity(buildWebViewIntent(focused.name, focused.url).intent)
+                }
+            }
+        })
     }
 
     override fun onResume() {
@@ -343,11 +397,12 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap?.isMyLocationEnabled = havePermissionToAccessLocation(this)
         googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(getHotelLatLong(), MAP_ZOOM_LEVEL))
-        addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+        markerList.put(addMarker(R.drawable.ic_hotel_pin, getHotelLatLong(), itinCardDataHotel.propertyName),itinCardDataHotel)
         googleMap?.setOnCameraMoveStartedListener(this)
         googleMap?.setOnCameraIdleListener(this)
         startPosition = googleMap?.cameraPosition!!.target
         currentZoom = MAP_ZOOM_LEVEL
+        googleMap?.setOnMarkerClickListener(this)
 
     }
 
@@ -361,23 +416,13 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
     }
 
-    private fun addMarker(icon: Int, latlong: LatLng) {
-        val marker = MarkerOptions()
-        marker.position(latlong)
-        marker.icon(bitmapDescriptorFromVector(this, icon))
-        googleMap?.addMarker(marker)
-    }
 
-    private fun addMarker(icon: Int, latlong: LatLng, title: String) {
+    private fun addMarker(icon: Int, latlong: LatLng, title: String): Marker? {
         val marker = MarkerOptions()
         marker.position(latlong)
         marker.icon(bitmapDescriptorFromVector(this, icon))
         marker.title(title)
-        when(icon) {
-            R.drawable.ic_music_pin ->  googleMap?.addMarker(marker)?.tag = 0
-            R.drawable.ic_sports_pin ->  googleMap?.addMarker(marker)?.tag = 1
-        }
-//        googleMap?.addMarker(marker)
+        return googleMap?.addMarker(marker)
     }
 
     private fun getHotelLatLong(): LatLng {
@@ -549,5 +594,13 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     override fun onDestroy() {
         super.onDestroy()
         compositeSubscription.unsubscribe()
+    }
+
+    private fun buildWebViewIntent(title: String, url: String): WebViewActivity.IntentBuilder {
+        val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(this)
+        builder.setUrl(url)
+        builder.setTitle(title)
+        builder.setAllowMobileRedirects(false)
+        return builder
     }
 }
