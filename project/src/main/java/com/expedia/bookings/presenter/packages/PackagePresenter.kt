@@ -16,10 +16,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
-import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.BaseApiResponse
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.*
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
@@ -108,6 +105,15 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         checkoutPresenter.getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val response = pair.first as PackageCheckoutResponse
             show(confirmationPresenter)
+            val newTrip = response.newTrip
+            if (newTrip != null) {
+                val tripID = newTrip!!.tripId
+
+                val hotelSearchParams = DeeplinkCreatorUtils.hotelSearchParams!!
+                val bookmark = Bookmark("Trip to " + hotelSearchParams.destination, hotelSearchParams.startDate, hotelSearchParams.endDate, 1, DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.PACKAGES), LineOfBusiness.PACKAGES)
+
+                BookmarkUtils.saveTripBooked(context, tripID!!, bookmark)
+            }
             pageUsableData.markAllViewsLoaded(Date().time)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
