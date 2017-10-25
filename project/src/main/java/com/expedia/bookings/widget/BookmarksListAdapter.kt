@@ -86,8 +86,10 @@ class BookmarksListAdapter(val bookmarksList: ArrayList<Bookmark>) : RecyclerVie
         private fun shareBookmark(bookmark: Bookmark) {
             val shareIntent = Intent()
             shareIntent.action = Intent.ACTION_SEND
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Checkout out this bookmark")
-            shareIntent.putExtra(Intent.EXTRA_TEXT, bookmark.deeplinkURL.replace(" ", ""))
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Checkout out this trip I created")
+
+            val title = bookmark.title.replace("Trip", "trip")
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Hey, I'd like you to checkout this "+ title +" that I created. "+bookmark.deeplinkURL.replace(" ", ""))
             shareIntent.type = "text/plain"
 
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
