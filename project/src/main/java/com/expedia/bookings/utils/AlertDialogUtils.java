@@ -45,8 +45,8 @@ public class AlertDialogUtils {
 		b.show();
 	}
 
-	public static void showBookmarkDialog(Context context, String message) {
-		ProgressDialog progressDialog = new ProgressDialog(context);
+	public static void showBookmarkDialog(final Context context, String message) {
+		final ProgressDialog progressDialog = new ProgressDialog(context);
 		progressDialog.show();
 		progressDialog.setContentView(R.layout.processing_bookmark_layout);
 		progressDialog.setCancelable(false);
@@ -54,6 +54,13 @@ public class AlertDialogUtils {
 			progressDialog.setMessage(message);
 			TextView textView = progressDialog.findViewById(R.id.cancel_bookmark_button);
 			textView.setVisibility(View.VISIBLE);
+			textView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					progressDialog.dismiss();
+					DeeplinkSharedPrefParserUtils.Companion.removeSharedPref(context);
+				}
+			});
 		}
 	}
 }
