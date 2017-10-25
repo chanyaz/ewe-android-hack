@@ -153,6 +153,7 @@ class DeeplinkSharedPrefParserUtils {
             bookmarksSharedPref.edit().remove(PACKAGE_SEARCH_PARAMS_KEY).apply()
             bookmarksSharedPref.edit().remove(PACKAGE_HOTEL_SELECTED_SEARCH_PARAMS_KEY).apply()
             bookmarksSharedPref.edit().remove(PACKAGE_HOTEL_ROOM_SELECTED_SEARCH_PARAMS_KEY).apply()
+            isDeeplink = false
         }
 
     }
