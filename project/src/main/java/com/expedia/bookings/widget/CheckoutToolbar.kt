@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -8,7 +9,6 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Bookmark
 import com.expedia.bookings.data.LineOfBusiness
@@ -110,10 +110,10 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         bookmarkIcon.isVisible = false
         bookmarkIcon.isEnabled = false
         bookmarkIcon.setOnMenuItemClickListener {
-            Toast.makeText(context, "Your trip has been bookmarked. Please check the bookmark screen to revisit this trip", Toast.LENGTH_LONG).show()
             val hotelSearchParams = DeeplinkCreatorUtils.hotelSearchParams!!
             val bookmark = Bookmark("Trip to "+ hotelSearchParams.destination, hotelSearchParams.startDate, hotelSearchParams.endDate, 1, DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.PACKAGES), LineOfBusiness.PACKAGES)
             BookmarkUtils.saveBookmark(context, bookmark)
+            showBookmarkAddedDialog()
             true
         }
 
@@ -172,6 +172,16 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
 
     override fun enableRightActionButton(enable: Boolean) {
         viewModel.enableMenuItem.onNext(enable)
+    }
+
+    private fun showBookmarkAddedDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.bookmark_added_title)
+        builder.setMessage(R.string.bookmark_added_message)
+        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which -> dialog.dismiss() }
+        builder.setCancelable(true)
+        val dialog = builder.create()
+        dialog.show()
     }
 
 }

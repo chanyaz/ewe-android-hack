@@ -4671,5 +4671,7 @@
 
     <string name="bookmarks_menu_label">Bookmarks</string>
     <string name="itin_rebook_button">REBOOK</string>
+    <string name="bookmark_added_title">Bookmark Added!</string>
+    <string name="bookmark_added_message">"Your trip has been bookmarked. Please go to the bookmarks page in the home screen to revisit this trip."</string>
 
 </resources>
