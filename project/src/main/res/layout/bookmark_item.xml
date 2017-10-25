@@ -131,6 +131,8 @@
                             android:clickable="true"
                             android:textStyle="bold"
                             android:layout_marginLeft="8dp"
+                            android:tint="@color/blue1"
+                            android:background="?android:attr/selectableItemBackground"
                             android:src="@drawable/edit_query" />
 
                         <ImageView

@@ -105,6 +105,7 @@ class BookmarksListAdapter(var bookmarksList: ArrayList<Bookmark>) : RecyclerVie
         private fun openTravelerWidget(bookmark: Bookmark, view: View) {
             currentBookmark = bookmark
             val popup = PopupMenu(context, view)
+            popup.setOnMenuItemClickListener(this)
             val inflater = popup.menuInflater
             inflater.inflate(R.menu.bookmark_menu, popup.menu);
             popup.show()

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/edit_traveler"
+        android:title="Edit Travelers" />
+    <item android:id="@+id/edit_dates"
+        android:title="Edit Travel Dates" />
+
+</menu>
