@@ -193,6 +193,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
         hotelSearchParams.endDate = DeeplinkCreatorUtils.DATE_FORMATTER.parseLocalDate(getQueryParameterIfExists(data, queryParameterNames, "endDate")?: "")
         hotelSearchParams.originAirportCode = getQueryParameterIfExists(data, queryParameterNames, "originAirportCode")?: ""
         hotelSearchParams.destinationAirportCode = getQueryParameterIfExists(data, queryParameterNames, "destinationAirportCode")?: ""
+        hotelSearchParams.noOfTravelers = getQueryParameterIfExists(data, queryParameterNames, "noOfTravelers")?: ""
 
         DeeplinkSharedPrefParserUtils.saveHotelSearchDeeplinkParams(hotelSearchParams, context)
 

@@ -52,7 +52,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             val origin = getSuggestion(params, isOrigin = true)
             val destination = getSuggestion(params, isOrigin = false)
             val infantSeatingInLap = false //TODO: Work on later
-            val numOfAdults = 1 //TODO: Work on later
+            val numOfAdults = Integer.parseInt(params.noOfTravelers)
             val children = ArrayList<Int>() //TODO: Work on later
 
             val packageParams = getParamsBuilder()

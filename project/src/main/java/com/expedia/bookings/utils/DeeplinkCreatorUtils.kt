@@ -34,7 +34,7 @@ class DeeplinkCreatorUtils() {
                         deeplinkURL += "origin=" + searchParams.origin + "&originID=" + searchParams.originID + "&destination=" + searchParams.destination +
                                 "&destinationID=" + searchParams.destinationID + "&startDate=" + DATE_FORMATTER.print(searchParams.startDate) +
                                 "&endDate=" + DATE_FORMATTER.print(searchParams.endDate) + "&originAirportCode=" + searchParams.originAirportCode +
-                                "&destinationAirportCode=" + searchParams.destinationAirportCode
+                                "&destinationAirportCode=" + searchParams.destinationAirportCode + "&noOfTravelers=" + searchParams.noOfTravelers
                     }
                     if (hotelSelectionParams !=null){
                         deeplinkURL+= "&hotelID=" + hotelSelectionParams!!.selectedHotelID
@@ -112,6 +112,7 @@ open class HotelSearchParams {
     lateinit var destinationID: String
     lateinit var originAirportCode: String
     lateinit var destinationAirportCode: String
+    lateinit var noOfTravelers: String
 }
 
 class HotelSelectionParams {
