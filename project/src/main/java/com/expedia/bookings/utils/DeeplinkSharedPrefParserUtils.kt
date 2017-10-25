@@ -35,6 +35,8 @@ class DeeplinkSharedPrefParserUtils {
 
         val LOCAL_DATE_TYPE = LocalDateTypeAdapter("dd/MM/yyyy")
 
+        val BOOKING_IS_INCOMPLETE = "booking_is_incomplete"
+
 
         fun saveHotelSearchDeeplinkParams(hotelSearchParams: HotelSearchParams, context: Context) {
             val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LOCAL_DATE_TYPE).create()

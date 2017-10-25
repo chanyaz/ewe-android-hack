@@ -24,7 +24,6 @@ class DeeplinkCreatorUtils() {
 
         val DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy")
 
-
         fun generateDeeplinkForCurrentPath(lob: LineOfBusiness): String {
             var deeplinkURL = ""
             when (lob) {
@@ -96,7 +95,6 @@ class DeeplinkCreatorUtils() {
             return flightParamString
         }
     }
-
 
 }
 

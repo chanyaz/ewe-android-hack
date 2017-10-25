@@ -18,7 +18,6 @@ class BookmarkUtils {
 
         val BOOKEDMARKS_TYPE = object : TypeToken<HashMap<String, Bookmark>>() {}.type
 
-
         fun saveBookmark(context: Context, bookmark: Bookmark) {
             val allBookmarks = getAllBookmarks(context)
             allBookmarks.add(bookmark)
