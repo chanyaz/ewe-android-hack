@@ -47,7 +47,7 @@ class BookmarksListAdapter(val bookmarksList: ArrayList<Bookmark>) : RecyclerVie
             setBookmarkIcon(bookmark)
             setLobString(bookmark)
             itemView.setOnClickListener {
-                Toast.makeText(itemView.context, bookmark.deeplinkURL, Toast.LENGTH_SHORT).show()
+                Toast.makeText(itemView.context, bookmark.title, Toast.LENGTH_SHORT).show()
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(bookmark.deeplinkURL))
                 context.startActivity(intent)
             }

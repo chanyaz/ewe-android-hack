@@ -38,7 +38,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
         resultsMapView.onCreate(savedInstanceState)
         detailsMapView.onCreate(savedInstanceState)
         if (DeeplinkSharedPrefParserUtils.isDeeplink) {
-            AlertDialogUtils.showBookmarkDialog(this, "Choosing your hotels...")
+            AlertDialogUtils.showBookmarkDialog(this, "Choosing your hotel...")
         }
         if (intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
             // back to hotel room, should also be able to back to hotel results
