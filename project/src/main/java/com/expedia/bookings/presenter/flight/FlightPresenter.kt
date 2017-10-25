@@ -30,7 +30,6 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
-import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -330,7 +329,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
             show(confirmationPresenter)
             pageUsableData.markAllViewsLoaded(Date().time)
-            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse, pageUsableData)
+            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse, pageUsableData, flightOverviewPresenter.flightSummary)
             if (confirmationPresenter.viewModel.crossSellWidgetVisibility.value) {
                 FlightsV2Tracking.trackAirAttachShown()
             }

@@ -190,10 +190,12 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightCheckoutPaymentCID()
     }
 
-    fun trackCheckoutConfirmationPageLoad(flightCheckoutResponse: FlightCheckoutResponse, pageUsableData: PageUsableData) {
+    fun trackCheckoutConfirmationPageLoad(flightCheckoutResponse: FlightCheckoutResponse, pageUsableData: PageUsableData, flightSummary: FlightSummaryWidget) {
         val searchParams = Db.getFlightSearchParams()
         OmnitureTracking.trackFlightCheckoutConfirmationPageLoad(pageUsableData)
         TuneUtils.trackFlightV2Booked(flightCheckoutResponse, searchParams)
+        CarnivalUtils.getInstance().trackFlightCheckoutConfirmation(searchParams.destination?.regionNames?.fullName, searchParams.adults, searchParams.departureDate,
+                flightSummary.outboundFlightWidget.viewModel.flight.value, flightSummary.inboundFlightWidget.viewModel.flight.value, searchParams.isRoundTrip())
         FacebookEvents().trackFlightV2Confirmation(flightCheckoutResponse, searchParams)
     }
 

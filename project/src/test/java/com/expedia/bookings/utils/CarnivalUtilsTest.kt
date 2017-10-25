@@ -138,6 +138,49 @@ class CarnivalUtilsTest : CarnivalUtils() {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackFlightConfirmation() {
+        reset()
+
+        val outboundLeg = FlightLeg()
+        val outboundSegment = FlightLeg.FlightSegment()
+        outboundSegment.durationHours = 2
+        outboundSegment.durationMinutes = 30
+        outboundSegment.layoverDurationHours = 0
+        outboundSegment.layoverDurationMinutes = 0
+        outboundSegment.airlineName = "Delta"
+        outboundSegment.flightNumber = "103"
+        val outboundSegment2 = FlightLeg.FlightSegment()
+        outboundSegment2.durationHours = 1
+        outboundSegment2.durationMinutes = 0
+        outboundSegment2.layoverDurationHours = 0
+        outboundSegment2.layoverDurationMinutes = 0
+        outboundSegment2.airlineName = "Delta"
+        outboundSegment2.flightNumber = "123"
+        outboundLeg.segments = listOf(outboundSegment, outboundSegment2)
+
+        val inboundLeg = FlightLeg()
+        val inboundSegment = FlightLeg.FlightSegment()
+        inboundSegment.durationHours = 1
+        inboundSegment.durationMinutes = 15
+        inboundSegment.layoverDurationHours = 0
+        inboundSegment.layoverDurationMinutes = 45
+        inboundSegment.airlineName = "United"
+        inboundSegment.flightNumber = "212"
+        inboundLeg.segments = listOf(inboundSegment)
+
+        this.trackFlightCheckoutConfirmation("Orlando - MCO", 2, LocalDate.now(), outboundLeg, inboundLeg, true)
+
+        assertEquals(eventNameToLog, "confirmation_flight")
+        assertEquals(attributesToSend.get("confirmation_flight_destination"), "Orlando - MCO")
+        assertEquals(attributesToSend.get("confirmation_flight_airline"), arrayListOf("Delta","United"))
+        assertEquals(attributesToSend.get("confirmation_flight_flight_number"), arrayListOf("123","212", "103"))
+        assertEquals(attributesToSend.get("confirmation_flight_number_of_adults"), 2)
+        assertEquals(attributesToSend.get("confirmation_flight_departure_date"), LocalDate.now().toDate())
+        assertEquals(attributesToSend.get("confirmation_flight_length_of_flight"), "5:30")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackLxConfirmation() {
         reset()
 

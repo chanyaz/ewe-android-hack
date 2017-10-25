@@ -5,7 +5,6 @@ import android.util.Log
 import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Carnival
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
@@ -82,6 +81,19 @@ open class CarnivalUtils {
             attributes.putDate("checkout_start_flight_departure_date", departure_date.toDate())
             attributes.putString("checkout_start_flight_length_of_flight", calculateTotalTravelTime(outboundFlight, inboundFlight, isRoundTrip))
             setAttributes(attributes, "checkout_start_flight")
+        }
+    }
+
+    fun trackFlightCheckoutConfirmation(destination: String?, adults: Int, departure_date: LocalDate, outboundFlight: FlightLeg?, inboundFlight: FlightLeg?, isRoundTrip: Boolean) {
+        if (isFeatureToggledOn() && initialized) {
+            val attributes = AttributeMap()
+            attributes.putString("confirmation_flight_destination", destination)
+            attributes.putStringArray("confirmation_flight_airline", getAllAirlinesInTrip(outboundFlight, inboundFlight, isRoundTrip))
+            attributes.putStringArray("confirmation_flight_flight_number", getAllFlightNumbersInTrip(outboundFlight, inboundFlight, isRoundTrip))
+            attributes.putInt("confirmation_flight_number_of_adults", adults)
+            attributes.putDate("confirmation_flight_departure_date", departure_date.toDate())
+            attributes.putString("confirmation_flight_length_of_flight", calculateTotalTravelTime(outboundFlight, inboundFlight, isRoundTrip))
+            setAttributes(attributes, "confirmation_flight")
         }
     }
 
