@@ -16,6 +16,9 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
 
      fun parseCustomDeepLink(data: Uri, context: Context): DeepLink {
         val routingDestination = data.host.toLowerCase(Locale.US)
+         if (data.toString().contains("replayPackages")){
+             return parsePackagesReplayCustomDeepLink(data, context)
+         }
         when(routingDestination) {
             "hotelsearch" -> return parseHotelCustomDeepLink(data)
             "flightsearch" -> return parseFlightCustomDeepLink(data)
@@ -31,7 +34,6 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
             "packagesearch" -> return parsePackagesSearchCustomDeepLink(data)
             "railsearch" -> return parseRailSearchCustomDeepLink(data)
             "flightshare" -> return parseFlightShareCustomDeepLink(data)
-            "replaypackages" -> return parsePackagesReplayCustomDeepLink(data, context)
             else -> return HomeDeepLink()
         }
     }

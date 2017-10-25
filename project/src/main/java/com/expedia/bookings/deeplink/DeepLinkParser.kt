@@ -16,7 +16,7 @@ open class DeepLinkParser(assets: AssetManager) {
 
     fun parseDeepLink(data: Uri, context: Context) : DeepLink {
         val scheme = data.scheme
-        if (isUniversalLink(scheme)) {
+        if (isUniversalLink(scheme) && !data.toString().contains("replayPackages")) {
             return UniversalDeepLinkParser(ASSETS).parseUniversalDeepLink(data)
         }
         else {

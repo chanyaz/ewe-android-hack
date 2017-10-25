@@ -1,8 +1,10 @@
 package com.expedia.bookings.widget
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +39,7 @@ class BookmarksListAdapter(val bookmarksList: ArrayList<Bookmark>) : RecyclerVie
         val subtitleTextView: TextView by bindView(R.id.bookmark_subtitle)
         val bookmarkTypeIcon: ImageView by bindView(R.id.bookmark_icon)
         val lineOfBusinessTextView: TextView by bindView(R.id.bookmark_type_textView)
+        val shareButton: TextView by bindView(R.id.bookmark_share_button)
 
         fun bindItems(bookmark: Bookmark) {
             titleTextView.text = bookmark.title
@@ -47,6 +50,9 @@ class BookmarksListAdapter(val bookmarksList: ArrayList<Bookmark>) : RecyclerVie
                 Toast.makeText(itemView.context, bookmark.deeplinkURL, Toast.LENGTH_SHORT).show()
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(bookmark.deeplinkURL))
                 context.startActivity(intent)
+            }
+            shareButton.setOnClickListener {
+                shareBookmark(bookmark)
             }
         }
 
@@ -73,6 +79,25 @@ class BookmarksListAdapter(val bookmarksList: ArrayList<Bookmark>) : RecyclerVie
                 LineOfBusiness.HOTELS -> "Hotels"
                 LineOfBusiness.PACKAGES -> "Hotel + Flights"
                 else -> "Trip"
+            }
+        }
+
+
+        private fun shareBookmark(bookmark: Bookmark) {
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Checkout out this bookmark")
+            shareIntent.putExtra(Intent.EXTRA_TEXT, bookmark.deeplinkURL.replace(" ", ""))
+            shareIntent.type = "text/plain"
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                context.startActivity(shareIntent)
+            } else {
+                val receiver = Intent(context, Bookmark::class.java)
+                val pendingIntent = PendingIntent.getBroadcast(context, 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT)
+                val chooserIntent = Intent.createChooser(shareIntent, "", pendingIntent.intentSender)
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent)
+                context.startActivity(chooserIntent)
             }
         }
     }

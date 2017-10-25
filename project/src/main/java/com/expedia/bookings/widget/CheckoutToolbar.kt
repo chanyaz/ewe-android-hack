@@ -13,6 +13,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Bookmark
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.interfaces.ToolbarListener
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.*
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -111,7 +112,12 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         bookmarkIcon.isEnabled = false
         bookmarkIcon.setOnMenuItemClickListener {
             val hotelSearchParams = DeeplinkCreatorUtils.hotelSearchParams!!
-            val bookmark = Bookmark("Trip to "+ hotelSearchParams.destination, hotelSearchParams.startDate, hotelSearchParams.endDate, 1, DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.PACKAGES), LineOfBusiness.PACKAGES)
+            val bookmark = Bookmark("Trip to "+ HtmlCompat.stripHtml(hotelSearchParams.destination),
+                    hotelSearchParams.startDate,
+                    hotelSearchParams.endDate,
+                    1,
+                    DeeplinkCreatorUtils.generateDeeplinkForCurrentPath(LineOfBusiness.PACKAGES),
+                    LineOfBusiness.PACKAGES)
             BookmarkUtils.saveBookmark(context, bookmark)
             showBookmarkAddedDialog()
             true
