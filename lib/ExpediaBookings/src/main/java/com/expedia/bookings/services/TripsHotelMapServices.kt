@@ -66,7 +66,8 @@ open class TripsHotelMapServices(val subscribeOn: Scheduler, val observeOn: Sche
                 params.within,
                 params.start,
                 params.end,
-                params.expand
+                params.expand,
+                params.categories
         )
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)

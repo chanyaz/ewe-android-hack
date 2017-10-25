@@ -21,6 +21,7 @@ import com.expedia.bookings.data.trips.Trail
 import com.expedia.bookings.data.trips.TrailsRequestParams
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
+import com.expedia.bookings.itin.widget.ItinMapMarkerCard
 import com.expedia.bookings.services.TripsHotelMapServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -42,10 +43,10 @@ import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
-import java.util.Locale
 
 
 class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener {
+
 
     override fun onCameraIdle() {
         if (moveStarted) {
@@ -89,12 +90,12 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     private val mapView: MapView by lazy {
         findViewById(R.id.expanded_map_view_hotel) as MapView
     }
-    val directionsButton: FrameLayout by lazy {
-        findViewById(R.id.directions_button) as FrameLayout
-    }
-    private val directionsButtonText: TextView by lazy {
-        findViewById(R.id.directions_button_text) as TextView
-    }
+//    val directionsButton: FrameLayout by lazy {
+//        findViewById(R.id.directions_button) as FrameLayout
+//    }
+//    private val directionsButtonText: TextView by lazy {
+//        findViewById(R.id.directions_button_text) as TextView
+//    }
 
     val musicButton: Button by lazy {
         findViewById(R.id.music_button) as Button
@@ -116,6 +117,8 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     private var panTracked = false
     private var moveStarted = false
     private var currentZoom = 0f
+
+    private lateinit var markerWidget: ItinMapMarkerCard
     private val toolbar: HotelItinToolbar by lazy {
         findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
     }
@@ -133,6 +136,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
         mapView.getMapAsync(this)
+        markerWidget = findViewById(R.id.marker_card) as ItinMapMarkerCard
     }
 
     override fun onResume() {
@@ -155,7 +159,8 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                 "5mi",
                 itinCardDataHotel.startDate.toString(ISODateTimeFormat.dateHourMinuteSecond()),
                 itinCardDataHotel.endDate.plusDays(1).toString(ISODateTimeFormat.dateHourMinuteSecond()),
-                "venue"),
+                "venue",
+                "103,108"),
                 ebObserver))
 
         compositeSubscription.add(tripsHotelMapServices.getTrails(
@@ -185,22 +190,22 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             super.finish()
             overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
         }
-        directionsButtonText.setCompoundDrawablesTint(ContextCompat.getColor(this, R.color.white))
-        AccessibilityUtil.appendRoleContDesc(directionsButton, directionsButtonText.text.toString(), R.string.accessibility_cont_desc_role_button)
-        directionsButton.setOnClickListener {
-            val hotelLat = itinCardDataHotel.propertyLocation.latitude
-            val hotelLong = itinCardDataHotel.propertyLocation.longitude
-            val propertyName = itinCardDataHotel.propertyName
-
-            val uri = String.format(Locale.getDefault(), "geo:0,0?q=") + android.net.Uri.encode(String.format("%s@%f,%f", propertyName, hotelLat, hotelLong), "UTF-8")
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-            intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT
-            intent.flags = Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
-            intent.data = Uri.parse(uri)
-            this.startActivity(intent)
-
-            OmnitureTracking.trackItinHotelDirectionsButton()
-        }
+//        directionsButtonText.setCompoundDrawablesTint(ContextCompat.getColor(this, R.color.white))
+//        AccessibilityUtil.appendRoleContDesc(directionsButton, directionsButtonText.text.toString(), R.string.accessibility_cont_desc_role_button)
+//        directionsButton.setOnClickListener {
+//            val hotelLat = itinCardDataHotel.propertyLocation.latitude
+//            val hotelLong = itinCardDataHotel.propertyLocation.longitude
+//            val propertyName = itinCardDataHotel.propertyName
+//
+//            val uri = String.format(Locale.getDefault(), "geo:0,0?q=") + android.net.Uri.encode(String.format("%s@%f,%f", propertyName, hotelLat, hotelLong), "UTF-8")
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+//            intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT
+//            intent.flags = Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
+//            intent.data = Uri.parse(uri)
+//            this.startActivity(intent)
+//
+//            OmnitureTracking.trackItinHotelDirectionsButton()
+//        }
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -234,6 +239,18 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         marker.position(latlong)
         marker.icon(bitmapDescriptorFromVector(this, icon))
         googleMap?.addMarker(marker)
+    }
+
+    private fun addMarker(icon: Int, latlong: LatLng, title: String) {
+        val marker = MarkerOptions()
+        marker.position(latlong)
+        marker.icon(bitmapDescriptorFromVector(this, icon))
+        marker.title(title)
+        when(icon) {
+            R.drawable.ic_music_pin ->  googleMap?.addMarker(marker)?.tag = 0
+            R.drawable.ic_sports_pin ->  googleMap?.addMarker(marker)?.tag = 1
+        }
+//        googleMap?.addMarker(marker)
     }
 
     private fun getHotelLatLong(): LatLng {
@@ -277,7 +294,10 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                     val lat = event.venue.latitude
                     val long = event.venue.longitude
                     val latLong = LatLng(lat, long)
-                    addMarker(R.drawable.ic_music_pin, latLong)
+                    when(event.category_id) {
+                        "103" -> addMarker(R.drawable.ic_music_pin, latLong, event.name.text)
+                        "108" -> addMarker(R.drawable.ic_sports_pin, latLong, event.name.text)
+                    }
                 }
                 Log.d("EBRESPONSE: ", t.events[0].name.text)
             }

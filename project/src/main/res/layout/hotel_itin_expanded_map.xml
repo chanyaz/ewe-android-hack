@@ -25,8 +25,8 @@
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/expanded_map_view_hotel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -62,33 +62,44 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/directions_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/app_primary"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/directions_button_text"
-                android:layout_width="wrap_content"
+            <com.expedia.bookings.itin.widget.ItinMapMarkerCard
+                android:id="@+id/marker_card"
+                android:layout_width="368dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/app_primary"
-                android:drawableLeft="@drawable/ic_directions_icon_cta_button"
-                android:drawablePadding="6dp"
-                android:gravity="center"
-                android:paddingBottom="17dp"
-                android:paddingTop="16dp"
-                android:text="@string/directions"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:textStyle="medium" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:visibility="gone"
+                tools:layout_editor_absoluteX="8dp" />
 
-        </FrameLayout>
+        <!--<FrameLayout-->
+            <!--android:id="@+id/directions_button"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/app_primary"-->
+            <!--android:foreground="?android:attr/selectableItemBackground"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintRight_toRightOf="parent">-->
+
+            <!--<com.expedia.bookings.widget.TextView-->
+                <!--android:id="@+id/directions_button_text"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@color/app_primary"-->
+                <!--android:drawableLeft="@drawable/ic_directions_icon_cta_button"-->
+                <!--android:drawablePadding="6dp"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingBottom="17dp"-->
+                <!--android:paddingTop="16dp"-->
+                <!--android:text="@string/directions"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="16sp"-->
+                <!--app:textStyle="medium" />-->
+
+        <!--</FrameLayout>-->
 
     </android.support.constraint.ConstraintLayout>
 

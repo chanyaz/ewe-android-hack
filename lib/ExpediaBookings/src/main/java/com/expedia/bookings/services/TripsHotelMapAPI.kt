@@ -36,7 +36,8 @@ interface TripsHotelMapAPI {
             @Query("location.within") location: String,
             @Query("start_date.range_start") start: String,
             @Query("start_date.range_end") end: String,
-            @Query("expand") expand: String
+            @Query("expand") expand: String,
+            @Query("categories") categories: String?
 
     ): Observable<EventbriteResponse>
 

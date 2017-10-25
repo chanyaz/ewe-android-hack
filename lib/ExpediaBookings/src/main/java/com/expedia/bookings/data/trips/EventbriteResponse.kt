@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.trips
 
-import java.time.LocalDate
-
 class EventbriteResponse(val events: List<Event>)
 
 class Event(
@@ -11,7 +9,8 @@ class Event(
         val description: Description,
         val url: String,
         val is_free: Boolean,
-        val venue: Venue
+        val venue: Venue,
+        val category_id: String
 )
 
 class Name(val text: String)

@@ -6,5 +6,6 @@ data class EBRequestParams (
     val within: String,
     val start: String,
     val end: String,
-    val expand: String
+    val expand: String,
+    val categories: String?
     )
