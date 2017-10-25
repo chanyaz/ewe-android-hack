@@ -39,7 +39,7 @@ class BookmarksListAdapter(val bookmarksList: ArrayList<Bookmark>) : RecyclerVie
         val subtitleTextView: TextView by bindView(R.id.bookmark_subtitle)
         val bookmarkTypeIcon: ImageView by bindView(R.id.bookmark_icon)
         val lineOfBusinessTextView: TextView by bindView(R.id.bookmark_type_textView)
-        val shareButton: TextView by bindView(R.id.bookmark_share_button)
+        val shareButton: ImageView by bindView(R.id.bookmark_share_button)
 
         fun bindItems(bookmark: Bookmark) {
             titleTextView.text = bookmark.title
