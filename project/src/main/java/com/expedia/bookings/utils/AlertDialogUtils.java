@@ -51,10 +51,12 @@ public class AlertDialogUtils {
 		progressDialog.setContentView(R.layout.processing_bookmark_layout);
 		progressDialog.setCancelable(false);
 		if (Strings.isNotEmpty(message)) {
-			progressDialog.setMessage(message);
-			TextView textView = progressDialog.findViewById(R.id.cancel_bookmark_button);
-			textView.setVisibility(View.VISIBLE);
-			textView.setOnClickListener(new View.OnClickListener() {
+			TextView dialogMessage = progressDialog.findViewById(R.id.fetching_your_bookmark_tv);
+			dialogMessage.setText(message);
+
+			TextView cancelButton = progressDialog.findViewById(R.id.cancel_bookmark_button);
+			cancelButton.setVisibility(View.VISIBLE);
+			cancelButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					progressDialog.dismiss();
