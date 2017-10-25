@@ -97,6 +97,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
         positionChildren()
+        flightListAdapter.IsInboundResultDisplay = !isShowingOutboundResults
         flightListAdapter.setNewFlights(it)
         filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
     }
