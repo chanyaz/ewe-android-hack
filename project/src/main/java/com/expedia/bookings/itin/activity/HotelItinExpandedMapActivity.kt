@@ -197,6 +197,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 
         musicButton.setOnClickListener {
             turnAllButtonsOff()
+            markerWidget.visibility = View.GONE
             changeButtonColorOn(musicButton, musicText)
             if (musicList.isNotEmpty()) {
                 googleMap?.clear()
@@ -212,6 +213,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
         sportsButton.setOnClickListener {
             turnAllButtonsOff()
+            markerWidget.visibility = View.GONE
             changeButtonColorOn(sportsButton, sportsText)
             if (sportsList.isNotEmpty()) {
                 googleMap?.clear()
@@ -228,6 +230,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
         trailsButton.setOnClickListener {
             turnAllButtonsOff()
+            markerWidget.visibility = View.GONE
             changeButtonColorOn(trailsButton, trailsText)
             if (trailsList.isNotEmpty()) {
                 googleMap?.clear()
@@ -244,6 +247,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
         poiButton.setOnClickListener {
             turnAllButtonsOff()
+            markerWidget.visibility = View.GONE
             changeButtonColorOn(poiButton, poiText)
             if (poiList.isNotEmpty()) {
                 googleMap?.clear()
@@ -260,6 +264,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
         foodButton.setOnClickListener {
             turnAllButtonsOff()
+            markerWidget.visibility = View.GONE
             changeButtonColorOn(foodButton, foodText)
             if (foodList.isNotEmpty()) {
                 googleMap?.clear()
@@ -276,6 +281,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
         drinksButton.setOnClickListener {
             turnAllButtonsOff()
+            markerWidget.visibility = View.GONE
             changeButtonColorOn(drinksButton, drinksText)
             if (drinksList.isNotEmpty()) {
                 googleMap?.clear()
@@ -292,6 +298,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         }
         activitiesButton.setOnClickListener {
             turnAllButtonsOff()
+            markerWidget.visibility = View.GONE
             changeButtonColorOn(activitiesButton, activitiesText)
             if (activitiesList!!.isNotEmpty()) {
                 googleMap?.clear()
