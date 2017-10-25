@@ -6,6 +6,9 @@ import com.expedia.bookings.data.trips.TcsRequestParams
 import com.expedia.bookings.data.trips.TcsResponse
 import com.expedia.bookings.data.trips.Trail
 import com.expedia.bookings.data.trips.TrailsRequestParams
+import com.expedia.bookings.data.trips.YelpAccessToken
+import com.expedia.bookings.data.trips.YelpRequestParams
+import com.expedia.bookings.data.trips.YelpResponse
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,7 +21,8 @@ open class TripsHotelMapServices(val subscribeOn: Scheduler, val observeOn: Sche
     enum class Endpoint(val value: String) {
         TCS("https://apim.expedia.com"),
         EB("https://www.eventbriteapi.com/v3/"),
-        TRAILS("https://api.transitandtrails.org?key=&limit=50&latitude=40.7128&longitude=-74.0060&distance=75")
+        TRAILS("https://api.transitandtrails.org"),
+        YELP("https://api.yelp.com")
     }
 
     enum class Keys(val value: String) {
@@ -41,6 +45,7 @@ open class TripsHotelMapServices(val subscribeOn: Scheduler, val observeOn: Sche
     val tcsApi: TripsHotelMapAPI = create(Endpoint.TCS.value)
     val eventriteApi: TripsHotelMapAPI = create(Endpoint.EB.value)
     val trailsApi: TripsHotelMapAPI = create(Endpoint.TRAILS.value)
+    val yelpApi: TripsHotelMapAPI = create(Endpoint.YELP.value)
 
     //Points of interest from the TCS API
     fun getPoiNearby(params: TcsRequestParams, observer: Observer<TcsResponse>): Subscription {
@@ -82,6 +87,34 @@ open class TripsHotelMapServices(val subscribeOn: Scheduler, val observeOn: Sche
                 params.longitude,
                 params.limit,
                 params.distance
+        )
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe(observer)
+    }
+
+    //Yelp access token
+    fun getYelpAccessToken(observer: Observer<YelpAccessToken>): Subscription {
+        return yelpApi.getYelpToken(
+                "OAuth2",
+                "r0qiL22HHC4vHs6byPC8Aw",
+                "cEMJLufyTKrsea84BZAafZzF6oEG6HJC9laGnvhjQW8DT4DQ0q0UgDOMgUehoenF"
+        )
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe(observer)
+    }
+
+    //Yelp search API
+    fun getYelpSearchResponse(params: YelpRequestParams, observer: Observer<YelpResponse>): Subscription {
+        return yelpApi.getYelpBusinesses(
+                "Bearer " + params.accessToken,
+                params.term,
+                params.latitude,
+                params.longitude,
+                params.limit,
+                params.radius,
+                params.sortBy
         )
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)

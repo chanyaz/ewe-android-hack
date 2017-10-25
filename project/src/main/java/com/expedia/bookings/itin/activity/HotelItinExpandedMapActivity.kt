@@ -10,15 +10,21 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.EBRequestParams
+import com.expedia.bookings.data.trips.Event
 import com.expedia.bookings.data.trips.EventbriteResponse
+import com.expedia.bookings.data.trips.TcsData
 import com.expedia.bookings.data.trips.TcsRequestParams
 import com.expedia.bookings.data.trips.TcsResponse
 import com.expedia.bookings.data.trips.Trail
 import com.expedia.bookings.data.trips.TrailsRequestParams
+import com.expedia.bookings.data.trips.YelpAccessToken
+import com.expedia.bookings.data.trips.YelpBusiness
+import com.expedia.bookings.data.trips.YelpRequestParams
+import com.expedia.bookings.data.trips.YelpResponse
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
 import com.expedia.bookings.itin.widget.ItinMapMarkerCard
@@ -26,6 +32,7 @@ import com.expedia.bookings.services.TripsHotelMapServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.PermissionsUtils.havePermissionToAccessLocation
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -36,7 +43,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
@@ -97,17 +103,28 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 //        findViewById(R.id.directions_button_text) as TextView
 //    }
 
-    val musicButton: Button by lazy {
-        findViewById(R.id.music_button) as Button
-    }
+    val musicButton: LinearLayout by bindView(R.id.music_button)
+    val musicList = mutableListOf<Event>()
+    val musicText: TextView by bindView(R.id.music_text)
+    val sportsButton: LinearLayout by bindView(R.id.sports_button)
+    val sportsList = mutableListOf<Event>()
+    val sportsText: TextView by bindView(R.id.sports_text)
+    val trailsButton: LinearLayout by bindView(R.id.trails_button)
+    val trailsList = mutableListOf<Trail>()
+    val trailsText: TextView by bindView(R.id.trails_text)
+    val poiButton: LinearLayout by bindView(R.id.poi_button)
+    val poiList = mutableListOf<TcsData>()
+    val poiText: TextView by bindView(R.id.poi_text)
+    val foodButton: LinearLayout by bindView(R.id.food_button)
+    val foodList = mutableListOf<YelpBusiness>()
+    val foodText: TextView by bindView(R.id.food_text)
+    val drinksButton: LinearLayout by bindView(R.id.drinks_button)
+    val drinksList = mutableListOf<YelpBusiness>()
+    val drinksText: TextView by bindView(R.id.drinks_text)
 
-    val trailButton: Button by lazy {
-        findViewById(R.id.trails_button) as Button
-    }
-
-    val landmarkButton: Button by lazy {
-        findViewById(R.id.landmark_button) as Button
-    }
+    //TODO
+    //val activitiesButton: LinearLayout by bindView(R.id.activities_button)
+    //val activitiesMarkerMap: MutableList<YelpBusiness>? = null
 
     private var googleMap: GoogleMap? = null
     private val MAP_ZOOM_LEVEL = 14f
@@ -137,6 +154,115 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         mapView.onResume()
         mapView.getMapAsync(this)
         markerWidget = findViewById(R.id.marker_card) as ItinMapMarkerCard
+
+        musicButton.setOnClickListener {
+            turnAllButtonsOff()
+            changeButtonColorOn(musicButton, musicText)
+            if (musicList.isNotEmpty()) {
+                googleMap?.clear()
+                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                for (event in musicList) {
+                    addMarker(R.drawable.ic_music_pin, LatLng(
+                            event.venue.latitude,
+                            event.venue.longitude
+                    ))
+                }
+            }
+        }
+        sportsButton.setOnClickListener {
+            turnAllButtonsOff()
+            changeButtonColorOn(sportsButton, sportsText)
+            if (sportsList.isNotEmpty()) {
+                googleMap?.clear()
+                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                for (event in sportsList) {
+                    addMarker(R.drawable.ic_sports_pin, LatLng(
+                            event.venue.latitude,
+                            event.venue.longitude
+                    ))
+                }
+            }
+        }
+        trailsButton.setOnClickListener {
+            turnAllButtonsOff()
+            changeButtonColorOn(trailsButton, trailsText)
+            if (trailsList.isNotEmpty()) {
+                googleMap?.clear()
+                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                for (trail in trailsList) {
+                    addMarker(R.drawable.ic_trail_pin, LatLng(
+                            trail.latitude.toDouble(),
+                            trail.longitude.toDouble()
+                    ))
+                }
+            }
+        }
+        poiButton.setOnClickListener {
+            turnAllButtonsOff()
+            changeButtonColorOn(poiButton, poiText)
+            if (poiList.isNotEmpty()) {
+                googleMap?.clear()
+                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                for (poi in poiList) {
+                    addMarker(R.drawable.ic_landmark_pin, LatLng(
+                            poi.geo.latitude.toDouble(),
+                            poi.geo.longitude.toDouble()
+                    ))
+                }
+            }
+        }
+        foodButton.setOnClickListener {
+            turnAllButtonsOff()
+            changeButtonColorOn(foodButton, foodText)
+            if (foodList.isNotEmpty()) {
+                googleMap?.clear()
+                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                for (food in foodList) {
+                    addMarker(R.drawable.ic_restaurant_pin, LatLng(
+                            food.coordinates.latitude,
+                            food.coordinates.longitude
+                    ))
+                }
+            }
+        }
+        drinksButton.setOnClickListener {
+            turnAllButtonsOff()
+            changeButtonColorOn(drinksButton, drinksText)
+            if (drinksList.isNotEmpty()) {
+                googleMap?.clear()
+                addMarker(R.drawable.ic_hotel_pin, getHotelLatLong())
+                for (drink in drinksList) {
+                    addMarker(R.drawable.ic_restaurant_pin, LatLng(
+                            drink.coordinates.latitude,
+                            drink.coordinates.longitude
+                    ))
+                }
+            }
+        }
+    }
+
+    fun changeButtonColorOff(button: LinearLayout, textView: TextView) {
+        button.background = getDrawable(R.drawable.trips_hotel_maps_filter_button_background_off)
+        textView.setTextColor(ContextCompat.getColor(this, R.color.exp_launch_blue))
+    }
+
+    fun changeButtonColorOn(button: LinearLayout, textView: TextView) {
+        button.background = getDrawable(R.drawable.trips_hotel_maps_filter_button_background_on)
+        textView.setTextColor(ContextCompat.getColor(this, R.color.white))
+    }
+
+    fun turnAllButtonsOff() {
+        val buttonTexts = listOf(
+                Pair(musicButton, musicText),
+                Pair(sportsButton, sportsText),
+                Pair(poiButton, poiText),
+                Pair(trailsButton, trailsText),
+                Pair(foodButton, foodText),
+                Pair(drinksButton, drinksText)
+        )
+        for (buttonText in buttonTexts) {
+            changeButtonColorOff(buttonText.first, buttonText.second)
+        }
     }
 
     override fun onResume() {
@@ -172,6 +298,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                         "75"
                 ), trailsObserver)
         )
+        compositeSubscription.add(tripsHotelMapServices.getYelpAccessToken(yelpAccessTokenObserver))
     }
 
     companion object {
@@ -264,11 +391,9 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             //Example: fetching the description of the first item from the response
             if (t != null) {
                 val pointsOfInterest = t.sections.poi.data
+                if (pointsOfInterest.isNotEmpty()) poiButton.visibility = View.VISIBLE
                 for (poi in pointsOfInterest) {
-                    val lat = poi.geo.latitude.toDouble()
-                    val long = poi.geo.longitude.toDouble()
-                    val latLong = LatLng(lat, long)
-                    addMarker(R.drawable.ic_landmark_pin, latLong)
+                    poiList.add(poi)
                 }
                 Log.d("TCSRESPONSE: ", t.sections.poi.data[0].descriptions.data[0].value)
             }
@@ -291,12 +416,15 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             if (t != null) {
                 val events = t.events
                 for (event in events) {
-                    val lat = event.venue.latitude
-                    val long = event.venue.longitude
-                    val latLong = LatLng(lat, long)
-                    when(event.category_id) {
-                        "103" -> addMarker(R.drawable.ic_music_pin, latLong, event.name.text)
-                        "108" -> addMarker(R.drawable.ic_sports_pin, latLong, event.name.text)
+                    when (event.category_id) {
+                        "103" -> {
+                            musicButton.visibility = View.VISIBLE
+                            musicList.add(event)
+                        }
+                        "108" -> {
+                            sportsButton.visibility = View.VISIBLE
+                            sportsList.add(event)
+                        }
                     }
                 }
                 Log.d("EBRESPONSE: ", t.events[0].name.text)
@@ -314,17 +442,96 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 
         override fun onNext(trails: Array<Trail>?) {
             if (trails != null) {
+                if (trails.isNotEmpty()) trailsButton.visibility = View.VISIBLE
                 for (trail: Trail in trails) {
-                    val lat = trail.latitude.toDouble()
-                    val long = trail.longitude.toDouble()
-                    val latLong = LatLng(lat, long)
-                    addMarker(R.drawable.ic_trail_pin, latLong)
+                    trailsList.add(trail)
                     Log.d("TRAILSRESPONSE: ", trail.id)
                 }
             }
         }
 
         override fun onCompleted() {
+        }
+
+    }
+
+    private val yelpAccessTokenObserver: Observer<YelpAccessToken> = object : Observer<YelpAccessToken> {
+        override fun onNext(t: YelpAccessToken?) {
+            if (t != null) {
+                compositeSubscription.add(tripsHotelMapServices.getYelpSearchResponse(
+                        YelpRequestParams(
+                                t.access_token,
+                                "restaurants",
+                                itinCardDataHotel.propertyLocation.latitude.toString(),
+                                itinCardDataHotel.propertyLocation.longitude.toString(),
+                                50,
+                                40000,
+                                "rating"
+                        ),
+                        yelpRestaurantResponseObserver
+                ))
+                compositeSubscription.add(tripsHotelMapServices.getYelpSearchResponse(
+                        YelpRequestParams(
+                                t.access_token,
+                                "bars",
+                                itinCardDataHotel.propertyLocation.latitude.toString(),
+                                itinCardDataHotel.propertyLocation.longitude.toString(),
+                                50,
+                                40000,
+                                "rating"
+                        ),
+                        yelpBarsResponseObserver
+                ))
+            }
+        }
+
+        override fun onError(e: Throwable?) {
+            Log.d("YELPACCESSTOKEN: ", e?.toString())
+        }
+
+        override fun onCompleted() {
+        }
+
+    }
+
+    private val yelpRestaurantResponseObserver: Observer<YelpResponse> = object : Observer<YelpResponse> {
+        override fun onCompleted() {
+        }
+
+        override fun onNext(response: YelpResponse?) {
+            if (response != null) {
+                val businesses = response.businesses
+                if (businesses.isNotEmpty()) foodButton.visibility = View.VISIBLE
+                for (business in businesses) {
+                    foodList.add(business)
+                    Log.d("YELPRESTAURANT: ", business.toString())
+                }
+            }
+        }
+
+        override fun onError(e: Throwable?) {
+            Log.d("YELPRESTAURANT: ", e?.toString())
+        }
+
+    }
+
+    private val yelpBarsResponseObserver: Observer<YelpResponse> = object : Observer<YelpResponse> {
+        override fun onCompleted() {
+        }
+
+        override fun onNext(t: YelpResponse?) {
+            if (t != null) {
+                val businesses = t.businesses
+                if (businesses.isNotEmpty()) drinksButton.visibility = View.VISIBLE
+                for (business in businesses) {
+                    drinksList.add(business)
+                    Log.d("YELPBARS: ", business.toString())
+                }
+            }
+        }
+
+        override fun onError(e: Throwable?) {
+            Log.d("YELPBARS: ", e?.toString())
         }
 
     }
