@@ -15,7 +15,7 @@ class BookmarkUtils {
 
         val BOOKMARKS_TYPE = object : TypeToken<List<Bookmark>>() {}.type
 
-        val BOOKEDMARKS_TYPE = object : TypeToken<List<Bookmark>>() {}.type
+        val BOOKEDMARKS_TYPE = object : TypeToken<HashMap<String, Bookmark>>() {}.type
 
 
         fun saveBookmark(context: Context, bookmark: Bookmark) {
@@ -54,7 +54,7 @@ class BookmarkUtils {
 
         }
 
-        private fun getAllBookedMarks(context: Context): HashMap<String, Bookmark> {
+        fun getAllBookedMarks(context: Context): HashMap<String, Bookmark> {
             val gson = GsonBuilder().registerTypeAdapter(LocalDate::class.java, DeeplinkSharedPrefParserUtils.LOCAL_DATE_TYPE).create()
             val bookedMarksSharedPref = context.getSharedPreferences(BOOKED_MARKS_SHARED_PREFERENCE_KEY, Context.MODE_PRIVATE)
             val fromJson = gson.fromJson<HashMap<String,Bookmark>>(bookedMarksSharedPref.getString(BOOKED_MARKS, "")

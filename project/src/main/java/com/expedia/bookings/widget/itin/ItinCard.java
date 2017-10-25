@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import android.animation.Animator;
@@ -18,6 +19,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -47,6 +49,7 @@ import com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.BookmarkUtils;
 import com.expedia.bookings.utils.DeeplinkCreatorUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
@@ -1056,8 +1059,13 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 				break;
 			}
 			case R.id.bookmark_button: {
-				//TODO: Do the rebooking
-				Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+				HashMap<String, Bookmark> allBookedMarks = BookmarkUtils.Companion.getAllBookedMarks(getContext());
+				String tripId = mItinContentGenerator.getItinCardData().getTripId();
+				Bookmark bookmark = allBookedMarks.get(tripId);
+				if (bookmark != null) {
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(bookmark.getDeeplinkURL()));
+					getContext().startActivity(intent);
+				}
 			}
 			}
 		}
