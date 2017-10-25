@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.widget.TextView;
 
 public class AlertDialogUtils {
 
@@ -43,10 +45,15 @@ public class AlertDialogUtils {
 		b.show();
 	}
 
-	public static void showBookmarkDialog(Context context) {
+	public static void showBookmarkDialog(Context context, String message) {
 		ProgressDialog progressDialog = new ProgressDialog(context);
 		progressDialog.show();
 		progressDialog.setContentView(R.layout.processing_bookmark_layout);
 		progressDialog.setCancelable(false);
+		if (Strings.isNotEmpty(message)) {
+			progressDialog.setMessage(message);
+			TextView textView = progressDialog.findViewById(R.id.cancel_bookmark_button);
+			textView.setVisibility(View.VISIBLE);
+		}
 	}
 }

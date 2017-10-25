@@ -26,7 +26,7 @@ class PackageFlightActivity : AbstractAppCompatActivity() {
         setContentView(R.layout.package_flight_activity)
         Ui.showTransparentStatusBar(this)
         if (DeeplinkSharedPrefParserUtils.isDeeplink) {
-            AlertDialogUtils.showBookmarkDialog(this)
+            AlertDialogUtils.showBookmarkDialog(this, "Choosing your flights...")
         }
     }
 
