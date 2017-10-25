@@ -407,7 +407,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private BigImageLaunchViewModel getMemberDealViewModel() {
 		return new BigImageLaunchViewModel(R.drawable.ic_member_deals_icon,
 			R.color.member_deal_background_gradient,
-			Db.getTripId() != null ? R.string.member_deal_title1 : R.string.member_deal_title,
+			R.string.member_deal_title1,
 			R.string.member_deal_subtitle);
 	}
 
@@ -508,14 +508,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private class MemberDealClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
-			if (Db.getTripId() == null) {
-				LXNavUtils.goToActivities(context, null, 0);
-			}
-			else {
+//			if (Db.getTripId() == null) {
+//				LXNavUtils.goToActivities(context, null, 0);
+//			}
+//			else {
 				Intent intent = new Intent(context, MemberDealActivity.class);
 				context.startActivity(intent);
 
-			}
+//			}
 			entry = false;
 			OmnitureTracking.trackLaunchMemberPricing();
 		}

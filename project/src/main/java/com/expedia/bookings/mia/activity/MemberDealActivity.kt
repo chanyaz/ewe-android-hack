@@ -44,7 +44,7 @@ class MemberDealActivity : AppCompatActivity() {
         setContentView(R.layout.member_deal_activity)
         val intent = intent
         isDeepLink = if (!intent.getStringExtra("tripid").isNullOrEmpty()) true else false
-        tripId = intent.getStringExtra("tripid") ?: Db.getTripId().tripId
+        tripId = "69298d93-5ab2-4038-8ad7-9e4ed05fceed"
         if (intent.getStringExtra("tripid") == null && Db.getTripId()?.tripId != null) {
             share()
         }
@@ -66,10 +66,9 @@ class MemberDealActivity : AppCompatActivity() {
         container = findViewById(R.id.registry_card) as LinearLayout
         Ui.getApplication(this).defaultHotelComponents();
         loyaltyServices = Ui.getApplication(this).hotelComponent().getLoyaltyServices();
-        if (tripId.isNotEmpty())
             loyaltyServices.getCampainDetails(tripId, makeCampaignDetailsObserver());
-        else
-            loyaltyServices.getCampainDetails(Db.getTripId().tripId, makeCampaignDetailsObserver());
+//        else
+//            loyaltyServices.getCampainDetails(Db.getTripId().tripId, makeCampaignDetailsObserver());
 
         //container.addView(createRow(breakdown))
 
