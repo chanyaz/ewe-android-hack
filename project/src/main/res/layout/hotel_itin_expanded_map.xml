@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -168,41 +168,42 @@
 
         </com.nex3z.flowlayout.FlowLayout>
 
-            <com.expedia.bookings.itin.widget.ItinMapMarkerCard
-                android:id="@+id/marker_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:visibility="gone"
-                tools:layout_editor_absoluteX="8dp" />
+        <com.expedia.bookings.itin.widget.ItinMapMarkerCard
+            android:id="@+id/marker_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="8dp" />
 
         <!--<FrameLayout-->
-            <!--android:id="@+id/directions_button"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/app_primary"-->
-            <!--android:foreground="?android:attr/selectableItemBackground"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintRight_toRightOf="parent">-->
+        <!--android:id="@+id/directions_button"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/app_primary"-->
+        <!--android:foreground="?android:attr/selectableItemBackground"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent">-->
 
-            <!--<com.expedia.bookings.widget.TextView-->
-                <!--android:id="@+id/directions_button_text"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:background="@color/app_primary"-->
-                <!--android:drawableLeft="@drawable/ic_directions_icon_cta_button"-->
-                <!--android:drawablePadding="6dp"-->
-                <!--android:gravity="center"-->
-                <!--android:paddingBottom="17dp"-->
-                <!--android:paddingTop="16dp"-->
-                <!--android:text="@string/directions"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textSize="16sp"-->
-                <!--app:textStyle="medium" />-->
+        <!--<com.expedia.bookings.widget.TextView-->
+        <!--android:id="@+id/directions_button_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="@color/app_primary"-->
+        <!--android:drawableLeft="@drawable/ic_directions_icon_cta_button"-->
+        <!--android:drawablePadding="6dp"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="17dp"-->
+        <!--android:paddingTop="16dp"-->
+        <!--android:text="@string/directions"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="16sp"-->
+        <!--app:textStyle="medium" />-->
 
         <!--</FrameLayout>-->
 
