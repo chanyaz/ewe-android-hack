@@ -13,7 +13,10 @@ data class YelpBusiness(
         val name: String,
         val url: String,
         val image_url: String,
-        val coordinates: YelpBusinessLocation
+        val coordinates: YelpBusinessLocation,
+        val rating: String,
+        val price: String,
+        val review_count: String
 )
 
 data class YelpBusinessLocation(

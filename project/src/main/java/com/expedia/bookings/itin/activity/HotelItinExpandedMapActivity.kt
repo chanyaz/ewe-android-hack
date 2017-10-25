@@ -82,7 +82,8 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
             is YelpBusiness -> {
                 markerWidget.visibility = View.VISIBLE
                 markerWidget.setTitle(x.name)
-                //markerWidget.setBody(x.snippet_text)
+                val body = "Rating: " + x.rating + " (" + x.review_count + " reviews)\nPrice: " + x.price
+                markerWidget.setBody(body)
                 markerWidget.setImage(x.image_url)
                 markerWidget.hideChev(false)
             }
@@ -606,7 +607,6 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(this)
         builder.setUrl(url)
         builder.setTitle(title)
-        builder.setAllowMobileRedirects(false)
         return builder
     }
 }
