@@ -101,6 +101,7 @@ function runCucumberTests() {
     if [ -n "$tagsPassed" ]; then
         tagsPassed="-e tags \"${tagsPassed}\""
     fi
+    adb -s $device shell input keyevent KEYCODE_WAKEUP
     echo adb -s $device shell am instrument -w -r -e debug false ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
     adb -s $device shell am instrument -w -r -e debug false ${tagsPassed} com.expedia.bookings.test/com.expedia.bookings.test.CucumberInstrumentationRunner
     runCucumberTests=$?

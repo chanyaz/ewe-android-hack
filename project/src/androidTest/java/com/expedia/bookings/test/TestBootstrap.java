@@ -65,6 +65,7 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		if (scenario.isFailed()) {
 			takeScreenShot(scenario);
 		}
+		Espresso.closeSoftKeyboard();
 		ActivityFinisher.finishOpenActivities();
 		getActivity().finish();
 		ExpediaNetUtils.setFake(true, true);
@@ -85,7 +86,6 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		}
 
 		Settings.setMockModeEndPoint();
-		Espresso.closeSoftKeyboard();
 		super.tearDown();
 	}
 
