@@ -14,8 +14,7 @@ fun isFlexEnabled(): Boolean {
 }
 
 fun isPopulateCardholderNameEnabled(context: Context): Boolean {
-    return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_populate_cardholder_name)
-            && AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidPopulateCardholderName)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidPopulateCardholderName)
 }
 
 fun isSecureIconEnabled(context: Context): Boolean {

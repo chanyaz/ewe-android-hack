@@ -118,7 +118,6 @@
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_enable_krazy_glue_on_flights_confirmation">preference_enable_krazy_glue_on_flights_confirmation</string>
-    <string name="preference_populate_cardholder_name">preference_populate_cardholder_name</string>
     <string name="preference_enable_secure_icon">preference_enable_secure_icon</string>
     <string name="preference_packages_mid_api">preference_packages_mid_api</string>
     <string name="preference_switch_to_from_flight_locations">preference_switch_to_from_flight_locations</string>
