@@ -580,12 +580,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         fadeInRoomsAnimation.setAnimationListener(object : AnimationListenerAdapter() {
             override fun onAnimationStart(animation: Animation?) {
-                if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
-                    hotelRoomRateViewModels.first().expandRoomObservable.onNext(Unit)
-                    hotelRoomRateViewModels.drop(1).forEach { vm -> vm.collapseRoomObservable.onNext(Unit) }
-                } else {
-                    hotelRoomRateViewModels.forEach { vm -> vm.expandRoomObservable.onNext(Unit) }
-                }
+                hotelRoomRateViewModels.first().expandRoomObservable.onNext(Unit)
+                hotelRoomRateViewModels.drop(1).forEach { vm -> vm.collapseRoomObservable.onNext(Unit) }
             }
         })
 

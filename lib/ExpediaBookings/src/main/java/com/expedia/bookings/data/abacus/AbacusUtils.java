@@ -79,7 +79,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsDeltaPricing = new ABTest(15602);
 
 	// Hotel Tests
-	public static final ABTest EBAndroidAppHotelRoomRateExpanded = new ABTest(13246);
 	public static final ABTest EBAndroidAppHotelUrgencyMessage = new ABTest(13277);
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
 	public static final ABTest EBAndroidAppHotelGroupRoomRate = new ABTest(14591);
@@ -165,7 +164,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppUniversalCheckoutMaterialForms.getKey());
 		testIDs.add(EBAndroidAppFreeCancellationTooltip.getKey());
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing.getKey());
-		testIDs.add(EBAndroidAppHotelRoomRateExpanded.getKey());
 		testIDs.add(EBAndroidAppFlightByotSearch.getKey());
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());
 		testIDs.add(EBAndroidAppHotelUrgencyMessage.getKey());

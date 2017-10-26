@@ -303,15 +303,13 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
         rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
             //collapse already expanded row if there is one
-            if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
-                val previousRowIndex = lastExpandedRowIndexObservable.value
-                if (previousRowIndex >= 0
-                        && previousRowIndex < hotelRoomRateViewModelsObservable.value.size
-                        && previousRowIndex != indexOfRowBeingExpanded) {
-                    hotelRoomRateViewModelsObservable.value.elementAt(previousRowIndex).collapseRoomWithAnimationObservable.onNext(Unit)
-                }
-                lastExpandedRowIndexObservable.onNext(indexOfRowBeingExpanded)
+            val previousRowIndex = lastExpandedRowIndexObservable.value
+            if (previousRowIndex >= 0
+                && previousRowIndex < hotelRoomRateViewModelsObservable.value.size
+                && previousRowIndex != indexOfRowBeingExpanded) {
+                hotelRoomRateViewModelsObservable.value.elementAt(previousRowIndex).collapseRoomWithAnimationObservable.onNext(Unit)
             }
+            lastExpandedRowIndexObservable.onNext(indexOfRowBeingExpanded)
         }
 
         hotelSelectedObservable.subscribe { loadTimeData.markPageLoadStarted(System.currentTimeMillis()) }
