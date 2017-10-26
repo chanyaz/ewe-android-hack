@@ -9,7 +9,11 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Strings
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
+import android.support.v4.content.ContextCompat
+import java.util.Locale
 
 class FareFamilyViewModel(private val context: Context) {
     // inputs
@@ -21,6 +25,7 @@ class FareFamilyViewModel(private val context: Context) {
     val selectedClassObservable = PublishSubject.create<String>()
     val fareFamilyTitleObservable = PublishSubject.create<String>()
     val deltaPriceObservable = PublishSubject.create<String>()
+    val selectedClassColorObservable = PublishSubject.create<Int>()
     val fareFamilyCardClickObserver = PublishSubject.create<Unit>()
     val fromLabelVisibility = PublishSubject.create<Boolean>()
     val travellerObservable = PublishSubject.create<String>()
@@ -32,8 +37,8 @@ class FareFamilyViewModel(private val context: Context) {
             val fareFamilyDetail = getDeltaPricingFareFamily(trip.fareFamilyList?.fareFamilyDetails)
             if (fareFamilyDetail != null) {
                 widgetVisibilityObservable.onNext(isUserBucketedForFareFamily && !trip.getOffer().isSplitTicket)
-                selectedClassObservable.onNext(FlightV2Utils.getSelectedClassesString(context, trip.details))
                 if (!trip.isFareFamilyUpgraded) {
+                    selectedClassObservable.onNext(FlightV2Utils.getSelectedClassesString(context, trip.details))
                     deltaPriceObservable.onNext(FlightV2Utils.getDeltaPricing(fareFamilyDetail.deltaTotalPrice, fareFamilyDetail.deltaPositive))
                     fromLabelVisibility.onNext(true)
                     travellerObservable.onNext(StrUtils.formatMultipleTravelerString(context, Db.getFlightSearchParams().guests))
@@ -43,16 +48,31 @@ class FareFamilyViewModel(private val context: Context) {
                             } else {
                                 context.getString(R.string.flight_fare_family_upgrade_flight_oneway_label)
                             })
+                    selectedClassColorObservable.onNext(ContextCompat.getColor(context, R.color.default_text_color))
                 } else {
+                    selectedClassObservable.onNext(context.getString(R.string.flight_change_fare_class))
                     deltaPriceObservable.onNext("")
                     travellerObservable.onNext("")
                     fromLabelVisibility.onNext(false)
-                    fareFamilyTitleObservable.onNext(context.getString(R.string.flight_fare_family_fare_label))
+                    selectedClassColorObservable.onNext(ContextCompat.getColor(context, R.color.app_primary))
                 }
             } else {
                 widgetVisibilityObservable.onNext(false)
             }
         }
+
+        tripObservable.withLatestFrom(selectedFareFamilyObservable, { trip, fareDetails ->
+            object {
+                val isFareFamilyUpgraded = trip.isFareFamilyUpgraded
+                val fareFamilyName = fareDetails.fareFamilyName
+            }
+        })
+                .filter { it.isFareFamilyUpgraded }
+                .subscribe {
+                    fareFamilyTitleObservable.onNext(Phrase.from(context, R.string.flight_fare_family_fare_label_TEMPLATE).put("fare_family_name",
+                            Strings.capitalize(it.fareFamilyName, Locale.US)).format().toString())
+                }
+
         selectedFareFamilyObservable.withLatestFrom(tripObservable, { fareDetails, tripResponse ->
             object {
                 val fareDetails = fareDetails

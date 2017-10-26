@@ -210,21 +210,21 @@ class FlightV2UtilsTest {
         flightTripDetails.offer = FlightTripDetails.FlightOffer()
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1))
         flightTripDetails.legs = listOf(testFlightLeg)
-        assertEquals("Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(2))
-        assertEquals("Economy, Premium Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Economy, Premium Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(3))
-        assertEquals("Mixed classes", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Mixed classes", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(4))
-        assertEquals("Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(3))
         testFlightLeg.isBasicEconomy = true
         flightTripDetails.legs = listOf(testFlightLeg)
-        assertEquals("Basic Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Basic Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
     }
 
     @Test
@@ -233,33 +233,33 @@ class FlightV2UtilsTest {
         flightTripDetails.offer = FlightTripDetails.FlightOffer()
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1), buildTestSeatClassAndBookingCodeList(1))
         flightTripDetails.legs = listOf(buildTestFlightLeg(), buildTestFlightLeg())
-        assertEquals("Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1), listOf(buildTestSeatClassAndBookingCode("premium coach")))
-        assertEquals("Economy, Premium Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Economy, Premium Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(2),
                 listOf(buildTestSeatClassAndBookingCode("business"), buildTestSeatClassAndBookingCode("first")))
-        assertEquals("Mixed classes", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Mixed classes", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.legs[0].isBasicEconomy = true
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1), buildTestSeatClassAndBookingCodeList(1))
-        assertEquals("Basic Economy, Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Basic Economy, Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1), buildTestSeatClassAndBookingCodeList(2))
-        assertEquals("Basic Economy, Mixed classes", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Basic Economy, Mixed classes", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.legs[0].isBasicEconomy = true
         flightTripDetails.legs[1].isBasicEconomy = true
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1), buildTestSeatClassAndBookingCodeList(2))
-        assertEquals("Basic Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Basic Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.legs[0].isBasicEconomy = false
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(1), buildTestSeatClassAndBookingCodeList(2))
-        assertEquals("Economy, Basic Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Economy, Basic Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
 
         flightTripDetails.offer.offersSeatClassAndBookingCode = listOf(buildTestSeatClassAndBookingCodeList(2), buildTestSeatClassAndBookingCodeList(1))
-        assertEquals("Mixed classes, Basic Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
+        assertEquals("Selected: Mixed classes, Basic Economy", FlightV2Utils.getSelectedClassesString(activity, flightTripDetails))
     }
 
     fun buildTestSeatClassAndBookingCodeList(numberOfObjects: Int): List<FlightTripDetails.SeatClassAndBookingCode> {
