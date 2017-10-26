@@ -75,11 +75,6 @@
             android:title="Enable Universal Checkout on LX" />
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_secure_icon"
-            android:summary="Enable secure icon for Flight and Bundle Checkout pages"
-            android:title="Enable secure icon for Flight and Bundle Checkout pages" />
-
-        <CheckBoxPreference
             android:key="@string/preference_show_flights_checkout_webview"
             android:summary="Show Flights Checkout Webview"
             android:title="Show Flights Checkout Webview" />

@@ -18,8 +18,7 @@ fun isPopulateCardholderNameEnabled(context: Context): Boolean {
 }
 
 fun isSecureIconEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
-            && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_secure_icon)
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppSecureCheckoutIcon)
 }
 
 fun isFrequentFlyerNumberForFlightsEnabled(): Boolean {
