@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="left|center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/hotel_name_text_view"
