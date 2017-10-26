@@ -23,6 +23,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import android.support.v4.content.ContextCompat
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.test.assertEquals
@@ -34,10 +35,11 @@ class FareFamilyViewModelTest {
     private enum class FlightType { DOMESTIC, INTERNATIONAL }
 
     lateinit private var sut: FareFamilyViewModel
+    lateinit var activity: Activity
 
     @Before
     fun setup() {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
 
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFareFamilyFlightSummary)
@@ -53,17 +55,20 @@ class FareFamilyViewModelTest {
         val fareFamilyTitleSubscriber = TestSubscriber<String>()
         val fromLabelVisibilitySubscriber = TestSubscriber<Boolean>()
         val travellerTextSubscriber = TestSubscriber<String>()
+        val selectedColorTestSubscriber = TestSubscriber<Int>()
 
         sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
         sut.fromLabelVisibility.subscribe(fromLabelVisibilitySubscriber)
+        sut.selectedClassColorObservable.subscribe(selectedColorTestSubscriber)
         sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
         sut.travellerObservable.subscribe(travellerTextSubscriber)
         sut.tripObservable.onNext(tripResponseWithFareFamilyAvailable(2))
         assertEquals("+$2", deltaPriceSubscriber.onNextEvents[0])
-        assertEquals("Economy", selectedClassSubscriber.onNextEvents[0])
+        assertEquals("Selected: Economy", selectedClassSubscriber.onNextEvents[0])
         assertEquals("Upgrade your flights", fareFamilyTitleSubscriber.onNextEvents[0])
         assertEquals("4 travelers", travellerTextSubscriber.onNextEvents[0])
+        assertEquals(ContextCompat.getColor(activity, R.color.default_text_color), selectedColorTestSubscriber.onNextEvents[0])
         assertTrue(fromLabelVisibilitySubscriber.onNextEvents[0])
     }
 
@@ -73,16 +78,20 @@ class FareFamilyViewModelTest {
         val selectedClassSubscriber = TestSubscriber<String>()
         val fareFamilyTitleSubscriber = TestSubscriber<String>()
         val fromLabelVisibilitySubscriber = TestSubscriber<Boolean>()
+        val selectedColorTestSubscriber = TestSubscriber<Int>()
 
         sut.deltaPriceObservable.subscribe(deltaPriceSubscriber)
         sut.selectedClassObservable.subscribe(selectedClassSubscriber)
         sut.fromLabelVisibility.subscribe(fromLabelVisibilitySubscriber)
         sut.fareFamilyTitleObservable.subscribe(fareFamilyTitleSubscriber)
+        sut.selectedClassColorObservable.subscribe(selectedColorTestSubscriber)
+        sut.selectedFareFamilyObservable.onNext(getFareFamilyDetail(1)[0])
 
         sut.tripObservable.onNext(tripResponseWithFareFamilySelected(2))
         assertEquals("",deltaPriceSubscriber.onNextEvents[0])
-        assertEquals("Economy",selectedClassSubscriber.onNextEvents[0])
-        assertEquals("Change your fare",fareFamilyTitleSubscriber.onNextEvents[0])
+        assertEquals("Change fare class", selectedClassSubscriber.onNextEvents[0])
+        assertEquals("You've selected Economy", fareFamilyTitleSubscriber.onNextEvents[0])
+        assertEquals(ContextCompat.getColor(activity, R.color.app_primary), selectedColorTestSubscriber.onNextEvents[0])
         assertFalse(fromLabelVisibilitySubscriber.onNextEvents[0])
     }
 

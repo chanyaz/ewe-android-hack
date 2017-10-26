@@ -329,7 +329,9 @@ object FlightV2Utils {
 
         var selectedClassText = ""
         if (selectedSeatClassList.size == 1) {
-            selectedClassText = selectedSeatClassList[0]
+            selectedClassText = Phrase.from(context.getString(R.string.flight_selected_classes_one_class_TEMPLATE))
+                    .put("class", selectedSeatClassList[0])
+                    .format().toString()
         } else if (selectedSeatClassList.size == 2) {
             selectedClassText = Phrase.from(context.getString(R.string.flight_selected_classes_two_class_TEMPLATE))
                     .put("class_one", selectedSeatClassList[0]).put("class_two", selectedSeatClassList[1])
@@ -347,7 +349,7 @@ object FlightV2Utils {
                         .format().toString()
             }
         } else {
-            selectedClassText = context.getString(R.string.flight_cabin_mixed_classes)
+            selectedClassText = context.getString(R.string.flight_selected_classes_mixed_classes)
         }
         return selectedClassText
     }
