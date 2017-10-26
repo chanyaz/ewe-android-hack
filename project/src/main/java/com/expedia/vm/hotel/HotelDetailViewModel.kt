@@ -3,6 +3,7 @@ package com.expedia.vm.hotel
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -16,6 +17,7 @@ import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.BaseHotelDetailViewModel
@@ -30,6 +32,7 @@ open class HotelDetailViewModel(context: Context,
                                 private val hotelInfoManager: HotelInfoManager) : BaseHotelDetailViewModel(context) {
     val fetchInProgressSubject = PublishSubject.create<Unit>()
     val fetchCancelledSubject = PublishSubject.create<Unit>()
+    val apiErrorSubject = PublishSubject.create<ApiError>()
 
     private var swpEnabled = false
     private var cachedParams: HotelSearchParams? = null
@@ -52,6 +55,8 @@ open class HotelDetailViewModel(context: Context,
         searchInfoTextColorObservable.onNext(getSearchInfoTextColor())
         apiSubscriptions.add(hotelInfoManager.offerSuccessSubject.subscribe(hotelOffersSubject))
         apiSubscriptions.add(hotelInfoManager.infoSuccessSubject.subscribe(hotelOffersSubject))
+
+        registerErrorSubscriptions()
     }
 
     fun fetchOffers(params: HotelSearchParams, hotelId: String) {
@@ -59,23 +64,6 @@ open class HotelDetailViewModel(context: Context,
         paramsSubject.onNext(params)
 
         fetchInProgressSubject.onNext(Unit)
-
-        apiSubscriptions.add(hotelInfoManager.offersNoInternetSubject.subscribe {
-            handleNoInternet(retryFun = {
-                fetchOffers(params, hotelId)
-            })
-        })
-
-        apiSubscriptions.add(hotelInfoManager.infoNoInternetSubject.subscribe {
-            handleNoInternet(retryFun = {
-                hotelInfoManager.fetchInfo(params, hotelId)
-            })
-        })
-
-        apiSubscriptions.add(hotelInfoManager.soldOutSubject.subscribe {
-            hotelInfoManager.fetchInfo(params, hotelId)
-        })
-
         hotelInfoManager.fetchOffers(params, hotelId)
     }
 
@@ -204,6 +192,45 @@ open class HotelDetailViewModel(context: Context,
         return ContextCompat.getColor(context, R.color.hotel_search_info_color)
     }
 
+    private fun registerErrorSubscriptions() {
+        apiSubscriptions.add(hotelInfoManager.errorSubject.subscribe(apiErrorSubject))
+
+        apiSubscriptions.add(hotelInfoManager.offerRetrofitError.subscribe { error ->
+            if (cachedParams == null) {
+                fetchCancelledSubject.onNext(Unit)
+            } else {
+                val retryFun = { fetchOffers(cachedParams!!, hotelId) }
+                if (error == RetrofitError.NO_INTERNET) {
+                    handleNoInternet(retryFun)
+                } else {
+                    handleTimeOut(retryFun)
+                }
+            }
+        })
+
+        apiSubscriptions.add(hotelInfoManager.infoRetrofitError.subscribe { error ->
+            if (cachedParams == null) {
+                fetchCancelledSubject.onNext(Unit)
+            } else {
+                val retryFun = { hotelInfoManager.fetchInfo(cachedParams!!, hotelId) }
+
+                if (error == RetrofitError.NO_INTERNET) {
+                    handleNoInternet(retryFun)
+                } else {
+                    handleTimeOut(retryFun)
+                }
+            }
+        })
+
+        apiSubscriptions.add(hotelInfoManager.soldOutSubject.subscribe {
+            if (cachedParams == null) {
+                fetchCancelledSubject.onNext(Unit)
+            } else {
+                hotelInfoManager.fetchInfo(cachedParams!!, hotelId)
+            }
+        })
+    }
+
     private fun handleNoInternet(retryFun: () -> Unit) {
         val cancelFun = fun() {
             fetchCancelledSubject.onNext(Unit)
@@ -211,4 +238,10 @@ open class HotelDetailViewModel(context: Context,
         DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
     }
 
+    private fun handleTimeOut(retryFun: () -> Unit) {
+        val cancelFun = fun() {
+            fetchCancelledSubject.onNext(Unit)
+        }
+        DialogFactory.showTimeoutDialog(context, retryFun, cancelFun)
+    }
 }

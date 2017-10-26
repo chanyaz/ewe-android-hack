@@ -4,18 +4,21 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 
 open class HotelInfoManager(private val hotelServices: HotelServices) {
 
     val offerSuccessSubject = PublishSubject.create<HotelOffersResponse>()
     val infoSuccessSubject = PublishSubject.create<HotelOffersResponse>()
 
-    val offersNoInternetSubject = PublishSubject.create<Unit>()
-    val infoNoInternetSubject = PublishSubject.create<Unit>()
+    val offerRetrofitError = PublishSubject.create<RetrofitError>()
+    val infoRetrofitError = PublishSubject.create<RetrofitError>()
 
+    val errorSubject = PublishSubject.create<ApiError>()
     val soldOutSubject = PublishSubject.create<Unit>()
 
     open fun fetchOffers(params: HotelSearchParams, hotelId: String) {
@@ -34,6 +37,8 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
                     soldOutSubject.onNext(Unit)
                 } else if (!response.hasErrors()) {
                     offerSuccessSubject.onNext(response)
+                } else {
+                   errorSubject.onNext(response.firstError)
                 }
             }
         }
@@ -42,9 +47,8 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
         }
 
         override fun onError(e: Throwable?) {
-            if (RetrofitUtils.isNetworkError(e)) {
-                offersNoInternetSubject.onNext(Unit)
-            }
+            val error = RetrofitUtils.getRetrofitError(e)
+            error?.let { offerRetrofitError.onNext(error) }
         }
     }
 
@@ -61,9 +65,8 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
         }
 
         override fun onError(e: Throwable?) {
-            if (RetrofitUtils.isNetworkError(e)) {
-                infoNoInternetSubject.onNext(Unit)
-            }
+            val error = RetrofitUtils.getRetrofitError(e)
+            error?.let { infoRetrofitError.onNext(error) }
         }
     }
 }

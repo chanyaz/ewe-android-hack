@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
@@ -608,6 +609,25 @@ class HotelDetailViewModelTest {
 
         assertEquals(context.getString(R.string.change_dates), testDatesTextSub.onNextEvents[0],
                 "Failure: Expected Dates to read Change Dates when hotel sold out!")
+    }
+
+    fun testFetchOffersApiError() {
+        val testSuccessSub = TestSubscriber.create<HotelOffersResponse>()
+        val testErrorSub = TestSubscriber.create<ApiError>()
+        val testFetchOfferSub= TestSubscriber.create<Unit>()
+
+        mockHotelInfoManager.fetchOffersCalled.subscribe(testFetchOfferSub)
+
+        vm.hotelOffersSubject.subscribe(testSuccessSub)
+        vm.apiErrorSubject.subscribe(testErrorSub)
+
+        vm.fetchOffers(createSearchParams(), "12345")
+        testFetchOfferSub.assertValueCount(1)
+        testErrorSub.assertValueCount(0)
+
+        mockHotelInfoManager.errorSubject.onNext(ApiError())
+        testErrorSub.assertValueCount(1)
+        testSuccessSub.assertValueCount(0)
     }
 
     private fun createRoomResponseList() : List<HotelOffersResponse.HotelRoomResponse> {

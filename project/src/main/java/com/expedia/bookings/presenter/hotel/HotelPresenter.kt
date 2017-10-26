@@ -913,6 +913,13 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(searchPresenter)
         }
 
+        hotelDetailViewModel.apiErrorSubject.subscribe { error ->
+            loadingOverlay.animate(false)
+            loadingOverlay.visibility = View.GONE
+            errorPresenter.getViewModel().apiErrorObserver.onNext(error)
+            show(errorPresenter)
+        }
+
         hotelDetailViewModel.hotelOffersSubject.subscribe { response ->
             loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE

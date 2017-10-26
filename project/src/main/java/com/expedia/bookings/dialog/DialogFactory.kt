@@ -12,20 +12,15 @@ class DialogFactory {
 
     companion object {
         fun showNoInternetRetryDialog(context: Context, retryFun: () -> Unit, cancelFun: () -> Unit) {
-            if (isContextValidActivity(context)) {
-                val b = AlertDialog.Builder(context)
-                b.setCancelable(false)
-                        .setMessage(context.resources.getString(R.string.error_no_internet))
-                        .setPositiveButton(context.resources.getString(R.string.retry)) { dialog, which ->
-                            dialog.dismiss()
-                            retryFun()
-                        }
-                        .setNegativeButton(context.resources.getString(R.string.cancel)) { dialog, which ->
-                            dialog.dismiss()
-                            cancelFun()
-                        }
-                        .show()
-            }
+            showRetryCancelDialog(context, context.getString(R.string.error_no_internet),
+                    retryFun, cancelFun)
+        }
+
+        fun showTimeoutDialog(context: Context, retryFun: () -> Unit, cancelFun: () -> Unit) {
+            val message = Phrase.from(context, R.string.error_server_TEMPLATE)
+                    .put("brand", BuildConfig.brand).format().toString()
+
+            showRetryCancelDialog(context, message, retryFun, cancelFun)
         }
 
         fun createLogoutDialog(context: Context, logoutFun: () -> Unit): AlertDialog {
@@ -44,6 +39,24 @@ class DialogFactory {
                 OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.CANCEL)
             })
             return builder.create()
+        }
+
+        private fun showRetryCancelDialog(context: Context, message: String,
+                                          retryFun: () -> Unit, cancelFun: () -> Unit) {
+            if (isContextValidActivity(context)) {
+                val b = AlertDialog.Builder(context)
+                b.setCancelable(false)
+                        .setMessage(message)
+                        .setPositiveButton(context.resources.getString(R.string.retry)) { dialog, which ->
+                            dialog.dismiss()
+                            retryFun()
+                        }
+                        .setNegativeButton(context.resources.getString(R.string.cancel)) { dialog, which ->
+                            dialog.dismiss()
+                            cancelFun()
+                        }
+                        .show()
+            }
         }
 
         private fun isContextValidActivity(context: Context): Boolean {

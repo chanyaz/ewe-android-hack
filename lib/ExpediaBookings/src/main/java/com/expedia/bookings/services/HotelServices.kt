@@ -26,8 +26,10 @@ import rx.Scheduler
 import rx.Subscription
 import rx.subjects.PublishSubject
 import java.util.HashMap
+import java.util.concurrent.TimeUnit
 
 open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+    private val TIME_OUT_SECONDS = 30L
 
     val hotelApi: HotelApi by lazy {
         val gson = GsonBuilder()
@@ -78,6 +80,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
     fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
             return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
                     hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints, hotelSearchParams.mctc)
+                    .timeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
                     .observeOn(observeOn)
                     .subscribeOn(subscribeOn)
                     .doOnNext { response ->
@@ -93,6 +96,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
             it.checkInDate = yyyyMMddDateTimeFormat.print(hotelSearchParams.checkIn)
             it.checkOutDate = yyyyMMddDateTimeFormat.print(hotelSearchParams.checkOut)
         }
+                .timeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
