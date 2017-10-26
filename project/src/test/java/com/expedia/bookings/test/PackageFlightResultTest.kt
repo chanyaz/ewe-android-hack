@@ -1,6 +1,7 @@
 package com.expedia.bookings.test
 
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
@@ -98,7 +99,7 @@ class PackageFlightResultTest {
         searchResponse.packageResult.flightsPackage.flights = makeFlightList()
         Db.setPackageResponse(searchResponse)
 
-        val resultsVM = FlightResultsViewModel()
+        val resultsVM = FlightResultsViewModel(context, LineOfBusiness.PACKAGES)
         val testSubscriber = TestSubscriber<List<FlightLeg>>()
         resultsVM.flightResultsObservable.subscribe(testSubscriber)
         resultsVM.flightResultsObservable.onNext(searchResponse.packageResult.flightsPackage.flights)

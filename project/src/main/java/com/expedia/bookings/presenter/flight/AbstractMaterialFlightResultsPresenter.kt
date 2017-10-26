@@ -32,7 +32,6 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
             if (travelerParams != null) {
                 overviewPresenter.vm.numberOfTravelers.onNext(travelerParams.guests)
             }
-            resultsPresenter.lineOfBusinessSubject.onNext(getLineOfBusiness())
             show(resultsPresenter, FLAG_CLEAR_BACKSTACK)
             flightListAdapter.initializeScrollDepthMap()
             resultsPresenter.trackScrollDepthSubscription = flightListAdapter.trackScrollDepthSubject.subscribe {

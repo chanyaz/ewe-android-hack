@@ -4,37 +4,36 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewStub
 import android.view.ViewTreeObserver
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
+import com.expedia.bookings.widget.flights.DockedOutboundFlightWidgetV2
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
-import rx.Observable
 import rx.Subscription
 import rx.subjects.PublishSubject
 
 class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
-    private val dockedOutboundFlightSelection: DockedOutboundFlightSelectionView by bindView(R.id.docked_outbound_flight_selection)
     private val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
     private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     lateinit private var flightListAdapter: AbstractFlightListAdapter
-    val lineOfBusinessSubject: PublishSubject<LineOfBusiness> = PublishSubject.create<LineOfBusiness>()
     var trackScrollDepthSubscription: Subscription? = null
 
     // input
@@ -47,15 +46,27 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     var isShowingOutboundResults = false
     var showFilterButton = true
 
+    lateinit var dockedOutboundFlightSelection: View
+
     init {
         View.inflate(getContext(), R.layout.widget_flight_results_package, this)
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
+    private fun bind(shouldShowDeltaPricing: Boolean) {
+        val dockedOutboundFlightSelectionStub = findViewById<ViewStub>(R.id.widget_docked_outbound_flight_stub)
+        val selectedOutboundFlightViewModel =  SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context, shouldShowDeltaPricing)
+        if (shouldShowDeltaPricing) {
+            dockedOutboundFlightSelectionStub.layoutResource = R.layout.docked_outbound_flight_selection_v2
+            val dockedOutboundFlightWidgetV2 = dockedOutboundFlightSelectionStub.inflate() as DockedOutboundFlightWidgetV2
+            dockedOutboundFlightWidgetV2.viewModel = selectedOutboundFlightViewModel
+            this.dockedOutboundFlightSelection = dockedOutboundFlightWidgetV2
+        } else {
+            dockedOutboundFlightSelectionStub.layoutResource = R.layout.docked_outbound_flight_selection
+            val dockedOutboundFlightWidget = dockedOutboundFlightSelectionStub.inflate() as DockedOutboundFlightSelectionView
+            dockedOutboundFlightWidget.viewModel = selectedOutboundFlightViewModel
+            this.dockedOutboundFlightSelection = dockedOutboundFlightWidget
+        }
 
-        val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context)
-        dockedOutboundFlightSelection.viewModel = selectedOutboundFlightViewModel
         outboundFlightSelectedSubject.subscribe { positionChildren() }
         setupFilterButton()
     }
@@ -85,6 +96,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
+        bind(vm.shouldShowDeltaPricing)
         vm.flightResultsObservable.subscribe(listResultsObserver)
         vm.isOutboundResults.subscribe { isShowingOutboundResults = it }
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)

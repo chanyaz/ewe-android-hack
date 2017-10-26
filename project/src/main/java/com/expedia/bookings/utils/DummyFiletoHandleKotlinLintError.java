@@ -1310,6 +1310,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.hotel_search_info_selectable_color,
 		R.color.hotel_search_info_color,
 		R.drawable.ic_edit_icon,
+		R.layout.docked_outbound_flight_selection,
+		R.layout.docked_outbound_flight_selection_v2,
+		R.layout.widget_docked_outbound_flight_selection_v2,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt
 	};

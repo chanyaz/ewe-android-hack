@@ -35,6 +35,8 @@ public class DummyFileToHandleIndirectResourceLintError {
 		R.style.FareFamilyHeader,
 		R.style.FareFamilyHeaderSubtitle,
 		R.style.FlightFareFamilyAmenityIcon,
+		R.string.roundtrip_with_brackets,
+		R.string.flight_outbound_label,
 		R.bool.tablet
 	};
 }

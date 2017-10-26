@@ -1,15 +1,18 @@
 package com.expedia.vm.flights
 
 import android.content.Context
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.FlightV2Utils
 import rx.subjects.PublishSubject
 
-class SelectedOutboundFlightViewModel(outboundFlightSelectedSubject: PublishSubject<FlightLeg>, context: Context) {
+class SelectedOutboundFlightViewModel(outboundFlightSelectedSubject: PublishSubject<FlightLeg>, context: Context, isDeltaPricingEnabled: Boolean) {
 
     // outputs
     val airlineNameObservable = PublishSubject.create<String>()
     val arrivalDepartureTimeObservable = PublishSubject.create<String>()
+    val pricePerPersonObservable = PublishSubject.create<String>()
 
     init {
         outboundFlightSelectedSubject.subscribe({ flightLeg ->
@@ -19,6 +22,12 @@ class SelectedOutboundFlightViewModel(outboundFlightSelectedSubject: PublishSubj
             val arrivalDepartureTime = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(context, flightLeg)
             val flightDuration = FlightV2Utils.getFlightDurationString(context, flightLeg)
             arrivalDepartureTimeObservable.onNext("$arrivalDepartureTime ($flightDuration)")
+
+            val price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
+            if (isDeltaPricingEnabled) {
+                pricePerPersonObservable.onNext(Money.getFormattedMoneyFromAmountAndCurrencyCode(price.roundedAmount,
+                        price.currencyCode, Money.F_NO_DECIMAL))
+            }
         })
     }
 }

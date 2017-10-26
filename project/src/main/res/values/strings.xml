@@ -654,6 +654,8 @@
     <!-- Flights Roundtrip label -->
     <string name="roundtrip">roundtrip</string>
 
+    <!-- Flights Roundtrip label with round brackets-->
+    <string name="roundtrip_with_brackets">(roundtrip)</string>
     <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
     <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
 
@@ -1633,6 +1635,8 @@
     <string name="flights_tab_selection_accouncement_roundtrip">Showing Round Trip flight search screen</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Outbound</string>
+    <!-- Label to identify selected outbound flight card -->
+    <string name="flight_outbound_label">Outbound flight:</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Flights</string>
     <!-- Flights payment fees info web view title -->

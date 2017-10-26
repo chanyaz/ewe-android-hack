@@ -117,7 +117,6 @@ class AbstractMaterialFlightResultsPresenterTest {
     fun testLegalPaymentMessageOnOutboundFlight() {
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
         createSystemUnderTest(isOutboundPresenter = true)
-        sut.resultsPresenter.lineOfBusinessSubject.onNext(sut.getLineOfBusiness())
         assertEquals(context.getString(R.string.airline_additional_fee_notice),
                 sut.resultsPresenter.getAirlinePaymentFeesTextView().text)
         assertEquals(View.VISIBLE, sut.resultsPresenter.getAirlinePaymentFeesTextView().visibility)
@@ -127,7 +126,6 @@ class AbstractMaterialFlightResultsPresenterTest {
     fun testLegalPaymentMessageOnInboundFlight() {
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
         createSystemUnderTest(isOutboundPresenter = false)
-        sut.resultsPresenter.lineOfBusinessSubject.onNext(sut.getLineOfBusiness())
         assertEquals(context.getString(R.string.airline_additional_fee_notice),
                 sut.resultsPresenter.getAirlinePaymentFeesTextView().text)
         assertEquals(View.VISIBLE, sut.resultsPresenter.getAirlinePaymentFeesTextView().visibility)

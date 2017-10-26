@@ -1,7 +1,9 @@
 package com.expedia.vm.test.robolectric
 
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -14,6 +16,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -29,7 +32,7 @@ class SelectedOutboundFlightViewModelTest {
 
     @Before
     fun setup() {
-        sut = SelectedOutboundFlightViewModel(mockFlightSelectedSubject, context)
+        sut = SelectedOutboundFlightViewModel(mockFlightSelectedSubject, context, false)
     }
 
     @Test
@@ -62,6 +65,21 @@ class SelectedOutboundFlightViewModelTest {
         assertEquals(expected, resultArrivalDepartureTimeAndDuration)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTotalAmount() {
+        sut = SelectedOutboundFlightViewModel(mockFlightSelectedSubject, context, true)
+        val testSubscriber = TestSubscriber.create<String>()
+        sut.pricePerPersonObservable.subscribe(testSubscriber)
+
+        mockFlightSelectedSubject.onNext(createFakeFlightLeg())
+
+        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        val resultTotalPrice = testSubscriber.onNextEvents[0]
+        val expected = "$1,201"
+        assertEquals(expected, resultTotalPrice)
+    }
+
     private fun createFakeFlightLeg(): FlightLeg {
         val flightLeg = FlightLeg()
         val airline = Airline(AIRLINE_NAME, "")
@@ -73,6 +91,13 @@ class SelectedOutboundFlightViewModelTest {
         flightLeg.departureDateTimeISO = "2016-03-09T01:10:00.000-05:00"
         flightLeg.arrivalDateTimeISO = "2016-03-10T12:20:00.000-07:00"
         flightLeg.elapsedDays = 1
+        flightLeg.packageOfferModel = PackageOfferModel()
+        flightLeg.packageOfferModel.urgencyMessage = PackageOfferModel.UrgencyMessage()
+        flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
+        flightLeg.packageOfferModel.price.differentialPriceFormatted = "$646.00"
+        flightLeg.packageOfferModel.price.pricePerPersonFormatted = "$646.00"
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("1200.90", "USD")
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal("1200.90")
 
         return flightLeg
     }
