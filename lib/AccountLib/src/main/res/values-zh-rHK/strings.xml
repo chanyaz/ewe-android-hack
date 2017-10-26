@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">下一步</string>
+    <string name="acct__NEXT_a11y_button">下一步按鈕</string>
+    <string name="acct__LINK">聯繫</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">電郵地址</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">密碼</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">忘記密碼？</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">或</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">登入</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">透過 Facebook 登入</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">透過 Facebook 登記</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">建立新的 {brand} 帳戶</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">上一頁</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">關閉</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">錯誤</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">完成</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">名字 (英文)</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">姓氏 (英文)</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">建立密碼</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">確認密碼</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">%1$s，您好</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">建立帳戶</string>
+    <string name="acct__Passwords_must_match">密碼必須相符</string>
+    <string name="acct__Password_length_error_message">密碼長度必須介乎 {minlen} 至 {maxlen} 個字元</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">歡迎使用 {brand}</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">輸入名字</string>
+    <string name="acct__enter_a_last_name">輸入姓氏</string>
+    <string name="acct__Must_enter_valid_email">請輸入有效的電郵地址</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">無法登入</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">請確認您的使用者名稱和密碼均正確無誤。</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">帳戶已被封鎖</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">很抱歉！由於多次使用錯誤登入資料嘗試登入，您的帳戶已被封鎖。請於 1 小時後再試。</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">無法建立帳戶</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">請再試一次。</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">此電郵地址已登記 {brand} 帳戶</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">登入現有帳戶</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">使用另一個電郵地址</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">電郵地址無效。請再試一次。</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">密碼無效。請再試一次。</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">名字無效。請再試一次。</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">姓氏無效。請再試一次。</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">請連接 Wi-Fi 或流動\n數據網絡以繼續</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">密碼不可與電郵地址相同</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">請選用更安全的密碼</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">正從 Facebook 載入資料…</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">電郵權限</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">如需透過 Facebook 登入，我們需先獲授權確認您的電郵地址。\n\n請輕按以下 Facebook 鍵以授予 {brand} 確認您電郵地址的權限。謝謝！</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">無法驗證電郵地址</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">噢！我們需驗證您的電郵地址 - 請確保您的 Facebook 帳戶附有電郵地址並已允許我們取用。\n\n您可選擇於您的 Facebook 帳戶加入電郵地址 (並允許我們取用)，然後再試一次，又或直接建立帳戶</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">Facebook 登入已取消</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">&lt;b&gt;{email_address}&lt;/b&gt; 您好！我們已找到您的 {brand} 帳戶。如需將您的 Facebook 與 {brand} 帳戶連在一起，請於下方輸入您的 {brand} 登入資料。</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">正嘗試以您的 Facebook 登入資料登入…</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">無法登入 Facebook。</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">{brand} 密碼</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">正將您的帳戶連在一起…</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">找不到帳戶</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">無法登入您的 {brand} 帳戶，因此我們未能將您的帳戶連至 Facebook。</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">於 {brand} 上找不到您的 Facebook 電郵地址 {email_address}。您想建立新的 {brand} 帳戶，還是登入現有 {brand} 帳戶？</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">新</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">現有</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">正在建立新的 {brand} 帳戶…</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">於下方輸入您 {brand} 帳戶的登入資料，它便會與您的 Facebook 帳戶連在一起。</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">想透過 Google 登入？</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">我們不再支援透過 Google 登入，但我們仍有您的 {brand} 行程資料！如需登入，請於我們的網站使用您的 Google 電郵地址設定密碼</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">選擇方格。已選擇。</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">選擇方格。沒選擇。</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">建立您的免費帳戶</string>
+</resources>

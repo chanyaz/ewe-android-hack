@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/acct__form_fields_vertical_margin"
+    android:paddingLeft="@dimen/acct__form_fields_horizontal_margin"
+    android:paddingRight="@dimen/acct__form_fields_horizontal_margin"
+    android:paddingTop="@dimen/acct__form_fields_vertical_margin">
+
+    <com.expedia.account.input.ErrorableInputTextPresenter
+        android:id="@+id/email_address_create_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/acct__Email_Address"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        app:acct__eit_errorString="@string/acct__Must_enter_valid_email"
+        app:acct__eit_errorContDesc="@string/acct__Must_enter_valid_email"/>
+
+    <LinearLayout
+        android:id="@+id/first_last_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <com.expedia.account.input.ErrorableInputTextPresenter
+            android:id="@+id/first_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/acct__First_Name"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName|textNoSuggestions|textCapWords"/>
+
+        <com.expedia.account.input.ErrorableInputTextPresenter
+            android:id="@+id/last_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/acct__Last_Name"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName|textNoSuggestions|textCapWords"/>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:id="@+id/email_name_bottom_space"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/acct__email_name_bottom_gap" />
+
+</LinearLayout>

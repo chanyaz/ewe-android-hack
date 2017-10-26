@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="endpoints">
+        <item>Integration</item>
+        <item>Production</item>
+        <item>Mock Mode</item>
+    </string-array>
+    <string-array name="signuppath">
+        <item>Original</item>
+        <item>Single Page</item>
+    </string-array>
+    <string-array name="mock_emails">
+        <item>success@test.com</item>
+        <item>kevin@expedia.com</item>
+        <item>tom@expedia.com</item>
+    </string-array>
+</resources>

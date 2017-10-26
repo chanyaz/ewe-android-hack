@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:textSize="@dimen/acct__welcome_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/acct__welcome_message_padding_top"
+        android:layout_centerInParent="true"
+        android:text="@string/acct__Welcome_to_brand"
+        tools:text="Welcome to Expedia"/>
+
+</merge>

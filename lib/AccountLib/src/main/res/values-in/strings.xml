@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">SELANJUTNYA</string>
+    <string name="acct__NEXT_a11y_button">TOMBOL SELANJUTNYA</string>
+    <string name="acct__LINK">HUBUNGKAN</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">Alamat Email</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">Kata Sandi</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">Lupa kata sandi Anda?</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">atau</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">Login</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">Login dengan Facebook</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">Daftar dengan Facebook</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">Buat akun {brand} baru</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">Kembali</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">Tutup</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">Error</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">Selesai</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">Nama Depan</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">Nama Belakang</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">Buat Kata Sandi</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">Konfirmasi Kata Sandi</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">Halo, %1$s</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">Buat Akun</string>
+    <string name="acct__Passwords_must_match">Kata sandi harus sama</string>
+    <string name="acct__Password_length_error_message">Panjang kata sandi harus {minlen} hingga {maxlen} karakter</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">Selamat Datang di {brand}</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">Masukkan Nama Depan</string>
+    <string name="acct__enter_a_last_name">Masukkan Nama Belakang</string>
+    <string name="acct__Must_enter_valid_email">Masukkan alamat email yang valid</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">Login tidak berhasil</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">Harap pastikan nama pengguna dan kata sandi Anda sudah benar.</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">Akun terkunci</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">Maaf. Disebabkan sejumlah percobaan login yang gagal, kami telah mengunci akses ke akun Anda. Harap coba kembali dalam 1 jam.</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">Tidak berhasil membuat akun</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">Silakan coba lagi.</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">Sebuah akun {brand} sudah pernah terdaftar dengan alamat email ini</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">Login ke akun yang sudah terdaftar</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">Gunakan email lain</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">Alamat email tidak valid. Silakan coba lagi.</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">Kata sandi tidak valid. Silakan coba lagi.</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">Nama depan tidak valid. Silakan coba lagi.</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">Nama belakang tidak valid. Silakan coba lagi.</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">Sambungkan ke Wi-Fi atau jaringan\ndata seluler untuk melanjutkan</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">Kata sandi Anda tidak boleh sama dengan alamat email</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">Harap pilih kata sandi yang lebih aman</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">Mengakses informasi dari Facebook…</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">Izin Email</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">Untuk login dengan Facebook, kami memerlukan izin verifikasi alamat email Anda. \n\nHarap ketuk tombol Facebook di bawah ini untuk memberi izin bagi {brand} untuk memverifikasi alamat email Anda. Terima kasih!</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">Tidak Dapat Memverifikasi Alamat Email</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">Oops! Kami memerlukan alamat email – periksa apakah ada alamat email yang terhubung dengan akun Facebook Anda dan berikan akses. \n\nAnda dapat menambahkan email di akun Facebook (dan memberikan akses), lalu coba lagi atau cukup buat akun</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">Login Facebook dibatalkan</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">Halo &lt;b&gt;{email_address}&lt;/b&gt;, kami menemukan akun {brand} Anda! Harap masukkan rincian {brand} Anda di bawah ini untuk menghubungkan akun Facebook Anda dengan {brand}.</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">Mencoba menghubungkan Anda dengan data login Facebook…</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">Tidak bisa masuk ke Facebook.</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">Kata Sandi {brand}</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">Menghubungkan akun Anda…</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">Akun tidak ditemukan</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">Login akun {brand} Anda tidak berhasil, karena itu kami tidak bisa menghubungkan akun Anda ke Facebook.</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">Alamat email Facebook Anda, {email_address}, tidak bisa ditemukan di {brand}. Apakah Anda ingin membuat akun {brand} baru atau login ke akun {brand} yang sudah terdaftar?</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">Baru</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">Lama</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">Membuat akun {brand} baru…</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">Harap masukkan informasi akun {brand} Anda di bawah ini, lalu kami akan menghubungkannya dengan akun Facebook Anda.</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">Ingin login dengan Google?</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">Sayangnya kami tidak lagi mendukung koneksi dengan Google. Namun kami masih menyimpan info perjalanan {brand} Anda! Untuk login, Anda dapat langsung memasukkan alamat email Google Anda, lalu menetapkan kata sandi untuk digunakan di website kami</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">Kotak centang. Dicentang.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">Kotak centang. Tidak dicentang.</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">Buat Akun Gratis Anda</string>
+</resources>

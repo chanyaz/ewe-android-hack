@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- http://stackoverflow.com/a/27505229 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- pressed state -->
+    <item android:state_pressed="true">
+        <inset
+            android:insetLeft="@dimen/acct__button_inset_horizontal_material"
+            android:insetTop="@dimen/acct__button_inset_vertical_material"
+            android:insetRight="@dimen/acct__button_inset_horizontal_material"
+            android:insetBottom="@dimen/acct__button_inset_vertical_material">
+            <shape android:shape="rectangle">
+                <corners android:radius="@dimen/acct__control_corner_material" />
+                <solid android:color="@color/acct__btn_facebook_pressed" />
+                <padding android:left="@dimen/acct__button_padding_horizontal_material"
+                    android:top="@dimen/acct__button_padding_vertical_material"
+                    android:right="@dimen/acct__button_padding_horizontal_material"
+                    android:bottom="@dimen/acct__button_padding_vertical_material" />
+            </shape>
+        </inset>
+    </item>
+
+    <!-- focused state -->
+    <item android:state_focused="true">
+        <inset
+            android:insetLeft="@dimen/acct__button_inset_horizontal_material"
+            android:insetTop="@dimen/acct__button_inset_vertical_material"
+            android:insetRight="@dimen/acct__button_inset_horizontal_material"
+            android:insetBottom="@dimen/acct__button_inset_vertical_material">
+            <shape android:shape="rectangle">
+                <corners android:radius="@dimen/acct__control_corner_material" />
+                <solid android:color="@color/acct__btn_facebook_focused" />
+                <padding android:left="@dimen/acct__button_padding_horizontal_material"
+                    android:top="@dimen/acct__button_padding_vertical_material"
+                    android:right="@dimen/acct__button_padding_horizontal_material"
+                    android:bottom="@dimen/acct__button_padding_vertical_material" />
+            </shape>
+        </inset>
+    </item>
+
+    <!-- normal state -->
+    <item>
+        <inset
+            android:insetLeft="@dimen/acct__button_inset_horizontal_material"
+            android:insetTop="@dimen/acct__button_inset_vertical_material"
+            android:insetRight="@dimen/acct__button_inset_horizontal_material"
+            android:insetBottom="@dimen/acct__button_inset_vertical_material">
+            <shape android:shape="rectangle">
+                <corners android:radius="@dimen/acct__control_corner_material" />
+                <solid android:color="@color/acct__btn_facebook_normal" />
+                <padding android:left="@dimen/acct__button_padding_horizontal_material"
+                    android:top="@dimen/acct__button_padding_vertical_material"
+                    android:right="@dimen/acct__button_padding_horizontal_material"
+                    android:bottom="@dimen/acct__button_padding_vertical_material" />
+            </shape>
+        </inset>
+    </item>
+</selector>

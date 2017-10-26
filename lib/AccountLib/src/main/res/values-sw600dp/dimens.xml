@@ -1,0 +1,7 @@
+<resources>
+
+    <!-- Extra margins for tablets -->
+    <dimen name="acct__sign_in_bottom_gap">0dp</dimen>
+    <dimen name="acct__tos_bottom_gap">0dp</dimen>
+
+</resources>

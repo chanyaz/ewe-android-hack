@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">SEURAAVA</string>
+    <string name="acct__NEXT_a11y_button">SEURAAVA-PAINIKE</string>
+    <string name="acct__LINK">LINKKI</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">Sähköpostiosoite</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">Salasana</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">Unohditko salasanasi?</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">tai</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">Kirjaudu sisään</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">Kirjaudu sisään Facebookin kautta</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">Rekisteröidy Facebookin kautta</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">Luo uusi {brand}-tili</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">Takaisin</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">Sulje</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">Virhe</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">Täytetty</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">Etunimi</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">Sukunimi</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">Luo salasana</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">Vahvista salasana</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">Hei %1$s</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">Luo tili</string>
+    <string name="acct__Passwords_must_match">Salasanojen tulee täsmätä</string>
+    <string name="acct__Password_length_error_message">Salasanan on oltava {minlen}–{maxlen} merkkiä pitkä</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">Tervetuloa {brand}an</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">Anna etunimi</string>
+    <string name="acct__enter_a_last_name">Anna sukunimi</string>
+    <string name="acct__Must_enter_valid_email">Anna oikea sähköpostiosoite</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">Sisäänkirjautuminen epäonnistui</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">Vahvista, että käyttäjätunnuksesi ja salasanasi ovat oikein.</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">Tili lukittu</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">Pahoittelemme! Tilisi on lukittu useista epäonnistuneista sisäänkirjautumisyrityksistä johtuen. Ole hyvä ja yritä uudelleen tunnin kuluttua.</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">Tilin luominen ei onnistunut</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">Ole hyvä ja yritä uudelleen.</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">Tällä sähköpostiosoitteella on jo luotu {brand}n tili.</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">Kirjaudu sisään olemassa olevalle tilille</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">Käytä eri sähköpostiosoitetta</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">Väärä sähköpostiosoite. Ole hyvä ja yritä uudelleen.</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">Väärä salasana. Ole hyvä ja yritä uudelleen.</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">Väärä etunimi. Ole hyvä ja yritä uudelleen.</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">Väärä sukunimi. Ole hyvä ja yritä uudelleen.</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">Yhdistä langattomaan tai\nmobiiliverkkoon jatkaaksesi.</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">Salasana ei voi olla sama kuin sähköpostiosoitteesi</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">Valitse vahvempi salasana</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">Tietoja haetaan Facebookista…</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">Lupa sähköpostiosoitteeseen</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">Kirjautuaksesi Facebookiin, vaadimme luvan vahvistaa sähköpostiosoitteesi. \n\nOle hyvä ja napauta alla olevaa Facebook-painiketta myöntääksesi {brand}lle luvan vahvistaa sähköpostiosoitteesi. Kiitos!</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">Sähköpostiosoitetta ei voida varmistaa</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">Hupsista! Tarvitsemme sähköpostiosoitteen – tarkista, että olet liittänyt sähköpostiosoitteen Facebook-tiliisi ja myönnä käyttöoikeudet. \n\nVoit joko lisätä sähköpostiosoitteen Facebook-tiliisi (ja myöntää käyttöoikeudet) ja yrittää uudelleen tai yksinkertaisesti luoda tilin</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">Facebook-kirjautuminen peruttu</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">Hei &lt;b&gt;{email_address}&lt;/b&gt;! Näyttää siltä, että löysimme {brand}n tilisi! Anna {brand}n tilin salasanasi alle yhdistääksesi Facebook-tilisi {brand}n tiliisi.</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">Sinua kirjataan sisään Facebook-tilitietojen avulla…</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">Facebookiin kirjautuminen ei onnistunut.</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">{brand}n salasana</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">Tilejä liitetään…</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">Tiliä ei löytynyt</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">Sisäänkirjautuminen {brand}n tilille epäonnistui, joten emme voineet yhdistää tiliäsi Facebookiin.</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">Facebookin sähköpostiosoitettasi, {email_address}, ei löytynyt {brand}n sivuilta. Haluatko luoda uuden {brand}-tilin tai kirjautua sisään olemassa olevalle {brand}-tilillesi?</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">Uusi</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">Olemassa oleva</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">Uutta {brand}-tiliä luodaan…</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">Anna {brand}n tilisi käyttäjätiedot alle, ja se liitetään Facebook-tiliisi.</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">Halusitko kirjautua sisään Googlen kautta?</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">Emme enää tue Google-kirjautumista, mutta meillä on edelleen {brand}n matkustustietosi! Voidaksesi kirjautua sisään, sinun täytyy asettaa salasana Googlen sähköpostiosoitetta käyttäen sivuillamme</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">Valintaruutu. Valittu.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">Valintaruutu. Ei valittu.</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">Luo ilmainen tili</string>
+</resources>

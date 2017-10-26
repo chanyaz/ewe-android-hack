@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Account Creation</string>
+    <string name="pick_server">Choose your endpoint</string>
+
+    <string name="Success">Success</string>
+    <string name="Youre_all_signed_in">You\'re all signed in!</string>
+
+    <string name="Cancelled">Cancelled</string>
+    <string name="Sign_in_was_cancelled">Sign in was cancelled</string>
+
+    <string name="Facebook">Facebook</string>
+    <string name="Facebook_requested">Facebook was requested</string>
+
+    <string name="Password">Password</string>
+    <string name="Password_was_forgotten">Your password was forgotten</string>
+
+    <string name="Done">Done</string>
+
+    <string name="Sign_out">Sign Out</string>
+
+    <string name="sign_in_messaging">Save with exclusive member only deals</string>
+
+    <!-- Name of brand (Expedia, Travelocity, etc.) -->
+    <string name="brand">Expialidocious</string>
+
+    <!-- Description text of "Send me marketing email" checkbox -->
+    <string name="agree_to_spam">Send me email marketing and deals.</string>
+
+    <!-- Description text of "I agree to terms of service" checkbox -->
+    <string name="terms_of_service">I have read and agree to the &lt;a href="http://www.google.com"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="http://www.expedia.com"&gt;Privacy Policy&lt;/a&gt;.</string>
+
+    <!-- Description text of "I agree to terms of service" checkbox -->
+    <string name="loyalty_terms_of_service">By joining Expedia+, I accept all &lt;a href="http://www.google.com"&gt;terms &amp; conditions&lt;/a&gt;.</string>
+
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:paddingLeft="@dimen/acct__form_fields_horizontal_margin"
+    android:paddingRight="@dimen/acct__form_fields_horizontal_margin"
+    android:paddingTop="@dimen/acct__form_fields_vertical_margin"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/facebook_result_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:textColor="#ffffff"
+        android:text="@string/acct__fb_attempting_sign_in"/>
+
+    <com.expedia.account.input.ErrorableInputTextPresenter
+        android:id="@+id/email_address_facebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/acct__Email_Address"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:visibility="invisible"
+        android:paddingTop="16dp"
+        app:acct__eit_errorString="@string/acct__Must_enter_valid_email" />
+
+    <com.expedia.account.input.ErrorableInputTextPresenter
+        android:id="@+id/password_facebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:hint="@string/acct__fb_brand_password_hint"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
+        android:visibility="invisible"
+        app:acct__eit_errorStringPassword="@string/acct__Password_length_error_message" />
+
+    <android.support.v4.widget.Space
+        android:id="@+id/facebook_bottom_space"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/acct__facebook_bottom_gap" />
+
+</LinearLayout>

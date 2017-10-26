@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">AVANTI</string>
+    <string name="acct__NEXT_a11y_button">PULSANTE AVANTI</string>
+    <string name="acct__LINK">COLLEGA</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">Indirizzo e-mail</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">Password</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">Hai dimenticato la password?</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">o</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">Accedi</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">Accedi con Facebook</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">Iscriviti con Facebook</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">Crea un nuovo account {brand}</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">Indietro</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">Chiudi</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">Errore</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">Fatto</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">Nome</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">Cognome</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">Crea password</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">Conferma password</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">Ciao %1$s</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">Crea account</string>
+    <string name="acct__Passwords_must_match">Le password devono corrispondere</string>
+    <string name="acct__Password_length_error_message">La password deve contenere da {minlen} a {maxlen} caratteri</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">Benvenuto su {brand}</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">Inserisci il tuo nome</string>
+    <string name="acct__enter_a_last_name">Inserisci il tuo cognome</string>
+    <string name="acct__Must_enter_valid_email">Inserisci un indirizzo e-mail valido.</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">Accesso non riuscito</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">Conferma che l\&apos;indirizzo e-mail e la password sono corretti.</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">Account bloccato</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">Siamo spiacenti. A causa di ripetuti tentativi di accesso con credenziali errate, questo account è stato bloccato. Ti invitiamo a riprovare tra un\&apos;ora.</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">Creazione dell\&apos;account non riuscita</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">Riprova.</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">Questo indirizzo e-mail è già associato un account {brand}</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">Accedi a un account esistente</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">Utilizza un altro indirizzo e-mail</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">Indirizzo e-mail non valido. Riprova.</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">Password non valida. Riprova.</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">Nome non valido. Riprova.</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">Cognome non valido. Riprova.</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">Collegati a una rete Wi-Fi o a una rete dati cellulare\nper continuare</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">Non puoi utilizzare il tuo indirizzo e-mail come password</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">Imposta una password più sicura</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">Stiamo recuperando le informazioni da Facebook…</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">Autorizzazione e-mail</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">Per effettuare l\&apos;accesso tramite Facebook, abbiamo bisogno dell\&apos;autorizzazione a verificare il tuo indirizzo e-mail. \n\nClicca sul pulsante Facebook in basso per autorizzare {brand} a verificare il tuo indirizzo e-mail. Grazie!</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">Impossibile verificare l\&apos;indirizzo e-mail</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">Oops! Abbiamo bisogno di un indirizzo e-mail: assicurati di averne associato uno al tuo account Facebook e di aver consentito l\&apos;accesso. \n\nPuoi aggiungere un indirizzo e-mail al tuo account Facebook (e consentire l\&apos;accesso) o semplicemente creare un account</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">Accesso a Facebook annullato</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">Ciao &lt;b&gt;{email_address}&lt;/b&gt;, abbiamo trovato il tuo account {brand}! Inserisci le tue credenziali {brand} in basso per collegare i tuoi account Facebook e {brand}.</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">Stiamo cercando di accedere con le tue credenziali Facebook…</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">Impossibile collegarsi a Facebook.</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">Password {brand}</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">Stiamo collegando il tuo account…</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">Account non trovato</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">L\&apos;accesso al tuo account {brand} non è riuscito, quindi non è stato possibile collegare il tuo account a Facebook.</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">Il tuo indirizzo e-mail registrato su Facebook, {email_address}, non è stato trovato su {brand}. Desideri creare un nuovo account {brand} o accedere a un account {brand} esistente?</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">Nuovo</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">Esistente</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">Crea un nuovo account {brand}…</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">Inserisci le credenziali del tuo account {brand} in basso per collegarlo al tuo account Facebook.</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">Vuoi accedere con il tuo account Google?</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">Non è più possibile effettuare l\&apos;accesso tramite Google, ma le tue informazioni di viaggio {brand} sono state salvate. Per effettuare l\&apos;accesso devi impostare una password inserendo il tuo indirizzo e-mail Google sul nostro sito.</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">Casella. Selezionata.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">Casella. Non selezionata.</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">Crea il tuo account gratuito</string>
+</resources>

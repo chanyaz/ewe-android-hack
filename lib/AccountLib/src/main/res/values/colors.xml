@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="acct__btn_facebook_normal">#3b5998</color>
+    <color name="acct__btn_facebook_pressed">#667cab</color>
+    <color name="acct__btn_facebook_focused">#4e679d</color>
+    <color name="acct__btn_facebook_text">@color/acct__white</color>
+
+    <color name="acct__btn_borderless_normal">#00ffffff</color>
+    <color name="acct__btn_borderless_pressed">#4dffffff</color>
+    <color name="acct__btn_borderless_focused">#26ffffff</color>
+
+    <color name="acct__btn_text_disabled">#80000000</color>
+    <color name="acct__btn_text_default">#000000</color>
+
+    <color name="acct__tos_checkbox">#b3ffffff</color>
+    <color name="acct__tos_checkbox_checked">#80cbc4</color>
+
+    <color name="acct__default_bg_input_text_default">#80ffffff</color>
+    <color name="acct__default_bg_input_text_error">#db4437</color>
+    <color name="acct__default_bg_input_text_good">#4a90e2</color>
+    <color name="acct__default_flavor_text">@color/acct__white</color>
+    <color name="acct__default_disable_text">#80FFFFFF</color>
+    <color name="acct__default_user_info_text_color">@color/acct__white</color>
+    <color name="acct__default_welcome_text_color">@color/acct__white</color>
+    <color name="acct__default_toolbar_icon_color">@color/acct__white</color>
+    <color name="acct__transparent_colour">#00000000</color>
+    <color name="acct__default_edit_text_hint_color">#80849a</color>
+
+    <color name="acct__single_page_checkbox_checked_color">#0947B2</color>
+    <color name="acct__single_page_checkbox_checked_disable_color">#800947B2</color>
+    <color name="acct__single_page_toolbar_color">@color/acct__exp_launch_blue</color>
+    <color name="acct__single_page_create_account_bg_color">@color/acct__blue_1</color>
+    <color name="acct__single_page_disabled_account_bg_color">@color/acct__blue_1_50</color>
+    <color name="acct__single_page_separate_line_color">@color/acct__grey_1</color>
+    <color name="acct__single_page_text_hint_color">@color/acct__grey_1</color>
+    <color name="acct__single_page_error_color">#e42000</color>
+    <color name="acct__single_page_selected_color">@color/acct__blue_1</color>
+    <color name="acct__single_page_text_color">#4a4a4a</color>
+    <color name="acct__single_page_disabled_color">#804a4a4a</color>
+</resources>

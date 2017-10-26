@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">VOLGENDE</string>
+    <string name="acct__NEXT_a11y_button">KNOP VOLGENDE</string>
+    <string name="acct__LINK">KOPPELEN</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">E-mailadres</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">Wachtwoord</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">Je wachtwoord vergeten?</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">of</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">Aanmelden</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">Aanmelden via Facebook</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">Account aanmaken via Facebook</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">Maak een nieuw {brand}-account aan</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">Terug</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">Sluiten</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">Fout</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">Voltooid</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">Voornaam</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">Achternaam</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">Wachtwoord aanmaken</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">Wachtwoord bevestigen</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">Hallo %1$s</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">Account aanmaken</string>
+    <string name="acct__Passwords_must_match">Wachtwoorden meoeten overeenstemmen</string>
+    <string name="acct__Password_length_error_message">Wachtwoord moet tussen {minlen} en {maxlen} tekens lang zijn</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">Welkom bij {brand}</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">Voer een voornaam in</string>
+    <string name="acct__enter_a_last_name">Voer een achternaam in</string>
+    <string name="acct__Must_enter_valid_email">Voer een geldig e-mailadres in</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">Aanmelden mislukt</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">Controleer of je gebruikersnaam en wachtwoord correct zijn.</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">Account geblokkeerd</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">Het spijt ons! Je account is geblokkeerd vanwege verschillende aanmeldingspogingen met incorrecte info. Probeer het over een uur opnieuw.</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">Account aanmaken mislukt</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">Probeer het opnieuw.</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">Er bestaat al een {brand}-account met dit e-mailadres</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">Aanmelden bij bestaand account</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">Ander e-mailadres gebruiken</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">Ongeldig e-mailadres. Probeer het opnieuw.</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">Ongeldig wachtwoord. Probeer het opnieuw.</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">Ongeldige voornaam. Probeer het opnieuw.</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">Ongeldige achternaam. Probeer het opnieuw.</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">Maak verbinding met WiFi- of mobiel\ndatanetwerk om verder te gaan</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">Je wachtwoord mag niet overeenkomen met je e-mailadres</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">Kies een veiliger wachtwoord</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">Facebook-gegevens aan het ophalen …</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">E-mailtoestemming</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">Om je te kunnen aanmelden bij Facebook, hebben wij je toestemming nodig om je e-mailadres te controleren. \n\n{brand}Tik op de onderstaande Facebook-knop om toestemming te geven je e-mailadres te controleren. Hartelijk bedankt.</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">Verificatie van e-mailadres mislukt</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">Sorry! We hebben een e-mailadres van je nodig. Controleer of je een e-mailadres aan je Facebook-account hebt gekoppeld en verleen toegang. \n\nJe kunt ofwel een e-mailadres aan je Facebook-account toevoegen (+ toegang verlenen) en het opnieuw proberen, of simpelweg een Expedia-account aanmaken.</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">Aanmelden bij Facebook geannuleerd</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">Beste &lt;b&gt;{email_address}&lt;/b&gt;, we hebben je {brand}-account gevonden! Voer hieronder de aanmeldingsinfo van je {brand}-account in om je Facebook- en {brand}-accounts te koppelen.</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">Bezig met aanmelden via Facebook …</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">Aanmelden via Facebook mislukt.</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">Wachtwoord bij {brand}</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">Accounts aan het koppelen …</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">Account niet gevonden</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">Aanmelden bij jouw {brand}-account is mislukt. Je account kon niet gekoppeld worden aan Facebook.</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">Jouw e-mailadres bij Facebook, {email_address}, kon niet gevonden worden op {brand}. Wil je een nieuw {brand}-account aanmaken of je aanmelden bij een bestaand {brand}-account?</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">Nieuw</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">Bestaand</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">Nieuw {brand}-account aan het aanmaken …</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">Voer hieronder de aanmeldingsinfo van je {brand}-account in en we koppelen het aan je Facebook-account.</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">Wil je je via Google aanmelden?</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">We ondersteunen niet langer aanmelden met Google, maar we hebben nog steeds je {brand}-reisinformatie! Om je op onze website aan te melden, heb je een wachtwoord en je Google e-mailadres nodig</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">Selectievak. Aangevinkt.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">Selectievak. Niet aangevinkt.</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">Maak je gratis account aan</string>
+</resources>

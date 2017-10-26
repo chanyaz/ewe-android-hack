@@ -1,0 +1,111 @@
+<merge
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context=".ExpediaLoginActivity">
+
+    <View
+        android:id="@+id/focus_stealer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <com.expedia.account.view.AnimatedIconToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingRight="12dp"
+        android:nextFocusDown="@+id/parent_user_image_presenter"
+        android:focusable="true"
+        android:accessibilityTraversalBefore="@id/parent_user_image_presenter"
+        android:accessibilityLiveRegion="assertive"/>
+
+    <com.expedia.account.view.HeaderLayout
+        android:id="@+id/parent_user_image_presenter"
+        android:layout_width="@dimen/acct__max_width"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="210dp"
+        android:layout_marginTop="@dimen/acct__extra_tablet_top_margin"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:focusable="true"
+        android:accessibilityTraversalAfter="@id/toolbar"
+        android:accessibilityLiveRegion="polite"/>
+
+    <com.expedia.account.view.SignInLayout
+        android:id="@+id/parent_sign_in_layout"
+        android:layout_width="@dimen/acct__max_width"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent"
+        android:accessibilityTraversalAfter="@id/parent_user_image_presenter"
+        android:accessibilityLiveRegion="polite"/>
+
+    <com.expedia.account.view.FacebookAPIHostLayout
+        android:id="@+id/parent_facebook_api_host_layout"
+        android:layout_width="@dimen/acct__max_width"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent"/>
+
+    <com.expedia.account.view.FacebookLayout
+        android:id="@+id/parent_facebook_layout"
+        android:layout_width="@dimen/acct__max_width"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent"/>
+
+    <com.expedia.account.view.EmailNameLayout
+        android:id="@+id/parent_create_account_email_name_layout"
+        android:layout_width="@dimen/acct__max_width"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent" />
+
+    <com.expedia.account.singlepage.SinglePageSignUpLayout
+        android:id="@+id/parent_create_account_single_page_layout"
+        android:layout_width="@dimen/acct__max_width"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/single_page_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingRight="12dp"
+        android:background="@color/acct__single_page_toolbar_color"
+        app:navigationIcon="@drawable/acct__down_chevron_white"
+        app:title="@string/acct__single_page_sign_up_title" />
+
+    <com.expedia.account.view.PasswordLayout
+        android:id="@+id/parent_create_account_password_layout"
+        android:layout_width="@dimen/acct__max_width"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent"
+        android:accessibilityTraversalAfter="@id/parent_user_image_presenter"
+        android:accessibilityLiveRegion="polite"
+        android:importantForAccessibility="yes"/>
+
+    <com.expedia.account.view.TOSLayout
+        android:id="@+id/parent_create_account_tos_layout"
+        android:layout_width="@dimen/acct__max_width"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="match_parent"
+        android:accessibilityLiveRegion="polite"
+        android:accessibilityTraversalAfter="@id/parent_user_image_presenter"
+        android:importantForAccessibility="yes"/>
+
+    <com.expedia.account.view.WelcomeLayout
+        android:id="@+id/welcome_loading_container"
+        android:layout_width="wrap_content"
+        android:maxWidth="@dimen/acct__max_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+</merge>

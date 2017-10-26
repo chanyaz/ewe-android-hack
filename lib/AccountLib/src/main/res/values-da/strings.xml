@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">NÆSTE</string>
+    <string name="acct__NEXT_a11y_button">KNAPPEN NÆSTE</string>
+    <string name="acct__LINK">FORBIND</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">E-mailadresse</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">Adgangskode</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">Har du glemt din adgangskode?</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">eller</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">Log på</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">Log på med Facebook</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">Tilmeld dig med Facebook</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">Opret en ny {brand}-konto</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">Tilbage</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">Luk</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">Fejl</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">Gennemført</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">Fornavn</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">Efternavn</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">Opret en adgangskode</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">Bekræft adgangskode</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">Hej %1$s</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">Opret en konto</string>
+    <string name="acct__Passwords_must_match">Adgangskoderne skal stemme overens</string>
+    <string name="acct__Password_length_error_message">Adgangskoden skal være på mellem {minlen} og {maxlen} tegn</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">Velkommen til {brand}</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">Indtast fornavn</string>
+    <string name="acct__enter_a_last_name">Indtast efternavn</string>
+    <string name="acct__Must_enter_valid_email">Indtast en gyldig e-mailadresse</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">Loginforsøg mislykkedes</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">Bekræft, at dit brugernavn og adgangskode er korrekt.</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">Konto spærret</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">Vi beklager! Grundet flere loginforsøg med forkerte oplysninger er din konto blevet spærret. Prøv igen om en time.</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">Oprettelse af konto mislykkedes</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">Prøv venligst igen.</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">Der findes allerede en {brand}-konto med denne e-mailadresse</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">Log på en eksisterende konto</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">Anvend en anden e-mailadresse</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">Ugyldig e-mailadresse. Prøv venligst igen.</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">Ugyldig adgangskode. Prøv venligst igen.</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">Ugyldigt fornavn. Prøv venligst igen.</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">Ugyldigt efternavn. Prøv venligst igen.</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">Opret forbindelse til Wi-Fi eller \net mobildatanetværk for at fortsætte</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">Din adgangskode kan ikke være din e-mailadresse</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">Vælg venligst en adgangskode, der er mere sikker</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">Henter oplysninger fra Facebook…</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">E-mailtilladelse</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">For at logge på med Facebook har vi brug for din tilladelse til at verificere din e-mailadresse. \n\nTryk på Facebook-knappen nedenfor for at give {brand} tilladelse til at verificere din e-mailadresse. Tak!</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">Vi kunne ikke verificere e-mailadressen</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">Ups! Vi har brug for en e-mailadresse – sørg for, at du har knyttet en e-mailadresse til din Facebook-konto, og giv os adgang. \n\nDu kan enten føje en e-mailadresse til din Facebook-konto, give os adgang og prøve igen eller oprette en Expedia-konto.</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">Login på Facebook annulleret</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">Hej &lt;b&gt;{email_address}&lt;/b&gt;. Det ser ud til, at vi har fundet din {brand}-konto! Indtast venligst dine loginoplysninger til {brand} nedenfor for at forbinde din Facebook- og {brand}-konto.</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">Forsøger at logge dig på med dine loginoplysninger til Facebook…</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">Kan ikke logge på Facebook.</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">Adgangskode til {brand}</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">Forbinder dine kontoer…</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">Konto ikke fundet</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">Dit loginforsøg til din {brand}-konto mislykkedes, så vi kunne ikke forbinde din konto med Facebook.</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">Din e-mailadresse til Facebook, {email_address}, blev ikke fundet på {brand}. Ønsker du at oprette en ny {brand}-konto eller logge på en eksisterende {brand}-konto?</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">Ny</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">Eksisterende</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">Opretter en ny {brand}-konto…</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">Indtast loginoplysningerne til din {brand}-konto, så vi kan forbinde den med din Facebook-konto.</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">Leder du efter "Log ind med Google"?</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">Vi understøtter ikke længere "Log ind med Google", men vi har stadig dine rejseoplysninger fra {brand}! For at logge på skal du oprette en adgangskode ved at bruge din Google-e-mailadresse på vores hjemmeside</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">Afkrydsningsfelt. Markeret.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">Afkrydsningsfelt. Ikke markeret.</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">Opret din gratis konto</string>
+</resources>

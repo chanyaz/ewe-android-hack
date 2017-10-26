@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">다음</string>
+    <string name="acct__NEXT_a11y_button">다음 버튼</string>
+    <string name="acct__LINK">연결</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">이메일 주소</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">비밀번호</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">비밀번호를 잊으셨나요?</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">또는</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">로그인</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">Facebook 계정으로 로그인</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">Facebook 계정으로 회원가입</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">새 {brand} 계정 만들기</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">뒤로</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">닫기</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">오류</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">완료</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">이름(영문)</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">성(영문)</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">비밀번호 만들기</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">비밀번호 확인</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">안녕하세요, %1$s 님!</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">회원가입</string>
+    <string name="acct__Passwords_must_match">비밀번호가 일치해야 합니다.</string>
+    <string name="acct__Password_length_error_message">비밀번호 길이는 {minlen}~{maxlen}자여야 합니다.</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">{brand}에 오신 걸 환영합니다!</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">이름을 영문으로 입력해 주세요.</string>
+    <string name="acct__enter_a_last_name">성을 영문으로 입력해 주세요.</string>
+    <string name="acct__Must_enter_valid_email">유효한 이메일 주소를 입력해 주세요.</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">로그인에 실패했습니다.</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">사용자 이름과 비밀번호가 올바른지 확인해 주세요.</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">계정 잠김</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">죄송합니다. 잘못된 정보로 여러 차례 로그인을 시도하셨기 때문에 고객님의 계정이 잠겼습니다. 1시간 후에 다시 시도해 주세요.</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">회원가입에 실패했습니다.</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">다시 시도해 주세요.</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">이 이메일 주소로 이미 {brand} 계정이 있습니다.</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">기존 계정으로 로그인</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">다른 이메일 사용</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">잘못된 이메일 주소입니다. 다시 시도해 주세요.</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">잘못된 비밀번호입니다. 다시 시도해 주세요.</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">이름이 올바르지 않습니다. 다시 시도해 주세요.</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">성이 올바르지 않습니다. 다시 시도해 주세요.</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">WiFi 또는 모바일 데이터에 연결하고\n계속해 주세요.</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">비밀번호는 이메일 주소와 달라야 합니다.</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">보다 보안성이 높은 비밀번호를 선택해 주세요.</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">Facebook에서 정보 가져오는 중…</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">이메일 권한</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">Facebook 계정으로 로그인하려면 저희에게 고객님의 이메일 주소를 확인할 권한을 주셔야 합니다. \n\n아래의 Facebook 버튼을 눌러 {brand}에 고객님 이메일 주소를 확인할 권한을 주세요. 감사합니다!</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">이메일 주소 확인할 수 없음</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">죄송합니다. 이메일 주소가 필요합니다. 고객님의 Facebook 계정에 연결된 이메일 주소가 있는지 확인하고 액세스를 허용해 주세요. \n\nFacebook 계정에 이메일을 추가(및 액세스 허용)하고 다시 시도하시거나 익스피디아에 회원가입해 주세요.</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">Facebook 로그인이 취소되었습니다.</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">&lt;b&gt;{email_address}&lt;/b&gt; 님, 고객님의 {brand} 계정을 찾은 것 같아요! Facebook과 {brand} 계정을 연결하려면 아래에 {brand} 사용자 정보를 입력해 주세요.</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">Facebook 인증으로 로그인 시도 중…</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">Facebook에 로그인할 수 없습니다.</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">{brand} 비밀번호</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">계정 연결 중…</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">계정을 찾을 수 없습니다.</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">{brand} 계정 로그인에 실패하여 Facebook 계정과 연결할 수 없습니다.</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">고객님의 Facebook 이메일 주소({email_address})를 {brand}에서 찾을 수 없습니다. 새로운 {brand} 계정을 만드시겠어요? 아니면 기존 {brand} 계정에 로그인하시겠어요?</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">새 계정</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">기존 계정</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">새로운 {brand} 계정을 만드는 중…</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">아래에 {brand} 계정 정보를 입력하시면 고객님의 Facebook 계정과 연결됩니다.</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">Google 계정으로 로그인하시려고요?</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">Google 계정으로 로그인하는 기능을 더 이상 지원하지 않습니다. 하지만, 고객님의 {brand} 여행 정보는 여전히 보유하고 있습니다. 로그인하시려면 저희 웹사이트에서 고객님의 Google 이메일 주소로 비밀번호를 설정해 주셔야 합니다.</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">확인란. 체크됨.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">확인란. 체크 안 됨.</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">무료 회원가입</string>
+</resources>

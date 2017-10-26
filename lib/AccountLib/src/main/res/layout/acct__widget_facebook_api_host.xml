@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/facebook_message"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="64dp"
+        android:paddingLeft="@dimen/acct__form_fields_horizontal_margin"
+        android:paddingRight="@dimen/acct__form_fields_horizontal_margin"
+        android:gravity="center_horizontal"
+        android:textColor="#ffffff"
+        android:text="@string/acct__fb_attempting_sign_in"/>
+</merge>

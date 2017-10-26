@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">NÄSTA</string>
+    <string name="acct__NEXT_a11y_button">Nästa-knapp</string>
+    <string name="acct__LINK">LÄNK</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">E-postadress</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">Lösenord</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">Har du glömt ditt lösenord?</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">eller</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">Logga in</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">Logga in med Facebook</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">Registrera dig med Facebook</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">Skapa ett nytt {brand}konto</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">Tillbaka</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">Stäng</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">Det uppstod ett fel</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">Ifyllt</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">Förnamn</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">Efternamn</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">Skapa lösenord</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">Bekräfta lösenord</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">Hej %1$s</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">Skapa konto</string>
+    <string name="acct__Passwords_must_match">Lösenorden måste matcha varann</string>
+    <string name="acct__Password_length_error_message">Lösenordet måste vara mellan {minlen} och {maxlen} tecken långt</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">Välkommen till {brand}</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">Ange ett förnamn</string>
+    <string name="acct__enter_a_last_name">Ange ett efternamn</string>
+    <string name="acct__Must_enter_valid_email">Ange en giltig e-postadress</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">Inloggning misslyckades</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">Bekräfta att ditt användarnamn och ditt lösenord stämmer.</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">Konto låst</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">Vi beklagar! Eftersom du flera gånger försökt att logga in med felaktiga uppgifter har ditt konto nu låsts. Försök igen om en timme.</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">Kontot kunde inte skapas</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">Försök igen.</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">Det finns redan ett {brand}-konto med den här e-postadressen</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">Logga in på existerande konto</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">Använd en annan e-postadress</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">Ogiltig e-postadress. Försök igen.</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">Ogiltigt lösenord. Försök igen.</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">Ogiltigt förnamn. Försök igen.</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">Ogiltigt efternamn. Försök igen.</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">Anslut till wi-fi eller annat\nnätverk för att fortsätta</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">Ditt lösenord kan inte vara detsamma som din e-postadress</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">Ange ett säkrare lösenord</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">Vi hämtar information från Facebook…</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">E-posttillåtelse</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">För att logga in med Facebook behöver vi din tillåtelse att verifiera din e-postadress. \n\nTryck på Facebook-knappen nedan för att ge {brand} tillåtelse att verifiera din e-postadress. Tack!</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">Kunde inte verifiera e-postadress</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">Hoppsan! Vi behöver en e-postadress – kontrollera att du har en e-postadress länkad till ditt Facebook-konto och att tillgång till den är öppen. \n\nDu kan antingen lägga till en e-postadress i ditt Facebookkonto (med öppen tillgång) och försöka igen, eller helt enkelt skapa ett konto</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">Inloggning på Facebook misslyckades</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">Hej &lt;b&gt;{email_address}&lt;/b&gt;! Vi verkar ha hittat ditt {brand}konto. Ange dina inloggningsuppgifter för {brand} nedan för att länka ditt Facebookkonto till dina {brand}konton.</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">Försöker logga in dig med dina Facebook-uppgifter…</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">Inloggningen på Facebook misslyckades.</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">Lösenord på {brand}</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">Länkar dina konton…</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">Kontot hittades inte</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">Inloggningen på ditt {brand}misslyckades, så vi kan inte länka ditt konto till Facebook.</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">E-postadressen på ditt Facebookkonto, {email_address}, kunde inte hittas på {brand}. Vill du skapa ett nytt {brand}konto eller logga in på ett existerande {brand}konto?</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">Nytt</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">Existerande</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">Skapar ett nytt {brand}konto…</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">Ange inloggningsuppgifterna för ditt {brand}konto nedan så komemr det att länkas till ditt Facebookkonto.</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">Vill du logga in med Google?</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">Vi stödjer inte längre inloggning med Google, men vi har fortfarande dina reseuppgifter på {brand}. Vill du logga in måste du ange ett lösenord med din e-postadress med Google på vår webbsida</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">Ruta. Förkryssad.</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">Ruta. Ej förkryssad.</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">Skapa ditt konto gratis</string>
+</resources>

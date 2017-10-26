@@ -1,0 +1,38 @@
+<resources>
+    <style name="acct__Account.Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/acct__bg_btn_borderless_kitkat</item>
+    </style>
+    <style name="acct__Theme.Progress.Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:alertDialogStyle">@style/acct__ProgressDialogStyle</item>
+        <item name="android:windowBackground">@color/acct__transparent_colour</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="acct__ProgressDialogStyle">
+        <item name="android:bottomBright">@color/acct__transparent_colour</item>
+        <item name="android:bottomDark">@color/acct__transparent_colour</item>
+        <item name="android:bottomMedium">@color/acct__transparent_colour</item>
+        <item name="android:centerBright">@color/acct__transparent_colour</item>
+        <item name="android:centerDark">@color/acct__transparent_colour</item>
+        <item name="android:centerMedium">@color/acct__transparent_colour</item>
+        <item name="android:fullBright">@color/acct__transparent_colour</item>
+        <item name="android:fullDark">@color/acct__transparent_colour</item>
+        <item name="android:topBright">@color/acct__transparent_colour</item>
+        <item name="android:topDark">@color/acct__transparent_colour</item>
+    </style>
+
+    <style name="acct__TextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/acct__single_page_separate_line_color</item>
+        <item name="colorControlActivated">@color/acct__single_page_selected_color</item>
+    </style>
+
+    <style name="acct__hintTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/acct__single_page_text_hint_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="acct__errorTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/acct__single_page_error_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>

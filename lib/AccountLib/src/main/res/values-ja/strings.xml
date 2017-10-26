@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">次へ</string>
+    <string name="acct__NEXT_a11y_button">次へボタン</string>
+    <string name="acct__LINK">リンクさせる</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">メールアドレス</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">パスワード</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">パスワードをお忘れですか ?</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">または</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">サインイン</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">Facebook アカウントでサインイン</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">Facebook アカウントで登録</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">新しい {brand} アカウントを作成する</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">戻る</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">閉じる</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">エラー</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">入力完了</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">名 (例 : Taro)</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">姓 (例 : Yamada)</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">パスワードを作成する</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">確認のためパスワードを再入力</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">こんにちは、%1$s 様</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">アカウントを作成</string>
+    <string name="acct__Passwords_must_match">パスワードに誤りがあります</string>
+    <string name="acct__Password_length_error_message">{minlen} ～ {maxlen} 文字のパスワードを指定してください</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">{brand} へようこそ !</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">名を入力</string>
+    <string name="acct__enter_a_last_name">姓を入力</string>
+    <string name="acct__Must_enter_valid_email">有効なメールアドレスを入力してください</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">サインインに失敗しました</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">ユーザー名とパスワードが正しいことを確認してください。</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">アカウントがロックされています</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">申し訳ありません。間違ったアクセス情報で数回サインインを試みたため、ご利用のアカウントがロックされました｡1 時間後に再びお試しください。</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">アカウントの作成に失敗しました</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">もう一度お試しください。</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">このメールアドレスが登録された {brand} アカウントが既に存在します</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">既存のアカウントにサインインする</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">別のEメールを使用する</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">Eメールアドレスが無効です。もう一度お試しください。</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">無効なパスワードもう一度お試しください。</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">名が無効です。もう一度お試しください。</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">姓が無効です。もう一度お試しください。</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">継続するには、Wi-Fi またはモバイルデータ通信ネットワークに\n接続してください</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">パスワードにEメールアドレスを使用することはできません</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">より安全性の高いパスワードを設定してください</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">Facebook から情報を取得中…</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">Eメールアドレスの認証</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">Facebook アカウントでサインインするには、Eメールアドレスの認証を許可してください。\n\n下記の Facebook ボタンをタップして許可すると、{brand} がEメールアドレスを認証します。ありがとうございます !</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">Eメールアドレスを確認できません</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">ログインにはEメールアドレスが必要です - Facebook アカウントに関連付けられたEメール アドレスをご確認のうえ、アクセスを許可してください。\n\nFacebook アカウントにEメール アドレスを追加 (アクセスを許可) し、もう 1 度お試しいただくか、アカウントを作成してください。</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">Facebook のサインインをキャンセルしました</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">&lt;b&gt;{email_address}&lt;/b&gt; さん、すでに {brand} のアカウントをお持ちのようです。以下に {brand} のアクセス情報を入力して、Facebook と {brand} のアカウントをリンクしてください。</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">Facebook の認証情報でサインイン中…</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">Facebook にサインインできません。</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">{brand} のパスワード</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">アカウントをリンク中…</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">アカウントが見つかりません</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">ご利用の {brand} のアカウントにサインインできなかったため、Facebook とリンクすることができませんでした。</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">{brand} では、ご利用の Facebook のメールアドレス {email_address} が見つかりませんでした。新しい {brand} のアカウントを作成するか、既存の {brand} アカウントにサインインしてください。</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">新しいアカウント</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">既存のアカウント</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">新しい {brand} アカウントを作成する…</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">以下に {brand} アカウントのアクセス情報を入力してください。ご利用の Facebook のアカウントとリンクされます。</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">Google アカウントでサインインしますか ?</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">Google でのサインイン機能は終了しました。ただし、{brand}のご旅行情報は保存されています ! 当社のウェブサイトで Google メールアドレスをご利用のうえ、パスワードを設定してサインインしてください</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">チェックボックス。チェック済みです。</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">チェックボックス。チェックされていません。</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">アカウントを作成 (無料)</string>
+</resources>

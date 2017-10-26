@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/acct__form_fields_horizontal_margin"
+    android:paddingRight="@dimen/acct__form_fields_horizontal_margin"
+    android:paddingTop="@dimen/acct__form_fields_vertical_margin">
+
+    <com.expedia.account.input.ErrorableInputTextPresenter
+        android:id="@+id/email_address_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/acct__Email_Address"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        app:acct__eit_errorString="@string/acct__Must_enter_valid_email" />
+
+    <com.expedia.account.input.ErrorableInputTextPresenter
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:hint="@string/acct__Password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        app:acct__eit_errorStringPassword="@string/acct__Password_length_error_message" />
+
+    <android.support.v4.widget.Space
+        android:id="@+id/space_above_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/acct__space_above_buttons"
+        android:visibility="visible"/>
+
+    <android.support.v4.widget.Space
+        android:id="@+id/keyboard_visible_space_above_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/acct__keyboard_visible_space_above_buttons"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/sign_in_button"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/acct__sign_in_button_height"
+        android:text="@string/acct__Sign_In" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/forgot_password"
+            style="@style/acct__Account.Widget.BorderlessButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/acct__sign_in_button_height"
+            android:layout_marginTop="@dimen/acct__forgot_password_top_margin"
+            android:gravity="center"
+            android:text="@string/acct__Forgot_your_password"
+            android:textAllCaps="true"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/keyboard_hidden_fields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/sign_in_with_facebook_button"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/acct__sign_in_button_height"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/acct__bg_btn_facebook"
+                android:textColor="@color/acct__btn_facebook_text"
+                android:text="@string/acct__Sign_In_with_Facebook"
+                android:visibility="invisible" />
+
+            <android.support.v4.widget.Space
+                android:id="@+id/space_below_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/acct__space_below_buttons" />
+
+            <TextView
+                android:id="@+id/google_account_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="@dimen/acct__about_section_margin"
+                android:layout_marginBottom="@dimen/acct__about_section_margin"
+                android:layout_marginRight="@dimen/acct__about_section_margin"
+                android:drawablePadding="4dp"
+                android:drawableRight="@drawable/google_change_icon"
+                android:text="@string/acct__google_account_change_string"
+                android:textSize="15sp" />
+
+            <android.support.v4.widget.Space
+                android:id="@+id/keyboard_visible_space_below_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="0px" />
+
+            <LinearLayout
+                android:id="@+id/or_row"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp">
+
+                <View
+                    android:id="@+id/dash_left"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:background="@color/acct__default_flavor_text" />
+
+                <TextView
+                    android:id="@+id/or"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/acct__or"
+                    android:textColor="@color/acct__default_flavor_text" />
+
+                <View
+                    android:id="@+id/dash_right"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:background="@color/acct__default_flavor_text" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/create_account"
+                style="@style/acct__Account.Widget.BorderlessButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/acct__sign_in_button_height"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="1dp"
+                android:text="@string/acct__Create_a_new_brand_account"
+                android:textColor="@color/acct__default_flavor_text"
+                tools:text="Create a new Expedia account"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <android.support.v4.widget.Space
+        android:id="@+id/sign_in_bottom_space"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/acct__sign_in_bottom_gap" />
+
+</LinearLayout>

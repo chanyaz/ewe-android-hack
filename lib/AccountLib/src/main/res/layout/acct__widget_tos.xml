@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/acct__form_fields_horizontal_margin"
+    android:paddingRight="@dimen/acct__form_fields_horizontal_margin"
+    android:paddingTop="@dimen/acct__form_fields_vertical_margin"
+    android:paddingBottom="@dimen/acct__form_fields_vertical_margin"
+    android:layout_gravity="bottom">
+
+    <LinearLayout
+        android:id="@+id/terms_of_use_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/terms_of_use_checkbox"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:clickable="false"
+            android:focusable="false"/>
+
+        <TextView
+            android:id="@+id/terms_of_use_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/acct__toslayout_text_color"
+            android:textColorLink="@color/acct__toslayout_text_color"
+            android:focusable="true"
+            tools:text="I agree to Terms of Use and whatnot."
+            android:importantForAccessibility="no"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/enroll_in_loyalty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/enroll_in_loyalty_checkbox"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:clickable="false"
+            android:focusable="false"
+            android:enabled="false"/>
+
+        <TextView
+            android:id="@+id/enroll_in_loyalty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/acct__toslayout_text_color"
+            android:textColorLink="@color/acct__toslayout_text_color"
+            android:focusable="true"
+            android:enabled="false"
+            tools:text="By joining Loyalty Rewards program, I accept all Terms and Conditions"
+            android:importantForAccessibility="no"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/agree_to_spam_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/agree_to_spam_checkbox"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:clickable="false"
+            android:focusable="false"
+            android:enabled="false"/>
+
+        <TextView
+            android:id="@+id/agree_to_spam_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/acct__toslayout_text_color"
+            android:textColorLink="@color/acct__toslayout_text_color"
+            android:focusable="true"
+            android:enabled="false"
+            tools:text="Please send me spam and whatnot."
+            android:importantForAccessibility="no"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_create_account"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/acct__sign_in_button_height"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/acct__Create_Account"
+        android:textColor="@color/acct__toslayout_btn_text_color"/>
+
+    <android.support.v4.widget.Space
+        android:layout_height="@dimen/acct__tos_bottom_gap"
+        android:layout_width="1dp" />
+
+</LinearLayout>

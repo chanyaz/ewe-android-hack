@@ -1,0 +1,150 @@
+<resources>
+    <string name="acct__NEXT">ถัดไป</string>
+    <string name="acct__NEXT_a11y_button">ปุ่มถัดไป</string>
+    <string name="acct__LINK">เชื่อมบัญชี</string>
+
+    <!-- Sign In page -->
+    <!-- Hint on Email Address EditText field -->
+    <string name="acct__Email_Address">อีเมล</string>
+    <!-- Hint on Password EditText field -->
+    <string name="acct__Password">รหัสผ่าน</string>
+    <!-- "Forgot your password?" button text -->
+    <string name="acct__Forgot_your_password">ลืมรหัสผ่าน</string>
+    <!-- Divider text between Sign In and Create Account -->
+    <string name="acct__or">หรือ</string>
+    <!-- Button text for Sign In -->
+    <string name="acct__Sign_In">เข้าสู่ระบบ</string>
+    <!-- Button text for Sign in With Facebook -->
+    <string name="acct__Sign_In_with_Facebook">เข้าสู่ระบบด้วย Facebook</string>
+    <!-- Button text for Sign up With Facebook -->
+    <string name="acct__Sign_Up_with_Facebook">สมัครด้วย Facebook</string>
+    <!-- Button text for account creation button -->
+    <string name="acct__Create_a_new_brand_account">สร้างบัญชี {brand} ใหม่</string>
+    <!-- Back button content description -->
+    <string name="acct__Toolbar_nav_back_icon_cont_desc">กลับ</string>
+    <!-- "X" button content description -->
+    <string name="acct__Toolbar_nav_close_icon_cont_desc">ปิด</string>
+
+    <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
+    <string name="acct__accessibility_cont_desc_role_error">เกิดข้อผิดพลาด</string>
+    <!-- Generic string used when user correctly enters traveler details -->
+    <string name="acct__accessibility_cont_desc_role_complete">เสร็จสิ้น</string>
+
+    <!-- Email / Name page -->
+    <!-- Hint on First Name EditText field -->
+    <string name="acct__First_Name">ชื่อ</string>
+    <!-- Hint on Last Name EditText field -->
+    <string name="acct__Last_Name">นามสกุล</string>
+
+    <!-- Password entry page -->
+    <!-- Hint on first password EditText field -->
+    <string name="acct__Create_Password">สร้างรหัสผ่าน</string>
+    <!-- Hint on second/confirmation password EditText field -->
+    <string name="acct__Confirm_Password">ยืนยันรหัสผ่าน</string>
+
+    <!-- Greeting next to user image; parameter will be the user's first name
+     as entered in account creation: i.e. "Hello Doug" -->
+    <string name="acct__Hello_x">สวัสดี คุณ %1$s</string>
+
+    <!-- Terms of Service page -->
+    <!-- Button text for final Create Account button -->
+    <string name="acct__Create_Account">สร้างบัญชี</string>
+    <string name="acct__Passwords_must_match">รหัสผ่านต้องตรงกัน</string>
+    <string name="acct__Password_length_error_message">รหัสผ่านต้องมีความยาว {minlen}-{maxlen} ตัวอักษร</string>
+
+    <!-- Welcome Screen -->
+    <!-- Message displayed after a successful create account -->
+    <string name="acct__Welcome_to_brand">ยินดีต้อนรับสู่ {brand}</string>
+
+    <!-- Local Error Messages -->
+    <!-- Small red text for local email validation failure -->
+    <string name="acct__enter_a_first_name">ป้อนชื่อ</string>
+    <string name="acct__enter_a_last_name">ป้อนนามสกุล</string>
+    <string name="acct__Must_enter_valid_email">โปรดป้อนอีเมลที่ถูกต้อง</string>
+
+    <!-- Server Error Messages -->
+    <!-- Title of error dialog box -->
+    <string name="acct__Sign_in_failed_TITLE">การเข้าสู่ระบบล้มเหลว</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_failed">โปรดตรวจสอบว่าชื่อผู้ใช้และรหัสผ่านของคุณถูกต้อง</string>
+    <!-- Title of account locked error dialog box -->
+    <string name="acct__Sign_in_locked_TITLE">บัญชีถูกล็อค</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Sign_in_locked">ขออภัย บัญชีของคุณถูกล็อค เนื่องจากมีการพยายามเข้าสู่ระบบหลายครั้งโดยใช้ข้อมูลที่ไม่ถูกต้อง โปรดลองใหม่ในอีกหนึ่งชั่วโมง</string>
+    <!-- Title of error dialog box -->
+    <string name="acct__Create_account_failed_TITLE">การสร้างบัญชีล้มเหลว</string>
+    <!-- Generic sign in failure dialog box message -->
+    <string name="acct__Create_account_failed">โปรดลองอีกครั้ง</string>
+    <!-- Title on "Account already exists" dialog box -->
+    <string name="acct__Brand_account_already_exists_TITLE">อีเมลนี้มีบัญชี {brand} อยู่แล้ว</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Sign_in_to_my_existing_account">เข้าสู่ระบบบัญชีที่มีอยู่</string>
+    <!-- Option for "Account already exists" dialog box -->
+    <string name="acct__Create_a_new_account_with_different_email">ใช้อีเมลอื่น</string>
+    <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
+    <string name="acct__invalid_email_address">อีเมลไม่ถูกต้อง โปรดลองอีกครั้ง</string>
+    <!-- Error telling the user that an invalid password has been entered -->
+    <string name="acct__invalid_password">รหัสผ่านไม่ถูกต้อง โปรดลองอีกครั้ง</string>
+    <!-- Error telling the user that the entered first name is not accepted -->
+    <string name="acct__invalid_first_name">ชื่อไม่ถูกต้อง โปรดลองอีกครั้ง</string>
+    <!-- Error telling the user that the entered last name is not accepted -->
+    <string name="acct__invalid_last_name">นามสกุลไม่ถูกต้อง โปรดลองอีกครั้ง</string>
+    <!-- Error telling the user that they are not connected to the internet -->
+    <string name="acct__no_network_connection">เชื่อมต่อกับ Wi-Fi หรือเครือข่าย\nข้อมูลมือถือเพื่อดำเนินการต่อ</string>
+    <!-- Error telling the user that the entered email and password cannot be identical-->
+    <string name="acct__email_password_identical">ไม่สามารถใช้ที่อยู่อีเมลเป็นรหัสผ่าน</string>
+    <!-- Error telling the user that the entered password is in a common password list-->
+    <string name="acct__common_password">โปรดเลือกรหัสผ่านที่เดาได้ยากกว่านี้</string>
+
+    <!-- Facebook -->
+    <!-- fetching information from Facebook -->
+    <string name="acct__fb_fetching_info">กำลังรับข้อมูลจาก Facebook…</string>
+    <!-- User Denied email permission Heading -->
+    <string name="acct__fb_user_denied_email_heading">การอนุญาตอีเมล</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="acct__fb_user_denied_email_message">ในการเข้าสู่ระบบด้วย Facebook เราต้องขออนุญาตตรวจสอบที่อยู่อีเมลของคุณ \n\nโปรดแตะที่ปุ่ม Facebook ด้านล่างเพื่ออนุญาตให้ {brand} ตรวจสอบอีเมลของคุณ ขอบคุณ</string>
+    <!-- User's facebook account missing email address Heading -->
+    <string name="acct__fb_user_missing_email_heading">ไม่สามารถตรวจสอบที่อยู่อีเมลได้</string>
+    <!-- User's facebook account missing email address message -->
+    <string name="acct__fb_user_missing_email_message">ขออภัย! เราจำเป็นต้องทราบที่อยู่อีเมล โปรดตรวจสอบว่าบัญชี Facebook ของคุณมีที่อยู่อีเมลผูกเข้ากับบัญชี และอนุญาตให้เข้าถึงได้ \n\nคุณสามารถเพิ่มที่อยู่อีเมลเข้ากับบัญชี Facebook ของคุณ (และอนุญาตให้เข้าถึงได้) แล้วลองอีกครั้ง หรือสร้างบัญชีใหม่</string>
+    <!-- Message displayed when the user taps the "cancel" button on the Facebook sign in screen -->
+    <string name="acct__fb_sign_in_cancelled">การเข้าสู่ระบบ Facebook ถูกยกเลิก</string>
+    <!-- We've found your user account -->
+    <string name="acct__fb_weve_found_your_account">สวัสดี คุณ &lt;b&gt;{email_address}&lt;/b&gt; ดูเหมือนว่าเราจะพบบัญชี {brand} ของคุณ! โปรดป้อนชื่อผู้ใช้และรหัสผ่าน {brand} ของคุณด้านล่างเพื่อเชื่อมต่อบัญชี Facebook กับบัญชี {brand} ของคุณ</string>
+    <!-- Attempting to sign you in with Facebook credentials -->
+    <string name="acct__fb_attempting_sign_in">กำลังเข้าสู่ระบบโดยใช้ Facebook…</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="acct__fb_unable_to_sign_into_facebook">ไม่สามารถเข้าสู่ระบบ Facebook</string>
+    <!-- Facebook connect {Expedia} password hint -->
+    <string name="acct__fb_brand_password_hint">รหัสผ่าน {brand}</string>
+    <!-- Linking your accounts -->
+    <string name="acct__fb_linking_your_accounts">กำลังเชื่อมต่อบัญชีของคุณ…</string>
+    <!-- Facebook/{Expedia} account not found: dialog box title -->
+    <string name="acct__fb_notLinked_title">ไม่พบบัญชี</string>
+    <!-- Error message: Error signing in to {Expedia} account -->
+    <string name="acct__fb_link_existing_failed">การเข้าสู่ระบบบัญชี {brand} ของคุณล้มเหลว เราจึงไม่สามารถเชื่อมต่อบัญชีของคุณเข้ากับ Facebook ได้</string>
+    <!-- Facebook/{Expedia} account not found: dialog box description text -->
+    <string name="acct__fb_notLinked_description_TEMPLATE">ไม่พบอีเมลสำหรับ Facebook ของคุณ, {email_address}, บน {brand} คุณต้องการสร้างบัญชี {brand} ใหม่ หรือเข้าสู่ระบบบัญชี {brand} ที่มีอยู่เดิม?</string>
+    <!-- Facebook/{Expedia} account not found: create a new account button -->
+    <string name="acct__fb_notLinked_new_button">บัญชีใหม่</string>
+    <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
+    <string name="acct__fb_notLinked_existing_button">บัญชีเดิม</string>
+    <!-- Creating a new {Expedia} account via Facebook login -->
+    <string name="acct__fb_creating_a_new_brand_account">กำลังสร้างบัญชี {brand} ใหม่…</string>
+    <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
+    <string name="acct__fb_enter_your_brand_credentials">โปรดป้อนชื่อผู้ใช้และรหัสผ่านของบัญชี {brand} ของคุณ เพื่อเชื่อมต่อกับบัญชี Facebook ของคุณ</string>
+    <!-- Label for information for users who had previously used Google sign-in -->
+    <string name="acct__google_account_change_string">กำลังมองหาวิธีเข้าสู่ระบบด้วยบัญชี Google อยู่หรือ</string>
+    <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
+    <string name="acct__google_account_change_message_TEMPLATE">เราไม่รองรับการเข้าสู่ระบบด้วยบัญชี Google อีกต่อไป แต่เรายังคงมีข้อมูลการเดินทางกับ {brand} ของคุณอยู่! เพื่อเข้าสู่ระบบ คุณต้องตั้งรหัสผ่านโดยใช้อีเมล Google ของคุณบนเว็บไซต์ของเรา</string>
+
+    <!--Accessibility-->
+    <!-- Content description for Checkbox types, state Checked -->
+    <string name="acct__cont_desc_role_checkbox_checked">ช่องทำเครื่องหมาย ทำเครื่องหมายแล้ว</string>
+    <!-- Content description for Checkbox types, state Unchecked -->
+    <string name="acct__cont_desc_role_checkbox_unchecked">ช่องทำเครื่องหมาย ไม่ได้ทำเครื่องหมาย</string>
+
+
+    <!--Single Page Sign Up-->
+    <string name="acct__single_page_sign_up_title">สร้างบัญชีฟรี</string>
+</resources>

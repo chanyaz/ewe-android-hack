@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="acct__white">#FFFFFF</color>
+    <color name="acct__black">#000000</color>
+    <color name="acct__exp_launch_blue">#0063BB</color>
+    <color name="acct__grey_1">#676767</color>
+    <color name="acct__blue_1">#1369B3</color>
+    <color name="acct__blue_1_50">#801369B3</color>
+</resources>

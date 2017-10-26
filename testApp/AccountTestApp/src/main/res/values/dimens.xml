@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="account_creation_user_image_small">64dp</dimen>
+    <dimen name="match_parent">-1px</dimen>
+</resources>

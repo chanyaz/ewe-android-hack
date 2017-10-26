@@ -1,0 +1,51 @@
+<resources>
+
+    <dimen name="acct__match_parent">-1px</dimen>
+
+    <dimen name="acct__form_fields_horizontal_margin">16dp</dimen>
+    <dimen name="acct__form_fields_vertical_margin">8dp</dimen>
+    <dimen name="acct__logo_text_vertical_margin">5dp</dimen>
+
+    <dimen name="acct__space_above_buttons">14dp</dimen>
+    <dimen name="acct__sign_in_button_height">51dp</dimen>
+    <dimen name="acct__space_below_buttons">15dp</dimen>
+    <dimen name="acct__about_section_margin">6dp</dimen>
+
+    <dimen name="acct__navigation_button_horizontal_offset">32dp</dimen>
+    <dimen name="acct__facebook_bottom_gap">229dp</dimen>
+
+    <dimen name="acct__email_name_bottom_gap">221dp</dimen>
+
+    <dimen name="acct__button_inset_horizontal_material">4dp</dimen>
+    <dimen name="acct__button_inset_vertical_material">6dp</dimen>
+    <dimen name="acct__control_corner_material">2dp</dimen>
+    <dimen name="acct__button_padding_horizontal_material">8dp</dimen>
+    <dimen name="acct__button_padding_vertical_material">4dp</dimen>
+    <dimen name="acct__checkmark_margin">8dp</dimen>
+
+    <dimen name="acct__welcome_text_size">24dp</dimen>
+    <dimen name="acct__logo_small_size">36dp</dimen>
+    <dimen name="acct__account_creation_user_image_large">90dp</dimen>
+    <dimen name="acct__suggestion_error_text_size">12sp</dimen>
+    <!-- This is 140 only for API 16 for some silly reason. It's overridden in values-v16-->
+    <dimen name="acct__welcome_message_padding_top">140dp</dimen>
+    <dimen name="acct__max_width">@dimen/acct__match_parent</dimen>
+
+    <dimen name="acct__fixup_checkbox_padding">48dp</dimen>
+
+    <!-- Extra margins for tablets -->
+    <dimen name="acct__keyboard_visible_space_above_buttons">0dp</dimen>
+    <dimen name="acct__forgot_password_top_margin">-4dp</dimen>
+    <dimen name="acct__email_lookup_top_gap">0dp</dimen>
+    <dimen name="acct__extra_tablet_top_margin">0dp</dimen>
+    <dimen name="acct__sign_in_bottom_gap">0dp</dimen>
+    <dimen name="acct__tos_bottom_gap">0dp</dimen>
+
+    <!-- If we don't have this much room to display the user image view, let's hide it -->
+    <!-- This is maybe possible on small screens, or on devices with tall keyboards -->
+    <dimen name="acct__user_image_view_min_height_default">80dp</dimen>
+    <dimen name="acct__user_image_view_min_height_hi_name">120dp</dimen>
+
+    <dimen name="acct__single_page_tos_bottom_margin">10dp</dimen>
+
+</resources>

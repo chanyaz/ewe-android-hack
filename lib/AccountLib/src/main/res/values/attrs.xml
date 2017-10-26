@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- PanningImageView -->
+    <declare-styleable name="acct__PanningImageView">
+        <attr name="acct__piv_pan" format="float" />
+        <attr name="acct__piv_panFrom" format="float" />
+        <attr name="acct__piv_panTo" format="float" />
+    </declare-styleable>
+
+    <!-- AvatarView -->
+    <declare-styleable name="acct__AvatarView">
+        <attr name="acct__ava_strokeWidth" format="dimension" />
+        <attr name="acct__ava_strokeColor" format="color" />
+        <attr name="android:textSize" tools:ignore="ResourceName" />
+        <attr name="android:textColor" tools:ignore="ResourceName" />
+        <attr name="acct__ava_fillColor" format="color" />
+        <attr name="acct__ava_emptyDrawable" format="reference" />
+    </declare-styleable>
+
+    <!-- AnimatedIconToolbar -->
+    <declare-styleable name="acct__AnimatedIconToolbar">
+        <attr name="acct__ait_strokeColor" format="color" />
+    </declare-styleable>
+
+    <!-- ErrorableInputText-->
+    <declare-styleable name="acct__ErrorableInputText">
+        <attr name="acct__eit_errorString" format="string" />
+        <attr name="acct__eit_errorStringPassword" format="string" />
+        <attr name="acct__eit_errorContDesc" format="string"/>
+        <attr name="android:hint" tools:ignore="ResourceName" />
+        <attr name="android:inputType" tools:ignore="ResourceName" />
+        <attr name="android:imeOptions" tools:ignore="ResourceName" />
+        <attr name="acct__eit_waitingColor" format="color" />
+        <attr name="acct__eit_badColor" format="color" />
+        <attr name="acct__eit_goodColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="acct__AccountView">
+        <!-- Colors -->
+        <attr name="acct__flavor_text_color" format="color|reference" />
+        <attr name="acct__input_text_error_color" format="color|reference" />
+        <attr name="acct__input_text_hint_color" format="color|reference" />
+        <attr name="acct__input_text_good_color" format="color|reference" />
+        <attr name="acct__input_text_default_color" format="color|reference" />
+        <attr name="acct__sign_in_button_text_color" format="color|reference" />
+        <attr name="acct__toolbar_icon_color" format="color|reference" />
+        <attr name="acct__user_info_text_color" format="color|reference" />
+        <attr name="acct__welcome_text_color" format="color|reference" />
+
+        <!-- Drawables -->
+        <!-- The small icon used to denote a valid value for text input. OPTIONAL -->
+        <attr name="acct__checkmark_good_drawable" format="reference" />
+        <!-- The small icon used to denote an invalid value for text input. OPTIONAL -->
+        <attr name="acct__checkmark_warning_drawable" format="reference" />
+        <attr name="acct__logo_small_drawable" format="reference" />
+        <attr name="acct__logo_large_drawable" format="reference" />
+        <attr name="acct__logo_text_drawable" format="reference" />
+        <attr name="acct__sign_in_button_background_drawable" format="reference" />
+
+        <!-- Strings -->
+        <attr name="acct__brand" format="string|reference" />
+
+        <!-- Dimens -->
+        <attr name="acct__logo_text_drawable_margin_left" format="dimension|reference" />
+        <attr name="acct__logo_text_drawable_margin_top" format="dimension|reference" />
+    </declare-styleable>
+
+</resources>
