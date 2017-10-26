@@ -5,11 +5,12 @@ import android.support.test.espresso.Espresso.closeSoftKeyboard
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
-import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.action.ViewActions.scrollTo
+import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.contrib.PickerActions
-import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.withClassName
+import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.UiSelector
@@ -63,7 +64,7 @@ object TravelerModel {
 
         @JvmStatic fun selectGender(gender: String){
             genderSpinner().perform(click())
-            onView(allOf(withClassName(endsWith("CheckedTextView")), withText(gender))).perform(click())
+            onView(allOf(isDescendantOfA(withClassName(endsWith("ListView"))), withClassName(endsWith("CheckedTextView")), withText(gender))).perform(click())
         }
 
         @JvmStatic fun enterRedressNumber(redressNumber: String){
