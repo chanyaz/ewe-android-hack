@@ -32,6 +32,7 @@ public class PackageOfferModel {
 		price.tripSavings = multiItemOffer.getPrice().packageSavings();
 		price.pricePerPerson = multiItemOffer.getPrice().pricePerPerson();
 		price.pricePerPersonFormatted = multiItemOffer.getPrice().pricePerPerson().getFormattedMoneyFromAmountAndCurrencyCode();
+		price.showTripSavings = multiItemOffer.getPrice().getShowSavings();
 
 		Money deltaPricePerPerson = multiItemOffer.getPrice().deltaPricePerPerson();
 		if (deltaPricePerPerson != null) {

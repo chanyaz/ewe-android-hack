@@ -38,9 +38,9 @@ class FlightLegTest {
         assertEquals(flightLeg.arrivalDateTimeISO, "2017-09-12T07:05:00.000-07:00")
         assertEquals(flightLeg.carrierCode, "AA")
         assertEquals(flightLeg.departureDateTimeISO, "2017-09-12T05:00:00.000-07:00")
-        assertEquals(flightLeg.durationHour, 5)
-        assertEquals(flightLeg.durationMinute, 5)
-        assertEquals(flightLeg.elapsedDays, 1)
+        assertEquals(flightLeg.durationHour, 2)
+        assertEquals(flightLeg.durationMinute, 20)
+        assertEquals(flightLeg.elapsedDays, 0)
         assertEquals(flightLeg.hasLayover, false)
         assertEquals(flightLeg.legId, "a13b0ab1eea2bd1d7f4cba76a857ec4b")
         assertEquals(flightLeg.departureLeg, "a13b0ab1eea2bd1d7f4cba76a857ec4b")
@@ -63,7 +63,7 @@ class FlightLegTest {
         assertEquals(flightLeg.flightSegments[0].arrivalAirportCode, "SEA")
         assertEquals(flightLeg.flightSegments[0].arrivalDateTimeISO, "2017-09-12T07:05:00.000-07:00")
         assertEquals(flightLeg.flightSegments[0].durationHours, 2)
-        assertEquals(flightLeg.flightSegments[0].durationMinutes, 5)
+        assertEquals(flightLeg.flightSegments[0].durationMinutes, 20)
         assertEquals(flightLeg.flightSegments[0].layoverDurationHours, 0)
         assertEquals(flightLeg.flightSegments[0].layoverDurationMinutes, 0)
         assertEquals(flightLeg.flightSegments[0].elapsedDays, 0)
@@ -128,13 +128,22 @@ class FlightLegTest {
                 "distance": 679.0,
                 "unit": "mi"
               },
-              "flightDuration": "PT2H5M",
+              "duration": {
+                "minutes": 20,
+                "hours": 2
+              },
+              "elapsedDays": 0,
               "flightNumber": "6962",
               "operatedByAirlineName": "Alaska Airlines",
               "operatingAirlineCode": "AS"
             }
           ],
-          "stops": 0
+          "stops": 0,
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0
         }
         """
         return Gson().fromJson(multiItemFlightLeg, MultiItemFlightLeg::class.java)
@@ -209,6 +218,7 @@ class FlightLegTest {
               "amount": 2387.61,
               "currency": "USD"
             },
+            "showSavings": false,
             "avgReferencePricePerPerson": {
               "amount": 2625.09,
               "currency": "USD"

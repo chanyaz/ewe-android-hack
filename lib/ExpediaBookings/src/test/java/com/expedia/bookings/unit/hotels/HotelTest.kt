@@ -143,7 +143,7 @@ class HotelTest {
         assertEquals(hotel.localizedName, packageHotel.hotelName)
     }
 
-    private fun dummyMultiItemOffer(): MultiItemOffer{
+    private fun dummyMultiItemOffer(): MultiItemOffer {
         val multiItemOfferJson = """
         {
             "price": {
@@ -179,6 +179,7 @@ class HotelTest {
                   "amount": 3434.48,
                   "currency": "USD"
                 },
+                "showSavings": false,
                 "avgReferencePricePerPerson": {
                   "amount": 4333.87,
                   "currency": "USD"
@@ -341,7 +342,7 @@ class HotelTest {
         return Gson().fromJson(hotelOfferJson, HotelOffer::class.java)
     }
 
-    private fun dummyMidHotelRoomOffer() : HotelOffer {
+    private fun dummyMidHotelRoomOffer(): HotelOffer {
         val hotelRoomOfferJson = """
         {
       "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
@@ -431,6 +432,7 @@ class HotelTest {
               "amount": 312.06,
               "currency": "USD"
             },
+            "showSavings": false,
             "avgReferencePricePerPerson": {
               "amount": 312.06,
               "currency": "USD"

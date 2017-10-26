@@ -34,6 +34,7 @@
           "amount": 2243.35,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 2243.35,
           "currency": "USD"
@@ -99,6 +100,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -164,6 +166,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4314.38,
           "currency": "USD"
@@ -229,6 +232,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -294,6 +298,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -359,6 +364,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -424,6 +430,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -489,6 +496,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4314.38,
           "currency": "USD"
@@ -554,6 +562,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -619,6 +628,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4314.38,
           "currency": "USD"
@@ -684,6 +694,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4314.38,
           "currency": "USD"
@@ -749,6 +760,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4314.38,
           "currency": "USD"
@@ -814,6 +826,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4314.38,
           "currency": "USD"
@@ -879,6 +892,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -944,6 +958,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4314.38,
           "currency": "USD"
@@ -1009,6 +1024,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1074,6 +1090,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1139,6 +1156,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1204,6 +1222,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1269,6 +1288,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1334,6 +1354,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1399,6 +1420,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1464,6 +1486,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1529,6 +1552,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1594,6 +1618,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1659,6 +1684,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1724,6 +1750,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
@@ -1789,6 +1816,7 @@
           "amount": 3669.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4309.38,
           "currency": "USD"
@@ -1854,6 +1882,7 @@
           "amount": 3669.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4309.38,
           "currency": "USD"
@@ -1919,6 +1948,7 @@
           "amount": 3669.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4309.38,
           "currency": "USD"
@@ -1984,6 +2014,7 @@
           "amount": 3679.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4319.38,
           "currency": "USD"
@@ -2049,6 +2080,7 @@
           "amount": 3679.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4319.38,
           "currency": "USD"
@@ -2114,6 +2146,7 @@
           "amount": 3679.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4319.38,
           "currency": "USD"
@@ -2179,6 +2212,7 @@
           "amount": 3679.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4319.38,
           "currency": "USD"
@@ -2244,6 +2278,7 @@
           "amount": 3679.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4319.38,
           "currency": "USD"
@@ -2309,6 +2344,7 @@
           "amount": 3679.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4319.38,
           "currency": "USD"
@@ -2374,6 +2410,7 @@
           "amount": 3694.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4334.38,
           "currency": "USD"
@@ -2439,6 +2476,7 @@
           "amount": 3694.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4334.38,
           "currency": "USD"
@@ -2504,6 +2542,7 @@
           "amount": 3694.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4334.38,
           "currency": "USD"
@@ -2569,6 +2608,7 @@
           "amount": 3694.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4334.38,
           "currency": "USD"
@@ -2634,6 +2674,7 @@
           "amount": 3694.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4334.38,
           "currency": "USD"
@@ -2699,6 +2740,7 @@
           "amount": 3694.03,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4334.38,
           "currency": "USD"
@@ -2764,6 +2806,7 @@
           "amount": 3724.23,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4364.58,
           "currency": "USD"
@@ -2829,6 +2872,7 @@
           "amount": 3724.23,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4364.58,
           "currency": "USD"
@@ -2894,6 +2938,7 @@
           "amount": 3737.63,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4377.98,
           "currency": "USD"
@@ -2959,6 +3004,7 @@
           "amount": 3737.63,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4377.98,
           "currency": "USD"
@@ -3024,6 +3070,7 @@
           "amount": 3737.63,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4377.98,
           "currency": "USD"
@@ -3089,6 +3136,7 @@
           "amount": 3745.63,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4385.98,
           "currency": "USD"
@@ -3154,6 +3202,7 @@
           "amount": 3771.43,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4411.78,
           "currency": "USD"
@@ -3219,6 +3268,7 @@
           "amount": 3773.63,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 4413.98,
           "currency": "USD"
@@ -4636,8 +4686,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS AIRLINES AS AMERICAN EAGLE",
-          "flightDuration": "PT2H51M",
-          "layoverDuration": "PT7H24M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 956.0
@@ -4662,7 +4715,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS AIRLINES AS AMERICAN EAGLE",
-          "flightDuration": "PT1H27M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 339.0
@@ -4675,7 +4732,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 1
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "1766749ea9fed10bd76d473df76302d6": {
       "segments": [
@@ -4692,7 +4754,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H10M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4705,7 +4771,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "74c11adec83c899dd857d52def7addf6": {
       "segments": [
@@ -4722,7 +4793,11 @@
           "airlineName": "Alaska Airlines",
           "operatingAirlineCode": "VX",
           "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H5M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4735,7 +4810,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "a266701386a1dede99b4319ef2b77f81": {
       "segments": [
@@ -4752,7 +4832,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H8M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4765,7 +4849,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "b23979bd66d361db791d936f28e0de4b": {
       "segments": [
@@ -4780,7 +4869,11 @@
           "airlineCode": "VX",
           "bookingCode": " N",
           "airlineName": "Virgin America",
-          "flightDuration": "PT2H5M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4793,7 +4886,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/VX.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "31f3acfd819c1d3014417a34521a4803": {
       "segments": [
@@ -4808,7 +4906,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H8M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4821,7 +4923,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "114d029199100f6fbd634113bf6d76da": {
       "segments": [
@@ -4838,7 +4945,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H6M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4851,7 +4962,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "53dc0f445acb8f15c6f9aad6579b0925": {
       "segments": [
@@ -4866,7 +4982,11 @@
           "airlineCode": "DL",
           "bookingCode": " X",
           "airlineName": "Delta",
-          "flightDuration": "PT2H19M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4879,7 +4999,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "d7f80e6fb7ce52140bc1eaa85457e38e": {
       "segments": [
@@ -4894,7 +5019,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H6M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4907,7 +5036,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "3acfbef9699f1b3dd63919cf6861a03a": {
       "segments": [
@@ -4924,7 +5058,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H8M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4937,7 +5075,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "749753d1062158b7d1d81a0831d248bc": {
       "segments": [
@@ -4952,7 +5095,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H7M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4965,7 +5112,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "494287c801368e14a903fc91c402c46d": {
       "segments": [
@@ -4982,7 +5134,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H7M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -4995,7 +5151,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "e0badb3835dd1af7c69d2680b4e5c2fa": {
       "segments": [
@@ -5010,7 +5171,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H11M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5023,7 +5188,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "cae68bc29da3e912b7d60d7d92838bdb": {
       "segments": [
@@ -5040,7 +5210,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H7M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5053,7 +5227,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "85892e25090d14f8e67a9348d826ab35": {
       "segments": [
@@ -5068,7 +5247,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H11M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5081,7 +5264,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "b0b1ab76669e5d4e6b8d410c74e5ab94": {
       "segments": [
@@ -5096,7 +5284,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H7M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5109,7 +5301,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "e91010014bd7ac1906f9477e22624a88": {
       "segments": [
@@ -5126,7 +5323,11 @@
           "airlineName": "Alaska Airlines",
           "operatingAirlineCode": "VX",
           "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H4M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5139,7 +5340,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "be0abbec524184eb104ed4f2c2b6189e": {
       "segments": [
@@ -5154,7 +5360,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H7M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5167,7 +5377,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "b6ef46aadf60759d8e59db50b8d1a5e6": {
       "segments": [
@@ -5184,7 +5399,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H9M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5197,7 +5416,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "bc0b037ce7c167c07a88c6d1d558c0b6": {
       "segments": [
@@ -5214,7 +5438,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H7M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5227,7 +5455,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "0b3ec9e4ede2a653a0db65d2384247b1": {
       "segments": [
@@ -5242,7 +5475,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H9M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5255,7 +5492,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "e8b2c59c060276a046afe6cb70600d3a": {
       "segments": [
@@ -5270,7 +5512,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H11M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5283,7 +5529,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "9120cf59ccad60ac27c0cb6ae97b7fc3": {
       "segments": [
@@ -5300,7 +5551,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H11M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5313,7 +5568,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "662b5d1c7257d7dcea2dda214c56e93b": {
       "segments": [
@@ -5330,7 +5590,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H11M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5343,7 +5607,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "19898a7761cefc533548de2c240f9924": {
       "segments": [
@@ -5358,7 +5627,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H12M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5371,7 +5644,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "3908305ec31ef8eb8f2288a2d246af27": {
       "segments": [
@@ -5388,7 +5666,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H11M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5401,7 +5683,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "72dad3b571d1e02d7a1226d407def22e": {
       "segments": [
@@ -5418,7 +5705,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H12M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5431,7 +5722,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "76cab161dcdd33e558eba61eb8eb8261": {
       "segments": [
@@ -5446,7 +5742,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H9M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5459,7 +5759,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "62627221b9229ae698abfd8afe21fa2b": {
       "segments": [
@@ -5474,7 +5779,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H12M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5487,7 +5796,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "14075f63d6c317b0c24bfaf8ad75b49b": {
       "segments": [
@@ -5502,7 +5816,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H8M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5515,7 +5833,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "c2ad5372be4c8456ab0a8a4b17f19149": {
       "segments": [
@@ -5532,7 +5855,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H12M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5545,7 +5872,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "6e3ee29aa40e34399139f28eb085c2c4": {
       "segments": [
@@ -5560,7 +5892,11 @@
           "airlineCode": "VX",
           "bookingCode": " N",
           "airlineName": "Virgin America",
-          "flightDuration": "PT2H14M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5573,7 +5909,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/VX.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "10ce4658969eef0c2e9ad83a8eaad937": {
       "segments": [
@@ -5588,7 +5929,11 @@
           "airlineCode": "VX",
           "bookingCode": " N",
           "airlineName": "Virgin America",
-          "flightDuration": "PT2H4M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5601,7 +5946,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/VX.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "f7900ad506f29f31ec2c934998d901f5": {
       "segments": [
@@ -5618,7 +5968,11 @@
           "airlineName": "Alaska Airlines",
           "operatingAirlineCode": "VX",
           "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H14M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5631,7 +5985,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "06a9c740f6a3e1cc2170b4bd1d9ab54a": {
       "segments": [
@@ -5646,7 +6005,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H8M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5659,7 +6022,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "2a831c6b59855f69015c8e9f36bba299": {
       "segments": [
@@ -5674,7 +6042,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H15M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5687,7 +6059,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "6dbea58f27ddc792f812ab18982fb2bc": {
       "segments": [
@@ -5704,7 +6081,11 @@
           "airlineName": "Alaska Airlines",
           "operatingAirlineCode": "VX",
           "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H4M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5717,7 +6098,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "2c3e2131454ec7a8cc768aa53c1d880f": {
       "segments": [
@@ -5734,7 +6120,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H15M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5747,7 +6137,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "c29e99f592e98db8a8c2b5e05317e42b": {
       "segments": [
@@ -5764,7 +6159,11 @@
           "airlineName": "Delta",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS DBA DELTA CONNECTION",
-          "flightDuration": "PT2H21M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5777,7 +6176,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "0b5243cda204a3e6c28676037a6b9b9b": {
       "segments": [
@@ -5792,7 +6196,11 @@
           "airlineCode": "DL",
           "bookingCode": " X",
           "airlineName": "Delta",
-          "flightDuration": "PT2H19M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5805,7 +6213,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "4e6650b1087d701c54c02d792e559730": {
       "segments": [
@@ -5820,7 +6233,11 @@
           "airlineCode": "DL",
           "bookingCode": " X",
           "airlineName": "Delta",
-          "flightDuration": "PT2H20M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5833,7 +6250,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "38306be6fd6dfac9c453d6fc550b1231": {
       "segments": [
@@ -5850,7 +6272,11 @@
           "airlineName": "Delta",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS DBA DELTA CONNECTION",
-          "flightDuration": "PT2H20M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5863,7 +6289,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "136d63e9a3ce558eec6950506a70bf10": {
       "segments": [
@@ -5878,7 +6309,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H10M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5891,7 +6326,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "23653173af3f7eaabf31ffbbcc20cfd5": {
       "segments": [
@@ -5908,7 +6348,11 @@
           "airlineName": "Delta",
           "operatingAirlineCode": "OO",
           "operatedByAirlineName": "/SKYWEST DBA DELTA CONNECTION",
-          "flightDuration": "PT2H24M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5921,7 +6365,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "c4879c33c94180b119d1536fd3715418": {
       "segments": [
@@ -5938,7 +6387,11 @@
           "airlineName": "Delta",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS DBA DELTA CONNECTION",
-          "flightDuration": "PT2H24M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5951,7 +6404,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "9da0ee3d8b86ca2ddd4b2c5bffa587d4": {
       "segments": [
@@ -5968,7 +6426,11 @@
           "airlineName": "Delta",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS DBA DELTA CONNECTION",
-          "flightDuration": "PT2H25M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -5981,7 +6443,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "2754d70a073aa47be6b9be576b15d172": {
       "segments": [
@@ -5996,7 +6463,11 @@
           "airlineCode": "UA",
           "bookingCode": " L",
           "airlineName": "United",
-          "flightDuration": "PT2H13M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6009,7 +6480,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "375c4a9fae5cb6f3b1e18f97333483c2": {
       "segments": [
@@ -6026,7 +6502,11 @@
           "airlineName": "Delta",
           "operatingAirlineCode": "OO",
           "operatedByAirlineName": "/SKYWEST DBA DELTA CONNECTION",
-          "flightDuration": "PT2H19M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6039,7 +6519,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "f8d6e68bea64ace4df41f24bbab93f62": {
       "segments": [
@@ -6054,7 +6539,11 @@
           "airlineCode": "UA",
           "bookingCode": " L",
           "airlineName": "United",
-          "flightDuration": "PT2H13M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6067,7 +6556,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "283a8d5658cf820d6e6e3e8efb386547": {
       "segments": [
@@ -6082,7 +6576,11 @@
           "airlineCode": "UA",
           "bookingCode": " L",
           "airlineName": "United",
-          "flightDuration": "PT2H14M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6095,7 +6593,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "169849396a056356cff4af03ad03a7f5": {
       "segments": [
@@ -6112,7 +6615,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H3M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6125,7 +6632,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "35e1bea44324a84a94333eaaec187622": {
       "segments": [
@@ -6140,7 +6652,11 @@
           "airlineCode": "AS",
           "bookingCode": " T",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H3M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6153,7 +6669,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "7a562e75093acc6ec31c333539654890": {
       "segments": [
@@ -6168,7 +6689,11 @@
           "airlineCode": "VX",
           "bookingCode": " S",
           "airlineName": "Virgin America",
-          "flightDuration": "PT2H5M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6181,7 +6706,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/VX.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "f2ab4fe5e8bfd4f81d0a87cf68337ad3": {
       "segments": [
@@ -6198,7 +6728,11 @@
           "airlineName": "Alaska Airlines",
           "operatingAirlineCode": "VX",
           "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H5M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6211,7 +6745,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "edafaf022fd03a9916802587b6ab6505": {
       "segments": [
@@ -6226,7 +6765,11 @@
           "airlineCode": "AS",
           "bookingCode": " T",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H10M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6239,7 +6782,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "f3bb3322174caac608f9e33b0b236334": {
       "segments": [
@@ -6256,7 +6804,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H10M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6269,7 +6821,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "f4aee3de43a4f74e3780081136d5d2db": {
       "segments": [
@@ -6284,7 +6841,11 @@
           "airlineCode": "UA",
           "bookingCode": " T",
           "airlineName": "United",
-          "flightDuration": "PT2H12M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6297,7 +6858,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "e10245718d88be2d03954e4d35943cd1": {
       "segments": [
@@ -6312,7 +6878,11 @@
           "airlineCode": "UA",
           "bookingCode": " T",
           "airlineName": "United",
-          "flightDuration": "PT2H12M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6325,7 +6895,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "b65c1fd5e7ca34bb85c824edac0ef056": {
       "segments": [
@@ -6340,7 +6915,11 @@
           "airlineCode": "UA",
           "bookingCode": " T",
           "airlineName": "United",
-          "flightDuration": "PT2H13M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6353,7 +6932,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "ffb793cb274e6a480a5047603adbb6e4": {
       "segments": [
@@ -6368,7 +6952,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H10M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6381,7 +6969,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "3f8dc59b70da1b9bc33aecc22ea9b820": {
       "segments": [
@@ -6396,7 +6989,11 @@
           "airlineCode": "UA",
           "bookingCode": " T",
           "airlineName": "United",
-          "flightDuration": "PT2H19M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6409,7 +7006,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "1c7da425903f40cb1ca78053747dffbe": {
       "segments": [
@@ -6424,7 +7026,11 @@
           "airlineCode": "UA",
           "bookingCode": " T",
           "airlineName": "United",
-          "flightDuration": "PT2H23M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6437,7 +7043,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "d7a00ba0325982113f1fd0aa6691930d": {
       "segments": [
@@ -6452,7 +7063,11 @@
           "airlineCode": "UA",
           "bookingCode": " T",
           "airlineName": "United",
-          "flightDuration": "PT2H24M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6465,7 +7080,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/UA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "ee84b8f67f34ce19e2f5c3a932c8a580": {
       "segments": [
@@ -6480,8 +7100,11 @@
           "airlineCode": "AA",
           "bookingCode": " Q",
           "airlineName": "American Airlines",
-          "flightDuration": "PT3H3M",
-          "layoverDuration": "PT5H7M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 956.0
@@ -6506,7 +7129,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS AIRLINES AS AMERICAN EAGLE",
-          "flightDuration": "PT1H30M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 339.0
@@ -6519,7 +7146,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 1
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "a017af32eca63b7ecefd0797fbaa4203": {
       "segments": [
@@ -6534,8 +7166,11 @@
           "airlineCode": "AA",
           "bookingCode": " Q",
           "airlineName": "American Airlines",
-          "flightDuration": "PT3H3M",
-          "layoverDuration": "PT6H37M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 956.0
@@ -6560,7 +7195,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS AIRLINES AS AMERICAN EAGLE",
-          "flightDuration": "PT1H33M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 339.0
@@ -6573,7 +7212,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 1
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "94c43b15af91d4c9947476449cf4998c": {
       "segments": [
@@ -6588,8 +7232,11 @@
           "airlineCode": "AA",
           "bookingCode": " S",
           "airlineName": "American Airlines",
-          "flightDuration": "PT3H3M",
-          "layoverDuration": "PT37M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 956.0
@@ -6614,7 +7261,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS AIRLINES AS AMERICAN EAGLE",
-          "flightDuration": "PT1H33M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 339.0
@@ -6627,7 +7278,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 1
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "0e314a8baae804d5857a4ea9ee89707f": {
       "segments": [
@@ -6644,7 +7300,11 @@
           "airlineName": "Alaska Airlines",
           "operatingAirlineCode": "VX",
           "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H18M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6657,7 +7317,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "8f6f84b9f2641d55ad2fa49d50e36431": {
       "segments": [
@@ -6672,8 +7337,11 @@
           "airlineCode": "AA",
           "bookingCode": " S",
           "airlineName": "American Airlines",
-          "flightDuration": "PT3H3M",
-          "layoverDuration": "PT2H7M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 956.0
@@ -6698,7 +7366,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS AIRLINES AS AMERICAN EAGLE",
-          "flightDuration": "PT1H30M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 339.0
@@ -6711,7 +7383,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 1
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "a45700fc9f479921a542e75376186725": {
       "segments": [
@@ -6726,8 +7403,11 @@
           "airlineCode": "AA",
           "bookingCode": " S",
           "airlineName": "American Airlines",
-          "flightDuration": "PT3H3M",
-          "layoverDuration": "PT3H37M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 956.0
@@ -6752,7 +7432,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS AIRLINES AS AMERICAN EAGLE",
-          "flightDuration": "PT1H33M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 339.0
@@ -6765,7 +7449,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 1
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "951e7294d028399369dd5f19a402ff92": {
       "segments": [
@@ -6780,7 +7469,11 @@
           "airlineCode": "AS",
           "bookingCode": " R",
           "airlineName": "Alaska Airlines",
-          "flightDuration": "PT2H10M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6793,7 +7486,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "83707e665439a14a9d6362ca546e2f4f": {
       "segments": [
@@ -6808,8 +7506,11 @@
           "airlineCode": "DL",
           "bookingCode": " V",
           "airlineName": "Delta",
-          "flightDuration": "PT2H49M",
-          "layoverDuration": "PT41M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 956.0
@@ -6834,7 +7535,11 @@
           "airlineName": "Delta",
           "operatingAirlineCode": "OO",
           "operatedByAirlineName": "/SKYWEST DBA DELTA CONNECTION",
-          "flightDuration": "PT1H38M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 339.0
@@ -6847,7 +7552,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/DL.gif"
         }
       ],
-      "stops": 1
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "9b472ac08dec28b9b9df3f36a945e3b9": {
       "segments": [
@@ -6862,8 +7572,11 @@
           "airlineCode": "B6",
           "bookingCode": " M",
           "airlineName": "JetBlue Airways",
-          "flightDuration": "PT2H34M",
-          "layoverDuration": "PT1H14M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 967.0
@@ -6886,7 +7599,11 @@
           "airlineCode": "B6",
           "bookingCode": " P",
           "airlineName": "JetBlue Airways",
-          "flightDuration": "PT1H28M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 355.0
@@ -6899,7 +7616,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/b6.gif"
         }
       ],
-      "stops": 1
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "79e074a04559a2ee9ff3cde3c3cc4dea": {
       "segments": [
@@ -6916,8 +7638,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS AIRLINES AS AMERICAN EAGLE",
-          "flightDuration": "PT2H52M",
-          "layoverDuration": "PT1H17M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 956.0
@@ -6942,7 +7667,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "CP",
           "operatedByAirlineName": "/COMPASS AIRLINES AS AMERICAN EAGLE",
-          "flightDuration": "PT1H33M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 339.0
@@ -6955,7 +7684,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 1
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "d4aecf9245b561c35fdfb866456dc126": {
       "segments": [
@@ -6972,7 +7706,11 @@
           "airlineName": "American Airlines",
           "operatingAirlineCode": "AS",
           "operatedByAirlineName": "Alaska Airlines",
-          "flightDuration": "PT2H9M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -6985,11 +7723,15 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AA.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     }
   },
   "cars": {
-
   },
   "messageInfo": {
     "transactionGUID": "ead7828d-7830-4bff-baa2-5f5fb41eb740",

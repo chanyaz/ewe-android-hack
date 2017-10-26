@@ -12,7 +12,8 @@ data class MultiItemOfferPrice(
         val savings: Price,
         val avgPricePerPerson: Price,
         val avgReferencePricePerPerson: Price,
-        val deltaAvgPricePerPerson: Price?
+        val deltaAvgPricePerPerson: Price?,
+        val showSavings: Boolean
 ) {
     fun packageTotalPrice(): Money {
         return totalPrice.toMoney()

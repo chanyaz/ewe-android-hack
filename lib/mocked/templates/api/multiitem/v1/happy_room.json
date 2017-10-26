@@ -34,7 +34,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
-        "avgReferencePricePerPerson": {
+        "showSavings": false,         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
         },
@@ -158,7 +158,7 @@
           "amount": 3667.03,
           "currency": "USD"
         },
-        "avgReferencePricePerPerson": {
+        "showSavings": false,         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
         },
@@ -282,7 +282,7 @@
           "amount": 4016.95,
           "currency": "USD"
         },
-        "avgReferencePricePerPerson": {
+        "showSavings": false,         "avgReferencePricePerPerson": {
           "amount": 4718.60,
           "currency": "USD"
         },
@@ -406,7 +406,7 @@
           "amount": 4016.95,
           "currency": "USD"
         },
-        "avgReferencePricePerPerson": {
+        "showSavings": false,         "avgReferencePricePerPerson": {
           "amount": 4718.60,
           "currency": "USD"
         },
@@ -530,7 +530,7 @@
           "amount": 4982.54,
           "currency": "USD"
         },
-        "avgReferencePricePerPerson": {
+        "showSavings": false,         "avgReferencePricePerPerson": {
           "amount": 5902.64,
           "currency": "USD"
         },

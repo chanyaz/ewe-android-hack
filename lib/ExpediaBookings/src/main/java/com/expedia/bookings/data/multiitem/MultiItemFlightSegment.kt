@@ -13,10 +13,11 @@ data class MultiItemFlightSegment(
         val airlineName: String,
         val operatingAirlineCode: String,
         val operatedByAirlineName: String,
-        val flightDuration: String,
-        val layoverDuration: String?,
+        val duration: Duration,
+        val layoverDuration: Duration?,
         val distance: Distance,
         val cabinClass: String,
         val airplaneType: PlaneType?,
-        val airlineLogoUrl: String
+        val airlineLogoUrl: String,
+        val elapsedDays: Int
 )

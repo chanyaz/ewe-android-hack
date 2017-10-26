@@ -3,16 +3,15 @@ package com.expedia.bookings.data.flights;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.Period;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.multiitem.Duration;
 import com.expedia.bookings.data.multiitem.FlightOffer;
 import com.expedia.bookings.data.multiitem.MultiItemFlightLeg;
 import com.expedia.bookings.data.multiitem.MultiItemFlightSegment;
 import com.expedia.bookings.data.multiitem.MultiItemOffer;
 import com.expedia.bookings.data.packages.PackageOfferModel;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.DateUtils;
 
 public class FlightLeg {
 	public AirlineMessageModel airlineMessageModel;
@@ -78,9 +77,9 @@ public class FlightLeg {
 		flightLeg.arrivalDateTimeISO = flightLeg.flightSegments.get(flightLeg.flightSegments.size() - 1).arrivalDateTimeISO;
 		flightLeg.carrierCode = flightLeg.flightSegments.get(0).airlineCode;
 		flightLeg.departureDateTimeISO = flightLeg.flightSegments.get(0).departureDateTimeISO;
-		flightLeg.durationHour = 5;//TODO PUK
-		flightLeg.durationMinute = 5;//TODO PUK
-		flightLeg.elapsedDays = 1;//TODO PUK
+		flightLeg.durationHour = multiItemFlightLeg.getDuration().getHours();
+		flightLeg.durationMinute = multiItemFlightLeg.getDuration().getMinutes();
+		flightLeg.elapsedDays = multiItemFlightLeg.getElapsedDays();
 		flightLeg.hasLayover = multiItemFlightLeg.getStops() > 1;
 		flightLeg.legId = flightLegId;
 		flightLeg.departureLeg = flightLegId;
@@ -164,17 +163,15 @@ public class FlightLeg {
 			flightSegment.arrivalAirportCode = multiItemFlightSegment.getArrivalAirportCode();
 			flightSegment.arrivalDateTimeISO = multiItemFlightSegment.getArrivalDateTime();
 
-			Period durationPeriod = DateUtils.parseDurationFromISOFormat(multiItemFlightSegment.getFlightDuration());
-			flightSegment.durationHours = durationPeriod.getHours();
-			flightSegment.durationMinutes = durationPeriod.getMinutes();
+			flightSegment.durationHours = multiItemFlightSegment.getDuration().getHours();
+			flightSegment.durationMinutes = multiItemFlightSegment.getDuration().getMinutes();
 
-			String layoverDuration = multiItemFlightSegment.getLayoverDuration();
+			Duration layoverDuration = multiItemFlightSegment.getLayoverDuration();
 			if (layoverDuration != null) {
-				Period layoverPeriod = DateUtils.parseDurationFromISOFormat(layoverDuration);
-				flightSegment.layoverDurationHours = layoverPeriod.getHours();
-				flightSegment.layoverDurationMinutes = layoverPeriod.getMinutes();
+				flightSegment.layoverDurationHours = layoverDuration.getHours();
+				flightSegment.layoverDurationMinutes = layoverDuration.getMinutes();
 			}
-			flightSegment.elapsedDays = 0;//TODO PUK
+			flightSegment.elapsedDays = multiItemFlightSegment.getElapsedDays();
 
 			return flightSegment;
 		}

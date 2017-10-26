@@ -37,7 +37,8 @@
         "avgReferencePricePerPerson": {
           "amount": 4307.38,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -60,7 +61,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -72,7 +72,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -84,7 +83,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           },
           {
@@ -96,7 +94,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -157,7 +154,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2440.45,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -180,7 +178,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -241,7 +238,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2466.33,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -306,7 +304,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2296.48,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -329,7 +328,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -341,7 +339,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -402,7 +399,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2828.10,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -425,7 +423,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -437,7 +434,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -498,7 +494,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2982.15,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -521,7 +518,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -582,7 +578,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2859.81,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -605,7 +602,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -617,7 +613,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -678,7 +673,8 @@
         "avgReferencePricePerPerson": {
           "amount": 4286.06,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -743,7 +739,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3866.24,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -766,7 +763,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -778,7 +774,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -839,7 +834,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3416.25,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -862,7 +858,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -874,7 +869,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -935,7 +929,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3830.36,
           "currency": "USD"
-        }
+        },
+        "showSavings": true
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1000,7 +995,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3580.87,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1023,7 +1019,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -1084,7 +1079,8 @@
         "avgReferencePricePerPerson": {
           "amount": 4414.00,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1107,7 +1103,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -1168,7 +1163,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2795.54,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1233,7 +1229,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2466.03,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1298,7 +1295,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3112.49,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1321,7 +1319,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -1333,7 +1330,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -1394,7 +1390,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3985.02,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1417,7 +1414,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -1478,7 +1474,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3550.03,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1543,7 +1540,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3237.50,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1608,7 +1606,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2552.72,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1631,7 +1630,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -1643,7 +1641,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -1704,7 +1701,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2965.57,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1769,7 +1767,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3144.89,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1834,7 +1833,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2126.69,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1899,7 +1899,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3810.09,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -1922,7 +1923,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -1934,7 +1934,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -1995,7 +1994,8 @@
         "avgReferencePricePerPerson": {
           "amount": 4360.61,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2018,7 +2018,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -2030,7 +2029,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -2042,7 +2040,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           },
           {
@@ -2054,7 +2051,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -2115,7 +2111,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2946.50,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2138,7 +2135,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -2150,7 +2146,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -2211,7 +2206,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2302.12,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2234,7 +2230,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -2295,7 +2290,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2531.18,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2318,7 +2314,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -2330,7 +2325,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -2391,7 +2385,8 @@
         "avgReferencePricePerPerson": {
           "amount": 1550.58,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2456,7 +2451,8 @@
         "avgReferencePricePerPerson": {
           "amount": 4769.76,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2479,7 +2475,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -2540,7 +2535,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2892.01,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2563,7 +2559,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -2624,7 +2619,8 @@
         "avgReferencePricePerPerson": {
           "amount": 1511.08,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2647,7 +2643,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -2708,7 +2703,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2494.73,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2773,7 +2769,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2677.88,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2838,7 +2835,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2964.50,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2903,7 +2901,8 @@
         "avgReferencePricePerPerson": {
           "amount": 5657.34,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -2926,7 +2925,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -2987,7 +2985,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2283.56,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3010,7 +3009,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -3071,7 +3069,8 @@
         "avgReferencePricePerPerson": {
           "amount": 1163.29,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3136,7 +3135,8 @@
         "avgReferencePricePerPerson": {
           "amount": 1457.49,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3159,7 +3159,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -3220,7 +3219,8 @@
         "avgReferencePricePerPerson": {
           "amount": 4341.25,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3285,7 +3285,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2293.01,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3308,7 +3309,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -3369,7 +3369,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2067.38,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3392,7 +3393,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -3453,7 +3453,8 @@
         "avgReferencePricePerPerson": {
           "amount": 1548.83,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3476,7 +3477,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -3537,7 +3537,8 @@
         "avgReferencePricePerPerson": {
           "amount": 1024.90,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3602,7 +3603,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3196.86,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3667,7 +3669,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2582.37,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3690,7 +3693,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -3702,7 +3704,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -3763,7 +3764,8 @@
         "avgReferencePricePerPerson": {
           "amount": 3325.79,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3828,7 +3830,8 @@
         "avgReferencePricePerPerson": {
           "amount": 2525.41,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3893,7 +3896,8 @@
         "avgReferencePricePerPerson": {
           "amount": 7055.12,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -3916,7 +3920,6 @@
               "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
             },
             "contentVariants": {
-
             }
           },
           {
@@ -3928,7 +3931,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -3989,7 +3991,8 @@
         "avgReferencePricePerPerson": {
           "amount": 1969.92,
           "currency": "USD"
-        }
+        },
+        "showSavings": false
       },
       "searchedOffer": {
         "productType": "Hotel",
@@ -4012,7 +4015,6 @@
               "legal": ""
             },
             "contentVariants": {
-
             }
           }
         ],
@@ -7088,7 +7090,11 @@
           "airlineName": "Alaska Airlines",
           "operatingAirlineCode": "VX",
           "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H5M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -7101,7 +7107,12 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
-      "stops": 0
+      "stops": 0,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
     },
     "e91010014bd7ac1906f9477e22624a88": {
       "segments": [
@@ -7118,7 +7129,11 @@
           "airlineName": "Alaska Airlines",
           "operatingAirlineCode": "VX",
           "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H4M",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
           "distance": {
             "unit": "mi",
             "distance": 679.0
@@ -7131,11 +7146,15 @@
           "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
         }
       ],
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0,
       "stops": 0
     }
   },
   "cars": {
-
   },
   "messageInfo": {
     "transactionGUID": "3da13db1-b48d-41b4-aca4-3105976c0502",
