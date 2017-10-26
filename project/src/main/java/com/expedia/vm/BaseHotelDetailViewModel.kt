@@ -152,7 +152,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
     val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
     val scrollToRoom = PublishSubject.create<Unit>()
-    val changeDates = PublishSubject.create<Unit>()
+    val returnToSearchSubject = PublishSubject.create<Unit>()
     val hotelSelectedObservable = PublishSubject.create<Unit>()
     private val allRoomsSoldOut = BehaviorSubject.create<Boolean>(false)
 

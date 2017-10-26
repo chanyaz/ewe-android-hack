@@ -27,6 +27,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
@@ -61,7 +62,7 @@ class HotelDetailViewModelTest {
     private var vm: HotelDetailViewModel by Delegates.notNull()
     private var offer1: HotelOffersResponse by Delegates.notNull()
     private var offer2: HotelOffersResponse by Delegates.notNull()
-    private var offer3: HotelOffersResponse by Delegates.notNull()
+    private var soldOutOffer: HotelOffersResponse by Delegates.notNull()
 
     private val expectedTotalPriceWithMandatoryFees = 42f
     private var context: Context by Delegates.notNull()
@@ -92,15 +93,15 @@ class HotelDetailViewModelTest {
         offer2.longitude = 150.0
         offer2.hotelRoomResponse = makeHotel()
 
-        offer3 = HotelOffersResponse()
+        soldOutOffer = HotelOffersResponse()
         offer1.hotelId = "hotel3"
-        offer3.hotelName = "hotel3"
+        soldOutOffer.hotelName = "hotel3"
         offer1.hotelCity = "hotel3"
         offer1.hotelStateProvince = "hotel3"
         offer1.hotelCountry = "USA"
-        offer3.latitude = 101.0
-        offer3.longitude = 152.0
-        offer3.hotelRoomResponse = emptyList()
+        soldOutOffer.latitude = 101.0
+        soldOutOffer.longitude = 152.0
+        soldOutOffer.hotelRoomResponse = emptyList()
     }
 
     @Test
@@ -499,7 +500,7 @@ class HotelDetailViewModelTest {
         val hotelSoldOutTestSubscriber = TestSubscriber.create<Boolean>()
         vm.hotelSoldOut.subscribe(hotelSoldOutTestSubscriber)
 
-        vm.hotelOffersSubject.onNext(offer3)
+        vm.hotelOffersSubject.onNext(soldOutOffer)
 
         hotelSoldOutTestSubscriber.assertValues(false, true)
     }
@@ -595,6 +596,18 @@ class HotelDetailViewModelTest {
 
         mockHotelInfoManager.infoSuccessSubject.onNext(HotelOffersResponse())
         testSuccessSub.assertValueCount(1)
+    }
+
+    @Test
+    fun testDatesForSoldOut() {
+        val testDatesTextSub = TestSubscriber.create<String>()
+
+        AbacusTestUtils.enableFeature(context, R.string.preference_dateless_infosite)
+        vm.searchInfoObservable.subscribe(testDatesTextSub)
+        vm.hotelOffersSubject.onNext(soldOutOffer)
+
+        assertEquals(context.getString(R.string.change_dates), testDatesTextSub.onNextEvents[0],
+                "Failure: Expected Dates to read Change Dates when hotel sold out!")
     }
 
     private fun createRoomResponseList() : List<HotelOffersResponse.HotelRoomResponse> {

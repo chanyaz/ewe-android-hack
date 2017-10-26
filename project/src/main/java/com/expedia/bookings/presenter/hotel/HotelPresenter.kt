@@ -75,7 +75,6 @@ import com.mobiata.android.Log
 import rx.Observable
 import rx.Observer
 import rx.Subscription
-import rx.subscriptions.CompositeSubscription
 import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -223,7 +222,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
-        presenter.hotelDetailView.viewmodel.changeDates.subscribe(goToSearchScreen)
+        presenter.hotelDetailView.viewmodel.returnToSearchSubject.subscribe(goToSearchScreen)
 
         if (shouldUseWebCheckout()) {
             viewModel = HotelPresenterViewModel((webCheckoutView.viewModel as HotelWebCheckoutViewViewModel).createTripViewModel, null, presenter.hotelDetailView.viewmodel)

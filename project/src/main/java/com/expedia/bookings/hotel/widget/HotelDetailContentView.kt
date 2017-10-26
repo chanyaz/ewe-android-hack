@@ -318,7 +318,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             searchInfo.setTintedDrawable(context.getDrawable(R.drawable.ic_edit_icon), ContextCompat.getColor(context, R.color.hotel_search_info_selectable_color))
             searchInfo.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, resources.displayMetrics).toInt()
             searchInfo.setOnClickListener {
-                showDialog()
+                showChangeDatesDialog()
             }
         }
     }
@@ -419,7 +419,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         }, 400L)
     }
 
-    private fun showDialog() {
+    fun showChangeDatesDialog() {
         val dialogFragment = ChangeDatesDialogFragment()
         dialogFragment.datesChangedSubject.subscribe { dates ->
             (viewModel as? HotelDetailViewModel)?.changeDates(dates.first, dates.second)

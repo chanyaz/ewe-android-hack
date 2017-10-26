@@ -34,6 +34,10 @@ object AbacusTestUtils {
         SettingUtils.save(context, featureKey, true)
     }
 
+    @JvmStatic fun enableFeature(context: Context, @StringRes featureKey: Int) {
+        SettingUtils.save(context, featureKey, true)
+    }
+
     @JvmStatic fun bucketTestWithVariant(test: ABTest, variant: Int) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(test.key, variant)

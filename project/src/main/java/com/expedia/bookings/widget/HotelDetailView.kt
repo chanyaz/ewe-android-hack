@@ -25,6 +25,7 @@ import com.expedia.bookings.hotel.widget.HotelDetailContentView
 import com.expedia.bookings.hotel.widget.HotelDetailGalleryView
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -90,7 +91,13 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 bottomButtonWidget.showSelectRoom()
             }
         }
-        bottomButtonWidget.changeDatesClickedSubject.subscribe(vm.changeDates)
+        bottomButtonWidget.changeDatesClickedSubject.subscribe {
+            if (vm.isChangeDatesEnabled()) {
+                contentView.showChangeDatesDialog()
+            } else {
+                vm.returnToSearchSubject.onNext(Unit)
+            }
+        }
 
         vm.galleryObservable.subscribe { galleryUrls ->
             galleryView.setGalleryItems(galleryUrls)

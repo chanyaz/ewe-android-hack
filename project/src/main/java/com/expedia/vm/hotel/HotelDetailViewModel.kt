@@ -94,6 +94,13 @@ open class HotelDetailViewModel(context: Context,
         apiSubscriptions.clear()
     }
 
+    override fun offerReturned(offerResponse: HotelOffersResponse) {
+        super.offerReturned(offerResponse)
+        if (hotelSoldOut.value && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_dateless_infosite)) {
+            searchInfoObservable.onNext(context.getString(R.string.change_dates))
+        }
+    }
+
     override fun isChangeDatesEnabled(): Boolean {
         return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_dateless_infosite)
     }
