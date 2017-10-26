@@ -193,7 +193,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (searchTrackingBuilder.isWorkComplete()) {
                 val trackingData = searchTrackingBuilder.build()
                 hotelClientLogTracker.trackResultsPerformance(trackingData.performanceData, ClientLogConstants.MATERIAL_HOTEL_SEARCH_PAGE, eventName)
-                HotelTracking.trackHotelSearch(trackingData, this.context)
+                HotelTracking.trackHotelSearch(trackingData, hotelSearchParams)
             }
         }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)

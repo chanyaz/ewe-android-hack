@@ -39,14 +39,12 @@ class CarnivalUtilsTest : CarnivalUtils() {
     fun testTrackHotelSearch() {
         reset()
 
-        val hotelParams = HotelSearchTrackingData()
-        hotelParams.city = "Las Vegas"
-        hotelParams.stateProvinceCode = "NV"
-        hotelParams.numberOfAdults = 1
-        hotelParams.checkInDate = LocalDate.now()
-        hotelParams.duration = 3
+        val v4 = SuggestionV4()
+        v4.regionNames = SuggestionV4.RegionNames()
+        v4.regionNames.fullName = "Las Vegas, NV"
+        val searchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 1, listOf(0), false, false, null, null)
 
-        this.trackHotelSearch(hotelParams)
+        this.trackHotelSearch(searchParams)
 
         assertEquals(eventNameToLog, "search_hotel")
         assertEquals(attributesToSend.get("search_hotel_destination"),"Las Vegas, NV")
@@ -62,8 +60,10 @@ class CarnivalUtilsTest : CarnivalUtils() {
 
         var hotelOfferResponse = HotelOffersResponse()
         hotelOfferResponse.hotelName = "Twin Lotus Koh Lanta by Burasari"
-        hotelOfferResponse.hotelCity = "Krabi, Thailand"
-        var searchParams = HotelSearchParams(SuggestionV4(), LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, false, null, null)
+        val v4 = SuggestionV4()
+        v4.regionNames = SuggestionV4.RegionNames()
+        v4.regionNames.fullName = "Krabi, Thailand"
+        var searchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, false, null, null)
 
         this.trackHotelInfoSite(hotelOfferResponse, searchParams)
 

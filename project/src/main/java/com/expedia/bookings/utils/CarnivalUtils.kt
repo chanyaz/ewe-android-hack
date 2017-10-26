@@ -62,13 +62,13 @@ open class CarnivalUtils {
         }
     }
 
-    fun trackHotelSearch(trackingParams: HotelSearchTrackingData) {
+    fun trackHotelSearch(searchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
-            attributes.putString("search_hotel_destination", trackingParams.city + ", " + trackingParams.stateProvinceCode)
-            attributes.putInt("search_hotel_number_of_adults", trackingParams.numberOfAdults)
-            attributes.putDate("search_hotel_check-in_date", trackingParams.checkInDate?.toDate())
-            trackingParams.duration?.let { attributes.putInt("search_hotel_length_of_stay", it) }
+            attributes.putString("search_hotel_destination", searchParams.suggestion.regionNames.fullName)
+            attributes.putInt("search_hotel_number_of_adults", searchParams.adults)
+            attributes.putDate("search_hotel_check-in_date", searchParams.checkIn.toDate())
+            attributes.putInt("search_hotel_length_of_stay", JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut))
             setAttributes(attributes, "search_hotel")
         }
     }
@@ -76,7 +76,7 @@ open class CarnivalUtils {
     fun trackHotelInfoSite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
-            attributes.putString("product_view_hotel_destination", hotelOffersResponse.hotelCity)
+            attributes.putString("product_view_hotel_destination", searchParams.suggestion.regionNames.fullName)
             attributes.putString("product_view_hotel_hotel_name", hotelOffersResponse.hotelName)
             attributes.putInt("product_view_hotel_number_of_adults", searchParams.adults)
             attributes.putDate("product_view_hotel_check-in_date", searchParams.checkIn.toDate())
