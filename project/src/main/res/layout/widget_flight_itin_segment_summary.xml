@@ -78,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:orientation="vertical"
+                app:layout_constraintBaseline_toBaselineOf="@+id/flight_itin_arrival_details"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/flight_itin_to_arrow"
@@ -87,12 +88,12 @@
                     android:id="@+id/departure_red_eye"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textSize="12sp"
+                    android:paddingBottom="6dp"
                     android:textColor="@color/gray600"
+                    android:textSize="12sp"
                     android:visibility="gone"
-                    tools:visibility="visible"
-                    tools:text="Fri, Oct 2"/>
+                    tools:text="Fri, Oct 2"
+                    tools:visibility="visible" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_itin_departure_time"
@@ -148,6 +149,7 @@
                 android:focusable="true"
                 android:gravity="right"
                 android:orientation="vertical"
+                app:layout_constraintBaseline_toBaselineOf="@+id/flight_itin_departure_details"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/flight_itin_to_arrow"
                 app:layout_constraintRight_toRightOf="parent"
@@ -158,17 +160,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:textSize="12sp"
+                    android:paddingBottom="6dp"
                     android:textColor="@color/error_red"
+                    android:textSize="12sp"
                     android:visibility="gone"
-                    tools:visibility="visible"
-                    tools:text="Arrives on Sat, Oct 3"/>
+                    tools:text="Arrives on Sat, Oct 3"
+                    tools:visibility="visible" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="right"
-                    android:layout_marginBottom="4dp">
+                    android:orientation="horizontal"
+                    android:paddingBottom="6dp">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flight_itin_arrival_time"
@@ -183,13 +187,13 @@
                         android:id="@+id/red_eye_days"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="3dp"
                         android:textColor="@color/error_red"
                         android:textSize="12sp"
-                        android:paddingLeft="3dp"
                         android:textStyle="bold"
                         android:visibility="gone"
-                        tools:visibility="visible"
-                        tools:text="+1" />
+                        tools:text="+1"
+                        tools:visibility="visible" />
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView
