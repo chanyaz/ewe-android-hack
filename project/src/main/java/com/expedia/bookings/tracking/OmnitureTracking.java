@@ -725,8 +725,8 @@ public class OmnitureTracking {
 
 		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-		LocalDate checkInDate = dtf.parseDateTime(hotelOffersResponse.checkInDate).toLocalDate();
-		LocalDate checkOutDate = dtf.parseDateTime(hotelOffersResponse.checkOutDate).toLocalDate();
+		LocalDate checkInDate = dtf.parseLocalDateTime(hotelOffersResponse.checkInDate).toLocalDate();
+		LocalDate checkOutDate = dtf.parseLocalDateTime(hotelOffersResponse.checkOutDate).toLocalDate();
 
 		s.setAppState(HOTELSV2_DETAILS_PAGE);
 		s.setEvar(18, HOTELSV2_DETAILS_PAGE);

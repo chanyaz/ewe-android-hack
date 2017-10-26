@@ -15,6 +15,9 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.DebugInfoUtils
 import com.google.android.gms.common.GoogleApiAvailability
+import org.joda.time.DateTimeZone
+import org.joda.time.IllegalInstantException
+import org.joda.time.format.DateTimeFormat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -77,6 +80,18 @@ class OmnitureTrackingTest {
 
         assertStateTracked(withProps(mapOf(27 to "11000001")), mockAnalyticsProvider)
 
+    }
+
+    @Test
+    fun dateFormatTimeZoneDSTHappy() {
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.forID("America/Sao_Paulo"))
+        val checkInDate = dtf.parseLocalDateTime("2017-10-15").toLocalDate()
+    }
+
+    @Test (expected = IllegalInstantException::class)
+    fun dateFormatTimeZoneDSTUnhappy() {
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.forID("America/Sao_Paulo"))
+        val checkInDate = dtf.parseDateTime("2017-10-15").toLocalDate()
     }
 
 //    @Test
