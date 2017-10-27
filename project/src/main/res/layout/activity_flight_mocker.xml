@@ -192,6 +192,22 @@
         android:gravity="center"
         android:text="departure terminal" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/opperated_by_cb"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/depart_terminal_cb"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/depart_terminal_cb"
+        android:text="Has Opperated by Carrier"
+        style="@style/FlightItinMock"
+        android:layout_alignBottom="@id/opperated_by_cb"
+        android:gravity="center"/>
+
     <com.expedia.bookings.widget.TextView
         android:id="@+id/flight_mock_build_btn"
         android:layout_width="wrap_content"
@@ -201,5 +217,5 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:text="Do Magic"
         android:textColor="@color/error_red"
-        android:textSize="26sp" />
+        android:textSize="26sp"/>
 </RelativeLayout>

@@ -36,6 +36,7 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var arrivalTerminalCB: CheckBox
     private lateinit var departureTerminalCB: CheckBox
     private lateinit var buildBtn: TextView
+    private lateinit var opperatedBy: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +76,7 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
         departureTerminalCB = findViewById(R.id.depart_terminal_cb) as CheckBox
         buildBtn = findViewById(R.id.flight_mock_build_btn) as TextView
         buildBtn.setOnClickListener(this)
+        opperatedBy = findViewById(R.id.opperated_by_cb) as CheckBox
     }
 
     private fun seatsSelected() = if (seatingSelectedCB.isChecked) {
@@ -173,7 +175,6 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
             firstSeg.remove("departureTerminal")
         }
 
-
         firstSeg.put("isSeatMapAvailable", seatingAvailableCB.isChecked)
 
         if (seatingSelectedCB.isChecked) {
@@ -204,6 +205,11 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         JSONUtils.putEnum(flight, "ticketingStatus", mTicketingStatus)
+
+        if (opperatedBy.isChecked) {
+            firstSeg.put("operatedByAirCarrierName","AirNeo" )
+        }
+
         val tripObj = tripParser.parseTrip(obj)
         val tripComponent = tripObj.tripComponents[0]
         return if (tripComponent is TripFlight) {
