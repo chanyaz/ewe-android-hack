@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.support.annotation.VisibleForTesting
 import android.text.format.DateUtils
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.Log
 import rx.Observer
@@ -78,8 +79,10 @@ class SatelliteFeatureConfigManager {
         }
 
         private fun fetchRemoteConfig(context: Context) {
-            val satelliteServices = Ui.getApplication(context).appComponent().satelliteServices()
-            satelliteServices.fetchFeatureConfig(createConfigResponseObserver(context))
+            if (!ExpediaBookingApp.isAutomation()) {
+                val satelliteServices = Ui.getApplication(context).appComponent().satelliteServices()
+                satelliteServices.fetchFeatureConfig(createConfigResponseObserver(context))
+            }
         }
 
         private fun getFeatureConfigPreferences(context: Context): SharedPreferences {
