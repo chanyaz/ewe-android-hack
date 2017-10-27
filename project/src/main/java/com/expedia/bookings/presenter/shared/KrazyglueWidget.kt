@@ -11,6 +11,7 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.util.subscribeText
+import android.support.v7.widget.PagerSnapHelper
 
 class KrazyglueWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
@@ -38,6 +39,8 @@ class KrazyglueWidget(context: Context, attr: AttributeSet?) : LinearLayout(cont
         } else {
             hotelsRecyclerView.adapter = KrazyglueHotelsListAdapter(viewModel.hotelsObservable)
             hotelsRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(hotelsRecyclerView)
 
             viewModel.headerTextObservable.subscribeText(headerText)
         }

@@ -10,10 +10,14 @@
         android:id="@+id/header_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="2" />
+        android:layout_margin="9dp"
+        android:maxLines="2"
+        android:textColor="@color/itin_white_text"
+        android:textSize="18sp" />
 
     <com.expedia.bookings.presenter.shared.KrazyglueHotelRecyclerView
         android:id="@+id/hotels_recycler_view"
+        android:layout_marginLeft="9dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

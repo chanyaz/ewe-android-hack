@@ -33,7 +33,8 @@ class KrazyglueWidgetTest {
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
     private var activity: Activity by Delegates.notNull()
 
-    @Before fun setup() {
+    @Before
+    fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
     }
 
@@ -116,14 +117,18 @@ class KrazyglueWidgetTest {
 
     @Test
     fun testHotelBindsDataCorrectly() {
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         val hotelView = LayoutInflater.from(activity).inflate(R.layout.krazyglue_hotel_view, null)
 
         val viewHolder = KrazyglueHotelViewHolder(hotelView)
-        val hotel = KrazyglueResponse.KrazyglueHotel()
-        hotel.hotelName = "San Francisco Hotel"
-        viewHolder.bindData(hotel)
+        val hotel = getKrazyGlueHotel("21222", "San Francisco Hotel")
+        viewHolder.viewModel.hotelObservable.onNext(hotel)
 
         assertEquals("San Francisco Hotel", hotelView.findViewById<TextView>(R.id.hotel_name_text_view).text)
+        assertEquals("4.0", hotelView.findViewById<TextView>(R.id.hotel_guest_rating).text)
+        assertEquals("330$", hotelView.findViewById<TextView>(R.id.hotel_strike_through_price).text)
+        assertEquals("220$", hotelView.findViewById<TextView>(R.id.hotel_price_per_night).text)
+        assertEquals(View.VISIBLE, hotelView.findViewById<TextView>(R.id.hotel_guest_rating).visibility)
     }
 
     @Test
@@ -162,24 +167,28 @@ class KrazyglueWidgetTest {
         assertKrazyGlueClickTracking(expectedEvars)
     }
 
-    private fun getKrazyGlueHotels() : List<KrazyglueResponse.KrazyglueHotel> {
-        val firstKrazyHotel = KrazyglueResponse.KrazyglueHotel()
-        firstKrazyHotel.hotelId = "11111"
-        firstKrazyHotel.hotelName = "Mariot"
-        val secondKrazyHotel = KrazyglueResponse.KrazyglueHotel()
-        secondKrazyHotel.hotelId = "99999"
-        secondKrazyHotel.hotelName = "Cosmopolitan"
-        val thirdKrazyHotel = KrazyglueResponse.KrazyglueHotel()
-        thirdKrazyHotel.hotelId = "55555"
-        thirdKrazyHotel.hotelName = "Holiday Inn"
-        val fourthKrazyGlueHotel = KrazyglueResponse.KrazyglueHotel()
-        fourthKrazyGlueHotel.hotelId = "77777"
-        fourthKrazyGlueHotel.hotelName = "Motel 8"
+    private fun getKrazyGlueHotels(): List<KrazyglueResponse.KrazyglueHotel> {
+        val firstKrazyHotel = getKrazyGlueHotel("11111", "Mariot")
+        val secondKrazyHotel = getKrazyGlueHotel("99999", "Cosmopolitan")
+        val thirdKrazyHotel = getKrazyGlueHotel("55555", "Holiday Inn")
+        val fourthKrazyGlueHotel = getKrazyGlueHotel("77777", "Motel 8")
 
         return listOf(firstKrazyHotel, secondKrazyHotel, thirdKrazyHotel, fourthKrazyGlueHotel)
     }
 
-    private fun setDbFlightSearch()   {
+    private fun getKrazyGlueHotel(hotelID: String, hoteName: String): KrazyglueResponse.KrazyglueHotel {
+        val hotel = KrazyglueResponse.KrazyglueHotel()
+        hotel.hotelId = hotelID
+        hotel.hotelName = hoteName
+        hotel.guestRating = "4.0"
+        hotel.airAttachedPrice = "220$"
+        hotel.standAlonePrice = "330$"
+        hotel.hotelImage = "image"
+        hotel.starRating = "2.5"
+        return hotel
+    }
+
+    private fun setDbFlightSearch() {
         val departureAirport = SuggestionV4()
         departureAirport.hierarchyInfo = SuggestionV4.HierarchyInfo()
         val arrivalAirport = SuggestionV4()

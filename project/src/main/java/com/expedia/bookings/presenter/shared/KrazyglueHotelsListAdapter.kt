@@ -9,7 +9,7 @@ import rx.subjects.PublishSubject
 
 class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<KrazyglueResponse.KrazyglueHotel>>) : RecyclerView.Adapter<KrazyglueHotelViewHolder>() {
     override fun onBindViewHolder(holder: KrazyglueHotelViewHolder, position: Int) {
-        holder.bindData(hotels[position])
+        holder.viewModel.hotelObservable.onNext(hotels[position])
     }
 
     var hotels = arrayListOf<KrazyglueResponse.KrazyglueHotel>()
