@@ -375,4 +375,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isFirebaseEnabled() {
 		return false;
 	}
+
+	@Override
+	public boolean isCarnivalEnabled() {
+		return false;
+	}
 }

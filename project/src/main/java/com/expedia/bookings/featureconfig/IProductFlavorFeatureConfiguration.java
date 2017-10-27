@@ -182,4 +182,6 @@ public interface IProductFlavorFeatureConfiguration {
 	String getPosURLToShow(String posUrl);
 
 	boolean isFirebaseEnabled();
+
+	boolean isCarnivalEnabled();
 }

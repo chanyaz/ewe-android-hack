@@ -12,6 +12,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import com.carnival.sdk.Carnival.CarnivalHandler
@@ -150,7 +151,7 @@ open class CarnivalUtils {
         }
     }
 
-    private fun isFeatureToggledOn() : Boolean = FeatureToggleUtil.isFeatureEnabled(appContext, R.string.preference_new_carnival_notifications)
+    private fun isFeatureToggledOn(): Boolean = FeatureToggleUtil.isFeatureEnabled(appContext, R.string.preference_new_carnival_notifications) && ProductFlavorFeatureConfiguration.getInstance().isCarnivalEnabled
 
     open fun setAttributes(attributes: AttributeMap, eventName: String) {
         Carnival.logEvent(eventName)
