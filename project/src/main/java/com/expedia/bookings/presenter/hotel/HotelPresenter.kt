@@ -297,7 +297,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (confirmationDetailsSet && confirmationUISet) {
                 pageUsableData.markAllViewsLoaded(Date().time)
                 HotelTracking.trackHotelPurchaseConfirmation(confirmationPresenter.hotelConfirmationViewModel.hotelCheckoutResponseObservable.value, confirmationPresenter.hotelConfirmationViewModel.percentagePaidWithPointsObservable.value,
-                        confirmationPresenter.hotelConfirmationViewModel.totalAppliedRewardCurrencyObservable.value, hotelSearchParams.guests, confirmationPresenter.hotelConfirmationViewModel.couponCodeObservable.value, pageUsableData)
+                        confirmationPresenter.hotelConfirmationViewModel.totalAppliedRewardCurrencyObservable.value, hotelSearchParams.guests, confirmationPresenter.hotelConfirmationViewModel.couponCodeObservable.value, pageUsableData, hotelSearchParams)
             }
         }).subscribe()
 

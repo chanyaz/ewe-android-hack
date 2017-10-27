@@ -11,10 +11,10 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.rail.responses.*
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripComponent
+import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -177,6 +177,31 @@ class CarnivalUtilsTest : CarnivalUtils() {
         assertEquals(attributesToSend.get("confirmation_flight_number_of_adults"), 2)
         assertEquals(attributesToSend.get("confirmation_flight_departure_date"), LocalDate.now().toDate())
         assertEquals(attributesToSend.get("confirmation_flight_length_of_flight"), "5:30")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackHotelConfirmation() {
+        reset()
+
+        val hotelCheckoutResponse = HotelCheckoutResponse()
+        val checkoutResponse = HotelCheckoutResponse.CheckoutResponse()
+        val productResponse = HotelCheckoutResponse.ProductResponse()
+        productResponse.hotelName = "Twin Lotus Koh Lanta by Burasari"
+        hotelCheckoutResponse.checkoutResponse = checkoutResponse
+        hotelCheckoutResponse.checkoutResponse.productResponse = productResponse
+        val v4 = SuggestionV4()
+        v4.regionNames = SuggestionV4.RegionNames()
+        v4.regionNames.fullName = "Krabi, Thailand"
+        var hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, false, null, null)
+        this.trackHotelConfirmation(hotelCheckoutResponse, hotelSearchParams)
+
+        assertEquals(eventNameToLog, "confirmation_hotel")
+        assertEquals(attributesToSend.get("confirmation_hotel_destination"), "Krabi, Thailand")
+        assertEquals(attributesToSend.get("confirmation_hotel_hotel_name"), "Twin Lotus Koh Lanta by Burasari")
+        assertEquals(attributesToSend.get("confirmation_hotel_number_of_adults"), 2)
+        assertEquals(attributesToSend.get("confirmation_hotel_check-in_date"), LocalDate.now().toDate())
+        assertEquals(attributesToSend.get("confirmation_hotel_length_of_stay"), 3)
     }
 
     @Test

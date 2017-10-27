@@ -13,6 +13,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.services.HotelCheckoutResponse
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import com.carnival.sdk.Carnival.CarnivalHandler
@@ -118,6 +119,18 @@ open class CarnivalUtils {
             attributes.putDate("product_view_hotel_check-in_date", searchParams.checkIn.toDate())
             attributes.putInt("product_view_hotel_length_of_stay", JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut))
             setAttributes(attributes, "product_view_hotel")
+        }
+    }
+
+    fun trackHotelConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, hotelSearchParams: HotelSearchParams) {
+        if (isFeatureToggledOn() && initialized) {
+            val attributes = AttributeMap()
+            attributes.putString("confirmation_hotel_destination", hotelSearchParams.suggestion.regionNames.fullName)
+            attributes.putString("confirmation_hotel_hotel_name", hotelCheckoutResponse.checkoutResponse.productResponse.hotelName)
+            attributes.putInt("confirmation_hotel_number_of_adults", hotelSearchParams.adults)
+            attributes.putDate("confirmation_hotel_check-in_date", hotelSearchParams.checkIn.toDate())
+            attributes.putInt("confirmation_hotel_length_of_stay", JodaUtils.daysBetween(hotelSearchParams.checkIn, hotelSearchParams.checkOut))
+            setAttributes(attributes, "confirmation_hotel")
         }
     }
 
