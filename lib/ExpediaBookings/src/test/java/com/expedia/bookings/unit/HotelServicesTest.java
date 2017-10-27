@@ -132,6 +132,38 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void testSearchWithZeroRegionId() throws IOException {
+		final boolean[] testResult = { true, true };
+		Dispatcher dispatcher = new Dispatcher() {
+			@Override
+			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+				boolean containsLongitudeParam = request.getPath().contains("longitude");
+				boolean containsLatitudeParam = request.getPath().contains("latitude");
+				boolean containsRegionId = request.getPath().contains("regionId");
+				testResult[0] = containsLatitudeParam || containsLongitudeParam;
+				testResult[1] = containsRegionId;
+				return new MockResponse();
+			}
+		};
+		server.setDispatcher(dispatcher);
+		SuggestionV4 suggestion = new SuggestionV4();
+		suggestion.coordinates = new SuggestionV4.LatLng();
+		suggestion.coordinates.lat = 41.87;
+		suggestion.coordinates.lng = 87.62;
+		suggestion.gaiaId = "0";
+		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0, true)
+			.destination(suggestion)
+			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
+
+		TestSubscriber testSubscriber = new TestSubscriber();
+		service.search(hotelSearchParams, null).subscribe(testSubscriber);
+		testSubscriber.awaitTerminalEvent();
+
+		assertTrue("I expect to see longitude or latitude", testResult[0]);
+		assertFalse("I don't expect to see regionId param in this request if gaia ID is 0", testResult[1]);
+	}
+
+	@Test
 	public void testMockSearchBlowsUp() throws Throwable {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));

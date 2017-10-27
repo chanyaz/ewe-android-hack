@@ -142,7 +142,10 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
 
     private fun getRegionId(params: HotelSearchParams) : String? {
         // null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
-        var regionId = if (params.suggestion.gaiaId?.isNotBlank() ?: false) params.suggestion.gaiaId else null
+        // null out region Id if zip code search (regionID = 0)
+        var regionId = if (params.suggestion.gaiaId?.isNotBlank() == true && params.suggestion.gaiaId != "0") {
+            params.suggestion.gaiaId
+        } else null
         val filterOptions = params.filterOptions
         if (filterOptions != null && !filterOptions.filterByNeighborhoodId.isNullOrEmpty()) {
             // Override default regionId for neighborhood search
