@@ -3,6 +3,7 @@ package com.expedia.vm.test.robolectric
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -10,6 +11,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.vm.flights.FlightViewModel
@@ -26,6 +28,7 @@ class FlightViewModelTest {
 
     lateinit private var sut: FlightViewModel
     lateinit var flightLeg: FlightLeg
+    val context = RuntimeEnvironment.application
 
     fun createSystemUnderTest() {
         sut = FlightViewModel(getContext(), flightLeg)
@@ -89,6 +92,22 @@ class FlightViewModelTest {
         val expectedResult = SpannableBuilder()
         expectedResult.append("Flight time is 01:10:00 to 12:20:00 plus 1d with price $200. Flying with UnitedDelta. The flight duration is 19 hours 10 minutes with 1 stops\u0020Button")
         assertEquals(expectedResult.build(), sut.getFlightContentDesc(false))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testDeltaPrice() {
+        SettingUtils.save(context, R.string.preference_flight_delta_pricing, true)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
+        createExpectedFlightLeg(true)
+        flightLeg.packageOfferModel.price.deltaPositive = true
+        flightLeg.packageOfferModel.price.deltaPrice = Money("4", "USD")
+        flightLeg.packageOfferModel.price.deltaPrice.roundedAmount = BigDecimal("4")
+        sut = FlightViewModel(getContext(), flightLeg, false)
+        assertEquals("+$4", sut.price())
+
+        sut = FlightViewModel(getContext(), flightLeg, true)
+        assertEquals("$201", sut.price())
     }
 
     private fun setPOS(pos: PointOfSaleId) {

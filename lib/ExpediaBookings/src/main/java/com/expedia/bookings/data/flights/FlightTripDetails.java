@@ -31,6 +31,7 @@ public class FlightTripDetails {
 		public Money discountAmount;
 		public Money taxesPrice;
 		public Money feesPrice;
+		public Money deltaPrice;
 		public String currency;
 		public String fees;
 
@@ -43,6 +44,7 @@ public class FlightTripDetails {
 		public boolean hasNoBagFee;
 		public boolean showFees;
 		public boolean mayChargeOBFees;
+		public boolean deltaPricePositive;
 		public String numberOfTickets;
 		public int seatsRemaining;
 		public List<SplitFarePrice> splitFarePrice;

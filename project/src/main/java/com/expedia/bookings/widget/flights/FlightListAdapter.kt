@@ -44,7 +44,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     }
 
     override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): FlightViewModel {
-        return FlightViewModel(context, flightLeg)
+        return FlightViewModel(context, flightLeg, isOutboundSearch)
     }
 
     private fun shouldShowCrossSellPackageBanner() = (PointOfSale.getPointOfSale().isCrossSellPackageOnFSR &&

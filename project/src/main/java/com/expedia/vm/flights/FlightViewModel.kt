@@ -7,13 +7,22 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightViewModel
 
-open class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightViewModel(context, flightLeg) {
+open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboundSearch: Boolean = true) : AbstractFlightViewModel(context, flightLeg) {
+    val showDeltaPricing = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing, R.string.preference_flight_delta_pricing)
     override fun price(): String {
-        val price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
-        return Money.getFormattedMoneyFromAmountAndCurrencyCode(price.roundedAmount, price.currencyCode, Money.F_NO_DECIMAL)
+        val priceToShow = StringBuilder()
+        var price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
+        if(!isOutboundSearch && showDeltaPricing) {
+            if(flightLeg.packageOfferModel.price.deltaPositive) {
+                priceToShow.append("+")
+            }
+            price = flightLeg.packageOfferModel.price.deltaPrice
+        }
+        return priceToShow.append(Money.getFormattedMoneyFromAmountAndCurrencyCode(price.roundedAmount, price.currencyCode, Money.F_NO_DECIMAL)).toString()
     }
 
     override fun getUrgencyMessageVisibility(seatsLeft : String): Boolean {

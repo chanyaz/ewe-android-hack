@@ -60,6 +60,7 @@ public class PackageOfferModel {
 		public Money flightPrice;
 		public Money discountAmount;
 		public Money tripSavings;
+		public Money deltaPrice;
 		public String packageTotalPriceFormatted;
 		public String pricePerPersonFormatted;
 		public String differentialPriceFormatted;
