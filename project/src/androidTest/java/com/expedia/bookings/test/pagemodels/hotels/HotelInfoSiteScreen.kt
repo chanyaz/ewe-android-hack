@@ -28,6 +28,7 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.isEmptyString
 import org.hamcrest.Matchers.not
+import java.util.concurrent.TimeUnit
 
 object HotelInfoSiteScreen {
     //Matchers
@@ -38,6 +39,8 @@ object HotelInfoSiteScreen {
     private val plusVIPLabel = withId(R.id.vip_access_message)
     private val travelDates = withId(R.id.hotel_search_info)
     private val numberOfGuests = withId(R.id.hotel_search_info_guests)
+    private val headerLabelText = allOf(isDescendantOfA(withId(R.id.hotel_details_toolbar)),
+            withId(R.id.hotel_name_text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 
     // Views
     @JvmStatic
@@ -287,5 +290,11 @@ object HotelInfoSiteScreen {
                         withText(bedType)
                 ))
         )))
+    }
+
+    @JvmStatic
+    fun verifyHeaderLabelText(expectedText: String) {
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(headerLabelText, 10, TimeUnit.SECONDS)
+        onView(headerLabelText).check(matches(withText(expectedText)))
     }
 }

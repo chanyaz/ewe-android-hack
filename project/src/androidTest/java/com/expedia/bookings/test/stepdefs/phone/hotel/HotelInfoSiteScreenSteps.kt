@@ -37,4 +37,10 @@ class HotelInfoSiteScreenSteps {
     fun iCloseTheVIPAccessPage() {
         VIPAccess.clickHeaderCloseButton()
     }
+
+    @And("^I verify the hotel label text is \"(.*?)\"$")
+    @Throws(Throwable::class)
+    fun iVerifyHotelLabelText(headerLabelText: String) {
+        HotelInfoSiteScreen.verifyHeaderLabelText(headerLabelText)
+    }
 }

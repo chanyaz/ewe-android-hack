@@ -2,6 +2,7 @@ package com.expedia.bookings.test.stepdefs.phone.hotel;
 
 import java.util.Map;
 
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 
 import org.joda.time.LocalDate;
@@ -28,6 +29,7 @@ public class SearchScreenSteps {
 
 	@Then("^I enter destination as \"(.*?)\"$")
 	public void enterDestination(String arg1) throws Throwable {
+		Common.delay(1);
 		SearchScreen.searchEditText().perform(typeText(arg1));
 	}
 
@@ -46,6 +48,11 @@ public class SearchScreenSteps {
 	@Given("^I click on Search Button$")
 	public void clickOnSearchButton() throws Throwable {
 		SearchScreen.searchButton().perform(click());
+	}
+
+	@Given("^I click on \"(.*?)\" within 'Did You Mean...' popup$")
+	public void clickOnDidYouMeanPopupSuggestion(String suggestionOption) throws Throwable {
+		SearchScreen.didYouMeanAlertSuggestion(suggestionOption).perform(click());
 	}
 }
 

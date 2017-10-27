@@ -9,6 +9,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
+import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
@@ -383,5 +384,13 @@ object SearchScreen {
     fun selectDate(startDate: LocalDate?) {
         calendar().perform(CalendarPickerActions.clickDates(startDate, null))
         searchAlertDialogDone().perform(click())
+    }
+
+    @JvmStatic fun didYouMeanAlertSuggestion(suggestionHasText: String): ViewInteraction {
+        return onView(allOf(
+                isDescendantOfA(withId(R.id.action_bar_root)),
+                withId(R.id.select_dialog_listview),
+                hasDescendant(withText(suggestionHasText))
+        ))
     }
 }
