@@ -77,6 +77,7 @@ function runUnitTests() {
             ":lib:ExpediaBookings:checkstyleMain" ":lib:ExpediaBookings:checkstyleTest" \
             "checkstyle" "lintExpediaDebug" \
             ":lib:mocked:mocke3:test" \
+            ":lib:AccountLib:test" \
             ":lib:ExpediaBookings:test" ":lib:ExpediaBookings:jacocoTestReport" \
             ":project:jacocoExpediaDebug"
         unitTestStatus=$?
