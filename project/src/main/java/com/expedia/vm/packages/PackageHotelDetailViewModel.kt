@@ -134,5 +134,4 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
     override fun getTelesalesNumber(): String {
         return hotelOffersResponse.packageTelesalesNumber
     }
-
 }

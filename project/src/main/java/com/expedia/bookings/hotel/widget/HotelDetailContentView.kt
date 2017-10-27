@@ -319,6 +319,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             searchInfo.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, resources.displayMetrics).toInt()
             searchInfo.setOnClickListener {
                 showChangeDatesDialog()
+                HotelTracking.trackInfositeChangeDateClick()
             }
         }
     }

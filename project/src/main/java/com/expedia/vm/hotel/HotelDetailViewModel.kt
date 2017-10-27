@@ -102,7 +102,8 @@ open class HotelDetailViewModel(context: Context,
     }
 
     override fun isChangeDatesEnabled(): Boolean {
-        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_dateless_infosite)
+        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_dateless_infosite) &&
+                AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.HotelEnableInfositeChangeDate)
     }
 
     override fun pricePerDescriptor(): String {

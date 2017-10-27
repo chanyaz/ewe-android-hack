@@ -228,6 +228,8 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_DETAIL_SELECT_ROOM = "App.Hotels.Infosite.SelectRoom";
 	private static final String HOTELSV2_MAP_SELECT_ROOM = "App.Hotels.IS.Map.SelectRoom";
 	private static final String HOTELSV2_DETAIL_GALLERY_CLICK = "App.Hotels.IS.Gallery.Hotel";
+	private static final String HOTELSV2_DETAIL_CHANGE_DATE = "App.Hotels.IS.ChangeDates";
+
 	private static final String HOTELSV2_REVIEWS = "App.Hotels.Reviews";
 
 	private static final String HOTELSV2_ETP_INFO = "App.Hotels.ETPInfo";
@@ -755,6 +757,7 @@ public class OmnitureTracking {
 
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
+
 		setDateValues(s, checkInDate, checkOutDate);
 
 		String region;
@@ -783,6 +786,9 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelGroupRoomRate);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_dateless_infosite)) {
+			trackAbacusTest(s, AbacusUtils.HotelEnableInfositeChangeDate);
+		}
 
 		// Send the tracking data
 		s.track();
@@ -971,6 +977,14 @@ public class OmnitureTracking {
 
 		// Send the tracking data
 		s.track();
+	}
+
+	public static void trackHotelV2InfositeChangeDateClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_CHANGE_DATE + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_CHANGE_DATE);
+
+		s.trackLink(null, "o", "Infosite Change Dates", null, null);
 	}
 
 	public static void trackPageLoadHotelV2CheckoutInfo(

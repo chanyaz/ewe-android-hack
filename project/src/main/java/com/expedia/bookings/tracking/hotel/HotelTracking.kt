@@ -144,6 +144,10 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2RenovationInfo()
         }
 
+        fun trackInfositeChangeDateClick() {
+            OmnitureTracking.trackHotelV2InfositeChangeDateClick()
+        }
+
         fun trackPageLoadHotelInfosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams,
                                        isETPEligible: Boolean, isCurrentLocationSearch: Boolean,
                                        isHotelSoldOut: Boolean, isRoomSoldOut: Boolean,

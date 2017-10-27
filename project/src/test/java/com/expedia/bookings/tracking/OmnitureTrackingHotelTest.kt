@@ -20,7 +20,6 @@ import kotlin.test.assertEquals
 class OmnitureTrackingHotelTest {
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testGetSearchResultsHotelProductStrings() {
         var hotels = ArrayList<Hotel>(0)
         val hotel0 = Hotel()
