@@ -94,6 +94,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
                 super.onFocusChange(creditCardNumber, hasFocus)
             }
         }
+        viewmodel.resetCardList.subscribe {
+            undimAllCards(validCardsList)
+        }
     }
 
     override fun onFinishInflate() {

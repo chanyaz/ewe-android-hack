@@ -306,6 +306,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
         paymentOptionCreditDebitCard.setOnClickListener {
             viewmodel.resetCardFees.onNext(Unit)
+            viewmodel.resetCardList.onNext(Unit)
             if (shouldShowPaymentOptions()) {
                 reset()
                 show(PaymentDetails())

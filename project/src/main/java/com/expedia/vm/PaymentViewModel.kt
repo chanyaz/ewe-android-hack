@@ -63,6 +63,7 @@ open class PaymentViewModel(val context: Context) {
     val travelerLastName = BehaviorSubject.create<AccessibleEditText>()
     val populateCardholderNameObservable = BehaviorSubject.create<String>("")
     val createFakeAddressObservable = PublishSubject.create<Unit>()
+    val resetCardList = PublishSubject.create<Unit>()
 
     //ouputs
     val iconStatus = PublishSubject.create<ContactDetailsCompletenessStatus>()

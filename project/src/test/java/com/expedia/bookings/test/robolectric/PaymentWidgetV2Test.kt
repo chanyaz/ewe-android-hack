@@ -376,6 +376,20 @@ class PaymentWidgetV2Test {
         assertFalse(isCreditCardMessagingForPayLaterEnabled(activity))
     }
 
+    @Test
+    fun testForProperResetOfCardList() {
+        setupAndShowValidCardsList()
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        sut.validateAndBind()
+        paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
+        setUserWithStoredCard()
+        sut.storedCreditCardList.bind()
+
+        sut.paymentOptionCreditDebitCard.performClick()
+
+        assertAllCardsAreNotDimmed()
+    }
+
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
         assertEquals(paymentInfo, paymentTileInfo.text)
         assertEquals(paymentOption, paymentTileOption.text)
