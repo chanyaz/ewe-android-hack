@@ -308,7 +308,37 @@
                 }
               ],
               "sharableFlightLegURL":"https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1MzAaePZYDF9ZAe9O6tHZlBAe1IRdXeg5mWRPx6mvvzlQ",
-              "duration":"PT5H12M"
+              "duration":"PT5H12M",
+               "rules": {
+                  "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+                  "faresNotGuaranteedText": "Fares are not guaranteed until ticketed.",
+                  "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+                  "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+                  "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+                  "isRefundable": false,
+                  "completePenaltyRules": {
+                     "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+                     "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Fare-Rules?tripid=caa45f04-cb1d-4892-b4b4-98c5a1cd73fc",
+                     "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Fare-Rules?tripid=caa45f04-cb1d-4892-b4b4-98c5a1cd73fc\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> applicable to this fare.",
+                     "apiURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/11206366668/items/771035_0/gdsFareRulesText?useCache=true"
+                  },
+                  "additionalAirlineFees": {
+                     "text": "The airline may charge additional fees for checked baggage or other optional services.",
+                     "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Flights-BagFees?originapt=SEA&destinationapt=BIL&cabinclass=3&mktgcarrier=AS&opcarrier=&farebasis=Q21N4&bookingclass=Q&travelDate=2050-02-21&flightNumber=2400",
+                     "textAndURL": "The airline may charge <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Flights-BagFees?originapt=SEA&destinationapt=BIL&cabinclass=3&mktgcarrier=AS&opcarrier=&farebasis=Q21N4&bookingclass=Q&travelDate=2050-02-21&flightNumber=2400\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> for checked baggage or other optional services."
+                  },
+                  "airlineLiabilityLimitations": {
+                     "text": "Please read important information regarding airline liability limitations.",
+                     "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/p/info-main/warsaw?",
+                     "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+                  },
+                  "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+                  "railFeederMessages": [],
+                  "expediaChangeFeeChargeable": false,
+                  "hasElectronicsBannedMessage": false
+               },
+               "airlineCheckInURL":"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=WW&firstName=sandi&lastName=ma&confirmation=DL5HBGT&departureAirport=BOS&flightNumber=126&email=sptest%40expedia.com&ticketNumber=&flightDay=27&flightMonth=1",
+               "sharableItemDetailURL":"https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1M7nkfGMpNuW45-jpNeURf3"
             }
           ],
           "airlineCheckInURL":"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=WW&firstName=sandi&lastName=ma&confirmation=DL5HBGT&departureAirport=BOS&flightNumber=126&email=sptest%40expedia.com&ticketNumber=&flightDay=27&flightMonth=1",

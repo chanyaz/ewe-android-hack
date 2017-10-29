@@ -2130,6 +2130,7 @@ public class OmnitureTracking {
 	private static final String ITIN_FLIGHT_CHECKIN_SUCCESS = "App.Itinerary.Flight.CheckIn.Yes";
 	private static final String ITIN_FLIGHT_CHECKIN_FAILURE = "App.Itinerary.Flight.CheckIn.No";
 	private static final String ITIN_FLIGHT_CHECKIN_VISIT = "App.Itinerary.Flight.VisitAirline";
+	private static final String ITIN_FLIGHT_BAGGAGEINFO = "App.Itinerary.Flight.Baggage.Info";
 	private static final String ITIN_FLIGHT_DIRECTIONS = "App.Itinerary.Flight.Airport.Directions";
 	private static final String ITIN_FLIGHT_TERMINAL_MAPS = "App.Itinerary.Flight.Airport.TerminalMaps";
 	private static final String ITIN_FLIGHT_INFO = "App.Itinerary.Flight.Info.Additional";
@@ -2560,6 +2561,11 @@ public class OmnitureTracking {
 			tripType = "ST";
 		}
 		return "Flight;Agency Flight:" + airlineCode + ":" + tripType + ";;";
+	}
+
+	public static void trackItinFlightBaggageInfoClicked() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_BAGGAGEINFO);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	public static void trackItinFlightVisitSite() {

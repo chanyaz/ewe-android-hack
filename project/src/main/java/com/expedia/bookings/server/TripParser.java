@@ -483,6 +483,15 @@ public class TripParser {
 			flight.addTraveler(parseTraveler(passengersArr.optJSONObject(a)));
 		}
 
+		//Parse rules
+		JSONObject rulesJson = obj.optJSONObject("rules");
+		if (rulesJson != null) {
+			JSONObject additionalAirlineFeesJson = rulesJson.optJSONObject("additionalAirlineFees");
+			if (additionalAirlineFeesJson != null && additionalAirlineFeesJson.has("url")) {
+				flight.setAdditionalAirlineFees(additionalAirlineFeesJson.optString("url"));
+			}
+		}
+
 		// Parse the legs
 		JSONArray legsArr = obj.optJSONArray("legs");
 		for (int a = 0; a < legsArr.length(); a++) {

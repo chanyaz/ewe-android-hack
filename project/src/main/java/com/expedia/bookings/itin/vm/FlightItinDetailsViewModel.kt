@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.mobiata.android.Log
 import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.utils.FormatUtils
@@ -24,11 +25,14 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     val createTotalDurationWidgetSubject: PublishSubject<String> = PublishSubject.create<String>()
     val clearLegSummaryContainerSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
     val updateConfirmationSubject: PublishSubject<ItinConfirmationViewModel.WidgetParams> = PublishSubject.create<ItinConfirmationViewModel.WidgetParams>()
+    val createBaggageInfoWebviewWidgetSubject: PublishSubject<String> = PublishSubject.create<String>()
+
     fun onResume() {
         updateItinCardDataFlight()
         updateToolbar()
         updateLegSummaryWidget()
         updateConfirmationWidget()
+        updateBaggageInfoUrl()
     }
 
     @VisibleForTesting
@@ -51,6 +55,11 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         val destinationCity = itinCardDataFlight.flightLeg.lastWaypoint.airport.mCity ?: ""
         val startDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataFlight.startDate).capitalize()
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(destinationCity, startDate, !itinCardDataFlight.isSharedItin))
+    }
+
+    fun updateBaggageInfoUrl() {
+        val url = itinCardDataFlight.baggageInfoUrl
+        createBaggageInfoWebviewWidgetSubject.onNext(url);
     }
 
     @VisibleForTesting

@@ -49,6 +49,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <com.expedia.bookings.itin.widget.ItinWebviewInfoWidget
+                android:id="@+id/widget_itin_webview_info_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
     </com.expedia.bookings.widget.ScrollView>

@@ -23,6 +23,7 @@ public class TripFlight extends TripComponent {
 	private String mDestinationRegionId;
 	private TicketingStatus mTicketingStatus = TicketingStatus.NONE;
 	private String mCheckInLink;
+	private String mAdditionalAirlineFees;
 
 	public TripFlight() {
 		super(Type.FLIGHT);
@@ -91,6 +92,15 @@ public class TripFlight extends TripComponent {
 	public void setTicketingStatus(TicketingStatus ticketingStatus) {
 		mTicketingStatus = ticketingStatus;
 	}
+
+	public String getAdditionalAirlineFees() {
+		return mAdditionalAirlineFees;
+	}
+
+	public void setAdditionalAirlineFees(String mAdditionalAirlineFees) {
+		this.mAdditionalAirlineFees = mAdditionalAirlineFees;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -108,6 +118,7 @@ public class TripFlight extends TripComponent {
 			obj.put("destinationRegionId", mDestinationRegionId);
 			obj.put("checkInLink", mCheckInLink);
 			JSONUtils.putEnum(obj, "ticketingStatus", mTicketingStatus);
+			obj.put("additionalAirlineFees", mAdditionalAirlineFees);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -124,6 +135,8 @@ public class TripFlight extends TripComponent {
 		mDestinationRegionId = obj.optString("destinationRegionId", "");
 		mCheckInLink = obj.optString("checkInLink", "");
 		mTicketingStatus = JSONUtils.getEnum(obj, "ticketingStatus", TicketingStatus.class);
+		mAdditionalAirlineFees = obj.optString("additionalAirlineFees", "");
 		return true;
 	}
+
 }

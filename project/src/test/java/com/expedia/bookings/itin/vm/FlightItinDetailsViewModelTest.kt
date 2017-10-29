@@ -10,6 +10,7 @@ import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.flightlib.data.Airport
 import com.mobiata.flightlib.data.Seat
 import com.mobiata.flightlib.data.Waypoint
+import junit.framework.Assert
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
@@ -36,6 +37,7 @@ class FlightItinDetailsViewModelTest {
     val createLegSummaryWidgetsSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
     val updateConfirmationSubscriber = TestSubscriber<ItinConfirmationViewModel.WidgetParams>()
     val createLayoverSubscriber = TestSubscriber<String>()
+    val createBaggageInfoWebviewSubcriber = TestSubscriber<String>()
 
     @Before
     fun setup() {
@@ -320,6 +322,16 @@ class FlightItinDetailsViewModelTest {
 
         assertEquals(null, testItinCardData.flightLeg.segments[0].layoverDuration)
         createLayoverSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun baggageInfoWebViewButton() {
+        sut.createBaggageInfoWebviewWidgetSubject.subscribe(createBaggageInfoWebviewSubcriber)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        sut.itinCardDataFlight = testItinCardData
+        sut.updateBaggageInfoUrl()
+        createBaggageInfoWebviewSubcriber.assertValueCount(1)
+        createBaggageInfoWebviewSubcriber.assertValue(testItinCardData.baggageInfoUrl)
     }
 
     @Test

@@ -1419,6 +1419,8 @@
     <string name="itin_flight_layover_TEMPLATE">{layover} layover</string>
     <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
     <string name="itin_flight_total_duration_TEMPLATE">Total Duration: {duration}</string>
+    <!--Flight itin baggage information text-->
+    <string name="itin_baggage_info_button_text">Baggage information</string>
 
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->

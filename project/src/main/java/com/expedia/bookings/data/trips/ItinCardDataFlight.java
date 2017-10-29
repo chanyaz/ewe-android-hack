@@ -37,6 +37,10 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		setId(parent.getUniqueId() + ":" + mLegNumber);
 	}
 
+	public String getBaggageInfoUrl() {
+		return ((TripFlight) getTripComponent()).getAdditionalAirlineFees();
+	}
+
 	public int getLegNumber() {
 		return mLegNumber;
 	}

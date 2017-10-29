@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.vm.FlightItinBagaggeInfoViewModel
 import com.expedia.bookings.itin.vm.FlightItinConfirmationViewModel
 import com.expedia.bookings.itin.vm.FlightItinDetailsViewModel
 import com.expedia.bookings.itin.vm.FlightItinLayoverViewModel
@@ -17,6 +18,7 @@ import com.expedia.bookings.itin.widget.ItinTimeDurationWidget
 import com.expedia.bookings.itin.widget.FlightItinSegmentSummaryWidget
 import com.expedia.bookings.itin.widget.ItinConfirmationWidget
 import com.expedia.bookings.itin.widget.ItinToolbar
+import com.expedia.bookings.itin.widget.ItinWebviewInfoWidget
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -62,6 +64,12 @@ class FlightItinDetailsActivity : AppCompatActivity() {
             flightTotalDurationWidget.viewModel = FlightItinTotalDurationViewModel(this)
             flightTotalDurationWidget.viewModel.updateWidget(totalDuration)
         }
+
+        vm.createBaggageInfoWebviewWidgetSubject.subscribe { webviewURL ->
+            flightItinBaggageInfoWidget.viewModel = FlightItinBagaggeInfoViewModel(this)
+            flightItinBaggageInfoWidget.viewModel.updateWidgetWithBaggageInfoUrl(webviewURL)
+
+        }
         vm.updateConfirmationSubject.subscribe { params ->
             itinConfirmationWidget.viewModel.updateWidget(params)
         }
@@ -82,6 +90,8 @@ class FlightItinDetailsActivity : AppCompatActivity() {
     }
 
     private val flightTotalDurationWidget: ItinTimeDurationWidget by bindView(R.id.widget_itin_flight_total_duration_cardview)
+
+    private val flightItinBaggageInfoWidget: ItinWebviewInfoWidget by bindView(R.id.widget_itin_webview_info_cardview)
 
     private var confirmationViewModel: FlightItinConfirmationViewModel by Delegates.notNull()
 
