@@ -11,7 +11,6 @@ import android.view.ViewStub
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.ApiError
@@ -32,6 +31,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.vm.PackageHotelResultsViewModel
+import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
@@ -371,14 +371,12 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.animationFinalize(forward)
+            resultsPresenter.animationFinalize(enableLocation = forward)
             AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar)
         }
     }
 
-    private val resultsToDetail = object : Presenter.Transition(PackageHotelResultsPresenter::class.java.name, HotelDetailPresenter::class.java.name, DecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
-        private var detailsHeight: Int = 0
-
+    private val resultsToDetail = object : LeftToRightTransition(this, PackageHotelResultsPresenter::class.java, HotelDetailPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             hideBundlePriceOverviewObserver.onNext(forward)
             if (!forward) {
@@ -390,45 +388,31 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             } else {
                 detailPresenter.hotelDetailView.refresh()
             }
-            val parentHeight = height
-            detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext())
-            val pos = (if (forward) detailsHeight else 0).toFloat()
-            detailPresenter.translationY = pos
-            detailPresenter.visibility = View.VISIBLE
-            detailPresenter.animationStart()
-            resultsPresenter.visibility = View.VISIBLE
             if (resultsPresenter.currentState == BaseHotelResultsPresenter.ResultsMap::class.java.name) {
                 bundleSlidingWidget.visibility = if (forward) VISIBLE else GONE
             }
-        }
-
-        override fun updateTransition(f: Float, forward: Boolean) {
-            val pos = if (forward) (detailsHeight - (f * detailsHeight)) else (f * detailsHeight)
-            detailPresenter.translationY = pos
-            detailPresenter.animationUpdate(f, !forward)
+            super.startTransition(forward)
         }
 
         override fun endTransition(forward: Boolean) {
-            detailPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
-            detailPresenter.translationY = 0f
-            resultsPresenter.animationFinalize(!forward)
-            detailPresenter.animationFinalize()
+            super.endTransition(forward)
+            resultsPresenter.animationFinalize(enableLocation = !forward)
+            detailPresenter.animationFinalize(forward)
             loadingOverlay.visibility = View.GONE
+
             if (!forward) {
-                bundleSlidingWidget.bundlePriceWidget.enable()
-                val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
-                bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
-                bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
-                    show(bundleSlidingWidget)
-                }
-            }
-            if (forward) {
-                detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
-                AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
-            } else {
+                enableSlidingWidget()
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar)
                 trackEventSubject.onNext(Unit)
+            }
+        }
+
+        private fun enableSlidingWidget() {
+            bundleSlidingWidget.bundlePriceWidget.enable()
+            val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
+            bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
+            bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
+                show(bundleSlidingWidget)
             }
         }
     }

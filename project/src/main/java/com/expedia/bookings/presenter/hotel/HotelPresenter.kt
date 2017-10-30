@@ -35,6 +35,7 @@ import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.hotel.util.HotelSuggestionManager
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
+import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ClientLogServices
@@ -573,7 +574,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.animationFinalize(forward)
+            resultsPresenter.animationFinalize(enableLocation = forward)
             backStack.push(searchPresenter)
         }
     }
@@ -608,46 +609,27 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (!forward) searchPresenter.resetSuggestionTracking()
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.animationFinalize(forward, true)
+            resultsPresenter.animationFinalize(enableLocation = forward)
             searchPresenter.animationFinalize(forward)
             if (!forward) HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
-    private val resultsToDetail = object : Presenter.Transition(HotelResultsPresenter::class.java.name, HotelDetailPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
-        private var detailsHeight: Int = 0
-
+    private val resultsToDetail = object : LeftToRightTransition(this, HotelResultsPresenter::class.java, HotelDetailPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             if (!forward) {
                 detailPresenter.hotelDetailView.resetViews()
             } else {
                 detailPresenter.hotelDetailView.refresh()
             }
-            val parentHeight = height
-            detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext())
-            val pos = (if (forward) detailsHeight else 0).toFloat()
-            detailPresenter.translationY = pos
-            detailPresenter.visibility = View.VISIBLE
-            detailPresenter.animationStart()
-            resultsPresenter.visibility = View.VISIBLE
-        }
-
-        override fun updateTransition(f: Float, forward: Boolean) {
-            val pos = if (forward) (detailsHeight - (f * detailsHeight)) else (f * detailsHeight)
-            detailPresenter.translationY = pos
-            detailPresenter.animationUpdate(f, !forward)
+            super.startTransition(forward)
         }
 
         override fun endTransition(forward: Boolean) {
-            detailPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
-            detailPresenter.translationY = 0f
-            resultsPresenter.animationFinalize(!forward)
-            detailPresenter.animationFinalize()
-            loadingOverlay.visibility = View.GONE
-            if (forward) {
-                detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
-            } else {
+            super.endTransition(forward)
+            detailPresenter.animationFinalize(forward)
+            resultsPresenter.animationFinalize(enableLocation = !forward)
+            if (!forward) {
                 resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
             }
         }
@@ -834,6 +816,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     private val checkoutToConfirmation = object : ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (forward) {
                 checkoutPresenter.visibility = GONE
                 AccessibilityUtil.delayFocusToToolbarNavigationIcon(confirmationPresenter.toolbar, 300)

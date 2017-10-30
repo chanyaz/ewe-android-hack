@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter;
 
+import android.support.annotation.CallSuper;
 import android.view.View;
 
 public class LeftToRightTransition extends Presenter.Transition {
@@ -14,6 +15,7 @@ public class LeftToRightTransition extends Presenter.Transition {
 		this.right = right.getName();
 	}
 
+	@CallSuper
 	@Override
 	public void startTransition(boolean forward) {
 		for (int i = 0; i < presenter.getChildCount(); i++) {
@@ -31,6 +33,7 @@ public class LeftToRightTransition extends Presenter.Transition {
 		}
 	}
 
+	@CallSuper
 	@Override
 	public void updateTransition(float f, boolean forward) {
 		for (int i = 0; i < presenter.getChildCount(); i++) {
@@ -48,6 +51,7 @@ public class LeftToRightTransition extends Presenter.Transition {
 		}
 	}
 
+	@CallSuper
 	@Override
 	public void endTransition(boolean forward) {
 		for (int i = 0; i < presenter.getChildCount(); i++) {

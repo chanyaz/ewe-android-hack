@@ -41,10 +41,8 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.transition.HorizontalTranslateTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
@@ -1164,11 +1162,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         navIcon.parameter = factor
     }
 
-    fun animationFinalize(forward: Boolean, isSearchToResultsTransition: Boolean = false) {
+    fun animationFinalize(enableLocation: Boolean) {
         recyclerTempBackground.visibility = View.GONE
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
         if (havePermissionToAccessLocation(context)) {
-            googleMap?.isMyLocationEnabled = forward
+            googleMap?.isMyLocationEnabled = enableLocation
         }
     }
 

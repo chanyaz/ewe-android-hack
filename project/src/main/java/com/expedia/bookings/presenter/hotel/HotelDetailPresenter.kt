@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.DepositTermsInfoWidget
@@ -26,7 +27,6 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     val hotelDepositInfo : DepositTermsInfoWidget by bindView(R.id.hotel_deposit_info)
     val hotelVIPAccessInfo : VIPAccessInfoWidget by bindView(R.id.hotel_vip_access_info)
     val hotelMapView: HotelMapView by bindView(R.id.hotel_map_view)
-    var searchTop = 0
 
     val hotelDepositInfoObserver = endlessObserver<Pair<String, HotelOffersResponse.HotelRoomResponse>> { pair ->
         hotelDepositInfo.setText(pair)
@@ -125,25 +125,16 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         show(hotelVIPAccessInfo)
     }
 
-    fun animationStart(): Float {
-        searchTop = hotelDetailView.hotelDetailsToolbar.toolbarTitle.top
-        hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
-        hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = searchTop.toFloat()
-        hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = searchTop.toFloat()
-        return hotelDetailView.hotelDetailsToolbar.alpha
-    }
-
-    fun animationUpdate(f: Float, forward: Boolean) {
-        val yTrans = if (forward) -(searchTop * -f) else (searchTop * (1 - f))
-        hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = yTrans
-        hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = yTrans
-    }
-
-    fun animationFinalize() {
+    fun animationFinalize(forward: Boolean) {
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = 0f
         hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = 0f
+
+        if (forward) {
+            hotelDetailView.viewmodel.addViewsAfterTransition()
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(hotelDetailView.hotelDetailsToolbar.toolbar)
+        }
     }
 
     override fun back(): Boolean {
