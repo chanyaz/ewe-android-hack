@@ -97,8 +97,6 @@
     <string name="acct__common_password">Velg et mer sikkert passord</string>
 
     <!-- Facebook -->
-    <!-- fetching information from Facebook -->
-    <string name="acct__fb_fetching_info">Henter informasjon fra Facebook…</string>
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">E-post-tillatelse</string>
     <!-- User Denied email permission re-request message -->

@@ -30,7 +30,6 @@
     <color name="acct__single_page_checkbox_checked_disable_color">#800947B2</color>
     <color name="acct__single_page_toolbar_color">@color/acct__exp_launch_blue</color>
     <color name="acct__single_page_create_account_bg_color">@color/acct__blue_1</color>
-    <color name="acct__single_page_disabled_account_bg_color">@color/acct__blue_1_50</color>
     <color name="acct__single_page_separate_line_color">@color/acct__grey_1</color>
     <color name="acct__single_page_text_hint_color">@color/acct__grey_1</color>
     <color name="acct__single_page_error_color">#e42000</color>

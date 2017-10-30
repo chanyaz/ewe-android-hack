@@ -1,5 +1,6 @@
 package com.expedia.account;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -427,6 +428,7 @@ public class AccountView extends BufferedPresenter {
 						// Since we don't focus until later, make sure to suppress at the end too
 						vSignInLayout.suppressCurrentErrors();
 						postDelayed(new Runnable() {
+							@TargetApi(22)
 							@Override
 							public void run() {
 								if (AccessibilityUtil.isTalkbackEnabled(getContext()) == true) {

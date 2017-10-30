@@ -97,8 +97,6 @@
     <string name="acct__common_password">より安全性の高いパスワードを設定してください</string>
 
     <!-- Facebook -->
-    <!-- fetching information from Facebook -->
-    <string name="acct__fb_fetching_info">Facebook から情報を取得中…</string>
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">Eメールアドレスの認証</string>
     <!-- User Denied email permission re-request message -->

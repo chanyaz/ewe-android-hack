@@ -97,8 +97,6 @@
     <string name="acct__common_password">Vui lòng chọn mật khẩu an toàn hơn</string>
 
     <!-- Facebook -->
-    <!-- fetching information from Facebook -->
-    <string name="acct__fb_fetching_info">Đang tải thông tin từ Facebook…</string>
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">Quyền truy xuất email</string>
     <!-- User Denied email permission re-request message -->

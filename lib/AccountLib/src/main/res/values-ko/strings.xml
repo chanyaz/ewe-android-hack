@@ -97,8 +97,6 @@
     <string name="acct__common_password">보다 보안성이 높은 비밀번호를 선택해 주세요.</string>
 
     <!-- Facebook -->
-    <!-- fetching information from Facebook -->
-    <string name="acct__fb_fetching_info">Facebook에서 정보 가져오는 중…</string>
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">이메일 권한</string>
     <!-- User Denied email permission re-request message -->

@@ -97,8 +97,6 @@
     <string name="acct__common_password">โปรดเลือกรหัสผ่านที่เดาได้ยากกว่านี้</string>
 
     <!-- Facebook -->
-    <!-- fetching information from Facebook -->
-    <string name="acct__fb_fetching_info">กำลังรับข้อมูลจาก Facebook…</string>
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">การอนุญาตอีเมล</string>
     <!-- User Denied email permission re-request message -->

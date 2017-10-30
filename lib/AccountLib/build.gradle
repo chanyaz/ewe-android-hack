@@ -18,7 +18,6 @@ android {
 
     lintOptions {
         abortOnError false
-        disable 'ResourceName', 'NewApi', 'UnusedAttribute', 'Deprecated', 'UnusedResources'
     }
 }
 

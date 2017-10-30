@@ -99,8 +99,6 @@
     <string name="acct__common_password">Please choose a more secure password</string>
 
     <!-- Facebook -->
-    <!-- fetching information from Facebook -->
-    <string name="acct__fb_fetching_info">Fetching information from Facebook…</string>
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">Email Permission</string>
     <!-- User Denied email permission re-request message -->

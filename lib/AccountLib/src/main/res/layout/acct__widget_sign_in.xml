@@ -94,7 +94,7 @@
                 android:layout_marginBottom="@dimen/acct__about_section_margin"
                 android:layout_marginRight="@dimen/acct__about_section_margin"
                 android:drawablePadding="4dp"
-                android:drawableRight="@drawable/google_change_icon"
+                android:drawableRight="@drawable/acct__google_change_icon"
                 android:text="@string/acct__google_account_change_string"
                 android:textSize="15sp" />
 

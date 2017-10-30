@@ -97,8 +97,6 @@
     <string name="acct__common_password">Valitse vahvempi salasana</string>
 
     <!-- Facebook -->
-    <!-- fetching information from Facebook -->
-    <string name="acct__fb_fetching_info">Tietoja haetaan Facebookista…</string>
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">Lupa sähköpostiosoitteeseen</string>
     <!-- User Denied email permission re-request message -->

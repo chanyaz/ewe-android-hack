@@ -4,7 +4,6 @@
     <dimen name="acct__keyboard_visible_space_above_buttons">14dp</dimen>
     <dimen name="acct__forgot_password_top_margin">0dp</dimen>
     <dimen name="acct__extra_tablet_top_margin">100dp</dimen>
-    <dimen name="acct__email_lookup_top_gap">48dp</dimen>
     <dimen name="acct__sign_in_bottom_gap">150dp</dimen>
     <dimen name="acct__tos_bottom_gap">150dp</dimen>
 

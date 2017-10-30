@@ -25,7 +25,8 @@
         android:nextFocusDown="@+id/parent_user_image_presenter"
         android:focusable="true"
         android:accessibilityTraversalBefore="@id/parent_user_image_presenter"
-        android:accessibilityLiveRegion="assertive"/>
+        android:accessibilityLiveRegion="assertive"
+        tools:targetApi="22"/>
 
     <com.expedia.account.view.HeaderLayout
         android:id="@+id/parent_user_image_presenter"
@@ -37,7 +38,8 @@
         android:clipToPadding="false"
         android:focusable="true"
         android:accessibilityTraversalAfter="@id/toolbar"
-        android:accessibilityLiveRegion="polite"/>
+        android:accessibilityLiveRegion="polite"
+        tools:targetApi="22"/>
 
     <com.expedia.account.view.SignInLayout
         android:id="@+id/parent_sign_in_layout"
@@ -45,7 +47,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_height="match_parent"
         android:accessibilityTraversalAfter="@id/parent_user_image_presenter"
-        android:accessibilityLiveRegion="polite"/>
+        android:accessibilityLiveRegion="polite"
+        tools:targetApi="22"/>
 
     <com.expedia.account.view.FacebookAPIHostLayout
         android:id="@+id/parent_facebook_api_host_layout"
@@ -88,7 +91,8 @@
         android:layout_height="match_parent"
         android:accessibilityTraversalAfter="@id/parent_user_image_presenter"
         android:accessibilityLiveRegion="polite"
-        android:importantForAccessibility="yes"/>
+        android:importantForAccessibility="yes"
+        tools:targetApi="22"/>
 
     <com.expedia.account.view.TOSLayout
         android:id="@+id/parent_create_account_tos_layout"
@@ -97,7 +101,8 @@
         android:layout_height="match_parent"
         android:accessibilityLiveRegion="polite"
         android:accessibilityTraversalAfter="@id/parent_user_image_presenter"
-        android:importantForAccessibility="yes"/>
+        android:importantForAccessibility="yes"
+        tools:targetApi="22"/>
 
     <com.expedia.account.view.WelcomeLayout
         android:id="@+id/welcome_loading_container"
