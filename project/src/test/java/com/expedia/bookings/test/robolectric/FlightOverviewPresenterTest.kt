@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -20,6 +21,7 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightCreateTripParams
+import com.expedia.bookings.data.flights.BaggageInfoResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
@@ -39,6 +41,7 @@ import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import com.expedia.vm.packages.PackageSearchType
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
@@ -63,6 +66,7 @@ class FlightOverviewPresenterTest {
 
     lateinit var flightLeg: FlightLeg
     lateinit var activity: FragmentActivity
+
     val flightServiceRule = ServicesRule(FlightServices::class.java)
         @Rule get
 
@@ -403,6 +407,64 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
+    fun testOutboundBaggageFeeInfoEmptyCharge() {
+        SettingUtils.save(activity.baseContext, R.string.preference_show_baggage_info_flights, true)
+        createExpectedFlightLeg()
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        val outboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
+        flightLeg.baggageFeesUrl = outboundFlightBaggageFeesURL
+        outboundFlightWidget.baggageInfoView.baggageInfoParentContainer = LayoutInflater.from(activity).inflate(R.layout.baggage_info_parent, null) as LinearLayout
+        outboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(outboundFlightBaggageInfoTestSubscriber)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        outboundFlightWidget.baggageInfoView.baggageInfoViewModel.makeBaggageInfoObserver().onNext(makeBaggageInfoResponse())
+        outboundFlightBaggageInfoTestSubscriber.assertValue(outboundFlightBaggageFeesURL)
+    }
+
+    @Test
+    fun testInboundBaggageFeeInfoError() {
+        SettingUtils.save(activity.baseContext, R.string.preference_show_baggage_info_flights, true)
+        createExpectedFlightLeg()
+        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
+        val inboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        val inboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
+        flightLeg.baggageFeesUrl = inboundFlightBaggageFeesURL
+        inboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(inboundFlightBaggageInfoTestSubscriber)
+        prepareBundleWidgetViewModel(inboundFlightWidget.viewModel)
+        inboundFlightWidget.baggageInfoView.baggageInfoViewModel.makeBaggageInfoObserver().onError(null)
+        inboundFlightBaggageInfoTestSubscriber.assertValue(inboundFlightBaggageFeesURL)
+    }
+
+    @Test
+    fun testInboundBaggageFeeInfoEmptyCharge() {
+        SettingUtils.save(activity.baseContext, R.string.preference_show_baggage_info_flights, true)
+        createExpectedFlightLeg()
+        val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
+        val inboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        val inboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
+        flightLeg.baggageFeesUrl = inboundFlightBaggageFeesURL
+        inboundFlightWidget.baggageInfoView.baggageInfoParentContainer = LayoutInflater.from(activity).inflate(R.layout.baggage_info_parent, null) as LinearLayout
+        inboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(inboundFlightBaggageInfoTestSubscriber)
+        prepareBundleWidgetViewModel(inboundFlightWidget.viewModel)
+        inboundFlightWidget.baggageInfoView.baggageInfoViewModel.makeBaggageInfoObserver().onNext(makeBaggageInfoResponse())
+        inboundFlightBaggageInfoTestSubscriber.assertValue(inboundFlightBaggageFeesURL)
+    }
+
+    @Test
+    fun testOutboundBaggageFeeInfoError() {
+        SettingUtils.save(activity.baseContext, R.string.preference_show_baggage_info_flights, true)
+        createExpectedFlightLeg()
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        val outboundFlightBaggageInfoTestSubscriber = TestSubscriber<String>()
+        val outboundFlightBaggageFeesURL = "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=SEA"
+        flightLeg.baggageFeesUrl = outboundFlightBaggageFeesURL
+        outboundFlightWidget.viewModel.baggageInfoUrlSubject.subscribe(outboundFlightBaggageInfoTestSubscriber)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        outboundFlightWidget.baggageInfoView.baggageInfoViewModel.makeBaggageInfoObserver().onError(null)
+        outboundFlightBaggageInfoTestSubscriber.assertValue(outboundFlightBaggageFeesURL)
+    }
+
+    @Test
     fun testInboundWidgetBaggageInfoClick() {
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
@@ -607,6 +669,8 @@ class FlightOverviewPresenterTest {
         airlineSegment.layoverDurationHours = 0
         airlineSegment.layoverDurationMinutes = 0
         airlineSegment.elapsedDays = 0
+        airlineSegment.seatClass = "coach"
+        airlineSegment.departureTime = "October 23, 2017 03:03:03 AM"
         airlineSegment.bookingCode = "O"
         return airlineSegment
     }
@@ -645,5 +709,13 @@ class FlightOverviewPresenterTest {
 
     private fun setShowMoreInfoTest() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    }
+
+    private fun makeBaggageInfoResponse(): BaggageInfoResponse {
+        val baggageInfoResponse = BaggageInfoResponse()
+        baggageInfoResponse.airlineName = "JetBlue Airways"
+        var chargesList = ArrayList<HashMap<String, String>>()
+        baggageInfoResponse.charges = chargesList
+        return baggageInfoResponse
     }
 }

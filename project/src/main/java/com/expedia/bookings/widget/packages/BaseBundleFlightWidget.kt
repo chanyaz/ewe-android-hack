@@ -33,6 +33,8 @@ import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
+import com.expedia.vm.flights.BaggageInfoView
+import com.expedia.vm.flights.BaggageInfoViewModel
 import com.expedia.vm.flights.FlightOverviewRowViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
@@ -67,6 +69,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     val baggagePaymentDivider: View by bindView(R.id.baggage_payment_divider)
     val baggageFeesButton: View by bindView(R.id.show_baggage_fees_button)
     val paymentFeesButton: View by bindView(R.id.show_payment_fees_button)
+    lateinit var baggageInfoView: BaggageInfoView
 
     var viewModel: BundleFlightViewModel by notNullAndObservable { vm ->
         vm.showRowContainerWithMoreInfo.subscribe {
@@ -175,6 +178,18 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById<ImageView>(R.id.flight_overview_collapse_icon)
             }
             this.selectedCardObservable.onNext(Unit)
+        }
+
+        if (viewModel.lob == LineOfBusiness.FLIGHTS_V2) {
+            baggageInfoView = BaggageInfoView(context)
+            baggageInfoView.baggageInfoViewModel = BaggageInfoViewModel(context)
+            baggageInfoView.baggageInfoViewModel.showBaggageInfoWebViewSubject.subscribe {
+                viewModel.openBaggageFeeWebView()
+            }
+            vm.showBaggageInfoSubject.subscribe { flight ->
+                baggageInfoView.baggageInfoViewModel.showLoaderSubject.onNext(true)
+                baggageInfoView.getBaggageInfo(flight)
+            }
         }
     }
 

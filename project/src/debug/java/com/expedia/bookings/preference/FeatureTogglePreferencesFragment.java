@@ -31,6 +31,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_activity_map);
 
 		//Flight Features
+		initializeFeatureCheck(R.string.preference_show_baggage_info_flights);
 
 		//Packages Features
 		initializeFeatureCheck(R.string.preference_packages_mid_api);

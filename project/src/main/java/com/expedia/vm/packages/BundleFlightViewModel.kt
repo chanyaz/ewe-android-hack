@@ -15,6 +15,7 @@ import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
@@ -30,7 +31,6 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val guests = BehaviorSubject.create<Int>()
     val suggestion = BehaviorSubject.create<SuggestionV4>()
     val flight = BehaviorSubject.create<FlightLeg>()
-
     val flightsRowExpanded = PublishSubject.create<Unit>()
 
     //output
@@ -49,13 +49,14 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val showRowContainerWithMoreInfo = BehaviorSubject.create<Boolean>(AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
             && (lob == LineOfBusiness.FLIGHTS_V2))
     val updateUpsellClassPreference = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
-
     val showPaymentInfoLinkObservable = PublishSubject.create<Boolean>()
     val showBaggageInfoLinkObservable = PublishSubject.create<Boolean>()
     val baggageInfoUrlSubject = PublishSubject.create<String>()
     val baggageInfoClickSubject = PublishSubject.create<Unit>()
     val paymentFeeInfoClickSubject = PublishSubject.create<Unit>()
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
+    val showBaggageInfoSubject = PublishSubject.create<FlightLeg>()
+    val showBaggageInfoFlightLob = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsFrenchLegalBaggageInfo,R.string.preference_show_baggage_info_flights) && (lob == LineOfBusiness.FLIGHTS_V2)
     lateinit var baggageUrl: String
 
     init {
@@ -128,17 +129,25 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             showPaymentInfoLinkObservable.onNext(lob == LineOfBusiness.FLIGHTS_V2 &&
                     (flight.mayChargeObFees || PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()))
 
+            baggageInfoClickSubject.subscribe {
+                if (showBaggageInfoFlightLob) {
+                    showBaggageInfoSubject.onNext(flight)
+                } else {
+                    openBaggageFeeWebView()
+                }
+            }
+
             totalDurationContDescObserver.onNext(totalDurationContentDescription)
             totalDurationObserver.onNext(FlightV2Utils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))
             selectedFlightLegObservable.onNext(flight)
         }).subscribe()
+    }
 
-        baggageInfoClickSubject.subscribe {
-            if (baggageUrl.contains("http")) {
-                baggageInfoUrlSubject.onNext(baggageUrl)
-            } else {
-                baggageInfoUrlSubject.onNext(e3EndpointUrl + baggageUrl)
-            }
+    fun openBaggageFeeWebView() {
+        if (baggageUrl.contains("http")) {
+            baggageInfoUrlSubject.onNext(baggageUrl)
+        } else {
+            baggageInfoUrlSubject.onNext(e3EndpointUrl + baggageUrl)
         }
     }
 }

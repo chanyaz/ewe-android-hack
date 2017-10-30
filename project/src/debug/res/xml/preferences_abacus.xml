@@ -210,6 +210,14 @@
             android:title="Flight subpub change - 15211 " />
 
         <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="16031"
+            android:summary="%s"
+            android:title="French Legal Baggage Info - 16031" />
+
+        <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"

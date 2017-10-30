@@ -1318,6 +1318,12 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.docked_outbound_flight_selection_v2,
 		R.layout.widget_docked_outbound_flight_selection_v2,
 		R.string.itinerary_default_email_message,
+		R.layout.baggage_info_child,
+		R.layout.baggage_info_parent,
+		R.string.spinner_text_baggage_info_fetching,
+		R.string.baggage_info_airline_message_TEMPLATE,
+		R.string.view_details,
+		R.string.airline,
 		//Please add your string above this line to avoid conflicts
 		R.layout.fragment_dialog_soft_prompt
 	};
