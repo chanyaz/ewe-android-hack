@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
-import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -286,7 +285,7 @@ class SlidingBundleWidgetTest {
         Db.setPackageParams(params)
         searchFLights()
         flightResponse  = flightObserver.onNextEvents.get(0)
-        flightResponse.setCurrentOfferModel(flightObserver.onNextEvents[0].getFlightLegs()[0].packageOfferModel)
+        flightResponse.setCurrentOfferPrice(flightObserver.onNextEvents[0].getFlightLegs()[0].packageOfferModel.price)
         Db.setPackageResponse(flightResponse)
     }
 
@@ -307,12 +306,11 @@ class SlidingBundleWidgetTest {
 
     private fun addCurrentOfferToDB(offer: HotelOffersResponse.HotelRoomResponse) {
         var response = Db.getPackageResponse()
-        val currentOffer = PackageOfferModel()
-        currentOffer.price = PackageOfferModel.PackagePrice()
-        currentOffer.price.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
-        currentOffer.price.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings
-        currentOffer.price.pricePerPerson = offer.rateInfo.chargeableRateInfo.packagePricePerPerson
-        response.setCurrentOfferModel(currentOffer)
+        val price = PackageOfferModel.PackagePrice()
+        price.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
+        price.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings
+        price.pricePerPerson = offer.rateInfo.chargeableRateInfo.packagePricePerPerson
+        response.setCurrentOfferPrice(price)
     }
 
     private fun getHotelPresenter(): PackageHotelPresenter {
