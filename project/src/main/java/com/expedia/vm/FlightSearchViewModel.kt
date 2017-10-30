@@ -164,7 +164,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
                 SearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache)
+            if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
                     && !flightSearchParams.hasAdvanceSearchOption() && flightSearchParams.flightCabinClass.equals(FlightServiceClassType.CabinCode.COACH.name)) {
                 val cachedSearchParams = flightSearchParams.buildParamsForCachedSearch(maxStay, getCalendarRules().getMaxDateRange())
                 cachedSearchParamsObservable.onNext(cachedSearchParams)

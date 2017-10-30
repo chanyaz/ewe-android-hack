@@ -4962,7 +4962,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSearchResultCaching);
 		}
 
@@ -4993,7 +4993,7 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 		s.setProp(4, dest);
 
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache) && Strings.isNotEmpty(cacheString)) {
+		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsSearchResultCaching) && Strings.isNotEmpty(cacheString)) {
 			String cacheTrackingString = pageName + ".MobCache." + cacheString;
 			s.setEvar(28, cacheTrackingString);
 			s.setProp(16, cacheTrackingString);

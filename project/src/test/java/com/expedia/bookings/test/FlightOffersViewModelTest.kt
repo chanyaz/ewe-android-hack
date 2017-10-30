@@ -135,7 +135,6 @@ class FlightOffersViewModelTest {
     @Test
     fun testBookableCachedSearchResponse() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
-        SettingUtils.save(context, R.string.preference_flight_search_from_cache, true)
         val resultsTestSubscriber = TestSubscriber<List<FlightLeg>>()
         val cachedCallCompleteTestSubscriber = TestSubscriber<Boolean>()
         val cachedSearchTrackingTestSubscriber = TestSubscriber<String>()
@@ -159,7 +158,6 @@ class FlightOffersViewModelTest {
     @Test
     fun testNonBookableCachedSearchResponse() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
-        SettingUtils.save(context, R.string.preference_flight_search_from_cache, true)
         val resultsTestSubscriber = TestSubscriber<List<FlightLeg>>()
         val cachedCallCompleteTestSubscriber = TestSubscriber<Boolean>()
         val cachedSearchTrackingTestSubscriber = TestSubscriber<String>()
@@ -183,7 +181,6 @@ class FlightOffersViewModelTest {
     @Test
     fun testCachedSearchNoResultsResponse() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
-        SettingUtils.save(context, R.string.preference_flight_search_from_cache, true)
         val resultsTestSubscriber = TestSubscriber<List<FlightLeg>>()
         val cachedCallCompleteTestSubscriber = TestSubscriber<Boolean>()
         val cachedSearchTrackingTestSubscriber = TestSubscriber<String>()

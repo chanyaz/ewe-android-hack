@@ -456,7 +456,6 @@ class FlightSearchViewModelTest {
     @Test
     fun testFLightCachedParams() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
-        SettingUtils.save(context, R.string.preference_flight_search_from_cache, true)
         givenMockServer()
         givenDefaultTravelerComponent()
         createSystemUnderTest()

@@ -177,7 +177,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.setupComplete()
 
         val allViewsLoadedObservable = (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache)) {
+        if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
             allViewsLoadedObservable.withLatestFrom(presenter.flightOfferViewModel.cachedSearchTrackingString, { _, trackingString -> trackingString }).subscribe { trackingString ->
                 trackResultsLoaded(trackingString)
             }

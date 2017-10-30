@@ -32,11 +32,6 @@
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />
 
         <CheckBoxPreference
-            android:key="@string/preference_flight_search_from_cache"
-            android:summary="Rendering flight search results from cache"
-            android:title="Rendering flight search results from cache" />
-
-        <CheckBoxPreference
             android:key="@string/preference_flight_delta_pricing"
             android:summary="Delta Pricing"
             android:title="Delta pricing" />

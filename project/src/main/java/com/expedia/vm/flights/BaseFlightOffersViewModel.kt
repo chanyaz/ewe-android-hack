@@ -200,7 +200,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         return object : Observer<FlightSearchResponse> {
 
             override fun onNext(response: FlightSearchResponse) {
-                if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching, R.string.preference_flight_search_from_cache) ) {
+                if (AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching) ) {
                     // Check for cached api response
                     if (response.isResponseCached()) {
                         isCachedCallCompleted.onNext(true)
