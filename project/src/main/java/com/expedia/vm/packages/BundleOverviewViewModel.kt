@@ -55,7 +55,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             Db.setPackageParams(params)
             val cityName = StrUtils.formatCity(params.destination)
             toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
-            toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+            toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                     .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
                     .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
@@ -67,7 +67,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         flightParamsObservable.subscribe { params ->
             val cityName = StrUtils.formatCity(params.destination)
             toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
-            toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+            toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                     .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
                     .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))

@@ -45,6 +45,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelFilterViewModel
@@ -136,6 +137,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.subtitleSubject.subscribe {
             toolbarSubtitle.text = it
         }
+        vm.subtitleContDescSubject.subscribeContentDescription(toolbarSubtitle)
 
         vm.paramsSubject.subscribe { newParams(it) }
         vm.searchInProgressSubject.subscribe { resetForNewSearch() }

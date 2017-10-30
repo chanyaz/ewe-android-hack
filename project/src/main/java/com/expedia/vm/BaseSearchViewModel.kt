@@ -186,7 +186,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         val startDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start)
         val endDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(end)
         // need to explicitly use "to" for screen readers
-        return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
+        return Phrase.from(context, R.string.start_to_end_date_range_cont_desc_TEMPLATE)
                 .put("startdate", startDate)
                 .put("enddate", endDate)
                 .format().toString()

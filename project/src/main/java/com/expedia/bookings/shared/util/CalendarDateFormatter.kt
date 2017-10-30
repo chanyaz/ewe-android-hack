@@ -10,14 +10,14 @@ class CalendarDateFormatter {
     companion object {
         fun formatStartToEnd(context: Context, start: LocalDate, end: LocalDate): String {
             // need to explicitly use "to" for screen readers
-            return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
+            return Phrase.from(context, R.string.start_to_end_date_range_cont_desc_TEMPLATE)
                     .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start))
                     .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(end))
                     .format().toString()
         }
 
         fun formatStartDashEnd(context: Context, start: LocalDate, end: LocalDate): String {
-            return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+            return Phrase.from(context, R.string.start_dash_end_date_range_TEMPLATE)
                     .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start))
                     .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(end))
                     .format().toString()

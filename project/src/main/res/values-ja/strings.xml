@@ -1743,11 +1743,11 @@
 
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">{startdate} ～ {enddate}</string>
+    <string name="start_dash_end_date_range_TEMPLATE">{startdate} ～ {enddate}</string>
     <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
     <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} ～ {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
-    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
+    <string name="start_to_end_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (片道)</string>
     <!-- Calendar instructions rail start date selected -->
@@ -1756,7 +1756,7 @@
     <string name="calendar_instructions_date_range_flight_select_return_date">次に、帰りの日付を選択</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}、{guests}</string>
+    <string name="start_dash_end_date_range_with_guests_TEMPLATE">{startdate} - {enddate}、{guests}</string>
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}、{guests}</string>
 
@@ -4282,8 +4282,6 @@
     <!-- Label for Selected Cabin Class for two classes. Example. Basic Economy, Economy -->
     <string name="flight_selected_classes_two_class_TEMPLATE">{class_one}、{class_two}</string>
 
-    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="search_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">大人 1 名の旅行者を追加します</string>
     <!--Traveler widget adults minus button content description-->

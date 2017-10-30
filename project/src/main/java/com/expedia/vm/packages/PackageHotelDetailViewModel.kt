@@ -28,7 +28,7 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
     init {
         paramsSubject.subscribe { params ->
             val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
-            val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+            val dates = Phrase.from(context, R.string.start_dash_end_date_range_TEMPLATE)
                     .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
                     .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate())))
                     .format().toString()

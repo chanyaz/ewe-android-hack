@@ -201,7 +201,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     }
 
     private fun getToolbarSubtitle(params: PackageSearchParams): String {
-        return Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+        return Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                 .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate))
                 .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                 .put("guests", StrUtils.formatTravelerString(context, params.guests))

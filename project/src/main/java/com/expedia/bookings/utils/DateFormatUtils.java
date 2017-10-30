@@ -100,7 +100,7 @@ public class DateFormatUtils {
 				.put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(startDate)).format().toString();
 		}
 		else {
-			return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+			return Phrase.from(context, R.string.start_dash_end_date_range_TEMPLATE)
 				.put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(startDate))
 				.put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(endDate)).format().toString();
 		}
@@ -115,19 +115,19 @@ public class DateFormatUtils {
 		DateTime checkoutDateTime = parser.parseDateTime(checkoutDate);
 
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("MMM dd, yyyy");
-		return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+		return Phrase.from(context, R.string.start_dash_end_date_range_TEMPLATE)
 			.put("startdate", formatter.print(checkinDateTime)).put("enddate", formatter.print(checkoutDateTime))
 			.format().toString();
 	}
 
 	public static String formatPackageDateRangeContDesc(Context context, String checkinDate, String checkoutDate) {
 		return formatPackageDateRangeTemplate(context, checkinDate, checkoutDate,
-			R.string.calendar_instructions_date_range_cont_desc_TEMPLATE);
+			R.string.start_to_end_date_range_cont_desc_TEMPLATE);
 	}
 
 	public static String formatPackageDateRange(Context context, String checkinDate, String checkoutDate) {
 		return formatPackageDateRangeTemplate(context, checkinDate, checkoutDate,
-			R.string.calendar_instructions_date_range_TEMPLATE);
+			R.string.start_dash_end_date_range_TEMPLATE);
 	}
 
 	private static String formatPackageDateRangeTemplate(Context context, String checkinDate, String checkoutDate,

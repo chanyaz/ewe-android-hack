@@ -10,7 +10,9 @@ import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.testutils.JSONResourceReader
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -253,7 +255,22 @@ class HotelResultsViewModelTest {
         testErrorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testErrorSubscriber.assertValueCount(1)
         assertEquals(ApiError(ApiError.Code.HOTEL_PINNED_NOT_FOUND), testErrorSubscriber.onNextEvents[0])
+    }
 
+    @Test
+    fun subTitleContDesc() {
+        val testContDescSub = TestSubscriber.create<String>()
+        val expectedText = Phrase.from(context, R.string.start_to_end_plus_guests_cont_desc_TEMPLATE)
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(happyParams.checkIn))
+                .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(happyParams.checkOut))
+                .put("guests", StrUtils.formatGuestString(context, happyParams.guests))
+                .format().toString()
+
+        sut.subtitleContDescSubject.subscribe(testContDescSub)
+
+        sut.paramsSubject.onNext(happyParams)
+        assertEquals(expectedText, testContDescSub.onNextEvents[0],
+                "FAILURE: Expected 'to' text to be explicit")
     }
 
     private fun makeHappyParams(): HotelSearchParams {

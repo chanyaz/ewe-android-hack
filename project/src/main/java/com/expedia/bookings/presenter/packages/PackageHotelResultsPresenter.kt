@@ -16,6 +16,7 @@ import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.PackageFilterViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 
@@ -33,6 +34,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.subtitleSubject.subscribe {
             toolbarSubtitle.text = it
         }
+        vm.subtitleContDescSubject.subscribeContentDescription(toolbarSubtitle)
 
         vm.paramsSubject.subscribe { params ->
             (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints

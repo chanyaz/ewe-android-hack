@@ -7,7 +7,6 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.vm.rail.RailSearchViewModel
 import com.squareup.phrase.Phrase
@@ -23,7 +22,6 @@ import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
 import kotlin.test.assertNull
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -232,7 +230,7 @@ class RailSearchViewModelTest {
     @Test
     fun testCalendarInstructionTextRoundTripBothDatesComplete() {
 
-        val expectedInstructionText = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+        val expectedInstructionText = Phrase.from(context, R.string.start_dash_end_date_range_TEMPLATE)
                 .put("startdate", expectedStartDateString).put("enddate", expectedReturnDateString)
                 .format().toString()
 

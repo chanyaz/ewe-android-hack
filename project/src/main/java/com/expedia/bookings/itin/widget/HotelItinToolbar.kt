@@ -61,12 +61,12 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
     private fun buildToolbarSubtitleForDates(itinCardDataHotel: ItinCardDataHotel) {
         val tripStartDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataHotel.startDate)
         val tripEndDate = LocaleBasedDateFormatUtils.dateTimeToMMMd(itinCardDataHotel.endDate)
-        val tripDateString = Phrase.from(this, R.string.calendar_instructions_date_range_TEMPLATE)
+        val tripDateString = Phrase.from(this, R.string.start_dash_end_date_range_TEMPLATE)
                 .put("startdate", tripStartDate)
                 .put("enddate", tripEndDate)
                 .format().toString()
         toolbarSubtitleTextView.text = tripDateString
-        val tripDateContDesc = Phrase.from(this, R.string.calendar_instructions_date_range_cont_desc_TEMPLATE)
+        val tripDateContDesc = Phrase.from(this, R.string.start_to_end_date_range_cont_desc_TEMPLATE)
                 .put("startdate", tripStartDate)
                 .put("enddate", tripEndDate)
                 .format().toString()

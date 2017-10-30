@@ -41,7 +41,7 @@ open class HotelDetailViewModel(context: Context,
     init {
         paramsSubject.subscribe { params ->
             cachedParams = params
-            searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate",
+            searchInfoObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_TEMPLATE).put("startdate",
                     LocaleBasedDateFormatUtils.localDateToMMMd(params.checkIn)).put("enddate",
                     LocaleBasedDateFormatUtils.localDateToMMMd(params.checkOut))
                     .format()

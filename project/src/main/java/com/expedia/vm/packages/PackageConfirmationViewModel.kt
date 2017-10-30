@@ -80,7 +80,7 @@ class PackageConfirmationViewModel(private val context: Context) {
         val hotel = Db.getTripBucket().`package`.mPackageTripResponse.packageDetails.hotel
         val params = Db.getPackageParams()
         val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-        var subtitle = Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+        var subtitle = Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
                 .put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkInDate)))
                 .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(formatter.parseLocalDate(hotel.checkOutDate)))
                 .put("guests", StrUtils.formatGuestString(context, params.guests))

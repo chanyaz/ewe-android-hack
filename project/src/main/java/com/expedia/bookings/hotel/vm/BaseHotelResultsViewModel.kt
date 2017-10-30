@@ -19,6 +19,7 @@ open class BaseHotelResultsViewModel(protected val context: Context) {
     val errorObservable = PublishSubject.create<ApiError>()
     val titleSubject = BehaviorSubject.create<String>()
     val subtitleSubject = PublishSubject.create<CharSequence>()
+    val subtitleContDescSubject = PublishSubject.create<String>()
     val showHotelSearchViewObservable = PublishSubject.create<Unit>()
 
     init {
