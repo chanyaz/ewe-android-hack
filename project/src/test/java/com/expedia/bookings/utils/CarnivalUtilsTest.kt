@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -177,6 +178,29 @@ class CarnivalUtilsTest : CarnivalUtils() {
         assertEquals(attributesToSend.get("confirmation_flight_number_of_adults"), 2)
         assertEquals(attributesToSend.get("confirmation_flight_departure_date"), LocalDate.now().toDate())
         assertEquals(attributesToSend.get("confirmation_flight_length_of_flight"), "5:30")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackHotelCheckoutStart() {
+        reset()
+
+        val hotelCreateTripResponse = HotelCreateTripResponse()
+        hotelCreateTripResponse.newHotelProductResponse = HotelCreateTripResponse.HotelProductResponse()
+        hotelCreateTripResponse.newHotelProductResponse.localizedHotelName = "Hilton Garden Inn"
+
+        val v4 = SuggestionV4()
+        v4.regionNames = SuggestionV4.RegionNames()
+        v4.regionNames.fullName = "Detroit, Michigan"
+        val hotelSearchParams = HotelSearchParams(v4, LocalDate.now(), LocalDate.now().plusDays(3), 2, listOf(0), false, false, null, null)
+        this.trackHotelCheckoutStart(hotelCreateTripResponse, hotelSearchParams)
+
+        assertEquals(eventNameToLog, "checkout_start_hotel")
+        assertEquals(attributesToSend.get("checkout_start_hotel_destination"), "Detroit, Michigan")
+        assertEquals(attributesToSend.get("checkout_start_hotel_hotel_name"), "Hilton Garden Inn")
+        assertEquals(attributesToSend.get("checkout_start_hotel_number_of_adults"), 2)
+        assertEquals(attributesToSend.get("checkout_start_hotel_check-in_date"), LocalDate.now().toDate())
+        assertEquals(attributesToSend.get("checkout_start_hotel_length_of_stay"), 3)
     }
 
     @Test

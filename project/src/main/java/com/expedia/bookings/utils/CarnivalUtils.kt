@@ -17,6 +17,7 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import com.carnival.sdk.Carnival.CarnivalHandler
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.trips.Trip
 
 open class CarnivalUtils {
@@ -48,8 +49,10 @@ open class CarnivalUtils {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
             val coordinates = latitude.toString() + ", " + longitude.toString()
-            val bookedTrips = hashSetOf<String>()
-            bookedProducts.mapTo(bookedTrips) { it.tripComponents.first()?.type.toString() }
+            val bookedTrips = bookedProducts
+                    .filter { it.tripComponents.any() }
+                    .map { it.tripComponents.first()?.type.toString() }
+                    .toSet()
 
             attributes.putBoolean("app_open_launch_relaunch_location_enabled", isLocationEnabled)
             traveler?.tuid?.toInt()?.let { attributes.putInt("app_open_launch_relaunch_userid", it) }
@@ -119,6 +122,18 @@ open class CarnivalUtils {
             attributes.putDate("product_view_hotel_check-in_date", searchParams.checkIn.toDate())
             attributes.putInt("product_view_hotel_length_of_stay", JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut))
             setAttributes(attributes, "product_view_hotel")
+        }
+    }
+
+    fun trackHotelCheckoutStart(hotelCreateTripResponse: HotelCreateTripResponse, hotelSearchParams: HotelSearchParams) {
+        if (isFeatureToggledOn() && initialized) {
+            val attributes = AttributeMap()
+            attributes.putString("checkout_start_hotel_destination", hotelSearchParams.suggestion.regionNames.fullName)
+            attributes.putString("checkout_start_hotel_hotel_name", hotelCreateTripResponse.newHotelProductResponse.getHotelName())
+            attributes.putInt("checkout_start_hotel_number_of_adults", hotelSearchParams.adults)
+            attributes.putDate("checkout_start_hotel_check-in_date", hotelSearchParams.checkIn.toDate())
+            attributes.putInt("checkout_start_hotel_length_of_stay", JodaUtils.daysBetween(hotelSearchParams.checkIn, hotelSearchParams.checkOut))
+            setAttributes(attributes, "checkout_start_hotel")
         }
     }
 

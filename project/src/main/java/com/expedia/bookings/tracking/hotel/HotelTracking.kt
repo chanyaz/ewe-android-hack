@@ -1,6 +1,5 @@
 package com.expedia.bookings.tracking.hotel
 
-import android.content.Context
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.PaymentType
@@ -281,6 +280,7 @@ open class HotelTracking {
             val hotelProductResponse = hotelCreateTripResponse.newHotelProductResponse
             TuneUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
             FacebookEvents().trackHotelV2Checkout(hotelProductResponse, searchParams)
+            CarnivalUtils.getInstance().trackHotelCheckoutStart(hotelCreateTripResponse, searchParams)
         }
 
         fun trackHotelSlideToPurchase(paymentType: PaymentType, paymentSplitsType: PaymentSplitsType) {
