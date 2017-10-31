@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import android.support.v4.content.ContextCompat
+import rx.Observable
 import java.util.Locale
 
 class FareFamilyViewModel(private val context: Context) {
@@ -27,6 +28,7 @@ class FareFamilyViewModel(private val context: Context) {
     val deltaPriceObservable = PublishSubject.create<String>()
     val selectedClassColorObservable = PublishSubject.create<Int>()
     val fareFamilyCardClickObserver = PublishSubject.create<Unit>()
+    val contentDescriptionObservable = PublishSubject.create<String>()
     val fromLabelVisibility = PublishSubject.create<Boolean>()
     val travellerObservable = PublishSubject.create<String>()
     val updateTripObserver = PublishSubject.create<Pair<String, FlightTripResponse.FareFamilyDetails>>()
@@ -82,6 +84,32 @@ class FareFamilyViewModel(private val context: Context) {
                 .filter { it.productKey != null }
                 .map { Pair(it.productKey!!, it.fareDetails) }
                 .subscribe(updateTripObserver)
+
+        Observable.combineLatest(selectedClassObservable, deltaPriceObservable, fareFamilyTitleObservable, tripObservable,
+                {
+                    selectedClass, deltaPrice, upgradeTitle, trip ->
+                    object {
+                        val selectedClass = selectedClass
+                        val deltaPrice = deltaPrice
+                        val upgradeTitle = upgradeTitle
+                        val isFareFamilyUpgraded = trip.isFareFamilyUpgraded
+                    }
+                })
+                .subscribe {
+                    if (!it.isFareFamilyUpgraded) {
+                        contentDescriptionObservable.onNext(
+                                Phrase.from(context, R.string.flight_fare_family_upgrade_flight_cont_desc)
+                                        .put("upgrade_title", it.upgradeTitle)
+                                        .put("amount", it.deltaPrice)
+                                        .put("guest", StrUtils.formatTravelerString(context, Db.getFlightSearchParams().guests))
+                                        .put("class", it.selectedClass).format().toString())
+                    } else {
+                        contentDescriptionObservable.onNext(
+                                Phrase.from(context, R.string.flight_fare_family_change_cont_desc)
+                                        .put("current_selection", it.upgradeTitle)
+                                        .format().toString())
+                    }
+                }
     }
 
     private fun getDeltaPricingFareFamily(fareFamilyDetails: Array<FareFamilyDetails>?): FareFamilyDetails? {

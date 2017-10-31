@@ -4285,6 +4285,10 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_roundtrip_label">Upgrade your flights</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
+    <string name="flight_fare_family_upgrade_flight_cont_desc">{upgrade_title} from {amount} for {guest}, You\'ve {class}</string>
+    <!-- Label for fare family upgrade option. Example. You've selected Economy, Double tap to change fare class-->
+    <string name="flight_fare_family_change_cont_desc">{current_selection}, Double tap to change fare class</string>
+    <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Upgrade your flight</string>
     <!-- Label for fare family delta pricing. Example. From -->
     <string name="flight_fare_family_from_label">From</string>

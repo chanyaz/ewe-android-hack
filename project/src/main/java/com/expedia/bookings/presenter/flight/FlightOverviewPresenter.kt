@@ -24,10 +24,7 @@ import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.FareFamilyCardView
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
@@ -237,6 +234,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             } else {
                 flightFareFamilyDetailsWidget.visibility = View.GONE
                 flightFareFamilyDetailsWidget.translationY = (flightFareFamilyDetailsWidget.height).toFloat()
+                AccessibilityUtil.delayedFocusToView(fareFamilyCardView, 0)
             }
         }
     }
