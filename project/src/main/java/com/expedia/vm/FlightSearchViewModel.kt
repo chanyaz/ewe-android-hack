@@ -54,7 +54,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val flightsSourceObservable = PublishSubject.create<SuggestionV4>()
     val flightsDestinationObservable = PublishSubject.create<SuggestionV4>()
     val swapToFromFieldsObservable = PublishSubject.create<Unit>()
-    val showDaywithDate = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
     val searchTravelerParamsObservable = PublishSubject.create<com.expedia.bookings.data.FlightSearchParams>()
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
@@ -319,21 +318,14 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
         if (forContentDescription) {
-            val formattedDate = if (showDaywithDate) getStartToEndDateWithDayString(start, end) else getStartToEndDateString(start, end)
+            val formattedDate = getStartToEndDateWithDayString(start, end)
             return getDateAccessibilityText(context.getString(R.string.select_dates), formattedDate)
         }
-        if (showDaywithDate) {
-            return getStartDashEndDateWithDayString(start, end)
-        } else {
-            return getStartDashEndDateString(start, end)
-        }
+        return getStartDashEndDateWithDayString(start, end)
     }
 
     fun getFormattedDate(date: LocalDate?): String? {
-        if (showDaywithDate) {
             return DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(date)
-        }
-        return LocaleBasedDateFormatUtils.localDateToMMMd(date!!)
     }
 
 }
