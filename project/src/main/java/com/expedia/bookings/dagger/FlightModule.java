@@ -1,6 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import javax.inject.Named;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.FlightScope;
@@ -10,7 +11,6 @@ import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
-import com.expedia.bookings.utils.RequestInterceptor;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
@@ -76,9 +76,8 @@ public final class FlightModule {
 
 	@Provides
 	@FlightScope
-	KrazyglueServices provideKrazyglueServices(EndpointProvider endpointProvider, OkHttpClient client) {
+	KrazyglueServices provideKrazyglueServices(EndpointProvider endpointProvider, Interceptor interceptor, OkHttpClient client) {
 		final String endpoint = endpointProvider.getKrazyglueEndpointUrl();
-		final Interceptor requestInterceptor = new RequestInterceptor();
-		return new KrazyglueServices(endpoint, client, requestInterceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new KrazyglueServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }
