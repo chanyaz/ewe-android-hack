@@ -129,6 +129,7 @@ class SlidingBundleWidgetTest {
         assertEquals(View.GONE, bundleTotalText.visibility)
         assertEquals(packageHotelPresenter.bundleSlidingWidget.isMoving, false)
         assertEquals(packageHotelPresenter.bundleSlidingWidget.translationY, Ui.getStatusBarHeight(context).toFloat())
+        assertEquals(packageHotelPresenter.bundleSlidingWidget.bundlePriceWidget.contentDescription, "Trip to London. Oct 31 to Nov 1, 4 travelers")
     }
 
     @Test
@@ -152,6 +153,7 @@ class SlidingBundleWidgetTest {
         assertEquals(View.VISIBLE, bundleTotalText.visibility)
         assertEquals((packageHotelPresenter.bundleSlidingWidget.height - bundlePriceWidgetContainer.height).toFloat(), packageHotelPresenter.bundleSlidingWidget.translationY)
         assertEquals(packageHotelPresenter.bundleSlidingWidget.isMoving, false)
+        assertEquals(packageHotelPresenter.bundleSlidingWidget.bundlePriceWidget.contentDescription, "")
     }
 
     @Test
@@ -226,13 +228,14 @@ class SlidingBundleWidgetTest {
 
         assertEquals(packageFlightPresenter.bundleSlidingWidget.bundlePriceFooter.bundleTotalPrice.text.toString(), Money(flightResponse.getFlightLegs()[0].packageOfferModel.price.packageTotalPrice.amount.toString(), flightResponse.getFlightLegs()[0].packageOfferModel.price.packageTotalPrice.currency).formattedMoney)
         assertEquals(packageFlightPresenter.bundleSlidingWidget.bundlePriceFooter.bundleSavings.text.toString(), Money(flightResponse.getFlightLegs()[0].packageOfferModel.price.tripSavings.amount.toString(), flightResponse.getFlightLegs()[0].packageOfferModel.price.tripSavings.currency).formattedMoney + " Saved")
+        assertEquals(packageFlightPresenter.bundleSlidingWidget.bundlePriceWidget.contentDescription, "Bundle price is $2,105.95 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.")
     }
 
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = ""
+        suggestion.regionNames.displayName = "London"
         suggestion.regionNames.fullName = ""
         suggestion.regionNames.shortName = ""
         suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
