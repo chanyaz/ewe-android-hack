@@ -654,6 +654,8 @@
     <!-- Flights Roundtrip label -->
     <string name="roundtrip">ida e volta</string>
 
+    <!-- Flights Roundtrip label with round brackets-->
+    <string name="roundtrip_with_brackets">(ida e volta)</string>
     <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
     <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
 
@@ -1419,6 +1421,9 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">Chega {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">Escala de {layover}</string>
+    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">Duração total: {duration}</string>
+
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days}d {hours}h {minutes}min</string>
@@ -1630,6 +1635,8 @@
     <string name="flights_tab_selection_accouncement_roundtrip">Exibindo a tela de busca para o voo de volta</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Voos</string>
+    <!-- Label to identify selected outbound flight card -->
+    <string name="flight_outbound_label">Voo de ida:</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Voos</string>
     <!-- Flights payment fees info web view title -->
@@ -1757,6 +1764,8 @@
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text hotels number of guests template. %1$s = Formatted number of guests. E.g. 1 guest -->
+
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
@@ -2031,7 +2040,7 @@
         <item quantity="one">+ {travelercount} viajante extra</item>
         <item quantity="other">+ {travelercount} viajantes extras</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">Editar viajante {travelernumber} ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">Editar Viajante {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} ano</string>
     <!-- save traveler -->
     <string name="save_traveler">Salvar viajante</string>
@@ -3627,7 +3636,7 @@
     <!-- Hotel Filters rating not selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Not Selected 2) Class Rating One Not Selected -->
     <string name="star_rating_not_selected_cont_desc_TEMPLATE">{star_rating} não selecionada</string>
     <string name="show_more">MOSTRAR MAIS</string>
-    <string name="show_less">MOSTRAR MENOS</string>
+    <string name="show_less">VER MENOS</string>
     <string name="price_range">Faixa de preço</string>
     <!-- Price Range minimum filter label for accessibility -->
     <string name="price_range_minimum">Faixa de preço mínimo</string>

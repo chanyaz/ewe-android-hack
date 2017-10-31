@@ -654,6 +654,8 @@
     <!-- Flights Roundtrip label -->
     <string name="roundtrip">往復</string>
 
+    <!-- Flights Roundtrip label with round brackets-->
+    <string name="roundtrip_with_brackets">(往復)</string>
     <!-- Flight fare family departure arrival code for round trip. for example: DEL - SFO - DEL -->
     <string name="flight_departure_arrival_code_round_trip_TEMPLATE">{departure_code} - {arrival_code} - {departure_code}</string>
 
@@ -1419,6 +1421,9 @@
     <string name="itin_flight_summary_arrives_on_TEMPLATE">到着 : {date}</string>
     <!-- Flight itin layover widget template. {layover} layover (e.g., 1h 15m layover)-->
     <string name="itin_flight_layover_TEMPLATE">乗継時間 : {layover}</string>
+    <!--Flight itin total duration widget template. (e.g. Total Duration: 2h 45m)-->
+    <string name="itin_flight_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
+
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->
     <string name="flight_duration_days_hours_minutes_TEMPLATE">{days} 日 {hours} 時間 {minutes} 分</string>
@@ -1630,6 +1635,8 @@
     <string name="flights_tab_selection_accouncement_roundtrip">往復航空券の検索画面を表示中</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">行き</string>
+    <!-- Label to identify selected outbound flight card -->
+    <string name="flight_outbound_label">行きの便 :</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">航空券</string>
     <!-- Flights payment fees info web view title -->
@@ -1757,6 +1764,8 @@
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}、{guests}</string>
+    <!-- Calendar instruction text hotels number of guests template. %1$s = Formatted number of guests. E.g. 1 guest -->
+
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}、{guests}</string>
 
@@ -2031,7 +2040,7 @@
         <item quantity="one">その他 {travelercount} 名の旅行者</item>
         <item quantity="other">その他 {travelercount} 名の旅行者</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} ({passengerage}) を変更</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歳</string>
     <!-- save traveler -->
     <string name="save_traveler">旅行者を保存する</string>
