@@ -14,7 +14,9 @@ import com.expedia.bookings.itin.vm.FlightItinLayoverViewModel
 import com.expedia.bookings.itin.vm.FlightItinSegmentSummaryViewModel
 import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
 import com.expedia.bookings.itin.vm.FlightItinTotalDurationViewModel
+import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
 import com.expedia.bookings.itin.widget.ItinTimeDurationWidget
+import com.expedia.bookings.itin.widget.FlightItinBookingDetailsWidget
 import com.expedia.bookings.itin.widget.FlightItinSegmentSummaryWidget
 import com.expedia.bookings.itin.widget.ItinConfirmationWidget
 import com.expedia.bookings.itin.widget.ItinToolbar
@@ -73,6 +75,10 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         vm.updateConfirmationSubject.subscribe { params ->
             itinConfirmationWidget.viewModel.updateWidget(params)
         }
+        vm.createBookingInfoWidgetSubject.subscribe { params ->
+            flightBookingDetailsWidget.viewModel = FlightItinBookingInfoViewModel(this)
+            flightBookingDetailsWidget.viewModel.updateBookingInfoWidget(params)
+        }
     }
     private val itinConfirmationWidget: ItinConfirmationWidget by lazy {
         findViewById(R.id.widget_itin_flight_confirmation_cardview) as ItinConfirmationWidget
@@ -80,6 +86,9 @@ class FlightItinDetailsActivity : AppCompatActivity() {
     private val itinToolbar: ItinToolbar by lazy {
         findViewById(R.id.widget_flight_itin_toolbar) as ItinToolbar
     }
+
+    private val flightBookingDetailsWidget: FlightItinBookingDetailsWidget by bindView(R.id.widget_flight_itin_booking_details)
+
     var toolbarViewModel: FlightItinToolbarViewModel by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
             finishActivity()

@@ -7,7 +7,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
-import com.mobiata.android.Log
 import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.utils.FormatUtils
@@ -26,6 +25,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     val clearLegSummaryContainerSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
     val updateConfirmationSubject: PublishSubject<ItinConfirmationViewModel.WidgetParams> = PublishSubject.create<ItinConfirmationViewModel.WidgetParams>()
     val createBaggageInfoWebviewWidgetSubject: PublishSubject<String> = PublishSubject.create<String>()
+    val createBookingInfoWidgetSubject: PublishSubject<FlightItinBookingInfoViewModel.WidgetParams> = PublishSubject.create<FlightItinBookingInfoViewModel.WidgetParams>()
 
     fun onResume() {
         updateItinCardDataFlight()
@@ -33,6 +33,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         updateLegSummaryWidget()
         updateConfirmationWidget()
         updateBaggageInfoUrl()
+        updateBookingInfoWidget()
     }
 
     @VisibleForTesting
@@ -154,7 +155,18 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         }
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
+    fun updateBookingInfoWidget() {
+        val travelerNames  = itinCardDataFlight.travelerFirstAndLastNames
+        val isShared = itinCardDataFlight.isSharedItin
+        createBookingInfoWidgetSubject.onNext(FlightItinBookingInfoViewModel.WidgetParams(
+                travelerNames,
+                isShared,
+                itinCardDataFlight.detailsUrl
+        ))
+    }
+
+    @VisibleForTesting
     fun getSeatString(segment: Flight): String {
         return when {
             segment.hasSeats() -> segment.getFirstSixSeats(segment.assignedSeats)

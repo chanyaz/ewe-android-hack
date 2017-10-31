@@ -139,6 +139,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mName.getFullName();
 	}
 
+	public String getFirstAndLastName() {
+		return mName.getFirstAndLastName();
+	}
+
 	public String getReversedFullName() {
 		return mName.getReversedFullName();
 	}

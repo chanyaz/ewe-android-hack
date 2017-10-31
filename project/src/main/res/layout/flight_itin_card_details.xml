@@ -35,7 +35,7 @@
             <com.expedia.bookings.itin.widget.ItinConfirmationWidget
                 android:id="@+id/widget_itin_flight_confirmation_cardview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/flight_itin_summary_container"
@@ -54,7 +54,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <com.expedia.bookings.itin.widget.FlightItinBookingDetailsWidget
+                android:id="@+id/widget_flight_itin_booking_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="20dp" />
         </LinearLayout>
-
     </com.expedia.bookings.widget.ScrollView>
 </LinearLayout>

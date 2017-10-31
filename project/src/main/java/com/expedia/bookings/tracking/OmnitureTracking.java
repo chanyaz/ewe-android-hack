@@ -2136,6 +2136,10 @@ public class OmnitureTracking {
 	private static final String ITIN_FLIGHT_INFO = "App.Itinerary.Flight.Info.Additional";
 	private static final String ITIN_FLIGHT_SHARE_PREFIX = "App.Itinerary.Flight.Share.";
 	private static final String ITIN_FLIGHT_COPY_PNR = "App.Itinerary.Flight.CopyPNR";
+	private static final String ITIN_FLIGHT_MANAGE_BOOKING = "App.Itinerary.Flight.ManageBooking";
+	private static final String ITIN_FLIGHT_TRAVELER_INFO = "App.Itinerary.Flight.TravelerInfo";
+	private static final String ITIN_FLIGHT_INFO_ADDITIONAL = "App.Itinerary.Flight.Info.Additional";
+	private static final String ITIN_FLIGHT_PRICE_SUMMARY = "App.Itinerary.Flight.PriceSummary";
 	private static final String ITIN_CAR = "App.Itinerary.Car";
 	private static final String ITIN_CAR_DIRECTIONS = "App.Itinerary.Car.Directions";
 	private static final String ITIN_CAR_CALL = "App.Itinerary.Car.Call";
@@ -2602,6 +2606,25 @@ public class OmnitureTracking {
 
 	public static void trackItinFlightCopyPNR() {
 		internalTrackLink(ITIN_FLIGHT_COPY_PNR);
+	}
+
+	public static void trackItinFlightManageBooking() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_MANAGE_BOOKING);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+	public static void trackItinFlightTravelerInfo() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_TRAVELER_INFO);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinFlightPriceSummary() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_PRICE_SUMMARY);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinFlightAdditionalInfo() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_INFO_ADDITIONAL);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	public static void trackItinCar(Context context) {

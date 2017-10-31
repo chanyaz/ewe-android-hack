@@ -38,6 +38,7 @@ class FlightItinDetailsViewModelTest {
     val updateConfirmationSubscriber = TestSubscriber<ItinConfirmationViewModel.WidgetParams>()
     val createLayoverSubscriber = TestSubscriber<String>()
     val createBaggageInfoWebviewSubcriber = TestSubscriber<String>()
+    val createBookingInfoWidgetSubscriber = TestSubscriber<FlightItinBookingInfoViewModel.WidgetParams>()
 
     @Before
     fun setup() {
@@ -296,6 +297,23 @@ class FlightItinDetailsViewModelTest {
                 " • Economy / Coach",
                 null,
                 null
+        ))
+    }
+
+    @Test
+    fun testUpdateBookingInfoWidget() {
+        sut.createBookingInfoWidgetSubject.subscribe(createBookingInfoWidgetSubscriber)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        sut.itinCardDataFlight = testItinCardData
+
+        createBookingInfoWidgetSubscriber.assertNoValues()
+        sut.updateBookingInfoWidget()
+        val name = "Girija Balachandran"
+        createBookingInfoWidgetSubscriber.assertValueCount(1)
+        createBookingInfoWidgetSubscriber.assertValue(FlightItinBookingInfoViewModel.WidgetParams(
+                name,
+                false,
+                "https://www.expedia.com/trips/7238007847306"
         ))
     }
 

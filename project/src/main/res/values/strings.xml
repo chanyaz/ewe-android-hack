@@ -1432,6 +1432,10 @@
     <string name="itin_flight_total_duration_TEMPLATE">Total Duration: {duration}</string>
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Baggage information</string>
+    <!--Flight itin traveller info widget heading-->
+    <string name="itin_flight_traveller_info">Traveler information</string>
+    <!--Flight itin manage booking title-->
+    <string name="itin_flight_details_manage_booking_heading">Manage booking</string>
 
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->

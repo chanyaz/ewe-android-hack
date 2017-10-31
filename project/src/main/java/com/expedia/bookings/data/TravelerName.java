@@ -57,6 +57,18 @@ public class TravelerName {
 		return fullName.trim();
 	}
 
+	public String getFirstAndLastName() {
+		StringBuilder firstAndLastName = new StringBuilder();
+		if (!firstName.isEmpty()) {
+			firstAndLastName.append(firstName);
+		}
+		if (!lastName.isEmpty()) {
+			firstAndLastName.append(" ");
+			firstAndLastName.append(lastName);
+		}
+		return firstAndLastName.toString();
+	}
+
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}

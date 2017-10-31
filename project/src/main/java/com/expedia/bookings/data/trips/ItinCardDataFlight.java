@@ -13,6 +13,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.utils.FlightClickAbleSpan;
@@ -220,6 +221,15 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	@Override
 	public boolean getSharingEnabled() {
 		return true;
+	}
+
+	public String getTravelerFirstAndLastNames() {
+		List<Traveler> travelerList = ((TripFlight) getTripComponent()).getTravelers();
+		List<String> stringList = new ArrayList();
+		for (Traveler traveler : travelerList) {
+			stringList.add(traveler.getFirstAndLastName());
+		}
+		return TextUtils.join(", ", stringList);
 	}
 
 	public CharSequence getSpannedConfirmationNumbers(Context context) {

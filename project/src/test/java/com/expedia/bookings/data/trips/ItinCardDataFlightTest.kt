@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.trips
 
 import android.content.Context
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Before
@@ -40,6 +41,19 @@ class ItinCardDataFlightTest {
         assertEquals(testItinCardData.confirmationStatus, TicketingStatus.CANCELLED)
     }
 
+    @Test
+    fun testGetTravelerFirstAndLastName() {
+        val trip = (testItinCardData.tripComponent as TripFlight)
+        var names =  testItinCardData.travelerFirstAndLastNames
+        assertEquals(names, "Girija Balachandran")
+        val newTraveler = Traveler()
+        newTraveler.firstName = "Jim"
+        newTraveler.middleName = "T"
+        newTraveler.lastName = "Bob"
+        trip.addTraveler(newTraveler)
+        names = testItinCardData.travelerFirstAndLastNames
+        assertEquals(names, "Girija Balachandran, Jim Bob")
+    }
 
     fun setBookingStatus(bookingStatus: BookingStatus) {
         val trip = testItinCardData.tripComponent as TripFlight

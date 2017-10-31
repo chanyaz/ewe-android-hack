@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:text="@string/itin_hotel_details_booking_details_title_text"
+        android:textColor="@color/gray900"
+        android:textSize="18sp"
+        app:textStyle="medium" />
+
+    <com.expedia.bookings.itin.widget.ItinLinkOffCardView
+        android:id="@+id/itin_flight_manage_booking_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:clickable="true" />
+
+    <com.expedia.bookings.itin.widget.ItinLinkOffCardView
+        android:id="@+id/itin_flight_traveler_info_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:clickable="true" />
+
+    <com.expedia.bookings.itin.widget.ItinLinkOffCardView
+        android:id="@+id/itin_flight_price_summary_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:clickable="true" />
+
+    <com.expedia.bookings.itin.widget.ItinLinkOffCardView
+        android:id="@+id/itin_flight_additional_info_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:clickable="true" />
+</merge>
