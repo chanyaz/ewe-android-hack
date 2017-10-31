@@ -8,7 +8,7 @@ Feature: Bundle Overview with packages details
       | source              | SFO                            |
       | destination         | LAS                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | destination_suggest | Las Vegas Strip, NV |
       | start_date          | 5                              |
       | end_date            | 10                             |
       | adults              | 2                              |
@@ -42,7 +42,7 @@ Feature: Bundle Overview with packages details
       | source              | SFO                            |
       | destination         | LAS                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | destination_suggest | Las Vegas Strip, NV            |
       | start_date          | 5                              |
       | end_date            | 10                             |
       | adults              | 2                              |
@@ -61,7 +61,7 @@ Feature: Bundle Overview with packages details
       | source              | SFO                            |
       | destination         | LAS                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | destination_suggest | Las Vegas Strip, NV            |
       | start_date          | 5                              |
       | end_date            | 10                             |
       | adults              | 2                              |
