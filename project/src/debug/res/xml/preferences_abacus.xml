@@ -439,8 +439,8 @@
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
+            android:entries="@array/abacus_krazyglue_choices"
+            android:entryValues="@array/abacus_itin_share_button_choice_values"
             android:key="15790"
             android:summary="%s"
             android:title="Show Krazy Glue on Flights Confirmation - 15790" />

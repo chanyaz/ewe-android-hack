@@ -4729,5 +4729,10 @@
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
     <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Because you booked a flight, save on select hotels in {city}</string>
 
+    <!-- See more section offer string which would look like Offer expires in 2 days -->
+    <plurals name="krazy_glue_offer_expire_TEMPLATE">
+        <item quantity="one">Offer expires in {no_of_days} day</item>
+        <item quantity="other">Offer expires in {no_of_days} days</item>
+    </plurals>
 
 </resources>

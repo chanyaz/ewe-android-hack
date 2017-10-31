@@ -3,9 +3,10 @@ package com.expedia.bookings.presenter.shared;
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.KrazyglueResponse
-import com.expedia.bookings.data.hotels.Hotel
 import com.squareup.phrase.Phrase
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import org.joda.time.DateTime
 
 class KrazyglueWidgetViewModel(context: Context) {
     val cityObservable = PublishSubject.create<String>()
@@ -15,4 +16,5 @@ class KrazyglueWidgetViewModel(context: Context) {
                 .put("city", it)
                 .format().toString()
     }
+    val destinationObservable = BehaviorSubject.create<DateTime>()
 }

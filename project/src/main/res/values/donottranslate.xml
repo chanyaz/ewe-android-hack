@@ -108,6 +108,8 @@
     <string name="preference_abacus_setting_because_you_booked_a_flight">Because_you_booked_a_flight</string>
     <string name="preference_abacus_setting_share_button_icon">Share button icon</string>
     <string name="preference_abacus_setting_share_button_text">Share button text</string>
+    <string name="preference_abacus_setting_show_more_in_front">Show more in front</string>
+    <string name="preference_abacus_setting_show_more_in_end">Show more in end</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_chuck_notification">preference_enable_chuck_notification</string>
     <string name="preference_chuck_show_ui">preference_chuck_show_ui</string>

@@ -22,6 +22,7 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
@@ -30,6 +31,7 @@ import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.presenter.shared.KrazyglueHotelsListAdapter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
@@ -68,6 +70,7 @@ import com.expedia.util.Optional
 import com.expedia.util.subscribeVisibility
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
+import org.joda.time.DateTime
 import rx.Observer
 import java.util.Date
 
@@ -343,6 +346,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(Optional(expediaRewards))
+            val departureDateOfFirstOutboundFlight = (trip as FlightCreateTripResponse).details.legs.get(0).segments.get(0).departureTimeRaw
+            confirmationPresenter.krazyglueWidget.viewModel.destinationObservable.onNext(DateTime.parse(departureDateOfFirstOutboundFlight))
         }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
