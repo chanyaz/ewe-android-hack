@@ -39,14 +39,13 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
 
     fun getMoneyFormatFlag(): Int {
 
-        return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) Money.F_NO_DECIMAL
+        return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL
         else Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL
     }
 
     fun getMoneyFormatFlagForInteger(): Int {
 
-        return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) Money.F_NO_DECIMAL
-        else Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL
+        return Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL
     }
 
 }
