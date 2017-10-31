@@ -20,6 +20,8 @@ import android.support.test.espresso.action.Swipe;
 import android.support.test.espresso.action.Swiper;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.espresso.util.HumanReadables;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,8 @@ import com.expedia.bookings.widget.FilterSeekBar;
 import com.expedia.bookings.widget.StarRatingBar;
 import com.mobiata.android.Log;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -454,6 +458,37 @@ public final class ViewActions {
 				}
 			}
 		};
+	}
+
+	/**
+	 * Custom Scroll, used in cases if there is an offending footer. Such as Sort&Filter on HSR
+	 * page or a price summary on HIS page. These footers have a tendency to overlay the object
+	 * whenever we use a generic ViewActions.scrollTo(), and that is resulting in us clicking the
+	 * footer, instead of the object.
+	 * <br>
+	 * @param maxSwipes The absolute maximum number of swipes that we should try to perform. Similar
+	 * to the timeout
+	 * @param uObjectToScrollTo Needed to extrapolate visible bounds.
+	 * @param uOffendingFooter Needed to extrapolated visible bounds of the offending overlay.
+	 * @param objectToScrollTo Needed to check whether the object is present on the page, before we even
+	 * try scrolling. If the object is not present, we'll throw an assertion exception.
+	 * @param scrollableView
+	 *
+	 */
+	public static void swipeUntilUiObjectIsVisible(Integer maxSwipes, UiObject uObjectToScrollTo, UiObject uOffendingFooter, Matcher<View> objectToScrollTo, Matcher<View> scrollableView) throws UiObjectNotFoundException {
+		Integer swipeCount = 0;
+		//First we need to check if at least one item is available
+		onView(objectToScrollTo).check(matches(ViewMatchers.isEnabled()));
+
+		//Then we do the actual scrolling
+		while ((!uObjectToScrollTo.exists() || uObjectToScrollTo.getVisibleBounds().bottom > uOffendingFooter.getVisibleBounds().top) &&
+				swipeCount <= maxSwipes) {
+			//Have to use this specific swipe action, because otherwise it tries to swipe from the very bottom, and that
+			// doesn't work due to Sort&Filter being right at the point where it tries to swipe from.
+			onView(scrollableView).perform(swipeUp());
+			Common.delay(1);
+			swipeCount++;
+		}
 	}
 
 	public static ViewAction setCustomSeekBarTo(final int maxValue) {

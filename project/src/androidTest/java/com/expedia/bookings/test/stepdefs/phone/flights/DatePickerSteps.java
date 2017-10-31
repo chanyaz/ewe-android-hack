@@ -9,6 +9,8 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.matcher.ViewMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.stepdefs.phone.TestUtil;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import static android.support.test.espresso.Espresso.onView;
@@ -79,24 +81,19 @@ public class DatePickerSteps {
 
 	@And("^Validate the selected date on calender button$")
 	public void validateCalenderButtonText(Map<String, String> parameters) throws Throwable {
-		Format dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
-		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
-		LocalDate endDate = null;
 		boolean isRoundTrip = true;
 
-		String stDateStr = dateFormatter.format(stDate.toDate()).toString().trim();
-
+		String stDateStr = TestUtil.getDateInEEEMMMdd(parameters.get("start_date"));
 		//Currently, we are using two different versions of hyphen in our code:
 		// When user has selected only departure date, Mar 23 – Select return date
 		// When user has selected both departure date and return date, Mar 23 - Apr 8
 		String endDateStr = " – Select return date";
 
 		if (parameters.get("end_date") != null) {
-			endDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("end_date")));
-			endDateStr = "  -  " + dateFormatter.format(endDate.toDate()).toString().trim();
+			endDateStr = "  -  " + TestUtil.getDateInEEEMMMdd(parameters.get("end_date"));
 		}
 		if (parameters.get("isRoundTrip") != null) {
-			isRoundTrip = new Boolean(parameters.get("isRoundTrip"));
+			isRoundTrip = Boolean.valueOf(parameters.get("isRoundTrip"));
 		}
 
 		if (isRoundTrip) {
@@ -114,15 +111,11 @@ public class DatePickerSteps {
 
 	@And("^I choose departure date for flights-roundtrip and validate the tool tip")
 	public void selectRoundTripDepartureDateAndValidate(Map<String, String> parameters) throws Throwable {
-		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
-		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
-		String stDateStrToolTip = dateFormatter.format(stDate.toDate()).toString();
-		dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
-		String stDateStrSubtitle = dateFormatter.format(stDate.toDate()).toString();
-
+		String stDateStrToolTip = TestUtil.getDateInMMMdd(parameters.get("start_date"));
+		String stDateStrSubtitle = TestUtil.getDateInEEEMMMdd(parameters.get("start_date"));
 
 		//choose departure date
-		SearchScreen.chooseDates(stDate, null);
+		SearchScreen.chooseDates(TestUtil.getDateFromOffset(parameters.get("start_date")), null);
 
 		//validate calender tooltip and subtilte
 		SearchScreen.validateDatesToolTip(stDateStrToolTip, "Next: Select return date");
@@ -131,18 +124,16 @@ public class DatePickerSteps {
 
 	@And("^I choose return date for flights-roundtrip and validate the tool tip")
 	public void selectRoundTripReturnDateAndValidate(Map<String, String> parameters) throws Throwable {
-		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
-		LocalDate endDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("end_date")));
-		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
-		String stDateStrToolTip = dateFormatter.format(stDate.toDate()).toString();
-		String endDateStrToolTip = dateFormatter.format(endDate.toDate()).toString();
-
-		dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
-		String stDateStrSubtitle = dateFormatter.format(stDate.toDate()).toString();
-		String endDateStrSubtitle = dateFormatter.format(endDate.toDate()).toString();
+		String stDateStrToolTip = TestUtil.getDateInMMMdd(parameters.get("start_date"));
+		String endDateStrToolTip = TestUtil.getDateInMMMdd(parameters.get("end_date"));
+		String stDateStrSubtitle = TestUtil.getDateInEEEMMMdd(parameters.get("start_date"));
+		String endDateStrSubtitle = TestUtil.getDateInEEEMMMdd(parameters.get("end_date"));
 
 		//choose return date
-		SearchScreen.chooseDates(stDate, endDate);
+		SearchScreen.chooseDates(
+				TestUtil.getDateFromOffset(parameters.get("start_date")),
+				TestUtil.getDateFromOffset(parameters.get("end_date"))
+		);
 
 		//validate calender tooltip and subtitle
 		SearchScreen.validateDatesToolTip(stDateStrToolTip + " - " + endDateStrToolTip, "Drag to modify");
@@ -151,14 +142,11 @@ public class DatePickerSteps {
 
 	@And("^I choose departure date for flights-oneway and validate the tool tip")
 	public void selectOneWayDepartureDateAndValidate(Map<String, String> parameters) throws Throwable {
-		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
-		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
-		String stDateStrToolTip = dateFormatter.format(stDate.toDate()).toString();
-		dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
-		String stDateStrSubtitle = dateFormatter.format(stDate.toDate()).toString();
+		String stDateStrToolTip = TestUtil.getDateInMMMdd(parameters.get("start_date"));
+		String stDateStrSubtitle = TestUtil.getDateInEEEMMMdd(parameters.get("start_date"));
 
 		//choose departure date
-		SearchScreen.chooseDates(stDate, null);
+		SearchScreen.chooseDates(TestUtil.getDateFromOffset(parameters.get("start_date")), null);
 
 		//validate calender tooltip and subtitle
 		SearchScreen.validateDatesToolTip(stDateStrToolTip, "Drag to modify");

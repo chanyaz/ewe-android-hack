@@ -13,16 +13,20 @@ import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.UiObject
 import android.support.test.uiautomator.UiObjectNotFoundException
 import android.support.test.uiautomator.UiSelector
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions
+import com.expedia.bookings.test.espresso.ViewActions.swipeUntilUiObjectIsVisible
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.endsWith
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.startsWith
 import org.junit.Assert.assertTrue
+import org.mockito.Matchers
 import java.util.concurrent.TimeUnit
 
 object HotelSearchResults {
@@ -51,8 +55,10 @@ object HotelSearchResults {
 	private val uHotelSearchResultsContainer = UiSelector().resourceId("com.expedia.bookings.debug:id/list_view")
 	//Individial Hotel
 	private val uVIPLabel = UiSelector().resourceId("com.expedia.bookings.debug:id/vip_message").text("+VIP")
+	private val vipLabel = allOf(withId(R.id.vip_message), withText("+VIP"))
 	//Sort & Filter Footer
 	private val sortAndFilterContainer = withId(R.id.sort_filter_button_container)
+	private val uSortAndFilterContainer = UiSelector().resourceId("com.expedia.bookings.debug:id/sort_filter_button_container")
 	private val sortAndFilterButton = allOf(withParent(sortAndFilterContainer), withId(R.id.sort_filter_button))
 	private val sortAndFilterIcon = allOf(withParent(sortAndFilterContainer), withId(R.id.filter_icon))
 	private val sortAndFilterText = allOf(withParent(sortAndFilterContainer), withId(R.id.filter_text))
@@ -66,6 +72,11 @@ object HotelSearchResults {
 	@JvmStatic
 	fun uHotelSearchResultList(): UiObject {
 		return device.findObject(uHotelSearchResultsContainer)
+	}
+
+	@JvmStatic
+	fun uSortAndFilterContainer(): UiObject {
+		return device.findObject(uSortAndFilterContainer)
 	}
 
 	@JvmStatic
@@ -83,16 +94,7 @@ object HotelSearchResults {
 
 	@JvmStatic
 	fun swipeUntilVipLabelIsVisible(maxSwipes: Int) {
-		//First we need to check if at least one item is available
-		onView(withIndex(withId(R.id.vip_message), 0)).check(matches(ViewMatchers.isEnabled()))
-		var swipeCount = 0
-		while (!uPlusVipLabel().exists() && swipeCount <= maxSwipes){
-			//Have to use this specific swipe action, because otherwise it tries to swipe from the very bottom, and that
-			// doesn't work due to Sort&Filter being right at the point where it tries to swipe from.
-			onView(hotelSearchResultsContainer).perform(ViewActions.swipeUp())
-			Common.delay(1)
-			swipeCount++
-		}
+		swipeUntilUiObjectIsVisible(maxSwipes, uPlusVipLabel(), uSortAndFilterContainer(), withIndex(vipLabel, 0), hotelSearchResultsContainer)
 	}
 
 	@JvmStatic

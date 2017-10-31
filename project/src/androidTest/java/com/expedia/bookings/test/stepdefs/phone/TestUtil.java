@@ -141,6 +141,10 @@ public class TestUtil {
 		return guestStr;
 	}
 
+	public static LocalDate getDateFromOffset(String offset) {
+		return getDateFromOffset(Integer.parseInt(offset));
+	}
+
 	public static LocalDate getDateFromOffset(int offset) {
 		return LocalDate.now()
 			.plusDays(offset);

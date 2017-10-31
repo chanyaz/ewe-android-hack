@@ -17,18 +17,32 @@ import org.hamcrest.Matchers.isEmptyString
 import org.hamcrest.Matchers.not
 
 object HotelInfoSite {
-	private val infositeDetailContainer = withId(R.id.detail_container)
+	//Matchers
+		//Containers
+	private val detailContainer = withId(R.id.detail_container)
+		//Individual Objects
 	private val plusVIPContainer = withId(R.id.vip_access_message_container)
 	private val plusVIPLabel = withId(R.id.vip_access_message)
+	private val travelDates = withId(R.id.hotel_search_info)
+	private val numberOfGuests = withId(R.id.hotel_search_info_guests)
+
 	// Views
 	@JvmStatic
 	fun infositeDetailContainer(): ViewInteraction {
-		return onView(infositeDetailContainer)
+		return onView(detailContainer)
 	}
 
 	@JvmStatic
 	fun plusVIPlabel(): ViewInteraction {
 		return onView(plusVIPLabel)
+	}
+	@JvmStatic
+	fun travelDates(): ViewInteraction {
+		return onView(travelDates)
+	}
+	@JvmStatic
+	fun numberOfGuests(): ViewInteraction {
+		return onView(numberOfGuests)
 	}
 
 	// Actions
@@ -46,6 +60,16 @@ object HotelInfoSite {
 	@JvmStatic
 	fun waitForPageToLoad() {
 		infositeDetailContainer().perform(ViewActions.waitForViewToDisplay())
+	}
+
+	@JvmStatic
+	fun validateTravelDates(dateString: String) {
+		travelDates().check(matches(withText(dateString)))
+	}
+
+	@JvmStatic
+	fun validateNumberOfGuests(guestsString: String) {
+		numberOfGuests().check(matches(withText(guestsString)))
 	}
 
 	object VIPAccess {
