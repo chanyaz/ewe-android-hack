@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/itin_status_indicator_error" />
+    <corners android:radius="12dp" />
+    <padding
+        android:bottom="5dp"
+        android:left="12dp"
+        android:right="12dp"
+        android:top="5dp" />
+</shape>

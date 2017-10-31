@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.vm
 
 import android.app.Activity
+import com.expedia.bookings.R
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -25,6 +26,7 @@ class FlightItinSegmentSummaryViewModelTest {
     val createSeatingWidgetSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.SeatingWidgetParams>()
     val updateTerminalGateSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.TerminalGateParams>()
     var createRedEyeSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.RedEyeParams>()
+    val updateFlightStatusSubscriber = TestSubscriber<FlightItinSegmentSummaryViewModel.FlightStatsParams>()
 
     @Before
     fun setup() {
@@ -38,7 +40,7 @@ class FlightItinSegmentSummaryViewModelTest {
     fun testUpdateWidgetRedEyeWidgetWithoutRedEye() {
         sut.createRedEyeWidgetSubject.subscribe(createRedEyeSubscriber)
         createRedEyeSubscriber.assertNoValues()
-        sut.updateWidget(getSummaryWidgetParams())
+        sut.updateSegmentInformation(getSummaryWidgetParams())
 
         createRedEyeSubscriber.assertValueCount(1)
         createRedEyeSubscriber.assertValues(FlightItinSegmentSummaryViewModel.RedEyeParams(
@@ -53,7 +55,7 @@ class FlightItinSegmentSummaryViewModelTest {
     fun testUpdateWidgetRedEyeWidgetWithRedEye() {
         sut.createRedEyeWidgetSubject.subscribe(createRedEyeSubscriber)
         createRedEyeSubscriber.assertNoValues()
-        sut.updateWidget(getSummaryWidgetParamsWithRedEye())
+        sut.updateSegmentInformation(getSummaryWidgetParamsWithRedEye())
 
         createRedEyeSubscriber.assertValueCount(1)
         createRedEyeSubscriber.assertValues(FlightItinSegmentSummaryViewModel.RedEyeParams(
@@ -67,7 +69,7 @@ class FlightItinSegmentSummaryViewModelTest {
     fun testUpdateWidgetAirlineWidget() {
         sut.createAirlineWidgetSubject.subscribe(createAirlineWidgetSubscriber)
         createAirlineWidgetSubscriber.assertNoValues()
-        sut.updateWidget(getSummaryWidgetParams())
+        sut.updateSegmentInformation(getSummaryWidgetParams())
 
         createAirlineWidgetSubscriber.assertValueCount(1)
         createAirlineWidgetSubscriber.assertValue(FlightItinSegmentSummaryViewModel.AirlineWidgetParams(
@@ -81,7 +83,7 @@ class FlightItinSegmentSummaryViewModelTest {
     fun testUpdateWidgetTimingWidget() {
         sut.createTimingWidgetSubject.subscribe(createTimingWidgetSubscriber)
         createTimingWidgetSubscriber.assertNoValues()
-        sut.updateWidget(getSummaryWidgetParams())
+        sut.updateSegmentInformation(getSummaryWidgetParams())
 
         createTimingWidgetSubscriber.assertValueCount(1)
         createTimingWidgetSubscriber.assertValue(FlightItinSegmentSummaryViewModel.TimingWidgetParams(
@@ -96,7 +98,7 @@ class FlightItinSegmentSummaryViewModelTest {
     fun testUpdateWidgetSeatingWidget() {
         sut.createSeatingWidgetSubject.subscribe(createSeatingWidgetSubscriber)
         createSeatingWidgetSubscriber.assertNoValues()
-        sut.updateWidget(getSummaryWidgetParams())
+        sut.updateSegmentInformation(getSummaryWidgetParams())
 
         createSeatingWidgetSubscriber.assertValueCount(1)
         createSeatingWidgetSubscriber.assertValue(FlightItinSegmentSummaryViewModel.SeatingWidgetParams(
@@ -110,7 +112,7 @@ class FlightItinSegmentSummaryViewModelTest {
     fun testUpdateWidgetTerminalGateNullOrEmpty() {
         sut.updateTerminalGateSubject.subscribe(updateTerminalGateSubscriber)
         updateTerminalGateSubscriber.assertNoValues()
-        sut.updateWidget(getSummaryWidgetParams())
+        sut.updateSegmentInformation(getSummaryWidgetParams())
 
         updateTerminalGateSubscriber.assertValueCount(1)
         updateTerminalGateSubscriber.assertValue(FlightItinSegmentSummaryViewModel.TerminalGateParams(
@@ -128,7 +130,7 @@ class FlightItinSegmentSummaryViewModelTest {
         summaryWidgetParams.departureGate = ""
         summaryWidgetParams.arrivalTerminal = "5"
         summaryWidgetParams.arrivalGate = null
-        sut.updateWidget(summaryWidgetParams)
+        sut.updateSegmentInformation(summaryWidgetParams)
 
         updateTerminalGateSubscriber.assertValueCount(1)
         updateTerminalGateSubscriber.assertValue(FlightItinSegmentSummaryViewModel.TerminalGateParams(
@@ -146,7 +148,7 @@ class FlightItinSegmentSummaryViewModelTest {
         summaryWidgetParams.departureGate = "3A"
         summaryWidgetParams.arrivalTerminal = null
         summaryWidgetParams.arrivalGate = "12"
-        sut.updateWidget(summaryWidgetParams)
+        sut.updateSegmentInformation(summaryWidgetParams)
 
         updateTerminalGateSubscriber.assertValueCount(1)
         updateTerminalGateSubscriber.assertValue(FlightItinSegmentSummaryViewModel.TerminalGateParams(
@@ -164,7 +166,7 @@ class FlightItinSegmentSummaryViewModelTest {
         summaryWidgetParams.departureGate = "3A"
         summaryWidgetParams.arrivalTerminal = "5"
         summaryWidgetParams.arrivalGate = "12"
-        sut.updateWidget(summaryWidgetParams)
+        sut.updateSegmentInformation(summaryWidgetParams)
 
         updateTerminalGateSubscriber.assertValueCount(1)
         updateTerminalGateSubscriber.assertValue(FlightItinSegmentSummaryViewModel.TerminalGateParams(
@@ -188,6 +190,81 @@ class FlightItinSegmentSummaryViewModelTest {
         assertEquals("Terminal 5, Gate 3A", terminalGateString)
     }
 
+    @Test
+    fun testUpdateFlightStatusCancelled() {
+        sut.updateFlightStatusSubject.subscribe(updateFlightStatusSubscriber)
+        updateFlightStatusSubscriber.assertNoValues()
+        val now = DateTime.now()
+        sut.updateFlightStatus("C", now, now, now, null)
+
+        val indicatorText = activity.resources.getString(R.string.itin_flight_summary_status_indicator_text_cancelled)
+        updateFlightStatusSubscriber.assertValueCount(1)
+        updateFlightStatusSubscriber.assertValue(FlightItinSegmentSummaryViewModel.FlightStatsParams(
+                R.drawable.flight_status_indicator_error_background,
+                indicatorText,
+                indicatorText,
+                R.color.itin_status_indicator_error,
+                null,
+                null
+        ))
+    }
+
+    @Test
+    fun testUpdateFlightStatusOnTime() {
+        sut.updateFlightStatusSubject.subscribe(updateFlightStatusSubscriber)
+        updateFlightStatusSubscriber.assertNoValues()
+        val now = DateTime.now()
+
+        val indicatorText = activity.resources.getString(R.string.itin_flight_summary_status_indicator_text_on_time)
+        sut.updateFlightStatus("S", now, now, now, now)
+        updateFlightStatusSubscriber.assertValueCount(1)
+        updateFlightStatusSubscriber.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
+                R.drawable.flight_status_indicator_success_background,
+                indicatorText,
+                indicatorText,
+                R.color.itin_status_indicator_success,
+                null,
+                null
+        ))
+    }
+
+    @Test
+    fun testUpdateFlightStatusEarlyDeparture() {
+        sut.updateFlightStatusSubject.subscribe(updateFlightStatusSubscriber)
+        updateFlightStatusSubscriber.assertNoValues()
+        val now = DateTime.now()
+
+        val indicatorText = activity.resources.getString(R.string.itin_flight_summary_status_indicator_text_early_departure)
+        sut.updateFlightStatus("S", now, now, now.minusHours(1), now.minusHours(1))
+        updateFlightStatusSubscriber.assertValueCount(1)
+        updateFlightStatusSubscriber.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
+                R.drawable.flight_status_indicator_success_background,
+                indicatorText,
+                indicatorText,
+                R.color.itin_status_indicator_success,
+                LocaleBasedDateFormatUtils.dateTimeTohmma(now.minusHours(1)).toLowerCase(),
+                LocaleBasedDateFormatUtils.dateTimeTohmma(now.minusHours(1)).toLowerCase()
+        ))
+    }
+
+    @Test
+    fun testUpdateFlightStatusDelayed() {
+        sut.updateFlightStatusSubject.subscribe(updateFlightStatusSubscriber)
+        updateFlightStatusSubscriber.assertNoValues()
+        val now = DateTime.now()
+
+        sut.updateFlightStatus("S", now.minusHours(1), now.minusHours(1), now, now)
+        updateFlightStatusSubscriber.assertValueCount(1)
+        updateFlightStatusSubscriber.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
+                R.drawable.flight_status_indicator_error_background,
+                "Delayed by 1h",
+                "Delayed by 1h",
+                R.color.itin_status_indicator_error,
+                LocaleBasedDateFormatUtils.dateTimeTohmma(now).toLowerCase(),
+                LocaleBasedDateFormatUtils.dateTimeTohmma(now).toLowerCase()
+        ))
+    }
+
     private fun getSummaryWidgetParams(): FlightItinSegmentSummaryViewModel.SummaryWidgetParams {
         return FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
@@ -206,9 +283,13 @@ class FlightItinSegmentSummaryViewModelTest {
                 "No seats selected",
                 "Economy / Coach",
                 null,
+                null,
+                "",
+                null,
                 null
         )
     }
+
     private fun getSummaryWidgetParamsWithRedEye(): FlightItinSegmentSummaryViewModel.SummaryWidgetParams {
         return FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
@@ -227,7 +308,10 @@ class FlightItinSegmentSummaryViewModelTest {
                 "No seats selected",
                 "Economy / Coach",
                 null,
-                "+1"
+                "+1",
+                "",
+                null,
+                null
         )
     }
 }

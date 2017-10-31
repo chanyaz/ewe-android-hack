@@ -13,6 +13,8 @@
 
     <color name="exp_itin_bg">#212527</color>
     <color name="exp_itin_bg_crystal_theme">@color/gray100</color>
+    <color name="exp_itin_status_indication_success">#409100</color>
+    <color name="exp_itin_status_indication_error">#e42000</color>
 
     <color name="blue1">#0C7CDF</color>
     <color name="blue2">#1369B3</color>

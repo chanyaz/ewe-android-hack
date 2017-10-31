@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?><!--airline timing widget-->
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
+
+    <LinearLayout
+        android:id="@+id/flight_itin_departure_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:orientation="vertical"
+        app:layout_constraintBaseline_toBaselineOf="@+id/flight_itin_arrival_details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/flight_itin_to_arrow"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/flight_itin_new_departure_details_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:text="@string/itin_flight_summary_new_departure_title"
+                android:textColor="@color/gray600"
+                android:textSize="12sp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_itin_new_departure_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="6:45am"
+                tools:textColor="@color/itin_status_indicator_error" />
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:text="@string/itin_flight_summary_scheduled_title"
+                android:textColor="@color/gray600"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/departure_red_eye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:textColor="@color/gray600"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="Fri, Oct 2"
+            tools:visibility="visible" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_itin_departure_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:textColor="@color/gray900"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="6:45am" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_itin_departure_airport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:textColor="@color/gray600"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            tools:text="Seattle (SEA)" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_itin_departure_terminal_gate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray600"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:visibility="gone"
+            tools:text="Terminal 11"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/flight_itin_to_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/itin_flight_summary_arrow_cont_desc"
+        android:focusable="true"
+        android:tint="@color/gray900"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/flight_itin_departure_details"
+        app:layout_constraintRight_toLeftOf="@+id/flight_itin_arrival_details"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/itin_arrow_icon" />
+
+    <LinearLayout
+        android:id="@+id/flight_itin_arrival_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:gravity="right"
+        android:orientation="vertical"
+        app:layout_constraintBaseline_toBaselineOf="@+id/flight_itin_departure_details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/flight_itin_to_arrow"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/flight_itin_new_arrival_details_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:text="@string/itin_flight_summary_new_arrival_title"
+                android:textColor="@color/gray600"
+                android:textSize="12sp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_itin_new_arrival_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="8:45am"
+                tools:textColor="@color/itin_status_indicator_error" />
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:text="@string/itin_flight_summary_scheduled_title"
+                android:textColor="@color/gray600"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/arrival_red_eye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingBottom="6dp"
+            android:textColor="@color/error_red"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="Arrives on Sat, Oct 3"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_itin_arrival_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray900"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="8:45am" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/red_eye_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:textColor="@color/error_red"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="+1"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_itin_arrival_airport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:textColor="@color/gray600"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            tools:text="San Francisco (SFO)" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_itin_arrival_terminal_gate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray600"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:visibility="gone"
+            tools:text="Terminal 12"
+            tools:visibility="visible" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

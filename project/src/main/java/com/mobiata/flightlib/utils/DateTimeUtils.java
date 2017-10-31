@@ -9,6 +9,7 @@ import org.joda.time.ReadableInstant;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.JodaUtils;
@@ -109,6 +110,51 @@ public class DateTimeUtils {
 		else {
 			return "";
 		}
+	}
+
+	@Nullable
+	public static String getDurationContDescDaysHoursMins(Context context, int durationMinutes) {
+		if (durationMinutes <= 0) {
+			return null;
+		}
+		int minutes = Math.abs(durationMinutes % 60);
+		int hours = Math.abs(durationMinutes / 60 % 24);
+		int days = Math.abs(durationMinutes / 24 / 60);
+		String contDesc = "";
+		if (days > 0 && hours > 0 && minutes > 0) {
+			contDesc = Phrase.from(context, R.string.flight_duration_days_hours_minutes_cont_desc_TEMPLATE)
+				.put("days", days)
+				.put("hours", hours)
+				.put("minutes", minutes).format().toString();
+		}
+		else if (days > 0 && hours > 0) {
+			contDesc = Phrase.from(context, R.string.flight_duration_days_hours_cont_desc_TEMPLATE)
+				.put("days", days)
+				.put("hours", hours).format().toString();
+		}
+		else if (days > 0 && minutes > 0) {
+			contDesc = Phrase.from(context, R.string.flight_duration_days_minutes_cont_desc_TEMPLATE)
+				.put("days", days)
+				.put("minutes", minutes).format().toString();
+		}
+		else if (days > 0) {
+			contDesc = Phrase.from(context, R.string.flight_duration_days_cont_desc_TEMPLATE)
+				.put("days", days).format().toString();
+		}
+		else if (hours > 0 && minutes > 0) {
+			contDesc = Phrase.from(context, R.string.flight_duration_hours_minutes_cont_desc_TEMPLATE)
+				.put("hours", hours)
+				.put("minutes", minutes).format().toString();
+		}
+		else if (hours > 0) {
+			contDesc = Phrase.from(context, R.string.flight_duration_hours_cont_desc_TEMPLATE)
+				.put("hours", hours).format().toString();
+		}
+		else if (minutes > 0) {
+			contDesc = Phrase.from(context, R.string.flight_duration_minutes_cont_desc_TEMPLATE)
+				.put("minutes", minutes).format().toString();
+		}
+		return contDesc;
 	}
 
 	public static String getDeviceTimeFormat(Context context) {

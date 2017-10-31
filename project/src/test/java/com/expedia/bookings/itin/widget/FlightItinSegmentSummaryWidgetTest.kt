@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
@@ -11,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class FlightItinSegmentSummaryWidgetTest {
@@ -88,7 +90,7 @@ class FlightItinSegmentSummaryWidgetTest {
                 "Confirm or change seats with airline"
 
         ))
-        assertEquals("21A, 23B, 25C", sut.seats.text )
+        assertEquals("21A, 23B, 25C", sut.seats.text)
         assertEquals("• Economy / Coach", sut.cabin.text)
         assertEquals(View.VISIBLE, sut.seatConfirmation.visibility)
         assertEquals("Confirm or change seats with airline", sut.seatConfirmation.text)
@@ -134,5 +136,104 @@ class FlightItinSegmentSummaryWidgetTest {
         assertEquals("Arrives on Thu, Oct 19", sut.arrivalRedEye.text)
         assertEquals("+1", sut.redEyeDays.text)
 
+    }
+
+    @Test
+    fun testFlightCancelled() {
+        val indicatorText = context.resources.getString(R.string.itin_flight_summary_status_indicator_text_cancelled)
+        sut.viewModel.updateFlightStatusSubject.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
+                R.drawable.flight_status_indicator_error_background,
+                indicatorText,
+                indicatorText,
+                R.color.itin_status_indicator_error,
+                null,
+                null
+        ))
+
+        assertEquals(View.VISIBLE, sut.flightStatusIndicatorContainer.visibility)
+        assertTrue(sut.flightStatusIndicatorContainer.background == ContextCompat.getDrawable(context, R.drawable.flight_status_indicator_error_background))
+
+        assertEquals(View.VISIBLE, sut.flightStatusIndicatorText.visibility)
+        assertEquals("Cancelled", sut.flightStatusIndicatorText.text.toString())
+        assertEquals("Cancelled", sut.flightStatusIndicatorText.contentDescription.toString())
+
+        assertEquals(View.GONE, sut.newDepartureDetailsContainer.visibility)
+        assertEquals(View.GONE, sut.newArrivalDetailsContainer.visibility)
+    }
+
+    @Test
+    fun testFlightOnTime() {
+        val indicatorText = context.resources.getString(R.string.itin_flight_summary_status_indicator_text_on_time)
+        sut.viewModel.updateFlightStatusSubject.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
+                R.drawable.flight_status_indicator_success_background,
+                indicatorText,
+                indicatorText,
+                R.color.itin_status_indicator_success,
+                null,
+                null
+        ))
+
+        assertEquals(View.VISIBLE, sut.flightStatusIndicatorContainer.visibility)
+        assertTrue(sut.flightStatusIndicatorContainer.background == ContextCompat.getDrawable(context, R.drawable.flight_status_indicator_success_background))
+
+        assertEquals(View.VISIBLE, sut.flightStatusIndicatorText.visibility)
+        assertEquals("On time", sut.flightStatusIndicatorText.text.toString())
+        assertEquals("On time", sut.flightStatusIndicatorText.contentDescription.toString())
+
+        assertEquals(View.GONE, sut.newDepartureDetailsContainer.visibility)
+        assertEquals(View.GONE, sut.newArrivalDetailsContainer.visibility)
+    }
+
+    @Test
+    fun testFlightEarlyDeparture() {
+        val indicatorText = context.resources.getString(R.string.itin_flight_summary_status_indicator_text_early_departure)
+        sut.viewModel.updateFlightStatusSubject.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
+                R.drawable.flight_status_indicator_success_background,
+                indicatorText,
+                indicatorText,
+                R.color.itin_status_indicator_success,
+                "9:45am",
+                "10:45am"
+        ))
+
+        assertEquals(View.VISIBLE, sut.flightStatusIndicatorContainer.visibility)
+        assertTrue(sut.flightStatusIndicatorContainer.background == ContextCompat.getDrawable(context, R.drawable.flight_status_indicator_success_background))
+
+        assertEquals(View.VISIBLE, sut.flightStatusIndicatorText.visibility)
+        assertEquals("Early departure", sut.flightStatusIndicatorText.text.toString())
+        assertEquals("Early departure", sut.flightStatusIndicatorText.contentDescription.toString())
+
+        assertEquals(View.VISIBLE, sut.newDepartureDetailsContainer.visibility)
+        assertEquals(View.VISIBLE, sut.newArrivalDetailsContainer.visibility)
+        assertEquals("9:45am", sut.newDepartureTimeText.text.toString())
+        assertEquals("10:45am", sut.newArrivalTimeText.text.toString())
+        assertEquals(ContextCompat.getColor(context, R.color.itin_status_indicator_success), sut.newDepartureTimeText.currentTextColor)
+        assertEquals(ContextCompat.getColor(context, R.color.itin_status_indicator_success), sut.newArrivalTimeText.currentTextColor)
+    }
+
+    @Test
+    fun testFlightDelayed() {
+        sut.viewModel.updateFlightStatusSubject.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
+                R.drawable.flight_status_indicator_error_background,
+                "Delayed by 30m",
+                "Delayed by 30m",
+                R.color.itin_status_indicator_error,
+                "10:45am",
+                "11:45am"
+        ))
+
+        assertEquals(View.VISIBLE, sut.flightStatusIndicatorContainer.visibility)
+        assertTrue(sut.flightStatusIndicatorContainer.background == ContextCompat.getDrawable(context, R.drawable.flight_status_indicator_error_background))
+
+        assertEquals(View.VISIBLE, sut.flightStatusIndicatorText.visibility)
+        assertEquals("Delayed by 30m", sut.flightStatusIndicatorText.text.toString())
+        assertEquals("Delayed by 30m", sut.flightStatusIndicatorText.contentDescription.toString())
+
+        assertEquals(View.VISIBLE, sut.newDepartureDetailsContainer.visibility)
+        assertEquals(View.VISIBLE, sut.newArrivalDetailsContainer.visibility)
+        assertEquals("10:45am", sut.newDepartureTimeText.text.toString())
+        assertEquals("11:45am", sut.newArrivalTimeText.text.toString())
+        assertEquals(ContextCompat.getColor(context, R.color.itin_status_indicator_error), sut.newDepartureTimeText.currentTextColor)
+        assertEquals(ContextCompat.getColor(context, R.color.itin_status_indicator_error), sut.newArrivalTimeText.currentTextColor)
     }
 }

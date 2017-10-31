@@ -53,7 +53,7 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         vm.createSegmentSummaryWidgetsSubject.subscribe { params ->
             val legSummaryWidget = FlightItinSegmentSummaryWidget(this, null)
             legSummaryWidget.viewModel = FlightItinSegmentSummaryViewModel(this)
-            legSummaryWidget.viewModel.updateWidget(params)
+            legSummaryWidget.viewModel.updateSegmentInformation(params)
             flightSummaryContainer.addView(legSummaryWidget)
         }
         vm.createLayoverWidgetSubject.subscribe { layoverDuration ->

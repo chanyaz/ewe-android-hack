@@ -48,25 +48,4 @@ class ItinTimeDurationViewModelTest {
         durationMins = sut.getFormattedDuration(-5)
         assertEquals(null, durationMins)
     }
-
-    @Test
-    fun testGetLayoverDurationContDesc() {
-        var durationMins = sut.getDurationContDesc(424)
-        assertEquals("7 hour 4 minutes", durationMins)
-
-        durationMins = sut.getDurationContDesc(76)
-        assertEquals("1 hour 16 minutes", durationMins)
-
-        durationMins = sut.getDurationContDesc(10000)
-        assertEquals("6 day 22 hour 40 minutes", durationMins)
-
-        durationMins = sut.getDurationContDesc(36)
-        assertEquals("36 minutes", durationMins)
-
-        durationMins = sut.getDurationContDesc(0)
-        assertEquals(null, durationMins)
-
-        durationMins = sut.getDurationContDesc(-5)
-        assertEquals(null, durationMins)
-    }
 }

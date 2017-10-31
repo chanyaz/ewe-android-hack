@@ -1418,6 +1418,12 @@
     <string name="itin_flight_summary_terminal_TEMPLATE">Terminal {terminal}</string>
     <!-- Flight itin summary widget gate template. Gate {gate} (e.g., Gate 1A)-->
     <string name="itin_flight_summary_gate_TEMPLATE">Gate {gate}</string>
+    <!-- Flight itin summary widget new departure title -->
+    <string name="itin_flight_summary_new_departure_title">New departure</string>
+    <!-- Flight itin summary widget scheduled departure title -->
+    <string name="itin_flight_summary_scheduled_title">Scheduled</string>
+    <!-- Flight itin summary widget new arrival title -->
+    <string name="itin_flight_summary_new_arrival_title">New arrival</string>
     <!-- displayed when seats aren't selectable -->
     <string name="seat_selection_not_available">Seat selection not available</string>
     <!-- displayed when seats are selectable -->
@@ -1436,6 +1442,14 @@
     <string name="itin_flight_traveller_info">Traveler information</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_details_manage_booking_heading">Manage booking</string>
+    <!--Flight itin segment summary flight status indicator text - cancelled-->
+    <string name="itin_flight_summary_status_indicator_text_cancelled">Cancelled</string>
+    <!--Flight itin segment summary flight status indicator text - on time-->
+    <string name="itin_flight_summary_status_indicator_text_on_time">On time</string>
+    <!--Flight itin segment summary flight status indicator text template - delayed by. Delayed by {duration} (e.g., Delayed by 30m)-->
+    <string name="itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE">Delayed by {duration}</string>
+    <!--Flight itin segment summary flight status indicator text - early departure-->
+    <string name="itin_flight_summary_status_indicator_text_early_departure">Early departure</string>
 
 
     <!-- Flight duration format template for days hours minutes. {days}d {hours}h {minutes}m (e.g., 1d 4h 25m) -->

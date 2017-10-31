@@ -37,45 +37,4 @@ abstract class ItinTimeDurationViewModel(private val context: Context) {
             return DateTimeUtils.formatDurationDaysHoursMinutes(context, durationMinutes)
         } else null
     }
-
-    @VisibleForTesting
-    fun getDurationContDesc(durationMinutes: Int): String? {
-        if (durationMinutes <= 0) {
-            return null
-        }
-        val minutes = Math.abs(durationMinutes % 60)
-        val hours = Math.abs(durationMinutes / 60 % 24)
-        val days = Math.abs(durationMinutes / 24 / 60)
-        val contDesc: String?
-        if (days > 0 && hours > 0 && minutes > 0) {
-            contDesc = Phrase.from(context, R.string.flight_duration_days_hours_minutes_cont_desc_TEMPLATE)
-                    .put("days", days)
-                    .put("hours", hours)
-                    .put("minutes", minutes).format().toString()
-        } else if (days > 0 && hours > 0) {
-            contDesc = Phrase.from(context, R.string.flight_duration_days_hours_cont_desc_TEMPLATE)
-                    .put("days", days)
-                    .put("hours", hours).format().toString()
-        } else if (days > 0 && minutes > 0) {
-            contDesc = Phrase.from(context, R.string.flight_duration_days_minutes_cont_desc_TEMPLATE)
-                    .put("days", days)
-                    .put("minutes", minutes).format().toString()
-        } else if (days > 0) {
-            contDesc = Phrase.from(context, R.string.flight_duration_days_cont_desc_TEMPLATE)
-                    .put("days", days).format().toString()
-        } else if (hours > 0 && minutes > 0) {
-            contDesc = Phrase.from(context, R.string.flight_duration_hours_minutes_cont_desc_TEMPLATE)
-                    .put("hours", hours)
-                    .put("minutes", minutes).format().toString()
-        } else if (hours > 0) {
-            contDesc = Phrase.from(context, R.string.flight_duration_hours_cont_desc_TEMPLATE)
-                    .put("hours", hours).format().toString()
-        } else if (minutes > 0) {
-            contDesc = Phrase.from(context, R.string.flight_duration_minutes_cont_desc_TEMPLATE)
-                    .put("minutes", minutes).format().toString()
-        } else {
-            return null
-        }
-        return contDesc
-    }
 }

@@ -163,7 +163,7 @@ public class Waypoint implements JSONable {
 	 * @param accuracy the accuracy of the reading
 	 * @return the date/time if it exists, null otherwise
 	 */
-	private DateTime getDateTime(int position, int accuracy) {
+	public DateTime getDateTime(int position, int accuracy) {
 		if (mDateTimes[position][accuracy] == null) {
 			// First check if we have a string to parse
 			if (mDateTimeStrs[position][accuracy] != null) {

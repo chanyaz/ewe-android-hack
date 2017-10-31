@@ -20,8 +20,10 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import org.mockito.Mockito.`when` as whenever
 
 @RunWith(RobolectricRunner::class)
@@ -130,6 +132,9 @@ class FlightItinDetailsViewModelTest {
                 "22F",
                 " • Economy / Coach",
                 "Confirm or change seats with airline",
+                null,
+                "U",
+                null,
                 null
         ))
     }
@@ -167,6 +172,9 @@ class FlightItinDetailsViewModelTest {
                 "Seat selection not available",
                 " • Economy / Coach",
                 null,
+                null,
+                "U",
+                null,
                 null
         ))
     }
@@ -202,6 +210,9 @@ class FlightItinDetailsViewModelTest {
                 null,
                 "No seats selected",
                 " • Economy / Coach",
+                null,
+                null,
+                "U",
                 null,
                 null
         ))
@@ -240,7 +251,10 @@ class FlightItinDetailsViewModelTest {
                 "No seats selected",
                 " • Economy / Coach",
                 null,
-                "+1"
+                "+1",
+                "U",
+                null,
+                null
         ))
     }
 
@@ -278,6 +292,9 @@ class FlightItinDetailsViewModelTest {
                 "No seats selected",
                 " • Economy / Coach",
                 null,
+                null,
+                "U",
+                null,
                 null
         ), FlightItinSegmentSummaryViewModel.SummaryWidgetParams(
                 "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
@@ -295,6 +312,9 @@ class FlightItinDetailsViewModelTest {
                 "7A",
                 "No seats selected",
                 " • Economy / Coach",
+                null,
+                null,
+                "U",
                 null,
                 null
         ))
@@ -406,6 +426,69 @@ class FlightItinDetailsViewModelTest {
         assertEquals(sut.getSeatString(flight), "Seat selection not available")
     }
 
+    @Test
+    fun testGetScheduledDepartureTime() {
+        val dateTime = DateTime.now()
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flight = testItinCardData.flightLeg.segments[0]
+        flight.originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
+        flight.destinationWaypoint = TestWayPoint("EWR", "Newark", dateTime)
+        flight.mFlightHistoryId = -1
+        assertEquals(dateTime, sut.getScheduledDepartureTime(flight))
+        flight.mFlightHistoryId = 12345
+        assertEquals(dateTime.plusMinutes(10), sut.getScheduledDepartureTime(flight))
+    }
+
+    @Test
+    fun testGetScheduledArrivalTime() {
+        val dateTime = DateTime.now()
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flight = testItinCardData.flightLeg.segments[0]
+        flight.originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
+        flight.destinationWaypoint = TestWayPoint("EWR", "Newark", dateTime)
+        flight.mFlightHistoryId = -1
+        assertEquals(dateTime, sut.getScheduledArrivalTime(flight))
+        flight.mFlightHistoryId = 12345
+        assertEquals(dateTime.plusMinutes(10), sut.getScheduledArrivalTime(flight))
+    }
+
+    @Test
+    fun testGetEstimatedGateDepartureTime() {
+        val dateTime = DateTime.now()
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flight = testItinCardData.flightLeg.segments[0]
+        flight.originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
+        flight.destinationWaypoint = TestWayPoint("EWR", "Newark", dateTime)
+        flight.mFlightHistoryId = -1
+        assertEquals(null, sut.getEstimatedGateDepartureTime(flight))
+        flight.mFlightHistoryId = 12345
+        assertEquals(dateTime.plusMinutes(20), sut.getEstimatedGateDepartureTime(flight))
+    }
+
+    @Test
+    fun testGetEstimatedGateArrivalTime() {
+        val dateTime = DateTime.now()
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flight = testItinCardData.flightLeg.segments[0]
+        flight.originWaypoint = TestWayPoint("SFO", "San Francisco", dateTime)
+        flight.destinationWaypoint = TestWayPoint("EWR", "Newark", dateTime)
+        flight.mFlightHistoryId = -1
+        assertEquals(null, sut.getEstimatedGateArrivalTime(flight))
+        flight.mFlightHistoryId = 12345
+        assertEquals(dateTime.plusMinutes(20), sut.getEstimatedGateArrivalTime(flight))
+    }
+
+    @Test
+    fun testIsDataAvailableFromFlightStats() {
+        val dateTime = DateTime.now()
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        val flight = testItinCardData.flightLeg.segments[0]
+        flight.mFlightHistoryId = -1
+        assertFalse(sut.isDataAvailableFromFlightStats(flight))
+        flight.mFlightHistoryId = 12345
+        assertTrue(sut.isDataAvailableFromFlightStats(flight))
+    }
+
     class TestWayPoint(val code: String, val city: String, val dateTime: DateTime) : Waypoint(ACTION_UNKNOWN) {
         override fun getAirport(): Airport {
             val airport = Airport()
@@ -414,6 +497,15 @@ class FlightItinDetailsViewModelTest {
             return airport
         }
 
-        override fun getBestSearchDateTime(): DateTime = dateTime
+        override fun getDateTime(position: Int, accuracy: Int): DateTime {
+            if (position == Waypoint.POSITION_UNKNOWN && accuracy == Waypoint.ACCURACY_SCHEDULED) {
+                return dateTime
+            } else if (position == Waypoint.POSITION_GATE && accuracy == Waypoint.ACCURACY_SCHEDULED) {
+                return dateTime.plusMinutes(10)
+            } else if (position == Waypoint.POSITION_GATE && accuracy == Waypoint.ACCURACY_ESTIMATED) {
+                return dateTime.plusMinutes(20)
+            }
+            return dateTime.plusMinutes(30)
+        }
     }
 }

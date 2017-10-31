@@ -103,5 +103,26 @@ class DateTimeUtilsTest {
         actualValue = DateTimeUtils.formatDurationDaysHoursMinutes(getContext(), -1)
         assertEquals("", actualValue)
     }
+
+    @Test
+    fun testGetLayoverDurationContDesc() {
+        var durationMins = DateTimeUtils.getDurationContDescDaysHoursMins(getContext(), 424)
+        assertEquals("7 hour 4 minutes", durationMins)
+
+        durationMins = DateTimeUtils.getDurationContDescDaysHoursMins(getContext(), 76)
+        assertEquals("1 hour 16 minutes", durationMins)
+
+        durationMins = DateTimeUtils.getDurationContDescDaysHoursMins(getContext(), 10000)
+        assertEquals("6 day 22 hour 40 minutes", durationMins)
+
+        durationMins = DateTimeUtils.getDurationContDescDaysHoursMins(getContext(), 36)
+        assertEquals("36 minutes", durationMins)
+
+        durationMins = DateTimeUtils.getDurationContDescDaysHoursMins(getContext(), 0)
+        assertEquals(null, durationMins)
+
+        durationMins = DateTimeUtils.getDurationContDescDaysHoursMins(getContext(), -5)
+        assertEquals(null, durationMins)
+    }
 }
 

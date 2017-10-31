@@ -10,6 +10,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.utils.FormatUtils
+import org.joda.time.DateTime
 import rx.subjects.PublishSubject
 
 class FlightItinDetailsViewModel(private val context: Context, private val itinId: String) {
@@ -98,11 +99,10 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                     cabinCodeBuilder.append(segment.cabinCode)
                 }
 
-                if (segment.hasRedEye()){
-                    if(segment.daySpan() > 0){
+                if (segment.hasRedEye()) {
+                    if (segment.daySpan() > 0) {
                         redEyeDaysSB = StringBuilder("+")
-                    }
-                    else {
+                    } else {
                         redEyeDaysSB = StringBuilder()
                     }
                     redEyeDaysSB.append(segment.daySpan())
@@ -112,8 +112,8 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                         leg.airlineLogoURL,
                         FormatUtils.formatFlightNumber(segment, context),
                         operatedBy,
-                        segment.originWaypoint.bestSearchDateTime,
-                        segment.destinationWaypoint.bestSearchDateTime,
+                        getScheduledDepartureTime(segment),
+                        getScheduledArrivalTime(segment),
                         segment.originWaypoint.airport.mAirportCode ?: "",
                         segment.originWaypoint.airport.mCity ?: "",
                         segment.destinationWaypoint.airport.mAirportCode ?: "",
@@ -125,7 +125,10 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                         seats,
                         cabinCodeBuilder.toString(),
                         confirmSeats,
-                        redEyeDays
+                        redEyeDays,
+                        segment.mStatusCode,
+                        getEstimatedGateDepartureTime(segment),
+                        getEstimatedGateArrivalTime(segment)
                 ))
 
                 val layoverDuration = segment.layoverDuration
@@ -141,6 +144,40 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
         }
     }
 
+    //return time from flightstats if available, else return time from trips API
+    @VisibleForTesting
+    fun getScheduledDepartureTime(flight: Flight): DateTime {
+        if (isDataAvailableFromFlightStats(flight)) {
+            return flight.originWaypoint.getDateTime(Waypoint.POSITION_GATE, Waypoint.ACCURACY_SCHEDULED)
+        }
+        return flight.originWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
+    }
+
+    //return time from flightstats if available, else return time from trips API
+    @VisibleForTesting
+    fun getScheduledArrivalTime(flight: Flight): DateTime {
+        if (isDataAvailableFromFlightStats(flight)) {
+            return flight.destinationWaypoint.getDateTime(Waypoint.POSITION_GATE, Waypoint.ACCURACY_SCHEDULED)
+        }
+        return flight.destinationWaypoint.getDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED)
+    }
+
+    //return time from flightstats if available, else return null
+    @VisibleForTesting
+    fun getEstimatedGateDepartureTime(flight: Flight): DateTime? {
+        return if (isDataAvailableFromFlightStats(flight)) flight.originWaypoint.getDateTime(Waypoint.POSITION_GATE, Waypoint.ACCURACY_ESTIMATED) else null
+    }
+
+    //return time from flightstats if available, else return null
+    @VisibleForTesting
+    fun getEstimatedGateArrivalTime(flight: Flight): DateTime? {
+        return if (isDataAvailableFromFlightStats(flight)) flight.destinationWaypoint.getDateTime(Waypoint.POSITION_GATE, Waypoint.ACCURACY_ESTIMATED) else null
+    }
+
+    @VisibleForTesting
+    fun isDataAvailableFromFlightStats(flight: Flight): Boolean {
+        return (flight.mFlightHistoryId != -1)
+    }
 
     @VisibleForTesting
     fun getTerminalAndGate(wayPoint: Waypoint, fallback: String?): Pair<String?, String?> {
@@ -173,6 +210,6 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
             segment.isSeatMapAvailable -> context.getString(R.string.select_seat_prompt)
             else -> context.getString(R.string.seat_selection_not_available)
         }
-        }
+    }
 
 }

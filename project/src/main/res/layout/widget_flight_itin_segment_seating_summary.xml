@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp">
+
+    <LinearLayout
+        android:id="@+id/seating_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_itin_seating"
+            style="@style/FlightItinSeating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_itin_seat"
+            android:drawablePadding="6dp"
+            tools:text="21A, 22B " />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_itin_cabin"
+            style="@style/FlightItinSeating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="• Economy / Coach (R)" />
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/flight_seating_class"
+        style="@style/FlightItinSeating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seating_container"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:text="Confirm or change seats with airline"
+        tools:visibility="visible" />
+</RelativeLayout>
