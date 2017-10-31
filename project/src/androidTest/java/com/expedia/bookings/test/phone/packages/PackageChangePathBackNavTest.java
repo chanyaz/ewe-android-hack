@@ -28,35 +28,44 @@ public class PackageChangePathBackNavTest extends PackageTestCase {
 	@Test
 	public void testPackageChangePathBackNavTest() throws Throwable {
 		PackageScreen.doPackageSearch();
+		assertBottomContainerIsVisibile();
 
 		//change hotel, cancel
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change hotel")).check(matches(isEnabled()));
 		onView(withText("Change hotel")).perform(click());
+		assertBottomContainerIsGone();
 		Common.delay(1);
 		Common.pressBack();
 		Common.delay(1);
 		assertAfterChange();
 
+		assertBottomContainerIsVisibile();
 		//change hotel room, cancel
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change hotel room")).perform(click());
+		assertBottomContainerIsGone();
 		Common.delay(1);
 		Common.pressBack();
 		Common.delay(1);
 		assertAfterChange();
 
+		assertBottomContainerIsVisibile();
 		//change flight, before change outbound flight, cancel
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change flights")).perform(click());
+		assertBottomContainerIsGone();
 		Common.delay(1);
 		Common.pressBack();
 		Common.delay(1);
 		assertAfterChange();
 
+		assertBottomContainerIsVisibile();
 		//change flight, after change outbound flight, cancel
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText("Change flights")).perform(click());
+
+		assertBottomContainerIsGone();
 		PackageScreen.selectFlight(-2);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
@@ -106,6 +115,16 @@ public class PackageChangePathBackNavTest extends PackageTestCase {
 		PackageScreen.outboundFlightDetailsContainer().check(matches(withEffectiveVisibility(
 			ViewMatchers.Visibility.GONE)));
 
+	}
+
+	private void assertBottomContainerIsGone() {
+		onView(allOf(hasDescendant(withId(R.id.bottom_checkout_container)), withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		onView(allOf(hasDescendant(withId(R.id.checkout_button)), withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+	}
+
+	private void assertBottomContainerIsVisibile() {
+		onView(allOf(hasDescendant(withId(R.id.bottom_checkout_container)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		onView(allOf(hasDescendant(withId(R.id.checkout_button)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 }
 
