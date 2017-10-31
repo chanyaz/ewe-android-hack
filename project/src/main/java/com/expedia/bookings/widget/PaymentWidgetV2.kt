@@ -1,8 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub

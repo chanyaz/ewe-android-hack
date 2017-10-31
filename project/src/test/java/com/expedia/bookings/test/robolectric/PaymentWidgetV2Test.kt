@@ -102,7 +102,6 @@ class PaymentWidgetV2Test {
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm, AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
-        SettingUtils.save(activity, R.string.preference_display_eligible_cards_on_payment_form, false)
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel
@@ -251,17 +250,13 @@ class PaymentWidgetV2Test {
 
     @Test
     fun testToggleOnDisplayCardsOnPaymentForm() {
-        AbacusTestUtils.bucketTestAndEnableFeature(activity,
-                AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm,
-                R.string.preference_display_eligible_cards_on_payment_form)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm)
         assertTrue(isDisplayCardsOnPaymentForm(activity))
     }
 
     @Test
     fun testToggleOffDisplayCardsOnPaymentForm() {
-        AbacusTestUtils.unbucketTestAndDisableFeature(activity,
-                AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm,
-                R.string.preference_display_eligible_cards_on_payment_form)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm)
         assertFalse(isDisplayCardsOnPaymentForm(activity))
     }
 
@@ -462,7 +457,6 @@ class PaymentWidgetV2Test {
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm, AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
-        SettingUtils.save(activity, R.string.preference_display_eligible_cards_on_payment_form, true)
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
         sut.viewmodel = viewModel

@@ -75,11 +75,6 @@
             android:title="Show Flights Checkout Webview" />
 
         <CheckBoxPreference
-            android:key="@string/preference_display_eligible_cards_on_payment_form"
-            android:summary="Display Eligible Cards On Payment Form"
-            android:title="Display Eligible Cards On Payment Form" />
-
-        <CheckBoxPreference
             android:key="@string/preference_enable_krazy_glue_on_flights_confirmation"
             android:summary="Enable Krazy Glue on Flights Confirmation"
             android:title="Enable Krazy Glue on Flights Confirmation" />

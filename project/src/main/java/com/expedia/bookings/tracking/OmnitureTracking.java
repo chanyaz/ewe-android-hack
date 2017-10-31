@@ -1082,9 +1082,7 @@ public class OmnitureTracking {
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		trackAbacusTest(s, AbacusUtils.EBAndroidPopulateCardholderName);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_display_eligible_cards_on_payment_form)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm);
 		s.track();
 	}
 

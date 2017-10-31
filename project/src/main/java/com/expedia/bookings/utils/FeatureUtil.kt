@@ -46,14 +46,13 @@ fun isShowFlightsCheckoutWebview(context: Context): Boolean {
             && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_flights_checkout_webview)
 }
 
-fun isDisplayCardsOnPaymentForm(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm)
-            && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_display_eligible_cards_on_payment_form)
-}
-
 fun isKrazyglueOnFlightsConfirmationEnabled(context: Context) : Boolean {
     return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsKrazyglue)
             && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_krazy_glue_on_flights_confirmation)
+}
+
+fun isDisplayCardsOnPaymentForm(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isUserBucketedForTest(context, AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm)
 }
 
 fun isCreditCardMessagingForPayLaterEnabled(context: Context): Boolean {
