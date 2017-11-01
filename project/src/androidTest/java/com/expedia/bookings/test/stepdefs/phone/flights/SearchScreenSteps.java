@@ -50,7 +50,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.airportDropDownEntryWithAirportCode;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
-import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInMMMdd;
+import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEEMMMdd;
 import static com.expedia.bookings.test.stepdefs.phone.flights.DatePickerSteps.pickDates;
 import static com.expedia.bookings.utils.DateFormatUtils.formatDateToShortDayAndDate;
 import static org.hamcrest.Matchers.allOf;
@@ -450,10 +450,10 @@ public class SearchScreenSteps {
 
 	@Then("Validate search form retains details of search for flights")
 	public void validateSearchRetainSearch(Map<String, String> expParameters) throws Throwable {
-		String startDate = getDateInMMMdd(expParameters.get("start_date"));
+		String startDate = getDateInEEEMMMdd(expParameters.get("start_date"));
 		String endDate = " (One Way)";
 		if (expParameters.get("end_date") != null) {
-			endDate = " - " + getDateInMMMdd(expParameters.get("end_date"));
+			endDate = "  -  " + getDateInEEEMMMdd(expParameters.get("end_date"));
 		}
 		String expectedCalendarDate = startDate + endDate;
 		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
