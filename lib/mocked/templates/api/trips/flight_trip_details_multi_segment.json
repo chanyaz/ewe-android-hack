@@ -73,7 +73,7 @@
       "airAttachQualified": true,
       "offerExpires": "2017-11-20T09:47:11.880-07:00",
       "offerExpiresTime": {
-        "raw": "2017-11-20T09:47:11-07:00",
+        "raw": "${offerExpiresTimeRaw}",
         "localized": "Oct 19, 2017 9:47:11 AM",
         "epochSeconds": 1508431631,
         "timeZoneOffsetSeconds": -25200,

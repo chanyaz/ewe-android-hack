@@ -313,28 +313,27 @@ class FlightCheckoutViewTest {
                 ProductFlavorFeatureConfiguration.getInstance(), isFlights = true))
     }
 
-//    TODO : [Card - #7563] Continuously failing for all PR. Might be timezone issue
-//    @Test
-//    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-//    fun testFlightWithCrossSellOnConfirmationFromWebCheckout() {
-//        setPOSToIndia()
-//        turnOnABTestAndFeatureToggle()
-//        createMockFlightServices()
-//        setFlightPresenterAndFlightServices()
-//        setupTestToOpenInFlightOutboundPresenter()
-//
-//        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
-//        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
-//        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
-//
-//        serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
-//        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
-//
-//        val hotelCrossSell = flightPresenter.confirmationPresenter.hotelCrossSell
-//        assertTrue(hotelCrossSell.airAttachCountDownView.visibility == View.VISIBLE)
-//        assertTrue(hotelCrossSell.airAttachExpirationTodayTextView.visibility == View.GONE)
-//        assertEquals("20 days", hotelCrossSell.airattachExpirationDaysRemainingTextView.text)
-//    }
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testCrossSellDaysRemainingOnConfirmationFromWebCheckout() {
+        setPOSToIndia()
+        turnOnABTestAndFeatureToggle()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+
+        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+
+        serviceRule.services!!.getTripDetails("flight_trip_details_multi_segment", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        val hotelCrossSell = flightPresenter.confirmationPresenter.hotelCrossSell
+        assertTrue(hotelCrossSell.airAttachCountDownView.visibility == View.VISIBLE)
+        assertTrue(hotelCrossSell.airAttachExpirationTodayTextView.visibility == View.GONE)
+        assertEquals("2 days", hotelCrossSell.airattachExpirationDaysRemainingTextView.text)
+    }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

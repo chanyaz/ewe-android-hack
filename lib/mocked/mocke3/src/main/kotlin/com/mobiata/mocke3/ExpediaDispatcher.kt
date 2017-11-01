@@ -204,6 +204,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         params.put("hotelCheckInTzOffset", "" + pacificTimeZone.getOffset(hotelCheckIn.millis) / 1000)
         params.put("hotelCheckOutEpochSeconds", "" + hotelCheckOut.millis / 1000)
         params.put("hotelCheckOutTzOffset", "" + pacificTimeZone.getOffset(hotelCheckOut.millis) / 1000)
+        params.put("offerExpiresTimeRaw", DateTime().plusDays(2).toString())
 
         var responseCode = 200
         when(fileName) {
