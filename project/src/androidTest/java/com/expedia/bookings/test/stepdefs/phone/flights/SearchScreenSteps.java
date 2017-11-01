@@ -213,7 +213,7 @@ public class SearchScreenSteps {
 		changeNumberOfChildren(previousNumberOfChildren);
 		SearchScreen.searchAlertDialogDone().perform(click());
 		SearchScreen.searchButton().perform(click());
-		onView(withId(R.id.sort_filter_button)).perform(waitFor(isDisplayed(), 20, TimeUnit.SECONDS));
+		onView(withId(R.id.sort_filter_button)).perform(waitFor(isDisplayed(), 30, TimeUnit.SECONDS));
 	}
 
 	private void selectTravelers(Map<String, String> parameters) {
