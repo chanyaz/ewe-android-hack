@@ -190,7 +190,7 @@ Feature: Package Search
       | source              | SFO                            |
       | destination         | LAS                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | destination_suggest | Las Vegas Strip, NV |
       | start_date          | 5                              |
       | end_date            | 10                             |
       | adults              | 2                              |
@@ -214,7 +214,7 @@ Feature: Package Search
       | source              | SFO                            |
       | destination         | LAS                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | destination_suggest | Las Vegas Strip, NV |
       | start_date          | 5                              |
       | end_date            | 10                             |
       | adults              | 2                              |
@@ -245,7 +245,7 @@ Feature: Package Search
       | source              | SFO                            |
       | destination         | LAS                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | destination_suggest | Las Vegas Strip, NV |
       | start_date          | 5                              |
       | end_date            | 10                             |
       | adults              | 2                              |
@@ -280,7 +280,7 @@ Feature: Package Search
       | source              | SFO                            |
       | destination         | LAS                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | destination_suggest | Las Vegas Strip, NV |
       | start_date          | 20                             |
       | end_date            | 30                             |
       | adults              | 2                              |
@@ -311,7 +311,7 @@ Feature: Package Search
       | source              | SFO                            |
       | destination         | LAS                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | destination_suggest | Las Vegas Strip, NV |
       | start_date          | 15                             |
       | end_date            | 20                             |
       | adults              | 2                              |
@@ -325,7 +325,7 @@ Feature: Package Search
     And I press back
     Then Validate search form retains details of search for packages
       | source              | SFO - San Francisco Intl.      |
-      | destination         | Las Vegas Strip, Las Vegas, NV |
+      | destination         | Las Vegas Strip, NV |
       | start_date          | 15                             |
       | end_date            | 20                             |
       | numberOfNights      | (5 nights)                     |
@@ -350,7 +350,7 @@ Feature: Package Search
       | source              | SFO                            |
       | destination         | LAS                            |
       | source_suggest      | SFO - San Francisco Intl.      |
-      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | destination_suggest | Las Vegas Strip, NV |
       | start_date          | 5                              |
       | end_date            | 10                             |
       | adults              | 2                              |
