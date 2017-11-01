@@ -10,12 +10,25 @@ import org.joda.time.format.ISODateTimeFormat
 import java.util.ArrayList
 import java.util.HashMap
 
-class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Traveler>, cvv: String, expectedTotalFare: String, expectedFareCurrencyCode: String, suppressFinalBooking: Boolean, tripId: String, val tealeafTransactionId: String, val flightLegs: List<FlightLeg>) : BaseCheckoutParams(billingInfo, travelers, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking, tripId) {
+class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Traveler>, cvv: String, expectedTotalFare: String, expectedFareCurrencyCode: String, suppressFinalBooking: Boolean, tripId: String, val tealeafTransactionId: String, val flightLegs: List<FlightLeg>, val featureOverride: String?) : BaseCheckoutParams(billingInfo, travelers, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking, tripId) {
 
     class Builder : BaseCheckoutParams.Builder() {
 
         private var tealeafTransactionId: String? = null
         private var flightLegs: List<FlightLeg>? = null
+        protected var featureOverride: String? = null
+
+        fun setFeatureOverrideFlag(newFeatureOverride: String): FlightCheckoutParams.Builder {
+            if (featureOverride.isNullOrBlank()) {
+                featureOverride = newFeatureOverride
+            } else {
+                val builder = StringBuilder(featureOverride)
+                builder.append(",")
+                builder.append(newFeatureOverride)
+                featureOverride = builder.toString()
+            }
+            return this
+        }
 
         override fun build(): FlightCheckoutParams {
             val billingInfo = billingInfo ?: throw IllegalArgumentException()
@@ -28,7 +41,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             val cvv = cvv ?: throw IllegalArgumentException()
             val tealeafTransactionId = tealeafTransactionId ?: throw IllegalArgumentException()
             val flightLegs = flightLegs ?: throw IllegalArgumentException()
-            return FlightCheckoutParams(billingInfo, travelers, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking, tripId, tealeafTransactionId, flightLegs)
+            return FlightCheckoutParams(billingInfo, travelers, cvv, expectedTotalFare, expectedFareCurrencyCode, suppressFinalBooking, tripId, tealeafTransactionId, flightLegs, featureOverride)
         }
 
         fun tealeafTransactionId(tealeafTransactionId: String): FlightCheckoutParams.Builder {
@@ -47,7 +60,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
         val dtf = ISODateTimeFormat.date()
 
         params.put("tlPaymentsSubmitEvent", "1")
-        params.put("tealeafTransactionId", this.tealeafTransactionId)
+        params.put("tealeafTransactionId", tealeafTransactionId)
         params.put("validateWithChildren", true)
 
         //TRAVELERS

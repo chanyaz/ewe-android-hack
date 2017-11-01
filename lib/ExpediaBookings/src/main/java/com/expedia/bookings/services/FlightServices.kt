@@ -154,10 +154,10 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
     }
 
     // open so we can use Mockito to mock FlightServices
-    open fun checkout(params: Map<String, Any>, observer: Observer<FlightCheckoutResponse>): Subscription {
+    open fun checkout(params: Map<String, Any>, featureOverride: String?, observer: Observer<FlightCheckoutResponse>): Subscription {
         checkoutRequestSubscription?.unsubscribe()
 
-        checkoutRequestSubscription = flightApi.checkout(params)
+        checkoutRequestSubscription = flightApi.checkout(params, featureOverride)
                                         .observeOn(observeOn)
                                         .subscribeOn(subscribeOn)
                                         .doOnNext { response ->

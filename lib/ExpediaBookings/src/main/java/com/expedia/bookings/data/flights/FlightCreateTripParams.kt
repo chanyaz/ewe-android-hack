@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.flights
 
-import com.expedia.bookings.utils.Constants
 import java.math.BigDecimal
 import java.util.HashMap
 
@@ -27,7 +26,10 @@ class FlightCreateTripParams(val productKey: String, val flexEnabled: Boolean, v
             if (featureOverride.isNullOrBlank()) {
                 featureOverride = newFeatureOverride
             } else {
-                featureOverride += "," + newFeatureOverride
+                val builder = StringBuilder(featureOverride)
+                builder.append(",")
+                builder.append(newFeatureOverride)
+                featureOverride = builder.toString()
             }
             return this
         }

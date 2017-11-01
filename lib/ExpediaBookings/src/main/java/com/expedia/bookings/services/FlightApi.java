@@ -39,5 +39,6 @@ public interface FlightApi {
 	@FormUrlEncoded
 	@POST("/api/flight/checkout")
 	Observable<FlightCheckoutResponse> checkout(
-		@FieldMap Map<String, Object> queryParams);
+		@FieldMap Map<String, Object> queryParams,
+		@Query("featureOverride") String featureOverride);
 }
