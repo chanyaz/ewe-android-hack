@@ -357,6 +357,47 @@ public class TuneUtils {
 		}
 	}
 
+	public static void trackPackageInBoundResults(PackageSearchParams searchTrackingData) {
+		if (trackingProvider != null) {
+			TuneEvent event = new TuneEvent("package_inbound_search_results");
+			TuneEventItem eventItem = new TuneEventItem("package_inbound_search_item");
+			eventItem.withAttribute2(searchTrackingData.getOrigin().hierarchyInfo.airport.airportCode)
+					.withAttribute3(searchTrackingData.getDestination().hierarchyInfo.airport.airportCode);
+
+			if (searchTrackingData.getFlightLegList() != null && !searchTrackingData.getFlightLegList().isEmpty()) {
+				int propertiesCount = searchTrackingData.getFlightLegList().size();
+				StringBuilder sb = new StringBuilder();
+				int lastIndex = getLastIndex(propertiesCount);
+
+				for (int i = 0; i <= lastIndex; i++) {
+					FlightLeg flightLeg = searchTrackingData.getFlightLegList().get(i);
+					String carrier = flightLeg.carrierCode;
+					String currency = flightLeg.packageOfferModel.price.packageTotalPrice.currencyCode;
+					String price = flightLeg.packageOfferModel.price.packageTotalPrice.amount.toString();
+					String routeType = "RT";
+					String route = String.format("%s-%s", searchTrackingData.getOrigin().gaiaId, searchTrackingData.getDestination().gaiaId);
+					sb.append(String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
+					if (i != lastIndex) {
+						sb.append(":");
+					}
+				}
+				eventItem.withAttribute5(sb.toString());
+			}
+			Date departureDate = searchTrackingData.getStartDate().toDate();
+			if (searchTrackingData.getEndDate() != null) {
+				Date returnDate = searchTrackingData.getEndDate().toDate();
+				event.withDate2(returnDate);
+			}
+			withTuidAndMembership(event)
+					.withAttribute2(trackingProvider.isUserLoggedInValue())
+					.withEventItems(Collections.singletonList(eventItem))
+					.withSearchString("flight")
+					.withDate1(departureDate);
+
+			trackingProvider.trackEvent(event);
+		}
+	}
+
 	public static void trackFlightV2InBoundResults(FlightSearchTrackingData trackingData) {
 		if (trackingProvider != null) {
 			TuneEvent event = new TuneEvent("flight_inbound_result");

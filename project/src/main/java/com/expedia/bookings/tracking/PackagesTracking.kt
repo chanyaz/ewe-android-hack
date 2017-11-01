@@ -1,6 +1,5 @@
 package com.expedia.bookings.tracking
 
-import android.content.Context
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.PaymentType
@@ -99,8 +98,10 @@ class PackagesTracking {
             OmnitureTracking.trackPackagesFlightRoundTripOutLoad(pageUsableData)
             TuneUtils.trackPackageOutBoundResults(packageParams)
         }
-        else
+        else {
             OmnitureTracking.trackPackagesFlightRoundTripInLoad(pageUsableData)
+            TuneUtils.trackPackageInBoundResults(packageParams)
+        }
     }
 
     fun trackFlightRoundTripDetailsLoad(isOutBound: Boolean) {
