@@ -27,6 +27,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -42,16 +43,51 @@ class PackageUnrealDealTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testFreeUnrealDealUSPos() {
+    fun testFreeUnrealDealUSPosFreeHotel() {
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
         packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
 
         val hotel = makeHotel()
+        hotel.packageOfferModel.brandedDealData.dealVariation = PackageOfferModel.DealVariation.FreeHotel
         packageHotelHolder.bindHotelData(hotel)
         Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
         Assert.assertEquals("Get your hotel for free by booking together.", packageHotelHolder.unrealDealMessage.text)
+        assertEquals("Unreal Deal Get your hotel for free by booking together. happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights Old price $27 Button",
+                packageHotelHolder.cardView.contentDescription.toString())
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFreeUnrealDealUSPosFreeFlight() {
+        hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
+        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
+
+        val hotel = makeHotel()
+        hotel.packageOfferModel.brandedDealData.dealVariation = PackageOfferModel.DealVariation.FreeFlight
+        packageHotelHolder.bindHotelData(hotel)
+        Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
+        Assert.assertEquals("Book this and save 100% on your flight.", packageHotelHolder.unrealDealMessage.text)
+        assertEquals("Unreal Deal Book this and save 100% on your flight. happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights Old price $27 Button",
+                packageHotelHolder.cardView.contentDescription.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFreeUnrealDealUSPosFreeOneNightHotel() {
+        hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
+        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
+
+        val hotel = makeHotel()
+        hotel.packageOfferModel.brandedDealData.dealVariation = PackageOfferModel.DealVariation.FreeOneNightHotel
+        hotel.packageOfferModel.brandedDealData.freeNights = "1"
+        packageHotelHolder.bindHotelData(hotel)
+        Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
+        Assert.assertEquals("1 free night when you book with a flight.", packageHotelHolder.unrealDealMessage.text)
+        assertEquals("Unreal Deal 1 free night when you book with a flight. happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights Old price $27 Button",
+                packageHotelHolder.cardView.contentDescription.toString())
+    }
+
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     @Test fun testNoFreeUnrealDealUKPos() {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_no_free_unreal_deal.json")
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
@@ -61,6 +97,8 @@ class PackageUnrealDealTest {
         packageHotelHolder.bindHotelData(hotel)
         Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
         Assert.assertEquals("Book this and save $110 (20%)", packageHotelHolder.unrealDealMessage.text)
+        assertEquals("Unreal Deal Book this and save $110 (20%) happy with 4.0 of 5 rating. 3.5 of 5 guest rating. Price $22. Includes hotel and flights Old price $27 Button",
+                packageHotelHolder.cardView.contentDescription.toString())
     }
 
     private fun makeHotel(): Hotel {
@@ -69,7 +107,11 @@ class PackageUnrealDealTest {
         hotel.localizedName = "happy"
         hotel.lowRateInfo = HotelRate()
         hotel.distanceUnit = "Miles"
+        hotel.hotelGuestRating = 3.5f
+        hotel.hotelStarRating = 4f
+        hotel.lowRateInfo.priceToShowUsers = 22F
         hotel.lowRateInfo.currencyCode = "USD"
+        hotel.lowRateInfo.strikethroughPriceToShowUsers = 27f
         hotel.lowRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), false)
         hotel.packageOfferModel = PackageOfferModel()
         hotel.packageOfferModel.featuredDeal = true
