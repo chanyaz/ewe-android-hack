@@ -112,9 +112,6 @@ public class AbacusUtils {
 	// Soft Prompt
 	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);
 
-	// Satellite
-	public static final ABTest SatelliteTest = new ABTest(15820);
-
 	public enum DefaultVariant {
 		CONTROL,
 		BUCKETED
@@ -226,7 +223,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsSearchResultCaching.getKey());
 		testIDs.add(HotelShowSoldOutResults.getKey());
 		testIDs.add(EBAndroidAppFlightsKrazyglue.getKey());
-		testIDs.add(SatelliteTest.getKey());
 		testIDs.add(EBAndroidAppFlightsDeltaPricing.getKey());
 		testIDs.add(HotelEnableInfositeChangeDate.getKey());
 		testIDs.add(EBAndroidAppFlightsFrenchLegalBaggageInfo.getKey());

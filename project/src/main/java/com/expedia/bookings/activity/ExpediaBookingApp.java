@@ -315,7 +315,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	}
 
 	private void initializeFeatureConfig() {
-		SatelliteFeatureConfigManager.refreshFeatureConfigIfStale(this);    //Fetch regardless of whether or not we are bucket in satty ab test
+		SatelliteFeatureConfigManager.refreshFeatureConfigIfStale(this);
 	}
 
 	private void initializePointOfSale() {

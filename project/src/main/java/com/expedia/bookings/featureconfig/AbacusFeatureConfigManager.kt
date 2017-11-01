@@ -12,24 +12,21 @@ class AbacusFeatureConfigManager {
 
     companion object {
         @Deprecated("Use isUserBucketedForTest(context, ABTest) instead")
-        @JvmStatic fun isUserBucketedForTest(abacusTest: ABTest): Boolean {
+        @JvmStatic
+        fun isUserBucketedForTest(abacusTest: ABTest): Boolean {
             return isBucketed(abacusTest)
         }
 
-        @JvmStatic fun isUserBucketedForTest(context: Context, abacusTest: ABTest): Boolean {
-            if (isBucketed(AbacusUtils.SatelliteTest)) {
-                if (abacusTest.remote && !(useOverride(context, abacusTest))) {
-                    return isUserBucketedForRemoteTest(context, abacusTest)
-                }
+        @JvmStatic
+        fun isUserBucketedForTest(context: Context, abacusTest: ABTest): Boolean {
+            if (abacusTest.remote && !(useOverride(context, abacusTest))) {
+                return isUserBucketedForRemoteTest(context, abacusTest)
             }
             return isBucketed(abacusTest)
         }
 
-        @JvmStatic fun shouldTrackTest(context: Context, abacusTest: ABTest): Boolean {
-            if (!isBucketed(AbacusUtils.SatelliteTest)) {
-                return true
-            }
-
+        @JvmStatic
+        fun shouldTrackTest(context: Context, abacusTest: ABTest): Boolean {
             if (abacusTest.remote && !SatelliteFeatureConfigManager.isABTestEnabled(context, abacusTest.key)) {
                 return false
             }
