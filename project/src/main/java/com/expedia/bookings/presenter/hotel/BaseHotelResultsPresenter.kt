@@ -1055,6 +1055,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 getFabAnimIn().start()
             }
             if (forward) {
+                filterView.toolbar.requestFocus()
                 recyclerView.visibility = View.GONE
                 toolbar.visibility = View.GONE
                 mapView.visibility = View.GONE
@@ -1082,9 +1083,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             transitionRunning = false
-            if (!forward) filterView.visibility = View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
-            if (!forward) {
+            if (forward) {
+                filterView.toolbar.requestFocus()
+            } else {
+                filterView.visibility = View.GONE
                 fab.visibility = View.VISIBLE
                 searchThisArea?.visibility = View.VISIBLE
             }
