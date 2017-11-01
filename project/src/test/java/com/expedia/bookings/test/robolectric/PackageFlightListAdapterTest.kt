@@ -16,12 +16,14 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.FlightSearchViewModel
+import com.expedia.vm.packages.PackageFlightViewModel
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -77,6 +79,113 @@ class PackageFlightListAdapterTest {
     }
 
     @Test
+    fun testPricingStructureHeaderShownForPackagesLOB() {
+        createSystemUnderTest()
+        sut.setNewFlights(emptyList())
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(0)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testFlightCellViewShownForPackagesLOB() {
+        createSystemUnderTest()
+        sut.setNewFlights(emptyList())
+        sut.shouldShowBestFlight = false
+        val itemViewType = sut.getItemViewType(2)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testBestFlightViewShownForPackagesLOB() {
+        createSystemUnderTest()
+        sut.setNewFlights(emptyList())
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(1)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.BEST_FLIGHT_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testFlightCellViewShownWhenShowBestFlightIsTrue() {
+        createSystemUnderTest()
+        sut.setNewFlights(emptyList())
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(3)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testLoadingFlightsViewShownWhenChangePackageSearchIsFalse() {
+        sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(3)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.LOADING_FLIGHTS_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testFlightCellViewShownWhenBestFlightIsFalse() {
+        createSystemUnderTest()
+        createExpectedFlightLeg()
+        sut.setNewFlights(listOf(flightLeg))
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(3)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testFlightCellViewShownWhenBestFlightIsTrue() {
+        createSystemUnderTest()
+        createExpectedFlightLeg()
+        flightLeg.isBestFlight = true
+        sut.setNewFlights(listOf(flightLeg))
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(3)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testFlightCellViewShownWhenChangePackageSearchIsFalseAndBestFlightIsFalse() {
+        sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
+        createExpectedFlightLeg()
+        sut.setNewFlights(listOf(flightLeg))
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(3)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testFlightCellViewShownWhenChangePackageSearchIsFalseAndBestFlightIsTrue() {
+        sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
+        createExpectedFlightLeg()
+        flightLeg.isBestFlight = true
+        sut.setNewFlights(listOf(flightLeg))
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(3)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testFlightCellViewShownWhenFlightsSizeIsTwoAndBestFlightIsFalse() {
+        sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
+        createExpectedFlightLeg()
+        sut.setNewFlights(arrayListOf(flightLeg, flightLeg))
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(3)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testFlightCellViewShownWhenFlightsSizeIsTwoAndBestFlightIsTrue() {
+        sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
+        createExpectedFlightLeg()
+        flightLeg.isBestFlight = true
+        sut.setNewFlights(arrayListOf(flightLeg, flightLeg))
+        sut.shouldShowBestFlight = true
+        val itemViewType = sut.getItemViewType(3)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
     fun getPackageFlightViewModel() {
         createSystemUnderTest()
         createExpectedFlightLeg()
@@ -112,6 +221,18 @@ class PackageFlightListAdapterTest {
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals("Prices roundtrip, per person, from • includes hotel and flights", headerViewHolder.priceHeader.text)
         setPointOfSale(initialPOSID)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testWhenBestFlightViewHolder() {
+        createSystemUnderTest()
+        createExpectedFlightLeg()
+        flightLeg.flightSegments = emptyList()
+        sut.setNewFlights(listOf(flightLeg))
+        val headerViewHolder = sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.BEST_FLIGHT_VIEW.ordinal) as PackageFlightListAdapter.BestFlightViewHolder
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals(-1, headerViewHolder.itemId)
     }
 
     private fun createHeaderViewHolder(): AbstractFlightListAdapter.HeaderViewHolder {
