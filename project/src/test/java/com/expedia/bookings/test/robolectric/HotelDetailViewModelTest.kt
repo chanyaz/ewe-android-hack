@@ -8,6 +8,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -603,7 +604,8 @@ class HotelDetailViewModelTest {
     fun testDatesForSoldOut() {
         val testDatesTextSub = TestSubscriber.create<String>()
 
-        AbacusTestUtils.enableFeature(context, R.string.preference_dateless_infosite)
+        AbacusTestUtils.bucketTestAndEnableFeature(context, AbacusUtils.HotelEnableInfositeChangeDate,
+                R.string.preference_dateless_infosite)
         vm.searchInfoObservable.subscribe(testDatesTextSub)
         vm.hotelOffersSubject.onNext(soldOutOffer)
 

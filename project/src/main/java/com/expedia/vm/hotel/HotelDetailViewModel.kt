@@ -84,7 +84,7 @@ open class HotelDetailViewModel(context: Context,
 
     override fun offerReturned(offerResponse: HotelOffersResponse) {
         super.offerReturned(offerResponse)
-        if (hotelSoldOut.value && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_dateless_infosite)) {
+        if (hotelSoldOut.value && isChangeDatesEnabled()) {
             searchInfoObservable.onNext(context.getString(R.string.change_dates))
         }
     }
