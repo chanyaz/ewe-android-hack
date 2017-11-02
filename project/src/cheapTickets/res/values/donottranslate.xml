@@ -13,6 +13,10 @@
     <string name="tune_sdk_app_advertiser_id">189060</string>
     <string name="tune_sdk_app_conversion_key">8f7dc538871c8297bf3e2d9485856044</string>
 
+    <!--Carnival SDK Key-->
+    <!--<string name="carnival_sdk_key">a93c17283ed810fbea6b6c20b78204ccb266d00b</string>-->
+    <string name="carnival_sdk_debug_key">a69d6d6112ec66041dea1d90bec1a74ddb7b3e0a</string>
+
     <!-- Brand reward name -->
     <string name="brand_reward_name">CheapCash</string>
 

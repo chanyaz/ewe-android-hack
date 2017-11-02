@@ -382,7 +382,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isCarnivalEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override

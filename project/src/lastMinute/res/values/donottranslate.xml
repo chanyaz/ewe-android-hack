@@ -13,6 +13,10 @@
     <string name="tune_sdk_app_advertiser_id">188640</string>
     <string name="tune_sdk_app_conversion_key">5906feacf85426428e9b508640b6bb69</string>
 
+    <!--Carnival SDK Key-->
+    <!--<string name="carnival_sdk_key">83b8fc815fcba50ad7039957d816a4113b5d95b0</string>-->
+    <string name="carnival_sdk_debug_key">0ac650660c7f9c105fb0f5fa4af9cc70cd3f837d</string>
+
     <string name="lastminute_au">lastminute.com.au</string>
     <string name="lastminute_nz">lastminute.co.nz</string>
 

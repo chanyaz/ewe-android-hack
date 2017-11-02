@@ -18,4 +18,8 @@
     <string name="deeplink_hotel_search">tvly://hotelSearch</string>
     <string name="deeplink_flight_share">tvly://flightShare</string>
 
+    <!--Carnival SDK Key-->
+    <!--<string name="carnival_sdk_key">d24ea2b0bbf59caf76082879a49bb306ad86c99c</string>-->
+    <string name="carnival_sdk_debug_key">1f94da3aac03396bc31d090652443eeea4b8c560</string>
+
 </resources>

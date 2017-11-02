@@ -16,6 +16,10 @@
     <string name="tune_sdk_app_advertiser_id">192083</string>
     <string name="tune_sdk_app_conversion_key">228c80cd100c2f4bc041146f24c4c326</string>
 
+    <!--Carnival SDK Key-->
+    <!--<string name="carnival_sdk_key">122907ea59ab9bc3c43042285c0acee89ad218ac</string>-->
+    <string name="carnival_sdk_debug_key">fa63f8680e9a66fab0cab5b54b2f280d5e2eb3b7</string>
+
     <!-- Brand reward currency -->
     <string name="brand_reward_currency">MrJet Rewards</string>
     

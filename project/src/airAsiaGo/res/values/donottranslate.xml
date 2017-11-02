@@ -13,6 +13,10 @@
     <string name="tune_sdk_app_advertiser_id">190169</string>
     <string name="tune_sdk_app_conversion_key">b36282b87552015465546ff0a43572de</string>
 
+    <!--Carnival SDK Key-->
+    <!--<string name="carnival_sdk_key">7713fd00e978e63eeedb849343cc5136c0842f69</string>-->
+    <string name="carnival_sdk_debug_key">515a97cf41b1fc06f149f502c0346baa9d48eabd</string>
+
     <!-- Deeplink URLs for app shortcuts -->
     <string name="deeplink_trips">aago://trips</string>
     <string name="deeplink_hotel_search">aago://hotelSearch</string>

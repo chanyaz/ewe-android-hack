@@ -16,6 +16,10 @@
     <string name="tune_sdk_app_advertiser_id">189060</string>
     <string name="tune_sdk_app_conversion_key">8f7dc538871c8297bf3e2d9485856044</string>
 
+    <!--Carnival SDK Key-->
+    <!--<string name="carnival_sdk_key">776b181ce6c266047754dd2b1464b9d3fbd534f5</string>-->
+    <string name="carnival_sdk_debug_key">4e2356925d39b96b181ba54a3f39178765e62bb5</string>
+
     <!-- Brand reward name -->
     <string name="brand_reward_name">Orbitz Rewards</string>
 
