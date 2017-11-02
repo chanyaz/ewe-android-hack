@@ -79,7 +79,7 @@ public class DatePickerSteps {
 
 	@And("^Validate the selected date on calender button$")
 	public void validateCalenderButtonText(Map<String, String> parameters) throws Throwable {
-		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
+		Format dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
 		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
 		LocalDate endDate = null;
 		boolean isRoundTrip = true;
@@ -93,7 +93,7 @@ public class DatePickerSteps {
 
 		if (parameters.get("end_date") != null) {
 			endDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("end_date")));
-			endDateStr = " - " + dateFormatter.format(endDate.toDate()).toString().trim();
+			endDateStr = "  -  " + dateFormatter.format(endDate.toDate()).toString().trim();
 		}
 		if (parameters.get("isRoundTrip") != null) {
 			isRoundTrip = new Boolean(parameters.get("isRoundTrip"));
@@ -116,14 +116,17 @@ public class DatePickerSteps {
 	public void selectRoundTripDepartureDateAndValidate(Map<String, String> parameters) throws Throwable {
 		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
 		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
-		String stDateStr = dateFormatter.format(stDate.toDate()).toString();
+		String stDateStrToolTip = dateFormatter.format(stDate.toDate()).toString();
+		dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
+		String stDateStrSubtitle = dateFormatter.format(stDate.toDate()).toString();
+
 
 		//choose departure date
 		SearchScreen.chooseDates(stDate, null);
 
 		//validate calender tooltip and subtilte
-		SearchScreen.validateDatesToolTip(stDateStr, "Next: Select return date");
-		validateCalenderSubtitle(stDateStr + " – Select return date");
+		SearchScreen.validateDatesToolTip(stDateStrToolTip, "Next: Select return date");
+		validateCalenderSubtitle(stDateStrSubtitle + " – Select return date");
 	}
 
 	@And("^I choose return date for flights-roundtrip and validate the tool tip")
@@ -131,29 +134,35 @@ public class DatePickerSteps {
 		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
 		LocalDate endDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("end_date")));
 		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
-		String stDateStr = dateFormatter.format(stDate.toDate()).toString();
-		String endDateStr = dateFormatter.format(endDate.toDate()).toString();
+		String stDateStrToolTip = dateFormatter.format(stDate.toDate()).toString();
+		String endDateStrToolTip = dateFormatter.format(endDate.toDate()).toString();
+
+		dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
+		String stDateStrSubtitle = dateFormatter.format(stDate.toDate()).toString();
+		String endDateStrSubtitle = dateFormatter.format(endDate.toDate()).toString();
 
 		//choose return date
 		SearchScreen.chooseDates(stDate, endDate);
 
 		//validate calender tooltip and subtitle
-		SearchScreen.validateDatesToolTip(stDateStr + " - " + endDateStr, "Drag to modify");
-		validateCalenderSubtitle(stDateStr + " - " + endDateStr);
+		SearchScreen.validateDatesToolTip(stDateStrToolTip + " - " + endDateStrToolTip, "Drag to modify");
+		validateCalenderSubtitle(stDateStrSubtitle + "  -  " + endDateStrSubtitle);
 	}
 
 	@And("^I choose departure date for flights-oneway and validate the tool tip")
 	public void selectOneWayDepartureDateAndValidate(Map<String, String> parameters) throws Throwable {
 		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
 		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
-		String stDateStr = dateFormatter.format(stDate.toDate()).toString();
+		String stDateStrToolTip = dateFormatter.format(stDate.toDate()).toString();
+		dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
+		String stDateStrSubtitle = dateFormatter.format(stDate.toDate()).toString();
 
 		//choose departure date
 		SearchScreen.chooseDates(stDate, null);
 
 		//validate calender tooltip and subtitle
-		SearchScreen.validateDatesToolTip(stDateStr, "Drag to modify");
-		validateCalenderSubtitle(stDateStr + " (One Way)");
+		SearchScreen.validateDatesToolTip(stDateStrToolTip, "Drag to modify");
+		validateCalenderSubtitle(stDateStrSubtitle + " (One Way)");
 
 	}
 
