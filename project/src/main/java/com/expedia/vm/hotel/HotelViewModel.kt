@@ -7,14 +7,12 @@ import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.text.Spanned
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.HotelUtils
@@ -59,12 +57,13 @@ open class HotelViewModel(private val context: Context) {
     val isHotelGuestRatingAvailable: Boolean get() = hotelGuestRating > 0
     val showNoGuestRating: Boolean get() = !isHotelGuestRatingAvailable
     val showHotelPreviewRating: Boolean get() = hotelStarRating >= 0.5f
-    val showHotelAmenityOrDistance: Boolean get() = hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0
+    val isShowHotelHotelDistance: Boolean get() = (hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0) && hotel.isCurrentLocationSearch
 
     val earnMessage: String get() = LoyaltyUtil.getEarnMessagingString(context, hotel.isPackage, hotel.lowRateInfo?.loyaltyInfo?.earn, hotel.packageOfferModel?.loyaltyInfo?.earn)
     val showEarnMessage: Boolean get() = LoyaltyUtil.shouldShowEarnMessage(earnMessage, hotel.isPackage)
     val showAirAttachWithDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailable
     val showAirAttachIconWithoutDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailable
+    val neighborhoodName: String get() = hotel.neighborhoodName ?: ""
 
     init {
         soldOut.subscribe { soldOut ->

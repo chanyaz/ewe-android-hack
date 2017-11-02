@@ -2,6 +2,7 @@ package com.expedia.bookings.data.hotels;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import com.expedia.bookings.data.multiitem.HotelOffer;
 import com.expedia.bookings.data.multiitem.MultiItemOffer;
 import com.expedia.bookings.data.packages.PackageHotel;
@@ -56,6 +57,9 @@ public class Hotel {
 	public boolean isPackage = false;
 	public String hotelPid;
 	public PackageOfferModel packageOfferModel;
+	@Nullable
+	public String neighborhoodName;
+	public boolean isCurrentLocationSearch = false;
 
 	public static class HotelAmenity {
 		public String id;

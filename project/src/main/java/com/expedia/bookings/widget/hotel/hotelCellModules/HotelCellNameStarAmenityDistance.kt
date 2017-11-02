@@ -18,7 +18,7 @@ class HotelCellNameStarAmenityDistance(context: Context, attrs: AttributeSet) : 
     val hotelNameTextView: TextView by bindView(R.id.hotel_name)
     val starRatingBar: StarRatingBar by bindView(R.id.star_rating_bar)
     val circleRatingBar: StarRatingBar by bindView(R.id.circle_rating_bar)
-    val amenityOrDistanceFromLocationTextView: TextView by bindView(R.id.hotel_amenity_or_distance_from_location)
+    val neighborhoodNameOrDistanceFromLocationTextView: TextView by bindView(R.id.hotel_neighborhood_or_distance_from_location)
 
     var ratingBar: StarRatingBar by Delegates.notNull()
 
@@ -49,8 +49,11 @@ class HotelCellNameStarAmenityDistance(context: Context, attrs: AttributeSet) : 
     }
 
     private fun updateAmenityAndDistance(viewModel: HotelViewModel) {
-        amenityOrDistanceFromLocationTextView.text = viewModel.distanceFromCurrentLocation()
-        amenityOrDistanceFromLocationTextView.updateVisibility(viewModel.showHotelAmenityOrDistance)
+        if (viewModel.isShowHotelHotelDistance) {
+            neighborhoodNameOrDistanceFromLocationTextView.text = viewModel.distanceFromCurrentLocation()
+        } else {
+            neighborhoodNameOrDistanceFromLocationTextView.text = viewModel.neighborhoodName
+        }
     }
 
     private fun updateStarRating(viewModel: HotelViewModel) {

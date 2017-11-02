@@ -2,6 +2,7 @@ package com.expedia.bookings.hotel.util
 
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
@@ -76,6 +77,60 @@ class HotelSearchManagerTest {
         testErrorSub.assertValueCount(1)
 
         testSuccessSub.assertNoValues()
+    }
+
+    @Test
+    fun testNeighborhoodName() {
+        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val hotelSearchResponse = HotelSearchResponse()
+        addNeighborhoodAndHotelsToResponse(hotelSearchResponse)
+        testManager.isCurrentLocationSearch = false
+        testManager.successSubject.subscribe(testSuccessSub)
+        testManager.searchResponseObserver.onNext(hotelSearchResponse)
+
+        assertEquals("West Loop", testSuccessSub.onNextEvents.get(0).hotelList.get(0).neighborhoodName)
+        assertEquals("Lincoln Park", testSuccessSub.onNextEvents.get(0).hotelList.get(1).neighborhoodName)
+    }
+
+    @Test
+    fun testIsCurrentLocation() {
+        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val hotelSearchResponse = HotelSearchResponse()
+        addNeighborhoodAndHotelsToResponse(hotelSearchResponse)
+        testManager.isCurrentLocationSearch = true
+        testManager.successSubject.subscribe(testSuccessSub)
+        testManager.searchResponseObserver.onNext(hotelSearchResponse)
+
+        assertEquals(true, testSuccessSub.onNextEvents.get(0).hotelList.get(0).isCurrentLocationSearch)
+    }
+
+    @Test
+    fun testIsNotCurrentLocation() {
+        val testSuccessSub = TestSubscriber<HotelSearchResponse>()
+        val hotelSearchResponse = HotelSearchResponse()
+        addNeighborhoodAndHotelsToResponse(hotelSearchResponse)
+        testManager.isCurrentLocationSearch = false
+        testManager.successSubject.subscribe(testSuccessSub)
+        testManager.searchResponseObserver.onNext(hotelSearchResponse)
+
+        assertEquals(false, testSuccessSub.onNextEvents.get(0).hotelList.get(0).isCurrentLocationSearch)
+    }
+
+    private fun addNeighborhoodAndHotelsToResponse(hotelSearchResponse: HotelSearchResponse) {
+        val neighborhood1 = HotelSearchResponse.Neighborhood()
+        neighborhood1.id = "1"
+        neighborhood1.name = "West Loop"
+        val neighborhood2 = HotelSearchResponse.Neighborhood()
+        neighborhood2.id = "2"
+        neighborhood2.name = "Lincoln Park"
+        hotelSearchResponse.neighborhoodsMap.put("123", neighborhood1)
+        hotelSearchResponse.neighborhoodsMap.put("456", neighborhood2)
+        val hotel1 = Hotel()
+        hotel1.locationId = "123"
+        val hotel2 = Hotel()
+        hotel2.locationId = "456"
+        hotelSearchResponse.hotelList.add(hotel1)
+        hotelSearchResponse.hotelList.add(hotel2)
     }
 
     @Test

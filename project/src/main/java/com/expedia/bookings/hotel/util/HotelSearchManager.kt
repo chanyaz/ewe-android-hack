@@ -20,6 +20,7 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
     var fetchingResults: Boolean = false
         private set
 
+    var isCurrentLocationSearch = false
     private var searchResponse: HotelSearchResponse? = null
     private var subscriptions: CompositeSubscription = CompositeSubscription()
 
@@ -34,6 +35,7 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
             this.prefetchSearch = prefetchSearch
             reset()
             fetchingResults = true
+            isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
             subscriptions.add(services.search(params, apiCompleteSubject).subscribe(searchResponseObserver))
         }
     }
@@ -59,6 +61,12 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
                     noResultsSubject.onNext(Unit)
                 }
             } else {
+                hotelSearchResponse.hotelList.map { hotel ->
+                    if (hotel.locationId != null) {
+                        hotel.neighborhoodName = hotelSearchResponse.neighborhoodsMap[hotel.locationId]?.name
+                    }
+                    hotel.isCurrentLocationSearch = isCurrentLocationSearch
+                }
                 searchResponse = hotelSearchResponse
                 successSubject.onNext(hotelSearchResponse)
             }
