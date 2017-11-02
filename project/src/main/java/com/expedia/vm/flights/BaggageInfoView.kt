@@ -39,11 +39,11 @@ class BaggageInfoView(val context: Context) {
         vm.showLoaderSubject.subscribe { show ->
             if (show) {
                 if (!createLoader.isShowing) {
+                    createLoader.show()
                     createLoader.setContentView(R.layout.process_dialog_layout)
                     AccessibilityUtil.delayedFocusToView(createLoader.findViewById(R.id.progress_dialog_container), 0)
                     createLoader.findViewById<View>(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_baggage_info_fetching)
                     createLoader.findViewById<View>(R.id.progress_dialog_container).announceForAccessibility(context.getString(R.string.spinner_text_baggage_info_fetching))
-                    createLoader.show()
                 }
             } else {
                 if (createLoader.isShowing) {
