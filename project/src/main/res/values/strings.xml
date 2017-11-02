@@ -641,6 +641,17 @@
     <!-- "Done" list header label -->
     <string name="Done">Done</string>
 
+    <!-- Baggage Info Accessibility -->
+    <string name="spinner_text_baggage_info_fetching">Fetching the baggage info</string>
+    <!--Baggage Info Airline Message Example: (Prices may be cheaper if purchased online with Virgin America)-->
+    <string name="baggage_info_airline_message_TEMPLATE">(Prices may be cheaper if purchased online with {airline_name})</string>
+    <!--Baggage Fees when purchased at airport-->
+    <string name="baggage_fees_purchased_airport">Baggage fees when purchased at the airport:</string>
+    <!--Baggage Fee Info-->
+    <string name="baggage_fee_info">Baggage fee info</string>
+    <!--Airline-->
+    <string name="airline">Airline</string>
+
     <!-- Select your fare label -->
     <string name="select_your_fare">Select your fare</string>
 
@@ -2382,6 +2393,8 @@
     <string name="DONE">DONE</string>
     <!-- Button label for dismissing the flight fare family amenities dialog -->
     <string name="OK">OK</string>
+    <!--Label to view details -->
+    <string name="view_details">View Details</string>
     <!-- Button label for toggling to the map -->
     <string name="map_text">Map</string>
     <!-- Label for sort hotels in hotel list -->

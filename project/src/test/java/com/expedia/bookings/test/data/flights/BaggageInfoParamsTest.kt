@@ -11,8 +11,8 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class BaggageInfoParamsTest {
+
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO, MultiBrand.CHEAPTICKETS, MultiBrand.EBOOKERS, MultiBrand.LASTMINUTE, MultiBrand.VOYAGES, MultiBrand.WOTIF))
     fun testSingleFlightSegment() {
         val flightLeg = FlightLeg()
         val baggageInfoParams = BaggageInfoParams()
@@ -26,7 +26,6 @@ class BaggageInfoParamsTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO, MultiBrand.CHEAPTICKETS, MultiBrand.EBOOKERS, MultiBrand.LASTMINUTE, MultiBrand.VOYAGES, MultiBrand.WOTIF))
     fun testMultipleFlightSegment() {
         val flightLeg = FlightLeg()
         val baggageInfoParams = BaggageInfoParams()

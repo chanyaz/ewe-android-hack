@@ -453,7 +453,7 @@
     <color name="flight_docked_text">@color/gray700</color>
     <color name="flight_docked_text_outbound">@color/gray600</color>
     <color name="flight_cabin_class_text">@color/gray800</color>
-
+    <color name="flight_baggage_info_horizontal_line">#c0c0c0</color>
     <color name="error_widget_text">@color/gray600</color>
 
     <!-- New Hotels Launch Screen LOB button colors -->

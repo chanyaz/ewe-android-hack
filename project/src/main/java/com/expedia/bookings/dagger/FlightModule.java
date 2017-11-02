@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.FlightScope;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.BaggageInfoService;
 import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KrazyglueServices;
@@ -30,6 +31,13 @@ public final class FlightModule {
 	FlightServices provideFlightServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new FlightServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@FlightScope
+	BaggageInfoService provideBaggageInfoService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new BaggageInfoService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

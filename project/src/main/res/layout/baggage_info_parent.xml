@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/baggage_info_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="21dp">
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/Core.Text.600"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/baggage_fee_info"
+        app:textStyle="medium" />
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="@string/baggage_fees_purchased_airport"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        android:textStyle="normal" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/baggage_info_airline_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="21dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/gray700"
+        android:textSize="13sp"
+        android:textStyle="normal" />
+
+</LinearLayout>

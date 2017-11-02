@@ -397,7 +397,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     }
 
     private fun dispatchBaggageInfo(request: RecordedRequest): MockResponse {
-       return makeResponse("api/flight/baggeFeeInfo.json")
+        return makeResponse("api/flight/baggageFeeInfo.json")
     }
 
     private fun dispatchGaiaSuggest(request: RecordedRequest): MockResponse {

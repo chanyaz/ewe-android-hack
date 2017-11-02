@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -174,9 +175,14 @@ public class DateUtils {
 		return dateTimeToHHmmss(dateTime);
 	}
 
+
+	/**
+	 * Parse the duration string in MM/dd/yyyy
+	 */
+	@SuppressWarnings("SimpleDateFormat")
 	public static String toMMddyyyy(String dateTimeString) {
-		DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm:ss a");
-		DateTime dateTime = dateTimeFormat.parseDateTime(dateTimeString);
-		return dateTime.toString("MM/dd/yyyy");
+		Date date = new Date(dateTimeString);
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		return formatter.format(date);
 	}
 }
