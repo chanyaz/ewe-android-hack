@@ -390,7 +390,12 @@
           "localizedFullDate": "Thursday, July 7, 2016",
           "localizedLongDate": "July 7, 2016",
           "localizedShortTime": "11:59 PM"
-        }
+        },
+        "isEvolable": true,
+        "evolablePenaltyRulesUrl": "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html",
+        "evolableTermsAndConditionsUrl": "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041",
+        "evolableAsiaUrl": "https://www.expedia.co.jp/g/rf/evolable?langid=1041",
+        "evolableCancellationChargeUrl": "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
       },
       {
         "legId": "3e3329c238dd310cdc388b29f4cef9c6",
@@ -520,7 +525,12 @@
           "localizedFullDate": "Thursday, July 7, 2016",
           "localizedLongDate": "July 7, 2016",
           "localizedShortTime": "11:59 PM"
-        }
+        },
+        "isEvolable": true,
+        "evolablePenaltyRulesUrl": "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html",
+        "evolableTermsAndConditionsUrl": "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041",
+        "evolableAsiaUrl": "https://www.expedia.co.jp/g/rf/evolable?langid=1041",
+        "evolableCancellationChargeUrl": "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
       }
     ],
     "destinationRegionId": 6139064,

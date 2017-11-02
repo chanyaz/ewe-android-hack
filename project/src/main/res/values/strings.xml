@@ -2285,7 +2285,12 @@
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Departure&lt;/a&gt; and &lt;a href=\"{returnlink}\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
     <!-- Evolable Terms and Condition Message. Example: This flight booking is made through Evolable Asia. Supplier's terms and conditions apply. -->
-    <string name="evolable_terms_condition_TEMPLATE">This flight booking is made through &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Supplier\'s &lt;a href=\"{evolable_terms_condition_link}\"&gt;terms and conditions&lt;/a&gt; apply.</string>
+    <string name="evolable_terms_condition_TEMPLATE">This flight booking is made through &lt;a href=\"{evolable_asia_link}\"&gt;Evolable Asia&lt;/a&gt;.&lt;br&gt;Supplier\'s &lt;a href=\"{evolable_terms_condition_link}\"&gt;Terms and Conditions&lt;/a&gt; apply.</string>
+    <!-- Legal Information Screen: Evolable Cancellation Info -->
+    <string name="evolable_legal_cancellation_info_TEMPLATE">Cancellation Charge will vary by fare, route, time and date of cancellation. Please refer to &lt;a href=\"{cancellation_charge_link}\"&gt;Evolable Asia\'s terms and conditions&lt;/a&gt;.&lt;br&gt;</string>
+    <!-- Legal Information Screen: Evolable Refund Info -->
+    <string name="evolable_legal_refund_info">All tickets will be subject to a Refund Charge of 430 yen (or 500 yen for Skymark flights) per flight, in addition to the Cancellation Charge.</string>
+
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
     <string name="cancel">Cancel</string>

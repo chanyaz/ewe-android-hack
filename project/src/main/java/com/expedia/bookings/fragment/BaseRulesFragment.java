@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -44,7 +45,6 @@ public abstract class BaseRulesFragment extends Fragment {
 			return mKey;
 		}
 	}
-
 
 	protected TextView mCompletePenaltyRulesTextView;
 	protected TextView mLiabilitiesLinkTextView;
@@ -91,8 +91,6 @@ public abstract class BaseRulesFragment extends Fragment {
 			}
 
 		});
-
-
 	}
 
 	protected void populateHeaderRows(View v) {
@@ -172,14 +170,20 @@ public abstract class BaseRulesFragment extends Fragment {
 	}
 
 	protected void populateBody(View v) {
-		TextView tv = Ui.findView(v, R.id.flight_rules_text_view);
+		TextView textView = Ui.findView(v, R.id.flight_rules_text_view);
 		String body = constructHtmlBodySectionOne();
+		textView.setText(HtmlCompat.fromHtml(body));
+		textView.setMovementMethod(LinkMovementMethod.getInstance());
+	}
 
-		tv.setText(HtmlCompat.fromHtml(body));
-		tv.setMovementMethod(LinkMovementMethod.getInstance());
+	protected void populateBody(View view, SpannableStringBuilder builder) {
+		TextView textView = Ui.findView(view, R.id.flight_rules_text_view);
+		textView.setText(builder);
+		textView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	abstract String constructHtmlBodySectionOne();
+
 	abstract void populateLccInfo();
 
 	protected void appendStringWithBreak(StringBuilder builder, Rule rule) {
@@ -226,7 +230,7 @@ public abstract class BaseRulesFragment extends Fragment {
 
 	protected void populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(String text, final String url,
 		TextView textView) {
-		if (text != null) {
+		if (Strings.isNotEmpty(text)) {
 			textView.setVisibility(View.VISIBLE);
 			textView.setText(getDummyHtmlLink(text));
 			textView.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +245,37 @@ public abstract class BaseRulesFragment extends Fragment {
 		}
 	}
 
+	protected void populateTextViewWithBreakThatLooksLikeAUrlThatOpensAWebViewActivity(String text, final String url,
+		TextView textView) {
+		if (Strings.isNotEmpty(text)) {
+			StringBuilder builder = new StringBuilder("");
+			getDummyHtmlLink(builder, text);
+			builder.append("<br>");
+
+			textView.setVisibility(View.VISIBLE);
+			textView.setText(HtmlCompat.fromHtml(builder.toString()));
+			textView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder.setUrl(url);
+					builder.setTitle(R.string.legal_information);
+					startActivity(builder.getIntent());
+				}
+			});
+		}
+	}
+
+	protected void populateTextViewWithBreak(String text, TextView textView) {
+		if (Strings.isNotEmpty(text)) {
+			StringBuilder builder = new StringBuilder(text);
+			builder.append("<br>");
+
+			textView.setVisibility(View.VISIBLE);
+			textView.setText(HtmlCompat.fromHtml(builder.toString()));
+		}
+	}
+
 	// This method just makes the TextView look like a link, doesn't contain actual link
 	protected Spanned getDummyHtmlLink(String text) {
 		StringBuilder builder = new StringBuilder();
@@ -252,4 +287,10 @@ public abstract class BaseRulesFragment extends Fragment {
 		return HtmlCompat.fromHtml(builder.toString());
 	}
 
+	// This method just makes the TextView look like a link, doesn't contain actual link
+	protected void getDummyHtmlLink(StringBuilder builder, String text) {
+		builder.append("<a href=\"\">");
+		builder.append(text);
+		builder.append("</a>");
+	}
 }

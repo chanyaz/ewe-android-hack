@@ -543,8 +543,8 @@ class FlightOverviewPresenterTest {
         val evolableTermsConditionView = widget.flightSummary.evolableTermsConditionTextView
         assertEquals(View.VISIBLE, evolableTermsConditionView.visibility)
 
-        assertEquals("This flight booking is made through Evolable Asia. Supplier's terms and conditions apply.",
-                HtmlCompat.stripHtml(evolableTermsConditionView.text.toString()))
+        assertEquals("This flight booking is made through Evolable Asia. Supplier's Terms and Conditions apply.",
+                HtmlCompat.stripHtml(evolableTermsConditionView.text.toString()).trim())
     }
 
     private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {
