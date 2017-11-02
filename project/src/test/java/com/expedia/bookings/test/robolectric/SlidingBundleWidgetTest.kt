@@ -21,9 +21,7 @@ import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.TextView
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -121,7 +119,7 @@ class SlidingBundleWidgetTest {
         val bundleTotalPrice = packageHotelPresenter.findViewById<TextView>(R.id.bundle_total_price)
         val bundleTotalIncludes = packageHotelPresenter.findViewById<TextView>(R.id.bundle_total_includes_text)
         val bundleTotalText = packageHotelPresenter.findViewById<TextView>(R.id.bundle_total_text)
-
+        val contentDescDates = LocaleBasedDateFormatUtils.localDateToMMMd(params.startDate) + " to " + LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!)
         assertEquals(View.VISIBLE, bundleTitle.visibility)
         assertEquals(View.VISIBLE, bundleSubtitle.visibility)
         assertEquals(View.GONE, bundleTotalPrice.visibility)
@@ -129,7 +127,7 @@ class SlidingBundleWidgetTest {
         assertEquals(View.GONE, bundleTotalText.visibility)
         assertEquals(packageHotelPresenter.bundleSlidingWidget.isMoving, false)
         assertEquals(packageHotelPresenter.bundleSlidingWidget.translationY, Ui.getStatusBarHeight(context).toFloat())
-        assertEquals(packageHotelPresenter.bundleSlidingWidget.bundlePriceWidget.contentDescription, "Trip to London. Oct 31 to Nov 1, 4 travelers")
+        assertEquals(packageHotelPresenter.bundleSlidingWidget.bundlePriceWidget.contentDescription, "Trip to London. $contentDescDates, 4 travelers")
     }
 
     @Test

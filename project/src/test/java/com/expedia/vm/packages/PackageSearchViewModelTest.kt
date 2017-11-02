@@ -1,13 +1,12 @@
 package com.expedia.vm.packages
 
-import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,7 +16,9 @@ import rx.observers.TestSubscriber
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class PackageSearchViewModelTest {
@@ -29,7 +30,7 @@ class PackageSearchViewModelTest {
     fun testRetainPackageSearchParams() {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
-        sut.performSearchObserver.onNext(getDummyPackageSearchParams())
+        sut.performSearchObserver.onNext(getDummyPackageSearchParams(0, 2))
         val testSubscriber = TestSubscriber.create<Unit>()
         SearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
             testSubscriber.onNext(Unit)
@@ -38,21 +39,33 @@ class PackageSearchViewModelTest {
         testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
     }
 
-    private fun getDummyPackageSearchParams(): PackageSearchParams {
-        val origin = SuggestionV4()
-        val destination = SuggestionV4()
+    @Test
+    fun testSearchDatesRetained() {
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        sut.performSearchObserver.onNext(getDummyPackageSearchParams(0, 2))
+        sut.previousSearchParamsObservable.onNext(getDummyPackageSearchParams(0, 2))
         val startDate = LocalDate.now()
-        val endDate = startDate.plusDays(2)
+        val endDate = LocalDate.now().plusDays(2)
+        val expectedStartDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(startDate)
+        val expectedEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(endDate)
+        val expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
+        assertEquals("$expectedStartDate  -  $expectedEndDate ($expectedNumberOfNights nights)", sut.dateTextObservable.value)
+    }
 
-        val paramsBuilder = PackageSearchParams.Builder(26, 369)
-                .origin(origin)
-                .destination(destination)
-                .startDate(startDate)
-                .adults(1)
-                .children(listOf(1,2,3))
-                .endDate(endDate) as PackageSearchParams.Builder
-
-        return paramsBuilder.build()
+    @Test
+    fun testSearchDatesInPastNotRetained() {
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        sut.performSearchObserver.onNext(getDummyPackageSearchParams(-1, -2))
+        sut.previousSearchParamsObservable.onNext(getDummyPackageSearchParams(-1, -2))
+        val startDate = LocalDate.now().minusDays(1)
+        val endDate = LocalDate.now().minusDays(2)
+        val expectedStartDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(startDate)
+        val expectedEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(endDate)
+        val expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
+        assertNotEquals("$expectedStartDate  -  $expectedEndDate ($expectedNumberOfNights nights)", sut.dateTextObservable.value)
+        assertNull(sut.dateTextObservable.value)
     }
 
     @Test
@@ -127,5 +140,37 @@ class PackageSearchViewModelTest {
 
     private fun createSystemUnderTest() {
         sut = PackageSearchViewModel(context)
+    }
+
+
+    private fun getDummyPackageSearchParams(startDateOffset: Int, endDateOffset: Int): PackageSearchParams {
+        val origin = getDummySuggestion()
+        val destination = getDummySuggestion()
+        val startDate = LocalDate.now().plusDays(startDateOffset)
+        val endDate = startDate.plusDays(endDateOffset)
+
+        val paramsBuilder = PackageSearchParams.Builder(26, 369)
+                .origin(origin)
+                .destination(destination)
+                .startDate(startDate)
+                .adults(1)
+                .children(listOf(1,2,3))
+                .endDate(endDate) as PackageSearchParams.Builder
+
+        return paramsBuilder.build()
+    }
+    
+    private fun getDummySuggestion(): SuggestionV4 {
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = ""
+        suggestion.regionNames = SuggestionV4.RegionNames()
+        suggestion.regionNames.displayName = "London"
+        suggestion.regionNames.fullName = "London"
+        suggestion.regionNames.shortName = "LHR"
+        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
+        suggestion.hierarchyInfo!!.airport!!.airportCode = "happy"
+        suggestion.hierarchyInfo!!.airport!!.multicity = "happy"
+        return suggestion
     }
 }
